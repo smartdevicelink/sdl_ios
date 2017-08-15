@@ -52,6 +52,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 #pragma mark Constants
 
+NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queue";
 const char *_Nullable BackgroundUploadFilesWaitingQueue = "com.sdl.background.uploads.waiting.queue";
 
 @implementation SDLFileManager
@@ -69,8 +70,8 @@ const char *_Nullable BackgroundUploadFilesWaitingQueue = "com.sdl.background.up
 
     _mutableRemoteFileNames = [NSMutableSet set];
     _transactionQueue = [[NSOperationQueue alloc] init];
-    _transactionQueue.name = @"SDLFileManager Transaction Queue";
-    _transactionQueue.maxConcurrentOperationCount = 1;
+    _transactionQueue.name = FileManagerTransactionQueue;
+    _transactionQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
 
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLFileManagerStateShutdown states:[self.class sdl_stateTransitionDictionary]];
 
@@ -248,11 +249,15 @@ const char *_Nullable BackgroundUploadFilesWaitingQueue = "com.sdl.background.up
         dispatch_group_wait(uploadFilesTask, DISPATCH_TIME_FOREVER);
         dispatch_async(dispatch_get_main_queue(), ^{
             if (failedUploads.count > 0) {
-                if (completionHandler == nil) { return; }
+                if (completionHandler == nil) {
+                    return;
+                }
                 return completionHandler([NSError sdl_fileManager_unableToUploadError:failedUploads]);
             }
 
-            if (completionHandler == nil) { return; }
+            if (completionHandler == nil) {
+                return;
+            }
             return completionHandler(nil);
         });
     });
@@ -260,13 +265,13 @@ const char *_Nullable BackgroundUploadFilesWaitingQueue = "com.sdl.background.up
 
 // https://stackoverflow.com/questions/16512898/ios-dont-return-from-function-until-multiple-background-threads-complete
 - (void)uploadFileAsync:(SDLFile *)file completionHandler:(void (^)(Boolean success, NSString *fileName, NSError * _Nullable error))handler {
-
     dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(backgroundQueue, ^{
         [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
             Boolean uploadSuccess = true;
             NSString *uploadFileName = file.name;
             NSError *uploadError = nil;
+
 
             if (error != nil) {
                 uploadSuccess = false;
@@ -281,29 +286,29 @@ const char *_Nullable BackgroundUploadFilesWaitingQueue = "com.sdl.background.up
     });
 }
 
-- (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
-    // Calculate the total filesize of all files being uploaded
-    NSInteger fileSizeTotal = 0; // In bytes
-    // NSInteger totalBytesUploaded = 0;
-
-    for (SDLFile *file in files) {
-        fileSizeTotal += file.fileSize;
-    }
-
-    // For each file, call [self uploadFile]
-    for (SDLFile *file in files) {
-        [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-            if (progressHandler != nil) {
-                progressHandler(@"abcd", 0.3, true, error);
-            }
-        }];
-    }
-
-    // Wait for all of the file's completion handlers to be called
-    // -> fire off a completion handler when each file comes back
-    // NSError *newError = [[NSError alloc] initWithDomain:SDLErrorDomainFileManager code:sdl_fileManager_unableToUploadError userInfo:nil]; // userInfo is a list of files that could not be uploaded
-    return completionHandler(false);
-}
+//- (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
+//    // Calculate the total filesize of all files being uploaded
+//    NSInteger fileSizeTotal = 0; // In bytes
+//    // NSInteger totalBytesUploaded = 0;
+//
+//    for (SDLFile *file in files) {
+//        fileSizeTotal += file.fileSize;
+//    }
+//
+//    // For each file, call [self uploadFile]
+//    for (SDLFile *file in files) {
+//        [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+//            if (progressHandler != nil) {
+//                progressHandler(@"abcd", 0.3, true, error);
+//            }
+//        }];
+//    }
+//
+//    // Wait for all of the file's completion handlers to be called
+//    // -> fire off a completion handler when each file comes back
+//    // NSError *newError = [[NSError alloc] initWithDomain:SDLErrorDomainFileManager code:sdl_fileManager_unableToUploadError userInfo:nil]; // userInfo is a list of files that could not be uploaded
+//    return completionHandler(false);
+//}
 
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)handler {
     if (file == nil) {

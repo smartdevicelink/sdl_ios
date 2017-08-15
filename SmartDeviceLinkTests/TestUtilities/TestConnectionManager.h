@@ -26,6 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (copy, nonatomic, nullable) SDLResponseHandler lastRequestBlock;
 
+// FIXME: - Add documentation
+@property (copy, nonatomic, nullable) NSMutableArray<SDLResponseHandler> *fileUploadsRequestBlocks;
+
 /**
  *  Call the last request's block with a specific response.
  *
@@ -42,13 +45,25 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *_Nullable)response error:( NSError *_Nullable)error;
 
 /**
- * Call the last request's bloack with a specific response, request, and error.
+ * Call the last request's block with a specific response, request, and error.
 
  @param response    The RPC Response to pass into the last request's block.
  @param requestNumber The request to pass into the last request's block.
- @param error   The error to pass into the last request's block.
+ @param error       The error to pass into the last request's block.
  */
 - (void)respondToRequestWithResponse:(__kindof SDLRPCResponse *)response requestNumber:(NSInteger)requestNumber error:(NSError *_Nullable)error;
+
+/**
+ * Call the last request's block with a specific response, request, and error.
+
+ @param response    The RPC Response to pass into the last request's block.
+ @param request     The request to pass into the last request's block.
+ @param error       The error to pass into the last request's block.
+ */
+- (void)respondToRequestWithResponse:(__kindof SDLRPCResponse *)response request:(SDLRPCRequest *)request error:(NSError *_Nullable)error;
+
+// FIXME: - add documentation
+- (void)respondToMultipleRequestWithResponse:(__kindof SDLRPCResponse *)response requestNumber:(NSInteger)requestNumber error:(NSError *_Nullable)error;
 
 /**
  *  Remove all received requests.
