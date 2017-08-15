@@ -35,18 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameVideoStreaming];
 }
 
-- (void)setVideoStreaming:(NSNumber *)videoStreaming {
-    if (videoStreaming != nil) {
-        store[NAMES_videoStreaming] = videoStreaming;
-    } else {
-        [store removeObjectForKey:NAMES_videoStreaming];
-    }
-}
-
-- (NSNumber *)videoStreaming {
-    return store[NAMES_videoStreaming];
-}
-
 @end
 
 NS_ASSUME_NONNULL_END

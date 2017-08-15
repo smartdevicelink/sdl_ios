@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self startServiceWithType:serviceType payload:nil];
 }
 
-- (void)startServiceWithType:(SDLServiceType)serviceType payload:(NSData *)payload {
+- (void)startServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload {
     // No encryption, just build and send the message synchronously
     SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:NO payload:payload];
     [self sdl_sendDataToTransport:message.data onService:serviceType];
@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self startSecureServiceWithType:serviceType payload:nil completionHandler:completionHandler];
 }
 
-- (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(NSData *)payload completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
+- (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
     [self sdl_initializeTLSEncryptionWithCompletionHandler:^(BOOL success, NSError *error) {
         if (!success) {
             // We can't start the service because we don't have encryption, return the error
@@ -113,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (SDLProtocolMessage *)sdl_createStartServiceMessageWithType:(SDLServiceType)serviceType encrypted:(BOOL)encryption payload:(NSData *)payload {
+- (SDLProtocolMessage *)sdl_createStartServiceMessageWithType:(SDLServiceType)serviceType encrypted:(BOOL)encryption payload:(nullable NSData *)payload {
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].majorProtocolVersion];
     NSData *servicePayload = payload;
 
@@ -199,7 +199,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
     NSParameterAssert(message != nil);
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:[SDLGlobals sharedGlobals].protocolVersion] options:kNilOptions error:error];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:[SDLGlobals sharedGlobals].majorProtocolVersion] options:kNilOptions error:error];
     
     if (error != nil) {
         SDLLogW(@"Error encoding JSON data: %@", *error);
@@ -270,7 +270,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLProtocolMessage *protocolMessage = [SDLProtocolMessage messageWithHeader:header andPayload:messagePayload];
 
     // See if the message is small enough to send in one transmission. If not, break it up into smaller messages and send.
-    if (protocolMessage.size < [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC] {
+    if (protocolMessage.size < [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]) {
         SDLLogV(@"Sending protocol message: %@", protocolMessage);
         [self sdl_sendDataToTransport:protocolMessage.data onService:SDLServiceTypeRPC];
     } else {
@@ -335,7 +335,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogV(@"Sending protocol message: %@", message);
         [self sdl_sendDataToTransport:message.data onService:header.serviceType];
     } else {
-        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:[SDLGlobals sharedGlobals].maxMTUSize];
+        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:message withLimit:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:service]];
         for (SDLProtocolMessage *smallerMessage in messages) {
             SDLLogV(@"Sending protocol message: %@", smallerMessage);
             [self sdl_sendDataToTransport:smallerMessage.data onService:header.serviceType];
@@ -350,7 +350,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleBytesFromTransport:(NSData *)receivedData {
     // Initialize the receive buffer which will contain bytes while messages are constructed.
     if (self.receiveBuffer == nil) {
-        self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
+        self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC])];
     }
 
     // Save the data
@@ -360,7 +360,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)processMessages {
-    UInt8 incomingVersion = [SDLProtocolMessage determineVersion:self.receiveBuffer];
+    UInt8 incomingVersion = [SDLProtocolHeader determineVersion:self.receiveBuffer];
 
     // If we have enough bytes, create the header.
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:incomingVersion];
@@ -418,14 +418,14 @@ NS_ASSUME_NONNULL_BEGIN
     // V5 Packet
     if (startServiceACK.header.version >= 5) {
         switch (startServiceACK.header.serviceType) {
-            case SDLServiceType_RPC: {
+            case SDLServiceTypeRPC: {
                 SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
 //                NSLog(@"ServiceAckPayload: %@", startServiceACKPayload);
 
                 if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
-                    [[SDLGlobals globals] setDynamicMTUSize:startServiceACKPayload.mtu forServiceType:startServiceACK.header.serviceType];
+                    [[SDLGlobals sharedGlobals] setDynamicMTUSize:startServiceACKPayload.mtu forServiceType:startServiceACK.header.serviceType];
                 }
-                [SDLGlobals globals].maxHeadUnitVersion = (startServiceACKPayload.protocolVersion != nil) ? startServiceACKPayload.protocolVersion : [NSString stringWithFormat:@"%u.0.0", startServiceACK.header.version];
+                [SDLGlobals sharedGlobals].maxHeadUnitVersion = (startServiceACKPayload.protocolVersion != nil) ? startServiceACKPayload.protocolVersion : [NSString stringWithFormat:@"%u.0.0", startServiceACK.header.version];
                 // TODO: Hash id?
             } break;
             default:
@@ -434,8 +434,8 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         // V4 and below packet
         switch (startServiceACK.header.serviceType) {
-            case SDLServiceType_RPC: {
-                [SDLGlobals globals].maxHeadUnitVersion = [NSString stringWithFormat:@"%u.0.0", startServiceACK.header.version];
+            case SDLServiceTypeRPC: {
+                [SDLGlobals sharedGlobals].maxHeadUnitVersion = [NSString stringWithFormat:@"%u.0.0", startServiceACK.header.version];
             } break;
             default:
                 break;
@@ -520,7 +520,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)handleHeartbeatForSession:(Byte)session {
     // Respond with a heartbeat ACK
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].protocolVersion];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].majorProtocolVersion];
     header.frameType = SDLFrameTypeControl;
     header.serviceType = SDLServiceTypeControl;
     header.frameData = SDLFrameInfoHeartbeatACK;
@@ -586,8 +586,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLControlFramePayloadNak *endServiceNakPayload = [[SDLControlFramePayloadNak alloc] initWithData:nakMessage.payload];
         NSArray<NSString *> *rejectedParams = endServiceNakPayload.rejectedParams;
         if (rejectedParams.count > 0) {
-            NSString *log = [NSString stringWithFormat:@"Start Service NAK'd, service type: %@, rejectedParams: %@", @(nakMessage.header.serviceType), rejectedParams];
-            [SDLDebugTool logInfo:log];
+            SDLLogE(@"Start Service NAK'd, service type: %@, rejectedParams: %@", @(nakMessage.header.serviceType), rejectedParams);
         }
     }
 }

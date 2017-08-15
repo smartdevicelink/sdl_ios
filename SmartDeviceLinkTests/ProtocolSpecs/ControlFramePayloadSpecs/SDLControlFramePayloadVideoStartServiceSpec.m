@@ -15,15 +15,15 @@ describe(@"Test encoding data", ^{
     __block SDLControlFramePayloadVideoStartService *testPayload = nil;
     __block int32_t testHeight = SDLControlFrameInt32NotFound;
     __block int32_t testWidth = SDLControlFrameInt32NotFound;
-    __block SDLVideoStreamingCodec *testCodec = nil;
-    __block SDLVideoStreamingProtocol *testProtocol = nil;
+    __block SDLVideoStreamingCodec testCodec = nil;
+    __block SDLVideoStreamingProtocol testProtocol = nil;
 
     context(@"with paramaters", ^{
         beforeEach(^{
             testHeight = 59794;
             testWidth = 363;
-            testCodec = [SDLVideoStreamingCodec H265];
-            testProtocol = [SDLVideoStreamingProtocol RTMP];
+            testCodec = SDLVideoStreamingCodecH265;
+            testProtocol = SDLVideoStreamingProtocolRTMP;
 
             testPayload = [[SDLControlFramePayloadVideoStartService alloc] initWithVideoHeight:testHeight width:testWidth protocol:testProtocol codec:testCodec];
         });
@@ -54,14 +54,14 @@ describe(@"Test decoding data", ^{
     __block NSData *testData = nil;
     __block int32_t testHeight = SDLControlFrameInt32NotFound;
     __block int32_t testWidth = SDLControlFrameInt32NotFound;
-    __block SDLVideoStreamingCodec *testCodec = nil;
-    __block SDLVideoStreamingProtocol *testProtocol = nil;
+    __block SDLVideoStreamingCodec testCodec = nil;
+    __block SDLVideoStreamingProtocol testProtocol = nil;
 
     beforeEach(^{
         testHeight = 787;
         testWidth = 36365;
-        testCodec = [SDLVideoStreamingCodec THEORA];
-        testProtocol = [SDLVideoStreamingProtocol RTSP];
+        testCodec = SDLVideoStreamingCodecTheora;
+        testProtocol = SDLVideoStreamingProtocolRTSP;
 
         SDLControlFramePayloadVideoStartService *firstPayload = [[SDLControlFramePayloadVideoStartService alloc] initWithVideoHeight:testHeight width:testWidth protocol:testProtocol codec:testCodec];
         testData = firstPayload.data;

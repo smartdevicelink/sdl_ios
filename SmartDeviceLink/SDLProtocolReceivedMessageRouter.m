@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_dispatchControlMessage:(SDLProtocolMessage *)message {
     switch (message.header.frameData) {
-        case SDLFrameData_StartSessionACK: {
+        case SDLFrameInfoStartServiceACK: {
             if ([self.delegate respondsToSelector:@selector(handleProtocolStartServiceACKMessage:)]) {
                 [self.delegate handleProtocolStartServiceACKMessage:message];
             }

@@ -470,11 +470,11 @@ int const streamOpenTimeoutSeconds = 2;
     return ^(NSInputStream *istream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
-        uint8_t buf[[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceType_RPC]];
+        uint8_t buf[[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
         while (istream.streamStatus == NSStreamStatusOpen && istream.hasBytesAvailable) {
             // It is necessary to check the stream status and whether there are bytes available because the dataStreamHasBytesHandler is executed on the IO thread and the accessory disconnect notification arrives on the main thread, causing data to be passed to the delegate while the main thread is tearing down the transport.
 
-            NSInteger bytesRead = [istream read:buf maxLength:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceType_RPC]];
+            NSInteger bytesRead = [istream read:buf maxLength:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
             NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
             SDLLogBytes(dataIn, SDLLogBytesDirectionReceive);
 
