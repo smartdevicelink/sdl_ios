@@ -63,11 +63,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly, getter=isVideoStreamingPaused) BOOL videoStreamingPaused;
 
 /**
- *  What to display when a streaming app is backgrounded.
- */
-@property (copy, nonatomic, readonly) NSString *backgroundTitleString;
-
-/**
  *  This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.
  */
 @property (assign, nonatomic, readonly) CGSize screenSize;
