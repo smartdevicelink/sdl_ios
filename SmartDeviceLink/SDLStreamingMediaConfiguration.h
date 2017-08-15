@@ -46,19 +46,17 @@ NS_ASSUME_NONNULL_BEGIN
  Create a secure configuration for each of the security managers provided.
 
  @param securityManagers The security managers to be used. The encryption flag will be set to AuthenticateAndEncrypt if any security managers are set.
- @param customVideoEncoderSettings The custom video encoder settings to be used, if any. If nil, default encoder settings will be used.
  @return The configuration
  */
-- (instancetype)initSecureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers customVideoEncoderSettings:(NSDictionary<NSString *, id> *_Nullable)customVideoEncoderSettings;
+- (instancetype)initSecureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers;
 
 /**
  Create a secure configuration for each of the security managers provided.
 
  @param securityManagers The security managers to be used. The encryption flag will be set to AuthenticateAndEncrypt if any security managers are set.
- @param customVideoEncoderSettings The custom video encoder settings to be used, if any. If nil, default encoder settings will be used.
  @return The configuration
  */
-+ (instancetype)secureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers customVideoEncoderSettings:(NSDictionary<NSString *, id> *_Nullable)customVideoEncoderSettings;
++ (instancetype)secureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers;
 
 /**
  Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually.

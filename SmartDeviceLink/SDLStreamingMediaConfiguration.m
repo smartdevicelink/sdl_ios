@@ -26,14 +26,15 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initSecureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers customVideoEncoderSettings:(NSDictionary<NSString *, id> *_Nullable)customVideoEncoderSettings {
-    SDLStreamingEncryptionFlag encryptionFlag = (securityManagers.count > 0) ? SDLStreamingEncryptionFlagAuthenticateAndEncrypt : SDLStreamingEncryptionFlagNone;
+- (instancetype)initSecureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers {
+    NSAssert(securityManagers.count > 0, @"A secure streaming media configuration requires security managers to be passed.");
+    SDLStreamingEncryptionFlag encryptionFlag = SDLStreamingEncryptionFlagAuthenticateAndEncrypt;
 
-    return [self initWithSecurityManagers:securityManagers encryptionFlag:encryptionFlag videoSettings:customVideoEncoderSettings];
+    return [self initWithSecurityManagers:securityManagers encryptionFlag:encryptionFlag videoSettings:nil];
 }
 
-+ (instancetype)secureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers customVideoEncoderSettings:(NSDictionary<NSString *, id> *_Nullable)customVideoEncoderSettings {
-    return [[self alloc] initSecureConfigurationWithSecurityManagers:securityManagers customVideoEncoderSettings:customVideoEncoderSettings];
++ (instancetype)secureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers {
+    return [[self alloc] initSecureConfigurationWithSecurityManagers:securityManagers];
 }
 
 - (instancetype)initInsecureConfiguration {

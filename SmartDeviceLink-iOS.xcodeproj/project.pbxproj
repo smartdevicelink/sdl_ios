@@ -871,6 +871,8 @@
 		5DB92D331AC9C8BA00C15BB0 /* SDLRPCStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB92D311AC9C8BA00C15BB0 /* SDLRPCStruct.m */; };
 		5DBAE0AB1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBAE0AA1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m */; };
 		5DBAE0AD1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBAE0AC1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m */; };
+		5DBEFA541F434B9E009EE295 /* SDLStreamingMediaConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBEFA531F434B9E009EE295 /* SDLStreamingMediaConfigurationSpec.m */; };
+		5DBEFA581F436132009EE295 /* SDLFakeSecurityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBEFA571F436132009EE295 /* SDLFakeSecurityManager.m */; };
 		5DBF06231E64A83F00A5CF03 /* SDLLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DBF06211E64A83F00A5CF03 /* SDLLogManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DBF06241E64A83F00A5CF03 /* SDLLogManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBF06221E64A83F00A5CF03 /* SDLLogManager.m */; };
 		5DBF06271E64A91D00A5CF03 /* SDLLogFileModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DBF06251E64A91D00A5CF03 /* SDLLogFileModule.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1950,6 +1952,9 @@
 		5DB92D311AC9C8BA00C15BB0 /* SDLRPCStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCStruct.m; sourceTree = "<group>"; };
 		5DBAE0AA1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLNotificationDispatcherSpec.m; path = DevAPISpecs/SDLNotificationDispatcherSpec.m; sourceTree = "<group>"; };
 		5DBAE0AC1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLResponseDispatcherSpec.m; path = DevAPISpecs/SDLResponseDispatcherSpec.m; sourceTree = "<group>"; };
+		5DBEFA531F434B9E009EE295 /* SDLStreamingMediaConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLStreamingMediaConfigurationSpec.m; path = DevAPISpecs/SDLStreamingMediaConfigurationSpec.m; sourceTree = "<group>"; };
+		5DBEFA561F436132009EE295 /* SDLFakeSecurityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLFakeSecurityManager.h; path = DevAPISpecs/SDLFakeSecurityManager.h; sourceTree = "<group>"; };
+		5DBEFA571F436132009EE295 /* SDLFakeSecurityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLFakeSecurityManager.m; path = DevAPISpecs/SDLFakeSecurityManager.m; sourceTree = "<group>"; };
 		5DBF06211E64A83F00A5CF03 /* SDLLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLogManager.h; sourceTree = "<group>"; };
 		5DBF06221E64A83F00A5CF03 /* SDLLogManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLogManager.m; sourceTree = "<group>"; };
 		5DBF06251E64A91D00A5CF03 /* SDLLogFileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLogFileModule.h; sourceTree = "<group>"; };
@@ -3706,8 +3711,10 @@
 		5DB1BCDB1D243DA8002FFC37 /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
+				5DBEFA551F434F8A009EE295 /* Utilities */,
 				5DB1BCDC1D243DC3002FFC37 /* SDLLifecycleConfigurationSpec.m */,
 				5DB1BCDE1D243DD3002FFC37 /* SDLLockScreenConfigurationSpec.m */,
+				5DBEFA531F434B9E009EE295 /* SDLStreamingMediaConfigurationSpec.m */,
 				5DB1BCE01D243DDE002FFC37 /* SDLConfigurationSpec.m */,
 			);
 			name = Configurations;
@@ -3816,6 +3823,15 @@
 				5DBAE0AC1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m */,
 			);
 			name = Dispatchers;
+			sourceTree = "<group>";
+		};
+		5DBEFA551F434F8A009EE295 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				5DBEFA561F436132009EE295 /* SDLFakeSecurityManager.h */,
+				5DBEFA571F436132009EE295 /* SDLFakeSecurityManager.m */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 		5DBF063D1E64BDAE00A5CF03 /* Log Targets */ = {
@@ -4907,6 +4923,7 @@
 				1680B1151A9CD7AD00DBD79E /* SDLV2ProtocolHeaderSpec.m in Sources */,
 				162E83101A9BDE8B00906325 /* SDLOnAudioPassThruSpec.m in Sources */,
 				DABB62171E4A900C0034C567 /* SDLVideoEncoderSpec.m in Sources */,
+				5DBEFA581F436132009EE295 /* SDLFakeSecurityManager.m in Sources */,
 				162E82D91A9BDE8A00906325 /* SDLDisplayTypeSpec.m in Sources */,
 				162E83871A9BDE8B00906325 /* SDLPermissionItemSpec.m in Sources */,
 				162E82E31A9BDE8B00906325 /* SDLIgnitionStatusSpec.m in Sources */,
@@ -5066,6 +5083,7 @@
 				162E833D1A9BDE8B00906325 /* SDLShowConstantTBTSpec.m in Sources */,
 				162E83651A9BDE8B00906325 /* SDLShowConstantTBTResponseSpec.m in Sources */,
 				162E82F91A9BDE8B00906325 /* SDLSamplingRateSpec.m in Sources */,
+				5DBEFA541F434B9E009EE295 /* SDLStreamingMediaConfigurationSpec.m in Sources */,
 				162E82CB1A9BDE8A00906325 /* SDLAppHMITypeSpec.m in Sources */,
 				162E83031A9BDE8B00906325 /* SDLTriggerSource.m in Sources */,
 				162E82D61A9BDE8A00906325 /* SDLComponentVolumeStatusSpec.m in Sources */,

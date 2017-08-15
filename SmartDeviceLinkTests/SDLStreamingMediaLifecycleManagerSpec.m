@@ -42,7 +42,7 @@ describe(@"the streaming media manager", ^{
                                      (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate : @1
                                      };
         someBackgroundTitleString = @"Open Test App";
-        streamingLifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithEncryption:streamingEncryptionFlag videoEncoderSettings:someVideoEncoderSettings backgroundTitleString:someBackgroundTitleString];
+        streamingLifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithEncryption:streamingEncryptionFlag videoEncoderSettings:someVideoEncoderSettings];
     });
     
     it(@"should initialize properties", ^{
@@ -60,7 +60,6 @@ describe(@"the streaming media manager", ^{
         expect(streamingLifecycleManager.currentAppState).to(equal(SDLAppStateActive));
         expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStopped));
         expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStopped));
-        expect(streamingLifecycleManager.backgroundTitleString).to(equal(someBackgroundTitleString));
     });
     
     describe(@"when started", ^{
@@ -228,18 +227,6 @@ describe(@"the streaming media manager", ^{
                         context(@"inactive", ^{
                             beforeEach(^{
                                 [streamingLifecycleManager.appStateMachine setToState:SDLAppStateInactive fromOldState:nil callEnterTransition:YES];
-                            });
-                            
-                            it(@"should flag to restart the video stream", ^{
-                                expect(@(streamingLifecycleManager.shouldRestartVideoStream)).to(equal(@YES));
-                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
-                                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
-                            });
-                        });
-                        
-                        context(@"background", ^{
-                            beforeEach(^{
-                                [streamingLifecycleManager.appStateMachine setToState:SDLAppStateBackground fromOldState:nil callEnterTransition:YES];
                             });
                             
                             it(@"should flag to restart the video stream", ^{

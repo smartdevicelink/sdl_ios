@@ -25,6 +25,7 @@
 #import "SDLResult.h"
 #import "SDLShow.h"
 #import "SDLStateMachine.h"
+#import "SDLStreamingMediaManager.h"
 #import "SDLTextAlignment.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnregisterAppInterfaceResponse.h"
