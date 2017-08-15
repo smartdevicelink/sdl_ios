@@ -17,7 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLControlFramePayloadAudioStartServiceAck ()
 
 @property (assign, nonatomic, readwrite) int64_t mtu;
-@property (copy, nonatomic, readwrite, nullable) NSString *protocolVersion;
 
 @end
 

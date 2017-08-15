@@ -121,17 +121,17 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Streaming media lifecycle
 
 - (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock {
-    [self startVideoSessionWithHeight:SDLControlFrameInt32NotFound width:SDLControlFrameInt32NotFound protocol:nil codec:nil startBlock:startBlock];
+    [self startVideoSessionWithHeight:SDLControlFrameInt32NotFound width:SDLControlFrameInt32NotFound startBlock:startBlock];
 }
 
-- (void)startVideoSessionWithHeight:(int32_t)height width:(int32_t)width protocol:(nullable SDLVideoStreamingProtocol *)protocol codec:(nullable SDLVideoStreamingCodec *)codec startBlock:(SDLStreamingStartBlock)startBlock {
-    [self startVideoSessionWithTLS:SDLEncryptionFlagNone height:height width:width protocol:protocol codec:codec startBlock:^(BOOL success, BOOL encryption, NSError *_Nullable error) {
+- (void)startVideoSessionWithHeight:(int32_t)height width:(int32_t)width startBlock:(SDLStreamingStartBlock)startBlock {
+    [self startVideoSessionWithTLS:SDLEncryptionFlagNone height:height width:width startBlock:^(BOOL success, BOOL encryption, NSError *_Nullable error) {
         startBlock(success, error);
     }];
 }
 
 - (void)startVideoSessionWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingEncryptionStartBlock)startBlock {
-    [self startVideoSessionWithTLS:encryptionFlag height:SDLControlFrameInt32NotFound width:SDLControlFrameInt32NotFound protocol:nil codec:nil startBlock:startBlock];
+    [self startVideoSessionWithTLS:encryptionFlag height:SDLControlFrameInt32NotFound width:SDLControlFrameInt32NotFound startBlock:startBlock];
 }
 
 - (void)startVideoSessionWithTLS:(SDLEncryptionFlag)encryptionFlag height:(int32_t)height width:(int32_t)width startBlock:(SDLStreamingEncryptionStartBlock)startBlock {

@@ -72,6 +72,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_parse:(NSData *)data {
     BsonObject payloadObject = bson_object_from_bytes((BytePtr)data.bytes);
     BsonArray *arrayObject = bson_object_get_array(&payloadObject, SDLControlFrameRejectedParams);
+    if (arrayObject == NULL) {
+        return;
+    }
 
     NSMutableArray<NSString *> *rejectedParams = [NSMutableArray array];
     char *paramString;

@@ -138,7 +138,7 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
  @param codec The codec requested to be used
  @param startBlock A block that will be called with the result of attempting to start a video session
  */
-- (void)startVideoSessionWithTLS:(SDLEncryptionFlag)encryptionFlag height:(int32_t)height width:(int32_t)width protocol:(nullable SDLVideoStreamingProtocol *)protocol codec:(nullable SDLVideoStreamingCodec *)codec startBlock:(SDLStreamingEncryptionStartBlock)startBlock;
+- (void)startVideoSessionWithTLS:(SDLEncryptionFlag)encryptionFlag height:(int32_t)height width:(int32_t)width startBlock:(SDLStreamingEncryptionStartBlock)startBlock;
 
 /**
  *  This method will stop a running video session if there is one running.

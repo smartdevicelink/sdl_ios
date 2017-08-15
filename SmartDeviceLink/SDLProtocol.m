@@ -593,7 +593,7 @@ typedef NSNumber SDLServiceTypeBox;
 
 - (void)sdl_logControlNAKPayload:(SDLProtocolMessage *)nakMessage {
     if (nakMessage.header.version >= 5) {
-        SDLControlFramePayloadNak *endServiceNakPayload = [[SDLControlFramePayloadNak alloc] initWithData:nakMessage.data];
+        SDLControlFramePayloadNak *endServiceNakPayload = [[SDLControlFramePayloadNak alloc] initWithData:nakMessage.payload];
         NSArray<NSString *> *rejectedParams = endServiceNakPayload.rejectedParams;
         if (rejectedParams.count > 0) {
             NSString *log = [NSString stringWithFormat:@"Start Service NAK'd, service type: %@, rejectedParams: %@", @(nakMessage.header.serviceType), rejectedParams];
