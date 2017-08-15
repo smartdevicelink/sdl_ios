@@ -52,7 +52,7 @@ describe(@"Send StartService Tests", ^ {
             }] sendData:[OCMArg any]];
             testProtocol.transport = transportMock;
             
-            [testProtocol startServiceWithType:SDLServiceType_BulkData];
+            [testProtocol startServiceWithType:SDLServiceType_BulkData payload:nil];
             
             expect(@(verified)).toEventually(beTruthy());
         });
@@ -74,7 +74,7 @@ describe(@"Send EndSession Tests", ^ {
             SDLV1ProtocolHeader *testHeader = [[SDLV1ProtocolHeader alloc] init];
             testHeader.serviceType = SDLServiceType_RPC;
             testHeader.sessionID = 0x03;
-            [testProtocol handleProtocolStartSessionACK:testHeader];
+            [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
             
             __block BOOL verified = NO;
             id transportMock = OCMClassMock([SDLAbstractTransport class]);
@@ -103,7 +103,7 @@ describe(@"Send EndSession Tests", ^ {
             SDLV2ProtocolHeader *testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:2];
             testHeader.serviceType = SDLServiceType_RPC;
             testHeader.sessionID = 0x61;
-            [testProtocol handleProtocolStartSessionACK:testHeader];
+            [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
             
             __block BOOL verified = NO;
             id transportMock = OCMClassMock([SDLAbstractTransport class]);
@@ -141,7 +141,7 @@ describe(@"SendRPCRequest Tests", ^ {
             SDLV1ProtocolHeader *testHeader = [[SDLV1ProtocolHeader alloc] init];
             testHeader.serviceType = SDLServiceType_RPC;
             testHeader.sessionID = 0xFF;
-            [testProtocol handleProtocolStartSessionACK:testHeader];
+            [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
             
             __block BOOL verified = NO;
             id transportMock = OCMClassMock([SDLAbstractTransport class]);
@@ -181,7 +181,7 @@ describe(@"SendRPCRequest Tests", ^ {
             SDLV2ProtocolHeader *testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:2];
             testHeader.serviceType = SDLServiceType_RPC;
             testHeader.sessionID = 0x01;
-            [testProtocol handleProtocolStartSessionACK:testHeader];
+            [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
             
             __block BOOL verified = NO;
             id transportMock = OCMClassMock([SDLAbstractTransport class]);
@@ -339,9 +339,9 @@ xdescribe(@"HandleProtocolSessionStarted Tests", ^ {
         testHeader.bytesInPayload = 0;
         
         [testProtocol.protocolDelegateTable addObject:delegateMock];
-        [testProtocol handleProtocolStartSessionACK:testHeader];
+        [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
         
-        OCMExpect([delegateMock handleProtocolStartSessionACK:testHeader]);
+        OCMExpect([delegateMock handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]]);
     });
 });
 

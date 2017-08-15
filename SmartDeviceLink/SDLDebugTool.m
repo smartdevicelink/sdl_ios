@@ -131,7 +131,7 @@
         [outputString appendString:info];
     }
 
-    if (data) {
+    if (data != nil) {
         @autoreleasepool {
             NSString *dataString = [SDLHexUtility getHexString:data];
             if (dataString) {

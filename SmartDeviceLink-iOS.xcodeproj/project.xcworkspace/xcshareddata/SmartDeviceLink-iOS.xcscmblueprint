@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "66020812E25F835F7E461E1F36EFF9E212E74787",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "66020812E25F835F7E461E1F36EFF9E212E74787" : 9223372036854775807,
+    "56518C5F548896A9F8039D14FD50ECBB0A40BE1B" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "C6E6E3FF-2162-4DF5-AA1E-650AF27E7D3F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "66020812E25F835F7E461E1F36EFF9E212E74787" : "sdl_ios\/",
+    "56518C5F548896A9F8039D14FD50ECBB0A40BE1B" : "sdl_ios\/bson_c_lib\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "SmartDeviceLink-iOS",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "SmartDeviceLink-iOS.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/smartdevicelink\/bson_c_lib.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "56518C5F548896A9F8039D14FD50ECBB0A40BE1B"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/smartdevicelink\/sdl_ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "66020812E25F835F7E461E1F36EFF9E212E74787"
+    }
+  ]
+}
