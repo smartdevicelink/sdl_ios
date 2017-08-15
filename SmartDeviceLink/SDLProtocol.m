@@ -5,6 +5,10 @@
 #import "SDLFunctionID.h"
 
 #import "SDLAbstractTransport.h"
+#import "SDLControlFramePayloadConstants.h"
+#import "SDLControlFramePayloadNak.h"
+#import "SDLControlFramePayloadRPCStartService.h"
+#import "SDLControlFramePayloadRPCStartServiceAck.h"
 #import "SDLLogMacros.h"
 #import "SDLGlobals.h"
 #import "SDLPrioritizedObjectCollection.h"
@@ -75,19 +79,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sendStartSessionWithType:(SDLServiceType)serviceType {
-    [self startServiceWithType:serviceType];
+    [self startServiceWithType:serviceType payload:nil];
 }
 
 
 #pragma mark - Start Service
 
 - (void)startServiceWithType:(SDLServiceType)serviceType {
+    [self startServiceWithType:serviceType payload:nil];
+}
+
+- (void)startServiceWithType:(SDLServiceType)serviceType payload:(NSData *)payload {
     // No encryption, just build and send the message synchronously
-    SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:NO];
+    SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:NO payload:payload];
     [self sdl_sendDataToTransport:message.data onService:serviceType];
 }
 
 - (void)startSecureServiceWithType:(SDLServiceType)serviceType completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
+    [self startSecureServiceWithType:serviceType payload:nil completionHandler:completionHandler];
+}
+
+- (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(NSData *)payload completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
     [self sdl_initializeTLSEncryptionWithCompletionHandler:^(BOOL success, NSError *error) {
         if (!success) {
             // We can't start the service because we don't have encryption, return the error
@@ -96,13 +108,15 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         // TLS initialization succeeded. Build and send the message.
-        SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:YES];
+        SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:YES payload:nil];
         [self sdl_sendDataToTransport:message.data onService:serviceType];
     }];
 }
 
-- (SDLProtocolMessage *)sdl_createStartServiceMessageWithType:(SDLServiceType)serviceType encrypted:(BOOL)encryption {
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].protocolVersion];
+- (SDLProtocolMessage *)sdl_createStartServiceMessageWithType:(SDLServiceType)serviceType encrypted:(BOOL)encryption payload:(NSData *)payload {
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].majorProtocolVersion];
+    NSData *servicePayload = payload;
+
     switch (serviceType) {
         case SDLServiceTypeRPC: {
             // Need a different header for starting the RPC service, we get the session Id from the HU, or its the same as the RPC service's
@@ -112,6 +126,9 @@ NS_ASSUME_NONNULL_BEGIN
             } else {
                 header.sessionID = 0;
             }
+
+            SDLControlFramePayloadRPCStartService *startServicePayload = [[SDLControlFramePayloadRPCStartService alloc] initWithVersion:SDLMaxProxyProtocolVersion];
+            servicePayload = startServicePayload.data;
         } break;
         default: {
             header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceTypeRPC];
@@ -120,11 +137,12 @@ NS_ASSUME_NONNULL_BEGIN
     header.frameType = SDLFrameTypeControl;
     header.serviceType = serviceType;
     header.frameData = SDLFrameInfoStartService;
+	header.bytesInPayload = (UInt32)payload.length;
 
     // Sending a StartSession with the encrypted bit set causes module to initiate SSL Handshake with a ClientHello message, which should be handled by the 'processControlService' method.
     header.encrypted = encryption;
 
-    return [SDLProtocolMessage messageWithHeader:header andPayload:nil];
+    return [SDLProtocolMessage messageWithHeader:header andPayload:servicePayload];
 }
 
 - (void)sdl_initializeTLSEncryptionWithCompletionHandler:(void (^)(BOOL success, NSError *_Nullable error))completionHandler {
@@ -162,7 +180,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)endServiceWithType:(SDLServiceType)serviceType {
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].protocolVersion];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].majorProtocolVersion];
     header.frameType = SDLFrameTypeControl;
     header.serviceType = serviceType;
     header.frameData = SDLFrameInfoEndService;
@@ -192,14 +210,15 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Build the message payload. Include the binary header if necessary
     // VERSION DEPENDENT CODE
-    switch ([SDLGlobals sharedGlobals].protocolVersion) {
+    switch ([SDLGlobals sharedGlobals].majorProtocolVersion) {
         case 1: {
             // No binary header in version 1
             messagePayload = jsonData;
         } break;
         case 2: // Fallthrough
         case 3: // Fallthrough
-        case 4: {
+        case 4: // Fallthrough
+        case 5: {
             // Build a binary header
             // Serialize the RPC data into an NSData
             SDLRPCPayload *rpcPayload = [[SDLRPCPayload alloc] init];
@@ -229,12 +248,12 @@ NS_ASSUME_NONNULL_BEGIN
             }
         } break;
         default: {
-            NSAssert(NO, @"Attempting to send an RPC based on an unknown version number: %@, message: %@", @([SDLGlobals sharedGlobals].protocolVersion), message);
+            NSAssert(NO, @"Attempting to send an RPC based on an unknown version number: %@, message: %@", @([SDLGlobals sharedGlobals].majorProtocolVersion), message);
         } break;
     }
 
     // Build the protocol level header & message
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].protocolVersion];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].majorProtocolVersion];
     header.encrypted = encryption;
     header.frameType = SDLFrameTypeSingle;
     header.serviceType = (message.bulkData.length <= 0) ? SDLServiceTypeRPC : SDLServiceTypeBulkData;
@@ -243,7 +262,7 @@ NS_ASSUME_NONNULL_BEGIN
     header.bytesInPayload = (UInt32)messagePayload.length;
 
     // V2+ messages need to have message ID property set.
-    if ([SDLGlobals sharedGlobals].protocolVersion >= 2) {
+    if ([SDLGlobals sharedGlobals].majorProtocolVersion >= 2) {
         [((SDLV2ProtocolHeader *)header) setMessageID:++_messageID];
     }
 
@@ -251,11 +270,11 @@ NS_ASSUME_NONNULL_BEGIN
     SDLProtocolMessage *protocolMessage = [SDLProtocolMessage messageWithHeader:header andPayload:messagePayload];
 
     // See if the message is small enough to send in one transmission. If not, break it up into smaller messages and send.
-    if (protocolMessage.size < [SDLGlobals sharedGlobals].maxMTUSize) {
+    if (protocolMessage.size < [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC] {
         SDLLogV(@"Sending protocol message: %@", protocolMessage);
         [self sdl_sendDataToTransport:protocolMessage.data onService:SDLServiceTypeRPC];
     } else {
-        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:[SDLGlobals sharedGlobals].maxMTUSize];
+        NSArray<SDLProtocolMessage *> *messages = [SDLProtocolMessageDisassembler disassemble:protocolMessage withLimit:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
         for (SDLProtocolMessage *smallerMessage in messages) {
             SDLLogV(@"Sending protocol message: %@", smallerMessage);
             [self sdl_sendDataToTransport:smallerMessage.data onService:SDLServiceTypeRPC];
@@ -292,7 +311,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_sendRawData:(NSData *)data onService:(SDLServiceType)service encryption:(BOOL)encryption {
-    SDLV2ProtocolHeader *header = [[SDLV2ProtocolHeader alloc] initWithVersion:[SDLGlobals sharedGlobals].protocolVersion];
+    SDLV2ProtocolHeader *header = [[SDLV2ProtocolHeader alloc] initWithVersion:[SDLGlobals sharedGlobals].majorProtocolVersion];
     header.encrypted = encryption;
     header.frameType = SDLFrameTypeSingle;
     header.serviceType = service;
@@ -312,7 +331,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:data];
 
-    if (message.size < [SDLGlobals sharedGlobals].maxMTUSize) {
+    if (message.size < [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]) {
         SDLLogV(@"Sending protocol message: %@", message);
         [self sdl_sendDataToTransport:message.data onService:header.serviceType];
     } else {
@@ -331,7 +350,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)handleBytesFromTransport:(NSData *)receivedData {
     // Initialize the receive buffer which will contain bytes while messages are constructed.
     if (self.receiveBuffer == nil) {
-        self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * [SDLGlobals sharedGlobals].maxMTUSize)];
+        self.receiveBuffer = [NSMutableData dataWithCapacity:(4 * [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
     }
 
     // Save the data
@@ -394,60 +413,109 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
-    switch (header.serviceType) {
-        case SDLServiceTypeRPC: {
-            [SDLGlobals sharedGlobals].maxHeadUnitVersion = header.version;
-        } break;
-        default:
-            break;
+// TODO: This is a v4 packet (create new delegate methods)
+- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
+    // V5 Packet
+    if (startServiceACK.header.version >= 5) {
+        switch (startServiceACK.header.serviceType) {
+            case SDLServiceType_RPC: {
+                SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
+//                NSLog(@"ServiceAckPayload: %@", startServiceACKPayload);
+
+                if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
+                    [[SDLGlobals globals] setDynamicMTUSize:startServiceACKPayload.mtu forServiceType:startServiceACK.header.serviceType];
+                }
+                [SDLGlobals globals].maxHeadUnitVersion = (startServiceACKPayload.protocolVersion != nil) ? startServiceACKPayload.protocolVersion : [NSString stringWithFormat:@"%u.0.0", startServiceACK.header.version];
+                // TODO: Hash id?
+            } break;
+            default:
+                break;
+        }
+    } else {
+        // V4 and below packet
+        switch (startServiceACK.header.serviceType) {
+            case SDLServiceType_RPC: {
+                [SDLGlobals globals].maxHeadUnitVersion = [NSString stringWithFormat:@"%u.0.0", startServiceACK.header.version];
+            } break;
+            default:
+                break;
+        }
     }
 
     // Store the header of this service away for future use
-    self.serviceHeaders[@(header.serviceType)] = [header copy];
+    self.serviceHeaders[@(startServiceACK.header.serviceType)] = [startServiceACK.header copy];
 
     // Pass along to all the listeners
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleProtocolStartServiceACKMessage:)]) {
+            [listener handleProtocolStartServiceACKMessage:startServiceACK];
+        }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:)]) {
-            [listener handleProtocolStartSessionACK:header];
+            [listener handleProtocolStartSessionACK:startServiceACK.header];
         }
 
         if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:version:)]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            [listener handleProtocolStartSessionACK:header.serviceType
-                                          sessionID:header.sessionID
-                                            version:header.version];
+            [listener handleProtocolStartSessionACK:startServiceACK.header.serviceType
+                                          sessionID:startServiceACK.header.sessionID
+                                            version:startServiceACK.header.version];
 #pragma clang diagnostic pop
         }
     }
 }
 
-- (void)handleProtocolStartSessionNACK:(SDLServiceType)serviceType {
+- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
+    [self sdl_logControlNAKPayload:startServiceNAK];
+
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleProtocolStartServiceNAKMessage:)]) {
+            [listener handleProtocolStartServiceNAKMessage:startServiceNAK];
+        }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         if ([listener respondsToSelector:@selector(handleProtocolStartSessionNACK:)]) {
-            [listener handleProtocolStartSessionNACK:serviceType];
+            [listener handleProtocolStartSessionNACK:startServiceNAK.header.serviceType];
         }
+#pragma clang diagnostic pop
     }
 }
 
-- (void)handleProtocolEndSessionACK:(SDLServiceType)serviceType {
+- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
     // Remove the session id
-    [self.serviceHeaders removeObjectForKey:@(serviceType)];
+    [self.serviceHeaders removeObjectForKey:@(endServiceACK.header.serviceType)];
 
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleProtocolEndServiceACKMessage:)]) {
+            [listener handleProtocolEndServiceACKMessage:endServiceACK];
+        }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         if ([listener respondsToSelector:@selector(handleProtocolEndSessionACK:)]) {
-            [listener handleProtocolEndSessionACK:serviceType];
+            [listener handleProtocolEndSessionACK:endServiceACK.header.serviceType];
         }
     }
+#pragma clang diagnostic pop
 }
 
-- (void)handleProtocolEndSessionNACK:(SDLServiceType)serviceType {
+- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
+    [self sdl_logControlNAKPayload:endServiceNAK];
+
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleProtocolEndServiceNAKMessage:)]) {
+            [listener handleProtocolEndServiceNAKMessage:endServiceNAK];
+        }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         if ([listener respondsToSelector:@selector(handleProtocolEndSessionNACK:)]) {
-            [listener handleProtocolEndSessionNACK:serviceType];
+            [listener handleProtocolEndSessionNACK:endServiceNAK.header.serviceType];
         }
     }
+#pragma clang diagnostic pop
 }
 
 - (void)handleHeartbeatForSession:(Byte)session {
@@ -509,6 +577,17 @@ NS_ASSUME_NONNULL_BEGIN
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(onError:exception:)]) {
             [listener onError:info exception:e];
+        }
+    }
+}
+
+- (void)sdl_logControlNAKPayload:(SDLProtocolMessage *)nakMessage {
+    if (nakMessage.header.version >= 5) {
+        SDLControlFramePayloadNak *endServiceNakPayload = [[SDLControlFramePayloadNak alloc] initWithData:nakMessage.payload];
+        NSArray<NSString *> *rejectedParams = endServiceNakPayload.rejectedParams;
+        if (rejectedParams.count > 0) {
+            NSString *log = [NSString stringWithFormat:@"Start Service NAK'd, service type: %@, rejectedParams: %@", @(nakMessage.header.serviceType), rejectedParams];
+            [SDLDebugTool logInfo:log];
         }
     }
 }

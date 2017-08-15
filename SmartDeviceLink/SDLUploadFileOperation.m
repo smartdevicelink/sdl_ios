@@ -51,7 +51,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [super start];
-    [self sdl_sendPutFiles:self.fileWrapper.file mtuSize:[SDLGlobals sharedGlobals].maxMTUSize withCompletion:self.fileWrapper.completionHandler];
+
+    [self sdl_sendPutFiles:[self.class sdl_splitFile:self.fileWrapper.file mtuSize:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]] withCompletion:self.fileWrapper.completionHandler];
 }
 
 /**

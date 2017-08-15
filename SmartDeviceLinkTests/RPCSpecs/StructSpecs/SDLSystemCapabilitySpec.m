@@ -9,11 +9,12 @@
 #import "SDLNavigationCapability.h"
 #import "SDLPhoneCapability.h"
 #import "SDLSystemCapabilityType.h"
-#import "SDLNames.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLVideoStreamingCodec.h"
 #import "SDLVideoStreamingFormat.h"
 #import "SDLVideoStreamingProtocol.h"
+
+#import "SDLNames.h"
 
 QuickSpecBegin(SDLSystemCapabilitySpec)
 
