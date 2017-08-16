@@ -259,6 +259,6 @@
  *            If any text field contains no tags or the none tag, the metadata tag for that textfield should be removed.
  * @since SmartDeviceLink 2.0
  */
-@property (strong) SDLMetadataTags *textFieldMetadata;
+@property (strong) SDLMetadataTags *metadataTags;
 
 @end

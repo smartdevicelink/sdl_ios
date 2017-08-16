@@ -42,7 +42,7 @@
     self.mainField1 = mainField1;
     self.mainField2 = mainField2;
     self.alignment = alignment;
-    self.textFieldMetadata = fieldsStruct;
+    self.metadataTags = fieldsStruct;
 
     return self;
 }
@@ -72,7 +72,7 @@
     self.mainField3 = mainField3;
     self.mainField4 = mainField4;
     self.alignment = alignment;
-    self.textFieldMetadata = fieldsStruct;
+    self.metadataTags = fieldsStruct;
 
     return self;
 }
@@ -115,7 +115,7 @@
     self.graphic = graphic;
     self.softButtons = [softButtons mutableCopy];
     self.customPresets = [customPresets mutableCopy];
-    self.textFieldMetadata = metadata;
+    self.metadataTags = metadata;
 
     return self;
 
@@ -291,16 +291,16 @@
     return [parameters objectForKey:NAMES_customPresets];
 }
 
-- (void)setTextFieldMetadata:(SDLMetadataTags *)textFieldMetadata {
-    if (textFieldMetadata != nil) {
-        [parameters setObject:textFieldMetadata forKey:NAMES_textFieldMetadata];
+- (void)setMetadataTags:(SDLMetadataTags *)metadataTags {
+    if (metadataTags != nil) {
+        [parameters setObject:metadataTags forKey:NAMES_metadataTags];
     } else {
-        [parameters removeObjectForKey:NAMES_textFieldMetadata];
+        [parameters removeObjectForKey:NAMES_metadataTags];
     }
 }
 
-- (SDLMetadataTags *)textFieldMetadata {
-    NSObject *obj = [parameters objectForKey:NAMES_textFieldMetadata];
+- (SDLMetadataTags *)metadataTags {
+    NSObject *obj = [parameters objectForKey:NAMES_metadataTags];
     if (obj == nil || [obj isKindOfClass:SDLMetadataTags.class]) {
         return (SDLMetadataTags *)obj;
     } else {
