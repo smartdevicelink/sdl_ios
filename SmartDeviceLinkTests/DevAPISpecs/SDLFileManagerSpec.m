@@ -235,8 +235,8 @@ describe(@"SDLFileManager", ^{
                             });
                             
                             it(@"should call the completion handler with the correct data", ^{
-                                expect(@(completionBytesAvailable)).to(equal(testResponseBytesAvailable));
-                                expect(@(completionSuccess)).to(equal(@YES));
+                                expect(@(completionBytesAvailable)).toEventually(equal(testResponseBytesAvailable));
+                                expect(@(completionSuccess)).toEventually(equal(@YES));
                                 expect(completionError).to(beNil());
                             });
                         });
@@ -266,7 +266,7 @@ describe(@"SDLFileManager", ^{
                             it(@"should call the completion handler with the correct data", ^{
                                 expect(@(completionBytesAvailable)).to(equal(@0));
                                 expect(@(completionSuccess)).to(equal(testResponseSuccess));
-                                expect(completionError).to(beNil());
+                                expect(completionError).toEventually(beNil());
                             });
                         });
                         
@@ -356,8 +356,8 @@ describe(@"SDLFileManager", ^{
                         });
                         
                         it(@"should call the completion handler with the correct data", ^{
-                            expect(@(completionBytesAvailable)).to(equal(testResponseBytesAvailable));
-                            expect(@(completionSuccess)).to(equal(@YES));
+                            expect(@(completionBytesAvailable)).toEventually(equal(testResponseBytesAvailable));
+                            expect(@(completionSuccess)).toEventually(equal(@YES));
                             expect(completionError).to(beNil());
                         });
                     });
@@ -389,7 +389,7 @@ describe(@"SDLFileManager", ^{
                         it(@"should call the completion handler with the correct data", ^{
                             expect(@(completionBytesAvailable)).to(equal(@0));
                             expect(@(completionSuccess)).to(equal(testResponseSuccess));
-                            expect(completionError).to(beNil());
+                            expect(completionError).toEventually(beNil());
                         });
                     });
                     

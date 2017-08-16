@@ -38,7 +38,7 @@ describe(@"HandleReceivedMessage Tests", ^ {
             router.delegate = delegateMock;
             [router handleReceivedMessage:testMessage];
             
-            OCMVerify([delegateMock handleProtocolStartSessionACK:testMessage.header]);
+            OCMVerify([delegateMock handleProtocolStartServiceACKMessage:testMessage]);
         });
     });
     

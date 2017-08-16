@@ -16,7 +16,7 @@ describe(@"SDLFile", ^{
         __block NSString *testFileType = nil;
         __block BOOL testPersistence = NO;
         
-        context(@"using test data", ^{
+        context(@"using data", ^{
             testName = @"Example Name";
             testData = [@"Example Data" dataUsingEncoding:NSUTF8StringEncoding];
             testFileType = @"mp3";
@@ -34,6 +34,10 @@ describe(@"SDLFile", ^{
             it(@"should correctly store data", ^{
                 expect(testFile.data).to(equal(testData));
             });
+
+            it(@"should correctly store persistance", ^{
+                expect(testFile.persistent).to(equal(@YES));
+            });
             
             it(@"should correctly store name", ^{
                 expect(testFile.name).to(equal(testName));
@@ -49,7 +53,7 @@ describe(@"SDLFile", ^{
         });
     });
     
-    context(@"when created with a file", ^{
+    context(@"when created with a file url", ^{
         __block NSURL *testFileURL = nil;
         __block NSString *testFileName = nil;
         
@@ -62,7 +66,7 @@ describe(@"SDLFile", ^{
                 testFile = [[SDLFile alloc] initWithFileURL:testFileURL name:testFileName persistent:NO];
             });
             
-            it(@"should be nil", ^{
+            it(@"it should be nil", ^{
                 expect(testFile).to(beNil());
             });
         });
@@ -76,16 +80,20 @@ describe(@"SDLFile", ^{
                     
                     testFile = [SDLFile fileAtFileURL:testFileURL name:testFileName];
                 });
-                
-                it(@"should correctly store data", ^{
-                    expect(testFile.data).to(equal([NSData dataWithContentsOfURL:testFileURL]));
+
+                it(@"should correctly store the file url", ^{
+                    expect(testFile.fileURL).to(equal(testFileURL));
+                });
+
+                it(@"should not store any data", ^{
+                    expect(testFile.data.length).to(beGreaterThan(0));
                 });
                 
-                it(@"should correctly store name", ^{
+                it(@"should correctly store the file name", ^{
                     expect(testFile.name).to(match(testFileName));
                 });
                 
-                it(@"should correctly store file type", ^{
+                it(@"should correctly store the file type", ^{
                     expect(testFile.fileType).to(equal(SDLFileTypeJPEG));
                 });
                 
@@ -106,11 +114,15 @@ describe(@"SDLFile", ^{
                     
                     testFile = [SDLFile persistentFileAtFileURL:testFileURL name:testFileName];
                 });
-                
-                it(@"should correctly store data", ^{
-                    expect(testFile.data).to(equal([NSData dataWithContentsOfURL:testFileURL]));
+
+                it(@"should correctly store the file url", ^{
+                    expect(testFile.fileURL).to(equal(testFileURL));
                 });
-                
+
+                it(@"should not store any data", ^{
+                    expect(testFile.data.length).to(beGreaterThan(0));
+                });
+
                 it(@"should correctly store name", ^{
                     expect(testFile.name).to(equal(testFileName));
                 });
@@ -212,6 +224,19 @@ describe(@"SDLFile", ^{
                 it(@"should properly interpret file type", ^{
                     expect(testFile.fileType).to(equal(SDLFileTypeBinary));
                 });
+            });
+
+            // FIXME: - Add test cases for audio file types
+            context(@"wav", ^{
+
+            });
+
+            context(@"mp3", ^{
+
+            });
+
+            context(@"aac", ^{
+
             });
         });
     });
