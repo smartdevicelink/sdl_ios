@@ -25,7 +25,15 @@ NS_ASSUME_NONNULL_BEGIN
     [self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)startSecureServiceWithType:(SDLServiceType)serviceType completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
+- (void)startServiceWithType:(SDLServiceType)serviceType payload:(NSData *)payload {
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+- (void)startSecureServiceWithType:(SDLServiceType)serviceType completionHandler:(void (^)(BOOL, NSError *))completionHandler {
+    [self doesNotRecognizeSelector:_cmd];
+}
+
+- (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(NSData *)payload completionHandler:(void (^)(BOOL, NSError *))completionHandler {
     [self doesNotRecognizeSelector:_cmd];
 }
 

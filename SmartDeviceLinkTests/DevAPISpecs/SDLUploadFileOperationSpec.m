@@ -28,7 +28,7 @@ describe(@"Streaming upload of data", ^{
     __block NSError *errorResult = nil;
 
     beforeEach(^{
-        [SDLGlobals sharedGlobals].maxHeadUnitVersion = 2;
+        [SDLGlobals sharedGlobals].maxHeadUnitVersion = @"2.0.0";
 
         testFileName = nil;
         testFileData = nil;
@@ -87,7 +87,7 @@ describe(@"Streaming upload of data", ^{
                         errorResult = error;
                     }];
 
-                    numberOfPutFiles = ((([testFile fileSize] - 1) / [SDLGlobals sharedGlobals].maxMTUSize) + 1);
+                    numberOfPutFiles = ((([testFile fileSize] - 1) / [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeBulkData]) + 1);
 
                     testConnectionManager = [[TestConnectionManager alloc] init];
                     testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
@@ -105,10 +105,12 @@ describe(@"Streaming upload of data", ^{
                 for (NSUInteger index = 0; index < numberOfPutFiles; index++) {
                     SDLPutFile *putFile = putFiles[index];
 
-                    expect(putFile.offset).to(equal(@(index * [SDLGlobals sharedGlobals].maxMTUSize)));
+                    NSUInteger mtuSize = [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeBulkData];
+
+                    expect(putFile.offset).to(equal(@(index * mtuSize)));
                     expect(putFile.persistentFile).to(equal(@NO));
                     expect(putFile.syncFileName).to(equal(testFileName));
-                    expect(putFile.bulkData).to(equal([testFileData subdataWithRange:NSMakeRange((index * [SDLGlobals sharedGlobals].maxMTUSize), MIN(putFile.length.unsignedIntegerValue, [SDLGlobals sharedGlobals].maxMTUSize))]));
+                    expect(putFile.bulkData).to(equal([testFileData subdataWithRange:NSMakeRange((index * mtuSize), MIN(putFile.length.unsignedIntegerValue, mtuSize))]));
 
                     // Length is used to inform the SDL Core of the total incoming packet size
                     if (index == 0) {
@@ -116,10 +118,10 @@ describe(@"Streaming upload of data", ^{
                         expect(putFile.length).to(equal(@([testFile fileSize])));
                     } else if (index == numberOfPutFiles - 1) {
                         // The last pufile contains the remaining data size
-                        expect(putFile.length).to(equal(@([testFile fileSize] - (index * [SDLGlobals sharedGlobals].maxMTUSize))));
+                        expect(putFile.length).to(equal(@([testFile fileSize] - (index * mtuSize))));
                     } else {
                         // All other putfiles contain the max data size for a putfile packet
-                        expect(putFile.length).to(equal(@([SDLGlobals sharedGlobals].maxMTUSize)));
+                        expect(putFile.length).to(equal(@(mtuSize)));
                     }
                 }
             });
@@ -158,7 +160,9 @@ describe(@"Streaming upload of data", ^{
                 errorResult = error;
             }];
 
-            numberOfPutFiles = ((([testFile fileSize] - 1) / [SDLGlobals sharedGlobals].maxMTUSize) + 1);
+            NSUInteger mtuSize = [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeBulkData];
+
+            numberOfPutFiles = ((([testFile fileSize] - 1) / mtuSize) + 1);
 
             testConnectionManager = [[TestConnectionManager alloc] init];
             testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];

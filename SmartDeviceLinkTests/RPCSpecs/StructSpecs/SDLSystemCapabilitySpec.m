@@ -16,6 +16,8 @@
 #import "SDLVideoStreamingFormat.h"
 #import "SDLVideoStreamingProtocol.h"
 
+#import "SDLNames.h"
+
 QuickSpecBegin(SDLSystemCapabilitySpec)
 
 SDLRemoteControlCapabilities *someRemoteControlCapabilities = [[SDLRemoteControlCapabilities alloc] init];
