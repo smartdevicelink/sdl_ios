@@ -22,7 +22,7 @@ describe(@"HeaderForVersion Tests", ^ {
     });
     
     it(@"Should return latest version for unknown version", ^ {
-        expect([SDLProtocolHeader headerForVersion:5]).to(raiseException().named(NSInvalidArgumentException));
+        expect([SDLProtocolHeader headerForVersion:5]).to(beAKindOf(SDLV2ProtocolHeader.class));
     });
 });
 
