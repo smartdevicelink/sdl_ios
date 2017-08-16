@@ -29,10 +29,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-SDLAppState *const SDLAppStateResigningActive = @"ResigningActive";
-SDLAppState *const SDLAppStateInactive = @"Inactive";
-SDLAppState *const SDLAppStateRegainingActive = @"RegainingActive";
-SDLAppState *const SDLAppStateActive = @"Active";
+SDLAppState *const SDLAppStateInactive = @"AppInactive";
+SDLAppState *const SDLAppStateActive = @"AppActive";
 
 SDLVideoStreamState *const SDLVideoStreamStateStopped = @"VideoStreamStopped";
 SDLVideoStreamState *const SDLVideoStreamStateStarting = @"VideoStreamStarting";
@@ -83,6 +81,8 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
     if (!self) {
         return nil;
     }
+
+    SDLLogV(@"Creating StreamingLifecycleManager");
     
     _videoEncoderSettings = videoEncoderSettings ?: SDLVideoEncoder.defaultVideoEncoderSettings;
     
@@ -110,9 +110,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveRegisterAppInterfaceResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiLevelDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationWillEnterForegroundNotification object:nil];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationWillResignActiveNotification object:nil];
     
@@ -200,45 +198,37 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
     return @{
              // Will go from Inactive to Active if coming from a Phone Call.
              // Will go from Inactive to IsRegainingActive if coming from Background.
-             SDLAppStateInactive : @[SDLAppStateRegainingActive, SDLAppStateActive],
-             SDLAppStateActive : @[SDLAppStateResigningActive],
-             SDLAppStateRegainingActive : @[SDLAppStateActive],
-             SDLAppStateResigningActive : @[SDLAppStateInactive]
+             SDLAppStateInactive : @[SDLAppStateActive],
+             SDLAppStateActive : @[SDLAppStateInactive]
              };
 }
 
 - (void)sdl_appStateDidUpdate:(NSNotification*)notification {
-    if (notification.name == UIApplicationWillEnterForegroundNotification) {
-        [self.appStateMachine transitionToState:SDLAppStateRegainingActive];
-    } else if (notification.name == UIApplicationWillResignActiveNotification) {
-        [self.appStateMachine transitionToState:SDLAppStateResigningActive];
+    if (notification.name == UIApplicationWillResignActiveNotification) {
+        [self.appStateMachine transitionToState:SDLAppStateInactive];
     } else if (notification.name == UIApplicationDidBecomeActiveNotification) {
         [self.appStateMachine transitionToState:SDLAppStateActive];
     }
 }
 
-- (void)didEnterStateInactive {
+- (void)didEnterStateAppInactive {
+    SDLLogD(@"Manager became inactive");
+    if (!self.protocol) { return; }
+
+    [self sdl_sendBackgroundFrames];
     [self.touchManager cancelPendingTouches];
     self.restartVideoStream = YES;
 }
 
 // Per Apple's guidelines: https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/StrategiesforHandlingAppStateTransitions/StrategiesforHandlingAppStateTransitions.html
 // We should be waiting to start any OpenGL drawing until UIApplicationDidBecomeActive is called.
-- (void)didEnterStateActive {
+- (void)didEnterStateAppActive {
+    SDLLogD(@"Manager became active");
     if (!self.protocol) { return; }
 
     [self sdl_startVideoSession];
     [self sdl_startAudioSession];
 }
-
-- (void)didEnterStateResigningActive {
-    if (!self.protocol) { return; }
-
-    [self sdl_sendBackgroundFrames];
-    [self.appStateMachine transitionToState:SDLAppStateInactive];
-}
-
-- (void)didEnterStateRegainingActive { /* Nothing */ }
 
 #pragma mark Video Streaming
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_videoStreamStateTransitionDictionary {
@@ -251,6 +241,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 }
 
 - (void)didEnterStateVideoStreamStopped {
+    SDLLogD(@"Video stream stopped");
     _videoEncrypted = NO;
     
     if (_videoEncoder != nil) {
@@ -267,6 +258,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 }
 
 - (void)didEnterStateVideoStreamStarting {
+    SDLLogD(@"Video stream starting");
     self.restartVideoStream = NO;
 
     // Decide if we need to start a secure service or not
@@ -284,6 +276,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 }
 
 - (void)didEnterStateVideoStreamReady {
+    SDLLogD(@"Video stream ready");
     if (self.videoEncoder == nil) {
         NSError* error = nil;
         self.videoEncoder = [[SDLVideoEncoder alloc] initWithDimensions:self.screenSize properties:self.videoEncoderSettings delegate:self error:&error];
@@ -310,6 +303,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 }
 
 - (void)didEnterStateVideoStreamShuttingDown {
+    SDLLogD(@"Video stream shutting down");
     [self.protocol endServiceWithType:SDLServiceTypeVideo];
 }
 
@@ -324,12 +318,14 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 }
 
 - (void)didEnterStateAudioStreamStopped {
+    SDLLogD(@"Audio stream stopped");
     _audioEncrypted = NO;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLAudioStreamDidStopNotification object:nil];
 }
 
 - (void)didEnterStateAudioStreamStarting {
+    SDLLogD(@"Audio stream starting");
     if (self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) {
         [self.protocol startSecureServiceWithType:SDLServiceTypeAudio completionHandler:^(BOOL success, NSError *error) {
             // This only fires if we fail!!
@@ -344,10 +340,12 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 }
 
 - (void)didEnterStateAudioStreamReady {
+    SDLLogD(@"Audio stream ready");
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLAudioStreamDidStartNotification object:nil];
 }
 
 - (void)didEnterStateAudioStreamShuttingDown {
+    SDLLogD(@"Audio stream shutting down");
     [self.protocol endServiceWithType:SDLServiceTypeAudio];
 }
 
@@ -382,6 +380,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 
 #pragma mark - SDLVideoEncoderDelegate
 - (void)videoEncoder:(SDLVideoEncoder *)encoder hasEncodedFrame:(NSData *)encodedVideo {
+    SDLLogV(@"Video encoder encoded frame, sending");
     // Do we care about app state here? I don't think so…
     BOOL capableVideoStreamState = [self.videoStreamStateMachine isCurrentState:SDLVideoStreamStateReady];
     

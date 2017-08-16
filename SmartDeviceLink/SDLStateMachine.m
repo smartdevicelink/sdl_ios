@@ -45,7 +45,8 @@ SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter = 
     }
 
     if (states[initialState] == nil) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to start with an SDLState that is not in the states dictionary" userInfo:nil];
+        NSString *reasonMessage = [NSString stringWithFormat:@"Attempted to start with an SDLState (%@) that is not in the states dictionary", initialState];
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reasonMessage userInfo:nil];
     }
 
     _target = target;
