@@ -5,9 +5,9 @@
 
 @class SDLImage;
 @class SDLSoftButton;
-@class SDLMetadataStruct;
+@class SDLMetadataTags;
 @class SDLTextAlignment;
-@class SDLTextFieldType;
+@class SDLMetadataType;
 
 
 /**
@@ -47,17 +47,17 @@
 
 - (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 alignment:(SDLTextAlignment *)alignment;
 
-- (instancetype)initWithMainField1:(NSString *)mainField1 mainField1Type:(SDLTextFieldType *)mainField1Type mainField2:(NSString *)mainField2 mainField2Type:(SDLTextFieldType *)mainField2Type alignment:(SDLTextAlignment *)alignment;
+- (instancetype)initWithMainField1:(NSString *)mainField1 mainField1Type:(SDLMetadataType *)mainField1Type mainField2:(NSString *)mainField2 mainField2Type:(SDLMetadataType *)mainField2Type alignment:(SDLTextAlignment *)alignment;
 
 - (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 alignment:(SDLTextAlignment *)alignment;
 
-- (instancetype)initWithMainField1:(NSString *)mainField1 mainField1Type:(SDLTextFieldType *)mainField1Type mainField2:(NSString *)mainField2 mainField2Type:(SDLTextFieldType *)mainField2Type mainField3:(NSString *)mainField3 mainField3Type:(SDLTextFieldType *)mainField3Type mainField4:(NSString *)mainField4 mainField4Type:(SDLTextFieldType *)mainField4Type alignment:(SDLTextAlignment *)alignment;
+- (instancetype)initWithMainField1:(NSString *)mainField1 mainField1Type:(SDLMetadataType *)mainField1Type mainField2:(NSString *)mainField2 mainField2Type:(SDLMetadataType *)mainField2Type mainField3:(NSString *)mainField3 mainField3Type:(SDLMetadataType *)mainField3Type mainField4:(NSString *)mainField4 mainField4Type:(SDLMetadataType *)mainField4Type alignment:(SDLTextAlignment *)alignment;
 
 - (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 alignment:(SDLTextAlignment *)alignment statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack;
 
 - (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 alignment:(SDLTextAlignment *)alignment statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack graphic:(SDLImage *)graphic softButtons:(NSArray<SDLSoftButton *> *)softButtons customPresets:(NSArray<NSString *> *)customPresets __deprecated_msg(("Use initWithMainField1:(NSString *)mainField1 (NSString *)mainField2 (NSString *)mainField3 (NSString *)mainField4 (SDLTextAlignment *)alignment (NSString *)statusBar (NSString *)mediaClock (NSString *)mediaTrack (SDLImage *)graphic (NSArray<SDLSoftButton *> *)softButtons (NSArray<NSString *> *)customPresets (SDLMetadataStruct *)metadata instead"));
 
-- (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 alignment:(SDLTextAlignment *)alignment statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack graphic:(SDLImage *)graphic softButtons:(NSArray<SDLSoftButton *> *)softButtons customPresets:(NSArray<NSString *> *)customPresets textFieldMetadata:(SDLMetadataStruct *)metadata;
+- (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 alignment:(SDLTextAlignment *)alignment statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack graphic:(SDLImage *)graphic softButtons:(NSArray<SDLSoftButton *> *)softButtons customPresets:(NSArray<NSString *> *)customPresets textFieldMetadata:(SDLMetadataTags *)metadata;
 
 
 /**
@@ -259,6 +259,6 @@
  *            If any text field contains no tags or the none tag, the metadata tag for that textfield should be removed.
  * @since SmartDeviceLink 2.0
  */
-@property (strong) SDLMetadataStruct *textFieldMetadata;
+@property (strong) SDLMetadataTags *textFieldMetadata;
 
 @end

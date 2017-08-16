@@ -9,13 +9,12 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLImage.h"
-#import "SDLMetadataStruct.h"
+#import "SDLMetadataTags.h"
+#import "SDLMetadataType.h"
 #import "SDLNames.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
 #import "SDLTextAlignment.h"
-#import "SDLTextFieldType.h"
-
 
 QuickSpecBegin(SDLShowSpec)
 
@@ -23,8 +22,8 @@ SDLImage* image1 = [[SDLImage alloc] init];
 SDLImage* image2 = [[SDLImage alloc] init];
 SDLSoftButton* button = [[SDLSoftButton alloc] init];
 
-NSArray<SDLTextFieldType *> *formatArray = @[[SDLTextFieldType MEDIA_ARTIST], [SDLTextFieldType MEDIA_TITLE]];
-SDLMetadataStruct* testMetadata = [[SDLMetadataStruct alloc] initWithTextFieldTypes:formatArray mainField2:formatArray mainField3:formatArray mainField4:formatArray];
+NSArray<SDLMetadataType *> *formatArray = @[[SDLMetadataType MEDIA_ARTIST], [SDLMetadataType MEDIA_TITLE]];
+SDLMetadataTags* testMetadata = [[SDLMetadataTags alloc] initWithTextFieldTypes:formatArray mainField2:formatArray mainField3:formatArray mainField4:formatArray];
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {

@@ -1,16 +1,16 @@
 //
-//  SDLMetadataStruct.m
+//  SDLMetadataTags.m
 //  SmartDeviceLink-iOS
 //
 //  Created by Brett McIsaac on 8/1/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import "SDLMetadataStruct.h"
+#import "SDLMetadataTags.h"
+#import "SDLMetadataType.h"
 #import "SDLNames.h"
-#import "SDLTextFieldType.h"
 
-@implementation SDLMetadataStruct
+@implementation SDLMetadataTags
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -24,7 +24,7 @@
     return self;
 }
 
-- (instancetype)initWithTextFieldTypes:(NSArray<SDLTextFieldType *> *)mainField1 mainField2:(NSArray<SDLTextFieldType *> *)mainField2 {
+- (instancetype)initWithTextFieldTypes:(NSArray<SDLMetadataType *> *)mainField1 mainField2:(NSArray<SDLMetadataType *> *)mainField2 {
     self = [self init];
     if (!self) {
         return self;
@@ -36,7 +36,7 @@
     return self;
 }
 
-- (instancetype)initWithTextFieldTypes:(NSArray<SDLTextFieldType *> *)mainField1 mainField2:(NSArray<SDLTextFieldType *> *)mainField2 mainField3:(NSArray<SDLTextFieldType *> *)mainField3 mainField4:(NSArray<SDLTextFieldType *> *)mainField4 {
+- (instancetype)initWithTextFieldTypes:(NSArray<SDLMetadataType *> *)mainField1 mainField2:(NSArray<SDLMetadataType *> *)mainField2 mainField3:(NSArray<SDLMetadataType *> *)mainField3 mainField4:(NSArray<SDLMetadataType *> *)mainField4 {
     self = [self init];
     if (!self) {
         return self;
@@ -50,7 +50,7 @@
     return self;
 }
 
-- (void)setMainField1:(NSMutableArray<SDLTextFieldType *> *)mainField1 {
+- (void)setMainField1:(NSMutableArray<SDLMetadataType *> *)mainField1 {
     if (mainField1 != nil) {
         [store setObject:mainField1 forKey:NAMES_mainField1Type];
     } else {
@@ -58,22 +58,22 @@
     }
 }
 
-- (NSMutableArray<SDLTextFieldType *> *)mainField1 {
+- (NSMutableArray<SDLMetadataType *> *)mainField1 {
     NSMutableArray *array = [store objectForKey:NAMES_mainField1Type];
     if ([array isEqual:[NSNull null]]) {
         return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLTextFieldType.class]) {
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLMetadataType.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (SDLTextFieldType *type in array) {
+        for (SDLMetadataType *type in array) {
             [newList addObject:type];
         }
         return newList;
     }
 }
 
-- (void)setMainField2:(NSMutableArray<SDLTextFieldType *> *)mainField2 {
+- (void)setMainField2:(NSMutableArray<SDLMetadataType *> *)mainField2 {
     if (mainField2 != nil) {
         [store setObject:mainField2 forKey:NAMES_mainField2Type];
     } else {
@@ -81,22 +81,22 @@
     }
 }
 
-- (NSMutableArray<SDLTextFieldType *> *)mainField2 {
+- (NSMutableArray<SDLMetadataType *> *)mainField2 {
     NSMutableArray *array = [store objectForKey:NAMES_mainField2Type];
     if ([array isEqual:[NSNull null]]) {
         return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLTextFieldType.class]) {
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLMetadataType.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (SDLTextFieldType *type in array) {
+        for (SDLMetadataType *type in array) {
             [newList addObject:type];
         }
         return newList;
     }
 }
 
-- (void)setMainField3:(NSMutableArray<SDLTextFieldType *> *)mainField3 {
+- (void)setMainField3:(NSMutableArray<SDLMetadataType *> *)mainField3 {
     if (mainField3 != nil) {
         [store setObject:mainField3 forKey:NAMES_mainField3Type];
     } else {
@@ -104,22 +104,22 @@
     }
 }
 
-- (NSMutableArray<SDLTextFieldType *> *)mainField3 {
+- (NSMutableArray<SDLMetadataType *> *)mainField3 {
     NSMutableArray *array = [store objectForKey:NAMES_mainField3Type];
     if ([array isEqual:[NSNull null]]) {
         return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLTextFieldType.class]) {
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLMetadataType.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (SDLTextFieldType *type in array) {
+        for (SDLMetadataType *type in array) {
             [newList addObject:type];
         }
         return newList;
     }
 }
 
-- (void)setMainField4:(NSMutableArray<SDLTextFieldType *> *)mainField4 {
+- (void)setMainField4:(NSMutableArray<SDLMetadataType *> *)mainField4 {
     if (mainField4 != nil) {
         [store setObject:mainField4 forKey:NAMES_mainField4Type];
     } else {
@@ -127,15 +127,15 @@
     }
 }
 
-- (NSMutableArray<SDLTextFieldType *> *)mainField4 {
+- (NSMutableArray<SDLMetadataType *> *)mainField4 {
     NSMutableArray *array = [store objectForKey:NAMES_mainField4Type];
     if ([array isEqual:[NSNull null]]) {
         return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLTextFieldType.class]) {
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLMetadataType.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (SDLTextFieldType *type in array) {
+        for (SDLMetadataType *type in array) {
             [newList addObject:type];
         }
         return newList;
