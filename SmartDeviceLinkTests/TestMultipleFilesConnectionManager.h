@@ -7,13 +7,17 @@
 //
 
 #import "TestConnectionManager.h"
+#import "SDLPutFileResponse.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TestMultipleFilesConnectionManager : TestConnectionManager
 
-// FIXME: - Add documentation
-@property (copy, nonatomic, nullable) SDLRPCResponse *response;
+/**
+ *  A response to pass into the last request's block
+ */
+@property (strong, nonatomic) SDLPutFileResponse *multipleFileResponse;
+@property (copy, nonatomic) NSError *multipleFileError;
 
 @end
 

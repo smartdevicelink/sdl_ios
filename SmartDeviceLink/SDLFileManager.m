@@ -237,7 +237,7 @@ const char *_Nullable BackgroundUploadFilesWaitingQueue = "com.sdl.background.up
     for (SDLFile *file in files) {
         dispatch_group_enter(uploadFilesTask);
         [self uploadFileAsync:file completionHandler:^(Boolean success, NSString * _Nonnull fileName, NSError * _Nullable error) {
-            if (!success) {
+            if (success == false) {
                 failedUploads[fileName] = error;
             }
 
@@ -270,10 +270,9 @@ const char *_Nullable BackgroundUploadFilesWaitingQueue = "com.sdl.background.up
     dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(backgroundQueue, ^{
         [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-            Boolean uploadSuccess = true;
+            Boolean uploadSuccess = success;
             NSString *uploadFileName = file.name;
             NSError *uploadError = nil;
-
 
             if (error != nil) {
                 uploadSuccess = false;
