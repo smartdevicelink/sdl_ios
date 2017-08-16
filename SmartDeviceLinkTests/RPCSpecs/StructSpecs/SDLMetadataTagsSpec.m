@@ -1,5 +1,5 @@
 //
-//  SDLMetadataStructSpec.m
+//  SDLMetadataTagsSpec.m
 //  SmartDeviceLink-iOS
 //
 //  Created by Brett McIsaac on 8/3/17.
@@ -11,17 +11,17 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLMetadataStruct.h"
+#import "SDLMetadataTags.h"
 #import "SDLNames.h"
-#import "SDLTextFieldType.h"
+#import "SDLMetadataType.h"
 
-QuickSpecBegin(SDLMetadataStructSpec)
+QuickSpecBegin(SDLMetadataTagsSpec)
 
 describe(@"Initialization tests", ^{
 
     it(@"Should get correctly when initialized with Arrays", ^ {
-        NSArray<SDLTextFieldType> *formatArray = @[SDLTextFieldTypeMediaArtist, SDLTextFieldTypeMediaTitle];
-        SDLMetadataStruct* testStruct = [[SDLMetadataStruct alloc] initWithTextFieldTypes:formatArray mainField2:formatArray mainField3:formatArray mainField4:formatArray];
+        NSArray<SDLMetadataType> *formatArray = @[SDLMetadataTypeMediaArtist, SDLMetadataTypeMediaTitle];
+        SDLMetadataTags* testStruct = [[SDLMetadataTags alloc] initWithTextFieldTypes:formatArray mainField2:formatArray mainField3:formatArray mainField4:formatArray];
 
         expect(testStruct.mainField1).to(equal(formatArray));
         expect(testStruct.mainField2).to(equal(formatArray));
@@ -30,7 +30,7 @@ describe(@"Initialization tests", ^{
     });
 
     it(@"Should return nil if not set", ^ {
-        SDLMetadataStruct *testStruct = [[SDLMetadataStruct alloc] init];
+        SDLMetadataTags *testStruct = [[SDLMetadataTags alloc] init];
 
         expect(testStruct.mainField1).to(beNil());
         expect(testStruct.mainField2).to(beNil());

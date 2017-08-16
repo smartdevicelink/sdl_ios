@@ -6,16 +6,16 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import "SDLMetadataStruct.h"
+#import "SDLMetadataTags.h"
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@implementation SDLMetadataStruct
+@implementation SDLMetadataTags
 
-- (instancetype)initWithTextFieldTypes:(nullable NSArray<SDLTextFieldType> *)mainField1 mainField2:(nullable NSArray<SDLTextFieldType> *)mainField2 {
+- (instancetype)initWithTextFieldTypes:(nullable NSArray<SDLMetadataType> *)mainField1 mainField2:(nullable NSArray<SDLMetadataType> *)mainField2 {
     self = [self init];
     if (!self) {
         return self;
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithTextFieldTypes:(nullable NSArray<SDLTextFieldType> *)mainField1 mainField2:(nullable NSArray<SDLTextFieldType> *)mainField2 mainField3:(nullable NSArray<SDLTextFieldType> *)mainField3 mainField4:(nullable NSArray<SDLTextFieldType> *)mainField4 {
+- (instancetype)initWithTextFieldTypes:(nullable NSArray<SDLMetadataType> *)mainField1 mainField2:(nullable NSArray<SDLMetadataType> *)mainField2 mainField3:(nullable NSArray<SDLMetadataType> *)mainField3 mainField4:(nullable NSArray<SDLMetadataType> *)mainField4 {
     self = [self init];
     if (!self) {
         return self;
@@ -41,35 +41,35 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setMainField1:(nullable NSArray<SDLTextFieldType> *)mainField1 {
+- (void)setMainField1:(nullable NSArray<SDLMetadataType> *)mainField1 {
     [store sdl_setObject:mainField1 forName:SDLNameMainField1Type];
 }
 
-- (nullable NSArray<SDLTextFieldType> *)mainField1 {
+- (nullable NSArray<SDLMetadataType> *)mainField1 {
     return [store sdl_objectForName:SDLNameMainField1Type];
 }
 
-- (void)setMainField2:(nullable NSArray<SDLTextFieldType> *)mainField2 {
+- (void)setMainField2:(nullable NSArray<SDLMetadataType> *)mainField2 {
     [store sdl_setObject:mainField2 forName:SDLNameMainField2Type];
 }
 
-- (nullable NSArray<SDLTextFieldType> *)mainField2 {
+- (nullable NSArray<SDLMetadataType> *)mainField2 {
     return [store sdl_objectForName:SDLNameMainField2Type];
 }
 
-- (void)setMainField3:(nullable NSArray<SDLTextFieldType> *)mainField3 {
+- (void)setMainField3:(nullable NSArray<SDLMetadataType> *)mainField3 {
     [store sdl_setObject:mainField3 forName:SDLNameMainField3Type];
 }
 
-- (nullable NSArray<SDLTextFieldType> *)mainField3 {
+- (nullable NSArray<SDLMetadataType> *)mainField3 {
     return [store sdl_objectForName:SDLNameMainField3Type];
 }
 
-- (void)setMainField4:(nullable NSArray<SDLTextFieldType> *)mainField4 {
+- (void)setMainField4:(nullable NSArray<SDLMetadataType> *)mainField4 {
     [store sdl_setObject:mainField4 forName:SDLNameMainField4Type];
 }
 
-- (nullable NSArray<SDLTextFieldType> *)mainField4 {
+- (nullable NSArray<SDLMetadataType> *)mainField4 {
     return [store sdl_objectForName:SDLNameMainField4Type];
 }
 
