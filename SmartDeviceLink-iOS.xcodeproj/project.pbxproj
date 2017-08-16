@@ -900,6 +900,18 @@
 		5DE5ABB71B0E38C90067BB02 /* SDLSystemRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD21A84238B00846EE7 /* SDLSystemRequest.h */; };
 		5DE5ABB81B0E38C90067BB02 /* SDLSystemRequestResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD41A84238B00846EE7 /* SDLSystemRequestResponse.h */; };
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
+		8850DB601F4475D30053A48D /* TestMultipleFilesConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */; };
+		8850DB621F44B6920053A48D /* testImage1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8850DB611F44B6920053A48D /* testImage1.png */; };
+		8850DB6D1F44CCBF0053A48D /* testImage0.png in Resources */ = {isa = PBXBuildFile; fileRef = 8850DB641F44CCBF0053A48D /* testImage0.png */; };
+		8850DB6E1F44CCBF0053A48D /* testImage2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8850DB651F44CCBF0053A48D /* testImage2.png */; };
+		8850DB6F1F44CCBF0053A48D /* testImage3.png in Resources */ = {isa = PBXBuildFile; fileRef = 8850DB661F44CCBF0053A48D /* testImage3.png */; };
+		8850DB701F44CCBF0053A48D /* testImage4.png in Resources */ = {isa = PBXBuildFile; fileRef = 8850DB671F44CCBF0053A48D /* testImage4.png */; };
+		8850DB721F44CCBF0053A48D /* testImageA1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8850DB691F44CCBF0053A48D /* testImageA1.png */; };
+		8850DB731F44CCBF0053A48D /* testImageA2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8850DB6A1F44CCBF0053A48D /* testImageA2.png */; };
+		8850DB741F44CCBF0053A48D /* testImageA3.png in Resources */ = {isa = PBXBuildFile; fileRef = 8850DB6B1F44CCBF0053A48D /* testImageA3.png */; };
+		8850DB751F44CCBF0053A48D /* testImageA4.png in Resources */ = {isa = PBXBuildFile; fileRef = 8850DB6C1F44CCBF0053A48D /* testImageA4.png */; };
+		8850DB771F44D0730053A48D /* testImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 8850DB761F44D0730053A48D /* testImage.png */; };
+		8850DB791F44D1480053A48D /* testImageA0.png in Resources */ = {isa = PBXBuildFile; fileRef = 8850DB781F44D1480053A48D /* testImageA0.png */; };
 		8B7B319A1F2F7B5700BDC38D /* SDLVideoStreamingCodec.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B31981F2F7B5700BDC38D /* SDLVideoStreamingCodec.h */; };
 		8B7B319B1F2F7B5700BDC38D /* SDLVideoStreamingCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31991F2F7B5700BDC38D /* SDLVideoStreamingCodec.m */; };
 		8B7B319E1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B319C1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.h */; };
@@ -1969,6 +1981,19 @@
 		5DEE55BF1B8509CB004F0D0F /* SDLURLRequestTaskSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLRequestTaskSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLRequestTaskSpec.m"; sourceTree = "<group>"; };
 		5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLSessionSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLSessionSpec.m"; sourceTree = "<group>"; };
 		5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionManagerType.h; sourceTree = "<group>"; };
+		8850DB5E1F4475D30053A48D /* TestMultipleFilesConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestMultipleFilesConnectionManager.h; sourceTree = "<group>"; };
+		8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestMultipleFilesConnectionManager.m; sourceTree = "<group>"; };
+		8850DB611F44B6920053A48D /* testImage1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImage1.png; sourceTree = "<group>"; };
+		8850DB641F44CCBF0053A48D /* testImage0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImage0.png; sourceTree = "<group>"; };
+		8850DB651F44CCBF0053A48D /* testImage2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImage2.png; sourceTree = "<group>"; };
+		8850DB661F44CCBF0053A48D /* testImage3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImage3.png; sourceTree = "<group>"; };
+		8850DB671F44CCBF0053A48D /* testImage4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImage4.png; sourceTree = "<group>"; };
+		8850DB691F44CCBF0053A48D /* testImageA1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImageA1.png; sourceTree = "<group>"; };
+		8850DB6A1F44CCBF0053A48D /* testImageA2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImageA2.png; sourceTree = "<group>"; };
+		8850DB6B1F44CCBF0053A48D /* testImageA3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImageA3.png; sourceTree = "<group>"; };
+		8850DB6C1F44CCBF0053A48D /* testImageA4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImageA4.png; sourceTree = "<group>"; };
+		8850DB761F44D0730053A48D /* testImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImage.png; sourceTree = "<group>"; };
+		8850DB781F44D1480053A48D /* testImageA0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImageA0.png; sourceTree = "<group>"; };
 		8B7B31981F2F7B5700BDC38D /* SDLVideoStreamingCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLVideoStreamingCodec.h; sourceTree = "<group>"; };
 		8B7B31991F2F7B5700BDC38D /* SDLVideoStreamingCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoStreamingCodec.m; sourceTree = "<group>"; };
 		8B7B319C1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLVideoStreamingProtocol.h; sourceTree = "<group>"; };
@@ -3575,6 +3600,7 @@
 		5D9F50711BE7DD4C00FEF399 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				8850DB631F44CC3C0053A48D /* File Manager Test Images */,
 				5D850AAF1D4907C500E6E7EE /* TestLockScreenAppIcon.png */,
 				5D9F50721BE7DD4C00FEF399 /* testFileJSON.json */,
 				5D9F50731BE7DD4C00FEF399 /* testImageBMP.bmp */,
@@ -3690,6 +3716,8 @@
 			children = (
 				5D9F50851BED412E00FEF399 /* TestConnectionManager.h */,
 				5D9F50861BED412E00FEF399 /* TestConnectionManager.m */,
+				8850DB5E1F4475D30053A48D /* TestMultipleFilesConnectionManager.h */,
+				8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */,
 			);
 			name = "Connection Manager";
 			sourceTree = "<group>";
@@ -3843,6 +3871,24 @@
 				5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */,
 			);
 			name = "HTTP Connection";
+			sourceTree = "<group>";
+		};
+		8850DB631F44CC3C0053A48D /* File Manager Test Images */ = {
+			isa = PBXGroup;
+			children = (
+				8850DB761F44D0730053A48D /* testImage.png */,
+				8850DB641F44CCBF0053A48D /* testImage0.png */,
+				8850DB611F44B6920053A48D /* testImage1.png */,
+				8850DB651F44CCBF0053A48D /* testImage2.png */,
+				8850DB661F44CCBF0053A48D /* testImage3.png */,
+				8850DB671F44CCBF0053A48D /* testImage4.png */,
+				8850DB781F44D1480053A48D /* testImageA0.png */,
+				8850DB691F44CCBF0053A48D /* testImageA1.png */,
+				8850DB6A1F44CCBF0053A48D /* testImageA2.png */,
+				8850DB6B1F44CCBF0053A48D /* testImageA3.png */,
+				8850DB6C1F44CCBF0053A48D /* testImageA4.png */,
+			);
+			name = "File Manager Test Images";
 			sourceTree = "<group>";
 		};
 		DA1166D71D14601C00438CEA /* Touches */ = {
@@ -4410,15 +4456,26 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8850DB6F1F44CCBF0053A48D /* testImage3.png in Resources */,
+				8850DB791F44D1480053A48D /* testImageA0.png in Resources */,
 				5D9F50781BE7DD4C00FEF399 /* testFileJSON.json in Resources */,
+				8850DB701F44CCBF0053A48D /* testImage4.png in Resources */,
 				5D9F50791BE7DD4C00FEF399 /* testImageBMP.bmp in Resources */,
 				5D9F507A1BE7DD4C00FEF399 /* testImageJPEG.jpeg in Resources */,
 				5D850AB01D4907C500E6E7EE /* TestLockScreenAppIcon.png in Resources */,
 				5D9F507D1BE7DD4C00FEF399 /* testImageTIFF.tiff in Resources */,
+				8850DB6D1F44CCBF0053A48D /* testImage0.png in Resources */,
 				5D76E32B1D3D52CA00647CFA /* SDLAssets.xcassets in Resources */,
 				5D9F507B1BE7DD4C00FEF399 /* testImageJPG.jpg in Resources */,
+				8850DB721F44CCBF0053A48D /* testImageA1.png in Resources */,
 				5D9F507C1BE7DD4C00FEF399 /* testImagePNG.png in Resources */,
+				8850DB731F44CCBF0053A48D /* testImageA2.png in Resources */,
 				5D616B461D552F7A00553F6B /* SDLLockScreen.storyboard in Resources */,
+				8850DB751F44CCBF0053A48D /* testImageA4.png in Resources */,
+				8850DB6E1F44CCBF0053A48D /* testImage2.png in Resources */,
+				8850DB741F44CCBF0053A48D /* testImageA3.png in Resources */,
+				8850DB621F44B6920053A48D /* testImage1.png in Resources */,
+				8850DB771F44D0730053A48D /* testImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4816,6 +4873,7 @@
 				5DB92D2D1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m in Sources */,
 				5D43466D1E6F522000B639C6 /* SDLLogModelSpec.m in Sources */,
 				1680B11C1A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m in Sources */,
+				8850DB601F4475D30053A48D /* TestMultipleFilesConnectionManager.m in Sources */,
 				162E83181A9BDE8B00906325 /* SDLOnKeyboardInputSpec.m in Sources */,
 				162E83701A9BDE8B00906325 /* SDLUpdateTurnListResponseSpec.m in Sources */,
 				162E833B1A9BDE8B00906325 /* SDLSetGlobalPropertiesSpec.m in Sources */,

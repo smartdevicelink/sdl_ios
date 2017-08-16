@@ -22,10 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDLUploadFileOperation
 
-@interface SDLUploadFileOperation () <NSStreamDelegate>
+@interface SDLUploadFileOperation ()
 
 @property (strong, nonatomic) SDLFileWrapper *fileWrapper;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (strong, nonatomic) NSInputStream *inputStream;
+
 @end
 
 
@@ -66,10 +68,11 @@ NS_ASSUME_NONNULL_BEGIN
     __block NSUInteger bytesAvailable = 0;
     __block NSInteger highestCorrelationIDReceived = -1;
 
-    NSInputStream *inputStream = [self sdl_openInputStreamWithFile:file];
+    self.inputStream = [self sdl_openInputStreamWithFile:file];
 
     // If the file does not exist or the passed data is nil, return an error
-    if (inputStream == nil) {
+    if (self.inputStream == nil || ![self.inputStream hasBytesAvailable]) {
+        [self sdl_closeInputStream];
         return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
     }
 
@@ -80,6 +83,9 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakself = self;
     dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
         typeof(weakself) strongself = weakself;
+
+        [weakself sdl_closeInputStream];
+        
         if (streamError != nil || strongself.isCancelled) {
             completion(NO, bytesAvailable, streamError);
         } else {
@@ -100,7 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         // Get a chunk of data from the input stream
         NSUInteger dataSize = [[self class] sdl_getDataSizeForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize];
-        putFile.bulkData = [[self class] sdl_getDataChunkWithSize:dataSize inputStream:inputStream];
+        putFile.bulkData = [[self class] sdl_getDataChunkWithSize:dataSize inputStream:self.inputStream];
         currentOffset += dataSize;
 
         __weak typeof(self) weakself = self;
@@ -141,11 +147,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSInputStream *)sdl_openInputStreamWithFile:(SDLFile *)file {
     NSInputStream *inputStream = file.inputStream;
-    [inputStream setDelegate:self];
-    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop]
-                           forMode:NSDefaultRunLoopMode];
     [inputStream open];
     return inputStream;
+}
+/**
+ *  Close the input stream once all the data has been read
+ */
+- (void)sdl_closeInputStream {
+    if (self.inputStream == nil) { return; }
+    [self.inputStream close];
 }
 
 /**
@@ -235,19 +245,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSOperationQueuePriority)queuePriority {
     return NSOperationQueuePriorityNormal;
-}
-
-#pragma mark - NSStreamDelegate
-
-- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
-    switch (eventCode) {
-        case NSStreamEventEndEncountered:
-            // Close the input stream once all the data has been read
-            [aStream close];
-            [aStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-        default:
-            break;
-    }
 }
 
 @end
