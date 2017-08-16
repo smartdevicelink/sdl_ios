@@ -30,12 +30,6 @@ extern SDLSystemCapabilityType const SDLSystemCapabilityTypePhoneCall;
 extern SDLSystemCapabilityType const SDLSystemCapabilityTypeVideoStreaming;
 
 /**
- @abstract AUDIO_STREAMING
- REMOTE_CONTROL
- */
-extern SDLSystemCapabilityType const SDLSystemCapabilityTypeAudioStreaming;
-
-/**
  @abstract REMOTE_CONTROL
  */
 extern SDLSystemCapabilityType const SDLSystemCapabilityTypeRemoteControl;
