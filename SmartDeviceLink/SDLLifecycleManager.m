@@ -89,6 +89,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return nil;
     }
 
+    SDLLogV(@"Creating Lifecycle Manager");
+
     // Dependencies
     _configuration = [configuration copy];
     _delegate = delegate;
@@ -108,8 +110,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
     
-    if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation]) {
+    if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation]
+        || [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection]) {
+        SDLLogV(@"Creating StreamingMediaManager for app type: %@", configuration.lifecycleConfig.appType);
         _streamManager = [[SDLStreamingMediaManager alloc] initWithEncryption:configuration.streamingMediaConfig.maximumDesiredEncryption videoEncoderSettings:configuration.streamingMediaConfig.customVideoEncoderSettings];
+    } else {
+        SDLLogV(@"Skipping StreamingMediaManager setup due to app type");
     }
 
     // Notifications
