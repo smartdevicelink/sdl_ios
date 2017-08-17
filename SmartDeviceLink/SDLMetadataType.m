@@ -78,7 +78,7 @@ NSArray *SDLMetadataType_values = nil;
 
 + (SDLMetadataType *)MEDIA_YEAR {
     if (SDLMetadataType_MEDIA_YEAR == nil) {
-        SDLMetadataType_MEDIA_YEAR = [[SDLMetadataType alloc] initWithValue:@"mediaArtist"];
+        SDLMetadataType_MEDIA_YEAR = [[SDLMetadataType alloc] initWithValue:@"mediaYear"];
     }
     return SDLMetadataType_MEDIA_YEAR;
 }
