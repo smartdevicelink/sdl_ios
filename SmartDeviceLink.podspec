@@ -6,18 +6,12 @@ s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
 s.license      = { :type => "New BSD", :file => "LICENSE" }
 s.author       = { "SmartDeviceLink Team" => "developer@smartdevicelink.com" }
-s.platform     = :ios, "8.0"
-s.dependency     'BiSON', '~> 1.0'
+s.platform     = :ios, "6.0"
 s.source       = { :git => "https://github.com/smartdevicelink/sdl_ios.git", :tag => s.version.to_s }
+s.source_files = ["SmartDeviceLink/*.{h,m}", "bson_c_lib/src/**.{h,c}"]
 s.requires_arc = true
-s.resource_bundles = { 'SmartDeviceLink' => ['SmartDeviceLink/Assets/**/*'] }
-
-s.default_subspecs = 'Default'
-
-s.subspec 'Default' do |ss|
-ss.source_files = 'SmartDeviceLink/*.{h,m}'
-
-ss.public_header_files = [
+s.resource_bundles = { 'SmartDeviceLink' => ['SmartDeviceLink/Assets/**/*', 'SmartDeviceLink/iOS 7 Assets/*'] }
+s.public_header_files = [
 'SmartDeviceLink/NSNumber+NumberType.h',
 'SmartDeviceLink/SDLAbstractProtocol.h',
 'SmartDeviceLink/SDLAbstractTransport.h',
@@ -304,11 +298,5 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLWiperStatus.h',
 'SmartDeviceLink/SmartDeviceLink.h',
 ]
-end
-
-s.subspec 'Swift' do |ss|
-ss.dependency 'SmartDeviceLink-iOS/Default'
-ss.source_files = 'SmartDeviceLinkSwift/*.swift'
-end
 
 end
