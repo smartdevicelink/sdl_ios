@@ -18,7 +18,6 @@
 QuickSpecBegin(SDLMetadataTagsSpec)
 
 describe(@"Initialization tests", ^{
-
     it(@"Should get correctly when initialized with Arrays", ^ {
         NSArray<SDLMetadataType> *formatArray = @[SDLMetadataTypeMediaArtist, SDLMetadataTypeMediaTitle];
         SDLMetadataTags* testStruct = [[SDLMetadataTags alloc] initWithTextFieldTypes:formatArray mainField2:formatArray mainField3:formatArray mainField4:formatArray];
