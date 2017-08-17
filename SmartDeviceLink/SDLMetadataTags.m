@@ -42,35 +42,35 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMainField1:(nullable NSArray<SDLMetadataType> *)mainField1 {
-    [store sdl_setObject:mainField1 forName:SDLNameMainField1Type];
+    [store sdl_setObject:mainField1 forName:SDLNameMainField1];
 }
 
 - (nullable NSArray<SDLMetadataType> *)mainField1 {
-    return [store sdl_objectForName:SDLNameMainField1Type];
+    return [store sdl_objectForName:SDLNameMainField1];
 }
 
 - (void)setMainField2:(nullable NSArray<SDLMetadataType> *)mainField2 {
-    [store sdl_setObject:mainField2 forName:SDLNameMainField2Type];
+    [store sdl_setObject:mainField2 forName:SDLNameMainField2];
 }
 
 - (nullable NSArray<SDLMetadataType> *)mainField2 {
-    return [store sdl_objectForName:SDLNameMainField2Type];
+    return [store sdl_objectForName:SDLNameMainField2];
 }
 
 - (void)setMainField3:(nullable NSArray<SDLMetadataType> *)mainField3 {
-    [store sdl_setObject:mainField3 forName:SDLNameMainField3Type];
+    [store sdl_setObject:mainField3 forName:SDLNameMainField3];
 }
 
 - (nullable NSArray<SDLMetadataType> *)mainField3 {
-    return [store sdl_objectForName:SDLNameMainField3Type];
+    return [store sdl_objectForName:SDLNameMainField3];
 }
 
 - (void)setMainField4:(nullable NSArray<SDLMetadataType> *)mainField4 {
-    [store sdl_setObject:mainField4 forName:SDLNameMainField4Type];
+    [store sdl_setObject:mainField4 forName:SDLNameMainField4];
 }
 
 - (nullable NSArray<SDLMetadataType> *)mainField4 {
-    return [store sdl_objectForName:SDLNameMainField4Type];
+    return [store sdl_objectForName:SDLNameMainField4];
 }
 
 @end

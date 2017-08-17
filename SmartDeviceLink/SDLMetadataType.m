@@ -8,15 +8,16 @@
 
 #import "SDLMetadataType.h"
 
-SDLMetadataType const SDLMetadataTypeMediaTitle = @"MEDIA_TITLE";
-SDLMetadataType const SDLMetadataTypeMediaArtist = @"MEDIA_ARTIST";
-SDLMetadataType const SDLMetadataTypeMediaAlbum = @"MEDIA_ALBUM";
-SDLMetadataType const SDLMetadataTypeMediaYear = @"MEDIA_YEAR";
-SDLMetadataType const SDLMetadataTypeMediaGenre = @"MEDIA_GENRE";
-SDLMetadataType const SDLMetadataTypeMediaStation = @"MEDIA_STATION";
-SDLMetadataType const SDLMetadataTypeRating = @"RATING";
-SDLMetadataType const SDLMetadataTypeCurrentTemperature = @"CURRENT_TEMPERATURE";
-SDLMetadataType const SDLMetadataTypeMaximumTemperature = @"MAXIMUM_TEMPERATURE";
-SDLMetadataType const SDLMetadataTypeMinimumTemperature = @"MINIMUM_TEMPERATURE";
-SDLMetadataType const SDLMetadataTypeWeatherTerm = @"WEATHER_TERM";
-SDLMetadataType const SDLMetadataTypeHumidity = @"HUMIDITY";
+SDLMetadataType const SDLMetadataTypeMediaTitle = @"mediaTitle";
+SDLMetadataType const SDLMetadataTypeMediaArtist = @"mediaArtist";
+SDLMetadataType const SDLMetadataTypeMediaAlbum = @"mediaAlbum";
+SDLMetadataType const SDLMetadataTypeMediaYear = @"mediaYear";
+SDLMetadataType const SDLMetadataTypeMediaGenre = @"mediaGenre";
+SDLMetadataType const SDLMetadataTypeMediaStation = @"mediaStation";
+SDLMetadataType const SDLMetadataTypeRating = @"rating";
+SDLMetadataType const SDLMetadataTypeCurrentTemperature = @"currentTemperature";
+SDLMetadataType const SDLMetadataTypeMaximumTemperature = @"maximumTemperature";
+SDLMetadataType const SDLMetadataTypeMinimumTemperature = @"minimumTemperature";
+SDLMetadataType const SDLMetadataTypeWeatherTerm = @"weatherTerm";
+SDLMetadataType const SDLMetadataTypeHumidity = @"humidity";
+SDLMetadataType const SDLMetadataTypeNone = @"none";
