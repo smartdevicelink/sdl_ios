@@ -290,7 +290,11 @@ s.public_header_files = [
 'SmartDeviceLink/SDLNotificationConstants.h',
 'SmartDeviceLink/SDLRequestHandler.h',
 'SmartDeviceLink/SDLRPCNotificationNotification.h',
-'SmartDeviceLink/SDLRPCResponseNotification.h'
+'SmartDeviceLink/SDLRPCResponseNotification.h',
+'SmartDeviceLink/SDLVideoStreamingFormat.h',
+'SmartDeviceLink/SDLVideoStreamingCodec.h',
+'SmartDeviceLink/SDLVideoStreamingProtocol.h',
+'SmartDeviceLink/SDLVideoStreamingCapability.h'
 ]
 
 end
