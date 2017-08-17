@@ -8,8 +8,10 @@
 
 #import "TestMultipleFilesConnectionManager.h"
 #import "SDLRPCRequest.h"
+#import "SDLPutFile.h"
 #import "SDLPutFileResponse.h"
 #import "SDLNames.h"
+#import "TestResponse.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,8 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Send a response if the request is a putfile
     if ([[request name] isEqualToString:SDLNamePutFile]) {
-        if (self.multipleFileResponse == nil || handler == nil) { return; }
-        handler(request, [self multipleFileResponse], [self multipleFileError]);
+        SDLPutFile *putfileRequest = (SDLPutFile *)request;
+        TestResponse *response = self.responses[putfileRequest.syncFileName];
+
+        if (response == nil || handler == nil) { return; }
+
+        handler(request, response.testResponse, response.testError);
     }
 }
 

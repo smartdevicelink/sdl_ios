@@ -912,6 +912,7 @@
 		8850DB751F44CCBF0053A48D /* testImageA4.png in Resources */ = {isa = PBXBuildFile; fileRef = 8850DB6C1F44CCBF0053A48D /* testImageA4.png */; };
 		8850DB771F44D0730053A48D /* testImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 8850DB761F44D0730053A48D /* testImage.png */; };
 		8850DB791F44D1480053A48D /* testImageA0.png in Resources */ = {isa = PBXBuildFile; fileRef = 8850DB781F44D1480053A48D /* testImageA0.png */; };
+		88B848C31F45E1A600DED768 /* TestResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B848C21F45E1A600DED768 /* TestResponse.m */; };
 		8B7B319A1F2F7B5700BDC38D /* SDLVideoStreamingCodec.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B31981F2F7B5700BDC38D /* SDLVideoStreamingCodec.h */; };
 		8B7B319B1F2F7B5700BDC38D /* SDLVideoStreamingCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31991F2F7B5700BDC38D /* SDLVideoStreamingCodec.m */; };
 		8B7B319E1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B319C1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.h */; };
@@ -1994,6 +1995,8 @@
 		8850DB6C1F44CCBF0053A48D /* testImageA4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImageA4.png; sourceTree = "<group>"; };
 		8850DB761F44D0730053A48D /* testImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImage.png; sourceTree = "<group>"; };
 		8850DB781F44D1480053A48D /* testImageA0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImageA0.png; sourceTree = "<group>"; };
+		88B848C11F45E1A600DED768 /* TestResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestResponse.h; sourceTree = "<group>"; };
+		88B848C21F45E1A600DED768 /* TestResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestResponse.m; sourceTree = "<group>"; };
 		8B7B31981F2F7B5700BDC38D /* SDLVideoStreamingCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLVideoStreamingCodec.h; sourceTree = "<group>"; };
 		8B7B31991F2F7B5700BDC38D /* SDLVideoStreamingCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoStreamingCodec.m; sourceTree = "<group>"; };
 		8B7B319C1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLVideoStreamingProtocol.h; sourceTree = "<group>"; };
@@ -3620,6 +3623,7 @@
 				5DAE06721BDEC6C000F9B498 /* SDLFileSpec.m */,
 				5DAE06741BDEC6D600F9B498 /* SDLArtworkSpec.m */,
 				5D9F50821BEA5C6100FEF399 /* SDLFileManagerSpec.m */,
+				88B848C41F45E20900DED768 /* Helpers */,
 			);
 			name = Files;
 			sourceTree = "<group>";
@@ -3889,6 +3893,15 @@
 				8850DB6C1F44CCBF0053A48D /* testImageA4.png */,
 			);
 			name = "File Manager Test Images";
+			sourceTree = "<group>";
+		};
+		88B848C41F45E20900DED768 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				88B848C11F45E1A600DED768 /* TestResponse.h */,
+				88B848C21F45E1A600DED768 /* TestResponse.m */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 		DA1166D71D14601C00438CEA /* Touches */ = {
@@ -4941,6 +4954,7 @@
 				DA9F7EA01DCC05D200ACAE48 /* SDLOnWaypointChangeSpec.m in Sources */,
 				162E82D11A9BDE8A00906325 /* SDLButtonNameSpec.m in Sources */,
 				162E839E1A9BDE8B00906325 /* SDLRPCStructSpec.m in Sources */,
+				88B848C31F45E1A600DED768 /* TestResponse.m in Sources */,
 				DA4353DF1D271FD10099B8C4 /* CGPointUtilSpec.m in Sources */,
 				162E83291A9BDE8B00906325 /* SDLDeleteFileSpec.m in Sources */,
 				1680B11D1A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m in Sources */,

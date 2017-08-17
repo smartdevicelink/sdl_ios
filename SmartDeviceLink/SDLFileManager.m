@@ -52,8 +52,9 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 #pragma mark Constants
 
-NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queue";
+const char *_Nullable BackgroundUploadFilesQueue = "com.sdl.background.uploads.queue";
 const char *_Nullable BackgroundUploadFilesWaitingQueue = "com.sdl.background.uploads.waiting.queue";
+NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queue";
 
 @implementation SDLFileManager
 
@@ -267,8 +268,8 @@ const char *_Nullable BackgroundUploadFilesWaitingQueue = "com.sdl.background.up
 
 // https://stackoverflow.com/questions/16512898/ios-dont-return-from-function-until-multiple-background-threads-complete
 - (void)uploadFileAsync:(SDLFile *)file completionHandler:(void (^)(Boolean success, NSString *fileName, NSError * _Nullable error))handler {
-    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(backgroundQueue, ^{
+    dispatch_queue_t backgroundQueue = dispatch_queue_create(BackgroundUploadFilesQueue, DISPATCH_QUEUE_SERIAL);
+    dispatch_sync(backgroundQueue, ^{
         [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (handler == nil) { return; }
