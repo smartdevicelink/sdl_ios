@@ -52,14 +52,14 @@
 
 - (void)setMainField1:(NSMutableArray<SDLMetadataType *> *)mainField1 {
     if (mainField1 != nil) {
-        [store setObject:mainField1 forKey:NAMES_mainField1Type];
+        [store setObject:mainField1 forKey:NAMES_mainField1];
     } else {
-        [store removeObjectForKey:NAMES_mainField1Type];
+        [store removeObjectForKey:NAMES_mainField1];
     }
 }
 
 - (NSMutableArray<SDLMetadataType *> *)mainField1 {
-    NSMutableArray *array = [store objectForKey:NAMES_mainField1Type];
+    NSMutableArray *array = [store objectForKey:NAMES_mainField1];
     if ([array isEqual:[NSNull null]]) {
         return [NSMutableArray array];
     } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLMetadataType.class]) {
@@ -75,14 +75,14 @@
 
 - (void)setMainField2:(NSMutableArray<SDLMetadataType *> *)mainField2 {
     if (mainField2 != nil) {
-        [store setObject:mainField2 forKey:NAMES_mainField2Type];
+        [store setObject:mainField2 forKey:NAMES_mainField2];
     } else {
-        [store removeObjectForKey:NAMES_mainField2Type];
+        [store removeObjectForKey:NAMES_mainField2];
     }
 }
 
 - (NSMutableArray<SDLMetadataType *> *)mainField2 {
-    NSMutableArray *array = [store objectForKey:NAMES_mainField2Type];
+    NSMutableArray *array = [store objectForKey:NAMES_mainField2];
     if ([array isEqual:[NSNull null]]) {
         return [NSMutableArray array];
     } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLMetadataType.class]) {
@@ -98,14 +98,14 @@
 
 - (void)setMainField3:(NSMutableArray<SDLMetadataType *> *)mainField3 {
     if (mainField3 != nil) {
-        [store setObject:mainField3 forKey:NAMES_mainField3Type];
+        [store setObject:mainField3 forKey:NAMES_mainField3];
     } else {
-        [store removeObjectForKey:NAMES_mainField3Type];
+        [store removeObjectForKey:NAMES_mainField3];
     }
 }
 
 - (NSMutableArray<SDLMetadataType *> *)mainField3 {
-    NSMutableArray *array = [store objectForKey:NAMES_mainField3Type];
+    NSMutableArray *array = [store objectForKey:NAMES_mainField3];
     if ([array isEqual:[NSNull null]]) {
         return [NSMutableArray array];
     } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLMetadataType.class]) {
@@ -121,14 +121,14 @@
 
 - (void)setMainField4:(NSMutableArray<SDLMetadataType *> *)mainField4 {
     if (mainField4 != nil) {
-        [store setObject:mainField4 forKey:NAMES_mainField4Type];
+        [store setObject:mainField4 forKey:NAMES_mainField4];
     } else {
-        [store removeObjectForKey:NAMES_mainField4Type];
+        [store removeObjectForKey:NAMES_mainField4];
     }
 }
 
 - (NSMutableArray<SDLMetadataType *> *)mainField4 {
-    NSMutableArray *array = [store objectForKey:NAMES_mainField4Type];
+    NSMutableArray *array = [store objectForKey:NAMES_mainField4];
     if ([array isEqual:[NSNull null]]) {
         return [NSMutableArray array];
     } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLMetadataType.class]) {

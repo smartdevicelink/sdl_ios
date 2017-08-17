@@ -116,4 +116,11 @@
  */
 + (SDLMetadataType *)HUMIDITY;
 
+/**
+ The data in this field is not of a common type or should not be processed.  Any time a field does not have a type parameter it is considered as the none type.
+
+ @return A SDLTextFieldType object with value of *none*
+ */
++ (SDLMetadataType *)NONE;
+
 @end
