@@ -227,9 +227,16 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
 #pragma mark - Uploading
 
 - (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
+    [self uploadFiles:files progressHandler:nil completionHandler:completionHandler];
+}
+
+- (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
     if (files.count == 0) {
         return completionHandler([NSError sdl_fileManager_noFilesError]);
     }
+
+    float totalBytesToUpload = [self sdl_totalBytesToUpload:files progressHandler:progressHandler];
+    __block float totalBytesUploaded = 0.0;
 
     NSMutableDictionary *failedUploads = [[NSMutableDictionary alloc] init];
     dispatch_group_t uploadFilesTask = dispatch_group_create();
@@ -237,9 +244,22 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
     dispatch_group_enter(uploadFilesTask);
     for (SDLFile *file in files) {
         dispatch_group_enter(uploadFilesTask);
-        [self uploadFileAsync:file completionHandler:^(Boolean success, NSString * _Nonnull fileName, NSError * _Nullable error) {
+        [self sdl_uploadFileAsync:file completionHandler:^(Boolean success, NSString * _Nonnull fileName, NSError * _Nullable error) {
             if (success == false) {
                 failedUploads[fileName] = error;
+            }
+
+            // Send an update...
+            if (progressHandler != nil) {
+                totalBytesUploaded += file.fileSize;
+                float uploadPercentage = [self sdl_uploadPercentage:totalBytesToUpload uploadedBytes:totalBytesUploaded];
+                Boolean cancel = false;
+                progressHandler(fileName, uploadPercentage, &cancel, error);
+
+                if (cancel) {
+                    dispatch_group_leave(uploadFilesTask);
+                    BLOCK_RETURN;
+                }
             }
 
             dispatch_group_leave(uploadFilesTask);
@@ -252,22 +272,23 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
         dispatch_group_wait(uploadFilesTask, DISPATCH_TIME_FOREVER);
         dispatch_async(dispatch_get_main_queue(), ^{
             if (failedUploads.count > 0) {
-                if (completionHandler == nil) {
-                    return;
-                }
+                if (completionHandler == nil) { return; }
                 return completionHandler([NSError sdl_fileManager_unableToUploadError:failedUploads]);
             }
 
-            if (completionHandler == nil) {
-                return;
-            }
+            if (completionHandler == nil) { return; }
             return completionHandler(nil);
         });
     });
 }
 
-// https://stackoverflow.com/questions/16512898/ios-dont-return-from-function-until-multiple-background-threads-complete
-- (void)uploadFileAsync:(SDLFile *)file completionHandler:(void (^)(Boolean success, NSString *fileName, NSError * _Nullable error))handler {
+/**
+ *
+
+ @param file The file to upload
+ @param handler Called when a response is received from the core
+ */
+- (void)sdl_uploadFileAsync:(SDLFile *)file completionHandler:(void (^)(Boolean success, NSString *fileName, NSError * _Nullable error))handler {
     dispatch_queue_t backgroundQueue = dispatch_queue_create(BackgroundUploadFilesQueue, DISPATCH_QUEUE_SERIAL);
     dispatch_sync(backgroundQueue, ^{
         [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
@@ -279,29 +300,30 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
     });
 }
 
-//- (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
-//    // Calculate the total filesize of all files being uploaded
-//    NSInteger fileSizeTotal = 0; // In bytes
-//    // NSInteger totalBytesUploaded = 0;
-//
-//    for (SDLFile *file in files) {
-//        fileSizeTotal += file.fileSize;
-//    }
-//
-//    // For each file, call [self uploadFile]
-//    for (SDLFile *file in files) {
-//        [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-//            if (progressHandler != nil) {
-//                progressHandler(@"abcd", 0.3, true, error);
-//            }
-//        }];
-//    }
-//
-//    // Wait for all of the file's completion handlers to be called
-//    // -> fire off a completion handler when each file comes back
-//    // NSError *newError = [[NSError alloc] initWithDomain:SDLErrorDomainFileManager code:sdl_fileManager_unableToUploadError userInfo:nil]; // userInfo is a list of files that could not be uploaded
-//    return completionHandler(false);
-//}
+- (float)sdl_totalBytesToUpload:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler {
+    if (progressHandler == nil) { return 0.0; }
+
+    float totalBytes = 0.0;
+    for(SDLFile *file in files) {
+        totalBytes += file.fileSize;
+    }
+
+    return totalBytes;
+}
+
+/**
+ * Computes the percentage of files uploaded to remote. This percentage is a decimal number between 0.0 - 1.0. It is calculated by dividing the total number of bytes in files successfully or unsuccessfully uploaded by the total number of bytes in all files to be uploaded.
+
+ @param totalBytes      The total number of bytes in all files to be uploaded
+ @param uploadedBytes   The total number of bytes in files successfully or unsuccessfully uploaded
+ @return                The upload percentage
+ */
+- (float)sdl_uploadPercentage:(float)totalBytes uploadedBytes:(float)uploadedBytes {
+    if (totalBytes == 0 || uploadedBytes == 0) {
+        return 0.0;
+    }
+    return uploadedBytes / totalBytes;
+}
 
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)handler {
     if (file == nil) {

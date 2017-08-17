@@ -104,14 +104,24 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
  */
 + (NSURL *)temporaryFileDirectory;
 
-
-// TODO: - Documentation for new methods
-
-// Upload multiple files
+/**
+ *  Uploads an array of files to the remote file system.
+ *
+ *  @param files An array of SDLFiles to be sent
+ *  @param progressHandler An optional completion handler that sends a response for each uploaded file. The progress handler will contain the name of the last uploaded file, the percentage of total file data uploaded, whether or not to cancel all future uploads, and the error if the file failed to upload.
+ *  @param completionHandler An optional completion handler that sends an error should one occur. The userInfo dictionary property, of type <SDLFileName: NSError>, will return information on all failed uploads. The key is the file name that did not delete properly, the value is an error describing what went wrong on that particular upload attempt.
+ */
 - (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler;
+
+/**
+ *  Uploads an array of files to the remote file system.
+ *
+ *  @param files An array of SDLFiles to be sent
+ *  @param completionHandler An optional completion handler that sends an error should one occur. The userInfo dictionary property, of type <SDLFileName: NSError>, will return information on all failed uploads. The key is the file name that did not delete properly, the value is an error describing what went wrong on that particular upload attempt.
+ */
 - (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler;
 
-// Delete multiple files
+// FIXME - Documentation for new method
 - (void)deleteRemoteFilesWithNames:(NSArray<SDLFileName *> *)names completionHandler:(nullable SDLFileManagerMultiDeleteCompletionHandler)completionHandler;
 
 @end

@@ -23,6 +23,7 @@
 #import "SDLRPCResponse.h"
 #import "SDLUploadFileOperation.h"
 #import "TestMultipleFilesConnectionManager.h"
+#import "TestProgressResponse.h"
 #import "TestResponse.h"
 
 QuickSpecBegin(SDLFileManagerSpecMultipleFilesSpec)
@@ -384,6 +385,177 @@ describe(@"Uploading multiple files", ^{
                 waitUntilTimeout(10, ^(void (^done)(void)){
                     [testFileManager uploadFiles:testSDLFiles completionHandler:^(NSError * _Nullable error) {
                         expect(error).to(equal(expectedError));
+                        done();
+                    }];
+                });
+            });
+        });
+
+        context(@"When files are uploaded successfully with progress handlers", ^{
+            __block SDLPutFileResponse *response;
+            __block NSError *responseError = nil;
+            __block NSMutableDictionary *testResponses;
+            __block NSMutableDictionary *testProgressResponses;
+
+            beforeEach(^{
+                testResponses = [[NSMutableDictionary alloc] init];
+                testProgressResponses = [[NSMutableDictionary alloc] init];
+
+                // Successful response
+                response = [[SDLPutFileResponse alloc] init];
+                response.success = @YES;
+            });
+
+            it(@"should upload 1 small file from memory without error", ^{
+                NSString *fileName = [NSString stringWithFormat:@"Test Small File Memory %d", 0];
+                NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
+                SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
+                file.overwrite = true;
+
+                [testSDLFiles addObject:file];
+
+                expectedSpaceLeft = @55;
+                response.spaceAvailable = expectedSpaceLeft;
+
+                [expectedSuccessfulFileNames addObject:fileName];
+                TestResponse *testResponse = [[TestResponse alloc] initWithResponse:response error:responseError];
+                testResponses[fileName] = testResponse;
+                testConnectionManager.responses = testResponses;
+
+                TestProgressResponse *testProgressResponse = [[TestProgressResponse alloc] initWithFileName:fileName testUploadPercentage:1.0 error:nil];
+                testProgressResponses[fileName] = testProgressResponse;
+            });
+
+            it(@"should upload a large number of small files from memory without error", ^{
+                NSInteger space = initialSpaceAvailable;
+
+                int totalFileCount = 200;
+                NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
+
+                float testTotalBytesToUpload = totalFileCount * fileData.length;
+                float testTotalBytesUploaded = 0.0;
+
+                for(int i = 0; i < totalFileCount; i += 1) {
+                    NSString *fileName = [NSString stringWithFormat:@"Test Files %d", i];
+                    SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
+                    file.overwrite = true;
+                    [testSDLFiles addObject:file];
+
+                    space -= 10;
+                    response.spaceAvailable = @(space);
+
+                    [expectedSuccessfulFileNames addObject:fileName];
+
+                    TestResponse *testResponse = [[TestResponse alloc] initWithResponse:response error:responseError];
+                    testResponses[fileName] = testResponse;
+
+                    testTotalBytesUploaded += file.fileSize;
+                    float uploadPercentage = testTotalBytesUploaded / testTotalBytesToUpload;
+
+                    TestProgressResponse *testProgressResponse = [[TestProgressResponse alloc] initWithFileName:fileName testUploadPercentage:uploadPercentage error:nil];
+                    testProgressResponses[fileName] = testProgressResponse;
+                }
+
+                expectedSpaceLeft = @(space);
+                testConnectionManager.responses = testResponses;
+            });
+
+            afterEach(^{
+                waitUntilTimeout(10, ^(void (^done)(void)){
+                    [testFileManager uploadFiles:testSDLFiles progressHandler:^(NSString * _Nonnull fileName, float uploadPercentage, Boolean * _Nonnull cancel, NSError * _Nullable error) {
+                        TestProgressResponse *testProgressResponse = testProgressResponses[fileName];
+                        expect(fileName).to(equal([testProgressResponse testFileName]));
+                        expect(uploadPercentage).to(equal([testProgressResponse testUploadPercentage]));
+                        expect(error).to([testProgressResponse testError] == nil ? beNil() : equal([testProgressResponse testError]));
+                    } completionHandler:^(NSError * _Nullable error) {
+                        expect(error).to(beNil());
+                        done();
+                    }];
+                });
+            });
+        });
+
+        context(@"When canceled midstream progress handlers", ^{
+            __block SDLPutFileResponse *response;
+            __block NSError *responseError = nil;
+            __block NSMutableDictionary *testResponses;
+            __block NSMutableDictionary *testProgressResponses;
+
+            beforeEach(^{
+                testResponses = [[NSMutableDictionary alloc] init];
+                testProgressResponses = [[NSMutableDictionary alloc] init];
+
+                // Successful response
+                response = [[SDLPutFileResponse alloc] init];
+                response.success = @YES;
+            });
+
+            it(@"should upload 1 small file from memory without error", ^{
+                NSString *fileName = [NSString stringWithFormat:@"Test Small File Memory %d", 0];
+                NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
+                SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
+                file.overwrite = true;
+
+                [testSDLFiles addObject:file];
+
+                expectedSpaceLeft = @55;
+                response.spaceAvailable = expectedSpaceLeft;
+
+                [expectedSuccessfulFileNames addObject:fileName];
+                TestResponse *testResponse = [[TestResponse alloc] initWithResponse:response error:responseError];
+                testResponses[fileName] = testResponse;
+                testConnectionManager.responses = testResponses;
+
+                TestProgressResponse *testProgressResponse = [[TestProgressResponse alloc] initWithFileName:fileName testUploadPercentage:1.0 error:nil];
+                testProgressResponses[fileName] = testProgressResponse;
+            });
+
+            it(@"should upload a large number of small files from memory without error", ^{
+                NSInteger space = initialSpaceAvailable;
+
+                int totalFileCount = 200;
+                NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
+
+                float testTotalBytesToUpload = totalFileCount * fileData.length;
+                float testTotalBytesUploaded = 0.0;
+
+                for(int i = 0; i < totalFileCount; i += 1) {
+                    NSString *fileName = [NSString stringWithFormat:@"Test Files %d", i];
+                    SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
+                    file.overwrite = true;
+                    [testSDLFiles addObject:file];
+
+                    space -= 10;
+                    response.spaceAvailable = @(space);
+
+                    [expectedSuccessfulFileNames addObject:fileName];
+
+                    TestResponse *testResponse = [[TestResponse alloc] initWithResponse:response error:responseError];
+                    testResponses[fileName] = testResponse;
+
+                    testTotalBytesUploaded += file.fileSize;
+                    float uploadPercentage = testTotalBytesUploaded / testTotalBytesToUpload;
+
+                    TestProgressResponse *testProgressResponse = [[TestProgressResponse alloc] initWithFileName:fileName testUploadPercentage:uploadPercentage error:nil];
+                    testProgressResponses[fileName] = testProgressResponse;
+                }
+
+                expectedSpaceLeft = @(space);
+                testConnectionManager.responses = testResponses;
+            });
+
+            afterEach(^{
+                waitUntilTimeout(10, ^(void (^done)(void)){
+                    [testFileManager uploadFiles:testSDLFiles progressHandler:^(NSString * _Nonnull fileName, float uploadPercentage, Boolean * _Nonnull cancel, NSError * _Nullable error) {
+                        TestProgressResponse *testProgressResponse = testProgressResponses[fileName];
+                        expect(fileName).to(equal([testProgressResponse testFileName]));
+                        expect(uploadPercentage).to(equal([testProgressResponse testUploadPercentage]));
+                        if (uploadPercentage >= 0.5) {
+                            (*cancel) = YES;
+                        }
+                        expect(error).to([testProgressResponse testError] == nil ? beNil() : equal([testProgressResponse testError]));
+                    } completionHandler:^(NSError * _Nullable error) {
+                        expect(error).to(beNil());
                         done();
                     }];
                 });

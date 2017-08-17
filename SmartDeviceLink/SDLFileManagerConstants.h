@@ -19,6 +19,6 @@ typedef void (^SDLFileManagerListFilesCompletionHandler)(BOOL success, NSUIntege
 typedef void(^SDLFileManagerMultiDeleteCompletionHandler)(NSError *__nullable error);
 
 typedef void(^SDLFileManagerMultiUploadCompletionHandler)(NSError *__nullable error);
-typedef void(^SDLFileManagerMultiUploadProgressHandler)(NSString *fileName, float uploadPercentage, Boolean cancel, NSError *__nullable error);
+typedef void(^SDLFileManagerMultiUploadProgressHandler)(NSString *fileName, float uploadPercentage, Boolean *cancel, NSError *__nullable error);
 
 NS_ASSUME_NONNULL_END
