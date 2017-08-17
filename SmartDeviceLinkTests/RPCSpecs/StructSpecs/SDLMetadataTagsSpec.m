@@ -20,10 +20,10 @@ QuickSpecBegin(SDLMetadataTagsSpec)
 describe(@"Initialization tests", ^{
     it(@"Should get correctly when initialized with a dictionary", ^ {
         NSArray<SDLMetadataType *> *formatArray = @[[SDLMetadataType MEDIA_ARTIST], [SDLMetadataType MEDIA_TITLE]];
-        NSMutableDictionary* dict = [@{NAMES_mainField1Type: formatArray,
-                                       NAMES_mainField2Type: formatArray,
-                                       NAMES_mainField3Type: formatArray,
-                                       NAMES_mainField4Type: formatArray} mutableCopy];
+        NSMutableDictionary* dict = [@{NAMES_mainField1: formatArray,
+                                       NAMES_mainField2: formatArray,
+                                       NAMES_mainField3: formatArray,
+                                       NAMES_mainField4: formatArray} mutableCopy];
 
         SDLMetadataTags* testStruct = [[SDLMetadataTags alloc] initWithDictionary:dict];
 

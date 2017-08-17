@@ -17,35 +17,36 @@ QuickSpecBegin(SDLMetadataTypeSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
-        expect([SDLMetadataType MEDIA_TITLE].value).to(equal(@"MEDIA_TITLE"));
-        expect([SDLMetadataType MEDIA_ARTIST].value).to(equal(@"MEDIA_ARTIST"));
-        expect([SDLMetadataType MEDIA_ALBUM].value).to(equal(@"MEDIA_ALBUM"));
-        expect([SDLMetadataType MEDIA_YEAR].value).to(equal(@"MEDIA_YEAR"));
-        expect([SDLMetadataType MEDIA_GENRE].value).to(equal(@"MEDIA_GENRE"));
-        expect([SDLMetadataType MEDIA_STATION].value).to(equal(@"MEDIA_STATION"));
-        expect([SDLMetadataType RATING].value).to(equal(@"RATING"));
-        expect([SDLMetadataType CURRENT_TEMPERATURE].value).to(equal(@"CURRENT_TEMPERATURE"));
-        expect([SDLMetadataType MAXIMUM_TEMPERATURE].value).to(equal(@"MAXIMUM_TEMPERATURE"));
-        expect([SDLMetadataType MINIMUM_TEMPERATURE].value).to(equal(@"MINIMUM_TEMPERATURE"));
-        expect([SDLMetadataType WEATHER_TERM].value).to(equal(@"WEATHER_TERM"));
-        expect([SDLMetadataType HUMIDITY].value).to(equal(@"HUMIDITY"));
-
+        expect([SDLMetadataType MEDIA_TITLE].value).to(equal(@"mediaTitle"));
+        expect([SDLMetadataType MEDIA_ARTIST].value).to(equal(@"mediaArtist"));
+        expect([SDLMetadataType MEDIA_ALBUM].value).to(equal(@"mediaAlbum"));
+        expect([SDLMetadataType MEDIA_YEAR].value).to(equal(@"mediaYear"));
+        expect([SDLMetadataType MEDIA_GENRE].value).to(equal(@"mediaGenre"));
+        expect([SDLMetadataType MEDIA_STATION].value).to(equal(@"mediaStation"));
+        expect([SDLMetadataType RATING].value).to(equal(@"rating"));
+        expect([SDLMetadataType CURRENT_TEMPERATURE].value).to(equal(@"currentTemperature"));
+        expect([SDLMetadataType MAXIMUM_TEMPERATURE].value).to(equal(@"maximumTemperature"));
+        expect([SDLMetadataType MINIMUM_TEMPERATURE].value).to(equal(@"minimumTemperature"));
+        expect([SDLMetadataType WEATHER_TERM].value).to(equal(@"weatherTerm"));
+        expect([SDLMetadataType HUMIDITY].value).to(equal(@"humidity"));
+        expect([SDLMetadataType NONE].value).to(equal(@"none"));
     });
 });
 describe(@"ValueOf Tests", ^ {
     it(@"Should return correct values when valid", ^ {
-        expect([SDLMetadataType valueOf:@"MEDIA_TITLE"]).to(equal([SDLMetadataType MEDIA_TITLE]));
-        expect([SDLMetadataType valueOf:@"MEDIA_ARTIST"]).to(equal([SDLMetadataType MEDIA_ARTIST]));
-        expect([SDLMetadataType valueOf:@"MEDIA_ALBUM"]).to(equal([SDLMetadataType MEDIA_ALBUM]));
-        expect([SDLMetadataType valueOf:@"MEDIA_YEAR"]).to(equal([SDLMetadataType MEDIA_YEAR]));
-        expect([SDLMetadataType valueOf:@"MEDIA_GENRE"]).to(equal([SDLMetadataType MEDIA_GENRE]));
-        expect([SDLMetadataType valueOf:@"MEDIA_STATION"]).to(equal([SDLMetadataType MEDIA_STATION]));
-        expect([SDLMetadataType valueOf:@"RATING"]).to(equal([SDLMetadataType RATING]));
-        expect([SDLMetadataType valueOf:@"CURRENT_TEMPERATURE"]).to(equal([SDLMetadataType CURRENT_TEMPERATURE]));
-        expect([SDLMetadataType valueOf:@"MAXIMUM_TEMPERATURE"]).to(equal([SDLMetadataType MAXIMUM_TEMPERATURE]));
-        expect([SDLMetadataType valueOf:@"MINIMUM_TEMPERATURE"]).to(equal([SDLMetadataType MINIMUM_TEMPERATURE]));
-        expect([SDLMetadataType valueOf:@"WEATHER_TERM"]).to(equal([SDLMetadataType WEATHER_TERM]));
-        expect([SDLMetadataType valueOf:@"HUMIDITY"]).to(equal([SDLMetadataType HUMIDITY]));
+        expect([SDLMetadataType valueOf:@"mediaTitle"]).to(equal([SDLMetadataType MEDIA_TITLE]));
+        expect([SDLMetadataType valueOf:@"mediaArtist"]).to(equal([SDLMetadataType MEDIA_ARTIST]));
+        expect([SDLMetadataType valueOf:@"mediaAlbum"]).to(equal([SDLMetadataType MEDIA_ALBUM]));
+        expect([SDLMetadataType valueOf:@"mediaYear"]).to(equal([SDLMetadataType MEDIA_YEAR]));
+        expect([SDLMetadataType valueOf:@"mediaGenre"]).to(equal([SDLMetadataType MEDIA_GENRE]));
+        expect([SDLMetadataType valueOf:@"mediaStation"]).to(equal([SDLMetadataType MEDIA_STATION]));
+        expect([SDLMetadataType valueOf:@"rating"]).to(equal([SDLMetadataType RATING]));
+        expect([SDLMetadataType valueOf:@"currentTemperature"]).to(equal([SDLMetadataType CURRENT_TEMPERATURE]));
+        expect([SDLMetadataType valueOf:@"maximumTemperature"]).to(equal([SDLMetadataType MAXIMUM_TEMPERATURE]));
+        expect([SDLMetadataType valueOf:@"minimumTemperature"]).to(equal([SDLMetadataType MINIMUM_TEMPERATURE]));
+        expect([SDLMetadataType valueOf:@"weatherTerm"]).to(equal([SDLMetadataType WEATHER_TERM]));
+        expect([SDLMetadataType valueOf:@"humidity"]).to(equal([SDLMetadataType HUMIDITY]));
+        expect([SDLMetadataType valueOf:@"none"]).to(equal([SDLMetadataType NONE]));
     });
 
     it(@"Should return nil when invalid", ^ {
@@ -53,6 +54,7 @@ describe(@"ValueOf Tests", ^ {
         expect([SDLMetadataType valueOf:@"JKUYTFHYTHJGFRFGYTR"]).to(beNil());
     });
 });
+
 describe(@"Value List Tests", ^ {
     NSArray* storedValues = [SDLMetadataType values];
     __block NSArray* definedValues;
@@ -68,7 +70,8 @@ describe(@"Value List Tests", ^ {
                            [SDLMetadataType MAXIMUM_TEMPERATURE],
                            [SDLMetadataType MINIMUM_TEMPERATURE],
                            [SDLMetadataType WEATHER_TERM],
-                           [SDLMetadataType HUMIDITY]] copy];
+                           [SDLMetadataType HUMIDITY],
+                           [SDLMetadataType NONE]] copy];
     });
 
     it(@"Should contain all defined enum values", ^ {

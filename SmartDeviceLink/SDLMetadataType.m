@@ -50,7 +50,7 @@ NSArray *SDLMetadataType_values = nil;
                                    SDLMetadataType.MINIMUM_TEMPERATURE,
                                    SDLMetadataType.WEATHER_TERM,
                                    SDLMetadataType.HUMIDITY,
-                                   SDLMetadataType_NONE];
+                                   SDLMetadataType.NONE];
     }
     return SDLMetadataType_values;
 }
