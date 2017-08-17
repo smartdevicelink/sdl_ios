@@ -936,10 +936,10 @@
 		5DEE55C01B8509CB004F0D0F /* SDLURLRequestTaskSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEE55BF1B8509CB004F0D0F /* SDLURLRequestTaskSpec.m */; };
 		5DF2BB9D1B94E38A00CE5994 /* SDLURLSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */; };
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
-		8B06061F1F30BCED005ADB2F /* SDLMetadataType.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B06061D1F30BCED005ADB2F /* SDLMetadataType.h */; };
+		8B06061F1F30BCED005ADB2F /* SDLMetadataType.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B06061D1F30BCED005ADB2F /* SDLMetadataType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8B0606201F30BCED005ADB2F /* SDLMetadataType.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B06061E1F30BCED005ADB2F /* SDLMetadataType.m */; };
 		8B0606221F30C108005ADB2F /* SDLMetadataTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0606211F30C108005ADB2F /* SDLMetadataTypeSpec.m */; };
-		8B0606291F3103CE005ADB2F /* SDLMetadataTags.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B0606271F3103CE005ADB2F /* SDLMetadataTags.h */; };
+		8B0606291F3103CE005ADB2F /* SDLMetadataTags.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B0606271F3103CE005ADB2F /* SDLMetadataTags.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8B06062A1F3103CE005ADB2F /* SDLMetadataTags.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0606281F3103CE005ADB2F /* SDLMetadataTags.m */; };
 		8B06062C1F310ED2005ADB2F /* SDLMetadataTagsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B06062B1F310ED2005ADB2F /* SDLMetadataTagsSpec.m */; };
 		8BD729A61F2A2CF30029AC93 /* SDLVideoStreamingCodec.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BD729A41F2A2CF30029AC93 /* SDLVideoStreamingCodec.h */; };
