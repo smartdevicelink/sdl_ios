@@ -289,7 +289,10 @@ s.public_header_files = [
 'SmartDeviceLink/SDLNotificationConstants.h',
 'SmartDeviceLink/SDLRequestHandler.h',
 'SmartDeviceLink/SDLRPCNotificationNotification.h',
-'SmartDeviceLink/SDLRPCResponseNotification.h'
+'SmartDeviceLink/SDLRPCResponseNotification.h',
+'SmartDeviceLink/SDLMetadataTags.h',
+'SmartDeviceLink/SDLMetadataType.h'
+'
 ]
 
 end

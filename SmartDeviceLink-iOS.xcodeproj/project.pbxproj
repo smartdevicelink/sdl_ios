@@ -945,7 +945,7 @@
 		8B7B31AB1F2FB93500BDC38D /* SDLVideoStreamingCodecSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31AA1F2FB93500BDC38D /* SDLVideoStreamingCodecSpec.m */; };
 		8B7B31AF1F2FBA0200BDC38D /* SDLVideoStreamingCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31AE1F2FBA0200BDC38D /* SDLVideoStreamingCapabilitySpec.m */; };
 		8B7B31B11F2FBD9500BDC38D /* SDLVideoStreamingFormatSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31B01F2FBD9500BDC38D /* SDLVideoStreamingFormatSpec.m */; };
-		8B9376D71F3349FC009605C4 /* SDLMetadataTags.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B9376D51F3349FC009605C4 /* SDLMetadataTags.h */; };
+		8B9376D71F3349FC009605C4 /* SDLMetadataTags.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B9376D51F3349FC009605C4 /* SDLMetadataTags.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8B9376D81F3349FC009605C4 /* SDLMetadataTags.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9376D61F3349FC009605C4 /* SDLMetadataTags.m */; };
 		8B9376DB1F33656C009605C4 /* SDLMetadataTagsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9376DA1F33656C009605C4 /* SDLMetadataTagsSpec.m */; };
 		8BBEA6061F324165003EEA26 /* SDLMetadataType.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BBEA6041F324165003EEA26 /* SDLMetadataType.h */; settings = {ATTRIBUTES = (Public, ); }; };

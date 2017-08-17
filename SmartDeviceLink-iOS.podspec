@@ -300,7 +300,9 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLLogConstants.h',
 'SmartDeviceLink/SDLLogConfiguration.h',
 'SmartDeviceLink/SDLLogManager.h',
-'SmartDeviceLink/SDLLogMacros.h'
+'SmartDeviceLink/SDLLogMacros.h',
+'SmartDeviceLink/SDLMetadataTags.h',
+'SmartDeviceLink/SDLMetadataType.h'
 ]
 end
 
