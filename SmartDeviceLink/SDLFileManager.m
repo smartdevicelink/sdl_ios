@@ -242,7 +242,7 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
     dispatch_group_t uploadFilesTask = dispatch_group_create();
 
     dispatch_group_enter(uploadFilesTask);
-    for (SDLFile *file in files) {
+    for(SDLFile *file in files) {
         dispatch_group_enter(uploadFilesTask);
         [self sdl_uploadFileAsync:file completionHandler:^(Boolean success, NSString * _Nonnull fileName, NSError * _Nullable error) {
             if (success == false) {
@@ -258,6 +258,7 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
 
                 if (cancel) {
                     dispatch_group_leave(uploadFilesTask);
+                    [self.transactionQueue cancelAllOperations];
                     BLOCK_RETURN;
                 }
             }
@@ -283,10 +284,10 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
 }
 
 /**
+ *  Uploads each file in on a serial background queue.
  *
-
- @param file The file to upload
- @param handler Called when a response is received from the core
+ *  @param file    The file to upload
+ *  @param handler Called when a response is received from the remote
  */
 - (void)sdl_uploadFileAsync:(SDLFile *)file completionHandler:(void (^)(Boolean success, NSString *fileName, NSError * _Nullable error))handler {
     dispatch_queue_t backgroundQueue = dispatch_queue_create(BackgroundUploadFilesQueue, DISPATCH_QUEUE_SERIAL);
@@ -300,6 +301,13 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
     });
 }
 
+/**
+ *  Computes the total amount of bytes to be uploaded to the remote. This total is computed by summing up the file size of all files to be uploaded to the remote
+ *
+ *  @param files           All the files being uploaded to the remote
+ *  @param progressHandler An optional completion handler that sends a response for each uploaded file. If null, then the total amount of bytes does not need to be computed.
+ *  @return                The total byte count
+ */
 - (float)sdl_totalBytesToUpload:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler {
     if (progressHandler == nil) { return 0.0; }
 
@@ -312,11 +320,11 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
 }
 
 /**
- * Computes the percentage of files uploaded to remote. This percentage is a decimal number between 0.0 - 1.0. It is calculated by dividing the total number of bytes in files successfully or unsuccessfully uploaded by the total number of bytes in all files to be uploaded.
-
- @param totalBytes      The total number of bytes in all files to be uploaded
- @param uploadedBytes   The total number of bytes in files successfully or unsuccessfully uploaded
- @return                The upload percentage
+ * Computes the percentage of files uploaded to the remote. This percentage is a decimal number between 0.0 - 1.0. It is calculated by dividing the total number of bytes in files successfully or unsuccessfully uploaded by the total number of bytes in all files to be uploaded.
+ *
+ *  @param totalBytes      The total number of bytes in all files to be uploaded
+ *  @param uploadedBytes   The total number of bytes in files successfully or unsuccessfully uploaded
+ *  @return                The upload percentage
  */
 - (float)sdl_uploadPercentage:(float)totalBytes uploadedBytes:(float)uploadedBytes {
     if (totalBytes == 0 || uploadedBytes == 0) {

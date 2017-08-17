@@ -490,30 +490,30 @@ describe(@"Uploading multiple files", ^{
                 response.success = @YES;
             });
 
-            it(@"should upload 1 small file from memory without error", ^{
-                NSString *fileName = [NSString stringWithFormat:@"Test Small File Memory %d", 0];
-                NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
-                SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
-                file.overwrite = true;
-
-                [testSDLFiles addObject:file];
-
-                expectedSpaceLeft = @55;
-                response.spaceAvailable = expectedSpaceLeft;
-
-                [expectedSuccessfulFileNames addObject:fileName];
-                TestResponse *testResponse = [[TestResponse alloc] initWithResponse:response error:responseError];
-                testResponses[fileName] = testResponse;
-                testConnectionManager.responses = testResponses;
-
-                TestProgressResponse *testProgressResponse = [[TestProgressResponse alloc] initWithFileName:fileName testUploadPercentage:1.0 error:nil];
-                testProgressResponses[fileName] = testProgressResponse;
-            });
+//            it(@"should upload 1 small file from memory without error", ^{
+//                NSString *fileName = [NSString stringWithFormat:@"Test Small File Memory %d", 0];
+//                NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
+//                SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
+//                file.overwrite = true;
+//
+//                [testSDLFiles addObject:file];
+//
+//                expectedSpaceLeft = @55;
+//                response.spaceAvailable = expectedSpaceLeft;
+//
+//                [expectedSuccessfulFileNames addObject:fileName];
+//                TestResponse *testResponse = [[TestResponse alloc] initWithResponse:response error:responseError];
+//                testResponses[fileName] = testResponse;
+//                testConnectionManager.responses = testResponses;
+//
+//                TestProgressResponse *testProgressResponse = [[TestProgressResponse alloc] initWithFileName:fileName testUploadPercentage:1.0 error:nil];
+//                testProgressResponses[fileName] = testProgressResponse;
+//            });
 
             it(@"should upload a large number of small files from memory without error", ^{
                 NSInteger space = initialSpaceAvailable;
 
-                int totalFileCount = 200;
+                int totalFileCount = 10;
                 NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
 
                 float testTotalBytesToUpload = totalFileCount * fileData.length;
@@ -528,7 +528,9 @@ describe(@"Uploading multiple files", ^{
                     space -= 10;
                     response.spaceAvailable = @(space);
 
-                    [expectedSuccessfulFileNames addObject:fileName];
+                    if (i < 5) {
+                        [expectedSuccessfulFileNames addObject:fileName];
+                    }
 
                     TestResponse *testResponse = [[TestResponse alloc] initWithResponse:response error:responseError];
                     testResponses[fileName] = testResponse;
@@ -550,7 +552,7 @@ describe(@"Uploading multiple files", ^{
                         TestProgressResponse *testProgressResponse = testProgressResponses[fileName];
                         expect(fileName).to(equal([testProgressResponse testFileName]));
                         expect(uploadPercentage).to(equal([testProgressResponse testUploadPercentage]));
-                        if (uploadPercentage >= 0.5) {
+                        if (fileName == @"Test Files 4") {
                             (*cancel) = YES;
                         }
                         expect(error).to([testProgressResponse testError] == nil ? beNil() : equal([testProgressResponse testError]));
@@ -563,6 +565,7 @@ describe(@"Uploading multiple files", ^{
         });
         
         afterEach(^{
+            // FIXME - bytes available might not be working...
             expect(@(testFileManager.bytesAvailable)).to(equal(expectedSpaceLeft));
             for(int i = 0; i < expectedSuccessfulFileNames.count; i += 1) {
                 expect(testFileManager.remoteFileNames).to(contain(expectedSuccessfulFileNames[i]));
