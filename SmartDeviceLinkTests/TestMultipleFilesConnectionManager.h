@@ -11,6 +11,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+//@interface SDLRPCStruct : NSObject <NSCopying> {
+//    NSMutableDictionary<NSString *, id> *store;
+//}
+
+//@interface Stuff : NSObject {
+//    SDLPutFileResponse *multipleFileResponse;
+//    NSError *error;
+//    SDLResponseHandler handler;
+//};
+//
+//@end
+
 @interface TestMultipleFilesConnectionManager : TestConnectionManager
 
 /**
@@ -18,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) SDLPutFileResponse *multipleFileResponse;
 @property (copy, nonatomic) NSError *multipleFileError;
+@property (nonatomic, copy) void (^responseHandler)(void);
 
 @end
 

@@ -84,105 +84,105 @@ describe(@"Uploading multiple files", ^{
                 NSLog(@"response is: %@", [testConnectionManager.multipleFileResponse success]);
             });
 
-            it(@"should upload 1 small file from memory", ^{
-                testFileCount = 1;
-
-                NSString *fileName = [NSString stringWithFormat:@"Test Small File Memory %d", 0];
-                NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
-                SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
-                file.overwrite = true;
-
-                [testFileNames addObject: fileName];
-                [testFileData addObject:fileData];
-                [testSDLFiles addObject:file];
-            });
-
-            it(@"should upload 1 large file from disk", ^{
-                testFileCount = 1;
-
-                NSString *imageName = @"testImage";
-                NSString *imageFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:imageName ofType:@"png"];
-                NSURL *imageFileURL = [[NSURL alloc] initFileURLWithPath:imageFilePath];
-
-                NSString *fileName = [NSString stringWithFormat:@"Test Large File Disk %d", 0];
-                SDLFile *file = [SDLFile fileAtFileURL:imageFileURL name:fileName];
-                file.overwrite = true;
-
-                [testFileNames addObject: fileName];
-                [testFileData addObject: [[NSData alloc] initWithContentsOfURL:imageFileURL]];
-                [testSDLFiles addObject:file];
-            });
-
-            it(@"should upload multiple small files from memory", ^{
-                testFileCount = 5;
-                for(int i = 0; i < testFileCount; i += 1) {
-                    NSString *fileName = [NSString stringWithFormat:@"Test Files %d", i];
-                    NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
-                    SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
-                    file.overwrite = true;
-                    [testFileNames addObject: fileName];
-                    [testFileData addObject:fileData];
-                    [testSDLFiles addObject:file];
-                }
-            });
-
-            it(@"should upload a large number of small files from memory", ^{
-                testFileCount = 500;
-                for(int i = 0; i < testFileCount; i += 1) {
-                    NSString *fileName = [NSString stringWithFormat:@"Test Files %d", i];
-                    NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
-                    SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
-                    file.overwrite = true;
-                    [testFileNames addObject: fileName];
-                    [testFileData addObject:fileData];
-                    [testSDLFiles addObject:file];
-                }
-            });
-
-            it(@"should upload 5 small files from disk", ^{
-                testFileCount = 5;
-                NSURL *imageFileURL = nil;
-
-                for(int i = 0; i < testFileCount; i += 1) {
-                    NSString *imageName = [NSString stringWithFormat:@"testImage%d", i];
-                    NSString *imageFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:imageName ofType:@"png"];
-                    imageFileURL = [[NSURL alloc] initFileURLWithPath:imageFilePath];
-
-                    NSString *fileName = [NSString stringWithFormat:@"TestMultipleLargeFilesDisk%d", i];
-                    SDLFile *file = [SDLFile fileAtFileURL:imageFileURL name:fileName];
-
-                    file.overwrite = true;
-                    [testFileNames addObject: fileName];
-                    [testFileData addObject:[[NSData alloc] initWithContentsOfURL:imageFileURL]];
-                    [testSDLFiles addObject:file];
-                }
-            });
-
-            it(@"should upload multiple files from memory and on disk", ^{
-                testFileCount = 10;
-                for(int i = 0; i < testFileCount; i += 1) {
-                    NSString *fileName = [NSString stringWithFormat:@"TestMultipleSDiskAndMemory%d", i];
-                    NSData *fileData = nil;
-                    SDLFile *testFile = nil;
-
-                    if (i < 5) {
-                        NSString *textFileName = [NSString stringWithFormat:@"testImageA%d", i];
-                        NSString *textFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:textFileName ofType:@"png"];
-                        NSURL *textFileURL = [[NSURL alloc] initFileURLWithPath:textFilePath];
-
-                        fileData = [[NSData alloc] initWithContentsOfURL:textFileURL];
-                        testFile = [SDLFile fileAtFileURL:textFileURL name:fileName];
-                    } else {
-                        fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
-                        testFile = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
-                    }
-
-                    testFile.overwrite = true;
-                    [testFileNames addObject: fileName];
-                    [testFileData addObject:fileData];
-                    [testSDLFiles addObject:testFile];
-                }
-            });
+//            it(@"should upload 1 small file from memory", ^{
+//                testFileCount = 1;
+//
+//                NSString *fileName = [NSString stringWithFormat:@"Test Small File Memory %d", 0];
+//                NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
+//                SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
+//                file.overwrite = true;
+//
+//                [testFileNames addObject: fileName];
+//                [testFileData addObject:fileData];
+//                [testSDLFiles addObject:file];
+//            });
+//
+//            it(@"should upload 1 large file from disk", ^{
+//                testFileCount = 1;
+//
+//                NSString *imageName = @"testImage";
+//                NSString *imageFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:imageName ofType:@"png"];
+//                NSURL *imageFileURL = [[NSURL alloc] initFileURLWithPath:imageFilePath];
+//
+//                NSString *fileName = [NSString stringWithFormat:@"Test Large File Disk %d", 0];
+//                SDLFile *file = [SDLFile fileAtFileURL:imageFileURL name:fileName];
+//                file.overwrite = true;
+//
+//                [testFileNames addObject: fileName];
+//                [testFileData addObject: [[NSData alloc] initWithContentsOfURL:imageFileURL]];
+//                [testSDLFiles addObject:file];
+//            });
+//
+//            it(@"should upload multiple small files from memory", ^{
+//                testFileCount = 5;
+//                for(int i = 0; i < testFileCount; i += 1) {
+//                    NSString *fileName = [NSString stringWithFormat:@"Test Files %d", i];
+//                    NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
+//                    SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
+//                    file.overwrite = true;
+//                    [testFileNames addObject: fileName];
+//                    [testFileData addObject:fileData];
+//                    [testSDLFiles addObject:file];
+//                }
+//            });
+//
+//            it(@"should upload a large number of small files from memory", ^{
+//                testFileCount = 500;
+//                for(int i = 0; i < testFileCount; i += 1) {
+//                    NSString *fileName = [NSString stringWithFormat:@"Test Files %d", i];
+//                    NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
+//                    SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
+//                    file.overwrite = true;
+//                    [testFileNames addObject: fileName];
+//                    [testFileData addObject:fileData];
+//                    [testSDLFiles addObject:file];
+//                }
+//            });
+//
+//            it(@"should upload 5 small files from disk", ^{
+//                testFileCount = 5;
+//                NSURL *imageFileURL = nil;
+//
+//                for(int i = 0; i < testFileCount; i += 1) {
+//                    NSString *imageName = [NSString stringWithFormat:@"testImage%d", i];
+//                    NSString *imageFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:imageName ofType:@"png"];
+//                    imageFileURL = [[NSURL alloc] initFileURLWithPath:imageFilePath];
+//
+//                    NSString *fileName = [NSString stringWithFormat:@"TestMultipleLargeFilesDisk%d", i];
+//                    SDLFile *file = [SDLFile fileAtFileURL:imageFileURL name:fileName];
+//
+//                    file.overwrite = true;
+//                    [testFileNames addObject: fileName];
+//                    [testFileData addObject:[[NSData alloc] initWithContentsOfURL:imageFileURL]];
+//                    [testSDLFiles addObject:file];
+//                }
+//            });
+//
+//            it(@"should upload multiple files from memory and on disk", ^{
+//                testFileCount = 10;
+//                for(int i = 0; i < testFileCount; i += 1) {
+//                    NSString *fileName = [NSString stringWithFormat:@"TestMultipleSDiskAndMemory%d", i];
+//                    NSData *fileData = nil;
+//                    SDLFile *testFile = nil;
+//
+//                    if (i < 5) {
+//                        NSString *textFileName = [NSString stringWithFormat:@"testImageA%d", i];
+//                        NSString *textFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:textFileName ofType:@"png"];
+//                        NSURL *textFileURL = [[NSURL alloc] initFileURLWithPath:textFilePath];
+//
+//                        fileData = [[NSData alloc] initWithContentsOfURL:textFileURL];
+//                        testFile = [SDLFile fileAtFileURL:textFileURL name:fileName];
+//                    } else {
+//                        fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
+//                        testFile = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
+//                    }
+//
+//                    testFile.overwrite = true;
+//                    [testFileNames addObject: fileName];
+//                    [testFileData addObject:fileData];
+//                    [testSDLFiles addObject:testFile];
+//                }
+//            });
 
             afterEach(^{
                 waitUntilTimeout(10, ^(void (^done)(void)){
@@ -195,16 +195,32 @@ describe(@"Uploading multiple files", ^{
         });
 
 
-        context(@"When some are not uploaded successfully", ^{
+        context(@"When files are not uploaded successfully", ^{
+            __block SDLPutFileResponse *response = nil;
+            __block NSString *responseErrorDescription = nil;
+            __block NSString *responseErrorReason = nil;
+            __block NSInteger responseSpaceLeft = 444;
+            __block NSError *responseError = nil;
+
+            __block NSMutableDictionary *expectedFailedUploads;
+            __block NSError *expectedError = nil;
+
             beforeEach(^{
-                testConnectionManager.multipleFileResponse = [[SDLPutFileResponse alloc] init];
-                testConnectionManager.multipleFileResponse.success = @(NO);
-                testConnectionManager.multipleFileResponse.spaceAvailable = @(234);
-                testConnectionManager.multipleFileError = [NSError sdl_lifecycle_notReadyError];
-                NSLog(@"response is: %@", [testConnectionManager.multipleFileResponse success]);
+                response = [[SDLPutFileResponse alloc] init];
+                response.spaceAvailable = @(responseSpaceLeft);
+                response.success = @NO;
+
+                responseErrorDescription = @"file upload failed";
+                responseErrorReason = @"some error reason";
+                responseError = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason];
+
+                testConnectionManager.multipleFileResponse = response;
+                testConnectionManager.multipleFileError = responseError;
+
+                expectedFailedUploads = [[NSMutableDictionary alloc] init];
             });
 
-            it(@"should upload multiple small files from memory", ^{
+            it(@"should return an error when all files fail", ^{
                 testFileCount = 5;
                 for(int i = 0; i < testFileCount; i += 1) {
                     NSString *fileName = [NSString stringWithFormat:@"Test Files Unsuccessful %d", i];
@@ -214,6 +230,25 @@ describe(@"Uploading multiple files", ^{
                     [testFileNames addObject: fileName];
                     [testFileData addObject:fileData];
                     [testSDLFiles addObject:file];
+
+                    expectedFailedUploads[fileName] = responseError;
+                }
+
+                expectedError = [NSError sdl_fileManager_unableToUploadError:expectedFailedUploads];
+            });
+
+            it(@"should return an error when one file fails", ^{
+                testFileCount = 6;
+                for(int i = 0; i < testFileCount; i += 1) {
+                    NSString *fileName = [NSString stringWithFormat:@"Test Files Unsuccessful %d", i];
+                    NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
+                    SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
+                    file.overwrite = true;
+                    [testFileNames addObject: fileName];
+                    [testFileData addObject:fileData];
+                    [testSDLFiles addObject:file];
+
+                    expectedFailedUploads[fileName] = responseError;
                 }
             });
 
@@ -221,6 +256,7 @@ describe(@"Uploading multiple files", ^{
                 waitUntilTimeout(10, ^(void (^done)(void)){
                     [testFileManager uploadFiles:testSDLFiles completionHandler:^(NSError * _Nullable error) {
                         expect(error).toNot(beNil());
+                        expect(error).to(equal(expectedError));
                         done();
                     }];
                 });
