@@ -28,7 +28,6 @@ __deprecated_msg("Use SDLManager instead")
 @property (strong, nonatomic) SDLTimer *startSessionTimer;
 @property (copy, nonatomic) NSString *debugConsoleGroupName;
 @property (readonly, copy, nonatomic) NSString *proxyVersion;
-@property (nullable, nonatomic, strong, readonly) SDLStreamingMediaManager *streamingMediaManager;
 
 - (id)initWithTransport:(SDLAbstractTransport *)transport
                protocol:(SDLAbstractProtocol *)protocol

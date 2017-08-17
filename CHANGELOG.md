@@ -1,3 +1,7 @@
+# 5.0.0 Release Notes (in-progress)
+### Breaking Changes
+* `SDLProxy streamingMediaManager` is now removed. If you wish to use a streaming media manager, you must use the `streamingMediaManager` on `SDLManager`.
+
 # 4.6.1 Release Notes
 ### Bug Fixes
 * Fixes a bug where an app would crash if connected while the app is foregrounded and the vehicle is already in motion.
