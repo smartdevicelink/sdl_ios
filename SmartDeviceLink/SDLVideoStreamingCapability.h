@@ -24,7 +24,7 @@
  */
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
-- (instancetype)initWithVideoStreaming:(SDLImageResolution *)preferredResolution maxBitrate:(NSNumber *)maxBitrate supportedFormats:(NSArray<SDLVideoStreamingFormat *> *)supportedFormats;
+- (instancetype)initWithVideoStreaming:(SDLImageResolution *)preferredResolution maxBitrate:(NSNumber *)maxBitrate supportedFormats:(NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(NSNumber *)hapticDataSupported;
 /**
  * @abstract The preferred resolution of a video stream for decoding and rendering on HMI, optional
  */
@@ -41,5 +41,10 @@
  * @abstract Detailed information on each format supported by this system, in its preferred order, optional
  */
 @property (strong, nonatomic) NSMutableArray<SDLVideoStreamingFormat *> *supportedFormats;
+
+/**
+ True if the system can utilize the haptic spatial data from the source being streamed.
+ */
+@property (strong, nonatomic) NSNumber *hapticSpatialDataSupported;
 
 @end

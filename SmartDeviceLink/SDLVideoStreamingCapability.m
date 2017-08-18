@@ -25,7 +25,7 @@
     return self;
 }
 
-- (instancetype)initWithVideoStreaming:(SDLImageResolution *)preferredResolution maxBitrate:(NSNumber *)maxBitrate supportedFormats:(NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
+- (instancetype)initWithVideoStreaming:(SDLImageResolution *)preferredResolution maxBitrate:(NSNumber *)maxBitrate supportedFormats:(NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(NSNumber *)hapticDataSupported {
     self = [self init];
     if (!self) {
         return self;
@@ -34,6 +34,7 @@
     self.maxBitrate = maxBitrate;
     self.preferredResolution = preferredResolution;
     self.supportedFormats = [supportedFormats mutableCopy];
+    self.hapticSpatialDataSupported = hapticDataSupported;
 
     return self;
 }
@@ -88,6 +89,18 @@
         }
         return newList;
     }
+}
+
+- (void)setHapticSpatialDataSupported:(NSNumber *)hapticSpatialDataSupported {
+    if (hapticSpatialDataSupported != nil) {
+        [store setObject:hapticSpatialDataSupported forKey:NAMES_hapticSpatialDataSupported];
+    } else {
+        [store removeObjectForKey:NAMES_hapticSpatialDataSupported];
+    }
+}
+
+- (NSNumber *)hapticSpatialDataSupported {
+    return [store objectForKey:NAMES_hapticSpatialDataSupported];
 }
 
 @end

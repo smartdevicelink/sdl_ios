@@ -131,6 +131,7 @@
 #define NAMES_graphic @"graphic"
 #define NAMES_graphicSupported @"graphicSupported"
 #define NAMES_hapticSpatialData @"hapticSpatialData"
+#define NAMES_hapticSpatialDataSupported @"hapticSpatialDataSupported"
 #define NAMES_hardware @"hardware"
 #define NAMES_hashID @"hashID"
 #define NAMES_height @"height"
