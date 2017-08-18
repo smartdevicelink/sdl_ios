@@ -55,19 +55,23 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
      */
     SDLFileManagerErrorNoKnownFile = -2,
     /**
-     * The file manager attempted to start but encountered an error.
+     *  The file manager attempted to start but encountered an error.
      */
     SDLFileManagerErrorUnableToStart = -3,
     /**
-     * The file manager was unable to send this file.
+     *  The file manager was unable to send this file.
      */
     SDLFileManagerErrorUnableToUpload = -4,
     /**
-     * The file manager could not find the local file
+     *  The file manager could not find the local file.
      */
     SDLFileManagerErrorFileDoesNotExist = -5,
     /**
-     * The file manager was not passed a file
+     *  The file manager was not passed a file.
      */
     SDLFileManagerErrorNoFiles = -6,
+    /*
+     *  The file upload was cancelled.
+     */
+    SDLFileManagerUploadCanceled = -7,
 };

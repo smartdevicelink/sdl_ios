@@ -116,12 +116,14 @@ NS_ASSUME_NONNULL_BEGIN
             // Check if the upload process has been cancelled by another packet. If so, stop the upload process.
             // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?
             if (strongself.isCancelled) {
+                NSLog(@"Upload %@ was cancelled...", file.name);
                 dispatch_group_leave(putFileGroup);
                 BLOCK_RETURN;
             }
 
             // If the SDL Core returned an error, cancel the upload the process in the future
             if (error != nil || response == nil || ![response.success boolValue] || strongself.isCancelled) {
+                NSLog(@"Upload %@ returned an error %@ was cancelled %d...", file.name, error, strongself.isCancelled);
                 [strongself cancel];
                 streamError = error;
                 dispatch_group_leave(putFileGroup);

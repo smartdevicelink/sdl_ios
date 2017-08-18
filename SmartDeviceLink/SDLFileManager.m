@@ -223,6 +223,9 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
     [self.transactionQueue addOperation:deleteOperation];
 }
 
+- (void)deleteRemoteFilesWithNames:(NSArray<SDLFileName *> *)names completionHandler:(nullable SDLFileManagerMultiDeleteCompletionHandler)completionHandler {
+
+}
 
 #pragma mark - Uploading
 
@@ -235,7 +238,7 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
         return completionHandler([NSError sdl_fileManager_noFilesError]);
     }
 
-    float totalBytesToUpload = [self sdl_totalBytesToUpload:files progressHandler:progressHandler];
+    float totalBytesToUpload = progressHandler == nil ? 0.0 : [self sdl_totalBytesToUpload:files];
     __block float totalBytesUploaded = 0.0;
 
     NSMutableDictionary *failedUploads = [[NSMutableDictionary alloc] init];
@@ -249,7 +252,7 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
                 failedUploads[fileName] = error;
             }
 
-            // Send an update...
+            // Send an update
             if (progressHandler != nil) {
                 totalBytesUploaded += file.fileSize;
                 float uploadPercentage = [self sdl_uploadPercentage:totalBytesToUpload uploadedBytes:totalBytesUploaded];
@@ -272,12 +275,11 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
     dispatch_async(waitingQueue, ^{
         dispatch_group_wait(uploadFilesTask, DISPATCH_TIME_FOREVER);
         dispatch_async(dispatch_get_main_queue(), ^{
+            if (completionHandler == nil) { return; }
             if (failedUploads.count > 0) {
-                if (completionHandler == nil) { return; }
                 return completionHandler([NSError sdl_fileManager_unableToUploadError:failedUploads]);
             }
 
-            if (completionHandler == nil) { return; }
             return completionHandler(nil);
         });
     });
@@ -305,12 +307,9 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
  *  Computes the total amount of bytes to be uploaded to the remote. This total is computed by summing up the file size of all files to be uploaded to the remote
  *
  *  @param files           All the files being uploaded to the remote
- *  @param progressHandler An optional completion handler that sends a response for each uploaded file. If null, then the total amount of bytes does not need to be computed.
  *  @return                The total byte count
  */
-- (float)sdl_totalBytesToUpload:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler {
-    if (progressHandler == nil) { return 0.0; }
-
+- (float)sdl_totalBytesToUpload:(NSArray<SDLFile *> *)files {
     float totalBytes = 0.0;
     for(SDLFile *file in files) {
         totalBytes += file.fileSize;
