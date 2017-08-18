@@ -939,13 +939,13 @@
 		5DE5ABB71B0E38C90067BB02 /* SDLSystemRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD21A84238B00846EE7 /* SDLSystemRequest.h */; };
 		5DE5ABB81B0E38C90067BB02 /* SDLSystemRequestResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FBD41A84238B00846EE7 /* SDLSystemRequestResponse.h */; };
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
-		8B7B319A1F2F7B5700BDC38D /* SDLVideoStreamingCodec.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B31981F2F7B5700BDC38D /* SDLVideoStreamingCodec.h */; };
+		8B7B319A1F2F7B5700BDC38D /* SDLVideoStreamingCodec.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B31981F2F7B5700BDC38D /* SDLVideoStreamingCodec.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8B7B319B1F2F7B5700BDC38D /* SDLVideoStreamingCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31991F2F7B5700BDC38D /* SDLVideoStreamingCodec.m */; };
-		8B7B319E1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B319C1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.h */; };
+		8B7B319E1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B319C1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8B7B319F1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B319D1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.m */; };
-		8B7B31A21F2F7FEA00BDC38D /* SDLVideoStreamingFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B31A01F2F7FEA00BDC38D /* SDLVideoStreamingFormat.h */; };
+		8B7B31A21F2F7FEA00BDC38D /* SDLVideoStreamingFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B31A01F2F7FEA00BDC38D /* SDLVideoStreamingFormat.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8B7B31A31F2F7FEA00BDC38D /* SDLVideoStreamingFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31A11F2F7FEA00BDC38D /* SDLVideoStreamingFormat.m */; };
-		8B7B31A61F2F875200BDC38D /* SDLVideoStreamingCapability.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B31A41F2F875200BDC38D /* SDLVideoStreamingCapability.h */; };
+		8B7B31A61F2F875200BDC38D /* SDLVideoStreamingCapability.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B31A41F2F875200BDC38D /* SDLVideoStreamingCapability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8B7B31A71F2F875200BDC38D /* SDLVideoStreamingCapability.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31A51F2F875200BDC38D /* SDLVideoStreamingCapability.m */; };
 		8B7B31A91F2FB8BC00BDC38D /* SDLVideoStreamingProtocolSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31A81F2FB8BC00BDC38D /* SDLVideoStreamingProtocolSpec.m */; };
 		8B7B31AB1F2FB93500BDC38D /* SDLVideoStreamingCodecSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31AA1F2FB93500BDC38D /* SDLVideoStreamingCodecSpec.m */; };
@@ -4801,7 +4801,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BD729AB1F2A41F40029AC93 /* SDLVideoStreamingProtocol.m in Sources */,
 				5DA8A0EA1E955FE00039C50D /* SDLLogModel.m in Sources */,
 				5DA8A0E91E955F710039C50D /* SDLStreamingMediaManagerConstants.m in Sources */,
 				332A914F1CED9CC60043824C /* SDLAppInfo.m in Sources */,
