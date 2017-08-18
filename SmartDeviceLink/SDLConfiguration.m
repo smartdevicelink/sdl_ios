@@ -11,6 +11,7 @@
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLogConfiguration.h"
+#import "SDLStreamingMediaConfiguration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -49,6 +50,29 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:logConfig];
 }
 
+- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig streamingMedia:(nullable SDLStreamingMediaConfiguration *)streamingMediaConfig {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+
+    _lifecycleConfig = lifecycleConfig;
+    _lockScreenConfig = lockScreenConfig ?: [SDLLockScreenConfiguration enabledConfiguration];
+    _loggingConfig = logConfig ?: [SDLLogConfiguration defaultConfiguration];
+
+    if (_streamingMediaConfig != nil) {
+        NSAssert(!([_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] || [_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection]), @"You should only set a streaming media configuration if your app is a NAVIGATION or PROJECTION HMI type");
+        _streamingMediaConfig = streamingMediaConfig;
+    } else {
+        NSAssert(([_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] || [_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection]), @"If your app is a NAVIGATION or PROJECTION HMI type, you must set a streaming media configuration on SDLConfiguration");
+    }
+
+    return self;
+}
+
++ (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig streamingMedia:(nullable SDLStreamingMediaConfiguration *)streamingMediaConfig {
+    return [[self alloc] initWithLifecycle:lifecycleConfig lockScreen:lockScreenConfig logging:logConfig streamingMedia:streamingMediaConfig];
+}
 
 #pragma mark - NSCopying
 

@@ -189,6 +189,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLMetadataTags.h"
 #import "SDLMyKey.h"
 #import "SDLNavigationCapability.h"
+#import "SDLOasisAddress.h"
 #import "SDLParameterPermissions.h"
 #import "SDLPermissionItem.h"
 #import "SDLPhoneCapability.h"
@@ -290,6 +291,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLConfiguration.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
+#import "SDLStreamingMediaConfiguration.h"
 
 // Files
 #import "SDLArtwork.h"
@@ -308,10 +310,15 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLPermissionConstants.h"
 #import "SDLPermissionManager.h"
 
+// Touches
+#import "SDLPinchGesture.h"
+#import "SDLTouch.h"
+
 // Utilities
 #import "NSNumber+NumberType.h"
 #import "SDLErrorConstants.h"
 #import "SDLNotificationConstants.h"
+#import "SDLStreamingMediaManagerConstants.h"
 
 // Notifications
 #import "SDLRPCNotificationNotification.h"
@@ -328,3 +335,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLLogTargetAppleSystemLog.h"
 #import "SDLLogTargetFile.h"
 #import "SDLLogTargetOSLog.h"
+
+// Macros
+#import "SDLMacros.h"
