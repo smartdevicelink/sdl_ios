@@ -52,8 +52,10 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 #pragma mark Constants
 
-const char *_Nullable BackgroundUploadFilesQueue = "com.sdl.background.uploads.queue";
-const char *_Nullable BackgroundUploadFilesWaitingQueue = "com.sdl.background.uploads.waiting.queue";
+const char *_Nullable BackgroundUploadFilesQueue = "com.sdl.background.upload.files.queue";
+const char *_Nullable BackgroundUploadFilesWaitingQueue = "com.sdl.background.upload.files.waiting.queue";
+const char *_Nullable BackgroundDeleteFilesQueue = "com.sdl.background.delete.files.queue";
+const char *_Nullable BackgroundDeleteFilesWaitingQueue = "com.sdl.background.delete.files.waiting.queue";
 NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queue";
 
 @implementation SDLFileManager
@@ -129,11 +131,11 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
 
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
     return @{
-        SDLFileManagerStateShutdown: @[SDLFileManagerStateFetchingInitialList],
-        SDLFileManagerStateFetchingInitialList: @[SDLFileManagerStateShutdown, SDLFileManagerStateReady, SDLFileManagerStateStartupError],
-        SDLFileManagerStateReady: @[SDLFileManagerStateShutdown],
-        SDLFileManagerStateStartupError: @[SDLFileManagerStateShutdown]
-    };
+             SDLFileManagerStateShutdown: @[SDLFileManagerStateFetchingInitialList],
+             SDLFileManagerStateFetchingInitialList: @[SDLFileManagerStateShutdown, SDLFileManagerStateReady, SDLFileManagerStateStartupError],
+             SDLFileManagerStateReady: @[SDLFileManagerStateShutdown],
+             SDLFileManagerStateStartupError: @[SDLFileManagerStateShutdown]
+             };
 }
 
 - (void)didEnterStateStartupError {
@@ -224,8 +226,59 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
 }
 
 - (void)deleteRemoteFilesWithNames:(NSArray<SDLFileName *> *)names completionHandler:(nullable SDLFileManagerMultiDeleteCompletionHandler)completionHandler {
+    if (names.count == 0) {
+        // TODO - return custom error
+        // return completionHandler([NSError sdl_fileManager_noFilesError]);
+    }
 
+    NSMutableDictionary *failedDeletes = [[NSMutableDictionary alloc] init];
+
+    dispatch_group_t deleteFilesTask = dispatch_group_create();
+    dispatch_group_enter(deleteFilesTask);
+    for(NSString *name in names) {
+        dispatch_group_enter(deleteFilesTask);
+        [self sdl_deleteFileAsync:name completionHandler:^(Boolean success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+            if (success == false) {
+                failedDeletes[name] = error;
+            }
+            dispatch_group_leave(deleteFilesTask);
+        }];
+    }
+    dispatch_group_leave(deleteFilesTask);
+
+    dispatch_queue_t waitingQueue = dispatch_queue_create(BackgroundDeleteFilesWaitingQueue, DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(waitingQueue, ^{
+        dispatch_group_wait(deleteFilesTask, DISPATCH_TIME_FOREVER);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (completionHandler == nil) { return; }
+                        if (failedDeletes.count > 0) {
+                            // TODO: return custom error
+//                            return completionHandler([NSError sdl_fileManager_unableToUploadError:failedDeletes]);
+                        }
+            
+                        return completionHandler(nil);
+        });
+    });
 }
+
+/**
+ *  Deletes each file in on a serial background queue.
+ *
+ *  @param name    The name of the file to delete
+ *  @param handler Called when a response is received from the remote
+ */
+- (void)sdl_deleteFileAsync:(NSString *)name completionHandler:(void (^)(Boolean success, NSUInteger bytesAvailable, NSError * _Nullable error))handler {
+    dispatch_queue_t backgroundQueue = dispatch_queue_create(BackgroundDeleteFilesQueue, DISPATCH_QUEUE_SERIAL);
+    dispatch_sync(backgroundQueue, ^{
+        [self deleteRemoteFileWithName:name completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (handler == nil) { return; }
+                return handler(success, bytesAvailable, error);
+            });
+        }];
+    });
+}
+
 
 #pragma mark - Uploading
 
@@ -238,12 +291,11 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
         return completionHandler([NSError sdl_fileManager_noFilesError]);
     }
 
+    NSMutableDictionary *failedUploads = [[NSMutableDictionary alloc] init];
     float totalBytesToUpload = progressHandler == nil ? 0.0 : [self sdl_totalBytesToUpload:files];
     __block float totalBytesUploaded = 0.0;
 
-    NSMutableDictionary *failedUploads = [[NSMutableDictionary alloc] init];
     dispatch_group_t uploadFilesTask = dispatch_group_create();
-
     dispatch_group_enter(uploadFilesTask);
     for(SDLFile *file in files) {
         dispatch_group_enter(uploadFilesTask);
@@ -407,7 +459,7 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
     if (![[NSFileManager defaultManager] fileExistsAtPath:[self.class sdl_temporaryFileDirectoryName].absoluteString]) {
         [[NSFileManager defaultManager] removeItemAtURL:[self.class sdl_temporaryFileDirectoryName] error:&error];
     }
-
+    
     if (error != nil) {
         SDLLogW(@"[Error clearing temporary file directory] %@", error);
     }
