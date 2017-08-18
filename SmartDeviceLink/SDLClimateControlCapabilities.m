@@ -10,6 +10,96 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLClimateControlCapabilities
 
+-(instancetype) init {
+    self = [super init];
+    
+    if(!self){
+        return nil;
+    }
+    
+    return self;
+}
+
+- (instancetype) initWithModuleName: (NSString *) moduleName {
+    self = [self init];
+    
+    self.moduleName = moduleName;
+    
+    return self;
+}
+
+- (instancetype) initWithFanSpeedAvailable: (NSNumber<SDLBool> *) fanSpeedAvailable {
+    self = [self init];
+    
+    self.fanSpeedAvailable = fanSpeedAvailable;
+    
+    return self;
+}
+
+- (instancetype) initWithDesiredTemperatureAvailable: (NSNumber<SDLBool> *) desiredTemperatureAvailable {
+    self = [self init];
+    
+    self.desiredTemperatureAvailable = desiredTemperatureAvailable;
+    
+    return self;
+}
+
+- (instancetype) initWithAcEnableAvailable: (NSNumber<SDLBool> *) acEnableAvailable {
+    self = [self init];
+    
+    self.acEnableAvailable = acEnableAvailable;
+    
+    return self;
+}
+
+- (instancetype) initWithacMaxEnableAvailable: (NSNumber<SDLBool> *) acMaxEnableAvailable {
+    self = [self init];
+    
+    self.acMaxEnableAvailable = acMaxEnableAvailable;
+    
+    return self;
+}
+
+- (instancetype) initWithCirculateAirAvailable: (NSNumber<SDLBool> *) circulateAirEnableAvailable {
+    self = [self init];
+    
+    self.circulateAirEnableAvailable = circulateAirEnableAvailable;
+    
+    return self;
+}
+
+- (instancetype) initWithAutoModeEnableAvailable: (NSNumber<SDLBool> *) autoModeEnableAvailable {
+    self = [self init];
+    
+    self.autoModeEnableAvailable = autoModeEnableAvailable;
+    
+    return self;
+}
+
+- (instancetype) initWithDualModeEnableAvailable:(NSNumber<SDLBool> *)dualModeEnableAvailable {
+    self = [self init];
+    
+    self.dualModeEnableAvailable = dualModeEnableAvailable;
+    
+    return self;
+}
+
+- (instancetype) initWithDefrostZoneAvailable:(NSNumber<SDLBool> *)defrostZoneAvailable {
+    self = [self init];
+    
+    self.defrostZoneAvailable = defrostZoneAvailable;
+    
+    return self;
+}
+
+- (instancetype) initWithVentilationModeAvailable:(NSNumber<SDLBool> *)ventilationModeAvailable {
+    self = [self init];
+    
+    self.ventilationModeAvailable = ventilationModeAvailable;
+    
+    return self;
+}
+
 - (void)setModuleName:(NSString *)moduleName {
     [store sdl_setObject:moduleName forName:SDLNameModuleName];
 }

@@ -13,6 +13,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLClimateControlCapabilities : SDLRPCStruct
 
+- (instancetype) initWithModuleName: (NSString *) moduleName;
+- (instancetype) initWithFanSpeedAvailable: (NSNumber<SDLBool> *) fanSpeedAvailable;
+- (instancetype) initWithDesiredTemperatureAvailable: (NSNumber<SDLBool> *) desiredTemperatureAvailable;
+- (instancetype) initWithAcEnableAvailable: (NSNumber<SDLBool> *) acEnableAvailable;
+- (instancetype) initWithacMaxEnableAvailable: (NSNumber<SDLBool> *) acMaxEnableAvailable;
+- (instancetype) initWithCirculateAirAvailable: (NSNumber<SDLBool> *) circulateAirEnableAvailable;
+- (instancetype) initWithAutoModeEnableAvailable: (NSNumber<SDLBool> *) autoModeEnableAvailable;
+- (instancetype) initWithDualModeEnableAvailable:(NSNumber<SDLBool> *)dualModeEnableAvailable;
+- (instancetype) initWithDefrostZoneAvailable:(NSNumber<SDLBool> *)defrostZoneAvailable;
+- (instancetype) initWithVentilationModeAvailable:(NSNumber<SDLBool> *)ventilationModeAvailable;
+
 /**
  * @abstractThe short friendly name of the climate control module.
  * It should not be used to identify a module by mobile application.

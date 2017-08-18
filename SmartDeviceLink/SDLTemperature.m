@@ -10,6 +10,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTemperature
 
+-(instancetype) init {
+    self = [super init];
+    
+    if(!self){
+        return nil;
+    }
+    
+    return self;
+}
+
+-(instancetype) initWithUnit: (SDLTemperatureUnit) unit andValue:(NSNumber<SDLFloat> *) value {
+    self = [self init];
+    
+    self.unit = unit;
+    self.value = value;
+    
+    return self;
+}
+
 - (void)setUnit:(SDLTemperatureUnit)unit {
     [store sdl_setObject:unit forName:SDLNameUnit];
 }

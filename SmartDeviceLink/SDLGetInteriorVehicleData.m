@@ -16,11 +16,22 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
+- (instancetype)initWithType: (SDLModuleType )moduleType {
+    self = [self init];
+    
+    self.moduleType = moduleType;
+    
     return self;
 }
+
+- (instancetype)initWithSubscribe: (NSNumber<SDLBool> *)subscribe {
+    self = [self init];
+    
+    self.subscribe = subscribe;
+    
+    return self;
+}
+
 
 - (void)setModuleType:(SDLModuleType )moduleType {
     [parameters sdl_setObject:moduleType forName:SDLNameModuleType];

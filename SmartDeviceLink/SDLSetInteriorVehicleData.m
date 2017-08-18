@@ -17,6 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype) initWithModuleData: (SDLModuleData *) moduleData {
+    self = [self init];
+    
+    self.moduleData = moduleData;
+    
+    return self;
+}
+
 - (void)setModuleData:(SDLModuleData *)moduleData {
     [parameters sdl_setObject:moduleData forName:SDLNameModuleData];
 }

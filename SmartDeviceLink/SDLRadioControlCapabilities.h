@@ -11,6 +11,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLRadioControlCapabilities : SDLRPCStruct
 
+-(instancetype) initWithModuleName: (NSString *) moduleName;
+-(instancetype) initWithRadioEnableAvailable:(NSNumber<SDLBool> *)radioEnableAvailable;
+-(instancetype) initWithRadioBandAvailable:(NSNumber<SDLBool> *)radioBandAvailable;
+-(instancetype) initWithRadioFrequencyAvailable:(NSNumber<SDLBool> *)radioFrequencyAvailable;
+-(instancetype) initWithHDChannelAvailable:(NSNumber<SDLBool> *)hdChannelAvailable;
+-(instancetype) initWithRdsDataAvailable:(NSNumber<SDLBool> *)rdsDataAvailable;
+-(instancetype) initWithAvailableHDsAvailable:(NSNumber<SDLBool> *)availableHDsAvailable;
+-(instancetype) initWithStateAvailable:(NSNumber<SDLBool> *)stateAvailable;
+-(instancetype) initWithSignalStrengthAvailable:(NSNumber<SDLBool> *)signalStrengthAvailable;
+-(instancetype) initWithSignalChangeThresholdAvailable:(NSNumber<SDLBool> *)signalChangeThresholdAvailable;
+
+
+
 /**
  * @abstractThe short friendly name of the climate control module.
  * It should not be used to identify a module by mobile application.

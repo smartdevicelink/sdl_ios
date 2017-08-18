@@ -9,6 +9,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLTemperature : SDLRPCStruct
 
+-(instancetype) initWithUnit: (SDLTemperatureUnit) unit andValue:(NSNumber<SDLFloat> *) value;
+
 /**
  * @abstract Temperature Unit
  *

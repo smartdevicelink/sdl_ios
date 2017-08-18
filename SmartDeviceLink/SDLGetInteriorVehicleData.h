@@ -9,6 +9,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLGetInteriorVehicleData : SDLRPCRequest
 
+- (instancetype)initWithType: (SDLModuleType )moduleType;
+- (instancetype)initWithSubscribe: (NSNumber<SDLBool> *)subscribe;
+
 /**
  * The type of a RC module to retrieve module data from the vehicle.
  * In the future, this should be the Identification of a module.

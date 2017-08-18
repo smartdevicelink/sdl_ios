@@ -11,6 +11,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLRadioControlData : SDLRPCStruct
 
+-(instancetype) initWithFrequencyInteger:(NSNumber<SDLInt> *)frequencyInteger;
+-(instancetype) initWithFrequencyFraction:(NSNumber<SDLInt> *)frequencyFraction;
+-(instancetype) initWithBand:(SDLRadioBand)band;
+-(instancetype) initWithRdsData:(SDLRdsData *)rdsData;
+-(instancetype) initWithAvailableHDs:(NSNumber<SDLInt> *)availableHDs;
+-(instancetype) initWithHdChannel:(NSNumber<SDLInt> *)hdChannel;
+-(instancetype) initWithSignalStrength:(NSNumber<SDLInt> *)signalStrength;
+-(instancetype) initWithSignalChangeThreshold:(NSNumber<SDLInt> *)signalChangeThreshold;
+-(instancetype) initWithRadioEnable:(NSNumber<SDLBool> *)radioEnable;
+-(instancetype) initWithState:(SDLRadioState)state;
+
 /**
  * @abstract The integer part of the frequency ie for 101.7 this value should be 101
  *

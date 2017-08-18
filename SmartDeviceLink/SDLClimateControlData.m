@@ -11,6 +11,34 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLClimateControlData
 
+-(instancetype) init {
+    self = [super init];
+    
+    if(!self){
+        return nil;
+    }
+    
+    return self;
+}
+
+- (instancetype) initWithFanSpeed: (NSNumber<SDLInt> *)fanSpeed andCurrentTemperature:(SDLTemperature *)currentTemperature andDesiredTemperature:(SDLTemperature *)desiredTemperature andAcEnable:(NSNumber<SDLBool> *)acEnable andCirculateAirEnable:(NSNumber<SDLBool> *)circulateAirEnable andAutoModeEnable:(NSNumber<SDLBool> *)autoModeEnable andDefrostZone:(SDLDefrostZone)defrostZone andDualModeEnable:(NSNumber<SDLBool> *)dualModeEnable andAcMaxEnable:(NSNumber<SDLBool> *)acMaxEnable andVentilationMode:(SDLVentilationMode)ventilationMode {
+    
+    self = [self init];
+    
+    self.fanSpeed = fanSpeed;
+    self.currentTemperature = currentTemperature;
+    self.desiredTemperature = desiredTemperature;
+    self.acEnable = acEnable;
+    self.circulateAirEnable = circulateAirEnable;
+    self.autoModeEnable = autoModeEnable;
+    self.defrostZone = defrostZone;
+    self.dualModeEnable = dualModeEnable;
+    self.acMaxEnable = acMaxEnable;
+    self.ventilationMode = ventilationMode;
+    
+    return self;
+}
+
 - (void)setFanSpeed:(nullable NSNumber<SDLInt> *)fanSpeed {
     [store sdl_setObject:fanSpeed forName:SDLNameFanSpeed];
 }

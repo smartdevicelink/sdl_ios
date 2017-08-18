@@ -17,6 +17,32 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithType:(SDLModuleType )moduleType {
+    self = [self init];
+    
+    if (!self) {
+        return nil;
+    }
+    
+    
+    
+    self.moduleType = moduleType;
+    
+    return self;
+}
+
+- (instancetype)initWithButtonName:(SDLButtonName) buttonName {
+    self = [self init];
+    
+    if (!self) {
+        return nil;
+    }
+    
+    self.buttonName = buttonName;
+    
+    return self;
+}
+
 
 - (void)setModuleType:(SDLModuleType )moduleType {
     [parameters sdl_setObject:moduleType forName:SDLNameModuleType];

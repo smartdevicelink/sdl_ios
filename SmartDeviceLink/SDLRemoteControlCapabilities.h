@@ -11,6 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLRemoteControlCapabilities : SDLRPCStruct
 
+-(instancetype) initWithClimateControlCapabilities:(NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities;
+-(instancetype) initWithRadioControlCapabilities:(NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities;
+-(instancetype) initWithButtonCapabilities:(NSArray *)buttonCapabilities;
+
+
 /**
  * @abstract If included, the platform supports RC climate controls.
  * For this baseline version, maxsize=1. i.e. only one climate control module is supported.

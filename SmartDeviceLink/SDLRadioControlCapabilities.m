@@ -10,6 +10,96 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRadioControlCapabilities
 
+-(instancetype) init {
+    self = [super init];
+    
+    if(!self){
+        return nil;
+    }
+    
+    return self;
+}
+
+-(instancetype) initWithModuleName: (NSString *) moduleName {
+    self = [self init];
+    
+    self.moduleName = moduleName;
+    
+    return self;
+}
+
+-(instancetype) initWithRadioEnableAvailable:(NSNumber<SDLBool> *)radioEnableAvailable {
+    self = [self init];
+    
+    self.radioEnableAvailable = radioEnableAvailable;
+    
+    return self;
+}
+
+-(instancetype) initWithRadioBandAvailable:(NSNumber<SDLBool> *)radioBandAvailable {
+    self = [self init];
+    
+    self.radioBandAvailable = radioBandAvailable;
+    
+    return self;
+}
+
+-(instancetype) initWithRadioFrequencyAvailable:(NSNumber<SDLBool> *)radioFrequencyAvailable {
+    self = [self init];
+    
+    self.radioFrequencyAvailable = radioFrequencyAvailable;
+    
+    return self;
+}
+
+-(instancetype) initWithHDChannelAvailable:(NSNumber<SDLBool> *)hdChannelAvailable {
+    self = [self init];
+    
+    self.hdChannelAvailable = hdChannelAvailable;
+    
+    return self;
+}
+
+-(instancetype) initWithRdsDataAvailable:(NSNumber<SDLBool> *)rdsDataAvailable {
+    self = [self init];
+    
+    self.rdsDataAvailable = rdsDataAvailable;
+    
+    return self;
+}
+
+-(instancetype) initWithAvailableHDsAvailable:(NSNumber<SDLBool> *)availableHDsAvailable {
+    self = [self init];
+    
+    self.availableHDsAvailable = availableHDsAvailable;
+    
+    return self;
+}
+
+-(instancetype) initWithStateAvailable:(NSNumber<SDLBool> *)stateAvailable {
+    self = [self init];
+    
+    self.stateAvailable = stateAvailable;
+    
+    return self;
+}
+
+-(instancetype) initWithSignalStrengthAvailable:(NSNumber<SDLBool> *)signalStrengthAvailable {
+    self = [self init];
+    
+    self.signalStrengthAvailable = signalStrengthAvailable;
+    
+    return self;
+}
+
+-(instancetype) initWithSignalChangeThresholdAvailable:(NSNumber<SDLBool> *)signalChangeThresholdAvailable {
+    self = [self init];
+    
+    self.signalChangeThresholdAvailable = signalChangeThresholdAvailable;
+    
+    return self;
+}
+
 - (void)setModuleName:(NSString *)moduleName {
     [store sdl_setObject:moduleName forName:SDLNameModuleName];
 }
