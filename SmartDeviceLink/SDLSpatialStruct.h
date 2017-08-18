@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLSpatialStruct : SDLRPCStruct
 
-- (instancetype)initWithId:(UInt32)id x:(NSNumber<SDLInt> *)x y:(NSNumber<SDLInt> *)y width:(NSNumber<SDLInt> *)width height:(NSNumber<SDLInt> *)height;
+- (instancetype)initWithId:(UInt32)id x:(float)x y:(float)y width:(float)width height:(float)height;
 
 - (instancetype)initWithId:(NSNumber *)id CGRect:(CGRect)rect;
 
