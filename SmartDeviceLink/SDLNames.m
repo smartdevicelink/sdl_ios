@@ -136,6 +136,7 @@ SDLName const SDLNameGPS = @"gps";
 SDLName const SDLNameGraphic = @"graphic";
 SDLName const SDLNameGraphicSupported = @"graphicSupported";
 SDLName const SDLNameHapticSpatialData = @"hapticSpatialData";
+SDLName const SDLNameHapticSpatialDataSupported = @"hapticSpatialDataSupported";
 SDLName const SDLNameHardware = @"hardware";
 SDLName const SDLNameHashId = @"hashID";
 SDLName const SDLNameHDOP = @"hdop";

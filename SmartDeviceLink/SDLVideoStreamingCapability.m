@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVideoStreamingCapability
 
-- (instancetype)initWithVideoStreaming:(nullable SDLImageResolution *)preferredResolution maxBitrate:(nullable NSNumber *)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
+- (instancetype)initWithVideoStreaming:(nullable SDLImageResolution *)preferredResolution maxBitrate:(nullable NSNumber<SDLInt> *)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(nullable NSNumber<SDLBool> *)hapticDataSupported {
     self = [self init];
     if (!self) {
         return self;
@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.maxBitrate = maxBitrate;
     self.preferredResolution = preferredResolution;
     self.supportedFormats = supportedFormats;
+    self.hapticSpatialDataSupported = hapticDataSupported;
 
     return self;
 }
@@ -52,6 +53,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
     return [store sdl_objectsForName:SDLNameSupportedFormats ofClass:SDLVideoStreamingFormat.class];
+}
+
+- (void)setHapticSpatialDataSupported:(nullable NSNumber<SDLBool> *)hapticSpatialDataSupported {
+    [store sdl_setObject:hapticSpatialDataSupported forName:SDLNameHapticSpatialDataSupported];
+}
+
+- (nullable NSNumber<SDLBool> *)hapticSpatialDataSupported {
+    return [store sdl_objectForName:SDLNameHapticSpatialDataSupported];
 }
 
 @end

@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLVideoStreamingCapability : SDLRPCStruct
 
-- (instancetype)initWithVideoStreaming:(nullable SDLImageResolution *)preferredResolution maxBitrate:(nullable NSNumber *)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats;
+- (instancetype)initWithVideoStreaming:(nullable SDLImageResolution *)preferredResolution maxBitrate:(nullable NSNumber<SDLInt> *)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(nullable NSNumber<SDLBool> *)hapticDataSupported;
 /**
  * @abstract The preferred resolution of a video stream for decoding and rendering on HMI, optional
  */
@@ -35,6 +35,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, strong, nonatomic) NSArray<SDLVideoStreamingFormat *> *supportedFormats;
 
+/**
+ True if the system can utilize the haptic spatial data from the source being streamed.
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *hapticSpatialDataSupported;
 
 @end
 

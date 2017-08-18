@@ -139,6 +139,7 @@ extern SDLName const SDLNameGPS;
 extern SDLName const SDLNameGraphic;
 extern SDLName const SDLNameGraphicSupported;
 extern SDLName const SDLNameHapticSpatialData;
+extern SDLName const SDLNameHapticSpatialDataSupported;
 extern SDLName const SDLNameHardware;
 extern SDLName const SDLNameHashId;
 extern SDLName const SDLNameHDOP;
