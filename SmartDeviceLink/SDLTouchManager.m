@@ -12,12 +12,15 @@
 #import "dispatch_timer.h"
 
 #import "SDLLogMacros.h"
+#import "SDLNotificationConstants.h"
 #import "SDLOnTouchEvent.h"
 #import "SDLPinchGesture.h"
+#import "SDLProxyListener.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLTouch.h"
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
-#import "SDLTouchType.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -87,6 +90,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     _tapDistanceThreshold = 50.0f;
     _touchEnabled = YES;
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onTouchEvent:) name:SDLDidReceiveTouchEventNotification object:nil];
+    
     return self;
 }
 
@@ -95,34 +100,34 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     [self sdl_cancelSingleTapTimer];
 }
 
-#pragma mark - SDLProxyListener Delegate
-- (void)onProxyOpened {
-}
-- (void)onProxyClosed {
-}
-- (void)onOnHMIStatus:(SDLOnHMIStatus *)notification {
-}
-- (void)onOnDriverDistraction:(SDLOnDriverDistraction *)notification {
-}
+#pragma mark - SDLDidReceiveTouchEventNotification
 
-- (void)onOnTouchEvent:(SDLOnTouchEvent *)notification {
-    if (!self.isTouchEnabled) {
+- (void)sdl_onTouchEvent:(SDLRPCNotificationNotification *)notification {
+    if (!self.isTouchEnabled
+        || (!self.touchEventHandler && !self.touchEventDelegate)
+        || ![notification.notification isKindOfClass:SDLOnTouchEvent.class]) {
         return;
     }
-
-    SDLTouchEvent *touchEvent = notification.event.firstObject;
-
+    
+    SDLOnTouchEvent* onTouchEvent = (SDLOnTouchEvent*)notification.notification;
+    
+    SDLTouchType touchType = onTouchEvent.type;
+    SDLTouchEvent *touchEvent = onTouchEvent.event.firstObject;
     SDLTouch *touch = [[SDLTouch alloc] initWithTouchEvent:touchEvent];
 
-    if (touch.identifier > MaximumNumberOfTouches) {
+    if (self.touchEventHandler) {
+        self.touchEventHandler(touch, touchType);
+    }
+    
+    if (!self.touchEventDelegate || (touch.identifier > MaximumNumberOfTouches)) {
         return;
     }
 
-    if ([notification.type isEqualToEnum:SDLTouchTypeBegin]) {
+    if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeBegin]) {
         [self sdl_handleTouchBegan:touch];
-    } else if ([notification.type isEqualToEnum:SDLTouchTypeMove]) {
+    } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeMove]) {
         [self sdl_handleTouchMoved:touch];
-    } else if ([notification.type isEqualToEnum:SDLTouchTypeEnd]) {
+    } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeEnd]) {
         [self sdl_handleTouchEnded:touch];
     }
 }

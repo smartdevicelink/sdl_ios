@@ -37,7 +37,6 @@ describe(@"a lifecycle configuration", ^{
             expect(testConfig.ttsName).to(beNil());
             expect(testConfig.voiceRecognitionCommandNames).to(beNil());
             expect(testConfig.resumeHash).to(beNil());
-            expect(testConfig.securityManagers).to(beNil());
         });
         
         describe(@"after setting properties manually", ^{
@@ -81,7 +80,6 @@ describe(@"a lifecycle configuration", ^{
                 expect(testConfig.ttsName).to(haveCount(@1));
                 expect(testConfig.voiceRecognitionCommandNames).to(haveCount(@(someSynonyms.count)));
                 expect(testConfig.resumeHash).to(match(someResumeHashString));
-                expect(testConfig.securityManagers).to(beNil());
             });
         });
     });
@@ -109,12 +107,11 @@ describe(@"a lifecycle configuration", ^{
             expect(@(testConfig.tcpDebugPort)).to(equal(@(somePort)));
             expect(@([testConfig.appType isEqualToEnum:SDLAppHMITypeDefault])).to(equal(@YES));
             expect(@([testConfig.language isEqualToEnum:SDLLanguageEnUs])).to(equal(@YES));
-            expect(@([[testConfig.languagesSupported firstObject] isEqualToString:SDLLanguageEnUs])).to(equal(@YES));
+            expect(@([[testConfig.languagesSupported firstObject] isEqualToEnum:SDLLanguageEnUs])).to(equal(@YES));
             expect(testConfig.shortAppName).to(beNil());
             expect(testConfig.ttsName).to(beNil());
             expect(testConfig.voiceRecognitionCommandNames).to(beNil());
             expect(testConfig.resumeHash).to(beNil());
-            expect(testConfig.securityManagers).to(beNil());
         });
         
         describe(@"after setting properties manually", ^{
@@ -156,7 +153,6 @@ describe(@"a lifecycle configuration", ^{
                 expect(testConfig.ttsName).to(contain(someTTSChunk));
                 expect(testConfig.ttsName).to(haveCount(@1));
                 expect(testConfig.voiceRecognitionCommandNames).to(haveCount(@(someSynonyms.count)));
-                expect(testConfig.securityManagers).to(beNil());
             });
         });
     });

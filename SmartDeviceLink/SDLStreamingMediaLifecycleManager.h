@@ -1,24 +1,56 @@
 //
-//  SDLStreamingDataManager.h
+//  SDLStreamingMediaLifecycleManager.h
 //  SmartDeviceLink-iOS
 //
-//  Created by Joel Fischer on 8/11/15.
-//  Copyright (c) 2015 smartdevicelink. All rights reserved.
+//  Created by Muller, Alexander (A.) on 2/16/17.
+//  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <VideoToolbox/VideoToolbox.h>
 
+#import "SDLHMILevel.h"
+#import "SDLProtocolListener.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
 @class SDLAbstractProtocol;
+@class SDLStateMachine;
 @class SDLTouchManager;
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NSString SDLAppState;
+extern SDLAppState *const SDLAppStateInactive;
+extern SDLAppState *const SDLAppStateActive;
+
+typedef NSString SDLVideoStreamState;
+extern SDLVideoStreamState *const SDLVideoStreamStateStopped;
+extern SDLVideoStreamState *const SDLVideoStreamStateStarting;
+extern SDLVideoStreamState *const SDLVideoStreamStateReady;
+extern SDLVideoStreamState *const SDLVideoStreamStateShuttingDown;
+
+typedef NSString SDLAudioStreamState;
+extern SDLAudioStreamState *const SDLAudioStreamStateStopped;
+extern SDLAudioStreamState *const SDLAudioStreamStateStarting;
+extern SDLAudioStreamState *const SDLAudioStreamStateReady;
+extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
+
+
 #pragma mark - Interface
 
-@interface SDLStreamingMediaManager : NSObject
+@interface SDLStreamingMediaLifecycleManager : NSObject <SDLProtocolListener>
+
+@property (strong, nonatomic, readonly) SDLStateMachine *appStateMachine;
+@property (strong, nonatomic, readonly) SDLStateMachine *videoStreamStateMachine;
+@property (strong, nonatomic, readonly) SDLStateMachine *audioStreamStateMachine;
+
+@property (strong, nonatomic, readonly) SDLAppState *currentAppState;
+@property (strong, nonatomic, readonly) SDLAudioStreamState *currentAudioStreamState;
+@property (strong, nonatomic, readonly) SDLVideoStreamState *currentVideoStreamState;
+
+@property (copy, nonatomic, nullable) SDLHMILevel hmiLevel;
+
+@property (assign, nonatomic, readonly, getter=shouldRestartVideoStream) BOOL restartVideoStream;
 
 /**
  *  Touch Manager responsible for providing touch event notifications.
@@ -70,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The pixel buffer pool reference returned back from an active VTCompressionSessionRef encoder.
  *
- *  @warning This will only return a valid pixel buffer pool after the encoder has been initialized (when the video     session has started).
+ *  @warning    This will only return a valid pixel buffer pool after the encoder has been initialized (when the video     session has started).
  *  @discussion Clients may call this once and retain the resulting pool, this call is cheap enough that it's OK to call it once per frame.
  */
 @property (assign, nonatomic, readonly, nullable) CVPixelBufferPoolRef pixelBufferPool;
@@ -95,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
  *
- *  @param completionHandler The block to be called when the manager's setup is complete.
+ *  @param completionHandler    The block to be called when the manager's setup is complete.
  */
 - (void)startWithProtocol:(SDLAbstractProtocol*)protocol completionHandler:(void (^)(BOOL success, NSError *__nullable error))completionHandler;
 
@@ -107,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.
  *
- *  @param imageBuffer A CVImageBufferRef to be encoded by Video Toolbox
+ *  @param imageBuffer  A CVImageBufferRef to be encoded by Video Toolbox
  *
  *  @return Whether or not the data was successfully encoded and sent.
  */
@@ -116,7 +148,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback
  *
- *  @param audioData The data in PCM audio format, to be played
+ *  @param audioData    The data in PCM audio format, to be played
  *
  *  @return Whether or not the data was successfully sent.
  */

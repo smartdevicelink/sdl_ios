@@ -11,6 +11,7 @@
 #import "SDLLifecycleManager.h"
 
 #import "NSMapTable+Subscripting.h"
+#import "SDLAbstractProtocol.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLLogMacros.h"
@@ -40,6 +41,8 @@
 #import "SDLResult.h"
 #import "SDLSetAppIcon.h"
 #import "SDLStateMachine.h"
+#import "SDLStreamingMediaConfiguration.h"
+#import "SDLStreamingMediaManager.h"
 #import "SDLUnregisterAppInterface.h"
 
 
@@ -77,7 +80,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 #pragma mark Lifecycle
 
 - (instancetype)init {
-    return [self initWithConfiguration:[SDLConfiguration configurationWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"SDL APP" appId:@"001"] lockScreen:[SDLLockScreenConfiguration disabledConfiguration]] delegate:nil];
+    return [self initWithConfiguration:[SDLConfiguration configurationWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"SDL APP" appId:@"001"] lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration]] delegate:nil];
 }
 
 - (instancetype)initWithConfiguration:(SDLConfiguration *)configuration delegate:(nullable id<SDLManagerDelegate>)delegate {
@@ -85,6 +88,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (!self) {
         return nil;
     }
+
+    SDLLogV(@"Creating Lifecycle Manager");
 
     // Dependencies
     _configuration = [configuration copy];
@@ -104,6 +109,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
+    
+    if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation]
+        || [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection]) {
+        SDLLogV(@"Creating StreamingMediaManager for app type: %@", configuration.lifecycleConfig.appType);
+        _streamManager = [[SDLStreamingMediaManager alloc] initWithEncryption:configuration.streamingMediaConfig.maximumDesiredEncryption videoEncoderSettings:configuration.streamingMediaConfig.customVideoEncoderSettings];
+    } else {
+        SDLLogV(@"Skipping StreamingMediaManager setup due to app type");
+    }
 
     // Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transportDidConnect) name:SDLTransportDidConnect object:_notificationDispatcher];
@@ -135,10 +148,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 
 #pragma mark Getters
-
-- (nullable SDLStreamingMediaManager *)streamManager {
-    return self.proxy.streamingMediaManager;
-}
 
 - (SDLState *)lifecycleState {
     return self.lifecycleStateMachine.currentState;
@@ -212,8 +221,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)didEnterStateConnected {
     // If we have security managers, add them to the proxy
-    if (self.configuration.lifecycleConfig.securityManagers != nil) {
-        [self.proxy addSecurityManagers:self.configuration.lifecycleConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
+    if (self.configuration.streamingMediaConfig.securityManagers != nil) {
+        [self.proxy addSecurityManagers:self.configuration.streamingMediaConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
     }
 
     // Build a register app interface request with the configuration data
@@ -263,6 +272,19 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
             SDLLogW(@"Permission manager was unable to start; error: %@", error);
         }
 
+        dispatch_group_leave(managerGroup);
+    }];
+    
+
+    if (self.streamManager != nil) {
+        dispatch_group_enter(managerGroup);
+    }
+    
+    [self.streamManager startWithProtocol:self.proxy.protocol completionHandler:^(BOOL success, NSError * _Nullable error) {
+        if (!success) {
+            SDLLogE(@"Streaming media manager was unable to start; error: %@", error);
+        }
+        
         dispatch_group_leave(managerGroup);
     }];
 

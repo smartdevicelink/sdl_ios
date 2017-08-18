@@ -222,6 +222,7 @@ SDLName const SDLNameMenuTitle = @"menuTitle";
 SDLName const SDLNameMessageData = @"messageData";
 SDLName const SDLNameMessageDataResult = @"messageDataResult";
 SDLName const SDLNameMessageLength = @"messageLength";
+SDLName const SDLNameMetadataTags = @"metadataTags";
 SDLName const SDLNameMiddleRow1BeltDeployed = @"middleRow1BeltDeployed";
 SDLName const SDLNameMiddleRow1BuckleBelted = @"middleRow1BuckleBelted";
 SDLName const SDLNameMiddleRow2BuckleBelted = @"middleRow2BuckleBelted";
