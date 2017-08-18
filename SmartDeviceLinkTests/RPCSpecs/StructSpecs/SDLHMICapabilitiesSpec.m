@@ -43,7 +43,8 @@ describe(@"SDLHMICapabilities struct", ^{
         beforeEach(^{
             NSDictionary<NSString *, NSNumber *> *structInitDict = @{
                                              SDLNameNavigation: someNavigationState,
-                                             SDLNamePhoneCall: somePhoneCallState
+                                             SDLNamePhoneCall: somePhoneCallState,
+                                             SDLNameVideoStreaming: someVideoStreamState
                                              };
             testStruct = [[SDLHMICapabilities alloc] initWithDictionary:[structInitDict mutableCopy]];
         });
