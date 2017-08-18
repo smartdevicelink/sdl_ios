@@ -6,6 +6,8 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
+
 #import "SDLRPCStruct.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -15,7 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLSpatialStruct : SDLRPCStruct
 
-- (instancetype)initWithId:(UInt32)id x:(NSNumber *)x y:(NSNumber *)y width:(NSNumber *)width height:(NSNumber *)height;
+- (instancetype)initWithId:(UInt32)id x:(NSNumber<SDLInt> *)x y:(NSNumber<SDLInt> *)y width:(NSNumber<SDLInt> *)width height:(NSNumber<SDLInt> *)height;
+
+- (instancetype)initWithId:(NSNumber *)id CGRect:(CGRect)rect;
 
 /**
  *  A user control spatial identifier

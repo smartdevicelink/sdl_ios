@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSpatialStruct
 
-- (instancetype)initWithId:(UInt32)id x:(NSNumber<SDLFloat> *)x y:(NSNumber<SDLFloat> *)y width:(NSNumber<SDLFloat> *)width height:(NSNumber<SDLFloat> *)height {
+- (instancetype)initWithId:(UInt32)id x:(NSNumber<SDLInt> *)x y:(NSNumber<SDLInt> *)y width:(NSNumber<SDLInt> *)width height:(NSNumber<SDLInt> *)height {
     self = [self init];
     if (!self) {
         return nil;
@@ -25,6 +25,21 @@ NS_ASSUME_NONNULL_BEGIN
     self.y = y;
     self.width = width;
     self.height = height;
+
+    return self;
+}
+
+- (instancetype)initWithId:(NSNumber *)id CGRect:(CGRect)rect {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.id = id;
+    self.x = @((uint64_t)rect.origin.x);
+    self.y = @((uint64_t)rect.origin.y);
+    self.width = @((uint64_t)rect.size.width);
+    self.height = @((uint64_t)rect.size.height);
 
     return self;
 }
