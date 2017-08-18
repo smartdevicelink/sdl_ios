@@ -17,6 +17,36 @@
     return self;
 }
 
+- (instancetype)initWithId:(NSNumber *)id xCoord:(NSNumber *)x yCoord:(NSNumber *)y width:(NSNumber *)width height:(NSNumber *)height {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.id = id;
+    self.x = x;
+    self.y = y;
+    self.width = width;
+    self.height = height;
+
+    return self;
+}
+
+- (instancetype)initWithId:(NSNumber *)id CGRect:(CGRect)rect {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.id = id;
+    self.x = @((uint64_t)rect.origin.x);
+    self.y = @((uint64_t)rect.origin.y);
+    self.width = @((uint64_t)rect.size.width);
+    self.height = @((uint64_t)rect.size.height);
+
+    return self;
+}
+
 - (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
     }
