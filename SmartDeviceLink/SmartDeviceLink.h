@@ -201,6 +201,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLLocationCoordinate.h"
 #import "SDLLocationDetails.h"
 #import "SDLMenuParams.h"
+#import "SDLMetadataTags.h"
 #import "SDLMyKey.h"
 #import "SDLNavigationCapability.h"
 #import "SDLParameterPermissions.h"
@@ -224,6 +225,8 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLTurn.h"
 #import "SDLVehicleDataResult.h"
 #import "SDLVehicleType.h"
+#import "SDLVideoStreamingCapability.h"
+#import "SDLVideoStreamingFormat.h"
 #import "SDLVrHelpItem.h"
 
 // Enums
@@ -265,6 +268,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLLockScreenStatus.h"
 #import "SDLMaintenanceModeStatus.h"
 #import "SDLMediaClockFormat.h"
+#import "SDLMetadataType.h"
 #import "SDLPRNDL.h"
 #import "SDLPermissionStatus.h"
 #import "SDLPowerModeQualificationStatus.h"
@@ -294,6 +298,8 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLVehicleDataResultCode.h"
 #import "SDLVehicleDataStatus.h"
 #import "SDLVehicleDataType.h"
+#import "SDLVideoStreamingCodec.h"
+#import "SDLVideoStreamingProtocol.h"
 #import "SDLVrCapabilities.h"
 #import "SDLWarningLightStatus.h"
 #import "SDLWaypointType.h"

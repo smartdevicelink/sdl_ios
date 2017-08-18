@@ -8,6 +8,7 @@ s.license      = { :type => "New BSD", :file => "LICENSE" }
 s.author       = { "SmartDeviceLink Team" => "developer@smartdevicelink.com" }
 s.platform     = :ios, "6.0"
 s.source       = { :git => "https://github.com/smartdevicelink/sdl_ios.git", :tag => s.version.to_s }
+s.dependency     'BiSON', '~> 1.0'
 s.source_files = "SmartDeviceLink/*.{h,m}"
 s.requires_arc = true
 s.resource_bundles = { 'SmartDeviceLink' => ['SmartDeviceLink/Assets/**/*', 'SmartDeviceLink/iOS 7 Assets/*'] }
@@ -198,9 +199,11 @@ s.public_header_files = [
 'SmartDeviceLink/SDLTouchEvent.h',
 'SmartDeviceLink/SDLTouchEventCapabilities.h',
 'SmartDeviceLink/SDLTurn.h',
-'SmartDeviceLink/SDLVRHelpItem.h',
 'SmartDeviceLink/SDLVehicleDataResult.h',
 'SmartDeviceLink/SDLVehicleType.h',
+'SmartDeviceLink/SDLVideoStreamingFormat.h',
+'SmartDeviceLink/SDLVideoStreamingCapability.h'
+'SmartDeviceLink/SDLVRHelpItem.h',
 'SmartDeviceLink/SDLAmbientLightStatus.h',
 'SmartDeviceLink/SDLAppHMIType.h',
 'SmartDeviceLink/SDLAppInterfaceUnregisteredReason.h',
@@ -272,6 +275,8 @@ s.public_header_files = [
 'SmartDeviceLink/SDLVehicleDataResultCode.h',
 'SmartDeviceLink/SDLVehicleDataStatus.h',
 'SmartDeviceLink/SDLVehicleDataType.h',
+'SmartDeviceLink/SDLVideoStreamingCodec.h',
+'SmartDeviceLink/SDLVideoStreamingProtocol.h',
 'SmartDeviceLink/SDLWarningLightStatus.h',
 'SmartDeviceLink/SDLWaypointType.h',
 'SmartDeviceLink/SDLWiperStatus.h',
@@ -292,7 +297,9 @@ s.public_header_files = [
 'SmartDeviceLink/SDLNotificationConstants.h',
 'SmartDeviceLink/SDLRequestHandler.h',
 'SmartDeviceLink/SDLRPCNotificationNotification.h',
-'SmartDeviceLink/SDLRPCResponseNotification.h'
+'SmartDeviceLink/SDLRPCResponseNotification.h',
+'SmartDeviceLink/SDLMetadataTags.h',
+'SmartDeviceLink/SDLMetadataType.h'
 ]
 
 end
