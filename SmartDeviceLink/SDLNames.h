@@ -212,6 +212,7 @@
 #define NAMES_messageData @"messageData"
 #define NAMES_messageDataResult @"messageDataResult"
 #define NAMES_messageLength @"messageLength"
+#define NAMES_metadataTags @"metadataTags"
 #define NAMES_middleRow1BeltDeployed @"middleRow1BeltDeployed"
 #define NAMES_middleRow1BuckleBelted @"middleRow1BuckleBelted"
 #define NAMES_middleRow2BuckleBelted @"middleRow2BuckleBelted"
