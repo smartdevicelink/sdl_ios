@@ -39,10 +39,10 @@
     }
 
     self.id = id;
-    self.x = @((uint64_t)rect.origin.x);
-    self.y = @((uint64_t)rect.origin.y);
-    self.width = @((uint64_t)rect.size.width);
-    self.height = @((uint64_t)rect.size.height);
+    self.x = @((float)rect.origin.x);
+    self.y = @((float)rect.origin.y);
+    self.width = @((float)rect.size.width);
+    self.height = @((float)rect.size.height);
 
     return self;
 }
