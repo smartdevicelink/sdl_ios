@@ -176,6 +176,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLImageResolution.h',
 'SmartDeviceLink/SDLKeyboardProperties.h',
 'SmartDeviceLink/SDLMenuParams.h',
+'SmartDeviceLink/SDLMetadataTags.h',
 'SmartDeviceLink/SDLMyKey.h',
 'SmartDeviceLink/SDLNavigationCapability.h',
 'SmartDeviceLink/SDLOasisAddress.h',
@@ -197,9 +198,11 @@ s.public_header_files = [
 'SmartDeviceLink/SDLTouchEvent.h',
 'SmartDeviceLink/SDLTouchEventCapabilities.h',
 'SmartDeviceLink/SDLTurn.h',
-'SmartDeviceLink/SDLVRHelpItem.h',
 'SmartDeviceLink/SDLVehicleDataResult.h',
 'SmartDeviceLink/SDLVehicleType.h',
+'SmartDeviceLink/SDLVideoStreamingFormat.h',
+'SmartDeviceLink/SDLVideoStreamingCapability.h'
+'SmartDeviceLink/SDLVRHelpItem.h',
 'SmartDeviceLink/SDLAmbientLightStatus.h',
 'SmartDeviceLink/SDLAppHMIType.h',
 'SmartDeviceLink/SDLAppInterfaceUnregisteredReason.h',
@@ -240,6 +243,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLLockScreenStatus.h',
 'SmartDeviceLink/SDLMaintenanceModeStatus.h',
 'SmartDeviceLink/SDLMediaClockFormat.h',
+'SmartDeviceLink/SDLMetadataType.h',
 'SmartDeviceLink/SDLPRNDL.h',
 'SmartDeviceLink/SDLPermissionStatus.h',
 'SmartDeviceLink/SDLPowerModeQualificationStatus.h',
@@ -270,6 +274,8 @@ s.public_header_files = [
 'SmartDeviceLink/SDLVehicleDataResultCode.h',
 'SmartDeviceLink/SDLVehicleDataStatus.h',
 'SmartDeviceLink/SDLVehicleDataType.h',
+'SmartDeviceLink/SDLVideoStreamingCodec.h',
+'SmartDeviceLink/SDLVideoStreamingProtocol.h',
 'SmartDeviceLink/SDLWarningLightStatus.h',
 'SmartDeviceLink/SDLWaypointType.h',
 'SmartDeviceLink/SDLWiperStatus.h',
@@ -291,8 +297,6 @@ s.public_header_files = [
 'SmartDeviceLink/SDLRequestHandler.h',
 'SmartDeviceLink/SDLRPCNotificationNotification.h',
 'SmartDeviceLink/SDLRPCResponseNotification.h',
-'SmartDeviceLink/SDLMetadataTags.h',
-'SmartDeviceLink/SDLMetadataType.h'
 ]
 
 end
