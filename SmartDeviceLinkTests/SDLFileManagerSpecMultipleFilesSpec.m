@@ -260,6 +260,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
             });
 
             it(@"should return an error if empty array of files is passed to file manager", ^{
+                [testSDLFiles removeAllObjects];
                 expectedError = [NSError sdl_fileManager_noFilesError];
                 expectedSpaceLeft = @(initialSpaceAvailable);
             });
@@ -540,6 +541,12 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                     expectedError = [NSError sdl_fileManager_unableToDeleteError:expectedFailedDeletes];
                     expectedSpaceLeft = @(testSpaceAvailable);
                 });
+            });
+
+            it(@"should return an error if empty array of file names is passed to file manager", ^{
+                [testDeleteFileNames removeAllObjects];
+                expectedError = [NSError sdl_fileManager_noFilesError];
+                expectedSpaceLeft = @(initialSpaceAvailable);
             });
         });
         
