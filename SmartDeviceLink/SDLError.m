@@ -144,6 +144,9 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorUnableToUpload userInfo:userInfo];
 }
 
++ (NSError *)sdl_fileManager_unableToDeleteError:(NSDictionary *)userInfo {
+    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorUnableToDelete userInfo:userInfo];
+}
 + (NSError *)sdl_fileManager_noFilesError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(@"The file manager was not given any files", nil),

@@ -88,21 +88,20 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 - (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)completion;
 
 /**
+ *  Deletes and array of files on the remote file system
+ *
+ *  @param names  The names of the files to be deleted
+ *  @param completionHandler  An optional completion handler that sends an error should one occur. The userInfo dictionary property, of type <SDLFileName: NSError>, will return information on all failed uploads. The key is the file name that did not delete properly, the value is an error describing what went wrong on that particular delete attempt.
+ */
+- (void)deleteRemoteFilesWithNames:(NSArray<SDLFileName *> *)names completionHandler:(nullable SDLFileManagerMultiDeleteCompletionHandler)completionHandler;
+
+/**
  *  Upload a file to the remote file system. If a file with the [SDLFile name] already exists, this will overwrite that file. If you do not want that to happen, check remoteFileNames before uploading, or change allowOverwrite to NO.
  *
  *  @param file       An SDLFile that contains metadata about the file to be sent
  *  @param completion An optional completion handler that sends an error should one occur.
  */
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)completion;
-
-/**
- *  A URL to the directory where temporary files are stored. When an SDLFile is created with NSData, it writes to a temporary file until the file manager finishes uploading it.
- *
- *  The SDL library manages the creation and deletion of these files and you should not have to touch this directory at all.
- *
- *  @return An NSURL pointing to the location on disk where SDL's temporary files are stored.
- */
-+ (NSURL *)temporaryFileDirectory;
 
 /**
  *  Uploads an array of files to the remote file system.
@@ -116,13 +115,19 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 /**
  *  Uploads an array of files to the remote file system.
  *
- *  @param files An array of SDLFiles to be sent
- *  @param completionHandler An optional completion handler that sends an error should one occur. The userInfo dictionary property, of type <SDLFileName: NSError>, will return information on all failed uploads. The key is the file name that did not delete properly, the value is an error describing what went wrong on that particular upload attempt.
+ *  @param files  An array of SDLFiles to be sent
+ *  @param completionHandler  An optional completion handler that sends an error should one occur. The userInfo dictionary property, of type <SDLFileName: NSError>, will return information on all failed uploads. The key is the file name that did not upload properly, the value is an error describing what went wrong on that particular upload attempt.
  */
 - (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler;
 
-// FIXME - Documentation for new method
-- (void)deleteRemoteFilesWithNames:(NSArray<SDLFileName *> *)names completionHandler:(nullable SDLFileManagerMultiDeleteCompletionHandler)completionHandler;
+/**
+ *  A URL to the directory where temporary files are stored. When an SDLFile is created with NSData, it writes to a temporary file until the file manager finishes uploading it.
+ *
+ *  The SDL library manages the creation and deletion of these files and you should not have to touch this directory at all.
+ *
+ *  @return An NSURL pointing to the location on disk where SDL's temporary files are stored.
+ */
++ (NSURL *)temporaryFileDirectory;
 
 @end
 

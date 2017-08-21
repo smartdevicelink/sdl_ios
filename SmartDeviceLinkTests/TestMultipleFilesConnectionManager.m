@@ -7,6 +7,7 @@
 //
 
 #import "TestMultipleFilesConnectionManager.h"
+#import "SDLDeleteFile.h"
 #import "SDLRPCRequest.h"
 #import "SDLPutFile.h"
 #import "SDLPutFileResponse.h"
@@ -26,7 +27,12 @@ NS_ASSUME_NONNULL_BEGIN
         TestResponse *response = self.responses[putfileRequest.syncFileName];
 
         if (response == nil || handler == nil) { return; }
+        handler(request, response.testResponse, response.testError);
+    } else if ([[request name] isEqualToString:SDLNameDeleteFile]) {
+        SDLDeleteFile *deleteFileRequest = (SDLDeleteFile *)request;
+        TestResponse *response = self.responses[deleteFileRequest.syncFileName];
 
+        if (response == nil || handler == nil) { return; }
         handler(request, response.testResponse, response.testError);
     }
 }

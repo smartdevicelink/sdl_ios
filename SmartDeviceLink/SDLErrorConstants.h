@@ -74,4 +74,8 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
      *  The file upload was cancelled.
      */
     SDLFileManagerUploadCanceled = -7,
+    /**
+     *  The file manager was unable to delete this file.
+     */
+    SDLFileManagerErrorUnableToDelete = -8,
 };

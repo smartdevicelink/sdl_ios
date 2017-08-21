@@ -10,7 +10,7 @@
 
 @implementation TestResponse
 
-- (instancetype)initWithResponse:(SDLPutFileResponse *)testResponse error:(NSError *)testError {
+- (instancetype)initWithResponse:(SDLRPCResponse *)testResponse error:(NSError *)testError {
     self = [super init];
     if (!self) {
         return nil;

@@ -218,7 +218,7 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
                                                                                  }
 
                                                                                  if (handler != nil) {
-                                                                                     handler(YES, self.bytesAvailable, nil);
+                                                                                     handler(success, self.bytesAvailable, error);
                                                                                  }
                                                                              }];
 
@@ -227,8 +227,7 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
 
 - (void)deleteRemoteFilesWithNames:(NSArray<SDLFileName *> *)names completionHandler:(nullable SDLFileManagerMultiDeleteCompletionHandler)completionHandler {
     if (names.count == 0) {
-        // TODO - return custom error
-        // return completionHandler([NSError sdl_fileManager_noFilesError]);
+        return completionHandler([NSError sdl_fileManager_noFilesError]);
     }
 
     NSMutableDictionary *failedDeletes = [[NSMutableDictionary alloc] init];
@@ -237,8 +236,8 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
     dispatch_group_enter(deleteFilesTask);
     for(NSString *name in names) {
         dispatch_group_enter(deleteFilesTask);
-        [self sdl_deleteFileAsync:name completionHandler:^(Boolean success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-            if (success == false) {
+        [self deleteRemoteFileWithName:name completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+            if(!success) {
                 failedDeletes[name] = error;
             }
             dispatch_group_leave(deleteFilesTask);
@@ -246,39 +245,18 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
     }
     dispatch_group_leave(deleteFilesTask);
 
-    dispatch_queue_t waitingQueue = dispatch_queue_create(BackgroundDeleteFilesWaitingQueue, DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(waitingQueue, ^{
+    // Wait for all files to be deleted
+    dispatch_async(dispatch_queue_create(BackgroundDeleteFilesWaitingQueue, DISPATCH_QUEUE_CONCURRENT), ^{
         dispatch_group_wait(deleteFilesTask, DISPATCH_TIME_FOREVER);
         dispatch_async(dispatch_get_main_queue(), ^{
             if (completionHandler == nil) { return; }
-                        if (failedDeletes.count > 0) {
-                            // TODO: return custom error
-//                            return completionHandler([NSError sdl_fileManager_unableToUploadError:failedDeletes]);
-                        }
-            
-                        return completionHandler(nil);
+            if (failedDeletes.count > 0) {
+                return completionHandler([NSError sdl_fileManager_unableToDeleteError:failedDeletes]);
+            }
+            return completionHandler(nil);
         });
     });
 }
-
-/**
- *  Deletes each file in on a serial background queue.
- *
- *  @param name    The name of the file to delete
- *  @param handler Called when a response is received from the remote
- */
-- (void)sdl_deleteFileAsync:(NSString *)name completionHandler:(void (^)(Boolean success, NSUInteger bytesAvailable, NSError * _Nullable error))handler {
-    dispatch_queue_t backgroundQueue = dispatch_queue_create(BackgroundDeleteFilesQueue, DISPATCH_QUEUE_SERIAL);
-    dispatch_sync(backgroundQueue, ^{
-        [self deleteRemoteFileWithName:name completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (handler == nil) { return; }
-                return handler(success, bytesAvailable, error);
-            });
-        }];
-    });
-}
-
 
 #pragma mark - Uploading
 
@@ -299,17 +277,18 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
     dispatch_group_enter(uploadFilesTask);
     for(SDLFile *file in files) {
         dispatch_group_enter(uploadFilesTask);
-        [self sdl_uploadFileAsync:file completionHandler:^(Boolean success, NSString * _Nonnull fileName, NSError * _Nullable error) {
-            if (success == false) {
-                failedUploads[fileName] = error;
+
+        [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+            if(!success) {
+                failedUploads[file.name] = error;
             }
 
-            // Send an update
+            // Send an update on each file
             if (progressHandler != nil) {
                 totalBytesUploaded += file.fileSize;
                 float uploadPercentage = [self sdl_uploadPercentage:totalBytesToUpload uploadedBytes:totalBytesUploaded];
                 Boolean cancel = false;
-                progressHandler(fileName, uploadPercentage, &cancel, error);
+                progressHandler(file.name, uploadPercentage, &cancel, error);
 
                 if (cancel) {
                     dispatch_group_leave(uploadFilesTask);
@@ -317,41 +296,21 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
                     BLOCK_RETURN;
                 }
             }
-
             dispatch_group_leave(uploadFilesTask);
         }];
     }
     dispatch_group_leave(uploadFilesTask);
 
-    dispatch_queue_t waitingQueue = dispatch_queue_create(BackgroundUploadFilesWaitingQueue, DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(waitingQueue, ^{
+    // Wait for all files to be uploaded
+    dispatch_async(dispatch_queue_create(BackgroundUploadFilesWaitingQueue, DISPATCH_QUEUE_CONCURRENT), ^{
         dispatch_group_wait(uploadFilesTask, DISPATCH_TIME_FOREVER);
         dispatch_async(dispatch_get_main_queue(), ^{
             if (completionHandler == nil) { return; }
             if (failedUploads.count > 0) {
                 return completionHandler([NSError sdl_fileManager_unableToUploadError:failedUploads]);
             }
-
             return completionHandler(nil);
         });
-    });
-}
-
-/**
- *  Uploads each file in on a serial background queue.
- *
- *  @param file    The file to upload
- *  @param handler Called when a response is received from the remote
- */
-- (void)sdl_uploadFileAsync:(SDLFile *)file completionHandler:(void (^)(Boolean success, NSString *fileName, NSError * _Nullable error))handler {
-    dispatch_queue_t backgroundQueue = dispatch_queue_create(BackgroundUploadFilesQueue, DISPATCH_QUEUE_SERIAL);
-    dispatch_sync(backgroundQueue, ^{
-        [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (handler == nil) { return; }
-                return handler(success, [file name], error);
-            });
-        }];
     });
 }
 

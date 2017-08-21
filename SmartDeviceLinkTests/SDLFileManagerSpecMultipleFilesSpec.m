@@ -28,31 +28,43 @@
 
 QuickSpecBegin(SDLFileManagerSpecMultipleFilesSpec)
 
-describe(@"Uploading multiple files", ^{
-    __block TestMultipleFilesConnectionManager *testConnectionManager = nil;
-    __block SDLFileManager *testFileManager = nil;
-    __block NSUInteger initialSpaceAvailable = 0;
-    __block SDLListFilesResponse *testListFilesResponse = nil;
-    __block NSMutableArray<SDLFile *> *testSDLFiles = nil;
-    __block NSMutableArray *expectedSuccessfulFileNames;
-    __block NSNumber *expectedSpaceLeft = nil;
+describe(@"SDLFileManager uploading/deleting multiple files", ^{
+    __block TestMultipleFilesConnectionManager *testConnectionManager;
+    __block SDLFileManager *testFileManager;
+    __block NSUInteger initialSpaceAvailable;
 
     beforeEach(^{
         testConnectionManager = [[TestMultipleFilesConnectionManager alloc] init];
         testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager];
-        initialSpaceAvailable = 9666;
-
-        testListFilesResponse = [[SDLListFilesResponse alloc] init];
-        testListFilesResponse.success = @YES;
-        testListFilesResponse.spaceAvailable = @(initialSpaceAvailable);
-        testListFilesResponse.filenames = [[NSArray alloc] initWithObjects:@"A", @"B", @"C", nil];
-
-        testSDLFiles = [NSMutableArray array];
-        expectedSuccessfulFileNames = [NSMutableArray array];
+        initialSpaceAvailable = 66666;
     });
 
-    context(@"After uploading", ^{
+    context(@"When the file manager is passed multiple files to upload", ^{
+        __block SDLListFilesResponse *testListFilesResponse;
+        __block NSMutableArray<SDLFile *> *testSDLFiles;
+        __block NSMutableArray *expectedSuccessfulFileNames;
+        __block NSNumber *expectedSpaceLeft;
+        __block SDLPutFileResponse *failedResponse;
+        __block SDLPutFileResponse *successfulResponse;
+
         beforeEach(^{
+            testSDLFiles = [NSMutableArray array];
+            expectedSuccessfulFileNames = [NSMutableArray array];
+            expectedSpaceLeft = @(initialSpaceAvailable);
+
+            testListFilesResponse = [[SDLListFilesResponse alloc] init];
+            testListFilesResponse.success = @YES;
+            testListFilesResponse.spaceAvailable = @(initialSpaceAvailable);
+            testListFilesResponse.filenames = [[NSArray alloc] initWithObjects:@"A", @"B", @"C", nil];
+
+            failedResponse = [[SDLPutFileResponse alloc] init];
+            failedResponse.success = @NO;
+            failedResponse.spaceAvailable = @(initialSpaceAvailable);
+
+            successfulResponse = [[SDLPutFileResponse alloc] init];
+            successfulResponse.success = @YES;
+            successfulResponse.spaceAvailable = @(initialSpaceAvailable);
+
             waitUntil(^(void (^done)(void)){
                 [testFileManager startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
                     done();
@@ -65,247 +77,260 @@ describe(@"Uploading multiple files", ^{
             });
         });
 
-        context(@"When all files are uploaded successfully", ^{
-            __block SDLPutFileResponse *response;
-            __block NSError *responseError = nil;
-            __block NSMutableDictionary *testResponses = [[NSMutableDictionary alloc] init];
+        context(@"and all files are uploaded successfully", ^{
+            __block NSError *successfulResponseError = nil;
+            __block NSMutableDictionary *testConnectionManagerResponses = [[NSMutableDictionary alloc] init];
 
-            beforeEach(^{
-                // Successful response
-                response = [[SDLPutFileResponse alloc] init];
-                response.success = @YES;
+            it(@"should not return an error when one small file is uploaded from memory", ^{
+                NSString *testFileName = [NSString stringWithFormat:@"TestSmallFileMemory%d", 0];
+                SDLFile *testSDLFile = [SDLFile fileWithData:[@"someTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
+                testSDLFile.overwrite = true;
+                [testSDLFiles addObject:testSDLFile];
+
+                [expectedSuccessfulFileNames addObject:testFileName];
+                testConnectionManagerResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulResponse error:successfulResponseError];
+                testConnectionManager.responses = testConnectionManagerResponses;
             });
 
-            it(@"should upload 1 small file from memory without error", ^{
-                NSString *fileName = [NSString stringWithFormat:@"Test Small File Memory %d", 0];
-                NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
-                SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
-                file.overwrite = true;
+            it(@"should not return an error when one large file is uploaded from disk", ^{
+                NSString *testFileName = [NSString stringWithFormat:@"TestLargeFileDisk%d", 0];
+                SDLFile *testSDLFile = [SDLFile fileAtFileURL: [[NSURL alloc] initFileURLWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"testImage" ofType:@"png"]] name:testFileName];
+                testSDLFile.overwrite = true;
+                [testSDLFiles addObject:testSDLFile];
 
-                [testSDLFiles addObject:file];
-
-                expectedSpaceLeft = @55;
-                response.spaceAvailable = expectedSpaceLeft;
-
-                [expectedSuccessfulFileNames addObject:fileName];
-                TestResponse *testResponse = [[TestResponse alloc] initWithResponse:response error:responseError];
-                testResponses[fileName] = testResponse;
-                testConnectionManager.responses = testResponses;
+                [expectedSuccessfulFileNames addObject:testFileName];
+                testConnectionManagerResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulResponse error:successfulResponseError];
+                testConnectionManager.responses = testConnectionManagerResponses;
             });
 
-            it(@"should upload 1 large file from disk without error", ^{
-                NSString *imageName = @"testImage";
-                NSString *imageFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:imageName ofType:@"png"];
-                NSURL *imageFileURL = [[NSURL alloc] initFileURLWithPath:imageFilePath];
-
-                NSString *fileName = [NSString stringWithFormat:@"Test Large File Disk %d", 0];
-                SDLFile *file = [SDLFile fileAtFileURL:imageFileURL name:fileName];
-                file.overwrite = true;
-
-                [testSDLFiles addObject:file];
-
-                expectedSpaceLeft = @44;
-                response.spaceAvailable = expectedSpaceLeft;
-
-                [expectedSuccessfulFileNames addObject:fileName];
-
-                TestResponse *testResponse = [[TestResponse alloc] initWithResponse:response error:responseError];
-                testResponses[fileName] = testResponse;
-                testConnectionManager.responses = testResponses;
-            });
-
-            it(@"should upload multiple small files from memory without error", ^{
-                NSInteger space = initialSpaceAvailable;
+            it(@"should not return an error when multiple small files are uploaded from memory", ^{
+                NSInteger testSpaceAvailable = initialSpaceAvailable;
                 for(int i = 0; i < 5; i += 1) {
-                    NSString *fileName = [NSString stringWithFormat:@"Test Files %d", i];
-                    NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
-                    SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
-                    file.overwrite = true;
-                    [testSDLFiles addObject:file];
+                    NSString *testFileName = [NSString stringWithFormat:@"TestSmallFilesMemory%d", i];
+                    SDLFile *testSDLFile = [SDLFile fileWithData:[@"someTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
+                    testSDLFile.overwrite = true;
+                    [testSDLFiles addObject:testSDLFile];
 
-                    space -= 10;
-                    response.spaceAvailable = @(space);
+                    successfulResponse.spaceAvailable = @(testSpaceAvailable -= 5);
 
-                    [expectedSuccessfulFileNames addObject:fileName];
-
-                    TestResponse *testResponse = [[TestResponse alloc] initWithResponse:response error:responseError];
-                    testResponses[fileName] = testResponse;
+                    [expectedSuccessfulFileNames addObject:testFileName];
+                    testConnectionManagerResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulResponse error:successfulResponseError];
                 }
-
-                expectedSpaceLeft = @(space);
-                testConnectionManager.responses = testResponses;
+                expectedSpaceLeft = @(testSpaceAvailable);
+                testConnectionManager.responses = testConnectionManagerResponses;
             });
 
-            it(@"should upload a large number of small files from memory without error", ^{
-                NSInteger space = initialSpaceAvailable;
+            it(@"should not return an error when a large number of small files are uploaded from memory", ^{
+                NSInteger testSpaceAvailable = initialSpaceAvailable;
                 for(int i = 0; i < 500; i += 1) {
-                    NSString *fileName = [NSString stringWithFormat:@"Test Files %d", i];
-                    NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
-                    SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
-                    file.overwrite = true;
-                    [testSDLFiles addObject:file];
+                    NSString *testFileName = [NSString stringWithFormat:@"Test500FilesMemory%d", i];
+                    SDLFile *testSDLFile = [SDLFile fileWithData:[@"someTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
+                    testSDLFile.overwrite = true;
+                    [testSDLFiles addObject:testSDLFile];
 
-                    space -= 10;
-                    response.spaceAvailable = @(space);
+                    successfulResponse.spaceAvailable = @(testSpaceAvailable -= 4);
 
-                    [expectedSuccessfulFileNames addObject:fileName];
-
-                    TestResponse *testResponse = [[TestResponse alloc] initWithResponse:response error:responseError];
-                    testResponses[fileName] = testResponse;
+                    [expectedSuccessfulFileNames addObject:testFileName];
+                    testConnectionManagerResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulResponse error:successfulResponseError];
                 }
-
-                expectedSpaceLeft = @(space);
-                testConnectionManager.responses = testResponses;
+                expectedSpaceLeft = @(testSpaceAvailable);
+                testConnectionManager.responses = testConnectionManagerResponses;
             });
 
-            it(@"should upload 5 small files from disk without error", ^{
-                NSURL *imageFileURL = nil;
-                NSInteger space = initialSpaceAvailable;
+            it(@"should not return an error when multiple small files are uploaded from disk", ^{
+                NSInteger testSpaceAvailable = initialSpaceAvailable;
                 for(int i = 0; i < 5; i += 1) {
-                    NSString *imageName = [NSString stringWithFormat:@"testImage%d", i];
-                    NSString *imageFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:imageName ofType:@"png"];
-                    imageFileURL = [[NSURL alloc] initFileURLWithPath:imageFilePath];
+                    NSString *testFileName = [NSString stringWithFormat:@"TestMultipleLargeFilesDisk%d", i];
+                    SDLFile *testSDLFile = [SDLFile fileAtFileURL:[[NSURL alloc] initFileURLWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:@"testImage%d", i] ofType:@"png"]] name:testFileName];
+                    testSDLFile.overwrite = true;
+                    [testSDLFiles addObject:testSDLFile];
 
-                    NSString *fileName = [NSString stringWithFormat:@"TestMultipleLargeFilesDisk%d", i];
-                    SDLFile *file = [SDLFile fileAtFileURL:imageFileURL name:fileName];
+                    successfulResponse.spaceAvailable = @(testSpaceAvailable -= 3);
 
-                    file.overwrite = true;
-                    [testSDLFiles addObject:file];
-
-                    space -= 10;
-                    response.spaceAvailable = @(space);
-
-                    [expectedSuccessfulFileNames addObject:fileName];
-
-                    TestResponse *testResponse = [[TestResponse alloc] initWithResponse:response error:responseError];
-                    testResponses[fileName] = testResponse;
+                    [expectedSuccessfulFileNames addObject:testFileName];
+                    testConnectionManagerResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulResponse error:successfulResponseError];
                 }
-                expectedSpaceLeft = @(space);
-                testConnectionManager.responses = testResponses;
+                expectedSpaceLeft = @(testSpaceAvailable);
+                testConnectionManager.responses = testConnectionManagerResponses;
             });
 
-            it(@"should upload multiple files from memory and on disk without error", ^{
-                NSInteger space = initialSpaceAvailable;
+            it(@"should not return an error when multiple files are uploaded from both memory and disk", ^{
+                NSInteger testSpaceAvailable = initialSpaceAvailable;
                 for(int i = 0; i < 10; i += 1) {
-                    NSString *fileName = [NSString stringWithFormat:@"TestMultipleSDiskAndMemory%d", i];
-                    NSData *fileData = nil;
-                    SDLFile *testFile = nil;
-
+                    NSString *testFileName = [NSString stringWithFormat:@"TestMultipleFilesDiskAndMemory%d", i];
+                    SDLFile *testSDLFile;
                     if (i < 5) {
-                        NSString *textFileName = [NSString stringWithFormat:@"testImageA%d", i];
-                        NSString *textFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:textFileName ofType:@"png"];
-                        NSURL *textFileURL = [[NSURL alloc] initFileURLWithPath:textFilePath];
-
-                        fileData = [[NSData alloc] initWithContentsOfURL:textFileURL];
-                        testFile = [SDLFile fileAtFileURL:textFileURL name:fileName];
+                        testSDLFile = [SDLFile fileAtFileURL:[[NSURL alloc] initFileURLWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:@"testImageA%d", i] ofType:@"png"]] name:testFileName];
                     } else {
-                        fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
-                        testFile = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
+                        testSDLFile = [SDLFile fileWithData:[@"someTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
                     }
+                    testSDLFile.overwrite = true;
+                    [testSDLFiles addObject:testSDLFile];
 
-                    testFile.overwrite = true;
-                    [testSDLFiles addObject:testFile];
+                    successfulResponse.spaceAvailable = @(testSpaceAvailable -= 2);
 
-                    space -= 10;
-                    response.spaceAvailable = @(space);
-
-                    [expectedSuccessfulFileNames addObject:fileName];
-
-                    TestResponse *testResponse = [[TestResponse alloc] initWithResponse:response error:responseError];
-                    testResponses[fileName] = testResponse;
+                    [expectedSuccessfulFileNames addObject:testFileName];
+                    testConnectionManagerResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulResponse error:successfulResponseError];
                 }
-                expectedSpaceLeft = @(space);
-                testConnectionManager.responses = testResponses;
+                expectedSpaceLeft = @(testSpaceAvailable);
+                testConnectionManager.responses = testConnectionManagerResponses;
             });
 
             afterEach(^{
                 waitUntilTimeout(10, ^(void (^done)(void)){
                     [testFileManager uploadFiles:testSDLFiles completionHandler:^(NSError * _Nullable error) {
                         expect(error).to(beNil());
+                        expect(testFileManager.bytesAvailable).to(equal(expectedSpaceLeft));
                         done();
                     }];
                 });
             });
         });
 
-        context(@"When files are uploaded successfully with progress handlers", ^{
-            __block SDLPutFileResponse *response;
-            __block NSError *responseError = nil;
-            __block NSMutableDictionary *testResponses;
-            __block NSMutableDictionary *testProgressResponses;
+        context(@"and all files are not uploaded successfully", ^{
+            __block NSMutableDictionary *testConnectionManagerResponses;
+            __block NSMutableDictionary *expectedFailedUploads;
+            __block NSError *expectedError;
+            __block int testTotalFileCount;
+            __block NSString *testFileNameBase;
+            __block int testFailureIndexStart;
+            __block int testFailureIndexEnd;
 
             beforeEach(^{
-                testResponses = [[NSMutableDictionary alloc] init];
-                testProgressResponses = [[NSMutableDictionary alloc] init];
-
-                // Successful response
-                response = [[SDLPutFileResponse alloc] init];
-                response.success = @YES;
+                testConnectionManagerResponses = [[NSMutableDictionary alloc] init];
+                expectedFailedUploads = [[NSMutableDictionary alloc] init];
+                expectedError = nil;
             });
 
-            it(@"should upload 1 small file from memory without error", ^{
-                NSString *fileName = [NSString stringWithFormat:@"Test Small File Memory %d", 0];
-                NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
-                SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
-                file.overwrite = true;
+            context(@"When the file manager receives a notification from the remote that a file upload failed", ^{
+                beforeEach(^{
+                    testFailureIndexStart = -1;
+                    testFailureIndexEnd = INT8_MAX;
+                });
 
-                [testSDLFiles addObject:file];
+                it(@"should return an error when all files fail", ^{
+                    testTotalFileCount = 5;
+                    testFileNameBase = @"TestAllFilesUnsuccessful";
+                    testFailureIndexStart = testTotalFileCount;
+                });
 
-                expectedSpaceLeft = @55;
-                response.spaceAvailable = expectedSpaceLeft;
+                it(@"should return an error when the first file fails to upload", ^{
+                    testTotalFileCount = 5;
+                    testFileNameBase = @"TestFirstFileUnsuccessful";
+                    testFailureIndexStart = 0;
+                });
 
-                [expectedSuccessfulFileNames addObject:fileName];
-                TestResponse *testResponse = [[TestResponse alloc] initWithResponse:response error:responseError];
-                testResponses[fileName] = testResponse;
-                testConnectionManager.responses = testResponses;
+                it(@"should return an error when the last file fails to upload", ^{
+                    testTotalFileCount = 100;
+                    testFileNameBase = @"TestLastFileUnsuccessful";
+                    testFailureIndexEnd = (testTotalFileCount - 1);
+                });
 
-                TestProgressResponse *testProgressResponse = [[TestProgressResponse alloc] initWithFileName:fileName testUploadPercentage:1.0 error:nil];
-                testProgressResponses[fileName] = testProgressResponse;
+                afterEach(^{
+                    NSInteger testSpaceAvailable = initialSpaceAvailable;
+                    for(int i = 0; i < testTotalFileCount; i += 1) {
+                        NSString *testFileName = [NSString stringWithFormat:@"%@%d", testFileNameBase, i];
+                        SDLFile *testSDLFile = [SDLFile fileWithData:[@"someTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
+                        testSDLFile.overwrite = true;
+                        [testSDLFiles addObject:testSDLFile];
+
+                        SDLPutFileResponse *response = [[SDLPutFileResponse alloc] init];
+                        NSError *responseError = nil;
+                        if (i <= testFailureIndexStart || i >= testFailureIndexEnd) {
+                            // Failed response
+                            response = failedResponse;
+                            response.spaceAvailable = @(testSpaceAvailable);
+                            responseError = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:[NSString stringWithFormat:@"file upload failed: %d", i] andReason:[NSString stringWithFormat:@"some error reason: %d", i]];
+                            expectedFailedUploads[testFileName] = responseError;
+                        } else {
+                            // Successful response
+                            response = successfulResponse;
+                            response.spaceAvailable = @(testSpaceAvailable -= 1);
+                            responseError = nil;
+                            [expectedSuccessfulFileNames addObject:testFileName];
+                        }
+
+                        testConnectionManagerResponses[testFileName] = [[TestResponse alloc] initWithResponse:response error:responseError];;
+                    }
+
+                    testConnectionManager.responses = testConnectionManagerResponses;
+                    expectedError = [NSError sdl_fileManager_unableToUploadError:expectedFailedUploads];
+                    expectedSpaceLeft = @(testSpaceAvailable);
+                });
             });
 
-            it(@"should upload a large number of small files from memory without error", ^{
-                NSInteger space = initialSpaceAvailable;
+            it(@"should return an error if empty array of files is passed to file manager", ^{
+                expectedError = [NSError sdl_fileManager_noFilesError];
+                expectedSpaceLeft = @(initialSpaceAvailable);
+            });
 
-                int totalFileCount = 200;
-                NSData *fileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
+            afterEach(^{
+                waitUntilTimeout(10, ^(void (^done)(void)){
+                    [testFileManager uploadFiles:testSDLFiles completionHandler:^(NSError * _Nullable error) {
+                        expect(error).to(equal(expectedError));
+                        expect(testFileManager.bytesAvailable).to(equal(expectedSpaceLeft));
+                        done();
+                    }];
+                });
+            });
+        });
 
-                float testTotalBytesToUpload = totalFileCount * fileData.length;
-                float testTotalBytesUploaded = 0.0;
+        context(@"and all files are uploaded successfully while expecting a progress response for each file", ^{
+            __block NSMutableDictionary *testFileManagerResponses;
+            __block NSMutableDictionary *testFileManagerProgressResponses;
+            __block int testTotalFileCount;
+            __block NSString *testFileNameBase;
 
-                for(int i = 0; i < totalFileCount; i += 1) {
-                    NSString *fileName = [NSString stringWithFormat:@"Test Files %d", i];
-                    SDLFile *file = [SDLFile fileWithData:fileData name:fileName fileExtension:@"bin"];
-                    file.overwrite = true;
-                    [testSDLFiles addObject:file];
+            beforeEach(^{
+                testFileManagerResponses = [[NSMutableDictionary alloc] init];
+                testFileManagerProgressResponses = [[NSMutableDictionary alloc] init];
+            });
 
-                    space -= 10;
-                    response.spaceAvailable = @(space);
+            context(@"A progress handler should be returned for each file", ^{
+                it(@"should upload 1 small file from memory without error", ^{
+                    testTotalFileCount = 1;
+                    testFileNameBase = @"TestProgressHandlerOneSmallFileMemory";
+                });
 
-                    [expectedSuccessfulFileNames addObject:fileName];
+                it(@"should upload a large number of small files from memory without error", ^{
+                    testTotalFileCount = 200;
+                    testFileNameBase = @"TestProgressHandlerMultipleSmallFileMemory";
+                });
 
-                    TestResponse *testResponse = [[TestResponse alloc] initWithResponse:response error:responseError];
-                    testResponses[fileName] = testResponse;
+                afterEach(^{
+                    NSData *testFileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
+                    float testTotalBytesToUpload = testTotalFileCount * testFileData.length;
+                    float testTotalBytesUploaded = 0.0;
 
-                    testTotalBytesUploaded += file.fileSize;
-                    float uploadPercentage = testTotalBytesUploaded / testTotalBytesToUpload;
+                    NSInteger testSpaceAvailable = initialSpaceAvailable;
+                    for(int i = 0; i < testTotalFileCount; i += 1) {
+                        NSString *testFileName = [NSString stringWithFormat:@"%@%d", testFileNameBase, i];
+                        SDLFile *testSDLFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
+                        testSDLFile.overwrite = true;
+                        [testSDLFiles addObject:testSDLFile];
 
-                    TestProgressResponse *testProgressResponse = [[TestProgressResponse alloc] initWithFileName:fileName testUploadPercentage:uploadPercentage error:nil];
-                    testProgressResponses[fileName] = testProgressResponse;
-                }
+                        successfulResponse.spaceAvailable = @(testSpaceAvailable -= 10);
+                        [expectedSuccessfulFileNames addObject:testFileName];
+                        testFileManagerResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulResponse error:nil];
 
-                expectedSpaceLeft = @(space);
-                testConnectionManager.responses = testResponses;
+                        testTotalBytesUploaded += testSDLFile.fileSize;
+                        testFileManagerProgressResponses[testFileName] = [[TestProgressResponse alloc] initWithFileName:testFileName testUploadPercentage:testTotalBytesUploaded / testTotalBytesToUpload error:nil];
+                    }
+                    expectedSpaceLeft = @(testSpaceAvailable);
+                    testConnectionManager.responses = testFileManagerResponses;
+                });
             });
 
             afterEach(^{
                 waitUntilTimeout(10, ^(void (^done)(void)){
                     [testFileManager uploadFiles:testSDLFiles progressHandler:^(NSString * _Nonnull fileName, float uploadPercentage, Boolean * _Nonnull cancel, NSError * _Nullable error) {
-                        TestProgressResponse *testProgressResponse = testProgressResponses[fileName];
+                        TestProgressResponse *testProgressResponse = testFileManagerProgressResponses[fileName];
                         expect(fileName).to(equal(testProgressResponse.testFileName));
                         expect(uploadPercentage).to(equal(testProgressResponse.testUploadPercentage));
                         expect(error).to(testProgressResponse.testError == nil ? beNil() : equal(testProgressResponse.testError));
                     } completionHandler:^(NSError * _Nullable error) {
                         expect(error).to(beNil());
+                        expect(testFileManager.bytesAvailable).to(equal(expectedSpaceLeft));
                         done();
                     }];
                 });
@@ -313,69 +338,58 @@ describe(@"Uploading multiple files", ^{
         });
 
         context(@"When an upload is cancelled while in progress by the cancel parameter of the progress handler", ^{
-            __block NSMutableDictionary *testResponses = [[NSMutableDictionary alloc] init];
-            __block NSMutableDictionary *testProgressResponses = [[NSMutableDictionary alloc] init];
-            __block NSString *testFileName;
-            __block int totalFileCount = 0;
-            __block int cutoff = 0;
+            __block NSMutableDictionary *testResponses;
+            __block NSMutableDictionary *testProgressResponses;
+            __block NSString *testFileNameBase;
+            __block int testFileCount = 0;
+            __block int testCancelIndex = 0;
 
             beforeEach(^{
-                // [expectedSuccessfulFileNames removeAllObjects];
+                testResponses = [[NSMutableDictionary alloc] init];
+                testProgressResponses = [[NSMutableDictionary alloc] init];
             });
 
-            it(@"should cancel the remaining 9 files", ^{
-                cutoff = 0;
-                testFileName = @"Test Files Cancel After First";
+            it(@"should cancel the remaining files if cancel is triggered after first upload", ^{
+                testFileCount = 11;
+                testCancelIndex = 0;
+                testFileNameBase = @"TestUploadFilesCancelAfterFirst";
             });
 
-            it(@"should cancel the remaining 6 files", ^{
-                cutoff = 4;
-                testFileName = @"Test Files Cancel In Middle";
+            it(@"should cancel the remaining files if cancel is triggered after half of the files are uploaded", ^{
+                testFileCount = 30;
+                testCancelIndex = testFileCount / 2;
+                testFileNameBase = @"TestUploadFilesCancelInMiddle";
             });
 
             it(@"should not fail if there are no more files to cancel", ^{
-                cutoff = (totalFileCount - 1);
-                testFileName = @"Test Files Cancel At End";
+                testFileCount = 20;
+                testCancelIndex = (testFileCount - 1);
+                testFileNameBase = @"TestUploadFilesCancelAtEnd";
             });
 
             afterEach(^{
-                // File data
-                NSData *testData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
-                totalFileCount = 10;
-                NSInteger space = initialSpaceAvailable;
-                for(int i = 0; i < totalFileCount; i += 1) {
-                    NSString *fileName = [NSString stringWithFormat:@"%@ %d", testFileName, i];
-                    SDLFile *file = [SDLFile fileWithData:testData name:fileName fileExtension:@"bin"];
-                    file.overwrite = true;
-                    [testSDLFiles addObject:file];
+                for(int i = 0; i < testFileCount; i += 1) {
+                    NSString *testFileName = [NSString stringWithFormat:@"%@%d", testFileNameBase, i];
+                    SDLFile *testSDLFile = [SDLFile fileWithData:[@"someTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
+                    testSDLFile.overwrite = true;
+                    [testSDLFiles addObject:testSDLFile];
 
-                    // Successful response
-                    SDLPutFileResponse *response = [[SDLPutFileResponse alloc] init];
-                    space -= 10;
-                    response.success = @YES;
-                    response.spaceAvailable = @(space);
-
-                    if (i <= cutoff) {
-                        [expectedSuccessfulFileNames addObject:fileName];
+                    if (i <= testCancelIndex) {
+                        [expectedSuccessfulFileNames addObject:testFileName];
                     }
 
-                    TestResponse *testResponse = [[TestResponse alloc] initWithResponse:response error:nil];
-                    testResponses[fileName] = testResponse;
-
-                    TestProgressResponse *testProgressResponse = [[TestProgressResponse alloc] initWithFileName:fileName testUploadPercentage:0.0 error:nil];
-                    testProgressResponses[fileName] = testProgressResponse;
+                    testResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulResponse error:nil];
+                    testProgressResponses[testFileName] = [[TestProgressResponse alloc] initWithFileName:testFileName testUploadPercentage:0.0 error:nil];
                 }
-
-                expectedSpaceLeft = @(space);
                 testConnectionManager.responses = testResponses;
 
                 waitUntilTimeout(10, ^(void (^done)(void)){
                     [testFileManager uploadFiles:testSDLFiles progressHandler:^(NSString * _Nonnull fileName, float uploadPercentage, Boolean * _Nonnull cancel, NSError * _Nullable error) {
-                        // Once an operation is cancelled, there is no expected order to the cancellations, so upload percentage will vary for canceled operations depending on the order in which they are cancelled.
+                        // Once an operation is cancelled, there is no expected order to the cancellations, so upload percentage will vary for canceled operations depending on the order in which they are cancelled. Also, some operations may finish before cancel is called.
                         TestProgressResponse *testProgressResponse = testProgressResponses[fileName];
-                        expect(fileName).to(equal([testProgressResponse testFileName]));
+                        expect(fileName).to(equal(testProgressResponse.testFileName));
 
-                        NSString *cancelFileName = [NSString stringWithFormat:@"%@ %d", testFileName, cutoff];
+                        NSString *cancelFileName = [NSString stringWithFormat:@"%@%d", testFileNameBase, testCancelIndex];
                         if ([fileName isEqual:cancelFileName]) {
                             (*cancel) = YES;
                         }
@@ -386,10 +400,160 @@ describe(@"Uploading multiple files", ^{
                 });
             });
         });
-        
+
         afterEach(^{
             for(int i = 0; i < expectedSuccessfulFileNames.count; i += 1) {
                 expect(testFileManager.remoteFileNames).to(contain(expectedSuccessfulFileNames[i]));
+            }
+        });
+    });
+
+    context(@"When the file manager is passed multiple files to delete", ^{
+        __block SDLListFilesResponse *testListFilesResponse;
+        __block NSArray<NSString *> *testRemoteFileNames;
+        __block NSMutableArray<NSString *> *expectedRemoteFileNames;
+        __block NSNumber *expectedSpaceLeft;
+        __block NSMutableArray *testDeleteFileNames;
+        __block SDLDeleteFileResponse *failedDeleteResponse;
+        __block SDLDeleteFileResponse *successfulDeleteResponse;
+        __block NSError *expectedError = nil;
+
+        beforeEach(^{
+            testRemoteFileNames = [[NSArray alloc] initWithObjects:@"AA", @"BB", @"CC", @"DD", @"EE", @"FF", nil];
+            expectedRemoteFileNames = [[NSMutableArray alloc] init];
+
+            testListFilesResponse = [[SDLListFilesResponse alloc] init];
+            testListFilesResponse.success = @YES;
+            testListFilesResponse.spaceAvailable = @(initialSpaceAvailable);
+            testListFilesResponse.filenames = testRemoteFileNames;
+
+            // Failed delete response
+            failedDeleteResponse = [[SDLDeleteFileResponse alloc] init];
+            failedDeleteResponse.spaceAvailable = @10;
+            failedDeleteResponse.success = @NO;
+
+            // Successful delete response
+            successfulDeleteResponse = [[SDLDeleteFileResponse alloc] init];
+            successfulDeleteResponse.spaceAvailable = @9;
+            successfulDeleteResponse.success = @YES;
+
+            waitUntil(^(void (^done)(void)){
+                [testFileManager startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
+                    done();
+                }];
+
+                // Need to wait state machine transitions to complete before sending testListFilesResponse
+                [NSThread sleepForTimeInterval:0.3];
+
+                [testConnectionManager respondToLastRequestWithResponse:testListFilesResponse];
+            });
+        });
+
+        context(@"and all files are deleted successfully", ^{
+            __block NSMutableDictionary *testResponses;
+            __block int testFileCount = 0;
+
+            beforeEach(^{
+                testResponses = [[NSMutableDictionary alloc] init];
+                testDeleteFileNames = [[NSMutableArray alloc] init];
+            });
+
+            context(@"When the file manager receives a successful notification for each deleted file", ^{
+                it(@"should not return an error when one remote file is deleted", ^{
+                    testFileCount = 1;
+                });
+
+                it(@"should not return an error when all remote files are deleted", ^{
+                    testFileCount = (int)testRemoteFileNames.count;
+                });
+
+                afterEach(^{
+                    NSInteger testSpaceAvailable = initialSpaceAvailable;
+                    for(int i = 0; i < testFileCount; i += 1) {
+                        NSString *testFileName = [testRemoteFileNames objectAtIndex:i];
+                        successfulDeleteResponse.spaceAvailable = @(testSpaceAvailable += 91);
+                        testResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulDeleteResponse error:nil];
+                        [testDeleteFileNames addObject:testFileName];
+                    }
+                    expectedSpaceLeft = @(testSpaceAvailable);
+                    [expectedRemoteFileNames removeAllObjects];
+                    testConnectionManager.responses = testResponses;
+                });
+            });
+        });
+
+        context(@"and all files are not deleted successfully", ^{
+            __block NSMutableDictionary *testConnectionManagerResponses;
+            __block NSMutableDictionary *expectedFailedDeletes;
+
+            beforeEach(^{
+                testConnectionManagerResponses = [[NSMutableDictionary alloc] init];
+                testDeleteFileNames = [[NSMutableArray alloc] init];
+                expectedFailedDeletes = [[NSMutableDictionary alloc] init];
+            });
+
+            context(@"When the file manager receives a unsuccessful notification for a deleted file", ^{
+                __block int testFailureIndexStart;
+                __block int testFailureIndexEnd;
+
+                beforeEach(^{
+                    testFailureIndexStart = -1;
+                    testFailureIndexEnd = INT8_MAX;
+                });
+
+                it(@"should return an error if the first remote file fails to delete", ^{
+                    testFailureIndexStart = 0;
+                });
+
+                it(@"should return an error if the last remote file fails to delete", ^{
+                    testFailureIndexEnd = (int)testRemoteFileNames.count - 1;
+                });
+
+                it(@"should return an error if all files fail to delete", ^{
+                    testFailureIndexStart = (int)testRemoteFileNames.count;
+                });
+
+                afterEach(^{
+                    NSInteger testSpaceAvailable = initialSpaceAvailable;
+                    for(int i = 0; i < testRemoteFileNames.count; i += 1) {
+                        NSString *testFileName = [testRemoteFileNames objectAtIndex:i];
+
+                        SDLDeleteFileResponse *response;
+                        NSError *responseError;
+                        if (i <= testFailureIndexStart || i >= testFailureIndexEnd) {
+                            failedDeleteResponse.spaceAvailable = @(testSpaceAvailable);
+                            response = failedDeleteResponse;
+                            responseError = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:[NSString stringWithFormat:@"file upload failed: %d", i] andReason: [NSString stringWithFormat:@"some error reason: %d", i]];
+                            expectedFailedDeletes[testFileName] = responseError;
+                            [expectedRemoteFileNames addObject:testFileName];
+                        } else {
+                            successfulDeleteResponse.spaceAvailable = @(testSpaceAvailable += 891);
+                            response = successfulDeleteResponse;
+                            responseError = nil;
+                        }
+
+                        testConnectionManagerResponses[testFileName] = [[TestResponse alloc] initWithResponse:response error:responseError];
+                        [testDeleteFileNames addObject:testFileName];
+                    }
+
+                    testConnectionManager.responses = testConnectionManagerResponses;
+                    expectedError = [NSError sdl_fileManager_unableToDeleteError:expectedFailedDeletes];
+                    expectedSpaceLeft = @(testSpaceAvailable);
+                });
+            });
+        });
+        
+        afterEach(^{
+            waitUntilTimeout(10, ^(void (^done)(void)){
+                [testFileManager deleteRemoteFilesWithNames:testDeleteFileNames completionHandler:^(NSError * _Nullable error) {
+                    expect(error).to(expectedError == nil ? beNil() : equal(expectedError));
+                    expect(testFileManager.bytesAvailable).to(equal(expectedSpaceLeft));
+                    done();
+                }];
+            });
+
+            for(int i = 0; i < expectedRemoteFileNames.count; i += 1) {
+                expect(testFileManager.remoteFileNames).to(contain(expectedRemoteFileNames[i]));
             }
         });
     });

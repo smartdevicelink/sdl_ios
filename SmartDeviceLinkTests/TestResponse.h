@@ -11,9 +11,9 @@
 
 @interface TestResponse : NSObject
 
-@property (strong, nonatomic) SDLPutFileResponse *testResponse;
+@property (strong, nonatomic) SDLRPCResponse *testResponse;
 @property (strong, nonatomic) NSError *testError;
 
-- (instancetype)initWithResponse:(SDLPutFileResponse *)testResponse error:(NSError *)testError;
+- (instancetype)initWithResponse:(SDLRPCResponse *)testResponse error:(NSError *)testError;
 
 @end
