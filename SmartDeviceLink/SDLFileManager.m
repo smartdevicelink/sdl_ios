@@ -52,12 +52,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 #pragma mark Constants
 
-const char *_Nullable BackgroundUploadFilesQueue = "com.sdl.background.upload.files.queue";
-const char *_Nullable BackgroundUploadFilesWaitingQueue = "com.sdl.background.upload.files.waiting.queue";
-const char *_Nullable BackgroundDeleteFilesQueue = "com.sdl.background.delete.files.queue";
-const char *_Nullable BackgroundDeleteFilesWaitingQueue = "com.sdl.background.delete.files.waiting.queue";
-NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queue";
-
 @implementation SDLFileManager
 
 #pragma mark - Lifecycle
@@ -73,7 +67,7 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
 
     _mutableRemoteFileNames = [NSMutableSet set];
     _transactionQueue = [[NSOperationQueue alloc] init];
-    _transactionQueue.name = FileManagerTransactionQueue;
+    _transactionQueue.name = @"SDLFileManager Transaction Queue";
     // FIXME: - add comment below to class description
     // The transaction queue is serial for safety reasons. For example if a developer adds to the queue an upload file RPC and then adds an RPC to delete the same file, bad things can happen if the delete runs before the upload is completed.
     _transactionQueue.maxConcurrentOperationCount = 1;
@@ -246,15 +240,12 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
     dispatch_group_leave(deleteFilesTask);
 
     // Wait for all files to be deleted
-    dispatch_async(dispatch_queue_create(BackgroundDeleteFilesWaitingQueue, DISPATCH_QUEUE_CONCURRENT), ^{
-        dispatch_group_wait(deleteFilesTask, DISPATCH_TIME_FOREVER);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (completionHandler == nil) { return; }
-            if (failedDeletes.count > 0) {
-                return completionHandler([NSError sdl_fileManager_unableToDeleteError:failedDeletes]);
-            }
-            return completionHandler(nil);
-        });
+    dispatch_group_notify(deleteFilesTask, dispatch_get_main_queue(), ^{
+        if (completionHandler == nil) { return; }
+        if (failedDeletes.count > 0) {
+            return completionHandler([NSError sdl_fileManager_unableToDeleteError:failedDeletes]);
+        }
+        return completionHandler(nil);
     });
 }
 
@@ -283,14 +274,14 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
                 failedUploads[file.name] = error;
             }
 
-            // Send an update on each file
+            // Send an update for each file sent to the remote
             if (progressHandler != nil) {
                 totalBytesUploaded += file.fileSize;
                 float uploadPercentage = [self sdl_uploadPercentage:totalBytesToUpload uploadedBytes:totalBytesUploaded];
                 Boolean cancel = false;
                 progressHandler(file.name, uploadPercentage, &cancel, error);
-
                 if (cancel) {
+                    // If user sets cancel to YES, cancel all future operations
                     dispatch_group_leave(uploadFilesTask);
                     [self.transactionQueue cancelAllOperations];
                     BLOCK_RETURN;
@@ -302,15 +293,12 @@ NSString * const FileManagerTransactionQueue = @"SDLFileManager Transaction Queu
     dispatch_group_leave(uploadFilesTask);
 
     // Wait for all files to be uploaded
-    dispatch_async(dispatch_queue_create(BackgroundUploadFilesWaitingQueue, DISPATCH_QUEUE_CONCURRENT), ^{
-        dispatch_group_wait(uploadFilesTask, DISPATCH_TIME_FOREVER);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (completionHandler == nil) { return; }
-            if (failedUploads.count > 0) {
-                return completionHandler([NSError sdl_fileManager_unableToUploadError:failedUploads]);
-            }
-            return completionHandler(nil);
-        });
+    dispatch_group_notify(uploadFilesTask, dispatch_get_main_queue(), ^{
+        if (completionHandler == nil) { return; }
+        if (failedUploads.count > 0) {
+            return completionHandler([NSError sdl_fileManager_unableToUploadError:failedUploads]);
+        }
+        return completionHandler(nil);
     });
 }
 
