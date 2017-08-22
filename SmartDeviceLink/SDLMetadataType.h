@@ -73,8 +73,3 @@ extern SDLMetadataType const SDLMetadataTypeWeatherTerm;
  */
 extern SDLMetadataType const SDLMetadataTypeHumidity;
 
-/**
- The data in this field is not of a common type or should not be processed.  Any time a field does not have a type parameter it is considered as the none type.
- */
-extern SDLMetadataType const SDLMetadataTypeNone;
-
