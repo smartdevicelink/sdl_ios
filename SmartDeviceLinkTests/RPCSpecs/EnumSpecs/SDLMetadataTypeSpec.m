@@ -29,7 +29,6 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLMetadataTypeMinimumTemperature).to(equal(@"minimumTemperature"));
         expect(SDLMetadataTypeWeatherTerm).to(equal(@"weatherTerm"));
         expect(SDLMetadataTypeHumidity).to(equal(@"humidity"));
-        expect(SDLMetadataTypeNone).to(equal(@"none"));
     });
 });
 
