@@ -13,9 +13,7 @@
 #import "SDLPutFile.h"
 #import "SDLPutFileResponse.h"
 #import "SDLRPCResponse.h"
-#import "SDLUploadFileOperation.h"
-#import "TestMultipleFilesConnectionManager.h"
-#import "TestResponse.h"
+#import "TestConnectionManager.h"
 
 
 typedef NSString SDLFileManagerState;

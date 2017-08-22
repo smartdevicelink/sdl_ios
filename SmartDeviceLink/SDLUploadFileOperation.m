@@ -110,11 +110,11 @@ NS_ASSUME_NONNULL_BEGIN
         // The putfile's length parameter is based on the current offset
         SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.isPersistent];
         putFile.offset = @(currentOffset);
-        putFile.length = @([[self class] sdl_getPutFileLengthForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize]);
+        putFile.length = @([self.class sdl_getPutFileLengthForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize]);
 
         // Get a chunk of data from the input stream
-        NSUInteger dataSize = [[self class] sdl_getDataSizeForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize];
-        putFile.bulkData = [[self class] sdl_getDataChunkWithSize:dataSize inputStream:self.inputStream];
+        NSUInteger dataSize = [self.class sdl_getDataSizeForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize];
+        putFile.bulkData = [self.class sdl_getDataChunkWithSize:dataSize inputStream:self.inputStream];
         currentOffset += dataSize;
 
         __weak typeof(self) weakself = self;
@@ -137,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
 
             // If no errors, watch for a response containing the amount of storage left on the SDL Core
-            if ([[self class] sdl_newHighestCorrelationID:request highestCorrelationIDReceived:highestCorrelationIDReceived]) {
+            if ([self.class sdl_newHighestCorrelationID:request highestCorrelationIDReceived:highestCorrelationIDReceived]) {
                 highestCorrelationIDReceived = [request.correlationID integerValue];
                 bytesAvailable = [(SDLPutFileResponse *)response spaceAvailable].unsignedIntegerValue;
             }

@@ -68,8 +68,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     _mutableRemoteFileNames = [NSMutableSet set];
     _transactionQueue = [[NSOperationQueue alloc] init];
     _transactionQueue.name = @"SDLFileManager Transaction Queue";
-    // FIXME: - add comment below to class description
-    // The transaction queue is serial for safety reasons. For example if a developer adds to the queue an upload file RPC and then adds an RPC to delete the same file, bad things can happen if the delete runs before the upload is completed.
     _transactionQueue.maxConcurrentOperationCount = 1;
 
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLFileManagerStateShutdown states:[self.class sdl_stateTransitionDictionary]];
