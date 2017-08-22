@@ -1,5 +1,5 @@
 //
-//  SDLFileManagerSpecMultipleFilesSpec.m
+//  SDLFileManagerMultipleFilesSpec.m
 //  SmartDeviceLink-iOS
 //
 //  Created by Nicole on 8/17/17.
@@ -26,7 +26,7 @@
 #import "TestProgressResponse.h"
 #import "TestResponse.h"
 
-QuickSpecBegin(SDLFileManagerSpecMultipleFilesSpec)
+QuickSpecBegin(SDLFileManagerMultipleFilesSpec)
 
 describe(@"SDLFileManager uploading/deleting multiple files", ^{
     __block TestMultipleFilesConnectionManager *testConnectionManager;
