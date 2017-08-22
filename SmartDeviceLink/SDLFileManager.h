@@ -88,7 +88,7 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 - (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)completion;
 
 /**
- *  Deletes and array of files on the remote file system
+ *  Deletes an array of files on the remote file system
  *
  *  @param names  The names of the files to be deleted
  *  @param completionHandler  An optional completion handler that sends an error should one occur. The userInfo dictionary property, of type <SDLFileName: NSError>, will return information on all failed uploads. The key is the file name that did not delete properly, the value is an error describing what went wrong on that particular delete attempt.
@@ -108,7 +108,7 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
  *
  *  @param files An array of SDLFiles to be sent
  *  @param progressHandler An optional completion handler that sends a response for each uploaded file. The progress handler will contain the name of the last uploaded file, the percentage of total file data uploaded, whether or not to cancel all future uploads, and the error if the file failed to upload.
- *  @param completionHandler An optional completion handler that sends an error should one occur. The userInfo dictionary property, of type <SDLFileName: NSError>, will return information on all failed uploads. The key is the file name that did not delete properly, the value is an error describing what went wrong on that particular upload attempt.
+ *  @param completionHandler An optional completion handler that sends an error should one occur. The userInfo dictionary property, of type <SDLFileName: NSError>, will return information on all failed uploads. The key is the file name that did not upload properly, the value is an error describing what went wrong on that particular upload attempt.
  */
 - (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler;
 
