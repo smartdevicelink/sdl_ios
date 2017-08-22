@@ -6,6 +6,8 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
+#import "SDLMetadataTags.h"
+#import "SDLMetadataType.h"
 #import "SDLNames.h"
 #import "SDLSoftButton.h"
 
@@ -23,12 +25,52 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:nil mainField4:nil alignment:alignment];
 }
 
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type alignment:(nullable SDLTextAlignment)alignment {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    NSArray<SDLMetadataType> *field1Array = @[mainField1Type];
+    NSArray<SDLMetadataType> *field2Array = @[mainField2Type];
+    SDLMetadataTags* metadataTags = [[SDLMetadataTags alloc] initWithTextFieldTypes:field1Array mainField2:field2Array];
+
+    self.mainField1 = mainField1;
+    self.mainField2 = mainField2;
+    self.alignment = alignment;
+    self.metadataTags = metadataTags;
+
+    return self;
+}
+
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment {
-    return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:mainField3 mainField4:mainField4 alignment:alignment statusBar:nil mediaClock:nil mediaTrack:nil graphic:nil softButtons:nil customPresets:nil];
+    return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:mainField3 mainField4:mainField4 alignment:alignment statusBar:nil mediaClock:nil mediaTrack:nil graphic:nil softButtons:nil customPresets:nil textFieldMetadata:nil];
+}
+
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type mainField3:(nullable NSString *)mainField3 mainField3Type:(nullable SDLMetadataType)mainField3Type mainField4:(nullable NSString *)mainField4 mainField4Type:(nullable SDLMetadataType)mainField4Type alignment:(nullable SDLTextAlignment)alignment{
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    NSArray<SDLMetadataType> *field1Array = @[mainField1Type];
+    NSArray<SDLMetadataType> *field2Array = @[mainField2Type];
+    NSArray<SDLMetadataType> *field3Array = @[mainField3Type];
+    NSArray<SDLMetadataType> *field4Array = @[mainField4Type];
+    SDLMetadataTags* metadataTags = [[SDLMetadataTags alloc] initWithTextFieldTypes:field1Array mainField2:field2Array mainField3:field3Array mainField4:field4Array];
+
+    self.mainField1 = mainField1;
+    self.mainField2 = mainField2;
+    self.mainField3 = mainField3;
+    self.mainField4 = mainField4;
+    self.alignment = alignment;
+    self.metadataTags = metadataTags;
+
+    return self;
 }
 
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack {
-    return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:nil mainField4:nil alignment:alignment statusBar:statusBar mediaClock:mediaClock mediaTrack:mediaTrack graphic:nil softButtons:nil customPresets:nil];
+    return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:nil mainField4:nil alignment:alignment statusBar:statusBar mediaClock:mediaClock mediaTrack:mediaTrack graphic:nil softButtons:nil customPresets:nil textFieldMetadata:nil];
 }
 
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets {
@@ -50,6 +92,29 @@ NS_ASSUME_NONNULL_BEGIN
     self.customPresets = [customPresets mutableCopy];
 
     return self;
+}
+
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets textFieldMetadata:(nullable SDLMetadataTags *)metadata {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.mainField1 = mainField1;
+    self.mainField2 = mainField2;
+    self.mainField3 = mainField3;
+    self.mainField4 = mainField4;
+    self.statusBar = statusBar;
+    self.mediaClock = mediaClock;
+    self.mediaTrack = mediaTrack;
+    self.alignment = alignment;
+    self.graphic = graphic;
+    self.softButtons = [softButtons mutableCopy];
+    self.customPresets = [customPresets mutableCopy];
+    self.metadataTags = metadata;
+
+    return self;
+
 }
 
 - (void)setMainField1:(nullable NSString *)mainField1 {
@@ -146,6 +211,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSArray<NSString *> *)customPresets {
     return [parameters sdl_objectForName:SDLNameCustomPresets];
+}
+
+- (void)setMetadataTags:(nullable SDLMetadataTags *)metadataTags {
+    [parameters sdl_setObject:metadataTags forName:SDLNameMetadataTags];
+}
+
+- (nullable SDLMetadataTags *)metadataTags {
+    return [parameters sdl_objectForName:SDLNameMetadataTags ofClass:SDLMetadataTags.class];
 }
 
 @end

@@ -15,6 +15,7 @@
 #import "SDLPinchGesture.h"
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
+#import "SDLTouch.h"
 
 QuickSpecBegin(SDLPinchGestureSpec)
 

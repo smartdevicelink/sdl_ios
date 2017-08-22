@@ -53,7 +53,6 @@ static float DefaultConnectionTimeout = 45.0;
 
 @property (copy, nonatomic) NSString *appId;
 @property (strong, nonatomic) NSMutableSet<NSObject<SDLProxyListener> *> *mutableProxyListeners;
-@property (nullable, nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingMediaManager;
 @property (nullable, nonatomic, strong) SDLDisplayCapabilities *displayCapabilities;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
 @property (nonatomic, strong) NSURLSession* urlSession;
@@ -152,22 +151,6 @@ static float DefaultConnectionTimeout = 45.0;
 - (NSString *)proxyVersion {
     return SDLProxyVersion;
 }
-
-- (nullable SDLStreamingMediaManager *)streamingMediaManager {
-    if (_streamingMediaManager == nil) {
-        if (self.displayCapabilities == nil) {
-            return nil;
-        }
-        _streamingMediaManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol displayCapabilities:self.displayCapabilities];
-        [self.protocol.protocolDelegateTable addObject:_streamingMediaManager];
-
-        // HAX: The cast is a result of a compiler bug throwing a warning when it shouldn't
-        [self.mutableProxyListeners addObject:(id<SDLProxyListener>)_streamingMediaManager.touchManager];
-    }
-
-    return _streamingMediaManager;
-}
-
 
 #pragma mark - SecurityManager
 
@@ -343,16 +326,13 @@ static float DefaultConnectionTimeout = 45.0;
 
 - (void)handleRegisterAppInterfaceResponse:(SDLRPCResponse *)response {
     SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)response;
-    self.displayCapabilities = registerResponse.displayCapabilities;
-    if (_streamingMediaManager) {
-        _streamingMediaManager.displayCapabilties = registerResponse.displayCapabilities;
-    }
+
     self.protocol.securityManager = [self securityManagerForMake:registerResponse.vehicleType.make];
     if (self.protocol.securityManager && [self.protocol.securityManager respondsToSelector:@selector(setAppId:)]) {
         self.protocol.securityManager.appId = self.appId;
     }
 
-    if ([SDLGlobals sharedGlobals].protocolVersion >= 4) {
+    if ([SDLGlobals sharedGlobals].majorProtocolVersion >= 4) {
         [self sendMobileHMIState];
         // Send SDL updates to application state
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendMobileHMIState) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -743,7 +723,7 @@ static float DefaultConnectionTimeout = 45.0;
             // Grab some bytes from the stream and send them in a SDLPutFile RPC Request
             NSUInteger currentStreamOffset = [[stream propertyForKey:NSStreamFileCurrentOffsetKey] unsignedIntegerValue];
 
-            NSMutableData *buffer = [NSMutableData dataWithLength:[SDLGlobals sharedGlobals].maxMTUSize];
+            NSMutableData *buffer = [NSMutableData dataWithLength:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
             NSUInteger nBytesRead = [(NSInputStream *)stream read:(uint8_t *)buffer.mutableBytes maxLength:buffer.length];
             if (nBytesRead > 0) {
                 NSData *data = [buffer subdataWithRange:NSMakeRange(0, nBytesRead)];

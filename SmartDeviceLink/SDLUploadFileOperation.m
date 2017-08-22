@@ -53,7 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [super start];
-    [self sdl_sendPutFiles:self.fileWrapper.file mtuSize:[SDLGlobals sharedGlobals].maxMTUSize withCompletion:self.fileWrapper.completionHandler];
+
+    [self sdl_sendFile:self.fileWrapper.file mtuSize:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC] withCompletion:self.fileWrapper.completionHandler];
 }
 
 /**
@@ -63,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param mtuSize The maximum packet size allowed
  @param completion Closure returning whether or not the upload was a success
  */
-- (void)sdl_sendPutFiles:(SDLFile *)file mtuSize:(NSUInteger)mtuSize withCompletion:(SDLFileManagerUploadCompletionHandler)completion  {
+- (void)sdl_sendFile:(SDLFile *)file mtuSize:(NSUInteger)mtuSize withCompletion:(SDLFileManagerUploadCompletionHandler)completion  {
     __block NSError *streamError = nil;
     __block NSUInteger bytesAvailable = 0;
     __block NSInteger highestCorrelationIDReceived = -1;

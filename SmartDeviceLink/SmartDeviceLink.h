@@ -186,8 +186,10 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLLocationCoordinate.h"
 #import "SDLLocationDetails.h"
 #import "SDLMenuParams.h"
+#import "SDLMetadataTags.h"
 #import "SDLMyKey.h"
 #import "SDLNavigationCapability.h"
+#import "SDLOasisAddress.h"
 #import "SDLParameterPermissions.h"
 #import "SDLPermissionItem.h"
 #import "SDLPhoneCapability.h"
@@ -208,6 +210,8 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLTurn.h"
 #import "SDLVehicleDataResult.h"
 #import "SDLVehicleType.h"
+#import "SDLVideoStreamingCapability.h"
+#import "SDLVideoStreamingFormat.h"
 #import "SDLVrHelpItem.h"
 
 // Enums
@@ -249,6 +253,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLLockScreenStatus.h"
 #import "SDLMaintenanceModeStatus.h"
 #import "SDLMediaClockFormat.h"
+#import "SDLMetadataType.h"
 #import "SDLPRNDL.h"
 #import "SDLPermissionStatus.h"
 #import "SDLPowerModeQualificationStatus.h"
@@ -278,6 +283,8 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLVehicleDataResultCode.h"
 #import "SDLVehicleDataStatus.h"
 #import "SDLVehicleDataType.h"
+#import "SDLVideoStreamingCodec.h"
+#import "SDLVideoStreamingProtocol.h"
 #import "SDLVrCapabilities.h"
 #import "SDLWarningLightStatus.h"
 #import "SDLWaypointType.h"
@@ -288,6 +295,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLConfiguration.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
+#import "SDLStreamingMediaConfiguration.h"
 
 // Files
 #import "SDLArtwork.h"
@@ -306,10 +314,15 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLPermissionConstants.h"
 #import "SDLPermissionManager.h"
 
+// Touches
+#import "SDLPinchGesture.h"
+#import "SDLTouch.h"
+
 // Utilities
 #import "NSNumber+NumberType.h"
 #import "SDLErrorConstants.h"
 #import "SDLNotificationConstants.h"
+#import "SDLStreamingMediaManagerConstants.h"
 
 // Notifications
 #import "SDLRPCNotificationNotification.h"
@@ -326,3 +339,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLLogTargetAppleSystemLog.h"
 #import "SDLLogTargetFile.h"
 #import "SDLLogTargetOSLog.h"
+
+// Macros
+#import "SDLMacros.h"

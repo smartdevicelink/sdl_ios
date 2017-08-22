@@ -59,6 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)parse:(NSData *)data;
 - (NSString *)description;
 + (__kindof SDLProtocolHeader *)headerForVersion:(UInt8)version;
++ (UInt8)determineVersion:(NSData *)data;
 
 @end
 
