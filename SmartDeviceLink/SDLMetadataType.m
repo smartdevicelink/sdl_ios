@@ -20,7 +20,6 @@ SDLMetadataType *SDLMetadataType_MAXIMUM_TEMPERATURE = nil;
 SDLMetadataType *SDLMetadataType_MINIMUM_TEMPERATURE = nil;
 SDLMetadataType *SDLMetadataType_WEATHER_TERM = nil;
 SDLMetadataType *SDLMetadataType_HUMIDITY = nil;
-SDLMetadataType *SDLMetadataType_NONE = nil;
 
 NSArray *SDLMetadataType_values = nil;
 
@@ -49,8 +48,7 @@ NSArray *SDLMetadataType_values = nil;
                                    SDLMetadataType.MAXIMUM_TEMPERATURE,
                                    SDLMetadataType.MINIMUM_TEMPERATURE,
                                    SDLMetadataType.WEATHER_TERM,
-                                   SDLMetadataType.HUMIDITY,
-                                   SDLMetadataType.NONE];
+                                   SDLMetadataType.HUMIDITY];
     }
     return SDLMetadataType_values;
 }
@@ -137,13 +135,6 @@ NSArray *SDLMetadataType_values = nil;
         SDLMetadataType_HUMIDITY = [[SDLMetadataType alloc] initWithValue:@"humidity"];
     }
     return SDLMetadataType_HUMIDITY;
-}
-
-+ (SDLMetadataType *)NONE {
-    if (SDLMetadataType_NONE == nil) {
-        SDLMetadataType_NONE = [[SDLMetadataType alloc] initWithValue:@"none"];
-    }
-    return SDLMetadataType_NONE;
 }
 
 @end
