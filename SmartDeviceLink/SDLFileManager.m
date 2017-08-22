@@ -261,6 +261,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     NSMutableDictionary *failedUploads = [[NSMutableDictionary alloc] init];
     float totalBytesToUpload = progressHandler == nil ? 0.0 : [self sdl_totalBytesToUpload:files];
     __block float totalBytesUploaded = 0.0;
+    
 
     dispatch_group_t uploadFilesTask = dispatch_group_create();
     dispatch_group_enter(uploadFilesTask);
