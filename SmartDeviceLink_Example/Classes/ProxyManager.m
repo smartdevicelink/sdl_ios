@@ -132,30 +132,20 @@ NS_ASSUME_NONNULL_BEGIN
     [self.sdlManager sendRequest:displayLayout];
     
     self.initialShowState = SDLHMIInitialShowStateShown;
-
-    [self sdlex_showWithManager:self.sdlManager isOn:true];
-//    SDLShow* show = [[SDLShow alloc] initWithMainField1:@"SDL" mainField2:@"Test App" alignment:SDLTextAlignmentCenter];
-//    SDLSoftButton *pointingSoftButton = [self.class sdlex_pointingSoftButtonWithManager:self.sdlManager];
-//    SDLSoftButton *eyeSoftButton = [self.class sdlex_eyeSoftButtonWithManager:self.sdlManager isOn:true];
-//    SDLSoftButton *checkmarkSoftButton = [self.class sdlex_checkmarkSoftButtonWithManager:self.sdlManager];
-//    show.softButtons = [@[pointingSoftButton, eyeSoftButton, checkmarkSoftButton] mutableCopy];
-//    show.graphic = [self.class sdlex_mainGraphicImage];
-//    
-//    [self.sdlManager sendRequest:show];
+    [self sdlex_showWithManager:self.sdlManager];
 }
 
-- (void)sdlex_showWithManager:(SDLManager *)manager isOn:(Boolean)isOn {
+- (void)sdlex_showWithManager:(SDLManager *)manager {
     SDLShow* show = [[SDLShow alloc] initWithMainField1:@"SDL" mainField2:@"Test App" alignment:SDLTextAlignmentCenter];
-    show.softButtons = [self sdlex_softButtons:isOn];
+    show.softButtons = [self sdlex_softButtons];
     show.graphic = [self.class sdlex_mainGraphicImage];
-
     [manager sendRequest:show];
 }
 
-- (NSArray<SDLSoftButton *> *)sdlex_softButtons:(Boolean)isOn {
-    SDLSoftButton *pointingSoftButton = [self sdlex_pointingSoftButtonWithManager:self.sdlManager];
-    SDLSoftButton *eyeSoftButton = [self sdlex_eyeSoftButtonWithManager:self.sdlManager isOn:isOn];
-    SDLSoftButton *checkmarkSoftButton = [self sdlex_checkmarkSoftButtonWithManager:self.sdlManager];
+- (NSArray<SDLSoftButton *> *)sdlex_softButtons {
+    SDLSoftButton *pointingSoftButton = [self.class sdlex_pointingSoftButtonWithManager:self.sdlManager];
+    SDLSoftButton *eyeSoftButton = [self sdlex_eyeSoftButtonWithManager:self.sdlManager];
+    SDLSoftButton *checkmarkSoftButton = [self.class sdlex_checkmarkSoftButtonWithManager:self.sdlManager];
     return [@[pointingSoftButton, eyeSoftButton, checkmarkSoftButton] mutableCopy];
 }
 
@@ -329,7 +319,7 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (SDLSoftButton *)sdlex_pointingSoftButtonWithManager:(SDLManager *)manager {
++ (SDLSoftButton *)sdlex_pointingSoftButtonWithManager:(SDLManager *)manager {
     SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
         if (buttonPressNotification == nil) {
             return;
@@ -352,22 +342,23 @@ NS_ASSUME_NONNULL_BEGIN
     return softButton;
 }
 
-- (SDLSoftButton *)sdlex_eyeSoftButtonWithManager:(SDLManager *)manager isOn:(Boolean)isOn {
+static Boolean isEyeSoftButtonOn = true;
+- (SDLSoftButton *)sdlex_eyeSoftButtonWithManager:(SDLManager *)manager {
     SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
         if (buttonPressNotification == nil) {
             return;
         }
 
-        SDLLogD(@"Eye soft button press fired %d", !isOn);
-        [self sdlex_showWithManager:manager isOn:!isOn];
-    }];
+        isEyeSoftButtonOn = !isEyeSoftButtonOn;
+        [self sdlex_showWithManager:manager];
 
-    softButton.text = @"Press Eye";
+        SDLLogD(@"Eye soft button press fired %d", isEyeSoftButtonOn);
+    }];
     softButton.softButtonID = @200;
-    softButton.type = SDLSoftButtonTypeBoth;
+    softButton.type = SDLSoftButtonTypeImage;
 
     SDLImage* image = [[SDLImage alloc] init];
-    if (isOn) {
+    if (isEyeSoftButtonOn) {
         image.value = EyeOnSoftButtonArtworkName;
     } else {
         image.value = EyeOffSoftButtonArtworkName;
@@ -378,7 +369,7 @@ NS_ASSUME_NONNULL_BEGIN
     return softButton;
 }
 
-- (SDLSoftButton *)sdlex_checkmarkSoftButtonWithManager:(SDLManager *)manager {
++ (SDLSoftButton *)sdlex_checkmarkSoftButtonWithManager:(SDLManager *)manager {
     SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
         if (buttonPressNotification == nil) {
             return;
@@ -389,7 +380,7 @@ NS_ASSUME_NONNULL_BEGIN
         alert.alertText1 = @"You pushed the button!";
         [manager sendRequest:alert];
     }];
-    softButton.text = @"Press Checkmark";
+    softButton.text = @"Check";
     softButton.softButtonID = @300;
     softButton.type = SDLSoftButtonTypeBoth;
 
@@ -443,10 +434,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdlex_uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(void (^)(BOOL success))completionHandler {
     [self.sdlManager.fileManager uploadFiles:files completionHandler:^(NSError * _Nullable error) {
         if(!error) {
-            // All files were sent successfully
             return completionHandler(true);
         } else {
-            // Some or all of the files were not uploaded successfully
             SDLLogW(@"The files that were not uploaded successfully: %@", error.userInfo);
             return completionHandler(false);
         }
@@ -458,17 +447,14 @@ NS_ASSUME_NONNULL_BEGIN
         if(!error) {
             // The file was sent successfully
         } else {
-            // The file was not sent successfully
-            SDLLogW(@"The file did not upload error: %@", error);
+            SDLLogW(@"The file did not upload: %@", error);
             // You may want to cancel all future file uploads if the last file failed during the upload process
             *cancel = YES;
         }
     } completionHandler:^(NSError * _Nullable error) {
         if(!error) {
-            // All files were sent successfully
             return completionHandler(true);
         } else {
-            // Some or all of the files were not uploaded successfully
             SDLLogW(@"The files that were not uploaded successfully: %@", error.userInfo);
             return completionHandler(false);
         }
@@ -478,10 +464,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdlex_deleteFiles:(NSArray<NSString *> *)fileNames completionHandler:(void (^)(BOOL success))completionHandler {
     [self.sdlManager.fileManager deleteRemoteFilesWithNames:fileNames completionHandler:^(NSError * _Nullable error) {
         if(!error) {
-            // All files were deleted successfully
             return completionHandler(true);
         } else {
-            // Some or all of the files were not deleted successfully
             SDLLogW(@"The files that were not deleted successfully: %@", error.userInfo);
             return completionHandler(false);
         }
@@ -515,15 +499,6 @@ NS_ASSUME_NONNULL_BEGIN
             return;
         }
     }];
-
-//    [self.sdlManager.fileManager uploadFile:[self.class sdlex_pointingSoftButtonArtwork] completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-//        dispatch_group_leave(dataDispatchGroup);
-//        
-//        if (success == NO) {
-//            SDLLogW(@"Something went wrong, image could not upload: %@", error);
-//            return;
-//        }
-//    }];
 
     dispatch_group_enter(dataDispatchGroup);
     [self.sdlManager sendRequest:[self.class sdlex_createOnlyChoiceInteractionSet] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
