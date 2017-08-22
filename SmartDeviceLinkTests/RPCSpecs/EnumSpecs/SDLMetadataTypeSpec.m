@@ -29,7 +29,6 @@ describe(@"Individual Enum Value Tests", ^ {
         expect([SDLMetadataType MINIMUM_TEMPERATURE].value).to(equal(@"minimumTemperature"));
         expect([SDLMetadataType WEATHER_TERM].value).to(equal(@"weatherTerm"));
         expect([SDLMetadataType HUMIDITY].value).to(equal(@"humidity"));
-        expect([SDLMetadataType NONE].value).to(equal(@"none"));
     });
 });
 describe(@"ValueOf Tests", ^ {
@@ -46,7 +45,6 @@ describe(@"ValueOf Tests", ^ {
         expect([SDLMetadataType valueOf:@"minimumTemperature"]).to(equal([SDLMetadataType MINIMUM_TEMPERATURE]));
         expect([SDLMetadataType valueOf:@"weatherTerm"]).to(equal([SDLMetadataType WEATHER_TERM]));
         expect([SDLMetadataType valueOf:@"humidity"]).to(equal([SDLMetadataType HUMIDITY]));
-        expect([SDLMetadataType valueOf:@"none"]).to(equal([SDLMetadataType NONE]));
     });
 
     it(@"Should return nil when invalid", ^ {
@@ -70,8 +68,7 @@ describe(@"Value List Tests", ^ {
                            [SDLMetadataType MAXIMUM_TEMPERATURE],
                            [SDLMetadataType MINIMUM_TEMPERATURE],
                            [SDLMetadataType WEATHER_TERM],
-                           [SDLMetadataType HUMIDITY],
-                           [SDLMetadataType NONE]] copy];
+                           [SDLMetadataType HUMIDITY]] copy];
     });
 
     it(@"Should contain all defined enum values", ^ {
