@@ -161,7 +161,7 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(@"The file upload was canceled", nil),
                                                        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The file upload transaction was canceled before it could be completed", nil),
-                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"", nil)
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"The file upload was canceled", nil)
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerUploadCanceled userInfo:userInfo];
 }

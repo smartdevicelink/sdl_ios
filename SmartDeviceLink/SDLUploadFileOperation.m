@@ -68,10 +68,17 @@ NS_ASSUME_NONNULL_BEGIN
     __block NSUInteger bytesAvailable = 0;
     __block NSInteger highestCorrelationIDReceived = -1;
 
-    self.inputStream = [self sdl_openInputStreamWithFile:file];
+    if (self.isCancelled) {
+        return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileUploadCanceled]);
+    }
 
-    // If the file does not exist or the passed data is nil, return an error
+    if (file == nil) {
+        return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
+    }
+
+    self.inputStream = [self sdl_openInputStreamWithFile:file];
     if (self.inputStream == nil || ![self.inputStream hasBytesAvailable]) {
+        // If the file does not exist or the passed data is nil, return an error
         [self sdl_closeInputStream];
         return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
     }
@@ -79,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
     dispatch_group_t putFileGroup = dispatch_group_create();
     dispatch_group_enter(putFileGroup);
 
-    // Waits for all packets be sent before returning whether or not the upload was a success
+    // Wait for all packets be sent before returning whether or not the upload was a success
     __weak typeof(self) weakself = self;
     dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
         typeof(weakself) strongself = weakself;

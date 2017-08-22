@@ -177,7 +177,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
             });
 
             afterEach(^{
-                waitUntilTimeout(100, ^(void (^done)(void)){
+                waitUntilTimeout(10, ^(void (^done)(void)){
                     [testFileManager uploadFiles:testSDLFiles completionHandler:^(NSError * _Nullable error) {
                         expect(error).to(beNil());
                         expect(testFileManager.bytesAvailable).to(equal(expectedSpaceLeft));
@@ -266,7 +266,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
             });
 
             afterEach(^{
-                waitUntilTimeout(100, ^(void (^done)(void)){
+                waitUntilTimeout(10, ^(void (^done)(void)){
                     [testFileManager uploadFiles:testSDLFiles completionHandler:^(NSError * _Nullable error) {
                         expect(error).to(equal(expectedError));
                         expect(testFileManager.bytesAvailable).to(equal(expectedSpaceLeft));
@@ -323,7 +323,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
             });
 
             afterEach(^{
-                waitUntilTimeout(100, ^(void (^done)(void)){
+                waitUntilTimeout(10, ^(void (^done)(void)){
                     [testFileManager uploadFiles:testSDLFiles progressHandler:^(NSString * _Nonnull fileName, float uploadPercentage, Boolean * _Nonnull cancel, NSError * _Nullable error) {
                         TestProgressResponse *testProgressResponse = testFileManagerProgressResponses[fileName];
                         expect(fileName).to(equal(testProgressResponse.testFileName));
@@ -344,6 +344,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
             __block NSString *testFileNameBase;
             __block int testFileCount = 0;
             __block int testCancelIndex = 0;
+            __block NSError *expectedError;
 
             beforeEach(^{
                 testResponses = [[NSMutableDictionary alloc] init];
@@ -354,18 +355,21 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                 testFileCount = 11;
                 testCancelIndex = 0;
                 testFileNameBase = @"TestUploadFilesCancelAfterFirst";
+                expectedError = [NSError sdl_fileManager_unableToUploadError:testResponses];
             });
 
             it(@"should cancel the remaining files if cancel is triggered after half of the files are uploaded", ^{
                 testFileCount = 30;
                 testCancelIndex = testFileCount / 2;
                 testFileNameBase = @"TestUploadFilesCancelInMiddle";
+                expectedError = [NSError sdl_fileManager_unableToUploadError:testResponses];
             });
 
             it(@"should not fail if there are no more files to cancel", ^{
                 testFileCount = 20;
                 testCancelIndex = (testFileCount - 1);
                 testFileNameBase = @"TestUploadFilesCancelAtEnd";
+                expectedError = nil;
             });
 
             afterEach(^{
@@ -384,9 +388,9 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                 }
                 testConnectionManager.responses = testResponses;
 
-                waitUntilTimeout(100, ^(void (^done)(void)){
+                waitUntilTimeout(10, ^(void (^done)(void)){
                     [testFileManager uploadFiles:testSDLFiles progressHandler:^(NSString * _Nonnull fileName, float uploadPercentage, Boolean * _Nonnull cancel, NSError * _Nullable error) {
-                        // Once an operation is cancelled, there is no expected order to the cancellations, so upload percentage will vary for canceled operations depending on the order in which they are cancelled. Also, some operations may finish before cancel is called.
+                        // Once an operation is cancelled, the order in which the cancellations complete is random, so upload percentage and the error message can vary depending on the order in which they are cancelled.
                         TestProgressResponse *testProgressResponse = testProgressResponses[fileName];
                         expect(fileName).to(equal(testProgressResponse.testFileName));
 
@@ -395,7 +399,11 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                             (*cancel) = YES;
                         }
                     } completionHandler:^(NSError * _Nullable error) {
-                        expect(error).to(beNil());
+                        if (expectedError != nil) {
+                            expect(error.code).to(equal(SDLFileManagerErrorUnableToUpload));
+                        } else {
+                            expect(error).to(beNil());
+                        }
                         done();
                     }];
                 });
@@ -551,7 +559,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
         });
         
         afterEach(^{
-            waitUntilTimeout(100, ^(void (^done)(void)){
+            waitUntilTimeout(10, ^(void (^done)(void)){
                 [testFileManager deleteRemoteFilesWithNames:testDeleteFileNames completionHandler:^(NSError * _Nullable error) {
                     expect(error).to(expectedError == nil ? beNil() : equal(expectedError));
                     expect(testFileManager.bytesAvailable).to(equal(expectedSpaceLeft));
