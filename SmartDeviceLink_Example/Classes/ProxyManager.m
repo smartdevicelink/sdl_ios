@@ -12,11 +12,11 @@
 NSString *const SDLAppName = @"SDL Example App";
 NSString *const SDLAppId = @"9999";
 
-NSString *const CheckmarkSoftButtonArtworkName = @"CheckmarkButtonIcon";
-NSString *const EyeOffSoftButtonArtworkName = @"EyeOffButtonIcon";
-NSString *const EyeOnSoftButtonArtworkName = @"EyeOnButtonIcon";
+NSString *const CircleSoftButtonArtworkName = @"CircleSoftButtonIcon";
+NSString *const HexagonOffSoftButtonArtworkName = @"HexagonOffSoftButtonIcon";
+NSString *const HexagonOnSoftButtonArtworkName = @"HexagonOnSoftButtonIcon";
 NSString *const MainGraphicArtworkName = @"MainArtwork";
-NSString *const PointingSoftButtonArtworkName = @"PointingSoftButtonIcon";
+NSString *const StarSoftButtonArtworkName = @"StarSoftButtonIcon";
 
 BOOL const ShouldRestartOnDisconnect = NO;
 
@@ -143,10 +143,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLSoftButton *> *)sdlex_softButtons {
-    SDLSoftButton *pointingSoftButton = [self.class sdlex_pointingSoftButtonWithManager:self.sdlManager];
-    SDLSoftButton *eyeSoftButton = [self sdlex_eyeSoftButtonWithManager:self.sdlManager];
-    SDLSoftButton *checkmarkSoftButton = [self.class sdlex_checkmarkSoftButtonWithManager:self.sdlManager];
-    return [@[pointingSoftButton, eyeSoftButton, checkmarkSoftButton] mutableCopy];
+    SDLSoftButton *starSoftButton = [self.class sdlex_softButton1WithManager:self.sdlManager];
+    SDLSoftButton *hexagonSoftButton = [self sdlex_softButton2WithManager:self.sdlManager];
+    SDLSoftButton *circleSoftButton = [self.class sdlex_softButton3WithManager:self.sdlManager];
+    return [@[starSoftButton, hexagonSoftButton, circleSoftButton] mutableCopy];
 }
 
 - (void)sdlex_setupPermissionsCallbacks {
@@ -319,7 +319,7 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-+ (SDLSoftButton *)sdlex_pointingSoftButtonWithManager:(SDLManager *)manager {
++ (SDLSoftButton *)sdlex_softButton1WithManager:(SDLManager *)manager {
     SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
         if (buttonPressNotification == nil) {
             return;
@@ -327,7 +327,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         SDLLogD(@"Pointing finger soft button press fired");
         SDLAlert* alert = [[SDLAlert alloc] init];
-        alert.alertText1 = @"You pushed the button!";
+        alert.alertText1 = @"You pushed the soft button!";
         [manager sendRequest:alert];
     }];
     softButton.text = @"Press";
@@ -336,32 +336,32 @@ NS_ASSUME_NONNULL_BEGIN
     
     SDLImage* image = [[SDLImage alloc] init];
     image.imageType = SDLImageTypeDynamic;
-    image.value = PointingSoftButtonArtworkName;
+    image.value = StarSoftButtonArtworkName;
     softButton.image = image;
     
     return softButton;
 }
 
-static Boolean isEyeSoftButtonOn = true;
-- (SDLSoftButton *)sdlex_eyeSoftButtonWithManager:(SDLManager *)manager {
+static Boolean isHexagonOn = true;
+- (SDLSoftButton *)sdlex_softButton2WithManager:(SDLManager *)manager {
     SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
         if (buttonPressNotification == nil) {
             return;
         }
 
-        isEyeSoftButtonOn = !isEyeSoftButtonOn;
+        isHexagonOn = !isHexagonOn;
         [self sdlex_showWithManager:manager];
 
-        SDLLogD(@"Eye soft button press fired %d", isEyeSoftButtonOn);
+        SDLLogD(@"Hexagon button press fired %d", isHexagonOn);
     }];
     softButton.softButtonID = @200;
     softButton.type = SDLSoftButtonTypeImage;
 
     SDLImage* image = [[SDLImage alloc] init];
-    if (isEyeSoftButtonOn) {
-        image.value = EyeOnSoftButtonArtworkName;
+    if (isHexagonOn) {
+        image.value = HexagonOnSoftButtonArtworkName;
     } else {
-        image.value = EyeOffSoftButtonArtworkName;
+        image.value = HexagonOffSoftButtonArtworkName;
     }
     image.imageType = SDLImageTypeDynamic;
     softButton.image = image;
@@ -369,15 +369,15 @@ static Boolean isEyeSoftButtonOn = true;
     return softButton;
 }
 
-+ (SDLSoftButton *)sdlex_checkmarkSoftButtonWithManager:(SDLManager *)manager {
++ (SDLSoftButton *)sdlex_softButton3WithManager:(SDLManager *)manager {
     SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
         if (buttonPressNotification == nil) {
             return;
         }
 
-        SDLLogD(@"Checkmark soft button press fired");
+        SDLLogD(@"Circle soft button press fired");
         SDLAlert* alert = [[SDLAlert alloc] init];
-        alert.alertText1 = @"You pushed the button!";
+        alert.alertText1 = @"You pushed the soft button!";
         [manager sendRequest:alert];
     }];
     softButton.text = @"Check";
@@ -386,7 +386,7 @@ static Boolean isEyeSoftButtonOn = true;
 
     SDLImage* image = [[SDLImage alloc] init];
     image.imageType = SDLImageTypeDynamic;
-    image.value = CheckmarkSoftButtonArtworkName;
+    image.value = CircleSoftButtonArtworkName;
     softButton.image = image;
 
     return softButton;
@@ -411,20 +411,20 @@ static Boolean isEyeSoftButtonOn = true;
 
 #pragma mark - Files / Artwork
 
-+ (SDLArtwork *)sdlex_pointingSoftButtonArtwork {
-    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_softbutton_icon"] name:PointingSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
++ (SDLArtwork *)sdlex_softButton1Artwork {
+    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"star_softbutton_icon"] name:StarSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
 }
 
-+ (SDLArtwork *)sdlex_eyeOnSoftButtonArtwork {
-    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"eye_on"] name:EyeOnSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
++ (SDLArtwork *)sdlex_softButton2OnArtwork {
+    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"hexagon_on_softbutton_icon"] name:HexagonOnSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
 }
 
-+ (SDLArtwork *)sdlex_eyeOffSoftButtonArtwork {
-    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"eye_off"] name:EyeOffSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
++ (SDLArtwork *)sdlex_softButton2OffArtwork {
+    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"hexagon_off_softbutton_icon"] name:HexagonOffSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
 }
 
-+ (SDLArtwork *)sdlex_checkmarkSoftButtonArtwork {
-    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"checkmark"] name:CheckmarkSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
++ (SDLArtwork *)sdlex_softButton3Artwork {
+    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"circle_softbutton_icon"] name:CircleSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
 }
 
 + (SDLArtwork *)sdlex_mainGraphicArtwork {
@@ -491,7 +491,7 @@ static Boolean isEyeSoftButtonOn = true;
     }];
     
     dispatch_group_enter(dataDispatchGroup);
-    NSArray<SDLArtwork *> *softButtonArtworks = [[NSArray alloc] initWithObjects:[self.class sdlex_pointingSoftButtonArtwork], [self.class sdlex_eyeOnSoftButtonArtwork], [self.class sdlex_eyeOffSoftButtonArtwork], [self.class sdlex_checkmarkSoftButtonArtwork], nil];
+    NSArray<SDLArtwork *> *softButtonArtworks = [[NSArray alloc] initWithObjects:[self.class sdlex_softButton1Artwork], [self.class sdlex_softButton2OnArtwork], [self.class sdlex_softButton2OffArtwork], [self.class sdlex_softButton3Artwork], nil];
     [self sdlex_uploadFiles:softButtonArtworks completionHandler:^(BOOL success) {
         dispatch_group_leave(dataDispatchGroup);
 
