@@ -70,6 +70,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLRegisterAppInterface.h',
 'SmartDeviceLink/SDLResetGlobalProperties.h',
 'SmartDeviceLink/SDLScrollableMessage.h',
+'SmartDeviceLink/SDLSendHapticData.h',
 'SmartDeviceLink/SDLSendLocation.h',
 'SmartDeviceLink/SDLSetAppIcon.h',
 'SmartDeviceLink/SDLSetDisplayLayout.h',
@@ -115,6 +116,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLRegisterAppInterfaceResponse.h',
 'SmartDeviceLink/SDLResetGlobalPropertiesResponse.h',
 'SmartDeviceLink/SDLScrollableMessageResponse.h',
+'SmartDeviceLink/SDLSendHapticDataResponse.h',
 'SmartDeviceLink/SDLSendLocationResponse.h',
 'SmartDeviceLink/SDLSetAppIconResponse.h',
 'SmartDeviceLink/SDLSetDisplayLayoutResponse.h',
@@ -176,6 +178,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLImageResolution.h',
 'SmartDeviceLink/SDLKeyboardProperties.h',
 'SmartDeviceLink/SDLMenuParams.h',
+'SmartDeviceLink/SDLMetadataTags.h',
 'SmartDeviceLink/SDLMyKey.h',
 'SmartDeviceLink/SDLNavigationCapability.h',
 'SmartDeviceLink/SDLOasisAddress.h',
@@ -183,6 +186,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLPermissionItem.h',
 'SmartDeviceLink/SDLPhoneCapability.h',
 'SmartDeviceLink/SDLPresetBankCapabilities.h',
+'SmartDeviceLink/SDLRectangle.h',
 'SmartDeviceLink/SDLScreenParams.h',
 'SmartDeviceLink/SDLSingleTireStatus.h',
 'SmartDeviceLink/SDLSoftButton.h',
@@ -242,6 +246,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLLockScreenStatus.h',
 'SmartDeviceLink/SDLMaintenanceModeStatus.h',
 'SmartDeviceLink/SDLMediaClockFormat.h',
+'SmartDeviceLink/SDLMetadataType.h',
 'SmartDeviceLink/SDLPRNDL.h',
 'SmartDeviceLink/SDLPermissionStatus.h',
 'SmartDeviceLink/SDLPowerModeQualificationStatus.h',
@@ -254,6 +259,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLResult.h',
 'SmartDeviceLink/SDLSamplingRate.h',
 'SmartDeviceLink/SDLSoftButtonType.h',
+'SmartDeviceLink/SDLHapticRect.h',
 'SmartDeviceLink/SDLSpeechCapabilities.h',
 'SmartDeviceLink/SDLSystemAction.h',
 'SmartDeviceLink/SDLSystemCapabilityType.h',
@@ -295,8 +301,6 @@ s.public_header_files = [
 'SmartDeviceLink/SDLRequestHandler.h',
 'SmartDeviceLink/SDLRPCNotificationNotification.h',
 'SmartDeviceLink/SDLRPCResponseNotification.h',
-'SmartDeviceLink/SDLMetadataTags.h',
-'SmartDeviceLink/SDLMetadataType.h'
 ]
 
 end

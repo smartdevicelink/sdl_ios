@@ -50,6 +50,7 @@
 @class SDLRegisterAppInterfaceResponse;
 @class SDLResetGlobalPropertiesResponse;
 @class SDLScrollableMessageResponse;
+@class SDLSendHapticDataResponse;
 @class SDLSendLocationResponse;
 @class SDLSetAppIconResponse;
 @class SDLSetDisplayLayoutResponse;
@@ -125,6 +126,7 @@
 - (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response;
 - (void)onResetGlobalPropertiesResponse:(SDLResetGlobalPropertiesResponse *)response;
 - (void)onScrollableMessageResponse:(SDLScrollableMessageResponse *)response;
+- (void)onSendHapticDataResponse:(SDLSendHapticDataResponse *)response;
 - (void)onSendLocationResponse:(SDLSendLocationResponse *)response;
 - (void)onSetAppIconResponse:(SDLSetAppIconResponse *)response;
 - (void)onSetDisplayLayoutResponse:(SDLSetDisplayLayoutResponse *)response;
