@@ -125,7 +125,16 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 }
 
 - (BOOL)encodeFrame:(CVImageBufferRef)imageBuffer {
-    OSStatus status = VTCompressionSessionEncodeFrame(_compressionSession, imageBuffer, CMTimeMake(self.currentFrameNumber++, 30), kCMTimeInvalid, NULL, (__bridge void *)self, NULL);
+    return [self encodeFrame:imageBuffer pts:kCMTimeInvalid];
+}
+
+- (BOOL)encodeFrame:(CVImageBufferRef)imageBuffer pts:(CMTime)pts {
+    if (!CMTIME_IS_VALID(pts)) {
+        pts = CMTimeMake(self.currentFrameNumber, 30);
+    }
+    self.currentFrameNumber++;
+
+    OSStatus status = VTCompressionSessionEncodeFrame(_compressionSession, imageBuffer, pts, kCMTimeInvalid, NULL, (__bridge void *)self, NULL);
 
     return (status == noErr);
 }

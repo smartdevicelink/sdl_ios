@@ -53,6 +53,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [self.lifecycleManager sendVideoData:imageBuffer];
 }
 
+- (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer pts:(CMTime)pts {
+    return [self.lifecycleManager sendVideoData:imageBuffer pts:pts];
+}
+
 - (BOOL)sendAudioData:(NSData*)audioData {
     return [self.lifecycleManager sendAudioData:audioData];
 }
