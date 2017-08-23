@@ -8,7 +8,7 @@
 
 #import "SDLNames.h"
 #import "SDLSendHapticData.h"
-#import "SDLSpatialStruct.h"
+#import "SDLHapticRect.h"
 
 @implementation SDLSendHapticData
 
@@ -24,35 +24,35 @@
     return self;
 }
 
-- (instancetype)initWithHapticSpatialData:(NSMutableArray *)hapticSpatialData {
+- (instancetype)initWithHapticRectData:(NSMutableArray *)hapticRectData {
     self = [self init];
     if (!self) {
         return nil;
     }
 
-    self.hapticSpatialData = [hapticSpatialData mutableCopy];
+    self.hapticRectData = [hapticRectData mutableCopy];
 
     return self;
 }
 
-- (void)setHapticSpatialData:(NSMutableArray *)hapticSpatialData {
-    if (hapticSpatialData != nil) {
-        [parameters setObject:hapticSpatialData forKey:NAMES_hapticSpatialData];
+- (void)setHapticRectData:(NSMutableArray *)hapticRectData {
+    if (hapticRectData != nil) {
+        [parameters setObject:hapticRectData forKey:NAMES_hapticRectData];
     } else {
-        [parameters removeObjectForKey:NAMES_hapticSpatialData];
+        [parameters removeObjectForKey:NAMES_hapticRectData];
     }
 }
 
-- (NSMutableArray *)hapticSpatialData {
-    NSMutableArray *array = [parameters objectForKey:NAMES_hapticSpatialData];
+- (NSMutableArray *)hapticRectData {
+    NSMutableArray *array = [parameters objectForKey:NAMES_hapticRectData];
     if ([array isEqual:[NSNull null]]) {
         return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLSpatialStruct.class]) {
+    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLHapticRect.class]) {
         return array;
     } else {
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
         for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLSpatialStruct alloc] initWithDictionary:(NSMutableDictionary *) dict]];
+            [newList addObject:[[SDLHapticRect alloc] initWithDictionary:(NSMutableDictionary *) dict]];
         }
         return newList;
     }

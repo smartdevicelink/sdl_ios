@@ -178,6 +178,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLImageResolution.h',
 'SmartDeviceLink/SDLKeyboardProperties.h',
 'SmartDeviceLink/SDLMenuParams.h',
+'SmartDeviceLink/SDLMetadataTags.h',
 'SmartDeviceLink/SDLMyKey.h',
 'SmartDeviceLink/SDLNavigationCapability.h',
 'SmartDeviceLink/SDLOasisAddress.h',
@@ -185,6 +186,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLPermissionItem.h',
 'SmartDeviceLink/SDLPhoneCapability.h',
 'SmartDeviceLink/SDLPresetBankCapabilities.h',
+'SmartDeviceLink/SDLRectangle.h',
 'SmartDeviceLink/SDLScreenParams.h',
 'SmartDeviceLink/SDLSingleTireStatus.h',
 'SmartDeviceLink/SDLSoftButton.h',
@@ -244,6 +246,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLLockScreenStatus.h',
 'SmartDeviceLink/SDLMaintenanceModeStatus.h',
 'SmartDeviceLink/SDLMediaClockFormat.h',
+'SmartDeviceLink/SDLMetadataType.h',
 'SmartDeviceLink/SDLPRNDL.h',
 'SmartDeviceLink/SDLPermissionStatus.h',
 'SmartDeviceLink/SDLPowerModeQualificationStatus.h',
@@ -256,7 +259,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLResult.h',
 'SmartDeviceLink/SDLSamplingRate.h',
 'SmartDeviceLink/SDLSoftButtonType.h',
-'SmartDeviceLink/SDLSpatialStruct',
+'SmartDeviceLink/SDLHapticRect',
 'SmartDeviceLink/SDLSpeechCapabilities.h',
 'SmartDeviceLink/SDLSystemAction.h',
 'SmartDeviceLink/SDLSystemCapabilityType.h',
@@ -298,8 +301,6 @@ s.public_header_files = [
 'SmartDeviceLink/SDLRequestHandler.h',
 'SmartDeviceLink/SDLRPCNotificationNotification.h',
 'SmartDeviceLink/SDLRPCResponseNotification.h',
-'SmartDeviceLink/SDLMetadataTags.h',
-'SmartDeviceLink/SDLMetadataType.h'
 ]
 
 end

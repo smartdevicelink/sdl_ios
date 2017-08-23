@@ -1,49 +1,20 @@
 //
-//  SDLSpatialStruct.m
+//  SDLRectangle.m
 //  SmartDeviceLink-iOS
 //
-//  Created by Nicole on 8/2/17.
+//  Created by Joel Fischer on 8/23/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import "SDLSpatialStruct.h"
+#import "SDLRectangle.h"
+
 #import "SDLNames.h"
 
-@implementation SDLSpatialStruct
+@implementation SDLRectangle
 
 - (instancetype)init {
     if (self = [super init]) {
     }
-    return self;
-}
-
-- (instancetype)initWithId:(NSNumber *)id xCoord:(NSNumber *)x yCoord:(NSNumber *)y width:(NSNumber *)width height:(NSNumber *)height {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
-    self.id = id;
-    self.x = x;
-    self.y = y;
-    self.width = width;
-    self.height = height;
-
-    return self;
-}
-
-- (instancetype)initWithId:(NSNumber *)id CGRect:(CGRect)rect {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
-    self.id = id;
-    self.x = @((float)rect.origin.x);
-    self.y = @((float)rect.origin.y);
-    self.width = @((float)rect.size.width);
-    self.height = @((float)rect.size.height);
-
     return self;
 }
 
@@ -53,16 +24,32 @@
     return self;
 }
 
-- (void)setId:(NSNumber *)id {
-    if (id != nil) {
-        [store setObject:id forKey:NAMES_id];
-    } else {
-        [store removeObjectForKey:NAMES_id];
+- (instancetype)initWithX:(NSNumber *)x y:(NSNumber *)y width:(NSNumber *)width height:(NSNumber *)height {
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+
+    self.x = x;
+    self.y = y;
+    self.width = width;
+    self.height = height;
+
+    return self;
 }
 
-- (NSNumber *)id {
-    return [store objectForKey:NAMES_id];
+- (instancetype)initWithCGRect:(CGRect)rect {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.x = @((float)rect.origin.x);
+    self.y = @((float)rect.origin.y);
+    self.width = @((float)rect.size.width);
+    self.height = @((float)rect.size.height);
+
+    return self;
 }
 
 - (void)setX:(NSNumber *)x {

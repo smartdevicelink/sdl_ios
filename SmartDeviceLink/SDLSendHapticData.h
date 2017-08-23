@@ -32,13 +32,13 @@
  *
  *  @param hapticSpatialData Array of spatial data structures
  */
-- (instancetype)initWithHapticSpatialData:(NSMutableArray *)hapticSpatialData;
+- (instancetype)initWithHapticRectData:(NSMutableArray *)hapticSpatialData;
 
 /**
  *  Array of spatial data structures that represent the locations of all user controls present on the HMI. This data should be updated if/when the application presents a new screen. When a request is sent, if successful, it will replace all spatial data previously sent through RPC. If an empty array is sent, the existing spatial data will be cleared
  *
- *  Optional, Array of SDLSpatialStruct, Array size 0 - 1,000
+ *  Optional, Array of SDLHapticRect, Array size 0 - 1,000
  */
-@property (strong) NSMutableArray *hapticSpatialData;
+@property (strong) NSMutableArray *hapticRectData;
 
 @end
