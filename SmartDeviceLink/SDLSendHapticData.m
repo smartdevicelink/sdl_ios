@@ -20,23 +20,23 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithHapticSpatialData:(NSArray<SDLSpatialStruct *> *)hapticSpatialData {
+- (instancetype)initWithHapticRectData:(NSArray<SDLHapticRect *> *)hapticRectData {
     self = [self init];
     if (!self) {
         return nil;
     }
 
-    self.hapticSpatialData = [hapticSpatialData mutableCopy];
+    self.hapticRectData = [hapticRectData mutableCopy];
 
     return self;
 }
 
-- (void)setHapticSpatialData:(nullable NSArray<SDLSpatialStruct *> *)hapticSpatialData {
-    [parameters sdl_setObject:hapticSpatialData forName:SDLNameHapticSpatialData];
+- (void)setHapticRectData:(nullable NSArray<SDLHapticRect *> *)hapticRectData {
+    [parameters sdl_setObject:hapticRectData forName:SDLNameHapticRectData];
 }
 
-- (nullable NSArray<SDLSpatialStruct *> *)hapticSpatialData {
-    return [parameters sdl_objectForName:SDLNameHapticSpatialData];
+- (nullable NSArray<SDLHapticRect *> *)hapticRectData {
+    return [parameters sdl_objectForName:SDLNameHapticRectData];
 }
 
 @end

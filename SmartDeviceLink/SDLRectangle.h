@@ -1,31 +1,33 @@
 //
-//  SDLSpatialStruct.h
+//  SDLRectangle.h
 //  SmartDeviceLink-iOS
 //
-//  Created by Nicole on 8/3/17.
+//  Created by Joel Fischer on 8/23/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <SmartDeviceLink/SmartDeviceLink.h>
 
-#import "SDLRPCStruct.h"
-
-NS_ASSUME_NONNULL_BEGIN
+@interface SDLRectangle : SDLRPCStruct
 
 /**
- *  Defines spatial for each user control object for video streaming application
+ Create a Rectangle
+
+ @param x The top-left x value
+ @param y The top-left y value
+ @param width The width
+ @param height The height
+ @return An new SDLRectangle object
  */
-@interface SDLSpatialStruct : SDLRPCStruct
-
-- (instancetype)initWithId:(UInt32)id x:(float)x y:(float)y width:(float)width height:(float)height;
-
-- (instancetype)initWithId:(NSNumber *)id CGRect:(CGRect)rect;
+- (instancetype)initWithX:(float)x y:(float)y width:(float)width height:(float)height;
 
 /**
- *  A user control spatial identifier
- *  Required, Integer, 0 - 2,000,000,000
+ Create a Rectangle from a CGRect
+
+ @param rect The rectangle to use
+ @return An new SDLRectangle object
  */
-@property (strong, nonatomic) NSNumber<SDLUInt> *id;
+- (instancetype)initWithCGRect:(CGRect)rect;
 
 /**
  *  The X-coordinate of the user control
@@ -52,5 +54,3 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSNumber<SDLFloat> *height;
 
 @end
-
-NS_ASSUME_NONNULL_END

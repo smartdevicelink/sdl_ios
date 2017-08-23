@@ -1,26 +1,21 @@
 //
-//  SDLSpatialStruct.m
+//  SDLRectangle.m
 //  SmartDeviceLink-iOS
 //
-//  Created by Nicole on 8/3/17.
+//  Created by Joel Fischer on 8/23/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLSpatialStruct.h"
+#import "SDLRectangle.h"
 #import "SDLNames.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation SDLRectangle
 
-@implementation SDLSpatialStruct
-
-- (instancetype)initWithId:(UInt32)id x:(float)x y:(float)y width:(float)width height:(float)height {
+- (instancetype)initWithX:(float)x y:(float)y width:(float)width height:(float)height {
     self = [self init];
-    if (!self) {
-        return nil;
-    }
+    if (!self) { return nil; }
 
-    self.id = @(id);
     self.x = @(x);
     self.y = @(y);
     self.width = @(width);
@@ -29,27 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithId:(NSNumber *)id CGRect:(CGRect)rect {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
-    self.id = id;
-    self.x = @((float)rect.origin.x);
-    self.y = @((float)rect.origin.y);
-    self.width = @((float)rect.size.width);
-    self.height = @((float)rect.size.height);
-
-    return self;
-}
-
-- (void)setId:(NSNumber<SDLInt> *)id {
-    [store sdl_setObject:id forName:SDLNameId];
-}
-
-- (NSNumber<SDLInt> *)id {
-    return [store sdl_objectForName:SDLNameId];
+- (instancetype)initWithCGRect:(CGRect)rect {
+    return [self initWithX:rect.origin.x y:rect.origin.y width:rect.size.width height:rect.size.height];
 }
 
 - (void)setX:(NSNumber<SDLFloat> *)x {
@@ -85,5 +61,3 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 @end
-
-NS_ASSUME_NONNULL_END

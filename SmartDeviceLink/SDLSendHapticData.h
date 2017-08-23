@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "SDLRPCRequest.h"
 
-@class SDLSpatialStruct;
+@class SDLHapticRect;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,16 +21,16 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Constructs a new SDLSendHapticData object indicated by the hapticSpatialData parameter
  *
- *  @param hapticSpatialData Array of spatial data structures
+ *  @param hapticRectData Array of spatial data structures
  */
-- (instancetype)initWithHapticSpatialData:(NSArray<SDLSpatialStruct *> *)hapticSpatialData;
+- (instancetype)initWithHapticRectData:(NSArray<SDLHapticRect *> *)hapticRectData;
 
 /**
  *  Array of spatial data structures that represent the locations of all user controls present on the HMI. This data should be updated if/when the application presents a new screen. When a request is sent, if successful, it will replace all spatial data previously sent through RPC. If an empty array is sent, the existing spatial data will be cleared
  *
- *  Optional, Array of SDLSpatialStruct, Array size 0 - 1,000
+ *  Optional, Array of SDLHapticRect, Array size 0 - 1,000
  */
-@property (strong, nonatomic, nullable) NSArray<SDLSpatialStruct *> *hapticSpatialData;
+@property (strong, nonatomic, nullable) NSArray<SDLHapticRect *> *hapticRectData;
 
 @end
 

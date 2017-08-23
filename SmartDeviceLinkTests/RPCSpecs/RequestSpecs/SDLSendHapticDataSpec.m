@@ -12,24 +12,25 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLNames.h"
+#import "SDLHapticRect.h"
+#import "SDLRectangle.h"
 #import "SDLSendHapticData.h"
-#import "SDLSpatialStruct.h"
 
 QuickSpecBegin(SDLSendHapticDataSpec)
 
 describe(@"Initialization Tests", ^ {
-    __block SDLSpatialStruct *testStruct = nil;
+    __block SDLHapticRect *testStruct = nil;
 
     beforeEach(^{
-        testStruct = [[SDLSpatialStruct alloc] initWithId:1 x:@20 y:@30 width:@100 height:@200];
+        testStruct = [[SDLHapticRect alloc] initWithId:123 rect:[[SDLRectangle alloc] initWithX:23.1 y:45.6 width:69.0 height:69]];
     });
 
     context(@"Getter/Setter Tests", ^ {
         it(@"Should set and get correctly", ^ {
             SDLSendHapticData *testRequest = [[SDLSendHapticData alloc] init];
-            testRequest.hapticSpatialData = [@[testStruct] mutableCopy];
+            testRequest.hapticRectData = [@[testStruct] mutableCopy];
 
-            expect(testRequest.hapticSpatialData).to(equal(@[testStruct]));
+            expect(testRequest.hapticRectData).to(equal(@[testStruct]));
         });
     });
 
@@ -37,23 +38,23 @@ describe(@"Initialization Tests", ^ {
         it(@"Should get correctly when initialized with a dictionary", ^ {
             NSMutableDictionary* dict = [@{SDLNameRequest:
                                                @{SDLNameParameters:
-                                                     @{SDLNameHapticSpatialData:@[testStruct]},
+                                                     @{SDLNameHapticRectData:@[testStruct]},
                                                  SDLNameOperationName:SDLNameSendHapticData}} mutableCopy];
             SDLSendHapticData *testRequest = [[SDLSendHapticData alloc] initWithDictionary:dict];
 
-            expect(testRequest.hapticSpatialData).to(equal(@[testStruct]));
+            expect(testRequest.hapticRectData).to(equal(@[testStruct]));
         });
 
         it(@"Should initialize correctly with initWithType:", ^{
-            SDLSendHapticData *testRequest = [[SDLSendHapticData alloc] initWithHapticSpatialData:[NSMutableArray arrayWithArray:@[testStruct]]];
+            SDLSendHapticData *testRequest = [[SDLSendHapticData alloc] initWithHapticRectData:@[testStruct]];
 
-            expect(testRequest.hapticSpatialData).to(equal(@[testStruct]));
+            expect(testRequest.hapticRectData).to(equal(@[testStruct]));
         });
 
         it(@"Should return nil if not set", ^ {
             SDLSendHapticData *testRequest = [[SDLSendHapticData alloc] init];
 
-            expect(testRequest.hapticSpatialData).to(beNil());
+            expect(testRequest.hapticRectData).to(beNil());
         });
     });
 });
