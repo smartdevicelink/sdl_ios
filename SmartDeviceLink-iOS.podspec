@@ -204,7 +204,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLVehicleDataResult.h',
 'SmartDeviceLink/SDLVehicleType.h',
 'SmartDeviceLink/SDLVideoStreamingFormat.h',
-'SmartDeviceLink/SDLVideoStreamingCapability.h'
+'SmartDeviceLink/SDLVideoStreamingCapability.h',
 'SmartDeviceLink/SDLVRHelpItem.h',
 'SmartDeviceLink/SDLAmbientLightStatus.h',
 'SmartDeviceLink/SDLAppHMIType.h',
