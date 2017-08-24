@@ -219,7 +219,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 - (void)deleteRemoteFilesWithNames:(NSArray<SDLFileName *> *)names completionHandler:(nullable SDLFileManagerMultiDeleteCompletionHandler)completionHandler {
     if (names.count == 0) {
-        return completionHandler([NSError sdl_fileManager_noFilesError]);
+        @throw [NSException sdl_missingFilesException];
     }
 
     NSMutableDictionary *failedDeletes = [[NSMutableDictionary alloc] init];
@@ -255,7 +255,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 - (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
     if (files.count == 0) {
-        return completionHandler([NSError sdl_fileManager_noFilesError]);
+        @throw [NSException sdl_missingFilesException];
     }
 
     NSMutableDictionary *failedUploads = [[NSMutableDictionary alloc] init];

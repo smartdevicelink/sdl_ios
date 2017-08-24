@@ -147,15 +147,6 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
 + (NSError *)sdl_fileManager_unableToDeleteError:(NSDictionary *)userInfo {
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorUnableToDelete userInfo:userInfo];
 }
-+ (NSError *)sdl_fileManager_noFilesError {
-    NSDictionary<NSString *, NSString *> *userInfo = @{
-                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"The file manager was not given any files", nil),
-                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The array of files is empty", nil),
-                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure the file manager is being given a valid list of files", nil)
-                                                       };
-    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorNoFiles userInfo:userInfo];
-}
-
 
 + (NSError *)sdl_fileManager_fileUploadCanceled {
     NSDictionary<NSString *, NSString *> *userInfo = @{
@@ -195,6 +186,13 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
         exceptionWithName:@"MissingIdException"
                    reason:@"This request requires an ID (command, softbutton, etc) to be specified"
                  userInfo:nil];
+}
+
++ (NSException *)sdl_missingFilesException {
+    return [NSException
+            exceptionWithName:@"MissingFilesNames"
+            reason:@"This request requires that the array of files not be empty"
+            userInfo:nil];
 }
 
 @end

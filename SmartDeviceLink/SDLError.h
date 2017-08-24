@@ -42,7 +42,6 @@ extern SDLErrorDomain *const SDLErrorDomainFileManager;
 + (NSError *)sdl_fileManager_unableToUploadError:(NSDictionary *)userInfo;
 + (NSError *)sdl_fileManager_unableToDeleteError:(NSDictionary *)userInfo;
 + (NSError *)sdl_fileManager_fileDoesNotExistError;
-+ (NSError *)sdl_fileManager_noFilesError;
 + (NSError *)sdl_fileManager_fileUploadCanceled;
 
 @end
@@ -51,6 +50,7 @@ extern SDLErrorDomain *const SDLErrorDomainFileManager;
 
 + (NSException *)sdl_missingHandlerException;
 + (NSException *)sdl_missingIdException;
++ (NSException *)sdl_missingFilesException;
 
 @end
 

@@ -259,12 +259,6 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                 });
             });
 
-            it(@"should return an error if empty array of files is passed to file manager", ^{
-                [testSDLFiles removeAllObjects];
-                expectedError = [NSError sdl_fileManager_noFilesError];
-                expectedSpaceLeft = @(initialSpaceAvailable);
-            });
-
             afterEach(^{
                 waitUntilTimeout(10, ^(void (^done)(void)){
                     [testFileManager uploadFiles:testSDLFiles completionHandler:^(NSError * _Nullable error) {
@@ -550,12 +544,6 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                     expectedSpaceLeft = @(testSpaceAvailable);
                 });
             });
-
-            it(@"should return an error if empty array of file names is passed to file manager", ^{
-                [testDeleteFileNames removeAllObjects];
-                expectedError = [NSError sdl_fileManager_noFilesError];
-                expectedSpaceLeft = @(initialSpaceAvailable);
-            });
         });
         
         afterEach(^{
@@ -570,6 +558,44 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
             for(int i = 0; i < expectedRemoteFileNames.count; i += 1) {
                 expect(testFileManager.remoteFileNames).to(contain(expectedRemoteFileNames[i]));
             }
+        });
+    });
+
+    context(@"The file manager should handle exceptions correctly", ^{
+        beforeEach(^{
+            SDLListFilesResponse *testListFilesResponse = [[SDLListFilesResponse alloc] init];
+            testListFilesResponse.success = @YES;
+            testListFilesResponse.spaceAvailable = @(initialSpaceAvailable);
+            testListFilesResponse.filenames = [[NSArray alloc] initWithObjects:@"AA", nil];
+
+            waitUntilTimeout(10, ^(void (^done)(void)){
+                [testFileManager startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
+                    done();
+                }];
+
+                // Need to wait state machine transitions to complete before sending testListFilesResponse
+                [NSThread sleepForTimeInterval:0.3];
+
+                [testConnectionManager respondToLastRequestWithResponse:testListFilesResponse];
+            });
+        });
+
+        it(@"should throw an exception when the upload function is passed an empty array", ^{
+            expectAction(^{
+                [testFileManager uploadFiles:[NSArray array] completionHandler:nil];
+            }).to(raiseException().named([NSException sdl_missingFilesException].name));
+        });
+
+        it(@"should throw an exception when the upload function with a progress handler is passed an empty array", ^{
+            expectAction(^{
+                [testFileManager uploadFiles:[NSArray array] progressHandler:nil completionHandler:nil];
+            }).to(raiseException().named([NSException sdl_missingFilesException].name));
+        });
+
+        it(@"should throw an exception when the delete function is passed an empty array", ^{
+            expectAction(^{
+                [testFileManager deleteRemoteFilesWithNames:[NSArray array] completionHandler:nil];
+            }).to(raiseException().named([NSException sdl_missingFilesException].name));
         });
     });
 });
