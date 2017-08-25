@@ -4,6 +4,36 @@
 
 #import "SDLTimer.h"
 
+@protocol SDLTimerTargetDelegate <NSObject>
+
+- (void)timerElapsed;
+
+@end
+
+@interface SDLTimerTarget : NSObject
+
+@property (nonatomic, weak) id<SDLTimerTargetDelegate> delegate;
+
+@end
+
+@implementation SDLTimerTarget
+
+- (instancetype)initWithDelegate:(id)delegate {
+    self = [super init];
+    if (self) {
+        _delegate = delegate;
+    }
+    return self;
+}
+
+- (void)timerElapsed {
+    if ([self.delegate conformsToProtocol:@protocol(SDLTimerTargetDelegate)]) {
+        [_delegate timerElapsed];
+    }
+}
+
+@end
+
 
 @interface SDLTimer ()
 
@@ -40,7 +70,9 @@
 - (void)start {
     if (self.duration > 0) {
         [self stopAndDestroyTimer];
-        self.timer = [NSTimer timerWithTimeInterval:self.duration target:self selector:@selector(timerElapsed) userInfo:nil repeats:self.repeat];
+        
+        SDLTimerTarget *timerTarget = [[SDLTimerTarget alloc] initWithDelegate:self];
+        self.timer = [NSTimer timerWithTimeInterval:_duration target:timerTarget selector:@selector(timerElapsed) userInfo:nil repeats:_repeat];
         [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
         self.timerRunning = YES;
     }
