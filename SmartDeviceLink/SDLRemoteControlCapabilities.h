@@ -11,9 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLRemoteControlCapabilities : SDLRPCStruct
 
--(instancetype) initWithClimateControlCapabilities:(NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities;
--(instancetype) initWithRadioControlCapabilities:(NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities;
--(instancetype) initWithButtonCapabilities:(NSArray *)buttonCapabilities;
+-(instancetype) initWithClimateControlCapabilities:(NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(NSArray *)buttonCapabilities;
 
 
 /**

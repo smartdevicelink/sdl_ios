@@ -6,10 +6,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-SDLName const SDLNameAcEnable = @"acEnable";
-SDLName const SDLNameAcEnableAvailable = @"acEnableAvailable";
-SDLName const SDLNameAcMaxEnable = @"acMaxEnable";
-SDLName const SDLNameAcMaxEnableAvailable = @"acMaxEnableAvailable";
+SDLName const SDLNameACEnable = @"acEnable";
+SDLName const SDLNameACEnableAvailable = @"acEnableAvailable";
+SDLName const SDLNameACMaxEnable = @"acMaxEnable";
+SDLName const SDLNameACMaxEnableAvailable = @"acMaxEnableAvailable";
 SDLName const SDLNameAccelerationPedalPosition = @"accPedalPosition";
 SDLName const SDLNameActual = @"actual";
 SDLName const SDLNameAddCommand = @"AddCommand";
@@ -56,7 +56,7 @@ SDLName const SDLNameBulkData = @"bulkData";
 SDLName const SDLNameButtonCapabilities = @"buttonCapabilities";
 SDLName const SDLNameButtonEventMode = @"buttonEventMode";
 SDLName const SDLNameButtonName = @"buttonName";
-SDLName const SDLNameButtonPress = @"buttonPress";
+SDLName const SDLNameButtonPress = @"ButtonPress";
 SDLName const SDLNameButtonPressMode = @"buttonPressMode";
 SDLName const SDLNameCoordinate = @"c";
 SDLName const SDLNameCallActive = @"callActive";

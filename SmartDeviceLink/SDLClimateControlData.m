@@ -64,11 +64,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setAcEnable:(nullable NSNumber<SDLBool> *)acEnable {
-    [store sdl_setObject:acEnable forName:SDLNameAcEnable];
+    [store sdl_setObject:acEnable forName:SDLNameACEnable];
 }
 
 - (nullable NSNumber<SDLBool> *)acEnable {
-    return [store sdl_objectForName:SDLNameAcEnable];
+    return [store sdl_objectForName:SDLNameACEnable];
 }
 
 - (void)setCirculateAirEnable:(nullable NSNumber<SDLBool> *)circulateAirEnable {
@@ -104,11 +104,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setAcMaxEnable:(nullable NSNumber<SDLBool> *)acMaxEnable {
-    [store sdl_setObject:acMaxEnable forName:SDLNameAcMaxEnable];
+    [store sdl_setObject:acMaxEnable forName:SDLNameACMaxEnable];
 }
 
 - (nullable NSNumber<SDLBool> *)acMaxEnable {
-    return [store sdl_objectForName:SDLNameAcMaxEnable];
+    return [store sdl_objectForName:SDLNameACMaxEnable];
 }
 
 - (void)setVentilationMode:(nullable SDLVentilationMode)ventilationMode {

@@ -22,7 +22,7 @@ extern SDLVentilationMode const SDLVentilationModeLower;
 extern SDLVentilationMode const SDLVentilationModeBoth;
 
 /**
- * @abstract A SDLDefrostZone with the value of *NORTH*
+ * @abstract A SDLDefrostZone with the value of *NONE*
  */
-extern SDLVentilationMode const SDLVentilationModeNorth;
+extern SDLVentilationMode const SDLVentilationModeNone;
 

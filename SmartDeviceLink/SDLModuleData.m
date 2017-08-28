@@ -22,25 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
--(instancetype) initWithModuleType: (SDLModuleType)moduleType {
+-(instancetype) initWithModuleType: (SDLModuleType)moduleType radioControlData: (SDLRadioControlData *) radioControlData climateControlData: (SDLClimateControlData *) climateControlData {
     self = [self init];
     
     self.moduleType = moduleType;
-    
-    return self;
-}
-
--(instancetype) initWithRadioControlData: (SDLRadioControlData *) radioControlData {
-    self = [self init];
-    
     self.radioControlData = radioControlData;
-    
-    return self;
-}
-
--(instancetype) initWithClimateControlData: (SDLClimateControlData *) climateControlData {
-    self = [self init];
-    
     self.climateControlData = climateControlData;
     
     return self;

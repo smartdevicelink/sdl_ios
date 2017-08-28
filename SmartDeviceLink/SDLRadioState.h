@@ -11,7 +11,7 @@ typedef SDLEnum SDLRadioState SDL_SWIFT_ENUM;
  *  @abstract Represents Radio state as ACQUIRING
  *
  */
-extern SDLRadioState const SDLRadioBandAcquiring;
+extern SDLRadioState const SDLRadioStateAcquiring;
 
 /**
  *  @abstract Represents Radio state as ACQUIRED

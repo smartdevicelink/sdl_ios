@@ -8,4 +8,4 @@
 SDLVentilationMode const SDLVentilationModeUpper = @"UPPER";
 SDLVentilationMode const SDLVentilationModeLower = @"LOWER";
 SDLVentilationMode const SDLVentilationModeBoth = @"BOTH";
-SDLVentilationMode const SDLVentilationModeNorth = @"NONE";
+SDLVentilationMode const SDLVentilationModeNone = @"NONE";

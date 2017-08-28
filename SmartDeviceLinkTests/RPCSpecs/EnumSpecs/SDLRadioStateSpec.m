@@ -14,7 +14,7 @@ QuickSpecBegin(SDLRadioStateSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
-        expect(SDLRadioBandAcquiring).to(equal(@"ACQUIRING"));
+        expect(SDLRadioStateAcquiring).to(equal(@"ACQUIRING"));
         expect(SDLRadioStateAcquired).to(equal(@"ACQUIRED"));
         expect(SDLRadioStateMulticast).to(equal(@"MULTICAST"));
         expect(SDLRadioStateNotFound).to(equal(@"NOT_FOUND"));

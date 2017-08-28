@@ -12,9 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLModuleData : SDLRPCStruct
 
--(instancetype)initWithModuleType: (SDLModuleType) moduleType;
--(instancetype)initWithRadioControlData: (SDLRadioControlData *) radioControlData;
--(instancetype)initWithClimateControlData: (SDLClimateControlData *) climateControlData;
+-(instancetype) initWithModuleType: (SDLModuleType)moduleType radioControlData: (SDLRadioControlData *) radioControlData climateControlData: (SDLClimateControlData *) climateControlData;
 
 /**
  * The moduleType indicates which type of data should be changed

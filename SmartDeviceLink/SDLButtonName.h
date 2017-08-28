@@ -112,13 +112,13 @@ extern SDLButtonName const SDLButtonNameSearch;
 /**
  * @abstract Represents AC max button *
  */
-extern SDLButtonName const SDLButtonNameAcMax;
+extern SDLButtonName const SDLButtonNameACMax;
 
 
 /**
  * @abstract Represents AC button *
  */
-extern SDLButtonName const SDLButtonNameAc;
+extern SDLButtonName const SDLButtonNameAC;
 
 
 /**

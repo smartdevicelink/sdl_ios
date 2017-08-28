@@ -25,25 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
--(instancetype) initWithClimateControlCapabilities:(NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities{
+-(instancetype) initWithClimateControlCapabilities:(NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(NSArray *)buttonCapabilities {
     self = [super init];
     
     self.climateControlCapabilities = climateControlCapabilities;
-    
-    return self;
-}
-
--(instancetype) initWithRadioControlCapabilities:(NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities {
-    self = [super init];
-    
     self.radioControlCapabilities = radioControlCapabilities;
-    
-    return self;
-}
-
--(instancetype) initWithButtonCapabilities:(NSArray *)buttonCapabilities {
-    self = [super init];
-    
     self.buttonCapabilities = buttonCapabilities;
     
     return self;

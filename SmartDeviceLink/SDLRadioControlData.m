@@ -21,87 +21,22 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
--(instancetype) initWithFrequencyInteger:(NSNumber<SDLInt> *)frequencyInteger {
+-(instancetype) initWithFrequencyInteger:(NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(NSNumber<SDLInt> *)frequencyFraction band:(SDLRadioBand)band rdsData:(SDLRdsData *)rdsData availableHDs:(NSNumber<SDLInt> *)availableHDs hdChannel:(NSNumber<SDLInt> *)hdChannel signalStrength:(NSNumber<SDLInt> *)signalStrength signalChangeThreshold:(NSNumber<SDLInt> *)signalChangeThreshold radioEnable:(NSNumber<SDLBool> *)radioEnable state:(SDLRadioState)state {
     self = [self init];
     
     self.frequencyInteger = frequencyInteger;
-    
-    return self;
-}
-
--(instancetype) initWithFrequencyFraction:(NSNumber<SDLInt> *)frequencyFraction {
-    self = [self init];
-    
     self.frequencyFraction = frequencyFraction;
-    
-    return self;
-}
-
--(instancetype) initWithBand:(SDLRadioBand)band {
-    self = [self init];
-    
     self.band = band;
-    
-    return self;
-}
-
--(instancetype) initWithRdsData:(SDLRdsData *)rdsData {
-    self = [self init];
-    
     self.rdsData = rdsData;
-    
-    return self;
-}
-
--(instancetype) initWithAvailableHDs:(NSNumber<SDLInt> *)availableHDs {
-    self = [self init];
-    
     self.availableHDs = availableHDs;
-    
-    return self;
-}
-
--(instancetype) initWithHdChannel:(NSNumber<SDLInt> *)hdChannel {
-    self = [self init];
-    
     self.hdChannel = hdChannel;
-    
-    return self;
-}
-
--(instancetype) initWithSignalStrength:(NSNumber<SDLInt> *)signalStrength {
-    self = [self init];
-    
     self.signalStrength = signalStrength;
-    
-    return self;
-}
-
--(instancetype) initWithSignalChangeThreshold:(NSNumber<SDLInt> *)signalChangeThreshold {
-    self = [self init];
-    
-    self.signalChangeThreshold = signalChangeThreshold;
-    
-    return self;
-}
-
--(instancetype) initWithRadioEnable:(NSNumber<SDLBool> *)radioEnable {
-    self = [self init];
-    
+    self.signalChangeThreshold  = signalChangeThreshold;
     self.radioEnable = radioEnable;
-    
-    return self;
-}
-
--(instancetype) initWithState:(SDLRadioState)state {
-    self = [self init];
-    
     self.state = state;
     
     return self;
 }
-
-
 
 - (void)setFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger {
     [store sdl_setObject:frequencyInteger forName:SDLNameFrequencyInteger];

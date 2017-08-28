@@ -11,16 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLRadioControlCapabilities : SDLRPCStruct
 
--(instancetype) initWithModuleName: (NSString *) moduleName;
--(instancetype) initWithRadioEnableAvailable:(NSNumber<SDLBool> *)radioEnableAvailable;
--(instancetype) initWithRadioBandAvailable:(NSNumber<SDLBool> *)radioBandAvailable;
--(instancetype) initWithRadioFrequencyAvailable:(NSNumber<SDLBool> *)radioFrequencyAvailable;
--(instancetype) initWithHDChannelAvailable:(NSNumber<SDLBool> *)hdChannelAvailable;
--(instancetype) initWithRdsDataAvailable:(NSNumber<SDLBool> *)rdsDataAvailable;
--(instancetype) initWithAvailableHDsAvailable:(NSNumber<SDLBool> *)availableHDsAvailable;
--(instancetype) initWithStateAvailable:(NSNumber<SDLBool> *)stateAvailable;
--(instancetype) initWithSignalStrengthAvailable:(NSNumber<SDLBool> *)signalStrengthAvailable;
--(instancetype) initWithSignalChangeThresholdAvailable:(NSNumber<SDLBool> *)signalChangeThresholdAvailable;
+-(instancetype) initWithModuleName: (NSString *) moduleName radioEnableAvailable:(NSNumber<SDLBool> *)radioEnableAvailable radioBandAvailable:(NSNumber<SDLBool> *)radioBandAvailable radioFrequencyAvailable:(NSNumber<SDLBool> *)radioFrequencyAvailable hdChannelAvailable:(NSNumber<SDLBool> *)hdChannelAvailable rdsDataAvailable:(NSNumber<SDLBool> *)rdsDataAvailable availableHDsAvailable:(NSNumber<SDLBool> *)availableHDsAvailable stateAvailable:(NSNumber<SDLBool> *)stateAvailable signalStrengthAvailable:(NSNumber<SDLBool> *)signalStrengthAvailable signalChangeThresholdAvailable:(NSNumber<SDLBool> *)signalChangeThresholdAvailable;
 
 
 

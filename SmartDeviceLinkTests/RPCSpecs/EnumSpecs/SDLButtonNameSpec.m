@@ -31,8 +31,8 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLButtonNamePreset9).to(equal(@"PRESET_9"));
         expect(SDLButtonNameCustomButton).to(equal(@"CUSTOM_BUTTON"));
         expect(SDLButtonNameSearch).to(equal(@"SEARCH"));
-        expect(SDLButtonNameAcMax).to(equal(@"AC_MAX"));
-        expect(SDLButtonNameAc).to(equal(@"AC"));
+        expect(SDLButtonNameACMax).to(equal(@"AC_MAX"));
+        expect(SDLButtonNameAC).to(equal(@"AC"));
         expect(SDLButtonNameRecirculate).to(equal(@"RECIRCULATE"));
         expect(SDLButtonNameFanUp).to(equal(@"FAN_UP"));
         expect(SDLButtonNameFanDown).to(equal(@"FAN_DOWN"));

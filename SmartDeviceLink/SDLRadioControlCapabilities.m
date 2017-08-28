@@ -20,81 +20,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
--(instancetype) initWithModuleName: (NSString *) moduleName {
+-(instancetype) initWithModuleName: (NSString *) moduleName radioEnableAvailable:(NSNumber<SDLBool> *)radioEnableAvailable radioBandAvailable:(NSNumber<SDLBool> *)radioBandAvailable radioFrequencyAvailable:(NSNumber<SDLBool> *)radioFrequencyAvailable hdChannelAvailable:(NSNumber<SDLBool> *)hdChannelAvailable rdsDataAvailable:(NSNumber<SDLBool> *)rdsDataAvailable availableHDsAvailable:(NSNumber<SDLBool> *)availableHDsAvailable stateAvailable:(NSNumber<SDLBool> *)stateAvailable signalStrengthAvailable:(NSNumber<SDLBool> *)signalStrengthAvailable signalChangeThresholdAvailable:(NSNumber<SDLBool> *)signalChangeThresholdAvailable {
     self = [self init];
     
     self.moduleName = moduleName;
-    
-    return self;
-}
-
--(instancetype) initWithRadioEnableAvailable:(NSNumber<SDLBool> *)radioEnableAvailable {
-    self = [self init];
-    
     self.radioEnableAvailable = radioEnableAvailable;
-    
-    return self;
-}
-
--(instancetype) initWithRadioBandAvailable:(NSNumber<SDLBool> *)radioBandAvailable {
-    self = [self init];
-    
     self.radioBandAvailable = radioBandAvailable;
-    
-    return self;
-}
-
--(instancetype) initWithRadioFrequencyAvailable:(NSNumber<SDLBool> *)radioFrequencyAvailable {
-    self = [self init];
-    
     self.radioFrequencyAvailable = radioFrequencyAvailable;
-    
-    return self;
-}
-
--(instancetype) initWithHDChannelAvailable:(NSNumber<SDLBool> *)hdChannelAvailable {
-    self = [self init];
-    
     self.hdChannelAvailable = hdChannelAvailable;
-    
-    return self;
-}
-
--(instancetype) initWithRdsDataAvailable:(NSNumber<SDLBool> *)rdsDataAvailable {
-    self = [self init];
-    
     self.rdsDataAvailable = rdsDataAvailable;
-    
-    return self;
-}
-
--(instancetype) initWithAvailableHDsAvailable:(NSNumber<SDLBool> *)availableHDsAvailable {
-    self = [self init];
-    
     self.availableHDsAvailable = availableHDsAvailable;
-    
-    return self;
-}
-
--(instancetype) initWithStateAvailable:(NSNumber<SDLBool> *)stateAvailable {
-    self = [self init];
-    
     self.stateAvailable = stateAvailable;
-    
-    return self;
-}
-
--(instancetype) initWithSignalStrengthAvailable:(NSNumber<SDLBool> *)signalStrengthAvailable {
-    self = [self init];
-    
     self.signalStrengthAvailable = signalStrengthAvailable;
-    
-    return self;
-}
-
--(instancetype) initWithSignalChangeThresholdAvailable:(NSNumber<SDLBool> *)signalChangeThresholdAvailable {
-    self = [self init];
-    
     self.signalChangeThresholdAvailable = signalChangeThresholdAvailable;
     
     return self;
