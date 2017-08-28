@@ -9,6 +9,7 @@
 #import "SDLStreamingMediaLifecycleManager.h"
 
 #import "SDLAbstractProtocol.h"
+#import "SDLControlFramePayloadVideoStartService.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLGlobals.h"
 #import "SDLHMILevel.h"
@@ -21,6 +22,7 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLScreenParams.h"
 #import "SDLStateMachine.h"
+#import "SDLStreamingMediaConfiguration.h"
 #import "SDLTouchManager.h"
 #import "SDLVideoEncoder.h"
 
@@ -57,6 +59,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 
 @property (strong, nonatomic, nullable) SDLVideoEncoder *videoEncoder;
 @property (copy, nonatomic) NSDictionary<NSString *, id> *videoEncoderSettings;
+@property (strong, nonatomic, nullable) SDLControlFramePayloadVideoStartService *videoStartServicePayload;
 
 @property (strong, nonatomic, readwrite) SDLStateMachine *appStateMachine;
 @property (strong, nonatomic, readwrite) SDLStateMachine *videoStreamStateMachine;
@@ -73,10 +76,10 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 #pragma mark Lifecycle
 
 - (instancetype)init {
-    return [self initWithEncryption:SDLStreamingEncryptionFlagAuthenticateAndEncrypt videoEncoderSettings:nil];
+    return [self initWithConfiguration:[SDLStreamingMediaConfiguration insecureConfiguration]];
 }
 
-- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings {
+- (instancetype)initWithConfiguration:(SDLStreamingMediaConfiguration *)configuration {
     self = [super init];
     if (!self) {
         return nil;
@@ -84,9 +87,9 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 
     SDLLogV(@"Creating StreamingLifecycleManager");
     
-    _videoEncoderSettings = videoEncoderSettings ?: SDLVideoEncoder.defaultVideoEncoderSettings;
+    _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLVideoEncoder.defaultVideoEncoderSettings;
     
-    _requestedEncryptionType = encryption;
+    _requestedEncryptionType = configuration.maximumDesiredEncryption;
     _screenSize = SDLDefaultScreenSize;
     _backgroundingPixelBuffer = NULL;
     

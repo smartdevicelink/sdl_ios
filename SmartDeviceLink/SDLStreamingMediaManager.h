@@ -12,6 +12,7 @@
 #import "SDLStreamingMediaManagerConstants.h"
 
 @class SDLAbstractProtocol;
+@class SDLStreamingMediaConfiguration;
 @class SDLTouchManager;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -83,21 +84,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) SDLStreamingEncryptionFlag requestedEncryptionType;
 
 /**
- *  Creates a streaming manager with a specified encryption type.
- *
- *  @param encryption               The encryption type requested when starting to stream.
- *  @param videoEncoderSettings     The video encoder settings to use with SDLVideoEncoder.
- *
- *  @return An instance of SDLStreamingMediaManager
+ Create a new streaming media manager for navigation and VPM apps with a specified configuration
+
+ @param configuration The configuration of this streaming media session
+ @return A new streaming manager
  */
-- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithConfiguration:(SDLStreamingMediaConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
  *
  *  @param completionHandler The block to be called when the manager's setup is complete.
  */
-- (void)startWithProtocol:(SDLAbstractProtocol*)protocol completionHandler:(void (^)(BOOL success, NSError *__nullable error))completionHandler;
+- (void)startWithProtocol:(SDLAbstractProtocol *)protocol completionHandler:(void (^)(BOOL success, NSError *__nullable error))completionHandler;
 
 /**
  *  Stop the manager. This method is used internally.

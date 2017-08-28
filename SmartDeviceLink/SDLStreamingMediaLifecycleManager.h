@@ -15,6 +15,7 @@
 
 @class SDLAbstractProtocol;
 @class SDLStateMachine;
+@class SDLStreamingMediaConfiguration;
 @class SDLTouchManager;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -117,12 +118,11 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
 /**
  *  Creates a streaming manager with a specified encryption type.
  *
- *  @param encryption               The encryption type requested when starting to stream.
- *  @param videoEncoderSettings     The video encoder settings to use with SDLVideoEncoder.
+ *  @param configuration The configuration of this particular streaming manager session
  *
- *  @return An instance of SDLStreamingMediaManager
+ *  @return An instance of SDLStreamingMediaLifecycleManager
  */
-- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithConfiguration:(SDLStreamingMediaConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.

@@ -8,6 +8,7 @@
 
 #import "SDLStreamingMediaManager.h"
 
+#import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaLifecycleManager.h"
 #import "SDLTouchManager.h"
 
@@ -27,16 +28,16 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Lifecycle
 
 - (instancetype)init {
-    return [self initWithEncryption:SDLStreamingEncryptionFlagAuthenticateAndEncrypt videoEncoderSettings:nil];
+    return [self initWithConfiguration:[SDLStreamingMediaConfiguration insecureConfiguration]];
 }
 
-- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings {
+- (instancetype)initWithConfiguration:(SDLStreamingMediaConfiguration *)configuration {
     self = [super init];
     if (!self) {
         return nil;
     }
     
-    _lifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithEncryption:encryption videoEncoderSettings:videoEncoderSettings];
+    _lifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithConfiguration:configuration];
 
     return self;
 }

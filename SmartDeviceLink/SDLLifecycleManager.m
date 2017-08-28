@@ -112,8 +112,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     
     if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation]
         || [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection]) {
-        SDLLogV(@"Creating StreamingMediaManager for app type: %@", configuration.lifecycleConfig.appType);
-        _streamManager = [[SDLStreamingMediaManager alloc] initWithEncryption:configuration.streamingMediaConfig.maximumDesiredEncryption videoEncoderSettings:configuration.streamingMediaConfig.customVideoEncoderSettings];
+        _streamManager = [[SDLStreamingMediaManager alloc] initWithConfiguration:configuration.streamingMediaConfig];
     } else {
         SDLLogV(@"Skipping StreamingMediaManager setup due to app type");
     }
@@ -197,6 +196,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.fileManager stop];
     [self.permissionManager stop];
     [self.lockScreenManager stop];
+    [self.streamManager stop];
     [self.responseDispatcher clear];
 
     self.registerResponse = nil;
@@ -278,15 +278,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     if (self.streamManager != nil) {
         dispatch_group_enter(managerGroup);
+        [self.streamManager startWithProtocol:self.proxy.protocol completionHandler:^(BOOL success, NSError * _Nullable error) {
+            if (!success) {
+                SDLLogE(@"Streaming media manager was unable to start; error: %@", error);
+            }
+
+            dispatch_group_leave(managerGroup);
+        }];
     }
-    
-    [self.streamManager startWithProtocol:self.proxy.protocol completionHandler:^(BOOL success, NSError * _Nullable error) {
-        if (!success) {
-            SDLLogE(@"Streaming media manager was unable to start; error: %@", error);
-        }
-        
-        dispatch_group_leave(managerGroup);
-    }];
 
     // We're done synchronously calling all startup methods, so we can now wait.
     dispatch_group_leave(managerGroup);
