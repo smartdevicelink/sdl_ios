@@ -16,15 +16,17 @@ NS_ASSUME_NONNULL_BEGIN
  * Creates packets from given H.264 NAL units and presentation timestamp.
  *
  * @param nalUnits List of NAL units to create packets.
- * @param pts Presentation timestamp associated to the NAL units, in seconds.
+ * @param presentationTimestamp Presentation timestamp associated to
+ *                              the NAL units, in seconds.
  *
  * @return List of NSData. Each NSData holds a packet.
  *
- * @note This method cannot be called more than once with same pts value.
- *       All NAL units that belongs to a frame should be included in
- *       nalUnits array.
+ * @warning This method cannot be called more than once with same pts value.
+ *          All NAL units that belongs to a frame should be included in
+ *          nalUnits array.
  */
-- (nullable NSArray *)createPackets:(NSArray *)nalUnits pts:(double)pts;
+- (nullable NSArray<NSData *> *)createPackets:(NSArray<NSData *> *)nalUnits
+                        presentationTimestamp:(double)presentationTimestamp;
 
 @end
 

@@ -188,7 +188,8 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
         encoder.timestampOffset = pts;
     }
 
-    NSArray *packets = [encoder.packetizer createPackets:nalUnits pts:(pts - encoder.timestampOffset)];
+    NSArray *packets = [encoder.packetizer createPackets:nalUnits
+                                   presentationTimestamp:(pts - encoder.timestampOffset)];
     
     if ([encoder.delegate respondsToSelector:@selector(videoEncoder:hasEncodedFrame:)]) {
         for (NSData *packet in packets) {

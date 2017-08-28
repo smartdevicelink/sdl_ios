@@ -44,7 +44,7 @@ static inline void writeLongInNBO(UInt8 *p, UInt32 value) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLRTPH264Packetizer () <SDLH264Packetizer>
+@interface SDLRTPH264Packetizer ()
 @property (assign, nonatomic) UInt32 initialTimestamp;
 @property (assign, nonatomic) UInt16 sequenceNum;
 @end
@@ -71,7 +71,8 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (nullable NSArray *)createPackets:(NSArray *)nalUnits pts:(double)pts {
+- (nullable NSArray<NSData *> *)createPackets:(NSArray<NSData *> *)nalUnits
+                        presentationTimestamp:(double)presentationTimestamp {
     NSMutableArray *rtpFrames = [NSMutableArray array];
     NSUInteger nalUnitsCount = [nalUnits count];
 
@@ -105,7 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
                 UInt8 *p = buffer;
 
                 p += [self writeFrameHeader:p packetSize:packetSize];
-                p += [self writeRTPHeader:p marker:isLast pts:pts];
+                p += [self writeRTPHeader:p marker:isLast pts:presentationTimestamp];
 
                 // FU indicator
                 *p++ = (firstByte & 0xE0) | TYPE_FU_A;
@@ -133,7 +134,7 @@ NS_ASSUME_NONNULL_BEGIN
             UInt8 *p = buffer;
 
             p += [self writeFrameHeader:p packetSize:packetSize];
-            p += [self writeRTPHeader:p marker:isLast pts:pts];
+            p += [self writeRTPHeader:p marker:isLast pts:presentationTimestamp];
             [nalUnit getBytes:p length:nalUnitLength];
 
             NSData *rtpFrame = [NSData dataWithBytesNoCopy:buffer length:frameSize];

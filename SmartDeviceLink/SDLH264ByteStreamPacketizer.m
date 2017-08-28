@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLH264ByteStreamPacketizer () <SDLH264Packetizer>
+@interface SDLH264ByteStreamPacketizer ()
 @property (nonatomic) NSData *startCode;
 @end
 
@@ -27,11 +27,14 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (nullable NSArray *)createPackets:(NSArray *)nalUnits pts:(double)pts {
+- (nullable NSArray<NSData *> *)createPackets:(NSArray<NSData *> *)nalUnits
+                        presentationTimestamp:(double)presentationTimestamp {
 
     NSMutableArray *array = [NSMutableArray arrayWithCapacity:1];
     NSMutableData *elementaryStream = [NSMutableData data];
 
+    // Note: this packetizer consolidates all NAL units into one NSData object
+    // to keep compatibility with previous implementation.
     for (NSData *nalUnit in nalUnits) {
         [elementaryStream appendData:self.startCode];
         [elementaryStream appendData:nalUnit];
