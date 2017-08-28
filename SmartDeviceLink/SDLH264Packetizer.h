@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol SDLH264Packetizer
 
 /**
@@ -22,6 +24,8 @@
  *       All NAL units that belongs to a frame should be included in
  *       nalUnits array.
  */
-- (NSArray *)createPackets:(NSArray *)nalUnits pts:(double)pts;
+- (nullable NSArray *)createPackets:(NSArray *)nalUnits pts:(double)pts;
 
 @end
+
+NS_ASSUME_NONNULL_END

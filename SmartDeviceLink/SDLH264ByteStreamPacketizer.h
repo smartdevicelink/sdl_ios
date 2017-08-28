@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "SDLH264Packetizer.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLH264ByteStreamPacketizer : NSObject <SDLH264Packetizer>
 
 /**
@@ -27,6 +29,8 @@
  * @note This packetizer consolidates all NAL units into one NSData object
  *       to keep compatibility with previous implementation.
  */
-- (NSArray *)createPackets:(NSArray *)nalUnits pts:(double)pts;
+- (nullable NSArray *)createPackets:(NSArray *)nalUnits pts:(double)pts;
 
 @end
+
+NS_ASSUME_NONNULL_END

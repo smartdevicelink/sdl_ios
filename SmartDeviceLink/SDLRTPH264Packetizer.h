@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "SDLH264Packetizer.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLRTPH264Packetizer : NSObject <SDLH264Packetizer>
 
 /**
@@ -42,6 +44,8 @@
  *       All NAL units that belongs to a frame should be included in
  *       nalUnits array.
  */
-- (NSArray *)createPackets:(NSArray *)nalUnits pts:(double)pts;
+- (nullable NSArray *)createPackets:(NSArray *)nalUnits pts:(double)pts;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -42,6 +42,8 @@ static inline void writeLongInNBO(UInt8 *p, UInt32 value) {
     p[3] = value & 0xFF;
 }
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLRTPH264Packetizer () <SDLH264Packetizer>
 @property (assign, nonatomic) UInt32 initialTimestamp;
 @property (assign, nonatomic) UInt16 sequenceNum;
@@ -69,7 +71,7 @@ static inline void writeLongInNBO(UInt8 *p, UInt32 value) {
     }
 }
 
-- (NSArray *)createPackets:(NSArray *)nalUnits pts:(double)pts {
+- (nullable NSArray *)createPackets:(NSArray *)nalUnits pts:(double)pts {
     NSMutableArray *rtpFrames = [NSMutableArray array];
     NSUInteger nalUnitsCount = [nalUnits count];
 
@@ -181,3 +183,5 @@ static inline void writeLongInNBO(UInt8 *p, UInt32 value) {
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

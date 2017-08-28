@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "SDLH264ByteStreamPacketizer.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLH264ByteStreamPacketizer () <SDLH264Packetizer>
 @property (nonatomic) NSData *startCode;
 @end
@@ -25,7 +27,7 @@
     return self;
 }
 
-- (NSArray *)createPackets:(NSArray *)nalUnits pts:(double)pts {
+- (nullable NSArray *)createPackets:(NSArray *)nalUnits pts:(double)pts {
 
     NSMutableArray *array = [NSMutableArray arrayWithCapacity:1];
     NSMutableData *elementaryStream = [NSMutableData data];
@@ -40,3 +42,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
