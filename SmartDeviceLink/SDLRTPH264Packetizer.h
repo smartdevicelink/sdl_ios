@@ -16,12 +16,23 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Payload Type (PT) of RTP header field.
  *
- * @note This must be between 0 and 127. Default value is 96.
+ * PT field identifies the format of the RTP payload ([5.1] in RFC 3550).
+ * RFC 6184 doesn’t specify this value and says it "has to be performed
+ * either through the profile used or in a dynamic way" in [5.1].
+ *
+ * In our spec, this value is chosen from range 96-127 (which are for
+ * dynamic assignment) and will be ignored by HMI. Refer to the proposal:
+ * https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0048-H264-over-RTP-support-for-video-streaming.md
+ *
+ * @note Default value is 96.
  */
 @property (assign, nonatomic) UInt8 payloadType;
 
 /**
  * SSRC of RTP header field.
+ *
+ * SSRC field identifies the source of a stream and it should be
+ * chosen randomly (see section 3 and 5.1 in RFC 3550).
  *
  * @note A random value is generated and used as default.
  */

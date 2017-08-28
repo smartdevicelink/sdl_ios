@@ -19,14 +19,14 @@
 #import "SDLRTPH264Packetizer.h"
 #import "SDLLogMacros.h"
 
-const NSUInteger FRAME_LENGTH_LEN = 2;
-const NSUInteger MAX_RTP_PACKET_SIZE = 65535;   // because length field is two bytes (RFC 4571)
-const NSUInteger RTP_HEADER_LEN = 12;
-const UInt8 DEFAULT_PAYLOAD_TYPE = 96;
-const NSUInteger FU_INDICATOR_LEN = 1;
-const NSUInteger FU_HEADER_LEN = 1;
-const UInt8 TYPE_FU_A = 0x1C;
-const NSUInteger CLOCK_RATE = 90000;    // we use 90 kHz clock rate ([5.1] in RFC 6184)
+const NSUInteger FrameLengthLen = 2;
+const NSUInteger MaxRTPPacketSize = 65535;  // because length field is two bytes (RFC 4571)
+const NSUInteger RTPHeaderLen = 12;
+const UInt8 DefaultPayloadType = 96;
+const NSUInteger FragmentationUnitIndicatorLen = 1;
+const NSUInteger FragmentationUnitHeaderLen = 1;
+const UInt8 FragmentationUnitVersionA = 0x1C;
+const NSUInteger ClockRate = 90000; // we use 90 kHz clock rate ([5.1] in RFC 6184)
 
 // write 2-byte value in network byte order
 static inline void writeShortInNBO(UInt8 *p, UInt16 value) {
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init {
     if (self = [super init]) {
-        _payloadType = DEFAULT_PAYLOAD_TYPE;
+        _payloadType = DefaultPayloadType;
         // initial value of the sequence number and timestamp should be random ([5.1] in RFC3550)
         _initialTimestamp = arc4random_uniform(UINT32_MAX);
         _sequenceNum = (UInt16)arc4random_uniform(UINT16_MAX);
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (payloadType <= 127) {
         _payloadType = payloadType;
     } else {
-        _payloadType = DEFAULT_PAYLOAD_TYPE;
+        _payloadType = DefaultPayloadType;
     }
 }
 
@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
         NSUInteger nalUnitLength = [nalUnit length];
         BOOL isLast = (i + 1) == nalUnitsCount;
 
-        if (RTP_HEADER_LEN + nalUnitLength > MAX_RTP_PACKET_SIZE) {
+        if (RTPHeaderLen + nalUnitLength > MaxRTPPacketSize) {
             // Split into multiple Fragmentation Units ([5.8] in RFC 6184)
             UInt8 firstByte;
             [nalUnit getBytes:&firstByte length:1];
@@ -90,13 +90,13 @@ NS_ASSUME_NONNULL_BEGIN
             NSUInteger offset = 1;  // we have already read the first byte
 
             while (offset < nalUnitLength) {
-                NSUInteger payloadLength = MAX_RTP_PACKET_SIZE - (RTP_HEADER_LEN + FU_INDICATOR_LEN + FU_HEADER_LEN);
+                NSUInteger payloadLength = MaxRTPPacketSize - (RTPHeaderLen + FragmentationUnitIndicatorLen + FragmentationUnitHeaderLen);
                 if (nalUnitLength - offset <= payloadLength) {
                     payloadLength = nalUnitLength - offset;
                     isLastFragment = YES;
                 }
-                NSUInteger packetSize = RTP_HEADER_LEN + FU_INDICATOR_LEN + FU_HEADER_LEN + payloadLength;
-                NSUInteger frameSize = FRAME_LENGTH_LEN + packetSize;
+                NSUInteger packetSize = RTPHeaderLen + FragmentationUnitIndicatorLen + FragmentationUnitHeaderLen + payloadLength;
+                NSUInteger frameSize = FrameLengthLen + packetSize;
 
                 UInt8 *buffer = malloc(frameSize);
                 if (buffer == NULL) {
@@ -109,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
                 p += [self writeRTPHeader:p marker:isLast pts:presentationTimestamp];
 
                 // FU indicator
-                *p++ = (firstByte & 0xE0) | TYPE_FU_A;
+                *p++ = (firstByte & 0xE0) | FragmentationUnitVersionA;
                 // FU header
                 *p++ = (isFirstFragment ? 0x80 : isLastFragment ? 0x40 : 0) | (firstByte & 0x1F);
                 // FU payload
@@ -123,8 +123,8 @@ NS_ASSUME_NONNULL_BEGIN
             }
         } else {
             // Use Single NAL Unit Packet ([5.6] in RFC 6184)
-            NSUInteger packetSize = RTP_HEADER_LEN + nalUnitLength;
-            NSUInteger frameSize = FRAME_LENGTH_LEN + packetSize;
+            NSUInteger packetSize = RTPHeaderLen + nalUnitLength;
+            NSUInteger frameSize = FrameLengthLen + packetSize;
 
             UInt8 *buffer = malloc(frameSize);
             if (buffer == NULL) {
@@ -154,9 +154,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @return number of bytes written, which is always 2.
  */
 - (NSUInteger)writeFrameHeader:(UInt8 *)p packetSize:(NSUInteger)packetSize {
-    NSAssert(packetSize <= MAX_RTP_PACKET_SIZE, @"RTP packet is too big");
+    NSAssert(packetSize <= MaxRTPPacketSize, @"RTP packet is too big");
     writeShortInNBO(p, (UInt16)packetSize);
-    return FRAME_LENGTH_LEN;
+    return FrameLengthLen;
 }
 
 /**
@@ -169,7 +169,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return number of bytes written, which is always 12.
  */
 - (NSUInteger)writeRTPHeader:(UInt8 *)p marker:(BOOL)isLast pts:(double)pts {
-    UInt32 ptsIn90kHz = pts * CLOCK_RATE;
+    UInt32 ptsIn90kHz = pts * ClockRate;
 
     // Version = 2, Padding = 0, Extension = 0, CSRC count = 0
     p[0] = 0x80;
@@ -180,7 +180,7 @@ NS_ASSUME_NONNULL_BEGIN
     writeLongInNBO(p + 8, self.ssrc);
 
     self.sequenceNum++;
-    return RTP_HEADER_LEN;
+    return RTPHeaderLen;
 }
 
 @end
