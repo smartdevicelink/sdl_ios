@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
     _height = SDLControlFrameInt32NotFound;
     _width = SDLControlFrameInt32NotFound;
 
-    if (data != nil) {
+    if (data.length > 0) {
         [self sdl_parse:data];
     }
 
