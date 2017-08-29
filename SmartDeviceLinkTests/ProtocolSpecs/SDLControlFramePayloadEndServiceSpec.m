@@ -55,4 +55,19 @@ describe(@"Test decoding data", ^{
     });
 });
 
+describe(@"Test nil data", ^{
+    __block SDLControlFramePayloadEndService *testPayload = nil;
+    __block NSData *testData = nil;
+
+    beforeEach(^{
+
+        testPayload = [[SDLControlFramePayloadEndService alloc] initWithData:testData];
+    });
+
+    it(@"should output the correct params", ^{
+        expect(testPayload.hashId).to(equal(-1));
+        expect(testPayload.data.length).to(equal(0));
+    });
+});
+
 QuickSpecEnd

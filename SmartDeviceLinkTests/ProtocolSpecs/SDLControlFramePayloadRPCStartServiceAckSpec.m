@@ -68,4 +68,18 @@ describe(@"Test decoding data", ^{
     });
 });
 
+describe(@"Test nil data", ^{
+    __block SDLControlFramePayloadRPCStartServiceAck *testPayload = nil;
+    __block NSData *testData = nil;
+
+    beforeEach(^{
+
+        testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:testData];
+    });
+
+    it(@"should output the correct params", ^{
+        expect(testPayload.data.length).to(equal(0));
+    });
+});
+
 QuickSpecEnd
