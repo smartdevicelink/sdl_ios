@@ -91,71 +91,116 @@ NS_ASSUME_NONNULL_BEGIN
 
     for (NSUInteger i = 0; i < nalUnitsCount; i++) {
         NSData *nalUnit = nalUnits[i];
-        NSUInteger nalUnitLength = nalUnit.length;
         BOOL isLast = ((i + 1) == nalUnitsCount);
 
-        if (RTPHeaderLen + nalUnitLength > MaxRTPPacketSize) {
+        if (RTPHeaderLen + nalUnit.length > MaxRTPPacketSize) {
             // Split into multiple Fragmentation Units ([5.8] in RFC 6184)
-            UInt8 firstByte;
-            [nalUnit getBytes:&firstByte length:1];
-            BOOL isFirstFragment = YES;
-            BOOL isLastFragment = NO;
-            NSUInteger offset = 1;  // we have already read the first byte
-
-            while (offset < nalUnitLength) {
-                NSUInteger payloadLength = MaxRTPPacketSize - (RTPHeaderLen + FragmentationUnitIndicatorLen + FragmentationUnitHeaderLen);
-                if (nalUnitLength - offset <= payloadLength) {
-                    payloadLength = nalUnitLength - offset;
-                    isLastFragment = YES;
-                }
-                NSUInteger packetSize = RTPHeaderLen + FragmentationUnitIndicatorLen + FragmentationUnitHeaderLen + payloadLength;
-                NSUInteger frameSize = FrameLengthLen + packetSize;
-
-                UInt8 *buffer = malloc(frameSize);
-                if (buffer == NULL) {
-                    SDLLogE(@"malloc() error");
-                    return nil;
-                }
-                UInt8 *p = buffer;
-
-                p += [self sdl_writeFrameHeader:p packetSize:packetSize];
-                p += [self sdl_writeRTPHeader:p marker:isLast presentationTimestamp:presentationTimestamp];
-
-                // Fragmentation Unit indicator
-                *p++ = (firstByte & 0xE0) | FragmentationUnitVersionA;
-                // Fragmentation Unit header
-                *p++ = (isFirstFragment ? 0x80 : isLastFragment ? 0x40 : 0) | (firstByte & 0x1F);
-                // Fragmentation Unit payload
-                [nalUnit getBytes:p range:NSMakeRange(offset, payloadLength)];
-                offset += payloadLength;
-
-                NSData *rtpFrame = [NSData dataWithBytesNoCopy:buffer length:frameSize];
-                [rtpFrames addObject:rtpFrame];
-
-                isFirstFragment = NO;
+            if (![self sdl_addRTPFramesWithFragmentationUnits:rtpFrames nalUnit:nalUnit presentationTimestamp:presentationTimestamp isLast:isLast]) {
+                return nil;
             }
         } else {
             // Use Single NAL Unit Packet ([5.6] in RFC 6184)
-            NSUInteger packetSize = RTPHeaderLen + nalUnitLength;
-            NSUInteger frameSize = FrameLengthLen + packetSize;
-
-            UInt8 *buffer = malloc(frameSize);
-            if (buffer == NULL) {
-                SDLLogE(@"malloc() error");
+            if (![self sdl_addRTPFrameWithSingleNALUnit:rtpFrames nalUnit:nalUnit presentationTimestamp:presentationTimestamp isLast:isLast]) {
                 return nil;
             }
-            UInt8 *p = buffer;
-
-            p += [self sdl_writeFrameHeader:p packetSize:packetSize];
-            p += [self sdl_writeRTPHeader:p marker:isLast presentationTimestamp:presentationTimestamp];
-            [nalUnit getBytes:p length:nalUnitLength];
-
-            NSData *rtpFrame = [NSData dataWithBytesNoCopy:buffer length:frameSize];
-            [rtpFrames addObject:rtpFrame];
         }
     }
 
     return rtpFrames;
+}
+
+/**
+ * Create and add a RTP frame from a NAL unit without splitting
+ *
+ * @param rtpFrames the array to which created RTP frame is added
+ * @param nalUnit NAL unit to create RTP frame from
+ * @param presentationTimestamp presentation timestamp in seconds
+ * @param isLast mark YES if this is the last NAL unit of a video frame
+ *
+ * @return YES if successful, NO if memory error occurred
+ */
+- (BOOL)sdl_addRTPFrameWithSingleNALUnit:(NSMutableArray<NSData *> *)rtpFrames
+                                 nalUnit:(NSData *)nalUnit
+                   presentationTimestamp:(double)presentationTimestamp
+                                  isLast:(BOOL)isLast {
+    NSUInteger nalUnitLength = nalUnit.length;
+    NSUInteger packetSize = RTPHeaderLen + nalUnitLength;
+    NSUInteger frameSize = FrameLengthLen + packetSize;
+
+    NSAssert(RTPHeaderLen + nalUnitLength <= MaxRTPPacketSize, @"This NAL unit doesn't fit into single RTP packet");
+
+    UInt8 *buffer = malloc(frameSize);
+    if (buffer == NULL) {
+        SDLLogE(@"malloc() error");
+        return NO;
+    }
+    UInt8 *writePointer = buffer;
+
+    writePointer += [self sdl_writeFrameHeader:writePointer packetSize:packetSize];
+    writePointer += [self sdl_writeRTPHeader:writePointer marker:isLast presentationTimestamp:presentationTimestamp];
+    [nalUnit getBytes:writePointer length:nalUnitLength];
+
+    NSData *rtpFrame = [NSData dataWithBytesNoCopy:buffer length:frameSize];
+    [rtpFrames addObject:rtpFrame];
+
+    return YES;
+}
+
+/**
+ * Create and add a RTP frames by splitting a NAL unit into multiple Fragmentation Units
+ *
+ * @param rtpFrames the array to which created RTP frames are added
+ * @param nalUnit NAL unit to create RTP frames from
+ * @param presentationTimestamp presentation timestamp in seconds
+ * @param isLast mark YES if this is the last NAL unit of a video frame
+ *
+ * @return YES if successful, NO if memory error occurred
+ */
+- (BOOL)sdl_addRTPFramesWithFragmentationUnits:(NSMutableArray<NSData *> *)rtpFrames
+                                       nalUnit:(NSData *)nalUnit
+                         presentationTimestamp:(double)presentationTimestamp
+                                        isLast:(BOOL)isLast {
+    UInt8 firstByte;
+    [nalUnit getBytes:&firstByte length:1];
+    BOOL isFirstFragment = YES;
+    BOOL isLastFragment = NO;
+    NSUInteger nalUnitLength = nalUnit.length;
+    NSUInteger offset = 1;  // we have already read the first byte
+
+    while (offset < nalUnitLength) {
+        NSUInteger payloadLength = MaxRTPPacketSize - (RTPHeaderLen + FragmentationUnitIndicatorLen + FragmentationUnitHeaderLen);
+        if (nalUnitLength - offset <= payloadLength) {
+            payloadLength = nalUnitLength - offset;
+            isLastFragment = YES;
+        }
+        NSUInteger packetSize = RTPHeaderLen + FragmentationUnitIndicatorLen + FragmentationUnitHeaderLen + payloadLength;
+        NSUInteger frameSize = FrameLengthLen + packetSize;
+
+        UInt8 *buffer = malloc(frameSize);
+        if (buffer == NULL) {
+            SDLLogE(@"malloc() error");
+            return NO;
+        }
+        UInt8 *writePointer = buffer;
+
+        writePointer += [self sdl_writeFrameHeader:writePointer packetSize:packetSize];
+        writePointer += [self sdl_writeRTPHeader:writePointer marker:isLast presentationTimestamp:presentationTimestamp];
+
+        // Fragmentation Unit indicator
+        *writePointer++ = (firstByte & 0xE0) | FragmentationUnitVersionA;
+        // Fragmentation Unit header
+        *writePointer++ = (isFirstFragment ? 0x80 : isLastFragment ? 0x40 : 0) | (firstByte & 0x1F);
+        // Fragmentation Unit payload
+        [nalUnit getBytes:writePointer range:NSMakeRange(offset, payloadLength)];
+        offset += payloadLength;
+
+        NSData *rtpFrame = [NSData dataWithBytesNoCopy:buffer length:frameSize];
+        [rtpFrames addObject:rtpFrame];
+
+        isFirstFragment = NO;
+    }
+
+    return YES;
 }
 
 /**
