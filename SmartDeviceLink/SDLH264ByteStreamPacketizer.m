@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     [array addObject:elementaryStream];
-    return array;
+    return [array copy];
 }
 
 @end
