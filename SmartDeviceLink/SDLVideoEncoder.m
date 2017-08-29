@@ -125,16 +125,16 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 }
 
 - (BOOL)encodeFrame:(CVImageBufferRef)imageBuffer {
-    return [self encodeFrame:imageBuffer pts:kCMTimeInvalid];
+    return [self encodeFrame:imageBuffer presentationTimestamp:kCMTimeInvalid];
 }
 
-- (BOOL)encodeFrame:(CVImageBufferRef)imageBuffer pts:(CMTime)pts {
-    if (!CMTIME_IS_VALID(pts)) {
-        pts = CMTimeMake(self.currentFrameNumber, 30);
+- (BOOL)encodeFrame:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp {
+    if (!CMTIME_IS_VALID(presentationTimestamp)) {
+        presentationTimestamp = CMTimeMake(self.currentFrameNumber, 30);
     }
     self.currentFrameNumber++;
 
-    OSStatus status = VTCompressionSessionEncodeFrame(_compressionSession, imageBuffer, pts, kCMTimeInvalid, NULL, (__bridge void *)self, NULL);
+    OSStatus status = VTCompressionSessionEncodeFrame(_compressionSession, imageBuffer, presentationTimestamp, kCMTimeInvalid, NULL, (__bridge void *)self, NULL);
 
     return (status == noErr);
 }
@@ -178,18 +178,18 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
     SDLVideoEncoder *encoder = (__bridge SDLVideoEncoder *)sourceFrameRefCon;
     NSArray *nalUnits = [encoder.class sdl_extractNalUnitsFromSampleBuffer:sampleBuffer];
 
-    const CMTime ptsInCMTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
-    double pts = 0.0;
-    if (CMTIME_IS_VALID(ptsInCMTime)) {
-        pts = CMTimeGetSeconds(ptsInCMTime);
+    const CMTime presentationTimestampInCMTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
+    double presentationTimestamp = 0.0;
+    if (CMTIME_IS_VALID(presentationTimestampInCMTime)) {
+        presentationTimestamp = CMTimeGetSeconds(presentationTimestampInCMTime);
     }
     if (encoder.timestampOffset == 0.0) {
-        // remember this first PTS as the offset
-        encoder.timestampOffset = pts;
+        // remember this first timestamp as the offset
+        encoder.timestampOffset = presentationTimestamp;
     }
 
     NSArray *packets = [encoder.packetizer createPackets:nalUnits
-                                   presentationTimestamp:(pts - encoder.timestampOffset)];
+                                   presentationTimestamp:(presentationTimestamp - encoder.timestampOffset)];
     
     if ([encoder.delegate respondsToSelector:@selector(videoEncoder:hasEncodedFrame:)]) {
         for (NSData *packet in packets) {

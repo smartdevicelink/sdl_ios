@@ -205,21 +205,21 @@ describe(@"a RTP H264 packetizer", ^{
 
         it(@"then increases in 90 kHz clock value", ^{
             NSArray *nalUnits = @[iframe];
-            UInt32 initialPTS = 0;
+            UInt32 initialPresentationTimestamp = 0;
 
             for (NSUInteger i = 0; i <= 100; i++) {
                 // the timestamp increases by 1/30 seconds
                 NSArray *results = [packetizer createPackets:nalUnits presentationTimestamp:i/30.0];
                 const UInt8 *header = [results[0] bytes];
-                UInt32 pts = readLongInNBO(&header[FRAME_LENGTH_LEN+4]);
+                UInt32 presentationTimestamp = readLongInNBO(&header[FRAME_LENGTH_LEN+4]);
 
                 if (i == 0) {
-                    initialPTS = pts;
+                    initialPresentationTimestamp = presentationTimestamp;
                 } else {
-                    UInt32 expectedPTS = initialPTS + i / 30.0 * CLOCK_RATE;
+                    UInt32 expectedPresentationTimestamp = initialPresentationTimestamp + i / 30.0 * CLOCK_RATE;
                     // accept calculation error (+-1)
-                    expect(@(pts)).to(beGreaterThanOrEqualTo(@(expectedPTS - 1)));
-                    expect(@(pts)).to(beLessThanOrEqualTo(@(expectedPTS + 1)));
+                    expect(@(presentationTimestamp)).to(beGreaterThanOrEqualTo(@(expectedPresentationTimestamp - 1)));
+                    expect(@(presentationTimestamp)).to(beLessThanOrEqualTo(@(expectedPresentationTimestamp + 1)));
                 }
             }
         });
