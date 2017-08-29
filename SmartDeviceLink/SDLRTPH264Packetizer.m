@@ -28,18 +28,28 @@ const NSUInteger FragmentationUnitHeaderLen = 1;
 const UInt8 FragmentationUnitVersionA = 0x1C;
 const NSUInteger ClockRate = 90000; // we use 90 kHz clock rate ([5.1] in RFC 6184)
 
-// write 2-byte value in network byte order
-static inline void writeShortInNBO(UInt8 *p, UInt16 value) {
-    p[0] = (value >> 8) & 0xFF;
-    p[1] = value & 0xFF;
+/**
+ * write 2-byte value into buffer in network byte order
+ *
+ * @param buffer buffer to write the value
+ * @param value value to write
+ */
+static inline void sdl_writeShortInNetworkByteOrder(UInt8 *buffer, UInt16 value) {
+    buffer[0] = (value >> 8) & 0xFF;
+    buffer[1] = value & 0xFF;
 }
 
-// write 4-byte value in network byte order
-static inline void writeLongInNBO(UInt8 *p, UInt32 value) {
-    p[0] = (value >> 24) & 0xFF;
-    p[1] = (value >> 16) & 0xFF;
-    p[2] = (value >> 8) & 0xFF;
-    p[3] = value & 0xFF;
+/**
+ * write 4-byte value into buffer in network byte order
+ *
+ * @param buffer buffer to write the value
+ * @param value value to write
+ */
+static inline void sdl_writeLongInNetworkByteOrder(UInt8 *buffer, UInt32 value) {
+    buffer[0] = (value >> 24) & 0xFF;
+    buffer[1] = (value >> 16) & 0xFF;
+    buffer[2] = (value >> 8) & 0xFF;
+    buffer[3] = value & 0xFF;
 }
 
 NS_ASSUME_NONNULL_BEGIN
@@ -105,14 +115,14 @@ NS_ASSUME_NONNULL_BEGIN
                 }
                 UInt8 *p = buffer;
 
-                p += [self writeFrameHeader:p packetSize:packetSize];
-                p += [self writeRTPHeader:p marker:isLast pts:presentationTimestamp];
+                p += [self sdl_writeFrameHeader:p packetSize:packetSize];
+                p += [self sdl_writeRTPHeader:p marker:isLast presentationTimestamp:presentationTimestamp];
 
-                // FU indicator
+                // Fragmentation Unit indicator
                 *p++ = (firstByte & 0xE0) | FragmentationUnitVersionA;
-                // FU header
+                // Fragmentation Unit header
                 *p++ = (isFirstFragment ? 0x80 : isLastFragment ? 0x40 : 0) | (firstByte & 0x1F);
-                // FU payload
+                // Fragmentation Unit payload
                 [nalUnit getBytes:p range:NSMakeRange(offset, payloadLength)];
                 offset += payloadLength;
 
@@ -133,8 +143,8 @@ NS_ASSUME_NONNULL_BEGIN
             }
             UInt8 *p = buffer;
 
-            p += [self writeFrameHeader:p packetSize:packetSize];
-            p += [self writeRTPHeader:p marker:isLast pts:presentationTimestamp];
+            p += [self sdl_writeFrameHeader:p packetSize:packetSize];
+            p += [self sdl_writeRTPHeader:p marker:isLast presentationTimestamp:presentationTimestamp];
             [nalUnit getBytes:p length:nalUnitLength];
 
             NSData *rtpFrame = [NSData dataWithBytesNoCopy:buffer length:frameSize];
@@ -148,36 +158,36 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Write RTP Frame header (length field) to supplied buffer.
  *
- * @param p the buffer in which a header is written.
+ * @param frameHeaderBuffer the buffer in which a header is written.
  * @param packetSize size of a RTP packet that follows to this frame header.
  *
  * @return number of bytes written, which is always 2.
  */
-- (NSUInteger)writeFrameHeader:(UInt8 *)p packetSize:(NSUInteger)packetSize {
+- (NSUInteger)sdl_writeFrameHeader:(UInt8 *)frameHeaderBuffer packetSize:(NSUInteger)packetSize {
     NSAssert(packetSize <= MaxRTPPacketSize, @"RTP packet is too big");
-    writeShortInNBO(p, (UInt16)packetSize);
+    sdl_writeShortInNetworkByteOrder(frameHeaderBuffer, (UInt16)packetSize);
     return FrameLengthLen;
 }
 
 /**
  * Write RTP header to supplied buffer.
  *
- * @param p the buffer in which a header is written.
+ * @param rtpHeaderBuffer the buffer in which a header is written.
  * @param isLast whether this is the last packet of an access unit.
- * @param pts presentation timestamp in seconds.
+ * @param presentationTimestamp presentation timestamp in seconds.
  *
  * @return number of bytes written, which is always 12.
  */
-- (NSUInteger)writeRTPHeader:(UInt8 *)p marker:(BOOL)isLast pts:(double)pts {
-    UInt32 ptsIn90kHz = pts * ClockRate;
+- (NSUInteger)sdl_writeRTPHeader:(UInt8 *)rtpHeaderBuffer marker:(BOOL)isLast presentationTimestamp:(double)presentationTimestamp {
+    UInt32 presentationTimestampIn90kHz = presentationTimestamp * ClockRate;
 
     // Version = 2, Padding = 0, Extension = 0, CSRC count = 0
-    p[0] = 0x80;
+    rtpHeaderBuffer[0] = 0x80;
     // Marker = isLast, Payload type = self.payloadType
-    p[1] = (isLast ? 0x80 : 0) | (self.payloadType & 0x7F);
-    writeShortInNBO(p + 2, self.sequenceNum);
-    writeLongInNBO(p + 4, self.initialTimestamp + ptsIn90kHz);
-    writeLongInNBO(p + 8, self.ssrc);
+    rtpHeaderBuffer[1] = (isLast ? 0x80 : 0) | (self.payloadType & 0x7F);
+    sdl_writeShortInNetworkByteOrder(rtpHeaderBuffer + 2, self.sequenceNum);
+    sdl_writeLongInNetworkByteOrder(rtpHeaderBuffer + 4, self.initialTimestamp + presentationTimestampIn90kHz);
+    sdl_writeLongInNetworkByteOrder(rtpHeaderBuffer + 8, self.ssrc);
 
     self.sequenceNum++;
     return RTPHeaderLen;
