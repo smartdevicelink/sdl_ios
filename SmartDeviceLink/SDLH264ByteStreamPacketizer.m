@@ -18,18 +18,20 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLH264ByteStreamPacketizer
 
 - (instancetype)init {
-    if (self = [super init]) {
-        // This is the start code that we will write to the elementary stream before every NAL unit
-        UInt8 startCode[] = {0x00, 0x00, 0x00, 0x01};
-        _startCode = [[NSData alloc] initWithBytes:startCode length:4];
+    self = [super init];
+    if (!self) {
+        return nil;
     }
+
+    // This is the start code that we will write to the elementary stream before every NAL unit
+    UInt8 startCode[] = {0x00, 0x00, 0x00, 0x01};
+    _startCode = [[NSData alloc] initWithBytes:startCode length:4];
 
     return self;
 }
 
 - (nullable NSArray<NSData *> *)createPackets:(NSArray<NSData *> *)nalUnits
                         presentationTimestamp:(double)presentationTimestamp {
-
     NSMutableArray *array = [NSMutableArray arrayWithCapacity:1];
     NSMutableData *elementaryStream = [NSMutableData data];
 

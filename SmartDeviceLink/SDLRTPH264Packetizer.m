@@ -62,13 +62,16 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLRTPH264Packetizer
 
 - (instancetype)init {
-    if (self = [super init]) {
-        _payloadType = DefaultPayloadType;
-        // initial value of the sequence number and timestamp should be random ([5.1] in RFC3550)
-        _initialTimestamp = arc4random_uniform(UINT32_MAX);
-        _sequenceNum = (UInt16)arc4random_uniform(UINT16_MAX);
-        _ssrc = arc4random_uniform(UINT32_MAX);
+    self = [super init];
+    if (!self) {
+        return nil;
     }
+
+    _payloadType = DefaultPayloadType;
+    // initial value of the sequence number and timestamp should be random ([5.1] in RFC3550)
+    _initialTimestamp = arc4random_uniform(UINT32_MAX);
+    _sequenceNum = (UInt16)arc4random_uniform(UINT16_MAX);
+    _ssrc = arc4random_uniform(UINT32_MAX);
 
     return self;
 }
@@ -84,12 +87,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSArray<NSData *> *)createPackets:(NSArray<NSData *> *)nalUnits
                         presentationTimestamp:(double)presentationTimestamp {
     NSMutableArray *rtpFrames = [NSMutableArray array];
-    NSUInteger nalUnitsCount = [nalUnits count];
+    NSUInteger nalUnitsCount = nalUnits.count;
 
     for (NSUInteger i = 0; i < nalUnitsCount; i++) {
         NSData *nalUnit = nalUnits[i];
-        NSUInteger nalUnitLength = [nalUnit length];
-        BOOL isLast = (i + 1) == nalUnitsCount;
+        NSUInteger nalUnitLength = nalUnit.length;
+        BOOL isLast = ((i + 1) == nalUnitsCount);
 
         if (RTPHeaderLen + nalUnitLength > MaxRTPPacketSize) {
             // Split into multiple Fragmentation Units ([5.8] in RFC 6184)
