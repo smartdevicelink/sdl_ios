@@ -35,11 +35,11 @@ describe(@"a H264 byte stream packetizer", ^{
         it(@"always has one packet", ^{
             NSArray *nalUnits1 = @[sps, pps, iframe];
             NSArray *results = [packetizer createPackets:nalUnits1 presentationTimestamp:0.0];
-            expect(@([results count])).to(equal(@1));
+            expect(@(results.count)).to(equal(@1));
 
             NSArray *nalUnits2 = @[pframe];
             results = [packetizer createPackets:nalUnits2 presentationTimestamp:1.0/30];
-            expect(@([results count])).to(equal(@1));
+            expect(@(results.count)).to(equal(@1));
         });
     });
 
@@ -47,9 +47,9 @@ describe(@"a H264 byte stream packetizer", ^{
         it(@"starts with a start code of 0x00 0x00 0x00 0x01", ^{
             const UInt8 startCode[] = {0x00, 0x00, 0x00, 0x01};
 
-            NSArray *nalUnits = @[iframe];
-            NSArray *results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
-            const UInt8 *p = [results[0] bytes];
+            NSArray<NSData *> *nalUnits = @[iframe];
+            NSArray<NSData *> *results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
+            const UInt8 *p = results[0].bytes;
 
             int ret = memcmp(p, startCode, sizeof(startCode));
             expect(@(ret)).to(equal(@0));
@@ -58,29 +58,29 @@ describe(@"a H264 byte stream packetizer", ^{
         it(@"then duplicates original H.264 NAL unit", ^{
             NSData *nalUnit = iframe;
 
-            NSArray *nalUnits = @[nalUnit];
-            NSArray *results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
-            const UInt8 *p = [results[0] bytes];
+            NSArray<NSData *> *nalUnits = @[nalUnit];
+            NSArray<NSData *> *results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
+            const UInt8 *p = results[0].bytes;
 
-            int ret = memcmp(p + 4, [nalUnit bytes], [nalUnit length]);
+            int ret = memcmp(p + 4, nalUnit.bytes, nalUnit.length);
             expect(@(ret)).to(equal(@0));
         });
 
         it(@"repeats for all given NAL units", ^{
             const UInt8 startCode[] = {0x00, 0x00, 0x00, 0x01};
 
-            NSArray *nalUnits = @[sps, pps, iframe];
-            NSArray *results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
-            const UInt8 *p = [results[0] bytes];
+            NSArray<NSData *> *nalUnits = @[sps, pps, iframe];
+            NSArray<NSData *> *results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
+            const UInt8 *p = results[0].bytes;
 
             for (NSData *nalUnit in nalUnits) {
                 int ret = memcmp(p, startCode, sizeof(startCode));
                 expect(@(ret)).to(equal(@0));
                 p += sizeof(startCode);
 
-                ret = memcmp(p, [nalUnit bytes], [nalUnit length]);
+                ret = memcmp(p, nalUnit.bytes, nalUnit.length);
                 expect(@(ret)).to(equal(@0));
-                p += [nalUnit length];
+                p += nalUnit.length;
             }
         });
     });
