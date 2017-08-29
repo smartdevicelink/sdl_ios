@@ -34,11 +34,11 @@ describe(@"a H264 byte stream packetizer", ^{
     describe(@"its output array", ^{
         it(@"always has one packet", ^{
             NSArray *nalUnits1 = @[sps, pps, iframe];
-            NSArray *results = [packetizer createPackets:nalUnits1 pts:0.0];
+            NSArray *results = [packetizer createPackets:nalUnits1 presentationTimestamp:0.0];
             expect(@([results count])).to(equal(@1));
 
             NSArray *nalUnits2 = @[pframe];
-            results = [packetizer createPackets:nalUnits2 pts:1.0/30];
+            results = [packetizer createPackets:nalUnits2 presentationTimestamp:1.0/30];
             expect(@([results count])).to(equal(@1));
         });
     });
@@ -48,7 +48,7 @@ describe(@"a H264 byte stream packetizer", ^{
             const UInt8 startCode[] = {0x00, 0x00, 0x00, 0x01};
 
             NSArray *nalUnits = @[iframe];
-            NSArray *results = [packetizer createPackets:nalUnits pts:0.0];
+            NSArray *results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
             const UInt8 *p = [results[0] bytes];
 
             int ret = memcmp(p, startCode, sizeof(startCode));
@@ -59,7 +59,7 @@ describe(@"a H264 byte stream packetizer", ^{
             NSData *nalUnit = iframe;
 
             NSArray *nalUnits = @[nalUnit];
-            NSArray *results = [packetizer createPackets:nalUnits pts:0.0];
+            NSArray *results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
             const UInt8 *p = [results[0] bytes];
 
             int ret = memcmp(p + 4, [nalUnit bytes], [nalUnit length]);
@@ -70,7 +70,7 @@ describe(@"a H264 byte stream packetizer", ^{
             const UInt8 startCode[] = {0x00, 0x00, 0x00, 0x01};
 
             NSArray *nalUnits = @[sps, pps, iframe];
-            NSArray *results = [packetizer createPackets:nalUnits pts:0.0];
+            NSArray *results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
             const UInt8 *p = [results[0] bytes];
 
             for (NSData *nalUnit in nalUnits) {

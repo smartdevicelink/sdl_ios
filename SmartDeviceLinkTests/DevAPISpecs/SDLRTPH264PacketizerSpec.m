@@ -51,7 +51,7 @@ describe(@"a RTP H264 packetizer", ^{
     describe(@"its output array", ^{
         it(@"has same number or more elements compared to the input NAL units", ^{
             NSArray *nalUnits = @[sps, pps, iframe];
-            NSArray *results = [packetizer createPackets:nalUnits pts:0.0];
+            NSArray *results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
             expect(@([results count])).to(beGreaterThanOrEqualTo(@([nalUnits count])));
         });
     });
@@ -59,7 +59,7 @@ describe(@"a RTP H264 packetizer", ^{
     describe(@"First two bytes of its output", ^{
         it(@"indicates the length of a RTP packet", ^{
             NSArray *nalUnits = @[iframe];
-            NSArray *results = [packetizer createPackets:nalUnits pts:0.0];
+            NSArray *results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
             const UInt8 *header = [results[0] bytes];
             UInt16 length = readShortInNBO(header);
             expect(@((length))).to(equal(@([results[0] length] - FRAME_LENGTH_LEN)));
@@ -71,7 +71,7 @@ describe(@"a RTP H264 packetizer", ^{
 
         beforeEach(^{
             NSArray *nalUnits = @[iframe];
-            NSArray *results = [packetizer createPackets:nalUnits pts:0.0];
+            NSArray *results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
             header = [results[0] bytes];
         });
 
@@ -93,12 +93,12 @@ describe(@"a RTP H264 packetizer", ^{
         context(@"when there is only one NAL unit input", ^{
             it(@"is always set", ^{
                 NSArray *nalUnits1 = @[iframe];
-                NSArray *results = [packetizer createPackets:nalUnits1 pts:0.0];
+                NSArray *results = [packetizer createPackets:nalUnits1 presentationTimestamp:0.0];
                 const UInt8 *header = [results[0] bytes];
                 expect(@((header[FRAME_LENGTH_LEN+1] >> 7) & 1)).to(equal(@1));
 
                 NSArray *nalUnits2 = @[pframe];
-                results = [packetizer createPackets:nalUnits2 pts:1.0/30];
+                results = [packetizer createPackets:nalUnits2 presentationTimestamp:1.0/30];
                 header = [results[0] bytes];
                 expect(@((header[FRAME_LENGTH_LEN+1] >> 7) & 1)).to(equal(@1));
             });
@@ -108,7 +108,7 @@ describe(@"a RTP H264 packetizer", ^{
             it(@"is set only for the last packet", ^{
                 // 3 NAL units for a frame
                 NSArray *nalUnits1 = @[sps, pps, iframe];
-                NSArray *results = [packetizer createPackets:nalUnits1 pts:0.0];
+                NSArray *results = [packetizer createPackets:nalUnits1 presentationTimestamp:0.0];
 
                 [results enumerateObjectsUsingBlock:^(NSData *packet, NSUInteger index, BOOL *stop) {
                     const UInt8 *header = [packet bytes];
@@ -121,7 +121,7 @@ describe(@"a RTP H264 packetizer", ^{
 
                 // Only 1 NAL unit for the next frame
                 NSArray *nalUnits2 = @[pframe];
-                results = [packetizer createPackets:nalUnits2 pts:1.0/30];
+                results = [packetizer createPackets:nalUnits2 presentationTimestamp:1.0/30];
                 const UInt8 *header = [results[0] bytes];
                 expect(@((header[FRAME_LENGTH_LEN+1] >> 7) & 1)).to(equal(@1));
             });
@@ -132,7 +132,7 @@ describe(@"a RTP H264 packetizer", ^{
         context(@"when it is not configured", ^{
             it(@"equals to 96", ^{
                 NSArray *nalUnits1 = @[iframe];
-                NSArray *results = [packetizer createPackets:nalUnits1 pts:0.0];
+                NSArray *results = [packetizer createPackets:nalUnits1 presentationTimestamp:0.0];
                 const UInt8 *header = [results[0] bytes];
                 expect(@(header[FRAME_LENGTH_LEN+1] & 0x7F)).to(equal(@(DEFAULT_PAYLOAD_TYPE)));
             });
@@ -144,7 +144,7 @@ describe(@"a RTP H264 packetizer", ^{
                 packetizer.payloadType = payloadType;
 
                 NSArray *nalUnits1 = @[iframe];
-                NSArray *results = [packetizer createPackets:nalUnits1 pts:0.0];
+                NSArray *results = [packetizer createPackets:nalUnits1 presentationTimestamp:0.0];
                 const UInt8 *header = [results[0] bytes];
                 expect(@(header[FRAME_LENGTH_LEN+1] & 0x7F)).to(equal(@(payloadType)));
             });
@@ -153,7 +153,7 @@ describe(@"a RTP H264 packetizer", ^{
                 packetizer.payloadType = 200;
 
                 NSArray *nalUnits1 = @[iframe];
-                NSArray *results = [packetizer createPackets:nalUnits1 pts:0.0];
+                NSArray *results = [packetizer createPackets:nalUnits1 presentationTimestamp:0.0];
                 const UInt8 *header = [results[0] bytes];
                 expect(@(header[FRAME_LENGTH_LEN+1] & 0x7F)).to(equal(@(DEFAULT_PAYLOAD_TYPE)));
             });
@@ -167,12 +167,12 @@ describe(@"a RTP H264 packetizer", ^{
 
         it(@"increments by one for the next packet", ^{
             NSArray *nalUnits1 = @[iframe];
-            NSArray *results = [packetizer createPackets:nalUnits1 pts:0.0];
+            NSArray *results = [packetizer createPackets:nalUnits1 presentationTimestamp:0.0];
             const UInt8 *header = [results[0] bytes];
             UInt16 seqNum = readShortInNBO(&header[FRAME_LENGTH_LEN+2]);
 
             NSArray *nalUnits2 = @[pframe];
-            results = [packetizer createPackets:nalUnits2 pts:1.0/30];
+            results = [packetizer createPackets:nalUnits2 presentationTimestamp:1.0/30];
             header = [results[0] bytes];
 
             seqNum++;
@@ -184,7 +184,7 @@ describe(@"a RTP H264 packetizer", ^{
             UInt16 prevSeqNum = 0;
 
             for (NSUInteger i = 0; i <= 65536; i++) {
-                NSArray *results = [packetizer createPackets:nalUnits pts:i/30.0];
+                NSArray *results = [packetizer createPackets:nalUnits presentationTimestamp:i/30.0];
                 const UInt8 *header = [results[0] bytes];
                 UInt16 seqNum = readShortInNBO(&header[FRAME_LENGTH_LEN+2]);
 
@@ -209,7 +209,7 @@ describe(@"a RTP H264 packetizer", ^{
 
             for (NSUInteger i = 0; i <= 100; i++) {
                 // the timestamp increases by 1/30 seconds
-                NSArray *results = [packetizer createPackets:nalUnits pts:i/30.0];
+                NSArray *results = [packetizer createPackets:nalUnits presentationTimestamp:i/30.0];
                 const UInt8 *header = [results[0] bytes];
                 UInt32 pts = readLongInNBO(&header[FRAME_LENGTH_LEN+4]);
 
@@ -230,12 +230,12 @@ describe(@"a RTP H264 packetizer", ^{
             it(@"is a random number", ^{
                 // No way to test a random number. We only check that it is shared among packets.
                 NSArray *nalUnits1 = @[iframe];
-                NSArray *results = [packetizer createPackets:nalUnits1 pts:0.0];
+                NSArray *results = [packetizer createPackets:nalUnits1 presentationTimestamp:0.0];
                 const UInt8 *header = [results[0] bytes];
                 UInt32 ssrc = readLongInNBO(&header[FRAME_LENGTH_LEN+8]);
 
                 NSArray *nalUnits2 = @[pframe];
-                results = [packetizer createPackets:nalUnits2 pts:1.0/30];
+                results = [packetizer createPackets:nalUnits2 presentationTimestamp:1.0/30];
                 header = [results[0] bytes];
                 UInt32 ssrc2 = readLongInNBO(&header[FRAME_LENGTH_LEN+8]);
 
@@ -249,13 +249,13 @@ describe(@"a RTP H264 packetizer", ^{
                 packetizer.ssrc = expectedSSRC;
 
                 NSArray *nalUnits1 = @[iframe];
-                NSArray *results = [packetizer createPackets:nalUnits1 pts:0.0];
+                NSArray *results = [packetizer createPackets:nalUnits1 presentationTimestamp:0.0];
                 const UInt8 *header = [results[0] bytes];
                 UInt32 ssrc = readLongInNBO(&header[FRAME_LENGTH_LEN+8]);
                 expect(@(ssrc)).to(equal(@(expectedSSRC)));
 
                 NSArray *nalUnits2 = @[pframe];
-                results = [packetizer createPackets:nalUnits2 pts:1.0/30];
+                results = [packetizer createPackets:nalUnits2 presentationTimestamp:1.0/30];
                 header = [results[0] bytes];
                 ssrc = readLongInNBO(&header[FRAME_LENGTH_LEN+8]);
                 expect(@(ssrc)).to(equal(@(expectedSSRC)));
@@ -279,7 +279,7 @@ describe(@"a RTP H264 packetizer", ^{
         it(@"is not fragmented if input NAL unit size is less than 65524 bytes (65536-12)", ^{
             NSData *fakeNALUnit = createFakeNALUnit(firstByte, MAX_RTP_PACKET_SIZE - RTP_HEADER_LEN);
             NSArray *nalUnits = @[fakeNALUnit];
-            NSArray *results = [packetizer createPackets:nalUnits pts:0.0];
+            NSArray *results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
 
             // we should get only one packet
             expect(@([results count])).to(equal(@(1)));
@@ -288,7 +288,7 @@ describe(@"a RTP H264 packetizer", ^{
         it(@"is fragmented if input NAL unit size equals to or is greater than 65524 bytes", ^{
             NSData *fakeNALUnit = createFakeNALUnit(firstByte, MAX_RTP_PACKET_SIZE - RTP_HEADER_LEN + 1);
             NSArray *nalUnits = @[fakeNALUnit];
-            NSArray *results = [packetizer createPackets:nalUnits pts:0.0];
+            NSArray *results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
 
             // the NAL unit should be fragmented into two
             expect(@([results count])).to(equal(@(2)));
@@ -297,7 +297,7 @@ describe(@"a RTP H264 packetizer", ^{
         context(@"when payload is not fragmented", ^{
             it(@"is duplicate of input NAL unit", ^{
                 NSArray *nalUnits = @[sps, pps, iframe];
-                NSArray *results = [packetizer createPackets:nalUnits pts:0.0];
+                NSArray *results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
 
                 NSUInteger nalUnitIndex = 0;
                 for (NSData *packet in results) {
@@ -318,7 +318,7 @@ describe(@"a RTP H264 packetizer", ^{
             beforeEach(^{
                 fakeNALUnit = createFakeNALUnit(firstByte, MAX_RTP_PACKET_SIZE - RTP_HEADER_LEN + 1);
                 NSArray *nalUnits = @[fakeNALUnit];
-                results = [packetizer createPackets:nalUnits pts:0.0];
+                results = [packetizer createPackets:nalUnits presentationTimestamp:0.0];
             });
 
             describe(@"its first byte", ^{
