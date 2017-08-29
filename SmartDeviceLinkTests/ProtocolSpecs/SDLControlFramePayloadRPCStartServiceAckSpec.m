@@ -73,7 +73,6 @@ describe(@"Test nil data", ^{
     __block NSData *testData = nil;
 
     beforeEach(^{
-
         testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:testData];
     });
 

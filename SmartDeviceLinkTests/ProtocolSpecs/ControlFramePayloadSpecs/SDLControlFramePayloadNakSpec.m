@@ -59,7 +59,6 @@ describe(@"Test nil data", ^{
     __block NSData *testData = nil;
 
     beforeEach(^{
-
         testPayload = [[SDLControlFramePayloadNak alloc] initWithData:testData];
     });
 

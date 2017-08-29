@@ -82,7 +82,6 @@ describe(@"Test nil data", ^{
     __block NSData *testData = nil;
 
     beforeEach(^{
-
         testPayload = [[SDLControlFramePayloadVideoStartService alloc] initWithData:testData];
     });
 
