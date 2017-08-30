@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameVideoProtocol];
 }
 
-- (void)setVideoStreamingProtocol:(SDLVideoStreamingProtocol)protocol {
+- (void)setProtocol:(SDLVideoStreamingProtocol)protocol {
     [store sdl_setObject:protocol forName:SDLNameVideoProtocol];
 }
 
@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameVideoCodec];
 }
 
-- (void)setVideoStreamingCodec:(SDLVideoStreamingCodec)codec {
+- (void)setCodec:(SDLVideoStreamingCodec)codec {
     [store sdl_setObject:codec forName:SDLNameVideoCodec];
 }
 
