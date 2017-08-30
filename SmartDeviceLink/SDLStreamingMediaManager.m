@@ -27,23 +27,19 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Public
 #pragma mark Lifecycle
 
-- (instancetype)init {
-    return [self initWithConfiguration:[SDLStreamingMediaConfiguration insecureConfiguration]];
-}
-
-- (instancetype)initWithConfiguration:(SDLStreamingMediaConfiguration *)configuration {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration {
     self = [super init];
     if (!self) {
         return nil;
     }
     
-    _lifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithConfiguration:configuration];
+    _lifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
 
     return self;
 }
 
-- (void)startWithProtocol:(SDLAbstractProtocol *)protocol completionHandler:(void (^)(BOOL, NSError * _Nullable))completionHandler {
-    [self.lifecycleManager startWithProtocol:protocol completionHandler:completionHandler];
+- (void)startWithProtocol:(SDLAbstractProtocol *)protocol completionHandler:(SDLStreamingMediaReadyBlock)readyHandler {
+    [self.lifecycleManager startWithProtocol:protocol completionHandler:readyHandler];
 }
 
 - (void)stop {
@@ -65,12 +61,8 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.touchManager;
 }
 
-- (BOOL)isAudioStreamingSupported {
-    return self.lifecycleManager.isAudioStreamingSupported;
-}
-
-- (BOOL)isVideoStreamingSupported {
-    return self.lifecycleManager.isVideoStreamingSupported;
+- (BOOL)isStreamingSupported {
+    return self.lifecycleManager.isStreamingSupported;
 }
 
 - (BOOL)isAudioConnected {

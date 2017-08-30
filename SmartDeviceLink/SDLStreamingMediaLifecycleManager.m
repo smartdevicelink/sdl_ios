@@ -11,8 +11,10 @@
 #import "SDLAbstractProtocol.h"
 #import "SDLControlFramePayloadVideoStartService.h"
 #import "SDLDisplayCapabilities.h"
+#import "SDLGetSystemCapability.h"
+#import "SDLGetSystemCapabilityResponse.h"
 #import "SDLGlobals.h"
-#import "SDLHMILevel.h"
+#import "SDLHMICapabilities.h"
 #import "SDLImageResolution.h"
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
@@ -23,8 +25,14 @@
 #import "SDLScreenParams.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
+#import "SDLStreamingMediaManagerDataSource.h"
+#import "SDLSystemCapability.h"
 #import "SDLTouchManager.h"
 #import "SDLVideoEncoder.h"
+#import "SDLVideoStreamingCapability.h"
+#import "SDLVideoStreamingCodec.h"
+#import "SDLVideoStreamingFormat.h"
+#import "SDLVideoStreamingProtocol.h"
 
 #import "CVPixelBufferRef+SDLUtil.h"
 
@@ -46,10 +54,16 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
 
 static NSUInteger const SDLFramesToSendOnBackground = 30;
 
+typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable capability);
+
 
 @interface SDLStreamingMediaLifecycleManager () <SDLVideoEncoderDelegate>
 
+@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic) id<SDLStreamingMediaManagerDataSource> dataSource;
 @property (weak, nonatomic) SDLAbstractProtocol *protocol;
+
+@property (copy, nonatomic) SDLStreamingMediaReadyBlock readyHandler;
 
 @property (assign, nonatomic, readonly, getter=isAppStateVideoStreamCapable) BOOL appStateVideoStreamCapable;
 @property (assign, nonatomic, readonly, getter=isHmiStateAudioStreamCapable) BOOL hmiStateAudioStreamCapable;
@@ -60,6 +74,10 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 @property (strong, nonatomic, nullable) SDLVideoEncoder *videoEncoder;
 @property (copy, nonatomic) NSDictionary<NSString *, id> *videoEncoderSettings;
 @property (strong, nonatomic, nullable) SDLControlFramePayloadVideoStartService *videoStartServicePayload;
+@property (strong, nonatomic) NSArray<SDLVideoStreamingFormat *> *preferredFormats;
+@property (assign, nonatomic) NSUInteger preferredFormatIndex;
+@property (strong, nonatomic) NSArray<SDLImageResolution *> *preferredResolutions;
+@property (assign, nonatomic) NSUInteger preferredResolutionIndex;
 
 @property (strong, nonatomic, readwrite) SDLStateMachine *appStateMachine;
 @property (strong, nonatomic, readwrite) SDLStateMachine *videoStreamStateMachine;
@@ -75,20 +93,17 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 #pragma mark - Public
 #pragma mark Lifecycle
 
-- (instancetype)init {
-    return [self initWithConfiguration:[SDLStreamingMediaConfiguration insecureConfiguration]];
-}
-
-- (instancetype)initWithConfiguration:(SDLStreamingMediaConfiguration *)configuration {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration {
     self = [super init];
     if (!self) {
         return nil;
     }
 
     SDLLogV(@"Creating StreamingLifecycleManager");
-    
+
+    _connectionManager = connectionManager;
+
     _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLVideoEncoder.defaultVideoEncoderSettings;
-    
     _requestedEncryptionType = configuration.maximumDesiredEncryption;
     _screenSize = SDLDefaultScreenSize;
     _backgroundingPixelBuffer = NULL;
@@ -120,14 +135,37 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
     return self;
 }
 
-- (void)startWithProtocol:(SDLAbstractProtocol *)protocol completionHandler:(void (^)(BOOL, NSError * _Nullable))completionHandler {
+- (void)startWithProtocol:(SDLAbstractProtocol *)protocol completionHandler:(SDLStreamingMediaReadyBlock)readyHandler {
     _protocol = protocol;
+    _readyHandler = readyHandler;
     
     if (![self.protocol.protocolDelegateTable containsObject:self]) {
         [self.protocol.protocolDelegateTable addObject:self];
     }
-    
-    completionHandler(YES, nil);
+
+    __weak typeof(self) weakSelf = self;
+    [self sdl_requestVideoCapabilities:^(SDLVideoStreamingCapability * _Nullable capability) {
+        // If we can't get capabilities, we're assuming it's H264 RAW at whatever the display capabilities said in the RAIR. We also aren't going to call the data source because they have no options.
+        if (capability == nil) {
+            weakSelf.videoStartServicePayload = nil;
+
+            SDLVideoStreamingFormat *format = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
+            SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:weakSelf.screenSize.width height:weakSelf.screenSize.height];
+            weakSelf.preferredFormats = @[format];
+            weakSelf.preferredResolutions = @[resolution];
+
+            BLOCK_RETURN;
+        }
+
+        // If we got a response, get our preferred formats and resolutions
+        weakSelf.preferredFormats = capability.supportedFormats;
+        weakSelf.preferredResolutions = @[capability.preferredResolution];
+
+        if (weakSelf.dataSource != nil) {
+            weakSelf.preferredFormats = [weakSelf.dataSource preferredVideoFormatOrderFromHeadUnitPreferredOrder:weakSelf.preferredFormats];
+            weakSelf.preferredResolutions = [weakSelf.dataSource resolutionFromHeadUnitPreferredResolution:weakSelf.preferredResolutions.firstObject];
+        }
+    }];
 }
 
 - (void)stop {
@@ -280,6 +318,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 
 - (void)didEnterStateVideoStreamReady {
     SDLLogD(@"Video stream ready");
+    // TODO: What if it is nil, is it even possible for it to be nil?
     if (self.videoEncoder == nil) {
         NSError* error = nil;
         self.videoEncoder = [[SDLVideoEncoder alloc] initWithDimensions:self.screenSize properties:self.videoEncoderSettings delegate:self error:&error];
@@ -330,15 +369,14 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 - (void)didEnterStateAudioStreamStarting {
     SDLLogD(@"Audio stream starting");
     if (self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) {
-        [self.protocol startSecureServiceWithType:SDLServiceTypeAudio completionHandler:^(BOOL success, NSError *error) {
-            // This only fires if we fail!!
+        [self.protocol startSecureServiceWithType:SDLServiceTypeAudio payload:nil completionHandler:^(BOOL success, NSError * _Nonnull error) {
             if (error) {
                 SDLLogE(@"TLS setup error: %@", error);
                 [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateStopped];
             }
         }];
     } else {
-        [self.protocol startServiceWithType:SDLServiceTypeAudio];
+        [self.protocol startServiceWithType:SDLServiceTypeAudio payload:nil];
     }
 }
 
@@ -397,18 +435,17 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 }
 
 #pragma mark - SDL RPC Notification callbacks
-- (void)sdl_didReceiveRegisterAppInterfaceResponse:(SDLRPCResponseNotification*)notification {
+- (void)sdl_didReceiveRegisterAppInterfaceResponse:(SDLRPCResponseNotification *)notification {
     NSAssert([notification.response isKindOfClass:[SDLRegisterAppInterfaceResponse class]], @"A notification was sent with an unanticipated object");
     if (![notification.response isKindOfClass:[SDLRegisterAppInterfaceResponse class]]) {
         return;
     }
     
     SDLRegisterAppInterfaceResponse* registerResponse = (SDLRegisterAppInterfaceResponse*)notification.response;
+
+    _streamingSupported = registerResponse.hmiCapabilities.videoStreaming ? registerResponse.hmiCapabilities.videoStreaming.boolValue : registerResponse.displayCapabilities.graphicSupported.boolValue;
     
-    _videoStreamingSupported = registerResponse.displayCapabilities.graphicSupported.boolValue;
-    _audioStreamingSupported = registerResponse.displayCapabilities.graphicSupported.boolValue;
-    
-    if (!self.isVideoStreamingSupported) {
+    if (!self.isStreamingSupported) {
         SDLLogE(@"Graphics are not supported on this head unit. We are are assuming screen size is also unavailable.");
         return;
     }
@@ -449,7 +486,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 #pragma mark - Streaming session helpers
 
 - (void)sdl_startVideoSession {
-    if (!self.isVideoStreamingSupported) {
+    if (!self.isStreamingSupported) {
         return;
     }
     
@@ -472,7 +509,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 }
 
 - (void)sdl_startAudioSession {
-    if (!self.isAudioStreamingSupported) {
+    if (!self.isStreamingSupported) {
         return;
     }
     
@@ -483,7 +520,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 }
 
 - (void)sdl_stopVideoSession {
-    if (!self.isVideoStreamingSupported) {
+    if (!self.isStreamingSupported) {
         return;
     }
     
@@ -493,7 +530,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 }
 
 - (void)sdl_stopAudioSession {
-    if (!self.isAudioStreamingSupported) {
+    if (!self.isStreamingSupported) {
         return;
     }
     
@@ -523,6 +560,16 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
     for (int frameCount = 0; frameCount < SDLFramesToSendOnBackground; frameCount++) {
         [self.videoEncoder encodeFrame:self.backgroundingPixelBuffer];
     }
+}
+
+- (void)sdl_requestVideoCapabilities:(SDLVideoCapabilityResponse)responseHandler {
+    SDLGetSystemCapability *getVideoCapabilityRequest = [[SDLGetSystemCapability alloc] initWithType:SDLSystemCapabilityTypeVideoStreaming];
+
+    [self.connectionManager sendManagerRequest:getVideoCapabilityRequest withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        SDLVideoStreamingCapability *videoCapability = ((SDLGetSystemCapabilityResponse *)response).systemCapability.videoStreamingCapability;
+
+        responseHandler(videoCapability);
+    }];
 }
 
 #pragma mark Getters

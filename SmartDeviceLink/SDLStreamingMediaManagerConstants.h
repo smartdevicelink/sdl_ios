@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^SDLStreamingMediaReadyBlock)(BOOL success, NSError *__nullable error);
+
 typedef NS_ENUM(NSInteger, SDLStreamingEncryptionFlag) {
     SDLStreamingEncryptionFlagNone,
     SDLStreamingEncryptionFlagAuthenticateOnly,

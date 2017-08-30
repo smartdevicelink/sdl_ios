@@ -821,6 +821,7 @@
 		5D8204311BD001C700D0A41B /* SDLArtwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D82042F1BD001C700D0A41B /* SDLArtwork.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D8204321BD001C700D0A41B /* SDLArtwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8204301BD001C700D0A41B /* SDLArtwork.m */; };
 		5D850AB01D4907C500E6E7EE /* TestLockScreenAppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D850AAF1D4907C500E6E7EE /* TestLockScreenAppIcon.png */; };
+		5D8A09811F54B4E5002502A2 /* SDLStreamingMediaManagerDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8A09801F54B4E5002502A2 /* SDLStreamingMediaManagerDataSource.h */; };
 		5D8B174F1AC9D266006A6E1C /* SDLDialNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8B174D1AC9D266006A6E1C /* SDLDialNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D8B17501AC9D266006A6E1C /* SDLDialNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8B174E1AC9D266006A6E1C /* SDLDialNumber.m */; };
 		5D8B17531AC9E11B006A6E1C /* SDLDialNumberResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8B17511AC9E11B006A6E1C /* SDLDialNumberResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1958,6 +1959,7 @@
 		5D82042F1BD001C700D0A41B /* SDLArtwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLArtwork.h; sourceTree = "<group>"; };
 		5D8204301BD001C700D0A41B /* SDLArtwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLArtwork.m; sourceTree = "<group>"; };
 		5D850AAF1D4907C500E6E7EE /* TestLockScreenAppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TestLockScreenAppIcon.png; sourceTree = "<group>"; };
+		5D8A09801F54B4E5002502A2 /* SDLStreamingMediaManagerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLStreamingMediaManagerDataSource.h; sourceTree = "<group>"; };
 		5D8B174D1AC9D266006A6E1C /* SDLDialNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDialNumber.h; sourceTree = "<group>"; };
 		5D8B174E1AC9D266006A6E1C /* SDLDialNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDialNumber.m; sourceTree = "<group>"; };
 		5D8B17511AC9E11B006A6E1C /* SDLDialNumberResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDialNumberResponse.h; sourceTree = "<group>"; };
@@ -4169,6 +4171,7 @@
 				DA8966E81E56938C00413EAB /* Lifecycle */,
 				5D53C46B1B7A99B9003526EA /* SDLStreamingMediaManager.h */,
 				5D53C46C1B7A99B9003526EA /* SDLStreamingMediaManager.m */,
+				5D8A09801F54B4E5002502A2 /* SDLStreamingMediaManagerDataSource.h */,
 			);
 			name = Streaming;
 			sourceTree = "<group>";
@@ -4302,6 +4305,7 @@
 				E9C32B941AB20BA200F283AF /* SDLStreamDelegate.h in Headers */,
 				DA9F7E871DCC049900ACAE48 /* SDLSubscribeWaypoints.h in Headers */,
 				5D61FDBB1A84238C00846EE7 /* SDLSystemAction.h in Headers */,
+				5D8A09811F54B4E5002502A2 /* SDLStreamingMediaManagerDataSource.h in Headers */,
 				5D61FC9C1A84238C00846EE7 /* SDLEmergencyEventType.h in Headers */,
 				5D61FD131A84238C00846EE7 /* SDLOnLanguageChange.h in Headers */,
 				5D61FDE71A84238C00846EE7 /* SDLUnsubscribeButton.h in Headers */,

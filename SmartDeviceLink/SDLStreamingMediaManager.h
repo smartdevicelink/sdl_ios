@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <VideoToolbox/VideoToolbox.h>
 
+#import "SDLConnectionManagerType.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
 @class SDLAbstractProtocol;
@@ -31,12 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @see SDLRegisterAppInterface SDLDisplayCapabilities
  */
-@property (assign, nonatomic, readonly, getter=isVideoStreamingSupported) BOOL videoStreamingSupported;
-
-/**
- *  Whether or not audio streaming is supported. Currently this is the same as videoStreamingSupported.
- */
-@property (assign, nonatomic, readonly, getter=isAudioStreamingSupported) BOOL audioStreamingSupported;
+@property (assign, nonatomic, readonly, getter=isStreamingSupported) BOOL streamingSupported;
 
 /**
  *  Whether or not the video session is connected.
@@ -83,20 +79,23 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic) SDLStreamingEncryptionFlag requestedEncryptionType;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /**
  Create a new streaming media manager for navigation and VPM apps with a specified configuration
 
+ @param connectionManager The pass-through for RPCs
  @param configuration The configuration of this streaming media session
  @return A new streaming manager
  */
-- (instancetype)initWithConfiguration:(SDLStreamingMediaConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
  *
- *  @param completionHandler The block to be called when the manager's setup is complete.
+ *  @param readyHandler The block to be called when the manager's setup is complete.
  */
-- (void)startWithProtocol:(SDLAbstractProtocol *)protocol completionHandler:(void (^)(BOOL success, NSError *__nullable error))completionHandler;
+- (void)startWithProtocol:(SDLAbstractProtocol *)protocol completionHandler:(SDLStreamingMediaReadyBlock)readyHandler;
 
 /**
  *  Stop the manager. This method is used internally.
