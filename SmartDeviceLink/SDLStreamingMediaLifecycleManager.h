@@ -97,6 +97,11 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
 @property (assign, nonatomic, readonly) CGSize screenSize;
 
 /**
+ This is the agreed upon format of video encoder that is in use, or nil if not currently connected.
+ */
+@property (strong, nonatomic, readonly, nullable) SDLVideoStreamingFormat *videoFormat;
+
+/**
  *  The pixel buffer pool reference returned back from an active VTCompressionSessionRef encoder.
  *
  *  @warning    This will only return a valid pixel buffer pool after the encoder has been initialized (when the video     session has started).

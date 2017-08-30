@@ -15,6 +15,7 @@
 @class SDLAbstractProtocol;
 @class SDLStreamingMediaConfiguration;
 @class SDLTouchManager;
+@class SDLVideoStreamingFormat;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -63,6 +64,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.
  */
 @property (assign, nonatomic, readonly) CGSize screenSize;
+
+/**
+ This is the agreed upon format of video encoder that is in use, or nil if not currently connected.
+ */
+@property (strong, nonatomic, readonly, nullable) SDLVideoStreamingFormat *videoFormat;
 
 /**
  *  The pixel buffer pool reference returned back from an active VTCompressionSessionRef encoder.

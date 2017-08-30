@@ -89,6 +89,10 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.screenSize;
 }
 
+- (nullable SDLVideoStreamingFormat *)videoFormat {
+    return self.lifecycleManager.videoFormat;
+}
+
 - (CVPixelBufferPoolRef __nullable)pixelBufferPool {
     return self.lifecycleManager.pixelBufferPool;
 }

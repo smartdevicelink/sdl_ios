@@ -9,7 +9,11 @@
 #import "SDLStreamingMediaLifecycleManager.h"
 
 #import "SDLAbstractProtocol.h"
+#import "SDLControlFramePayloadAudioStartServiceAck.h"
+#import "SDLControlFramePayloadConstants.h"
+#import "SDLControlFramePayloadNak.h"
 #import "SDLControlFramePayloadVideoStartService.h"
+#import "SDLControlFramePayloadVideoStartServiceAck.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLGetSystemCapability.h"
 #import "SDLGetSystemCapabilityResponse.h"
@@ -19,6 +23,7 @@
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnHMIStatus.h"
+#import "SDLProtocolMessage.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
@@ -70,10 +75,10 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
 @property (assign, nonatomic, readonly, getter=isHmiStateVideoStreamCapable) BOOL hmiStateVideoStreamCapable;
 
 @property (assign, nonatomic, readwrite) BOOL restartVideoStream;
+@property (strong, nonatomic, readwrite, nullable) SDLVideoStreamingFormat *videoFormat;
 
 @property (strong, nonatomic, nullable) SDLVideoEncoder *videoEncoder;
 @property (copy, nonatomic) NSDictionary<NSString *, id> *videoEncoderSettings;
-@property (strong, nonatomic, nullable) SDLControlFramePayloadVideoStartService *videoStartServicePayload;
 @property (strong, nonatomic) NSArray<SDLVideoStreamingFormat *> *preferredFormats;
 @property (assign, nonatomic) NSUInteger preferredFormatIndex;
 @property (strong, nonatomic) NSArray<SDLImageResolution *> *preferredResolutions;
@@ -107,6 +112,10 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
     _requestedEncryptionType = configuration.maximumDesiredEncryption;
     _screenSize = SDLDefaultScreenSize;
     _backgroundingPixelBuffer = NULL;
+    _preferredFormatIndex = 0;
+    _preferredResolutionIndex = 0;
+
+    _touchManager = [[SDLTouchManager alloc] init];
     
     SDLAppState *initialState = SDLAppStateInactive;
     switch ([[UIApplication sharedApplication] applicationState]) {
@@ -119,8 +128,6 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
         } break;
         default: break;
     }
-    
-    _touchManager = [[SDLTouchManager alloc] init];
     
     _appStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:initialState states:[self.class sdl_appStateTransitionDictionary]];
     _videoStreamStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLVideoStreamStateStopped states:[self.class sdl_videoStreamStateTransitionDictionary]];
@@ -147,8 +154,6 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
     [self sdl_requestVideoCapabilities:^(SDLVideoStreamingCapability * _Nullable capability) {
         // If we can't get capabilities, we're assuming it's H264 RAW at whatever the display capabilities said in the RAIR. We also aren't going to call the data source because they have no options.
         if (capability == nil) {
-            weakSelf.videoStartServicePayload = nil;
-
             SDLVideoStreamingFormat *format = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
             SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:weakSelf.screenSize.width height:weakSelf.screenSize.height];
             weakSelf.preferredFormats = @[format];
@@ -284,6 +289,8 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
 - (void)didEnterStateVideoStreamStopped {
     SDLLogD(@"Video stream stopped");
     _videoEncrypted = NO;
+    _screenSize = SDLDefaultScreenSize;
+    _videoFormat = nil;
     
     if (_videoEncoder != nil) {
         [_videoEncoder stop];
@@ -305,7 +312,6 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
     // Decide if we need to start a secure service or not
     if (self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) {
         [self.protocol startSecureServiceWithType:SDLServiceTypeVideo completionHandler:^(BOOL success, NSError *error) {
-            // This only fires if we fail
             if (error) {
                 SDLLogE(@"TLS setup error: %@", error);
                 [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
@@ -391,20 +397,50 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
 }
 
 #pragma mark - SDLProtocolListener
-- (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
-    switch (header.serviceType) {
+- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
+    switch (startServiceACK.header.serviceType) {
         case SDLServiceTypeAudio: {
-            _audioEncrypted = header.encrypted;
-            
-            [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateReady];
+            [self sdl_handleAudioStartServiceAck:startServiceACK];
         } break;
         case SDLServiceTypeVideo: {
-            _videoEncrypted = header.encrypted;
-            
-            [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateReady];
+            [self sdl_handleVideoStartServiceAck:startServiceACK];
         } break;
         default: break;
     }
+}
+
+- (void)sdl_handleAudioStartServiceAck:(SDLProtocolMessage *)audioStartServiceAck {
+    _audioEncrypted = audioStartServiceAck.header.encrypted;
+
+    SDLControlFramePayloadAudioStartServiceAck *audioAckPayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithData:audioStartServiceAck.payload];
+
+    if (audioAckPayload.mtu != SDLControlFrameInt64NotFound) {
+        [[SDLGlobals sharedGlobals] setDynamicMTUSize:audioAckPayload.mtu forServiceType:SDLServiceTypeAudio];
+    }
+
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateReady];
+}
+
+- (void)sdl_handleVideoStartServiceAck:(SDLProtocolMessage *)videoStartServiceAck {
+    _videoEncrypted = videoStartServiceAck.header.encrypted;
+
+    SDLControlFramePayloadVideoStartServiceAck *videoAckPayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithData:videoStartServiceAck.payload];
+
+    if (videoAckPayload.mtu != SDLControlFrameInt64NotFound) {
+        [[SDLGlobals sharedGlobals] setDynamicMTUSize:videoAckPayload.mtu forServiceType:SDLServiceTypeVideo];
+    }
+
+    // This is the definitive screen size that will be used
+    if (videoAckPayload.height != SDLControlFrameInt32NotFound && videoAckPayload.width != SDLControlFrameInt32NotFound) {
+        _screenSize = CGSizeMake(videoAckPayload.height, videoAckPayload.width);
+    }
+
+    // This is the definitive format that will be used
+    if (videoAckPayload.videoCodec != nil && videoAckPayload.videoProtocol != nil) {
+        _videoFormat = [[SDLVideoStreamingFormat alloc] initWithCodec:videoAckPayload.videoCodec protocol:videoAckPayload.videoProtocol];
+    }
+
+    [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateReady];
 }
 
 - (void)handleProtocolStartSessionNACK:(SDLServiceType)serviceType {
