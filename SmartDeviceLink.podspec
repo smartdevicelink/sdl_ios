@@ -93,6 +93,8 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLFileManagerConstants.h',
 'SmartDeviceLink/SDLFileType.h',
 'SmartDeviceLink/SDLFuelCutoffStatus.h',
+'SmartDeviceLink/SDLFuelRange.h',
+'SmartDeviceLink/SDLFuelType.h',
 'SmartDeviceLink/SDLGenericResponse.h',
 'SmartDeviceLink/SDLGetDTCs.h',
 'SmartDeviceLink/SDLGetDTCsResponse.h',

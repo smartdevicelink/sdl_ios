@@ -52,6 +52,43 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo emergencyEvent:(BOOL)emergencyEvent engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure vin:(BOOL)vin wiperStatus:(BOOL)wiperStatus fuelRange:(BOOL)fuelRange {
+    
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.accPedalPosition = @(accelerationPedalPosition);
+    self.airbagStatus = @(airbagStatus);
+    self.beltStatus = @(beltStatus);
+    self.bodyInformation = @(bodyInformation);
+    self.clusterModeStatus = @(clusterModeStatus);
+    self.deviceStatus = @(deviceStatus);
+    self.driverBraking = @(driverBraking);
+    self.eCallInfo = @(eCallInfo);
+    self.emergencyEvent = @(emergencyEvent);
+    self.engineTorque = @(engineTorque);
+    self.externalTemperature = @(externalTemperature);
+    self.fuelLevel = @(fuelLevel);
+    self.fuelLevel_State = @(fuelLevelState);
+    self.myKey = @(myKey);
+    self.odometer = @(odometer);
+    self.gps = @(gps);
+    self.headLampStatus = @(headLampStatus);
+    self.instantFuelConsumption = @(instantFuelConsumption);
+    self.prndl = @(prndl);
+    self.rpm = @(rpm);
+    self.speed = @(speed);
+    self.steeringWheelAngle = @(steeringWheelAngle);
+    self.tirePressure = @(tirePressure);
+    self.vin = @(vin);
+    self.wiperStatus = @(wiperStatus);
+    self.fuelRange = @(fuelRange);
+
+    return self;
+}
+
 - (void)setGps:(nullable NSNumber<SDLBool> *)gps {
     [parameters sdl_setObject:gps forName:SDLNameGPS];
 }
@@ -252,6 +289,13 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameMyKey];
 }
 
-@end
+- (void)setFuelRange:(nullable NSNumber<SDLBool> *)fuelRange {
+    [parameters sdl_setObject:fuelRange forName:SDLNameFuelRange];
+}
 
+- (nullable NSNumber<SDLBool> *)fuelRange {
+    return [parameters sdl_objectForName:SDLNameFuelRange];
+}
+
+@end
 NS_ASSUME_NONNULL_END

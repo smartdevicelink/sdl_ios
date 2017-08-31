@@ -110,6 +110,12 @@ NS_ASSUME_NONNULL_BEGIN
  * @abstract A SDLVehicleDataResult* value. Current angle of the steering wheel (in deg)
  */
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *steeringWheelAngle;
+
+/**
+ * @abstract A SDLVehicleDataResult* value. The estimate range in KM the vehicle can travel based on fuel level and consumption
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *fuelRange;
+
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *eCallInfo;
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *airbagStatus;
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *emergencyEvent;
