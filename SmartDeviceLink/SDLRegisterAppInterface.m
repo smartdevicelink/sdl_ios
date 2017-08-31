@@ -59,7 +59,7 @@
     self.isMediaApplication = @(isMediaApp);
     self.ttsName = [ttsName copy];
     self.vrSynonyms = [vrSynonyms copy];
-    self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:1 minorVersion:0];
+    self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:1 minorVersion:0 patchVersion:0];
     self.appInfo = [SDLAppInfo currentAppInfo];
     self.deviceInfo = [SDLDeviceInfo currentDevice];
     self.hashID = resumeHash;

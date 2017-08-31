@@ -6,8 +6,10 @@
   <li><a href="#section--init">-init</a></li>
   <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
   <li><a href="#section--initWithMajorVersion:minorVersion:">-initWithMajorVersion:minorVersion:</a></li>
+  <li><a href="#section--initWithMajorVersion:minorVersion:patchVersion:">-initWithMajorVersion:minorVersion:patchVersion:</a></li>
   <li><a href="#section-majorVersion">majorVersion</a></li>
   <li><a href="#section-minorVersion">minorVersion</a></li>
+  <li><a href="#section-patchVersion">patchVersion</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -40,8 +42,7 @@
       -initWithDictionary:
   </h3>
   
-  <p>@abstract Constructs a newly allocated SDLSyncMsgVersion object indicated by the dictionary parameter
-- parameter: dict The dictionary to use</p>
+  <p>@abstract Constructs a newly allocated SDLSyncMsgVersion object indicated by the dictionary parameter</p>
 
   
   
@@ -57,8 +58,7 @@
   <h4>Parameters</h4>
   <dl>
       <dt>dict</dt>
-      <dd><p>The dictionary to use</p>
-</dd>
+      <dd><p>The dictionary to use</p></dd>
   </dl>
   
   <h3 id="section--initWithMajorVersion:minorVersion:">
@@ -70,7 +70,22 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSyncMsgVersion</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSyncMsgVersion</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section--initWithMajorVersion:minorVersion:patchVersion:">
+      -initWithMajorVersion:minorVersion:patchVersion:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSyncMsgVersion</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   
@@ -112,6 +127,24 @@
   
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="k">var</span> <span class="nv">minorVersion</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-patchVersion">
+      patchVersion
+  </h3>
+  
+  <p>@abstract Optional, allows backward-compatible fixes to the API without increasing the minor version of the interface</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">patchVersion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">patchVersion</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

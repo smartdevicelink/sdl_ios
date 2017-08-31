@@ -128,6 +128,29 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
+    NSLog(@"Sending capability requests");
+    SDLGetSystemCapability *getNavigationCapability = [[SDLGetSystemCapability alloc] initWithType:[SDLSystemCapabilityType NAVIGATION]];
+    [self.sdlManager sendRequest:getNavigationCapability withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        NSLog(@"Navigation Capability:\n"
+              "Request: %@"
+              "Response: %@"
+              "Error: %@", request, response, error);
+    }];
+    SDLGetSystemCapability *getPhoneCapability = [[SDLGetSystemCapability alloc] initWithType:[SDLSystemCapabilityType PHONE_CALL]];
+    [self.sdlManager sendRequest:getPhoneCapability withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        NSLog(@"Phone Capability:\n"
+              "Request: %@"
+              "Response: %@"
+              "Error: %@", request, response, error);
+    }];
+    SDLGetSystemCapability *getVideoStreamingCapability = [[SDLGetSystemCapability alloc] initWithType:[SDLSystemCapabilityType VIDEO_STREAMING]];
+    [self.sdlManager sendRequest:getVideoStreamingCapability withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        NSLog(@"Video Streaming Capability:\n"
+              "Request: %@"
+              "Response: %@"
+              "Error: %@", request, response, error);
+    }];
+
     SDLSetDisplayLayout *displayLayout = [[SDLSetDisplayLayout alloc] initWithLayout:[[SDLPredefinedLayout NON_MEDIA] value]];
     [self.sdlManager sendRequest:displayLayout];
     

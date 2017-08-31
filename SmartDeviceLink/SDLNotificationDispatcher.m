@@ -142,6 +142,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveGetDTCsResponse response:response];
 }
 
+- (void)onGetSystemCapabilityResponse:(SDLGetSystemCapabilityResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveGetSystemCapabilitiesResponse response:response];
+}
+
 - (void)onGetVehicleDataResponse:(SDLGetVehicleDataResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveGetVehicleDataResponse response:response];
 }
@@ -180,6 +184,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onScrollableMessageResponse:(SDLScrollableMessageResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveScrollableMessageResponse response:response];
+}
+
+- (void)onSendHapticDataResponse:(SDLSendHapticDataResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveSendHapticDataResponse response:response];
 }
 
 - (void)onSendLocationResponse:(SDLSendLocationResponse *)response {

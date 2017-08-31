@@ -38,7 +38,6 @@
 <p>HMILevel needs to be FULL, LIMITED or BACKGROUD</p>
 
 <p>@since SDL 1.0</p>
-
 <div class="aside aside-see">
     <p class="aside-title">See</p>
     SDLDeleteCommand SDLAddSubMenu SDLDeleteSubMenu
@@ -85,13 +84,11 @@
   <h4>Parameters</h4>
   <dl>
       <dt>handler</dt>
-      <dd><p>A callback that will be called when a button event occurs for the command</p>
-</dd>
+      <dd><p>A callback that will be called when a button event occurs for the command</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
     <p>An SDLAddCommand object</p>
-
   </div>
   
   <h3 id="section--initWithDictionary:">
@@ -114,8 +111,7 @@
   <h4>Parameters</h4>
   <dl>
       <dt>dict</dt>
-      <dd><p>The dictionary to use</p>
-</dd>
+      <dd><p>The dictionary to use</p></dd>
   </dl>
   
   <h3 id="section--initWithId:vrCommands:handler:">
@@ -127,7 +123,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommand</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span> <span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLRequestHandler.html">SDLRequestHandler</a></span><span class="o">&gt;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommand</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLRequestHandler.html">SDLRequestHandler</a></span><span class="o">&gt;</span></code></pre>
 
   
   
@@ -142,7 +138,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommand</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span> <span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLRequestHandler.html">SDLRequestHandler</a></span><span class="o">&gt;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommand</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLRequestHandler.html">SDLRequestHandler</a></span><span class="o">&gt;</span></code></pre>
 
   
   
@@ -157,7 +153,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommand</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span> <span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLRequestHandler.html">SDLRequestHandler</a></span><span class="o">&gt;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommand</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLRequestHandler.html">SDLRequestHandler</a></span><span class="o">&gt;</span></code></pre>
 
   
   
@@ -168,7 +164,6 @@
   </h3>
   
   <p>A handler that will let you know when the button you created is subscribed.</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     This will only work if you use SDLManager.

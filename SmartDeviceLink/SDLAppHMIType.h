@@ -77,6 +77,13 @@
  */
 + (SDLAppHMIType *)SOCIAL;
 
+/**
+ * @abstract App dealing with Mobile Projection applications
+ *
+ * @return SDLAppHMIType with value *PROJECTION*
+ */
++ (SDLAppHMIType *)PROJECTION;
+
 + (SDLAppHMIType *)BACKGROUND_PROCESS;
 
 /**

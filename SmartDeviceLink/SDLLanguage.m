@@ -4,7 +4,22 @@
 
 #import "SDLLanguage.h"
 
+SDLLanguage *SDLLanguage_EN_SA = nil;
+SDLLanguage *SDLLanguage_HE_IL = nil;
+SDLLanguage *SDLLanguage_RO_RO = nil;
+SDLLanguage *SDLLanguage_UK_UA = nil;
+SDLLanguage *SDLLanguage_ID_ID = nil;
+SDLLanguage *SDLLanguage_VI_VN = nil;
+SDLLanguage *SDLLanguage_MS_MY = nil;
+SDLLanguage *SDLLanguage_HI_IN = nil;
+SDLLanguage *SDLLanguage_NL_BE = nil;
+SDLLanguage *SDLLanguage_EL_GR = nil;
+SDLLanguage *SDLLanguage_HU_HU = nil;
+SDLLanguage *SDLLanguage_FI_FI = nil;
+SDLLanguage *SDLLanguage_SK_SK = nil;
 SDLLanguage *SDLLanguage_EN_US = nil;
+SDLLanguage *SDLLanguage_EN_IN = nil;
+SDLLanguage *SDLLanguage_TH_TH = nil;
 SDLLanguage *SDLLanguage_ES_MX = nil;
 SDLLanguage *SDLLanguage_FR_CA = nil;
 SDLLanguage *SDLLanguage_DE_DE = nil;
@@ -45,7 +60,22 @@ NSArray *SDLLanguage_values = nil;
 + (NSArray *)values {
     if (SDLLanguage_values == nil) {
         SDLLanguage_values = @[
+            SDLLanguage.EN_SA,
+            SDLLanguage.HE_IL,
+            SDLLanguage.RO_RO,
+            SDLLanguage.UK_UA,
+            SDLLanguage.ID_ID,
+            SDLLanguage.VI_VN,
+            SDLLanguage.MS_MY,
+            SDLLanguage.HI_IN,
+            SDLLanguage.NL_BE,
+            SDLLanguage.EL_GR,
+            SDLLanguage.HU_HU,
+            SDLLanguage.FI_FI,
+            SDLLanguage.SK_SK,
             SDLLanguage.EN_US,
+            SDLLanguage.EN_IN,
+            SDLLanguage.TH_TH,
             SDLLanguage.ES_MX,
             SDLLanguage.FR_CA,
             SDLLanguage.DE_DE,
@@ -73,12 +103,116 @@ NSArray *SDLLanguage_values = nil;
     }
     return SDLLanguage_values;
 }
++ (SDLLanguage *)EN_SA {
+    if (SDLLanguage_EN_SA == nil) {
+        SDLLanguage_EN_SA = [[SDLLanguage alloc] initWithValue:@"EN-SA"];
+    }
+    return SDLLanguage_EN_SA;
+}
+
++ (SDLLanguage *)HE_IL {
+    if (SDLLanguage_HE_IL == nil) {
+        SDLLanguage_HE_IL = [[SDLLanguage alloc] initWithValue:@"HE-IL"];
+    }
+    return SDLLanguage_HE_IL;
+}
+
++ (SDLLanguage *)RO_RO {
+    if (SDLLanguage_RO_RO == nil) {
+        SDLLanguage_RO_RO = [[SDLLanguage alloc] initWithValue:@"RO-RO"];
+    }
+    return SDLLanguage_RO_RO;
+}
+
++ (SDLLanguage *)UK_UA {
+    if (SDLLanguage_UK_UA == nil) {
+        SDLLanguage_UK_UA = [[SDLLanguage alloc] initWithValue:@"UK-UA"];
+    }
+    return SDLLanguage_UK_UA;
+}
+
++ (SDLLanguage *)ID_ID {
+    if (SDLLanguage_ID_ID == nil) {
+        SDLLanguage_ID_ID = [[SDLLanguage alloc] initWithValue:@"ID-ID"];
+    }
+    return SDLLanguage_ID_ID;
+}
+
++ (SDLLanguage *)VI_VN {
+    if (SDLLanguage_VI_VN == nil) {
+        SDLLanguage_VI_VN = [[SDLLanguage alloc] initWithValue:@"VI-VN"];
+    }
+    return SDLLanguage_VI_VN;
+}
+
++ (SDLLanguage *)MS_MY {
+    if (SDLLanguage_MS_MY == nil) {
+        SDLLanguage_MS_MY = [[SDLLanguage alloc] initWithValue:@"MS-MY"];
+    }
+    return SDLLanguage_MS_MY;
+}
+
++ (SDLLanguage *)HI_IN {
+    if (SDLLanguage_HI_IN == nil) {
+        SDLLanguage_HI_IN = [[SDLLanguage alloc] initWithValue:@"HI-IN"];
+    }
+    return SDLLanguage_HI_IN;
+}
+
++ (SDLLanguage *)NL_BE {
+    if (SDLLanguage_NL_BE == nil) {
+        SDLLanguage_NL_BE = [[SDLLanguage alloc] initWithValue:@"NL-BE"];
+    }
+    return SDLLanguage_NL_BE;
+}
+
++ (SDLLanguage *)EL_GR {
+    if (SDLLanguage_EL_GR == nil) {
+        SDLLanguage_EL_GR = [[SDLLanguage alloc] initWithValue:@"EL-GR"];
+    }
+    return SDLLanguage_EL_GR;
+}
+
++ (SDLLanguage *)HU_HU {
+    if (SDLLanguage_HU_HU == nil) {
+        SDLLanguage_HU_HU = [[SDLLanguage alloc] initWithValue:@"HU-HU"];
+    }
+    return SDLLanguage_HU_HU;
+}
+
++ (SDLLanguage *)FI_FI {
+    if (SDLLanguage_FI_FI == nil) {
+        SDLLanguage_FI_FI = [[SDLLanguage alloc] initWithValue:@"FI-FI"];
+    }
+    return SDLLanguage_FI_FI;
+}
+
++ (SDLLanguage *)SK_SK {
+    if (SDLLanguage_SK_SK == nil) {
+        SDLLanguage_SK_SK = [[SDLLanguage alloc] initWithValue:@"SK-SK"];
+    }
+    return SDLLanguage_SK_SK;
+}
 
 + (SDLLanguage *)EN_US {
     if (SDLLanguage_EN_US == nil) {
         SDLLanguage_EN_US = [[SDLLanguage alloc] initWithValue:@"EN-US"];
     }
     return SDLLanguage_EN_US;
+}
+
++ (SDLLanguage *)EN_IN {
+    if (SDLLanguage_EN_IN == nil) {
+        SDLLanguage_EN_IN = [[SDLLanguage alloc] initWithValue:@"EN-IN"];
+    }
+    return SDLLanguage_EN_IN;
+}
+
++ (SDLLanguage *)TH_TH {
+    if (SDLLanguage_TH_TH == nil) {
+        SDLLanguage_TH_TH = [[SDLLanguage alloc] initWithValue:@"TH-TH"];
+    }
+    return SDLLanguage_TH_TH;
 }
 
 + (SDLLanguage *)ES_MX {

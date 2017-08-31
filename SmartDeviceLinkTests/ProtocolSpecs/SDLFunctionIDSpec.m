@@ -60,6 +60,7 @@ describe(@"GetFunctionName Tests", ^ {
         expect([functionID getFunctionName:45]).to(equal(NAMES_GetWaypoints));
         expect([functionID getFunctionName:46]).to(equal(NAMES_SubscribeWaypoints));
         expect([functionID getFunctionName:47]).to(equal(NAMES_UnsubscribeWaypoints));
+        expect([functionID getFunctionName:49]).to(equal(NAMES_SendHapticData));
         expect([functionID getFunctionName:32768]).to(equal(NAMES_OnHMIStatus));
         expect([functionID getFunctionName:32769]).to(equal(NAMES_OnAppInterfaceUnregistered));
         expect([functionID getFunctionName:32770]).to(equal(NAMES_OnButtonEvent));
@@ -131,6 +132,7 @@ describe(@"GetFunctionID Tests", ^ {
         expect([functionID getFunctionID:NAMES_GetWaypoints]).to(equal(@45));
         expect([functionID getFunctionID:NAMES_SubscribeWaypoints]).to(equal(@46));
         expect([functionID getFunctionID:NAMES_UnsubscribeWaypoints]).to(equal(@47));
+        expect([functionID getFunctionID:NAMES_SendHapticData]).to(equal(@49));
 
         expect([functionID getFunctionID:NAMES_OnHMIStatus]).to(equal(@32768));
         expect([functionID getFunctionID:NAMES_OnAppInterfaceUnregistered]).to(equal(@32769));
