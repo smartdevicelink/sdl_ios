@@ -71,6 +71,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly, nullable) SDLVideoStreamingFormat *videoFormat;
 
 /**
+ A list of all supported video formats by this manager
+ */
+@property (strong, nonatomic, readonly) NSArray<SDLVideoStreamingFormat *> *supportedFormats;
+
+/**
  *  The pixel buffer pool reference returned back from an active VTCompressionSessionRef encoder.
  *
  *  @warning This will only return a valid pixel buffer pool after the encoder has been initialized (when the video     session has started).

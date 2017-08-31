@@ -105,6 +105,10 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.requestedEncryptionType;
 }
 
+- (NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
+    return self.lifecycleManager.supportedFormats;
+}
+
 #pragma mark - Setters
 - (void)setRequestedEncryptionType:(SDLStreamingEncryptionFlag)requestedEncryptionType {
     self.lifecycleManager.requestedEncryptionType = requestedEncryptionType;

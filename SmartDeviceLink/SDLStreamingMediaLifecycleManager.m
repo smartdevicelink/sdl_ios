@@ -162,17 +162,15 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
             SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:weakSelf.screenSize.width height:weakSelf.screenSize.height];
             weakSelf.preferredFormats = @[format];
             weakSelf.preferredResolutions = @[resolution];
+        } else {
+            // If we got a response, get our preferred formats and resolutions
+            weakSelf.preferredFormats = capability.supportedFormats;
+            weakSelf.preferredResolutions = @[capability.preferredResolution];
 
-            BLOCK_RETURN;
-        }
-
-        // If we got a response, get our preferred formats and resolutions
-        weakSelf.preferredFormats = capability.supportedFormats;
-        weakSelf.preferredResolutions = @[capability.preferredResolution];
-
-        if (weakSelf.dataSource != nil) {
-            weakSelf.preferredFormats = [weakSelf.dataSource preferredVideoFormatOrderFromHeadUnitPreferredOrder:weakSelf.preferredFormats];
-            weakSelf.preferredResolutions = [weakSelf.dataSource resolutionFromHeadUnitPreferredResolution:weakSelf.preferredResolutions.firstObject];
+            if (weakSelf.dataSource != nil) {
+                weakSelf.preferredFormats = [weakSelf.dataSource preferredVideoFormatOrderFromHeadUnitPreferredOrder:weakSelf.preferredFormats];
+                weakSelf.preferredResolutions = [weakSelf.dataSource resolutionFromHeadUnitPreferredResolution:weakSelf.preferredResolutions.firstObject];
+            }
         }
     }];
 }
@@ -329,7 +327,7 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
     SDLLogD(@"Video stream starting");
     self.restartVideoStream = NO;
 
-    [self sdl_sendVideoStartService]; // TODO: How to retry
+    [self sdl_sendVideoStartService];
 }
 
 - (void)didEnterStateVideoStreamReady {
@@ -477,16 +475,16 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
 
     // If height and/or width was rejected, and we have another resolution to try, advance our counter to try another resolution
     if (([nakPayload.rejectedParams containsObject:[NSString stringWithUTF8String:SDLControlFrameHeightKey]]
-         || [nakPayload.rejectedParams containsObject:[NSString stringWithUTF8String:SDLControlFrameWidthKey]])
-        && self.preferredResolutionIndex < self.preferredResolutions.count) {
+         || [nakPayload.rejectedParams containsObject:[NSString stringWithUTF8String:SDLControlFrameWidthKey]])) {
         self.preferredResolutionIndex++;
     }
 
     if (([nakPayload.rejectedParams containsObject:[NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]]
-         || [nakPayload.rejectedParams containsObject:[NSString stringWithUTF8String:SDLControlFrameVideoProtocolKey]])
-        && self.preferredFormatIndex < self.preferredFormats.count) {
+         || [nakPayload.rejectedParams containsObject:[NSString stringWithUTF8String:SDLControlFrameVideoProtocolKey]])) {
         self.preferredFormatIndex++;
     }
+
+    [self sdl_sendVideoStartService];
 }
 
 - (void)sdl_handleAudioStartServiceNak:(SDLProtocolMessage *)audioStartServiceNak {
@@ -660,7 +658,23 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
     }];
 }
 
+/**
+ Pull the current format / resolution out of our preferred resolutions and craft a start video service payload out of it, then send a start service. If the format isn't one that we support, we're going to try the next format.
+ */
 - (void)sdl_sendVideoStartService {
+    while (self.preferredFormatIndex < self.preferredFormats.count) {
+        if (![self.supportedFormats containsObject:self.preferredFormats[self.preferredResolutionIndex]]) {
+            self.preferredFormatIndex++;
+        }
+    }
+
+    // If this fails we have no known formats to use
+    if (self.preferredFormatIndex >= self.preferredFormats.count
+        || self.preferredResolutionIndex >= self.preferredResolutions.count) {
+        [self sdl_transitionToStoppedState:SDLServiceTypeVideo];
+        return;
+    }
+
     SDLVideoStreamingFormat *preferredFormat = self.preferredFormats[self.preferredFormatIndex];
     SDLImageResolution *preferredResolution = self.preferredResolutions[self.preferredResolutionIndex];
 
@@ -690,6 +704,13 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
 
 - (BOOL)isHmiStateVideoStreamCapable {
     return [self.hmiLevel isEqualToEnum:SDLHMILevelLimited] || [self.hmiLevel isEqualToEnum:SDLHMILevelFull];
+}
+
+- (NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
+    SDLVideoStreamingFormat *h264raw = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
+    SDLVideoStreamingFormat *h264rtp = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP];
+
+    return @[h264raw, h264rtp];
 }
 
 @end
