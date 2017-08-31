@@ -309,17 +309,7 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
     SDLLogD(@"Video stream starting");
     self.restartVideoStream = NO;
 
-    // Decide if we need to start a secure service or not
-    if (self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) {
-        [self.protocol startSecureServiceWithType:SDLServiceTypeVideo completionHandler:^(BOOL success, NSError *error) {
-            if (error) {
-                SDLLogE(@"TLS setup error: %@", error);
-                [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
-            }
-        }];
-    } else {
-        [self.protocol startServiceWithType:SDLServiceTypeVideo];
-    }
+    [self sdl_sendVideoStartService]; // TODO: How to retry
 }
 
 - (void)didEnterStateVideoStreamReady {
@@ -443,8 +433,43 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateReady];
 }
 
-- (void)handleProtocolStartSessionNACK:(SDLServiceType)serviceType {
-    [self sdl_transitionToStoppedState:serviceType];
+- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
+    switch (startServiceNAK.header.serviceType) {
+        case SDLServiceTypeAudio: {
+            [self sdl_handleAudioStartServiceAck:startServiceNAK];
+        } break;
+        case SDLServiceTypeVideo: {
+            [self sdl_handleAudioStartServiceNak:startServiceNAK];
+        }
+        default: break;
+    }
+}
+
+- (void)sdl_handleVideoStartServiceNak:(SDLProtocolMessage *)videoStartServiceNak {
+    SDLControlFramePayloadNak *nakPayload = [[SDLControlFramePayloadNak alloc] initWithData:videoStartServiceNak.payload];
+
+    // If we have no payload rejected params, we don't know what to do to retry, so we'll just stop and maybe cry
+    if (nakPayload.rejectedParams.count == 0) {
+        [self sdl_transitionToStoppedState:SDLServiceTypeVideo];
+        return;
+    }
+
+    // If height and/or width was rejected, and we have another resolution to try, advance our counter to try another resolution
+    if (([nakPayload.rejectedParams containsObject:[NSString stringWithUTF8String:SDLControlFrameHeightKey]]
+         || [nakPayload.rejectedParams containsObject:[NSString stringWithUTF8String:SDLControlFrameWidthKey]])
+        && self.preferredResolutionIndex < self.preferredResolutions.count) {
+        self.preferredResolutionIndex++;
+    }
+
+    if (([nakPayload.rejectedParams containsObject:[NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]]
+         || [nakPayload.rejectedParams containsObject:[NSString stringWithUTF8String:SDLControlFrameVideoProtocolKey]])
+        && self.preferredFormatIndex < self.preferredFormats.count) {
+        self.preferredFormatIndex++;
+    }
+}
+
+- (void)sdl_handleAudioStartServiceNak:(SDLProtocolMessage *)audioStartServiceNak {
+    [self sdl_transitionToStoppedState:SDLServiceTypeAudio];
 }
 
 - (void)handleProtocolEndSessionACK:(SDLServiceType)serviceType {
@@ -606,6 +631,25 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
 
         responseHandler(videoCapability);
     }];
+}
+
+- (void)sdl_sendVideoStartService {
+    SDLVideoStreamingFormat *preferredFormat = self.preferredFormats[self.preferredFormatIndex];
+    SDLImageResolution *preferredResolution = self.preferredResolutions[self.preferredResolutionIndex];
+
+    SDLControlFramePayloadVideoStartService *startVideoPayload = [[SDLControlFramePayloadVideoStartService alloc] initWithVideoHeight:preferredResolution.resolutionHeight.intValue width:preferredResolution.resolutionWidth.intValue protocol:preferredFormat.protocol codec:preferredFormat.codec];
+
+    // Decide if we need to start a secure service or not
+    if (self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) {
+        [self.protocol startSecureServiceWithType:SDLServiceTypeVideo payload:startVideoPayload.data completionHandler:^(BOOL success, NSError *error) {
+            if (error) {
+                SDLLogE(@"TLS setup error: %@", error);
+                [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
+            }
+        }];
+    } else {
+        [self.protocol startServiceWithType:SDLServiceTypeVideo payload:startVideoPayload.data];
+    }
 }
 
 #pragma mark Getters

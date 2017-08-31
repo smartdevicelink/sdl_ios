@@ -18,6 +18,7 @@
 @class SDLStateMachine;
 @class SDLStreamingMediaConfiguration;
 @class SDLTouchManager;
+@class SDLVideoStreamingFormat;
 
 NS_ASSUME_NONNULL_BEGIN
 
