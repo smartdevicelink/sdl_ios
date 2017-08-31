@@ -16,7 +16,9 @@
   <li><a href="#section--initWithProtocol:">-initWithProtocol:</a></li>
   <li><a href="#section--initWithProtocol:displayCapabilities:">-initWithProtocol:displayCapabilities:</a></li>
   <li><a href="#section--startVideoSessionWithStartBlock:">-startVideoSessionWithStartBlock:</a></li>
+  <li><a href="#section--startVideoSessionWithHeight:width:startBlock:">-startVideoSessionWithHeight:width:startBlock:</a></li>
   <li><a href="#section--startVideoSessionWithTLS:startBlock:">-startVideoSessionWithTLS:startBlock:</a></li>
+  <li><a href="#section--startVideoSessionWithTLS:height:width:startBlock:">-startVideoSessionWithTLS:height:width:startBlock:</a></li>
   <li><a href="#section--stopVideoSession">-stopVideoSession</a></li>
   <li><a href="#section--sendVideoData:">-sendVideoData:</a></li>
   <li><a href="#section--startAudioSessionWithStartBlock:">-startAudioSessionWithStartBlock:</a></li>
@@ -98,7 +100,6 @@
   </h3>
   
   <p>The settings used in a VTCompressionSessionRef encoder. These will be verified when the video stream is started. Acceptable properties for this are located in VTCompressionProperties. If set to nil, the defaultVideoEncoderSettings will be used.</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     Video streaming must not be connected to update the encoder properties. If it is running, issue a stopVideoSession before updating.
@@ -123,7 +124,6 @@
   </h3>
   
   <p>Display capabilties that will set the screenSize property. If set to nil, the SDLDefaultScreenSize will be used.</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     Video streaming must not be connected to update the encoder properties. If it is running, issue a stopVideoSession before updating.
@@ -185,7 +185,6 @@
   </h3>
   
   <p>The pixel buffer pool reference returned back from an active VTCompressionSessionRef encoder.</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     This will only return a valid pixel buffer pool after the encoder has been initialized (when the video     session has started).
@@ -232,8 +231,7 @@
       -startVideoSessionWithStartBlock:
   </h3>
   
-  <p>This method will attempt to start a streaming video session. It will set up iOS&rsquo;s video encoder,  and call out to the head unit asking if it will start a video session. This will not use encryption.</p>
-
+  <p>This method will attempt to start a streaming video session. It will set up iOS&rsquo;s video encoder, and call out to the head unit asking if it will start a video session. This will not use encryption.</p>
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     <p>If this method is called on an 8.0 device, it will assert (in debug), or return a failure immediately to your block (in release).</p>
@@ -255,8 +253,41 @@
   <h4>Parameters</h4>
   <dl>
       <dt>startBlock</dt>
-      <dd><p>A block that will be called with the result of attempting to start a video session</p>
-</dd>
+      <dd><p>A block that will be called with the result of attempting to start a video session</p></dd>
+  </dl>
+  
+  <h3 id="section--startVideoSessionWithHeight:width:startBlock:">
+      -startVideoSessionWithHeight:width:startBlock:
+  </h3>
+  
+  <p>This method will attempt to start a streaming video session. It will set up iOS&rsquo;s video encoder, and call out to the head unit asking if it will start a video session. This will not use encryption. To get proper values for height and width. If the remote system does not support GetSystemCapabilities, then call <code>startVideoSessionWithStartBlock:</code> instead.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>If this method is called on an 8.0 device, it will assert (in debug), or return a failure immediately to your block (in release).</p>
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startVideoSessionWithHeight</span><span class="p">:(</span><span class="kt">int32_t</span><span class="p">)</span><span class="nv">height</span>
+                              <span class="nf">width</span><span class="p">:(</span><span class="kt">int32_t</span><span class="p">)</span><span class="nv">width</span>
+                         <span class="nf">startBlock</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLStreamingMediaManager.h@T@SDLStreamingStartBlock">SDLStreamingStartBlock</a></span><span class="p">)</span><span class="nv">startBlock</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">startVideoSession</span><span class="p">(</span><span class="n">withHeight</span> <span class="nv">height</span><span class="p">:</span> <span class="kt">Int32</span><span class="p">,</span> <span class="nv">width</span><span class="p">:</span> <span class="kt">Int32</span><span class="p">,</span> <span class="n">start</span> <span class="nv">startBlock</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLStreamingMediaManager.h@T@SDLStreamingStartBlock">SDLStreamingStartBlock</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>height</dt>
+      <dd><p>The height requested to be used</p></dd>
+      <dt>width</dt>
+      <dd><p>The width requested to be used</p></dd>
+      <dt>startBlock</dt>
+      <dd><p>A block that will be called with the result of attempting to start a video session</p></dd>
   </dl>
   
   <h3 id="section--startVideoSessionWithTLS:startBlock:">
@@ -281,11 +312,42 @@
   <h4>Parameters</h4>
   <dl>
       <dt>encryptionFlag</dt>
-      <dd><p>Whether and how much security to apply to the video session.</p>
-</dd>
+      <dd><p>Whether and how much security to apply to the video session.</p></dd>
       <dt>startBlock</dt>
-      <dd><p>A block that will be called with the result of attempting to start a video session</p>
-</dd>
+      <dd><p>A block that will be called with the result of attempting to start a video session</p></dd>
+  </dl>
+  
+  <h3 id="section--startVideoSessionWithTLS:height:width:startBlock:">
+      -startVideoSessionWithTLS:height:width:startBlock:
+  </h3>
+  
+  <p>Start a video session either with with no encryption (the default), with authentication but no encryption (this will attempt a TLS authentication with the other side, but will not physically encrypt the data after that), or authentication and encryption, which will encrypt all video data being sent. To get proper values for height, width, protocol, and codec, call GetSystemCapabilities. If the remote system does not support GetSystemCapabilities, then call <code>startVideoSessionWithStartBlock:</code> instead.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startVideoSessionWithTLS</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLEncryptionFlag.html">SDLEncryptionFlag</a></span><span class="p">)</span><span class="nv">encryptionFlag</span>
+                          <span class="nf">height</span><span class="p">:(</span><span class="kt">int32_t</span><span class="p">)</span><span class="nv">height</span>
+                           <span class="nf">width</span><span class="p">:(</span><span class="kt">int32_t</span><span class="p">)</span><span class="nv">width</span>
+                      <span class="nf">startBlock</span><span class="p">:</span>
+                          <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLStreamingMediaManager.h@T@SDLStreamingEncryptionStartBlock">SDLStreamingEncryptionStartBlock</a></span><span class="p">)</span><span class="nv">startBlock</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">startVideoSession</span><span class="p">(</span><span class="n">withTLS</span> <span class="nv">encryptionFlag</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLEncryptionFlag.html">SDLEncryptionFlag</a></span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="kt">Int32</span><span class="p">,</span> <span class="nv">width</span><span class="p">:</span> <span class="kt">Int32</span><span class="p">,</span> <span class="n">start</span> <span class="nv">startBlock</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLStreamingMediaManager.h@T@SDLStreamingEncryptionStartBlock">SDLStreamingEncryptionStartBlock</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>encryptionFlag</dt>
+      <dd><p>Whether and how much security to apply to the video session.</p></dd>
+      <dt>height</dt>
+      <dd><p>The height requested to be used</p></dd>
+      <dt>width</dt>
+      <dd><p>The width requested to be used</p></dd>
+      <dt>startBlock</dt>
+      <dd><p>A block that will be called with the result of attempting to start a video session</p></dd>
   </dl>
   
   <h3 id="section--stopVideoSession">
@@ -326,13 +388,11 @@
   <h4>Parameters</h4>
   <dl>
       <dt>imageBuffer</dt>
-      <dd><p>A CVImageBufferRef to be encoded by Video Toolbox</p>
-</dd>
+      <dd><p>A CVImageBufferRef to be encoded by Video Toolbox</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
     <p>Whether or not the data was successfully encoded and sent.</p>
-
   </div>
   
   <h3 id="section--startAudioSessionWithStartBlock:">
@@ -356,8 +416,7 @@
   <h4>Parameters</h4>
   <dl>
       <dt>startBlock</dt>
-      <dd><p>A block that will be called with the result of attempting to start an audio session</p>
-</dd>
+      <dd><p>A block that will be called with the result of attempting to start an audio session</p></dd>
   </dl>
   
   <h3 id="section--startAudioSessionWithTLS:startBlock:">
@@ -409,13 +468,11 @@
   <h4>Parameters</h4>
   <dl>
       <dt>pcmAudioData</dt>
-      <dd><p>The data in PCM audio format, to be played</p>
-</dd>
+      <dd><p>The data in PCM audio format, to be played</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
     <p>Whether or not the data was successfully sent.</p>
-
   </div>
   
 </section>

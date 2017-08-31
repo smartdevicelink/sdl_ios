@@ -1,0 +1,102 @@
+<h1>SDLSendHapticData Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
+  <li><a href="#section--initWithHapticRectData:">-initWithHapticRectData:</a></li>
+  <li><a href="#section-hapticRectData">hapticRectData</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Sends the spatial data gathered from SDLCarWindow or VirtualDisplayEncoder to the HMI. This data will be utilized by the HMI to determine how and when haptic events should occur.</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--init">
+      -init
+  </h3>
+  
+  <p>Constructs a new SDLSendHapticData object</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithDictionary:">
+      -initWithDictionary:
+  </h3>
+  
+  <p>Constructs a new SDLSendHapticData object indicated by the dictionary parameter</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">dictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>dict</dt>
+      <dd><p>The dictionary to use</p></dd>
+  </dl>
+  
+  <h3 id="section--initWithHapticRectData:">
+      -initWithHapticRectData:
+  </h3>
+  
+  <p>Constructs a new SDLSendHapticData object indicated by the hapticSpatialData parameter</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithHapticRectData</span><span class="p">:(</span><span class="n">NSMutableArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">hapticSpatialData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n"><a href="../Classes/SDLSendHapticData.html#/c:objc(cs)SDLSendHapticData(py)hapticRectData">hapticRectData</a></span> <span class="nv">hapticSpatialData</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>hapticSpatialData</dt>
+      <dd><p>Array of spatial data structures</p></dd>
+  </dl>
+  
+  <h3 id="section-hapticRectData">
+      hapticRectData
+  </h3>
+  
+  <p>Array of spatial data structures that represent the locations of all user controls present on the HMI. This data should be updated if/when the application presents a new screen. When a request is sent, if successful, it will replace all spatial data previously sent through RPC. If an empty array is sent, the existing spatial data will be cleared</p>
+
+<p>Optional, Array of SDLHapticRect, Array size 0 - 1,000</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">hapticRectData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">hapticRectData</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

@@ -81,6 +81,8 @@
   <li><a href="#section-SDLGenericResponse">SDLGenericResponse</a></li>
   <li><a href="#section-SDLGetDTCs">SDLGetDTCs</a></li>
   <li><a href="#section-SDLGetDTCsResponse">SDLGetDTCsResponse</a></li>
+  <li><a href="#section-SDLGetSystemCapability">SDLGetSystemCapability</a></li>
+  <li><a href="#section-SDLGetSystemCapabilityResponse">SDLGetSystemCapabilityResponse</a></li>
   <li><a href="#section-SDLGetVehicleData">SDLGetVehicleData</a></li>
   <li><a href="#section-SDLGetVehicleDataResponse">SDLGetVehicleDataResponse</a></li>
   <li><a href="#section-SDLGetWayPoints">SDLGetWayPoints</a></li>
@@ -92,6 +94,7 @@
   <li><a href="#section-SDLHMILevel">SDLHMILevel</a></li>
   <li><a href="#section-SDLHMIPermissions">SDLHMIPermissions</a></li>
   <li><a href="#section-SDLHMIZoneCapabilities">SDLHMIZoneCapabilities</a></li>
+  <li><a href="#section-SDLHapticRect">SDLHapticRect</a></li>
   <li><a href="#section-SDLHeadLampStatus">SDLHeadLampStatus</a></li>
   <li><a href="#section-SDLIAPTransport">SDLIAPTransport</a></li>
   <li><a href="#section-SDLIgnitionStableStatus">SDLIgnitionStableStatus</a></li>
@@ -121,7 +124,10 @@
   <li><a href="#section-SDLManager">SDLManager</a></li>
   <li><a href="#section-SDLMediaClockFormat">SDLMediaClockFormat</a></li>
   <li><a href="#section-SDLMenuParams">SDLMenuParams</a></li>
+  <li><a href="#section-SDLMetadataTags">SDLMetadataTags</a></li>
+  <li><a href="#section-SDLMetadataType">SDLMetadataType</a></li>
   <li><a href="#section-SDLMyKey">SDLMyKey</a></li>
+  <li><a href="#section-SDLNavigationCapability">SDLNavigationCapability</a></li>
   <li><a href="#section-SDLNotificationConstants">SDLNotificationConstants</a></li>
   <li><a href="#section-SDLOasisAddress">SDLOasisAddress</a></li>
   <li><a href="#section-SDLOnAppInterfaceUnregistered">SDLOnAppInterfaceUnregistered</a></li>
@@ -153,6 +159,7 @@
   <li><a href="#section-SDLPermissionItem">SDLPermissionItem</a></li>
   <li><a href="#section-SDLPermissionManager">SDLPermissionManager</a></li>
   <li><a href="#section-SDLPermissionStatus">SDLPermissionStatus</a></li>
+  <li><a href="#section-SDLPhoneCapability">SDLPhoneCapability</a></li>
   <li><a href="#section-SDLPowerModeQualificationStatus">SDLPowerModeQualificationStatus</a></li>
   <li><a href="#section-SDLPowerModeStatus">SDLPowerModeStatus</a></li>
   <li><a href="#section-SDLPredefinedLayout">SDLPredefinedLayout</a></li>
@@ -176,6 +183,7 @@
   <li><a href="#section-SDLRPCStruct">SDLRPCStruct</a></li>
   <li><a href="#section-SDLReadDID">SDLReadDID</a></li>
   <li><a href="#section-SDLReadDIDResponse">SDLReadDIDResponse</a></li>
+  <li><a href="#section-SDLRectangle">SDLRectangle</a></li>
   <li><a href="#section-SDLRegisterAppInterface">SDLRegisterAppInterface</a></li>
   <li><a href="#section-SDLRegisterAppInterfaceResponse">SDLRegisterAppInterfaceResponse</a></li>
   <li><a href="#section-SDLRequestType">SDLRequestType</a></li>
@@ -186,6 +194,8 @@
   <li><a href="#section-SDLScreenParams">SDLScreenParams</a></li>
   <li><a href="#section-SDLScrollableMessage">SDLScrollableMessage</a></li>
   <li><a href="#section-SDLScrollableMessageResponse">SDLScrollableMessageResponse</a></li>
+  <li><a href="#section-SDLSendHapticData">SDLSendHapticData</a></li>
+  <li><a href="#section-SDLSendHapticDataResponse">SDLSendHapticDataResponse</a></li>
   <li><a href="#section-SDLSendLocation">SDLSendLocation</a></li>
   <li><a href="#section-SDLSendLocationResponse">SDLSendLocationResponse</a></li>
   <li><a href="#section-SDLSetAppIcon">SDLSetAppIcon</a></li>
@@ -224,6 +234,8 @@
   <li><a href="#section-SDLSyncPData">SDLSyncPData</a></li>
   <li><a href="#section-SDLSyncPDataResponse">SDLSyncPDataResponse</a></li>
   <li><a href="#section-SDLSystemAction">SDLSystemAction</a></li>
+  <li><a href="#section-SDLSystemCapability">SDLSystemCapability</a></li>
+  <li><a href="#section-SDLSystemCapabilityType">SDLSystemCapabilityType</a></li>
   <li><a href="#section-SDLSystemContext">SDLSystemContext</a></li>
   <li><a href="#section-SDLTBTState">SDLTBTState</a></li>
   <li><a href="#section-SDLTCPTransport">SDLTCPTransport</a></li>
@@ -262,6 +274,10 @@
   <li><a href="#section-SDLVehicleDataStatus">SDLVehicleDataStatus</a></li>
   <li><a href="#section-SDLVehicleDataType">SDLVehicleDataType</a></li>
   <li><a href="#section-SDLVehicleType">SDLVehicleType</a></li>
+  <li><a href="#section-SDLVideoStreamingCapability">SDLVideoStreamingCapability</a></li>
+  <li><a href="#section-SDLVideoStreamingCodec">SDLVideoStreamingCodec</a></li>
+  <li><a href="#section-SDLVideoStreamingFormat">SDLVideoStreamingFormat</a></li>
+  <li><a href="#section-SDLVideoStreamingProtocol">SDLVideoStreamingProtocol</a></li>
   <li><a href="#section-SDLVRCapabilities">SDLVRCapabilities</a></li>
   <li><a href="#section-SDLVRHelpItem">SDLVRHelpItem</a></li>
   <li><a href="#section-SDLWarningLightStatus">SDLWarningLightStatus</a></li>
@@ -323,7 +339,6 @@
 <p>HMILevel needs to be FULL, LIMITED or BACKGROUD</p>
 
 <p>@since SDL 1.0</p>
-
 <div class="aside aside-see">
     <p class="aside-title">See</p>
     SDLDeleteCommand SDLAddSubMenu SDLDeleteSubMenu
@@ -334,7 +349,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommand</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span> <span class="o">&lt;</span><span class="n"><a href="Protocols/SDLRequestHandler.html">SDLRequestHandler</a></span><span class="o">&gt;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommand</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">&lt;</span><span class="n"><a href="Protocols/SDLRequestHandler.html">SDLRequestHandler</a></span><span class="o">&gt;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -355,7 +370,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommandResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommandResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -384,7 +399,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddSubMenu</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddSubMenu</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -404,7 +419,7 @@ Since <b>SmartDeviceLink 1.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddSubMenuResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddSubMenuResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -460,7 +475,7 @@ Since <b>SmartDeviceLink 1.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlert</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlert</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -479,7 +494,7 @@ Since <b>SmartDeviceLink 1.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlertManeuver</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlertManeuver</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -492,14 +507,17 @@ Since <b>SmartDeviceLink 1.0</b></p>
       SDLAlertManeuverResponse
   </h3>
   
-  <p>SDLAlertManeuverResponse is sent, when SDLAlertManeuver has been called.
- * @since SmartDeviceLink 1.0</p>
+  <p>SDLAlertManeuverResponse is sent, when SDLAlertManeuver has been called.</p>
+
+<ul>
+<li>@since SmartDeviceLink 1.0</li>
+</ul>
 
   <a href="Classes/SDLAlertManeuverResponse.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlertManeuverResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlertManeuverResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -519,7 +537,7 @@ Since <b>SmartDeviceLink 1.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlertResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlertResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -539,7 +557,7 @@ Since <b>SmartDeviceLink 1.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAmbientLightStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAmbientLightStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -560,7 +578,7 @@ Since <b>SmartDeviceLink 1.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAppHMIType</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAppHMIType</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -593,7 +611,7 @@ Since <b>SmartDeviceLink 1.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAppInterfaceUnregisteredReason</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAppInterfaceUnregisteredReason</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -619,7 +637,8 @@ Since <b>SmartDeviceLink 1.0</b></p>
   </h3>
   
   <p>Describes different audio type configurations for SDLPerformAudioPassThru, e.g. {8kHz,8-bit,PCM}
-<p><b>Parameter List</b>
+<p><b>Parameter List</b></p>
+
 <table border="1" rules="all">
         <tr>
             <th>Name</th>
@@ -649,13 +668,14 @@ Since <b>SmartDeviceLink 1.0</b></p>
             <td>SmartDeviceLink 2.0</td>
         </tr>
  </table>
-Since <b>SmartDeviceLink 2.0</b></p>
+
+<p>Since <b>SmartDeviceLink 2.0</b></p>
 
   <a href="Classes/SDLAudioPassThruCapabilities.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAudioPassThruCapabilities</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAudioPassThruCapabilities</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -676,7 +696,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAudioStreamingState</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAudioStreamingState</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -695,7 +715,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAudioType</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAudioType</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -728,7 +748,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLBitsPerSample</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLBitsPerSample</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -747,7 +767,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLBodyInformation</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLBodyInformation</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -768,7 +788,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLButtonCapabilities</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLButtonCapabilities</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -789,7 +809,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLButtonEventMode</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLButtonEventMode</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -822,7 +842,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLButtonName</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLButtonName</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -843,7 +863,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLButtonPressMode</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLButtonPressMode</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -856,14 +876,17 @@ Since <b>SmartDeviceLink 2.0</b></p>
       SDLCarModeStatus
   </h3>
   
-  <p>Describes the carmode the vehicle is in.
- * <b>Since</b> SmartDeviceLink 2.0</p>
+  <p>Describes the carmode the vehicle is in.</p>
+
+<ul>
+<li><b>Since</b> SmartDeviceLink 2.0</li>
+</ul>
 
   <a href="Classes/SDLCarModeStatus.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLCarModeStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLCarModeStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -886,7 +909,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLChangeRegistration</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLChangeRegistration</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -907,7 +930,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLChangeRegistrationResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLChangeRegistrationResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -928,7 +951,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLCharacterSet</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLCharacterSet</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -988,7 +1011,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLChoice</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLChoice</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1021,7 +1044,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLCompassDirection</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLCompassDirection</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1042,7 +1065,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLComponentVolumeStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLComponentVolumeStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1088,7 +1111,6 @@ Since <b>SmartDeviceLink 2.0</b></p>
 <p>If you do not wait the system may not recognize the first utterance from the user.</p>
 
 <p>@since SDL 1.0</p>
-
 <div class="aside aside-see">
     <p class="aside-title">See</p>
     SDLDeleteInteractionChoiceSet SDLPerformInteraction
@@ -1099,7 +1121,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLCreateInteractionChoiceSet</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLCreateInteractionChoiceSet</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1121,7 +1143,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLCreateInteractionChoiceSetResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLCreateInteractionChoiceSetResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1185,7 +1207,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteCommand</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteCommand</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1206,7 +1228,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteCommandResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteCommandResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1230,7 +1252,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteFile</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteFile</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1251,7 +1273,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteFileResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteFileResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1281,7 +1303,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteInteractionChoiceSet</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteInteractionChoiceSet</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1302,7 +1324,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteInteractionChoiceSetResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteInteractionChoiceSetResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1330,7 +1352,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteSubMenu</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteSubMenu</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1351,7 +1373,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteSubMenuResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeleteSubMenuResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1370,7 +1392,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeliveryMode</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeliveryMode</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1403,7 +1425,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeviceLevelStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeviceLevelStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1510,7 +1532,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeviceStatus</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDeviceStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1531,7 +1553,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDiagnosticMessage</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDiagnosticMessage</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1544,14 +1566,17 @@ Since <b>SmartDeviceLink 2.0</b></p>
       SDLDiagnosticMessageResponse
   </h3>
   
-  <p>SDLDiagnosticMessageResponse is sent, when SDLDiagnosticMessage has been called.
- * Since<b>SmartDeviceLink 3.0</b></p>
+  <p>SDLDiagnosticMessageResponse is sent, when SDLDiagnosticMessage has been called.</p>
+
+<ul>
+<li>Since<b>SmartDeviceLink 3.0</b></li>
+</ul>
 
   <a href="Classes/SDLDiagnosticMessageResponse.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDiagnosticMessageResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDiagnosticMessageResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1572,7 +1597,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDialNumber</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDialNumber</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1593,7 +1618,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDialNumberResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDialNumberResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1614,7 +1639,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDimension</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDimension</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1635,7 +1660,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDisplayCapabilities</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDisplayCapabilities</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1656,7 +1681,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDisplayType</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDisplayType</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1677,7 +1702,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDriverDistractionState</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLDriverDistractionState</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1698,7 +1723,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLECallConfirmationStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLECallConfirmationStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1743,7 +1768,7 @@ Since <b>SmartDeviceLink 2.0</b></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLEmergencyEventType</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLEmergencyEventType</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1780,7 +1805,8 @@ Since <b>SmartDeviceLink 2.0</b></p>
       SDLEndAudioPassThru
   </h3>
   
-  <p>When this request is invoked, the audio capture stops
+  <p>When this request is invoked, the audio capture stops</p>
+
 <p>
 Function Group: AudioPassThru
 <p>
@@ -1788,13 +1814,13 @@ Function Group: AudioPassThru
 </p>
 
 <p>Since <b>SmartDeviceLink 2.0</b><br>
-see SDLPerformAudioPassThru</p></p>
+see SDLPerformAudioPassThru</p>
 
   <a href="Classes/SDLEndAudioPassThru.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLEndAudioPassThru</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLEndAudioPassThru</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1815,7 +1841,7 @@ see SDLPerformAudioPassThru</p></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLEndAudioPassThruResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLEndAudioPassThruResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1879,7 +1905,7 @@ see SDLPerformAudioPassThru</p></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLFileType</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLFileType</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1901,7 +1927,7 @@ see SDLPerformAudioPassThru</p></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLFuelCutoffStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLFuelCutoffStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1922,7 +1948,7 @@ see SDLPerformAudioPassThru</p></p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGPSData</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGPSData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1943,7 +1969,7 @@ INVALID_DATA is used.</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGenericResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGenericResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1968,7 +1994,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGetDTCs</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGetDTCs</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -1989,12 +2015,36 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGetDTCsResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGetDTCsResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLGetDTCsResponse</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
+  
+  
+  
+  <h3 id="section-SDLGetSystemCapability">
+      SDLGetSystemCapability
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLGetSystemCapability.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3 id="section-SDLGetSystemCapabilityResponse">
+      SDLGetSystemCapabilityResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLGetSystemCapabilityResponse.html" class="slightly-smaller">See more</a>
+  
+  
   
   
   
@@ -2016,7 +2066,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGetVehicleData</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGetVehicleData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2037,7 +2087,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGetVehicleDataResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGetVehicleDataResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2104,7 +2154,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGlobalProperty</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGlobalProperty</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2137,7 +2187,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLHMILevel</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLHMILevel</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2158,7 +2208,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLHMIPermissions</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLHMIPermissions</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2179,11 +2229,30 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLHMIZoneCapabilities</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLHMIZoneCapabilities</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLHMIZoneCapabilities</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLHapticRect">
+      SDLHapticRect
+  </h3>
+  
+  <p>Defines spatial for each user control object for video streaming application</p>
+
+  <a href="Classes/SDLHapticRect.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLHapticRect</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLHapticRect</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   
@@ -2198,7 +2267,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLHeadLampStatus</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLHeadLampStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2231,7 +2300,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLIgnitionStableStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLIgnitionStableStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2252,7 +2321,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLIgnitionStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLIgnitionStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2273,7 +2342,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLImage</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLImage</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2300,15 +2369,18 @@ Function Group: ProprietaryData
   
   <p>The name that identifies the filed.
  *
- *
- * @since SmartDeviceLink 3.0
  *</p>
+
+<ul>
+<li>@since SmartDeviceLink 3.0
+*</li>
+</ul>
 
   <a href="Classes/SDLImageFieldName.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLImageFieldName</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLImageFieldName</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2341,7 +2413,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLImageType</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLImageType</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2362,7 +2434,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLInteractionMode</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLInteractionMode</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2388,15 +2460,18 @@ Function Group: ProprietaryData
   </h3>
   
   <p>Enumeration listing possible keyboard events.
- *
- * @since SmartDeviceLink 3.0
  *</p>
+
+<ul>
+<li>@since SmartDeviceLink 3.0
+*</li>
+</ul>
 
   <a href="Classes/SDLKeyboardEvent.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLKeyboardEvent</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLKeyboardEvent</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2418,7 +2493,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLKeyboardLayout</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLKeyboardLayout</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2443,18 +2518,21 @@ Function Group: ProprietaryData
       SDLKeypressMode
   </h3>
   
-  <p>Enumeration listing possible keyboard events.
- * <p>
- * <b>Note:</b> Depending on keypressMode value (from keyboardProperties structure of UI.SetGlobalProperties),<br>HMI must send the onKeyboardInput notification with the following data:<br>
- SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.
- * @since SmartDeviceLink 3.0
- *</p>
+  <p>Enumeration listing possible keyboard events.</p>
+
+<ul>
+<li><p></li>
+<li><b>Note:</b> Depending on keypressMode value (from keyboardProperties structure of UI.SetGlobalProperties),<br>HMI must send the onKeyboardInput notification with the following data:<br>
+SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
+<li>@since SmartDeviceLink 3.0
+*</li>
+</ul>
 
   <a href="Classes/SDLKeypressMode.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLKeypressMode</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLKeypressMode</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2475,7 +2553,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLanguage</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLanguage</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2496,7 +2574,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLayoutMode</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLayoutMode</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2519,7 +2597,7 @@ Function Group: ProprietaryData
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLLifecycleConfiguration</span></code></pre>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLLifecycleConfiguration</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
 
   
   
@@ -2538,7 +2616,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLListFiles</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLListFiles</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2559,7 +2637,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLListFilesResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLListFilesResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2638,7 +2716,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLMaintenanceModeStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLMaintenanceModeStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2676,7 +2754,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLMediaClockFormat</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLMediaClockFormat</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2697,11 +2775,44 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLMenuParams</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLMenuParams</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLMenuParams</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLMetadataTags">
+      SDLMetadataTags
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLMetadataTags.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3 id="section-SDLMetadataType">
+      SDLMetadataType
+  </h3>
+  
+  <p>The list of possible metadata for text fields</p>
+
+<p>@since SDL 4.7.0</p>
+
+  <a href="Classes/SDLMetadataType.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLMetadataType</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLMetadataType</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   
@@ -2713,6 +2824,18 @@ Function Group: ProprietaryData
   <p>Undocumented</p>
 
   <a href="Classes/SDLMyKey.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3 id="section-SDLNavigationCapability">
+      SDLNavigationCapability
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLNavigationCapability.html" class="slightly-smaller">See more</a>
   
   
   
@@ -2750,14 +2873,18 @@ Function Group: ProprietaryData
 
 <p>For more information about SDL resources related to an interface registration, see <i>SDLRegisterAppInterface</i>.</p>
 
-<p>@since SDL 1.0
- - see: SDLRegisterAppInterface</p>
+<p>@since SDL 1.0</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLRegisterAppInterface
+
+</div>
 
   <a href="Classes/SDLOnAppInterfaceUnregistered.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnAppInterfaceUnregistered</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnAppInterfaceUnregistered</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCNotification.html">SDLRPCNotification</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2792,7 +2919,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnAudioPassThru</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnAudioPassThru</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCNotification.html">SDLRPCNotification</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2812,8 +2939,7 @@ Function Group: ProprietaryData
  and button-presses can be found at SDLSubscribeButton.
  <p>
  </p>
-
-<p><b>HMI Status Requirements:</b>
+ <b>HMI Status Requirements:</b>
  <ul>
  HMILevel:
  <ul>
@@ -2839,9 +2965,9 @@ Function Group: ProprietaryData
  <p></p>
 <div class="aside aside-see">
     <p class="aside-title">See</p>
-    SDLSubscribeButton</p>
+    SDLSubscribeButton
 
-<p></div></p>
+</div>
 
 <p>@since SDL 1.0</p>
 
@@ -2849,7 +2975,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnButtonEvent</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnButtonEvent</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCNotification.html">SDLRPCNotification</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2897,13 +3023,11 @@ Function Group: ProprietaryData
  button will cancel VR.</li>
  </ul>
  </ul></p>
-
 <div class="aside aside-see">
     <p class="aside-title">See</p>
     SDLSubscribeButton
 
 </div>
-
 <div class="aside aside-see">
     <p class="aside-title">See</p>
     SDLUnsubscribeButton
@@ -2916,7 +3040,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnButtonPress</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnButtonPress</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCNotification.html">SDLRPCNotification</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2934,14 +3058,18 @@ Function Group: ProprietaryData
 
 <p><b>Note:</b> The sequence of <em>SDLOnHMIStatus</em> and <em>SDLOnCommand</em> notifications for user-initiated interactions is indeterminate.</p>
 
-<p>@since SDL 1.0
- - see: SDLAddCommand SDLDeleteCommand SDLDeleteSubMenu</p>
+<p>@since SDL 1.0</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLAddCommand SDLDeleteCommand SDLDeleteSubMenu
+
+</div>
 
   <a href="Classes/SDLOnCommand.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnCommand</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnCommand</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCNotification.html">SDLRPCNotification</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -2974,7 +3102,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnDriverDistraction</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnDriverDistraction</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCNotification.html">SDLRPCNotification</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3017,7 +3145,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnHMIStatus</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnHMIStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCNotification.html">SDLRPCNotification</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3062,7 +3190,7 @@ Function Group: ProprietaryData
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnLanguageChange</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnLanguageChange</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCNotification.html">SDLRPCNotification</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3087,7 +3215,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnLockScreenStatus</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnLockScreenStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCNotification.html">SDLRPCNotification</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3108,7 +3236,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnPermissionsChange</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnPermissionsChange</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCNotification.html">SDLRPCNotification</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3177,7 +3305,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnVehicleData</span> <span class="p">:</span> <span class="nc">SDLRPCNotification</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLOnVehicleData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCNotification.html">SDLRPCNotification</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3221,7 +3349,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPRNDL</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPRNDL</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3242,7 +3370,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLParameterPermissions</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLParameterPermissions</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3264,14 +3392,13 @@ The call back also includes details regarding the current HMI_Status level, driv
  </p></p>
 
 <p><p>Since SmartDeviceLink 2.0</p>
-
-<p><p>See SDLEndAudioPassThru</p></p></p>
+ <p>See SDLEndAudioPassThru</p></p>
 
   <a href="Classes/SDLPerformAudioPassThru.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPerformAudioPassThru</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPerformAudioPassThru</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3292,7 +3419,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPerformAudioPassThruResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPerformAudioPassThruResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3323,7 +3450,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPerformInteraction</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPerformInteraction</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3344,7 +3471,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPerformInteractionResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPerformInteractionResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3389,12 +3516,24 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPermissionStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPermissionStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLPermissionStatus</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
+  
+  
+  
+  <h3 id="section-SDLPhoneCapability">
+      SDLPhoneCapability
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLPhoneCapability.html" class="slightly-smaller">See more</a>
+  
+  
   
   
   
@@ -3458,7 +3597,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPresetBankCapabilities</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPresetBankCapabilities</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3479,7 +3618,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPrimaryAudioSource</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPrimaryAudioSource</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3555,15 +3694,23 @@ The call back also includes details regarding the current HMI_Status level, driv
   <p>Used to push a binary data onto the SDL module from a mobile device, such as
  icons and album art</p>
 
-<p>Since SmartDeviceLink 2.0
- - see: SDLDeleteFile
- - see: SDLListFiles</p>
+<p>Since SmartDeviceLink 2.0</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLDeleteFile
+
+</div>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLListFiles
+
+</div>
 
   <a href="Classes/SDLPutFile.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPutFile</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPutFile</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3584,7 +3731,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPutFileResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLPutFileResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3708,7 +3855,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLReadDID</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLReadDID</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3729,12 +3876,24 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLReadDIDResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLReadDIDResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLReadDIDResponse</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
+  
+  
+  
+  <h3 id="section-SDLRectangle">
+      SDLRectangle
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLRectangle.html" class="slightly-smaller">See more</a>
+  
+  
   
   
   
@@ -3809,7 +3968,6 @@ The call back also includes details regarding the current HMI_Status level, driv
  </p></p>
 
 <p>@since SDL 1.0</p>
-
 <div class="aside aside-see">
     <p class="aside-title">See</p>
     SDLUnregisterAppInterface SDLOnAppInterfaceUnregistered
@@ -3820,7 +3978,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLRegisterAppInterface</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLRegisterAppInterface</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3841,7 +3999,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLRegisterAppInterfaceResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLRegisterAppInterfaceResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3885,7 +4043,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLResetGlobalProperties</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLResetGlobalProperties</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3906,7 +4064,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLResetGlobalPropertiesResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLResetGlobalPropertiesResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3927,7 +4085,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLResult</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLResult</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3948,7 +4106,7 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSamplingRate</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSamplingRate</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -3985,7 +4143,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLScrollableMessage</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLScrollableMessage</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4006,12 +4164,43 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLScrollableMessageResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLScrollableMessageResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLScrollableMessageResponse</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
+  
+  
+  
+  <h3 id="section-SDLSendHapticData">
+      SDLSendHapticData
+  </h3>
+  
+  <p>Sends the spatial data gathered from SDLCarWindow or VirtualDisplayEncoder to the HMI. This data will be utilized by the HMI to determine how and when haptic events should occur.</p>
+
+  <a href="Classes/SDLSendHapticData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSendHapticData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSendHapticData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSendHapticDataResponse">
+      SDLSendHapticDataResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLSendHapticDataResponse.html" class="slightly-smaller">See more</a>
+  
+  
   
   
   
@@ -4053,7 +4242,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetAppIcon</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetAppIcon</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4066,14 +4255,17 @@ Function Group: ScrollableMessage
       SDLSetAppIconResponse
   </h3>
   
-  <p>SDLSetAppIconResponse is sent, when SDLSetAppIcon has been called.
- * Since<b>SmartDeviceLink 2.0</b></p>
+  <p>SDLSetAppIconResponse is sent, when SDLSetAppIcon has been called.</p>
+
+<ul>
+<li>Since<b>SmartDeviceLink 2.0</b></li>
+</ul>
 
   <a href="Classes/SDLSetAppIconResponse.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetAppIconResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetAppIconResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4095,7 +4287,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetDisplayLayout</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetDisplayLayout</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4116,7 +4308,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetDisplayLayoutResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetDisplayLayoutResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4142,7 +4334,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetGlobalProperties</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetGlobalProperties</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4163,7 +4355,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetGlobalPropertiesResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetGlobalPropertiesResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4189,7 +4381,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetMediaClockTimer</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetMediaClockTimer</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4210,7 +4402,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetMediaClockTimerResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSetMediaClockTimerResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4248,7 +4440,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShow</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShow</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4261,17 +4453,20 @@ Function Group: ScrollableMessage
       SDLShowConstantTBT
   </h3>
   
-  <p>This RPC is used to update the user with navigation information<br>
- *  for the constantly shown screen (base screen),but also for the<br>
- *  alert type screen.
- *<p>
- * @since SmartDeviceLink 2.0</p>
+  <p>This RPC is used to update the user with navigation information<br></p>
+
+<ul>
+<li>for the constantly shown screen (base screen),but also for the<br></li>
+<li>alert type screen.
+*<p></li>
+<li>@since SmartDeviceLink 2.0</li>
+</ul>
 
   <a href="Classes/SDLShowConstantTBT.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBT</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBT</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4284,14 +4479,17 @@ Function Group: ScrollableMessage
       SDLShowConstantTBTResponse
   </h3>
   
-  <p>SDLShowConstantTBTResponse is sent, when SDLShowConstantTBT has been called.
- * Since<b>SmartDeviceLink 2.0</b></p>
+  <p>SDLShowConstantTBTResponse is sent, when SDLShowConstantTBT has been called.</p>
+
+<ul>
+<li>Since<b>SmartDeviceLink 2.0</b></li>
+</ul>
 
   <a href="Classes/SDLShowConstantTBTResponse.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBTResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBTResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4312,7 +4510,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4333,7 +4531,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSingleTireStatus</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSingleTireStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4368,7 +4566,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSlider</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSlider</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4389,7 +4587,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSliderResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSliderResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4422,7 +4620,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSoftButtonCapabilities</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSoftButtonCapabilities</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4441,7 +4639,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSoftButtonType</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSoftButtonType</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4483,14 +4681,18 @@ Function Group: ScrollableMessage
  <li>Chunks are limited to 500 characters; however you can have multiple TTS chunks.</li>
  <li>On old systems there is a total character limit of 500 characters across all chunks. This could vary according to the VCA.</li></p>
 
-<p>@since SmartDeviceLink 1.0
- - see: SDLAlert</p>
+<p>@since SmartDeviceLink 1.0</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLAlert
+
+</div>
 
   <a href="Classes/SDLSpeak.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSpeak</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSpeak</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4511,7 +4713,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSpeakResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSpeakResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4544,7 +4746,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLStartTime</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLStartTime</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4622,7 +4824,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeButton</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span> <span class="o">&lt;</span><span class="n"><a href="Protocols/SDLRequestHandler.html">SDLRequestHandler</a></span><span class="o">&gt;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeButton</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">&lt;</span><span class="n"><a href="Protocols/SDLRequestHandler.html">SDLRequestHandler</a></span><span class="o">&gt;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4643,7 +4845,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeButtonResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeButtonResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4674,7 +4876,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeVehicleData</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeVehicleData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4695,7 +4897,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeVehicleDataResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeVehicleDataResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4710,7 +4912,6 @@ Function Group: ScrollableMessage
   
   <p>A SDLSubscribeWaypoints can be sent to subscribe
  for any changes in waypoints/destinations</p>
-
 <div class="aside aside-see">
     <p class="aside-title">See</p>
     SDLUnsubscribeWaypoints
@@ -4720,7 +4921,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeWayPoints</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSubscribeWayPoints</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4774,7 +4975,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSyncMsgVersion</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSyncMsgVersion</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4817,11 +5018,53 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSystemAction</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSystemAction</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSystemAction</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSystemCapability">
+      SDLSystemCapability
+  </h3>
+  
+  <p>The systemCapabilityType indicates which type of data should be changed and identifies which data object exists in this struct. For example, if the SystemCapability Type is NAVIGATION then a <q>navigationCapability</q> should exist.</p>
+
+<ul>
+<li>First implemented in SDL Core v4.4</li>
+</ul>
+
+  <a href="Classes/SDLSystemCapability.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSystemCapability</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSystemCapability</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSystemCapabilityType">
+      SDLSystemCapabilityType
+  </h3>
+  
+  <p>The type of system capability to get more information on</p>
+
+  <a href="Classes/SDLSystemCapabilityType.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSystemCapabilityType</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLSystemCapabilityType</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   
@@ -4838,7 +5081,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSystemContext</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSystemContext</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4909,7 +5152,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLTTSChunk</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLTTSChunk</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -4942,7 +5185,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLTextAlignment</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLTextAlignment</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5007,7 +5250,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLTextField</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLTextField</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5028,7 +5271,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLTextFieldName</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLTextFieldName</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5133,7 +5376,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLTriggerSource</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLTriggerSource</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5176,7 +5419,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnregisterAppInterface</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnregisterAppInterface</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5197,7 +5440,7 @@ Function Group: ScrollableMessage
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnregisterAppInterfaceResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnregisterAppInterfaceResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5226,7 +5469,7 @@ See SDLSubscribeButton</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnsubscribeButton</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnsubscribeButton</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5247,7 +5490,7 @@ See SDLSubscribeButton</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnsubscribeButtonResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnsubscribeButtonResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5275,7 +5518,7 @@ See SDLSubscribeButton</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnsubscribeVehicleData</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnsubscribeVehicleData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5296,7 +5539,7 @@ See SDLSubscribeButton</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnsubscribeVehicleDataResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUnsubscribeVehicleDataResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5361,7 +5604,7 @@ See SDLSubscribeButton</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUpdateMode</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUpdateMode</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5374,16 +5617,19 @@ See SDLSubscribeButton</p>
       SDLUpdateTurnList
   </h3>
   
-  <p>Updates the list of next maneuvers, which can be requested by the user pressing the softbutton<br>
- * “Turns” on the Navigation base screen. Three softbuttons are predefined by the system: Up, Down, Close.
- *<p>
- * @since SmartDeviceLink 2.0</p>
+  <p>Updates the list of next maneuvers, which can be requested by the user pressing the softbutton<br></p>
+
+<ul>
+<li>“Turns” on the Navigation base screen. Three softbuttons are predefined by the system: Up, Down, Close.
+*<p></li>
+<li>@since SmartDeviceLink 2.0</li>
+</ul>
 
   <a href="Classes/SDLUpdateTurnList.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUpdateTurnList</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUpdateTurnList</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5396,14 +5642,17 @@ See SDLSubscribeButton</p>
       SDLUpdateTurnListResponse
   </h3>
   
-  <p>SDLUpdateTurnListResponse is sent, when SDLUpdateTurnList has been called.
- * Since<b>SmartDeviceLink 2.0</b></p>
+  <p>SDLUpdateTurnListResponse is sent, when SDLUpdateTurnList has been called.</p>
+
+<ul>
+<li>Since<b>SmartDeviceLink 2.0</b></li>
+</ul>
 
   <a href="Classes/SDLUpdateTurnListResponse.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUpdateTurnListResponse</span> <span class="p">:</span> <span class="nc">SDLRPCResponse</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLUpdateTurnListResponse</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5422,7 +5671,7 @@ See SDLSubscribeButton</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataActiveStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataActiveStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5443,7 +5692,7 @@ See SDLSubscribeButton</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataEventStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataEventStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5464,7 +5713,7 @@ See SDLSubscribeButton</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataNotificationStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataNotificationStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5495,7 +5744,7 @@ See SDLSubscribeButton</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataResultCode</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataResultCode</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5516,7 +5765,7 @@ See SDLSubscribeButton</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5535,7 +5784,7 @@ See SDLSubscribeButton</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataType</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleDataType</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5556,11 +5805,77 @@ See SDLSubscribeButton</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleType</span> <span class="p">:</span> <span class="nc">SDLRPCStruct</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVehicleType</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLVehicleType</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLVideoStreamingCapability">
+      SDLVideoStreamingCapability
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLVideoStreamingCapability.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3 id="section-SDLVideoStreamingCodec">
+      SDLVideoStreamingCodec
+  </h3>
+  
+  <p>Enum for each type of video streaming codec</p>
+
+<p>@since SDL 4.7</p>
+
+  <a href="Classes/SDLVideoStreamingCodec.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVideoStreamingCodec</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLVideoStreamingCodec</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLVideoStreamingFormat">
+      SDLVideoStreamingFormat
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLVideoStreamingFormat.html" class="slightly-smaller">See more</a>
+  
+  
+  
+  
+  
+  <h3 id="section-SDLVideoStreamingProtocol">
+      SDLVideoStreamingProtocol
+  </h3>
+  
+  <p>Enum for each type of video streaming protocol</p>
+
+<p>@since SDL 4.7</p>
+
+  <a href="Classes/SDLVideoStreamingProtocol.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVideoStreamingProtocol</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SDLVideoStreamingProtocol</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   
@@ -5577,7 +5892,7 @@ See SDLSubscribeButton</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVRCapabilities</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLVRCapabilities</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5610,7 +5925,7 @@ See SDLSubscribeButton</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLWarningLightStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLWarningLightStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>
@@ -5641,7 +5956,7 @@ See SDLSubscribeButton</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLWiperStatus</span> <span class="p">:</span> <span class="nc">SDLEnum</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLWiperStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLEnum.html">SDLEnum</a></span></code></pre>
 
   
   <h4>Swift</h4>

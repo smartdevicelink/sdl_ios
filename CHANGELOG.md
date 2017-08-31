@@ -1,3 +1,8 @@
+# 4.7.0 Release Notes (since RC 1)
+### Bug Fixes
+* Fixed payloads being created with nil data causing a crash [#715](https://github.com/smartdevicelink/sdl_ios/issues/715).
+* Fixed documentation warnings.
+
 # 4.7.0 Release Candidate 1
 ### Enhancements
 * This library implements RPC Spec v4.5.0, Protocol Spec v5.0.0.
