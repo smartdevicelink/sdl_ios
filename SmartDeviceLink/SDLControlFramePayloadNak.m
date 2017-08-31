@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) return nil;
 
-    if (data != nil) {
+    if (data.length > 0) {
         [self sdl_parse:data];
     }
 
