@@ -45,6 +45,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 // Local state
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
+@property (strong, nonatomic) NSMutableDictionary<SDLFileName *, NSOperation *> *uploadsInProgress;
 @property (strong, nonatomic) SDLStateMachine *stateMachine;
 @property (copy, nonatomic, nullable) SDLFileManagerStartupCompletionHandler startupCompletionHandler;
 
@@ -69,6 +70,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     _transactionQueue = [[NSOperationQueue alloc] init];
     _transactionQueue.name = @"SDLFileManager Transaction Queue";
     _transactionQueue.maxConcurrentOperationCount = 1;
+    _uploadsInProgress = [[NSMutableDictionary alloc] init];
 
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLFileManagerStateShutdown states:[self.class sdl_stateTransitionDictionary]];
 
@@ -268,6 +270,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         dispatch_group_enter(uploadFilesTask);
 
         [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+
             if(!success) {
                 failedUploads[file.name] = error;
             }
@@ -281,7 +284,15 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
                 if (cancel) {
                     // If user sets cancel to YES, cancel all future operations
                     dispatch_group_leave(uploadFilesTask);
-                    [self.transactionQueue cancelAllOperations];
+
+                    for(SDLFile *file in files) {
+                        // Cancel any remaining files waiting to be uploaded
+                        NSOperation *fileUploadOperation = self.uploadsInProgress[file.name];
+                        if (fileUploadOperation != nil) {
+                            [fileUploadOperation cancel];
+                        }
+                    }
+
                     BLOCK_RETURN;
                 }
             }
@@ -365,7 +376,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     __weak typeof(self) weakSelf = self;
     SDLFileWrapper *fileWrapper = [SDLFileWrapper wrapperWithFile:file
                                                 completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
-                                                    [weakSelf.class sdl_deleteTemporaryFile:file.fileURL];
+                                                    [self.uploadsInProgress removeObjectForKey:file.name];
 
                                                     if (bytesAvailable != 0) {
                                                         weakSelf.bytesAvailable = bytesAvailable;
@@ -380,6 +391,8 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
     SDLUploadFileOperation *uploadOperation = [[SDLUploadFileOperation alloc] initWithFile:fileWrapper connectionManager:self.connectionManager];
 
+    // TODO: - remove from upload one file...
+    self.uploadsInProgress[file.name] = uploadOperation;
     [self.transactionQueue addOperation:uploadOperation];
 }
 
@@ -410,12 +423,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     }
 }
 
-+ (void)sdl_deleteTemporaryFile:(NSURL *)fileURL {
-    NSError *error = nil;
-    if (![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&error]) {
-        SDLLogW(@"[Error clearing temporary file directory] %@ (%@)", error, fileURL);
-    }
-}
 
 @end
 

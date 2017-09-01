@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  A response and error to pass into the last request's block
  */
-@property (copy, nonatomic) NSDictionary *responses;
+@property (copy, nonatomic) NSMutableDictionary *responses;
 
 @end
 

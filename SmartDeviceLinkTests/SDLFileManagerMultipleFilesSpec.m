@@ -94,7 +94,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
 
             it(@"should not return an error when one large file is uploaded from disk", ^{
                 NSString *testFileName = [NSString stringWithFormat:@"TestLargeFileDisk%d", 0];
-                SDLFile *testSDLFile = [SDLFile fileAtFileURL: [[NSURL alloc] initFileURLWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"testImage" ofType:@"png"]] name:testFileName];
+                SDLFile *testSDLFile = [SDLFile fileAtFileURL: [[NSURL alloc] initFileURLWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"testImagePNG" ofType:@"png"]] name:testFileName];
                 testSDLFile.overwrite = true;
                 [testSDLFiles addObject:testSDLFile];
 
@@ -140,8 +140,8 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
             it(@"should not return an error when multiple small files are uploaded from disk", ^{
                 NSInteger testSpaceAvailable = initialSpaceAvailable;
                 for(int i = 0; i < 5; i += 1) {
-                    NSString *testFileName = [NSString stringWithFormat:@"TestMultipleLargeFilesDisk%d", i];
-                    SDLFile *testSDLFile = [SDLFile fileAtFileURL:[[NSURL alloc] initFileURLWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:@"testImage%d", i] ofType:@"png"]] name:testFileName];
+                    NSString *testFileName = [NSString stringWithFormat:@"TestMultipleSmallFilesDisk%d", i];
+                    SDLFile *testSDLFile = [SDLFile fileAtFileURL:[[NSURL alloc] initFileURLWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"testImagePNG" ofType:@"png"]] name:testFileName];
                     testSDLFile.overwrite = true;
                     [testSDLFiles addObject:testSDLFile];
 
@@ -160,7 +160,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                     NSString *testFileName = [NSString stringWithFormat:@"TestMultipleFilesDiskAndMemory%d", i];
                     SDLFile *testSDLFile;
                     if (i < 5) {
-                        testSDLFile = [SDLFile fileAtFileURL:[[NSURL alloc] initFileURLWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:@"testImageA%d", i] ofType:@"png"]] name:testFileName];
+                        testSDLFile = [SDLFile fileAtFileURL:[[NSURL alloc] initFileURLWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"testImagePNG" ofType:@"png"]] name:testFileName];
                     } else {
                         testSDLFile = [SDLFile fileWithData:[@"someTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
                     }
@@ -332,7 +332,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
             });
         });
 
-        context(@"When an upload is cancelled while in progress by the cancel parameter of the progress handler", ^{
+        context(@"When an upload is canceled while in progress by the cancel parameter of the progress handler", ^{
             __block NSMutableDictionary *testResponses;
             __block NSMutableDictionary *testProgressResponses;
             __block NSString *testFileNameBase;
@@ -384,7 +384,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
 
                 waitUntilTimeout(10, ^(void (^done)(void)){
                     [testFileManager uploadFiles:testSDLFiles progressHandler:^(NSString * _Nonnull fileName, float uploadPercentage, BOOL * _Nonnull cancel, NSError * _Nullable error) {
-                        // Once an operation is cancelled, the order in which the cancellations complete is random, so upload percentage and the error message can vary depending on the order in which they are cancelled.
+                        // Once operations are canceled, the order in which the operations complete is random, so the upload percentage and the error message can vary. This means we can not test the error message or upload percentage it will be different every test run.
                         TestProgressResponse *testProgressResponse = testProgressResponses[fileName];
                         expect(fileName).to(equal(testProgressResponse.testFileName));
 
@@ -398,6 +398,105 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                         } else {
                             expect(error).to(beNil());
                         }
+                        done();
+                    }];
+                });
+            });
+        });
+
+        context(@"When an upload is canceled it should only cancel files that were passed with the same file array", ^{
+            // When canceled is called in this test group, the rest of the files should be canceled
+            __block NSMutableDictionary *testResponses;
+            __block NSMutableDictionary *testProgressResponses;
+            __block NSString *testFileNameBase;
+            __block int testFileCount = 0;
+            __block int testCancelIndex = 0;
+            __block NSError *expectedError;
+
+            // Another group of uploads. These uploads should not be canceled when the other files are canceled
+            __block NSMutableArray<SDLFile *> *testOtherSDLFiles;
+            __block NSString *testOtherFileNameBase;
+            __block int testOtherFileCount = 0;
+            __block NSError *expectedOtherError;
+
+            beforeEach(^{
+                testResponses = [[NSMutableDictionary alloc] init];
+                testProgressResponses = [[NSMutableDictionary alloc] init];
+
+                testOtherSDLFiles = [[NSMutableArray alloc] init];
+            });
+
+            it(@"should only cancel the remaining files that were passed with the same file. Other files in the queue that were not passed in the same array should not be canceled", ^{
+                testFileCount = 11;
+                testCancelIndex = 0;
+                testFileNameBase = @"TestUploadFilesCancelGroupOnly";
+                expectedError = [NSError sdl_fileManager_unableTo__ErrorWithUserInfo:testResponses];
+
+                testOtherFileNameBase = @"TestOtherUploadFilesCancelGroupOnly";
+                testOtherFileCount = 22;
+                expectedOtherError = nil;
+            });
+
+            it(@"should not fail if no files are canceled", ^{
+                testFileCount = 1;
+                testCancelIndex = 0;
+                testFileNameBase = @"TestUploadFilesCancelGroupOnlyOneFile";
+                expectedError = nil;
+
+                testOtherFileNameBase = @"TestOtherUploadFilesCancelGroupOnlyOneFile";
+                testOtherFileCount = 2;
+                expectedOtherError = nil;
+            });
+
+            afterEach(^{
+                for(int i = 0; i < testFileCount; i += 1) {
+                    NSString *testFileName = [NSString stringWithFormat:@"%@%d", testFileNameBase, i];
+                    SDLFile *testSDLFile = [SDLFile fileWithData:[@"someTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
+                    testSDLFile.overwrite = true;
+                    [testSDLFiles addObject:testSDLFile];
+
+                    if (i <= testCancelIndex) {
+                        [expectedSuccessfulFileNames addObject:testFileName];
+                    }
+
+                    testResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulResponse error:nil];
+                    testProgressResponses[testFileName] = [[TestProgressResponse alloc] initWithFileName:testFileName testUploadPercentage:0.0 error:nil];
+                }
+
+                for(int i = 0; i < testOtherFileCount; i += 1) {
+                    NSString *testFileName = [NSString stringWithFormat:@"%@%d", testOtherFileNameBase, i];
+                    SDLFile *testSDLFile = [SDLFile fileWithData:[@"someOtherTextData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin"];
+                    testSDLFile.overwrite = true;
+                    [testOtherSDLFiles addObject:testSDLFile];
+
+                    [expectedSuccessfulFileNames addObject:testFileName];
+                    
+                    testResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulResponse error:nil];
+                }
+
+                testConnectionManager.responses = testResponses;
+
+                waitUntilTimeout(10, ^(void (^done)(void)){
+                    [testFileManager uploadFiles:testSDLFiles progressHandler:^(NSString * _Nonnull fileName, float uploadPercentage, BOOL * _Nonnull cancel, NSError * _Nullable error) {
+                        // Once operations are canceled, the order in which the operations complete is random, so the upload percentage and the error message can vary. This means we can not test the error message or upload percentage it will be different every test run.
+                        TestProgressResponse *testProgressResponse = testProgressResponses[fileName];
+                        expect(fileName).to(equal(testProgressResponse.testFileName));
+
+                        NSString *cancelFileName = [NSString stringWithFormat:@"%@%d", testFileNameBase, testCancelIndex];
+                        if ([fileName isEqual:cancelFileName]) {
+                            (*cancel) = YES;
+                        }
+                    } completionHandler:^(NSError * _Nullable error) {
+                        if (expectedError != nil) {
+                            expect(error.code).to(equal(SDLFileManagerMultipleFileTasksFailed));
+                        } else {
+                            expect(error).to(beNil());
+                        }
+                    }];
+
+                    [testFileManager uploadFiles:testOtherSDLFiles completionHandler:^(NSError * _Nullable error) {
+                        expect(error).to(beNil());
+                        // Since the queue is serial, we know that these files will finish after the first uploadFiles() batch.
                         done();
                     }];
                 });
