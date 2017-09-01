@@ -88,10 +88,10 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 - (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)completion;
 
 /**
- *  Deletes an array of files on the remote file system
+ *  Deletes an array of files on the remote file system. The files are deleted in the order in which they are added to the array, with the first file to be deleted at index 0. The delete queue is serial, meaning that once a delete request is sent to Core, the queue waits until a response is received from Core before the next the next delete request is sent.
  *
  *  @param names  The names of the files to be deleted
- *  @param completionHandler  An optional completion handler that sends an error should one occur. The userInfo dictionary property, of type <SDLFileName: NSError>, will return information on all failed uploads. The key is the file name that did not delete properly, the value is an error describing what went wrong on that particular delete attempt.
+ *  @param completionHandler  An optional block that sends an error,should one occur, after all files in the array have been deleted. The userInfo dictionary property, of type <SDLFileName: NSError>, will return information on all failed uploads. The key is the file name that did not delete properly, the value is an error describing what went wrong on that particular delete attempt. If all files are deleted successfully, nil is returned.
  */
 - (void)deleteRemoteFilesWithNames:(NSArray<SDLFileName *> *)names completionHandler:(nullable SDLFileManagerMultiDeleteCompletionHandler)completionHandler;
 
@@ -104,19 +104,21 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)completion;
 
 /**
- *  Uploads an array of files to the remote file system.
+ *  Uploads an array of files to the remote file system. The files will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is serial, meaning that once a upload request is sent to Core, the queue waits until a response is received from Core before the next the next upload request is sent.
  *
- *  @param files An array of SDLFiles to be sent
- *  @param progressHandler An optional completion handler that sends a response for each uploaded file. The progress handler will contain the name of the last uploaded file, the percentage of total file data uploaded, whether or not to cancel all future uploads, and the error if the file failed to upload.
- *  @param completionHandler An optional completion handler that sends an error should one occur. The userInfo dictionary property, of type <SDLFileName: NSError>, will return information on all failed uploads. The key is the file name that did not upload properly, the value is an error describing what went wrong on that particular upload attempt.
+ *  The optional progress handler can be used to keep track of the upload progress. After each file upload, the progress handler returns the upload percentage and an error, if one occured during the upload process. The progress handler also includes an option to cancel the upload of all remaining files in queue.
+ *
+ *  @param files  An array of SDLFiles to be sent
+ *  @param progressHandler  An optional block that sends a response for each uploaded file. The fileName parameter contains the name of the last uploaded file. The uploadPercentage parameter contains the percentage, as a decimal value between 0.0 and 1.0, of the total file data uploaded. The upload percentage is calculated as the total file size of all attempted file uploads (irregardless of the successfulness of the upload) divided by the sum of the data in all the files. The error parameter contains a custom error if the file failed to upload or nil if the upload was successful. The cancel parameter should be set to true if all remaining file uploads in the queue need to be canceled. If cancel is left as false, all uploads will continue as normal.
+ *  @param completionHandler  An optional block that sends an error, should one occur, after all files in the array have been uploaded. The userInfo dictionary property, of type <SDLFileName: NSError>, will return information on all failed uploads. The key is the file name that did not upload properly, the value is an error describing what went wrong on that particular upload attempt. If all files are uploaded successfully, nil is returned.
  */
 - (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler;
 
 /**
- *  Uploads an array of files to the remote file system.
+ *  Uploads an array of files to the remote file system. The files will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is serial, meaning that once a upload request is sent to Core, the queue waits until a response is received from Core before the next the next upload request is sent.
  *
  *  @param files  An array of SDLFiles to be sent
- *  @param completionHandler  An optional completion handler that sends an error should one occur. The userInfo dictionary property, of type <SDLFileName: NSError>, will return information on all failed uploads. The key is the file name that did not upload properly, the value is an error describing what went wrong on that particular upload attempt.
+ *  @param completionHandler  An optional block that sends an error, should one occur, after all files in the array have been uploaded. The userInfo dictionary property, of type <SDLFileName: NSError>, will return information on all failed uploads. The key is the file name that did not upload properly, the value is an error describing what went wrong on that particular upload attempt. If all files are uploaded successfully, nil is returned.
  */
 - (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler;
 
