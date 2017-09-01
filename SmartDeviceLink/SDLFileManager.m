@@ -259,7 +259,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     }
 
     NSMutableDictionary *failedUploads = [[NSMutableDictionary alloc] init];
-    float totalBytesToUpload = progressHandler == nil ? 0.0 : [self sdl_totalBytesToUpload:files];
+    float totalBytesToUpload = (progressHandler == nil ? 0.0 : [self sdl_totalBytesToUpload:files]);
     __block float totalBytesUploaded = 0.0;
 
     dispatch_group_t uploadFilesTask = dispatch_group_create();
@@ -276,7 +276,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
             if (progressHandler != nil) {
                 totalBytesUploaded += file.fileSize;
                 float uploadPercentage = [self sdl_uploadPercentage:totalBytesToUpload uploadedBytes:totalBytesUploaded];
-                Boolean cancel = false;
+                BOOL cancel = NO;
                 progressHandler(file.name, uploadPercentage, &cancel, error);
                 if (cancel) {
                     // If user sets cancel to YES, cancel all future operations

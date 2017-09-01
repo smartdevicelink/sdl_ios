@@ -254,7 +254,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                     }
 
                     testConnectionManager.responses = testConnectionManagerResponses;
-                    expectedError = [NSError sdl_fileManager_unableToUploadError:expectedFailedUploads];
+                    expectedError = [NSError sdl_fileManager_unableTo__ErrorWithUserInfo:expectedFailedUploads];
                     expectedSpaceLeft = @(testSpaceAvailable);
                 });
             });
@@ -318,7 +318,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
 
             afterEach(^{
                 waitUntilTimeout(10, ^(void (^done)(void)){
-                    [testFileManager uploadFiles:testSDLFiles progressHandler:^(NSString * _Nonnull fileName, float uploadPercentage, Boolean * _Nonnull cancel, NSError * _Nullable error) {
+                    [testFileManager uploadFiles:testSDLFiles progressHandler:^(NSString * _Nonnull fileName, float uploadPercentage, BOOL * _Nonnull cancel, NSError * _Nullable error) {
                         TestProgressResponse *testProgressResponse = testFileManagerProgressResponses[fileName];
                         expect(fileName).to(equal(testProgressResponse.testFileName));
                         expect(uploadPercentage).to(equal(testProgressResponse.testUploadPercentage));
@@ -349,14 +349,14 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                 testFileCount = 11;
                 testCancelIndex = 0;
                 testFileNameBase = @"TestUploadFilesCancelAfterFirst";
-                expectedError = [NSError sdl_fileManager_unableToUploadError:testResponses];
+                expectedError = [NSError sdl_fileManager_unableTo__ErrorWithUserInfo:testResponses];
             });
 
             it(@"should cancel the remaining files if cancel is triggered after half of the files are uploaded", ^{
                 testFileCount = 30;
                 testCancelIndex = testFileCount / 2;
                 testFileNameBase = @"TestUploadFilesCancelInMiddle";
-                expectedError = [NSError sdl_fileManager_unableToUploadError:testResponses];
+                expectedError = [NSError sdl_fileManager_unableTo__ErrorWithUserInfo:testResponses];
             });
 
             it(@"should not fail if there are no more files to cancel", ^{
@@ -383,7 +383,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                 testConnectionManager.responses = testResponses;
 
                 waitUntilTimeout(10, ^(void (^done)(void)){
-                    [testFileManager uploadFiles:testSDLFiles progressHandler:^(NSString * _Nonnull fileName, float uploadPercentage, Boolean * _Nonnull cancel, NSError * _Nullable error) {
+                    [testFileManager uploadFiles:testSDLFiles progressHandler:^(NSString * _Nonnull fileName, float uploadPercentage, BOOL * _Nonnull cancel, NSError * _Nullable error) {
                         // Once an operation is cancelled, the order in which the cancellations complete is random, so upload percentage and the error message can vary depending on the order in which they are cancelled.
                         TestProgressResponse *testProgressResponse = testProgressResponses[fileName];
                         expect(fileName).to(equal(testProgressResponse.testFileName));
@@ -394,7 +394,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                         }
                     } completionHandler:^(NSError * _Nullable error) {
                         if (expectedError != nil) {
-                            expect(error.code).to(equal(SDLFileManagerErrorUnableToUpload));
+                            expect(error.code).to(equal(SDLFileManagerMultipleFileTasksFailed));
                         } else {
                             expect(error).to(beNil());
                         }
@@ -540,7 +540,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                     }
 
                     testConnectionManager.responses = testConnectionManagerResponses;
-                    expectedError = [NSError sdl_fileManager_unableToDeleteError:expectedFailedDeletes];
+                    expectedError = [NSError sdl_fileManager_unableTo__ErrorWithUserInfo:expectedFailedDeletes];
                     expectedSpaceLeft = @(testSpaceAvailable);
                 });
             });

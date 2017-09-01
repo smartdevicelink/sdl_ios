@@ -10,9 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NSString SDLFileName;
+
 typedef void (^SDLFileManagerUploadCompletionHandler)(BOOL success, NSUInteger bytesAvailable, NSError *__nullable error);
 typedef void(^SDLFileManagerMultiUploadCompletionHandler)(NSError *__nullable error);
-typedef void(^SDLFileManagerMultiUploadProgressHandler)(NSString *fileName, float uploadPercentage, Boolean *cancel, NSError *__nullable error);
+typedef void(^SDLFileManagerMultiUploadProgressHandler)(SDLFileName *fileName, float uploadPercentage, BOOL *cancel, NSError *__nullable error);
 
 typedef void (^SDLFileManagerDeleteCompletionHandler)(BOOL success, NSUInteger bytesAvailable, NSError *__nullable error);
 typedef void(^SDLFileManagerMultiDeleteCompletionHandler)(NSError *__nullable error);
