@@ -39,8 +39,9 @@ extern SDLErrorDomain *const SDLErrorDomainFileManager;
 + (NSError *)sdl_fileManager_noKnownFileError;
 + (NSError *)sdl_fileManager_unableToStartError;
 + (NSError *)sdl_fileManager_unableToUploadError;
-+ (NSError *)sdl_fileManager_unableToUploadError:(NSDictionary *)userInfo;
-+ (NSError *)sdl_fileManager_unableToDeleteError:(NSDictionary *)userInfo;
++ (NSError *)sdl_fileManager_unableTo__ErrorWithUserInfo:(NSDictionary *)userInfo;
+// + (NSError *)sdl_fileManager_unableToUploadError:(NSDictionary *)userInfo;
+// + (NSError *)sdl_fileManager_unableToDeleteError:(NSDictionary *)userInfo;
 + (NSError *)sdl_fileManager_fileDoesNotExistError;
 + (NSError *)sdl_fileManager_fileUploadCanceled;
 

@@ -241,7 +241,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     dispatch_group_notify(deleteFilesTask, dispatch_get_main_queue(), ^{
         if (completionHandler == nil) { return; }
         if (failedDeletes.count > 0) {
-            return completionHandler([NSError sdl_fileManager_unableToDeleteError:failedDeletes]);
+            return completionHandler([NSError sdl_fileManager_unableTo__ErrorWithUserInfo:failedDeletes]);
         }
         return completionHandler(nil);
     });
@@ -261,7 +261,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     NSMutableDictionary *failedUploads = [[NSMutableDictionary alloc] init];
     float totalBytesToUpload = progressHandler == nil ? 0.0 : [self sdl_totalBytesToUpload:files];
     __block float totalBytesUploaded = 0.0;
-    
 
     dispatch_group_t uploadFilesTask = dispatch_group_create();
     dispatch_group_enter(uploadFilesTask);
@@ -295,7 +294,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     dispatch_group_notify(uploadFilesTask, dispatch_get_main_queue(), ^{
         if (completionHandler == nil) { return; }
         if (failedUploads.count > 0) {
-            return completionHandler([NSError sdl_fileManager_unableToUploadError:failedUploads]);
+            return completionHandler([NSError sdl_fileManager_unableTo__ErrorWithUserInfo:failedUploads]);
         }
         return completionHandler(nil);
     });

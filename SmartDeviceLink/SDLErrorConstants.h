@@ -66,16 +66,12 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
      *  The file manager could not find the local file.
      */
     SDLFileManagerErrorFileDoesNotExist = -5,
-    /**
-     *  The file manager was not passed a file.
-     */
-    SDLFileManagerErrorNoFiles = -6,
     /*
-     *  The file upload was cancelled.
+     *  The file upload was canceled.
      */
-    SDLFileManagerUploadCanceled = -7,
-    /**
-     *  The file manager was unable to delete this file.
+    SDLFileManagerUploadCanceled = -6,
+    /*
+     *  One or more of multiple files being uploaded or deleted failed.
      */
-    SDLFileManagerErrorUnableToDelete = -8,
+    SDLFileManagerMultipleFileTasksFailed = -7,
 };
