@@ -15,18 +15,21 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLScreenParams.h"
 #import "SDLStateMachine.h"
+#import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaLifecycleManager.h"
 #import "SDLProtocol.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLHMILevel.h"
+#import "SDLConnectionManagerType.h"
+#import "TestConnectionManager.h"
 
 QuickSpecBegin(SDLStreamingMediaLifecycleManagerSpec)
 
 describe(@"the streaming media manager", ^{
     __block SDLStreamingMediaLifecycleManager *streamingLifecycleManager = nil;
-    __block SDLStreamingEncryptionFlag streamingEncryptionFlag = SDLStreamingEncryptionFlagAuthenticateOnly;
-    __block NSDictionary<NSString *, id> *someVideoEncoderSettings = nil;
+    __block SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
     __block NSString *someBackgroundTitleString = nil;
+    __block TestConnectionManager *testConnectionManager = [[TestConnectionManager alloc] init];
     
     __block void (^sendNotificationForHMILevel)(SDLHMILevel hmiLevel) = ^(SDLHMILevel hmiLevel) {
         SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] init];
@@ -38,17 +41,16 @@ describe(@"the streaming media manager", ^{
     };
     
     beforeEach(^{
-        someVideoEncoderSettings = @{
+        testConfiguration.customVideoEncoderSettings = @{
                                      (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate : @1
                                      };
         someBackgroundTitleString = @"Open Test App";
-        streamingLifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithEncryption:streamingEncryptionFlag videoEncoderSettings:someVideoEncoderSettings];
+        streamingLifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration];
     });
     
     it(@"should initialize properties", ^{
         expect(streamingLifecycleManager.touchManager).toNot(beNil());
-        expect(@(streamingLifecycleManager.isVideoStreamingSupported)).to(equal(@NO));
-        expect(@(streamingLifecycleManager.isAudioStreamingSupported)).to(equal(@NO));
+        expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
         expect(@(streamingLifecycleManager.isVideoConnected)).to(equal(@NO));
         expect(@(streamingLifecycleManager.isAudioConnected)).to(equal(@NO));
         expect(@(streamingLifecycleManager.isVideoEncrypted)).to(equal(@NO));
@@ -56,7 +58,7 @@ describe(@"the streaming media manager", ^{
         expect(@(streamingLifecycleManager.isVideoStreamingPaused)).to(equal(@YES));
         expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero))).to(equal(@YES));
         expect(@(streamingLifecycleManager.pixelBufferPool == NULL)).to(equal(@YES));
-        expect(@(streamingLifecycleManager.requestedEncryptionType)).to(equal(@(streamingEncryptionFlag)));
+        expect(@(streamingLifecycleManager.requestedEncryptionType)).to(equal(@(SDLStreamingEncryptionFlagNone)));
         expect(streamingLifecycleManager.currentAppState).to(equal(SDLAppStateActive));
         expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStopped));
         expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStopped));
@@ -80,8 +82,7 @@ describe(@"the streaming media manager", ^{
         
         
         it(@"should be ready to stream", ^{
-            expect(@(streamingLifecycleManager.isVideoStreamingSupported)).to(equal(@NO));
-            expect(@(streamingLifecycleManager.isAudioStreamingSupported)).to(equal(@NO));
+            expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
             expect(@(streamingLifecycleManager.isVideoConnected)).to(equal(@NO));
             expect(@(streamingLifecycleManager.isAudioConnected)).to(equal(@NO));
             expect(@(streamingLifecycleManager.isVideoEncrypted)).to(equal(@NO));
@@ -126,8 +127,7 @@ describe(@"the streaming media manager", ^{
                 });
                 
                 it(@"should not support streaming", ^{
-                    expect(@(streamingLifecycleManager.isVideoStreamingSupported)).to(equal(@NO));
-                    expect(@(streamingLifecycleManager.isAudioStreamingSupported)).to(equal(@NO));
+                    expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
                 });
             });
             
@@ -147,8 +147,7 @@ describe(@"the streaming media manager", ^{
                 });
                 
                 it(@"should support streaming", ^{
-                    expect(@(streamingLifecycleManager.isVideoStreamingSupported)).to(equal(@YES));
-                    expect(@(streamingLifecycleManager.isAudioStreamingSupported)).to(equal(@YES));
+                    expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@YES));
                     expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeMake(600, 100)))).to(equal(@YES));
                 });
             });
@@ -160,8 +159,7 @@ describe(@"the streaming media manager", ^{
             beforeEach(^{
                 streamStub = OCMPartialMock(streamingLifecycleManager);
                 
-                OCMStub([streamStub isAudioStreamingSupported]).andReturn(YES);
-                OCMStub([streamStub isVideoStreamingSupported]).andReturn(YES);
+                OCMStub([streamStub isStreamingSupported]).andReturn(YES);
 
                 [streamingLifecycleManager.appStateMachine setToState:SDLAppStateActive fromOldState:nil callEnterTransition:NO];
             });
