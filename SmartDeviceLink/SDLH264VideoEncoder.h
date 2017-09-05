@@ -13,7 +13,7 @@
 #import "SDLVideoStreamingProtocol.h"
 #import "SDLVideoEncoderDelegate.h"
 
-@class SDLH264VideoEncoder;
+@protocol SDLH264Packetizer;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,6 +36,8 @@ extern NSString *const SDLErrorDomainVideoEncoder;
  *
  */
 @property (strong, nonatomic, readonly) NSDictionary<NSString *, id> *videoEncoderSettings;
+
+@property (strong, nonatomic) id<SDLH264Packetizer> packetizer;
 
 /**
  *  Provides default video encoder settings used.

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SDLRAWH264Packetizer.h"
+#import "SDLH264Packetizer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

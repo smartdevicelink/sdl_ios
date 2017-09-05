@@ -80,7 +80,6 @@ describe(@"the streaming media manager", ^{
             }];
         });
         
-        
         it(@"should be ready to stream", ^{
             expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
             expect(@(streamingLifecycleManager.isVideoConnected)).to(equal(@NO));

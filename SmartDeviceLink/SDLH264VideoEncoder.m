@@ -24,7 +24,6 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 @property (assign, nonatomic, nullable) VTCompressionSessionRef compressionSession;
 @property (assign, nonatomic, nullable) CFDictionaryRef sdl_pixelBufferOptions;
 @property (assign, nonatomic) NSUInteger currentFrameNumber;
-@property (nonatomic) id<SDLH264Packetizer> packetizer;
 @property (assign, nonatomic) double timestampOffset;
 
 @end
