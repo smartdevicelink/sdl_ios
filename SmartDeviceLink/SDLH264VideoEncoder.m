@@ -84,7 +84,6 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     }
     
     NSArray* videoEncoderKeys = self.videoEncoderSettings.allKeys;
-    
     for (NSString *key in videoEncoderKeys) {
         if (CFDictionaryContainsKey(supportedProperties, (__bridge CFStringRef)key) == false) {
             if (!*error) {

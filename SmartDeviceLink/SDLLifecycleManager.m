@@ -72,6 +72,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 // Private properties
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
 @property (assign, nonatomic) BOOL firstHMIFullOccurred;
+@property (assign, nonatomic) BOOL firstHMINonNoneOccurred;
 
 @end
 
@@ -106,6 +107,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _responseDispatcher = [[SDLResponseDispatcher alloc] initWithNotificationDispatcher:_notificationDispatcher];
     _registerResponse = nil;
     _firstHMIFullOccurred = NO;
+    _firstHMINonNoneOccurred = NO;
 
     // Managers
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
@@ -276,18 +278,17 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
         dispatch_group_leave(managerGroup);
     }];
-    
 
-    if (self.streamManager != nil) {
-        dispatch_group_enter(managerGroup);
-        [self.streamManager startWithProtocol:self.proxy.protocol completionHandler:^(BOOL success, NSError * _Nullable error) {
-            if (!success) {
-                SDLLogE(@"Streaming media manager was unable to start; error: %@", error);
-            }
-
-            dispatch_group_leave(managerGroup);
-        }];
-    }
+//    if (self.streamManager != nil) {
+//        dispatch_group_enter(managerGroup);
+//        [self.streamManager startWithProtocol:self.proxy.protocol completionHandler:^(BOOL success, NSError * _Nullable error) {
+//            if (!success) {
+//                SDLLogE(@"Streaming media manager was unable to start; error: %@", error);
+//            }
+//
+//            dispatch_group_leave(managerGroup);
+//        }];
+//    }
 
     // We're done synchronously calling all startup methods, so we can now wait.
     dispatch_group_leave(managerGroup);
@@ -455,7 +456,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)sdl_onFirstHMIFull {
-    // If we are a nav / projection app and desire to stream, we need to be in HMI full and perform additional setup when that occurs
+    // Nothing yet
+}
+
+- (void)sdl_onFirstHMINonNone {
+    // If we are a nav / projection app and desire to stream, we need to be in HMI background, limited, or full and perform additional setup when that occurs
     if (self.streamManager != nil) {
         __weak typeof(self) weakSelf = self;
         [self.streamManager startWithProtocol:self.proxy.protocol completionHandler:^(BOOL success, NSError * _Nullable error) {
@@ -500,6 +505,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     
     SDLSystemContext oldSystemContext = self.systemContext;
     self.systemContext = hmiStatusNotification.systemContext;
+
+    if (!self.firstHMINonNoneOccurred && ![self.hmiLevel isEqualToEnum:SDLHMILevelNone]) {
+        [self sdl_onFirstHMINonNone];
+    }
 
     if (!self.firstHMIFullOccurred && [self.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
         [self sdl_onFirstHMIFull];

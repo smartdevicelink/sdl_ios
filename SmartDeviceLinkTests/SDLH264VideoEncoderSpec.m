@@ -61,7 +61,7 @@ describe(@"a video encoder", ^{
                                  (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate : @1
                                  };
 
-                testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize properties:SDLH264VideoEncoder.defaultVideoEncoderSettings delegate:videoEncoderDelegateMock error:&testError];
+                testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize properties:testSettings delegate:videoEncoderDelegateMock error:&testError];
             });
             
             it(@"should initialize properties", ^{
@@ -81,7 +81,7 @@ describe(@"a video encoder", ^{
                 testSettings = @{
                                  @"Bad" : @"Property"
                                  };
-                testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize properties:SDLH264VideoEncoder.defaultVideoEncoderSettings delegate:videoEncoderDelegateMock error:&testError];
+                testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize properties:testSettings delegate:videoEncoderDelegateMock error:&testError];
             });
             
             it(@"should not be initialized", ^{
