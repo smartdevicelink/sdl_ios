@@ -376,7 +376,9 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     __weak typeof(self) weakSelf = self;
     SDLFileWrapper *fileWrapper = [SDLFileWrapper wrapperWithFile:file
                                                 completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
-                                                    [self.uploadsInProgress removeObjectForKey:file.name];
+                                                    if (self.uploadsInProgress[file.name]) {
+                                                        [self.uploadsInProgress removeObjectForKey:file.name];
+                                                    }
 
                                                     if (bytesAvailable != 0) {
                                                         weakSelf.bytesAvailable = bytesAvailable;
@@ -391,7 +393,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
     SDLUploadFileOperation *uploadOperation = [[SDLUploadFileOperation alloc] initWithFile:fileWrapper connectionManager:self.connectionManager];
 
-    // TODO: - remove from upload one file...
     self.uploadsInProgress[file.name] = uploadOperation;
     [self.transactionQueue addOperation:uploadOperation];
 }
