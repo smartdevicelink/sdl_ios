@@ -449,14 +449,16 @@ static Boolean isHexagonOn = true;
 }
 
 - (void)sdlex_uploadFilesWithProgressHandler:(NSArray<SDLFile *> *)files completionHandler:(void (^)(BOOL success))completionHandler {
-    [self.sdlManager.fileManager uploadFiles:files progressHandler:^(NSString * _Nonnull fileName, float uploadPercentage, BOOL * _Nonnull cancel, NSError * _Nullable error) {
-        if(!error) {
-            // The file was sent successfully
-        } else {
+    [self.sdlManager.fileManager uploadFiles:files progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
+        if (error) {
             SDLLogW(@"The file did not upload: %@", error);
             // You may want to cancel all future file uploads if the last file failed during the upload process
-            *cancel = YES;
+            return NO;
         }
+
+        // The file was sent successfully
+        // Keep uploading the rest of the files
+        return YES;
     } completionHandler:^(NSError * _Nullable error) {
         if(!error) {
             return completionHandler(true);

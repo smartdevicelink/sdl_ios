@@ -279,10 +279,9 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
             if (progressHandler != nil) {
                 totalBytesUploaded += file.fileSize;
                 float uploadPercentage = [self sdl_uploadPercentage:totalBytesToUpload uploadedBytes:totalBytesUploaded];
-                BOOL cancel = NO;
-                progressHandler(file.name, uploadPercentage, &cancel, error);
-                if (cancel) {
-                    // If cancel is set to true, cancel any remaining files waiting to be uploaded
+                BOOL continueWithRemainingUploads = progressHandler(file.name, uploadPercentage, error);
+                if (!continueWithRemainingUploads) {
+                    // Cancel any remaining files waiting to be uploaded
                     for(SDLFile *file in files) {
                         NSOperation *fileUploadOperation = self.uploadsInProgress[file.name];
                         if (fileUploadOperation) {
