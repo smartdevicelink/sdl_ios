@@ -282,17 +282,15 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
                 BOOL cancel = NO;
                 progressHandler(file.name, uploadPercentage, &cancel, error);
                 if (cancel) {
-                    // If user sets cancel to YES, cancel all future operations
-                    dispatch_group_leave(uploadFilesTask);
-
+                    // If cancel is set to true, cancel any remaining files waiting to be uploaded
                     for(SDLFile *file in files) {
-                        // Cancel any remaining files waiting to be uploaded
                         NSOperation *fileUploadOperation = self.uploadsInProgress[file.name];
-                        if (fileUploadOperation != nil) {
+                        if (fileUploadOperation) {
                             [fileUploadOperation cancel];
                         }
                     }
 
+                    dispatch_group_leave(uploadFilesTask);
                     BLOCK_RETURN;
                 }
             }
