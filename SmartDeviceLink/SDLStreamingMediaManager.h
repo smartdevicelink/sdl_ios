@@ -9,13 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <VideoToolbox/VideoToolbox.h>
 
-#import "SDLConnectionManagerType.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
 @class SDLAbstractProtocol;
 @class SDLStreamingMediaConfiguration;
 @class SDLTouchManager;
 @class SDLVideoStreamingFormat;
+
+@protocol SDLConnectionManagerType;
 
 NS_ASSUME_NONNULL_BEGIN
 

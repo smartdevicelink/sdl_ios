@@ -8,6 +8,7 @@
 
 #import "SDLStreamingMediaManager.h"
 
+#import "SDLConnectionManagerType.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaLifecycleManager.h"
 #import "SDLTouchManager.h"
