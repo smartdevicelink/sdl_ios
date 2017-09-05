@@ -11,7 +11,7 @@
 #import <Nimble/Nimble.h>
 #import "SDLRAWH264Packetizer.h"
 
-QuickSpecBegin(SDLH264ByteStreamPacketizerSpec)
+QuickSpecBegin(SDLRAWH264PacketizerSpec)
 
 describe(@"a H264 byte stream packetizer", ^{
     // sample NAL units (SPS, PPS, I-frame, P-frame)

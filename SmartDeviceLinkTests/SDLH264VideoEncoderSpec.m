@@ -16,7 +16,7 @@
 #import "SDLH264VideoEncoder.h"
 #import "SDLVideoStreamingProtocol.h"
 
-QuickSpecBegin(SDLVideoEncoderSpec)
+QuickSpecBegin(SDLH264VideoEncoderSpec)
 
 describe(@"a video encoder", ^{
     __block SDLH264VideoEncoder *testVideoEncoder = nil;
