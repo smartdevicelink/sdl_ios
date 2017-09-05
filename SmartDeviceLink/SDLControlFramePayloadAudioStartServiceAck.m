@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _mtu = SDLControlFrameInt64NotFound;
 
-    if (data != nil) {
+    if (data.length > 0) {
         [self sdl_parse:data];
     }
 

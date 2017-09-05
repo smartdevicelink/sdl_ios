@@ -64,6 +64,8 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 
 @property (assign, nonatomic) CV_NULLABLE CVPixelBufferRef backgroundingPixelBuffer;
 
+@property (assign, nonatomic) CMTime lastPresentationTimestamp;
+
 @end
 
 
@@ -114,6 +116,8 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationWillResignActiveNotification object:nil];
     
+    _lastPresentationTimestamp = kCMTimeInvalid;
+
     return self;
 }
 
@@ -136,6 +140,10 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 }
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
+    return [self sendVideoData:imageBuffer presentationTimestamp:kCMTimeInvalid];
+}
+
+- (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp {
     if (!self.isVideoConnected) {
         SDLLogW(@"Attempted to send video data, but not connected");
         return NO;
@@ -146,8 +154,20 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
         SDLLogW(@"Attempted to send video data, but the app is not in LIMITED or FULL HMI state");
         return NO;
     }
-    
-    return [self.videoEncoder encodeFrame:imageBuffer];
+
+    /*
+     * reject input image for following cases:
+     * - presentation timestamp is not increasing
+     * - app tries to send images while background images are shown
+     */
+    if (CMTIME_IS_VALID(self.lastPresentationTimestamp) && CMTIME_IS_VALID(presentationTimestamp)
+        && CMTIME_COMPARE_INLINE(presentationTimestamp, <=, self.lastPresentationTimestamp)) {
+        SDLLogW(@"The video data is out of date");
+        return NO;
+    }
+    self.lastPresentationTimestamp = presentationTimestamp;
+
+    return [self.videoEncoder encodeFrame:imageBuffer presentationTimestamp:presentationTimestamp];
 }
 
 - (BOOL)sendAudioData:(NSData*)audioData {
@@ -297,6 +317,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
             
             self.backgroundingPixelBuffer = backgroundingPixelBuffer;
         }
+        self.lastPresentationTimestamp = kCMTimeInvalid;
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamDidStartNotification object:nil];
@@ -517,8 +538,14 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
         return;
     }
     
+    const CMTime interval = CMTimeMake(1, 30);
     for (int frameCount = 0; frameCount < SDLFramesToSendOnBackground; frameCount++) {
-        [self.videoEncoder encodeFrame:self.backgroundingPixelBuffer];
+        if (CMTIME_IS_VALID(self.lastPresentationTimestamp)) {
+            self.lastPresentationTimestamp = CMTimeAdd(self.lastPresentationTimestamp, interval);
+            [self.videoEncoder encodeFrame:self.backgroundingPixelBuffer presentationTimestamp:self.lastPresentationTimestamp];
+        } else {
+            [self.videoEncoder encodeFrame:self.backgroundingPixelBuffer];
+        }
     }
 }
 
