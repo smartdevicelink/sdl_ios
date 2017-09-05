@@ -6,10 +6,11 @@
 //  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
-#import "SDLVideoEncoder.h"
+#import "SDLH264VideoEncoder.h"
 
-#import "SDLH264ByteStreamPacketizer.h"
 #import "SDLLogMacros.h"
+#import "SDLRAWH264Packetizer.h"
+#import "SDLRTPH264Packetizer.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,7 +19,7 @@ NSString *const SDLErrorDomainVideoEncoder = @"com.sdl.videoEncoder";
 static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 
 
-@interface SDLVideoEncoder ()
+@interface SDLH264VideoEncoder ()
 
 @property (assign, nonatomic, nullable) VTCompressionSessionRef compressionSession;
 @property (assign, nonatomic, nullable) CFDictionaryRef sdl_pixelBufferOptions;
@@ -29,10 +30,10 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 @end
 
 
-@implementation SDLVideoEncoder
+@implementation SDLH264VideoEncoder
 
 + (void)initialize {
-    if (self != [SDLVideoEncoder class]) {
+    if (self != [SDLH264VideoEncoder class]) {
         return;
     }
     
@@ -42,7 +43,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
                                      };
 }
 
-- (instancetype)initWithDimensions:(CGSize)dimensions properties:(NSDictionary<NSString *,id> *)properties delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError * _Nullable __autoreleasing *)error {
+- (instancetype)initWithProtocol:(SDLVideoStreamingProtocol)protocol dimensions:(CGSize)dimensions properties:(NSDictionary<NSString *, id> *)properties delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError **)error {
     self = [super init];
     if (!self) {
         return nil;
@@ -105,12 +106,21 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
             if (!*error) {
                 *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus": @(status) }];
             }
-            
             return nil;
         }
     }
 
-    _packetizer = [[SDLH264ByteStreamPacketizer alloc] init];
+    if ([protocol isEqualToEnum:SDLVideoStreamingProtocolRAW]) {
+        _packetizer = [[SDLRAWH264Packetizer alloc] init];
+    } else if ([protocol isEqualToEnum:SDLVideoStreamingProtocolRTP]) {
+        _packetizer = [[SDLRTPH264Packetizer alloc] init];
+    } else {
+        if (!*error) {
+            *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorProtocolUnknown userInfo:@{ @"encoder": protocol}];
+        }
+        return nil;
+    }
+
     _timestampOffset = 0.0;
 
     return self;
@@ -175,7 +185,7 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
         return;
     }
     
-    SDLVideoEncoder *encoder = (__bridge SDLVideoEncoder *)sourceFrameRefCon;
+    SDLH264VideoEncoder *encoder = (__bridge SDLH264VideoEncoder *)sourceFrameRefCon;
     NSArray *nalUnits = [encoder.class sdl_extractNalUnitsFromSampleBuffer:sampleBuffer];
 
     const CMTime presentationTimestampInCMTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);

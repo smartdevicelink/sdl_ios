@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLH264ByteStreamPacketizer : NSObject <SDLH264Packetizer>
+@interface SDLRAWH264Packetizer : NSObject <SDLH264Packetizer>
 @end
 
 NS_ASSUME_NONNULL_END

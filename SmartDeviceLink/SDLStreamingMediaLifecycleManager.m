@@ -33,7 +33,7 @@
 #import "SDLStreamingMediaManagerDataSource.h"
 #import "SDLSystemCapability.h"
 #import "SDLTouchManager.h"
-#import "SDLVideoEncoder.h"
+#import "SDLH264VideoEncoder.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLVideoStreamingCodec.h"
 #import "SDLVideoStreamingFormat.h"
@@ -77,7 +77,7 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
 @property (assign, nonatomic, readwrite) BOOL restartVideoStream;
 @property (strong, nonatomic, readwrite, nullable) SDLVideoStreamingFormat *videoFormat;
 
-@property (strong, nonatomic, nullable) SDLVideoEncoder *videoEncoder;
+@property (strong, nonatomic, nullable) SDLH264VideoEncoder *videoEncoder;
 @property (copy, nonatomic) NSDictionary<NSString *, id> *videoEncoderSettings;
 @property (strong, nonatomic) NSArray<SDLVideoStreamingFormat *> *preferredFormats;
 @property (assign, nonatomic) NSUInteger preferredFormatIndex;
@@ -110,7 +110,7 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
 
     _connectionManager = connectionManager;
 
-    _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLVideoEncoder.defaultVideoEncoderSettings;
+    _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
     _requestedEncryptionType = configuration.maximumDesiredEncryption;
     _screenSize = SDLDefaultScreenSize;
     _backgroundingPixelBuffer = NULL;
@@ -332,12 +332,14 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
 
 - (void)didEnterStateVideoStreamReady {
     SDLLogD(@"Video stream ready");
-    // TODO: What if it is nil, is it even possible for it to be nil?
+    // TODO: What if it isn't nil, is it even possible for it to not be nil?
     if (self.videoEncoder == nil) {
         NSError* error = nil;
-        self.videoEncoder = [[SDLVideoEncoder alloc] initWithDimensions:self.screenSize properties:self.videoEncoderSettings delegate:self error:&error];
+        NSAssert(self.videoFormat != nil, @"No video format is known, but it must be if we got a protocol start service response");
+
+        self.videoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:self.videoFormat.protocol dimensions:self.screenSize properties:self.videoEncoderSettings delegate:self error:&error];
         
-        if (error) {
+        if (error || self.videoEncoder == nil) {
             SDLLogE(@"Could not create a video encoder: %@", error);
             [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
             return;
@@ -444,10 +446,10 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
         _screenSize = CGSizeMake(videoAckPayload.height, videoAckPayload.width);
     }
 
-    // This is the definitive format that will be used
-    if (videoAckPayload.videoCodec != nil && videoAckPayload.videoProtocol != nil) {
-        _videoFormat = [[SDLVideoStreamingFormat alloc] initWithCodec:videoAckPayload.videoCodec protocol:videoAckPayload.videoProtocol];
-    }
+    // Figure out the definitive format that will be used
+    self.videoFormat = [[SDLVideoStreamingFormat alloc] init];
+    self.videoFormat.codec = videoAckPayload.videoCodec ?: SDLVideoStreamingCodecH264;
+    self.videoFormat.protocol = videoAckPayload.videoProtocol ?: SDLVideoStreamingProtocolRAW;
 
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateReady];
 }
@@ -500,7 +502,7 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
 }
 
 #pragma mark - SDLVideoEncoderDelegate
-- (void)videoEncoder:(SDLVideoEncoder *)encoder hasEncodedFrame:(NSData *)encodedVideo {
+- (void)videoEncoder:(SDLH264VideoEncoder *)encoder hasEncodedFrame:(NSData *)encodedVideo {
     SDLLogV(@"Video encoder encoded frame, sending");
     // Do we care about app state here? I don't think so…
     BOOL capableVideoStreamState = [self.videoStreamStateMachine isCurrentState:SDLVideoStreamStateReady];
