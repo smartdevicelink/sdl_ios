@@ -79,10 +79,6 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
 
 @property (strong, nonatomic, nullable) SDLH264VideoEncoder *videoEncoder;
 @property (copy, nonatomic) NSDictionary<NSString *, id> *videoEncoderSettings;
-@property (strong, nonatomic) NSArray<SDLVideoStreamingFormat *> *preferredFormats;
-@property (assign, nonatomic) NSUInteger preferredFormatIndex;
-@property (strong, nonatomic) NSArray<SDLImageResolution *> *preferredResolutions;
-@property (assign, nonatomic) NSUInteger preferredResolutionIndex;
 
 @property (strong, nonatomic, readwrite) SDLStateMachine *appStateMachine;
 @property (strong, nonatomic, readwrite) SDLStateMachine *videoStreamStateMachine;
@@ -107,7 +103,6 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
     }
 
     SDLLogV(@"Creating StreamingLifecycleManager");
-
     _connectionManager = connectionManager;
 
     _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
@@ -156,13 +151,7 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
 
     __weak typeof(self) weakSelf = self;
     [self sdl_requestVideoCapabilities:^(SDLVideoStreamingCapability * _Nullable capability) {
-        // If we can't get capabilities, we're assuming it's H264 RAW at whatever the display capabilities said in the RAIR. We also aren't going to call the data source because they have no options.
-        if (capability == nil) {
-            SDLVideoStreamingFormat *format = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
-            SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:weakSelf.screenSize.width height:weakSelf.screenSize.height];
-            weakSelf.preferredFormats = @[format];
-            weakSelf.preferredResolutions = @[resolution];
-        } else {
+        if (capability != nil) {
             // If we got a response, get our preferred formats and resolutions
             weakSelf.preferredFormats = capability.supportedFormats;
             weakSelf.preferredResolutions = @[capability.preferredResolution];
@@ -171,6 +160,12 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
                 weakSelf.preferredFormats = [weakSelf.dataSource preferredVideoFormatOrderFromHeadUnitPreferredOrder:weakSelf.preferredFormats];
                 weakSelf.preferredResolutions = [weakSelf.dataSource resolutionFromHeadUnitPreferredResolution:weakSelf.preferredResolutions.firstObject];
             }
+        } else {
+            // If we can't get capabilities, we're assuming it's H264 RAW at whatever the display capabilities said in the RAIR. We also aren't going to call the data source because they have no options.
+            SDLVideoStreamingFormat *format = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
+            SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:weakSelf.screenSize.width height:weakSelf.screenSize.height];
+            weakSelf.preferredFormats = @[format];
+            weakSelf.preferredResolutions = @[resolution];
         }
     }];
 }
@@ -654,6 +649,11 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
     SDLGetSystemCapability *getVideoCapabilityRequest = [[SDLGetSystemCapability alloc] initWithType:SDLSystemCapabilityTypeVideoStreaming];
 
     [self.connectionManager sendManagerRequest:getVideoCapabilityRequest withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (!response.success) {
+            responseHandler(nil);
+            BLOCK_RETURN;
+        }
+
         SDLVideoStreamingCapability *videoCapability = ((SDLGetSystemCapabilityResponse *)response).systemCapability.videoStreamingCapability;
 
         responseHandler(videoCapability);

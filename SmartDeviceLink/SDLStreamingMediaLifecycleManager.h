@@ -15,6 +15,7 @@
 #import "SDLStreamingMediaManagerConstants.h"
 
 @class SDLAbstractProtocol;
+@class SDLImageResolution;
 @class SDLStateMachine;
 @class SDLStreamingMediaConfiguration;
 @class SDLTouchManager;
@@ -106,6 +107,26 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
  A list of all supported video formats by this manager
  */
 @property (strong, nonatomic, readonly) NSArray<SDLVideoStreamingFormat *> *supportedFormats;
+
+/**
+ The decided upon preferred formats to try and connect with between the head unit and developer
+ */
+@property (strong, nonatomic) NSArray<SDLVideoStreamingFormat *> *preferredFormats;
+
+/**
+ The current attempt index for trying to connect with `preferredFormats`
+ */
+@property (assign, nonatomic) NSUInteger preferredFormatIndex;
+
+/**
+ The decided upon preferred resolutions to try and connect with between the head unit and the developer
+ */
+@property (strong, nonatomic) NSArray<SDLImageResolution *> *preferredResolutions;
+
+/**
+ The current attempt index for trying to connect with `preferredResolutions`
+ */
+@property (assign, nonatomic) NSUInteger preferredResolutionIndex;
 
 /**
  *  The pixel buffer pool reference returned back from an active VTCompressionSessionRef encoder.

@@ -7,11 +7,16 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
+#import "SDLConnectionManagerType.h"
 #import "SDLDisplayCapabilities.h"
+#import "SDLGenericResponse.h"
 #import "SDLGetSystemCapability.h"
 #import "SDLGetSystemCapabilityResponse.h"
+#import "SDLHMILevel.h"
 #import "SDLImageResolution.h"
 #import "SDLNotificationConstants.h"
+#import "SDLOnHMIStatus.h"
+#import "SDLProtocol.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCResponseNotification.h"
@@ -20,10 +25,10 @@
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaLifecycleManager.h"
 #import "SDLSystemCapability.h"
-#import "SDLProtocol.h"
-#import "SDLOnHMIStatus.h"
-#import "SDLHMILevel.h"
-#import "SDLConnectionManagerType.h"
+#import "SDLVideoStreamingCapability.h"
+#import "SDLVideoStreamingCodec.h"
+#import "SDLVideoStreamingFormat.h"
+#import "SDLVideoStreamingProtocol.h"
 #import "TestConnectionManager.h"
 
 QuickSpecBegin(SDLStreamingMediaLifecycleManagerSpec)
@@ -67,6 +72,10 @@ describe(@"the streaming media manager", ^{
         expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStopped));
         expect(streamingLifecycleManager.videoFormat).to(beNil());
         expect(streamingLifecycleManager.supportedFormats).to(haveCount(2));
+        expect(streamingLifecycleManager.preferredFormats).to(beNil());
+        expect(streamingLifecycleManager.preferredResolutions).to(beNil());
+        expect(streamingLifecycleManager.preferredFormatIndex).to(equal(0));
+        expect(streamingLifecycleManager.preferredResolutionIndex).to(equal(0));
     });
     
     describe(@"when started", ^{
@@ -121,7 +130,7 @@ describe(@"the streaming media manager", ^{
                 someScreenParams.resolution = someImageResolution;
             });
             
-            describe(@"that does not support graphics", ^{
+            context(@"that does not support graphics", ^{
                 beforeEach(^{
                     someDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
                     someDisplayCapabilities.graphicSupported = @NO;
@@ -141,7 +150,7 @@ describe(@"the streaming media manager", ^{
                 });
             });
             
-            describe(@"that supports graphics", ^{
+            context(@"that supports graphics", ^{
                 beforeEach(^{
                     someDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
                     someDisplayCapabilities.graphicSupported = @YES;
@@ -159,6 +168,46 @@ describe(@"the streaming media manager", ^{
                 it(@"should support streaming", ^{
                     expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@YES));
                     expect(@(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeMake(600, 100)))).to(equal(@YES));
+                });
+            });
+        });
+
+        describe(@"after sending GetSystemCapabilities", ^{
+            context(@"and receiving an error response", ^{
+                // This happens if the HU doesn't understand GetSystemCapabilities
+                beforeEach(^{
+                    SDLGenericResponse *genericResponse = [[SDLGenericResponse alloc] init];
+                    genericResponse.resultCode = SDLResultInvalidData;
+
+                    [testConnectionManager respondToLastRequestWithResponse:genericResponse];
+                });
+
+                it(@"should have correct format and resolution", ^{
+                    expect(streamingLifecycleManager.preferredFormats).to(haveCount(1));
+                    expect(streamingLifecycleManager.preferredFormats.firstObject).to(equal([[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW]));
+
+                    expect(streamingLifecycleManager.preferredResolutions).to(haveCount(1));
+                    expect(streamingLifecycleManager.preferredResolutions.firstObject).to(equal([[SDLImageResolution alloc] initWithWidth:0 height:0]));
+                });
+            });
+
+            context(@"and receiving a response", ^{
+                __block SDLImageResolution *resolution = nil;
+                __block int32_t maxBitrate = 0;
+                __block NSArray<SDLVideoStreamingFormat *> *testFormats = nil;
+                __block BOOL testHapticsSupported = NO;
+
+                beforeEach(^{
+                    SDLGetSystemCapabilityResponse *response = [[SDLGetSystemCapabilityResponse alloc] init];
+                    response.systemCapability = [[SDLSystemCapability alloc] init];
+                    response.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
+
+                    resolution = [[SDLImageResolution alloc] initWithWidth:42 height:69];
+                    maxBitrate = 12345;
+                    testFormats = @[[[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH265 protocol:SDLVideoStreamingProtocolRTMP], [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP]];
+                    testHapticsSupported = YES;
+                    response.systemCapability.videoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:testFormats hapticDataSupported:testHapticsSupported];
+                    [testConnectionManager respondToLastRequestWithResponse:response];
                 });
             });
         });
