@@ -8,6 +8,8 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLDisplayCapabilities.h"
+#import "SDLGetSystemCapability.h"
+#import "SDLGetSystemCapabilityResponse.h"
 #import "SDLImageResolution.h"
 #import "SDLNotificationConstants.h"
 #import "SDLRPCNotificationNotification.h"
@@ -17,6 +19,7 @@
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaLifecycleManager.h"
+#import "SDLSystemCapability.h"
 #import "SDLProtocol.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLHMILevel.h"
@@ -62,6 +65,8 @@ describe(@"the streaming media manager", ^{
         expect(streamingLifecycleManager.currentAppState).to(equal(SDLAppStateActive));
         expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStopped));
         expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStopped));
+        expect(streamingLifecycleManager.videoFormat).to(beNil());
+        expect(streamingLifecycleManager.supportedFormats).to(haveCount(2));
     });
     
     describe(@"when started", ^{
@@ -92,7 +97,13 @@ describe(@"the streaming media manager", ^{
             expect(streamingLifecycleManager.currentAppState).to(equal(SDLAppStateActive));
             expect(streamingLifecycleManager.currentAudioStreamState).to(match(SDLAudioStreamStateStopped));
             expect(streamingLifecycleManager.currentVideoStreamState).to(match(SDLVideoStreamStateStopped));
-            
+        });
+
+        it(@"should send out a video capabilities request", ^{
+            expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLGetSystemCapability class]));
+
+            SDLGetSystemCapability *getCapability = (SDLGetSystemCapability *)testConnectionManager.receivedRequests.lastObject;
+            expect(getCapability.systemCapabilityType).to(equal(SDLSystemCapabilityTypeVideoStreaming));
         });
         
         describe(@"after receiving a register app interface notification", ^{

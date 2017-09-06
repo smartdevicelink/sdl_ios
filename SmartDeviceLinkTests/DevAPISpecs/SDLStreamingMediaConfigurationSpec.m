@@ -5,21 +5,25 @@
 #import "SDLStreamingMediaConfiguration.h"
 
 #import "SDLFakeSecurityManager.h"
+#import "SDLFakeStreamingManagerDataSource.h"
 
 QuickSpecBegin(SDLStreamingMediaConfigurationSpec)
 
 describe(@"a streaming media configuration", ^{
     __block SDLStreamingMediaConfiguration *testConfig = nil;
+    __block SDLFakeStreamingManagerDataSource *testDataSource = nil;
 
     context(@"that is created with insecure settings", ^{
         beforeEach(^{
             testConfig = [SDLStreamingMediaConfiguration insecureConfiguration];
+            testDataSource = [[SDLFakeStreamingManagerDataSource alloc] init];
         });
 
         it(@"should have properly set properties", ^{
             expect(testConfig.securityManagers).to(beNil());
             expect(@(testConfig.maximumDesiredEncryption)).to(equal(@(SDLStreamingEncryptionFlagNone)));
             expect(testConfig.customVideoEncoderSettings).to(beNil());
+            expect(testConfig.dataSource).to(beNil());
         });
 
         describe(@"after setting properties manually", ^{
@@ -33,12 +37,14 @@ describe(@"a streaming media configuration", ^{
 
                 testConfig.maximumDesiredEncryption = someEncryptionFlag;
                 testConfig.customVideoEncoderSettings = someVideoEncoderSettings;
+                testConfig.dataSource = testDataSource;
             });
 
             it(@"should have properly set properties", ^{
                 expect(testConfig.securityManagers).to(beNil());
                 expect(@(testConfig.maximumDesiredEncryption)).to(equal(@(someEncryptionFlag)));
                 expect(testConfig.customVideoEncoderSettings).to(equal(someVideoEncoderSettings));
+                expect(testConfig.dataSource).toNot(beNil());
             });
         });
     });
