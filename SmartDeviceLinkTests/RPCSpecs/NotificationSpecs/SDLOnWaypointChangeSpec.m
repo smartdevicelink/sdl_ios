@@ -1,4 +1,4 @@
-//  SDLOnWaypointChangeSpec.m
+//  SDLOnWayPointChangeSpec.m
 //
 
 #import <Foundation/Foundation.h>
@@ -6,7 +6,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLOnWaypointChange.h"
+#import "SDLOnWayPointChange.h"
 
 #import "SDLImage.h"
 #import "SDLLocationCoordinate.h"
@@ -14,7 +14,7 @@
 #import "SDLNames.h"
 #import "SDLOasisAddress.h"
 
-QuickSpecBegin(SDLOnWaypointChangeSpec)
+QuickSpecBegin(SDLOnWayPointChangeSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     __block SDLOnWayPointChange* testNotification = nil;
@@ -65,10 +65,10 @@ describe(@"Getter/Setter Tests", ^ {
                 
                 NSDictionary *initDict = @{SDLNameNotification : @{
                                                    SDLNameParameters: @{
-                                                           SDLNameWaypoints: someWaypoints
+                                                           SDLNameWayPoints: someWaypoints
                                                            }
                                                    },
-                                           SDLNameOperationName:SDLNameOnWaypointChange
+                                           SDLNameOperationName:SDLNameOnWayPointChange
                                            };
                 
                 testNotification = [[SDLOnWayPointChange alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
