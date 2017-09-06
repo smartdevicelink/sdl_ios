@@ -32,7 +32,7 @@ typedef NS_ENUM(NSUInteger, SDLPerformingTouchType) {
 };
 
 /*!
- *  @abstract 
+ *  @abstract
  *      Touch Manager will ignore touches that represent more than 2 fingers on the screen.
  */
 static NSUInteger const MaximumNumberOfTouches = 2;
@@ -40,13 +40,13 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 @interface SDLTouchManager ()
 
 /*!
- *  @abstract 
+ *  @abstract
  *      First Touch received from onOnTouchEvent.
  */
 @property (nonatomic, strong, nullable) SDLTouch *previousTouch;
 
 /*!
- * @abstract 
+ * @abstract
  *      Cached previous single tap used for double tap detection.
  */
 @property (nonatomic, strong, nullable) SDLTouch *singleTapTouch;
@@ -91,7 +91,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     _touchEnabled = YES;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onTouchEvent:) name:SDLDidReceiveTouchEventNotification object:nil];
-    
+
     return self;
 }
 
@@ -108,9 +108,9 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         || ![notification.notification isKindOfClass:SDLOnTouchEvent.class]) {
         return;
     }
-    
+
     SDLOnTouchEvent* onTouchEvent = (SDLOnTouchEvent*)notification.notification;
-    
+
     SDLTouchType touchType = onTouchEvent.type;
     SDLTouchEvent *touchEvent = onTouchEvent.event.firstObject;
     SDLTouch *touch = [[SDLTouch alloc] initWithTouchEvent:touchEvent];
@@ -118,7 +118,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     if (self.touchEventHandler) {
         self.touchEventHandler(touch, touchType);
     }
-    
+
     if (!self.touchEventDelegate || (touch.identifier > MaximumNumberOfTouches)) {
         return;
     }
@@ -128,6 +128,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeMove]) {
         [self sdl_handleTouchMoved:touch];
     } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeEnd]) {
+        [self sdl_handleTouchEnded:touch];
+    } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeCancel]) {
         [self sdl_handleTouchEnded:touch];
     }
 }
@@ -141,10 +143,10 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     _performingTouchType = SDLPerformingTouchTypeSingleTouch;
 
     switch (touch.identifier) {
-        case SDLTouchIdentifierFirstFinger:
+            case SDLTouchIdentifierFirstFinger:
             self.previousTouch = touch;
             break;
-        case SDLTouchIdentifierSecondFinger:
+            case SDLTouchIdentifierSecondFinger:
             _performingTouchType = SDLPerformingTouchTypeMultiTouch;
             self.currentPinchGesture = [[SDLPinchGesture alloc] initWithFirstTouch:self.previousTouch
                                                                        secondTouch:touch];
@@ -163,12 +165,12 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     }
 
     switch (self.performingTouchType) {
-        case SDLPerformingTouchTypeMultiTouch:
+            case SDLPerformingTouchTypeMultiTouch:
             switch (touch.identifier) {
-                case SDLTouchIdentifierFirstFinger:
+                    case SDLTouchIdentifierFirstFinger:
                     self.currentPinchGesture.firstTouch = touch;
                     break;
-                case SDLTouchIdentifierSecondFinger:
+                    case SDLTouchIdentifierSecondFinger:
                     self.currentPinchGesture.secondTouch = touch;
                     break;
             }
@@ -183,21 +185,21 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
             self.previousPinchDistance = self.currentPinchGesture.distance;
             break;
-        case SDLPerformingTouchTypeSingleTouch:
+            case SDLPerformingTouchTypeSingleTouch:
             _performingTouchType = SDLPerformingTouchTypePanningTouch;
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:panningDidStartAtPoint:)]) {
                 [self.touchEventDelegate touchManager:self
                                panningDidStartAtPoint:touch.location];
             }
             break;
-        case SDLPerformingTouchTypePanningTouch:
+            case SDLPerformingTouchTypePanningTouch:
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceivePanningFromPoint:toPoint:)]) {
                 [self.touchEventDelegate touchManager:self
                            didReceivePanningFromPoint:self.previousTouch.location
                                               toPoint:touch.location];
             }
             break;
-        case SDLPerformingTouchTypeNone:
+            case SDLPerformingTouchTypeNone:
             break;
     }
 
@@ -210,12 +212,12 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     }
 
     switch (self.performingTouchType) {
-        case SDLPerformingTouchTypeMultiTouch:
+            case SDLPerformingTouchTypeMultiTouch:
             switch (touch.identifier) {
-                case SDLTouchIdentifierFirstFinger:
+                    case SDLTouchIdentifierFirstFinger:
                     self.currentPinchGesture.firstTouch = touch;
                     break;
-                case SDLTouchIdentifierSecondFinger:
+                    case SDLTouchIdentifierSecondFinger:
                     self.currentPinchGesture.secondTouch = touch;
                     break;
             }
@@ -228,13 +230,13 @@ static NSUInteger const MaximumNumberOfTouches = 2;
                 self.currentPinchGesture = nil;
             }
             break;
-        case SDLPerformingTouchTypePanningTouch:
+            case SDLPerformingTouchTypePanningTouch:
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:panningDidEndAtPoint:)]) {
                 [self.touchEventDelegate touchManager:self
                                  panningDidEndAtPoint:touch.location];
             }
             break;
-        case SDLPerformingTouchTypeSingleTouch:
+            case SDLPerformingTouchTypeSingleTouch:
             if (self.singleTapTimer == nil) { // Initial Tap
                 self.singleTapTouch = touch;
                 [self sdl_initializeSingleTapTimerAtPoint:self.singleTapTouch.location];
@@ -257,9 +259,44 @@ static NSUInteger const MaximumNumberOfTouches = 2;
                 self.singleTapTouch = nil;
             }
             break;
-        case SDLPerformingTouchTypeNone:
+            case SDLPerformingTouchTypeNone:
             break;
     }
+    self.previousTouch = nil;
+    _performingTouchType = SDLPerformingTouchTypeNone;
+}
+
+
+/**
+ *
+ *
+ *@param touch  A touch's coordinates
+ */
+- (void)sdl_handleTouchCanceled:(SDLTouch *)touch {
+    if (!self.isTouchEnabled) {
+        return; // no-op
+    }
+
+    switch (self.performingTouchType) {
+            case SDLPerformingTouchTypeMultiTouch:
+            if (self.currentPinchGesture.isValid) {
+                self.currentPinchGesture = nil;
+            }
+            break;
+
+            case SDLPerformingTouchTypeSingleTouch:
+            if (self.singleTapTimer != nil) {
+                // Double Tap
+                [self sdl_cancelSingleTapTimer];
+                self.singleTapTouch = nil;
+            }
+            break;
+
+            case SDLPerformingTouchTypeNone:
+            case SDLPerformingTouchTypePanningTouch:
+            break;
+    }
+
     self.previousTouch = nil;
     _performingTouchType = SDLPerformingTouchTypeNone;
 }
