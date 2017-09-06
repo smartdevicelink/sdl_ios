@@ -57,9 +57,9 @@ describe(@"GetFunctionName Tests", ^ {
         expect([functionID functionNameForId:38]).to(equal(SDLNameSystemRequest));
         expect([functionID functionNameForId:39]).to(equal(SDLNameSendLocation));
         expect([functionID functionNameForId:40]).to(equal(SDLNameDialNumber));
-        expect([functionID functionNameForId:45]).to(equal(SDLNameGetWaypoints));
-        expect([functionID functionNameForId:46]).to(equal(SDLNameSubscribeWaypoints));
-        expect([functionID functionNameForId:47]).to(equal(SDLNameUnsubscribeWaypoints));
+        expect([functionID functionNameForId:45]).to(equal(SDLNameGetWayPoints));
+        expect([functionID functionNameForId:46]).to(equal(SDLNameSubscribeWayPoints));
+        expect([functionID functionNameForId:47]).to(equal(SDLNameUnsubscribeWayPoints));
         expect([functionID functionNameForId:32768]).to(equal(SDLNameOnHMIStatus));
         expect([functionID functionNameForId:32769]).to(equal(SDLNameOnAppInterfaceUnregistered));
         expect([functionID functionNameForId:32770]).to(equal(SDLNameOnButtonEvent));
@@ -75,7 +75,7 @@ describe(@"GetFunctionName Tests", ^ {
         expect([functionID functionNameForId:32780]).to(equal(SDLNameOnTouchEvent));
         expect([functionID functionNameForId:32781]).to(equal(SDLNameOnSystemRequest));
         expect([functionID functionNameForId:32782]).to(equal(SDLNameOnHashChange));
-        expect([functionID functionNameForId:32784]).to(equal(SDLNameOnWaypointChange));
+        expect([functionID functionNameForId:32784]).to(equal(SDLNameOnWayPointChange));
         
         //Not listed in Spec
         expect([functionID functionNameForId:65536]).to(equal(SDLNameEncodedSyncPData));
@@ -128,9 +128,9 @@ describe(@"GetFunctionID Tests", ^ {
         expect([functionID functionIdForName:SDLNameSystemRequest]).to(equal(@38));
         expect([functionID functionIdForName:SDLNameSendLocation]).to(equal(@39));
         expect([functionID functionIdForName:SDLNameDialNumber]).to(equal(@40));
-        expect([functionID functionIdForName:SDLNameGetWaypoints]).to(equal(@45));
-        expect([functionID functionIdForName:SDLNameSubscribeWaypoints]).to(equal(@46));
-        expect([functionID functionIdForName:SDLNameUnsubscribeWaypoints]).to(equal(@47));
+        expect([functionID functionIdForName:SDLNameGetWayPoints]).to(equal(@45));
+        expect([functionID functionIdForName:SDLNameSubscribeWayPoints]).to(equal(@46));
+        expect([functionID functionIdForName:SDLNameUnsubscribeWayPoints]).to(equal(@47));
         expect([functionID functionIdForName:SDLNameOnHMIStatus]).to(equal(@32768));
         expect([functionID functionIdForName:SDLNameOnAppInterfaceUnregistered]).to(equal(@32769));
         expect([functionID functionIdForName:SDLNameOnButtonEvent]).to(equal(@32770));
@@ -146,7 +146,7 @@ describe(@"GetFunctionID Tests", ^ {
         expect([functionID functionIdForName:SDLNameOnTouchEvent]).to(equal(@32780));
         expect([functionID functionIdForName:SDLNameOnSystemRequest]).to(equal(@32781));
         expect([functionID functionIdForName:SDLNameOnHashChange]).to(equal(@32782));
-        expect([functionID functionIdForName:SDLNameOnWaypointChange]).to(equal(@32784));
+        expect([functionID functionIdForName:SDLNameOnWayPointChange]).to(equal(@32784));
         
         //Not listed in Spec
         expect([functionID functionIdForName:SDLNameEncodedSyncPData]).to(equal(@65536));

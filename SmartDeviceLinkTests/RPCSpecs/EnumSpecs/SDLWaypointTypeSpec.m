@@ -1,4 +1,4 @@
-//  SDLWaypointTypeSpec.m
+//  SDLWayPointTypeSpec.m
 //
 
 #import <Foundation/Foundation.h>
@@ -6,14 +6,14 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLWaypointType.h"
+#import "SDLWayPointType.h"
 
-QuickSpecBegin(SDLWaypointTypeSpec)
+QuickSpecBegin(SDLWayPointTypeSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
-        expect(SDLWaypointTypeAll).to(equal(@"ALL"));
-        expect(SDLWaypointTypeDestination).to(equal(@"DESTINATION"));
+        expect(SDLWayPointTypeAll).to(equal(@"ALL"));
+        expect(SDLWayPointTypeDestination).to(equal(@"DESTINATION"));
     });
 });
 

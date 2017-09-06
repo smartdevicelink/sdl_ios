@@ -23,7 +23,7 @@ describe(@"Getter/Setter Tests", ^ {
 
 describe(@"Initialization tests", ^{
     it(@"Should get correctly when initialized with a dictionary", ^ {
-        NSDictionary *dict = @{SDLNameGetWaypointsEnabled: @(YES),
+        NSDictionary *dict = @{SDLNameGetWayPointsEnabled: @(YES),
                                        SDLNameSendLocationEnabled: @(YES)};
         SDLNavigationCapability* testStruct = [[SDLNavigationCapability alloc] initWithDictionary:dict];
 

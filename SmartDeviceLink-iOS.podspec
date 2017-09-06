@@ -173,7 +173,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLOnTBTClientState.h',
 'SmartDeviceLink/SDLOnTouchEvent.h',
 'SmartDeviceLink/SDLOnVehicleData.h',
-'SmartDeviceLink/SDLOnWaypointChange.h',
+'SmartDeviceLink/SDLOnWayPointChange.h',
 'SmartDeviceLink/SDLParameterPermissions.h',
 'SmartDeviceLink/SDLPerformAudioPassThru.h',
 'SmartDeviceLink/SDLPerformAudioPassThruResponse.h',
@@ -306,7 +306,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLVrCapabilities.h',
 'SmartDeviceLink/SDLVrHelpItem.h',
 'SmartDeviceLink/SDLWarningLightStatus.h',
-'SmartDeviceLink/SDLWaypointType.h',
+'SmartDeviceLink/SDLWayPointType.h',
 'SmartDeviceLink/SDLWiperStatus.h',
 'SmartDeviceLink/SmartDeviceLink.h',
 ]

@@ -40,7 +40,7 @@ describe(@"Getter/Setter Tests", ^ {
 describe(@"Initialization tests", ^{
     it(@"Should get correctly when initialized with a dictionary", ^ {
         NSMutableDictionary* dict = [@{SDLNameSystemCapabilityType: @"NAVIGATION",
-                                       SDLNameNavigationCapability: @{SDLNameGetWaypointsEnabled: @(NO),
+                                       SDLNameNavigationCapability: @{SDLNameGetWayPointsEnabled: @(NO),
                                                                      SDLNameSendLocationEnabled: @(YES)},
                                        SDLNamePhoneCapability: @{SDLNameDialNumberEnabled: @(YES)}} mutableCopy];
         SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] initWithDictionary:dict];
