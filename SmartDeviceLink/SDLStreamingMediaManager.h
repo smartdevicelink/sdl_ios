@@ -114,6 +114,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer;
 
 /**
+ *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.
+ *
+ *  @param imageBuffer A CVImageBufferRef to be encoded by Video Toolbox
+ *  @param presentationTimestamp A presentation timestamp for the frame, or kCMTimeInvalid if timestamp is unknown. If it's valid, it must be greater than the previous one.
+ *
+ *  @return Whether or not the data was successfully encoded and sent.
+ */
+- (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp;
+
+/**
  *  This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback
  *
  *  @param audioData The data in PCM audio format, to be played

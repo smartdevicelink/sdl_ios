@@ -20,4 +20,3 @@ SDLMetadataType const SDLMetadataTypeMaximumTemperature = @"maximumTemperature";
 SDLMetadataType const SDLMetadataTypeMinimumTemperature = @"minimumTemperature";
 SDLMetadataType const SDLMetadataTypeWeatherTerm = @"weatherTerm";
 SDLMetadataType const SDLMetadataTypeHumidity = @"humidity";
-SDLMetadataType const SDLMetadataTypeNone = @"none";

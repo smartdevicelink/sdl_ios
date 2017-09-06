@@ -186,6 +186,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveScrollableMessageResponse response:response];
 }
 
+- (void)onSendHapticDataResponse:(SDLSendHapticDataResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveSendHapticDataResponse response:response];
+}
+
 - (void)onSendLocationResponse:(SDLSendLocationResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveSendLocationResponse response:response];
 }

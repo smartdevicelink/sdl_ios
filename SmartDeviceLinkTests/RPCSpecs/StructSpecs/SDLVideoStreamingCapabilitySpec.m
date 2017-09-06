@@ -22,12 +22,12 @@ QuickSpecBegin(SDLVideoStreamingCapabilitySpec)
 
 describe(@"Initialization tests", ^{
     it(@"Should get correctly when initialized with a dictionary", ^ {
-
         SDLImageResolution* resolution = [[SDLImageResolution alloc] init];
         resolution.resolutionWidth = @600;
         resolution.resolutionHeight = @500;
 
         NSNumber *maxBitrate = @100;
+        NSNumber *hapticDataSupported = @NO;
 
         SDLVideoStreamingFormat *format1 = [[SDLVideoStreamingFormat alloc] init];
         format1.codec = SDLVideoStreamingCodecH264;
@@ -41,13 +41,15 @@ describe(@"Initialization tests", ^{
 
         NSMutableDictionary* dict = [@{SDLNamePreferredResolution: resolution,
                                        SDLNameMaxBitrate: maxBitrate,
-                                       SDLNameSupportedFormats: formatArray} mutableCopy];
+                                       SDLNameSupportedFormats: formatArray,
+                                       SDLNameHapticSpatialDataSupported: hapticDataSupported} mutableCopy];
 
         SDLVideoStreamingCapability* testStruct = [[SDLVideoStreamingCapability alloc] initWithDictionary:dict];
 
         expect(testStruct.preferredResolution).to(equal(resolution));
         expect(testStruct.maxBitrate).to(equal(maxBitrate));
         expect(testStruct.supportedFormats).to(equal(formatArray));
+        expect(testStruct.hapticSpatialDataSupported).to(equal(hapticDataSupported));
     });
 
     it(@"Should return nil if not set", ^ {
@@ -59,12 +61,12 @@ describe(@"Initialization tests", ^{
     });
 
     it(@"Should initialize correctly with initWithVideoStreaming:(SDLImageResolution *)preferredResolution (NSNumber *)maxBitrate (NSArray<SDLVideoStreamingFormat *> *)suportedFormats", ^ {
-
         SDLImageResolution* resolution = [[SDLImageResolution alloc] init];
         resolution.resolutionWidth = @600;
         resolution.resolutionHeight = @500;
 
         NSNumber *maxBitrate = @100;
+        NSNumber *hapticDataSupported = @YES;
 
         SDLVideoStreamingFormat *format1 = [[SDLVideoStreamingFormat alloc] init];
         format1.codec = SDLVideoStreamingCodecH264;
@@ -76,11 +78,12 @@ describe(@"Initialization tests", ^{
 
         NSArray<SDLVideoStreamingFormat *> *formatArray = @[format1, format2];
 
-        SDLVideoStreamingCapability *testStruct = [[SDLVideoStreamingCapability alloc] initWithVideoStreaming:resolution maxBitrate:maxBitrate supportedFormats:formatArray];
+        SDLVideoStreamingCapability *testStruct = [[SDLVideoStreamingCapability alloc] initWithVideoStreaming:resolution maxBitrate:maxBitrate supportedFormats:formatArray hapticDataSupported:hapticDataSupported];
 
         expect(testStruct.preferredResolution).to(equal(resolution));
         expect(testStruct.maxBitrate).to(equal(maxBitrate));
         expect(testStruct.supportedFormats).to(equal(formatArray));
+        expect(testStruct.hapticSpatialDataSupported).to(equal(hapticDataSupported));
     });
     
 });
