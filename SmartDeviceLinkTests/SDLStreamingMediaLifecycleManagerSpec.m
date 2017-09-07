@@ -34,7 +34,7 @@
 
 QuickSpecBegin(SDLStreamingMediaLifecycleManagerSpec)
 
-fdescribe(@"the streaming media manager", ^{
+describe(@"the streaming media manager", ^{
     __block SDLStreamingMediaLifecycleManager *streamingLifecycleManager = nil;
     __block SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
     __block SDLFakeStreamingManagerDataSource *testDataSource = [[SDLFakeStreamingManagerDataSource alloc] init];
@@ -47,7 +47,7 @@ fdescribe(@"the streaming media manager", ^{
         SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:self rpcNotification:hmiStatus];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
         
-        [NSThread sleepForTimeInterval:0.1];
+        [NSThread sleepForTimeInterval:0.3];
     };
     
     beforeEach(^{
@@ -218,7 +218,7 @@ fdescribe(@"the streaming media manager", ^{
                     [testConnectionManager respondToLastRequestWithResponse:response];
                 });
 
-                fit(@"should have correct data from the data source", ^{
+                it(@"should have correct data from the data source", ^{
                     // Correct formats should be retrieved from the data source
                     expect(streamingLifecycleManager.preferredResolutions).to(haveCount(1));
                     expect(streamingLifecycleManager.preferredResolutions.firstObject.resolutionWidth).to(equal(resolution.resolutionWidth));
@@ -228,195 +228,195 @@ fdescribe(@"the streaming media manager", ^{
                     expect(streamingLifecycleManager.preferredFormats.firstObject.codec).to(equal(testDataSource.extraFormat.codec));
                     expect(streamingLifecycleManager.preferredFormats.firstObject.protocol).to(equal(testDataSource.extraFormat.protocol));
                 });
-            });
-        });
-        
-        describe(@"if the app state is active", ^{
-            __block id streamStub = nil;
-            
-            beforeEach(^{
-                streamStub = OCMPartialMock(streamingLifecycleManager);
-                
-                OCMStub([streamStub isStreamingSupported]).andReturn(YES);
 
-                [streamingLifecycleManager.appStateMachine setToState:SDLAppStateActive fromOldState:nil callEnterTransition:NO];
-            });
-            
-            describe(@"and both streams are open", ^{
-                beforeEach(^{
-                    [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamStateReady fromOldState:nil callEnterTransition:NO];
-                    [streamingLifecycleManager.videoStreamStateMachine setToState:SDLVideoStreamStateReady fromOldState:nil callEnterTransition:NO];
-                });
-                
-                describe(@"and the hmi state is limited", ^{
+                describe(@"if the app state is active", ^{
+                    __block id streamStub = nil;
+
                     beforeEach(^{
-                        streamingLifecycleManager.hmiLevel = SDLHMILevelLimited;
-                    });
-                    
-                    describe(@"and the hmi state changes to", ^{
-                        context(@"none", ^{
-                            beforeEach(^{
-                                sendNotificationForHMILevel(SDLHMILevelNone);
-                            });
-                            
-                            it(@"should close only the video stream", ^{
-                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
-                                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateShuttingDown));
-                            });
-                        });
-                        
-                        context(@"background", ^{
-                            beforeEach(^{
-                                sendNotificationForHMILevel(SDLHMILevelBackground);
-                            });
-                            
-                            it(@"should close only the video stream", ^{
-                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
-                                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateShuttingDown));
-                            });
-                        });
-                        
-                        context(@"limited", ^{
-                            beforeEach(^{
-                                sendNotificationForHMILevel(SDLHMILevelLimited);
-                            });
-                            
-                            it(@"should not close either stream", ^{
-                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
-                                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
-                            });
-                        });
-                        
-                        context(@"full", ^{
-                            beforeEach(^{
-                                sendNotificationForHMILevel(SDLHMILevelFull);
-                            });
-                            
-                            it(@"should not close either stream", ^{
-                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
-                                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
-                            });
-                        });
-                    });
-                    
-                    describe(@"and the app state changes to", ^{
-                        context(@"inactive", ^{
-                            beforeEach(^{
-                                [streamingLifecycleManager.appStateMachine setToState:SDLAppStateInactive fromOldState:nil callEnterTransition:YES];
-                            });
-                            
-                            it(@"should flag to restart the video stream", ^{
-                                expect(@(streamingLifecycleManager.shouldRestartVideoStream)).to(equal(@YES));
-                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
-                                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
-                            });
-                        });
-                    });
-                });
-                
-                describe(@"and the hmi state is full", ^{
-                    beforeEach(^{
-                        streamingLifecycleManager.hmiLevel = SDLHMILevelFull;
-                    });
-                    
-                    context(@"and hmi state changes to none", ^{
-                        beforeEach(^{
-                            sendNotificationForHMILevel(SDLHMILevelNone);
-                        });
-                        
-                        it(@"should close only the video stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateShuttingDown));
-                        });
-                    });
-                    
-                    context(@"and hmi state changes to background", ^{
-                        beforeEach(^{
-                            sendNotificationForHMILevel(SDLHMILevelBackground);
-                        });
-                        
-                        it(@"should close only the video stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateShuttingDown));
-                        });
-                    });
-                    
-                    context(@"and hmi state changes to limited", ^{
-                        beforeEach(^{
-                            sendNotificationForHMILevel(SDLHMILevelLimited);
-                        });
-                        
-                        it(@"should not close either stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
-                        });
+                        streamStub = OCMPartialMock(streamingLifecycleManager);
+
+                        OCMStub([streamStub isStreamingSupported]).andReturn(YES);
+
+                        [streamingLifecycleManager.appStateMachine setToState:SDLAppStateActive fromOldState:nil callEnterTransition:NO];
                     });
 
-                    context(@"and hmi state changes to full", ^{
+                    describe(@"and both streams are open", ^{
                         beforeEach(^{
-                            sendNotificationForHMILevel(SDLHMILevelFull);
+                            [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamStateReady fromOldState:nil callEnterTransition:NO];
+                            [streamingLifecycleManager.videoStreamStateMachine setToState:SDLVideoStreamStateReady fromOldState:nil callEnterTransition:NO];
                         });
-                        
-                        it(@"should not close either stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
+
+                        describe(@"and the hmi state is limited", ^{
+                            beforeEach(^{
+                                streamingLifecycleManager.hmiLevel = SDLHMILevelLimited;
+                            });
+
+                            describe(@"and the hmi state changes to", ^{
+                                context(@"none", ^{
+                                    beforeEach(^{
+                                        sendNotificationForHMILevel(SDLHMILevelNone);
+                                    });
+
+                                    it(@"should close only the video stream", ^{
+                                        expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
+                                        expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateShuttingDown));
+                                    });
+                                });
+
+                                context(@"background", ^{
+                                    beforeEach(^{
+                                        sendNotificationForHMILevel(SDLHMILevelBackground);
+                                    });
+
+                                    it(@"should close only the video stream", ^{
+                                        expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
+                                        expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateShuttingDown));
+                                    });
+                                });
+
+                                context(@"limited", ^{
+                                    beforeEach(^{
+                                        sendNotificationForHMILevel(SDLHMILevelLimited);
+                                    });
+
+                                    it(@"should not close either stream", ^{
+                                        expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
+                                        expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
+                                    });
+                                });
+
+                                context(@"full", ^{
+                                    beforeEach(^{
+                                        sendNotificationForHMILevel(SDLHMILevelFull);
+                                    });
+
+                                    it(@"should not close either stream", ^{
+                                        expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
+                                        expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
+                                    });
+                                });
+                            });
+
+                            describe(@"and the app state changes to", ^{
+                                context(@"inactive", ^{
+                                    beforeEach(^{
+                                        [streamingLifecycleManager.appStateMachine setToState:SDLAppStateInactive fromOldState:nil callEnterTransition:YES];
+                                    });
+
+                                    it(@"should flag to restart the video stream", ^{
+                                        expect(@(streamingLifecycleManager.shouldRestartVideoStream)).to(equal(@YES));
+                                        expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
+                                        expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
+                                    });
+                                });
+                            });
+                        });
+
+                        describe(@"and the hmi state is full", ^{
+                            beforeEach(^{
+                                streamingLifecycleManager.hmiLevel = SDLHMILevelFull;
+                            });
+
+                            context(@"and hmi state changes to none", ^{
+                                beforeEach(^{
+                                    sendNotificationForHMILevel(SDLHMILevelNone);
+                                });
+
+                                it(@"should close only the video stream", ^{
+                                    expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
+                                    expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateShuttingDown));
+                                });
+                            });
+
+                            context(@"and hmi state changes to background", ^{
+                                beforeEach(^{
+                                    sendNotificationForHMILevel(SDLHMILevelBackground);
+                                });
+
+                                it(@"should close only the video stream", ^{
+                                    expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
+                                    expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateShuttingDown));
+                                });
+                            });
+
+                            context(@"and hmi state changes to limited", ^{
+                                beforeEach(^{
+                                    sendNotificationForHMILevel(SDLHMILevelLimited);
+                                });
+
+                                it(@"should not close either stream", ^{
+                                    expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
+                                    expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
+                                });
+                            });
+
+                            context(@"and hmi state changes to full", ^{
+                                beforeEach(^{
+                                    sendNotificationForHMILevel(SDLHMILevelFull);
+                                });
+
+                                it(@"should not close either stream", ^{
+                                    expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
+                                    expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
+                                });
+                            });
                         });
                     });
-                });
-            });
-           
-            describe(@"and both streams are closed", ^{
-                beforeEach(^{
-                    [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamStateStopped fromOldState:nil callEnterTransition:NO];
-                    [streamingLifecycleManager.videoStreamStateMachine setToState:SDLVideoStreamStateStopped fromOldState:nil callEnterTransition:NO];
-                });
-                
-                describe(@"and the hmi state is none", ^{
-                    beforeEach(^{
-                        streamingLifecycleManager.hmiLevel = SDLHMILevelNone;
-                    });
-                    
-                    context(@"and hmi state changes to none", ^{
+
+                    describe(@"and both streams are closed", ^{
                         beforeEach(^{
-                            sendNotificationForHMILevel(SDLHMILevelNone);
+                            [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamStateStopped fromOldState:nil callEnterTransition:NO];
+                            [streamingLifecycleManager.videoStreamStateMachine setToState:SDLVideoStreamStateStopped fromOldState:nil callEnterTransition:NO];
                         });
-                        
-                        it(@"should only start the audio stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStarting));
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStopped));
-                        });
-                    });
-                    
-                    context(@"and hmi state changes to background", ^{
-                        beforeEach(^{
-                            sendNotificationForHMILevel(SDLHMILevelBackground);
-                        });
-                        
-                        it(@"should only start the audio stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStarting));
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStopped));
-                        });
-                    });
-                    
-                    context(@"and hmi state changes to limited", ^{
-                        beforeEach(^{
-                            sendNotificationForHMILevel(SDLHMILevelLimited);
-                        });
-                        
-                        it(@"should start both streams", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStarting));
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStarting));
-                        });
-                    });
-                    
-                    context(@"and hmi state changes to full", ^{
-                        beforeEach(^{
-                            sendNotificationForHMILevel(SDLHMILevelFull);
-                        });
-                        
-                        it(@"should start both streams", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStarting));
-                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStarting));
+
+                        describe(@"and the hmi state is none", ^{
+                            beforeEach(^{
+                                streamingLifecycleManager.hmiLevel = SDLHMILevelNone;
+                            });
+
+                            context(@"and hmi state changes to none", ^{
+                                beforeEach(^{
+                                    sendNotificationForHMILevel(SDLHMILevelNone);
+                                });
+
+                                it(@"should only start the audio stream", ^{
+                                    expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStarting));
+                                    expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStopped));
+                                });
+                            });
+
+                            context(@"and hmi state changes to background", ^{
+                                beforeEach(^{
+                                    sendNotificationForHMILevel(SDLHMILevelBackground);
+                                });
+
+                                it(@"should only start the audio stream", ^{
+                                    expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStarting));
+                                    expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStopped));
+                                });
+                            });
+                            
+                            context(@"and hmi state changes to limited", ^{
+                                beforeEach(^{
+                                    sendNotificationForHMILevel(SDLHMILevelLimited);
+                                });
+                                
+                                it(@"should start both streams", ^{
+                                    expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStarting));
+                                    expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStarting));
+                                });
+                            });
+                            
+                            context(@"and hmi state changes to full", ^{
+                                beforeEach(^{
+                                    sendNotificationForHMILevel(SDLHMILevelFull);
+                                });
+                                
+                                it(@"should start both streams", ^{
+                                    expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStarting));
+                                    expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStarting));
+                                });
+                            });
                         });
                     });
                 });

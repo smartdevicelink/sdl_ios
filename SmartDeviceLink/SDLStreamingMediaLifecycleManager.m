@@ -665,8 +665,10 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
  */
 - (void)sdl_sendVideoStartService {
     while (self.preferredFormatIndex < self.preferredFormats.count) {
-        if (![self.supportedFormats containsObject:self.preferredFormats[self.preferredResolutionIndex]]) {
+        if (![self.supportedFormats containsObject:self.preferredFormats[self.preferredFormatIndex]]) {
             self.preferredFormatIndex++;
+        } else {
+            break;
         }
     }
 
