@@ -295,6 +295,7 @@ extern SDLName const SDLNamePassengerDoorAjar;
 extern SDLName const SDLNamePassengerKneeAirbagDeployed;
 extern SDLName const SDLNamePassengerSideAirbagDeployed;
 extern SDLName const SDLNamePatchVersion;
+extern SDLName const SDLNamePCMStreamCapabilities;
 extern SDLName const SDLNamePDOP;
 extern SDLName const SDLNamePerformAudioPassThru;
 extern SDLName const SDLNamePerformInteraction;
