@@ -102,6 +102,11 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
 #pragma mark - SDLDidReceiveTouchEventNotification
 
+/**
+ *  Parses a touch event sent by Core. The manager handles detecting if the gesture was a pinch, pan or tap. Once the type of gesture is determined, delegates are notified about the touch event.
+
+ *  @param notification     A SDLOnTouchEvent notification.
+ */
 - (void)sdl_onTouchEvent:(SDLRPCNotificationNotification *)notification {
     if (!self.isTouchEnabled
         || (!self.touchEventHandler && !self.touchEventDelegate)
@@ -130,11 +135,16 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeEnd]) {
         [self sdl_handleTouchEnded:touch];
     } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeCancel]) {
-        [self sdl_handleTouchEnded:touch];
+        [self sdl_handleTouchCanceled:touch];
     }
 }
 
 #pragma mark - Private
+/**
+ *  Handles a BEGIN touch event sent by Core
+ *
+ *  @param touch Gesture information
+ */
 - (void)sdl_handleTouchBegan:(SDLTouch *)touch {
     if (!touch.isFirstFinger && !self.isTouchEnabled) {
         return; // no-op
@@ -159,6 +169,11 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     }
 }
 
+/**
+ *  Handles a MOVE touch event sent by Core
+ *
+ *  @param touch Gesture information
+ */
 - (void)sdl_handleTouchMoved:(SDLTouch *)touch {
     if ((touch.timeStamp - self.previousTouch.timeStamp) <= (self.movementTimeThreshold * NSEC_PER_USEC) || !self.isTouchEnabled) {
         return; // no-op
@@ -206,6 +221,11 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     self.previousTouch = touch;
 }
 
+/**
+ *  Handles a END touch type notification sent by Core
+ *
+ *  @param touch    Gesture information
+ */
 - (void)sdl_handleTouchEnded:(SDLTouch *)touch {
     if (!self.isTouchEnabled) {
         return; // no-op
@@ -221,7 +241,6 @@ static NSUInteger const MaximumNumberOfTouches = 2;
                     self.currentPinchGesture.secondTouch = touch;
                     break;
             }
-
             if (self.currentPinchGesture.isValid) {
                 if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchDidEndAtCenterPoint:)]) {
                     [self.touchEventDelegate touchManager:self
@@ -230,12 +249,14 @@ static NSUInteger const MaximumNumberOfTouches = 2;
                 self.currentPinchGesture = nil;
             }
             break;
+
             case SDLPerformingTouchTypePanningTouch:
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:panningDidEndAtPoint:)]) {
                 [self.touchEventDelegate touchManager:self
                                  panningDidEndAtPoint:touch.location];
             }
             break;
+
             case SDLPerformingTouchTypeSingleTouch:
             if (self.singleTapTimer == nil) { // Initial Tap
                 self.singleTapTouch = touch;
@@ -259,6 +280,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
                 self.singleTapTouch = nil;
             }
             break;
+
             case SDLPerformingTouchTypeNone:
             break;
     }
@@ -266,11 +288,10 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     _performingTouchType = SDLPerformingTouchTypeNone;
 }
 
-
 /**
+ *  Handles a CANCEL touch event sent by CORE. The CANCEL touch event is sent when a gesture is interrupted during a video stream. This can happen when a native dialog box appears on the screen, such as when an incoming phone call is received. Tap gestures are simply canceled and subscribers are not notified. Pinch and pan gesture subscribers are notified if a gesture is canceled.
  *
- *
- *@param touch  A touch's coordinates
+ *  @param touch    Gesture information
  */
 - (void)sdl_handleTouchCanceled:(SDLTouch *)touch {
     if (!self.isTouchEnabled) {
@@ -280,20 +301,29 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     switch (self.performingTouchType) {
             case SDLPerformingTouchTypeMultiTouch:
             if (self.currentPinchGesture.isValid) {
+                if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchCanceledAtCenterPoint:)]) {
+                    [self.touchEventDelegate touchManager:self
+                                 pinchCanceledAtCenterPoint:self.currentPinchGesture.center];
+                }
                 self.currentPinchGesture = nil;
             }
             break;
 
-            case SDLPerformingTouchTypeSingleTouch:
-            if (self.singleTapTimer != nil) {
-                // Double Tap
-                [self sdl_cancelSingleTapTimer];
-                self.singleTapTouch = nil;
+            case SDLPerformingTouchTypePanningTouch:
+            if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:panningCanceledAtPoint:)]) {
+                [self.touchEventDelegate touchManager:self
+                                 panningCanceledAtPoint:touch.location];
             }
             break;
 
             case SDLPerformingTouchTypeNone:
-            case SDLPerformingTouchTypePanningTouch:
+            // If a double tap is canceled before the start of the second tap, the single tap timer should be canceled
+            case SDLPerformingTouchTypeSingleTouch:
+            // Subscribers are not notified if a tap gesture is canceled
+            if (self.singleTapTimer != nil) {
+                [self sdl_cancelSingleTapTimer];
+                self.singleTapTouch = nil;
+            }
             break;
     }
 
@@ -301,6 +331,11 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     _performingTouchType = SDLPerformingTouchTypeNone;
 }
 
+/**
+ *  Creates a timer used to distinguish between single and double tap gestures
+ *
+ *  @param point  Screen coordinates of the tap gesture
+ */
 - (void)sdl_initializeSingleTapTimerAtPoint:(CGPoint)point {
     __weak typeof(self) weakSelf = self;
     self.singleTapTimer = dispatch_create_timer(self.tapTimeThreshold, NO, ^{
@@ -314,6 +349,9 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     });
 }
 
+/**
+ *  Cancels a tap gesture timer
+ */
 - (void)sdl_cancelSingleTapTimer {
     if (self.singleTapTimer == NULL) {
         return;
