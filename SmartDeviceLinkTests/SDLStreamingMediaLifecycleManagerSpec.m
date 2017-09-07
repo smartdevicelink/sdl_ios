@@ -39,7 +39,7 @@ fdescribe(@"the streaming media manager", ^{
     __block SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
     __block SDLFakeStreamingManagerDataSource *testDataSource = [[SDLFakeStreamingManagerDataSource alloc] init];
     __block NSString *someBackgroundTitleString = nil;
-    __block TestConnectionManager *testConnectionManager = [[TestConnectionManager alloc] init];
+    __block TestConnectionManager *testConnectionManager = nil;
     
     __block void (^sendNotificationForHMILevel)(SDLHMILevel hmiLevel) = ^(SDLHMILevel hmiLevel) {
         SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] init];
@@ -56,6 +56,7 @@ fdescribe(@"the streaming media manager", ^{
                                      };
         testConfiguration.dataSource = testDataSource;
         someBackgroundTitleString = @"Open Test App";
+        testConnectionManager = [[TestConnectionManager alloc] init];
         streamingLifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration];
     });
     
@@ -205,6 +206,7 @@ fdescribe(@"the streaming media manager", ^{
 
                 beforeEach(^{
                     SDLGetSystemCapabilityResponse *response = [[SDLGetSystemCapabilityResponse alloc] init];
+                    response.success = @YES;
                     response.systemCapability = [[SDLSystemCapability alloc] init];
                     response.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
 
@@ -216,7 +218,7 @@ fdescribe(@"the streaming media manager", ^{
                     [testConnectionManager respondToLastRequestWithResponse:response];
                 });
 
-                it(@"should have correct data", ^{
+                fit(@"should have correct data from the data source", ^{
                     // Correct formats should be retrieved from the data source
                     expect(streamingLifecycleManager.preferredResolutions).to(haveCount(1));
                     expect(streamingLifecycleManager.preferredResolutions.firstObject.resolutionWidth).to(equal(resolution.resolutionWidth));
