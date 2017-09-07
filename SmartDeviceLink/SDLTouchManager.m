@@ -156,14 +156,13 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             case SDLTouchIdentifierFirstFinger:
             self.previousTouch = touch;
             break;
+
             case SDLTouchIdentifierSecondFinger:
             _performingTouchType = SDLPerformingTouchTypeMultiTouch;
-            self.currentPinchGesture = [[SDLPinchGesture alloc] initWithFirstTouch:self.previousTouch
-                                                                       secondTouch:touch];
+            self.currentPinchGesture = [[SDLPinchGesture alloc] initWithFirstTouch:self.previousTouch secondTouch:touch];
             self.previousPinchDistance = self.currentPinchGesture.distance;
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchDidStartAtCenterPoint:)]) {
-                [self.touchEventDelegate touchManager:self
-                           pinchDidStartAtCenterPoint:self.currentPinchGesture.center];
+                [self.touchEventDelegate touchManager:self pinchDidStartAtCenterPoint:self.currentPinchGesture.center];
             }
             break;
     }
@@ -190,7 +189,6 @@ static NSUInteger const MaximumNumberOfTouches = 2;
                     break;
             }
 
-
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceivePinchAtCenterPoint:withScale:)]) {
                 CGFloat scale = self.currentPinchGesture.distance / self.previousPinchDistance;
                 [self.touchEventDelegate touchManager:self
@@ -200,6 +198,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
             self.previousPinchDistance = self.currentPinchGesture.distance;
             break;
+
             case SDLPerformingTouchTypeSingleTouch:
             _performingTouchType = SDLPerformingTouchTypePanningTouch;
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:panningDidStartAtPoint:)]) {
@@ -207,6 +206,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
                                panningDidStartAtPoint:touch.location];
             }
             break;
+
             case SDLPerformingTouchTypePanningTouch:
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceivePanningFromPoint:toPoint:)]) {
                 [self.touchEventDelegate touchManager:self
@@ -214,6 +214,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
                                               toPoint:touch.location];
             }
             break;
+
             case SDLPerformingTouchTypeNone:
             break;
     }
@@ -298,6 +299,11 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         return; // no-op
     }
 
+    if (self.singleTapTimer != nil) {
+        [self sdl_cancelSingleTapTimer];
+        self.singleTapTouch = nil;
+    }
+
     switch (self.performingTouchType) {
             case SDLPerformingTouchTypeMultiTouch:
             if (self.currentPinchGesture.isValid) {
@@ -320,10 +326,10 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             // If a double tap is canceled before the start of the second tap, the single tap timer should be canceled
             case SDLPerformingTouchTypeSingleTouch:
             // Subscribers are not notified if a tap gesture is canceled
-            if (self.singleTapTimer != nil) {
-                [self sdl_cancelSingleTapTimer];
-                self.singleTapTouch = nil;
-            }
+//            if (self.singleTapTimer != nil) {
+//                [self sdl_cancelSingleTapTimer];
+//                self.singleTapTouch = nil;
+//            }
             break;
     }
 
@@ -339,6 +345,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 - (void)sdl_initializeSingleTapTimerAtPoint:(CGPoint)point {
     __weak typeof(self) weakSelf = self;
     self.singleTapTimer = dispatch_create_timer(self.tapTimeThreshold, NO, ^{
+        // If timer was not canceled by a second tap then only one tap detected
         typeof(weakSelf) strongSelf = weakSelf;
         strongSelf.singleTapTouch = nil;
         [strongSelf sdl_cancelSingleTapTimer];
