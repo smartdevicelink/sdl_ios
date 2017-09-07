@@ -21,6 +21,8 @@
 @class SDLTouchManager;
 @class SDLVideoStreamingFormat;
 
+@protocol SDLStreamingMediaManagerDataSource;
+
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString SDLAppState;
@@ -60,6 +62,11 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
  *  Touch Manager responsible for providing touch event notifications.
  */
 @property (nonatomic, strong, readonly) SDLTouchManager *touchManager;
+
+/**
+ A data source for the streaming manager's preferred resolutions and preferred formats.
+ */
+@property (weak, nonatomic) id<SDLStreamingMediaManagerDataSource> dataSource;
 
 /**
  *  Whether or not video streaming is supported

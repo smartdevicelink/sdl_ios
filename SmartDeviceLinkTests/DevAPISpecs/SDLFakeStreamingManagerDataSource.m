@@ -8,14 +8,23 @@
 
 #import "SDLFakeStreamingManagerDataSource.h"
 
+#import "SDLImageResolution.h"
+#import "SDLVideoStreamingCodec.h"
+#import "SDLVideoStreamingFormat.h"
+#import "SDLVideoStreamingProtocol.h"
+
 @implementation SDLFakeStreamingManagerDataSource
 
+- (SDLVideoStreamingFormat *)extraFormat {
+    return [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecVP8 protocol:SDLVideoStreamingProtocolRTMP];
+}
+
 - (NSArray<SDLVideoStreamingFormat *> *)preferredVideoFormatOrderFromHeadUnitPreferredOrder:(NSArray<SDLVideoStreamingFormat *> *)headUnitPreferredOrder {
-    return @[];
+    return [@[self.extraFormat] arrayByAddingObjectsFromArray:headUnitPreferredOrder];
 }
 
 - (NSArray<SDLImageResolution *> *)resolutionFromHeadUnitPreferredResolution:(SDLImageResolution *)headUnitPreferredResolution {
-    return @[];
+    return @[headUnitPreferredResolution];
 }
 
 @end

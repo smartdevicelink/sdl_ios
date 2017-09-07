@@ -12,4 +12,6 @@
 
 @interface SDLFakeStreamingManagerDataSource : NSObject <SDLStreamingMediaManagerDataSource>
 
+@property (strong, nonatomic, readonly) SDLVideoStreamingFormat *extraFormat;
+
 @end

@@ -65,7 +65,6 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
 @interface SDLStreamingMediaLifecycleManager () <SDLVideoEncoderDelegate>
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (weak, nonatomic) id<SDLStreamingMediaManagerDataSource> dataSource;
 @property (weak, nonatomic) SDLAbstractProtocol *protocol;
 
 @property (copy, nonatomic) SDLStreamingMediaReadyBlock readyHandler;
@@ -107,6 +106,7 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
 
     _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
     _requestedEncryptionType = configuration.maximumDesiredEncryption;
+    _dataSource = configuration.dataSource;
     _screenSize = SDLDefaultScreenSize;
     _backgroundingPixelBuffer = NULL;
     _preferredFormatIndex = 0;
