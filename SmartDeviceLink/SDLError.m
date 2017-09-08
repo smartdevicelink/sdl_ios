@@ -140,8 +140,12 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorUnableToUpload userInfo:userInfo];
 }
 
-+ (NSError *)sdl_fileManager_unableTo__ErrorWithUserInfo:(NSDictionary *)userInfo {
-    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerMultipleFileTasksFailed userInfo:userInfo];
++ (NSError *)sdl_fileManager_unableToUpload_ErrorWithUserInfo:(NSDictionary *)userInfo {
+    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerMultipleFileUploadTasksFailed userInfo:userInfo];
+}
+
++ (NSError *)sdl_fileManager_unableToDelete_ErrorWithUserInfo:(NSDictionary *)userInfo {
+    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerMultipleFileDeleteTasksFailed userInfo:userInfo];
 }
 
 + (NSError *)sdl_fileManager_fileUploadCanceled {

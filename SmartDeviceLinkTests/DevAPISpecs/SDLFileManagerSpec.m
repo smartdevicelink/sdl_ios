@@ -641,7 +641,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                     }
 
                     testConnectionManager.responses = testConnectionManagerResponses;
-                    expectedError = [NSError sdl_fileManager_unableTo__ErrorWithUserInfo:expectedFailedUploads];
+                    expectedError = [NSError sdl_fileManager_unableToUpload_ErrorWithUserInfo:expectedFailedUploads];
                     expectedSpaceLeft = @(testSpaceAvailable);
                 });
             });
@@ -737,14 +737,14 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                 testFileCount = 11;
                 testCancelIndex = 0;
                 testFileNameBase = @"TestUploadFilesCancelAfterFirst";
-                expectedError = [NSError sdl_fileManager_unableTo__ErrorWithUserInfo:testResponses];
+                expectedError = [NSError sdl_fileManager_unableToUpload_ErrorWithUserInfo:testResponses];
             });
 
             it(@"should cancel the remaining files if cancel is triggered after half of the files are uploaded", ^{
                 testFileCount = 30;
                 testCancelIndex = testFileCount / 2;
                 testFileNameBase = @"TestUploadFilesCancelInMiddle";
-                expectedError = [NSError sdl_fileManager_unableTo__ErrorWithUserInfo:testResponses];
+                expectedError = [NSError sdl_fileManager_unableToUpload_ErrorWithUserInfo:testResponses];
             });
 
             it(@"should not fail if there are no more files to cancel", ^{
@@ -783,7 +783,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                         return YES;
                     } completionHandler:^(NSError * _Nullable error) {
                         if (expectedError != nil) {
-                            expect(error.code).to(equal(SDLFileManagerMultipleFileTasksFailed));
+                            expect(error.code).to(equal(SDLFileManagerMultipleFileUploadTasksFailed));
                         } else {
                             expect(error).to(beNil());
                         }
@@ -819,7 +819,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                 testFileCount = 11;
                 testCancelIndex = 0;
                 testFileNameBase = @"TestUploadFilesCancelGroupOnly";
-                expectedError = [NSError sdl_fileManager_unableTo__ErrorWithUserInfo:testResponses];
+                expectedError = [NSError sdl_fileManager_unableToUpload_ErrorWithUserInfo:testResponses];
 
                 testOtherFileNameBase = @"TestOtherUploadFilesCancelGroupOnly";
                 testOtherFileCount = 22;
@@ -878,7 +878,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                         return YES;
                     } completionHandler:^(NSError * _Nullable error) {
                         if (expectedError != nil) {
-                            expect(error.code).to(equal(SDLFileManagerMultipleFileTasksFailed));
+                            expect(error.code).to(equal(SDLFileManagerMultipleFileUploadTasksFailed));
                         } else {
                             expect(error).to(beNil());
                         }
@@ -1029,7 +1029,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                     }
 
                     testConnectionManager.responses = testConnectionManagerResponses;
-                    expectedError = [NSError sdl_fileManager_unableTo__ErrorWithUserInfo:expectedFailedDeletes];
+                    expectedError = [NSError sdl_fileManager_unableToDelete_ErrorWithUserInfo:expectedFailedDeletes];
                     expectedSpaceLeft = @(testSpaceAvailable);
                 });
             });
