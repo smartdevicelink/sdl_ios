@@ -234,14 +234,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
     switch (self.performingTouchType) {
             case SDLPerformingTouchTypeMultiTouch:
-            switch (touch.identifier) {
-                    case SDLTouchIdentifierFirstFinger:
-                    self.currentPinchGesture.firstTouch = touch;
-                    break;
-                    case SDLTouchIdentifierSecondFinger:
-                    self.currentPinchGesture.secondTouch = touch;
-                    break;
-            }
+            [self sdl_setMultiTouchFingerTouchForTouch:touch];
             if (self.currentPinchGesture.isValid) {
                 if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchDidEndAtCenterPoint:)]) {
                     [self.touchEventDelegate touchManager:self
@@ -259,10 +252,12 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             break;
 
             case SDLPerformingTouchTypeSingleTouch:
-            if (self.singleTapTimer == nil) { // Initial Tap
+            if (self.singleTapTimer == nil) {
+                // Initial Tap
                 self.singleTapTouch = touch;
                 [self sdl_initializeSingleTapTimerAtPoint:self.singleTapTouch.location];
-            } else { // Double Tap
+            } else {
+                // Double Tap
                 [self sdl_cancelSingleTapTimer];
 
                 NSUInteger timeStampDelta = touch.timeStamp - self.singleTapTouch.timeStamp;
@@ -290,7 +285,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 }
 
 /**
- *  Handles a CANCEL touch event sent by CORE. The CANCEL touch event is sent when a gesture is interrupted during a video stream. This can happen when a native dialog box appears on the screen, such as when an incoming phone call is received. Tap gestures are simply canceled and subscribers are not notified. Pinch and pan gesture subscribers are notified if a gesture is canceled.
+ *  Handles a CANCEL touch event sent by CORE. The CANCEL touch event is sent when a gesture is interrupted during a video stream. This can happen when a system dialog box appears on the screen, such as when the user is alerted about an incoming phone call. Tap gestures are simply canceled and subscribers are not notified. Pinch and pan gesture subscribers are notified if a gesture is canceled.
  *
  *  @param touch    Gesture information
  */
@@ -306,6 +301,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
     switch (self.performingTouchType) {
             case SDLPerformingTouchTypeMultiTouch:
+            [self sdl_setMultiTouchFingerTouchForTouch:touch];
             if (self.currentPinchGesture.isValid) {
                 if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchCanceledAtCenterPoint:)]) {
                     [self.touchEventDelegate touchManager:self
@@ -329,6 +325,17 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
     self.previousTouch = nil;
     _performingTouchType = SDLPerformingTouchTypeNone;
+}
+
+- (void)sdl_setMultiTouchFingerTouchForTouch:(SDLTouch *)touch {
+    switch (touch.identifier) {
+        case SDLTouchIdentifierFirstFinger:
+            self.currentPinchGesture.firstTouch = touch;
+            break;
+        case SDLTouchIdentifierSecondFinger:
+            self.currentPinchGesture.secondTouch = touch;
+            break;
+    }
 }
 
 /**
