@@ -699,7 +699,7 @@ static float DefaultConnectionTimeout = 45.0;
     NSDictionary<NSString *, id> *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&JSONConversionError];
     if (!JSONConversionError) {
         SDLEncodedSyncPData *request = [[SDLEncodedSyncPData alloc] init];
-        request.correlationID = [NSNumber numberWithInt:POLICIES_CORRELATION_ID];
+        request.correlationID = [NSNumber numberWithInt:PoliciesCorrelationId];
         request.data = [responseDictionary objectForKey:@"data"];
 
         [self sendRPC:request];
