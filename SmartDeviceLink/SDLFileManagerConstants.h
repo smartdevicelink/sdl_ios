@@ -34,7 +34,7 @@ typedef void(^SDLFileManagerMultiUploadCompletionHandler)(NSError *__nullable er
  *  In a multiple request send, a handler called after each response from Core to a upload request.
  *
  *  @param fileName             The name of the file that received a response from SDL Core
- *  @param uploadPercentage     The percentage of uploaded data. The upload percentage is calculated as the total file size of all attempted file uploads (irregardless of the successfulness of the upload) divided by the sum of the data in all the files
+ *  @param uploadPercentage     The percentage of uploaded data. The upload percentage is calculated as the total file size of all attempted file uploads (regardless of the successfulness of the upload) divided by the sum of the data in all the files
  *  @param error                The error that occurred during the request if one occurred, nil if no error occured
  *  @return                     Return NO to cancel any requests that have not yet been sent. Return YES to continue sending requests
  */
