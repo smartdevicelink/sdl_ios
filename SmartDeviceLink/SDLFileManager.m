@@ -196,6 +196,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 - (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)handler {
     if ((![self.remoteFileNames containsObject:name]) && (handler != nil)) {
         handler(NO, self.bytesAvailable, [NSError sdl_fileManager_noKnownFileError]);
+        return;
     }
 
     __weak typeof(self) weakSelf = self;
