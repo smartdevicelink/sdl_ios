@@ -9,7 +9,7 @@
 #import "SDLGetWaypoints.h"
 
 #import "SDLNames.h"
-#import "SDLWaypointType.h"
+#import "SDLWayPointType.h"
 
 QuickSpecBegin(SDLGetWaypointsSpec)
 
@@ -17,19 +17,19 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLGetWayPoints* testRequest = [[SDLGetWayPoints alloc] init];
         
-        testRequest.waypointType = SDLWaypointTypeAll;
+        testRequest.waypointType = SDLWayPointTypeAll;
         
-        expect(testRequest.waypointType).to(equal(SDLWaypointTypeAll));
+        expect(testRequest.waypointType).to(equal(SDLWayPointTypeAll));
     });
     
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameRequest:
                                            @{SDLNameParameters:
-                                                 @{SDLNameWaypointType:SDLWaypointTypeAll},
-                                             SDLNameOperationName:SDLNameGetWaypoints}} mutableCopy];
+                                                 @{SDLNameWayPointType:SDLWayPointTypeAll},
+                                             SDLNameOperationName:SDLNameGetWayPoints}} mutableCopy];
         SDLGetWayPoints* testRequest = [[SDLGetWayPoints alloc] initWithDictionary:dict];
         
-        expect(testRequest.waypointType).to(equal(SDLWaypointTypeAll));
+        expect(testRequest.waypointType).to(equal(SDLWayPointTypeAll));
     });
     
     it(@"Should return nil if not set", ^ {

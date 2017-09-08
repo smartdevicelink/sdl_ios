@@ -30,7 +30,7 @@ describe(@"Initialization tests", ^{
         NSDictionary *dict = @{SDLNameResponse: @{
                                        SDLNameParameters: @{
                                                SDLNameSystemCapability: @{SDLNameSystemCapabilityType: @"NAVIGATION",
-                                                                         SDLNameNavigationCapability: @{SDLNameGetWaypointsEnabled: @(NO),
+                                                                         SDLNameNavigationCapability: @{SDLNameGetWayPointsEnabled: @(NO),
                                                                                                         SDLNameSendLocationEnabled: @(YES)}}
                                                }
                                        }

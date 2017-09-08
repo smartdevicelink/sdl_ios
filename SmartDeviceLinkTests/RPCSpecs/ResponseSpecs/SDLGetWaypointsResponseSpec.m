@@ -65,7 +65,7 @@ describe(@"Getter/Setter Tests", ^ {
                 
                 NSDictionary *initDict = @{SDLNameResponse : @{
                                                    SDLNameParameters: @{
-                                                           SDLNameWaypoints: someWaypoints
+                                                           SDLNameWayPoints: someWaypoints
                                                            }
                                                    }
                                            };
