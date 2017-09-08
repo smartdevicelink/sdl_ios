@@ -8,10 +8,12 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLConnectionManagerType.h"
+#import "SDLControlFramePayloadVideoStartServiceAck.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLGenericResponse.h"
 #import "SDLGetSystemCapability.h"
 #import "SDLGetSystemCapabilityResponse.h"
+#import "SDLGlobals.h"
 #import "SDLHMILevel.h"
 #import "SDLImageResolution.h"
 #import "SDLNotificationConstants.h"
@@ -26,6 +28,8 @@
 #import "SDLStreamingMediaLifecycleManager.h"
 #import "SDLFakeStreamingManagerDataSource.h"
 #import "SDLSystemCapability.h"
+#import "SDLV2ProtocolHeader.h"
+#import "SDLV2ProtocolMessage.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLVideoStreamingCodec.h"
 #import "SDLVideoStreamingFormat.h"
@@ -416,9 +420,69 @@ describe(@"the streaming media manager", ^{
                                     expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStarting));
                                     expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStarting));
                                 });
+
+                                it(@"should have decided upon the correct preferred format and resolution", ^{
+                                    SDLVideoStreamingFormat *preferredFormat = streamingLifecycleManager.preferredFormats[streamingLifecycleManager.preferredFormatIndex];
+                                    expect(preferredFormat.codec).to(equal(SDLVideoStreamingCodecH264));
+                                    expect(preferredFormat.protocol).to(equal(SDLVideoStreamingProtocolRTP));
+
+                                    SDLImageResolution *preferredResolution = streamingLifecycleManager.preferredResolutions[streamingLifecycleManager.preferredResolutionIndex];
+                                    expect(preferredResolution.resolutionHeight).to(equal(@69));
+                                    expect(preferredResolution.resolutionWidth).to(equal(@42));
+                                });
                             });
                         });
                     });
+                });
+            });
+        });
+
+        describe(@"after receiving a Video Start ACK", ^{
+            __block SDLProtocolHeader *testVideoHeader = nil;
+            __block SDLProtocolMessage *testVideoMessage = nil;
+            __block SDLControlFramePayloadVideoStartServiceAck *testVideoStartServicePayload = nil;
+            __block int64_t testMTU = 789456;
+            __block int32_t testVideoHeight = 42;
+            __block int32_t testVideoWidth = 32;
+            __block SDLVideoStreamingCodec testVideoCodec = SDLVideoStreamingCodecH264;
+            __block SDLVideoStreamingProtocol testVideoProtocol = SDLVideoStreamingProtocolRTP;
+
+            beforeEach(^{
+                [streamingLifecycleManager.videoStreamStateMachine setToState:SDLVideoStreamStateStarting fromOldState:nil callEnterTransition:NO];
+
+                testVideoHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                testVideoHeader.frameType = SDLFrameTypeSingle;
+                testVideoHeader.frameData = SDLFrameInfoStartServiceACK;
+                testVideoHeader.encrypted = YES;
+                testVideoHeader.serviceType = SDLServiceTypeVideo;
+            });
+
+            context(@"with data", ^{
+                beforeEach(^{
+                    testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:testVideoHeight width:testVideoWidth protocol:testVideoProtocol codec:testVideoCodec];
+                    testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
+                    [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
+                });
+
+                it(@"should have set all the right properties", ^{
+                    expect([[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeVideo]).to(equal(testMTU));
+                    expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeMake(testVideoWidth, testVideoHeight))).to(equal(YES));
+                    expect(streamingLifecycleManager.videoFormat).to(equal([[SDLVideoStreamingFormat alloc] initWithCodec:testVideoCodec protocol:testVideoProtocol]));
+                    expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
+                });
+            });
+
+            context(@"with missing data", ^{
+                beforeEach(^{
+                    testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:testVideoHeight width:testVideoWidth protocol:nil codec:nil];
+                    testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
+                    [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
+                });
+
+                fit(@"should fall back correctly", ^{
+                    expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeMake(testVideoWidth, testVideoHeight))).to(equal(YES));
+                    expect(streamingLifecycleManager.videoFormat).to(equal([[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW]));
+                    expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
                 });
             });
         });

@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Accepted video codec to be used. See VideoStreamingCodec RPC
 @property (copy, nonatomic, readonly, nullable) SDLVideoStreamingCodec videoCodec;
 
-- (instancetype)initWithMTU:(int64_t)mtu height:(int32_t)height width:(int32_t)width protocol:(SDLVideoStreamingProtocol)protocol codec:(SDLVideoStreamingCodec)codec;
+- (instancetype)initWithMTU:(int64_t)mtu height:(int32_t)height width:(int32_t)width protocol:(nullable SDLVideoStreamingProtocol)protocol codec:(nullable SDLVideoStreamingCodec)codec;
 
 @end
 

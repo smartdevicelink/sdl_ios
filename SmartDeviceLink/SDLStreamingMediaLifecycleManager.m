@@ -438,10 +438,10 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
 
     // This is the definitive screen size that will be used
     if (videoAckPayload.height != SDLControlFrameInt32NotFound && videoAckPayload.width != SDLControlFrameInt32NotFound) {
-        _screenSize = CGSizeMake(videoAckPayload.height, videoAckPayload.width);
-    }
+        _screenSize = CGSizeMake(videoAckPayload.width, videoAckPayload.height);
+    } // else we are using the screen size we got from the RAIR earlier
 
-    // Figure out the definitive format that will be used
+    // Figure out the definitive format that will be used. If the protocol / codec weren't passed in the payload, it's probably a system that doesn't support those properties, which also means it's a system that requires H.264 RAW encoding
     self.videoFormat = [[SDLVideoStreamingFormat alloc] init];
     self.videoFormat.codec = videoAckPayload.videoCodec ?: SDLVideoStreamingCodecH264;
     self.videoFormat.protocol = videoAckPayload.videoProtocol ?: SDLVideoStreamingProtocolRAW;
@@ -697,7 +697,9 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
     }
 }
 
+
 #pragma mark Getters
+
 - (BOOL)isAppStateVideoStreamCapable {
     return [self.appStateMachine isCurrentState:SDLAppStateActive];
 }
