@@ -103,7 +103,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 #pragma mark - SDLDidReceiveTouchEventNotification
 
 /**
- *  Parses a touch event sent by Core. The manager handles detecting if the gesture was a pinch, pan or tap. Once the type of gesture is determined, delegates are notified about the touch event.
+ *  Handles detecting the type and state of the gesture and notifies the appropriate delegate callbacks.
 
  *  @param notification     A SDLOnTouchEvent notification.
  */
@@ -285,7 +285,9 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 }
 
 /**
- *  Handles a CANCEL touch event sent by CORE. The CANCEL touch event is sent when a gesture is interrupted during a video stream. This can happen when a system dialog box appears on the screen, such as when the user is alerted about an incoming phone call. Tap gestures are simply canceled and subscribers are not notified. Pinch and pan gesture subscribers are notified if a gesture is canceled.
+ *  Handles a CANCEL touch event sent by CORE. The CANCEL touch event is sent when a gesture is interrupted during a video stream. This can happen when a system dialog box appears on the screen, such as when the user is alerted about an incoming phone call. 
+ *
+ *  Pinch and pan gesture subscribers are notified if the gesture is canceled. Tap gestures are simply canceled without notification.
  *
  *  @param touch    Gesture information
  */
@@ -295,6 +297,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     }
 
     if (self.singleTapTimer != nil) {
+        // Cancel any ongoing single tap timer
         [self sdl_cancelSingleTapTimer];
         self.singleTapTouch = nil;
     }
@@ -339,7 +342,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 }
 
 /**
- *  Creates a timer used to distinguish between single and double tap gestures
+ *  Creates a timer used to detect the type of tap gesture (single or double tap)
  *
  *  @param point  Screen coordinates of the tap gesture
  */
