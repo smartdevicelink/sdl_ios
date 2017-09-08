@@ -8,6 +8,9 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLConnectionManagerType.h"
+#import "SDLControlFramePayloadAudioStartServiceAck.h"
+#import "SDLControlFramePayloadConstants.h"
+#import "SDLControlFramePayloadNak.h"
 #import "SDLControlFramePayloadVideoStartServiceAck.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLGenericResponse.h"
@@ -467,6 +470,7 @@ describe(@"the streaming media manager", ^{
                 it(@"should have set all the right properties", ^{
                     expect([[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeVideo]).to(equal(testMTU));
                     expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeMake(testVideoWidth, testVideoHeight))).to(equal(YES));
+                    expect(streamingLifecycleManager.videoEncrypted).to(equal(YES));
                     expect(streamingLifecycleManager.videoFormat).to(equal([[SDLVideoStreamingFormat alloc] initWithCodec:testVideoCodec protocol:testVideoProtocol]));
                     expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
                 });
@@ -479,11 +483,189 @@ describe(@"the streaming media manager", ^{
                     [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
                 });
 
-                fit(@"should fall back correctly", ^{
+                it(@"should fall back correctly", ^{
                     expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeMake(testVideoWidth, testVideoHeight))).to(equal(YES));
                     expect(streamingLifecycleManager.videoFormat).to(equal([[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW]));
                     expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
                 });
+            });
+        });
+
+        describe(@"after receiving a Video Start NAK", ^{
+            __block SDLProtocolHeader *testVideoHeader = nil;
+            __block SDLProtocolMessage *testVideoMessage = nil;
+            __block SDLControlFramePayloadNak *testVideoStartNakPayload = nil;
+
+            beforeEach(^{
+                [streamingLifecycleManager.videoStreamStateMachine setToState:SDLVideoStreamStateStarting fromOldState:nil callEnterTransition:NO];
+
+                testVideoHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                testVideoHeader.frameType = SDLFrameTypeSingle;
+                testVideoHeader.frameData = SDLFrameInfoStartServiceACK;
+                testVideoHeader.encrypted = YES;
+                testVideoHeader.serviceType = SDLServiceTypeVideo;
+            });
+
+            context(@"with data", ^{
+                beforeEach(^{
+                    testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:@[[NSString stringWithUTF8String:SDLControlFrameHeightKey], [NSString stringWithUTF8String:SDLControlFrameVideoCodecKey]]];
+                    testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
+                    [streamingLifecycleManager handleProtocolStartServiceNAKMessage:testVideoMessage];
+                });
+
+                it(@"should have retried with new properties", ^{
+                    expect(streamingLifecycleManager.preferredResolutionIndex).to(equal(1));
+                    expect(streamingLifecycleManager.preferredFormatIndex).to(equal(1));
+                });
+            });
+
+            context(@"with missing data", ^{
+                beforeEach(^{
+                    testVideoStartNakPayload = [[SDLControlFramePayloadNak alloc] initWithRejectedParams:nil];
+                    testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartNakPayload.data];
+                    [streamingLifecycleManager handleProtocolStartServiceNAKMessage:testVideoMessage];
+                });
+
+                it(@"should end the service", ^{
+                    expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStopped));
+                });
+            });
+        });
+
+        describe(@"after receiving a video end ACK", ^{
+            __block SDLProtocolHeader *testVideoHeader = nil;
+            __block SDLProtocolMessage *testVideoMessage = nil;
+
+            beforeEach(^{
+                [streamingLifecycleManager.videoStreamStateMachine setToState:SDLVideoStreamStateStarting fromOldState:nil callEnterTransition:NO];
+
+                testVideoHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                testVideoHeader.frameType = SDLFrameTypeSingle;
+                testVideoHeader.frameData = SDLFrameInfoEndServiceACK;
+                testVideoHeader.encrypted = NO;
+                testVideoHeader.serviceType = SDLServiceTypeVideo;
+
+                testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:nil];
+                [streamingLifecycleManager handleProtocolEndServiceACKMessage:testVideoMessage];
+            });
+
+            it(@"should have set all the right properties", ^{
+                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStopped));
+            });
+        });
+
+        describe(@"after receiving a video end NAK", ^{
+            __block SDLProtocolHeader *testVideoHeader = nil;
+            __block SDLProtocolMessage *testVideoMessage = nil;
+
+            beforeEach(^{
+                [streamingLifecycleManager.videoStreamStateMachine setToState:SDLVideoStreamStateStarting fromOldState:nil callEnterTransition:NO];
+
+                testVideoHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                testVideoHeader.frameType = SDLFrameTypeSingle;
+                testVideoHeader.frameData = SDLFrameInfoEndServiceNACK;
+                testVideoHeader.encrypted = NO;
+                testVideoHeader.serviceType = SDLServiceTypeVideo;
+
+                testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:nil];
+                [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testVideoMessage];
+            });
+
+            it(@"should have set all the right properties", ^{
+                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStopped));
+            });
+        });
+
+        describe(@"after receiving an Audio Start ACK", ^{
+            __block SDLProtocolHeader *testAudioHeader = nil;
+            __block SDLProtocolMessage *testAudioMessage = nil;
+            __block SDLControlFramePayloadAudioStartServiceAck *testAudioStartServicePayload = nil;
+            __block int64_t testMTU = 786579;
+
+            beforeEach(^{
+                [streamingLifecycleManager.audioStreamStateMachine setToState:SDLAudioStreamStateStarting fromOldState:nil callEnterTransition:NO];
+
+                testAudioHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                testAudioHeader.frameType = SDLFrameTypeSingle;
+                testAudioHeader.frameData = SDLFrameInfoStartServiceACK;
+                testAudioHeader.encrypted = YES;
+                testAudioHeader.serviceType = SDLServiceTypeAudio;
+
+                testAudioStartServicePayload = [[SDLControlFramePayloadAudioStartServiceAck alloc] initWithMTU:testMTU];
+                testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:testAudioStartServicePayload.data];
+                [streamingLifecycleManager handleProtocolStartServiceACKMessage:testAudioMessage];
+            });
+
+            it(@"should have set all the right properties", ^{
+                expect([[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeAudio]).to(equal(testMTU));
+                expect(streamingLifecycleManager.audioEncrypted).to(equal(YES));
+                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
+            });
+        });
+
+        describe(@"after receiving an Audio Start NAK", ^{
+            __block SDLProtocolHeader *testAudioHeader = nil;
+            __block SDLProtocolMessage *testAudioMessage = nil;
+
+            beforeEach(^{
+                [streamingLifecycleManager.videoStreamStateMachine setToState:SDLAudioStreamStateStarting fromOldState:nil callEnterTransition:NO];
+
+                testAudioHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                testAudioHeader.frameType = SDLFrameTypeSingle;
+                testAudioHeader.frameData = SDLFrameInfoStartServiceNACK;
+                testAudioHeader.encrypted = NO;
+                testAudioHeader.serviceType = SDLServiceTypeAudio;
+
+                testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:nil];
+                [streamingLifecycleManager handleProtocolEndServiceACKMessage:testAudioMessage];
+            });
+
+            it(@"should have set all the right properties", ^{
+                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStopped));
+            });
+        });
+
+        describe(@"after receiving a audio end ACK", ^{
+            __block SDLProtocolHeader *testAudioHeader = nil;
+            __block SDLProtocolMessage *testAudioMessage = nil;
+
+            beforeEach(^{
+                [streamingLifecycleManager.videoStreamStateMachine setToState:SDLAudioStreamStateStarting fromOldState:nil callEnterTransition:NO];
+
+                testAudioHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                testAudioHeader.frameType = SDLFrameTypeSingle;
+                testAudioHeader.frameData = SDLFrameInfoEndServiceACK;
+                testAudioHeader.encrypted = NO;
+                testAudioHeader.serviceType = SDLServiceTypeAudio;
+
+                testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:nil];
+                [streamingLifecycleManager handleProtocolEndServiceACKMessage:testAudioMessage];
+            });
+
+            it(@"should have set all the right properties", ^{
+                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStopped));
+            });
+        });
+
+        describe(@"after receiving a audio end NAK", ^{
+            __block SDLProtocolHeader *testAudioHeader = nil;
+            __block SDLProtocolMessage *testAudioMessage = nil;
+
+            beforeEach(^{
+                [streamingLifecycleManager.videoStreamStateMachine setToState:SDLAudioStreamStateStarting fromOldState:nil callEnterTransition:NO];
+
+                testAudioHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                testAudioHeader.frameType = SDLFrameTypeSingle;
+                testAudioHeader.frameData = SDLFrameInfoEndServiceNACK;
+                testAudioHeader.encrypted = NO;
+                testAudioHeader.serviceType = SDLServiceTypeAudio;
+
+                testAudioMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testAudioHeader andPayload:nil];
+                [streamingLifecycleManager handleProtocolEndServiceNAKMessage:testAudioMessage];
+            });
+
+            it(@"should have set all the right properties", ^{
+                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStopped));
             });
         });
     });

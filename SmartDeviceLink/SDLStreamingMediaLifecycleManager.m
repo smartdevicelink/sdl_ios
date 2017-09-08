@@ -452,10 +452,10 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
     switch (startServiceNAK.header.serviceType) {
         case SDLServiceTypeAudio: {
-            [self sdl_handleAudioStartServiceAck:startServiceNAK];
+            [self sdl_handleAudioStartServiceNak:startServiceNAK];
         } break;
         case SDLServiceTypeVideo: {
-            [self sdl_handleAudioStartServiceNak:startServiceNAK];
+            [self sdl_handleVideoStartServiceNak:startServiceNAK];
         }
         default: break;
     }
@@ -488,12 +488,12 @@ typedef void(^SDLVideoCapabilityResponse)(SDLVideoStreamingCapability *_Nullable
     [self sdl_transitionToStoppedState:SDLServiceTypeAudio];
 }
 
-- (void)handleProtocolEndSessionACK:(SDLServiceType)serviceType {
-    [self sdl_transitionToStoppedState:serviceType];
+- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
+    [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
 }
 
-- (void)handleProtocolEndSessionNACK:(SDLServiceType)serviceType {
-    [self sdl_transitionToStoppedState:serviceType];
+- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
+    [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];
 }
 
 #pragma mark - SDLVideoEncoderDelegate
