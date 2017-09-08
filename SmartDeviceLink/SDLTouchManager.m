@@ -323,13 +323,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             break;
 
             case SDLPerformingTouchTypeNone:
-            // If a double tap is canceled before the start of the second tap, the single tap timer should be canceled
             case SDLPerformingTouchTypeSingleTouch:
-            // Subscribers are not notified if a tap gesture is canceled
-//            if (self.singleTapTimer != nil) {
-//                [self sdl_cancelSingleTapTimer];
-//                self.singleTapTouch = nil;
-//            }
             break;
     }
 
