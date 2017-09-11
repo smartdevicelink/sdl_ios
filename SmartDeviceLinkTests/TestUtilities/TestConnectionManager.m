@@ -7,7 +7,6 @@
 //
 
 #import "TestConnectionManager.h"
-
 #import "SDLRPCRequest.h"
 
 
@@ -22,14 +21,13 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     _receivedRequests = [NSMutableArray<__kindof SDLRPCRequest *> array];
-    
+
     return self;
 }
 
 - (void)sendManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     self.lastRequestBlock = handler;
     request.correlationID = [self test_nextCorrelationID];
-    
     [self.receivedRequests addObject:request];
 }
 

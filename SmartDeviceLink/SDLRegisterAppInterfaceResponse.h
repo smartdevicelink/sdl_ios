@@ -124,6 +124,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
 
 /**
+ @see SDLAudioPassThruCapabilities
+ */
+@property (nullable, strong, nonatomic) SDLAudioPassThruCapabilities *pcmStreamCapabilities;
+
+/**
  * Specifies the vehicle's type
  *
  * @see SDLVehicleType
