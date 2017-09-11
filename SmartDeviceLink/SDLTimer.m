@@ -35,7 +35,7 @@
 @end
 
 
-@interface SDLTimer ()
+@interface SDLTimer () <SDLTimerTargetDelegate>
 
 @property (strong) NSTimer *timer;
 @property (assign) BOOL timerRunning;
