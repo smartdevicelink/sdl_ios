@@ -9,7 +9,7 @@ import UIKit
 class ConnectionContainerViewController: UIViewController {
 
     @IBOutlet weak var segmentedControl: UISegmentedControl!
-    var viewControllers: [UIViewController]
+    var viewControllers: [UIViewController] = []
     var currentViewController: UIViewController?
 
     override func viewDidLoad() {
@@ -20,8 +20,8 @@ class ConnectionContainerViewController: UIViewController {
         let iapControllerStoryboard = UIStoryboard(name: "ConnectionIAPTableViewController", bundle: nil)
         let tcpController = tcpControllerStoryboard.instantiateViewController(withIdentifier :"ConnectionTCPTableViewController")
         let iapController = iapControllerStoryboard.instantiateViewController(withIdentifier :"ConnectionIAPTableViewController")
-        viewControllers.add(tcpController)
-        viewControllers.add(iapController)
+        viewControllers.append(tcpController)
+        viewControllers.append(iapController)
 
         segmentedControl.selectedSegmentIndex = 0
         loadChildViewController(index: 0)
