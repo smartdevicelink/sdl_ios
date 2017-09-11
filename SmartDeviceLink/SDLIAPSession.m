@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 NSString *const IOStreamThreadName = @"com.smartdevicelink.iostream";
-NSTimeInterval const streamThreadWaitSecs = 1.0;
+NSTimeInterval const StreamThreadWaitSecs = 1.0;
 
 @interface SDLIAPSession ()
 
@@ -86,7 +86,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
     if (self.isDataSession) {
         [self.ioStreamThread cancel];
 
-        long lWait = dispatch_semaphore_wait(self.canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, streamThreadWaitSecs * NSEC_PER_SEC));
+        long lWait = dispatch_semaphore_wait(self.canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, StreamThreadWaitSecs * NSEC_PER_SEC));
         if (lWait == 0) {
             SDLLogW(@"Stream thread cancelled");
         } else {
