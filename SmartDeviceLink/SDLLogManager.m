@@ -172,7 +172,7 @@ static dispatch_queue_t _logQueue = NULL;
 }
 
 - (void)sdl_log:(SDLLogModel *)log {
-    if ([self sdl_logLevelForFile:log.fileName] < log.level) { return; }
+    if ([self sdl_logLevelForFile:log.fileName] > log.level) { return; }
 
     for (SDLLogFilter *filter in self.filters) {
         if (!filter.filter(log)) { return; }
