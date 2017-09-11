@@ -22,10 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDLUploadFileOperation
 
-@interface SDLUploadFileOperation () <NSStreamDelegate>
+@interface SDLUploadFileOperation ()
 
 @property (strong, nonatomic) SDLFileWrapper *fileWrapper;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (strong, nonatomic) NSInputStream *inputStream;
+
 @end
 
 
@@ -67,20 +69,31 @@ NS_ASSUME_NONNULL_BEGIN
     __block NSUInteger bytesAvailable = 0;
     __block NSInteger highestCorrelationIDReceived = -1;
 
-    NSInputStream *inputStream = [self sdl_openInputStreamWithFile:file];
+    if (self.isCancelled) {
+        return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileUploadCanceled]);
+    }
 
-    // If the file does not exist or the passed data is nil, return an error
-    if (inputStream == nil) {
+    if (file == nil) {
+        return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
+    }
+
+    self.inputStream = [self sdl_openInputStreamWithFile:file];
+    if (self.inputStream == nil || ![self.inputStream hasBytesAvailable]) {
+        // If the file does not exist or the passed data is nil, return an error
+        [self sdl_closeInputStream];
         return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
     }
 
     dispatch_group_t putFileGroup = dispatch_group_create();
     dispatch_group_enter(putFileGroup);
 
-    // Waits for all packets be sent before returning whether or not the upload was a success
+    // Wait for all packets be sent before returning whether or not the upload was a success
     __weak typeof(self) weakself = self;
     dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
         typeof(weakself) strongself = weakself;
+
+        [weakself sdl_closeInputStream];
+        
         if (streamError != nil || strongself.isCancelled) {
             completion(NO, bytesAvailable, streamError);
         } else {
@@ -97,11 +110,11 @@ NS_ASSUME_NONNULL_BEGIN
         // The putfile's length parameter is based on the current offset
         SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.isPersistent];
         putFile.offset = @(currentOffset);
-        putFile.length = @([[self class] sdl_getPutFileLengthForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize]);
+        putFile.length = @([self.class sdl_getPutFileLengthForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize]);
 
         // Get a chunk of data from the input stream
-        NSUInteger dataSize = [[self class] sdl_getDataSizeForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize];
-        putFile.bulkData = [[self class] sdl_getDataChunkWithSize:dataSize inputStream:inputStream];
+        NSUInteger dataSize = [self.class sdl_getDataSizeForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize];
+        putFile.bulkData = [self.class sdl_getDataChunkWithSize:dataSize inputStream:self.inputStream];
         currentOffset += dataSize;
 
         __weak typeof(self) weakself = self;
@@ -124,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
 
             // If no errors, watch for a response containing the amount of storage left on the SDL Core
-            if ([[self class] sdl_newHighestCorrelationID:request highestCorrelationIDReceived:highestCorrelationIDReceived]) {
+            if ([self.class sdl_newHighestCorrelationID:request highestCorrelationIDReceived:highestCorrelationIDReceived]) {
                 highestCorrelationIDReceived = [request.correlationID integerValue];
                 bytesAvailable = [(SDLPutFileResponse *)response spaceAvailable].unsignedIntegerValue;
             }
@@ -142,11 +155,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSInputStream *)sdl_openInputStreamWithFile:(SDLFile *)file {
     NSInputStream *inputStream = file.inputStream;
-    [inputStream setDelegate:self];
-    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop]
-                           forMode:NSDefaultRunLoopMode];
     [inputStream open];
     return inputStream;
+}
+/**
+ *  Close the input stream once all the data has been read
+ */
+- (void)sdl_closeInputStream {
+    if (self.inputStream == nil) { return; }
+    [self.inputStream close];
 }
 
 /**
@@ -236,19 +253,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSOperationQueuePriority)queuePriority {
     return NSOperationQueuePriorityNormal;
-}
-
-#pragma mark - NSStreamDelegate
-
-- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
-    switch (eventCode) {
-        case NSStreamEventEndEncountered:
-            // Close the input stream once all the data has been read
-            [aStream close];
-            [aStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-        default:
-            break;
-    }
 }
 
 @end
