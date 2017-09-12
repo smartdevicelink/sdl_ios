@@ -173,7 +173,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:weakSelf.screenSize.width height:weakSelf.screenSize.height];
             weakSelf.preferredFormats = @[format];
             weakSelf.preferredResolutions = @[resolution];
+            SDLLogD(@"Using generic video capabilites, preferred formats: %@, resolutions: %@", weakSelf.preferredFormats, weakSelf.preferredResolutions);
         }
+
+        [weakSelf sdl_startVideoSession];
     }];
 }
 
@@ -312,7 +315,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)didEnterStateVideoStreamStopped {
     SDLLogD(@"Video stream stopped");
     _videoEncrypted = NO;
-    _screenSize = SDLDefaultScreenSize;
     _videoFormat = nil;
 
     if (_videoEncoder != nil) {
