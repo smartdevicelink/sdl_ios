@@ -1,7 +1,7 @@
 //  SDLUnsubscribeWaypointsResponse.m
 //
 
-#import "SDLUnsubscribeWaypointsResponse.h"
+#import "SDLUnsubscribeWayPointsResponse.h"
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLUnsubscribeWayPointsResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameUnsubscribeWaypoints]) {
+    if (self = [super initWithName:SDLNameUnsubscribeWayPoints]) {
     }
     return self;
 }

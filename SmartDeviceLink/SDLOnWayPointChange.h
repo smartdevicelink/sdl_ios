@@ -1,4 +1,4 @@
-//  SDLOnWaypointChange.h
+//  SDLOnWayPointChange.h
 //
 
 #import "SDLRPCNotification.h"
