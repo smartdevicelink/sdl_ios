@@ -34,10 +34,10 @@ typedef NS_ENUM(NSUInteger, SDLLogBytesDirection) {
  - SDLLogFlagError:     Error level logging.
  */
 typedef NS_OPTIONS(NSUInteger, SDLLogFlag) {
-    SDLLogFlagVerbose = 1 << 0,
-    SDLLogFlagDebug = 1 << 1,
-    SDLLogFlagWarning = 1 << 2,
-    SDLLogFlagError = 1 << 3
+    SDLLogFlagError = 1 << 0,
+    SDLLogFlagWarning = 1 << 1,
+    SDLLogFlagDebug = 1 << 2,
+    SDLLogFlagVerbose = 1 << 3,
 };
 
 /**
