@@ -137,15 +137,13 @@ describe(@"a log manager", ^{
             __block NSString *testVerboseFormattedLog;
 
             __block int expectedLogCount;
-
+            __block int testLogLevel;
             __block NSMutableArray<NSString *> *expectedMessages;
             __block NSMutableArray<NSString *> *notExpectedMessages;
 
             context(@"debug configuration", ^{
                 beforeEach(^{
                     testConfiguration = [[SDLLogConfiguration alloc] init];
-                    testConfiguration.modules = [NSSet setWithObject:[SDLLogFileModule moduleWithName:@"test" files:[NSSet setWithObject:@"test"]]];
-                    testConfiguration.filters = [NSSet setWithObject:[SDLLogFilter filterByDisallowingString:@"this string should never trigger" caseSensitive:NO]];
                     testConfiguration.targets = [NSSet setWithObject:testLogTarget];
                     testConfiguration.asynchronous = NO;
                     testConfiguration.formatType = SDLLogFormatTypeSimple;
@@ -166,20 +164,56 @@ describe(@"a log manager", ^{
                     testMessageVerbose = @"verboseMessage";
                     testVerboseFormattedLog = [NSString stringWithFormat:@"%@ ⚪ (SDL)- %@", formattedDate, testMessageVerbose];
 
-                    [expectedMessages removeAllObjects];
-                    [notExpectedMessages removeAllObjects];
+                    expectedMessages = [[NSMutableArray alloc] init];
+                    notExpectedMessages = [[NSMutableArray alloc] init];
                 });
 
                 describe(@"", ^{
                     beforeEach(^{
                         expectedLogCount = 0;
-
                         expect(testLogTarget.formattedLogMessages.count).to(equal(0));
+                        expect(expectedMessages.count).to(equal(0));
+                        expect(notExpectedMessages.count).to(equal(0));
                     });
 
-                    it(@"should log error, warn, and debug logs but not verbose", ^{
+                    it(@"should not log anything when the log level is OFF", ^{
+                        testConfiguration.globalLogLevel = SDLLogLevelOff;
+                        testLogLevel = SDLLogLevelOff;
+                        expectedLogCount = 0;
+
+                        [notExpectedMessages addObject:testWarningFormattedLog];
+                        [notExpectedMessages addObject:testErrorFormattedLog];
+                        [notExpectedMessages addObject:testDebugFormattedLog];
+                        [notExpectedMessages addObject:testVerboseFormattedLog];
+                    });
+
+                    it(@"should only log errors when the log level is ERROR", ^{
+                        testConfiguration.globalLogLevel = SDLLogLevelError;
+                        testLogLevel = SDLLogLevelError;
+                        expectedLogCount = 1;
+
+                        [expectedMessages addObject:testErrorFormattedLog];
+
+                        [notExpectedMessages addObject:testWarningFormattedLog];
+                        [notExpectedMessages addObject:testDebugFormattedLog];
+                        [notExpectedMessages addObject:testVerboseFormattedLog];
+                    });
+
+                    it(@"should only log errors and warnings when the log level is WARNING", ^{
+                        testConfiguration.globalLogLevel = SDLLogLevelWarning;
+                        testLogLevel = SDLLogLevelWarning;
+                        expectedLogCount = 2;
+
+                        [expectedMessages addObject:testWarningFormattedLog];
+                        [expectedMessages addObject:testErrorFormattedLog];
+
+                        [notExpectedMessages addObject:testDebugFormattedLog];
+                        [notExpectedMessages addObject:testVerboseFormattedLog];
+                    });
+
+                    it(@"should only log errors, warnings, and debug logs when the log level is DEBUG", ^{
                         testConfiguration.globalLogLevel = SDLLogLevelDebug;
-                        [testManager setConfiguration:testConfiguration];
+                        testLogLevel = SDLLogLevelDebug;
                         expectedLogCount = 3;
 
                         [expectedMessages addObject:testWarningFormattedLog];
@@ -189,39 +223,22 @@ describe(@"a log manager", ^{
                         [notExpectedMessages addObject:testVerboseFormattedLog];
                     });
 
-                    it(@"should not log anything when the log level is OFF", ^{
-                        testConfiguration.globalLogLevel = SDLLogLevelOff;
-                        [testManager setConfiguration:testConfiguration];
-                        expectedLogCount = 0;
-
-                        [notExpectedMessages addObjectsFromArray:@[testWarningFormattedLog, testErrorFormattedLog, testDebugFormattedLog, testVerboseFormattedLog]];
-                    });
-
-                    it(@"should only log errors when the log level is ERROR", ^{
-                        testConfiguration.globalLogLevel = SDLLogLevelError;
-                        [testManager setConfiguration:testConfiguration];
-                        expectedLogCount = 1;
-                    });
-
-                    it(@"should only log errors and warnings when the log level is WARNING", ^{
-                        testConfiguration.globalLogLevel = SDLLogLevelWarning;
-                        [testManager setConfiguration:testConfiguration];
-                        expectedLogCount = 2;
-                    });
-
-                    it(@"should only log errors, warnings, and debug logs when the log level is DEBUG", ^{
-                        testConfiguration.globalLogLevel = SDLLogLevelDebug;
-                        [testManager setConfiguration:testConfiguration];
-                        expectedLogCount = 3;
-                    });
-
                     it(@"should log errors, warnings, debug, and verbose logs when the log level is VERBOSE", ^{
                         testConfiguration.globalLogLevel = SDLLogLevelVerbose;
-                        [testManager setConfiguration:testConfiguration];
+                        testLogLevel = SDLLogLevelVerbose;
                         expectedLogCount = 4;
+
+                        [expectedMessages addObject:testWarningFormattedLog];
+                        [expectedMessages addObject:testErrorFormattedLog];
+                        [expectedMessages addObject:testDebugFormattedLog];
+                        [expectedMessages addObject:testVerboseFormattedLog];
                     });
 
                     afterEach(^{
+                        SDLLogFileModule *module = [[SDLLogFileModule alloc] initWithName:@"test" files:[NSSet setWithObject:@"test"] level:testLogLevel];
+                        testConfiguration.modules = [NSSet setWithObject:module];
+                        [testManager setConfiguration:testConfiguration];
+
                         // Warning
                         [testManager logWithLevel:testLogLevelWarning timestamp:testDate file:testFileName functionName:testFunctionName line:testLineWarning queue:testQueue message:testMessageWarning];
 
@@ -237,6 +254,7 @@ describe(@"a log manager", ^{
                 });
 
                 afterEach(^{
+                    expect(testManager.asynchronous).to(equal(NO));
                     expect(testLogTarget.formattedLogMessages.count).to(equal(expectedLogCount));
 
                     for(int i = 0; i < expectedMessages.count; i += 1) {
@@ -251,5 +269,7 @@ describe(@"a log manager", ^{
         });
     });
 });
+
+
 
 QuickSpecEnd
