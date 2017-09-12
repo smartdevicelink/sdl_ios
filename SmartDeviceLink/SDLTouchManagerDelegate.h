@@ -71,6 +71,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  @abstract
+ *      Panning canceled.
+ *  @param manager
+ *      Current initalized SDLTouchManager issuing the callback.
+ *  @param point
+ *      Location of the panning's end point in the head unit's coordinate system.
+ */
+- (void)touchManager:(SDLTouchManager *)manager panningCanceledAtPoint:(CGPoint)point;
+
+/**
+ *  @abstract
  *      Pinch did start.
  *  @param manager
  *      Current initalized SDLTouchManager issuing the callback.
@@ -100,6 +110,16 @@ NS_ASSUME_NONNULL_BEGIN
  *      Center point of the pinch in the head unit's coordinate system.
  */
 - (void)touchManager:(SDLTouchManager *)manager pinchDidEndAtCenterPoint:(CGPoint)point;
+
+/**
+ *  @abstract
+ *      Pinch canceled.
+ *  @param manager
+ *      Current initalized SDLTouchManager issuing the callback.
+ *  @param point
+ *      Center point of the pinch in the head unit's coordinate system.
+ */
+- (void)touchManager:(SDLTouchManager *)manager pinchCanceledAtCenterPoint:(CGPoint)point;
 
 @end
 
