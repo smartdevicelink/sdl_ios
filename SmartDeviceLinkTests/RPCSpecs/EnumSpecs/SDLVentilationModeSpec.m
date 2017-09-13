@@ -17,7 +17,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLVentilationModeUpper).to(equal(@"UPPER"));
         expect(SDLVentilationModeLower).to(equal(@"LOWER"));
         expect(SDLVentilationModeBoth).to(equal(@"BOTH"));
-        expect(SDLVentilationModeNorth).to(equal(@"NONE"));
+        expect(SDLVentilationModeNone).to(equal(@"NONE"));
     });
 });
 

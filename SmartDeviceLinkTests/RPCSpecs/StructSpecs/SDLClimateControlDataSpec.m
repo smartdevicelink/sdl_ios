@@ -52,12 +52,12 @@ describe(@"Initialization tests", ^{
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameFanSpeed : @43,
                                                        SDLNameCurrentTemperature : currentTemp,
                                                        SDLNameDesiredTemperature : desiredTemp,
-                                                       SDLNameAcEnable : @YES,
+                                                       SDLNameACEnable : @YES,
                                                        SDLNameCirculateAirEnable : @YES,
                                                        SDLNameAutoModeEnable : @NO,
                                                        SDLNameDefrostZone : SDLDefrostZoneFront,
                                                        SDLNameDualModeEnable : @NO,
-                                                       SDLNameAcMaxEnable : @YES,
+                                                       SDLNameACMaxEnable : @YES,
                                                        SDLNameVentilationMode :SDLVentilationModeBoth} mutableCopy];
         SDLClimateControlData* testStruct = [[SDLClimateControlData alloc] initWithDictionary:dict];
         

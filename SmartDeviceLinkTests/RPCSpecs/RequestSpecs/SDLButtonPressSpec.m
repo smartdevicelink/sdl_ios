@@ -21,11 +21,11 @@ describe(@"Getter/Setter Tests", ^ {
         SDLButtonPress* testRequest = [[SDLButtonPress alloc] init];
         
         testRequest.moduleType = SDLModuleTypeClimate;
-        testRequest.buttonName = SDLButtonNameAc;
+        testRequest.buttonName = SDLButtonNameAC;
         testRequest.buttonPressMode = SDLButtonPressModeShort;
         
         expect(testRequest.moduleType).to(equal(SDLModuleTypeClimate));
-        expect(testRequest.buttonName).to(equal(SDLButtonNameAc));
+        expect(testRequest.buttonName).to(equal(SDLButtonNameAC));
         expect(testRequest.buttonPressMode).to(equal(SDLButtonPressModeShort));
 
     });
@@ -34,13 +34,13 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameModuleType : SDLModuleTypeClimate,
-                                                                   SDLNameButtonName : SDLButtonNameAc,
+                                                                   SDLNameButtonName : SDLButtonNameAC,
                                                                    SDLNameButtonPressMode : SDLButtonPressModeShort},
                                                              SDLNameOperationName:SDLNameButtonPress}} mutableCopy];
         SDLButtonPress* testRequest = [[SDLButtonPress alloc] initWithDictionary:dict];
         
         expect(testRequest.moduleType).to(equal(SDLModuleTypeClimate));
-        expect(testRequest.buttonName).to(equal(SDLButtonNameAc));
+        expect(testRequest.buttonName).to(equal(SDLButtonNameAC));
         expect(testRequest.buttonPressMode).to(equal(SDLButtonPressModeShort));
     });
     
