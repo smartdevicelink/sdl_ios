@@ -1,10 +1,10 @@
 
-[![Version](https://img.shields.io/cocoapods/v/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
-[![License](https://img.shields.io/cocoapods/l/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
+[![Version](https://img.shields.io/cocoapods/v/SmartDeviceLink.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink)
+[![License](https://img.shields.io/cocoapods/l/SmartDeviceLink.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink)
 [![Build Status](https://img.shields.io/travis/smartdevicelink/sdl_ios/master.svg?style=flat)](https://travis-ci.org/smartdevicelink/sdl_ios)
 [![codecov](https://codecov.io/gh/smartdevicelink/sdl_ios/branch/master/graph/badge.svg)](https://codecov.io/gh/smartdevicelink/sdl_ios)
-[![Documentation](https://img.shields.io/cocoapods/metrics/doc-percent/SmartDeviceLink-iOS.svg)](http://cocoadocs.org/docsets/SmartDeviceLink-iOS/)
-[![CocoaPods Downloads](https://img.shields.io/cocoapods/dt/SmartDeviceLink-iOS.svg?maxAge=172800)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
+[![documentation](https://img.shields.io/badge/documentation-51%25-yellow.svg)]()
+[![CocoaPods Downloads](https://img.shields.io/cocoapods/dt/SmartDeviceLink.svg?maxAge=172800)](https://cocoapods.org/pods/SmartDeviceLink)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Slack Status](http://sdlslack.herokuapp.com/badge.svg)](http://slack.smartdevicelink.com)
  
@@ -39,9 +39,9 @@ See the [roadmap](https://github.com/smartdevicelink/sdl_ios/wiki/Roadmap) to se
 
 ##### Cocoapods
 
-You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartDeviceLink-iOS). You can get started with Cocoapods by [following their install guide](https://guides.cocoapods.org/using/getting-started.html#getting-started), and learn how to use Cocoapods to install dependencies [by following this guide](https://guides.cocoapods.org/using/using-cocoapods.html).
+You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartDeviceLink). You can get started with Cocoapods by [following their install guide](https://guides.cocoapods.org/using/getting-started.html#getting-started), and learn how to use Cocoapods to install dependencies [by following this guide](https://guides.cocoapods.org/using/using-cocoapods.html).
 
-In your podfile, you want to add `pod 'SmartDeviceLink', '~> 4.6'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6.0+.
+In your podfile, you want to add `pod 'SmartDeviceLink', '~> 4.7'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6.0+.
 
 ##### Carthage
 
@@ -110,6 +110,7 @@ Your application must support a set of smartdevicelink protocol strings in order
 <string>com.smartdevicelink.prot1</string>
 <string>com.smartdevicelink.prot0</string>
 <string>com.ford.sync.prot0</string>
+<string>com.smartdevicelink.multisession</string>
 </array>
 ```
 

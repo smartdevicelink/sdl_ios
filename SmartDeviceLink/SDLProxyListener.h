@@ -19,6 +19,7 @@
 @class SDLEndAudioPassThruResponse;
 @class SDLGenericResponse;
 @class SDLGetDTCsResponse;
+@class SDLGetSystemCapabilityResponse;
 @class SDLGetVehicleDataResponse;
 @class SDLGetWaypointsResponse;
 @class SDLListFilesResponse;
@@ -49,6 +50,7 @@
 @class SDLRegisterAppInterfaceResponse;
 @class SDLResetGlobalPropertiesResponse;
 @class SDLScrollableMessageResponse;
+@class SDLSendHapticDataResponse;
 @class SDLSendLocationResponse;
 @class SDLSetAppIconResponse;
 @class SDLSetDisplayLayoutResponse;
@@ -95,6 +97,7 @@
 - (void)onError:(NSException *)e;
 - (void)onGenericResponse:(SDLGenericResponse *)response;
 - (void)onGetDTCsResponse:(SDLGetDTCsResponse *)response;
+- (void)onGetSystemCapabilityResponse:(SDLGetSystemCapabilityResponse *)response;
 - (void)onGetVehicleDataResponse:(SDLGetVehicleDataResponse *)response;
 - (void)onGetWayPointsResponse:(SDLGetWaypointsResponse *)response;
 - (void)onListFilesResponse:(SDLListFilesResponse *)response;
@@ -123,6 +126,7 @@
 - (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response;
 - (void)onResetGlobalPropertiesResponse:(SDLResetGlobalPropertiesResponse *)response;
 - (void)onScrollableMessageResponse:(SDLScrollableMessageResponse *)response;
+- (void)onSendHapticDataResponse:(SDLSendHapticDataResponse *)response;
 - (void)onSendLocationResponse:(SDLSendLocationResponse *)response;
 - (void)onSetAppIconResponse:(SDLSetAppIconResponse *)response;
 - (void)onSetDisplayLayoutResponse:(SDLSetDisplayLayoutResponse *)response;

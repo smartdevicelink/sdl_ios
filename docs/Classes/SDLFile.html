@@ -165,19 +165,15 @@
   <h4>Parameters</h4>
   <dl>
       <dt>url</dt>
-      <dd><p>The file URL pointing to the local data that will be pushed to the remote system.</p>
-</dd>
+      <dd><p>The file URL pointing to the local data that will be pushed to the remote system.</p></dd>
       <dt>name</dt>
-      <dd><p>The name that the file will be stored under on the remote system and how it will be referenced from the local system.</p>
-</dd>
+      <dd><p>The name that the file will be stored under on the remote system and how it will be referenced from the local system. The max file name length may vary based on remote filesystem limitations.</p></dd>
       <dt>persistent</dt>
-      <dd><p>Whether or not the file will persist between ignition cycles.</p>
-</dd>
+      <dd><p>Whether or not the file will persist between ignition cycles.</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
     <p>An SDLFile object.</p>
-
   </div>
   
   <h3 id="section-+persistentFileAtFileURL:name:">
@@ -189,7 +185,6 @@
 <p>This is a persistent file, it will be persisted through sessions / ignition cycles. You will only have a limited space for all files, so be sure to only persist files that are required for all or most sessions. For example, menu artwork should be persistent.</p>
 
 <p>Ephemeral files should be created using ephemeralFileAtURL:name:</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     <p>If this is not a readable file, this will return nil</p>
@@ -211,16 +206,13 @@
   <h4>Parameters</h4>
   <dl>
       <dt>url</dt>
-      <dd><p>The url to the file that should be uploaded.</p>
-</dd>
+      <dd><p>The url to the file that should be uploaded.</p></dd>
       <dt>name</dt>
-      <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system).</p>
-</dd>
+      <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system). The max file name length may vary based on remote filesystem limitations.</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
     <p>An instance of this class, or nil if a readable file at the path could not be found.</p>
-
   </div>
   
   <h3 id="section-+fileAtFileURL:name:">
@@ -232,7 +224,6 @@
 <p>This is an ephemeral file, it will not be persisted through sessions / ignition cycles. Any files that you do not <em>know</em> you will use in future sessions should be created through this method. For example, album / artist artwork should be ephemeral.</p>
 
 <p>Persistent files should be created using persistentFileAtURL:name:</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     <p>If this is not a readable file, this will return nil</p>
@@ -254,16 +245,13 @@
   <h4>Parameters</h4>
   <dl>
       <dt>url</dt>
-      <dd><p>The url to the file on disk that will be uploaded</p>
-</dd>
+      <dd><p>The url to the file on disk that will be uploaded</p></dd>
       <dt>name</dt>
-      <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system).</p>
-</dd>
+      <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system). The max file name length may vary based on remote file system limitations.</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
     <p>An instance of this class, or nil if a readable file at the url could not be found.</p>
-
   </div>
   
   <h3 id="section--initWithData:name:fileExtension:persistent:">
@@ -289,22 +277,17 @@
   <h4>Parameters</h4>
   <dl>
       <dt>data</dt>
-      <dd><p>The raw data to be used for the file</p>
-</dd>
+      <dd><p>The raw data to be used for the file</p></dd>
       <dt>name</dt>
-      <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system).</p>
-</dd>
+      <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system). The max file name length may vary based on remote file system limitations.</p></dd>
       <dt>extension</dt>
-      <dd><p>The file extension. For example <q>png</q>. Currently supported file extensions are: <q>bmp</q>, <q>jpg</q>, <q>jpeg</q>, <q>png</q>, <q>wav</q>, <q>mp3</q>, <q>aac</q>, <q>json</q>. All others will be sent as binary files.</p>
-</dd>
+      <dd><p>The file extension. For example <q>png</q>. Currently supported file extensions are: <q>bmp</q>, <q>jpg</q>, <q>jpeg</q>, <q>png</q>, <q>wav</q>, <q>mp3</q>, <q>aac</q>, <q>json</q>. All others will be sent as binary files.</p></dd>
       <dt>persistent</dt>
-      <dd><p>Whether or not the remote file with this data should be persistent</p>
-</dd>
+      <dd><p>Whether or not the remote file with this data should be persistent</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
     <p>An instance of this class</p>
-
   </div>
   
   <h3 id="section-+persistentFileWithData:name:fileExtension:">
@@ -331,19 +314,15 @@
   <h4>Parameters</h4>
   <dl>
       <dt>data</dt>
-      <dd><p>The raw data to be used for the file</p>
-</dd>
+      <dd><p>The raw data to be used for the file</p></dd>
       <dt>name</dt>
-      <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system).</p>
-</dd>
+      <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system). The max file name length may vary based on remote file system limitations.</p></dd>
       <dt>extension</dt>
-      <dd><p>The file extension. For example <q>png</q>. Currently supported file extensions are: <q>bmp</q>, <q>jpg</q>, <q>jpeg</q>, <q>png</q>, <q>wav</q>, <q>mp3</q>, <q>aac</q>, <q>json</q>. All others will be sent as binary files.</p>
-</dd>
+      <dd><p>The file extension. For example <q>png</q>. Currently supported file extensions are: <q>bmp</q>, <q>jpg</q>, <q>jpeg</q>, <q>png</q>, <q>wav</q>, <q>mp3</q>, <q>aac</q>, <q>json</q>. All others will be sent as binary files.</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
     <p>An instance of this class</p>
-
   </div>
   
   <h3 id="section-+fileWithData:name:fileExtension:">
@@ -370,19 +349,15 @@
   <h4>Parameters</h4>
   <dl>
       <dt>data</dt>
-      <dd><p>The raw data to be used for the file</p>
-</dd>
+      <dd><p>The raw data to be used for the file</p></dd>
       <dt>name</dt>
-      <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system).</p>
-</dd>
+      <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system). The max file name length may vary based on remote file system limitations.</p></dd>
       <dt>extension</dt>
-      <dd><p>The file extension. For example <q>png</q>. Currently supported file extensions are: <q>bmp</q>, <q>jpg</q>, <q>jpeg</q>, <q>png</q>, <q>wav</q>, <q>mp3</q>, <q>aac</q>, <q>json</q>. All others will be sent as binary files.</p>
-</dd>
+      <dd><p>The file extension. For example <q>png</q>. Currently supported file extensions are: <q>bmp</q>, <q>jpg</q>, <q>jpeg</q>, <q>png</q>, <q>wav</q>, <q>mp3</q>, <q>aac</q>, <q>json</q>. All others will be sent as binary files.</p></dd>
   </dl>
   <div>
     <h4>Return Value</h4>
     <p>An instance of this class</p>
-
   </div>
   
 </section>

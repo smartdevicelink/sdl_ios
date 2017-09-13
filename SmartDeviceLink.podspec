@@ -1,13 +1,14 @@
 Pod::Spec.new do |s|
 
 s.name         = "SmartDeviceLink"
-s.version      = "4.6.1"
+s.version      = "4.7.0"
 s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
 s.license      = { :type => "New BSD", :file => "LICENSE" }
 s.author       = { "SmartDeviceLink Team" => "developer@smartdevicelink.com" }
 s.platform     = :ios, "6.0"
 s.source       = { :git => "https://github.com/smartdevicelink/sdl_ios.git", :tag => s.version.to_s }
+s.dependency     'BiSON', '~> 1.0'
 s.source_files = "SmartDeviceLink/*.{h,m}"
 s.requires_arc = true
 s.resource_bundles = { 'SmartDeviceLink' => ['SmartDeviceLink/Assets/**/*', 'SmartDeviceLink/iOS 7 Assets/*'] }
@@ -58,6 +59,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLEncodedSyncPData.h',
 'SmartDeviceLink/SDLEndAudioPassThru.h',
 'SmartDeviceLink/SDLGetDTCs.h',
+'SmartDeviceLink/SDLGetSystemCapability.h',
 'SmartDeviceLink/SDLGetVehicleData.h',
 'SmartDeviceLink/SDLGetWaypoints.h',
 'SmartDeviceLink/SDLListFiles.h',
@@ -68,6 +70,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLRegisterAppInterface.h',
 'SmartDeviceLink/SDLResetGlobalProperties.h',
 'SmartDeviceLink/SDLScrollableMessage.h',
+'SmartDeviceLink/SDLSendHapticData.h',
 'SmartDeviceLink/SDLSendLocation.h',
 'SmartDeviceLink/SDLSetAppIcon.h',
 'SmartDeviceLink/SDLSetDisplayLayout.h',
@@ -102,6 +105,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLEndAudioPassThruResponse.h',
 'SmartDeviceLink/SDLGenericResponse.h',
 'SmartDeviceLink/SDLGetDTCsResponse.h',
+'SmartDeviceLink/SDLGetSystemCapabilityResponse.h',
 'SmartDeviceLink/SDLGetVehicleDataResponse.h',
 'SmartDeviceLink/SDLGetWaypointsResponse.h',
 'SmartDeviceLink/SDLListFilesResponse.h',
@@ -112,6 +116,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLRegisterAppInterfaceResponse.h',
 'SmartDeviceLink/SDLResetGlobalPropertiesResponse.h',
 'SmartDeviceLink/SDLScrollableMessageResponse.h',
+'SmartDeviceLink/SDLSendHapticDataResponse.h',
 'SmartDeviceLink/SDLSendLocationResponse.h',
 'SmartDeviceLink/SDLSetAppIconResponse.h',
 'SmartDeviceLink/SDLSetDisplayLayoutResponse.h',
@@ -173,17 +178,22 @@ s.public_header_files = [
 'SmartDeviceLink/SDLImageResolution.h',
 'SmartDeviceLink/SDLKeyboardProperties.h',
 'SmartDeviceLink/SDLMenuParams.h',
+'SmartDeviceLink/SDLMetadataTags.h',
 'SmartDeviceLink/SDLMyKey.h',
+'SmartDeviceLink/SDLNavigationCapability.h',
 'SmartDeviceLink/SDLOasisAddress.h',
 'SmartDeviceLink/SDLParameterPermissions.h',
 'SmartDeviceLink/SDLPermissionItem.h',
+'SmartDeviceLink/SDLPhoneCapability.h',
 'SmartDeviceLink/SDLPresetBankCapabilities.h',
+'SmartDeviceLink/SDLRectangle.h',
 'SmartDeviceLink/SDLScreenParams.h',
 'SmartDeviceLink/SDLSingleTireStatus.h',
 'SmartDeviceLink/SDLSoftButton.h',
 'SmartDeviceLink/SDLSoftButtonCapabilities.h',
 'SmartDeviceLink/SDLStartTime.h',
 'SmartDeviceLink/SDLSyncMsgVersion.h',
+'SmartDeviceLink/SDLSystemCapability.h',
 'SmartDeviceLink/SDLTTSChunk.h',
 'SmartDeviceLink/SDLTextField.h',
 'SmartDeviceLink/SDLTireStatus.h',
@@ -191,9 +201,11 @@ s.public_header_files = [
 'SmartDeviceLink/SDLTouchEvent.h',
 'SmartDeviceLink/SDLTouchEventCapabilities.h',
 'SmartDeviceLink/SDLTurn.h',
-'SmartDeviceLink/SDLVRHelpItem.h',
 'SmartDeviceLink/SDLVehicleDataResult.h',
 'SmartDeviceLink/SDLVehicleType.h',
+'SmartDeviceLink/SDLVideoStreamingFormat.h',
+'SmartDeviceLink/SDLVideoStreamingCapability.h',
+'SmartDeviceLink/SDLVRHelpItem.h',
 'SmartDeviceLink/SDLAmbientLightStatus.h',
 'SmartDeviceLink/SDLAppHMIType.h',
 'SmartDeviceLink/SDLAppInterfaceUnregisteredReason.h',
@@ -234,6 +246,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLLockScreenStatus.h',
 'SmartDeviceLink/SDLMaintenanceModeStatus.h',
 'SmartDeviceLink/SDLMediaClockFormat.h',
+'SmartDeviceLink/SDLMetadataType.h',
 'SmartDeviceLink/SDLPRNDL.h',
 'SmartDeviceLink/SDLPermissionStatus.h',
 'SmartDeviceLink/SDLPowerModeQualificationStatus.h',
@@ -246,8 +259,10 @@ s.public_header_files = [
 'SmartDeviceLink/SDLResult.h',
 'SmartDeviceLink/SDLSamplingRate.h',
 'SmartDeviceLink/SDLSoftButtonType.h',
+'SmartDeviceLink/SDLHapticRect.h',
 'SmartDeviceLink/SDLSpeechCapabilities.h',
 'SmartDeviceLink/SDLSystemAction.h',
+'SmartDeviceLink/SDLSystemCapabilityType.h',
 'SmartDeviceLink/SDLSystemContext.h',
 'SmartDeviceLink/SDLTBTState.h',
 'SmartDeviceLink/SDLTextAlignment.h',
@@ -263,6 +278,8 @@ s.public_header_files = [
 'SmartDeviceLink/SDLVehicleDataResultCode.h',
 'SmartDeviceLink/SDLVehicleDataStatus.h',
 'SmartDeviceLink/SDLVehicleDataType.h',
+'SmartDeviceLink/SDLVideoStreamingCodec.h',
+'SmartDeviceLink/SDLVideoStreamingProtocol.h',
 'SmartDeviceLink/SDLWarningLightStatus.h',
 'SmartDeviceLink/SDLWaypointType.h',
 'SmartDeviceLink/SDLWiperStatus.h',
@@ -283,7 +300,7 @@ s.public_header_files = [
 'SmartDeviceLink/SDLNotificationConstants.h',
 'SmartDeviceLink/SDLRequestHandler.h',
 'SmartDeviceLink/SDLRPCNotificationNotification.h',
-'SmartDeviceLink/SDLRPCResponseNotification.h'
+'SmartDeviceLink/SDLRPCResponseNotification.h',
 ]
 
 end

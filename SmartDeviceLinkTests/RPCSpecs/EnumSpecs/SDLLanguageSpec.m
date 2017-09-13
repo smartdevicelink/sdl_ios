@@ -14,7 +14,22 @@ QuickSpecBegin(SDLLanguageSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
+        expect([SDLLanguage EN_SA].value).to(equal(@"EN-SA"));
+        expect([SDLLanguage HE_IL].value).to(equal(@"HE-IL"));
+        expect([SDLLanguage RO_RO].value).to(equal(@"RO-RO"));
+        expect([SDLLanguage UK_UA].value).to(equal(@"UK-UA"));
+        expect([SDLLanguage ID_ID].value).to(equal(@"ID-ID"));
+        expect([SDLLanguage VI_VN].value).to(equal(@"VI-VN"));
+        expect([SDLLanguage MS_MY].value).to(equal(@"MS-MY"));
+        expect([SDLLanguage HI_IN].value).to(equal(@"HI-IN"));
+        expect([SDLLanguage NL_BE].value).to(equal(@"NL-BE"));
+        expect([SDLLanguage EL_GR].value).to(equal(@"EL-GR"));
+        expect([SDLLanguage HU_HU].value).to(equal(@"HU-HU"));
+        expect([SDLLanguage FI_FI].value).to(equal(@"FI-FI"));
+        expect([SDLLanguage SK_SK].value).to(equal(@"SK-SK"));
         expect([SDLLanguage EN_US].value).to(equal(@"EN-US"));
+        expect([SDLLanguage EN_IN].value).to(equal(@"EN-IN"));
+        expect([SDLLanguage TH_TH].value).to(equal(@"TH-TH"));
         expect([SDLLanguage ES_MX].value).to(equal(@"ES-MX"));
         expect([SDLLanguage FR_CA].value).to(equal(@"FR-CA"));
         expect([SDLLanguage DE_DE].value).to(equal(@"DE-DE"));
@@ -42,7 +57,22 @@ describe(@"Individual Enum Value Tests", ^ {
 });
 describe(@"ValueOf Tests", ^ {
     it(@"Should return correct values when valid", ^ {
+        expect([SDLLanguage valueOf:@"EN-SA"]).to(equal([SDLLanguage EN_SA]));
+        expect([SDLLanguage valueOf:@"HE-IL"]).to(equal([SDLLanguage HE_IL]));
+        expect([SDLLanguage valueOf:@"RO-RO"]).to(equal([SDLLanguage RO_RO]));
+        expect([SDLLanguage valueOf:@"UK-UA"]).to(equal([SDLLanguage UK_UA]));
+        expect([SDLLanguage valueOf:@"ID-ID"]).to(equal([SDLLanguage ID_ID]));
+        expect([SDLLanguage valueOf:@"VI-VN"]).to(equal([SDLLanguage VI_VN]));
+        expect([SDLLanguage valueOf:@"MS-MY"]).to(equal([SDLLanguage MS_MY]));
+        expect([SDLLanguage valueOf:@"HI-IN"]).to(equal([SDLLanguage HI_IN]));
+        expect([SDLLanguage valueOf:@"NL-BE"]).to(equal([SDLLanguage NL_BE]));
+        expect([SDLLanguage valueOf:@"EL-GR"]).to(equal([SDLLanguage EL_GR]));
+        expect([SDLLanguage valueOf:@"HU-HU"]).to(equal([SDLLanguage HU_HU]));
+        expect([SDLLanguage valueOf:@"FI-FI"]).to(equal([SDLLanguage FI_FI]));
+        expect([SDLLanguage valueOf:@"SK-SK"]).to(equal([SDLLanguage SK_SK]));
         expect([SDLLanguage valueOf:@"EN-US"]).to(equal([SDLLanguage EN_US]));
+        expect([SDLLanguage valueOf:@"EN-IN"]).to(equal([SDLLanguage EN_IN]));
+        expect([SDLLanguage valueOf:@"TH-TH"]).to(equal([SDLLanguage TH_TH]));
         expect([SDLLanguage valueOf:@"ES-MX"]).to(equal([SDLLanguage ES_MX]));
         expect([SDLLanguage valueOf:@"FR-CA"]).to(equal([SDLLanguage FR_CA]));
         expect([SDLLanguage valueOf:@"DE-DE"]).to(equal([SDLLanguage DE_DE]));
@@ -77,7 +107,22 @@ describe(@"Value List Tests", ^ {
     NSArray* storedValues = [SDLLanguage values];
     __block NSArray* definedValues;
     beforeSuite(^ {
-        definedValues = [@[[SDLLanguage EN_US],
+        definedValues = [@[[SDLLanguage EN_SA],
+                        [SDLLanguage HE_IL],
+                        [SDLLanguage RO_RO],
+                        [SDLLanguage UK_UA],
+                        [SDLLanguage ID_ID],
+                        [SDLLanguage VI_VN],
+                        [SDLLanguage MS_MY],
+                        [SDLLanguage HI_IN],
+                        [SDLLanguage NL_BE],
+                        [SDLLanguage EL_GR],
+                        [SDLLanguage HU_HU],
+                        [SDLLanguage FI_FI],
+                        [SDLLanguage SK_SK],
+                        [SDLLanguage EN_US],
+                        [SDLLanguage EN_IN],
+                        [SDLLanguage TH_TH],
                         [SDLLanguage ES_MX],
                         [SDLLanguage FR_CA],
                         [SDLLanguage DE_DE],

@@ -1,3 +1,33 @@
+# 4.7.0 Release Notes (since RC 1)
+### Bug Fixes
+* Fixed payloads being created with nil data causing a crash [#715](https://github.com/smartdevicelink/sdl_ios/issues/715).
+* Fixed documentation warnings.
+
+# 4.7.0 Release Candidate 1
+### Enhancements
+* This library implements RPC Spec v4.5.0, Protocol Spec v5.0.0.
+* Added App type enum: `PROJECTION`, for an app that uses video streaming for its interface yet is not a navigation app [SDL-0031](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0031-mobile-projection.md).
+* Added new TouchType enum for touch canceled [SDL-0049](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0049-touch-cancellation.md).
+* Expanded the SyncMsgVersion struct on Register App Interface Response to include a patch version [SDL-0050](https://github.com/smartdevicelink/sdl_ios/issues/607).
+* Support new protocol spec with constructed control frame payloads [SDL-0052](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0052-constructed-payloads.md) [SDL-0078](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0078-control_frame_payloads_v1_0_0.md).
+* Added GetSystemCapability RPC request for retrieving additional capabilities. This also expanded the HMICapabilities struct in the RegisterAppInterfaceResponse [SDL-0055](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0055-system_capabilities_query.md) [SDL-0058](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0058-video-streaming-capabilities.md).
+* Added language enums for various additional languages [SDL-0060](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0060-support-indian-english-thai.md) and [SDL-0076](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0076-Support-For-Additional-Languages.md).
+* Expanded the Show RPC to include metadata types for text fields [SDL-0073](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0073-Adding-Metadata-Types.md).
+* Added SendHapticData RPC to send rectangles of touchable buttons in video streaming. This allows the head units with haptic interface devices (such as a selection wheel) to highlight selectable areas [SDL-0075](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0075-HID-Support-Plug-in.md).
+* Support IAP multisession with a new protocol string `com.smartdevicelink.multisession` [SDL-0080](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0080-Support-for-MultiSession-protocol-string.md). **Please check the README and add the new protocol string to your apps! This is improve your successful connection rate.**
+
+### Bug Fixes
+* Added background task handling for IAP connections, fixes a possible bug with connections [#591](https://github.com/smartdevicelink/sdl_ios/issues/640).
+* Fixed a deadlock that could occassionally occur on control session disconnections [#643](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0076-Support-For-Additional-Languages.md).
+* Fixed library crash when in DEBUG mode on normal shutdown sequences [#637](https://github.com/smartdevicelink/sdl_evolution/blob/master/proposals/0076-Support-For-Additional-Languages.md).
+* Fixed IAP control session not always being cleaned up [#648](https://github.com/smartdevicelink/sdl_ios/issues/648).
+* Fix a rare crash on disconnection that could occur when the response dispatcher was not cleared properly [#666](https://github.com/smartdevicelink/sdl_ios/issues/666).
+* Fix some blocks holding retain cycles [#665](https://github.com/smartdevicelink/sdl_ios/issues/665).
+* Updated proxy to no longer throw an exception when unknown protocol headers are received. This resolves an issue with corrupted protocol headers [#671](https://github.com/smartdevicelink/sdl_ios/issues/671).
+
+### Other
+* Added a note to the documentation regarding file name length maximums [#640](https://github.com/smartdevicelink/sdl_ios/issues/640).
+
 # 4.6.1 Release Notes
 ### Bug Fixes
 * Fixes a bug where an app would crash if connected while the app is foregrounded and the vehicle is already in motion.

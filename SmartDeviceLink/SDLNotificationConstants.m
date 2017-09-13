@@ -36,6 +36,7 @@ SDLNotificationName const SDLDidReceiveEncodedSyncPDataResponse = @"com.sdl.resp
 SDLNotificationName const SDLDidReceiveEndAudioPassThruResponse = @"com.sdl.response.endAudioPassThru";
 SDLNotificationName const SDLDidReceiveGenericResponse = @"com.sdl.response.generic";
 SDLNotificationName const SDLDidReceiveGetDTCsResponse = @"com.sdl.response.getDTCs";
+SDLNotificationName const SDLDidReceiveGetSystemCapabilitiesResponse = @"com.sdl.response.getSystemCapabilities";
 SDLNotificationName const SDLDidReceiveGetVehicleDataResponse = @"com.sdl.response.getVehicleData";
 SDLNotificationName const SDLDidReceiveGetWaypointsResponse = @"com.sdl.response.getWaypoints";
 SDLNotificationName const SDLDidReceiveListFilesResponse = @"com.sdl.response.listFiles";
@@ -46,6 +47,7 @@ SDLNotificationName const SDLDidReceiveReadDIDResponse = @"com.sdl.response.read
 SDLNotificationName const SDLDidReceiveRegisterAppInterfaceResponse = @"com.sdl.response.registerAppInterface";
 SDLNotificationName const SDLDidReceiveResetGlobalPropertiesResponse = @"com.sdl.response.resetGlobalProperties";
 SDLNotificationName const SDLDidReceiveScrollableMessageResponse = @"com.sdl.response.scrollableMessage";
+SDLNotificationName const SDLDidReceiveSendHapticDataResponse = @"com.sdl.response.sendHapticData";
 SDLNotificationName const SDLDidReceiveSendLocationResponse = @"com.sdl.response.sendLocation";
 SDLNotificationName const SDLDidReceiveSetAppIconResponse = @"com.sdl.response.setAppIcon";
 SDLNotificationName const SDLDidReceiveSetDisplayLayoutResponse = @"com.sdl.response.setDisplayLayout";
@@ -105,6 +107,7 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
              SDLDidReceiveEndAudioPassThruResponse,
              SDLDidReceiveGenericResponse,
              SDLDidReceiveGetDTCsResponse,
+             SDLDidReceiveGetSystemCapabilitiesResponse,
              SDLDidReceiveGetVehicleDataResponse,
              SDLDidReceiveGetWaypointsResponse,
              SDLDidReceiveListFilesResponse,
@@ -115,6 +118,7 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
              SDLDidReceiveRegisterAppInterfaceResponse,
              SDLDidReceiveResetGlobalPropertiesResponse,
              SDLDidReceiveScrollableMessageResponse,
+             SDLDidReceiveSendHapticDataResponse,
              SDLDidReceiveSendLocationResponse,
              SDLDidReceiveSetAppIconResponse,
              SDLDidReceiveSetDisplayLayoutResponse,

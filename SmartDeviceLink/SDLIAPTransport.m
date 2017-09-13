@@ -20,6 +20,8 @@
 NSString *const legacyProtocolString = @"com.ford.sync.prot0";
 NSString *const controlProtocolString = @"com.smartdevicelink.prot0";
 NSString *const indexedProtocolStringPrefix = @"com.smartdevicelink.prot";
+NSString *const multiSessionProtocolString = @"com.smartdevicelink.multisession";
+NSString *const backgroundTaskName = @"com.sdl.transport.iap.backgroundTask";
 
 int const createSessionRetries = 1;
 int const protocolIndexTimeoutSeconds = 20;
@@ -31,8 +33,9 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 @property (assign) int retryCounter;
-@property (assign) BOOL sessionSetupInProgress;
 @property (strong) SDLTimer *protocolIndexTimer;
+@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
+@property (nonatomic, assign) BOOL sessionSetupInProgress;
 
 @end
 
@@ -42,10 +45,10 @@ int const streamOpenTimeoutSeconds = 2;
 - (instancetype)init {
     if (self = [super init]) {
         _alreadyDestructed = NO;
+        _sessionSetupInProgress = NO;
         _session = nil;
         _controlSession = nil;
         _retryCounter = 0;
-        _sessionSetupInProgress = NO;
         _protocolIndexTimer = nil;
 
         [self sdl_startEventListening];
@@ -71,7 +74,7 @@ int const streamOpenTimeoutSeconds = 2;
                                              selector:@selector(sdl_accessoryDisconnected:)
                                                  name:EAAccessoryDidDisconnectNotification
                                                object:nil];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sdl_applicationWillEnterForeground:)
                                                  name:UIApplicationWillEnterForegroundNotification
@@ -85,13 +88,40 @@ int const streamOpenTimeoutSeconds = 2;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)setSessionSetupInProgress:(BOOL)inProgress{
+    _sessionSetupInProgress = inProgress;
+    if (!inProgress){
+        // End the background task here to catch all cases
+        [self sdl_backgroundTaskEnd];
+    }
+}
+
+- (void)sdl_backgroundTaskStart {
+    if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
+        return;
+    }
+    
+    self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:backgroundTaskName expirationHandler:^{
+        [self sdl_backgroundTaskEnd];
+    }];
+}
+
+- (void)sdl_backgroundTaskEnd {
+    if (self.backgroundTaskId == UIBackgroundTaskInvalid) {
+        return;
+    }
+    
+    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskId];
+    self.backgroundTaskId = UIBackgroundTaskInvalid;
+}
+
 #pragma mark - EAAccessory Notifications
 
 - (void)sdl_accessoryConnected:(NSNotification *)notification {
     EAAccessory *accessory = notification.userInfo[EAAccessoryKey];
     NSMutableString *logMessage = [NSMutableString stringWithFormat:@"Accessory Connected, Opening in %0.03fs", self.retryDelay];
+    [self sdl_backgroundTaskStart];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
     self.retryCounter = 0;
 
     [self performSelector:@selector(sdl_connect:) withObject:accessory afterDelay:self.retryDelay];
@@ -114,6 +144,7 @@ int const streamOpenTimeoutSeconds = 2;
 
 - (void)sdl_applicationWillEnterForeground:(NSNotification *)notification {
     [SDLDebugTool logInfo:@"App Foregrounded Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    [self sdl_backgroundTaskEnd];
     self.retryCounter = 0;
     [self connect];
 }
@@ -141,9 +172,13 @@ int const streamOpenTimeoutSeconds = 2;
     // Stop event listening here so that even if the transport is disconnected by the proxy
     // we unregister for accessory local notifications
     [self sdl_stopEventListening];
-    // Only disconnect the data session, the control session does not stay open and is handled separately
-    if (self.session != nil) {
+    if (self.controlSession != nil) {
+        [self.controlSession stop];
+        self.controlSession.streamDelegate = nil;
+        self.controlSession = nil;
+    } else if (self.session != nil) {
         [self.session stop];
+        self.session.streamDelegate = nil;
         self.session = nil;
     }
 }
@@ -153,15 +188,18 @@ int const streamOpenTimeoutSeconds = 2;
 
 - (BOOL)sdl_connectAccessory:(EAAccessory *)accessory {
     BOOL connecting = NO;
-
-    if ([accessory supportsProtocol:controlProtocolString]) {
+    
+    if ([accessory supportsProtocol:multiSessionProtocolString] && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
+        [self sdl_createIAPDataSessionWithAccessory:accessory forProtocol:multiSessionProtocolString];
+        connecting = YES;
+    } else if ([accessory supportsProtocol:controlProtocolString]) {
         [self sdl_createIAPControlSessionWithAccessory:accessory];
         connecting = YES;
     } else if ([accessory supportsProtocol:legacyProtocolString]) {
         [self sdl_createIAPDataSessionWithAccessory:accessory forProtocol:legacyProtocolString];
         connecting = YES;
     }
-
+    
     return connecting;
 }
 
@@ -178,7 +216,9 @@ int const streamOpenTimeoutSeconds = 2;
         }
 
         // Determine if we can start a multi-app session or a legacy (single-app) session
-        if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:controlProtocolString])) {
+        if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:multiSessionProtocolString]) && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
+            [self sdl_createIAPDataSessionWithAccessory:sdlAccessory forProtocol:multiSessionProtocolString];
+        } else if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:controlProtocolString])) {
             [self sdl_createIAPControlSessionWithAccessory:sdlAccessory];
         } else if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:legacyProtocolString])) {
             [self sdl_createIAPDataSessionWithAccessory:sdlAccessory forProtocol:legacyProtocolString];
@@ -393,16 +433,18 @@ int const streamOpenTimeoutSeconds = 2;
 
     return ^(NSStream *stream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-
+        
         [SDLDebugTool logInfo:@"Data Stream Event End"];
-        [strongSelf.session stop];
-        strongSelf.session.streamDelegate = nil;
-
-        if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
-            [strongSelf sdl_retryEstablishSession];
+        if (strongSelf.session != nil) {
+            // The handler will be called on the IO thread, but the session stop method must be called on the main thread and we need to wait for the session to stop before nil'ing it out. To do this, we use dispatch_sync() on the main thread.
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [strongSelf.session stop];
+            });
+            strongSelf.session.streamDelegate = nil;
+            strongSelf.session = nil;
         }
-
-        strongSelf.session = nil;
+        
+        // We don't call sdl_retryEstablishSession here because the stream end event usually fires when the accessory is disconnected
     };
 }
 
@@ -412,11 +454,11 @@ int const streamOpenTimeoutSeconds = 2;
     return ^(NSInputStream *istream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
-        uint8_t buf[[SDLGlobals globals].maxMTUSize];
+        uint8_t buf[[[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_RPC]];
         while (istream.streamStatus == NSStreamStatusOpen && istream.hasBytesAvailable) {
             // It is necessary to check the stream status and whether there are bytes available because the dataStreamHasBytesHandler is executed on the IO thread and the accessory disconnect notification arrives on the main thread, causing data to be passed to the delegate while the main thread is tearing down the transport.
 
-            NSInteger bytesRead = [istream read:buf maxLength:[SDLGlobals globals].maxMTUSize];
+            NSInteger bytesRead = [istream read:buf maxLength:[[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_RPC]];
             NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
 
             if (bytesRead > 0) {
@@ -435,14 +477,14 @@ int const streamOpenTimeoutSeconds = 2;
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         [SDLDebugTool logInfo:@"Data Stream Error"];
-        [strongSelf.session stop];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [strongSelf.session stop];
+        });
         strongSelf.session.streamDelegate = nil;
-
+        strongSelf.session = nil;
         if (![legacyProtocolString isEqualToString:strongSelf.session.protocol]) {
             [strongSelf sdl_retryEstablishSession];
         }
-
-        strongSelf.session = nil;
     };
 }
 
@@ -494,6 +536,7 @@ int const streamOpenTimeoutSeconds = 2;
         self.controlSession = nil;
         self.session = nil;
         self.delegate = nil;
+        self.sessionSetupInProgress = NO;
     }
 }
 

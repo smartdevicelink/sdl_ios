@@ -24,7 +24,7 @@ describe(@"Disassemble Tests", ^ {
         char dummyBytes[dataLength];
         
         SDLGlobals *globals = [[SDLGlobals alloc] init];
-        globals.maxHeadUnitVersion = 2;
+        globals.maxHeadUnitVersion = @"2.0.0";
         
         const char testPayloadHeader[12] = {0x20, 0x55, 0x64, 0x73, 0x12, 0x34, 0x43, 0x21, (dataLength >> 24) & 0xFF, (dataLength >> 16) & 0xFF, (dataLength >> 8) & 0xFF, dataLength & 0xFF};
         
@@ -43,7 +43,7 @@ describe(@"Disassemble Tests", ^ {
         testMessage.header = testHeader;
         testMessage.payload = payloadData;
         
-        NSArray* messageList = [SDLProtocolMessageDisassembler disassemble:testMessage withLimit:globals.maxMTUSize];
+        NSArray* messageList = [SDLProtocolMessageDisassembler disassemble:testMessage withLimit:[globals mtuSizeForServiceType:testHeader.serviceType]];
         
         //Payload length per message
         UInt32 payloadLength = 1012; // v1/2 MTU(1024) - header length(12)

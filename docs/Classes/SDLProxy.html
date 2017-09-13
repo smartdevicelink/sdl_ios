@@ -293,12 +293,7 @@
   </h3>
   
   <p>Puts data into a file on the module
-@abstract Performs a putFile for a given input stream, performed in chunks, for handling very large files.
-- parameter: inputStream A stream containing the data to put to the module.
-- parameter: putFileRPCRequest A SDLPutFile object containing the parameters for the put(s)
-@discussion  The proxy will read from the stream based on the max MTU size and send them in individual putFile requests.
-This may result in multiple responses being received, one for each request.
-Note: the length parameter of the putFileRPCRequest will be ignored. The proxy will substitute the number of bytes read from the stream.</p>
+@abstract Performs a putFile for a given input stream, performed in chunks, for handling very large files.</p>
 
   
   
@@ -315,11 +310,12 @@ Note: the length parameter of the putFileRPCRequest will be ignored. The proxy w
   <h4>Parameters</h4>
   <dl>
       <dt>inputStream</dt>
-      <dd><p>A stream containing the data to put to the module.</p>
-</dd>
+      <dd><p>A stream containing the data to put to the module.</p></dd>
       <dt>putFileRPCRequest</dt>
-      <dd><p>A SDLPutFile object containing the parameters for the put(s)</p>
-</dd>
+      <dd><p>A SDLPutFile object containing the parameters for the put(s)
+@discussion  The proxy will read from the stream based on the max MTU size and send them in individual putFile requests.
+This may result in multiple responses being received, one for each request.
+Note: the length parameter of the putFileRPCRequest will be ignored. The proxy will substitute the number of bytes read from the stream.</p></dd>
   </dl>
   
 </section>
