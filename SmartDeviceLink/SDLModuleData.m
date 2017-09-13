@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLRadioControlData *)radioControlData {
-    return [store sdl_objectForName:SDLNameRadioControlData];
+    return [store sdl_objectForName:SDLNameRadioControlData ofClass:SDLRadioControlData.class];
 }
 
 - (void)setClimateControlData:(nullable SDLClimateControlData *)climateControlData {
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLClimateControlData *)climateControlData {
-    return [store sdl_objectForName:SDLNameClimateControlData];
+    return [store sdl_objectForName:SDLNameClimateControlData ofClass:SDLClimateControlData.class];
 }
 @end
 

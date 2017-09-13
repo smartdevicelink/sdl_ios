@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities {
-    return [store sdl_objectForName:SDLNameClimateControlCapabilities];
+    return [store sdl_objectsForName:SDLNameClimateControlCapabilities ofClass:SDLClimateControlCapabilities.class];
 }
 
 -(void)setRadioControlCapabilities:(nullable NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities {
@@ -48,15 +48,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities {
-    return store[SDLNameRadioControlCapabilities];
+    return [store sdl_objectsForName:SDLNameRadioControlCapabilities ofClass:SDLRadioControlCapabilities.class];
 }
 
-- (void)setButtonCapabilities:(nullable NSArray *)buttonCapabilities {
-    [store sdl_setObject:buttonCapabilities forName:SDLNameButtonCapabilities];
-}
+- (void)setButtonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities {
+    [store sdl_setObject:buttonCapabilities forName:SDLNameButtonCapabilities];}
 
-- (nullable NSArray *)buttonCapabilities {
-    return [store sdl_objectForName:SDLNameButtonCapabilities];
+- (nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities {
+    return [store sdl_objectsForName:SDLNameButtonCapabilities ofClass:SDLButtonCapabilities.class];
 }
 
 @end

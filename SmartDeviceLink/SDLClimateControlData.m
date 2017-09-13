@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLTemperature *)currentTemperature {
-    return [store sdl_objectForName:SDLNameCurrentTemperature];
+    return [store sdl_objectForName:SDLNameCurrentTemperature ofClass:SDLTemperature.class];
 }
 
 - (void)setDesiredTemperature:(nullable SDLTemperature *)desiredTemperature {
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLTemperature *)desiredTemperature {
-    return [store sdl_objectForName:SDLNameDesiredTemperature];
+    return [store sdl_objectForName:SDLNameDesiredTemperature ofClass:SDLTemperature.class];
 }
 
 - (void)setAcEnable:(nullable NSNumber<SDLBool> *)acEnable {

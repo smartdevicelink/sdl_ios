@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLRdsData *)rdsData {
-    return [store sdl_objectForName:SDLNameRdsData];
+    return [store sdl_objectForName:SDLNameRdsData ofClass:SDLRdsData.class];
 }
 
 - (void)setAvailableHDs:(nullable NSNumber<SDLInt> *)availableHDs {

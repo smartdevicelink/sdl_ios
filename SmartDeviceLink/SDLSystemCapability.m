@@ -107,7 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLRemoteControlCapabilities *)remoteControlCapability {
-    return [store sdl_objectForName:SDLNameRemoteControlCapability];
+    return [store sdl_objectForName:SDLNameRemoteControlCapability ofClass:SDLRemoteControlCapabilities.class];
 }
 
 @end
