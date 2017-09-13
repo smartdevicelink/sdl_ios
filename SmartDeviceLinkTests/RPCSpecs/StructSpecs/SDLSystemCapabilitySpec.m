@@ -46,7 +46,7 @@ describe(@"Getter/Setter Tests", ^ {
 describe(@"Initialization tests", ^{
     it(@"Should get correctly when initialized with a dictionary", ^ {
         NSMutableDictionary* dict = [@{SDLNameSystemCapabilityType: @"NAVIGATION",
-                                       SDLNameNavigationCapability: @{SDLNameGetWaypointsEnabled: @(NO),
+                                       SDLNameNavigationCapability: @{SDLNameGetWayPointsEnabled: @(NO),
                                                                      SDLNameSendLocationEnabled: @(YES)},
                                        SDLNamePhoneCapability: @{SDLNameDialNumberEnabled: @(YES)},
                                        SDLNameRemoteControlCapability: someRemoteControlCapabilities} mutableCopy];
@@ -94,12 +94,12 @@ describe(@"Initialization tests", ^{
     });
 
     it(@"should initialize correctly with initWithVideoStreamingCapability:", ^{
-
         SDLImageResolution* resolution = [[SDLImageResolution alloc] init];
         resolution.resolutionWidth = @600;
         resolution.resolutionHeight = @500;
 
         NSNumber *maxBitrate = @100;
+        NSNumber *hapticDataSupported = @YES;
 
         SDLVideoStreamingFormat *format1 = [[SDLVideoStreamingFormat alloc] init];
         format1.codec = SDLVideoStreamingCodecH264;
@@ -111,7 +111,7 @@ describe(@"Initialization tests", ^{
 
         NSArray<SDLVideoStreamingFormat *> *formatArray = @[format1, format2];
 
-        SDLVideoStreamingCapability *testVidStruct = [[SDLVideoStreamingCapability alloc] initWithVideoStreaming:resolution maxBitrate:maxBitrate supportedFormats:formatArray];
+        SDLVideoStreamingCapability *testVidStruct = [[SDLVideoStreamingCapability alloc] initWithVideoStreaming:resolution maxBitrate:maxBitrate supportedFormats:formatArray hapticDataSupported:hapticDataSupported];
         SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] initWithVideoStreamingCapability:testVidStruct];
 
         expect(testStruct.systemCapabilityType).to(equal(SDLSystemCapabilityTypeVideoStreaming));

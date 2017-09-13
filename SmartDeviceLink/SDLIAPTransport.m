@@ -24,10 +24,8 @@ NSString *const IndexedProtocolStringPrefix = @"com.smartdevicelink.prot";
 NSString *const MultiSessionProtocolString = @"com.smartdevicelink.multisession";
 NSString *const BackgroundTaskName = @"com.sdl.transport.iap.backgroundTask";
 
-int const createSessionRetries = 1;
-int const protocolIndexTimeoutSeconds = 20;
-int const streamOpenTimeoutSeconds = 2;
-
+int const CreateSessionRetries = 1;
+int const ProtocolIndexTimeoutSeconds = 20;
 
 @interface SDLIAPTransport () {
     BOOL _alreadyDestructed;
@@ -223,7 +221,7 @@ int const streamOpenTimeoutSeconds = 2;
  */
 - (void)sdl_establishSessionWithAccessory:(nullable EAAccessory *)accessory {
     SDLLogD(@"Attempting to connect");
-    if (self.retryCounter < createSessionRetries) {
+    if (self.retryCounter < CreateSessionRetries) {
         // We should be attempting to connect
         self.retryCounter++;
         EAAccessory *sdlAccessory = accessory;
@@ -261,7 +259,7 @@ int const streamOpenTimeoutSeconds = 2;
         self.controlSession.delegate = self;
 
         if (self.protocolIndexTimer == nil) {
-            self.protocolIndexTimer = [[SDLTimer alloc] initWithDuration:protocolIndexTimeoutSeconds repeat:NO];
+            self.protocolIndexTimer = [[SDLTimer alloc] initWithDuration:ProtocolIndexTimeoutSeconds repeat:NO];
         } else {
             [self.protocolIndexTimer cancel];
         }
@@ -505,14 +503,14 @@ int const streamOpenTimeoutSeconds = 2;
 }
 
 - (double)retryDelay {
-    const double min_value = 1.5;
-    const double max_value = 9.5;
-    double range_length = max_value - min_value;
+    const double MinRetrySeconds = 1.5;
+    const double MaxRetrySeconds = 9.5;
+    double RetryRangeSeconds = MaxRetrySeconds - MinRetrySeconds;
 
-    static double delay = 0;
+    static double appDelaySeconds = 0;
 
     // HAX: This pull the app name and hashes it in an attempt to provide a more even distribution of retry delays. The evidence that this does so is anecdotal. A more ideal solution would be to use a list of known, installed SDL apps on the phone to try and deterministically generate an even delay.
-    if (delay == 0) {
+    if (appDelaySeconds == 0) {
         NSString *appName = [[NSProcessInfo processInfo] processName];
         if (appName == nil) {
             appName = @"noname";
@@ -536,10 +534,10 @@ int const streamOpenTimeoutSeconds = 2;
         double hashBasedValueInRange0to1 = ((double)firstHalf) / 0xffffffffffffffff;
 
         // Transform the number into a number between min and max
-        delay = ((range_length * hashBasedValueInRange0to1) + min_value);
+        appDelaySeconds = ((RetryRangeSeconds * hashBasedValueInRange0to1) + MinRetrySeconds);
     }
 
-    return delay;
+    return appDelaySeconds;
 }
 
 

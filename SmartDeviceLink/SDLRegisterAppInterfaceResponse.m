@@ -122,6 +122,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectsForName:SDLNameAudioPassThruCapabilities ofClass:SDLAudioPassThruCapabilities.class];
 }
 
+- (void)setPcmStreamCapabilities:(nullable SDLAudioPassThruCapabilities *)pcmStreamCapabilities {
+    [parameters sdl_setObject:pcmStreamCapabilities forName:SDLNamePCMStreamCapabilities];
+}
+
+- (nullable SDLAudioPassThruCapabilities *)pcmStreamCapabilities {
+    return [parameters sdl_objectForName:SDLNamePCMStreamCapabilities ofClass:SDLAudioPassThruCapabilities.class];
+}
+
 - (void)setVehicleType:(nullable SDLVehicleType *)vehicleType {
     [parameters sdl_setObject:vehicleType forName:SDLNameVehicleType];
 }

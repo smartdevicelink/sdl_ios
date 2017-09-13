@@ -45,7 +45,7 @@
 @class SDLOnTBTClientState;
 @class SDLOnTouchEvent;
 @class SDLOnVehicleData;
-@class SDLOnWaypointChange;
+@class SDLOnWayPointChange;
 @class SDLPerformAudioPassThruResponse;
 @class SDLPerformInteractionResponse;
 @class SDLPutFileResponse;
@@ -53,6 +53,7 @@
 @class SDLRegisterAppInterfaceResponse;
 @class SDLResetGlobalPropertiesResponse;
 @class SDLScrollableMessageResponse;
+@class SDLSendHapticDataResponse;
 @class SDLSendLocationResponse;
 @class SDLSetAppIconResponse;
 @class SDLSetDisplayLayoutResponse;
@@ -65,13 +66,13 @@
 @class SDLSpeakResponse;
 @class SDLSubscribeButtonResponse;
 @class SDLSubscribeVehicleDataResponse;
-@class SDLSubscribeWaypointsResponse;
+@class SDLSubscribeWayPointsResponse;
 @class SDLSyncPDataResponse;
 @class SDLUpdateTurnListResponse;
 @class SDLUnregisterAppInterfaceResponse;
 @class SDLUnsubscribeButtonResponse;
 @class SDLUnsubscribeVehicleDataResponse;
-@class SDLUnsubscribeWaypointsResponse;
+@class SDLUnsubscribeWayPointsResponse;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -125,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onOnTBTClientState:(SDLOnTBTClientState *)notification;
 - (void)onOnTouchEvent:(SDLOnTouchEvent *)notification;
 - (void)onOnVehicleData:(SDLOnVehicleData *)notification;
-- (void)onOnWayPointChange:(SDLOnWaypointChange *)notification;
+- (void)onOnWayPointChange:(SDLOnWayPointChange *)notification;
 - (void)onPerformAudioPassThruResponse:(SDLPerformAudioPassThruResponse *)response;
 - (void)onPerformInteractionResponse:(SDLPerformInteractionResponse *)response;
 - (void)onPutFileResponse:(SDLPutFileResponse *)response;
@@ -133,6 +134,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onRegisterAppInterfaceResponse:(SDLRegisterAppInterfaceResponse *)response;
 - (void)onResetGlobalPropertiesResponse:(SDLResetGlobalPropertiesResponse *)response;
 - (void)onScrollableMessageResponse:(SDLScrollableMessageResponse *)response;
+- (void)onSendHapticDataResponse:(SDLSendHapticDataResponse *)response;
 - (void)onSendLocationResponse:(SDLSendLocationResponse *)response;
 - (void)onSetAppIconResponse:(SDLSetAppIconResponse *)response;
 - (void)onSetDisplayLayoutResponse:(SDLSetDisplayLayoutResponse *)response;
@@ -145,13 +147,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onSpeakResponse:(SDLSpeakResponse *)response;
 - (void)onSubscribeButtonResponse:(SDLSubscribeButtonResponse *)response;
 - (void)onSubscribeVehicleDataResponse:(SDLSubscribeVehicleDataResponse *)response;
-- (void)onSubscribeWayPointsResponse:(SDLSubscribeWaypointsResponse *)response;
+- (void)onSubscribeWayPointsResponse:(SDLSubscribeWayPointsResponse *)response;
 - (void)onSyncPDataResponse:(SDLSyncPDataResponse *)response;
 - (void)onUpdateTurnListResponse:(SDLUpdateTurnListResponse *)response;
 - (void)onUnregisterAppInterfaceResponse:(SDLUnregisterAppInterfaceResponse *)response;
 - (void)onUnsubscribeButtonResponse:(SDLUnsubscribeButtonResponse *)response;
 - (void)onUnsubscribeVehicleDataResponse:(SDLUnsubscribeVehicleDataResponse *)response;
-- (void)onUnsubscribeWayPointsResponse:(SDLUnsubscribeWaypointsResponse *)response;
+- (void)onUnsubscribeWayPointsResponse:(SDLUnsubscribeWayPointsResponse *)response;
 
 @end
 

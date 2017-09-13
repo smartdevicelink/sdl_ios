@@ -42,9 +42,9 @@ typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *res
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
 NSString *const SDLProxyVersion = @"4.6.1";
-const float startSessionTime = 10.0;
-const float notifyProxyClosedDelay = 0.1;
-const int POLICIES_CORRELATION_ID = 65535;
+const float StartSessionTime = 10.0;
+const float NotifyProxyClosedDelay = 0.1;
+const int PoliciesCorrelationId = 65535;
 static float DefaultConnectionTimeout = 45.0;
 
 @interface SDLProxy () {
@@ -53,7 +53,6 @@ static float DefaultConnectionTimeout = 45.0;
 
 @property (copy, nonatomic) NSString *appId;
 @property (strong, nonatomic) NSMutableSet<NSObject<SDLProxyListener> *> *mutableProxyListeners;
-@property (nullable, nonatomic, strong, readwrite) SDLStreamingMediaManager *streamingMediaManager;
 @property (nullable, nonatomic, strong) SDLDisplayCapabilities *displayCapabilities;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
 @property (nonatomic, strong) NSURLSession* urlSession;
@@ -153,22 +152,6 @@ static float DefaultConnectionTimeout = 45.0;
     return SDLProxyVersion;
 }
 
-- (nullable SDLStreamingMediaManager *)streamingMediaManager {
-    if (_streamingMediaManager == nil) {
-        if (self.displayCapabilities == nil) {
-            return nil;
-        }
-        _streamingMediaManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol displayCapabilities:self.displayCapabilities];
-        [self.protocol.protocolDelegateTable addObject:_streamingMediaManager];
-
-        // HAX: The cast is a result of a compiler bug throwing a warning when it shouldn't
-        [self.mutableProxyListeners addObject:(id<SDLProxyListener>)_streamingMediaManager.touchManager];
-    }
-
-    return _streamingMediaManager;
-}
-
-
 #pragma mark - SecurityManager
 
 - (void)addSecurityManagers:(NSArray<Class> *)securityManagerClasses forAppId:(NSString *)appId {
@@ -214,11 +197,11 @@ static float DefaultConnectionTimeout = 45.0;
     [self.protocol startServiceWithType:SDLServiceTypeRPC];
 
     if (self.startSessionTimer == nil) {
-        self.startSessionTimer = [[SDLTimer alloc] initWithDuration:startSessionTime repeat:NO];
+        self.startSessionTimer = [[SDLTimer alloc] initWithDuration:StartSessionTime repeat:NO];
         __weak typeof(self) weakSelf = self;
         self.startSessionTimer.elapsedBlock = ^{
             SDLLogW(@"Start session timed out");
-            [weakSelf performSelector:@selector(notifyProxyClosed) withObject:nil afterDelay:notifyProxyClosedDelay];
+            [weakSelf performSelector:@selector(notifyProxyClosed) withObject:nil afterDelay:NotifyProxyClosedDelay];
         };
     }
     [self.startSessionTimer start];
@@ -343,10 +326,7 @@ static float DefaultConnectionTimeout = 45.0;
 
 - (void)handleRegisterAppInterfaceResponse:(SDLRPCResponse *)response {
     SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)response;
-    self.displayCapabilities = registerResponse.displayCapabilities;
-    if (_streamingMediaManager) {
-        _streamingMediaManager.displayCapabilties = registerResponse.displayCapabilities;
-    }
+
     self.protocol.securityManager = [self securityManagerForMake:registerResponse.vehicleType.make];
     if (self.protocol.securityManager && [self.protocol.securityManager respondsToSelector:@selector(setAppId:)]) {
         self.protocol.securityManager.appId = self.appId;
@@ -470,7 +450,7 @@ static float DefaultConnectionTimeout = 45.0;
                         // Create the SystemRequest RPC to send to module.
                         SDLLogV(@"OnSystemRequest HTTP response");
                         SDLSystemRequest *request = [[SDLSystemRequest alloc] init];
-                        request.correlationID = [NSNumber numberWithInt:POLICIES_CORRELATION_ID];
+                        request.correlationID = [NSNumber numberWithInt:PoliciesCorrelationId];
                         request.requestType = SDLRequestTypeProprietary;
                         request.bulkData = data;
 
@@ -529,7 +509,7 @@ static float DefaultConnectionTimeout = 45.0;
             // Create the SystemRequest RPC to send to module.
             SDLPutFile *putFile = [[SDLPutFile alloc] init];
             putFile.fileType = SDLFileTypeJSON;
-            putFile.correlationID = @(POLICIES_CORRELATION_ID);
+            putFile.correlationID = @(PoliciesCorrelationId);
             putFile.syncFileName = @"response_data";
             putFile.bulkData = data;
 
@@ -719,7 +699,7 @@ static float DefaultConnectionTimeout = 45.0;
     NSDictionary<NSString *, id> *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&JSONConversionError];
     if (!JSONConversionError) {
         SDLEncodedSyncPData *request = [[SDLEncodedSyncPData alloc] init];
-        request.correlationID = [NSNumber numberWithInt:POLICIES_CORRELATION_ID];
+        request.correlationID = [NSNumber numberWithInt:PoliciesCorrelationId];
         request.data = [responseDictionary objectForKey:@"data"];
 
         [self sendRPC:request];

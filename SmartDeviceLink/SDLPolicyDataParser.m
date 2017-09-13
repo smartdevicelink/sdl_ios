@@ -54,11 +54,11 @@ NS_ASSUME_NONNULL_BEGIN
         self.CPUDestination = (thirdByte & 0b00001000) != 0;
         self.encryptionKeyIndex = (thirdByte & 0b00000111);
 
-        const int payloadSizeOffset = 3;
+        const int PayloadSizeOffset = 3;
         if (self.isHighBandwidth) {
-            self.payloadSize = ntohl(*(UInt32 *)(bytes + payloadSizeOffset));
+            self.payloadSize = ntohl(*(UInt32 *)(bytes + PayloadSizeOffset));
         } else {
-            self.payloadSize = ntohs(*(UInt16 *)(bytes + payloadSizeOffset));
+            self.payloadSize = ntohs(*(UInt16 *)(bytes + PayloadSizeOffset));
         }
 
         if (self.hasESN) {

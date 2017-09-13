@@ -4,7 +4,6 @@
 #import "SDLFile.h"
 #import "SDLFileType.h"
 
-
 QuickSpecBegin(SDLFileSpec)
 
 describe(@"SDLFile", ^{
@@ -15,10 +14,12 @@ describe(@"SDLFile", ^{
         __block NSString *testName = nil;
         __block NSString *testFileType = nil;
         __block BOOL testPersistence = NO;
-        
+        __block unsigned long long testFileSize = 0.0;
+
         context(@"using data", ^{
             testName = @"Example Name";
             testData = [@"Example Data" dataUsingEncoding:NSUTF8StringEncoding];
+            testFileSize = testData.length;
             testFileType = @"mp3";
             testPersistence = YES;
             
@@ -33,6 +34,10 @@ describe(@"SDLFile", ^{
             
             it(@"should correctly store data", ^{
                 expect(testFile.data).to(equal(testData));
+            });
+
+            it(@"should correctly return the file size of the data", ^{
+                expect(testFile.fileSize).to(equal(testFileSize));
             });
 
             it(@"should correctly store persistance", ^{
@@ -50,19 +55,23 @@ describe(@"SDLFile", ^{
             it(@"should correctly start as non-overwrite", ^{
                 expect(@(testFile.overwrite)).to(equal(@NO));
             });
+
+            it(@"should correctly create an input stream", ^{
+                expect(testFile.inputStream).toNot(beNil());
+            });
         });
     });
     
     context(@"when created with a file url", ^{
         __block NSURL *testFileURL = nil;
         __block NSString *testFileName = nil;
-        
+        __block unsigned long long testFileSize = 0.0;
+
         context(@"when created with a non-extant file url", ^{
             beforeEach(^{
                 NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
                 testFileURL = [testBundle URLForResource:@"imageThatDoesNotExist" withExtension:@"jpg"];
                 testFileName = @"someImage";
-                
                 testFile = [[SDLFile alloc] initWithFileURL:testFileURL name:testFileName persistent:NO];
             });
             
@@ -77,7 +86,7 @@ describe(@"SDLFile", ^{
                     NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
                     testFileURL = [testBundle URLForResource:@"testImageJPG" withExtension:@"jpg"];
                     testFileName = @"someImage";
-                    
+                    testFileSize = [NSData dataWithContentsOfFile:testFileURL.path].length;
                     testFile = [SDLFile fileAtFileURL:testFileURL name:testFileName];
                 });
 
@@ -88,7 +97,11 @@ describe(@"SDLFile", ^{
                 it(@"should not store any data", ^{
                     expect(testFile.data.length).to(beGreaterThan(0));
                 });
-                
+
+                it(@"should correctly return the file size of the data stored at the url path", ^{
+                    expect(testFile.fileSize).to(equal(testFileSize));
+                });
+
                 it(@"should correctly store the file name", ^{
                     expect(testFile.name).to(match(testFileName));
                 });
@@ -104,6 +117,10 @@ describe(@"SDLFile", ^{
                 it(@"should correctly start as non-overwrite", ^{
                     expect(@(testFile.overwrite)).to(equal(@NO));
                 });
+
+                it(@"should correctly create an input stream", ^{
+                    expect(testFile.inputStream).toNot(beNil());
+                });
             });
             
             context(@"That is persistent", ^{
@@ -111,7 +128,7 @@ describe(@"SDLFile", ^{
                     NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
                     testFileURL = [testBundle URLForResource:@"testImageJPG" withExtension:@"jpg"];
                     testFileName = @"someImage";
-                    
+                    testFileSize = [NSData dataWithContentsOfFile:testFileURL.path].length;
                     testFile = [SDLFile persistentFileAtFileURL:testFileURL name:testFileName];
                 });
 
@@ -121,6 +138,10 @@ describe(@"SDLFile", ^{
 
                 it(@"should not store any data", ^{
                     expect(testFile.data.length).to(beGreaterThan(0));
+                });
+
+                it(@"should correctly return the file size of the data stored at the url path", ^{
+                    expect(testFile.fileSize).to(equal(testFileSize));
                 });
 
                 it(@"should correctly store name", ^{
@@ -137,6 +158,10 @@ describe(@"SDLFile", ^{
                 
                 it(@"should correctly start as non-overwrite", ^{
                     expect(@(testFile.overwrite)).to(equal(@NO));
+                });
+
+                it(@"should correctly create an input stream", ^{
+                    expect(testFile.inputStream).toNot(beNil());
                 });
             });
         });

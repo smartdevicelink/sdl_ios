@@ -36,11 +36,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setGetWayPointsEnabled:(nullable NSNumber *)getWayPointsEnabled {
-    [store sdl_setObject:getWayPointsEnabled forName:SDLNameGetWaypointsEnabled];
+    [store sdl_setObject:getWayPointsEnabled forName:SDLNameGetWayPointsEnabled];
 }
 
 - (nullable NSNumber *)getWayPointsEnabled {
-    return [store sdl_objectForName:SDLNameGetWaypointsEnabled];
+    return [store sdl_objectForName:SDLNameGetWayPointsEnabled];
 }
 
 @end

@@ -12,12 +12,15 @@
 #import "dispatch_timer.h"
 
 #import "SDLLogMacros.h"
+#import "SDLNotificationConstants.h"
 #import "SDLOnTouchEvent.h"
 #import "SDLPinchGesture.h"
+#import "SDLProxyListener.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLTouch.h"
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
-#import "SDLTouchType.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,7 +32,7 @@ typedef NS_ENUM(NSUInteger, SDLPerformingTouchType) {
 };
 
 /*!
- *  @abstract 
+ *  @abstract
  *      Touch Manager will ignore touches that represent more than 2 fingers on the screen.
  */
 static NSUInteger const MaximumNumberOfTouches = 2;
@@ -37,13 +40,13 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 @interface SDLTouchManager ()
 
 /*!
- *  @abstract 
+ *  @abstract
  *      First Touch received from onOnTouchEvent.
  */
 @property (nonatomic, strong, nullable) SDLTouch *previousTouch;
 
 /*!
- * @abstract 
+ * @abstract
  *      Cached previous single tap used for double tap detection.
  */
 @property (nonatomic, strong, nullable) SDLTouch *singleTapTouch;
@@ -87,6 +90,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     _tapDistanceThreshold = 50.0f;
     _touchEnabled = YES;
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onTouchEvent:) name:SDLDidReceiveTouchEventNotification object:nil];
+
     return self;
 }
 
@@ -95,79 +100,89 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     [self sdl_cancelSingleTapTimer];
 }
 
-#pragma mark - SDLProxyListener Delegate
-- (void)onProxyOpened {
-}
-- (void)onProxyClosed {
-}
-- (void)onOnHMIStatus:(SDLOnHMIStatus *)notification {
-}
-- (void)onOnDriverDistraction:(SDLOnDriverDistraction *)notification {
-}
+#pragma mark - SDLDidReceiveTouchEventNotification
 
-- (void)onOnTouchEvent:(SDLOnTouchEvent *)notification {
-    if (!self.isTouchEnabled) {
+/**
+ *  Handles detecting the type and state of the gesture and notifies the appropriate delegate callbacks.
+
+ *  @param notification     A SDLOnTouchEvent notification.
+ */
+- (void)sdl_onTouchEvent:(SDLRPCNotificationNotification *)notification {
+    if (!self.isTouchEnabled
+        || (!self.touchEventHandler && !self.touchEventDelegate)
+        || ![notification.notification isKindOfClass:SDLOnTouchEvent.class]) {
         return;
     }
 
-    SDLTouchEvent *touchEvent = notification.event.firstObject;
+    SDLOnTouchEvent* onTouchEvent = (SDLOnTouchEvent*)notification.notification;
 
+    SDLTouchType touchType = onTouchEvent.type;
+    SDLTouchEvent *touchEvent = onTouchEvent.event.firstObject;
     SDLTouch *touch = [[SDLTouch alloc] initWithTouchEvent:touchEvent];
 
-    if (touch.identifier > MaximumNumberOfTouches) {
+    if (self.touchEventHandler) {
+        self.touchEventHandler(touch, touchType);
+    }
+
+    if (!self.touchEventDelegate || (touch.identifier > MaximumNumberOfTouches)) {
         return;
     }
 
-    if ([notification.type isEqualToEnum:SDLTouchTypeBegin]) {
+    if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeBegin]) {
         [self sdl_handleTouchBegan:touch];
-    } else if ([notification.type isEqualToEnum:SDLTouchTypeMove]) {
+    } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeMove]) {
         [self sdl_handleTouchMoved:touch];
-    } else if ([notification.type isEqualToEnum:SDLTouchTypeEnd]) {
+    } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeEnd]) {
         [self sdl_handleTouchEnded:touch];
+    } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeCancel]) {
+        [self sdl_handleTouchCanceled:touch];
     }
 }
 
 #pragma mark - Private
+/**
+ *  Handles a BEGIN touch event sent by Core
+ *
+ *  @param touch Gesture information
+ */
 - (void)sdl_handleTouchBegan:(SDLTouch *)touch {
-    if (!touch.isFirstFinger && !self.isTouchEnabled) {
-        return; // no-op
-    }
-
     _performingTouchType = SDLPerformingTouchTypeSingleTouch;
 
     switch (touch.identifier) {
-        case SDLTouchIdentifierFirstFinger:
+        case SDLTouchIdentifierFirstFinger: {
             self.previousTouch = touch;
-            break;
-        case SDLTouchIdentifierSecondFinger:
+        } break;
+        case SDLTouchIdentifierSecondFinger: {
             _performingTouchType = SDLPerformingTouchTypeMultiTouch;
-            self.currentPinchGesture = [[SDLPinchGesture alloc] initWithFirstTouch:self.previousTouch
-                                                                       secondTouch:touch];
+            self.currentPinchGesture = [[SDLPinchGesture alloc] initWithFirstTouch:self.previousTouch secondTouch:touch];
             self.previousPinchDistance = self.currentPinchGesture.distance;
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchDidStartAtCenterPoint:)]) {
-                [self.touchEventDelegate touchManager:self
-                           pinchDidStartAtCenterPoint:self.currentPinchGesture.center];
+                [self.touchEventDelegate touchManager:self pinchDidStartAtCenterPoint:self.currentPinchGesture.center];
             }
-            break;
+        } break;
     }
 }
 
+/**
+ *  Handles a MOVE touch event sent by Core
+ *
+ *  @param touch Gesture information
+ */
 - (void)sdl_handleTouchMoved:(SDLTouch *)touch {
-    if ((touch.timeStamp - self.previousTouch.timeStamp) <= (self.movementTimeThreshold * NSEC_PER_USEC) || !self.isTouchEnabled) {
+    if ((touch.timeStamp - self.previousTouch.timeStamp) <= (self.movementTimeThreshold * NSEC_PER_USEC)) {
         return; // no-op
     }
 
     switch (self.performingTouchType) {
-        case SDLPerformingTouchTypeMultiTouch:
+        case SDLPerformingTouchTypeMultiTouch: {
             switch (touch.identifier) {
-                case SDLTouchIdentifierFirstFinger:
+                case SDLTouchIdentifierFirstFinger: {
                     self.currentPinchGesture.firstTouch = touch;
-                    break;
-                case SDLTouchIdentifierSecondFinger:
+                } break;
+                case SDLTouchIdentifierSecondFinger: {
                     self.currentPinchGesture.secondTouch = touch;
-                    break;
+                } break;
             }
-
 
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceivePinchAtCenterPoint:withScale:)]) {
                 CGFloat scale = self.currentPinchGesture.distance / self.previousPinchDistance;
@@ -177,44 +192,36 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             }
 
             self.previousPinchDistance = self.currentPinchGesture.distance;
-            break;
-        case SDLPerformingTouchTypeSingleTouch:
+        } break;
+        case SDLPerformingTouchTypeSingleTouch: {
             _performingTouchType = SDLPerformingTouchTypePanningTouch;
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:panningDidStartAtPoint:)]) {
                 [self.touchEventDelegate touchManager:self
                                panningDidStartAtPoint:touch.location];
             }
-            break;
-        case SDLPerformingTouchTypePanningTouch:
+        } break;
+        case SDLPerformingTouchTypePanningTouch: {
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceivePanningFromPoint:toPoint:)]) {
                 [self.touchEventDelegate touchManager:self
                            didReceivePanningFromPoint:self.previousTouch.location
                                               toPoint:touch.location];
             }
-            break;
-        case SDLPerformingTouchTypeNone:
-            break;
+        } break;
+        case SDLPerformingTouchTypeNone: break;
     }
 
     self.previousTouch = touch;
 }
 
+/**
+ *  Handles a END touch type notification sent by Core
+ *
+ *  @param touch    Gesture information
+ */
 - (void)sdl_handleTouchEnded:(SDLTouch *)touch {
-    if (!self.isTouchEnabled) {
-        return; // no-op
-    }
-
     switch (self.performingTouchType) {
-        case SDLPerformingTouchTypeMultiTouch:
-            switch (touch.identifier) {
-                case SDLTouchIdentifierFirstFinger:
-                    self.currentPinchGesture.firstTouch = touch;
-                    break;
-                case SDLTouchIdentifierSecondFinger:
-                    self.currentPinchGesture.secondTouch = touch;
-                    break;
-            }
-
+        case SDLPerformingTouchTypeMultiTouch: {
+            [self sdl_setMultiTouchFingerTouchForTouch:touch];
             if (self.currentPinchGesture.isValid) {
                 if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchDidEndAtCenterPoint:)]) {
                     [self.touchEventDelegate touchManager:self
@@ -222,18 +229,20 @@ static NSUInteger const MaximumNumberOfTouches = 2;
                 }
                 self.currentPinchGesture = nil;
             }
-            break;
-        case SDLPerformingTouchTypePanningTouch:
+        } break;
+        case SDLPerformingTouchTypePanningTouch: {
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:panningDidEndAtPoint:)]) {
                 [self.touchEventDelegate touchManager:self
                                  panningDidEndAtPoint:touch.location];
             }
-            break;
-        case SDLPerformingTouchTypeSingleTouch:
-            if (self.singleTapTimer == nil) { // Initial Tap
+        } break;
+        case SDLPerformingTouchTypeSingleTouch: {
+            if (self.singleTapTimer == nil) {
+                // Initial Tap
                 self.singleTapTouch = touch;
                 [self sdl_initializeSingleTapTimerAtPoint:self.singleTapTouch.location];
-            } else { // Double Tap
+            } else {
+                // Double Tap
                 [self sdl_cancelSingleTapTimer];
 
                 NSUInteger timeStampDelta = touch.timeStamp - self.singleTapTouch.timeStamp;
@@ -251,17 +260,78 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
                 self.singleTapTouch = nil;
             }
-            break;
-        case SDLPerformingTouchTypeNone:
-            break;
+        } break;
+        case SDLPerformingTouchTypeNone: break;
     }
+
     self.previousTouch = nil;
     _performingTouchType = SDLPerformingTouchTypeNone;
 }
 
+/**
+ *  Handles a CANCEL touch event sent by CORE. A CANCEL touch event is sent when a gesture is interrupted during a video stream. This can happen when a system dialog box appears on the screen, such as when the user is alerted about an incoming phone call.
+ *
+ *  Pinch and pan gesture subscribers are notified if the gesture is canceled. Tap gestures are simply canceled without notification.
+ *
+ *  @param touch    Gesture information
+ */
+- (void)sdl_handleTouchCanceled:(SDLTouch *)touch {
+    if (self.singleTapTimer != nil) {
+        // Cancel any ongoing single tap timer
+        [self sdl_cancelSingleTapTimer];
+        self.singleTapTouch = nil;
+    }
+
+    switch (self.performingTouchType) {
+        case SDLPerformingTouchTypeMultiTouch: {
+            [self sdl_setMultiTouchFingerTouchForTouch:touch];
+            if (self.currentPinchGesture.isValid) {
+                if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchCanceledAtCenterPoint:)]) {
+                    [self.touchEventDelegate touchManager:self
+                               pinchCanceledAtCenterPoint:self.currentPinchGesture.center];
+                }
+                self.currentPinchGesture = nil;
+            }
+        } break;
+        case SDLPerformingTouchTypePanningTouch: {
+            if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:panningCanceledAtPoint:)]) {
+                [self.touchEventDelegate touchManager:self
+                               panningCanceledAtPoint:touch.location];
+            }
+        } break;
+        case SDLPerformingTouchTypeSingleTouch: // fallthrough
+        case SDLPerformingTouchTypeNone: break;
+    }
+
+    self.previousTouch = nil;
+    _performingTouchType = SDLPerformingTouchTypeNone;
+}
+
+/**
+ *  Saves the pinch touch gesture to the correct finger
+ *
+ *  @param touch   Gesture information
+ */
+- (void)sdl_setMultiTouchFingerTouchForTouch:(SDLTouch *)touch {
+    switch (touch.identifier) {
+        case SDLTouchIdentifierFirstFinger: {
+            self.currentPinchGesture.firstTouch = touch;
+        } break;
+        case SDLTouchIdentifierSecondFinger: {
+            self.currentPinchGesture.secondTouch = touch;
+        } break;
+    }
+}
+
+/**
+ *  Creates a timer used to detect the type of tap gesture (single or double tap)
+ *
+ *  @param point  Screen coordinates of the tap gesture
+ */
 - (void)sdl_initializeSingleTapTimerAtPoint:(CGPoint)point {
     __weak typeof(self) weakSelf = self;
     self.singleTapTimer = dispatch_create_timer(self.tapTimeThreshold, NO, ^{
+        // If timer was not canceled by a second tap then only one tap detected
         typeof(weakSelf) strongSelf = weakSelf;
         strongSelf.singleTapTouch = nil;
         [strongSelf sdl_cancelSingleTapTimer];
@@ -272,6 +342,9 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     });
 }
 
+/**
+ *  Cancels a tap gesture timer
+ */
 - (void)sdl_cancelSingleTapTimer {
     if (self.singleTapTimer == NULL) {
         return;

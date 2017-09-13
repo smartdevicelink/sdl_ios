@@ -1,7 +1,7 @@
 //  SDLGetWaypointsResponse.m
 //
 
-#import "SDLGetWaypointsResponse.h"
+#import "SDLGetWayPointsResponse.h"
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLLocationDetails.h"
@@ -12,17 +12,17 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLGetWayPointsResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameGetWaypoints]) {
+    if (self = [super initWithName:SDLNameGetWayPoints]) {
     }
     return self;
 }
 
 - (void)setWaypoints:(nullable NSArray<SDLLocationDetails *> *)waypoints {
-    [parameters sdl_setObject:waypoints forName:SDLNameWaypoints];
+    [parameters sdl_setObject:waypoints forName:SDLNameWayPoints];
 }
 
 - (nullable NSArray<SDLLocationDetails *> *)waypoints {
-    return [parameters sdl_objectsForName:SDLNameWaypoints ofClass:SDLLocationDetails.class];
+    return [parameters sdl_objectsForName:SDLNameWayPoints ofClass:SDLLocationDetails.class];
 }
 
 @end

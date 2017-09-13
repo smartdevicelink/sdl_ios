@@ -3,35 +3,18 @@
 
 #import "SDLConfiguration.h"
 #import "SDLLifecycleConfiguration.h"
+#import "SDLLogConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
 
 QuickSpecBegin(SDLConfigurationSpec)
 
 describe(@"a configuration", ^{
     __block SDLConfiguration *testConfig = nil;
-    
-    context(@"created with a custom lifecycle and default lockscreen config", ^{
-        __block SDLLifecycleConfiguration *someLifecycleConfig = nil;
-        __block NSString *someAppName = nil;
-        __block NSString *someAppId = nil;
-        
-        beforeEach(^{
-            someAppName = @"some name";
-            someAppId = @"some id";
-            someLifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:someAppName appId:someAppId];
-            
-            testConfig = [SDLConfiguration configurationWithLifecycle:someLifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
-        });
-        
-        it(@"should contain the correct configs", ^{
-            expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
-            expect(@(testConfig.lockScreenConfig.enableAutomaticLockScreen)).to(equal(@YES));
-        });
-    });
-    
-    context(@"created with a custom lifecycle and lockscreen config", ^{
+
+    context(@"created with custom configs", ^{
         __block SDLLifecycleConfiguration *someLifecycleConfig = nil;
         __block SDLLockScreenConfiguration *someLockscreenConfig = nil;
+        __block SDLLogConfiguration *someLogConfig = nil;
         
         __block NSString *someAppName = nil;
         __block NSString *someAppId = nil;
@@ -46,13 +29,15 @@ describe(@"a configuration", ^{
             
             someLifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:someAppName appId:someAppId];
             someLockscreenConfig = [SDLLockScreenConfiguration enabledConfigurationWithAppIcon:someImage backgroundColor:someBackgroundColor];
+            someLogConfig = [SDLLogConfiguration defaultConfiguration];
             
-            testConfig = [SDLConfiguration configurationWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig];
+            testConfig = [SDLConfiguration configurationWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig];
         });
         
         it(@"should contain the correct configs", ^{
             expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
             expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));
+            expect(testConfig.loggingConfig).to(equal(someLogConfig));
         });
     });
 });
