@@ -532,7 +532,6 @@ int const streamOpenTimeoutSeconds = 2;
 - (void)sdl_destructObjects {
     if (!_alreadyDestructed) {
         _alreadyDestructed = YES;
-        [self.protocolIndexTimer cancel];
         self.controlSession = nil;
         self.session = nil;
         self.delegate = nil;
