@@ -360,11 +360,35 @@ xdescribe(@"a lifecycle manager", ^{
                     update.appName = @"EnGb";
                     
                     OCMStub([managerDelegateMock managerWillUpdateLifecycleToLanguage:[OCMArg any]]).andReturn(update);
+                    expect(testManager.configuration.lifecycleConfig.language).to(be(SDLLanguageEnUs));
                     
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateRegistered fromOldState:SDLLifecycleStateConnected callEnterTransition:YES];
                     
                     OCMVerify([managerDelegateMock managerWillUpdateLifecycleToLanguage:[OCMArg any]]);
                     expect(testManager.configuration.lifecycleConfig.appName).to(equal(@"EnGb"));
+                    expect(testManager.configuration.lifecycleConfig.language).to(be(SDLLanguageEnGb));
+                });
+            });
+            
+            context(@"when the register response is of another not supported language", ^{
+                it(@"should not update configuration as language is not supported", ^{
+                    SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
+                    response.success = @YES;
+                    response.resultCode = SDLResultWrongLanguage;
+                    response.info = @"Language mismatch";
+                    response.language = SDLLanguageDeDe;
+                    
+                    testManager.registerResponse = response;
+                    
+                    SDLLifecycleConfigurationUpdate *update = nil;
+                    
+                    OCMStub([managerDelegateMock managerWillUpdateLifecycleToLanguage:[OCMArg any]]).andReturn(update);
+                    expect(testManager.configuration.lifecycleConfig.language).to(be(SDLLanguageEnUs));
+                    
+                    [testManager.lifecycleStateMachine setToState:SDLLifecycleStateRegistered fromOldState:SDLLifecycleStateConnected callEnterTransition:YES];
+                    
+                    OCMVerify([managerDelegateMock managerWillUpdateLifecycleToLanguage:[OCMArg any]]);
+                    expect(testManager.configuration.lifecycleConfig.language).to(be(SDLLanguageEnUs));
                 });
             });
         });
