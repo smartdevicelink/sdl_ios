@@ -29,8 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
     [parameters sdl_setObject:moduleData forName:SDLNameModuleData];
 }
 
-- (SDLModuleData *)moduleData {
-    return [parameters sdl_objectForName:SDLNameModuleData];
+- (SDLModuleData *)moduleData {    
+    return [parameters sdl_objectForName:SDLNameModuleData ofClass:SDLModuleData.class];
 }
 
 @end
