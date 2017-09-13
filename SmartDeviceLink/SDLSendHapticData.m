@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLHapticRect *> *)hapticRectData {
-    return [parameters sdl_objectForName:SDLNameHapticRectData];
+    return [parameters sdl_objectsForName:SDLNameHapticRectData ofClass:SDLHapticRect.class];
 }
 
 @end

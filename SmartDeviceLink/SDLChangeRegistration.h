@@ -3,10 +3,8 @@
 
 
 #import "SDLRPCRequest.h"
-
 #import "SDLLanguage.h"
-
-@class SDLTTSChunk;
+#import "SDLTTSChunk.h"
 
 /**
  * If the app recognizes during the app registration that the SDL HMI language (voice/TTS and/or display) does not match the app language, the app will be able (but does not need) to change this registration with changeRegistration prior to app being brought into focus.
