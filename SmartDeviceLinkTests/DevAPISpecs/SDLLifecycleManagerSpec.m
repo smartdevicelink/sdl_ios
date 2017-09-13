@@ -80,11 +80,15 @@ xdescribe(@"a lifecycle manager", ^{
         testLifecycleConfig.appType = SDLAppHMITypeNavigation;
         
         testConfig = [SDLConfiguration configurationWithLifecycle:testLifecycleConfig lockScreen:[SDLLockScreenConfiguration disabledConfiguration]];
+        testConfig.lifecycleConfig.languagesSupported = @[SDLLanguageEnUs, SDLLanguageEnGb];
+        testConfig.lifecycleConfig.language = SDLLanguageEnUs;
+        
         testManager = [[SDLLifecycleManager alloc] initWithConfiguration:testConfig delegate:managerDelegateMock];
         testManager.lockScreenManager = lockScreenManagerMock;
         testManager.fileManager = fileManagerMock;
         testManager.permissionManager = permissionManagerMock;
         testManager.streamManager = streamingManagerMock;
+        
     });
     
     it(@"should initialize properties", ^{
@@ -339,6 +343,28 @@ xdescribe(@"a lifecycle manager", ^{
                     expect(readyHandlerError).toNot(beNil());
                     expect(@(readyHandlerError.code)).to(equal(@(SDLManagerErrorRegistrationSuccessWithWarning)));
                     expect(readyHandlerError.userInfo[NSLocalizedFailureReasonErrorKey]).to(match(response.info));
+                });
+            });
+            
+            context(@"when the register response is of another language", ^{
+                it(@"should call config update delegate method before saying it's ready", ^{
+                    SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
+                    response.success = @YES;
+                    response.resultCode = SDLResultWrongLanguage;
+                    response.info = @"Language mismatch";
+                    response.language = SDLLanguageEnGb;
+                    
+                    testManager.registerResponse = response;
+                    
+                    SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] init];
+                    update.appName = @"EnGb";
+                    
+                    OCMStub([managerDelegateMock managerWillUpdateLifecycleToLanguage:[OCMArg any]]).andReturn(update);
+                    
+                    [testManager.lifecycleStateMachine setToState:SDLLifecycleStateRegistered fromOldState:SDLLifecycleStateConnected callEnterTransition:YES];
+                    
+                    OCMVerify([managerDelegateMock managerWillUpdateLifecycleToLanguage:[OCMArg any]]);
+                    expect(testManager.configuration.lifecycleConfig.appName).to(equal(@"EnGb"));
                 });
             });
         });
