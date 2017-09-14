@@ -231,6 +231,9 @@
 		1680B11C1A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B1101A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m */; };
 		1680B11D1A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B1111A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m */; };
 		1680B11E1A9CD7AD00DBD79E /* SDLProtocolReceivedMessageRouterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B1121A9CD7AD00DBD79E /* SDLProtocolReceivedMessageRouterSpec.m */; };
+		1E4920B11F6A6443008F2CC3 /* SDLRadioState.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5AD05F1F207AB10029B8AF /* SDLRadioState.m */; };
+		1E4920B21F6A6455008F2CC3 /* SDLGetInteriorVehicleDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5AD08B1F20BC320029B8AF /* SDLGetInteriorVehicleDataResponse.m */; };
+		1E4920B31F6A6463008F2CC3 /* SDLOnInteriorVehicleData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5AD0971F20C0FB0029B8AF /* SDLOnInteriorVehicleData.m */; };
 		1E5AD0341F1F3AA30029B8AF /* SDLRemoteControlCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E5AD0321F1F3AA30029B8AF /* SDLRemoteControlCapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1E5AD0351F1F3AA30029B8AF /* SDLRemoteControlCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E5AD0331F1F3AA30029B8AF /* SDLRemoteControlCapabilities.m */; };
 		1E5AD0381F1F4E390029B8AF /* SDLClimateControlCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E5AD0361F1F4E390029B8AF /* SDLClimateControlCapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -5092,6 +5095,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E4920B31F6A6463008F2CC3 /* SDLOnInteriorVehicleData.m in Sources */,
+				1E4920B21F6A6455008F2CC3 /* SDLGetInteriorVehicleDataResponse.m in Sources */,
+				1E4920B11F6A6443008F2CC3 /* SDLRadioState.m in Sources */,
 				5DA8A0EA1E955FE00039C50D /* SDLLogModel.m in Sources */,
 				5DA8A0E91E955F710039C50D /* SDLStreamingMediaManagerConstants.m in Sources */,
 				332A914F1CED9CC60043824C /* SDLAppInfo.m in Sources */,
