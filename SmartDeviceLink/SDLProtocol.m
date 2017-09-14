@@ -6,6 +6,7 @@
 
 #import "SDLAbstractTransport.h"
 #import "SDLControlFramePayloadConstants.h"
+#import "SDLControlFramePayloadEndService.h"
 #import "SDLControlFramePayloadNak.h"
 #import "SDLControlFramePayloadRPCStartService.h"
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
@@ -44,6 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSMutableData *receiveBuffer;
 @property (nullable, strong, nonatomic) SDLProtocolReceivedMessageRouter *messageRouter;
 @property (strong, nonatomic) NSMutableDictionary<SDLServiceTypeBox *, SDLProtocolHeader *> *serviceHeaders;
+@property (assign, nonatomic) int32_t hashId;
+
 @end
 
 
@@ -56,6 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init {
     if (self = [super init]) {
         _messageID = 0;
+        _hashId = SDLControlFrameInt32NotFound;
         _receiveQueue = dispatch_queue_create("com.sdl.protocol.receive", DISPATCH_QUEUE_SERIAL);
         _sendQueue = dispatch_queue_create("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL);
         _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
@@ -104,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (!success) {
             // We can't start the service because we don't have encryption, return the error
             completionHandler(success, error);
-            return; // from block
+            BLOCK_RETURN;
         }
 
         // TLS initialization succeeded. Build and send the message.
@@ -137,7 +141,6 @@ NS_ASSUME_NONNULL_BEGIN
     header.frameType = SDLFrameTypeControl;
     header.serviceType = serviceType;
     header.frameData = SDLFrameInfoStartService;
-	header.bytesInPayload = (UInt32)payload.length;
 
     // Sending a StartSession with the encrypted bit set causes module to initiate SSL Handshake with a ClientHello message, which should be handled by the 'processControlService' method.
     header.encrypted = encryption;
@@ -156,20 +159,19 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    [self.securityManager initializeWithAppId:self.appId
-                            completionHandler:^(NSError *_Nullable error) {
-                                if (error) {
-                                    SDLLogE(@"Security Manager failed to initialize with error: %@", error);
+    [self.securityManager initializeWithAppId:self.appId completionHandler:^(NSError *_Nullable error) {
+        if (error) {
+            SDLLogE(@"Security Manager failed to initialize with error: %@", error);
 
-                                    if (completionHandler != nil) {
-                                        completionHandler(NO, error);
-                                    }
-                                } else {
-                                    if (completionHandler != nil) {
-                                        completionHandler(YES, nil);
-                                    }
-                                }
-                            }];
+            if (completionHandler != nil) {
+                completionHandler(NO, error);
+            }
+        } else {
+            if (completionHandler != nil) {
+                completionHandler(YES, nil);
+            }
+        }
+    }];
 }
 
 
@@ -186,7 +188,18 @@ NS_ASSUME_NONNULL_BEGIN
     header.frameData = SDLFrameInfoEndService;
     header.sessionID = [self sdl_retrieveSessionIDforServiceType:serviceType];
 
-    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:nil];
+    // Assemble the payload, it's a full control frame if we're on 5.0+, it's just the hash id if we are not
+    NSData *payload = nil;
+    if (self.hashId != SDLControlFrameInt32NotFound) {
+        if([SDLGlobals sharedGlobals].majorProtocolVersion > 4) {
+            SDLControlFramePayloadEndService *endServicePayload = [[SDLControlFramePayloadEndService alloc] initWithHashId:self.hashId];
+            payload = endServicePayload.data;
+        } else {
+            payload = [NSData dataWithBytes:&_hashId length:sizeof(_hashId)];
+        }
+    }
+
+    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
     [self sdl_sendDataToTransport:message.data onService:serviceType];
 }
 
@@ -259,13 +272,11 @@ NS_ASSUME_NONNULL_BEGIN
     header.serviceType = (message.bulkData.length <= 0) ? SDLServiceTypeRPC : SDLServiceTypeBulkData;
     header.frameData = SDLFrameInfoSingleFrame;
     header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceTypeRPC];
-    header.bytesInPayload = (UInt32)messagePayload.length;
 
     // V2+ messages need to have message ID property set.
     if ([SDLGlobals sharedGlobals].majorProtocolVersion >= 2) {
         [((SDLV2ProtocolHeader *)header) setMessageID:++_messageID];
     }
-
 
     SDLProtocolMessage *protocolMessage = [SDLProtocolMessage messageWithHeader:header andPayload:messagePayload];
 
@@ -326,8 +337,6 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogE(@"Error attempting to encrypt raw data for service: %@, error: %@", @(service), encryptError);
         }
     }
-
-    header.bytesInPayload = (UInt32)data.length;
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:data];
 
@@ -420,10 +429,12 @@ NS_ASSUME_NONNULL_BEGIN
         switch (startServiceACK.header.serviceType) {
             case SDLServiceTypeRPC: {
                 SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
-//                NSLog(@"ServiceAckPayload: %@", startServiceACKPayload);
 
                 if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
                     [[SDLGlobals sharedGlobals] setDynamicMTUSize:startServiceACKPayload.mtu forServiceType:startServiceACK.header.serviceType];
+                }
+                if (startServiceACKPayload.hashId != SDLControlFrameInt32NotFound) {
+                    self.hashId = startServiceACKPayload.hashId;
                 }
                 [SDLGlobals sharedGlobals].maxHeadUnitVersion = (startServiceACKPayload.protocolVersion != nil) ? startServiceACKPayload.protocolVersion : [NSString stringWithFormat:@"%u.0.0", startServiceACK.header.version];
                 // TODO: Hash id?
@@ -646,7 +657,6 @@ NS_ASSUME_NONNULL_BEGIN
     serverTLSPayload.binaryData = data;
 
     NSData *binaryData = serverTLSPayload.data;
-    serverMessageHeader.bytesInPayload = (UInt32)binaryData.length;
 
     return [SDLProtocolMessage messageWithHeader:serverMessageHeader andPayload:binaryData];
 }
@@ -668,7 +678,6 @@ NS_ASSUME_NONNULL_BEGIN
     serverTLSPayload.correlationID = 0x00;
 
     NSData *binaryData = serverTLSPayload.data;
-    serverMessageHeader.bytesInPayload = (UInt32)binaryData.length;
 
     // TODO: (Joel F.)[2016-02-15] This is supposed to have some JSON data and json data size
     return [SDLProtocolMessage messageWithHeader:serverMessageHeader andPayload:binaryData];

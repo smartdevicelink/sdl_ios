@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
     if (self = [self init]) {
         self.header = header;
         self.payload = payload;
+
+        self.header.bytesInPayload = (UInt32)self.payload.length;
     }
     return self;
 }
