@@ -131,30 +131,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @abstract Current angle of the steering wheel (in deg).
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *steeringWheelAngle;
-
-/**
- * @abstract A SDLECallInfo* value. The status of an emergency call.
- */
 @property (nullable, strong, nonatomic) SDLECallInfo *eCallInfo;
-
-/**
- * @abstract A SDLAirbagStatus* value. The status of the airbags.
- */
 @property (nullable, strong, nonatomic) SDLAirbagStatus *airbagStatus;
-
-/**
- * @abstract A SDLEmergencyEvent* value. The status of an emergency event.
- */
 @property (nullable, strong, nonatomic) SDLEmergencyEvent *emergencyEvent;
-
-/**
- * @abstract A SDLClusterModeStatus* value. The status of the power and car modes.
- */
 @property (nullable, strong, nonatomic) SDLClusterModeStatus *clusterModeStatus;
-
-/**
- * @abstract A SDLMyKey* value. The e911 override status.
- */
 @property (nullable, strong, nonatomic) SDLMyKey *myKey;
 
 @end
