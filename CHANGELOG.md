@@ -1,3 +1,14 @@
+# 4.7.1 Release Notes
+### Breaking Changes
+* This bumps up the minimum supported version to 7.0 due to Xcode 9 changes. The upcoming v5.0.0 will raise the minimum version to 8.0.
+
+### Bug Fixes
+* Fixes the possibility of timers not being appropriately deallocated [#382](https://github.com/smartdevicelink/sdl_ios/issues/382).
+
+### Tests
+* Any tests must now be run on Xcode 9.
+* The travis config file has been updated to run on Xcode 9.
+
 # 4.7.0 Release Notes (since RC 1)
 ### Bug Fixes
 * Fixed payloads being created with nil data causing a crash [#715](https://github.com/smartdevicelink/sdl_ios/issues/715).
