@@ -234,8 +234,6 @@
 		1680B11D1A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B1111A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m */; };
 		1680B11E1A9CD7AD00DBD79E /* SDLProtocolReceivedMessageRouterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B1121A9CD7AD00DBD79E /* SDLProtocolReceivedMessageRouterSpec.m */; };
 		1F648A911F61D3F2005C3D36 /* SDLHapticManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F648A901F61D3F2005C3D36 /* SDLHapticManager.m */; };
-		1F648A961F61DD1D005C3D36 /* SDLProjectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F648A951F61DD1D005C3D36 /* SDLProjectionViewController.m */; };
-		1F648A991F61DE59005C3D36 /* SDLTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F648A981F61DE59005C3D36 /* SDLTableViewController.m */; };
 		332A914F1CED9CC60043824C /* SDLAppInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 332A913D1CED87F80043824C /* SDLAppInfo.m */; };
 		332A91501CED9CF10043824C /* SDLAppInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 332A913C1CED87F80043824C /* SDLAppInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D00AC671F140F0A004000D9 /* SDLSystemCapabilityType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D00AC651F140F0A004000D9 /* SDLSystemCapabilityType.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1343,10 +1341,6 @@
 		1F648A901F61D3F2005C3D36 /* SDLHapticManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHapticManager.m; sourceTree = "<group>"; };
 		1F648A921F61D4E0005C3D36 /* SDLHapticInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLHapticInterface.h; sourceTree = "<group>"; };
 		1F648A931F61D508005C3D36 /* SDLHapticHitTester.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLHapticHitTester.h; sourceTree = "<group>"; };
-		1F648A941F61DCF1005C3D36 /* SDLProjectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLProjectionViewController.h; sourceTree = "<group>"; };
-		1F648A951F61DD1D005C3D36 /* SDLProjectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProjectionViewController.m; sourceTree = "<group>"; };
-		1F648A971F61DE13005C3D36 /* SDLTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTableViewController.h; sourceTree = "<group>"; };
-		1F648A981F61DE59005C3D36 /* SDLTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTableViewController.m; sourceTree = "<group>"; };
 		332A913C1CED87F80043824C /* SDLAppInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAppInfo.h; sourceTree = "<group>"; };
 		332A913D1CED87F80043824C /* SDLAppInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppInfo.m; sourceTree = "<group>"; };
 		5D00AC651F140F0A004000D9 /* SDLSystemCapabilityType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSystemCapabilityType.h; sourceTree = "<group>"; };
@@ -2802,10 +2796,6 @@
 				5D53C46C1B7A99B9003526EA /* SDLStreamingMediaManager.m */,
 				1F648A8F1F61D3B0005C3D36 /* SDLHapticManager.h */,
 				1F648A901F61D3F2005C3D36 /* SDLHapticManager.m */,
-				1F648A941F61DCF1005C3D36 /* SDLProjectionViewController.h */,
-				1F648A951F61DD1D005C3D36 /* SDLProjectionViewController.m */,
-				1F648A971F61DE13005C3D36 /* SDLTableViewController.h */,
-				1F648A981F61DE59005C3D36 /* SDLTableViewController.m */,
 			);
 			name = Proxy;
 			sourceTree = "<group>";
@@ -4834,7 +4824,6 @@
 				5D61FCE71A84238C00846EE7 /* SDLKeypressMode.m in Sources */,
 				5D61FD9A1A84238C00846EE7 /* SDLSiphonServer.m in Sources */,
 				5D61FCDF1A84238C00846EE7 /* SDLJsonEncoder.m in Sources */,
-				1F648A991F61DE59005C3D36 /* SDLTableViewController.m in Sources */,
 				5D7F87F41CE3C29E002DD7C4 /* SDLFileWrapper.m in Sources */,
 				5D61FD941A84238C00846EE7 /* SDLShowConstantTBTResponse.m in Sources */,
 				5D61FE0A1A84238C00846EE7 /* SDLVehicleDataType.m in Sources */,
@@ -5043,7 +5032,6 @@
 				5D61FE001A84238C00846EE7 /* SDLVehicleDataEventStatus.m in Sources */,
 				5D61FDC41A84238C00846EE7 /* SDLTBTState.m in Sources */,
 				5D61FDA61A84238C00846EE7 /* SDLSpeak.m in Sources */,
-				1F648A961F61DD1D005C3D36 /* SDLProjectionViewController.m in Sources */,
 				5D4631111F2135850092EFDC /* SDLControlFramePayloadConstants.m in Sources */,
 				1F648A911F61D3F2005C3D36 /* SDLHapticManager.m in Sources */,
 				DA9F7E881DCC049900ACAE48 /* SDLSubscribeWaypoints.m in Sources */,
