@@ -93,7 +93,7 @@
         CGPoint originOnScreen = [view.superview convertPoint:view.frame.origin toView:nil];
         CGRect convertedRect = {originOnScreen, view.bounds.size};
         SDLRectangle* rect = [[SDLRectangle alloc] initWithCGRect:(convertedRect)];
-        // using the view index as for id field in SendHapticData request (should be guaranteed unique)
+        // using the view index as the id field in SendHapticData request (should be guaranteed unique)
         NSNumber* rectId = [[NSNumber alloc] initWithUnsignedInteger:([self.focusableViews indexOfObject:view])];
         SDLHapticRect *hapticRect = [[SDLHapticRect alloc] initWithId:rectId rect:rect];
         [hapticRects addObject:hapticRect];
