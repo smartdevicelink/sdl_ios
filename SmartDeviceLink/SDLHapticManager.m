@@ -43,14 +43,11 @@
     if ((self = [super init])) {
         self.projectionWindow = window;
         self.sdlManager = sdlManager;
-        //Can we remove this focusableViews new?
-        self.focusableViews = [NSMutableArray new];
         [self updateInterfaceLayout];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(projectionViewUpdated:) name:SDLProjectionViewUpdate object:nil];
         
     }
     return self;
-
 }
 
 - (void)updateInterfaceLayout {
@@ -81,9 +78,8 @@
         return;
     } else if (currentView.subviews.count > 0) {
         NSArray *subviews = currentView.subviews;
-        
+
         for (UIView *childView in subviews) {
-            
             [self parseViewHierarchy:childView];
         }
     } else {
@@ -95,16 +91,17 @@
     NSMutableArray<SDLHapticRect *> *hapticRects = [NSMutableArray new];
     
     for (UIView *view in self.focusableViews) {
-        SDLRectangle *rect = [[SDLRectangle alloc] initWithCGRect:(view.bounds)];
+        CGPoint originOnScreen = [view.superview convertPoint:view.frame.origin toView:nil];
+        CGRect convertedRect = {originOnScreen, view.bounds.size};
+        SDLRectangle* rect = [[SDLRectangle alloc] initWithCGRect:(convertedRect)];
+        // using the view index as for id field in SendHapticData request (should be guaranteed unique)
         NSNumber* rectId = [[NSNumber alloc] initWithUnsignedInteger:([self.focusableViews indexOfObject:view])];
         SDLHapticRect *hapticRect = [[SDLHapticRect alloc] initWithId:rectId rect:rect];
         [hapticRects addObject:hapticRect];
     }
-    NSLog(@"Sending haptic data:\n");
 
-    //what if there is no focusable items?
-    SDLSendHapticData* hapticRPC = [[SDLSendHapticData alloc] initWithHapticRectData:hapticRects];
     if(self.sdlManager) {
+        SDLSendHapticData* hapticRPC = [[SDLSendHapticData alloc] initWithHapticRectData:hapticRects];
         [self.sdlManager sendRequest:hapticRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError *     _Nullable error) {
             NSLog(@"SendHapticData:\n"
               "Request: %@"
@@ -133,10 +130,8 @@
         }
     }
     
-    
     if(selectedView != nil)
     {
-        //Why do we need to convert object to index and index to object again?
         NSUInteger selectedViewIndex = [self.focusableViews indexOfObject:selectedView];
         
         if (selectedViewIndex != NSNotFound) {
@@ -145,9 +140,7 @@
             return nil;
         }
     }
-    
     return nil;
-    
 }
 
 #pragma mark notifications
