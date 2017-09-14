@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/cocoapods/l/SmartDeviceLink.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink)
 [![Build Status](https://img.shields.io/travis/smartdevicelink/sdl_ios/master.svg?style=flat)](https://travis-ci.org/smartdevicelink/sdl_ios)
 [![codecov](https://codecov.io/gh/smartdevicelink/sdl_ios/branch/master/graph/badge.svg)](https://codecov.io/gh/smartdevicelink/sdl_ios)
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="20"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="128" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path fill="#555" d="M0 0h93v20H0z"/><path fill="#dfb317" d="M93 0h35v20H93z"/><path fill="url(#b)" d="M0 0h128v20H0z"/></g><g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11"><text x="46.5" y="15" fill="#010101" fill-opacity=".3">documentation</text><text x="46.5" y="14">documentation</text><text x="109.5" y="15" fill="#010101" fill-opacity=".3">54%</text><text x="109.5" y="14">54%</text></g></svg>
+[![documentation](https://img.shields.io/badge/documentation-51%25-yellow.svg)]()
 [![CocoaPods Downloads](https://img.shields.io/cocoapods/dt/SmartDeviceLink.svg?maxAge=172800)](https://cocoapods.org/pods/SmartDeviceLink)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Slack Status](http://sdlslack.herokuapp.com/badge.svg)](http://slack.smartdevicelink.com)
