@@ -123,12 +123,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *engineTorque;
 
 /**
- * @abstract Accelerator pedal position (percentage depressed).
+ * @abstract Accelerator pedal position (percentage depressed)
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *accPedalPosition;
 
 /**
- * @abstract Current angle of the steering wheel (in deg).
+ * @abstract Current angle of the steering wheel (in deg)
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *steeringWheelAngle;
 @property (nullable, strong, nonatomic) SDLECallInfo *eCallInfo;

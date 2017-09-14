@@ -102,12 +102,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *engineTorque;
 
 /**
- * @abstract A SDLVehicleDataResult* value. Accelerator pedal position (percentage depressed).
+ * @abstract A SDLVehicleDataResult* value. Accelerator pedal position (percentage depressed)
  */
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *accPedalPosition;
 
 /**
- * @abstract A SDLVehicleDataResult* value. Current angle of the steering wheel (in deg).
+ * @abstract A SDLVehicleDataResult* value. Current angle of the steering wheel (in deg)
  */
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *steeringWheelAngle;
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *eCallInfo;
