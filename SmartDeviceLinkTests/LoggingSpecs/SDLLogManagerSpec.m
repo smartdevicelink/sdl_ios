@@ -112,7 +112,156 @@ describe(@"a log manager", ^{
                 });
             });
         });
+
+        describe(@"log output", ^{
+            __block NSString *testFileName = @"file";
+            __block NSString *testFunctionName = @"function";
+            __block NSString *testQueue = @"queue";
+
+            __block SDLLogLevel testLogLevelWarning = SDLLogLevelWarning;
+            __block SDLLogLevel testLogLevelError = SDLLogLevelError;
+            __block SDLLogLevel testLogLevelDebug = SDLLogLevelDebug;
+            __block SDLLogLevel testLogLevelVerbose = SDLLogLevelVerbose;
+
+            __block NSInteger testLineWarning;
+            __block NSString *testMessageWarning;
+            __block NSString *testWarningFormattedLog;
+            __block NSInteger testLineError;
+            __block NSString *testMessageError;
+            __block NSString *testErrorFormattedLog;
+            __block NSInteger testLineDebug;
+            __block NSString *testMessageDebug;
+            __block NSString *testDebugFormattedLog;
+            __block NSInteger testLineVerbose;
+            __block NSString *testMessageVerbose;
+            __block NSString *testVerboseFormattedLog;
+
+            __block int expectedLogCount;
+            __block NSMutableArray<NSString *> *expectedMessages;
+            __block NSMutableArray<NSString *> *notExpectedMessages;
+
+            context(@"The type of debug messages logged depends on the SDLLogLevel", ^{
+                beforeEach(^{
+                    testConfiguration = [[SDLLogConfiguration alloc] init];
+                    testConfiguration.targets = [NSSet setWithObject:testLogTarget];
+                    testConfiguration.asynchronous = NO;
+                    testConfiguration.formatType = SDLLogFormatTypeSimple;
+
+                    testLineWarning = 1;
+                    testMessageWarning = @"warningMessage";
+                    testWarningFormattedLog = [NSString stringWithFormat:@"%@ 🔶 (SDL)- %@", formattedDate, testMessageWarning];
+
+                    testLineError = 2;
+                    testMessageError = @"errorMessage";
+                    testErrorFormattedLog = [NSString stringWithFormat:@"%@ ❌ (SDL)- %@", formattedDate, testMessageError];
+
+                    testLineDebug = 3;
+                    testMessageDebug = @"debugMessage";
+                    testDebugFormattedLog = [NSString stringWithFormat:@"%@ 🔵 (SDL)- %@", formattedDate, testMessageDebug];
+
+                    testLineVerbose = 4;
+                    testMessageVerbose = @"verboseMessage";
+                    testVerboseFormattedLog = [NSString stringWithFormat:@"%@ ⚪ (SDL)- %@", formattedDate, testMessageVerbose];
+
+                    expectedMessages = [[NSMutableArray alloc] init];
+                    notExpectedMessages = [[NSMutableArray alloc] init];
+                });
+
+                describe(@"When the global log level is set", ^{
+                    beforeEach(^{
+                        expectedLogCount = 0;
+                        expect(testLogTarget.formattedLogMessages.count).to(equal(0));
+                        expect(expectedMessages.count).to(equal(0));
+                        expect(notExpectedMessages.count).to(equal(0));
+                    });
+
+                    it(@"should not log anything when the log level is OFF", ^{
+                        testConfiguration.globalLogLevel = SDLLogLevelOff;
+                        expectedLogCount = 0;
+
+                        [notExpectedMessages addObject:testWarningFormattedLog];
+                        [notExpectedMessages addObject:testErrorFormattedLog];
+                        [notExpectedMessages addObject:testDebugFormattedLog];
+                        [notExpectedMessages addObject:testVerboseFormattedLog];
+                    });
+
+                    it(@"should only log errors when the log level is ERROR", ^{
+                        testConfiguration.globalLogLevel = SDLLogLevelError;
+                        expectedLogCount = 1;
+
+                        [expectedMessages addObject:testErrorFormattedLog];
+
+                        [notExpectedMessages addObject:testWarningFormattedLog];
+                        [notExpectedMessages addObject:testDebugFormattedLog];
+                        [notExpectedMessages addObject:testVerboseFormattedLog];
+                    });
+
+                    it(@"should only log errors and warnings when the log level is WARNING", ^{
+                        testConfiguration.globalLogLevel = SDLLogLevelWarning;
+                        expectedLogCount = 2;
+
+                        [expectedMessages addObject:testWarningFormattedLog];
+                        [expectedMessages addObject:testErrorFormattedLog];
+
+                        [notExpectedMessages addObject:testDebugFormattedLog];
+                        [notExpectedMessages addObject:testVerboseFormattedLog];
+                    });
+
+                    it(@"should only log errors, warnings, and debug logs when the log level is DEBUG", ^{
+                        testConfiguration.globalLogLevel = SDLLogLevelDebug;
+                        expectedLogCount = 3;
+
+                        [expectedMessages addObject:testWarningFormattedLog];
+                        [expectedMessages addObject:testErrorFormattedLog];
+                        [expectedMessages addObject:testDebugFormattedLog];
+
+                        [notExpectedMessages addObject:testVerboseFormattedLog];
+                    });
+
+                    it(@"should log errors, warnings, debug, and verbose logs when the log level is VERBOSE", ^{
+                        testConfiguration.globalLogLevel = SDLLogLevelVerbose;
+                        expectedLogCount = 4;
+
+                        [expectedMessages addObject:testWarningFormattedLog];
+                        [expectedMessages addObject:testErrorFormattedLog];
+                        [expectedMessages addObject:testDebugFormattedLog];
+                        [expectedMessages addObject:testVerboseFormattedLog];
+                    });
+
+                    afterEach(^{
+                        [testManager setConfiguration:testConfiguration];
+
+                        // Warning
+                        [testManager logWithLevel:testLogLevelWarning timestamp:testDate file:testFileName functionName:testFunctionName line:testLineWarning queue:testQueue message:testMessageWarning];
+
+                        // Error
+                        [testManager logWithLevel:testLogLevelError timestamp:testDate file:testFileName functionName:testFunctionName line:testLineError queue:testQueue message:testMessageError];
+
+                        // Debug
+                        [testManager logWithLevel:testLogLevelDebug timestamp:testDate file:testFileName functionName:testFunctionName line:testLineDebug queue:testQueue message:testMessageDebug];
+
+                        // Verbose
+                        [testManager logWithLevel:testLogLevelVerbose timestamp:testDate file:testFileName functionName:testFunctionName line:testLineVerbose queue:testQueue message:testMessageVerbose];
+                    });
+                });
+
+                afterEach(^{
+                    expect(testManager.asynchronous).to(equal(NO));
+                    expect(testLogTarget.formattedLogMessages.count).to(equal(expectedLogCount));
+
+                    for(int i = 0; i < expectedMessages.count; i += 1) {
+                        expect([testLogTarget.formattedLogMessages objectAtIndex:i]).to(contain(expectedMessages[i]));
+                    }
+
+                    for(int i = 0; i < notExpectedMessages.count; i += 1) {
+                        expect(testLogTarget.formattedLogMessages).toNot(contain(notExpectedMessages[i]));
+                    }
+                });
+            });
+        });
     });
 });
+
+
 
 QuickSpecEnd

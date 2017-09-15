@@ -44,7 +44,6 @@ NS_ASSUME_NONNULL_BEGIN
     payloadData[0] = CFSwapInt32HostToBig((UInt32)incomingMessage.payload.length);
     payloadData[1] = CFSwapInt32HostToBig((UInt32)numberOfMessagesRequired);
     NSMutableData *firstFramePayload = [NSMutableData dataWithBytes:payloadData length:sizeof(payloadData)];
-    firstFrameHeader.bytesInPayload = (UInt32)firstFramePayload.length;
 
     SDLProtocolMessage *firstMessage = [SDLProtocolMessage messageWithHeader:firstFrameHeader andPayload:firstFramePayload];
     outgoingMessages[0] = firstMessage;
@@ -62,7 +61,6 @@ NS_ASSUME_NONNULL_BEGIN
 
         NSUInteger offsetOfDataForThisFrame = headerSize + (n * numberOfDataBytesPerMessage);
         NSData *nextFramePayload = [incomingMessage.data subdataWithRange:NSMakeRange(offsetOfDataForThisFrame, numberOfDataBytesPerMessage)];
-        nextFrameHeader.bytesInPayload = (UInt32)nextFramePayload.length;
 
         SDLProtocolMessage *nextMessage = [SDLProtocolMessage messageWithHeader:nextFrameHeader andPayload:nextFramePayload];
         outgoingMessages[n + 1] = nextMessage;
@@ -79,7 +77,6 @@ NS_ASSUME_NONNULL_BEGIN
     NSUInteger numberOfDataBytesInLastMessage = incomingPayloadSize - numberOfDataBytesSentSoFar;
     NSUInteger offsetOfDataForLastFrame = headerSize + numberOfDataBytesSentSoFar;
     NSData *lastFramePayload = [incomingMessage.data subdataWithRange:NSMakeRange(offsetOfDataForLastFrame, numberOfDataBytesInLastMessage)];
-    lastFrameHeader.bytesInPayload = (UInt32)lastFramePayload.length;
 
     SDLProtocolMessage *lastMessage = [SDLProtocolMessage messageWithHeader:lastFrameHeader andPayload:lastFramePayload];
     outgoingMessages[numberOfMessagesRequired] = lastMessage;

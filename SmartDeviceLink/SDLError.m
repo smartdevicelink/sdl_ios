@@ -140,6 +140,23 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorUnableToUpload userInfo:userInfo];
 }
 
++ (NSError *)sdl_fileManager_unableToUpload_ErrorWithUserInfo:(NSDictionary *)userInfo {
+    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerMultipleFileUploadTasksFailed userInfo:userInfo];
+}
+
++ (NSError *)sdl_fileManager_unableToDelete_ErrorWithUserInfo:(NSDictionary *)userInfo {
+    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerMultipleFileDeleteTasksFailed userInfo:userInfo];
+}
+
++ (NSError *)sdl_fileManager_fileUploadCanceled {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"The file upload was canceled", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The file upload transaction was canceled before it could be completed", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"The file upload was canceled", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerUploadCanceled userInfo:userInfo];
+}
+
 #pragma mark SDLUploadFileOperation
 
 + (NSError *)sdl_fileManager_fileDoesNotExistError {
@@ -148,8 +165,9 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
                                                        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"This could be because the file does not exist at the specified file path or that passed data is invalid", nil),
                                                        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that the the correct file path is being set and that the passed data is valid", nil)
                                                        };
-return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorFileDoesNotExist userInfo:userInfo];
+    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorFileDoesNotExist userInfo:userInfo];
 }
+
 
 @end
 
@@ -168,6 +186,13 @@ return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErr
         exceptionWithName:@"MissingIdException"
                    reason:@"This request requires an ID (command, softbutton, etc) to be specified"
                  userInfo:nil];
+}
+
++ (NSException *)sdl_missingFilesException {
+    return [NSException
+            exceptionWithName:@"MissingFilesNames"
+            reason:@"This request requires that the array of files not be empty"
+            userInfo:nil];
 }
 
 @end
