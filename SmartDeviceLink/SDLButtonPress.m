@@ -16,25 +16,15 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithType:(SDLModuleType )moduleType {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
-    self.moduleType = moduleType;
-
-    return self;
-}
-
-- (instancetype)initWithButtonName:(SDLButtonName) buttonName {
+- (instancetype)initWithButtonName:(SDLButtonName) buttonName moduleType:(SDLModuleType) moduleType {
     self = [self init];
     if (!self) {
         return nil;
     }
     
     self.buttonName = buttonName;
-    
+    self.moduleType = moduleType;
+
     return self;
 }
 
