@@ -1,5 +1,5 @@
 //
-//  SDLH264ByteStreamPacketizer.h
+//  SDLRAWH264Packetizer
 //  SmartDeviceLink-iOS
 //
 //  Created by Sho Amano on 4/11/17.

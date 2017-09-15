@@ -66,7 +66,7 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
 /**
  A data source for the streaming manager's preferred resolutions and preferred formats.
  */
-@property (weak, nonatomic) id<SDLStreamingMediaManagerDataSource> dataSource;
+@property (weak, nonatomic, nullable) id<SDLStreamingMediaManagerDataSource> dataSource;
 
 /**
  *  Whether or not video streaming is supported
@@ -163,10 +163,8 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
- *
- *  @param readyHandler The block to be called when the manager's setup is complete.
  */
-- (void)startWithProtocol:(SDLAbstractProtocol*)protocol completionHandler:(SDLStreamingMediaReadyBlock)readyHandler;
+- (void)startWithProtocol:(SDLAbstractProtocol *)protocol;
 
 /**
  *  Stop the manager. This method is used internally.

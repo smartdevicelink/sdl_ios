@@ -10,6 +10,7 @@
 
 #import "SDLConnectionManagerType.h"
 #import "SDLStreamingMediaConfiguration.h"
+#import "SDLStreamingMediaManagerDataSource.h"
 #import "SDLStreamingMediaLifecycleManager.h"
 #import "SDLTouchManager.h"
 
@@ -39,8 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)startWithProtocol:(SDLAbstractProtocol *)protocol completionHandler:(SDLStreamingMediaReadyBlock)readyHandler {
-    [self.lifecycleManager startWithProtocol:protocol completionHandler:readyHandler];
+- (void)startWithProtocol:(SDLAbstractProtocol *)protocol {
+    [self.lifecycleManager startWithProtocol:protocol];
 }
 
 - (void)stop {
@@ -98,16 +99,16 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.videoFormat;
 }
 
+- (NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
+    return self.lifecycleManager.supportedFormats;
+}
+
 - (CVPixelBufferPoolRef __nullable)pixelBufferPool {
     return self.lifecycleManager.pixelBufferPool;
 }
 
 - (SDLStreamingEncryptionFlag)requestedEncryptionType {
     return self.lifecycleManager.requestedEncryptionType;
-}
-
-- (NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
-    return self.lifecycleManager.supportedFormats;
 }
 
 #pragma mark - Setters

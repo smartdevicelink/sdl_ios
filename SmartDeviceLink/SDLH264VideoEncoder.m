@@ -1,5 +1,5 @@
 //
-//  SDLVideoEncoder.m
+//  SDLH264VideoEncoder
 //  SmartDeviceLink-iOS
 //
 //  Created by Muller, Alexander (A.) on 12/5/16.

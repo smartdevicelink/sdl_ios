@@ -68,8 +68,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLAbstractProtocol *protocol;
 
-@property (copy, nonatomic) SDLStreamingMediaReadyBlock readyHandler;
-
 @property (assign, nonatomic, readonly, getter=isAppStateVideoStreamCapable) BOOL appStateVideoStreamCapable;
 @property (assign, nonatomic, readonly, getter=isHmiStateAudioStreamCapable) BOOL hmiStateAudioStreamCapable;
 @property (assign, nonatomic, readonly, getter=isHmiStateVideoStreamCapable) BOOL hmiStateVideoStreamCapable;
@@ -142,9 +140,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     return self;
 }
 
-- (void)startWithProtocol:(SDLAbstractProtocol *)protocol completionHandler:(SDLStreamingMediaReadyBlock)readyHandler {
+- (void)startWithProtocol:(SDLAbstractProtocol *)protocol {
     _protocol = protocol;
-    _readyHandler = readyHandler;
 
     if (![self.protocol.protocolDelegateTable containsObject:self]) {
         [self.protocol.protocolDelegateTable addObject:self];
