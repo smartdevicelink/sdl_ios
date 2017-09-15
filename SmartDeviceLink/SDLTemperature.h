@@ -3,13 +3,13 @@
 //
 
 #import "SDLRPCMessage.h"
-#import  "SDLTemperatureUnit.h"
+#import "SDLTemperatureUnit.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLTemperature : SDLRPCStruct
 
--(instancetype) initWithUnit: (SDLTemperatureUnit) unit andValue:(NSNumber<SDLFloat> *) value;
+- (instancetype)initWithUnit:(SDLTemperatureUnit)unit value:(float)value;
 
 /**
  * @abstract Temperature Unit

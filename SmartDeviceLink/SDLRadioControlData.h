@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLRadioControlData : SDLRPCStruct
 
--(instancetype) initWithFrequencyInteger:(NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(NSNumber<SDLInt> *)frequencyFraction band:(SDLRadioBand)band rdsData:(SDLRdsData *)rdsData availableHDs:(NSNumber<SDLInt> *)availableHDs hdChannel:(NSNumber<SDLInt> *)hdChannel signalStrength:(NSNumber<SDLInt> *)signalStrength signalChangeThreshold:(NSNumber<SDLInt> *)signalChangeThreshold radioEnable:(NSNumber<SDLBool> *)radioEnable state:(SDLRadioState)state;
+- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band rdsData:(nullable SDLRdsData *)rdsData availableHDs:(nullable NSNumber<SDLInt> *)availableHDs hdChannel:(nullable NSNumber<SDLInt> *)hdChannel signalStrength:(nullable NSNumber<SDLInt> *)signalStrength signalChangeThreshold:(nullable NSNumber<SDLInt> *)signalChangeThreshold radioEnable:(nullable NSNumber<SDLBool> *)radioEnable state:(nullable SDLRadioState)state;
 
 /**
  * @abstract The integer part of the frequency ie for 101.7 this value should be 101
@@ -70,7 +70,6 @@ NS_ASSUME_NONNULL_BEGIN
  * Boolean value
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *radioEnable;
-
 
 @property (nullable, strong, nonatomic) SDLRadioState state;
 

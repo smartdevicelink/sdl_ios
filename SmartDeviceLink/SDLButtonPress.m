@@ -4,7 +4,6 @@
 
 #import "SDLButtonPress.h"
 #import "SDLNames.h"
-#import "SDLButtonName.h"
 #import "NSMutableDictionary+Store.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -19,21 +18,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithType:(SDLModuleType )moduleType {
     self = [self init];
-    
     if (!self) {
         return nil;
     }
-    
-    
-    
+
     self.moduleType = moduleType;
-    
+
     return self;
 }
 
 - (instancetype)initWithButtonName:(SDLButtonName) buttonName {
     self = [self init];
-    
     if (!self) {
         return nil;
     }
@@ -43,12 +38,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-
 - (void)setModuleType:(SDLModuleType )moduleType {
     [parameters sdl_setObject:moduleType forName:SDLNameModuleType];
 }
 
-- (SDLModuleType )moduleType {
+- (SDLModuleType)moduleType {
     return [parameters sdl_objectForName:SDLNameModuleType];
 }
 

@@ -11,7 +11,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnInteriorVehicleData
 
-
 - (instancetype)init {
     if (self = [super initWithName:SDLNameOnInteriorVehicleData]) {
     }

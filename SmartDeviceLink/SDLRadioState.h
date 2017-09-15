@@ -6,7 +6,6 @@
 
 typedef SDLEnum SDLRadioState SDL_SWIFT_ENUM;
 
-
 /**
  *  @abstract Represents Radio state as ACQUIRING
  *

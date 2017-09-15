@@ -98,6 +98,10 @@ extern SDLButtonName const SDLButtonNamePreset8;
  */
 extern SDLButtonName const SDLButtonNamePreset9;
 
+/**
+ * @abstract Represents the Custom button.
+ *
+ */
 extern SDLButtonName const SDLButtonNameCustomButton;
 
 /**
@@ -106,7 +110,6 @@ extern SDLButtonName const SDLButtonNameCustomButton;
  */
 extern SDLButtonName const SDLButtonNameSearch;
 
-
 #pragma mark - Climate Buttons
 
 /**
@@ -114,12 +117,10 @@ extern SDLButtonName const SDLButtonNameSearch;
  */
 extern SDLButtonName const SDLButtonNameACMax;
 
-
 /**
  * @abstract Represents AC button *
  */
 extern SDLButtonName const SDLButtonNameAC;
-
 
 /**
  * @abstract Represents a Recirculate button
@@ -207,6 +208,6 @@ extern SDLButtonName const SDLButtonNameSource;
 extern SDLButtonName const SDLButtonNameShuffle;
 
 /**
- * @abstract Represents a Repeat button *
+ * @abstract Represents a Repeat button.
  */
 extern SDLButtonName const SDLButtonNameRepeat;

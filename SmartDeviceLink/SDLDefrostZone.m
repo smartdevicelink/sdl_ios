@@ -6,5 +6,5 @@
 
 SDLDefrostZone const SDLDefrostZoneFront = @"FRONT";
 SDLDefrostZone const SDLDefrostZoneRear = @"REAR";
-SDLDefrostZone const SDLDefrostZoneALL = @"ALL";
+SDLDefrostZone const SDLDefrostZoneAll = @"ALL";
 SDLDefrostZone const SDLDefrostZoneNone = @"NONE";

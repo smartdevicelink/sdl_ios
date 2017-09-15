@@ -11,12 +11,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLRadioControlCapabilities : SDLRPCStruct
 
--(instancetype) initWithModuleName: (NSString *) moduleName radioEnableAvailable:(NSNumber<SDLBool> *)radioEnableAvailable radioBandAvailable:(NSNumber<SDLBool> *)radioBandAvailable radioFrequencyAvailable:(NSNumber<SDLBool> *)radioFrequencyAvailable hdChannelAvailable:(NSNumber<SDLBool> *)hdChannelAvailable rdsDataAvailable:(NSNumber<SDLBool> *)rdsDataAvailable availableHDsAvailable:(NSNumber<SDLBool> *)availableHDsAvailable stateAvailable:(NSNumber<SDLBool> *)stateAvailable signalStrengthAvailable:(NSNumber<SDLBool> *)signalStrengthAvailable signalChangeThresholdAvailable:(NSNumber<SDLBool> *)signalChangeThresholdAvailable;
-
-
+- (instancetype)initWithModuleName: (NSString *) moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDsAvailable:(BOOL)availableHDsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable;
 
 /**
- * @abstractThe short friendly name of the climate control module.
+ * @abstract The short friendly name of the climate control module.
  * It should not be used to identify a module by mobile application.
  *
  * Max string length 100 chars

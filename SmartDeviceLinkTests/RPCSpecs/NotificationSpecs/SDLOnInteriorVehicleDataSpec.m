@@ -13,9 +13,14 @@
 #import "SDLModuleData.h"
 
 QuickSpecBegin(SDLOnInteriorVehicleDataSpec)
-SDLModuleData* someModuleData = [[SDLModuleData alloc] init];
 
 describe(@"Getter/Setter Tests", ^ {
+    __block SDLModuleData* someModuleData = nil;
+    
+    beforeEach(^{
+        someModuleData = [[SDLModuleData alloc] init];
+    });
+    
     it(@"Should set and get correctly", ^ {
         SDLOnInteriorVehicleData* testNotification = [[SDLOnInteriorVehicleData alloc] init];
         

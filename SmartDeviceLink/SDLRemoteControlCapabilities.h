@@ -3,6 +3,7 @@
 //
 
 #import "SDLRPCMessage.h"
+
 @class  SDLClimateControlCapabilities;
 @class  SDLRadioControlCapabilities;
 @class  SDLButtonCapabilities;
@@ -11,8 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLRemoteControlCapabilities : SDLRPCStruct
 
--(instancetype) initWithClimateControlCapabilities:(NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(NSArray *)buttonCapabilities;
-
+- (instancetype)initWithClimateControlCapabilities:(nullable NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(nullable NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities;
 
 /**
  * @abstract If included, the platform supports RC climate controls.

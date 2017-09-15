@@ -18,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Boolean
  */
-
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *isSubscribed;
 
 @end

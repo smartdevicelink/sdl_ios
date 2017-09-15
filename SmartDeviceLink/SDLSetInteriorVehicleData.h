@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSetInteriorVehicleData : SDLRPCRequest
 
-- (instancetype) initWithModuleData: (SDLModuleData *) moduleData;
+- (instancetype)initWithModuleData:(SDLModuleData *)moduleData;
 
 /**
  * The module data to set for the requested RC module.

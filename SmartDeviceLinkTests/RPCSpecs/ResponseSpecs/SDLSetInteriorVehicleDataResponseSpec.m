@@ -14,9 +14,13 @@
 
 QuickSpecBegin(SDLSetInteriorVehicleDataResponseSpec)
 
-SDLModuleData *someModuleData = [[SDLModuleData alloc] init];
-
 describe(@"Getter/Setter Tests", ^ {
+    __block SDLModuleData* someModuleData = nil;
+    
+    beforeEach(^{
+        someModuleData = [[SDLModuleData alloc] init];
+    });
+    
     it(@"Should set and get correctly", ^ {
         SDLSetInteriorVehicleDataResponse* testResponse = [[SDLSetInteriorVehicleDataResponse alloc] init];
         testResponse.moduleData = someModuleData;

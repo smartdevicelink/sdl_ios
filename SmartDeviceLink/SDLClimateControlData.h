@@ -13,7 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLClimateControlData : SDLRPCStruct
 
-- (instancetype) initWithFanSpeed: (NSNumber<SDLInt> *)fanSpeed andCurrentTemperature:(SDLTemperature *)currentTemperature andDesiredTemperature:(SDLTemperature *)desiredTemperature andAcEnable:(NSNumber<SDLBool> *)acEnable andCirculateAirEnable:(NSNumber<SDLBool> *)circulateAirEnable andAutoModeEnable:(NSNumber<SDLBool> *)autoModeEnable andDefrostZone:(SDLDefrostZone)defrostZone andDualModeEnable:(NSNumber<SDLBool> *)dualModeEnable andAcMaxEnable:(NSNumber<SDLBool> *)acMaxEnable andVentilationMode:(SDLVentilationMode)ventilationMode;
+- (instancetype)initWithFanSpeed:(nullable NSNumber<SDLInt> *)fanSpeed currentTemperature:(nullable SDLTemperature *)currentTemperature desiredTemperature:(nullable SDLTemperature *)desiredTemperature acEnable:(nullable NSNumber<SDLBool> *)acEnable circulateAirEnable:(nullable NSNumber<SDLBool> *)circulateAirEnable autoModeEnable:(nullable NSNumber<SDLBool> *)autoModeEnable defrostZone:(nullable SDLDefrostZone)defrostZone dualModeEnable:(nullable NSNumber<SDLBool> *)dualModeEnable acMaxEnable:(nullable NSNumber<SDLBool> *)acMaxEnable ventilationMode:(nullable SDLVentilationMode)ventilationMode;
+
 /**
  * @abstract Speed of Fan in integer
  *

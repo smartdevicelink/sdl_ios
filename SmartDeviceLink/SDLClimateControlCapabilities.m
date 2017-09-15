@@ -10,31 +10,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLClimateControlCapabilities
 
--(instancetype) init {
-    self = [super init];
-    
-    if(!self){
+- (instancetype)initWithModuleName:(NSString *)moduleName fanSpeedAvailable:(BOOL)fanSpeedAvailable desiredTemperatureAvailable:(BOOL)desiredTemperatureAvailable acEnableAvailable:(BOOL)acEnableAvailable acMaxEnableAvailable:(BOOL)acMaxEnableAvailable circulateAirAvailable:(BOOL)circulateAirEnableAvailable autoModeEnableAvailable:(BOOL)autoModeEnableAvailable dualModeEnableAvailable:(BOOL)dualModeEnableAvailable defrostZoneAvailable:(BOOL)defrostZoneAvailable ventilationModeAvailable:(BOOL)ventilationModeAvailable {
+    self = [self init];
+    if (!self) {
         return nil;
     }
-    
-    return self;
-}
 
-- (instancetype) initWithModuleName: (NSString *) moduleName fanSpeedAvailable: (NSNumber<SDLBool> *) fanSpeedAvailable desiredTemperatureAvailable: (NSNumber<SDLBool> *) desiredTemperatureAvailable acEnableAvailable: (NSNumber<SDLBool> *) acEnableAvailable acMaxEnableAvailable: (NSNumber<SDLBool> *) acMaxEnableAvailable circulateAirAvailable: (NSNumber<SDLBool> *) circulateAirEnableAvailable autoModeEnableAvailable: (NSNumber<SDLBool> *) autoModeEnableAvailable dualModeEnableAvailable:(NSNumber<SDLBool> *)dualModeEnableAvailable defrostZoneAvailable:(NSNumber<SDLBool> *)defrostZoneAvailable ventilationModeAvailable:(NSNumber<SDLBool> *)ventilationModeAvailable {
-    self = [self init];
-    
     self.moduleName = moduleName;
-    self.fanSpeedAvailable = fanSpeedAvailable;
-    self.desiredTemperatureAvailable = desiredTemperatureAvailable;
-    self.acEnableAvailable = acEnableAvailable;
-    self.acMaxEnableAvailable = acMaxEnableAvailable;
-    self.circulateAirEnableAvailable = circulateAirEnableAvailable;
-    self.autoModeEnableAvailable = autoModeEnableAvailable;
-    self.dualModeEnableAvailable = dualModeEnableAvailable;
-    self.defrostZoneAvailable = defrostZoneAvailable;
-    self.ventilationModeAvailable = ventilationModeAvailable;
-
-    
+    self.fanSpeedAvailable = @(fanSpeedAvailable);
+    self.desiredTemperatureAvailable = @(desiredTemperatureAvailable);
+    self.acEnableAvailable = @(acEnableAvailable);
+    self.acMaxEnableAvailable = @(acMaxEnableAvailable);
+    self.circulateAirEnableAvailable = @(circulateAirEnableAvailable);
+    self.autoModeEnableAvailable = @(autoModeEnableAvailable);
+    self.dualModeEnableAvailable = @(dualModeEnableAvailable);
+    self.defrostZoneAvailable = @(defrostZoneAvailable);
+    self.ventilationModeAvailable = @(ventilationModeAvailable);
     return self;
 }
 
@@ -52,7 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLBool> *)fanSpeedAvailable {
     return [store sdl_objectForName:SDLNameFanSpeedAvailable];
-    
 }
 
 - (void)setDesiredTemperatureAvailable:(nullable NSNumber<SDLBool> *)desiredTemperatureAvailable {
@@ -61,7 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLBool> *)desiredTemperatureAvailable {
     return [store sdl_objectForName:SDLNameDesiredTemperatureAvailable];
-    
 }
 
 - (void)setAcEnableAvailable:(nullable NSNumber<SDLBool> *)acEnableAvailable {
@@ -94,7 +83,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLBool> *)autoModeEnableAvailable {
     return [store sdl_objectForName:SDLNameAutoModeEnableAvailable];
-    
 }
 
 - (void)setDualModeEnableAvailable:(nullable NSNumber<SDLBool> *)dualModeEnableAvailable {
@@ -103,7 +91,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLBool> *)dualModeEnableAvailable {
     return [store sdl_objectForName:SDLNameDualModeEnableAvailable];
-    
 }
 
 - (void)setDefrostZoneAvailable:(nullable NSNumber<SDLBool> *)defrostZoneAvailable {
@@ -137,7 +124,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSArray<SDLVentilationMode> *)ventilationMode {
     return [store sdl_objectForName:SDLNameVentilationMode];
 }
-
 
 @end
 

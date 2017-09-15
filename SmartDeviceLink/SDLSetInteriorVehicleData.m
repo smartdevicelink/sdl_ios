@@ -17,8 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype) initWithModuleData: (SDLModuleData *) moduleData {
+- (instancetype)initWithModuleData:(SDLModuleData *)moduleData {
     self = [self init];
+    if (!self) {
+        return nil;
+    }
     
     self.moduleData = moduleData;
     

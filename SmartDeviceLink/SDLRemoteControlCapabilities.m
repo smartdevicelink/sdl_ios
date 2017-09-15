@@ -9,29 +9,20 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
-
 NS_ASSUME_NONNULL_BEGIN
-
 
 @implementation SDLRemoteControlCapabilities
 
--(instancetype) init{
+- (instancetype)initWithClimateControlCapabilities:(nullable NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(nullable NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities {
     self = [super init];
-    
-    if(!self){
+    if (!self) {
         return nil;
     }
-    
-    return self;
-}
-
--(instancetype) initWithClimateControlCapabilities:(NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(NSArray *)buttonCapabilities {
-    self = [super init];
     
     self.climateControlCapabilities = climateControlCapabilities;
     self.radioControlCapabilities = radioControlCapabilities;
     self.buttonCapabilities = buttonCapabilities;
-    
+
     return self;
 }
 

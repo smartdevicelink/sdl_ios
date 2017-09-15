@@ -13,10 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLClimateControlCapabilities : SDLRPCStruct
 
-- (instancetype) initWithModuleName: (NSString *) moduleName fanSpeedAvailable: (NSNumber<SDLBool> *) fanSpeedAvailable desiredTemperatureAvailable: (NSNumber<SDLBool> *) desiredTemperatureAvailable acEnableAvailable: (NSNumber<SDLBool> *) acEnableAvailable acMaxEnableAvailable: (NSNumber<SDLBool> *) acMaxEnableAvailable circulateAirAvailable: (NSNumber<SDLBool> *) circulateAirEnableAvailable autoModeEnableAvailable: (NSNumber<SDLBool> *) autoModeEnableAvailable dualModeEnableAvailable:(NSNumber<SDLBool> *)dualModeEnableAvailable defrostZoneAvailable:(NSNumber<SDLBool> *)defrostZoneAvailable ventilationModeAvailable:(NSNumber<SDLBool> *)ventilationModeAvailable;
+- (instancetype)initWithModuleName:(NSString *)moduleName fanSpeedAvailable:(BOOL)fanSpeedAvailable desiredTemperatureAvailable:(BOOL)desiredTemperatureAvailable acEnableAvailable:(BOOL)acEnableAvailable acMaxEnableAvailable:(BOOL)acMaxEnableAvailable circulateAirAvailable:(BOOL)circulateAirEnableAvailable autoModeEnableAvailable:(BOOL)autoModeEnableAvailable dualModeEnableAvailable:(BOOL)dualModeEnableAvailable defrostZoneAvailable:(BOOL)defrostZoneAvailable ventilationModeAvailable:(BOOL)ventilationModeAvailable;
 
 /**
- * @abstractThe short friendly name of the climate control module.
+ * @abstract The short friendly name of the climate control module.
  * It should not be used to identify a module by mobile application.
  *
  * Max string length 100 chars

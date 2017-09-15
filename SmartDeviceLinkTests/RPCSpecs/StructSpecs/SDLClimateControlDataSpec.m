@@ -15,11 +15,16 @@
 #import "SDLNames.h"
 
 QuickSpecBegin(SDLClimateControlDataSpec)
-__block SDLTemperature* currentTemp = [[SDLTemperature alloc] init];
-__block SDLTemperature* desiredTemp = [[SDLTemperature alloc] init];
 
 describe(@"Getter/Setter Tests", ^ {
+    __block SDLTemperature* currentTemp = nil;
+    __block SDLTemperature* desiredTemp = nil;
     
+    beforeEach(^{
+        currentTemp = [[SDLTemperature alloc] init];
+        desiredTemp = [[SDLTemperature alloc] init];
+    });
+
     it(@"Should set and get correctly", ^ {
         SDLClimateControlData* testStruct = [[SDLClimateControlData alloc] init];
         
@@ -45,9 +50,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.acMaxEnable).to(equal(YES));
         expect(testStruct.ventilationMode).to(equal(SDLVentilationModeBoth));
     });
-});
 
-describe(@"Initialization tests", ^{
     it(@"Should get correctly when initialized with a dictionary", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameFanSpeed : @43,
                                                        SDLNameCurrentTemperature : currentTemp,

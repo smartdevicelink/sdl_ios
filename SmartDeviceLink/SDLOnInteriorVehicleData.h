@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLOnInteriorVehicleData : SDLRPCNotification
 
-@property (strong) SDLModuleData *moduleData;
+@property (strong, nonatomic) SDLModuleData *moduleData;
 
 @end
 

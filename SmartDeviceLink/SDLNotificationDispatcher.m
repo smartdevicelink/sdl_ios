@@ -14,7 +14,6 @@
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
 
-
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLNotificationDispatcher
@@ -44,7 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
     });
 }
 
-
 #pragma mark - SDLProxyListener Delegate Methods
 
 - (void)onProxyOpened {
@@ -65,7 +63,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onOnDriverDistraction:(SDLOnDriverDistraction *)notification {
     [self postRPCNotificationNotification:SDLDidChangeDriverDistractionStateNotification notification:notification];
 }
-
 
 #pragma mark Optional Methods
 
@@ -146,7 +143,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveGetDTCsResponse response:response];
 }
 
-
 - (void)onGetInteriorVehicleDataResponse:(SDLGetInteriorVehicleDataResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveGetInteriorVehicleDataResponse response:response];
 }
@@ -214,7 +210,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onSetGlobalPropertiesResponse:(SDLSetGlobalPropertiesResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveSetGlobalPropertiesResponse response:response];
 }
-
 
 - (void)onSetInteriorVehicleDataResponse:(SDLSetInteriorVehicleDataResponse *)response{
     [self postRPCResponseNotification:SDLDidReceiveSetInteriorVehicleDataResponse response:response];

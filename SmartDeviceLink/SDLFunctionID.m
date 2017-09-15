@@ -101,7 +101,6 @@ NS_ASSUME_NONNULL_BEGIN
                          @98304: SDLNameOnEncodedSyncPData,
                          @98305: SDLNameOnSyncPData
                          };
-    
     return self;
 }
 
@@ -109,11 +108,9 @@ NS_ASSUME_NONNULL_BEGIN
     return self.functionIds[@(functionID)];
 }
 
-
 - (nullable NSNumber<SDLInt> *)functionIdForName:(SDLName)functionName {
     return [[self.functionIds allKeysForObject:functionName] firstObject];
 }
-
 
 @end
 

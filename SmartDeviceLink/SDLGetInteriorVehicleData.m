@@ -16,16 +16,16 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithType: (SDLModuleType )moduleType subscribe: (NSNumber<SDLBool> *)subscribe {
+- (instancetype)initWithType:(SDLModuleType)moduleType subscribe:(BOOL)subscribe {
     self = [self init];
     
     self.moduleType = moduleType;
-    self.subscribe = subscribe;
+    self.subscribe = @(subscribe);
     
     return self;
 }
 
-- (void)setModuleType:(SDLModuleType )moduleType {
+- (void)setModuleType:(SDLModuleType)moduleType {
     [parameters sdl_setObject:moduleType forName:SDLNameModuleType];
 }
 
@@ -34,12 +34,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-- (void)setSubscribe:(NSNumber<SDLBool> *)subscribe {
-    [parameters sdl_setObject:subscribe forName:SDLNameSubscribe_rc];
+- (void)setSubscribe:(nullable NSNumber<SDLBool> *)subscribe {
+    [parameters sdl_setObject:subscribe forName:SDLNameSubscribe];
 }
 
-- (NSNumber<SDLBool> *)subscribe {
-    return [parameters sdl_objectForName:SDLNameSubscribe_rc];
+- (nullable NSNumber<SDLBool> *)subscribe {
+    return [parameters sdl_objectForName:SDLNameSubscribe];
 }
 
 @end

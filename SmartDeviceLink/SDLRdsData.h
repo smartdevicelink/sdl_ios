@@ -8,78 +8,64 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLRdsData : SDLRPCStruct
 
-- (instancetype)initWithProgramService:(nullable NSString *)PS;
-
-- (instancetype)initWithRadioText:(nullable NSString *)RT;
-
-- (instancetype)initWithClockText:(nullable NSString *)CT;
-
-- (instancetype)initWithProgramIdentification:(nullable NSString *)PI;
-
-- (instancetype)initWithProgramType:(nullable NSNumber<SDLInt> *)PTY;
-
-- (instancetype)initWithTrafficProgramIdentification:(nullable NSNumber<SDLBool> *)TP;
-
-- (instancetype)initWithTrafficAnnouncementIdentification:(nullable NSNumber<SDLBool> *)TA;
-
-- (instancetype)initWithRegion:(nullable NSString *)REG;
+- (instancetype)initWithProgramService:(nullable NSString *)programService radioText:(nullable NSString *)radioText clockText:(nullable NSString *)clockText programIdentification:(nullable NSString *)programIdentification programType:(nullable NSNumber<SDLInt> *)programType trafficProgramIdentification:(nullable NSNumber<SDLBool> *)trafficProgramIdentification trafficAnnouncementIdentification:(nullable NSNumber<SDLBool> *)trafficAnnouncementIdentification region:(nullable NSString *)region;
 
 /**
  * @abstract Program Service Name
  *
- * optional, 0-8 length
+ * optional, 0-8
  */
-@property (nullable, strong, nonatomic) NSString *PS;
+@property (nullable, strong, nonatomic) NSString *programService;
 
 /**
  * @abstract Radio Text
  *
- * optional, 0-64 length
+ * optional, 0-64
  */
-@property (nullable, strong, nonatomic) NSString *RT;
+@property (nullable, strong, nonatomic) NSString *radioText;
 
 /**
  * @abstract The clock text in UTC format as YYYY-MM-DDThh:mm:ss.sTZD
  *
- * optional, 24 length
+ * optional, 0-24
  */
-@property (nullable, strong, nonatomic) NSString *CT;
+@property (nullable, strong, nonatomic) NSString *clockText;
 
 /**
  * @abstract  Program Identification - the call sign for the radio station
  *
- * optional, 0-6 length
+ * optional, 0-6
  */
-@property (nullable, strong, nonatomic) NSString *PI;
+@property (nullable, strong, nonatomic) NSString *programIdentification;
 
 /**
  * @abstract The program type - The region should be used to differentiate between EU
  * and North America program types
  *
- * optional, 0-31 length
+ * optional, 0-31
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLInt> *PTY;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *programType;
 
 /**
  * @abstract Traffic Program Identification - Identifies a station that offers traffic
  *
  * optional, Boolean
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLBool> *TP;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *trafficProgramIdentification;
 
 /**
  * @abstract Traffic Announcement Identification - Indicates an ongoing traffic announcement
  *
  * optional, Boolean
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLBool> *TA;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *trafficAnnouncementIdentification;
 
 /**
  * @abstract Region
  *
- * optional, 0-8 length
+ * optional, 0-8
  */
-@property (nullable, strong, nonatomic) NSString *REG;
+@property (nullable, strong, nonatomic) NSString *region;
 
 @end
 

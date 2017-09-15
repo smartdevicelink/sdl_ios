@@ -11,19 +11,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRadioControlData
 
--(instancetype)init {
-    self = [super init];
-    
+- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band rdsData:(nullable SDLRdsData *)rdsData availableHDs:(nullable NSNumber<SDLInt> *)availableHDs hdChannel:(nullable NSNumber<SDLInt> *)hdChannel signalStrength:(nullable NSNumber<SDLInt> *)signalStrength signalChangeThreshold:(nullable NSNumber<SDLInt> *)signalChangeThreshold radioEnable:(nullable NSNumber<SDLBool> *)radioEnable state:(nullable SDLRadioState)state {
+    self = [self init];
     if(!self){
         return nil;
     }
-    
-    return self;
-}
 
--(instancetype) initWithFrequencyInteger:(NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(NSNumber<SDLInt> *)frequencyFraction band:(SDLRadioBand)band rdsData:(SDLRdsData *)rdsData availableHDs:(NSNumber<SDLInt> *)availableHDs hdChannel:(NSNumber<SDLInt> *)hdChannel signalStrength:(NSNumber<SDLInt> *)signalStrength signalChangeThreshold:(NSNumber<SDLInt> *)signalChangeThreshold radioEnable:(NSNumber<SDLBool> *)radioEnable state:(SDLRadioState)state {
-    self = [self init];
-    
     self.frequencyInteger = frequencyInteger;
     self.frequencyFraction = frequencyFraction;
     self.band = band;
@@ -63,11 +56,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setRdsData:(nullable SDLRdsData *)rdsData {
-    [store sdl_setObject:rdsData forName:SDLNameRdsData];
+    [store sdl_setObject:rdsData forName:SDLNameRDSData];
 }
 
 - (nullable SDLRdsData *)rdsData {
-    return [store sdl_objectForName:SDLNameRdsData ofClass:SDLRdsData.class];
+    return [store sdl_objectForName:SDLNameRDSData ofClass:SDLRdsData.class];
 }
 
 - (void)setAvailableHDs:(nullable NSNumber<SDLInt> *)availableHDs {
@@ -79,11 +72,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setHdChannel:(nullable NSNumber<SDLInt> *)hdChannel {
-    [store sdl_setObject:hdChannel forName:SDLNameHdChannel];
+    [store sdl_setObject:hdChannel forName:SDLNameHDChannel];
 }
 
 - (nullable NSNumber<SDLInt> *)hdChannel {
-    return [store sdl_objectForName:SDLNameHdChannel];
+    return [store sdl_objectForName:SDLNameHDChannel];
 }
 
 - (void)setSignalStrength:(nullable NSNumber<SDLInt> *)signalStrength {

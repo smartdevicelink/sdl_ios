@@ -10,141 +10,86 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRdsData
 
-- (instancetype)initWithProgramService:(nullable NSString *)PS {
+- (instancetype)initWithProgramService:(nullable NSString *)programService radioText:(nullable NSString *)radioText clockText:(nullable NSString *)clockText programIdentification:(nullable NSString *)programIdentification programType:(nullable NSNumber<SDLInt> *)programType trafficProgramIdentification:(nullable NSNumber<SDLBool> *)trafficProgramIdentification trafficAnnouncementIdentification:(nullable NSNumber<SDLBool> *)trafficAnnouncementIdentification region:(nullable NSString *)region {
     self = [self init];
     if (!self) {
         return nil;
     }
-    self.PS = PS;
+    self.programService = programService;
+    self.radioText = radioText;
+    self.clockText = clockText;
+    self.programIdentification = programIdentification;
+    self.programType = programType;
+    self.trafficProgramIdentification = trafficProgramIdentification;
+    self.trafficAnnouncementIdentification = trafficAnnouncementIdentification;
+    self.region = region;
     return self;
 }
 
-- (instancetype)initWithRadioText:(nullable NSString *)RT {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-    self.RT = RT;
-    return self;
+- (void)setProgramService:(nullable NSString *)programService {
+    [store sdl_setObject:programService forName:SDLNameProgramService];
 }
 
-- (instancetype)initWithClockText:(nullable NSString *)CT {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-    self.CT = CT;
-    return self;
+- (nullable NSString *)programService {
+    return [store sdl_objectForName:SDLNameProgramService];
 }
 
-- (instancetype)initWithProgramIdentification:(nullable NSString *)PI {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-    self.PI = PI;
-    return self;
+- (void)setRadioText:(nullable NSString *)radioText {
+    [store sdl_setObject:radioText forName:SDLNameRadioText];
 }
 
-- (instancetype)initWithProgramType:(nullable NSNumber<SDLInt> *)PTY {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-    self.PTY = PTY;
-    return self;
+- (nullable NSString *)radioText {
+    return [store sdl_objectForName:SDLNameRadioText];
 }
 
-- (instancetype)initWithTrafficProgramIdentification:(nullable NSNumber<SDLBool> *)TP {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-    self.TP = TP;
-    return self;
+- (void)setClockText:(nullable NSString *)clockText {
+    [store sdl_setObject:clockText forName:SDLNameClockText];
 }
 
-- (instancetype)initWithTrafficAnnouncementIdentification:(nullable NSNumber<SDLBool> *)TA {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-    self.TA = TA;
-    return self;
+- (nullable NSString *)clockText {
+    return [store sdl_objectForName:SDLNameClockText];
 }
 
-- (instancetype)initWithRegion:(nullable NSString *)REG {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-    self.REG = REG;
-    return self;
+- (void)setProgramIdentification:(nullable NSString *)programIdentification {
+    [store sdl_setObject:programIdentification forName:SDLNameProgramIdentification];
 }
 
-- (void)setPS:(nullable NSString *)PS {
-    [store sdl_setObject:PS forName:SDLNamePS];
+- (nullable NSString *)programIdentification {
+    return [store sdl_objectForName:SDLNameProgramIdentification];
 }
 
-- (nullable NSString *)PS {
-    return [store sdl_objectForName:SDLNamePS];
+- (void)setProgramType:(nullable NSNumber<SDLInt> *)programType {
+    [store sdl_setObject:programType forName:SDLNameProgramType];
 }
 
-- (void)setRT:(nullable NSString *)RT {
-    [store sdl_setObject:RT forName:SDLNameRT];
+- (nullable NSNumber<SDLInt> *)programType {
+    return [store sdl_objectForName:SDLNameProgramType];
 }
 
-- (nullable NSString *)RT {
-    return [store sdl_objectForName:SDLNameRT];
+- (void)setTrafficProgramIdentification:(nullable NSNumber<SDLBool> *)trafficProgramIdentification {
+    [store sdl_setObject:trafficProgramIdentification forName:SDLNameTrafficProgramIdentification];
 }
 
-- (void)setCT:(nullable NSString *)CT {
-    [store sdl_setObject:CT forName:SDLNameCT];
+- (nullable NSNumber<SDLBool> *)trafficProgramIdentification {
+    return [store sdl_objectForName:SDLNameTrafficProgramIdentification];
 }
 
-- (nullable NSString *)CT {
-    return [store sdl_objectForName:SDLNameCT];
+- (void)setTrafficAnnouncementIdentification:(nullable NSNumber<SDLBool> *)trafficAnnouncementIdentification {
+    [store sdl_setObject:trafficAnnouncementIdentification forName:SDLNameTrafficAnnouncementIdentification];
 }
 
-- (void)setPI:(nullable NSString *)PI {
-    [store sdl_setObject:PI forName:SDLNamePI];
+- (nullable NSNumber<SDLBool> *)trafficAnnouncementIdentification {
+    return [store sdl_objectForName:SDLNameTrafficAnnouncementIdentification];
 }
 
-- (nullable NSString *)PI {
-    return [store sdl_objectForName:SDLNamePI];
+- (void)setRegion:(nullable NSString *)region {
+    [store sdl_setObject:region forName:SDLNameRegion];
 }
 
-- (void)setPTY:(nullable NSNumber<SDLInt> *)PTY {
-    [store sdl_setObject:PTY forName:SDLNamePTY];
+- (nullable NSString *)region {
+    return [store sdl_objectForName:SDLNameRegion];
 }
 
-- (nullable NSNumber<SDLInt> *)PTY {
-    return [store sdl_objectForName:SDLNamePTY];
-}
-
-- (void)setTP:(nullable NSNumber<SDLBool> *)TP {
-    [store sdl_setObject:TP forName:SDLNameTP];
-}
-
-- (nullable NSNumber<SDLBool> *)TP {
-    return [store sdl_objectForName:SDLNameTP];
-}
-
-- (void)setTA:(nullable NSNumber<SDLBool> *)TA {
-    [store sdl_setObject:TA forName:SDLNameTA];
-}
-
-- (nullable NSNumber<SDLBool> *)TA {
-    return [store sdl_objectForName:SDLNameTA];
-}
-
-- (void)setREG:(nullable NSString *)REG {
-    [store sdl_setObject:REG forName:SDLNameREG];
-}
-
-- (nullable NSString *)REG {
-    return [store sdl_objectForName:SDLNameREG];
-}
 @end
 
 NS_ASSUME_NONNULL_END

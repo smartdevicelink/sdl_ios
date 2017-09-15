@@ -28,7 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameModuleType : SDLModuleTypeRadio,
-                                                                   SDLNameSubscribe_rc : @YES},
+                                                                   SDLNameSubscribe : @YES},
                                                              SDLNameOperationName:SDLNameGetInteriorVehicleData}} mutableCopy];
         SDLGetInteriorVehicleData* testRequest = [[SDLGetInteriorVehicleData alloc] initWithDictionary:dict];
 

@@ -25,7 +25,7 @@ extern SDLDefrostZone const SDLDefrostZoneRear;
 /**
  * @abstract A SDLDefrostZone with the value of *All*
  */
-extern SDLDefrostZone const SDLDefrostZoneALL;
+extern SDLDefrostZone const SDLDefrostZoneAll;
 
 /**
  * @abstract A SDLDefrostZone with the value of *None*

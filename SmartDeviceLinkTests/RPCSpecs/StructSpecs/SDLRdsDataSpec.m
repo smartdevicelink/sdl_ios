@@ -17,60 +17,59 @@ describe(@"Initialization tests", ^{
     
     it(@"should properly initialize init", ^{
         SDLRdsData* testStruct = [[SDLRdsData alloc] init];
-        
 
-        expect(testStruct.PS).to(beNil());
-        expect(testStruct.RT).to(beNil());
-        expect(testStruct.CT).to(beNil());
-        expect(testStruct.PI).to(beNil());
-        expect(testStruct.PTY).to(beNil());
-        expect(testStruct.TP).to(beNil());
-        expect(testStruct.TA).to(beNil());
-        expect(testStruct.REG).to(beNil());
+        expect(testStruct.programService).to(beNil());
+        expect(testStruct.radioText).to(beNil());
+        expect(testStruct.clockText).to(beNil());
+        expect(testStruct.programIdentification).to(beNil());
+        expect(testStruct.programType).to(beNil());
+        expect(testStruct.trafficProgramIdentification).to(beNil());
+        expect(testStruct.trafficAnnouncementIdentification).to(beNil());
+        expect(testStruct.region).to(beNil());
     });
     
     it(@"should properly initialize initWithDictionary", ^{
         
-        NSMutableDictionary* dict = [@{SDLNamePS : @"ps",
-                                       SDLNameRT : @"rt",
-                                       SDLNameCT : @"2017-07-25T19:20:30-5:00",
-                                       SDLNamePI : @"pi",
-                                       SDLNamePTY : @5,
-                                       SDLNameTP : @NO,
-                                       SDLNameTA : @YES,
-                                       SDLNameREG : @"reg"} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameProgramService : @"ps",
+                                       SDLNameRadioText : @"rt",
+                                       SDLNameClockText : @"2017-07-25T19:20:30-5:00",
+                                       SDLNameProgramIdentification : @"pi",
+                                       SDLNameProgramType : @5,
+                                       SDLNameTrafficProgramIdentification : @NO,
+                                       SDLNameTrafficAnnouncementIdentification : @YES,
+                                       SDLNameRegion : @"reg"} mutableCopy];
         SDLRdsData* testStruct = [[SDLRdsData alloc] initWithDictionary:dict];
         
-        expect(testStruct.PS).to(equal(@"ps"));
-        expect(testStruct.RT).to(equal(@"rt"));
-        expect(testStruct.CT).to(equal(@"2017-07-25T19:20:30-5:00"));
-        expect(testStruct.PI).to(equal(@"pi"));
-        expect(testStruct.PTY).to(equal(@5));
-        expect(testStruct.TP).to(equal(@NO));
-        expect(testStruct.TA).to(equal(@YES));
-        expect(testStruct.REG).to(equal(@"reg"));
+        expect(testStruct.programService).to(equal(@"ps"));
+        expect(testStruct.radioText).to(equal(@"rt"));
+        expect(testStruct.clockText).to(equal(@"2017-07-25T19:20:30-5:00"));
+        expect(testStruct.programIdentification).to(equal(@"pi"));
+        expect(testStruct.programType).to(equal(@5));
+        expect(testStruct.trafficProgramIdentification).to(equal(@NO));
+        expect(testStruct.trafficAnnouncementIdentification).to(equal(@YES));
+        expect(testStruct.region).to(equal(@"reg"));
     });
     
     it(@"Should set and get correctly", ^{
         SDLRdsData* testStruct = [[SDLRdsData alloc] init];
         
-        testStruct.PS = @"ps";
-        testStruct.RT = @"rt";
-        testStruct.CT = @"2017-07-25T19:20:30-5:00";
-        testStruct.PI = @"pi";
-        testStruct.PTY = @5;
-        testStruct.TP = @NO;
-        testStruct.TA = @YES;
-        testStruct.REG = @"reg";
+        testStruct.programService = @"ps";
+        testStruct.radioText = @"rt";
+        testStruct.clockText = @"2017-07-25T19:20:30-5:00";
+        testStruct.programIdentification = @"pi";
+        testStruct.programType = @5;
+        testStruct.trafficProgramIdentification = @NO;
+        testStruct.trafficAnnouncementIdentification = @YES;
+        testStruct.region = @"reg";
         
-        expect(testStruct.PS).to(equal(@"ps"));
-        expect(testStruct.RT).to(equal(@"rt"));
-        expect(testStruct.CT).to(equal(@"2017-07-25T19:20:30-5:00"));
-        expect(testStruct.PI).to(equal(@"pi"));
-        expect(testStruct.PTY).to(equal(@5));
-        expect(testStruct.TP).to(equal(@NO));
-        expect(testStruct.TA).to(equal(@YES));
-        expect(testStruct.REG).to(equal(@"reg"));
+        expect(testStruct.programService).to(equal(@"ps"));
+        expect(testStruct.radioText).to(equal(@"rt"));
+        expect(testStruct.clockText).to(equal(@"2017-07-25T19:20:30-5:00"));
+        expect(testStruct.programIdentification).to(equal(@"pi"));
+        expect(testStruct.programType).to(equal(@5));
+        expect(testStruct.trafficProgramIdentification).to(equal(@NO));
+        expect(testStruct.trafficAnnouncementIdentification).to(equal(@YES));
+        expect(testStruct.region).to(equal(@"reg"));
     });
 });
 

@@ -12,21 +12,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLModuleData
 
--(instancetype) init {
-    self = [super init];
-    
+- (instancetype)initWithRadioControlData:(SDLRadioControlData *)radioControlData  {
+    self = [self init];
     if(!self){
         return nil;
     }
     
+    self.moduleType = SDLModuleTypeRadio;
+    self.radioControlData = radioControlData;
+
     return self;
 }
 
--(instancetype) initWithModuleType: (SDLModuleType)moduleType radioControlData: (SDLRadioControlData *) radioControlData climateControlData: (SDLClimateControlData *) climateControlData {
+- (instancetype)initWithClimateControlData:(SDLClimateControlData *)climateControlData {
     self = [self init];
+    if(!self){
+        return nil;
+    }
     
-    self.moduleType = moduleType;
-    self.radioControlData = radioControlData;
+    self.moduleType = SDLModuleTypeClimate;
     self.climateControlData = climateControlData;
     
     return self;
@@ -55,6 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable SDLClimateControlData *)climateControlData {
     return [store sdl_objectForName:SDLNameClimateControlData ofClass:SDLClimateControlData.class];
 }
+
 @end
 
 NS_ASSUME_NONNULL_END
