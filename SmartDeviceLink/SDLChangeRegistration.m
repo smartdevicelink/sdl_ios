@@ -6,6 +6,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLTTSChunk.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

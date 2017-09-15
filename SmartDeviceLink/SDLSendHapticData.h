@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "SDLRPCRequest.h"
-#import "SDLHapticRect.h"
+
+@class SDLHapticRect;
 
 NS_ASSUME_NONNULL_BEGIN
 
