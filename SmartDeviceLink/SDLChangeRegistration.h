@@ -3,7 +3,6 @@
 
 
 #import "SDLRPCRequest.h"
-
 #import "SDLLanguage.h"
 
 @class SDLTTSChunk;

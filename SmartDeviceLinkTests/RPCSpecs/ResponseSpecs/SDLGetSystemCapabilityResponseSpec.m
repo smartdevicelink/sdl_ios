@@ -10,7 +10,7 @@
 #import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityType.h"
 
-QuickSpecBegin(SDLGetSystemCapabilitiesResponseSpec)
+QuickSpecBegin(SDLGetSystemCapabilityResponseSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
