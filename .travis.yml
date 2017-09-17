@@ -1,8 +1,8 @@
 language: objective-c
-osx_image: xcode8.3
+osx_image: xcode9
 xcode_project: SmartDeviceLink-iOS.xcodeproj
 xcode_scheme: SmartDeviceLink
-xcode_sdk: iphonesimulator10.3
+xcode_sdk: iphonesimulator11.0
 env:
   global:
     - FRAMEWORK_NAME=SmartDeviceLink
@@ -18,8 +18,8 @@ before_script:
 - carthage bootstrap --platform ios
 
 script:
-- xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -sdk "iphonesimulator10.3" -destination "OS=10.3,name=iPhone 7" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES test | xcpretty -c;
-- xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example" -sdk "iphonesimulator10.3" -destination "OS=10.3,name=iPhone 7" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c;
+- xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink" -sdk "iphonesimulator11.0" -destination "OS=11.0,name=iPhone 7" -configuration Debug ONLY_ACTIVE_ARCH=NO RUN_CLANG_STATIC_ANALYZER=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES ENABLE_TESTABILITY=YES test | xcpretty -c;
+- xcodebuild -project "SmartDeviceLink-iOS.xcodeproj" -scheme "SmartDeviceLink-Example" -sdk "iphonesimulator11.0" -destination "OS=11.0,name=iPhone 7" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c;
 
 after_script:
 - bash <(curl -s https://codecov.io/bash)
