@@ -1,6 +1,5 @@
-//  SDLIAPTransport.h
+//  SDLIAPTransport.m
 //
-
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -41,6 +40,8 @@ int const ProtocolIndexTimeoutSeconds = 20;
 
 @implementation SDLIAPTransport
 
+#pragma mark - Initialization
+
 - (instancetype)init {
     if (self = [super init]) {
         _alreadyDestructed = NO;
@@ -58,9 +59,55 @@ int const ProtocolIndexTimeoutSeconds = 20;
     return self;
 }
 
+/**
+ *  Custom setter for sessionSetupInProgress.
+ *
+ *  @param inProgress The new value
+ */
+- (void)setSessionSetupInProgress:(BOOL)inProgress{
+    _sessionSetupInProgress = inProgress;
+    //        // FIXME: - this is causing problems!!!!!
+    //    if (!inProgress) {
+    //        // End the background task here to catch all cases
+    //        [self sdl_backgroundTaskEnd];
+    //    }
+}
 
-#pragma mark - Notification Subscriptions
+#pragma mark - Background Task
 
+/**
+ *  Starts a background task that allows the app to search for accessories while the app is in the background.
+ *
+ *  TODO: - how many repeats are allowed??
+ */
+- (void)sdl_backgroundTaskStart {
+    if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
+        return;
+    }
+    
+    self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:BackgroundTaskName expirationHandler:^{
+        [self sdl_backgroundTaskEnd];
+    }];
+}
+
+/**
+ *  Cleans up a background task when it is stopped.
+ */
+- (void)sdl_backgroundTaskEnd {
+    if (self.backgroundTaskId == UIBackgroundTaskInvalid) {
+        return;
+    }
+    
+    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskId];
+    self.backgroundTaskId = UIBackgroundTaskInvalid;
+}
+
+#pragma mark - Notifications
+#pragma mark Subscriptions
+
+/**
+ *  Registers for notifications from the system about accessory and app states.
+ */
 - (void)sdl_startEventListening {
     SDLLogV(@"SDLIAPTransport Listening For Events");
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -73,63 +120,56 @@ int const ProtocolIndexTimeoutSeconds = 20;
                                                  name:EAAccessoryDidDisconnectNotification
                                                object:nil];
 
+    [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sdl_applicationWillEnterForeground:)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
 
-    [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(sdl_applicationDidEnterBackground:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
 }
 
+/**
+ *  Unsubscribes to notifications.
+ */
 - (void)sdl_stopEventListening {
     SDLLogV(@"SDLIAPTransport Stopped Listening For Events");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)setSessionSetupInProgress:(BOOL)inProgress{
-    _sessionSetupInProgress = inProgress;
-    if (!inProgress){
-        // End the background task here to catch all cases
-        [self sdl_backgroundTaskEnd];
-    }
-}
+#pragma mark EAAccessory Notifications
 
-- (void)sdl_backgroundTaskStart {
-    if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
-        return;
-    }
-    
-    self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:BackgroundTaskName expirationHandler:^{
-        [self sdl_backgroundTaskEnd];
-    }];
-}
-
-- (void)sdl_backgroundTaskEnd {
-    if (self.backgroundTaskId == UIBackgroundTaskInvalid) {
-        return;
-    }
-    
-    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskId];
-    self.backgroundTaskId = UIBackgroundTaskInvalid;
-}
-
-#pragma mark - EAAccessory Notifications
-
+/**
+ *  Handles a notification sent by the system when a new accessory has been detected by attempting to connect to the new accessory.
+ *
+ *  @param notification Contains information about the connected accessory
+ */
 - (void)sdl_accessoryConnected:(NSNotification *)notification {
     EAAccessory *accessory = notification.userInfo[EAAccessoryKey];
-    SDLLogD(@"Accessory Connected (%@), Opening in %0.03fs", notification.userInfo[EAAccessoryKey], self.retryDelay);
+    SDLLogD(@"Accessory Connected (%@), Opening in %0.03fs", notification.userInfo[EAAccessoryKey], self.sdl_retryDelay);
+
+    // FIXME: it should only do this if the app is in the background - right?
     [self sdl_backgroundTaskStart];
 
     self.retryCounter = 0;
 
-    [self performSelector:@selector(sdl_connect:) withObject:accessory afterDelay:self.retryDelay];
+    [self performSelector:@selector(sdl_connect:) withObject:accessory afterDelay:self.sdl_retryDelay];
 }
 
+/**
+ *  Handles a notification sent by the system when an accessory has been disconnected by cleaning up the
+ *
+ *  @param notification Contains information about the connected accessory
+ */
 - (void)sdl_accessoryDisconnected:(NSNotification *)notification {
     // Only check for the data session, the control session is handled separately
     EAAccessory *accessory = [notification.userInfo objectForKey:EAAccessoryKey];
     if (accessory.connectionID != self.session.accessory.connectionID) {
-    	SDLLogD(@"Accessory Disconnected Event (%@)", accessory);
+        SDLLogD(@"Accessory Disconnected Event (%@)", accessory);
     }
     if ([accessory.serialNumber isEqualToString:self.session.accessory.serialNumber]) {
         self.sessionSetupInProgress = NO;
@@ -138,6 +178,15 @@ int const ProtocolIndexTimeoutSeconds = 20;
     }
 }
 
+#pragma mark Background/Foreground Notifications
+
+/**
+ *  Handles a notification sent by the system when the app ends the foreground.
+ *
+ *  If the app is still searching for an accessory, a background task will be started so the app can still search for and/or connect with an accessory while it is in the background.
+ *
+ *  @param notification Notification
+ */
 - (void)sdl_applicationWillEnterForeground:(NSNotification *)notification {
     SDLLogV(@"App foregrounded, attempting connection");
     [self sdl_backgroundTaskEnd];
@@ -145,17 +194,33 @@ int const ProtocolIndexTimeoutSeconds = 20;
     [self connect];
 }
 
+/**
+ *  Handles a notification sent by the system when the app ends the background.
+ *
+ *  @param notification Notification
+ */
+- (void)sdl_applicationDidEnterBackground:(NSNotification *)notification {
+    SDLLogV(@"App backgrounded, starting background task");
+    [self sdl_backgroundTaskStart];
+    self.retryCounter = 0;
+    [self connect];
+}
 
 #pragma mark - Stream Lifecycle
 
+/**
+ *  Starts scanning for connected accessories.
+ */
 - (void)connect {
     [self sdl_connect:nil];
 }
 
 /**
- Start the connection process by connecting to a specific accessory, or if none is specified, to scan for an accessory.
-
- @param accessory The accessory to attempt connection with or nil to scan for accessories.
+ *  Starts the process to connect to an accessory.
+ *
+ *  If no accessory specified, scans for an accessory.
+ *
+ *  @param accessory The accessory to attempt connection with or nil to scan for accessories.
  */
 - (void)sdl_connect:(nullable EAAccessory *)accessory {
     if (!self.session && !self.sessionSetupInProgress) {
@@ -215,9 +280,9 @@ int const ProtocolIndexTimeoutSeconds = 20;
 }
 
 /**
- Attept to establish a session with an accessory, or if nil is passed, to scan for one.
-
- @param accessory The accessory to try to establish a session with, or nil to scan all connected accessories.
+ *  Attempts to establish a session with an accessory. If no accessory is passed, all connected accessories are scanned for a valid accessory.
+ *
+ *  @param accessory An accessory with which to establish a session. If nil, scan for a valid accessory.
  */
 - (void)sdl_establishSessionWithAccessory:(nullable EAAccessory *)accessory {
     SDLLogD(@"Attempting to connect");
@@ -502,7 +567,12 @@ int const ProtocolIndexTimeoutSeconds = 20;
     };
 }
 
-- (double)retryDelay {
+/**
+ *  Calculates the amount of time that should pass before the app tries to connect to an accessory. 
+ *  FIXME: - no idea why we are doing this.....
+ *  @return A delay value between 1.5 and 9.5 seconds
+ */
+- (double)sdl_retryDelay {
     const double MinRetrySeconds = 1.5;
     const double MaxRetrySeconds = 9.5;
     double RetryRangeSeconds = MaxRetrySeconds - MinRetrySeconds;
@@ -540,9 +610,11 @@ int const ProtocolIndexTimeoutSeconds = 20;
     return appDelaySeconds;
 }
 
-
 #pragma mark - Lifecycle Destruction
 
+/**
+ *  Helper class that cleans up the class before it is destructed.
+ */
 - (void)sdl_destructObjects {
     if (!_alreadyDestructed) {
         _alreadyDestructed = YES;
