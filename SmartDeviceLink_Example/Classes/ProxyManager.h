@@ -30,5 +30,5 @@ typedef NS_ENUM(NSUInteger, ProxyState) {
 - (void)startIAP;
 - (void)startTCP;
 - (void)reset;
-- (SDLManager *)getSDLManager;
+
 @end

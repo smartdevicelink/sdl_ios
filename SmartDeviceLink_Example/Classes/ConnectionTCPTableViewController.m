@@ -10,11 +10,6 @@
 #import "Preferences.h"
 #import "ProxyManager.h"
 #import "SDLStreamingMediaManager.h"
-#import "SDLHapticManager.h"
-#import "SDLTouchCoord.h"
-#import "SDLTouchEvent.h"
-#import "SDLTouch.h"
-
 
 @interface ConnectionTCPTableViewController ()
 
@@ -55,35 +50,6 @@
     NSLog(@"***** MEMORY WARNING *****");
 }
 
-SDLTouch* generateTouchEvent(int xCoord, int yCoord)
-{
-    unsigned long timeStamp = 10;
-    SDLTouchCoord* firstCoord = [[SDLTouchCoord alloc] init];
-    firstCoord.x = [NSNumber numberWithInt:xCoord];
-    firstCoord.y = [NSNumber numberWithInt:yCoord];
-    
-    SDLTouchEvent* firstTouchEvent = [[SDLTouchEvent alloc] init];
-    firstTouchEvent.touchEventId = @0;
-    firstTouchEvent.coord = [NSMutableArray arrayWithObject:firstCoord];
-    firstTouchEvent.timeStamp = [NSMutableArray arrayWithObject:@(timeStamp)];
-    SDLTouch* firstTouch = [[SDLTouch alloc] initWithTouchEvent:firstTouchEvent];
-    return firstTouch;
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    // trigger refresh of the window to cause a sendHapticData RPC request
-    SDLHapticManager *manager = [[SDLHapticManager alloc] initWithWindow:[[UIApplication sharedApplication] keyWindow] sdlManager:[[ProxyManager sharedManager] getSDLManager]];
-    
-    SDLTouch* collisionTouch = generateTouchEvent(0, 228);
-    UIView* view = [manager viewForSDLTouch:collisionTouch];
-    assert(view != nil);
-    NSLog(@"view for collision touch = %@", view);
-
-    SDLTouch* noCollisionTouch = generateTouchEvent(0, 0);
-    UIView* view2 = [manager viewForSDLTouch:noCollisionTouch];
-    assert(view2 == nil);
-    NSLog(@"view for no collision touch = %@", view2);
-}
 
 #pragma mark - IBActions
 

@@ -8,8 +8,8 @@
 #import "ConnectionIAPTableViewController.h"
 #import "ConnectionTransitionContext.h"
 #import "ConnectionAnimatedTransition.h"
-#import "SDLHapticManager.h"
-#import "ProxyManager.h"
+
+
 
 @interface ConnectionContainerViewController ()
 
@@ -17,8 +17,6 @@
 @property (strong, nonatomic) NSArray *viewControllers;
 @property (strong, nonatomic) UIViewController *currentViewController;
 
-@property (strong, nonatomic) id <SDLHapticInterface> testManager;
-@property (strong, nonatomic) id <SDLHapticHitTester> hapticHitTester;
 @property (strong, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
 
 @end
@@ -58,13 +56,6 @@
     self.currentViewController = initialViewController;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    
-    SDLHapticManager *manager = [[SDLHapticManager alloc] initWithWindow:[[UIApplication sharedApplication] keyWindow] sdlManager:[[ProxyManager sharedManager] getSDLManager]];
-    self.testManager = manager;
-    self.hapticHitTester = manager;
-    
-}
 
 #pragma mark - IBActions
 
@@ -126,13 +117,5 @@
     self.connectionTypeSegmentedControl.userInteractionEnabled = NO;
     [animator animateTransition:transitionContext];
 }
-
-//#pragma mark debug functions
-//- (void)highlightAllViews {
-//    for (UIView *view in self.focusableViews) {
-//        view.layer.borderColor = [[UIColor redColor] CGColor];
-//        view.layer.borderWidth = 2.0;
-//    }
-//}
 
 @end

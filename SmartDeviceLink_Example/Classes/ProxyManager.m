@@ -120,12 +120,6 @@ NS_ASSUME_NONNULL_BEGIN
     self.sdlManager = nil;
 }
 
-- (SDLManager *)getSDLManager {
-    if (self.sdlManager) {
-        return self.sdlManager;
-    }
-    return nil;
-}
 
 #pragma mark - Helpers
 
