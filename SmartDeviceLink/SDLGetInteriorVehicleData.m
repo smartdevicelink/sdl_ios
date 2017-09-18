@@ -33,7 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameModuleType];
 }
 
-
 - (void)setSubscribe:(nullable NSNumber<SDLBool> *)subscribe {
     [parameters sdl_setObject:subscribe forName:SDLNameSubscribe];
 }

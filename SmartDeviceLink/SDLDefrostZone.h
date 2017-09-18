@@ -16,7 +16,6 @@ typedef SDLEnum SDLDefrostZone SDL_SWIFT_ENUM;
  */
 extern SDLDefrostZone const SDLDefrostZoneFront;
 
-
 /**
  * @abstract A SDLDefrostZone with the value of *REAR*
  */

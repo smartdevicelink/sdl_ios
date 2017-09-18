@@ -27,4 +27,5 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLClimateControlData *climateControlData;
 
 @end
+
 NS_ASSUME_NONNULL_END

@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band rdsData:(nullable SDLRdsData *)rdsData availableHDs:(nullable NSNumber<SDLInt> *)availableHDs hdChannel:(nullable NSNumber<SDLInt> *)hdChannel signalStrength:(nullable NSNumber<SDLInt> *)signalStrength signalChangeThreshold:(nullable NSNumber<SDLInt> *)signalChangeThreshold radioEnable:(nullable NSNumber<SDLBool> *)radioEnable state:(nullable SDLRadioState)state {
     self = [self init];
-    if(!self){
+    if(!self) {
         return nil;
     }
 
