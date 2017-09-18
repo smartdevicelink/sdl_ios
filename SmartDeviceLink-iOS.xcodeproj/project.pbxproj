@@ -4932,7 +4932,7 @@
 				5D61FD0C1A84238C00846EE7 /* SDLOnEncodedSyncPData.m in Sources */,
 				5D61FD0A1A84238C00846EE7 /* SDLOnDriverDistraction.m in Sources */,
 				5D61FCED1A84238C00846EE7 /* SDLListFiles.m in Sources */,
-				DA9F7E801DCC028B00ACAE48 /* SDLOnWaypointChange.m in Sources */,
+				DA9F7E801DCC028B00ACAE48 /* SDLOnWayPointChange.m in Sources */,
 				E4139D1E1F6017770005B6EA /* SDLLifecycleConfigurationUpdate.m in Sources */,
 				5D61FC6E1A84238C00846EE7 /* SDLCreateInteractionChoiceSetResponse.m in Sources */,
 				5D61FD061A84238C00846EE7 /* SDLOnButtonPress.m in Sources */,
