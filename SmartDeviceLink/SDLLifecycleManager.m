@@ -266,15 +266,23 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 - (void)didEnterStateUpdatingConfiguration {
     // we can expect that the delegate has implemented the update method and the actual language is a supported language
     SDLLanguage actualLanguage = self.registerResponse.language;
-    // ask the delegate for update-config object
+
     SDLLifecycleConfigurationUpdate *configUpdate = [self.delegate managerWillUpdateLifecycleToLanguage:actualLanguage];
     
     if (configUpdate) {
         self.configuration.lifecycleConfig.language = actualLanguage;
-        self.configuration.lifecycleConfig.appName = configUpdate.appName;
-        self.configuration.lifecycleConfig.shortAppName = configUpdate.shortAppName;
-        self.configuration.lifecycleConfig.ttsName = configUpdate.ttsName;
-        self.configuration.lifecycleConfig.voiceRecognitionCommandNames = configUpdate.voiceRecognitionCommandNames;
+        if (configUpdate.appName) {
+            self.configuration.lifecycleConfig.appName = configUpdate.appName;
+        }
+        if (configUpdate.shortAppName) {
+            self.configuration.lifecycleConfig.shortAppName = configUpdate.shortAppName;
+        }
+        if (configUpdate.ttsName) {
+            self.configuration.lifecycleConfig.ttsName = configUpdate.ttsName;
+        }
+        if (configUpdate.voiceRecognitionCommandNames) {
+            self.configuration.lifecycleConfig.voiceRecognitionCommandNames = configUpdate.voiceRecognitionCommandNames;
+        }
         
         SDLChangeRegistration *changeRegistration = [[SDLChangeRegistration alloc] init];
         changeRegistration.language = actualLanguage;
@@ -284,11 +292,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         changeRegistration.ttsName = configUpdate.ttsName;
         changeRegistration.vrSynonyms = configUpdate.voiceRecognitionCommandNames;
       
-        // regardless of the response just send the request
         [self sendRequest:changeRegistration];
     }
     
-    //finally transition to state to setup managers
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpManagers];
 }
 
