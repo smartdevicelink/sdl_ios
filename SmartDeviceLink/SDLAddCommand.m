@@ -72,6 +72,22 @@
     return self;
 }
 
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position icon:(SDLImage *)icon handler:(SDLRPCNotificationHandler)handler {
+    self = [self initWithId:commandId vrCommands:vrCommands menuName:menuName handler:handler];
+    if (!self) {
+        return nil;
+    }
+    
+    self.menuParams.parentID = @(parentId);
+    self.menuParams.position = @(position);
+    
+    if (nil != icon) {
+        self.cmdIcon = icon;
+    }
+    
+    return self;
+}
+
 - (void)setCmdID:(NSNumber *)cmdID {
     if (cmdID != nil) {
         [parameters setObject:cmdID forKey:NAMES_cmdID];

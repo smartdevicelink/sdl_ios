@@ -63,10 +63,13 @@
 
 - (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler;
 
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position icon:(SDLImage *)icon handler:(SDLRPCNotificationHandler)handler;
+
 /**
  *  A handler that will let you know when the button you created is subscribed.
  *
  *  @warning This will only work if you use SDLManager.
+ 
  */
 @property (copy, nonatomic) SDLRPCNotificationHandler handler;
 

@@ -27,6 +27,7 @@
 
 - (instancetype)initWithName:(NSString *)name ofType:(SDLImageType *)imageType;
 
+- (instancetype)initWithName:(NSString *)name ofType:(SDLImageType *)imageType isTemplateImage:(BOOL) isTemplate;
 /**
  * @abstract The static hex icon value or the binary image file name identifier (sent by SDLPutFile)
  *
@@ -40,5 +41,12 @@
  * Required
  */
 @property (strong) SDLImageType *imageType;
+
+/**
+ * @abstract Describes, whether it is a template image
+ *
+ * Required
+ */
+@property BOOL TemplateImage;
 
 @end
