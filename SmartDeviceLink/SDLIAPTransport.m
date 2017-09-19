@@ -42,6 +42,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
 @implementation SDLIAPTransport
 
 - (instancetype)init {
+    SDLLogV(@"SDLIAPTransport Init");
     if (self = [super init]) {
         _alreadyDestructed = NO;
         _sessionSetupInProgress = NO;
@@ -50,19 +51,51 @@ int const ProtocolIndexTimeoutSeconds = 20;
         _retryCounter = 0;
         _protocolIndexTimer = nil;
 
-        [self sdl_startEventListening];
-    }
+        if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
+            SDLLogD(@"SDLIAPTransport Init created while app is in background. Starting background task.");
+            [self sdl_backgroundTaskStart];
+        }
 
-    SDLLogV(@"SDLIAPTransport Init");
+        // Get notifications if an accessory connects in future
+        [self sdl_startEventListening];
+
+        // Immediately scan for connected accessories
+        self.retryCounter = 0;
+        [self sdl_connect:nil];
+    }
 
     return self;
 }
 
+#pragma mark - Background Task
 
-#pragma mark - Notification Subscriptions
+- (void)sdl_backgroundTaskStart {
+    if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
+        return;
+    }
 
+    SDLLogD(@"Starting background task");
+    self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:BackgroundTaskName expirationHandler:^{
+        SDLLogD(@"Background task expired");
+        [self sdl_backgroundTaskEnd];
+    }];
+}
+
+- (void)sdl_backgroundTaskEnd {
+    if (self.backgroundTaskId == UIBackgroundTaskInvalid) {
+        return;
+    }
+
+    SDLLogD(@"Ending background task");
+    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskId];
+    self.backgroundTaskId = UIBackgroundTaskInvalid;
+}
+
+#pragma mark - Notifications
+
+#pragma mark Subscription
 - (void)sdl_startEventListening {
-    SDLLogV(@"SDLIAPTransport Listening For Events");
+    SDLLogV(@"SDLIAPTransport started listening for events");
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sdl_accessoryConnected:)
                                                  name:EAAccessoryDidConnectNotification
@@ -83,52 +116,35 @@ int const ProtocolIndexTimeoutSeconds = 20;
                                                  name:UIApplicationDidEnterBackgroundNotification
                                                object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(sdl_applicationWillTerminate:)
+                                                 name:UIApplicationWillTerminateNotification
+                                               object:nil];
 
     [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
 }
 
 - (void)sdl_stopEventListening {
-    SDLLogV(@"SDLIAPTransport Stopped Listening For Events");
+    SDLLogV(@"SDLIAPTransport stopped listening for events");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)setSessionSetupInProgress:(BOOL)inProgress{
-    _sessionSetupInProgress = inProgress;
-//    if (!inProgress){
-//        // End the background task here to catch all cases
-//        [self sdl_backgroundTaskEnd];
-//    }
-}
 
-- (void)sdl_backgroundTaskStart {
-    if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
-        return;
-    }
-
-    self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:BackgroundTaskName expirationHandler:^{
-        [self sdl_backgroundTaskEnd];
-    }];
-}
-
-- (void)sdl_backgroundTaskEnd {
-    if (self.backgroundTaskId == UIBackgroundTaskInvalid) {
-        return;
-    }
-
-    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskId];
-    self.backgroundTaskId = UIBackgroundTaskInvalid;
-}
-
-#pragma mark - EAAccessory Notifications
-
+#pragma mark EAAccessory Notifications
 - (void)sdl_accessoryConnected:(NSNotification *)notification {
     EAAccessory *accessory = notification.userInfo[EAAccessoryKey];
-    SDLLogD(@"Accessory Connected (%@), Opening in %0.03fs", notification.userInfo[EAAccessoryKey], self.retryDelay);
-    [self sdl_backgroundTaskStart];
+
+    double retryDelay = self.retryDelay;
+    SDLLogD(@"Accessory Connected (%@), Opening in %0.03fs", notification.userInfo[EAAccessoryKey], retryDelay);
+
+    if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
+        SDLLogD(@"Accessory connected while app is in background. Starting background task.");
+        [self sdl_backgroundTaskStart];
+    }
 
     self.retryCounter = 0;
-
-    [self performSelector:@selector(sdl_connect:) withObject:accessory afterDelay:self.retryDelay];
+    [self sdl_connect:accessory];
+//    [self performSelector:@selector(sdl_connect:) withObject:accessory afterDelay:retryDelay];
 }
 
 - (void)sdl_accessoryDisconnected:(NSNotification *)notification {
@@ -138,11 +154,14 @@ int const ProtocolIndexTimeoutSeconds = 20;
         SDLLogD(@"Accessory Disconnected Event (%@)", accessory);
     }
     if ([accessory.serialNumber isEqualToString:self.session.accessory.serialNumber]) {
+        self.retryCounter = 0;
         self.sessionSetupInProgress = NO;
         [self disconnect];
         [self.delegate onTransportDisconnected];
     }
 }
+
+#pragma mark App Lifecycle Notifications
 
 /**
  *  Handles a notification sent by the system when the app enters the foreground.
@@ -153,6 +172,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
  */
 - (void)sdl_applicationWillEnterForeground:(NSNotification *)notification {
     SDLLogV(@"App foregrounded, attempting connection");
+    SDLLogD(@"Background task ended from applicationWillEnterForeground");
     [self sdl_backgroundTaskEnd];
     self.retryCounter = 0;
     [self connect];
@@ -165,8 +185,14 @@ int const ProtocolIndexTimeoutSeconds = 20;
  */
 - (void)sdl_applicationDidEnterBackground:(NSNotification *)notification {
     SDLLogV(@"App backgrounded, starting background task");
-    [self sdl_backgroundTaskEnd];
+//    [self sdl_backgroundTaskEnd];
+    SDLLogD(@"Background task started from applicationDidEnterBackground");
     [self sdl_backgroundTaskStart];
+}
+
+- (void)sdl_applicationWillTerminate:(NSNotification *)notification {
+    SDLLogD(@"App terminating");
+    [self disconnect];
 }
 
 #pragma mark - Stream Lifecycle
@@ -196,9 +222,8 @@ int const ProtocolIndexTimeoutSeconds = 20;
 }
 
 - (void)disconnect {
-    SDLLogD(@"IAP disconnecting data session");
-    // Stop event listening here so that even if the transport is disconnected by the proxy
-    // we unregister for accessory local notifications
+    SDLLogD(@"Disconnecting IAP data session");
+    // Stop event listening here so that even if the transport is disconnected by the proxy we unregister for accessory local notifications
     [self sdl_stopEventListening];
     if (self.controlSession != nil) {
         [self.controlSession stop];
@@ -247,6 +272,8 @@ int const ProtocolIndexTimeoutSeconds = 20;
     if (self.retryCounter < CreateSessionRetries) {
         // We should be attempting to connect
         self.retryCounter++;
+        SDLLogD(@"retry counter increased by 1 %d", self.retryCounter);
+
         EAAccessory *sdlAccessory = accessory;
         // If we are being called from sdl_connectAccessory, the EAAccessoryDidConnectNotification will contain the SDL accessory to connect to and we can connect without searching the accessory manager's connected accessory list. Otherwise, we fall through to a search.
         if (sdlAccessory != nil && [self sdl_connectAccessory:sdlAccessory]) {
@@ -275,7 +302,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
 }
 
 - (void)sdl_createIAPControlSessionWithAccessory:(EAAccessory *)accessory {
-    SDLLogD(@"Starting IAP control session (%@)", accessory);
+    SDLLogD(@"Starting IAP control session");
     self.controlSession = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:ControlProtocolString];
 
     if (self.controlSession) {
@@ -299,14 +326,14 @@ int const ProtocolIndexTimeoutSeconds = 20;
         };
         self.protocolIndexTimer.elapsedBlock = elapsedBlock;
 
-        SDLStreamDelegate *controlStreamDelegate = [SDLStreamDelegate new];
+        SDLStreamDelegate *controlStreamDelegate = [[SDLStreamDelegate alloc] init];
         self.controlSession.streamDelegate = controlStreamDelegate;
         controlStreamDelegate.streamHasBytesHandler = [self sdl_controlStreamHasBytesHandlerForAccessory:accessory];
         controlStreamDelegate.streamEndHandler = [self sdl_controlStreamEndedHandler];
         controlStreamDelegate.streamErrorHandler = [self sdl_controlStreamErroredHandler];
 
         if (![self.controlSession start]) {
-            SDLLogW(@"Control session failed to setup (%@)", accessory);
+            SDLLogW(@"Control session failed to setup");
             self.controlSession.streamDelegate = nil;
             self.controlSession = nil;
             [self sdl_retryEstablishSession];
@@ -349,6 +376,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
         self.session.delegate = nil;
         self.session = nil;
     }
+
     // No accessory to use this time, search connected accessories
     [self sdl_connect:nil];
 }
@@ -425,8 +453,11 @@ int const ProtocolIndexTimeoutSeconds = 20;
         uint8_t buf[1];
         NSUInteger len = [istream read:buf maxLength:1];
         if (len <= 0) {
+            SDLLogV(@"Nothing read from input stream");
             return;
         }
+
+        SDLLogV(@"input stream: %d, %@", istream.hasBytesAvailable, @(buf[0]));
 
         // If we have data from the stream
         // Determine protocol string of the data session, then create that data session
@@ -443,6 +474,8 @@ int const ProtocolIndexTimeoutSeconds = 20;
 
         if (accessory.isConnected) {
             dispatch_async(dispatch_get_main_queue(), ^{
+                SDLLogD(@"Starting Data Stream after closing Control Stream, retry count is: %d", self.retryCounter);
+                self.retryCounter = 0;
                 [strongSelf sdl_createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
             });
         }

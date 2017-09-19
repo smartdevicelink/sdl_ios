@@ -74,6 +74,7 @@
     self.lockScreenViewController.vehicleIcon = nil;
     self.lockScreenViewController.backgroundColor = [UIColor whiteColor];
     
+
     FBSnapshotVerifyView(self.lockScreenViewController.view, nil);
 }
 

@@ -50,8 +50,6 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
 
 - (BOOL)start {
     __weak typeof(self) weakSelf = self;
-    SDLLogD(@"Opening EASession withAccessory:%@ forProtocol:%@", _accessory.name, _protocol);
-
     // TODO: This assignment should be broken out of the if and the if / else should be flipped.
     if ((self.easession = [[EASession alloc] initWithAccessory:self.accessory forProtocol:self.protocol])) {
         __strong typeof(self) strongSelf = weakSelf;
