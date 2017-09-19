@@ -283,7 +283,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
     if (self.retryCounter < CreateSessionRetries) {
         // We should be attempting to connect
         self.retryCounter++;
-        SDLLogD(@"retry counter increased by 1 %d", self.retryCounter);
 
         EAAccessory *sdlAccessory = accessory;
         // If we are being called from sdl_connectAccessory, the EAAccessoryDidConnectNotification will contain the SDL accessory to connect to and we can connect without searching the accessory manager's connected accessory list. Otherwise, we fall through to a search.
