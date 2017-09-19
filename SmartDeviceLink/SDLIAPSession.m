@@ -57,6 +57,7 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
         __strong typeof(self) strongSelf = weakSelf;
 
         SDLLogD(@"Created Session Object");
+
         strongSelf.streamDelegate.streamErrorHandler = [self streamErroredHandler];
         strongSelf.streamDelegate.streamOpenHandler = [self streamOpenedHandler];
         if (self.isDataSession) {
