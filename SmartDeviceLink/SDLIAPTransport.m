@@ -468,8 +468,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
             return;
         }
 
-        SDLLogV(@"input stream: %d, %@", istream.hasBytesAvailable, @(buf[0]));
-
         // If we have data from the stream
         // Determine protocol string of the data session, then create that data session
         NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", IndexedProtocolStringPrefix, @(buf[0])];
@@ -485,7 +483,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
 
         if (accessory.isConnected) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                SDLLogD(@"Starting Data Stream after closing Control Stream, retry count is: %d", self.retryCounter);
                 self.retryCounter = 0;
                 [strongSelf sdl_createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
             });

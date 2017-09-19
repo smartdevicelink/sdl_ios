@@ -3,8 +3,11 @@
 //  SmartDeviceLink-iOS
 
 #import "SmartDeviceLink.h"
+
 #import "ProxyManager.h"
+
 #import "Preferences.h"
+
 
 NSString *const SDLAppName = @"SDL Example App";
 NSString *const SDLAppId = @"9999";
