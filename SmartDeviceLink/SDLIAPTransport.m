@@ -52,7 +52,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
         _protocolIndexTimer = nil;
 
         if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
-            SDLLogD(@"SDLIAPTransport Init created while app is in background. Starting background task.");
+            SDLLogD(@"SDLIAPTransport instance created while app is in background. Starting background task.");
             [self sdl_backgroundTaskStart];
         }
 
@@ -60,7 +60,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
         [self sdl_startEventListening];
 
         // Immediately scan for connected accessories
-        self.retryCounter = 0;
         [self sdl_connect:nil];
     }
 
@@ -69,6 +68,9 @@ int const ProtocolIndexTimeoutSeconds = 20;
 
 #pragma mark - Background Task
 
+/**
+ *  Starts a background task that allows the app to search for accessories and while the app is in the background.
+ */
 - (void)sdl_backgroundTaskStart {
     if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
         return;
@@ -81,6 +83,9 @@ int const ProtocolIndexTimeoutSeconds = 20;
     }];
 }
 
+/**
+ *  Cleans up a background task when it is stopped.
+ */
 - (void)sdl_backgroundTaskEnd {
     if (self.backgroundTaskId == UIBackgroundTaskInvalid) {
         return;
@@ -94,6 +99,10 @@ int const ProtocolIndexTimeoutSeconds = 20;
 #pragma mark - Notifications
 
 #pragma mark Subscription
+
+/**
+ *  Registers for system notifications about connected accessories and the app life cycle.
+ */
 - (void)sdl_startEventListening {
     SDLLogV(@"SDLIAPTransport started listening for events");
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -116,14 +125,12 @@ int const ProtocolIndexTimeoutSeconds = 20;
                                                  name:UIApplicationDidEnterBackgroundNotification
                                                object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(sdl_applicationWillTerminate:)
-                                                 name:UIApplicationWillTerminateNotification
-                                               object:nil];
-
     [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
 }
 
+/**
+ *  Unsubscribes to notifications.
+ */
 - (void)sdl_stopEventListening {
     SDLLogV(@"SDLIAPTransport stopped listening for events");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -131,6 +138,12 @@ int const ProtocolIndexTimeoutSeconds = 20;
 
 
 #pragma mark EAAccessory Notifications
+
+/**
+ *  Handles a notification sent by the system when a new accessory has been detected by attempting to connect to the new accessory.
+ *
+ *  @param notification Contains information about the connected accessory
+ */
 - (void)sdl_accessoryConnected:(NSNotification *)notification {
     EAAccessory *accessory = notification.userInfo[EAAccessoryKey];
 
@@ -143,12 +156,15 @@ int const ProtocolIndexTimeoutSeconds = 20;
     }
 
     self.retryCounter = 0;
-    [self sdl_connect:accessory];
-//    [self performSelector:@selector(sdl_connect:) withObject:accessory afterDelay:retryDelay];
+    [self performSelector:@selector(sdl_connect:) withObject:accessory afterDelay:retryDelay];
 }
 
+/**
+ *  Handles a notification sent by the system when an accessory has been disconnected by cleaning up after the disconnected device. Only check for the data session, the control session is handled separately
+ *
+ *  @param notification Contains information about the connected accessory
+ */
 - (void)sdl_accessoryDisconnected:(NSNotification *)notification {
-    // Only check for the data session, the control session is handled separately
     EAAccessory *accessory = [notification.userInfo objectForKey:EAAccessoryKey];
     if (accessory.connectionID != self.session.accessory.connectionID) {
         SDLLogD(@"Accessory Disconnected Event (%@)", accessory);
@@ -172,7 +188,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
  */
 - (void)sdl_applicationWillEnterForeground:(NSNotification *)notification {
     SDLLogV(@"App foregrounded, attempting connection");
-    SDLLogD(@"Background task ended from applicationWillEnterForeground");
     [self sdl_backgroundTaskEnd];
     self.retryCounter = 0;
     [self connect];
@@ -185,14 +200,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
  */
 - (void)sdl_applicationDidEnterBackground:(NSNotification *)notification {
     SDLLogV(@"App backgrounded, starting background task");
-//    [self sdl_backgroundTaskEnd];
-    SDLLogD(@"Background task started from applicationDidEnterBackground");
     [self sdl_backgroundTaskStart];
-}
-
-- (void)sdl_applicationWillTerminate:(NSNotification *)notification {
-    SDLLogD(@"App terminating");
-    [self disconnect];
 }
 
 #pragma mark - Stream Lifecycle
@@ -202,9 +210,9 @@ int const ProtocolIndexTimeoutSeconds = 20;
 }
 
 /**
- Start the connection process by connecting to a specific accessory, or if none is specified, to scan for an accessory.
-
- @param accessory The accessory to attempt connection with or nil to scan for accessories.
+ *  Starts the process to connect to an accessory. If no accessory specified, scans for a valid accessory.
+ *
+ *  @param accessory The accessory to attempt connection with or nil to scan for accessories.
  */
 - (void)sdl_connect:(nullable EAAccessory *)accessory {
     if (!self.session && !self.sessionSetupInProgress) {
@@ -221,6 +229,9 @@ int const ProtocolIndexTimeoutSeconds = 20;
     }
 }
 
+/**
+ *  Cleans up after a disconnected accessory by closing any open input streams.
+ */
 - (void)disconnect {
     SDLLogD(@"Disconnecting IAP data session");
     // Stop event listening here so that even if the transport is disconnected by the proxy we unregister for accessory local notifications
@@ -240,10 +251,10 @@ int const ProtocolIndexTimeoutSeconds = 20;
 #pragma mark - Creating Session Streams
 
 /**
- Attempt to connect an accessory using the control or legacy protocols, then return whether or not we've generated an IAP session.
-
- @param accessory The accessory to attempt a connection with
- @return Whether or not we succesfully created a session.
+ *  Attempt to connect an accessory using the control or legacy protocols, then return whether or not we've generated an IAP session.
+ *
+ *  @param accessory The accessory to attempt a connection with
+ *  @return Whether or not we succesfully created a session.
  */
 - (BOOL)sdl_connectAccessory:(EAAccessory *)accessory {
     BOOL connecting = NO;
@@ -263,9 +274,9 @@ int const ProtocolIndexTimeoutSeconds = 20;
 }
 
 /**
- Attept to establish a session with an accessory, or if nil is passed, to scan for one.
-
- @param accessory The accessory to try to establish a session with, or nil to scan all connected accessories.
+ *  Attept to establish a session with an accessory, or if nil is passed, to scan for one.
+ *
+ *  @param accessory The accessory to try to establish a session with, or nil to scan all connected accessories.
  */
 - (void)sdl_establishSessionWithAccessory:(nullable EAAccessory *)accessory {
     SDLLogD(@"Attempting to connect");
@@ -377,7 +388,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
         self.session = nil;
     }
 
-    // No accessory to use this time, search connected accessories
+    // Search connected accessories
     [self sdl_connect:nil];
 }
 
