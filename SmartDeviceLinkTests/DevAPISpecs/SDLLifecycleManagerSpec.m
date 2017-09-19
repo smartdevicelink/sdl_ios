@@ -58,7 +58,7 @@ QuickConfigurationEnd
 
 QuickSpecBegin(SDLLifecycleManagerSpec)
 
-xdescribe(@"a lifecycle manager", ^{
+fdescribe(@"a lifecycle manager", ^{
     __block SDLLifecycleManager *testManager = nil;
     __block SDLConfiguration *testConfig = nil;
     
@@ -87,7 +87,7 @@ xdescribe(@"a lifecycle manager", ^{
         testManager.streamManager = streamingManagerMock;
     });
     
-    it(@"should initialize properties", ^{
+    xit(@"should initialize properties", ^{
         expect(testManager.configuration).toNot(equal(testConfig)); // This is copied
         expect(testManager.delegate).to(equal(managerDelegateMock)); // TODO: Broken on OCMock 3.3.1 & Swift 3 Quick / Nimble
         expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
@@ -244,7 +244,7 @@ xdescribe(@"a lifecycle manager", ^{
                 });
                 
                 it(@"should eventually reach the ready state", ^{
-                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateReady));
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateReady));
                     OCMVerify([(SDLLockScreenManager *)lockScreenManagerMock start]);
                     OCMVerify([fileManagerMock startWithCompletionHandler:[OCMArg any]]);
                     OCMVerify([permissionManagerMock startWithCompletionHandler:[OCMArg any]]);
