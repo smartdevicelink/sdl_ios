@@ -21,14 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-    
+
     self.buttonName = buttonName;
     self.moduleType = moduleType;
 
     return self;
 }
 
-- (void)setModuleType:(SDLModuleType )moduleType {
+- (void)setModuleType:(SDLModuleType)moduleType {
     [parameters sdl_setObject:moduleType forName:SDLNameModuleType];
 }
 
