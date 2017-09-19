@@ -86,7 +86,7 @@ describe(@"Initialization tests", ^{
         resolution.resolutionWidth = @600;
         resolution.resolutionHeight = @500;
 
-        NSNumber *maxBitrate = @100;
+        int32_t maxBitrate = 100;
         NSNumber *hapticDataSupported = @YES;
 
         SDLVideoStreamingFormat *format1 = [[SDLVideoStreamingFormat alloc] init];

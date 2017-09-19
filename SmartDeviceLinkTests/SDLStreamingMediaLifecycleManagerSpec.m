@@ -100,10 +100,7 @@ describe(@"the streaming media manager", ^{
             readyHandlerSuccess = NO;
             readyHandlerError = nil;
             
-            [streamingLifecycleManager startWithProtocol:protocolMock completionHandler:^(BOOL success, NSError * _Nullable error) {
-                readyHandlerSuccess = success;
-                readyHandlerError = error;
-            }];
+            [streamingLifecycleManager startWithProtocol:protocolMock];
         });
         
         it(@"should be ready to stream", ^{

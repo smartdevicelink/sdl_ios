@@ -55,7 +55,7 @@ describe(@"a streaming media configuration", ^{
         beforeEach(^{
             testFakeSecurityManager = [[SDLFakeSecurityManager alloc] init];
 
-            testConfig = [SDLStreamingMediaConfiguration secureConfigurationWithSecurityManagers:@[testFakeSecurityManager]];
+            testConfig = [SDLStreamingMediaConfiguration secureConfigurationWithSecurityManagers:@[testFakeSecurityManager.class]];
         });
 
         it(@"should have properly set properties", ^{
