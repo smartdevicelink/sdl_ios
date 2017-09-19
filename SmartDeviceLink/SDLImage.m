@@ -11,6 +11,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
+        self.TemplateImage = NO;
     }
     return self;
 }
@@ -29,7 +30,21 @@
 
     self.value = name;
     self.imageType = imageType;
+    self.TemplateImage = NO;
 
+    return self;
+}
+
+- (instancetype)initWithName:(NSString *)name ofType:(SDLImageType *)imageType isTemplateImage:(BOOL) isTemplate{
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.value = name;
+    self.imageType = imageType;
+    self.TemplateImage = isTemplate;
+    
     return self;
 }
 
@@ -59,6 +74,20 @@
         return (SDLImageType *)obj;
     } else {
         return [SDLImageType valueOf:(NSString *)obj];
+    }
+}
+
+-(void) setTemplateImage:(BOOL)TemplateImage {
+    [store setObject:[NSNumber numberWithBool:TemplateImage] forKey:NAMES_isTemplateImage];
+}
+
+- (BOOL) TemplateImage {
+    NSObject *obj = [store objectForKey:NAMES_isTemplateImage];
+    if (obj != nil && [obj isKindOfClass:NSNumber.class]) {
+        NSNumber* val = (NSNumber*) obj;
+        return [val boolValue];
+    } else {
+        return NO;
     }
 }
 
