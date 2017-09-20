@@ -18,7 +18,7 @@ typedef void (^SessionCompletionHandler)(BOOL success);
 @property (nullable, strong, nonatomic) NSString *protocol;
 @property (nullable, strong, nonatomic) EASession *easession;
 @property (nullable, weak, nonatomic) id<SDLIAPSessionDelegate> delegate;
-@property (nullable, weak, nonatomic) SDLStreamDelegate *streamDelegate;
+@property (nullable, strong, nonatomic) SDLStreamDelegate *streamDelegate;
 @property (assign, readonly, getter=isStopped) BOOL stopped;
 
 - (instancetype)initWithAccessory:(EAAccessory *)accessory
