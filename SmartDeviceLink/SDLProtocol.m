@@ -138,7 +138,7 @@ typedef NSNumber SDLServiceTypeBox;
     header.frameType = SDLFrameType_Control;
     header.serviceType = serviceType;
     header.frameData = SDLFrameData_StartSession;
-    header.bytesInPayload = (UInt32)payload.length;
+    header.bytesInPayload = (UInt32)servicePayload.length;
 
     // Sending a StartSession with the encrypted bit set causes module to initiate SSL Handshake with a ClientHello message, which should be handled by the 'processControlService' method.
     header.encrypted = encryption;
