@@ -4,6 +4,7 @@
 
 ### Bug Fixes
 * Fixes the possibility of timers not being appropriately deallocated [#382](https://github.com/smartdevicelink/sdl_ios/issues/382).
+* Fixes some head units not connecting properly due to the start service payload length not being set properly.
 
 ### Tests
 * Any tests must now be run on Xcode 9.
