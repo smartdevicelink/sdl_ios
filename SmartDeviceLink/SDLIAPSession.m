@@ -251,6 +251,7 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
 
         // When both streams are open, session initialization is complete. Let the delegate know.
         if (strongSelf.isInputStreamOpen && strongSelf.isOutputStreamOpen) {
+            if (strongSelf.delegate == nil) { return; }
             [strongSelf.delegate onSessionInitializationCompleteForSession:weakSelf];
         }
     };
@@ -263,6 +264,7 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         SDLLogW(@"Stream Error: %@", stream);
+        if (strongSelf.delegate == nil) { return; }
         [strongSelf.delegate onSessionStreamsEnded:strongSelf];
     };
 }
