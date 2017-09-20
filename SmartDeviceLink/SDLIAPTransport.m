@@ -388,6 +388,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
     }
 
     // Search connected accessories
+    self.retryCounter = 0;
     [self sdl_connect:nil];
 }
 
