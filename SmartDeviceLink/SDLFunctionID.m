@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-    
+
     self.functionIds = @{
                          @0: SDLNameReserved,
                          @1: SDLNameRegisterAppInterface,
