@@ -253,7 +253,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     NSArray<SDLLanguage> *supportedLanguages = self.configuration.lifecycleConfig.languagesSupported;
     SDLLanguage desiredLanguage = self.configuration.lifecycleConfig.language;
     SDLLanguage actualLanguage = self.registerResponse.language;
-    BOOL delegateCanUpdateLifecycle = [self.delegate respondsToSelector:@selector(managerWillUpdateLifecycleToLanguage:)];
+    BOOL delegateCanUpdateLifecycle = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:)];
     
     // language mismatch? but actual language is a supported language? and delegate has implemented method?
     if (actualLanguage != desiredLanguage && [supportedLanguages containsObject:actualLanguage] && delegateCanUpdateLifecycle) {
@@ -267,7 +267,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     // we can expect that the delegate has implemented the update method and the actual language is a supported language
     SDLLanguage actualLanguage = self.registerResponse.language;
 
-    SDLLifecycleConfigurationUpdate *configUpdate = [self.delegate managerWillUpdateLifecycleToLanguage:actualLanguage];
+    SDLLifecycleConfigurationUpdate *configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage];
     
     if (configUpdate) {
         self.configuration.lifecycleConfig.language = actualLanguage;
