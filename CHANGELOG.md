@@ -1,10 +1,13 @@
+# 4.7.2 Release Notes
+### Bug Fixes
+* Fixes some head units not connecting properly due to the start service payload length not being set properly.
+
 # 4.7.1 Release Notes
 ### Breaking Changes
 * This bumps up the minimum supported version to 7.0 due to Xcode 9 changes. The upcoming v5.0.0 will raise the minimum version to 8.0.
 
 ### Bug Fixes
 * Fixes the possibility of timers not being appropriately deallocated [#382](https://github.com/smartdevicelink/sdl_ios/issues/382).
-* Fixes some head units not connecting properly due to the start service payload length not being set properly.
 
 ### Tests
 * Any tests must now be run on Xcode 9.
