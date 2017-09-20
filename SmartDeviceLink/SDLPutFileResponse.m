@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)spaceAvailable {
-    return [parameters objectForKey:SDLNameSpaceAvailable];
+    return [parameters sdl_objectForName:SDLNameSpaceAvailable];
 }
 
 @end
