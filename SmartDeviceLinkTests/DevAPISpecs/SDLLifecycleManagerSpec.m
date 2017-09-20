@@ -58,7 +58,7 @@ QuickConfigurationEnd
 
 QuickSpecBegin(SDLLifecycleManagerSpec)
 
-fdescribe(@"a lifecycle manager", ^{
+describe(@"a lifecycle manager", ^{
     __block SDLLifecycleManager *testManager = nil;
     __block SDLConfiguration *testConfig = nil;
     
@@ -238,7 +238,8 @@ fdescribe(@"a lifecycle manager", ^{
                     OCMStub([permissionManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), permissionManagerStartError, nil])]);
                     OCMStub([streamingManagerMock startWithProtocol:protocolMock completionHandler:([OCMArg invokeBlockWithArgs:@(YES), streamingManagerStartError, nil])]);
                     
-                    // Send an RAI response to move the lifecycle forward
+                    // Send an RAI response & make sure we have an HMI status to move the lifecycle forward
+                    testManager.hmiLevel = SDLHMILevelFull;
                     [testManager.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
                     [NSThread sleepForTimeInterval:0.3];
                 });
@@ -305,9 +306,10 @@ fdescribe(@"a lifecycle manager", ^{
                     testHMIStatus.hmiLevel = testHMILevel;
                     
                     [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
-                    
-                    expect(@(readyHandlerSuccess)).to(equal(@YES));
-                    expect(readyHandlerError).toNot(beNil());
+
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateReady));
+                    expect(@(readyHandlerSuccess)).toEventually(equal(@YES));
+                    expect(readyHandlerError).toEventually(beNil());
                 });
             });
         });

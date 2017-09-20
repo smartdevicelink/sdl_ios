@@ -72,7 +72,7 @@ describe(@"a streaming media configuration", ^{
             });
 
             it(@"should have properly set properties", ^{
-                expect(testConfig.securityManagers).to(contain(testFakeSecurityManager));
+                expect(testConfig.securityManagers).to(contain(testFakeSecurityManager.class));
                 expect(@(testConfig.maximumDesiredEncryption)).to(equal(@(someEncryptionFlag)));
                 expect(testConfig.customVideoEncoderSettings).to(equal(someVideoEncoderSettings));
             });
