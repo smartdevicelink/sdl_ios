@@ -46,7 +46,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic, readonly) UInt8 version;
 @property (assign, nonatomic, readonly) NSUInteger size;
-@property (assign, nonatomic) BOOL compressed __deprecated_msg("This is a mirror for encrypted");
 @property (assign, nonatomic) BOOL encrypted;
 @property (assign, nonatomic) SDLFrameType frameType;
 @property (assign, nonatomic) SDLServiceType serviceType;

@@ -283,7 +283,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 
     // Decide if we need to start a secure service or not
     if (self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) {
-        [self.protocol startSecureServiceWithType:SDLServiceTypeVideo completionHandler:^(BOOL success, NSError *error) {
+        [self.protocol startSecureServiceWithType:SDLServiceTypeVideo payload:nil completionHandler:^(BOOL success, NSError *error) {
             // This only fires if we fail
             if (error) {
                 SDLLogE(@"TLS setup error: %@", error);
@@ -291,7 +291,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
             }
         }];
     } else {
-        [self.protocol startServiceWithType:SDLServiceTypeVideo];
+        [self.protocol startServiceWithType:SDLServiceTypeVideo payload:nil];
     }
 }
 
@@ -348,7 +348,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 - (void)didEnterStateAudioStreamStarting {
     SDLLogD(@"Audio stream starting");
     if (self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) {
-        [self.protocol startSecureServiceWithType:SDLServiceTypeAudio completionHandler:^(BOOL success, NSError *error) {
+        [self.protocol startSecureServiceWithType:SDLServiceTypeAudio payload:nil completionHandler:^(BOOL success, NSError *error) {
             // This only fires if we fail!!
             if (error) {
                 SDLLogE(@"TLS setup error: %@", error);
@@ -356,7 +356,7 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
             }
         }];
     } else {
-        [self.protocol startServiceWithType:SDLServiceTypeAudio];
+        [self.protocol startServiceWithType:SDLServiceTypeAudio payload:nil];
     }
 }
 

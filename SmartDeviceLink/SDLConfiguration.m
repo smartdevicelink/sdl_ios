@@ -59,6 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
     _lifecycleConfig = lifecycleConfig;
     _lockScreenConfig = lockScreenConfig ?: [SDLLockScreenConfiguration enabledConfiguration];
     _loggingConfig = logConfig ?: [SDLLogConfiguration defaultConfiguration];
+    _streamingMediaConfig = streamingMediaConfig;
 
     if (_streamingMediaConfig != nil) {
         NSAssert(!([_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] || [_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection]), @"You should only set a streaming media configuration if your app is a NAVIGATION or PROJECTION HMI type");
