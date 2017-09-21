@@ -821,6 +821,7 @@
 		5D8204311BD001C700D0A41B /* SDLArtwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D82042F1BD001C700D0A41B /* SDLArtwork.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D8204321BD001C700D0A41B /* SDLArtwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8204301BD001C700D0A41B /* SDLArtwork.m */; };
 		5D850AB01D4907C500E6E7EE /* TestLockScreenAppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D850AAF1D4907C500E6E7EE /* TestLockScreenAppIcon.png */; };
+		5D8A09811F54B4E5002502A2 /* SDLStreamingMediaManagerDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8A09801F54B4E5002502A2 /* SDLStreamingMediaManagerDataSource.h */; };
 		5D8B174F1AC9D266006A6E1C /* SDLDialNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8B174D1AC9D266006A6E1C /* SDLDialNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D8B17501AC9D266006A6E1C /* SDLDialNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8B174E1AC9D266006A6E1C /* SDLDialNumber.m */; };
 		5D8B17531AC9E11B006A6E1C /* SDLDialNumberResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8B17511AC9E11B006A6E1C /* SDLDialNumberResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -889,6 +890,8 @@
 		5DB1BCDF1D243DD3002FFC37 /* SDLLockScreenConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB1BCDE1D243DD3002FFC37 /* SDLLockScreenConfigurationSpec.m */; };
 		5DB1BCE11D243DDE002FFC37 /* SDLConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB1BCE01D243DDE002FFC37 /* SDLConfigurationSpec.m */; };
 		5DB1BCE71D245647002FFC37 /* TestStateMachineTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB1BCE61D245647002FFC37 /* TestStateMachineTarget.m */; };
+		5DB202271F5F2D030061D189 /* SDLImageResolutionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB202261F5F2D030061D189 /* SDLImageResolutionSpec.m */; };
+		5DB2022A1F5F38B60061D189 /* SDLFakeStreamingManagerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB202291F5F38B60061D189 /* SDLFakeStreamingManagerDataSource.m */; };
 		5DB92D241AC47B2C00C15BB0 /* SDLHexUtilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB92D231AC47B2C00C15BB0 /* SDLHexUtilitySpec.m */; };
 		5DB92D2D1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB92D2C1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m */; };
 		5DB92D2F1AC59F0000C15BB0 /* SDLObjectWithPrioritySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DB92D2E1AC59F0000C15BB0 /* SDLObjectWithPrioritySpec.m */; };
@@ -1031,9 +1034,9 @@
 		DA9F7EB21DCC084300ACAE48 /* SDLDeliveryModeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7EB11DCC084300ACAE48 /* SDLDeliveryModeSpec.m */; };
 		DA9F7EB41DCC086400ACAE48 /* SDLDateTimeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7EB31DCC086400ACAE48 /* SDLDateTimeSpec.m */; };
 		DA9F7EB61DCC086A00ACAE48 /* SDLOasisAddressSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9F7EB51DCC086A00ACAE48 /* SDLOasisAddressSpec.m */; };
-		DAA41D551DF66B2000BC7337 /* SDLVideoEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = DAA41D531DF66B2000BC7337 /* SDLVideoEncoder.h */; };
-		DAA41D561DF66B2000BC7337 /* SDLVideoEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA41D541DF66B2000BC7337 /* SDLVideoEncoder.m */; };
-		DABB62171E4A900C0034C567 /* SDLVideoEncoderSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DABB62161E4A900C0034C567 /* SDLVideoEncoderSpec.m */; };
+		DAA41D551DF66B2000BC7337 /* SDLH264VideoEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = DAA41D531DF66B2000BC7337 /* SDLH264VideoEncoder.h */; };
+		DAA41D561DF66B2000BC7337 /* SDLH264VideoEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA41D541DF66B2000BC7337 /* SDLH264VideoEncoder.m */; };
+		DABB62171E4A900C0034C567 /* SDLH264VideoEncoderSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DABB62161E4A900C0034C567 /* SDLH264VideoEncoderSpec.m */; };
 		DAC572571D1067270004288B /* SDLTouchManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DAC572551D1067270004288B /* SDLTouchManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DAC572581D1067270004288B /* SDLTouchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC572561D1067270004288B /* SDLTouchManager.m */; };
 		DAC5725B1D10B81E0004288B /* SDLTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC572591D10B81E0004288B /* SDLTouch.m */; };
@@ -1057,9 +1060,9 @@
 		E9C32B9E1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B9A1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h */; };
 		E9C32B9F1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B9B1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m */; };
 		EED5C9FE1F4D18D100F04000 /* SDLH264Packetizer.h in Headers */ = {isa = PBXBuildFile; fileRef = EED5C9FD1F4D18D100F04000 /* SDLH264Packetizer.h */; };
-		EED5CA001F4D18DC00F04000 /* SDLH264ByteStreamPacketizer.h in Headers */ = {isa = PBXBuildFile; fileRef = EED5C9FF1F4D18DC00F04000 /* SDLH264ByteStreamPacketizer.h */; };
-		EED5CA021F4D18EC00F04000 /* SDLH264ByteStreamPacketizer.m in Sources */ = {isa = PBXBuildFile; fileRef = EED5CA011F4D18EC00F04000 /* SDLH264ByteStreamPacketizer.m */; };
-		EED5CA041F4D1D5E00F04000 /* SDLH264ByteStreamPacketizerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EED5CA031F4D1D5E00F04000 /* SDLH264ByteStreamPacketizerSpec.m */; };
+		EED5CA001F4D18DC00F04000 /* SDLRAWH264Packetizer.h in Headers */ = {isa = PBXBuildFile; fileRef = EED5C9FF1F4D18DC00F04000 /* SDLRAWH264Packetizer.h */; };
+		EED5CA021F4D18EC00F04000 /* SDLRAWH264Packetizer.m in Sources */ = {isa = PBXBuildFile; fileRef = EED5CA011F4D18EC00F04000 /* SDLRAWH264Packetizer.m */; };
+		EED5CA041F4D1D5E00F04000 /* SDLRAWH264PacketizerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EED5CA031F4D1D5E00F04000 /* SDLRAWH264PacketizerSpec.m */; };
 		EED5CA061F4D1E2300F04000 /* SDLRTPH264Packetizer.h in Headers */ = {isa = PBXBuildFile; fileRef = EED5CA051F4D1E2300F04000 /* SDLRTPH264Packetizer.h */; };
 		EED5CA081F4D1E2E00F04000 /* SDLRTPH264Packetizer.m in Sources */ = {isa = PBXBuildFile; fileRef = EED5CA071F4D1E2E00F04000 /* SDLRTPH264Packetizer.m */; };
 		EED5CA0A1F4D206800F04000 /* SDLRTPH264PacketizerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EED5CA091F4D206800F04000 /* SDLRTPH264PacketizerSpec.m */; };
@@ -1331,7 +1334,6 @@
 		162E82B41A9BDE8A00906325 /* SDLVehicleDataResultSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVehicleDataResultSpec.m; sourceTree = "<group>"; };
 		162E82B51A9BDE8A00906325 /* SDLVehicleTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVehicleTypeSpec.m; sourceTree = "<group>"; };
 		162E82B61A9BDE8A00906325 /* SDLVrHelpItemSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVrHelpItemSpec.m; sourceTree = "<group>"; };
-		162E82B81A9BDE8A00906325 /* SDLEnumSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLEnumSpec.m; sourceTree = "<group>"; };
 		162E82B91A9BDE8A00906325 /* SDLRPCMessageSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCMessageSpec.m; sourceTree = "<group>"; };
 		162E82BA1A9BDE8A00906325 /* SDLRPCNotificationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCNotificationSpec.m; sourceTree = "<group>"; };
 		162E82BB1A9BDE8A00906325 /* SDLRPCRequestSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCRequestSpec.m; sourceTree = "<group>"; };
@@ -1969,6 +1971,7 @@
 		5D82042F1BD001C700D0A41B /* SDLArtwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLArtwork.h; sourceTree = "<group>"; };
 		5D8204301BD001C700D0A41B /* SDLArtwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLArtwork.m; sourceTree = "<group>"; };
 		5D850AAF1D4907C500E6E7EE /* TestLockScreenAppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TestLockScreenAppIcon.png; sourceTree = "<group>"; };
+		5D8A09801F54B4E5002502A2 /* SDLStreamingMediaManagerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLStreamingMediaManagerDataSource.h; sourceTree = "<group>"; };
 		5D8B174D1AC9D266006A6E1C /* SDLDialNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDialNumber.h; sourceTree = "<group>"; };
 		5D8B174E1AC9D266006A6E1C /* SDLDialNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDialNumber.m; sourceTree = "<group>"; };
 		5D8B17511AC9E11B006A6E1C /* SDLDialNumberResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDialNumberResponse.h; sourceTree = "<group>"; };
@@ -2032,6 +2035,9 @@
 		5DB1BCE01D243DDE002FFC37 /* SDLConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLConfigurationSpec.m; path = DevAPISpecs/SDLConfigurationSpec.m; sourceTree = "<group>"; };
 		5DB1BCE51D245647002FFC37 /* TestStateMachineTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestStateMachineTarget.h; path = TestUtilities/TestStateMachineTarget.h; sourceTree = "<group>"; };
 		5DB1BCE61D245647002FFC37 /* TestStateMachineTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestStateMachineTarget.m; path = TestUtilities/TestStateMachineTarget.m; sourceTree = "<group>"; };
+		5DB202261F5F2D030061D189 /* SDLImageResolutionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLImageResolutionSpec.m; sourceTree = "<group>"; };
+		5DB202281F5F38B60061D189 /* SDLFakeStreamingManagerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLFakeStreamingManagerDataSource.h; path = DevAPISpecs/SDLFakeStreamingManagerDataSource.h; sourceTree = "<group>"; };
+		5DB202291F5F38B60061D189 /* SDLFakeStreamingManagerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLFakeStreamingManagerDataSource.m; path = DevAPISpecs/SDLFakeStreamingManagerDataSource.m; sourceTree = "<group>"; };
 		5DB92D231AC47B2C00C15BB0 /* SDLHexUtilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLHexUtilitySpec.m; path = UtilitiesSpecs/SDLHexUtilitySpec.m; sourceTree = "<group>"; };
 		5DB92D2C1AC4A34F00C15BB0 /* SDLPrioritizedObjectCollectionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPrioritizedObjectCollectionSpec.m; path = "UtilitiesSpecs/Prioritized Objects/SDLPrioritizedObjectCollectionSpec.m"; sourceTree = "<group>"; };
 		5DB92D2E1AC59F0000C15BB0 /* SDLObjectWithPrioritySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLObjectWithPrioritySpec.m; path = "UtilitiesSpecs/Prioritized Objects/SDLObjectWithPrioritySpec.m"; sourceTree = "<group>"; };
@@ -2182,9 +2188,9 @@
 		DA9F7EB11DCC084300ACAE48 /* SDLDeliveryModeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDeliveryModeSpec.m; sourceTree = "<group>"; };
 		DA9F7EB31DCC086400ACAE48 /* SDLDateTimeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDateTimeSpec.m; sourceTree = "<group>"; };
 		DA9F7EB51DCC086A00ACAE48 /* SDLOasisAddressSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOasisAddressSpec.m; sourceTree = "<group>"; };
-		DAA41D531DF66B2000BC7337 /* SDLVideoEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLVideoEncoder.h; sourceTree = "<group>"; };
-		DAA41D541DF66B2000BC7337 /* SDLVideoEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoEncoder.m; sourceTree = "<group>"; };
-		DABB62161E4A900C0034C567 /* SDLVideoEncoderSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoEncoderSpec.m; sourceTree = "<group>"; };
+		DAA41D531DF66B2000BC7337 /* SDLH264VideoEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLH264VideoEncoder.h; sourceTree = "<group>"; };
+		DAA41D541DF66B2000BC7337 /* SDLH264VideoEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLH264VideoEncoder.m; sourceTree = "<group>"; };
+		DABB62161E4A900C0034C567 /* SDLH264VideoEncoderSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLH264VideoEncoderSpec.m; sourceTree = "<group>"; };
 		DAC572551D1067270004288B /* SDLTouchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTouchManager.h; sourceTree = "<group>"; };
 		DAC572561D1067270004288B /* SDLTouchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTouchManager.m; sourceTree = "<group>"; };
 		DAC572591D10B81E0004288B /* SDLTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTouch.m; sourceTree = "<group>"; };
@@ -2208,9 +2214,9 @@
 		E9C32B9A1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EAAccessoryManager+SDLProtocols.h"; sourceTree = "<group>"; };
 		E9C32B9B1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EAAccessoryManager+SDLProtocols.m"; sourceTree = "<group>"; };
 		EED5C9FD1F4D18D100F04000 /* SDLH264Packetizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLH264Packetizer.h; sourceTree = "<group>"; };
-		EED5C9FF1F4D18DC00F04000 /* SDLH264ByteStreamPacketizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLH264ByteStreamPacketizer.h; sourceTree = "<group>"; };
-		EED5CA011F4D18EC00F04000 /* SDLH264ByteStreamPacketizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLH264ByteStreamPacketizer.m; sourceTree = "<group>"; };
-		EED5CA031F4D1D5E00F04000 /* SDLH264ByteStreamPacketizerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLH264ByteStreamPacketizerSpec.m; path = DevAPISpecs/SDLH264ByteStreamPacketizerSpec.m; sourceTree = "<group>"; };
+		EED5C9FF1F4D18DC00F04000 /* SDLRAWH264Packetizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLRAWH264Packetizer.h; sourceTree = "<group>"; };
+		EED5CA011F4D18EC00F04000 /* SDLRAWH264Packetizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRAWH264Packetizer.m; sourceTree = "<group>"; };
+		EED5CA031F4D1D5E00F04000 /* SDLRAWH264PacketizerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLRAWH264PacketizerSpec.m; path = DevAPISpecs/SDLRAWH264PacketizerSpec.m; sourceTree = "<group>"; };
 		EED5CA051F4D1E2300F04000 /* SDLRTPH264Packetizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLRTPH264Packetizer.h; sourceTree = "<group>"; };
 		EED5CA071F4D1E2E00F04000 /* SDLRTPH264Packetizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRTPH264Packetizer.m; sourceTree = "<group>"; };
 		EED5CA091F4D206800F04000 /* SDLRTPH264PacketizerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLRTPH264PacketizerSpec.m; path = DevAPISpecs/SDLRTPH264PacketizerSpec.m; sourceTree = "<group>"; };
@@ -2514,6 +2520,7 @@
 				5DE372A31ACB336600849FAA /* SDLHMICapabilitiesSpec.m */,
 				162E829E1A9BDE8A00906325 /* SDLHMIPermissionsSpec.m */,
 				162E829F1A9BDE8A00906325 /* SDLImageFieldSpec.m */,
+				5DB202261F5F2D030061D189 /* SDLImageResolutionSpec.m */,
 				162E82A01A9BDE8A00906325 /* SDLImageSpec.m */,
 				162E82A11A9BDE8A00906325 /* SDLKeyboardPropertiesSpec.m */,
 				DA9F7EAD1DCC063400ACAE48 /* SDLLocationCoordinateSpec.m */,
@@ -2554,7 +2561,6 @@
 		162E82B71A9BDE8A00906325 /* SuperclassSpecs */ = {
 			isa = PBXGroup;
 			children = (
-				162E82B81A9BDE8A00906325 /* SDLEnumSpec.m */,
 				162E82B91A9BDE8A00906325 /* SDLRPCMessageSpec.m */,
 				162E82BA1A9BDE8A00906325 /* SDLRPCNotificationSpec.m */,
 				162E82BB1A9BDE8A00906325 /* SDLRPCRequestSpec.m */,
@@ -2861,7 +2867,7 @@
 		5D5934EE1A85160900687FB9 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				5DA49C8C1F1E549000E65FC5 /* BSON */,
+				5DA49C8C1F1E549000E65FC5 /* BSON library */,
 				5D5934FA1A851AC900687FB9 /* @protocols */,
 				5D5935011A851D7E00687FB9 /* Header */,
 				5D5935021A851D8700687FB9 /* Message */,
@@ -3893,7 +3899,7 @@
 			name = Notifications;
 			sourceTree = "<group>";
 		};
-		5DA49C8C1F1E549000E65FC5 /* BSON */ = {
+		5DA49C8C1F1E549000E65FC5 /* BSON library */ = {
 			isa = PBXGroup;
 			children = (
 				5D9FDA891F2A7D3400A495C8 /* bson_array.c */,
@@ -3904,7 +3910,7 @@
 				5D9FDA8E1F2A7D3400A495C8 /* bson_util.h */,
 				5DA49CB51F1E64BB00E65FC5 /* emhashmap */,
 			);
-			name = BSON;
+			name = "BSON library";
 			sourceTree = "<group>";
 		};
 		5DA49CB51F1E64BB00E65FC5 /* emhashmap */ = {
@@ -3996,8 +4002,6 @@
 		5DB92D201AC47AC400C15BB0 /* UtilitiesSpecs */ = {
 			isa = PBXGroup;
 			children = (
-				DABB62151E4A8FF20034C567 /* Video Encoding */,
-				DA1166D71D14601C00438CEA /* Touches */,
 				5DEE55BE1B8509A5004F0D0F /* HTTP Connection */,
 				5DB92D2B1AC4A32A00C15BB0 /* Prioritized Objects */,
 				5DB92D231AC47B2C00C15BB0 /* SDLHexUtilitySpec.m */,
@@ -4096,6 +4100,8 @@
 			children = (
 				5DBEFA561F436132009EE295 /* SDLFakeSecurityManager.h */,
 				5DBEFA571F436132009EE295 /* SDLFakeSecurityManager.m */,
+				5DB202281F5F38B60061D189 /* SDLFakeStreamingManagerDataSource.h */,
+				5DB202291F5F38B60061D189 /* SDLFakeStreamingManagerDataSource.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -4209,6 +4215,7 @@
 				DA8966E81E56938C00413EAB /* Lifecycle */,
 				5D53C46B1B7A99B9003526EA /* SDLStreamingMediaManager.h */,
 				5D53C46C1B7A99B9003526EA /* SDLStreamingMediaManager.m */,
+				5D8A09801F54B4E5002502A2 /* SDLStreamingMediaManagerDataSource.h */,
 			);
 			name = Streaming;
 			sourceTree = "<group>";
@@ -4225,8 +4232,10 @@
 		DA8966ED1E5693D100413EAB /* Streaming */ = {
 			isa = PBXGroup;
 			children = (
+				DA1166D71D14601C00438CEA /* Touches */,
 				DA8966EE1E5693E300413EAB /* SDLStreamingMediaLifecycleManagerSpec.m */,
-				EED5CA031F4D1D5E00F04000 /* SDLH264ByteStreamPacketizerSpec.m */,
+				DABB62161E4A900C0034C567 /* SDLH264VideoEncoderSpec.m */,
+				EED5CA031F4D1D5E00F04000 /* SDLRAWH264PacketizerSpec.m */,
 				EED5CA091F4D206800F04000 /* SDLRTPH264PacketizerSpec.m */,
 			);
 			name = Streaming;
@@ -4246,22 +4255,14 @@
 		DAA41D521DF66B1100BC7337 /* Video Encoding */ = {
 			isa = PBXGroup;
 			children = (
-				DAA41D531DF66B2000BC7337 /* SDLVideoEncoder.h */,
-				DAA41D541DF66B2000BC7337 /* SDLVideoEncoder.m */,
 				5DA23FFC1F312DBA009C0313 /* SDLVideoEncoderDelegate.h */,
+				DAA41D531DF66B2000BC7337 /* SDLH264VideoEncoder.h */,
+				DAA41D541DF66B2000BC7337 /* SDLH264VideoEncoder.m */,
 				EED5C9FD1F4D18D100F04000 /* SDLH264Packetizer.h */,
-				EED5C9FF1F4D18DC00F04000 /* SDLH264ByteStreamPacketizer.h */,
-				EED5CA011F4D18EC00F04000 /* SDLH264ByteStreamPacketizer.m */,
+				EED5C9FF1F4D18DC00F04000 /* SDLRAWH264Packetizer.h */,
+				EED5CA011F4D18EC00F04000 /* SDLRAWH264Packetizer.m */,
 				EED5CA051F4D1E2300F04000 /* SDLRTPH264Packetizer.h */,
 				EED5CA071F4D1E2E00F04000 /* SDLRTPH264Packetizer.m */,
-			);
-			name = "Video Encoding";
-			sourceTree = "<group>";
-		};
-		DABB62151E4A8FF20034C567 /* Video Encoding */ = {
-			isa = PBXGroup;
-			children = (
-				DABB62161E4A900C0034C567 /* SDLVideoEncoderSpec.m */,
 			);
 			name = "Video Encoding";
 			sourceTree = "<group>";
@@ -4349,6 +4350,7 @@
 				E9C32B941AB20BA200F283AF /* SDLStreamDelegate.h in Headers */,
 				DA9F7E871DCC049900ACAE48 /* SDLSubscribeWayPoints.h in Headers */,
 				5D61FDBB1A84238C00846EE7 /* SDLSystemAction.h in Headers */,
+				5D8A09811F54B4E5002502A2 /* SDLStreamingMediaManagerDataSource.h in Headers */,
 				5D61FC9C1A84238C00846EE7 /* SDLEmergencyEventType.h in Headers */,
 				5D61FD131A84238C00846EE7 /* SDLOnLanguageChange.h in Headers */,
 				5D61FDE71A84238C00846EE7 /* SDLUnsubscribeButton.h in Headers */,
@@ -4420,7 +4422,7 @@
 				5D61FDC71A84238C00846EE7 /* SDLTextAlignment.h in Headers */,
 				5D61FD051A84238C00846EE7 /* SDLOnButtonPress.h in Headers */,
 				5D61FCC51A84238C00846EE7 /* SDLHMIZoneCapabilities.h in Headers */,
-				DAA41D551DF66B2000BC7337 /* SDLVideoEncoder.h in Headers */,
+				DAA41D551DF66B2000BC7337 /* SDLH264VideoEncoder.h in Headers */,
 				8B7B319A1F2F7B5700BDC38D /* SDLVideoStreamingCodec.h in Headers */,
 				5D61FCAF1A84238C00846EE7 /* SDLGenericResponse.h in Headers */,
 				5D61FC4F1A84238C00846EE7 /* SDLBodyInformation.h in Headers */,
@@ -4618,7 +4620,7 @@
 				5D61FC5B1A84238C00846EE7 /* SDLChangeRegistration.h in Headers */,
 				5D61FD5B1A84238C00846EE7 /* SDLReadDIDResponse.h in Headers */,
 				5D61FDEF1A84238C00846EE7 /* SDLUpdateMode.h in Headers */,
-				EED5CA001F4D18DC00F04000 /* SDLH264ByteStreamPacketizer.h in Headers */,
+				EED5CA001F4D18DC00F04000 /* SDLRAWH264Packetizer.h in Headers */,
 				DA8966EB1E56939F00413EAB /* SDLStreamingMediaLifecycleManager.h in Headers */,
 				5D61FDDB1A84238C00846EE7 /* SDLTriggerSource.h in Headers */,
 				5D61FD8F1A84238C00846EE7 /* SDLShow.h in Headers */,
@@ -4903,7 +4905,7 @@
 				5D61FC441A84238C00846EE7 /* SDLAppInterfaceUnregisteredReason.m in Sources */,
 				5D61FD531A84238C00846EE7 /* SDLProxyFactory.m in Sources */,
 				5D61FDCA1A84238C00846EE7 /* SDLTextField.m in Sources */,
-				DAA41D561DF66B2000BC7337 /* SDLVideoEncoder.m in Sources */,
+				DAA41D561DF66B2000BC7337 /* SDLH264VideoEncoder.m in Sources */,
 				5D61FC9D1A84238C00846EE7 /* SDLEmergencyEventType.m in Sources */,
 				5D61FCAC1A84238C00846EE7 /* SDLFuelCutoffStatus.m in Sources */,
 				5D61FC871A84238C00846EE7 /* SDLDeviceStatus.m in Sources */,
@@ -5131,7 +5133,7 @@
 				5D61FCA41A84238C00846EE7 /* SDLEndAudioPassThru.m in Sources */,
 				5D8B17541AC9E11B006A6E1C /* SDLDialNumberResponse.m in Sources */,
 				DA6223BE1E7B088200878689 /* CVPixelBufferRef+SDLUtil.m in Sources */,
-				EED5CA021F4D18EC00F04000 /* SDLH264ByteStreamPacketizer.m in Sources */,
+				EED5CA021F4D18EC00F04000 /* SDLRAWH264Packetizer.m in Sources */,
 				5D61FC851A84238C00846EE7 /* SDLDeviceLevelStatus.m in Sources */,
 				5D9FDA981F2A7D3F00A495C8 /* emhashmap.c in Sources */,
 				5D61FD1E1A84238C00846EE7 /* SDLOnTBTClientState.m in Sources */,
@@ -5267,12 +5269,13 @@
 				88EED83B1F33BECB00E6C42E /* SDLHapticRectSpec.m in Sources */,
 				162E82EA1A9BDE8B00906325 /* SDLLanguageSpec.m in Sources */,
 				5D76E3291D3D0A8800647CFA /* SDLFakeViewControllerPresenter.m in Sources */,
+				5DB2022A1F5F38B60061D189 /* SDLFakeStreamingManagerDataSource.m in Sources */,
 				162E83331A9BDE8B00906325 /* SDLPerformInteractionSpec.m in Sources */,
 				5D0A9F951F15585B00CC80DD /* SDLPhoneCapabilitySpec.m in Sources */,
 				1680B11A1A9CD7AD00DBD79E /* SDLAbstractProtocolSpec.m in Sources */,
 				1680B1151A9CD7AD00DBD79E /* SDLV2ProtocolHeaderSpec.m in Sources */,
 				162E83101A9BDE8B00906325 /* SDLOnAudioPassThruSpec.m in Sources */,
-				DABB62171E4A900C0034C567 /* SDLVideoEncoderSpec.m in Sources */,
+				DABB62171E4A900C0034C567 /* SDLH264VideoEncoderSpec.m in Sources */,
 				5DBEFA581F436132009EE295 /* SDLFakeSecurityManager.m in Sources */,
 				162E82D91A9BDE8A00906325 /* SDLDisplayTypeSpec.m in Sources */,
 				162E83871A9BDE8B00906325 /* SDLPermissionItemSpec.m in Sources */,
@@ -5448,6 +5451,7 @@
 				162E83031A9BDE8B00906325 /* SDLTriggerSource.m in Sources */,
 				162E82D61A9BDE8A00906325 /* SDLComponentVolumeStatusSpec.m in Sources */,
 				162E835C1A9BDE8B00906325 /* SDLPutFileResponseSpec.m in Sources */,
+				5DB202271F5F2D030061D189 /* SDLImageResolutionSpec.m in Sources */,
 				DA9F7EAA1DCC061A00ACAE48 /* SDLSubscribeWaypointsResponseSpec.m in Sources */,
 				162E835F1A9BDE8B00906325 /* SDLResetGlobalPropertiesResponseSpec.m in Sources */,
 				162E835E1A9BDE8B00906325 /* SDLRegisterAppInterfaceResponseSpec.m in Sources */,
@@ -5543,7 +5547,7 @@
 				5DB1BCD31D243A8E002FFC37 /* SDLDeleteFileOperationSpec.m in Sources */,
 				5D0A9F971F1559EC00CC80DD /* SDLSystemCapabilitySpec.m in Sources */,
 				162E82F41A9BDE8B00906325 /* SDLPrimaryAudioSource.m in Sources */,
-				EED5CA041F4D1D5E00F04000 /* SDLH264ByteStreamPacketizerSpec.m in Sources */,
+				EED5CA041F4D1D5E00F04000 /* SDLRAWH264PacketizerSpec.m in Sources */,
 				5DBAE0AB1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m in Sources */,
 				162E83461A9BDE8B00906325 /* SDLUnsubscribeButtonSpec.m in Sources */,
 				162E82EB1A9BDE8B00906325 /* SDLLayoutModeSpec.m in Sources */,

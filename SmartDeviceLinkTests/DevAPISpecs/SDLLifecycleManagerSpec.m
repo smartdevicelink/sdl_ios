@@ -230,13 +230,12 @@ xdescribe(@"a lifecycle manager", ^{
             describe(@"after receiving a register app interface response", ^{
                 __block NSError *fileManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
                 __block NSError *permissionManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
-                __block NSError *streamingManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
                 
                 beforeEach(^{
                     OCMStub([(SDLLockScreenManager *)lockScreenManagerMock start]);
                     OCMStub([fileManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), fileManagerStartError, nil])]);
                     OCMStub([permissionManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), permissionManagerStartError, nil])]);
-                    OCMStub([streamingManagerMock startWithProtocol:protocolMock completionHandler:([OCMArg invokeBlockWithArgs:@(YES), streamingManagerStartError, nil])]);
+                    OCMStub([streamingManagerMock startWithProtocol:protocolMock]);
                     
                     // Send an RAI response to move the lifecycle forward
                     [testManager.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
@@ -248,7 +247,7 @@ xdescribe(@"a lifecycle manager", ^{
                     OCMVerify([(SDLLockScreenManager *)lockScreenManagerMock start]);
                     OCMVerify([fileManagerMock startWithCompletionHandler:[OCMArg any]]);
                     OCMVerify([permissionManagerMock startWithCompletionHandler:[OCMArg any]]);
-                    OCMVerify([streamingManagerMock startWithProtocol:[OCMArg any] completionHandler:[OCMArg any]]);
+                    OCMVerify([streamingManagerMock startWithProtocol:[OCMArg any]]);
                 });
                 
                 itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });

@@ -11,6 +11,7 @@
 #import "SDLStreamingMediaManagerConstants.h"
 
 @protocol SDLSecurityType;
+@protocol SDLStreamingMediaManagerDataSource;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -33,6 +34,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) NSDictionary<NSString *, id> *customVideoEncoderSettings;
 
 /**
+ Usable to change run time video stream setup behavior. Only use this and modify the results if you *really* know what you're doing. The head unit defaults are generally good.
+ */
+@property (weak, nonatomic, nullable) id<SDLStreamingMediaManagerDataSource> dataSource;
+
+/**
+ Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually.
+
+ @return The configuration
+ */
+- (instancetype)init;
+
+/**
  Manually set all the properties to the streaming media configuration
 
  @param securityManagers The security managers to use or nil for none.
@@ -40,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param videoSettings Custom video encoder settings to be used in video streaming.
  @return The configuration
  */
-- (instancetype)initWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *_Nullable)securityManagers encryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(NSDictionary<NSString *, id> *_Nullable)videoSettings;
+- (instancetype)initWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *_Nullable)securityManagers encryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(NSDictionary<NSString *, id> *_Nullable)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource;
 
 /**
  Create a secure configuration for each of the security managers provided.
@@ -48,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param securityManagers The security managers to be used. The encryption flag will be set to AuthenticateAndEncrypt if any security managers are set.
  @return The configuration
  */
-- (instancetype)initSecureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers;
+- (instancetype)initWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers;
 
 /**
  Create a secure configuration for each of the security managers provided.
@@ -59,18 +72,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)secureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers;
 
 /**
- Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually.
+ Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually. This is equivalent to `init`.
 
  @return The configuration
  */
-- (instancetype)initInsecureConfiguration;
-
-/**
- Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually.
-
- @return The configuration
- */
-+ (instancetype)insecureConfiguration;
++ (instancetype)insecureConfiguration NS_SWIFT_UNAVAILABLE("Use the standard initializer instead");
 
 @end
 

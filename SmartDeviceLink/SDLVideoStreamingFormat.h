@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) SDLVideoStreamingCodec codec;
 
+- (instancetype)initWithCodec:(SDLVideoStreamingCodec)codec protocol:(SDLVideoStreamingProtocol)protocol;
+
 @end
 
 NS_ASSUME_NONNULL_END

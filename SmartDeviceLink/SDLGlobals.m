@@ -8,6 +8,8 @@
 
 #import "SDLGlobals.h"
 
+#import "SDLLogMacros.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 // VERSION DEPENDENT CODE
@@ -69,6 +71,7 @@ typedef NSNumber* MTUBox;
 }
 
 - (void)setDynamicMTUSize:(NSUInteger)maxMTUSize forServiceType:(SDLServiceType)serviceType {
+    SDLLogV(@"Setting dynamic MTU size: %lu for service %u", (unsigned long)maxMTUSize, serviceType);
     self.dynamicMTUDict[@(serviceType)] = @(maxMTUSize);
 }
 
