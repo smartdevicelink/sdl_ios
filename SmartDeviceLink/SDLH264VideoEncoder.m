@@ -138,7 +138,12 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
 
 - (BOOL)encodeFrame:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp {
     if (!CMTIME_IS_VALID(presentationTimestamp)) {
-        presentationTimestamp = CMTimeMake(self.currentFrameNumber, 30);
+        int32_t timeRate = 30;
+        if (self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] != nil) {
+            timeRate = ((NSNumber *)self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).intValue;
+        }
+        
+        presentationTimestamp = CMTimeMake(self.currentFrameNumber, timeRate);
     }
     self.currentFrameNumber++;
 
