@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLControlFramePayloadRPCStartService
 
-- (instancetype)initWithVersion:(NSString *)stringVersion {
+- (instancetype)initWithVersion:(nullable NSString *)stringVersion {
     self = [super init];
     if (!self) return nil;
 

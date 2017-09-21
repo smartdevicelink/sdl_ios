@@ -60,12 +60,12 @@ describe(@"Initialization tests", ^{
         expect(testStruct.supportedFormats).to(beNil());
     });
 
-    it(@"Should initialize correctly with initWithVideoStreaming:(SDLImageResolution *)preferredResolution (NSNumber *)maxBitrate (NSArray<SDLVideoStreamingFormat *> *)suportedFormats", ^ {
+    it(@"Should initialize correctly with initWithVideoStreaming:maxBitrate:suportedFormats", ^ {
         SDLImageResolution* resolution = [[SDLImageResolution alloc] init];
         resolution.resolutionWidth = @600;
         resolution.resolutionHeight = @500;
 
-        NSNumber *maxBitrate = @100;
+        int32_t maxBitrate = 100;
         NSNumber *hapticDataSupported = @YES;
 
         SDLVideoStreamingFormat *format1 = [[SDLVideoStreamingFormat alloc] init];
@@ -78,7 +78,7 @@ describe(@"Initialization tests", ^{
 
         NSArray<SDLVideoStreamingFormat *> *formatArray = @[format1, format2];
 
-        SDLVideoStreamingCapability *testStruct = [[SDLVideoStreamingCapability alloc] initWithVideoStreaming:resolution maxBitrate:maxBitrate supportedFormats:formatArray hapticDataSupported:hapticDataSupported];
+        SDLVideoStreamingCapability *testStruct = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:resolution maxBitrate:maxBitrate supportedFormats:formatArray hapticDataSupported:hapticDataSupported];
 
         expect(testStruct.preferredResolution).to(equal(resolution));
         expect(testStruct.maxBitrate).to(equal(maxBitrate));
