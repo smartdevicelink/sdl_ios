@@ -153,6 +153,11 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     [self sdl_listRemoteFilesWithCompletionHandler:^(BOOL success, NSUInteger bytesAvailable, NSArray<NSString *> *_Nonnull fileNames, NSError *_Nullable error) {
         // If there was an error, we'll pass the error to the startup handler and cancel out
         if (error != nil) {
+//            if ([weakSelf.stateMachine isCurrentState:SDLFileManagerStateShutdown]) {
+//                SDLLogE(@"File manager has been shut down");
+//                BLOCK_RETURN;
+//            }
+
             [weakSelf.stateMachine transitionToState:SDLFileManagerStateStartupError];
             BLOCK_RETURN;
         }

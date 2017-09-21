@@ -88,7 +88,7 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
 
         long lWait = dispatch_semaphore_wait(self.canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, StreamThreadWaitSecs * NSEC_PER_SEC));
         if (lWait == 0) {
-            SDLLogW(@"Stream thread cancelled");
+            SDLLogD(@"Stream thread cancelled");
         } else {
             SDLLogE(@"Failed to cancel stream thread");
         }
@@ -214,6 +214,13 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
     NSUInteger status1 = stream.streamStatus;
     if (status1 != NSStreamStatusNotOpen &&
         status1 != NSStreamStatusClosed) {
+
+        if (stream == [self.easession inputStream]) {
+            SDLLogD(@"Closing input stream");
+        } else if (stream == [self.easession outputStream]) {
+            SDLLogD(@"Closing output stream");
+        }
+
         [stream close];
     }
 

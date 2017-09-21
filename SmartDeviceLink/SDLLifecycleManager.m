@@ -158,21 +158,21 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
     return @{
-        SDLLifecycleStateStopped: @[SDLLifecycleStateStarted],
-        SDLLifecycleStateStarted: @[SDLLifecycleStateConnected, SDLLifecycleStateStopped, SDLLifecycleStateReconnecting],
-        SDLLifecycleStateReconnecting: @[SDLLifecycleStateStarted, SDLLifecycleStateStopped],
-        SDLLifecycleStateConnected: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateRegistered],
-        SDLLifecycleStateRegistered: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpManagers],
-        SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpAppIcon],
-        SDLLifecycleStateSettingUpAppIcon: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpHMI],
-        SDLLifecycleStateSettingUpHMI: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateReady],
-        SDLLifecycleStateUnregistering: @[SDLLifecycleStateStopped],
-        SDLLifecycleStateReady: @[SDLLifecycleStateUnregistering, SDLLifecycleStateStopped, SDLLifecycleStateReconnecting]
-    };
+             SDLLifecycleStateStopped: @[SDLLifecycleStateStarted],
+             SDLLifecycleStateStarted: @[SDLLifecycleStateConnected, SDLLifecycleStateStopped, SDLLifecycleStateReconnecting],
+             SDLLifecycleStateReconnecting: @[SDLLifecycleStateStarted, SDLLifecycleStateStopped],
+             SDLLifecycleStateConnected: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateRegistered],
+             SDLLifecycleStateRegistered: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpManagers],
+             SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpAppIcon],
+             SDLLifecycleStateSettingUpAppIcon: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpHMI],
+             SDLLifecycleStateSettingUpHMI: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateReady],
+             SDLLifecycleStateUnregistering: @[SDLLifecycleStateStopped],
+             SDLLifecycleStateReady: @[SDLLifecycleStateUnregistering, SDLLifecycleStateStopped, SDLLifecycleStateReconnecting]
+             };
 }
 
 - (void)didEnterStateStarted {
-// Start up the internal proxy object
+    // Start up the internal proxy object
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (self.configuration.lifecycleConfig.tcpDebugMode) {
@@ -214,6 +214,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         [weakSelf.delegate managerDidDisconnect];
 
         if (shouldRestart) {
+            SDLLogD(@"Transitioning to SDLLifecycleStateStarted");
             [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
         }
     });
@@ -231,18 +232,18 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     // Send the request and depending on the response, post the notification
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:regRequest
-        withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
-            // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
-            if (error != nil || ![response.success boolValue]) {
-                SDLLogE(@"Failed to register the app. Error: %@, Response: %@", error, response);
-                weakSelf.readyHandler(NO, error);
-                [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
-                return;
-            }
+      withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+          // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
+          if (error != nil || ![response.success boolValue]) {
+              SDLLogE(@"Failed to register the app. Error: %@, Response: %@", error, response);
+              weakSelf.readyHandler(NO, error);
+              [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+              return;
+          }
 
-            weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
-            [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
-        }];
+          weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
+          [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
+      }];
 }
 
 - (void)didEnterStateRegistered {
@@ -299,9 +300,19 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)didEnterStateSettingUpAppIcon {
     // We only want to send the app icon when the file manager is complete, and when that's done, wait for hmi status to be ready
+    SDLLogD(@"entering state setting up icon");
     [self sdl_sendAppIcon:self.configuration.lifecycleConfig.appIcon
            withCompletion:^{
-               [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
+//               if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReconnecting]) {
+//                   SDLLogD(@"App icon set up, but app has been disconnected from SDL accessory. Waiting to reconnect");
+//                   return;
+//               } else {
+//                   SDLLogD(@"App icon set up, transition to state setting up hmi");
+//                   [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
+//               }
+                                  SDLLogD(@"App icon set up, transition to state setting up hmi");
+                                  [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
+
            }];
 }
 
@@ -311,6 +322,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         // If nil, return and wait until we get a notification
         return;
     }
+
+//    if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReconnecting]) {
+//        return;
+//    }
+
     // We are sure to have a HMIStatus, set state to ready
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
 }
@@ -338,13 +354,13 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:unregisterRequest
-        withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
-            if (error != nil || ![response.success boolValue]) {
-                SDLLogE(@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response);
-            }
+      withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+          if (error != nil || ![response.success boolValue]) {
+              SDLLogE(@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response);
+          }
 
-            [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
-        }];
+          [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+      }];
 }
 
 
@@ -374,14 +390,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                    setAppIcon.syncFileName = appIcon.name;
 
                    [self sdl_sendRequest:setAppIcon
-                       withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
-                           if (error != nil) {
-                               SDLLogW(@"Error setting up app icon: %@", error);
-                           }
+                     withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+                         if (error != nil) {
+                             SDLLogW(@"Error setting up app icon: %@", error);
+                         }
 
-                           // We've succeeded or failed
-                           completion();
-                       }];
+                         // We've succeeded or failed
+                         completion();
+                     }];
                }];
 }
 
@@ -482,7 +498,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLSystemContext oldSystemContext = self.systemContext;
     self.systemContext = hmiStatusNotification.systemContext;
     
-	if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateSettingUpHMI]) {
+    if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateSettingUpHMI]) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
     }
 
@@ -493,7 +509,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (![oldHMILevel isEqualToEnum:self.hmiLevel]) {
         [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
     }
-        
+
     if (![oldStreamingState isEqualToEnum:self.audioStreamingState]
         && [self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
         [self.delegate audioStreamingState:oldStreamingState didChangeToState:self.audioStreamingState];

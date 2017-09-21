@@ -9,8 +9,7 @@
 #import "SDLStateMachine.h"
 
 #import "SDLError.h"
-
-
+#import "SDLLogMacros.h"
 NS_ASSUME_NONNULL_BEGIN
 
 NSString *const SDLStateMachineNotificationFormat = @"com.sdl.statemachine.%@";
@@ -64,12 +63,18 @@ SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter = 
 
     if (![self sdl_canState:self.currentState transitionToState:state]) {
         NSString *targetClassString = NSStringFromClass([self.target class]);
+        SDLLogE(@"invalid transisiton, from %@ to %@ going to throw an exception...", oldState, state);
         NSString *reasonMessage = [NSString stringWithFormat:@"Invalid state machine %@ transition of target %@ occurred from %@ to %@", NSStringFromClass(self.class), targetClassString, self.currentState, state];
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                       reason:reasonMessage
-                                     userInfo:@{SDLStateMachineExceptionInfoKeyTargetClass: targetClassString,
-                                                SDLStateMachineExceptionInfoKeyFromState: self.currentState,
-                                                SDLStateMachineExceptionInfoKeyToClass: state}];
+        @try {
+            @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                           reason:reasonMessage
+                                         userInfo:@{SDLStateMachineExceptionInfoKeyTargetClass: targetClassString,
+                                                    SDLStateMachineExceptionInfoKeyFromState: self.currentState,
+                                                    SDLStateMachineExceptionInfoKeyToClass: state}];
+        }
+        @catch (id exception) {
+            SDLLogE(@"invalid transisiton exception caught");
+        }
     }
 
     SEL willLeave = NSSelectorFromString([NSString stringWithFormat:SDLStateMachineTransitionFormatWillLeave, oldState]);
@@ -142,6 +147,7 @@ SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter = 
  *  @return Whether or not the state transition is valid
  */
 - (BOOL)sdl_canState:(SDLState *)fromState transitionToState:(SDLState *)toState {
+    SDLLogD(@"State Machine states: %@\nfrom state: %@,\nto state: %@", self.states, fromState, toState);
     if ([self.states[fromState] containsObject:toState] || [fromState isEqualToString:toState]) {
         return YES;
     }
