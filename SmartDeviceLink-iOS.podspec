@@ -226,7 +226,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLRadioControlCapabilities.h',
 'SmartDeviceLink/SDLRadioControlData.h',
 'SmartDeviceLink/SDLRadioState.h',
-'SmartDeviceLink/SDLRdsData.h',
+'SmartDeviceLink/SDLRDSData.h',
 'SmartDeviceLink/SDLRemoteControlCapabilities.h',
 'SmartDeviceLink/SDLRPCNotification.h',
 'SmartDeviceLink/SDLRPCNotificationNotification.h',

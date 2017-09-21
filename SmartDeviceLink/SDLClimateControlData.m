@@ -11,14 +11,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLClimateControlData
 
-- (instancetype)initWithFanSpeed:(nullable NSNumber<SDLInt> *)fanSpeed currentTemperature:(nullable SDLTemperature *)currentTemperature desiredTemperature:(nullable SDLTemperature *)desiredTemperature acEnable:(nullable NSNumber<SDLBool> *)acEnable circulateAirEnable:(nullable NSNumber<SDLBool> *)circulateAirEnable autoModeEnable:(nullable NSNumber<SDLBool> *)autoModeEnable defrostZone:(nullable SDLDefrostZone)defrostZone dualModeEnable:(nullable NSNumber<SDLBool> *)dualModeEnable acMaxEnable:(nullable NSNumber<SDLBool> *)acMaxEnable ventilationMode:(nullable SDLVentilationMode)ventilationMode {
+- (instancetype)initWithFanSpeed:(nullable NSNumber<SDLInt> *)fanSpeed desiredTemperature:(nullable SDLTemperature *)desiredTemperature acEnable:(nullable NSNumber<SDLBool> *)acEnable circulateAirEnable:(nullable NSNumber<SDLBool> *)circulateAirEnable autoModeEnable:(nullable NSNumber<SDLBool> *)autoModeEnable defrostZone:(nullable SDLDefrostZone)defrostZone dualModeEnable:(nullable NSNumber<SDLBool> *)dualModeEnable acMaxEnable:(nullable NSNumber<SDLBool> *)acMaxEnable ventilationMode:(nullable SDLVentilationMode)ventilationMode {
     self = [self init];
     if (!self) {
         return nil;
     }
     
     self.fanSpeed = fanSpeed;
-    self.currentTemperature = currentTemperature;
     self.desiredTemperature = desiredTemperature;
     self.acEnable = acEnable;
     self.circulateAirEnable = circulateAirEnable;

@@ -1,14 +1,14 @@
 //
-//  SDLRdsData.m
+//  SDLRDSData.m
 //
 
-#import "SDLRdsData.h"
+#import "SDLRDSData.h"
 #include "SDLNames.h"
 #import "NSMutableDictionary+Store.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@implementation SDLRdsData
+@implementation SDLRDSData
 
 - (instancetype)initWithProgramService:(nullable NSString *)programService radioText:(nullable NSString *)radioText clockText:(nullable NSString *)clockText programIdentification:(nullable NSString *)programIdentification programType:(nullable NSNumber<SDLInt> *)programType trafficProgramIdentification:(nullable NSNumber<SDLBool> *)trafficProgramIdentification trafficAnnouncementIdentification:(nullable NSNumber<SDLBool> *)trafficAnnouncementIdentification region:(nullable NSString *)region {
     self = [self init];

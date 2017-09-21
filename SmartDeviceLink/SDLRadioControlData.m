@@ -4,14 +4,14 @@
 
 #import "SDLRadioControlData.h"
 #import "SDLNames.h"
-#import "SDLRdsData.h"
+#import "SDLRDSData.h"
 #import "NSMutableDictionary+Store.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRadioControlData
 
-- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band rdsData:(nullable SDLRdsData *)rdsData availableHDs:(nullable NSNumber<SDLInt> *)availableHDs hdChannel:(nullable NSNumber<SDLInt> *)hdChannel signalStrength:(nullable NSNumber<SDLInt> *)signalStrength signalChangeThreshold:(nullable NSNumber<SDLInt> *)signalChangeThreshold radioEnable:(nullable NSNumber<SDLBool> *)radioEnable state:(nullable SDLRadioState)state {
+- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band availableHDs:(nullable NSNumber<SDLInt> *)availableHDs hdChannel:(nullable NSNumber<SDLInt> *)hdChannel signalStrength:(nullable NSNumber<SDLInt> *)signalStrength signalChangeThreshold:(nullable NSNumber<SDLInt> *)signalChangeThreshold radioEnable:(nullable NSNumber<SDLBool> *)radioEnable state:(nullable SDLRadioState)state {
     self = [self init];
     if(!self) {
         return nil;
@@ -20,7 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
     self.frequencyInteger = frequencyInteger;
     self.frequencyFraction = frequencyFraction;
     self.band = band;
-    self.rdsData = rdsData;
     self.availableHDs = availableHDs;
     self.hdChannel = hdChannel;
     self.signalStrength = signalStrength;
@@ -55,12 +54,12 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameBand];
 }
 
-- (void)setRdsData:(nullable SDLRdsData *)rdsData {
+- (void)setRdsData:(nullable SDLRDSData *)rdsData {
     [store sdl_setObject:rdsData forName:SDLNameRDSData];
 }
 
-- (nullable SDLRdsData *)rdsData {
-    return [store sdl_objectForName:SDLNameRDSData ofClass:SDLRdsData.class];
+- (nullable SDLRDSData *)rdsData {
+    return [store sdl_objectForName:SDLNameRDSData ofClass:SDLRDSData.class];
 }
 
 - (void)setAvailableHDs:(nullable NSNumber<SDLInt> *)availableHDs {

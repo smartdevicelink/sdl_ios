@@ -1,5 +1,5 @@
 //
-//  SDLRdsData.h
+//  SDLRDSData.h
 //
 
 #import "SDLRPCMessage.h"
@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLRdsData : SDLRPCStruct
+@interface SDLRDSData : SDLRPCStruct
 
 - (instancetype)initWithProgramService:(nullable NSString *)programService radioText:(nullable NSString *)radioText clockText:(nullable NSString *)clockText programIdentification:(nullable NSString *)programIdentification programType:(nullable NSNumber<SDLInt> *)programType trafficProgramIdentification:(nullable NSNumber<SDLBool> *)trafficProgramIdentification trafficAnnouncementIdentification:(nullable NSNumber<SDLBool> *)trafficAnnouncementIdentification region:(nullable NSString *)region;
 

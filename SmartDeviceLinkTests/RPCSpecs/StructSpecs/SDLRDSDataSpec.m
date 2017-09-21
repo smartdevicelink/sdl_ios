@@ -1,5 +1,5 @@
 //
-//  SDLRdsDataSpec.m
+//  SDLRDSDataSpec.m
 //  SmartDeviceLink-iOS
 //
 
@@ -8,15 +8,15 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLRdsData.h"
+#import "SDLRDSData.h"
 #import "SDLNames.h"
 
-QuickSpecBegin(SDLRdsDataSpec)
+QuickSpecBegin(SDLRDSDataSpec)
 
 describe(@"Initialization tests", ^{
     
     it(@"should properly initialize init", ^{
-        SDLRdsData* testStruct = [[SDLRdsData alloc] init];
+        SDLRDSData* testStruct = [[SDLRDSData alloc] init];
 
         expect(testStruct.programService).to(beNil());
         expect(testStruct.radioText).to(beNil());
@@ -38,7 +38,7 @@ describe(@"Initialization tests", ^{
                                        SDLNameTrafficProgramIdentification : @NO,
                                        SDLNameTrafficAnnouncementIdentification : @YES,
                                        SDLNameRegion : @"reg"} mutableCopy];
-        SDLRdsData* testStruct = [[SDLRdsData alloc] initWithDictionary:dict];
+        SDLRDSData* testStruct = [[SDLRDSData alloc] initWithDictionary:dict];
         
         expect(testStruct.programService).to(equal(@"ps"));
         expect(testStruct.radioText).to(equal(@"rt"));
@@ -51,7 +51,7 @@ describe(@"Initialization tests", ^{
     });
     
     it(@"Should set and get correctly", ^{
-        SDLRdsData* testStruct = [[SDLRdsData alloc] init];
+        SDLRDSData* testStruct = [[SDLRDSData alloc] init];
         
         testStruct.programService = @"ps";
         testStruct.radioText = @"rt";

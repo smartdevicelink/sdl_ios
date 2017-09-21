@@ -11,11 +11,11 @@
 #import "SDLRadioControlData.h"
 #import "SDLRadioBand.h"
 #import "SDLRadioState.h"
-#import "SDLRdsData.h"
+#import "SDLRDSData.h"
 #import "SDLNames.h"
 
 QuickSpecBegin(SDLRadioControlDataSpec)
-__block SDLRdsData* someRdsData = [[SDLRdsData alloc] init];
+__block SDLRDSData* someRdsData = [[SDLRDSData alloc] init];
 
 describe(@"Initialization tests", ^{
     

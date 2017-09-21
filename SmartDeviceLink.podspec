@@ -227,7 +227,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLResetGlobalProperties.h',
 'SmartDeviceLink/SDLResetGlobalPropertiesResponse.h',
 'SmartDeviceLink/SDLResult.h',
-'SmartDeviceLink/SDLRdsData.h',
+'SmartDeviceLink/SDLRDSData.h',
 'SmartDeviceLink/SDLRPCMessage.h',
 'SmartDeviceLink/SDLRPCMessageType.h',
 'SmartDeviceLink/SDLRPCNotification.h',
