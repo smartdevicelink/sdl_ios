@@ -5,7 +5,12 @@
 #import "SDLRPCMessage.h"
 #import "SDLRadioBand.h"
 #import "SDLRadioState.h"
+
 @class SDLRdsData;
+
+/**
+ * Include information (both read-only and changeable data) about a remote control radio module.
+ */
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,6 +39,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, strong, nonatomic) SDLRadioBand band;
 
+/**
+ *@abstract Read only parameter. See RdsData data type for details.
+ *
+ *SDLRdsData
+ */
 @property (nullable, strong, nonatomic) SDLRdsData *rdsData;
 
 /**
@@ -71,6 +81,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *radioEnable;
 
+/**
+ * Read only parameter. See RadioState data type for details.
+ *
+ * SDLRadioState
+ */
 @property (nullable, strong, nonatomic) SDLRadioState state;
 
 @end

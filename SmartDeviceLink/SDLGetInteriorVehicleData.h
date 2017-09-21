@@ -5,11 +5,23 @@
 #import "SDLRPCRequest.h"
 #import "SDLModuleType.h"
 
+/**
+ * Reads the current status value of specified remote control module (type).
+ * When subscribe = true, subscribes for specific remote control module data items.
+ * When subscribe=false, un-subscribes for specific remote control module data items.
+ * Once subscribed, the application will be notified by the onInteriorVehicleData notification
+ * whenever new data is available for the module.
+ */
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLGetInteriorVehicleData : SDLRPCRequest
 
-- (instancetype)initWithType:(SDLModuleType)moduleType subscribe:(BOOL)subscribe;
+- (instancetype)initWithModuleType:(SDLModuleType)moduleType;
+
+- (instancetype)initAndSubscribeToModuleType:(SDLModuleType)moduleType;
+
+- (instancetype)initAndUnsubscribeToModuleType:(SDLModuleType)moduleType;
 
 /**
  * The type of a RC module to retrieve module data from the vehicle.

@@ -7,6 +7,10 @@
 #import "SDLButtonName.h"
 #import "SDLButtonPressMode.h"
 
+/**
+ * This RPC allows a remote control type mobile application to simulate a hardware button press event.
+ */
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLButtonPress : SDLRPCRequest

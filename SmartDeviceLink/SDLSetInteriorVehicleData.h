@@ -3,7 +3,13 @@
 //
 
 #import "SDLRPCRequest.h"
+
 @class SDLModuleData;
+
+/**
+ * This function allows a remote control type mobile application
+ * change the settings of a specific remote control module.
+ */
 
 NS_ASSUME_NONNULL_BEGIN
 

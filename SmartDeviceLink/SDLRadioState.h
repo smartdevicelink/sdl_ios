@@ -4,6 +4,10 @@
 
 #import "SDLEnum.h"
 
+/**
+ * List possible states of a remote control radio module.
+ */
+
 typedef SDLEnum SDLRadioState SDL_SWIFT_ENUM;
 
 /**

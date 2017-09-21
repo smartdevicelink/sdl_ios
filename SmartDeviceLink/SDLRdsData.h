@@ -4,6 +4,12 @@
 
 #import "SDLRPCMessage.h"
 
+/**
+ * Include the data defined in Radio Data System,
+ * which is a communications protocol standard for embedding small amounts of digital information
+ * in conventional FM radio broadcasts.
+ */
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLRdsData : SDLRPCStruct

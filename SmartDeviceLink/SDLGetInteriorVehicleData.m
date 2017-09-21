@@ -16,12 +16,38 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithType:(SDLModuleType)moduleType subscribe:(BOOL)subscribe {
+- (instancetype)initWithModuleType:(SDLModuleType)moduleType; {
     self = [self init];
+    if (!self) {
+        return nil;
+    }
     
     self.moduleType = moduleType;
-    self.subscribe = @(subscribe);
     
+    return self;
+}
+
+- (instancetype)initAndSubscribeToModuleType:(SDLModuleType)moduleType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.moduleType = moduleType;
+    self.subscribe = @(YES);
+
+    return self;
+}
+
+- (instancetype)initAndUnsubscribeToModuleType:(SDLModuleType)moduleType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.moduleType = moduleType;
+    self.subscribe = @(NO);
+
     return self;
 }
 
