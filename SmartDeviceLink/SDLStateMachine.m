@@ -65,16 +65,11 @@ SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter = 
         NSString *targetClassString = NSStringFromClass([self.target class]);
         SDLLogE(@"invalid transisiton, from %@ to %@ going to throw an exception...", oldState, state);
         NSString *reasonMessage = [NSString stringWithFormat:@"Invalid state machine %@ transition of target %@ occurred from %@ to %@", NSStringFromClass(self.class), targetClassString, self.currentState, state];
-        @try {
-            @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                           reason:reasonMessage
-                                         userInfo:@{SDLStateMachineExceptionInfoKeyTargetClass: targetClassString,
-                                                    SDLStateMachineExceptionInfoKeyFromState: self.currentState,
-                                                    SDLStateMachineExceptionInfoKeyToClass: state}];
-        }
-        @catch (id exception) {
-            SDLLogE(@"invalid transisiton exception caught");
-        }
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                       reason:reasonMessage
+                                     userInfo:@{SDLStateMachineExceptionInfoKeyTargetClass: targetClassString,
+                                                SDLStateMachineExceptionInfoKeyFromState: self.currentState,
+                                                SDLStateMachineExceptionInfoKeyToClass: state}];
     }
 
     SEL willLeave = NSSelectorFromString([NSString stringWithFormat:SDLStateMachineTransitionFormatWillLeave, oldState]);

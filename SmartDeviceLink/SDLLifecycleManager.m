@@ -303,16 +303,13 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLLogD(@"entering state setting up icon");
     [self sdl_sendAppIcon:self.configuration.lifecycleConfig.appIcon
            withCompletion:^{
-//               if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReconnecting]) {
-//                   SDLLogD(@"App icon set up, but app has been disconnected from SDL accessory. Waiting to reconnect");
-//                   return;
-//               } else {
-//                   SDLLogD(@"App icon set up, transition to state setting up hmi");
-//                   [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
-//               }
-                                  SDLLogD(@"App icon set up, transition to state setting up hmi");
-                                  [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
-
+               if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReconnecting]) {
+                   SDLLogV(@"The SDL enabled accessory was disconnected while the SDL HMI app icon was being set up");
+                   return;
+               } else {
+                   SDLLogV(@"App icon set up, ready to start setting up the HMI");
+                   [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
+               }
            }];
 }
 
@@ -323,9 +320,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
-//    if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReconnecting]) {
-//        return;
-//    }
+    if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReconnecting]) {
+        SDLLogV(@"The SDL enabled accessory was disconnected while setting up the HMI");
+        return;
+    }
 
     // We are sure to have a HMIStatus, set state to ready
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
