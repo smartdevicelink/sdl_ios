@@ -231,6 +231,7 @@
 		1680B11C1A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B1101A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m */; };
 		1680B11D1A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B1111A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m */; };
 		1680B11E1A9CD7AD00DBD79E /* SDLProtocolReceivedMessageRouterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680B1121A9CD7AD00DBD79E /* SDLProtocolReceivedMessageRouterSpec.m */; };
+		1FF7DAB01F742B0F00B46C30 /* SDLHapticManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FF7DAAF1F742B0F00B46C30 /* SDLHapticManager.m */; };
 		332A914F1CED9CC60043824C /* SDLAppInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 332A913D1CED87F80043824C /* SDLAppInfo.m */; };
 		332A91501CED9CF10043824C /* SDLAppInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 332A913C1CED87F80043824C /* SDLAppInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D00AC671F140F0A004000D9 /* SDLSystemCapabilityType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D00AC651F140F0A004000D9 /* SDLSystemCapabilityType.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1350,6 +1351,10 @@
 		1680B1101A9CD7AD00DBD79E /* SDLProtocolMessageAssemblerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProtocolMessageAssemblerSpec.m; sourceTree = "<group>"; };
 		1680B1111A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProtocolMessageDisassemblerSpec.m; sourceTree = "<group>"; };
 		1680B1121A9CD7AD00DBD79E /* SDLProtocolReceivedMessageRouterSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLProtocolReceivedMessageRouterSpec.m; sourceTree = "<group>"; };
+		1FF7DAAC1F742A9200B46C30 /* SDLHapticInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLHapticInterface.h; sourceTree = "<group>"; };
+		1FF7DAAD1F742AB200B46C30 /* SDLHapticHitTester.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLHapticHitTester.h; sourceTree = "<group>"; };
+		1FF7DAAE1F742ADB00B46C30 /* SDLHapticManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLHapticManager.h; sourceTree = "<group>"; };
+		1FF7DAAF1F742B0F00B46C30 /* SDLHapticManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHapticManager.m; sourceTree = "<group>"; };
 		332A913C1CED87F80043824C /* SDLAppInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAppInfo.h; sourceTree = "<group>"; };
 		332A913D1CED87F80043824C /* SDLAppInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppInfo.m; sourceTree = "<group>"; };
 		5D00AC651F140F0A004000D9 /* SDLSystemCapabilityType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSystemCapabilityType.h; sourceTree = "<group>"; };
@@ -2854,6 +2859,8 @@
 				5D61FB641A84238B00846EE7 /* SDLProxy.m */,
 				5D61FB651A84238B00846EE7 /* SDLProxyFactory.h */,
 				5D61FB661A84238B00846EE7 /* SDLProxyFactory.m */,
+				1FF7DAAE1F742ADB00B46C30 /* SDLHapticManager.h */,
+				1FF7DAAF1F742B0F00B46C30 /* SDLHapticManager.m */,
 			);
 			name = Proxy;
 			sourceTree = "<group>";
@@ -3493,6 +3500,8 @@
 			isa = PBXGroup;
 			children = (
 				5D61FB671A84238B00846EE7 /* SDLProxyListener.h */,
+				1FF7DAAC1F742A9200B46C30 /* SDLHapticInterface.h */,
+				1FF7DAAD1F742AB200B46C30 /* SDLHapticHitTester.h */,
 			);
 			name = "@protocols";
 			sourceTree = "<group>";
@@ -5130,6 +5139,7 @@
 				5D61FCA41A84238C00846EE7 /* SDLEndAudioPassThru.m in Sources */,
 				5D8B17541AC9E11B006A6E1C /* SDLDialNumberResponse.m in Sources */,
 				DA6223BE1E7B088200878689 /* CVPixelBufferRef+SDLUtil.m in Sources */,
+				1FF7DAB01F742B0F00B46C30 /* SDLHapticManager.m in Sources */,
 				EED5CA021F4D18EC00F04000 /* SDLH264ByteStreamPacketizer.m in Sources */,
 				5D61FC851A84238C00846EE7 /* SDLDeviceLevelStatus.m in Sources */,
 				5D9FDA981F2A7D3F00A495C8 /* emhashmap.c in Sources */,
