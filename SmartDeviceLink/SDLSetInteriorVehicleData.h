@@ -7,7 +7,7 @@
 @class SDLModuleData;
 
 /**
- * This function allows a remote control type mobile application
+ * This RPC allows a remote control type mobile application to
  * change the settings of a specific remote control module.
  */
 

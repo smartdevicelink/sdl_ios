@@ -13,6 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLSetInteriorVehicleDataResponse : SDLRPCResponse
 
+/**
+ * The module data to set for the requested remote control module.
+ *
+ */
 @property (strong, nonatomic) SDLModuleData *moduleData;
 
 @end

@@ -7,9 +7,9 @@
 
 /**
  * Reads the current status value of specified remote control module (type).
- * When subscribe = true, subscribes for specific remote control module data items.
- * When subscribe=false, un-subscribes for specific remote control module data items.
- * Once subscribed, the application will be notified by the onInteriorVehicleData notification
+ * When subscribe is true, subscribes for specific remote control module data items.
+ * When subscribe is false, unsubscribes for specific remote control module data items.
+ * Once subscribed, the application will be notified by the onInteriorVehicleData RPC notification
  * whenever new data is available for the module.
  */
 
