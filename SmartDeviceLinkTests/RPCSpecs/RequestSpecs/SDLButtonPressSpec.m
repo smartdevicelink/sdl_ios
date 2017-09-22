@@ -30,7 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
 
     });
     
-    it(@"Should get correctly when initialized", ^ {
+    it(@"Should get correctly when initialized with a dictionary", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameModuleType : SDLModuleTypeClimate,
@@ -38,12 +38,19 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameButtonPressMode : SDLButtonPressModeShort},
                                                              SDLNameOperationName:SDLNameButtonPress}} mutableCopy];
         SDLButtonPress* testRequest = [[SDLButtonPress alloc] initWithDictionary:dict];
-        
+
         expect(testRequest.moduleType).to(equal(SDLModuleTypeClimate));
         expect(testRequest.buttonName).to(equal(SDLButtonNameAC));
         expect(testRequest.buttonPressMode).to(equal(SDLButtonPressModeShort));
     });
-    
+
+    it(@"Should get correctly when initialized with button name and module type properties", ^ {
+        SDLButtonPress* testRequest = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameAC moduleType:SDLModuleTypeClimate];
+
+        expect(testRequest.buttonName).to(equal(SDLButtonNameAC));
+        expect(testRequest.moduleType).to(equal(SDLModuleTypeClimate));
+    });
+
     it(@"Should return nil if not set", ^ {
         SDLButtonPress* testRequest = [[SDLButtonPress alloc] init];
         

@@ -24,7 +24,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.subscribe).to(equal(@YES));
     });
 
-    it(@"Should get correctly when initialized", ^ {
+    it(@"Should get correctly when initialized with a dictionary", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameModuleType : SDLModuleTypeRadio,
@@ -35,6 +35,27 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.moduleType).to(equal(SDLModuleTypeRadio));
         expect(testRequest.subscribe).to(equal(@YES));
     });
+
+    it(@"Should get correctly when initialized with module type", ^ {
+        SDLGetInteriorVehicleData* testRequest = [[SDLGetInteriorVehicleData alloc] initWithModuleType:SDLModuleTypeRadio];
+
+        expect(testRequest.moduleType).to(equal(SDLModuleTypeRadio));
+    });
+
+    it(@"Should get correctly when initialized with module type and subscribe", ^ {
+        SDLGetInteriorVehicleData* testRequest = [[SDLGetInteriorVehicleData alloc] initAndSubscribeToModuleType:SDLModuleTypeRadio];
+
+        expect(testRequest.moduleType).to(equal(SDLModuleTypeRadio));
+        expect(testRequest.subscribe).to(equal(@YES));
+    });
+
+    it(@"Should get correctly when initialized with module type and unsubscribe", ^ {
+        SDLGetInteriorVehicleData* testRequest = [[SDLGetInteriorVehicleData alloc] initAndUnsubscribeToModuleType:SDLModuleTypeRadio];
+
+        expect(testRequest.moduleType).to(equal(SDLModuleTypeRadio));
+        expect(testRequest.subscribe).to(equal(@NO));
+    });
+
 
     it(@"Should return nil if not set", ^ {
         SDLGetInteriorVehicleData* testRequest = [[SDLGetInteriorVehicleData alloc] init];

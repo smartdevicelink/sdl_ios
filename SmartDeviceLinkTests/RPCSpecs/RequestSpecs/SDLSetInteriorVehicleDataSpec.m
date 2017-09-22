@@ -34,6 +34,12 @@ describe(@"Getter/Setter Tests", ^ {
         
         expect(testRequest.moduleData).to(equal(someModuleData));
     });
+
+    it(@"Should get correctly when initialized with module data", ^ {
+        SDLSetInteriorVehicleData* testRequest = [[SDLSetInteriorVehicleData alloc] initWithModuleData:someModuleData];
+
+        expect(testRequest.moduleData).to(equal(someModuleData));
+    });
     
     it(@"Should return nil if not set", ^ {
         SDLSetInteriorVehicleData* testRequest = [[SDLSetInteriorVehicleData alloc] init];
