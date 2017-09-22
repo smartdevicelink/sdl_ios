@@ -82,7 +82,6 @@ extern SDLNotificationName const SDLTransportDidConnect;
 extern SDLNotificationName const SDLDidReceiveError;
 extern SDLNotificationName const SDLDidReceiveLockScreenIcon;
 extern SDLNotificationName const SDLDidBecomeReady;
-extern SDLNotificationName const SDLProjectionViewUpdate;
 
 /**
  *  NSNotification names associated with specific RPC responses.

@@ -75,7 +75,6 @@ NS_ASSUME_NONNULL_BEGIN
         [payload appendData:dataToAppend];
 
         // Validation
-        header.bytesInPayload = (UInt32)payload.length;
         if (payload.length != self.expectedBytes) {
             SDLLogW(@"Collected bytes size of %lu not equal to expected size of %i.", (unsigned long)payload.length, (unsigned int)self.expectedBytes);
         }

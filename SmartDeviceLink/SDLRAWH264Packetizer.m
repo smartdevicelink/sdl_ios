@@ -1,5 +1,5 @@
 //
-//  SDLH264ByteStreamPacketizer.m
+//  SDLRAWH264Packetizer
 //  SmartDeviceLink-iOS
 //
 //  Created by Sho Amano on 4/11/17.
@@ -7,15 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SDLH264ByteStreamPacketizer.h"
+#import "SDLRAWH264Packetizer.h"
+#import "SDLH264Packetizer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLH264ByteStreamPacketizer ()
+@interface SDLRAWH264Packetizer ()
 @property (nonatomic) NSData *startCode;
 @end
 
-@implementation SDLH264ByteStreamPacketizer
+@implementation SDLRAWH264Packetizer
 
 - (instancetype)init {
     self = [super init];

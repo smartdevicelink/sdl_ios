@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
     [parameters sdl_setObject:tryAgainTime forName:SDLNameTryAgainTime];}
 
 - (nullable NSNumber<SDLInt> *)tryAgainTime {
-    return [parameters objectForKey:SDLNameTryAgainTime];
+    return [parameters sdl_objectForName:SDLNameTryAgainTime];
 }
 
 @end
