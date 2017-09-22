@@ -23,8 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *fanSpeed;
 
 /**
- * @abstractThe Current Temperature in SDLTemperature
- * NOTE: This property is readonly and cannot be set on the module.
+ * @abstract The Current Temperature in SDLTemperature
+ *
+ * @warning This property is readonly and cannot be set on the module.
  *
  * Optional
  */

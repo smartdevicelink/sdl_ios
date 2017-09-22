@@ -40,8 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLRadioBand band;
 
 /**
- *@abstract Read only parameter. See RDSData data type for details.
- * NOTE: This property is readonly and cannot be set on the module.
+ * @abstract Read only parameter. See RDSData data type for details.
+ *
+ * @warning This property is readonly and cannot be set on the module.
  *
  *SDLRDSData
  */
@@ -49,7 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * @abstract number of HD sub-channels if available
- * NOTE: This property is readonly and cannot be set on the module.
+ *
+ * @warning This property is readonly and cannot be set on the module.
  *
  * Integer value Min Value - 1 Max Value -3
  */
@@ -64,7 +66,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * @abstract Signal Strength Value
- * NOTE: This property is readonly and cannot be set on the module.
+ *
+ * @warning This property is readonly and cannot be set on the module.
  *
  * Integer value Min Value - 0 Max Value - 100
  */
@@ -72,7 +75,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * @abstract If the signal strength falls below the set value for this parameter, the radio will tune to an alternative frequency
- * NOTE: This property is readonly and cannot be set on the module.
+ *
+ * @warning This property is readonly and cannot be set on the module.
  *
  * Integer value Min Value - 0 Max Value - 100
  */
@@ -87,7 +91,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Read only parameter. See RadioState data type for details.
- * NOTE: This property is readonly and cannot be set on the module.
+ *
+ * @warning This property is readonly and cannot be set on the module.
  *
  * SDLRadioState
  */
