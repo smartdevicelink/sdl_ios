@@ -214,13 +214,6 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
     NSUInteger status1 = stream.streamStatus;
     if (status1 != NSStreamStatusNotOpen &&
         status1 != NSStreamStatusClosed) {
-
-        if (stream == [self.easession inputStream]) {
-            SDLLogD(@"Closing input stream");
-        } else if (stream == [self.easession outputStream]) {
-            SDLLogD(@"Closing output stream");
-        }
-
         [stream close];
     }
 

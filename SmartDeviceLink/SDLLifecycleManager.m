@@ -214,7 +214,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         [weakSelf.delegate managerDidDisconnect];
 
         if (shouldRestart) {
-            SDLLogD(@"Transitioning to SDLLifecycleStateStarted");
             [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
         }
     });
@@ -300,11 +299,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)didEnterStateSettingUpAppIcon {
     // We only want to send the app icon when the file manager is complete, and when that's done, wait for hmi status to be ready
-    SDLLogD(@"entering state setting up icon");
     [self sdl_sendAppIcon:self.configuration.lifecycleConfig.appIcon
            withCompletion:^{
                if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReconnecting]) {
-                   SDLLogV(@"The SDL enabled accessory was disconnected while the SDL HMI app icon was being set up");
+                   SDLLogV(@"The SDL enabled accessory was disconnected while the app icon was being set up");
                    return;
                } else {
                    SDLLogV(@"App icon set up, ready to start setting up the HMI");

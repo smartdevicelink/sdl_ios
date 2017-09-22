@@ -83,7 +83,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
 
 - (void)sdl_stopEventListening {
     SDLLogV(@"SDLIAPTransport Stopped Listening For Events");
-//    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:EAAccessoryDidConnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:EAAccessoryDidDisconnectNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -132,10 +131,10 @@ int const ProtocolIndexTimeoutSeconds = 20;
     // Only check for the data session, the control session is handled separately
     EAAccessory *accessory = [notification.userInfo objectForKey:EAAccessoryKey];
     if (accessory.connectionID != self.session.accessory.connectionID) {
-    	SDLLogD(@"An unconnected accessory disconnected event (%@)", accessory);
+    	SDLLogD(@"An unconnected accessory disconnected (%@)", accessory);
     }
     if ([accessory.serialNumber isEqualToString:self.session.accessory.serialNumber]) {
-        SDLLogD(@"Connected accessory disconnected (%@)", accessory);
+        SDLLogD(@"A connected accessory disconnected (%@)", accessory);
         self.sessionSetupInProgress = NO;
         [self disconnect];
         [self.delegate onTransportDisconnected];
@@ -278,7 +277,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
             [strongSelf.controlSession stop];
             strongSelf.controlSession.streamDelegate = nil;
             strongSelf.controlSession = nil;
-            SDLLogD(@"Trying to reconnect to accessory from sdl_createIAPControlSessionWithAccessory timer elapsed");
             [strongSelf sdl_retryEstablishSession];
         };
         self.protocolIndexTimer.elapsedBlock = elapsedBlock;
@@ -293,12 +291,10 @@ int const ProtocolIndexTimeoutSeconds = 20;
             SDLLogW(@"Control session failed to setup (%@)", accessory);
             self.controlSession.streamDelegate = nil;
             self.controlSession = nil;
-            SDLLogD(@"Trying to reconnect to accessory from sdl_createIAPControlSessionWithAccessory control session did not start");
             [self sdl_retryEstablishSession];
         }
     } else {
         SDLLogW(@"Failed to setup control session (%@)", accessory);
-        SDLLogD(@"Trying to reconnect to accessory from sdl_createIAPControlSessionWithAccessory failed to setup control session");
         [self sdl_retryEstablishSession];
     }
 }
@@ -319,12 +315,10 @@ int const ProtocolIndexTimeoutSeconds = 20;
             SDLLogW(@"Data session failed to setup (%@)", accessory);
             self.session.streamDelegate = nil;
             self.session = nil;
-            SDLLogD(@"Trying to reconnect to accessory from sdl_createIAPDataSessionWithAccessory failed to start data session");
             [self sdl_retryEstablishSession];
         }
     } else {
         SDLLogW(@"Failed to setup data session (%@)", accessory);
-        SDLLogD(@"Trying to reconnect to accessory from sdl_createIAPDataSessionWithAccessory failed to setup data session");
         [self sdl_retryEstablishSession];
     }
 }
@@ -338,7 +332,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
         self.session = nil;
     }
 
-    SDLLogD(@"Trying to reconnect to accessory...");
+    SDLLogD(@"Starting another attempt to connect with an accessory...");
 
     // No accessory to use this time, search connected accessories
     [self sdl_connect:nil];
@@ -368,7 +362,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
     SDLLogV(@"Session streams ended (%@)", session.protocol);
     if (!self.session && [ControlProtocolString isEqualToString:session.protocol]) {
         [session stop];
-        SDLLogD(@"Trying to reconnect to accessory from onSessionStreamsEnded");
         [self sdl_retryEstablishSession];
     }
 }
@@ -401,7 +394,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
             [strongSelf.controlSession stop];
             strongSelf.controlSession.streamDelegate = nil;
             strongSelf.controlSession = nil;
-            SDLLogD(@"Trying to reconnect to accessory from sdl_controlStreamEndedHandler");
             [strongSelf sdl_retryEstablishSession];
         }
     };
@@ -453,7 +445,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
         [strongSelf.controlSession stop];
         strongSelf.controlSession.streamDelegate = nil;
         strongSelf.controlSession = nil;
-        SDLLogD(@"Trying to reconnect to accessory from sdl_controlStreamErroredHandler");
         [strongSelf sdl_retryEstablishSession];
     };
 }
@@ -514,7 +505,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
         strongSelf.session.streamDelegate = nil;
         strongSelf.session = nil;
         if (![LegacyProtocolString isEqualToString:strongSelf.session.protocol]) {
-            SDLLogD(@"Trying to reconnect to accessory from sdl_dataStreamErroredHandler");
             [strongSelf sdl_retryEstablishSession];
         }
     };
@@ -563,7 +553,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
 
 - (void)sdl_destructObjects {
     if (!_alreadyDestructed) {
-        SDLLogD(@"destructing objects");
+        SDLLogV(@"Destructing SDLIAPTransport objects");
         _alreadyDestructed = YES;
         self.controlSession = nil;
         self.session = nil;
@@ -573,9 +563,9 @@ int const ProtocolIndexTimeoutSeconds = 20;
 }
 
 - (void)dealloc {
+    SDLLogD(@"SDLIAPTransport dealloc");
     [self disconnect];
     [self sdl_destructObjects];
-    SDLLogD(@"SDLIAPTransport dealloc");
 }
 
 @end

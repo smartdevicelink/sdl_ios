@@ -151,13 +151,14 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 - (void)didEnterStateFetchingInitialList {
     __weak typeof(self) weakSelf = self;
     [self sdl_listRemoteFilesWithCompletionHandler:^(BOOL success, NSUInteger bytesAvailable, NSArray<NSString *> *_Nonnull fileNames, NSError *_Nullable error) {
+        // If the file manager was shutdown before the SDL Core response, exit
+        if ([weakSelf.stateMachine isCurrentState:SDLFileManagerStateShutdown]) {
+            SDLLogV(@"The SDL enabled accessory was disconnected while getting the remote files list");
+            BLOCK_RETURN;
+        }
+
         // If there was an error, we'll pass the error to the startup handler and cancel out
         if (error != nil) {
-            if ([weakSelf.stateMachine isCurrentState:SDLFileManagerStateShutdown]) {
-                SDLLogV(@"The SDL enabled accessory was disconnected while getting the remote files list");
-                BLOCK_RETURN;
-            }
-
             [weakSelf.stateMachine transitionToState:SDLFileManagerStateStartupError];
             BLOCK_RETURN;
         }
