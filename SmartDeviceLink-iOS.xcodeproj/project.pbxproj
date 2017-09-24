@@ -235,6 +235,7 @@
 		1FF7DAB81F75B28E00B46C30 /* SDLHapticHitTester.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FF7DAB71F75B28E00B46C30 /* SDLHapticHitTester.h */; };
 		1FF7DABA1F75B2A800B46C30 /* SDLHapticManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FF7DAB91F75B2A800B46C30 /* SDLHapticManager.h */; };
 		1FF7DABC1F75B2BF00B46C30 /* SDLHapticManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FF7DABB1F75B2BF00B46C30 /* SDLHapticManager.m */; };
+		1FF7DAC01F75CF6C00B46C30 /* SDLHapticManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FF7DABF1F75CF6C00B46C30 /* SDLHapticManagerSpec.m */; };
 		332A914F1CED9CC60043824C /* SDLAppInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 332A913D1CED87F80043824C /* SDLAppInfo.m */; };
 		332A91501CED9CF10043824C /* SDLAppInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 332A913C1CED87F80043824C /* SDLAppInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D00AC671F140F0A004000D9 /* SDLSystemCapabilityType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D00AC651F140F0A004000D9 /* SDLSystemCapabilityType.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1360,6 +1361,7 @@
 		1FF7DAB71F75B28E00B46C30 /* SDLHapticHitTester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLHapticHitTester.h; sourceTree = "<group>"; };
 		1FF7DAB91F75B2A800B46C30 /* SDLHapticManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLHapticManager.h; sourceTree = "<group>"; };
 		1FF7DABB1F75B2BF00B46C30 /* SDLHapticManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHapticManager.m; sourceTree = "<group>"; };
+		1FF7DABF1F75CF6C00B46C30 /* SDLHapticManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLHapticManagerSpec.m; path = ProxySpecs/SDLHapticManagerSpec.m; sourceTree = "<group>"; };
 		332A913C1CED87F80043824C /* SDLAppInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAppInfo.h; sourceTree = "<group>"; };
 		332A913D1CED87F80043824C /* SDLAppInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAppInfo.m; sourceTree = "<group>"; };
 		5D00AC651F140F0A004000D9 /* SDLSystemCapabilityType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSystemCapabilityType.h; sourceTree = "<group>"; };
@@ -3581,6 +3583,7 @@
 		5D59DD451B14FDD000BE744D /* ProxySpecs */ = {
 			isa = PBXGroup;
 			children = (
+				1FF7DABF1F75CF6C00B46C30 /* SDLHapticManagerSpec.m */,
 				5D59DD461B14FDEE00BE744D /* SDLLockScreenStatusManagerSpec.m */,
 				DA661E2B1E553E7E001C1345 /* SDLStreamingMediaManagerSpec.m */,
 			);
@@ -5391,6 +5394,7 @@
 				162E82DE1A9BDE8B00906325 /* SDLFuelCutoffStatusSpec.m in Sources */,
 				162E83271A9BDE8B00906325 /* SDLCreateInteractionChoiceSetSpec.m in Sources */,
 				162E83111A9BDE8B00906325 /* SDLOnButtonEventSpec.m in Sources */,
+				1FF7DAC01F75CF6C00B46C30 /* SDLHapticManagerSpec.m in Sources */,
 				162E82FA1A9BDE8B00906325 /* SDLSoftButtonTypeSpec.m in Sources */,
 				162E83751A9BDE8B00906325 /* SDLButtonCapabilitiesSpec.m in Sources */,
 				DA9F7EAF1DCC063400ACAE48 /* SDLLocationCoordinateSpec.m in Sources */,
