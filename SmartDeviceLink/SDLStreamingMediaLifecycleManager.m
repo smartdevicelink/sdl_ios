@@ -58,7 +58,7 @@ SDLAudioStreamState *const SDLAudioStreamStateStarting = @"AudioStreamStarting";
 SDLAudioStreamState *const SDLAudioStreamStateReady = @"AudioStreamReady";
 SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShuttingDown";
 
-static NSUInteger const SDLFramesToSendOnBackground = 30;
+static NSUInteger const FramesToSendOnBackground = 30;
 
 typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_Nullable capability);
 
@@ -670,8 +670,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         return;
     }
 
-    const CMTime interval = CMTimeMake(1, 30);
-    for (int frameCount = 0; frameCount < SDLFramesToSendOnBackground; frameCount++) {
+    int32_t timeRate = 30;
+    if (self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate] != nil) {
+        timeRate = ((NSNumber *)self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).intValue;
+    }
+
+    const CMTime interval = CMTimeMake(1, timeRate);
+    for (int frameCount = 0; frameCount < FramesToSendOnBackground; frameCount++) {
         if (CMTIME_IS_VALID(self.lastPresentationTimestamp)) {
             self.lastPresentationTimestamp = CMTimeAdd(self.lastPresentationTimestamp, interval);
             [self.videoEncoder encodeFrame:self.backgroundingPixelBuffer presentationTimestamp:self.lastPresentationTimestamp];
