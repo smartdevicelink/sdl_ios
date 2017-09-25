@@ -71,6 +71,9 @@ NS_ASSUME_NONNULL_BEGIN
                          @38: SDLNameSystemRequest,
                          @39: SDLNameSendLocation,
                          @40: SDLNameDialNumber,
+                         @41: SDLNameButtonPress,
+                         @43: SDLNameGetInteriorVehicleData,
+                         @44: SDLNameSetInteriorVehicleData,
                          @45: SDLNameGetWayPoints,
                          @46: SDLNameSubscribeWayPoints,
                          @47: SDLNameUnsubscribeWayPoints,
@@ -91,13 +94,13 @@ NS_ASSUME_NONNULL_BEGIN
                          @32780: SDLNameOnTouchEvent,
                          @32781: SDLNameOnSystemRequest,
                          @32782: SDLNameOnHashChange,
+                         @32783: SDLNameOnInteriorVehicleData,
                          @32784: SDLNameOnWayPointChange,
                          @65536: SDLNameEncodedSyncPData,
                          @65537: SDLNameSyncPData,
                          @98304: SDLNameOnEncodedSyncPData,
                          @98305: SDLNameOnSyncPData
                          };
-
     return self;
 }
 
@@ -105,11 +108,9 @@ NS_ASSUME_NONNULL_BEGIN
     return self.functionIds[@(functionID)];
 }
 
-
 - (nullable NSNumber<SDLInt> *)functionIdForName:(SDLName)functionName {
     return [[self.functionIds allKeysForObject:functionName] firstObject];
 }
-
 
 @end
 

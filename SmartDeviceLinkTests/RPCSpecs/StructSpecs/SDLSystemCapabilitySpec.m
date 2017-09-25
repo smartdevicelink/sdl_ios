@@ -9,6 +9,8 @@
 #import "SDLNavigationCapability.h"
 #import "SDLPhoneCapability.h"
 #import "SDLSystemCapabilityType.h"
+#import "SDLRemoteControlCapabilities.h"
+#import "SDLNames.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLVideoStreamingCodec.h"
 #import "SDLVideoStreamingFormat.h"
@@ -18,6 +20,7 @@
 
 QuickSpecBegin(SDLSystemCapabilitySpec)
 
+SDLRemoteControlCapabilities *someRemoteControlCapabilities = [[SDLRemoteControlCapabilities alloc] init];
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] init];
@@ -25,6 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.systemCapabilityType = SDLSystemCapabilityTypeNavigation;
         testStruct.navigationCapability = [[SDLNavigationCapability alloc] initWithSendLocation:YES waypoints:NO];
         testStruct.phoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
+        testStruct.remoteControlCapability = someRemoteControlCapabilities;
 
         expect(testStruct.systemCapabilityType).to(equal(SDLSystemCapabilityTypeNavigation));
         expect(testStruct.navigationCapability.sendLocationEnabled).to(equal(YES));
@@ -34,6 +38,8 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
 
         expect(testStruct.systemCapabilityType).to(equal(SDLSystemCapabilityTypeVideoStreaming));
+        expect(testStruct.remoteControlCapability).to(equal(someRemoteControlCapabilities));
+
     });
 });
 
@@ -42,13 +48,15 @@ describe(@"Initialization tests", ^{
         NSMutableDictionary* dict = [@{SDLNameSystemCapabilityType: @"NAVIGATION",
                                        SDLNameNavigationCapability: @{SDLNameGetWayPointsEnabled: @(NO),
                                                                      SDLNameSendLocationEnabled: @(YES)},
-                                       SDLNamePhoneCapability: @{SDLNameDialNumberEnabled: @(YES)}} mutableCopy];
+                                       SDLNamePhoneCapability: @{SDLNameDialNumberEnabled: @(YES)},
+                                       SDLNameRemoteControlCapability: someRemoteControlCapabilities} mutableCopy];
         SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] initWithDictionary:dict];
 
         expect(testStruct.systemCapabilityType).to(equal(SDLSystemCapabilityTypeNavigation));
         expect(testStruct.navigationCapability.sendLocationEnabled).to(equal(YES));
         expect(testStruct.navigationCapability.getWayPointsEnabled).to(equal(NO));
         expect(testStruct.phoneCapability.dialNumberEnabled).to(equal(YES));
+        expect(testStruct.remoteControlCapability).to(equal(someRemoteControlCapabilities));
     });
 
     it(@"Should return nil if not set", ^ {
@@ -58,6 +66,8 @@ describe(@"Initialization tests", ^{
         expect(testStruct.navigationCapability).to(beNil());
         expect(testStruct.phoneCapability).to(beNil());
         expect(testStruct.videoStreamingCapability).to(beNil());
+        expect(testStruct.remoteControlCapability).to(beNil());
+
     });
 
     it(@"should initialize correctly with initWithPhoneCapability:", ^{
@@ -68,6 +78,7 @@ describe(@"Initialization tests", ^{
         expect(testStruct.phoneCapability.dialNumberEnabled).to(equal(YES));
         expect(testStruct.navigationCapability).to(beNil());
         expect(testStruct.videoStreamingCapability).to(beNil());
+        expect(testStruct.remoteControlCapability).to(beNil());
     });
 
     it(@"should initialize correctly with initWithNavigationCapability:", ^{
@@ -79,6 +90,7 @@ describe(@"Initialization tests", ^{
         expect(testStruct.navigationCapability.getWayPointsEnabled).to(equal(YES));
         expect(testStruct.phoneCapability).to(beNil());
         expect(testStruct.videoStreamingCapability).to(beNil());
+        expect(testStruct.remoteControlCapability).to(beNil());
     });
 
     it(@"should initialize correctly with initWithVideoStreamingCapability:", ^{
@@ -107,6 +119,15 @@ describe(@"Initialization tests", ^{
         expect(testStruct.navigationCapability.getWayPointsEnabled).to(beNil());
         expect(testStruct.phoneCapability).to(beNil());
         
+    });
+    
+    it(@"should initialize correctly with initWithRemoteControlCapability:", ^{
+        SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] initWithRemoteControlCapability:someRemoteControlCapabilities];
+        
+        expect(testStruct.systemCapabilityType).to(equal(SDLSystemCapabilityTypeRemoteControl));
+        expect(testStruct.navigationCapability).to(beNil());
+        expect(testStruct.phoneCapability).to(beNil());
+        expect(testStruct.remoteControlCapability).to(equal(someRemoteControlCapabilities));
     });
 });
 
