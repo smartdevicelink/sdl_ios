@@ -32,6 +32,13 @@ describe(@"Initialization tests", ^{
         expect(testStruct.unit).to(equal(SDLTemperatureUnitCelsius));
         expect(testStruct.value).to(equal(@30));
     });
+
+    it(@"should initialize correctly with Unit and value", ^{
+        SDLTemperature *testStruct = [[SDLTemperature alloc] initWithUnit:SDLTemperatureUnitCelsius value:30];
+
+        expect(testStruct.unit).to(equal(SDLTemperatureUnitCelsius));
+        expect(testStruct.value).to(equal(@30));
+    });
     
     it(@"Should set and get correctly", ^{
         SDLTemperature* testStruct = [[SDLTemperature alloc] init];

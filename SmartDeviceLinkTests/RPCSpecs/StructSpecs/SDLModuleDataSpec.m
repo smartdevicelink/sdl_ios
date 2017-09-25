@@ -50,6 +50,20 @@ describe(@"Initialization tests", ^{
         expect(testStruct.radioControlData).to(equal(someRadioData));
         expect(testStruct.climateControlData).to(equal(someClimateData));
     });
+
+    it(@"Should get correctly when initialized with radioControlData", ^ {
+        SDLModuleData* testStruct = [[SDLModuleData alloc] initWithRadioControlData:someRadioData];
+
+        expect(testStruct.moduleType).to(equal(SDLModuleTypeRadio));
+        expect(testStruct.radioControlData).to(equal(someRadioData));
+    });
+
+    it(@"Should get correctly when initialized with ClimateControlData", ^ {
+        SDLModuleData* testStruct = [[SDLModuleData alloc] initWithClimateControlData:someClimateData];
+
+        expect(testStruct.moduleType).to(equal(SDLModuleTypeClimate));
+        expect(testStruct.climateControlData).to(equal(someClimateData));
+    });
 });
 
 QuickSpecEnd

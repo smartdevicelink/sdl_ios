@@ -71,6 +71,19 @@ describe(@"Initialization tests", ^{
         expect(testStruct.trafficAnnouncementIdentification).to(equal(@YES));
         expect(testStruct.region).to(equal(@"reg"));
     });
+
+    it(@"Should get correctly when initialized with Program serive and other RDS parameters", ^ {
+        SDLRDSData* testStruct = [[SDLRDSData alloc] initWithProgramService:@"ps" radioText:@"rt" clockText:@"2017-07-25T19:20:30-5:00" programIdentification:@"pi" programType:@5 trafficProgramIdentification:@NO trafficAnnouncementIdentification:@YES region:@"reg"];
+
+        expect(testStruct.programService).to(equal(@"ps"));
+        expect(testStruct.radioText).to(equal(@"rt"));
+        expect(testStruct.clockText).to(equal(@"2017-07-25T19:20:30-5:00"));
+        expect(testStruct.programIdentification).to(equal(@"pi"));
+        expect(testStruct.programType).to(equal(@5));
+        expect(testStruct.trafficProgramIdentification).to(equal(@NO));
+        expect(testStruct.trafficAnnouncementIdentification).to(equal(@YES));
+        expect(testStruct.region).to(equal(@"reg"));
+    });
 });
 
 QuickSpecEnd

@@ -53,6 +53,14 @@ describe(@"Initialization tests", ^{
         expect(testStruct.radioControlCapabilities).to(equal([@[someRadioControlCapabilities] copy]));
         expect(testStruct.buttonCapabilities).to(equal([@[someButtonControlCapabilities] copy]));
     });
+
+    it(@"Should get correctly when initialized with climateControlCapabilities and other RemoteControlCapabilities parameters", ^ {
+        SDLRemoteControlCapabilities* testStruct = [[SDLRemoteControlCapabilities alloc] initWithClimateControlCapabilities:[@[someClimateControlCapabilities] copy] radioControlCapabilities:[@[someRadioControlCapabilities] copy] buttonCapabilities:[@[someButtonControlCapabilities] copy]];
+
+        expect(testStruct.climateControlCapabilities).to(equal(([@[someClimateControlCapabilities] copy])));
+        expect(testStruct.radioControlCapabilities).to(equal([@[someRadioControlCapabilities] copy]));
+        expect(testStruct.buttonCapabilities).to(equal([@[someButtonControlCapabilities] copy]));
+    });
 });
 
 QuickSpecEnd

@@ -84,6 +84,16 @@ describe(@"Initialization tests", ^{
         expect(testStruct.radioEnable).to(equal(@YES));
         expect(testStruct.state).to(equal(SDLRadioStateNotFound));
     });
+
+    it(@"Should get correctly when initialized with Module Name and other radio control capabilite's parameters", ^ {
+        SDLRadioControlData* testStruct = [[SDLRadioControlData alloc] initWithFrequencyInteger:@101 frequencyFraction:@7 band:SDLRadioBandAM hdChannel:@2 radioEnable:@YES];
+
+        expect(testStruct.frequencyInteger).to(equal(@101));
+        expect(testStruct.frequencyFraction).to(equal(@7));
+        expect(testStruct.band).to(equal(SDLRadioBandAM));
+        expect(testStruct.hdChannel).to(equal(@2));
+        expect(testStruct.radioEnable).to(equal(@YES));
+    });
 });
 
 QuickSpecEnd

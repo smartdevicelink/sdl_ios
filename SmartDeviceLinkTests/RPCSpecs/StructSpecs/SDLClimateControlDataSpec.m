@@ -51,6 +51,20 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.ventilationMode).to(equal(SDLVentilationModeBoth));
     });
 
+    it(@"Should get correctly when initialized with FanSpeed and other climate control parameters", ^ {
+        SDLClimateControlData* testStruct = [[SDLClimateControlData alloc] initWithFanSpeed:@43 desiredTemperature:desiredTemp acEnable:@YES circulateAirEnable:@YES autoModeEnable:@NO defrostZone:SDLDefrostZoneFront dualModeEnable:@NO acMaxEnable:@YES ventilationMode:SDLVentilationModeBoth];
+
+        expect(testStruct.fanSpeed).to(equal(@43));
+        expect(testStruct.desiredTemperature).to(equal(desiredTemp));
+        expect(testStruct.acEnable).to(equal(YES));
+        expect(testStruct.circulateAirEnable).to(equal(YES));
+        expect(testStruct.autoModeEnable).to(equal(NO));
+        expect(testStruct.defrostZone).to(equal(SDLDefrostZoneFront));
+        expect(testStruct.dualModeEnable).to(equal(NO));
+        expect(testStruct.acMaxEnable).to(equal(YES));
+        expect(testStruct.ventilationMode).to(equal(SDLVentilationModeBoth));
+    });
+
     it(@"Should get correctly when initialized with a dictionary", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameFanSpeed : @43,
                                                        SDLNameCurrentTemperature : currentTemp,

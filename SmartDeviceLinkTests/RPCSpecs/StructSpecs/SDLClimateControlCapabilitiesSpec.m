@@ -75,6 +75,21 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.ventilationModeAvailable).to(equal(@NO));
         expect(testStruct.ventilationMode).to(equal([@[SDLVentilationModeUpper] copy]));
     });
+
+    it(@"Should get correctly when initialized with module data and other climate control capabilite's parameters", ^ {
+        SDLClimateControlCapabilities* testStruct = [[SDLClimateControlCapabilities alloc] initWithModuleName:@"Name" fanSpeedAvailable:YES desiredTemperatureAvailable:NO acEnableAvailable:NO acMaxEnableAvailable:YES circulateAirAvailable:NO autoModeEnableAvailable:NO dualModeEnableAvailable:NO defrostZoneAvailable:YES ventilationModeAvailable:YES];
+
+        expect(testStruct.moduleName).to(equal(@"Name"));
+        expect(testStruct.fanSpeedAvailable).to(equal(@YES));
+        expect(testStruct.desiredTemperatureAvailable).to(equal(@NO));
+        expect(testStruct.acEnableAvailable).to(equal(@NO));
+        expect(testStruct.acMaxEnableAvailable).to(equal(@YES));
+        expect(testStruct.circulateAirEnableAvailable).to(equal(@NO));
+        expect(testStruct.autoModeEnableAvailable).to(equal(@NO));
+        expect(testStruct.dualModeEnableAvailable).to(equal(@NO));
+        expect(testStruct.defrostZoneAvailable).to(equal(@YES));
+        expect(testStruct.ventilationModeAvailable).to(equal(@YES));
+    });
     
     it(@"Should return nil if not set", ^ {
         SDLClimateControlCapabilities* testStruct = [[SDLClimateControlCapabilities alloc] init];

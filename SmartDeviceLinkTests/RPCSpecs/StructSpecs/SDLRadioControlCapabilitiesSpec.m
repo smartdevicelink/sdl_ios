@@ -81,6 +81,21 @@ describe(@"Initialization tests", ^{
         expect(testStruct.signalStrengthAvailable).to(equal(@YES));
         expect(testStruct.signalChangeThresholdAvailable).to(equal(@NO));
     });
+    
+    it(@"Should get correctly when initialized with Module Name and other radio control capabilite's parameters", ^ {
+        SDLRadioControlCapabilities* testStruct = [[SDLRadioControlCapabilities alloc] initWithModuleName:@"someName" radioEnableAvailable:YES radioBandAvailable:NO radioFrequencyAvailable:YES hdChannelAvailable:NO rdsDataAvailable:NO availableHDsAvailable:NO stateAvailable:YES signalStrengthAvailable:YES signalChangeThresholdAvailable:NO];
+
+        expect(testStruct.moduleName).to(equal(@"someName"));
+        expect(testStruct.radioEnableAvailable).to(equal(@YES));
+        expect(testStruct.radioBandAvailable).to(equal(@NO));
+        expect(testStruct.radioFrequencyAvailable).to(equal(@YES));
+        expect(testStruct.hdChannelAvailable).to(equal(@NO));
+        expect(testStruct.rdsDataAvailable).to(equal(@NO));
+        expect(testStruct.availableHDsAvailable).to(equal(@NO));
+        expect(testStruct.stateAvailable).to(equal(@YES));
+        expect(testStruct.signalStrengthAvailable).to(equal(@YES));
+        expect(testStruct.signalChangeThresholdAvailable).to(equal(@NO));
+    });
 });
 
 QuickSpecEnd
