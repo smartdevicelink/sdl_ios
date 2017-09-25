@@ -117,10 +117,11 @@ SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter = 
         return;
     }
 
-    if (oldState != nil && shouldCall) {
+    if (oldState != nil) {
         self.currentState = oldState;
-        [self transitionToState:state];
-    } else if (shouldCall) {
+    }
+
+    if (shouldCall) {
         SEL didEnter = NSSelectorFromString([NSString stringWithFormat:SDLStateMachineTransitionFormatDidEnter, state]);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -128,9 +129,9 @@ SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter = 
             [self.target performSelector:didEnter];
 #pragma clang diagnostic pop
         }
-    } else {
-        self.currentState = state;
     }
+
+    self.currentState = state;
 }
 
 /**

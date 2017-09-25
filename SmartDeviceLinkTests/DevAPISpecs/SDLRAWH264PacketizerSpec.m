@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
-#import "SDLH264ByteStreamPacketizer.h"
+#import "SDLRAWH264Packetizer.h"
 
-QuickSpecBegin(SDLH264ByteStreamPacketizerSpec)
+QuickSpecBegin(SDLRAWH264PacketizerSpec)
 
 describe(@"a H264 byte stream packetizer", ^{
     // sample NAL units (SPS, PPS, I-frame, P-frame)
@@ -25,10 +25,10 @@ describe(@"a H264 byte stream packetizer", ^{
     NSData *iframe = [NSData dataWithBytes:iframeData length:sizeof(iframeData)];
     NSData *pframe = [NSData dataWithBytes:pframeData length:sizeof(pframeData)];
 
-    __block SDLH264ByteStreamPacketizer *packetizer = nil;
+    __block SDLRAWH264Packetizer *packetizer = nil;
 
     beforeEach(^{
-        packetizer = [[SDLH264ByteStreamPacketizer alloc] init];
+        packetizer = [[SDLRAWH264Packetizer alloc] init];
     });
 
     describe(@"its output array", ^{

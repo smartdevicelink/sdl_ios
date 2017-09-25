@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class SDLVideoEncoder;
+@class SDLH264VideoEncoder;
 
 @protocol SDLVideoEncoderDelegate <NSObject>
 
-- (void)videoEncoder:(SDLVideoEncoder *)encoder hasEncodedFrame:(NSData*)encodedVideo;
+- (void)videoEncoder:(SDLH264VideoEncoder *)encoder hasEncodedFrame:(NSData*)encodedVideo;
 
 @end

@@ -7,33 +7,43 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
 
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
-#import "SDLVideoEncoder.h"
-#import <AVFoundation/AVFoundation.h>
+#import "SDLH264VideoEncoder.h"
+#import "SDLRAWH264Packetizer.h"
+#import "SDLRTPH264Packetizer.h"
+#import "SDLVideoStreamingProtocol.h"
 
-QuickSpecBegin(SDLVideoEncoderSpec)
+QuickSpecBegin(SDLH264VideoEncoderSpec)
 
 describe(@"a video encoder", ^{
-    __block SDLVideoEncoder *testVideoEncoder = nil;
-    __block CGSize testSize = CGSizeMake(100, 200);
+    __block SDLH264VideoEncoder *testVideoEncoder = nil;
+    __block CGSize testSize = CGSizeZero;
     __block id videoEncoderDelegateMock = OCMProtocolMock(@protocol(SDLVideoEncoderDelegate));
     __block NSError *testError = nil;
+    __block SDLVideoStreamingProtocol testProtocol = nil;
+
+    beforeEach(^{
+        testSize = CGSizeMake(100, 200);
+        testProtocol = SDLVideoStreamingProtocolRAW;
+        testError = nil;
+    });
     
     context(@"if using default video encoder settings", ^{
-        
         beforeEach(^{
-            testVideoEncoder = [[SDLVideoEncoder alloc] initWithDimensions:testSize properties:SDLVideoEncoder.defaultVideoEncoderSettings delegate:videoEncoderDelegateMock error:&testError];
+            testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize properties:SDLH264VideoEncoder.defaultVideoEncoderSettings delegate:videoEncoderDelegateMock error:&testError];
         });
         
         it(@"should initialize properties", ^{
             expect(testVideoEncoder).toNot(beNil());
-            expect(testVideoEncoder.videoEncoderSettings).to(equal(SDLVideoEncoder.defaultVideoEncoderSettings));
+            expect(testVideoEncoder.videoEncoderSettings).to(equal(SDLH264VideoEncoder.defaultVideoEncoderSettings));
             expect(@(testVideoEncoder.pixelBufferPool == NULL)).to(equal(@NO));
             expect(testError).to(beNil());
+            expect(testVideoEncoder.packetizer).to(beAnInstanceOf([SDLRAWH264Packetizer class]));
             
             NSDictionary *pixelBufferProperties = (__bridge NSDictionary*)CVPixelBufferPoolGetPixelBufferAttributes(testVideoEncoder.pixelBufferPool);
             expect(pixelBufferProperties[(__bridge NSString*)kCVPixelBufferWidthKey]).to(equal(@100));
@@ -51,7 +61,7 @@ describe(@"a video encoder", ^{
         });
     });
     
-    context(@"is using custom video encoder settings", ^{
+    describe(@"is using custom video encoder settings", ^{
         __block NSDictionary *testSettings = nil;
         
         context(@"that is a valid setting", ^{
@@ -59,7 +69,8 @@ describe(@"a video encoder", ^{
                 testSettings = @{
                                  (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate : @1
                                  };
-                testVideoEncoder = [[SDLVideoEncoder alloc] initWithDimensions:testSize properties:testSettings delegate:videoEncoderDelegateMock error:&testError];
+
+                testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize properties:testSettings delegate:videoEncoderDelegateMock error:&testError];
             });
             
             it(@"should initialize properties", ^{
@@ -79,15 +90,37 @@ describe(@"a video encoder", ^{
                 testSettings = @{
                                  @"Bad" : @"Property"
                                  };
-                testVideoEncoder = [[SDLVideoEncoder alloc] initWithDimensions:testSize properties:testSettings delegate:videoEncoderDelegateMock error:&testError];
+                testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize properties:testSettings delegate:videoEncoderDelegateMock error:&testError];
             });
             
             it(@"should not be initialized", ^{
                 expect(testVideoEncoder).to(beNil());
-                expect(testVideoEncoder.videoEncoderSettings).to(beNil());
-                expect(@(testVideoEncoder.pixelBufferPool == NULL)).to(equal(@YES));
                 expect(testError).to(equal([NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ NSLocalizedDescriptionKey : @"\"Bad\" is not a supported key." }]));
             });
+        });
+    });
+
+    context(@"using an unknown protocol", ^{
+        beforeEach(^{
+            testProtocol = SDLVideoStreamingProtocolRTSP;
+            testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize properties:SDLH264VideoEncoder.defaultVideoEncoderSettings delegate:videoEncoderDelegateMock error:&testError];
+        });
+
+        it(@"should not be initialized", ^{
+            expect(testVideoEncoder).to(beNil());
+            expect(testError.code).to(equal(SDLVideoEncoderErrorProtocolUnknown));
+            expect(testError.userInfo[@"encoder"]).to(equal(testProtocol));
+        });
+    });
+
+    context(@"creating with RTP H264 Protocol", ^{
+        beforeEach(^{
+            testProtocol = SDLVideoStreamingProtocolRTP;
+            testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize properties:SDLH264VideoEncoder.defaultVideoEncoderSettings delegate:videoEncoderDelegateMock error:&testError];
+        });
+
+        it(@"should create an RTP packetizer", ^{
+            expect(testVideoEncoder.packetizer).to(beAnInstanceOf([SDLRTPH264Packetizer class]));
         });
     });
 });

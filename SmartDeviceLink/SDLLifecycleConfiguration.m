@@ -9,7 +9,6 @@
 #import "SDLLifecycleConfiguration.h"
 
 #import "SDLFile.h"
-#import "SDLVideoEncoder.h"
 
 static NSString *const DefaultTCPIPAddress = @"192.168.0.1";
 static UInt16 const DefaultTCPIPPort = 12345;

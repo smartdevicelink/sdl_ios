@@ -82,6 +82,22 @@ NS_ASSUME_NONNULL_BEGIN
     return newStruct;
 }
 
+- (BOOL)isEqualToRPC:(SDLRPCStruct *)rpc {
+    return [rpc->store isEqualToDictionary:self->store];
+}
+
+- (BOOL)isEqual:(id)object {
+    if (self == object) {
+        return YES;
+    }
+
+    if (![object isMemberOfClass:self.class]) {
+        return NO;
+    }
+
+    return [self isEqualToRPC:(SDLRPCStruct *)object];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
