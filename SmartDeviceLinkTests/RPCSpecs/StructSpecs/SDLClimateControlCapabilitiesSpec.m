@@ -76,7 +76,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.ventilationMode).to(equal([@[SDLVentilationModeUpper] copy]));
     });
 
-    it(@"Should get correctly when initialized with module data and other climate control capabilite's parameters", ^ {
+    it(@"Should get correctly when initialized with module data and other climate control capabilities parameters", ^ {
         SDLClimateControlCapabilities* testStruct = [[SDLClimateControlCapabilities alloc] initWithModuleName:@"Name" fanSpeedAvailable:YES desiredTemperatureAvailable:NO acEnableAvailable:NO acMaxEnableAvailable:YES circulateAirAvailable:NO autoModeEnableAvailable:NO dualModeEnableAvailable:NO defrostZoneAvailable:YES ventilationModeAvailable:YES];
 
         expect(testStruct.moduleName).to(equal(@"Name"));

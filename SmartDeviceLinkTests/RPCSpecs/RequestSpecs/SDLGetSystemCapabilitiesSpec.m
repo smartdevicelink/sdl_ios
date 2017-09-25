@@ -44,13 +44,6 @@ describe(@"Initialization tests", ^{
 
         expect(testRequest.systemCapabilityType).to(equal(SDLSystemCapabilityTypePhoneCall));
     });
-
-
-    it(@"should initialize correctly with initWithType:", ^{
-        SDLGetSystemCapability *testRequest = [[SDLGetSystemCapability alloc] initWithType:SDLSystemCapabilityTypePhoneCall];
-
-        expect(testRequest.systemCapabilityType).to(equal(SDLSystemCapabilityTypePhoneCall));
-    });
 });
 
 
