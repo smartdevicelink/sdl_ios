@@ -58,7 +58,7 @@ QuickConfigurationEnd
 
 QuickSpecBegin(SDLLifecycleManagerSpec)
 
-xdescribe(@"a lifecycle manager", ^{
+describe(@"a lifecycle manager", ^{
     __block SDLLifecycleManager *testManager = nil;
     __block SDLConfiguration *testConfig = nil;
     
@@ -87,7 +87,7 @@ xdescribe(@"a lifecycle manager", ^{
         testManager.streamManager = streamingManagerMock;
     });
     
-    it(@"should initialize properties", ^{
+    xit(@"should initialize properties", ^{
         expect(testManager.configuration).toNot(equal(testConfig)); // This is copied
         expect(testManager.delegate).to(equal(managerDelegateMock)); // TODO: Broken on OCMock 3.3.1 & Swift 3 Quick / Nimble
         expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
@@ -237,13 +237,14 @@ xdescribe(@"a lifecycle manager", ^{
                     OCMStub([permissionManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), permissionManagerStartError, nil])]);
                     OCMStub([streamingManagerMock startWithProtocol:protocolMock]);
                     
-                    // Send an RAI response to move the lifecycle forward
+                    // Send an RAI response & make sure we have an HMI status to move the lifecycle forward
+                    testManager.hmiLevel = SDLHMILevelFull;
                     [testManager.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
                     [NSThread sleepForTimeInterval:0.3];
                 });
                 
                 it(@"should eventually reach the ready state", ^{
-                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateReady));
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateReady));
                     OCMVerify([(SDLLockScreenManager *)lockScreenManagerMock start]);
                     OCMVerify([fileManagerMock startWithCompletionHandler:[OCMArg any]]);
                     OCMVerify([permissionManagerMock startWithCompletionHandler:[OCMArg any]]);
@@ -304,9 +305,10 @@ xdescribe(@"a lifecycle manager", ^{
                     testHMIStatus.hmiLevel = testHMILevel;
                     
                     [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
-                    
-                    expect(@(readyHandlerSuccess)).to(equal(@YES));
-                    expect(readyHandlerError).toNot(beNil());
+
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateReady));
+                    expect(@(readyHandlerSuccess)).toEventually(equal(@YES));
+                    expect(readyHandlerError).toEventually(beNil());
                 });
             });
         });
