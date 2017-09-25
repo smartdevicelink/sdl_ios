@@ -35,6 +35,10 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
+@interface SDLLifecycleManager ()
+- (void)sdl_sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler;
+@end
+
 QuickConfigurationBegin(SendingRPCsConfiguration)
 
 + (void)configure:(Configuration *)configuration {
@@ -87,7 +91,7 @@ describe(@"a lifecycle manager", ^{
         testManager.streamManager = streamingManagerMock;
     });
     
-    xit(@"should initialize properties", ^{
+    it(@"should initialize properties", ^{
         expect(testManager.configuration).toNot(equal(testConfig)); // This is copied
         expect(testManager.delegate).to(equal(managerDelegateMock)); // TODO: Broken on OCMock 3.3.1 & Swift 3 Quick / Nimble
         expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
@@ -164,7 +168,7 @@ describe(@"a lifecycle manager", ^{
             expect(testManager.lifecycleState).toEventuallyNot(match(SDLLifecycleStateStarted));
         });
     });
-    
+
     describe(@"when started", ^{
         __block BOOL readyHandlerSuccess = NO;
         __block NSError *readyHandlerError = nil;
@@ -467,6 +471,28 @@ describe(@"a lifecycle manager", ^{
                 });
             });
          });
+    });
+
+    describe(@"when a accessory is disconnected during setup", ^{
+//        __block SDLOnHMIStatus *testHMIStatus = nil;
+//        __block SDLHMILevel testHMILevel = nil;
+//        __block id myObjectMock = OCMPartialMock(testManager);
+//
+//        beforeEach(^{
+////            OCMStub([myObjectMock sdl_sendRequest:[OCMArg any] withResponseHandler:([OCMArg invokeBlockWithArgs:OCMOCK_ANY, OCMOCK_ANY, OCMOCK_ANY, nil])]);
+//
+//            testHMIStatus = [[SDLOnHMIStatus alloc] init];
+//            testHMILevel = SDLHMILevelNone;
+//            testHMIStatus.hmiLevel = testHMILevel;
+//
+//            [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
+//        });
+//
+//        it(@"", ^{
+//            [testManager.notificationDispatcher postNotificationName:SDLTransportDidConnect infoObject:nil];
+//            [NSThread sleepForTimeInterval:0.1];
+//            [testManager.notificationDispatcher postNotificationName:SDLTransportDidDisconnect infoObject:nil];
+//        });
     });
 });
 

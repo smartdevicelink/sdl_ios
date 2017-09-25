@@ -172,6 +172,21 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
              };
 }
 
+
+/**
+ *  Checks if SDL enabled accessory was disconnected.
+ *
+ *  @return YES if accessory disconnected, NO if accessory is still connected
+ */
+- (BOOL)sdl_didAccessoryDisconnected {
+    if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReconnecting] || [self.lifecycleStateMachine isCurrentState:SDLLifecycleStateStopped]) {
+        SDLLogV(@"The SDL enabled accessory was disconnected while setting up a connection with a SDL enabled accessory");
+        return true;
+    }
+
+    return false;
+}
+
 - (void)didEnterStateStarted {
     // Start up the internal proxy object
 #pragma clang diagnostic push
@@ -243,11 +258,22 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
           }
 
           weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
+
+          if ([weakSelf sdl_didAccessoryDisconnected]) {
+              SDLLogV(@"Accessory disconnected before entering the ready state. Current state: %@", weakSelf.lifecycleStateMachine.currentState);
+              return;
+          }
+
           [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
       }];
 }
 
 - (void)didEnterStateRegistered {
+    if ([self sdl_didAccessoryDisconnected]) {
+        SDLLogV(@"Accessory disconnected after entering the registered state. Current state: %@", self.lifecycleStateMachine.currentState);
+        return;
+    }
+
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpManagers];
 }
 
@@ -280,6 +306,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     // We're done synchronously calling all startup methods, so we can now wait.
     dispatch_group_leave(managerGroup);
 
+    if ([self sdl_didAccessoryDisconnected]) {
+        SDLLogV(@"Accessory disconnected after setting up managers. Current state: %@", self.lifecycleStateMachine.currentState);
+        return;
+    }
+
     // When done, we want to transition, even if there were errors. They may be expected, e.g. on head units that do not support files.
     dispatch_group_notify(managerGroup, dispatch_get_main_queue(), ^{
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpAppIcon];
@@ -290,13 +321,13 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     // We only want to send the app icon when the file manager is complete, and when that's done, wait for hmi status to be ready
     [self sdl_sendAppIcon:self.configuration.lifecycleConfig.appIcon
            withCompletion:^{
-               if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReconnecting]) {
-                   SDLLogV(@"The SDL enabled accessory was disconnected while the app icon was being set up");
+               if ([self sdl_didAccessoryDisconnected]) {
+                   SDLLogV(@"Accessory disconnected after setting up the app icon. Current state: %@", self.lifecycleStateMachine.currentState);
                    return;
-               } else {
-                   SDLLogV(@"App icon set up, ready to start setting up the HMI");
-                   [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
                }
+
+               SDLLogV(@"App icon set up, ready to start setting up the HMI");
+               [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
            }];
 }
 
@@ -307,8 +338,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
-    if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReconnecting]) {
-        SDLLogV(@"The SDL enabled accessory was disconnected while setting up the HMI");
+    if ([self sdl_didAccessoryDisconnected]) {
+        SDLLogV(@"Accessory disconnected while setting up the HMI. Current state: %@", self.lifecycleStateMachine.currentState);
         return;
     }
 
@@ -317,6 +348,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateReady {
+    if ([self sdl_didAccessoryDisconnected]) {
+        SDLLogV(@"Accessory disconnected before entering the ready state. Current state: %@", self.lifecycleStateMachine.currentState);
+        return;
+    }
+
     SDLResult registerResult = self.registerResponse.resultCode;
     NSString *registerInfo = self.registerResponse.info;
     NSError *startError = nil;
@@ -485,10 +521,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLOnHMIStatus *hmiStatusNotification = notification.notification;
     SDLHMILevel oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatusNotification.hmiLevel;
-    
+
     SDLAudioStreamingState oldStreamingState = self.audioStreamingState;
     self.audioStreamingState = hmiStatusNotification.audioStreamingState;
-    
+
     SDLSystemContext oldSystemContext = self.systemContext;
     self.systemContext = hmiStatusNotification.systemContext;
 
@@ -496,8 +532,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         self.firstHMINonNoneOccurred = YES;
         [self sdl_onFirstHMINonNone];
     }
-    
-	if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateSettingUpHMI]) {
+
+    if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateSettingUpHMI]) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
     }
 
@@ -513,7 +549,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         && [self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
         [self.delegate audioStreamingState:oldStreamingState didChangeToState:self.audioStreamingState];
     }
-    
+
     if (![oldSystemContext isEqualToEnum:self.systemContext]
         && [self.delegate respondsToSelector:@selector(systemContext:didChangeToContext:)]) {
         [self.delegate systemContext:oldSystemContext didChangeToContext:self.systemContext];
