@@ -16,6 +16,7 @@
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnHMIStatus.h"
+#import "SDLProtocolMessage.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
@@ -371,32 +372,34 @@ static NSUInteger const SDLFramesToSendOnBackground = 30;
 }
 
 #pragma mark - SDLProtocolListener
-- (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
-    switch (header.serviceType) {
+
+- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
+    switch (startServiceACK.header.serviceType) {
         case SDLServiceTypeAudio: {
-            _audioEncrypted = header.encrypted;
-            
+            _audioEncrypted = startServiceACK.header.encrypted;
+
             [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateReady];
         } break;
         case SDLServiceTypeVideo: {
-            _videoEncrypted = header.encrypted;
-            
+            _videoEncrypted = startServiceACK.header.encrypted;
+
             [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateReady];
         } break;
         default: break;
     }
+
 }
 
-- (void)handleProtocolStartSessionNACK:(SDLServiceType)serviceType {
-    [self sdl_transitionToStoppedState:serviceType];
+- (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
+    [self sdl_transitionToStoppedState:startServiceNAK.header.serviceType];
 }
 
-- (void)handleProtocolEndSessionACK:(SDLServiceType)serviceType {
-    [self sdl_transitionToStoppedState:serviceType];
+- (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
+    [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
 }
 
-- (void)handleProtocolEndSessionNACK:(SDLServiceType)serviceType {
-    [self sdl_transitionToStoppedState:serviceType];
+- (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
+    [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];
 }
 
 #pragma mark - SDLVideoEncoderDelegate

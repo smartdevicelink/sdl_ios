@@ -215,12 +215,12 @@ static float DefaultConnectionTimeout = 45.0;
     [self invokeMethodOnDelegates:@selector(onError:) withObject:e];
 }
 
-- (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
+- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     // Turn off the timer, the start session response came back
     [self.startSessionTimer cancel];
-    SDLLogV(@"StartSession (response)\nSessionId: %d for serviceType %d", header.sessionID, header.serviceType);
+    SDLLogV(@"StartSession (response)\nSessionId: %d for serviceType %d", startServiceACK.header.sessionID, startServiceACK.header.serviceType);
 
-    if (header.serviceType == SDLServiceTypeRPC) {
+    if (startServiceACK.header.serviceType == SDLServiceTypeRPC) {
         [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
     }
 }

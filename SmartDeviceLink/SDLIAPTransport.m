@@ -59,8 +59,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
         // Get notifications if an accessory connects in future
         [self sdl_startEventListening];
 
-        // Immediately scan for connected accessories
-        [self sdl_connect:nil];
+        // Wait for setup to complete before scanning for accessories
     }
 
     return self;
