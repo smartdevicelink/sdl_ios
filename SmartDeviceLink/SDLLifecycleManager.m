@@ -71,6 +71,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 // Private properties
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
+@property (assign, nonatomic) BOOL firstHMINonNoneOccurred;
 
 @end
 
@@ -104,6 +105,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _notificationDispatcher = [[SDLNotificationDispatcher alloc] init];
     _responseDispatcher = [[SDLResponseDispatcher alloc] initWithNotificationDispatcher:_notificationDispatcher];
     _registerResponse = nil;
+    _firstHMINonNoneOccurred = NO;
 
     // Managers
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
@@ -112,8 +114,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     
     if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation]
         || [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection]) {
-        SDLLogV(@"Creating StreamingMediaManager for app type: %@", configuration.lifecycleConfig.appType);
-        _streamManager = [[SDLStreamingMediaManager alloc] initWithEncryption:configuration.streamingMediaConfig.maximumDesiredEncryption videoEncoderSettings:configuration.streamingMediaConfig.customVideoEncoderSettings];
+        _streamManager = [[SDLStreamingMediaManager alloc] initWithConnectionManager:self configuration:configuration.streamingMediaConfig];
     } else {
         SDLLogV(@"Skipping StreamingMediaManager setup due to app type");
     }
@@ -197,6 +198,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.fileManager stop];
     [self.permissionManager stop];
     [self.lockScreenManager stop];
+    [self.streamManager stop];
     [self.responseDispatcher clear];
 
     self.registerResponse = nil;
@@ -274,19 +276,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
         dispatch_group_leave(managerGroup);
     }];
-    
-
-    if (self.streamManager != nil) {
-        dispatch_group_enter(managerGroup);
-    }
-    
-    [self.streamManager startWithProtocol:self.proxy.protocol completionHandler:^(BOOL success, NSError * _Nullable error) {
-        if (!success) {
-            SDLLogE(@"Streaming media manager was unable to start; error: %@", error);
-        }
-        
-        dispatch_group_leave(managerGroup);
-    }];
 
     // We're done synchronously calling all startup methods, so we can now wait.
     dispatch_group_leave(managerGroup);
@@ -311,6 +300,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         // If nil, return and wait until we get a notification
         return;
     }
+
     // We are sure to have a HMIStatus, set state to ready
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
 }
@@ -452,6 +442,15 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return YES;
 }
 
+- (void)sdl_onFirstHMINonNone {
+    // If we are a nav / projection app and desire to stream, we need to be in HMI background, limited, or full and perform additional setup when that occurs
+    if (self.streamManager == nil) {
+        return;
+    }
+
+    [self.streamManager startWithProtocol:self.proxy.protocol];
+}
+
 
 #pragma mark SDL notification observers
 
@@ -481,6 +480,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     
     SDLSystemContext oldSystemContext = self.systemContext;
     self.systemContext = hmiStatusNotification.systemContext;
+
+    if (!self.firstHMINonNoneOccurred && ![self.hmiLevel isEqualToEnum:SDLHMILevelNone]) {
+        self.firstHMINonNoneOccurred = YES;
+        [self sdl_onFirstHMINonNone];
+    }
     
 	if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateSettingUpHMI]) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];

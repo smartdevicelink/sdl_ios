@@ -1,5 +1,5 @@
 //
-//  SDLVideoEncoder.h
+//  SDLH264VideoEncoder
 //  SmartDeviceLink-iOS
 //
 //  Created by Muller, Alexander (A.) on 12/5/16.
@@ -10,22 +10,24 @@
 #import <VideoToolbox/VideoToolbox.h>
 
 #import "SDLMacros.h"
+#import "SDLVideoStreamingProtocol.h"
 #import "SDLVideoEncoderDelegate.h"
 
-@class SDLVideoEncoder;
+@protocol SDLH264Packetizer;
 
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, SDLVideoEncoderError) {
     SDLVideoEncoderErrorConfigurationCompressionSessionCreationFailure = 0,
     SDLVideoEncoderErrorConfigurationAllocationFailure = 1,
-    SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure = 2
+    SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure = 2,
+    SDLVideoEncoderErrorProtocolUnknown = 3
 };
 
 extern NSString *const SDLErrorDomainVideoEncoder;
 
 
-@interface SDLVideoEncoder : NSObject
+@interface SDLH264VideoEncoder : NSObject
 
 @property (nonatomic, weak, nullable) id<SDLVideoEncoderDelegate> delegate;
 
@@ -34,6 +36,8 @@ extern NSString *const SDLErrorDomainVideoEncoder;
  *
  */
 @property (strong, nonatomic, readonly) NSDictionary<NSString *, id> *videoEncoderSettings;
+
+@property (strong, nonatomic) id<SDLH264Packetizer> packetizer;
 
 /**
  *  Provides default video encoder settings used.
@@ -54,7 +58,7 @@ extern NSString *const SDLErrorDomainVideoEncoder;
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithDimensions:(CGSize)dimensions properties:(NSDictionary<NSString *, id> *)properties delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithProtocol:(SDLVideoStreamingProtocol)protocol dimensions:(CGSize)dimensions properties:(NSDictionary<NSString *, id> *)properties delegate:(id<SDLVideoEncoderDelegate> __nullable)delegate error:(NSError **)error NS_DESIGNATED_INITIALIZER;
 
 - (void)stop;
 

@@ -205,6 +205,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLReadDID.h',
 'SmartDeviceLink/SDLRectangle.h',
 'SmartDeviceLink/SDLReadDIDResponse.h',
+'SmartDeviceLink/SDLRectangle.h',
 'SmartDeviceLink/SDLRegisterAppInterface.h',
 'SmartDeviceLink/SDLRegisterAppInterfaceResponse.h',
 'SmartDeviceLink/SDLRequestType.h',
