@@ -15,3 +15,4 @@ SDLAppHMIType const SDLAppHMITypeProjection = @"PROJECTION";
 SDLAppHMIType const SDLAppHMITypeBackgroundProcess = @"BACKGROUND_PROCESS";
 SDLAppHMIType const SDLAppHMITypeTesting = @"TESTING";
 SDLAppHMIType const SDLAppHMITypeSystem = @"SYSTEM";
+SDLAppHMIType const SDLAppHMITypeRemoteControl = @"REMOTE_CONTROL";

@@ -54,20 +54,26 @@ NS_ASSUME_NONNULL_BEGIN
     switch (message.header.frameData) {
         case SDLFrameInfoStartServiceACK: {
             if ([self.delegate respondsToSelector:@selector(handleProtocolStartServiceACKMessage:)]) {
+                SDLLogD(@"responding to selector handleProtocolStartServiceACKMessage");
                 [self.delegate handleProtocolStartServiceACKMessage:message];
+            } else {
+                SDLLogE(@"does not respond to selector handleProtocolStartServiceACKMessage");
             }
         } break;
         case SDLFrameInfoStartServiceNACK: {
+            SDLLogD(@"responding to selector SDLFrameInfoStartServiceNACK");
             if ([self.delegate respondsToSelector:@selector(handleProtocolStartServiceNAKMessage:)]) {
                 [self.delegate handleProtocolStartServiceNAKMessage:message];
             }
         } break;
         case SDLFrameInfoEndServiceACK: {
+            SDLLogD(@"responding to selector SDLFrameInfoEndServiceACK");
             if ([self.delegate respondsToSelector:@selector(handleProtocolEndServiceACKMessage:)]) {
                 [self.delegate handleProtocolEndServiceACKMessage:message];
             }
         } break;
         case SDLFrameInfoEndServiceNACK: {
+            SDLLogD(@"responding to selector SDLFrameInfoEndServiceNACK");
             if ([self.delegate respondsToSelector:@selector(handleProtocolStartServiceNAKMessage:)]) {
                 [self.delegate handleProtocolEndServiceNAKMessage:message];
             }

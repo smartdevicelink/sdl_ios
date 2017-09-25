@@ -17,16 +17,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVideoStreamingCapability
 
-- (instancetype)initWithVideoStreaming:(nullable SDLImageResolution *)preferredResolution maxBitrate:(nullable NSNumber<SDLInt> *)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(nullable NSNumber<SDLBool> *)hapticDataSupported {
+- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported {
     self = [self init];
     if (!self) {
         return self;
     }
 
-    self.maxBitrate = maxBitrate;
+    self.maxBitrate = @(maxBitrate);
     self.preferredResolution = preferredResolution;
     self.supportedFormats = supportedFormats;
-    self.hapticSpatialDataSupported = hapticDataSupported;
+    self.hapticSpatialDataSupported = @(hapticDataSupported);
 
     return self;
 }

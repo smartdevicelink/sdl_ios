@@ -25,5 +25,11 @@ extern SDLSystemCapabilityType const SDLSystemCapabilityTypePhoneCall;
 
 /**
  @abstract VIDEO_STREAMING
+ 
  */
 extern SDLSystemCapabilityType const SDLSystemCapabilityTypeVideoStreaming;
+
+/**
+ @abstract REMOTE_CONTROL
+ */
+extern SDLSystemCapabilityType const SDLSystemCapabilityTypeRemoteControl;

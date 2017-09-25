@@ -9,21 +9,21 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLHMICapabilities : SDLRPCStruct
 
 /**
- Availability of build in Nav. True: Available, False: Not Available
+ Availability of built in Nav. True: Available, False: Not Available
  
  Boolean value. Optional.
  */
 @property (nullable, copy, nonatomic) NSNumber<SDLBool> *navigation;
 
 /**
- Availability of build in phone. True: Available, False: Not Available
+ Availability of built in phone. True: Available, False: Not Available
  
  Boolean value. Optional.
  */
 @property (nullable, copy, nonatomic) NSNumber<SDLBool> *phoneCall;
 
 /**
- Availability of build in video streaming. True: Available, False: Not Available
+ Availability of built in video streaming. True: Available, False: Not Available
 
  Boolean value. Optional.
  */
