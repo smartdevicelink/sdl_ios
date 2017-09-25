@@ -51,11 +51,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
         _retryCounter = 0;
         _protocolIndexTimer = nil;
 
-        if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
-            SDLLogD(@"SDLIAPTransport instance created while app is in background. Starting background task.");
-            [self sdl_backgroundTaskStart];
-        }
-
         // Get notifications if an accessory connects in future
         [self sdl_startEventListening];
 
