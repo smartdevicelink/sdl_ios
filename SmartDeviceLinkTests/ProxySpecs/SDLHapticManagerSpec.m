@@ -77,6 +77,7 @@ describe(@"the haptic manager", ^{
     context(@"when initialized with no focusable view", ^{
         beforeEach(^{
             hapticManager = [[SDLHapticManager alloc] initWithWindow:uiWindow connectionManager:sdlLifecycleManager];
+            [hapticManager updateInterfaceLayout];
         });
         
         it(@"should have no focusable view", ^{
@@ -92,6 +93,7 @@ describe(@"the haptic manager", ^{
             [uiWindow insertSubview:textField1 aboveSubview:uiWindow];
             
             hapticManager = [[SDLHapticManager alloc] initWithWindow:uiWindow  connectionManager:sdlLifecycleManager];
+            [hapticManager updateInterfaceLayout];
         });
         
         it(@"should have one view", ^{
@@ -113,6 +115,7 @@ describe(@"the haptic manager", ^{
     context(@"when initialized with no views and then updated with two additional views", ^{
         beforeEach(^{
             hapticManager = [[SDLHapticManager alloc] initWithWindow:uiWindow  connectionManager:sdlLifecycleManager];
+            [hapticManager updateInterfaceLayout];
             
             viewRect1 = CGRectMake(101, 101, 50, 50);
             UITextField *textField1 = [[UITextField alloc]  initWithFrame:viewRect1];
@@ -156,6 +159,7 @@ describe(@"the haptic manager", ^{
             [uiViewController.view addSubview:textField2];
             
             hapticManager = [[SDLHapticManager alloc] initWithWindow:uiWindow  connectionManager:sdlLifecycleManager];
+            [hapticManager updateInterfaceLayout];
             
             [textField2 removeFromSuperview];
             
@@ -187,6 +191,7 @@ describe(@"the haptic manager", ^{
             [uiViewController.view addSubview:textField2];
             
             hapticManager = [[SDLHapticManager alloc] initWithWindow:uiWindow  connectionManager:sdlLifecycleManager];
+            [hapticManager updateInterfaceLayout];
         });
         
         it(@"should return a view object", ^{
@@ -208,6 +213,7 @@ describe(@"the haptic manager", ^{
             [uiWindow insertSubview:textField1 aboveSubview:uiWindow];
             
             hapticManager = [[SDLHapticManager alloc] initWithWindow:uiWindow  connectionManager:sdlLifecycleManager];
+            [hapticManager updateInterfaceLayout];
         });
         it(@"should return nil", ^{
             SDLTouch* collisionTouch = generateTouchEvent(0, 228);
