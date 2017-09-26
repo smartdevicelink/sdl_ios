@@ -416,19 +416,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 #pragma mark Video / Audio Start Service ACK
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
-    SDLLogD(@"handleProtocolStartServiceACKMessage, %d", (int)startServiceACK.header.serviceType);
     switch (startServiceACK.header.serviceType) {
         case SDLServiceTypeAudio: {
-            SDLLogD(@"starting audio SDLServiceTypeAudio");
             [self sdl_handleAudioStartServiceAck:startServiceACK];
         } break;
         case SDLServiceTypeVideo: {
-            SDLLogD(@"starting video SDLServiceTypeVideo");
             [self sdl_handleVideoStartServiceAck:startServiceACK];
         } break;
-        default:
-            SDLLogD(@"got something else, %d", (int)startServiceACK.header.serviceType);
-            break;
+        default: break;
     }
 }
 
