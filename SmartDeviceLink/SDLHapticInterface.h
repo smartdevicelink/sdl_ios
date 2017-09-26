@@ -6,12 +6,27 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SDLManager.h"
+#import "SDLConnectionManagerType.h"
+
+@class SDLManager;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLHapticInterface <NSObject>
 
-- (instancetype)initWithWindow:(UIWindow *)window  sdlManager:(SDLManager *)sdlManager;
+/**
+ Initializes haptic interface. After initializing the application must call updateInterfaceLayout to process the UIWindow. Application must update later view changes in the window by sending SDLDidProjectionViewUpdate  notification.
+ 
+  @param window UIWindow to initialize
+  @param connectionManager Object of a class that implements ConnectionManagerType. This is used for RPC communication.
+ */
+- (instancetype)initWithWindow:(UIWindow *)window  connectionManager:(id<SDLConnectionManagerType>)connectionManager;
+
+/**
+ updateInterfaceLayout crawls through the view hierarchy, updates and keep tracks of views to be reported through Haptic RPC. This function is automatically called when SDLDidProjectionViewUpdate notification is sent by the application.
+ */
 - (void)updateInterfaceLayout;
-// additional method should be added to allow pure openGL apps to specify an array of spatial data directly
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -6,13 +6,14 @@
 //
 
 #import <UIKit/UIKit.h>
+
 #import "SDLHapticInterface.h"
 #import "SDLHapticHitTester.h"
-#import "SDLManager.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLHapticManager : NSObject <SDLHapticInterface, SDLHapticHitTester>
-- (instancetype)initWithWindow:(UIWindow *)window sdlManager:(SDLManager *)sdlManager;
-- (void)updateInterfaceLayout;
-- (UIView *)viewForSDLTouch:(SDLTouch *)touch;
 
 @end
+
+NS_ASSUME_NONNULL_END

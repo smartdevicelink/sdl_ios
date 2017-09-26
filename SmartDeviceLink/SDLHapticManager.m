@@ -14,57 +14,63 @@
 #import "SDLSendHapticData.h"
 #import "SDLTouch.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLHapticManager()
 
-/*!
- *  @abstract
- *      The projection window associated with the Haptic Manager
+/**
+ The projection window associated with the Haptic Manager
  */
 @property (nonatomic, strong) UIWindow *projectionWindow;
 
-/*!
- *  @abstract
- *      Array of focusable view objects extracted from the projection window
+/**
+ Array of focusable view objects extracted from the projection window
  */
 @property (nonatomic, strong) NSMutableArray<UIView *> *focusableViews;
 
-/*!
- *  @abstract
- *      reference to SDLManager
+/**
+ reference to SDLConnectionManager
  */
-@property (nonatomic, strong) SDLManager *sdlManager;
+@property (nonatomic, strong) id<SDLConnectionManagerType> connectionManager;
 @end
 
 
 @implementation SDLHapticManager
 
-- (instancetype)initWithWindow:(UIWindow *)window sdlManager:(SDLManager *)sdlManager{
-    if ((self = [super init])) {
-        self.projectionWindow = window;
-        self.sdlManager = sdlManager;
-        [self updateInterfaceLayout];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(projectionViewUpdated:) name:SDLProjectionViewUpdate object:nil];
-        
+- (instancetype)initWithWindow:(UIWindow *)window connectionManager:(id<SDLConnectionManagerType>)connectionManager{
+    self = [super init];
+    if(!self) {
+        return nil;
     }
+    
+    _projectionWindow = window;
+    _connectionManager = connectionManager;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_projectionViewUpdated:) name:SDLDidProjectionViewUpdate object:nil];
+    
     return self;
 }
 
 - (void)updateInterfaceLayout {
-    self.focusableViews = [NSMutableArray new];
-    [self parseViewHierarchy:[[self.projectionWindow subviews] lastObject]];
+    self.focusableViews = [[NSMutableArray alloc] init];
+    [self sdl_parseViewHierarchy:self.projectionWindow.subviews.lastObject];
     
-    NSUInteger preferredViewIndex = [self.focusableViews indexOfObject:[[[self.projectionWindow subviews] lastObject] preferredFocusedView]];
-    if (preferredViewIndex != NSNotFound && _focusableViews.count > 1) {
+    // If there is a preferred view bring that into top of the array
+    NSUInteger preferredViewIndex = [self.focusableViews indexOfObject:self.projectionWindow.subviews.lastObject.preferredFocusedView];
+    if (preferredViewIndex != NSNotFound && self.focusableViews.count > 1) {
         [self.focusableViews exchangeObjectAtIndex:preferredViewIndex withObjectAtIndex:0];
     }
     
-    //Create and send RPC
-    [self sendHapticRPC];
+    [self sdl_sendHapticRPC];
 }
 
-- (void)parseViewHierarchy:(UIView *)currentView {
+/**
+ Crawls through the views recursively and adds focusable view into the member array
+
+ @param currentView is the view hierarchy to be processed
+ */
+- (void)sdl_parseViewHierarchy:(UIView *)currentView {
     if (currentView == nil) {
-        NSLog(@"Error: Cannot parse nil view");
+        SDLLogW(@"Error: Cannot parse nil view");
         return;
     }
     
@@ -72,22 +78,30 @@
         return evaluatedObject.canBecomeFocused;
     }]];
     
+    //if current view is focusable and it doesn't have any focusable sub views then add the cuurent view and return
     if (currentView.canBecomeFocused && focusableSubviews.count == 0) {
         [self.focusableViews addObject:currentView];
         return;
-    } else if (currentView.subviews.count > 0) {
-        NSArray *subviews = currentView.subviews;
+    }
+    // if current view has focusable sub views parse them recursively
+    else if (currentView.subviews.count > 0) {
+        NSArray<UIView *> *subviews = currentView.subviews;
         
         for (UIView *childView in subviews) {
-            [self parseViewHierarchy:childView];
+            [self sdl_parseViewHierarchy:childView];
         }
-    } else {
+    }
+    //else just return
+    else {
         return;
     }
 }
 
-- (void)sendHapticRPC {
-    NSMutableArray<SDLHapticRect *> *hapticRects = [NSMutableArray new];
+/**
+ Iterates through the focusable views, extracts rectangular parameters, creates Haptic RPC request and sends it
+ */
+- (void)sdl_sendHapticRPC {
+    NSMutableArray<SDLHapticRect *> *hapticRects = [[NSMutableArray alloc] init];
     
     for (UIView *view in self.focusableViews) {
         CGPoint originOnScreen = [view.superview convertPoint:view.frame.origin toView:nil];
@@ -99,24 +113,17 @@
         [hapticRects addObject:hapticRect];
     }
     
-    if(self.sdlManager) {
-        SDLSendHapticData* hapticRPC = [[SDLSendHapticData alloc] initWithHapticRectData:hapticRects];
-        [self.sdlManager sendRequest:hapticRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError *     _Nullable error) {
-            NSLog(@"SendHapticData:\n"
-                  "Request: %@"
-                  "Response: %@"
-                  "Error: %@", request, response, error);
-        }];
-    }
+    SDLSendHapticData* hapticRPC = [[SDLSendHapticData alloc] initWithHapticRectData:hapticRects];
+    [self.connectionManager sendManagerRequest:hapticRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    }];
 }
 
 #pragma mark SDLHapticHitTester functions
-
-- (UIView *)viewForSDLTouch:(SDLTouch *)touch {
-    
+- (nullable UIView *)viewForSDLTouch:(SDLTouch *)touch {
     UIView *selectedView = nil;
     
     for (UIView *view in self.focusableViews) {
+        //Convert the absolute location to local location and check if that falls within view boundary
         CGPoint localPoint = [view convertPoint:touch.location fromView:self.projectionWindow];
         if ([view pointInside:localPoint withEvent:nil]) {
             if (selectedView != nil) {
@@ -129,22 +136,26 @@
         }
     }
     
-    if(selectedView != nil)
-    {
+    if(selectedView != nil) {
         NSUInteger selectedViewIndex = [self.focusableViews indexOfObject:selectedView];
         
         if (selectedViewIndex != NSNotFound) {
-            return [self.focusableViews objectAtIndex:selectedViewIndex];
-        } else {
-            return nil;
+            return self.focusableViews[selectedViewIndex];
         }
     }
     return nil;
 }
 
 #pragma mark notifications
-- (void)projectionViewUpdated:(NSNotification *)notification {
+/**
+ Function that gets called when projection view updated notification occurs.
+
+ @param notification object with notification data
+ */
+- (void)sdl_projectionViewUpdated:(NSNotification *)notification {
     [self updateInterfaceLayout];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

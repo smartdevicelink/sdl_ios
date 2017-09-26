@@ -9,8 +9,18 @@
 
 @class SDLTouch;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol SDLHapticHitTester <NSObject>
 
-- (nullable UIView *)viewForSDLTouch:(SDLTouch *_Nonnull)touch;
+/**
+ Determines which view was selected based on SDLTouch object. If no view gets matched null value will be returned.
+
+ @param touch SDLTouch which has touch coordinates
+ @return matched UIView object or null
+ */
+- (nullable UIView *)viewForSDLTouch:(SDLTouch *)touch;
 
 @end
+
+NS_ASSUME_NONNULL_END
