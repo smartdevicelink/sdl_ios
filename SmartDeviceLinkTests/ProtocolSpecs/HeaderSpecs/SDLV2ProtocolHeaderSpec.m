@@ -68,36 +68,6 @@ describe(@"Copy Tests", ^ {
     });
 });
 
-describe(@"compressed deprecated spec", ^{
-    describe(@"setting encrypted", ^{
-        __block BOOL value = NO;
-        beforeEach(^{
-            testHeader.encrypted = value;
-        });
-        
-        it(@"should give the same value for compressed", ^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            expect(@(testHeader.compressed)).to(equal(@(value)));
-#pragma clang diagnostic pop
-        });
-    });
-    
-    describe(@"setting compressed", ^{
-        __block BOOL value = YES;
-        beforeEach(^{
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            testHeader.compressed = value;
-#pragma clang diagnostic pop
-        });
-        
-        it(@"should give the same value for compressed", ^{
-            expect(@(testHeader.encrypted)).to(equal(@(value)));
-        });
-    });
-});
-
 describe(@"Data Tests", ^ {
     it (@"Should convert to byte data correctly", ^ {
         expect(testHeader.data).to(equal(testData));

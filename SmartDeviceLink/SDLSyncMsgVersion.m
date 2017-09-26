@@ -11,20 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSyncMsgVersion
 
-- (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
-    self.majorVersion = @(majorVersion);
-    self.minorVersion = @(minorVersion);
-    self.patchVersion = @(0);
-
-    return self;
-}
-
-- (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion patchVersion:(NSInteger)patchVersion {
+- (instancetype)initWithMajorVersion:(UInt8)majorVersion minorVersion:(UInt8)minorVersion patchVersion:(UInt8)patchVersion {
     self = [self init];
     if (!self) {
         return nil;

@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) float duration;
 
 - (instancetype)init;
-- (instancetype)initWithDuration:(float)duration __deprecated;
+- (instancetype)initWithDuration:(float)duration;
 - (instancetype)initWithDuration:(float)duration repeat:(BOOL)repeat;
 - (void)start;
 - (void)cancel;
