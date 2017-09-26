@@ -82,25 +82,13 @@ NS_ASSUME_NONNULL_BEGIN
     return header.sessionID;
 }
 
-- (void)sendStartSessionWithType:(SDLServiceType)serviceType {
-    [self startServiceWithType:serviceType payload:nil];
-}
-
 
 #pragma mark - Start Service
-
-- (void)startServiceWithType:(SDLServiceType)serviceType {
-    [self startServiceWithType:serviceType payload:nil];
-}
 
 - (void)startServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload {
     // No encryption, just build and send the message synchronously
     SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:NO payload:payload];
     [self sdl_sendDataToTransport:message.data onService:serviceType];
-}
-
-- (void)startSecureServiceWithType:(SDLServiceType)serviceType completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
-    [self startSecureServiceWithType:serviceType payload:nil completionHandler:completionHandler];
 }
 
 - (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
@@ -176,10 +164,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 #pragma mark - End Service
-
-- (void)sendEndSessionWithType:(SDLServiceType)serviceType {
-    [self endServiceWithType:serviceType];
-}
 
 - (void)endServiceWithType:(SDLServiceType)serviceType {
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].majorProtocolVersion];
@@ -293,11 +277,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return YES;
-}
-
-// SDLRPCRequest in from app -> SDLProtocolMessage out to transport layer.
-- (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest {
-    [self sendRPC:rpcRequest];
 }
 
 // Use for normal messages
@@ -461,19 +440,6 @@ NS_ASSUME_NONNULL_BEGIN
         if ([listener respondsToSelector:@selector(handleProtocolStartServiceACKMessage:)]) {
             [listener handleProtocolStartServiceACKMessage:startServiceACK];
         }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:)]) {
-            [listener handleProtocolStartSessionACK:startServiceACK.header];
-        }
-
-        if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:version:)]) {
-            [listener handleProtocolStartSessionACK:startServiceACK.header.serviceType
-                                          sessionID:startServiceACK.header.sessionID
-                                            version:startServiceACK.header.version];
-#pragma clang diagnostic pop
-        }
     }
 }
 
@@ -484,13 +450,6 @@ NS_ASSUME_NONNULL_BEGIN
         if ([listener respondsToSelector:@selector(handleProtocolStartServiceNAKMessage:)]) {
             [listener handleProtocolStartServiceNAKMessage:startServiceNAK];
         }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        if ([listener respondsToSelector:@selector(handleProtocolStartSessionNACK:)]) {
-            [listener handleProtocolStartSessionNACK:startServiceNAK.header.serviceType];
-        }
-#pragma clang diagnostic pop
     }
 }
 
@@ -502,14 +461,7 @@ NS_ASSUME_NONNULL_BEGIN
         if ([listener respondsToSelector:@selector(handleProtocolEndServiceACKMessage:)]) {
             [listener handleProtocolEndServiceACKMessage:endServiceACK];
         }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        if ([listener respondsToSelector:@selector(handleProtocolEndSessionACK:)]) {
-            [listener handleProtocolEndSessionACK:endServiceACK.header.serviceType];
-        }
     }
-#pragma clang diagnostic pop
 }
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
@@ -519,14 +471,7 @@ NS_ASSUME_NONNULL_BEGIN
         if ([listener respondsToSelector:@selector(handleProtocolEndServiceNAKMessage:)]) {
             [listener handleProtocolEndServiceNAKMessage:endServiceNAK];
         }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        if ([listener respondsToSelector:@selector(handleProtocolEndSessionNACK:)]) {
-            [listener handleProtocolEndSessionNACK:endServiceNAK.header.serviceType];
-        }
     }
-#pragma clang diagnostic pop
 }
 
 - (void)handleHeartbeatForSession:(Byte)session {

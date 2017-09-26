@@ -14,10 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSyncMsgVersion : SDLRPCStruct
 
-// TODO: (Alex M.)[2016-12-1] Change from NSInteger to UInt8
-- (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion __deprecated_msg("Use initWithMajorVersion:minorVersion:patchVersion: instead");
-
-- (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion patchVersion:(NSInteger)patchVersion;
+- (instancetype)initWithMajorVersion:(UInt8)majorVersion minorVersion:(UInt8)minorVersion patchVersion:(UInt8)patchVersion;
 
 /**
  * @abstract The major version indicates versions that is not-compatible to previous versions
