@@ -185,3 +185,13 @@ extern SDLResult const SDLResultExpiredCertificate;
  * The provided hash ID does not match the hash of the current set of registered data or the core could not resume the previous data.
  */
 extern SDLResult const SDLResultResumeFailed;
+
+/**
+ * The requested data is not available on this vehicle or is not published for the connected app.
+ */
+extern SDLResult const SDLResultDataNotAvailable;
+
+/**
+ * The requested data is read only thus cannot be change via remote control .
+ */
+extern SDLResult const SDLResultReadOnly;

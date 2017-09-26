@@ -37,10 +37,8 @@ __deprecated_msg("Use SDLManager instead")
 - (void)removeDelegate:(NSObject<SDLProxyListener> *)delegate;
 
 - (void)sendRPC:(SDLRPCMessage *)message;
-- (void)sendRPCRequest:(SDLRPCMessage *)msg __deprecated_msg("use -sendRPC: instead");
 
 - (void)handleRPCDictionary:(NSDictionary<NSString *, id> *)dictionary;
-- (void)handleRpcMessage:(NSDictionary *)msg __deprecated_msg("use -handleRPCDictionary: instead");
 
 - (void)handleProtocolMessage:(SDLProtocolMessage *)msgData;
 

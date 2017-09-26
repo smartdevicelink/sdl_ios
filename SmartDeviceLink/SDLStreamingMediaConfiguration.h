@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) SDLStreamingEncryptionFlag maximumDesiredEncryption;
 
 /**
- *  Properties to use for applications that utilitze the video encoder for streaming.
+ *  Properties to use for applications that utilitze the video encoder for streaming. See VTCompressionProperties.h for more details. For example, you can set kVTCompressionPropertyKey_ExpectedFrameRate to set your expected framerate.
  */
 @property (copy, nonatomic, nullable) NSDictionary<NSString *, id> *customVideoEncoderSettings;
 

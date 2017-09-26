@@ -73,27 +73,6 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:nil mainField4:nil alignment:alignment statusBar:statusBar mediaClock:mediaClock mediaTrack:mediaTrack graphic:nil softButtons:nil customPresets:nil textFieldMetadata:nil];
 }
 
-- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
-    self.mainField1 = mainField1;
-    self.mainField2 = mainField2;
-    self.mainField3 = mainField3;
-    self.mainField4 = mainField4;
-    self.statusBar = statusBar;
-    self.mediaClock = mediaClock;
-    self.mediaTrack = mediaTrack;
-    self.alignment = alignment;
-    self.graphic = graphic;
-    self.softButtons = [softButtons mutableCopy];
-    self.customPresets = [customPresets mutableCopy];
-
-    return self;
-}
-
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets textFieldMetadata:(nullable SDLMetadataTags *)metadata {
     self = [self init];
     if (!self) {
