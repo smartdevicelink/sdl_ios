@@ -25,6 +25,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLAppHMITypeBackgroundProcess).to(equal(@"BACKGROUND_PROCESS"));
         expect(SDLAppHMITypeTesting).to(equal(@"TESTING"));
         expect(SDLAppHMITypeSystem).to(equal(@"SYSTEM"));
+        expect(SDLAppHMITypeRemoteControl).to(equal(@"REMOTE_CONTROL"));
     });
 });
 

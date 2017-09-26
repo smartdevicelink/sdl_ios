@@ -22,14 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (BOOL)compressed {
-    return _encrypted;
-}
-
-- (void)setCompressed:(BOOL)compressed {
-    _encrypted = compressed;
-}
-
 - (id)copyWithZone:(nullable NSZone *)zone {
     [self doesNotRecognizeSelector:_cmd];
     return 0;

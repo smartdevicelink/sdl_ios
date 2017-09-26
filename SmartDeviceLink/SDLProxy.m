@@ -194,7 +194,8 @@ static float DefaultConnectionTimeout = 45.0;
 - (void)onProtocolOpened {
     _isConnected = YES;
     SDLLogV(@"Proxy RPC protocol opened");
-    [self.protocol startServiceWithType:SDLServiceTypeRPC];
+    // THe RPC payload will be created by the protocol object...it's weird and confusing, I know.
+    [self.protocol startServiceWithType:SDLServiceTypeRPC payload:nil];
 
     if (self.startSessionTimer == nil) {
         self.startSessionTimer = [[SDLTimer alloc] initWithDuration:StartSessionTime repeat:NO];
@@ -215,12 +216,12 @@ static float DefaultConnectionTimeout = 45.0;
     [self invokeMethodOnDelegates:@selector(onError:) withObject:e];
 }
 
-- (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
+- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     // Turn off the timer, the start session response came back
     [self.startSessionTimer cancel];
-    SDLLogV(@"StartSession (response)\nSessionId: %d for serviceType %d", header.sessionID, header.serviceType);
+    SDLLogV(@"StartSession (response)\nSessionId: %d for serviceType %d", startServiceACK.header.sessionID, startServiceACK.header.serviceType);
 
-    if (header.serviceType == SDLServiceTypeRPC) {
+    if (startServiceACK.header.serviceType == SDLServiceTypeRPC) {
         [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
     }
 }
@@ -240,12 +241,6 @@ static float DefaultConnectionTimeout = 45.0;
         [self.protocol sendRPC:message];
     } @catch (NSException *exception) {
         SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
-    }
-}
-
-- (void)sendRPCRequest:(SDLRPCMessage *)msg {
-    if ([msg isKindOfClass:SDLRPCRequest.class]) {
-        [self sendRPC:msg];
     }
 }
 
@@ -310,10 +305,6 @@ static float DefaultConnectionTimeout = 45.0;
     if ([functionName isEqualToString:@"OnDriverDistraction"]) {
         [self handleAfterDriverDistraction:newMessage];
     }
-}
-
-- (void)handleRpcMessage:(NSDictionary<NSString *, id> *)msg {
-    [self handleRPCDictionary:msg];
 }
 
 
