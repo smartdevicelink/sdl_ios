@@ -146,35 +146,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (![self.protocol.protocolDelegateTable containsObject:self]) {
         [self.protocol.protocolDelegateTable addObject:self];
     }
-
-    SDLLogD(@"Requesting video capabilities");
-    __weak typeof(self) weakSelf = self;
-    [self sdl_requestVideoCapabilities:^(SDLVideoStreamingCapability * _Nullable capability) {
-        SDLLogD(@"Received video capability response");
-        SDLLogV(@"%@", capability);
-        if (capability != nil) {
-            // If we got a response, get our preferred formats and resolutions
-            weakSelf.preferredFormats = capability.supportedFormats;
-            weakSelf.preferredResolutions = @[capability.preferredResolution];
-
-            if (weakSelf.dataSource != nil) {
-                SDLLogV(@"Calling data source for modified preferred formats and resolutions");
-                weakSelf.preferredFormats = [weakSelf.dataSource preferredVideoFormatOrderFromHeadUnitPreferredOrder:weakSelf.preferredFormats];
-                weakSelf.preferredResolutions = [weakSelf.dataSource resolutionFromHeadUnitPreferredResolution:weakSelf.preferredResolutions.firstObject];
-            }
-
-            SDLLogD(@"Got specialized video capabilites, preferred formats: %@, resolutions: %@", weakSelf.preferredFormats, weakSelf.preferredResolutions);
-        } else {
-            // If we can't get capabilities, we're assuming it's H264 RAW at whatever the display capabilities said in the RAIR. We also aren't going to call the data source because they have no options.
-            SDLVideoStreamingFormat *format = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
-            SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:weakSelf.screenSize.width height:weakSelf.screenSize.height];
-            weakSelf.preferredFormats = @[format];
-            weakSelf.preferredResolutions = @[resolution];
-            SDLLogD(@"Using generic video capabilites, preferred formats: %@, resolutions: %@", weakSelf.preferredFormats, weakSelf.preferredResolutions);
-        }
-
-        [weakSelf sdl_startVideoSession];
-    }];
 }
 
 - (void)stop {
@@ -332,7 +303,34 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogD(@"Video stream starting");
     self.restartVideoStream = NO;
 
-    [self sdl_sendVideoStartService];
+    SDLLogD(@"Requesting video capabilities");
+    __weak typeof(self) weakSelf = self;
+    [self sdl_requestVideoCapabilities:^(SDLVideoStreamingCapability * _Nullable capability) {
+        SDLLogD(@"Received video capability response");
+        SDLLogV(@"%@", capability);
+        if (capability != nil) {
+            // If we got a response, get our preferred formats and resolutions
+            weakSelf.preferredFormats = capability.supportedFormats;
+            weakSelf.preferredResolutions = @[capability.preferredResolution];
+
+            if (weakSelf.dataSource != nil) {
+                SDLLogV(@"Calling data source for modified preferred formats and resolutions");
+                weakSelf.preferredFormats = [weakSelf.dataSource preferredVideoFormatOrderFromHeadUnitPreferredOrder:weakSelf.preferredFormats];
+                weakSelf.preferredResolutions = [weakSelf.dataSource resolutionFromHeadUnitPreferredResolution:weakSelf.preferredResolutions.firstObject];
+            }
+
+            SDLLogD(@"Got specialized video capabilites, preferred formats: %@, resolutions: %@", weakSelf.preferredFormats, weakSelf.preferredResolutions);
+        } else {
+            // If we can't get capabilities, we're assuming it's H264 RAW at whatever the display capabilities said in the RAIR. We also aren't going to call the data source because they have no options.
+            SDLVideoStreamingFormat *format = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
+            SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:weakSelf.screenSize.width height:weakSelf.screenSize.height];
+            weakSelf.preferredFormats = @[format];
+            weakSelf.preferredResolutions = @[resolution];
+            SDLLogD(@"Using generic video capabilites, preferred formats: %@, resolutions: %@", weakSelf.preferredFormats, weakSelf.preferredResolutions);
+        }
+
+        [self sdl_sendVideoStartService];
+    }];
 }
 
 - (void)didEnterStateVideoStreamReady {
