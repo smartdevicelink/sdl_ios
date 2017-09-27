@@ -284,9 +284,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
             self.configuration.lifecycleConfig.voiceRecognitionCommandNames = configUpdate.voiceRecognitionCommandNames;
         }
         
-        SDLChangeRegistration *changeRegistration = [[SDLChangeRegistration alloc] init];
-        changeRegistration.language = actualLanguage;
-        changeRegistration.hmiDisplayLanguage = actualLanguage;
+        SDLChangeRegistration *changeRegistration = [[SDLChangeRegistration alloc] initWithLanguage:actualLanguage hmiDisplayLanguage:actualLanguage];
         changeRegistration.appName = configUpdate.appName;
         changeRegistration.ngnMediaScreenAppName = configUpdate.shortAppName;
         changeRegistration.ttsName = configUpdate.ttsName;
