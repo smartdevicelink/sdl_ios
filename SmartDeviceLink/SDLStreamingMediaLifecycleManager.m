@@ -183,6 +183,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self sdl_stopVideoSession];
 
     self.restartVideoStream = NO;
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateStopped];
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
 }
 

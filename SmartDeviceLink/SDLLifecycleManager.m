@@ -206,8 +206,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     self.hmiLevel = nil;
     self.audioStreamingState = nil;
     self.systemContext = nil;
-
     self.proxy = nil;
+    self.firstHMINonNoneOccurred = NO;
 
     // Due to a race condition internally with EAStream, we cannot immediately attempt to restart the proxy, as we will randomly crash.
     // Apple Bug ID #30059457
