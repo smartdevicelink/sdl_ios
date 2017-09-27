@@ -14,6 +14,7 @@
 #import "SDLAbstractProtocol.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLGlobals.h"
 #import "SDLLogMacros.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLError.h"
@@ -178,9 +179,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
  *
  *  @return YES if accessory disconnected, NO if accessory is still connected
  */
-- (BOOL)sdl_didAccessoryDisconnected {
+- (BOOL)sdl_didAccessoryDisconnect {
     if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReconnecting] || [self.lifecycleStateMachine isCurrentState:SDLLifecycleStateStopped]) {
-        SDLLogV(@"The SDL enabled accessory was disconnected while setting up a connection with a SDL enabled accessory");
+        SDLLogW(@"Accessory disconnected before entering the ready state. Current state: %@", weakSelf.lifecycleStateMachine.currentState);
         return true;
     }
 
@@ -259,9 +260,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
           weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
 
-          if ([weakSelf sdl_didAccessoryDisconnected]) {
-              SDLLogV(@"Accessory disconnected before entering the ready state. Current state: %@", weakSelf.lifecycleStateMachine.currentState);
-              return;
+          if ([weakSelf sdl_didAccessoryDisconnect]) {
+              BLOCK_RETURN;
           }
 
           [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
@@ -269,8 +269,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateRegistered {
-    if ([self sdl_didAccessoryDisconnected]) {
-        SDLLogV(@"Accessory disconnected after entering the registered state. Current state: %@", self.lifecycleStateMachine.currentState);
+    if ([self sdl_didAccessoryDisconnect]) {
         return;
     }
 
@@ -306,7 +305,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     // We're done synchronously calling all startup methods, so we can now wait.
     dispatch_group_leave(managerGroup);
 
-    if ([self sdl_didAccessoryDisconnected]) {
+    if ([self sdl_didAccessoryDisconnect]) {
         SDLLogV(@"Accessory disconnected after setting up managers. Current state: %@", self.lifecycleStateMachine.currentState);
         return;
     }
@@ -321,8 +320,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     // We only want to send the app icon when the file manager is complete, and when that's done, wait for hmi status to be ready
     [self sdl_sendAppIcon:self.configuration.lifecycleConfig.appIcon
            withCompletion:^{
-               if ([self sdl_didAccessoryDisconnected]) {
-                   SDLLogV(@"Accessory disconnected after setting up the app icon. Current state: %@", self.lifecycleStateMachine.currentState);
+               if ([self sdl_didAccessoryDisconnect]) {
                    return;
                }
 
@@ -338,8 +336,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
-    if ([self sdl_didAccessoryDisconnected]) {
-        SDLLogV(@"Accessory disconnected while setting up the HMI. Current state: %@", self.lifecycleStateMachine.currentState);
+    if ([self sdl_didAccessoryDisconnect]) {
         return;
     }
 
@@ -348,8 +345,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateReady {
-    if ([self sdl_didAccessoryDisconnected]) {
-        SDLLogV(@"Accessory disconnected before entering the ready state. Current state: %@", self.lifecycleStateMachine.currentState);
+    if ([self sdl_didAccessoryDisconnect]) {
         return;
     }
 

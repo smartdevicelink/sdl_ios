@@ -88,7 +88,7 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
 
         long lWait = dispatch_semaphore_wait(self.canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, StreamThreadWaitSecs * NSEC_PER_SEC));
         if (lWait == 0) {
-            SDLLogD(@"Stream thread cancelled");
+            SDLLogD(@"Stream thread canceled");
         } else {
             SDLLogE(@"Failed to cancel stream thread");
         }
@@ -251,8 +251,9 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
 
         // When both streams are open, session initialization is complete. Let the delegate know.
         if (strongSelf.isInputStreamOpen && strongSelf.isOutputStreamOpen) {
-            if (strongSelf.delegate == nil) { return; }
-            [strongSelf.delegate onSessionInitializationCompleteForSession:weakSelf];
+            if (strongSelf.delegate != nil) {
+                [strongSelf.delegate onSessionInitializationCompleteForSession:weakSelf];
+            }
         }
     };
 }
@@ -263,9 +264,10 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
     return ^(NSStream *stream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
-        SDLLogW(@"Stream Error: %@", stream);
-        if (strongSelf.delegate == nil) { return; }
-        [strongSelf.delegate onSessionStreamsEnded:strongSelf];
+        SDLLogW(@"Stream Error: %@", stream.streamError);
+        if (strongSelf.delegate != nil) {
+            [strongSelf.delegate onSessionStreamsEnded:strongSelf];
+        }
     };
 }
 
