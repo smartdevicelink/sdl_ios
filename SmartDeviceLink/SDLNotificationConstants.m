@@ -18,7 +18,7 @@ SDLNotificationName const SDLDidReceiveError = @"com.sdl.general.error";
 SDLNotificationName const SDLDidReceiveLockScreenIcon = @"com.sdl.general.lockscreenIconReceived";
 SDLNotificationName const SDLDidBecomeReady = @"com.sdl.notification.managerReady";
 SDLNotificationName const SDLDidReceiveVehicleIconNotification = @"com.sdl.notification.vehicleIcon";
-SDLNotificationName const SDLDidProjectionViewUpdate = @"com.sdl.notification.projectionViewUpdate";
+SDLNotificationName const SDLDidUpdateProjectionView = @"com.sdl.notification.projectionViewUpdate";
 
 #pragma mark - RPC Responses
 SDLNotificationName const SDLDidReceiveAddCommandResponse = @"com.sdl.response.addCommand";

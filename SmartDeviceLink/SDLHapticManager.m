@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The projection window associated with the Haptic Manager
  */
-@property (nonatomic, strong) UIWindow *projectionWindow;
+@property (nonatomic, weak) UIWindow *projectionWindow;
 
 /**
  Array of focusable view objects extracted from the projection window
@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  reference to SDLConnectionManager
  */
-@property (nonatomic, strong) id<SDLConnectionManagerType> connectionManager;
+@property (nonatomic, weak) id<SDLConnectionManagerType> connectionManager;
 @end
 
 
@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     _projectionWindow = window;
     _connectionManager = connectionManager;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_projectionViewUpdated:) name:SDLDidProjectionViewUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_projectionViewUpdated:) name:SDLDidUpdateProjectionView object:nil];
     
     return self;
 }
@@ -75,11 +75,12 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     NSArray *focusableSubviews = [currentView.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(UIView *  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
-        return evaluatedObject.canBecomeFocused;
+        return (evaluatedObject.canBecomeFocused || [evaluatedObject isKindOfClass:[UIButton class]]);
     }]];
     
+    BOOL isButton = [currentView isKindOfClass:[UIButton class]];
     //if current view is focusable and it doesn't have any focusable sub views then add the cuurent view and return
-    if (currentView.canBecomeFocused && focusableSubviews.count == 0) {
+    if ((currentView.canBecomeFocused || isButton) && focusableSubviews.count == 0) {
         [self.focusableViews addObject:currentView];
         return;
     }
@@ -104,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableArray<SDLHapticRect *> *hapticRects = [[NSMutableArray alloc] init];
     
     for (UIView *view in self.focusableViews) {
-        CGPoint originOnScreen = [view.superview convertPoint:view.frame.origin toView:nil];
+        CGPoint originOnScreen = [self.projectionWindow convertPoint:view.frame.origin toView:nil];
         CGRect convertedRect = {originOnScreen, view.bounds.size};
         SDLRectangle* rect = [[SDLRectangle alloc] initWithCGRect:(convertedRect)];
         // using the view index as the id field in SendHapticData request (should be guaranteed unique)
@@ -114,8 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     SDLSendHapticData* hapticRPC = [[SDLSendHapticData alloc] initWithHapticRectData:hapticRects];
-    [self.connectionManager sendManagerRequest:hapticRPC withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-    }];
+    [self.connectionManager sendManagerRequest:hapticRPC withResponseHandler:nil];
 }
 
 #pragma mark SDLHapticHitTester functions
@@ -136,14 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
     
-    if(selectedView != nil) {
-        NSUInteger selectedViewIndex = [self.focusableViews indexOfObject:selectedView];
-        
-        if (selectedViewIndex != NSNotFound) {
-            return self.focusableViews[selectedViewIndex];
-        }
-    }
-    return nil;
+    return selectedView;
 }
 
 #pragma mark notifications
