@@ -107,6 +107,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (configuration.window != nil) {
         _hapticInterface = [[SDLHapticManager alloc] initWithWindow:configuration.window connectionManager:_connectionManager];
     }
+    //    __weak typeof(_hapticInterface) weakHaptic = _hapticInterface;
+    _touchManager = [[SDLTouchManager alloc] initWithHitTester:_hapticInterface];
 
     _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
     _requestedEncryptionType = configuration.maximumDesiredEncryption;
@@ -115,9 +117,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _backgroundingPixelBuffer = NULL;
     _preferredFormatIndex = 0;
     _preferredResolutionIndex = 0;
-
-//    __weak typeof(_hapticInterface) weakHaptic = _hapticInterface;
-    _touchManager = [[SDLTouchManager alloc] initWithHitTester:_hapticInterface];
 
     SDLAppState *initialState = SDLAppStateInactive;
     switch ([[UIApplication sharedApplication] applicationState]) {
