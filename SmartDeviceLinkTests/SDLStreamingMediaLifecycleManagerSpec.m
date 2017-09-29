@@ -17,6 +17,8 @@
 #import "SDLGetSystemCapability.h"
 #import "SDLGetSystemCapabilityResponse.h"
 #import "SDLGlobals.h"
+#import "SDLHapticInterface.h"
+#import "SDLHapticManager.h"
 #import "SDLHMILevel.h"
 #import "SDLImageResolution.h"
 #import "SDLNotificationConstants.h"
@@ -44,6 +46,7 @@ QuickSpecBegin(SDLStreamingMediaLifecycleManagerSpec)
 describe(@"the streaming media manager", ^{
     __block SDLStreamingMediaLifecycleManager *streamingLifecycleManager = nil;
     __block SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
+    __block UIWindow *testWindow = [[UIWindow alloc] init];
     __block SDLFakeStreamingManagerDataSource *testDataSource = [[SDLFakeStreamingManagerDataSource alloc] init];
     __block NSString *someBackgroundTitleString = nil;
     __block TestConnectionManager *testConnectionManager = nil;
@@ -62,6 +65,7 @@ describe(@"the streaming media manager", ^{
                                      (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate : @1
                                      };
         testConfiguration.dataSource = testDataSource;
+        testConfiguration.window = testWindow;
         someBackgroundTitleString = @"Open Test App";
         testConnectionManager = [[TestConnectionManager alloc] init];
         streamingLifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration];
@@ -69,6 +73,7 @@ describe(@"the streaming media manager", ^{
     
     it(@"should initialize properties", ^{
         expect(streamingLifecycleManager.touchManager).toNot(beNil());
+        expect(streamingLifecycleManager.hapticInterface).toNot(beNil());
         expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
         expect(@(streamingLifecycleManager.isVideoConnected)).to(equal(@NO));
         expect(@(streamingLifecycleManager.isAudioConnected)).to(equal(@NO));
@@ -222,7 +227,7 @@ describe(@"the streaming media manager", ^{
                     [testConnectionManager respondToLastRequestWithResponse:response];
                 });
 
-                it(@"should have correct data from the data source", ^{
+                it(@"should have set correct data", ^{
                     // Correct formats should be retrieved from the data source
                     expect(streamingLifecycleManager.preferredResolutions).to(haveCount(1));
                     expect(streamingLifecycleManager.preferredResolutions.firstObject.resolutionWidth).to(equal(resolution.resolutionWidth));
@@ -231,6 +236,9 @@ describe(@"the streaming media manager", ^{
                     expect(streamingLifecycleManager.preferredFormats).to(haveCount(streamingLifecycleManager.supportedFormats.count + 1));
                     expect(streamingLifecycleManager.preferredFormats.firstObject.codec).to(equal(testDataSource.extraFormat.codec));
                     expect(streamingLifecycleManager.preferredFormats.firstObject.protocol).to(equal(testDataSource.extraFormat.protocol));
+
+                    // The haptic manager should be enabled
+                    expect(streamingLifecycleManager.hapticInterface.enableHapticDataRequests).to(equal(YES));
                 });
 
                 describe(@"if the app state is active", ^{
