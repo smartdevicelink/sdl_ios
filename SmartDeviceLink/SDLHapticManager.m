@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     BOOL isButton = [currentView isKindOfClass:[UIButton class]];
     if ((currentView.canBecomeFocused || isButton) && focusableSubviews.count == 0) {
-        //if current view is focusable and it doesn't have any focusable sub views then add the cuurent view and return
+        //if current view is focusable and it doesn't have any focusable sub views then add the current view and return
         [self.focusableViews addObject:currentView];
         return;
     } else if (currentView.subviews.count > 0) {

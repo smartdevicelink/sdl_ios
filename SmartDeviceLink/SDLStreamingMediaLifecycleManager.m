@@ -107,8 +107,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (configuration.window != nil) {
         _hapticInterface = [[SDLHapticManager alloc] initWithWindow:configuration.window connectionManager:_connectionManager];
     }
-    //    __weak typeof(_hapticInterface) weakHaptic = _hapticInterface;
-    _touchManager = [[SDLTouchManager alloc] initWithHitTester:_hapticInterface];
+    _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_hapticInterface];
 
     _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
     _requestedEncryptionType = configuration.maximumDesiredEncryption;
