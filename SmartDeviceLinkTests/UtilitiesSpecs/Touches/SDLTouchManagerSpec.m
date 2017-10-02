@@ -13,12 +13,14 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLNotificationConstants.h"
+#import "SDLHapticManager.h"
 #import "SDLOnTouchEvent.h"
 #import "SDLPinchGesture.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouchManager.h"
+#import "SDLTouchManagerDelegate.h"
 #import "SDLTouchType.h"
 #import "SDLTouch.h"
 
@@ -34,11 +36,11 @@
 QuickSpecBegin(SDLTouchManagerSpec)
 
 describe(@"SDLTouchManager Tests", ^{
-    __block SDLTouchManager* touchManager;
+    __block SDLTouchManager *touchManager;
 
     context(@"initializing", ^{
         it(@"should correctly have default properties", ^{
-            SDLTouchManager* touchManager = [[SDLTouchManager alloc] init];
+            SDLTouchManager* touchManager = [[SDLTouchManager alloc] initWithHitTester:nil];
             expect(touchManager.touchEventDelegate).to(beNil());
             expect(@(touchManager.tapDistanceThreshold)).to(equal(@50));
             expect(@(touchManager.tapTimeThreshold)).to(beCloseTo(@0.4).within(0.0001));
@@ -96,7 +98,7 @@ describe(@"SDLTouchManager Tests", ^{
         };
 
         beforeEach(^{
-            touchManager = [[SDLTouchManager alloc] init];
+            touchManager = [[SDLTouchManager alloc] initWithHitTester:nil];
             delegateMock = OCMProtocolMock(@protocol(SDLTouchManagerDelegate));
             touchManager.touchEventDelegate = delegateMock;
             touchManager.touchEventHandler = ^(SDLTouch *touch, SDLTouchType type) {
@@ -110,7 +112,7 @@ describe(@"SDLTouchManager Tests", ^{
             [[[[delegateMock stub] andDo:^(NSInvocation* invocation) {
                 didCallSingleTap = YES;
                 singleTapTests(invocation);
-            }] ignoringNonObjectArgs] touchManager:[OCMArg any] didReceiveSingleTapAtPoint:CGPointZero];
+            }] ignoringNonObjectArgs] touchManager:[OCMArg any] didReceiveSingleTapForView:[OCMArg any] atPoint:CGPointZero];
             singleTapTests = ^(NSInvocation* invocation) {
                 failWithMessage(@"Failed to call Single Tap Tests.");
             };
@@ -119,7 +121,7 @@ describe(@"SDLTouchManager Tests", ^{
             [[[[delegateMock stub] andDo:^(NSInvocation* invocation) {
                 didCallDoubleTap = YES;
                 doubleTapTests(invocation);
-            }] ignoringNonObjectArgs] touchManager:[OCMArg any] didReceiveDoubleTapAtPoint:CGPointZero];
+            }] ignoringNonObjectArgs] touchManager:[OCMArg any] didReceiveDoubleTapForView:[OCMArg any] atPoint:CGPointZero];
             doubleTapTests = ^(NSInvocation* invocation) {
                 failWithMessage(@"Failed to call Double Tap Tests.");
             };
@@ -128,7 +130,7 @@ describe(@"SDLTouchManager Tests", ^{
             [[[[delegateMock stub] andDo:^(NSInvocation* invocation) {
                 didCallBeginPan = YES;
                 panStartTests(invocation);
-            }] ignoringNonObjectArgs] touchManager:[OCMArg any] panningDidStartAtPoint:CGPointZero];
+            }] ignoringNonObjectArgs] touchManager:[OCMArg any] panningDidStartInView:[OCMArg any] atPoint:CGPointZero];
             panStartTests = ^(NSInvocation* invocation) {
                 failWithMessage(@"Failed to call Pan Start Tests.");
             };
@@ -146,7 +148,7 @@ describe(@"SDLTouchManager Tests", ^{
             [[[[delegateMock stub] andDo:^(NSInvocation* invocation) {
                 didCallEndPan = YES;
                 panEndTests(invocation);
-            }] ignoringNonObjectArgs] touchManager:[OCMArg any] panningDidEndAtPoint:CGPointZero];
+            }] ignoringNonObjectArgs] touchManager:[OCMArg any] panningDidEndInView:[OCMArg any] atPoint:CGPointZero];
             panEndTests = ^(NSInvocation* invocation) {
                 failWithMessage(@"Failed to call Pan End Tests.");
             };
@@ -164,7 +166,7 @@ describe(@"SDLTouchManager Tests", ^{
             [[[[delegateMock stub] andDo:^(NSInvocation* invocation) {
                 didCallBeginPinch = YES;
                 pinchStartTests(invocation);
-            }] ignoringNonObjectArgs] touchManager:[OCMArg any] pinchDidStartAtCenterPoint:CGPointZero];
+            }] ignoringNonObjectArgs] touchManager:[OCMArg any] pinchDidStartInView:[OCMArg any] atCenterPoint:CGPointZero];
             pinchStartTests = ^(NSInvocation* invocation) {
                 failWithMessage(@"Failed to call Pinch Start Tests.");
             };
@@ -182,7 +184,7 @@ describe(@"SDLTouchManager Tests", ^{
             [[[[delegateMock stub] andDo:^(NSInvocation* invocation) {
                 didCallEndPinch = YES;
                 pinchEndTests(invocation);
-            }] ignoringNonObjectArgs] touchManager:[OCMArg any] pinchDidEndAtCenterPoint:CGPointZero];
+            }] ignoringNonObjectArgs] touchManager:[OCMArg any] pinchDidEndInView:[OCMArg any] atCenterPoint:CGPointZero];
             pinchEndTests = ^(NSInvocation* invocation) {
                 failWithMessage(@"Failed to call Pinch End Tests.");
             };
@@ -243,7 +245,7 @@ describe(@"SDLTouchManager Tests", ^{
                         __unsafe_unretained SDLTouchManager* touchManagerCallback;
                         CGPoint point;
                         [invocation getArgument:&touchManagerCallback atIndex:2];
-                        [invocation getArgument:&point atIndex:3];
+                        [invocation getArgument:&point atIndex:4];
 
                         expect(touchManagerCallback).to(equal(touchManager));
                         expect(@(CGPointEqualToPoint(point, controlPoint))).to(beTruthy());
@@ -295,7 +297,7 @@ describe(@"SDLTouchManager Tests", ^{
                             __unsafe_unretained SDLTouchManager* touchManagerCallback;
                             CGPoint point;
                             [invocation getArgument:&touchManagerCallback atIndex:2];
-                            [invocation getArgument:&point atIndex:3];
+                            [invocation getArgument:&point atIndex:4];
 
                             expect(touchManagerCallback).to(equal(touchManager));
                             expect(@(CGPointEqualToPoint(point, averagePoint))).to(beTruthy());
@@ -520,7 +522,7 @@ describe(@"SDLTouchManager Tests", ^{
                         __unsafe_unretained SDLTouchManager* touchManagerCallback;
                         CGPoint point;
                         [invocation getArgument:&touchManagerCallback atIndex:2];
-                        [invocation getArgument:&point atIndex:3];
+                        [invocation getArgument:&point atIndex:4];
 
                         expect(touchManagerCallback).to(equal(touchManager));
                         expect(@(CGPointEqualToPoint(point, panMovePoint))).to(beTruthy());
@@ -543,7 +545,7 @@ describe(@"SDLTouchManager Tests", ^{
                         __unsafe_unretained SDLTouchManager* touchManagerCallback;
                         CGPoint point;
                         [invocation getArgument:&touchManagerCallback atIndex:2];
-                        [invocation getArgument:&point atIndex:3];
+                        [invocation getArgument:&point atIndex:4];
 
                         expect(touchManagerCallback).to(equal(touchManager));
                         expect(@(CGPointEqualToPoint(point, panEndPoint))).to(beTruthy());
@@ -568,7 +570,7 @@ describe(@"SDLTouchManager Tests", ^{
                         __unsafe_unretained SDLTouchManager* touchManagerCallback;
                         CGPoint point;
                         [invocation getArgument:&touchManagerCallback atIndex:2];
-                        [invocation getArgument:&point atIndex:3];
+                        [invocation getArgument:&point atIndex:4];
 
                         expect(touchManagerCallback).to(equal(touchManager));
                         expect(@(CGPointEqualToPoint(point, panMovePoint))).to(beTruthy());
@@ -600,7 +602,7 @@ describe(@"SDLTouchManager Tests", ^{
                         __unsafe_unretained SDLTouchManager* touchManagerCallback;
                         CGPoint point;
                         [invocation getArgument:&touchManagerCallback atIndex:2];
-                        [invocation getArgument:&point atIndex:3];
+                        [invocation getArgument:&point atIndex:4];
 
                         expect(touchManagerCallback).to(equal(touchManager));
                         expect(@(CGPointEqualToPoint(point, panMovePoint))).to(beTruthy());
@@ -763,7 +765,7 @@ describe(@"SDLTouchManager Tests", ^{
 
                         CGPoint point;
                         [invocation getArgument:&touchManagerCallback atIndex:2];
-                        [invocation getArgument:&point atIndex:3];
+                        [invocation getArgument:&point atIndex:4];
 
                         expect(touchManagerCallback).to(equal(touchManager));
                         expect(@(CGPointEqualToPoint(point, pinchStartCenter))).to(beTruthy());
@@ -788,7 +790,7 @@ describe(@"SDLTouchManager Tests", ^{
                         
                         CGPoint point;
                         [invocation getArgument:&touchManagerCallback atIndex:2];
-                        [invocation getArgument:&point atIndex:3];
+                        [invocation getArgument:&point atIndex:4];
                         
                         expect(touchManagerCallback).to(equal(touchManager));
                         expect(@(CGPointEqualToPoint(point, pinchEndCenter))).to(beTruthy());
@@ -813,7 +815,7 @@ describe(@"SDLTouchManager Tests", ^{
                         __unsafe_unretained SDLTouchManager* touchManagerCallback;
                         CGPoint point;
                         [invocation getArgument:&touchManagerCallback atIndex:2];
-                        [invocation getArgument:&point atIndex:3];
+                        [invocation getArgument:&point atIndex:4];
 
                         expect(touchManagerCallback).to(equal(touchManager));
                         expect(@(CGPointEqualToPoint(point, pinchStartCenter))).to(beTruthy());
@@ -845,7 +847,7 @@ describe(@"SDLTouchManager Tests", ^{
                         __unsafe_unretained SDLTouchManager* touchManagerCallback;
                         CGPoint point;
                         [invocation getArgument:&touchManagerCallback atIndex:2];
-                        [invocation getArgument:&point atIndex:3];
+                        [invocation getArgument:&point atIndex:4];
 
                         expect(touchManagerCallback).to(equal(touchManager));
                         expect(@(CGPointEqualToPoint(point, pinchStartCenter))).to(beTruthy());

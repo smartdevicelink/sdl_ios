@@ -16,10 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Determines which view was selected based on SDLTouch object. If no view gets matched null value will be returned.
 
- @param touch SDLTouch which has touch coordinates
- @return matched UIView object or null
+ @param point Point to check for a view
+ @return point UIView object or nil
  */
-- (nullable UIView *)viewForSDLTouch:(SDLTouch *)touch;
+- (nullable UIView *)viewForPoint:(CGPoint)point;
 
 @end
 
