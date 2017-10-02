@@ -67,6 +67,10 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.touchManager;
 }
 
+- (nullable id<SDLHapticInterface>)hapticInterface {
+    return self.lifecycleManager.hapticInterface;
+}
+
 - (BOOL)isStreamingSupported {
     return self.lifecycleManager.isStreamingSupported;
 }

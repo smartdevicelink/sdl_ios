@@ -21,6 +21,7 @@
 @class SDLTouchManager;
 @class SDLVideoStreamingFormat;
 
+@protocol SDLHapticInterface;
 @protocol SDLStreamingMediaManagerDataSource;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -62,6 +63,11 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
  *  Touch Manager responsible for providing touch event notifications.
  */
 @property (nonatomic, strong, readonly) SDLTouchManager *touchManager;
+
+/**
+ A haptic interface that can be updated to reparse views within the window you've provided. Send a `SDLDidUpdateProjectionView` notification or call the `updateInterfaceLayout` method to reparse. The "output" of this haptic interface occurs in the `touchManager` property where it will call the delegate.
+ */
+@property (nonatomic, strong, readonly, nullable) id<SDLHapticInterface> hapticInterface;
 
 /**
  A data source for the streaming manager's preferred resolutions and preferred formats.

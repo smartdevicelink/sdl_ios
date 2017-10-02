@@ -16,6 +16,7 @@
 @class SDLTouchManager;
 @class SDLVideoStreamingFormat;
 
+@protocol SDLHapticInterface;
 @protocol SDLConnectionManagerType;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -28,6 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  Touch Manager responsible for providing touch event notifications.
  */
 @property (nonatomic, strong, readonly) SDLTouchManager *touchManager;
+
+/**
+ A haptic interface that can be updated to reparse views within the window you've provided. Send a `SDLDidUpdateProjectionView` notification or call the `updateInterfaceLayout` method to reparse. The "output" of this haptic interface occurs in the `touchManager` property where it will call the delegate.
+ */
+@property (nonatomic, strong, readonly, nullable) id<SDLHapticInterface> hapticInterface;
 
 /**
  *  Whether or not video streaming is supported
