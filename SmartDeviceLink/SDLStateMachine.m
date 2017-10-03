@@ -9,6 +9,7 @@
 #import "SDLStateMachine.h"
 
 #import "SDLError.h"
+#import "SDLLogMacros.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -79,6 +80,8 @@ SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter = 
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
+    SDLLogV(@"State machine for class %@ will transition from state %@ to state %@", NSStringFromClass([_target class]), oldState, state);
 
     // Pre state transition calls
     if ([self.target respondsToSelector:willLeave]) {

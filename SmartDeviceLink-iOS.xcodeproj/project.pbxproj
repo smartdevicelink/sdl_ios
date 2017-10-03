@@ -4052,7 +4052,6 @@
 		5DA3F3511BC4477B0026F2D0 /* Developer API */ = {
 			isa = PBXGroup;
 			children = (
-				5D6F7A301BC5B7100070BF37 /* Lock Screen UI */,
 				5DA3F3561BC4480E0026F2D0 /* Utilities */,
 				5D8204171BCD80A200D0A41B /* Configurations */,
 				5DBAE0A61D355EF200CE00BF /* Managers */,
@@ -4239,6 +4238,7 @@
 		5DBAE0A51D355EE700CE00BF /* Lock Screen */ = {
 			isa = PBXGroup;
 			children = (
+				5D6F7A301BC5B7100070BF37 /* Lock Screen UI */,
 				5D76E31F1D39731100647CFA /* Utilities */,
 				5D4D67B21D30161600468B4A /* SDLLockScreenManager.h */,
 				5D4D67B31D30161600468B4A /* SDLLockScreenManager.m */,

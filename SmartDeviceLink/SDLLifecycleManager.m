@@ -90,7 +90,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return nil;
     }
 
-    SDLLogV(@"Creating Lifecycle Manager");
+    SDLLogV(@"Initializing Lifecycle Manager");
 
     // Dependencies
     _configuration = [configuration copy];
@@ -134,12 +134,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
+    SDLLogD(@"Starting lifecycle manager");
     self.readyHandler = [readyHandler copy];
 
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
 }
 
 - (void)stop {
+    SDLLogD(@"Lifecycle manager stopped");
     if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
     } else {
@@ -193,7 +195,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)sdl_stopManager:(BOOL)shouldRestart {
-    SDLLogV(@"Stopping manager");
+    SDLLogV(@"Stopping manager, %@", (shouldRestart ? @"will restart" : @"will not restart"));
 
     [self.fileManager stop];
     [self.permissionManager stop];
@@ -224,6 +226,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 - (void)didEnterStateConnected {
     // If we have security managers, add them to the proxy
     if (self.configuration.streamingMediaConfig.securityManagers != nil) {
+        SDLLogD(@"Adding security managers");
         [self.proxy addSecurityManagers:self.configuration.streamingMediaConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
     }
 
@@ -256,7 +259,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     // Make sure there's at least one group_enter until we have synchronously run through all the startup calls
     dispatch_group_enter(managerGroup);
-
+    SDLLogD(@"Setting up assistant managers");
     [self.lockScreenManager start];
 
     dispatch_group_enter(managerGroup);
@@ -288,10 +291,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)didEnterStateSettingUpAppIcon {
     // We only want to send the app icon when the file manager is complete, and when that's done, wait for hmi status to be ready
-    [self sdl_sendAppIcon:self.configuration.lifecycleConfig.appIcon
-           withCompletion:^{
-               [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
-           }];
+    [self sdl_sendAppIcon:self.configuration.lifecycleConfig.appIcon withCompletion:^{
+       [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
+   }];
 }
 
 - (void)didEnterStateSettingUpHMI {
@@ -347,32 +349,31 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
-    [self.fileManager uploadFile:appIcon
-               completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
-                   // These errors could be recoverable (particularly "cannot overwrite"), so we'll still attempt to set the app icon
-                   if (error != nil) {
-                       if (error.code == SDLFileManagerErrorCannotOverwrite) {
-                           SDLLogD(@"Failed to upload app icon: A file with this name already exists on the system");
-                       } else {
-                           SDLLogW(@"Unexpected error uploading app icon: %@", error);
-                           return;
-                       }
-                   }
+    [self.fileManager uploadFile:appIcon completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
+        // These errors could be recoverable (particularly "cannot overwrite"), so we'll still attempt to set the app icon
+        if (error != nil) {
+            if (error.code == SDLFileManagerErrorCannotOverwrite) {
+                SDLLogW(@"Failed to upload app icon: A file with this name already exists on the system");
+            } else {
+                SDLLogW(@"Unexpected error uploading app icon: %@", error);
+                return;
+            }
+        }
 
-                   // Once we've tried to put the file on the remote system, try to set the app icon
-                   SDLSetAppIcon *setAppIcon = [[SDLSetAppIcon alloc] init];
-                   setAppIcon.syncFileName = appIcon.name;
+        // Once we've tried to put the file on the remote system, try to set the app icon
+        SDLSetAppIcon *setAppIcon = [[SDLSetAppIcon alloc] init];
+        setAppIcon.syncFileName = appIcon.name;
 
-                   [self sdl_sendRequest:setAppIcon
-                       withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
-                           if (error != nil) {
-                               SDLLogW(@"Error setting up app icon: %@", error);
-                           }
+        [self sdl_sendRequest:setAppIcon
+          withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+              if (error != nil) {
+                  SDLLogW(@"Error setting up app icon: %@", error);
+              }
 
-                           // We've succeeded or failed
-                           completion();
-                       }];
-               }];
+              // We've succeeded or failed
+              completion();
+          }];
+    }];
 }
 
 
@@ -402,7 +403,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)sdl_sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     // We will allow things to be sent in a "SDLLifeCycleStateConnected" state in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
-
     NSParameterAssert(request != nil);
 
     // If, for some reason, the request is nil we should error out.
@@ -455,10 +455,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 #pragma mark SDL notification observers
 
 - (void)transportDidConnect {
+    SDLLogD(@"Transport connected");
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateConnected];
 }
 
 - (void)transportDidDisconnect {
+    SDLLogD(@"Transport Disconnected");
     if (self.lifecycleState == SDLLifecycleStateUnregistering || self.lifecycleState == SDLLifecycleStateStopped) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
     } else {
@@ -480,6 +482,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     
     SDLSystemContext oldSystemContext = self.systemContext;
     self.systemContext = hmiStatusNotification.systemContext;
+
+    SDLLogD(@"HMI level changed from %@ to %@", oldHMILevel, self.hmiLevel);
 
     if (!self.firstHMINonNoneOccurred && ![self.hmiLevel isEqualToEnum:SDLHMILevelNone]) {
         self.firstHMINonNoneOccurred = YES;
