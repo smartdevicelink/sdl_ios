@@ -60,8 +60,38 @@ int const streamOpenTimeoutSeconds = 2;
     return self;
 }
 
+/**
+ *  Starts a background task that allows the app to search for accessories and while the app is in the background.
+ */
+- (void)sdl_backgroundTaskStart {
+    if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
+        return;
+    }
 
-#pragma mark - Notification Subscriptions
+    self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:backgroundTaskName expirationHandler:^{
+        [self sdl_backgroundTaskEnd];
+    }];
+}
+
+/**
+ *  Cleans up a background task when it is stopped.
+ */
+- (void)sdl_backgroundTaskEnd {
+    if (self.backgroundTaskId == UIBackgroundTaskInvalid) {
+        return;
+    }
+
+    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskId];
+    self.backgroundTaskId = UIBackgroundTaskInvalid;
+}
+
+#pragma mark - Notifications
+
+#pragma mark Subscription
+
+/**
+ *  Registers for system notifications about connected accessories and the app life cycle.
+ */
 
 - (void)sdl_startEventListening {
     [SDLDebugTool logInfo:@"SDLIAPTransport Listening For Events"];
@@ -79,54 +109,49 @@ int const streamOpenTimeoutSeconds = 2;
                                              selector:@selector(sdl_applicationWillEnterForeground:)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(sdl_applicationDidEnterBackground:)
+                                                 name:UIApplicationDidEnterBackgroundNotification
+                                               object:nil];
 
     [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
 }
 
+/**
+ *  Unsubscribes to notifications.
+ */
 - (void)sdl_stopEventListening {
     [SDLDebugTool logInfo:@"SDLIAPTransport Stopped Listening For Events"];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)setSessionSetupInProgress:(BOOL)inProgress{
-    _sessionSetupInProgress = inProgress;
-    if (!inProgress){
-        // End the background task here to catch all cases
-        [self sdl_backgroundTaskEnd];
-    }
-}
+#pragma mark EAAccessory Notifications
 
-- (void)sdl_backgroundTaskStart {
-    if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
-        return;
-    }
-    
-    self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:backgroundTaskName expirationHandler:^{
-        [self sdl_backgroundTaskEnd];
-    }];
-}
-
-- (void)sdl_backgroundTaskEnd {
-    if (self.backgroundTaskId == UIBackgroundTaskInvalid) {
-        return;
-    }
-    
-    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskId];
-    self.backgroundTaskId = UIBackgroundTaskInvalid;
-}
-
-#pragma mark - EAAccessory Notifications
-
+/**
+ *  Handles a notification sent by the system when a new accessory has been detected by attempting to connect to the new accessory.
+ *
+ *  @param notification Contains information about the connected accessory
+ */
 - (void)sdl_accessoryConnected:(NSNotification *)notification {
     EAAccessory *accessory = notification.userInfo[EAAccessoryKey];
+    double retryDelay = self.retryDelay;
     NSMutableString *logMessage = [NSMutableString stringWithFormat:@"Accessory Connected, Opening in %0.03fs", self.retryDelay];
-    [self sdl_backgroundTaskStart];
     [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-    self.retryCounter = 0;
 
-    [self performSelector:@selector(sdl_connect:) withObject:accessory afterDelay:self.retryDelay];
+    if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
+        [SDLDebugTool logInfo:@"Accessory connected while app is in background. Starting background task." withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        [self sdl_backgroundTaskStart];
+    }
+
+    self.retryCounter = 0;
+    [self performSelector:@selector(sdl_connect:) withObject:accessory afterDelay:retryDelay];
 }
 
+/**
+ *  Handles a notification sent by the system when an accessory has been disconnected by cleaning up after the disconnected device. Only check for the data session, the control session is handled separately
+ *
+ *  @param notification Contains information about the connected accessory
+ */
 - (void)sdl_accessoryDisconnected:(NSNotification *)notification {
     [SDLDebugTool logInfo:@"Accessory Disconnected Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
@@ -136,12 +161,22 @@ int const streamOpenTimeoutSeconds = 2;
         [SDLDebugTool logInfo:@"Accessory connection ID mismatch!!!" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     }
     if ([accessory.serialNumber isEqualToString:self.session.accessory.serialNumber]) {
+        self.retryCounter = 0;
         self.sessionSetupInProgress = NO;
         [self disconnect];
         [self.delegate onTransportDisconnected];
     }
 }
 
+#pragma mark App Lifecycle Notifications
+
+/**
+ *  Handles a notification sent by the system when the app enters the foreground.
+ *
+ *  If the app is still searching for an accessory, a background task will be started so the app can still search for and/or connect with an accessory while it is in the background.
+ *
+ *  @param notification Notification
+ */
 - (void)sdl_applicationWillEnterForeground:(NSNotification *)notification {
     [SDLDebugTool logInfo:@"App Foregrounded Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     [self sdl_backgroundTaskEnd];
@@ -149,6 +184,15 @@ int const streamOpenTimeoutSeconds = 2;
     [self connect];
 }
 
+/**
+ *  Handles a notification sent by the system when the app enters the background.
+ *
+ *  @param notification Notification
+ */
+- (void)sdl_applicationDidEnterBackground:(NSNotification *)notification {
+    [SDLDebugTool logInfo:@"App backgrounded, starting background task" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    [self sdl_backgroundTaskStart];
+}
 
 #pragma mark - Stream Lifecycle
 
@@ -156,6 +200,11 @@ int const streamOpenTimeoutSeconds = 2;
     [self sdl_connect:nil];
 }
 
+/**
+ *  Starts the process to connect to an accessory. If no accessory specified, scans for a valid accessory.
+ *
+ *  @param accessory The accessory to attempt connection with or nil to scan for accessories.
+ */
 - (void)sdl_connect:(EAAccessory *)accessory {
     if (!self.session && !self.sessionSetupInProgress) {
         self.sessionSetupInProgress = YES;
@@ -167,10 +216,12 @@ int const streamOpenTimeoutSeconds = 2;
     }
 }
 
+/**
+  *  Cleans up after a disconnected accessory by closing any open input streams.
+ */
 - (void)disconnect {
     [SDLDebugTool logInfo:@"IAP Disconnecting" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-    // Stop event listening here so that even if the transport is disconnected by the proxy
-    // we unregister for accessory local notifications
+    // Stop event listening here so that even if the transport is disconnected by the proxy we unregister for accessory local notifications
     [self sdl_stopEventListening];
     if (self.controlSession != nil) {
         [self.controlSession stop];
@@ -260,7 +311,7 @@ int const streamOpenTimeoutSeconds = 2;
         };
         self.protocolIndexTimer.elapsedBlock = elapsedBlock;
 
-        SDLStreamDelegate *controlStreamDelegate = [SDLStreamDelegate new];
+        SDLStreamDelegate *controlStreamDelegate = [[SDLStreamDelegate alloc] init];
         self.controlSession.streamDelegate = controlStreamDelegate;
         controlStreamDelegate.streamHasBytesHandler = [self sdl_controlStreamHasBytesHandlerForAccessory:accessory];
         controlStreamDelegate.streamEndHandler = [self sdl_controlStreamEndedHandler];
@@ -311,6 +362,7 @@ int const streamOpenTimeoutSeconds = 2;
         self.session = nil;
     }
     // No accessory to use this time, search connected accessories
+    self.retryCounter = 0;
     [self sdl_connect:nil];
 }
 
@@ -403,6 +455,7 @@ int const streamOpenTimeoutSeconds = 2;
             NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", indexedProtocolStringPrefix, @(buf[0])];
             if (accessory.isConnected) {
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    self.retryCounter = 0;
                     [strongSelf sdl_createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
                 });
             }
