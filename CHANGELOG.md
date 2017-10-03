@@ -1,3 +1,8 @@
+# 4.7.3 Release Notes
+### Bug Fixes
+* Performance fixes for streaming video
+* Fixes for background connection on IAP transports
+
 # 4.7.2 Release Notes
 ### Bug Fixes
 * Fixes some head units not connecting properly due to the start service payload length not being set properly.
