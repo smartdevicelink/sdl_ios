@@ -45,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     _projectionWindow = window;
     _connectionManager = connectionManager;
+    _enableHapticDataRequests = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_projectionViewUpdated:) name:SDLDidUpdateProjectionView object:nil];
     
     return self;
@@ -59,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (preferredViewIndex != NSNotFound && self.focusableViews.count > 1) {
         [self.focusableViews exchangeObjectAtIndex:preferredViewIndex withObjectAtIndex:0];
     }
-    
+
     [self sdl_sendHapticRPC];
 }
 
@@ -79,21 +80,18 @@ NS_ASSUME_NONNULL_BEGIN
     }]];
     
     BOOL isButton = [currentView isKindOfClass:[UIButton class]];
-    //if current view is focusable and it doesn't have any focusable sub views then add the cuurent view and return
     if ((currentView.canBecomeFocused || isButton) && focusableSubviews.count == 0) {
+        //if current view is focusable and it doesn't have any focusable sub views then add the current view and return
         [self.focusableViews addObject:currentView];
         return;
-    }
-    // if current view has focusable sub views parse them recursively
-    else if (currentView.subviews.count > 0) {
+    } else if (currentView.subviews.count > 0) {
+        // if current view has focusable sub views parse them recursively
         NSArray<UIView *> *subviews = currentView.subviews;
         
         for (UIView *childView in subviews) {
             [self sdl_parseViewHierarchy:childView];
         }
-    }
-    //else just return
-    else {
+    } else {
         return;
     }
 }
@@ -102,6 +100,10 @@ NS_ASSUME_NONNULL_BEGIN
  Iterates through the focusable views, extracts rectangular parameters, creates Haptic RPC request and sends it
  */
 - (void)sdl_sendHapticRPC {
+    if (!self.enableHapticDataRequests) {
+        return;
+    }
+
     NSMutableArray<SDLHapticRect *> *hapticRects = [[NSMutableArray alloc] init];
     
     for (UIView *view in self.focusableViews) {
@@ -119,12 +121,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark SDLHapticHitTester functions
-- (nullable UIView *)viewForSDLTouch:(SDLTouch *)touch {
+- (nullable UIView *)viewForPoint:(CGPoint)point {
     UIView *selectedView = nil;
     
     for (UIView *view in self.focusableViews) {
         //Convert the absolute location to local location and check if that falls within view boundary
-        CGPoint localPoint = [view convertPoint:touch.location fromView:self.projectionWindow];
+        CGPoint localPoint = [view convertPoint:point fromView:self.projectionWindow];
         if ([view pointInside:localPoint withEvent:nil]) {
             if (selectedView != nil) {
                 selectedView = nil;
