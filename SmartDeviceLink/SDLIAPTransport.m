@@ -70,6 +70,11 @@ int const ProtocolIndexTimeoutSeconds = 20;
         return;
     }
 
+    if (self.session != nil) {
+        SDLLogD(@"Data session already in progress. No background task needed.");
+        return;
+    }
+
     SDLLogD(@"Starting background task");
     self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:BackgroundTaskName expirationHandler:^{
         SDLLogD(@"Background task expired");
@@ -164,6 +169,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
         SDLLogD(@"Accessory Disconnected Event (%@)", accessory);
     }
     if ([accessory.serialNumber isEqualToString:self.session.accessory.serialNumber]) {
+        SDLLogD(@"Connected accessory disconnected event");
         self.retryCounter = 0;
         self.sessionSetupInProgress = NO;
         [self disconnect];
