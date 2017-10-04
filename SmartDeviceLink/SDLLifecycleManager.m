@@ -71,6 +71,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 // Private properties
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
+@property (assign, nonatomic) BOOL firstHMINonNoneOccurred;
 
 @end
 
@@ -104,6 +105,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _notificationDispatcher = [[SDLNotificationDispatcher alloc] init];
     _responseDispatcher = [[SDLResponseDispatcher alloc] initWithNotificationDispatcher:_notificationDispatcher];
     _registerResponse = nil;
+    _firstHMINonNoneOccurred = NO;
 
     // Managers
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
@@ -183,9 +185,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 #pragma clang diagnostic pop
 
-    if (self.streamManager != nil) {
-        [self.streamManager startWithProtocol:self.proxy.protocol];
-    }
 }
 
 - (void)didEnterStateStopped {
@@ -443,6 +442,16 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return YES;
 }
 
+- (void)sdl_onFirstHMINonNone {
+    // If we are a nav / projection app and desire to stream, we need to be in HMI background, limited, or full and perform additional setup when that occurs
+    if (self.streamManager == nil) {
+        return;
+    }
+
+    [self.streamManager startWithProtocol:self.proxy.protocol];
+}
+
+
 #pragma mark SDL notification observers
 
 - (void)transportDidConnect {
@@ -452,6 +461,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)transportDidDisconnect {
     SDLLogD(@"Transport Disconnected");
+    self.firstHMINonNoneOccurred = NO;
+
     if (self.lifecycleState == SDLLifecycleStateUnregistering || self.lifecycleState == SDLLifecycleStateStopped) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
     } else {
@@ -475,7 +486,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     self.systemContext = hmiStatusNotification.systemContext;
 
     SDLLogD(@"HMI level changed from %@ to %@", oldHMILevel, self.hmiLevel);
-    
+
+    if (!self.firstHMINonNoneOccurred && ![self.hmiLevel isEqualToEnum:SDLHMILevelNone]) {
+        self.firstHMINonNoneOccurred = YES;
+        [self sdl_onFirstHMINonNone];
+    }
+
 	if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateSettingUpHMI]) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
     }
