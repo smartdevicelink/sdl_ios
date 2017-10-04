@@ -61,12 +61,14 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
         strongSelf.streamDelegate.streamErrorHandler = [self streamErroredHandler];
         strongSelf.streamDelegate.streamOpenHandler = [self streamOpenedHandler];
         if (self.isDataSession) {
+            SDLLogV(@"setting up data session");
             self.streamDelegate.streamHasSpaceHandler = [self sdl_streamHasSpaceHandler];
             // Start I/O event loop processing events in iAP channel
             self.ioStreamThread = [[NSThread alloc] initWithTarget:self selector:@selector(sdl_accessoryEventLoop) object:nil];
             [self.ioStreamThread setName:IOStreamThreadName];
             [self.ioStreamThread start];
         } else {
+            SDLLogV(@"setting up control session");
             // Set up control session -- no need for its own thread
             [self startStream:self.easession.outputStream];
             [self startStream:self.easession.inputStream];

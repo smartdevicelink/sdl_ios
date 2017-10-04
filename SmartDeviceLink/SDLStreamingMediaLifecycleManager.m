@@ -145,49 +145,15 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)startWithProtocol:(SDLAbstractProtocol *)protocol {
+    SDLLogV(@"Streaming media LCM start with protocol called: \(%@) hmi: %@", protocol, self.hmiLevel);
     _protocol = protocol;
 
     if (![self.protocol.protocolDelegateTable containsObject:self]) {
+        SDLLogV(@"Adding protocol to table");
         [self.protocol.protocolDelegateTable addObject:self];
+    } else {
+        SDLLogV(@"Not adding protocol to table");
     }
-
-    SDLLogD(@"Requesting video capabilities");
-    __weak typeof(self) weakSelf = self;
-    [self sdl_requestVideoCapabilities:^(SDLVideoStreamingCapability * _Nullable capability) {
-        SDLLogD(@"Received video capability response");
-        SDLLogV(@"%@", capability);
-        if (capability != nil) {
-            // If we got a response, get our preferred formats and resolutions
-            weakSelf.preferredFormats = capability.supportedFormats;
-            weakSelf.preferredResolutions = @[capability.preferredResolution];
-
-            if (weakSelf.dataSource != nil) {
-                SDLLogV(@"Calling data source for modified preferred formats and resolutions");
-                weakSelf.preferredFormats = [weakSelf.dataSource preferredVideoFormatOrderFromHeadUnitPreferredOrder:weakSelf.preferredFormats];
-                weakSelf.preferredResolutions = [weakSelf.dataSource resolutionFromHeadUnitPreferredResolution:weakSelf.preferredResolutions.firstObject];
-            }
-
-            if (weakSelf.hapticInterface != nil) {
-                weakSelf.hapticInterface.enableHapticDataRequests = capability.hapticSpatialDataSupported.boolValue;
-            }
-
-            SDLLogD(@"Got specialized video capabilites, preferred formats: %@, resolutions: %@ haptics enabled %@", weakSelf.preferredFormats, weakSelf.preferredResolutions, (capability.hapticSpatialDataSupported.boolValue ? @"YES" : @"NO"));
-        } else {
-            // If we can't get capabilities, we're assuming it's H264 RAW at whatever the display capabilities said in the RAIR. We also aren't going to call the data source because they have no options.
-            SDLVideoStreamingFormat *format = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
-            SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:weakSelf.screenSize.width height:weakSelf.screenSize.height];
-            weakSelf.preferredFormats = @[format];
-            weakSelf.preferredResolutions = @[resolution];
-
-            if (weakSelf.hapticInterface != nil) {
-                weakSelf.hapticInterface.enableHapticDataRequests = NO;
-            }
-
-            SDLLogD(@"Using generic video capabilites, preferred formats: %@, resolutions: %@, haptics disabled", weakSelf.preferredFormats, weakSelf.preferredResolutions);
-        }
-
-        [weakSelf sdl_startVideoSession];
-    }];
 }
 
 - (void)stop {
@@ -196,6 +162,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self sdl_stopVideoSession];
 
     self.restartVideoStream = NO;
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateStopped];
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
 }
 
@@ -344,7 +311,42 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogD(@"Video stream starting");
     self.restartVideoStream = NO;
 
-    [self sdl_sendVideoStartService];
+    __weak typeof(self) weakSelf = self;
+    [self sdl_requestVideoCapabilities:^(SDLVideoStreamingCapability * _Nullable capability) {
+        SDLLogD(@"Received video capability response");
+        SDLLogV(@"%@", capability);
+        if (capability != nil) {
+            // If we got a response, get our preferred formats and resolutions
+            weakSelf.preferredFormats = capability.supportedFormats;
+            weakSelf.preferredResolutions = @[capability.preferredResolution];
+
+            if (weakSelf.dataSource != nil) {
+                SDLLogV(@"Calling data source for modified preferred formats and resolutions");
+                weakSelf.preferredFormats = [weakSelf.dataSource preferredVideoFormatOrderFromHeadUnitPreferredOrder:weakSelf.preferredFormats];
+                weakSelf.preferredResolutions = [weakSelf.dataSource resolutionFromHeadUnitPreferredResolution:weakSelf.preferredResolutions.firstObject];
+            }
+
+            if (weakSelf.hapticInterface != nil) {
+                weakSelf.hapticInterface.enableHapticDataRequests = capability.hapticSpatialDataSupported.boolValue;
+            }
+
+            SDLLogD(@"Got specialized video capabilites, preferred formats: %@, resolutions: %@ haptics enabled %@", weakSelf.preferredFormats, weakSelf.preferredResolutions, (capability.hapticSpatialDataSupported.boolValue ? @"YES" : @"NO"));
+        } else {
+            // If we can't get capabilities, we're assuming it's H264 RAW at whatever the display capabilities said in the RAIR. We also aren't going to call the data source because they have no options.
+            SDLVideoStreamingFormat *format = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
+            SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:weakSelf.screenSize.width height:weakSelf.screenSize.height];
+            weakSelf.preferredFormats = @[format];
+            weakSelf.preferredResolutions = @[resolution];
+
+            if (weakSelf.hapticInterface != nil) {
+                weakSelf.hapticInterface.enableHapticDataRequests = NO;
+            }
+
+            SDLLogD(@"Using generic video capabilites, preferred formats: %@, resolutions: %@, haptics disabled", weakSelf.preferredFormats, weakSelf.preferredResolutions);
+        }
+
+        [weakSelf sdl_startVideoSession];
+    }];
 }
 
 - (void)didEnterStateVideoStreamReady {
@@ -590,11 +592,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogD(@"HMI level changed from level %@ to level %@", self.hmiLevel, hmiStatus.hmiLevel);
     self.hmiLevel = hmiStatus.hmiLevel;
 
-    if (self.isHmiStateVideoStreamCapable) {
-        [self sdl_startVideoSession];
-    } else {
-        [self sdl_stopVideoSession];
-    }
+//    if (self.isHmiStateVideoStreamCapable) {
+//        [self sdl_startVideoSession];
+//    } else {
+//        [self sdl_stopVideoSession];
+//    }
 
     if (self.isHmiStateAudioStreamCapable) {
         [self sdl_startAudioSession];
@@ -609,20 +611,23 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)sdl_startVideoSession {
     SDLLogV(@"Attempting to start video session");
     if (!self.isStreamingSupported) {
+        SDLLogW(@"AAA video streaming not supported");
         return;
     }
 
     if (self.shouldRestartVideoStream && [self.videoStreamStateMachine isCurrentState:SDLVideoStreamStateReady]) {
         [self sdl_stopVideoSession];
+        SDLLogW(@"AAA Stopping video session");
         return;
     }
 
     if ([self.videoStreamStateMachine isCurrentState:SDLVideoStreamStateStopped]
         && self.isHmiStateVideoStreamCapable
         && self.isAppStateVideoStreamCapable) {
+        SDLLogV(@"AAA videoStreamStateMachine transitioning to SDLVideoStreamStateStarting");
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStarting];
     } else {
-        SDLLogE(@"Unable to start video stream\n"
+        SDLLogE(@"AAA Unable to start video stream\n"
                 "State: %@\n"
                 "HMI state: %@\n"
                 "App state: %@", self.videoStreamStateMachine.currentState, self.hmiLevel, self.appStateMachine.currentState);
