@@ -42,7 +42,7 @@ typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *res
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
 NSString *const SDLProxyVersion = @"4.6.1";
-const float StartSessionTime = 100.0;
+const float StartSessionTime = 10.0;
 const float NotifyProxyClosedDelay = 0.1;
 const int PoliciesCorrelationId = 65535;
 static float DefaultConnectionTimeout = 45.0;
