@@ -17,8 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLStreamDelegate
 
 - (instancetype)init {
-    SDLLogV(@"Initing SDLStreamDelegate");
-
     self = [super init];
     if (self) {
         _streamOpenHandler = defaultStreamOpenHandler;
@@ -27,14 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
         _streamErrorHandler = defaultStreamErrorHandler;
         _streamEndHandler = defaultStreamErrorHandler;
 
-        SDLLogV(@"Creating com.sdl.streamdelegate.input");
         _input_stream_queue = dispatch_queue_create("com.sdl.streamdelegate.input", DISPATCH_QUEUE_SERIAL);
     }
     return self;
-}
-
--(void)dealloc {
-    SDLLogV(@"Dealloc SDLStreamDelegate");
 }
 
 - (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {

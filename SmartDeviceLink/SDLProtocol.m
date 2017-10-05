@@ -403,7 +403,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 // TODO: This is a v4 packet (create new delegate methods)
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
-
     // V5 Packet
     if (startServiceACK.header.version >= 5) {
         switch (startServiceACK.header.serviceType) {

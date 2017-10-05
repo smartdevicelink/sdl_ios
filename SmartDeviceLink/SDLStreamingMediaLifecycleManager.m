@@ -145,16 +145,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)startWithProtocol:(SDLAbstractProtocol *)protocol {
-    SDLLogV(@"Streaming media LCM start with protocol called: \(%@) hmi: %@", protocol, self.hmiLevel);
     _protocol = protocol;
 
     if (![self.protocol.protocolDelegateTable containsObject:self]) {
-        SDLLogV(@"Adding protocol to table");
         [self.protocol.protocolDelegateTable addObject:self];
-    } else {
-        SDLLogV(@"Not adding protocol to table");
     }
 
+    SDLLogD(@"Requesting video capabilities");
     __weak typeof(self) weakSelf = self;
     [self sdl_requestVideoCapabilities:^(SDLVideoStreamingCapability * _Nullable capability) {
         SDLLogD(@"Received video capability response");
@@ -613,23 +610,20 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)sdl_startVideoSession {
     SDLLogV(@"Attempting to start video session");
     if (!self.isStreamingSupported) {
-        SDLLogW(@"AAA video streaming not supported");
         return;
     }
 
     if (self.shouldRestartVideoStream && [self.videoStreamStateMachine isCurrentState:SDLVideoStreamStateReady]) {
         [self sdl_stopVideoSession];
-        SDLLogW(@"AAA Stopping video session");
         return;
     }
 
     if ([self.videoStreamStateMachine isCurrentState:SDLVideoStreamStateStopped]
         && self.isHmiStateVideoStreamCapable
         && self.isAppStateVideoStreamCapable) {
-        SDLLogV(@"AAA videoStreamStateMachine transitioning to SDLVideoStreamStateStarting");
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStarting];
     } else {
-        SDLLogE(@"AAA Unable to start video stream\n"
+        SDLLogE(@"Unable to start video stream\n"
                 "State: %@\n"
                 "HMI state: %@\n"
                 "App state: %@", self.videoStreamStateMachine.currentState, self.hmiLevel, self.appStateMachine.currentState);
