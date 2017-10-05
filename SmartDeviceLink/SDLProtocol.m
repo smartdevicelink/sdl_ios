@@ -403,7 +403,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 // TODO: This is a v4 packet (create new delegate methods)
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
-    SDLLogD(@"handleProtocolStartServiceACKMessage (%@)", startServiceACK);
 
     // V5 Packet
     if (startServiceACK.header.version >= 5) {
@@ -438,13 +437,9 @@ NS_ASSUME_NONNULL_BEGIN
     self.serviceHeaders[@(startServiceACK.header.serviceType)] = [startServiceACK.header copy];
 
     // Pass along to all the listeners
-    SDLLogD(@"Listeners (%@)", self.protocolDelegateTable.allObjects);
     for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
         if ([listener respondsToSelector:@selector(handleProtocolStartServiceACKMessage:)]) {
-            SDLLogD(@"responder (%@)", listener);
             [listener handleProtocolStartServiceACKMessage:startServiceACK];
-        } else {
-            SDLLogD(@"no responder (%@)", listener);
         }
     }
 }

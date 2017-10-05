@@ -184,7 +184,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self.notificationDispatcher];
     }
 #pragma clang diagnostic pop
-
 }
 
 - (void)didEnterStateStopped {
