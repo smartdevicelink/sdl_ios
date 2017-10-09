@@ -87,6 +87,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 @property (assign, nonatomic) CMTime lastPresentationTimestamp;
 
+@property (assign, nonatomic) BOOL receivedVideoCapabilityResponse;
+
 @end
 
 
@@ -140,6 +142,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationWillResignActiveNotification object:nil];
 
     _lastPresentationTimestamp = kCMTimeInvalid;
+    _receivedVideoCapabilityResponse = NO;
 
     return self;
 }
@@ -151,11 +154,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         [self.protocol.protocolDelegateTable addObject:self];
     }
 
-    SDLLogD(@"Requesting video capabilities");
     __weak typeof(self) weakSelf = self;
     [self sdl_requestVideoCapabilities:^(SDLVideoStreamingCapability * _Nullable capability) {
         SDLLogD(@"Received video capability response");
-        SDLLogV(@"%@", capability);
+        SDLLogV(@"Capability: %@", capability);
+
+        self.receivedVideoCapabilityResponse = YES;
+
         if (capability != nil) {
             // If we got a response, get our preferred formats and resolutions
             weakSelf.preferredFormats = capability.supportedFormats;
@@ -327,6 +332,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogD(@"Video stream stopped");
     _videoEncrypted = NO;
     _videoFormat = nil;
+
+    _receivedVideoCapabilityResponse = NO;
 
     if (_videoEncoder != nil) {
         [_videoEncoder stop];
@@ -609,6 +616,12 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)sdl_startVideoSession {
     SDLLogV(@"Attempting to start video session");
+
+    if (!self.receivedVideoCapabilityResponse) {
+        // The video stream manager should send a video start service after SDL Core returns a video capability response.
+        return;
+    }
+
     if (!self.isStreamingSupported) {
         return;
     }
