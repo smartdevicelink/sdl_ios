@@ -45,20 +45,22 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 
 
 - (void)connect {
-    [SDLDebugTool logInfo:@"TCP Transport attempt connect" withType:SDLDebugType_Transport_TCP];
-
-    int sock_fd = call_socket([self.hostName UTF8String], [self.portNumber UTF8String]);
-    if (sock_fd < 0) {
-        [SDLDebugTool logInfo:@"Server Not Ready, Connection Failed" withType:SDLDebugType_Transport_TCP];
-        return;
-    }
-
-    CFSocketContext socketCtxt = {0, (__bridge void *)(self), NULL, NULL, NULL};
-    socket = CFSocketCreateWithNative(kCFAllocatorDefault, sock_fd, kCFSocketDataCallBack | kCFSocketConnectCallBack, (CFSocketCallBack)&TCPCallback, &socketCtxt);
-    CFRunLoopSourceRef source = CFSocketCreateRunLoopSource(kCFAllocatorDefault, socket, 0);
-    CFRunLoopRef loop = CFRunLoopGetCurrent();
-    CFRunLoopAddSource(loop, source, kCFRunLoopDefaultMode);
-    CFRelease(source);
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [SDLDebugTool logInfo:@"TCP Transport attempt connect" withType:SDLDebugType_Transport_TCP];
+        
+        int sock_fd = call_socket([self.hostName UTF8String], [self.portNumber UTF8String]);
+        if (sock_fd < 0) {
+            [SDLDebugTool logInfo:@"Server Not Ready, Connection Failed" withType:SDLDebugType_Transport_TCP];
+            return;
+        }
+        
+        CFSocketContext socketCtxt = {0, (__bridge void *)(self), NULL, NULL, NULL};
+        socket = CFSocketCreateWithNative(kCFAllocatorDefault, sock_fd, kCFSocketDataCallBack | kCFSocketConnectCallBack, (CFSocketCallBack)&TCPCallback, &socketCtxt);
+        CFRunLoopSourceRef source = CFSocketCreateRunLoopSource(kCFAllocatorDefault, socket, 0);
+        CFRunLoopRef loop = CFRunLoopGetCurrent();
+        CFRunLoopAddSource(loop, source, kCFRunLoopDefaultMode);
+        CFRelease(source);
+    }];
 }
 
 - (void)sendData:(NSData *)msgBytes {

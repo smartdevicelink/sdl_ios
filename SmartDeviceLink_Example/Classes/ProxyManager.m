@@ -84,14 +84,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startTCP {
-    [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
-    // Check for previous instance of sdlManager
-    if (self.sdlManager) { return; }
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
-    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
-    self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
-    
-    [self startManager];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
+        // Check for previous instance of sdlManager
+        if (self.sdlManager) { return; }
+        SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
+        SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
+        self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
+        
+        [self startManager];
+    });
 }
 
 - (void)startManager {
