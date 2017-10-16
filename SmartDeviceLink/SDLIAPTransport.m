@@ -331,7 +331,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
         };
         self.protocolIndexTimer.elapsedBlock = elapsedBlock;
 
-        SDLLogD(@"Setting delegates for control stream");
         SDLStreamDelegate *controlStreamDelegate = [[SDLStreamDelegate alloc] init];
         controlStreamDelegate.streamHasBytesHandler = [self sdl_controlStreamHasBytesHandlerForAccessory:accessory];
         controlStreamDelegate.streamEndHandler = [self sdl_controlStreamEndedHandler];
@@ -339,7 +338,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
         self.controlSession.streamDelegate = controlStreamDelegate;
 
         if (![self.controlSession start]) {
-            SDLLogW(@"Control session failed to setup");
+            SDLLogW(@"Control session failed to setup (%@)", accessory);
             self.controlSession.streamDelegate = nil;
             self.controlSession = nil;
             [self sdl_retryEstablishSession];
@@ -460,7 +459,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
         uint8_t buf[1];
         NSUInteger len = [istream read:buf maxLength:1];
         if (len <= 0) {
-            SDLLogV(@"Nothing read from input stream");
             return;
         }
 
@@ -622,4 +620,3 @@ int const ProtocolIndexTimeoutSeconds = 20;
 @end
 
 NS_ASSUME_NONNULL_END
-
