@@ -621,11 +621,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     if ([self.videoStreamStateMachine isCurrentState:SDLVideoStreamStateStopped]
           && self.isHmiStateVideoStreamCapable) {
-        SDLLogV(@"Sending a video start service request.");
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStarting];
     } else {
         SDLLogE(@"Unable to send video start service request\n"
-                "Video State must be SDLVideoStreamStateStopped: %@\n"
+                "Video State must be in state STOPPED: %@\n"
                 "HMI state must be LIMITED or FULL: %@\n",
                 self.videoStreamStateMachine.currentState, self.hmiLevel);
     }
