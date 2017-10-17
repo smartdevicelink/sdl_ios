@@ -83,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *signalChangeThreshold;
 
 /**
- * @abstract  True if the radio is on, false is the radio is off
+ * @abstract  True if the radio is on, false is the radio is off. When the radio is disabled, no data other than radioEnable is included in a GetInteriorVehicleData response
  *
  * Boolean value
  */
