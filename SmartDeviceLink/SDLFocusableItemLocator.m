@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SDLHapticManager.h"
+#import "SDLFocusableItemLocator.h"
 #import "SDLNotificationConstants.h"
 #import "SDLRectangle.h"
 #import "SDLHapticRect.h"
@@ -16,7 +16,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLHapticManager()
+@interface SDLFocusableItemLocator()
 
 /**
  The projection window associated with the Haptic Manager
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-@implementation SDLHapticManager
+@implementation SDLFocusableItemLocator
 
 - (instancetype)initWithWindow:(UIWindow *)window connectionManager:(id<SDLConnectionManagerType>)connectionManager{
     self = [super init];

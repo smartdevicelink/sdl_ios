@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol SDLHapticHitTester <NSObject>
+@protocol SDLFocusableItemHitTester <NSObject>
 
 /**
  Determines which view was selected based on SDLTouch object. If no view gets matched null value will be returned.

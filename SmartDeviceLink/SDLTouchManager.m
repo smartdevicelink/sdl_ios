@@ -11,7 +11,7 @@
 #import "CGPoint_Util.h"
 #import "dispatch_timer.h"
 
-#import "SDLHapticHitTester.h"
+#import "SDLFocusableItemHitTester.h"
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnTouchEvent.h"
@@ -80,13 +80,13 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 /**
  A hit tester that allows us to check for a view based on coordinates, if available.
  */
-@property (nonatomic, weak, nullable) id<SDLHapticHitTester> hitTester;
+@property (nonatomic, weak, nullable) id<SDLFocusableItemHitTester> hitTester;
 
 @end
 
 @implementation SDLTouchManager
 
-- (instancetype)initWithHitTester:(nullable id<SDLHapticHitTester>)hitTester {
+- (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester {
     self = [super init];
     if (!self) {
         return nil;
