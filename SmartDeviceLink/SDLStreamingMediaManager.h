@@ -16,7 +16,7 @@
 @class SDLTouchManager;
 @class SDLVideoStreamingFormat;
 
-@protocol SDLHapticInterface;
+@protocol SDLFocusableItemLocatorType;
 @protocol SDLConnectionManagerType;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  A haptic interface that can be updated to reparse views within the window you've provided. Send a `SDLDidUpdateProjectionView` notification or call the `updateInterfaceLayout` method to reparse. The "output" of this haptic interface occurs in the `touchManager` property where it will call the delegate.
  */
-@property (nonatomic, strong, readonly, nullable) id<SDLHapticInterface> hapticInterface;
+@property (nonatomic, strong, readonly, nullable) id<SDLFocusableItemLocatorType> focusableItemManager;
 
 /**
  *  Whether or not video streaming is supported

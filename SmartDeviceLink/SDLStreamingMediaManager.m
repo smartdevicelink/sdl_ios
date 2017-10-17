@@ -67,8 +67,8 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.touchManager;
 }
 
-- (nullable id<SDLHapticInterface>)hapticInterface {
-    return self.lifecycleManager.hapticInterface;
+- (nullable id<SDLFocusableItemLocatorType>)focusableItemManager {
+    return self.lifecycleManager.focusableItemManager;
 }
 
 - (BOOL)isStreamingSupported {

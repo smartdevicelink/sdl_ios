@@ -19,7 +19,7 @@
 #import "SDLGetSystemCapability.h"
 #import "SDLGetSystemCapabilityResponse.h"
 #import "SDLGlobals.h"
-#import "SDLHapticManager.h"
+#import "SDLFocusableItemLocator.h"
 #import "SDLHMICapabilities.h"
 #import "SDLImageResolution.h"
 #import "SDLLogMacros.h"
@@ -105,9 +105,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _connectionManager = connectionManager;
 
     if (configuration.window != nil) {
-        _hapticInterface = [[SDLHapticManager alloc] initWithWindow:configuration.window connectionManager:_connectionManager];
+        _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithWindow:configuration.window connectionManager:_connectionManager];
     }
-    _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_hapticInterface];
+    _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager];
 
     _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
     _requestedEncryptionType = configuration.maximumDesiredEncryption;
@@ -323,8 +323,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
                 weakSelf.preferredResolutions = [weakSelf.dataSource resolutionFromHeadUnitPreferredResolution:weakSelf.preferredResolutions.firstObject];
             }
 
-            if (weakSelf.hapticInterface != nil) {
-                weakSelf.hapticInterface.enableHapticDataRequests = capability.hapticSpatialDataSupported.boolValue;
+            if (weakSelf.focusableItemManager != nil) {
+                weakSelf.focusableItemManager.enableHapticDataRequests = capability.hapticSpatialDataSupported.boolValue;
             }
 
             SDLLogD(@"Got specialized video capabilites, preferred formats: %@, resolutions: %@ haptics enabled %@", weakSelf.preferredFormats, weakSelf.preferredResolutions, (capability.hapticSpatialDataSupported.boolValue ? @"YES" : @"NO"));
@@ -335,8 +335,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             weakSelf.preferredFormats = @[format];
             weakSelf.preferredResolutions = @[resolution];
 
-            if (weakSelf.hapticInterface != nil) {
-                weakSelf.hapticInterface.enableHapticDataRequests = NO;
+            if (weakSelf.focusableItemManager != nil) {
+                weakSelf.focusableItemManager.enableHapticDataRequests = NO;
             }
 
             SDLLogD(@"Using generic video capabilites, preferred formats: %@, resolutions: %@, haptics disabled", weakSelf.preferredFormats, weakSelf.preferredResolutions);

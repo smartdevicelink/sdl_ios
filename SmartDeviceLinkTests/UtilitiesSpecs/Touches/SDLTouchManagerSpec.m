@@ -13,7 +13,7 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLNotificationConstants.h"
-#import "SDLHapticManager.h"
+#import "SDLFocusableItemLocator.h"
 #import "SDLOnTouchEvent.h"
 #import "SDLPinchGesture.h"
 #import "SDLRPCNotificationNotification.h"

@@ -7,12 +7,12 @@
 
 #import <UIKit/UIKit.h>
 
-#import "SDLHapticInterface.h"
-#import "SDLHapticHitTester.h"
+#import "SDLFocusableItemLocatorType.h"
+#import "SDLFocusableItemHitTester.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLHapticManager : NSObject <SDLHapticInterface, SDLHapticHitTester>
+@interface SDLFocusableItemLocator : NSObject <SDLFocusableItemLocatorType, SDLFocusableItemHitTester>
 
 @property (nonatomic, assign) BOOL enableHapticDataRequests;
 

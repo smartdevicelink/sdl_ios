@@ -21,7 +21,7 @@
 @class SDLTouchManager;
 @class SDLVideoStreamingFormat;
 
-@protocol SDLHapticInterface;
+@protocol SDLFocusableItemLocatorType;
 @protocol SDLStreamingMediaManagerDataSource;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -67,7 +67,7 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
 /**
  A haptic interface that can be updated to reparse views within the window you've provided. Send a `SDLDidUpdateProjectionView` notification or call the `updateInterfaceLayout` method to reparse. The "output" of this haptic interface occurs in the `touchManager` property where it will call the delegate.
  */
-@property (nonatomic, strong, readonly, nullable) id<SDLHapticInterface> hapticInterface;
+@property (nonatomic, strong, readonly, nullable) id<SDLFocusableItemLocatorType> focusableItemManager;
 
 /**
  A data source for the streaming manager's preferred resolutions and preferred formats.

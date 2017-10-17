@@ -17,8 +17,8 @@
 #import "SDLGetSystemCapability.h"
 #import "SDLGetSystemCapabilityResponse.h"
 #import "SDLGlobals.h"
-#import "SDLHapticInterface.h"
-#import "SDLHapticManager.h"
+#import "SDLFocusableItemLocatorType.h"
+#import "SDLFocusableItemLocator.h"
 #import "SDLHMILevel.h"
 #import "SDLImageResolution.h"
 #import "SDLNotificationConstants.h"
@@ -73,7 +73,7 @@ describe(@"the streaming media manager", ^{
 
     it(@"should initialize properties", ^{
         expect(streamingLifecycleManager.touchManager).toNot(beNil());
-        expect(streamingLifecycleManager.hapticInterface).toNot(beNil());
+        expect(streamingLifecycleManager.focusableItemManager).toNot(beNil());
         expect(@(streamingLifecycleManager.isStreamingSupported)).to(equal(@NO));
         expect(@(streamingLifecycleManager.isVideoConnected)).to(equal(@NO));
         expect(@(streamingLifecycleManager.isAudioConnected)).to(equal(@NO));
@@ -435,7 +435,7 @@ describe(@"the streaming media manager", ^{
                         expect(streamingLifecycleManager.preferredFormats.firstObject.protocol).to(equal(testDataSource.extraFormat.protocol));
 
                         // The haptic manager should be enabled
-                        expect(streamingLifecycleManager.hapticInterface.enableHapticDataRequests).to(equal(YES));
+                        expect(streamingLifecycleManager.focusableItemManager.enableHapticDataRequests).to(equal(YES));
                     });
 
                     it(@"should have decided upon the correct preferred format and resolution", ^{

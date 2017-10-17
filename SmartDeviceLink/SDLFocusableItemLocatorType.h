@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol SDLHapticInterface <NSObject>
+@protocol SDLFocusableItemLocatorType <NSObject>
 
 /**
  Whether or not this will attempt to send haptic RPCs.
