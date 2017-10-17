@@ -1,7 +1,11 @@
+# 4.7.4 Release Notes
+### Bug Fixes
+* Fix for connecting video streaming on Core 4.4.0 (to be released) and above.
+
 # 4.7.3 Release Notes
 ### Bug Fixes
-* Performance fixes for streaming video
-* Fixes for background connection on IAP transports
+* Performance fixes for streaming video.
+* Fixes for background connection on IAP transports.
 
 # 4.7.2 Release Notes
 ### Bug Fixes
