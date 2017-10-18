@@ -16,7 +16,8 @@ typedef void (^SDLURLConnectionRequestCompletionHandler)(NSData *__nullable data
 
 typedef NS_ENUM(NSUInteger, SDLURLRequestTaskState) {
     SDLURLRequestTaskStateRunning,
-    SDLURLRequestTaskStateCompleted
+    SDLURLRequestTaskStateCompleted,
+    SDLURLRequestTaskStateCanceled
 };
 
 
