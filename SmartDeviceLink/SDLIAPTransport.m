@@ -23,8 +23,8 @@ NSString *const indexedProtocolStringPrefix = @"com.smartdevicelink.prot";
 NSString *const multiSessionProtocolString = @"com.smartdevicelink.multisession";
 NSString *const backgroundTaskName = @"com.sdl.transport.iap.backgroundTask";
 
-int const createSessionRetries = 1;
-int const protocolIndexTimeoutSeconds = 20;
+int const createSessionRetries = 3;
+int const protocolIndexTimeoutSeconds = 10;
 int const streamOpenTimeoutSeconds = 2;
 
 
@@ -143,7 +143,6 @@ int const streamOpenTimeoutSeconds = 2;
         [self sdl_backgroundTaskStart];
     }
 
-    self.retryCounter = 0;
     [self performSelector:@selector(sdl_connect:) withObject:accessory afterDelay:retryDelay];
 }
 
@@ -155,12 +154,14 @@ int const streamOpenTimeoutSeconds = 2;
 - (void)sdl_accessoryDisconnected:(NSNotification *)notification {
     [SDLDebugTool logInfo:@"Accessory Disconnected Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
 
-    // Only check for the data session, the control session is handled separately
     EAAccessory *accessory = [notification.userInfo objectForKey:EAAccessoryKey];
     if (accessory.connectionID != self.session.accessory.connectionID) {
+        // Disconnected during a control session
+        self.retryCounter = 0;
         [SDLDebugTool logInfo:@"Accessory connection ID mismatch!!!" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     }
     if ([accessory.serialNumber isEqualToString:self.session.accessory.serialNumber]) {
+        // Disconnected during a data session
         self.retryCounter = 0;
         self.sessionSetupInProgress = NO;
         [self disconnect];
@@ -180,7 +181,6 @@ int const streamOpenTimeoutSeconds = 2;
 - (void)sdl_applicationWillEnterForeground:(NSNotification *)notification {
     [SDLDebugTool logInfo:@"App Foregrounded Event" withType:SDLDebugType_Transport_iAP toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     [self sdl_backgroundTaskEnd];
-    self.retryCounter = 0;
     [self connect];
 }
 
@@ -278,7 +278,6 @@ int const streamOpenTimeoutSeconds = 2;
             [SDLDebugTool logInfo:@"No accessory supporting a required sync protocol was found."];
             self.sessionSetupInProgress = NO;
         }
-
     } else {
         // We are beyond the number of retries allowed
         [SDLDebugTool logInfo:@"Create session retries exhausted."];
@@ -302,7 +301,6 @@ int const streamOpenTimeoutSeconds = 2;
         __weak typeof(self) weakSelf = self;
         void (^elapsedBlock)(void) = ^{
             __strong typeof(weakSelf) strongSelf = weakSelf;
-
             [SDLDebugTool logInfo:@"Protocol Index Timeout"];
             [strongSelf.controlSession stop];
             strongSelf.controlSession.streamDelegate = nil;
@@ -362,7 +360,6 @@ int const streamOpenTimeoutSeconds = 2;
         self.session = nil;
     }
     // No accessory to use this time, search connected accessories
-    self.retryCounter = 0;
     [self sdl_connect:nil];
 }
 
@@ -455,7 +452,6 @@ int const streamOpenTimeoutSeconds = 2;
             NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", indexedProtocolStringPrefix, @(buf[0])];
             if (accessory.isConnected) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    self.retryCounter = 0;
                     [strongSelf sdl_createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
                 });
             }
