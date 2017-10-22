@@ -7,11 +7,11 @@
 
 #import "EAAccessory+SDLProtocols.h"
 #import "EAAccessoryManager+SDLProtocols.h"
-#import "SDLLogMacros.h"
 #import "SDLGlobals.h"
 #import "SDLIAPSession.h"
 #import "SDLIAPTransport.h"
 #import "SDLIAPTransport.h"
+#import "SDLLogMacros.h"
 #import "SDLStreamDelegate.h"
 #import "SDLTimer.h"
 #import <CommonCrypto/CommonDigest.h>
@@ -531,7 +531,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
             NSInteger bytesRead = [istream read:buf maxLength:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
             NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
             SDLLogBytes(dataIn, SDLLogBytesDirectionReceive);
-            
+
             if (bytesRead > 0) {
                 [strongSelf.delegate onDataReceived:dataIn];
             } else {
