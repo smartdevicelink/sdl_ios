@@ -255,6 +255,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
     BOOL connecting = NO;
     if ([self.class sdl_supportsRequiredProtocolStrings] != nil) {
         NSString *failedString = [self.class sdl_supportsRequiredProtocolStrings];
+        SDLLogE(@"A required External Accessory protocol string is missing from the info.plist: %@", failedString);
         NSAssert(NO, @"Some SDL protocol strings are not supported, check the README for all strings that must be included in your info.plist file. Missing string: %@", failedString);
         return connecting;
     }
