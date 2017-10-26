@@ -158,6 +158,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self sdl_stopVideoSession];
 
     self.restartVideoStream = NO;
+
+    self.hmiLevel = SDLHMILevelNone;
+
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateStopped];
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
 }
@@ -607,6 +610,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)sdl_startVideoSession {
     SDLLogV(@"Attempting to start video session");
+
+    if (!self.isHmiStateVideoStreamCapable) {
+        SDLLogV(@"SDL Core is not ready to stream video. Video start service request will not be sent.");
+        return;
+    }
 
     if (!self.isStreamingSupported) {
         SDLLogV(@"Streaming is not supported. Video start service request will not be sent.");
