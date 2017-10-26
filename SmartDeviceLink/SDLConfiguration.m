@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLConfiguration *new = [[SDLConfiguration allocWithZone:zone] initWithLifecycle: _lifecycleConfig lockScreen: _lockScreenConfig logging:_loggingConfig];
+    SDLConfiguration *new = [[SDLConfiguration allocWithZone:zone] initWithLifecycle: _lifecycleConfig lockScreen: _lockScreenConfig logging:_loggingConfig streamingMedia:_streamingMediaConfig];
 
     return new;
 }
