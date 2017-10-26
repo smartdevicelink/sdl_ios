@@ -269,10 +269,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 // We should be waiting to start any OpenGL drawing until UIApplicationDidBecomeActive is called.
 - (void)didEnterStateAppActive {
     SDLLogD(@"App became active");
-    if (!self.protocol) { return; }
-
-    [self sdl_startVideoSession];
-    [self sdl_startAudioSession];
 }
 
 #pragma mark Video Streaming
