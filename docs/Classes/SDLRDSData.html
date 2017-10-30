@@ -1,0 +1,204 @@
+<h1>SDLRDSData Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithProgramService:radioText:clockText:programIdentification:programType:trafficProgramIdentification:trafficAnnouncementIdentification:region:">-initWithProgramService:radioText:clockText:programIdentification:programType:trafficProgramIdentification:trafficAnnouncementIdentification:region:</a></li>
+  <li><a href="#section-programService">programService</a></li>
+  <li><a href="#section-radioText">radioText</a></li>
+  <li><a href="#section-clockText">clockText</a></li>
+  <li><a href="#section-programIdentification">programIdentification</a></li>
+  <li><a href="#section-programType">programType</a></li>
+  <li><a href="#section-trafficProgramIdentification">trafficProgramIdentification</a></li>
+  <li><a href="#section-trafficAnnouncementIdentification">trafficAnnouncementIdentification</a></li>
+  <li><a href="#section-region">region</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Include the data defined in Radio Data System,
+which is a communications protocol standard for embedding small amounts of digital information
+in conventional FM radio broadcasts.</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithProgramService:radioText:clockText:programIdentification:programType:trafficProgramIdentification:trafficAnnouncementIdentification:region:">
+      -initWithProgramService:radioText:clockText:programIdentification:programType:trafficProgramIdentification:trafficAnnouncementIdentification:region:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLRDSData</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-programService">
+      programService
+  </h3>
+  
+  <p>@abstract Program Service Name</p>
+
+<p>optional, 0-8</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">programService</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">programService</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-radioText">
+      radioText
+  </h3>
+  
+  <p>@abstract Radio Text</p>
+
+<p>optional, 0-64</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">radioText</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">radioText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-clockText">
+      clockText
+  </h3>
+  
+  <p>@abstract The clock text in UTC format as YYYY-MM-DDThh:mm:ss.sTZD</p>
+
+<p>optional, 0-24</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">clockText</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">clockText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-programIdentification">
+      programIdentification
+  </h3>
+  
+  <p>@abstract  Program Identification - the call sign for the radio station</p>
+
+<p>optional, 0-6</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">programIdentification</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">programIdentification</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-programType">
+      programType
+  </h3>
+  
+  <p>@abstract The program type - The region should be used to differentiate between EU
+ and North America program types</p>
+
+<p>optional, 0-31</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">programType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">programType</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-trafficProgramIdentification">
+      trafficProgramIdentification
+  </h3>
+  
+  <p>@abstract Traffic Program Identification - Identifies a station that offers traffic</p>
+
+<p>optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">trafficProgramIdentification</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">trafficProgramIdentification</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-trafficAnnouncementIdentification">
+      trafficAnnouncementIdentification
+  </h3>
+  
+  <p>@abstract Traffic Announcement Identification - Indicates an ongoing traffic announcement</p>
+
+<p>optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">trafficAnnouncementIdentification</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">trafficAnnouncementIdentification</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-region">
+      region
+  </h3>
+  
+  <p>@abstract Region</p>
+
+<p>optional, 0-8</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">region</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">region</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

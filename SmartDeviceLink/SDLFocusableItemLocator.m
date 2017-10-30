@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SDLFocusableItemLocator.h"
+#import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
 #import "SDLRectangle.h"
 #import "SDLHapticRect.h"

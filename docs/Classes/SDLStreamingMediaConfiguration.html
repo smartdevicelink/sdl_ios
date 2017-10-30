@@ -1,0 +1,252 @@
+<h1>SDLStreamingMediaConfiguration Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-securityManagers">securityManagers</a></li>
+  <li><a href="#section-maximumDesiredEncryption">maximumDesiredEncryption</a></li>
+  <li><a href="#section-customVideoEncoderSettings">customVideoEncoderSettings</a></li>
+  <li><a href="#section-dataSource">dataSource</a></li>
+  <li><a href="#section-window">window</a></li>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:window:">-initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:window:</a></li>
+  <li><a href="#section--initWithSecurityManagers:">-initWithSecurityManagers:</a></li>
+  <li><a href="#section-+secureConfigurationWithSecurityManagers:">+secureConfigurationWithSecurityManagers:</a></li>
+  <li><a href="#section-+insecureConfiguration">+insecureConfiguration</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-securityManagers">
+      securityManagers
+  </h3>
+  
+  <p>Set security managers which could be used. This is primarily used with video streaming applications to authenticate and perhaps encrypt traffic data.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="n">securityManagers</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-maximumDesiredEncryption">
+      maximumDesiredEncryption
+  </h3>
+  
+  <p>What encryption level video/audio streaming should be. The default is SDLStreamingEncryptionFlagAuthenticateAndEncrypt.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Enums/SDLStreamingEncryptionFlag.html">SDLStreamingEncryptionFlag</a></span> <span class="n">maximumDesiredEncryption</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">maximumDesiredEncryption</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLStreamingEncryptionFlag.html">SDLStreamingEncryptionFlag</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-customVideoEncoderSettings">
+      customVideoEncoderSettings
+  </h3>
+  
+  <p>Properties to use for applications that utilitze the video encoder for streaming. See VTCompressionProperties.h for more details. For example, you can set kVTCompressionPropertyKey_ExpectedFrameRate to set your expected framerate.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">customVideoEncoderSettings</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">customVideoEncoderSettings</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-dataSource">
+      dataSource
+  </h3>
+  
+  <p>Usable to change run time video stream setup behavior. Only use this and modify the results if you <em>really</em> know what you&rsquo;re doing. The head unit defaults are generally good.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">SDLStreamingMediaManagerDataSource</span><span class="o">&gt;</span>
+    <span class="n">dataSource</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-window">
+      window
+  </h3>
+  
+  <p>Set the window your video streaming content is within.</p>
+
+<p>Activates the haptic view parser when set. If the window contains <code>UIView</code> based views, these will be discovered and automatically sent to the head unit if it uses a haptic interface. Whether or not it supports the haptic interace, this library will also use that information to attempt to return the touched view to you in <code><a href="../Protocols/SDLTouchManagerDelegate.html">SDLTouchManagerDelegate</a></code>.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Apps using views outside of the <code>UIView</code> heirarchy (such as OpenGL) are currently unsupported. If you app uses partial views in the heirarchy, only those views will be discovered. Your OpenGL views will not be discoverable to a haptic interface head unit and you will have to manually make these views discoverable via the <code><a href="../Classes/SDLSendHapticData.html">SDLSendHapticData</a></code> RPC request.</p>
+
+</div>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>This is a weak property and it&rsquo;s therefore your job to hold a strong reference to this window.</p>
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">UIWindow</span> <span class="o">*</span><span class="n">window</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">weak</span> <span class="k">var</span> <span class="nv">window</span><span class="p">:</span> <span class="kt">UIWindow</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--init">
+      -init
+  </h3>
+  
+  <p>Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you&rsquo;d like custom video encoder settings, you can set the property manually.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">()</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+  </div>
+  
+  <h3 id="section--initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:window:">
+      -initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:window:
+  </h3>
+  
+  <p>Manually set all the properties to the streaming media configuration</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+<span class="nf">initWithSecurityManagers</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">securityManagers</span>
+          <span class="nf">encryptionFlag</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLStreamingEncryptionFlag.html">SDLStreamingEncryptionFlag</a></span><span class="p">)</span><span class="nv">encryptionFlag</span>
+           <span class="nf">videoSettings</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">videoSettings</span>
+              <span class="nf">dataSource</span><span class="p">:</span>
+                  <span class="p">(</span><span class="n">nullable</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">SDLStreamingMediaManagerDataSource</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">dataSource</span>
+                  <span class="nf">window</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">UIWindow</span> <span class="o">*</span><span class="p">)</span><span class="nv">window</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>securityManagers</dt>
+      <dd><p>The security managers to use or nil for none.</p></dd>
+      <dt>encryptionFlag</dt>
+      <dd><p>The maximum encrpytion supported. If the connected head unit supports less than set here, it will still connect, but if it supports more than set here, it will not connect.</p></dd>
+      <dt>videoSettings</dt>
+      <dd><p>Custom video encoder settings to be used in video streaming.</p></dd>
+      <dt>window</dt>
+      <dd><p>The UIWindow you are running the content that is being streamed on, to use for haptics if needed and possible (only works for UIViews)</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+  </div>
+  
+  <h3 id="section--initWithSecurityManagers:">
+      -initWithSecurityManagers:
+  </h3>
+  
+  <p>Create a secure configuration for each of the security managers provided.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithSecurityManagers</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">securityManagers</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>securityManagers</dt>
+      <dd><p>The security managers to be used. The encryption flag will be set to AuthenticateAndEncrypt if any security managers are set.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+  </div>
+  
+  <h3 id="section-+secureConfigurationWithSecurityManagers:">
+      +secureConfigurationWithSecurityManagers:
+  </h3>
+  
+  <p>Create a secure configuration for each of the security managers provided.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">secureConfigurationWithSecurityManagers</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">securityManagers</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>securityManagers</dt>
+      <dd><p>The security managers to be used. The encryption flag will be set to AuthenticateAndEncrypt if any security managers are set.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+  </div>
+  
+  <h3 id="section-+insecureConfiguration">
+      +insecureConfiguration
+  </h3>
+  
+  <p>Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you&rsquo;d like custom video encoder settings, you can set the property manually. This is equivalent to <code>init</code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">insecureConfiguration</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>The configuration</p>
+  </div>
+  
+</section>

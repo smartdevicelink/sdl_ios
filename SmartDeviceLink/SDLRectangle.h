@@ -6,7 +6,11 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import <SmartDeviceLink/SmartDeviceLink.h>
+#import <CoreGraphics/CoreGraphics.h>
+#import <Foundation/Foundation.h>
+
+#import "NSNumber+NumberType.h"
+#import "SDLRPCStruct.h"
 
 @interface SDLRectangle : SDLRPCStruct
 

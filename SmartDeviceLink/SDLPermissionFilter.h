@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of `SDLPermissionFilter`.
  */
-+ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)handler;
++ (instancetype)filterWithRPCNames:(NSArray<SDLPermissionRPCName> *)rpcNames groupType:(SDLPermissionGroupType)groupType observer:(SDLPermissionsChangedHandler)handler NS_SWIFT_UNAVAILABLE("Use the initializer");
 
 /**
  *  Whether the current filter is equivalent with another filter or not.

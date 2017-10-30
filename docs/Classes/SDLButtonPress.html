@@ -1,0 +1,88 @@
+<h1>SDLButtonPress Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithButtonName:moduleType:">-initWithButtonName:moduleType:</a></li>
+  <li><a href="#section-moduleType">moduleType</a></li>
+  <li><a href="#section-buttonName">buttonName</a></li>
+  <li><a href="#section-buttonPressMode">buttonPressMode</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>This RPC allows a remote control type mobile application to simulate a hardware button press event.</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithButtonName:moduleType:">
+      -initWithButtonName:moduleType:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLButtonPress</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-moduleType">
+      moduleType
+  </h3>
+  
+  <p>The module where the button should be pressed.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span> <span class="n">_Nonnull</span> <span class="n">moduleType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">moduleType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-buttonName">
+      buttonName
+  </h3>
+  
+  <p>The name of supported RC climate or radio button.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span> <span class="n">_Nonnull</span> <span class="n">buttonName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">buttonName</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLButtonName.h@T@SDLButtonName">SDLButtonName</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-buttonPressMode">
+      buttonPressMode
+  </h3>
+  
+  <p>Indicates whether this is a LONG or SHORT button press event.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLButtonPressMode.h@T@SDLButtonPressMode">SDLButtonPressMode</a></span> <span class="n">_Nonnull</span> <span class="n">buttonPressMode</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">buttonPressMode</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLButtonPressMode.h@T@SDLButtonPressMode">SDLButtonPressMode</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

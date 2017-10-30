@@ -1,0 +1,212 @@
+<h1>SDLLogFileModule Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-name">name</a></li>
+  <li><a href="#section-files">files</a></li>
+  <li><a href="#section-logLevel">logLevel</a></li>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithName:files:level:">-initWithName:files:level:</a></li>
+  <li><a href="#section--initWithName:files:">-initWithName:files:</a></li>
+  <li><a href="#section-+moduleWithName:files:">+moduleWithName:files:</a></li>
+  <li><a href="#section--containsFile:">-containsFile:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-name">
+      name
+  </h3>
+  
+  <p>The name of the this module, e.g. <q>Transport</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">name</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-files">
+      files
+  </h3>
+  
+  <p>All of the files contained within this module. When a log is logged, the <code>__FILE__</code> (in Obj-C) or <code>#file</code> (in Swift) is automatically captured and checked to see if any module has a file in this set that matches. If it does, it will be logged using the module&rsquo;s log level and the module&rsquo;s name will be printed in the formatted log.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">files</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">files</span><span class="p">:</span> <span class="kt">Set</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-logLevel">
+      logLevel
+  </h3>
+  
+  <p>The custom level of the log. This is <code>SDLLogLevelDefault</code> (whatever the current global log level is) by default.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Enums/SDLLogLevel.html">SDLLogLevel</a></span> <span class="n">logLevel</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">logLevel</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLLogLevel.html">SDLLogLevel</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--init">
+      -init
+  </h3>
+  
+  <p>This method is unavailable and may not be used.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>Always returns nil</p>
+  </div>
+  
+  <h3 id="section--initWithName:files:level:">
+      -initWithName:files:level:
+  </h3>
+  
+  <p>Returns an initialized <code>SDLLogFileModule</code> that contains a custom name, set of files, and associated log level.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
+                               <span class="nf">files</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">files</span>
+                               <span class="nf">level</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLLogLevel.html">SDLLogLevel</a></span><span class="p">)</span><span class="nv">level</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">files</span><span class="p">:</span> <span class="kt">Set</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>name</dt>
+      <dd><p>The name of this module. This will be used when printing a formatted log for a file within this module e.g. <q>Transport</q>.</p></dd>
+      <dt>files</dt>
+      <dd><p>The files this module covers. This should correspond to a <code>__FILE__</code> or <code>#file</code> call for use when comparing a log to this module. Any log originating in a file contained in this set will then use this module&rsquo;s log level and print the module name.</p></dd>
+      <dt>level</dt>
+      <dd><p>The custom logging level logs originating in files contained in this log module will use. For example, if the global level is <code>SDLLogLevelError</code> and this module is configured to <code>SDLLogLevelVerbose</code>, all logs originating from files within this module will be logged, not merely error logs.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An initialized <code>SDLLogFileModule</code></p>
+  </div>
+  
+  <h3 id="section--initWithName:files:">
+      -initWithName:files:
+  </h3>
+  
+  <p>Returns an initialized <code>SDLLogFileModule</code> that contains a custom name and set of files. The logging level is the same as the current global logging file by using <code>SDLLogLevelDefault</code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
+                               <span class="nf">files</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">files</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">files</span><span class="p">:</span> <span class="kt">Set</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>name</dt>
+      <dd><p>The name of this module. This will be used when printing a formatted log for a file within this module e.g. <q>Transport</q>.</p></dd>
+      <dt>files</dt>
+      <dd><p>The files this module covers. This should correspond to a <code>__FILE__</code> or <code>#file</code> call for use when comparing a log to this module. Any log originating in a file contained in this set will then use this module&rsquo;s log level and print the module name.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An initialized <code>SDLLogFileModule</code></p>
+  </div>
+  
+  <h3 id="section-+moduleWithName:files:">
+      +moduleWithName:files:
+  </h3>
+  
+  <p>Returns an initialized <code>SDLLogFileModule</code> that contains a custom name and set of files. The logging level is the same as the current global logging file by using <code>SDLLogLevelDefault</code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">moduleWithName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
+                                 <span class="nf">files</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">files</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>name</dt>
+      <dd><p>The name of this module. This will be used when printing a formatted log for a file within this module e.g. <q>Transport</q>.</p></dd>
+      <dt>files</dt>
+      <dd><p>The files this module covers. This should correspond to a <code>__FILE__</code> or <code>#file</code> call for use when comparing a log to this module. Any log originating in a file contained in this set will then use this module&rsquo;s log level and print the module name.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An initialized <code>SDLLogFileModule</code></p>
+  </div>
+  
+  <h3 id="section--containsFile:">
+      -containsFile:
+  </h3>
+  
+  <p>Returns whether or not this module contains a given file.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">containsFile</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">containsFile</span><span class="p">(</span><span class="n">_</span> <span class="nv">fileName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>fileName</dt>
+      <dd><p>The file name to check</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A BOOL, YES if this module contains the given file.</p>
+  </div>
+  
+</section>

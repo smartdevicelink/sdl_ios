@@ -1,0 +1,50 @@
+<h1>SDLGetInteriorVehicleDataResponse Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-moduleData">moduleData</a></li>
+  <li><a href="#section-isSubscribed">isSubscribed</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-moduleData">
+      moduleData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-isSubscribed">
+      isSubscribed
+  </h3>
+  
+  <p>@abstract It is a conditional-mandatory parameter: must be returned in case <q>subscribe</q> parameter was present in the related request.
+ if <q>true</q> - the <q>moduleType</q> from request is successfully subscribed and the head unit will send onInteriorVehicleData notifications for the moduleType.
+ if <q>false</q> - the <q>moduleType</q> from request is either unsubscribed or failed to subscribe.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">isSubscribed</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">isSubscribed</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+</section>

@@ -1,0 +1,107 @@
+<h1>SDLGetInteriorVehicleData Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithModuleType:">-initWithModuleType:</a></li>
+  <li><a href="#section--initAndSubscribeToModuleType:">-initAndSubscribeToModuleType:</a></li>
+  <li><a href="#section--initAndUnsubscribeToModuleType:">-initAndUnsubscribeToModuleType:</a></li>
+  <li><a href="#section-moduleType">moduleType</a></li>
+  <li><a href="#section-subscribe">subscribe</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Reads the current status value of specified remote control module (type).
+When subscribe is true, subscribes for specific remote control module data items.
+When subscribe is false, unsubscribes for specific remote control module data items.
+Once subscribed, the application will be notified by the onInteriorVehicleData RPC notification
+whenever new data is available for the module.</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithModuleType:">
+      -initWithModuleType:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGetInteriorVehicleData</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section--initAndSubscribeToModuleType:">
+      -initAndSubscribeToModuleType:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGetInteriorVehicleData</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section--initAndUnsubscribeToModuleType:">
+      -initAndUnsubscribeToModuleType:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLGetInteriorVehicleData</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-moduleType">
+      moduleType
+  </h3>
+  
+  <p>The type of a RC module to retrieve module data from the vehicle.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span> <span class="n">_Nonnull</span> <span class="n">moduleType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">moduleType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-subscribe">
+      subscribe
+  </h3>
+  
+  <p>If subscribe is true, the head unit will register onInteriorVehicleData notifications for the requested moduelType.
+ If subscribe is false, the head unit will unregister onInteriorVehicleData notifications for the requested moduelType.</p>
+
+<p>optional, Boolean, default Value = false</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">subscribe</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">subscribe</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+</section>
