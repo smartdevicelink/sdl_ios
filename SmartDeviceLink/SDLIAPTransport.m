@@ -316,6 +316,13 @@ int const ProtocolIndexTimeoutSeconds = 20;
             // Connection underway, exit
             return;
         }
+
+        if ([self.class sdl_supportsRequiredProtocolStrings] != nil) {
+            NSString *failedString = [self.class sdl_supportsRequiredProtocolStrings];
+            SDLLogE(@"A required External Accessory protocol string is missing from the info.plist: %@", failedString);
+            NSAssert(NO, @"Some SDL protocol strings are not supported, check the README for all strings that must be included in your info.plist file. Missing string: %@", failedString);
+            return;
+        }
         
         // Determine if we can start a multi-app session or a legacy (single-app) session
         if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:MultiSessionProtocolString]) && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
