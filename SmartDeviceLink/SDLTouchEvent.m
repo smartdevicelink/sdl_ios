@@ -4,68 +4,38 @@
 
 #import "SDLTouchEvent.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLTouchCoord.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLTouchEvent
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
+- (void)setTouchEventId:(NSNumber<SDLInt> *)touchEventId {
+    [store sdl_setObject:touchEventId forName:SDLNameId];
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (NSNumber<SDLInt> *)touchEventId {
+    return [store sdl_objectForName:SDLNameId];
 }
 
-- (void)setTouchEventId:(NSNumber *)touchEventId {
-    if (touchEventId != nil) {
-        [store setObject:touchEventId forKey:NAMES_id];
-    } else {
-        [store removeObjectForKey:NAMES_id];
-    }
+- (void)setTimeStamp:(NSArray<NSNumber<SDLInt> *> *)timeStamp {
+    [store sdl_setObject:timeStamp forName:SDLNameTimestamp];
 }
 
-- (NSNumber *)touchEventId {
-    return [store objectForKey:NAMES_id];
+- (NSArray<NSNumber<SDLInt> *> *)timeStamp {
+    return [store sdl_objectForName:SDLNameTimestamp];
 }
 
-- (void)setTimeStamp:(NSMutableArray *)timeStamp {
-    if (timeStamp != nil) {
-        [store setObject:timeStamp forKey:NAMES_ts];
-    } else {
-        [store removeObjectForKey:NAMES_ts];
-    }
+- (void)setCoord:(NSArray<SDLTouchCoord *> *)coord {
+    [store sdl_setObject:coord forName:SDLNameCoordinate];
 }
 
-- (NSMutableArray *)timeStamp {
-    return [store objectForKey:NAMES_ts];
-}
-
-- (void)setCoord:(NSMutableArray *)coord {
-    if (coord != nil) {
-        [store setObject:coord forKey:NAMES_c];
-    } else {
-        [store removeObjectForKey:NAMES_c];
-    }
-}
-
-- (NSMutableArray *)coord {
-    NSMutableArray *array = [store objectForKey:NAMES_c];
-    if ([array isEqual:[NSNull null]]) {
-        return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLTouchCoord.class]) {
-        return array;
-    } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTouchCoord alloc] initWithDictionary:(NSMutableDictionary *)dict]];
-        }
-        return newList;
-    }
+- (NSArray<SDLTouchCoord *> *)coord {
+    return [store sdl_objectsForName:SDLNameCoordinate ofClass:SDLTouchCoord.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

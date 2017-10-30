@@ -45,11 +45,11 @@ describe(@"List Files Operation", ^{
         context(@"when a good response comes back", ^{
             __block SDLListFilesResponse *goodResponse = nil;
             __block NSNumber *responseSpaceAvailable = nil;
-            __block NSMutableArray *responseFileNames = nil;
+            __block NSArray<NSString *> *responseFileNames = nil;
             
             beforeEach(^{
                 responseSpaceAvailable = @(11212512);
-                responseFileNames = [NSMutableArray arrayWithArray:@[@"test1", @"test2"]];
+                responseFileNames = @[@"test1", @"test2"];
                 
                 goodResponse = [[SDLListFilesResponse alloc] init];
                 goodResponse.success = @YES;
@@ -76,14 +76,14 @@ describe(@"List Files Operation", ^{
         context(@"when a bad response comes back", ^{
             __block SDLListFilesResponse *badResponse = nil;
             __block NSNumber *responseSpaceAvailable = nil;
-            __block NSMutableArray *responseFileNames = nil;
+            __block NSArray<NSString *> *responseFileNames = nil;
             
             __block NSString *responseErrorDescription = nil;
             __block NSString *responseErrorReason = nil;
             
             beforeEach(^{
                 responseSpaceAvailable = @(0);
-                responseFileNames = [NSMutableArray arrayWithArray:@[]];
+                responseFileNames = @[];
                 
                 responseErrorDescription = @"some description";
                 responseErrorReason = @"some reason";

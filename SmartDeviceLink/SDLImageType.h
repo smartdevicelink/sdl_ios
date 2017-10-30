@@ -9,39 +9,16 @@
 *
 * @since SDL 2.0
 */
-@interface SDLImageType : SDLEnum {
-}
-
-/**
- * @abstract return SDLImageType (STATIC / DYNAMIC)
- *
- * @param value The value of the string to get an object for
- *
- * @return An SDLImageType
- */
-+ (SDLImageType *)valueOf:(NSString *)value;
-
-/**
- * @abstract store all possible SDLImageType values
- *
- * @return An array with all possible SDLImageType values inside
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLImageType SDL_SWIFT_ENUM;
 
 /**
  * @abstract Just the static hex icon value to be used
- *
- * @return The Image Type with value *STATIC*
  */
-+ (SDLImageType *)STATIC;
+extern SDLImageType const SDLImageTypeStatic;
 
 /**
  * @abstract Binary image file to be used (identifier to be sent by SDLPutFile)
  *
  * @see SDLPutFile
- *
- * @return The Image Type with value *DYNAMIC*
  */
-+ (SDLImageType *)DYNAMIC;
-
-@end
+extern SDLImageType const SDLImageTypeDynamic;

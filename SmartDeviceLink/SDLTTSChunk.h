@@ -3,8 +3,7 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLSpeechCapabilities;
-
+#import "SDLSpeechCapabilities.h"
 
 /**
  *  Specifies what is to be spoken. This can be simply a text phrase, which SDL will speak according to its own rules. It can also be phonemes from either the Microsoft SAPI phoneme set, or from the LHPLUS phoneme set. It can also be a pre-recorded sound in WAV format (either developer-defined, or provided by the SDL platform).
@@ -37,32 +36,22 @@
  *
  *  @since SmartDeviceLink 1.0
  */
-@interface SDLTTSChunk : SDLRPCStruct {
-}
 
-/**
- * @abstract Constructs a newly allocated SDLTTSChunk object
- */
-- (instancetype)init;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * @abstract Constructs a newly allocated SDLTTSChunk object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLTTSChunk : SDLRPCStruct
 
-- (instancetype)initWithText:(NSString *)text type:(SDLSpeechCapabilities *)type;
+- (instancetype)initWithText:(NSString *)text type:(SDLSpeechCapabilities)type;
 
-+ (NSMutableArray<SDLTTSChunk *> *)textChunksFromString:(NSString *)string;
++ (NSArray<SDLTTSChunk *> *)textChunksFromString:(NSString *)string;
 
-+ (NSMutableArray<SDLTTSChunk *> *)sapiChunksFromString:(NSString *)string;
++ (NSArray<SDLTTSChunk *> *)sapiChunksFromString:(NSString *)string;
 
-+ (NSMutableArray<SDLTTSChunk *> *)lhPlusChunksFromString:(NSString *)string;
++ (NSArray<SDLTTSChunk *> *)lhPlusChunksFromString:(NSString *)string;
 
-+ (NSMutableArray<SDLTTSChunk *> *)prerecordedChunksFromString:(NSString *)string;
++ (NSArray<SDLTTSChunk *> *)prerecordedChunksFromString:(NSString *)string;
 
-+ (NSMutableArray<SDLTTSChunk *> *)silenceChunks;
++ (NSArray<SDLTTSChunk *> *)silenceChunks;
 
 
 /**
@@ -70,13 +59,15 @@
  *
  * Required, Max length 500
  */
-@property (strong) NSString *text;
+@property (strong, nonatomic) NSString *text;
 
 /**
  * @abstract The type of information in the "text" field (e.g. phrase to be spoken, phoneme specification, name of pre-recorded sound).
  *
  * Required
  */
-@property (strong) SDLSpeechCapabilities *type;
+@property (strong, nonatomic) SDLSpeechCapabilities type;
 
 @end
+
+NS_ASSUME_NONNULL_END

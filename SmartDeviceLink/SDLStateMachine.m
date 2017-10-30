@@ -9,6 +9,7 @@
 #import "SDLStateMachine.h"
 
 #import "SDLError.h"
+#import "SDLLogMacros.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -45,7 +46,8 @@ SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter = 
     }
 
     if (states[initialState] == nil) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to start with an SDLState that is not in the states dictionary" userInfo:nil];
+        NSString *reasonMessage = [NSString stringWithFormat:@"Attempted to start with an SDLState (%@) that is not in the states dictionary", initialState];
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reasonMessage userInfo:nil];
     }
 
     _target = target;
@@ -78,6 +80,8 @@ SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter = 
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
+    SDLLogV(@"State machine for class %@ will transition from state %@ to state %@", NSStringFromClass([_target class]), oldState, state);
 
     // Pre state transition calls
     if ([self.target respondsToSelector:willLeave]) {
@@ -116,10 +120,11 @@ SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter = 
         return;
     }
 
-    if (oldState != nil && shouldCall) {
+    if (oldState != nil) {
         self.currentState = oldState;
-        [self transitionToState:state];
-    } else if (shouldCall) {
+    }
+
+    if (shouldCall) {
         SEL didEnter = NSSelectorFromString([NSString stringWithFormat:SDLStateMachineTransitionFormatDidEnter, state]);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -127,9 +132,9 @@ SDLStateMachineTransitionFormat const SDLStateMachineTransitionFormatDidEnter = 
             [self.target performSelector:didEnter];
 #pragma clang diagnostic pop
         }
-    } else {
-        self.currentState = state;
     }
+
+    self.currentState = state;
 }
 
 /**

@@ -3,63 +3,37 @@
 
 #import "SDLOnTouchEvent.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLTouchEvent.h"
-#import "SDLTouchType.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnTouchEvent
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnTouchEvent]) {
+    if (self = [super initWithName:SDLNameOnTouchEvent]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (void)setType:(SDLTouchType)type {
+    [parameters sdl_setObject:type forName:SDLNameType];
 }
 
-- (void)setType:(SDLTouchType *)type {
-    if (type != nil) {
-        [parameters setObject:type forKey:NAMES_type];
-    } else {
-        [parameters removeObjectForKey:NAMES_type];
-    }
+- (SDLTouchType)type {
+    NSObject *obj = [parameters sdl_objectForName:SDLNameType];
+    return (SDLTouchType)obj;
 }
 
-- (SDLTouchType *)type {
-    NSObject *obj = [parameters objectForKey:NAMES_type];
-    if (obj == nil || [obj isKindOfClass:SDLTouchType.class]) {
-        return (SDLTouchType *)obj;
-    } else {
-        return [SDLTouchType valueOf:(NSString *)obj];
-    }
+- (void)setEvent:(NSArray<SDLTouchEvent *> *)event {
+    [parameters sdl_setObject:event forName:SDLNameEvent];
 }
 
-- (void)setEvent:(NSMutableArray *)event {
-    if (event != nil) {
-        [parameters setObject:event forKey:NAMES_event];
-    } else {
-        [parameters removeObjectForKey:NAMES_event];
-    }
-}
-
-- (NSMutableArray *)event {
-    NSMutableArray *array = [parameters objectForKey:NAMES_event];
-    if ([array isEqual:[NSNull null]]) {
-        return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLTouchEvent.class]) {
-        return array;
-    } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTouchEvent alloc] initWithDictionary:(NSMutableDictionary *)dict]];
-        }
-        return newList;
-    }
+- (NSArray<SDLTouchEvent *> *)event {
+    return [parameters sdl_objectsForName:SDLNameEvent ofClass:SDLTouchEvent.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

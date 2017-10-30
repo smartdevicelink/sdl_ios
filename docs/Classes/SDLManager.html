@@ -5,6 +5,8 @@
 <ul>
   <li><a href="#section-configuration">configuration</a></li>
   <li><a href="#section-hmiLevel">hmiLevel</a></li>
+  <li><a href="#section-audioStreamingState">audioStreamingState</a></li>
+  <li><a href="#section-systemContext">systemContext</a></li>
   <li><a href="#section-fileManager">fileManager</a></li>
   <li><a href="#section-permissionManager">permissionManager</a></li>
   <li><a href="#section-streamManager">streamManager</a></li>
@@ -51,11 +53,48 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLHMILevel.html">SDLHMILevel</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">hmiLevel</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLHMILevel.h@T@SDLHMILevel">SDLHMILevel</a></span> <span class="n">_Nonnull</span> <span class="n">hmiLevel</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">hmiLevel</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLHMILevel.html">SDLHMILevel</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">hmiLevel</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLHMILevel.h@T@SDLHMILevel">SDLHMILevel</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-audioStreamingState">
+      audioStreamingState
+  </h3>
+  
+  <p>The current audio streaming state of the running app.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLAudioStreamingState.h@T@SDLAudioStreamingState">SDLAudioStreamingState</a></span> <span class="n">_Nonnull</span> <span class="n">audioStreamingState</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">audioStreamingState</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAudioStreamingState.h@T@SDLAudioStreamingState">SDLAudioStreamingState</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-systemContext">
+      systemContext
+  </h3>
+  
+  <p>The current system context of the running app.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLSystemContext.h@T@SDLSystemContext">SDLSystemContext</a></span> <span class="n">_Nonnull</span> <span class="n">systemContext</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">systemContext</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLSystemContext.h@T@SDLSystemContext">SDLSystemContext</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
@@ -269,7 +308,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">send</span><span class="p">(</span><span class="n">_</span> <span class="nv">request</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">,</span> <span class="n">withResponseHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLResponseHandler">SDLResponseHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">send</span><span class="p">(</span><span class="nv">request</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">,</span> <span class="n">responseHandler</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLResponseHandler">SDLResponseHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
   
   

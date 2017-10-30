@@ -10,6 +10,8 @@
 
 #import "SDLProtocolHeader.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 #define SDL_SYSTEM_VERSION_LESS_THAN(version) ([[[UIDevice currentDevice] systemVersion] compare:version options:NSNumericSearch] == NSOrderedAscending)
 #define SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(version) ([[[UIDevice currentDevice] systemVersion] compare:version options:NSNumericSearch] != NSOrderedAscending)
 #define BLOCK_RETURN return
@@ -26,9 +28,11 @@ extern NSUInteger const SDLV3MTUSize;
 @property (assign, nonatomic, readonly) NSInteger majorProtocolVersion;
 @property (strong, nonatomic) NSString *maxHeadUnitVersion;
 
-+ (instancetype)globals;
++ (instancetype)sharedGlobals;
 
 - (void)setDynamicMTUSize:(NSUInteger)maxMTUSize forServiceType:(SDLServiceType)serviceType;
 - (NSUInteger)mtuSizeForServiceType:(SDLServiceType)serviceType;
 
 @end
+
+NS_ASSUME_NONNULL_END

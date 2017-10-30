@@ -9,38 +9,19 @@
  *
  * @since SDL 1.0
  */
-@interface SDLTriggerSource : SDLEnum {
-}
-
-/**
- * Convert String to SDLTriggerSource
- * @param value The value of the string to get an object for
- * @return SDLTriggerSource
- */
-+ (SDLTriggerSource *)valueOf:(NSString *)value;
-
-/**
- @abstract Store the enumeration of all possible SDLTriggerSource
- @return an array that store all possible SDLTriggerSource
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLTriggerSource SDL_SWIFT_ENUM;
 
 /**
  * @abstract Selection made via menu
- * @return SDLTriggerSource with value of *MENU*
  */
-+ (SDLTriggerSource *)MENU;
+extern SDLTriggerSource const SDLTriggerSourceMenu;
 
 /**
  * @abstract Selection made via Voice session
- * @return SDLTriggerSource with value of *VR*
  */
-+ (SDLTriggerSource *)VR;
+extern SDLTriggerSource const SDLTriggerSourceVoiceRecognition;
 
 /**
  * @abstract Selection made via Keyboard
- * @return SDLTriggerSource with value of *KEYBOARD*
  */
-+ (SDLTriggerSource *)KEYBOARD;
-
-@end
+extern SDLTriggerSource const SDLTriggerSourceKeyboard;

@@ -3,8 +3,6 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--init">-init</a></li>
-  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
   <li><a href="#section-navigation">navigation</a></li>
   <li><a href="#section-phoneCall">phoneCall</a></li>
   <li><a href="#section-videoStreaming">videoStreaming</a></li>
@@ -16,44 +14,22 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section--init">
-      -init
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
-  <h3 id="section--initWithDictionary:">
-      -initWithDictionary:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
   <h3 id="section-navigation">
       navigation
   </h3>
   
-  <p>Availability of build in Nav. True: Available, False: Not Available</p>
+  <p>Availability of built in Nav. True: Available, False: Not Available</p>
 
 <p>Boolean value. Optional.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">navigation</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">navigation</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">navigation</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">navigation</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
 
   
   
@@ -62,18 +38,39 @@
       phoneCall
   </h3>
   
-  <p>Availability of build in phone. True: Available, False: Not Available</p>
+  <p>Availability of built in phone. True: Available, False: Not Available</p>
 
 <p>Boolean value. Optional.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">phoneCall</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">phoneCall</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">phoneCall</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">phoneCall</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-videoStreaming">
+      videoStreaming
+  </h3>
+  
+  <p>Availability of built in video streaming. True: Available, False: Not Available</p>
+
+<p>Boolean value. Optional.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">videoStreaming</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">videoStreaming</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
 
   
   

@@ -7,35 +7,19 @@
 /**
  SoftButtonType (TEXT / IMAGE / BOTH)
  */
-@interface SDLSoftButtonType : SDLEnum {
-}
-
-/**
- @abstract get SDLSoftButtonType according value string
- @param value NSString
- @return SDLSoftButtonType object
- */
-+ (SDLSoftButtonType *)valueOf:(NSString *)value;
-/**
- @abstract declare an array to store all possible SDLSoftButtonType values
- @return the array
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLSoftButtonType SDL_SWIFT_ENUM;
 
 /**
  @abstract Text kind Softbutton
- @return SDLSoftButtonType object with string value *TEXT*
  */
-+ (SDLSoftButtonType *)TEXT;
+extern SDLSoftButtonType const SDLSoftButtonTypeText;
+
 /**
  @abstract Image kind Softbutton
- @return SDLSoftButtonType object with string value *IMAGE*
  */
-+ (SDLSoftButtonType *)IMAGE;
+extern SDLSoftButtonType const SDLSoftButtonTypeImage;
+
 /**
  @abstract Both (Text & Image) kind Softbutton
- @return SDLSoftButtonType object with string value *BOTH*
  */
-+ (SDLSoftButtonType *)BOTH;
-
-@end
+extern SDLSoftButtonType const SDLSoftButtonTypeBoth;

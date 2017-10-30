@@ -11,17 +11,11 @@
  *
  * Since <b>SmartDeviceLink 2.0</b>
  */
-@interface SDLListFiles : SDLRPCRequest {
-}
-/**
- * Constructs a new SDLListFiles object
- */
-- (instancetype)init;
-/**
- * Constructs a new SDLListFiles object indicated by the dictionary parameter
- * <p>
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLListFiles : SDLRPCRequest
+
 @end
+
+NS_ASSUME_NONNULL_END

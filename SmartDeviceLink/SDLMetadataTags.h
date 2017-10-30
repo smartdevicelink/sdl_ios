@@ -2,35 +2,23 @@
 //  SDLMetadataTags.h
 //  SmartDeviceLink-iOS
 //
-//  Created by Brett McIsaac on 8/1/17.
+//  Created by Brett McIsaac on 8/3/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
 #import "SDLRPCMessage.h"
+#import "SDLMetadataType.h"
 
-@class SDLMetadataType;
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLMetadataTags : SDLRPCStruct {
-}
-
-/**
- * @abstract Constructs a newly allocated SDLMetadataTags object
- */
-- (instancetype)init;
+@interface SDLMetadataTags : SDLRPCStruct
 
 /**
- * @abstract Constructs a newly allocated SDLMetadataTags object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use to construct the object
+ * @abstract Constructs a newly allocated SDLMetadataType object with NSArrays
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithTextFieldTypes:(nullable NSArray<SDLMetadataType> *)mainField1 mainField2:(nullable NSArray<SDLMetadataType> *)mainField2;
 
-/**
- * @abstract Constructs a newly allocated SDLMetadataTags object with NSArrays
- */
-- (instancetype)initWithTextFieldTypes:(NSArray<SDLMetadataType *> *)mainField1 mainField2:(NSArray<SDLMetadataType *> *)mainField2;
-
-- (instancetype)initWithTextFieldTypes:(NSArray<SDLMetadataType *> *)mainField1 mainField2:(NSArray<SDLMetadataType *> *)mainField2 mainField3:(NSArray<SDLMetadataType *> *)mainField3 mainField4:(NSArray<SDLMetadataType *> *)mainField4;
+- (instancetype)initWithTextFieldTypes:(nullable NSArray<SDLMetadataType> *)mainField1 mainField2:(nullable NSArray<SDLMetadataType> *)mainField2 mainField3:(nullable NSArray<SDLMetadataType> *)mainField3 mainField4:(nullable NSArray<SDLMetadataType> *)mainField4;
 
 /**
  * @abstract The type of data contained in the "mainField1" text field, Optional.
@@ -39,7 +27,7 @@
  *
  * maxsize= 5
  */
-@property (strong, nonatomic) NSMutableArray<SDLMetadataType *> *mainField1;
+@property (nullable, strong, nonatomic) NSArray<SDLMetadataType> *mainField1;
 
 /**
  * @abstract The type of data contained in the "mainField2" text field, Optional.
@@ -48,7 +36,7 @@
  *
  * maxsize= 5
  */
-@property (strong, nonatomic) NSMutableArray<SDLMetadataType *> *mainField2;
+@property (nullable, strong, nonatomic) NSArray<SDLMetadataType> *mainField2;
 
 /**
  * @abstract The type of data contained in the "mainField3" text field, Optional.
@@ -57,7 +45,7 @@
  *
  * maxsize= 5
  */
-@property (strong, nonatomic) NSMutableArray<SDLMetadataType *> *mainField3;
+@property (nullable, strong, nonatomic) NSArray<SDLMetadataType> *mainField3;
 
 /**
  * @abstract The type of data contained in the "mainField4" text field, Optional.
@@ -66,6 +54,8 @@
  *
  * maxsize= 5
  */
-@property (strong, nonatomic) NSMutableArray<SDLMetadataType *> *mainField4;
+@property (nullable, strong, nonatomic) NSArray<SDLMetadataType> *mainField4;
 
 @end
+
+NS_ASSUME_NONNULL_END

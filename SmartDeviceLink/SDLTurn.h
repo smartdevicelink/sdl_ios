@@ -5,16 +5,15 @@
 
 @class SDLImage;
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLTurn : SDLRPCStruct {
-}
+@interface SDLTurn : SDLRPCStruct
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithNavigationText:(nullable NSString *)navigationText turnIcon:(nullable SDLImage *)icon;
 
-- (instancetype)initWithNavigationText:(NSString *)navigationText turnIcon:(SDLImage *)icon;
-
-@property (strong) NSString *navigationText;
-@property (strong) SDLImage *turnIcon;
+@property (strong, nonatomic, nullable) NSString *navigationText;
+@property (strong, nonatomic, nullable) SDLImage *turnIcon;
 
 @end
+
+NS_ASSUME_NONNULL_END

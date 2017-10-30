@@ -38,15 +38,15 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_countryName:@"United States",
-                                       NAMES_countryCode:@"US",
-                                       NAMES_postalCode:@"123456",
-                                       NAMES_administrativeArea:@"CA",
-                                       NAMES_subAdministrativeArea:@"Santa Clara",
-                                       NAMES_locality:@"Palo Alto",
-                                       NAMES_subLocality:@"18",
-                                       NAMES_thoroughfare:@"Candy Lane",
-                                       NAMES_subThoroughfare:@"123"} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameCountryName:@"United States",
+                                       SDLNameCountryCode:@"US",
+                                       SDLNamePostalCode:@"123456",
+                                       SDLNameAdministrativeArea:@"CA",
+                                       SDLNameSubAdministrativeArea:@"Santa Clara",
+                                       SDLNameLocality:@"Palo Alto",
+                                       SDLNameSubLocality:@"18",
+                                       SDLNameThoroughfare:@"Candy Lane",
+                                       SDLNameSubThoroughfare:@"123"} mutableCopy];
         SDLOasisAddress* testStruct = [[SDLOasisAddress alloc] initWithDictionary:dict];
         
         expect(testStruct.countryName).to(equal(@"United States"));

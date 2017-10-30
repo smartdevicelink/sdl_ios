@@ -6,13 +6,17 @@
 
 #import "NSNumber+NumberType.h"
 
-@interface SDLRPCStruct : NSObject {
-    NSMutableDictionary *store;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLRPCStruct : NSObject <NSCopying> {
+    NSMutableDictionary<NSString *, id> *store;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dict;
 - (instancetype)init;
 
-- (NSMutableDictionary *)serializeAsDictionary:(Byte)version;
+- (NSDictionary<NSString *, id> *)serializeAsDictionary:(Byte)version;
 
 @end
+
+NS_ASSUME_NONNULL_END

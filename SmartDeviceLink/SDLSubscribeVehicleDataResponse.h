@@ -11,120 +11,111 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLSubscribeVehicleDataResponse : SDLRPCResponse {
-}
 
-/**
- * @abstract Constructs a new SDLSubscribeVehicleDataResponse object
- */
-- (instancetype)init;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * @abstract Constructs a new SDLSubscribeVehicleDataResponse object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
+@interface SDLSubscribeVehicleDataResponse : SDLRPCResponse
 
 /**
  * @abstract A SDLVehicleDataResult* value. See GPSData.
  */
-@property (strong) SDLVehicleDataResult *gps;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *gps;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The vehicle speed in kilometers per hour.
  */
-@property (strong) SDLVehicleDataResult *speed;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *speed;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The number of revolutions per minute of the engine.
  */
-@property (strong) SDLVehicleDataResult *rpm;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *rpm;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The fuel level in the tank (percentage)
  */
-@property (strong) SDLVehicleDataResult *fuelLevel;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *fuelLevel;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The fuel level state.
  */
-@property (strong) SDLVehicleDataResult *fuelLevel_State;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *fuelLevel_State;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The instantaneous fuel consumption in microlitres.
  */
-@property (strong) SDLVehicleDataResult *instantFuelConsumption;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *instantFuelConsumption;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The external temperature in degrees celsius.
  */
-@property (strong) SDLVehicleDataResult *externalTemperature;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *externalTemperature;
 
 /**
  * @abstract A SDLVehicleDataResult* value. See PRNDL.
  */
-@property (strong) SDLVehicleDataResult *prndl;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *prndl;
 
 /**
  * @abstract A SDLVehicleDataResult* value. See TireStatus.
  */
-@property (strong) SDLVehicleDataResult *tirePressure;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *tirePressure;
 
 /**
  * @abstract A SDLVehicleDataResult* value. Odometer in km.
  */
-@property (strong) SDLVehicleDataResult *odometer;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *odometer;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The status of the seat belts.
  */
-@property (strong) SDLVehicleDataResult *beltStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *beltStatus;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The body information including power modes.
  */
-@property (strong) SDLVehicleDataResult *bodyInformation;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *bodyInformation;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The device status including signal and battery strength.
  */
-@property (strong) SDLVehicleDataResult *deviceStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *deviceStatus;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The status of the brake pedal.
  */
-@property (strong) SDLVehicleDataResult *driverBraking;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *driverBraking;
 
 /**
  * @abstract A SDLVehicleDataResult* value. The status of the wipers.
  */
-@property (strong) SDLVehicleDataResult *wiperStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *wiperStatus;
 
 /**
  * @abstract A SDLVehicleDataResult* value. Status of the head lamps.
  */
-@property (strong) SDLVehicleDataResult *headLampStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *headLampStatus;
 
 /**
  * @abstract A SDLVehicleDataResult* value. Torque value for engine (in Nm) on non-diesel variants.
  */
-@property (strong) SDLVehicleDataResult *engineTorque;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *engineTorque;
 
 /**
  * @abstract A SDLVehicleDataResult* value. Accelerator pedal position (percentage depressed)
  */
-@property (strong) SDLVehicleDataResult *accPedalPosition;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *accPedalPosition;
 
 /**
  * @abstract A SDLVehicleDataResult* value. Current angle of the steering wheel (in deg)
  */
-@property (strong) SDLVehicleDataResult *steeringWheelAngle;
-@property (strong) SDLVehicleDataResult *eCallInfo;
-@property (strong) SDLVehicleDataResult *airbagStatus;
-@property (strong) SDLVehicleDataResult *emergencyEvent;
-@property (strong) SDLVehicleDataResult *clusterModes;
-@property (strong) SDLVehicleDataResult *myKey;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *steeringWheelAngle;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *eCallInfo;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *airbagStatus;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *emergencyEvent;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *clusterModes;
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *myKey;
 
 @end
+
+NS_ASSUME_NONNULL_END

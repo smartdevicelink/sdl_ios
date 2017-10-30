@@ -1,0 +1,471 @@
+<h1>SDLLogManager Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-modules">modules</a></li>
+  <li><a href="#section-targets">targets</a></li>
+  <li><a href="#section-filters">filters</a></li>
+  <li><a href="#section-globalLogLevel">globalLogLevel</a></li>
+  <li><a href="#section-formatType">formatType</a></li>
+  <li><a href="#section-asynchronous">asynchronous</a></li>
+  <li><a href="#section-errorsAsynchronous">errorsAsynchronous</a></li>
+  <li><a href="#section-dateFormatter">dateFormatter</a></li>
+  <li><a href="#section-logQueue">logQueue</a></li>
+  <li><a href="#section-+sharedManager">+sharedManager</a></li>
+  <li><a href="#section-+setConfiguration:">+setConfiguration:</a></li>
+  <li><a href="#section--setConfiguration:">-setConfiguration:</a></li>
+  <li><a href="#section-+logWithLevel:timestamp:file:functionName:line:queue:formatMessage:">+logWithLevel:timestamp:file:functionName:line:queue:formatMessage:</a></li>
+  <li><a href="#section--logWithLevel:timestamp:file:functionName:line:queue:formatMessage:">-logWithLevel:timestamp:file:functionName:line:queue:formatMessage:</a></li>
+  <li><a href="#section-+logWithLevel:timestamp:file:functionName:line:queue:message:">+logWithLevel:timestamp:file:functionName:line:queue:message:</a></li>
+  <li><a href="#section--logWithLevel:timestamp:file:functionName:line:queue:message:">-logWithLevel:timestamp:file:functionName:line:queue:message:</a></li>
+  <li><a href="#section-+logBytes:direction:timestamp:file:functionName:line:queue:">+logBytes:direction:timestamp:file:functionName:line:queue:</a></li>
+  <li><a href="#section--logBytes:direction:timestamp:file:functionName:line:queue:">-logBytes:direction:timestamp:file:functionName:line:queue:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>This is the central manager of logging. A developer should not have to interact with this class, it is exclusively used internally.</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-modules">
+      modules
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-targets">
+      targets
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-filters">
+      filters
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-globalLogLevel">
+      globalLogLevel
+  </h3>
+  
+  <p>Any modules that do not have an explicitly specified level will by default use this log level</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Enums/SDLLogLevel.html">SDLLogLevel</a></span> <span class="n">globalLogLevel</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">globalLogLevel</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLLogLevel.html">SDLLogLevel</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-formatType">
+      formatType
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-asynchronous">
+      asynchronous
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-errorsAsynchronous">
+      errorsAsynchronous
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-dateFormatter">
+      dateFormatter
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-logQueue">
+      logQueue
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-+sharedManager">
+      +sharedManager
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-+setConfiguration:">
+      +setConfiguration:
+  </h3>
+  
+  <p>Sets a configuration to be used by the log manager&rsquo;s sharedManager. This is generally for internal use and you should set your configuration using SDLManager&rsquo;s startWithConfiguration: method.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setConfiguration</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">configuration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">setConfiguration</span><span class="p">(</span><span class="n">_</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>configuration</dt>
+      <dd><p>The configuration to be used.</p></dd>
+  </dl>
+  
+  <h3 id="section--setConfiguration:">
+      -setConfiguration:
+  </h3>
+  
+  <p>Sets a configuration to be used by the log manager. This is generally for internal use and you should set your configuration using SDLManager&rsquo;s startWithConfiguration: method.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setConfiguration</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">configuration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">setConfiguration</span><span class="p">(</span><span class="n">_</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>configuration</dt>
+      <dd><p>The configuration to be used.</p></dd>
+  </dl>
+  
+  <h3 id="section-+logWithLevel:timestamp:file:functionName:line:queue:formatMessage:">
+      +logWithLevel:timestamp:file:functionName:line:queue:formatMessage:
+  </h3>
+  
+  <p>Log to the sharedManager&rsquo;s active log targets. This is used internally to log. If you want to create a log, you should use macros such as <code>SDLLogD</code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">logWithLevel</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLLogLevel.html">SDLLogLevel</a></span><span class="p">)</span><span class="nv">level</span>
+           <span class="nf">timestamp</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSDate</span> <span class="o">*</span><span class="p">)</span><span class="nv">timestamp</span>
+                <span class="nf">file</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">file</span>
+        <span class="nf">functionName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">functionName</span>
+                <span class="nf">line</span><span class="p">:(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">line</span>
+               <span class="nf">queue</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">queueLabel</span>
+       <span class="nf">formatMessage</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span><span class="p">,</span> <span class="p">...;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>level</dt>
+      <dd><p>The level of the log</p></dd>
+      <dt>timestamp</dt>
+      <dd><p>The time the log was sent</p></dd>
+      <dt>file</dt>
+      <dd><p>The file the log originated from</p></dd>
+      <dt>functionName</dt>
+      <dd><p>The function the log originated from</p></dd>
+      <dt>line</dt>
+      <dd><p>The line the log originated from</p></dd>
+      <dt>queueLabel</dt>
+      <dd><p>The queue the log was sent from</p></dd>
+      <dt>message</dt>
+      <dd><p>The message of the log with a format</p></dd>
+  </dl>
+  
+  <h3 id="section--logWithLevel:timestamp:file:functionName:line:queue:formatMessage:">
+      -logWithLevel:timestamp:file:functionName:line:queue:formatMessage:
+  </h3>
+  
+  <p>Log to this log manager&rsquo;s active log targets. This is used internally to log. If you want to create a log, you should use macros such as <code>SDLLogD</code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">logWithLevel</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLLogLevel.html">SDLLogLevel</a></span><span class="p">)</span><span class="nv">level</span>
+           <span class="nf">timestamp</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSDate</span> <span class="o">*</span><span class="p">)</span><span class="nv">timestamp</span>
+                <span class="nf">file</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">file</span>
+        <span class="nf">functionName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">functionName</span>
+                <span class="nf">line</span><span class="p">:(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">line</span>
+               <span class="nf">queue</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">queueLabel</span>
+       <span class="nf">formatMessage</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span><span class="p">,</span> <span class="p">...;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>level</dt>
+      <dd><p>The level of the log</p></dd>
+      <dt>timestamp</dt>
+      <dd><p>The time the log was sent</p></dd>
+      <dt>file</dt>
+      <dd><p>The file the log originated from</p></dd>
+      <dt>functionName</dt>
+      <dd><p>The function the log originated from</p></dd>
+      <dt>line</dt>
+      <dd><p>The line the log originated from</p></dd>
+      <dt>queueLabel</dt>
+      <dd><p>The queue the log was sent from</p></dd>
+      <dt>message</dt>
+      <dd><p>The message of the log with a format</p></dd>
+  </dl>
+  
+  <h3 id="section-+logWithLevel:timestamp:file:functionName:line:queue:message:">
+      +logWithLevel:timestamp:file:functionName:line:queue:message:
+  </h3>
+  
+  <p>Log to this sharedManager&rsquo;s active log targets. This is used internally to log. If you want to create a log, you should use macros such as <code>SDLLogD</code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">logWithLevel</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLLogLevel.html">SDLLogLevel</a></span><span class="p">)</span><span class="nv">level</span>
+           <span class="nf">timestamp</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSDate</span> <span class="o">*</span><span class="p">)</span><span class="nv">timestamp</span>
+                <span class="nf">file</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">file</span>
+        <span class="nf">functionName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">functionName</span>
+                <span class="nf">line</span><span class="p">:(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">line</span>
+               <span class="nf">queue</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">queueLabel</span>
+             <span class="nf">message</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">log</span><span class="p">(</span><span class="n">with</span> <span class="nv">level</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLLogLevel.html">SDLLogLevel</a></span><span class="p">,</span> <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span> <span class="nv">file</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">functionName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">line</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">queue</span> <span class="nv">queueLabel</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>level</dt>
+      <dd><p>The level of the log</p></dd>
+      <dt>timestamp</dt>
+      <dd><p>The time the log was sent</p></dd>
+      <dt>file</dt>
+      <dd><p>The file the log originated from</p></dd>
+      <dt>functionName</dt>
+      <dd><p>The function the log originated from</p></dd>
+      <dt>line</dt>
+      <dd><p>The line the log originated from</p></dd>
+      <dt>queueLabel</dt>
+      <dd><p>The queue the log was sent from</p></dd>
+      <dt>message</dt>
+      <dd><p>The message of the log</p></dd>
+  </dl>
+  
+  <h3 id="section--logWithLevel:timestamp:file:functionName:line:queue:message:">
+      -logWithLevel:timestamp:file:functionName:line:queue:message:
+  </h3>
+  
+  <p>Log to this log manager&rsquo;s active log targets. This is used internally to log. If you want to create a log, you should use macros such as <code>SDLLogD</code>.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">logWithLevel</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLLogLevel.html">SDLLogLevel</a></span><span class="p">)</span><span class="nv">level</span>
+           <span class="nf">timestamp</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSDate</span> <span class="o">*</span><span class="p">)</span><span class="nv">timestamp</span>
+                <span class="nf">file</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">file</span>
+        <span class="nf">functionName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">functionName</span>
+                <span class="nf">line</span><span class="p">:(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">line</span>
+               <span class="nf">queue</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">queueLabel</span>
+             <span class="nf">message</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">log</span><span class="p">(</span><span class="n">with</span> <span class="nv">level</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLLogLevel.html">SDLLogLevel</a></span><span class="p">,</span> <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span> <span class="nv">file</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">functionName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">line</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">queue</span> <span class="nv">queueLabel</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>level</dt>
+      <dd><p>The level of the log</p></dd>
+      <dt>timestamp</dt>
+      <dd><p>The time the log was sent</p></dd>
+      <dt>file</dt>
+      <dd><p>The file the log originated from</p></dd>
+      <dt>functionName</dt>
+      <dd><p>The function the log originated from</p></dd>
+      <dt>line</dt>
+      <dd><p>The line the log originated from</p></dd>
+      <dt>queueLabel</dt>
+      <dd><p>The queue the log was sent from</p></dd>
+      <dt>message</dt>
+      <dd><p>The message of the log</p></dd>
+  </dl>
+  
+  <h3 id="section-+logBytes:direction:timestamp:file:functionName:line:queue:">
+      +logBytes:direction:timestamp:file:functionName:line:queue:
+  </h3>
+  
+  <p>Log to this sharedManager&rsquo;s active log targets. This is used internally to log.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">logBytes</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span>
+       <span class="nf">direction</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLLogBytesDirection.html">SDLLogBytesDirection</a></span><span class="p">)</span><span class="nv">direction</span>
+       <span class="nf">timestamp</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSDate</span> <span class="o">*</span><span class="p">)</span><span class="nv">timestamp</span>
+            <span class="nf">file</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">file</span>
+    <span class="nf">functionName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">functionName</span>
+            <span class="nf">line</span><span class="p">:(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">line</span>
+           <span class="nf">queue</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">queueLabel</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">logBytes</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="nv">direction</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLLogBytesDirection.html">SDLLogBytesDirection</a></span><span class="p">,</span> <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span> <span class="nv">file</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">functionName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">line</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">queue</span> <span class="nv">queueLabel</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>data</dt>
+      <dd><p>The data to be logged</p></dd>
+      <dt>direction</dt>
+      <dd><p>Whether its transmit or receive data</p></dd>
+      <dt>timestamp</dt>
+      <dd><p>The time the log was sent</p></dd>
+      <dt>file</dt>
+      <dd><p>The file the log originated from</p></dd>
+      <dt>functionName</dt>
+      <dd><p>The function the log originated from</p></dd>
+      <dt>line</dt>
+      <dd><p>The line the log originated from</p></dd>
+      <dt>queueLabel</dt>
+      <dd><p>The queue the log was sent from</p></dd>
+  </dl>
+  
+  <h3 id="section--logBytes:direction:timestamp:file:functionName:line:queue:">
+      -logBytes:direction:timestamp:file:functionName:line:queue:
+  </h3>
+  
+  <p>Log to this manager&rsquo;s active log targets. This is used internally to log.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">logBytes</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span>
+       <span class="nf">direction</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLLogBytesDirection.html">SDLLogBytesDirection</a></span><span class="p">)</span><span class="nv">direction</span>
+       <span class="nf">timestamp</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSDate</span> <span class="o">*</span><span class="p">)</span><span class="nv">timestamp</span>
+            <span class="nf">file</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">file</span>
+    <span class="nf">functionName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">functionName</span>
+            <span class="nf">line</span><span class="p">:(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">line</span>
+           <span class="nf">queue</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">queueLabel</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">logBytes</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="nv">direction</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLLogBytesDirection.html">SDLLogBytesDirection</a></span><span class="p">,</span> <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span> <span class="nv">file</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">functionName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">line</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">queue</span> <span class="nv">queueLabel</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>data</dt>
+      <dd><p>The data to be logged</p></dd>
+      <dt>direction</dt>
+      <dd><p>Whether its transmit or receive data</p></dd>
+      <dt>timestamp</dt>
+      <dd><p>The time the log was sent</p></dd>
+      <dt>file</dt>
+      <dd><p>The file the log originated from</p></dd>
+      <dt>functionName</dt>
+      <dd><p>The function the log originated from</p></dd>
+      <dt>line</dt>
+      <dd><p>The line the log originated from</p></dd>
+      <dt>queueLabel</dt>
+      <dd><p>The queue the log was sent from</p></dd>
+  </dl>
+  
+</section>

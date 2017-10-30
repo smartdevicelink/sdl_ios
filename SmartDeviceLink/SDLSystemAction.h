@@ -8,32 +8,19 @@
  *
  * Enumeration that describes system actions that can be triggered.
  */
-@interface SDLSystemAction : SDLEnum {
-}
-
-/**
- * Convert String to SDLSystemAction
- * @param value String
- * @return SDLSystemAction
- */
-+ (SDLSystemAction *)valueOf:(NSString *)value;
-/**
- @abstract Store the enumeration of all possible SDLSystemAction
- @return an array that store all possible SDLSystemAction
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLSystemAction SDL_SWIFT_ENUM;
 
 /**
  @abstract Default_Action
  */
-+ (SDLSystemAction *)DEFAULT_ACTION;
+extern SDLSystemAction const SDLSystemActionDefaultAction;
+
 /**
  @abstract Steal_Focus
  */
-+ (SDLSystemAction *)STEAL_FOCUS;
+extern SDLSystemAction const SDLSystemActionStealFocus;
+
 /**
  @abstract Keep_Context
  */
-+ (SDLSystemAction *)KEEP_CONTEXT;
-
-@end
+extern SDLSystemAction const SDLSystemActionKeepContext;

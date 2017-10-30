@@ -3,8 +3,8 @@
 
 
 #import "SDLRPCRequest.h"
+#import "SDLLanguage.h"
 
-@class SDLLanguage;
 @class SDLTTSChunk;
 
 /**
@@ -14,61 +14,53 @@
  *
  * @since SDL 2.0
  */
-@interface SDLChangeRegistration : SDLRPCRequest {
-}
 
-/**
- * Constructs a new SDLChangeRegistration object
- */
-- (instancetype)init;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * Constructs a new SDLChangeRegistration object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLChangeRegistration : SDLRPCRequest
 
-- (instancetype)initWithLanguage:(SDLLanguage *)language hmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage;
+- (instancetype)initWithLanguage:(SDLLanguage)language hmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage;
 
-- (instancetype)initWithLanguage:(SDLLanguage *)language hmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage appName:(NSString *)appName ttsName:(NSArray<SDLTTSChunk *> *)ttsName ngnMediaScreenAppName:(NSString *)ngnMediaScreenAppName vrSynonyms:(NSArray<NSString *> *)vrSynonyms;
+- (instancetype)initWithLanguage:(SDLLanguage)language hmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage appName:(nullable NSString *)appName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName ngnMediaScreenAppName:(nullable NSString *)ngnMediaScreenAppName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms;
 
 /**
  * @abstract The language the app wants to change to
  */
-@property (strong, nonatomic) SDLLanguage *language;
+@property (strong, nonatomic) SDLLanguage language;
 
 /**
  * @abstract HMI display language
  */
-@property (strong, nonatomic) SDLLanguage *hmiDisplayLanguage;
+@property (strong, nonatomic) SDLLanguage hmiDisplayLanguage;
 
 /**
  *  Request a new app name registration
  *
  *  Optional, Max string length 100 chars
  */
-@property (copy, nonatomic) NSString *appName;
+@property (nullable, copy, nonatomic) NSString *appName;
 
 /**
  *  Request a new TTSName registration.
  *
  *  Optional, Array of SDLTTSChunk, 1 - 100 elements
  */
-@property (copy, nonatomic) NSArray *ttsName;
+@property (nullable, copy, nonatomic) NSArray<SDLTTSChunk *> *ttsName;
 
 /**
  *  Request a new app short name registration
  *
  *  Optional, Max string length 100 chars
  */
-@property (copy, nonatomic) NSString *ngnMediaScreenAppName;
+@property (nullable, copy, nonatomic) NSString *ngnMediaScreenAppName;
 
 /**
  *  Request a new VR synonyms registration
  *
  *  Optional, Array of NSString, 1 - 100 elements, max string length 40 chars
  */
-@property (copy, nonatomic) NSArray *vrSynonyms;
+@property (nullable, copy, nonatomic) NSArray<NSString *> *vrSynonyms;
 
 @end
+
+NS_ASSUME_NONNULL_END

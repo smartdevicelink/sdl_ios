@@ -5,6 +5,7 @@
 #import "AppDelegate.h"
 
 #import "ProxyManager.h"
+#import "SDLLogMacros.h"
 #import "SDLManager.h"
 
 
@@ -17,7 +18,6 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
     return YES;
 }
 

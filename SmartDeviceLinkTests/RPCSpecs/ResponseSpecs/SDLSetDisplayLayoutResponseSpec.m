@@ -39,13 +39,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_request:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_displayCapabilities:info,
-                                                   NAMES_buttonCapabilities:[@[button] mutableCopy],
-                                                   NAMES_softButtonCapabilities:[@[softButton] mutableCopy],
-                                                   NAMES_presetBankCapabilities:presetBank},
-                                             NAMES_operation_name:NAMES_SetDisplayLayout}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameDisplayCapabilities:info,
+                                                                   SDLNameButtonCapabilities:[@[button] mutableCopy],
+                                                                   SDLNameSoftButtonCapabilities:[@[softButton] mutableCopy],
+                                                                   SDLNamePresetBankCapabilities:presetBank},
+                                                             SDLNameOperationName:SDLNameSetDisplayLayout}} mutableCopy];
         SDLSetDisplayLayoutResponse* testResponse = [[SDLSetDisplayLayoutResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.displayCapabilities).to(equal(info));

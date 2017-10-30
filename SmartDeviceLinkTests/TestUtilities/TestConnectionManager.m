@@ -7,7 +7,6 @@
 //
 
 #import "TestConnectionManager.h"
-
 #import "SDLRPCRequest.h"
 
 
@@ -22,19 +21,26 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     _receivedRequests = [NSMutableArray<__kindof SDLRPCRequest *> array];
-    
+
     return self;
 }
 
 - (void)sendManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     self.lastRequestBlock = handler;
     request.correlationID = [self test_nextCorrelationID];
-    
     [self.receivedRequests addObject:request];
 }
 
 - (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *)response {
     [self respondToLastRequestWithResponse:response error:nil];
+}
+
+- (void)respondToRequestWithResponse:(__kindof SDLRPCResponse *)response requestNumber:(NSInteger)requestNumber error:(NSError *_Nullable)error {
+    if (self.lastRequestBlock != nil) {
+        self.lastRequestBlock([[self receivedRequests] objectAtIndex:requestNumber], response, error);
+    } else {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to respond to last request, but there was no last request block" userInfo:nil];
+    }
 }
 
 - (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *_Nullable)response error:(NSError *_Nullable)error {

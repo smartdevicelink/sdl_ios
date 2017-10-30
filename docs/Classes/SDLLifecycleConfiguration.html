@@ -20,8 +20,6 @@
   <li><a href="#section-shortAppName">shortAppName</a></li>
   <li><a href="#section-ttsName">ttsName</a></li>
   <li><a href="#section-voiceRecognitionCommandNames">voiceRecognitionCommandNames</a></li>
-  <li><a href="#section-securityManagers">securityManagers</a></li>
-  <li><a href="#section-logFlags">logFlags</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -60,7 +58,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">defaultConfiguration</span><span class="p">(</span><span class="n">withAppName</span> <span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">SDLLifecycleConfiguration</span></code></pre>
+  <pre class="highlight"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
 
   
   
@@ -93,7 +91,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">debugConfiguration</span><span class="p">(</span><span class="n">withAppName</span> <span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">ipAddress</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">port</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">SDLLifecycleConfiguration</span></code></pre>
+  <pre class="highlight"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">ipAddress</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">port</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span></code></pre>
 
   
   
@@ -249,11 +247,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">null_resettable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLAppHMIType.html">SDLAppHMIType</a></span> <span class="o">*</span><span class="n">appType</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">null_resettable</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span> <span class="n">appType</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">appType</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAppHMIType.html">SDLAppHMIType</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">appType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -267,11 +265,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">language</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span> <span class="n">_Nonnull</span> <span class="n">language</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">language</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">language</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -286,11 +284,11 @@
   
   <h4>Objective-C</h4>
   <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
-    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">languagesSupported</span><span class="p">;</span></code></pre>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">languagesSupported</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">languagesSupported</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">languagesSupported</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -364,40 +362,6 @@
   
   <h4>Swift</h4>
   <pre class="highlight"><code><span class="k">var</span> <span class="nv">voiceRecognitionCommandNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
-  
-  
-  
-  <h3 id="section-securityManagers">
-      securityManagers
-  </h3>
-  
-  <p>Set security managers which could be used. This is primarily used with video streaming applications to authenticate and perhaps encrypt traffic data.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
-    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLSecurityType.html">SDLSecurityType</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="n">securityManagers</span><span class="p">;</span></code></pre>
-
-  
-  
-  
-  
-  <h3 id="section-logFlags">
-      logFlags
-  </h3>
-  
-  <p>Which logging capabilities are currently enabled. The default is Console logging only.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Enums/SDLLogOutput.html">SDLLogOutput</a></span> <span class="n">logFlags</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">logFlags</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLLogOutput.html">SDLLogOutput</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

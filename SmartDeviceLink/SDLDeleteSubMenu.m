@@ -4,18 +4,15 @@
 
 #import "SDLDeleteSubMenu.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeleteSubMenu
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_DeleteSubMenu]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameDeleteSubMenu]) {
     }
     return self;
 }
@@ -31,16 +28,14 @@
     return self;
 }
 
-- (void)setMenuID:(NSNumber *)menuID {
-    if (menuID != nil) {
-        [parameters setObject:menuID forKey:NAMES_menuID];
-    } else {
-        [parameters removeObjectForKey:NAMES_menuID];
-    }
+- (void)setMenuID:(NSNumber<SDLInt> *)menuID {
+    [parameters sdl_setObject:menuID forName:SDLNameMenuId];
 }
 
-- (NSNumber *)menuID {
-    return [parameters objectForKey:NAMES_menuID];
+- (NSNumber<SDLInt> *)menuID {
+    return [parameters sdl_objectForName:SDLNameMenuId];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

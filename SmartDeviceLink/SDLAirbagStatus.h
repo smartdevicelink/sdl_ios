@@ -3,22 +3,21 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLVehicleDataEventStatus;
+#import "SDLVehicleDataEventStatus.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLAirbagStatus : SDLRPCStruct {
-}
+@interface SDLAirbagStatus : SDLRPCStruct
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
-@property (strong) SDLVehicleDataEventStatus *driverAirbagDeployed;
-@property (strong) SDLVehicleDataEventStatus *driverSideAirbagDeployed;
-@property (strong) SDLVehicleDataEventStatus *driverCurtainAirbagDeployed;
-@property (strong) SDLVehicleDataEventStatus *passengerAirbagDeployed;
-@property (strong) SDLVehicleDataEventStatus *passengerCurtainAirbagDeployed;
-@property (strong) SDLVehicleDataEventStatus *driverKneeAirbagDeployed;
-@property (strong) SDLVehicleDataEventStatus *passengerSideAirbagDeployed;
-@property (strong) SDLVehicleDataEventStatus *passengerKneeAirbagDeployed;
+@property (strong, nonatomic) SDLVehicleDataEventStatus driverAirbagDeployed;
+@property (strong, nonatomic) SDLVehicleDataEventStatus driverSideAirbagDeployed;
+@property (strong, nonatomic) SDLVehicleDataEventStatus driverCurtainAirbagDeployed;
+@property (strong, nonatomic) SDLVehicleDataEventStatus passengerAirbagDeployed;
+@property (strong, nonatomic) SDLVehicleDataEventStatus passengerCurtainAirbagDeployed;
+@property (strong, nonatomic) SDLVehicleDataEventStatus driverKneeAirbagDeployed;
+@property (strong, nonatomic) SDLVehicleDataEventStatus passengerSideAirbagDeployed;
+@property (strong, nonatomic) SDLVehicleDataEventStatus passengerKneeAirbagDeployed;
 
 @end
+
+NS_ASSUME_NONNULL_END

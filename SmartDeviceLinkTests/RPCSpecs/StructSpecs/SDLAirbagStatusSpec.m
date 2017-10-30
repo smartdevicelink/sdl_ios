@@ -19,44 +19,44 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLAirbagStatus* testStruct = [[SDLAirbagStatus alloc] init];
         
-        testStruct.driverAirbagDeployed = [SDLVehicleDataEventStatus _YES];
-        testStruct.driverSideAirbagDeployed = [SDLVehicleDataEventStatus NO_EVENT];
-        testStruct.driverCurtainAirbagDeployed = [SDLVehicleDataEventStatus _NO];
-        testStruct.passengerAirbagDeployed = [SDLVehicleDataEventStatus NOT_SUPPORTED];
-        testStruct.passengerCurtainAirbagDeployed = [SDLVehicleDataEventStatus FAULT];
-        testStruct.driverKneeAirbagDeployed = [SDLVehicleDataEventStatus _NO];
-        testStruct.passengerSideAirbagDeployed = [SDLVehicleDataEventStatus _YES];
-        testStruct.passengerKneeAirbagDeployed = [SDLVehicleDataEventStatus NO_EVENT];
+        testStruct.driverAirbagDeployed = SDLVehicleDataEventStatusYes;
+        testStruct.driverSideAirbagDeployed = SDLVehicleDataEventStatusNoEvent;
+        testStruct.driverCurtainAirbagDeployed = SDLVehicleDataEventStatusNo;
+        testStruct.passengerAirbagDeployed = SDLVehicleDataEventStatusNotSupported;
+        testStruct.passengerCurtainAirbagDeployed = SDLVehicleDataEventStatusFault;
+        testStruct.driverKneeAirbagDeployed = SDLVehicleDataEventStatusNo;
+        testStruct.passengerSideAirbagDeployed = SDLVehicleDataEventStatusYes;
+        testStruct.passengerKneeAirbagDeployed = SDLVehicleDataEventStatusNoEvent;
         
-        expect(testStruct.driverAirbagDeployed).to(equal([SDLVehicleDataEventStatus _YES]));
-        expect(testStruct.driverSideAirbagDeployed).to(equal([SDLVehicleDataEventStatus NO_EVENT]));
-        expect(testStruct.driverCurtainAirbagDeployed).to(equal([SDLVehicleDataEventStatus _NO]));
-        expect(testStruct.passengerAirbagDeployed).to(equal([SDLVehicleDataEventStatus NOT_SUPPORTED]));
-        expect(testStruct.passengerCurtainAirbagDeployed).to(equal([SDLVehicleDataEventStatus FAULT]));
-        expect(testStruct.driverKneeAirbagDeployed).to(equal([SDLVehicleDataEventStatus _NO]));
-        expect(testStruct.passengerSideAirbagDeployed).to(equal([SDLVehicleDataEventStatus _YES]));
-        expect(testStruct.passengerKneeAirbagDeployed).to(equal([SDLVehicleDataEventStatus NO_EVENT]));
+        expect(testStruct.driverAirbagDeployed).to(equal(SDLVehicleDataEventStatusYes));
+        expect(testStruct.driverSideAirbagDeployed).to(equal(SDLVehicleDataEventStatusNoEvent));
+        expect(testStruct.driverCurtainAirbagDeployed).to(equal(SDLVehicleDataEventStatusNo));
+        expect(testStruct.passengerAirbagDeployed).to(equal(SDLVehicleDataEventStatusNotSupported));
+        expect(testStruct.passengerCurtainAirbagDeployed).to(equal(SDLVehicleDataEventStatusFault));
+        expect(testStruct.driverKneeAirbagDeployed).to(equal(SDLVehicleDataEventStatusNo));
+        expect(testStruct.passengerSideAirbagDeployed).to(equal(SDLVehicleDataEventStatusYes));
+        expect(testStruct.passengerKneeAirbagDeployed).to(equal(SDLVehicleDataEventStatusNoEvent));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_driverAirbagDeployed:[SDLVehicleDataEventStatus _YES],
-                                       NAMES_driverSideAirbagDeployed:[SDLVehicleDataEventStatus NO_EVENT],
-                                       NAMES_driverCurtainAirbagDeployed:[SDLVehicleDataEventStatus _NO],
-                                       NAMES_passengerAirbagDeployed:[SDLVehicleDataEventStatus NOT_SUPPORTED],
-                                       NAMES_passengerCurtainAirbagDeployed:[SDLVehicleDataEventStatus FAULT],
-                                       NAMES_driverKneeAirbagDeployed:[SDLVehicleDataEventStatus _NO],
-                                       NAMES_passengerSideAirbagDeployed:[SDLVehicleDataEventStatus _YES],
-                                       NAMES_passengerKneeAirbagDeployed:[SDLVehicleDataEventStatus NO_EVENT]} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameDriverAirbagDeployed:SDLVehicleDataEventStatusYes,
+                                       SDLNameDriverSideAirbagDeployed:SDLVehicleDataEventStatusNoEvent,
+                                       SDLNameDriverCurtainAirbagDeployed:SDLVehicleDataEventStatusNo,
+                                       SDLNamePassengerAirbagDeployed:SDLVehicleDataEventStatusNotSupported,
+                                       SDLNamePassengerCurtainAirbagDeployed:SDLVehicleDataEventStatusFault,
+                                       SDLNameDriverKneeAirbagDeployed:SDLVehicleDataEventStatusNo,
+                                       SDLNamePassengerSideAirbagDeployed:SDLVehicleDataEventStatusYes,
+                                       SDLNamePassengerKneeAirbagDeployed:SDLVehicleDataEventStatusNoEvent} mutableCopy];
         SDLAirbagStatus* testStruct = [[SDLAirbagStatus alloc] initWithDictionary:dict];
         
-        expect(testStruct.driverAirbagDeployed).to(equal([SDLVehicleDataEventStatus _YES]));
-        expect(testStruct.driverSideAirbagDeployed).to(equal([SDLVehicleDataEventStatus NO_EVENT]));
-        expect(testStruct.driverCurtainAirbagDeployed).to(equal([SDLVehicleDataEventStatus _NO]));
-        expect(testStruct.passengerAirbagDeployed).to(equal([SDLVehicleDataEventStatus NOT_SUPPORTED]));
-        expect(testStruct.passengerCurtainAirbagDeployed).to(equal([SDLVehicleDataEventStatus FAULT]));
-        expect(testStruct.driverKneeAirbagDeployed).to(equal([SDLVehicleDataEventStatus _NO]));
-        expect(testStruct.passengerSideAirbagDeployed).to(equal([SDLVehicleDataEventStatus _YES]));
-        expect(testStruct.passengerKneeAirbagDeployed).to(equal([SDLVehicleDataEventStatus NO_EVENT]));
+        expect(testStruct.driverAirbagDeployed).to(equal(SDLVehicleDataEventStatusYes));
+        expect(testStruct.driverSideAirbagDeployed).to(equal(SDLVehicleDataEventStatusNoEvent));
+        expect(testStruct.driverCurtainAirbagDeployed).to(equal(SDLVehicleDataEventStatusNo));
+        expect(testStruct.passengerAirbagDeployed).to(equal(SDLVehicleDataEventStatusNotSupported));
+        expect(testStruct.passengerCurtainAirbagDeployed).to(equal(SDLVehicleDataEventStatusFault));
+        expect(testStruct.driverKneeAirbagDeployed).to(equal(SDLVehicleDataEventStatusNo));
+        expect(testStruct.passengerSideAirbagDeployed).to(equal(SDLVehicleDataEventStatusYes));
+        expect(testStruct.passengerKneeAirbagDeployed).to(equal(SDLVehicleDataEventStatusNoEvent));
     });
     
     it(@"Should return nil if not set", ^ {

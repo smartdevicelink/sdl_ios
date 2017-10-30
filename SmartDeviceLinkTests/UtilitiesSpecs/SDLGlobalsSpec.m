@@ -26,7 +26,7 @@ describe(@"The SDLGlobals class", ^{
         });
         
         it(@"should give the v1 MTU size", ^{
-            expect([testGlobals mtuSizeForServiceType:SDLServiceType_RPC]).to(equal(SDLV1MTUSize));
+            expect([testGlobals mtuSizeForServiceType:SDLServiceTypeRPC]).to(equal(SDLV1MTUSize));
         });
     });
     
@@ -52,24 +52,24 @@ describe(@"The SDLGlobals class", ^{
         context(@"when protocol version is 1 - 2", ^{
             it(@"should return the correct value when protocol version is 1", ^{
                 testGlobals.maxHeadUnitVersion = @"1.0.0";
-                expect([testGlobals mtuSizeForServiceType:SDLServiceType_RPC]).to(equal(SDLV1MTUSize));
+                expect([testGlobals mtuSizeForServiceType:SDLServiceTypeRPC]).to(equal(SDLV1MTUSize));
             });
             
             it(@"should return the correct value when protocol version is 2", ^{
                 testGlobals.maxHeadUnitVersion = @"2.0.0";
-                expect([testGlobals mtuSizeForServiceType:SDLServiceType_RPC]).to(equal(SDLV1MTUSize));
+                expect([testGlobals mtuSizeForServiceType:SDLServiceTypeRPC]).to(equal(SDLV1MTUSize));
             });
         });
         
         context(@"when protocol version is 3 - 4", ^{
             it(@"should return the correct value when protocol version is 3", ^{
                 testGlobals.maxHeadUnitVersion = @"3.0.0";
-                expect([testGlobals mtuSizeForServiceType:SDLServiceType_RPC]).to(equal(SDLV3MTUSize));
+                expect([testGlobals mtuSizeForServiceType:SDLServiceTypeRPC]).to(equal(SDLV3MTUSize));
             });
             
             it(@"should return the correct value when protocol version is 4", ^{
                 testGlobals.maxHeadUnitVersion = @"4.0.0";
-                expect([testGlobals mtuSizeForServiceType:SDLServiceType_RPC]).to(equal(SDLV3MTUSize));
+                expect([testGlobals mtuSizeForServiceType:SDLServiceTypeRPC]).to(equal(SDLV3MTUSize));
             });
             
             describe(@"when the max proxy version is lower than max head unit version", ^{
@@ -79,7 +79,7 @@ describe(@"The SDLGlobals class", ^{
                 });
                 
                 it(@"should return the v1 - 2 value", ^{
-                    expect([testGlobals mtuSizeForServiceType:SDLServiceType_RPC]).to(equal(SDLV1MTUSize));
+                    expect([testGlobals mtuSizeForServiceType:SDLServiceTypeRPC]).to(equal(SDLV1MTUSize));
                 });
             });
         });
@@ -96,44 +96,44 @@ describe(@"The SDLGlobals class", ^{
 
         context(@"Setting the RPC service MTU", ^{
             beforeEach(^{
-                [testGlobals setDynamicMTUSize:dynamicMTUSize1 forServiceType:SDLServiceType_RPC];
+                [testGlobals setDynamicMTUSize:dynamicMTUSize1 forServiceType:SDLServiceTypeRPC];
             });
 
             it(@"should set the RPC service MTU", ^{
-                expect([testGlobals mtuSizeForServiceType:SDLServiceType_RPC]).to(equal(dynamicMTUSize1));
+                expect([testGlobals mtuSizeForServiceType:SDLServiceTypeRPC]).to(equal(dynamicMTUSize1));
             });
 
             it(@"should have the video service fall back to the RPC service MTU", ^{
-                expect([testGlobals mtuSizeForServiceType:SDLServiceType_Video]).to(equal(dynamicMTUSize1));
+                expect([testGlobals mtuSizeForServiceType:SDLServiceTypeVideo]).to(equal(dynamicMTUSize1));
             });
         });
 
         context(@"setting the video service MTU", ^{
             beforeEach(^{
-                [testGlobals setDynamicMTUSize:dynamicMTUSize1 forServiceType:SDLServiceType_Video];
+                [testGlobals setDynamicMTUSize:dynamicMTUSize1 forServiceType:SDLServiceTypeVideo];
             });
 
             it(@"should not set the RPC service MTU", ^{
-                expect([testGlobals mtuSizeForServiceType:SDLServiceType_RPC]).to(equal(SDLV3MTUSize));
+                expect([testGlobals mtuSizeForServiceType:SDLServiceTypeRPC]).to(equal(SDLV3MTUSize));
             });
 
             it(@"should have the video service fall back to the RPC service MTU", ^{
-                expect([testGlobals mtuSizeForServiceType:SDLServiceType_Video]).to(equal(dynamicMTUSize1));
+                expect([testGlobals mtuSizeForServiceType:SDLServiceTypeVideo]).to(equal(dynamicMTUSize1));
             });
         });
 
         context(@"setting both the video service and RPC service MTU", ^{
             beforeEach(^{
-                [testGlobals setDynamicMTUSize:dynamicMTUSize1 forServiceType:SDLServiceType_RPC];
-                [testGlobals setDynamicMTUSize:dynamicMTUSize2 forServiceType:SDLServiceType_Video];
+                [testGlobals setDynamicMTUSize:dynamicMTUSize1 forServiceType:SDLServiceTypeRPC];
+                [testGlobals setDynamicMTUSize:dynamicMTUSize2 forServiceType:SDLServiceTypeVideo];
             });
 
             it(@"should set the RPC service MTU", ^{
-                expect([testGlobals mtuSizeForServiceType:SDLServiceType_RPC]).to(equal(dynamicMTUSize1));
+                expect([testGlobals mtuSizeForServiceType:SDLServiceTypeRPC]).to(equal(dynamicMTUSize1));
             });
 
             it(@"should have the video service fall back to the RPC service MTU", ^{
-                expect([testGlobals mtuSizeForServiceType:SDLServiceType_Video]).to(equal(dynamicMTUSize2));
+                expect([testGlobals mtuSizeForServiceType:SDLServiceTypeVideo]).to(equal(dynamicMTUSize2));
             });
         });
     });

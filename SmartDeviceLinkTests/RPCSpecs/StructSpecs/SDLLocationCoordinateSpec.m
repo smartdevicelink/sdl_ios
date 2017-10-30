@@ -51,8 +51,8 @@ describe(@"Getter/Setter Tests", ^ {
                 someLongitude = @123.4567;
                 someLatitude = @65.4321;
                 NSDictionary *initDict = @{
-                                           NAMES_longitudeDegrees: someLongitude,
-                                           NAMES_latitudeDegrees: someLatitude,
+                                           SDLNameLongitudeDegrees: someLongitude,
+                                           SDLNameLatitudeDegrees: someLatitude,
                                            };
                 
                 testStruct = [[SDLLocationCoordinate alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
@@ -73,9 +73,6 @@ describe(@"Getter/Setter Tests", ^ {
         context(@"when parameters are not set", ^{
             beforeEach(^{
                 NSDictionary *initDict = @{
-                                           NAMES_request: @{
-                                                   NAMES_parameters: @{}
-                                                   }
                                            };
                 
                 testStruct = [[SDLLocationCoordinate alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];

@@ -8,24 +8,21 @@
 
 #import "SDLGetSystemCapability.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLSystemCapabilityType.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLGetSystemCapability
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_GetSystemCapability]) {
+    if (self = [super initWithName:SDLNameGetSystemCapability]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithType:(SDLSystemCapabilityType *)type {
+- (instancetype)initWithType:(SDLSystemCapabilityType)type {
     self = [self init];
     if (!self) {
         return nil;
@@ -36,21 +33,14 @@
     return self;
 }
 
-- (void)setSystemCapabilityType:(SDLSystemCapabilityType *)type {
-    if (type != nil) {
-        [parameters setObject:type forKey:NAMES_systemCapabilityType];
-    } else {
-        [parameters removeObjectForKey:NAMES_systemCapabilityType];
-    }
+- (void)setSystemCapabilityType:(SDLSystemCapabilityType)type {
+    [parameters sdl_setObject:type forName:SDLNameSystemCapabilityType];
 }
 
-- (SDLSystemCapabilityType *)systemCapabilityType {
-    id obj = parameters[NAMES_systemCapabilityType];
-    if (obj == nil || [obj isKindOfClass:SDLSystemCapabilityType.class]) {
-        return (SDLSystemCapabilityType *)obj;
-    } else {
-        return [SDLSystemCapabilityType valueOf:(NSString *)obj];
-    }
+- (SDLSystemCapabilityType)systemCapabilityType {
+    return [parameters sdl_objectForName:SDLNameSystemCapabilityType];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -3,31 +3,23 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLComponentVolumeStatus;
-
+#import "SDLComponentVolumeStatus.h"
 
 /**
  * Tire pressure status of a single tire.
  *
  * @since SmartDeviceLink 2.0
  */
-@interface SDLSingleTireStatus : SDLRPCStruct {
-}
 
-/**
- * @abstract Constructs a newly allocated SDLSingleTireStatus object
- */
-- (instancetype)init;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * @abstract Constructs a newly allocated SDLSingleTireStatus object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLSingleTireStatus : SDLRPCStruct
 
 /**
  * @abstract The volume status of a single tire
  */
-@property (strong) SDLComponentVolumeStatus *status;
+@property (strong, nonatomic) SDLComponentVolumeStatus status;
 
 @end
+
+NS_ASSUME_NONNULL_END

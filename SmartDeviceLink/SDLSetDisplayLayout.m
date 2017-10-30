@@ -4,25 +4,21 @@
 
 #import "SDLSetDisplayLayout.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
-#import "SDLPredefinedLayout.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSetDisplayLayout
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_SetDisplayLayout]) {
+    if (self = [super initWithName:SDLNameSetDisplayLayout]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout *)predefinedLayout {
-    return [self initWithLayout:predefinedLayout.value];
+- (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout {
+    return [self initWithLayout:predefinedLayout];
 }
 
 - (instancetype)initWithLayout:(NSString *)displayLayout {
@@ -37,15 +33,13 @@
 }
 
 - (void)setDisplayLayout:(NSString *)displayLayout {
-    if (displayLayout != nil) {
-        [parameters setObject:displayLayout forKey:NAMES_displayLayout];
-    } else {
-        [parameters removeObjectForKey:NAMES_displayLayout];
-    }
+    [parameters sdl_setObject:displayLayout forName:SDLNameDisplayLayout];
 }
 
 - (NSString *)displayLayout {
-    return [parameters objectForKey:NAMES_displayLayout];
+    return [parameters sdl_objectForName:SDLNameDisplayLayout];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

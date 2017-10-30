@@ -4,20 +4,14 @@
 
 #import "SDLEnum.h"
 
-@interface SDLPowerModeStatus : SDLEnum {
-}
+typedef SDLEnum SDLPowerModeStatus SDL_SWIFT_ENUM;
 
-+ (SDLPowerModeStatus *)valueOf:(NSString *)value;
-+ (NSArray *)values;
-
-+ (SDLPowerModeStatus *)KEY_OUT;
-+ (SDLPowerModeStatus *)KEY_RECENTLY_OUT;
-+ (SDLPowerModeStatus *)KEY_APPROVED_0;
-+ (SDLPowerModeStatus *)POST_ACCESORY_0;
-+ (SDLPowerModeStatus *)ACCESORY_1;
-+ (SDLPowerModeStatus *)POST_IGNITION_1;
-+ (SDLPowerModeStatus *)IGNITION_ON_2;
-+ (SDLPowerModeStatus *)RUNNING_2;
-+ (SDLPowerModeStatus *)CRANK_3;
-
-@end
+extern SDLPowerModeStatus const SDLPowerModeStatusKeyOut;
+extern SDLPowerModeStatus const SDLPowerModeStatusKeyRecentlyOut;
+extern SDLPowerModeStatus const SDLPowerModeStatusKeyApproved;
+extern SDLPowerModeStatus const SDLPowerModeStatusPostAccessory;
+extern SDLPowerModeStatus const SDLPowerModeStatusAccessory;
+extern SDLPowerModeStatus const SDLPowerModeStatusPostIgnition;
+extern SDLPowerModeStatus const SDLPowerModeStatusIgnitionOn;
+extern SDLPowerModeStatus const SDLPowerModeStatusRunning;
+extern SDLPowerModeStatus const SDLPowerModeStatusCrank;

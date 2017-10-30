@@ -5,8 +5,8 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLHMILevel;
-@class SDLLockScreenStatus;
+#import "SDLHMILevel.h"
+#import "SDLLockScreenStatus.h"
 
 
 /**
@@ -17,31 +17,33 @@
  *	For simplicity, the OnLockScreenStatus RPC will be provided via the onOnLockScreenNotification call back. The call back will include the LockScreenStatus enum which indicates if the lockscreen is required, optional or not required.
  *	The call back also includes details regarding the current HMI_Status level, driver distraction status and user selection status of the application.
  */
-@interface SDLOnLockScreenStatus : SDLRPCNotification
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLOnLockScreenStatus : SDLRPCNotification
 
 /**
  * <p>Get the current driver distraction status(i.e. whether driver distraction rules are in effect, or not)</p>
  * @return String
  */
-@property (strong) NSNumber *driverDistractionStatus;
+@property (strong, nonatomic) NSNumber<SDLBool> *driverDistractionStatus;
 /**
  * <p>Get user selection status for the application (has the app been selected via hmi or voice command)</p>
  * @return Boolean the current user selection status
  */
 
-@property (strong) NSNumber *userSelected;
+@property (strong, nonatomic) NSNumber<SDLBool> *userSelected;
 /**
  * <p>Get the {@linkplain LockScreenStatus} enumeration, indicating if the lockscreen should be required, optional or off </p>
  * @return {@linkplain LockScreenStatus}
  */
-@property (strong) SDLLockScreenStatus *lockScreenStatus;
+@property (strong, nonatomic) SDLLockScreenStatus lockScreenStatus;
 /**
  * <p>Get HMILevel in effect for the application</p>
  * @return {@linkplain HMILevel} the current HMI Level in effect for the application
  */
-@property (strong) SDLHMILevel *hmiLevel;
+@property (strong, nonatomic) SDLHMILevel hmiLevel;
 
 @end
+
+NS_ASSUME_NONNULL_END

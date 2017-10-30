@@ -8,6 +8,10 @@
 
 #import "SDLGlobals.h"
 
+#import "SDLLogMacros.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
 // VERSION DEPENDENT CODE
 NSString *const SDLMaxProxyProtocolVersion = @"5.0.0";
 
@@ -30,7 +34,7 @@ typedef NSNumber* MTUBox;
 
 @implementation SDLGlobals
 
-+ (instancetype)globals {
++ (instancetype)sharedGlobals {
     static SDLGlobals *sharedGlobals = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -67,14 +71,15 @@ typedef NSNumber* MTUBox;
 }
 
 - (void)setDynamicMTUSize:(NSUInteger)maxMTUSize forServiceType:(SDLServiceType)serviceType {
+    SDLLogV(@"Setting dynamic MTU size: %lu for service %u", (unsigned long)maxMTUSize, serviceType);
     self.dynamicMTUDict[@(serviceType)] = @(maxMTUSize);
 }
 
 - (NSUInteger)mtuSizeForServiceType:(SDLServiceType)serviceType {
     if (self.dynamicMTUDict[@(serviceType)] != nil) {
         return self.dynamicMTUDict[@(serviceType)].unsignedIntegerValue;
-    } else if (self.dynamicMTUDict[@(SDLServiceType_RPC)]) {
-        return self.dynamicMTUDict[@(SDLServiceType_RPC)].unsignedIntegerValue;
+    } else if (self.dynamicMTUDict[@(SDLServiceTypeRPC)]) {
+        return self.dynamicMTUDict[@(SDLServiceTypeRPC)].unsignedIntegerValue;
     } else {
         return [self sdl_defaultMaxMTUSize];
     }
@@ -113,3 +118,5 @@ typedef NSNumber* MTUBox;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

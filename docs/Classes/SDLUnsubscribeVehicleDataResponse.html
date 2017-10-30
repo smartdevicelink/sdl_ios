@@ -3,8 +3,6 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--init">-init</a></li>
-  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
   <li><a href="#section-gps">gps</a></li>
   <li><a href="#section-speed">speed</a></li>
   <li><a href="#section-rpm">rpm</a></li>
@@ -39,48 +37,6 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section--init">
-      -init
-  </h3>
-  
-  <p>@abstract Constructs a new SDLUnsubscribeVehicleDataResponse object</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
-
-  
-  
-  
-  <h3 id="section--initWithDictionary:">
-      -initWithDictionary:
-  </h3>
-  
-  <p>@abstract Constructs a new SDLUnsubscribeVehicleDataResponse object indicated by the NSMutableDictionary
-parameter</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">dictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span><span class="o">!</span><span class="p">)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>dict</dt>
-      <dd><p>The dictionary to use</p></dd>
-  </dl>
-  
   <h3 id="section-gps">
       gps
   </h3>
@@ -90,11 +46,11 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">gps</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">gps</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">gps</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">gps</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -108,11 +64,11 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">speed</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">speed</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">speed</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">speed</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -126,11 +82,11 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">rpm</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">rpm</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">rpm</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">rpm</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -144,11 +100,12 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">fuelLevel</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">fuelLevel</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">fuelLevel</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">fuelLevel</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -162,11 +119,12 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">fuelLevel_State</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">fuelLevel_State</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">fuelLevel_State</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">fuelLevel_State</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -180,12 +138,12 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
     <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">instantFuelConsumption</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">instantFuelConsumption</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">instantFuelConsumption</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -199,11 +157,12 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">externalTemperature</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">externalTemperature</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">externalTemperature</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">externalTemperature</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -217,11 +176,11 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">prndl</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">prndl</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">prndl</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">prndl</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -235,11 +194,12 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">tirePressure</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">tirePressure</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">tirePressure</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">tirePressure</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -253,11 +213,12 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">odometer</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">odometer</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">odometer</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">odometer</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -271,11 +232,12 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">beltStatus</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">beltStatus</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">beltStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">beltStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -289,11 +251,12 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">bodyInformation</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">bodyInformation</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">bodyInformation</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">bodyInformation</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -307,11 +270,12 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">deviceStatus</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">deviceStatus</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">deviceStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">deviceStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -325,11 +289,12 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">driverBraking</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">driverBraking</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">driverBraking</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">driverBraking</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -343,11 +308,12 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">wiperStatus</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">wiperStatus</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">wiperStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">wiperStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -361,11 +327,12 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">headLampStatus</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">headLampStatus</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">headLampStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">headLampStatus</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -379,11 +346,12 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">engineTorque</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">engineTorque</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">engineTorque</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">engineTorque</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -397,11 +365,12 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">accPedalPosition</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">accPedalPosition</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">accPedalPosition</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">accPedalPosition</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -415,11 +384,12 @@ parameter</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">steeringWheelAngle</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span> <span class="o">*</span><span class="n">steeringWheelAngle</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">steeringWheelAngle</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">steeringWheelAngle</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleDataResult.html">SDLVehicleDataResult</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

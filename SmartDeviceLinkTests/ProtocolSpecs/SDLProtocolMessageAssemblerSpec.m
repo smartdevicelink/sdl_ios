@@ -31,8 +31,8 @@ describe(@"HandleMessage Tests", ^ {
         SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
         
         //First frame
-        testHeader.frameType = SDLFrameType_First;
-        testHeader.serviceType = SDLServiceType_BulkData;
+        testHeader.frameType = SDLFrameTypeFirst;
+        testHeader.serviceType = SDLServiceTypeBulkData;
         testHeader.frameData = 1;
         testHeader.sessionID = 0x16;
         testHeader.bytesInPayload = 8;
@@ -58,7 +58,7 @@ describe(@"HandleMessage Tests", ^ {
         expect(@(verified)).to(beTruthy());
         verified = NO;
         
-        testMessage.header.frameType = SDLFrameType_Consecutive;
+        testMessage.header.frameType = SDLFrameTypeConsecutive;
         testMessage.header.bytesInPayload = 500;
         
         NSUInteger frameNumber = 1;
@@ -86,9 +86,9 @@ describe(@"HandleMessage Tests", ^ {
             expect(@(done)).to(equal(@YES));
             
             expect(assembledMessage.payload).to(equal(payloadData));
-            expect(@(assembledMessage.header.frameType)).to(equal(@(SDLFrameType_Single)));
-            expect(@(assembledMessage.header.serviceType)).to(equal(@(SDLServiceType_BulkData)));
-            expect(@(assembledMessage.header.frameData)).to(equal(@(SDLFrameData_SingleFrame)));
+            expect(@(assembledMessage.header.frameType)).to(equal(@(SDLFrameTypeSingle)));
+            expect(@(assembledMessage.header.serviceType)).to(equal(@(SDLServiceTypeBulkData)));
+            expect(@(assembledMessage.header.frameData)).to(equal(@(SDLFrameInfoSingleFrame)));
             expect(@(assembledMessage.header.sessionID)).to(equal(@0x16));
             expect(@(assembledMessage.header.bytesInPayload)).to(equal(@(payloadData.length)));
         }];

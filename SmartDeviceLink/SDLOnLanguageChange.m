@@ -3,56 +3,39 @@
 
 #import "SDLOnLanguageChange.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLLanguage.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnLanguageChange
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnLanguageChange]) {
+    if (self = [super initWithName:SDLNameOnLanguageChange]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (void)setLanguage:(SDLLanguage)language {
+    [parameters sdl_setObject:language forName:SDLNameLanguage];
 }
 
-- (void)setLanguage:(SDLLanguage *)language {
-    if (language != nil) {
-        [parameters setObject:language forKey:NAMES_language];
-    } else {
-        [parameters removeObjectForKey:NAMES_language];
-    }
+- (SDLLanguage)language {
+    NSObject *obj = [parameters sdl_objectForName:SDLNameLanguage];
+    return (SDLLanguage)obj;
 }
 
-- (SDLLanguage *)language {
-    NSObject *obj = [parameters objectForKey:NAMES_language];
-    if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
-        return (SDLLanguage *)obj;
-    } else {
-        return [SDLLanguage valueOf:(NSString *)obj];
-    }
+- (void)setHmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage {
+    [parameters sdl_setObject:hmiDisplayLanguage forName:SDLNameHMIDisplayLanguage];
 }
 
-- (void)setHmiDisplayLanguage:(SDLLanguage *)hmiDisplayLanguage {
-    if (hmiDisplayLanguage != nil) {
-        [parameters setObject:hmiDisplayLanguage forKey:NAMES_hmiDisplayLanguage];
-    } else {
-        [parameters removeObjectForKey:NAMES_hmiDisplayLanguage];
-    }
+- (SDLLanguage)hmiDisplayLanguage {
+    NSObject *obj = [parameters sdl_objectForName:SDLNameHMIDisplayLanguage];
+    return (SDLLanguage)obj;
 }
 
-- (SDLLanguage *)hmiDisplayLanguage {
-    NSObject *obj = [parameters objectForKey:NAMES_hmiDisplayLanguage];
-    if (obj == nil || [obj isKindOfClass:SDLLanguage.class]) {
-        return (SDLLanguage *)obj;
-    } else {
-        return [SDLLanguage valueOf:(NSString *)obj];
-    }
-}
 
 @end
+
+NS_ASSUME_NONNULL_END

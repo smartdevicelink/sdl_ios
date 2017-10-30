@@ -2,105 +2,67 @@
 //  SDLVideoStreamingCapability.m
 //  SmartDeviceLink-iOS
 //
-//  Created by Brett McIsaac on 7/27/17.
+//  Created by Brett McIsaac on 7/31/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
 #import "SDLImageResolution.h"
-#import "SDLNames.h"
-#import "SDLVideoStreamingFormat.h"
 #import "SDLVideoStreamingCapability.h"
+#import "SDLVideoStreamingFormat.h"
+
+#import "NSMutableDictionary+Store.h"
+#import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLVideoStreamingCapability
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithVideoStreaming:(SDLImageResolution *)preferredResolution maxBitrate:(NSNumber *)maxBitrate supportedFormats:(NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(NSNumber *)hapticDataSupported {
+- (instancetype)initWithPreferredResolution:(nullable SDLImageResolution *)preferredResolution maxBitrate:(int32_t)maxBitrate supportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats hapticDataSupported:(BOOL)hapticDataSupported {
     self = [self init];
     if (!self) {
         return self;
     }
 
-    self.maxBitrate = maxBitrate;
+    self.maxBitrate = @(maxBitrate);
     self.preferredResolution = preferredResolution;
-    self.supportedFormats = [supportedFormats mutableCopy];
-    self.hapticSpatialDataSupported = hapticDataSupported;
+    self.supportedFormats = supportedFormats;
+    self.hapticSpatialDataSupported = @(hapticDataSupported);
 
     return self;
 }
 
-- (void)setPreferredResolution:(SDLImageResolution *)preferredResolution {
-    if (preferredResolution != nil) {
-        [store setObject:preferredResolution forKey:NAMES_preferredResolution];
-    } else {
-        [store removeObjectForKey:NAMES_preferredResolution];
-    }
+- (void)setPreferredResolution:(nullable SDLImageResolution *)preferredResolution {
+    [store sdl_setObject:preferredResolution forName:SDLNamePreferredResolution];
 }
 
-- (SDLImageResolution *)preferredResolution {
-    NSObject *obj = [store objectForKey:NAMES_preferredResolution];
-    if (obj == nil || [obj isKindOfClass:SDLImageResolution.class]) {
-        return (SDLImageResolution *)obj;
-    } else {
-        return [[SDLImageResolution alloc] initWithDictionary:(NSMutableDictionary *)obj];
-    }
+- (nullable SDLImageResolution *)preferredResolution {
+    return [store sdl_objectForName:SDLNamePreferredResolution ofClass:SDLImageResolution.class];
 }
 
-- (void)setMaxBitrate:(NSNumber *)maxBitrate {
-    if (maxBitrate != nil) {
-        [store setObject:maxBitrate forKey:NAMES_maxBitrate];
-    } else {
-        [store removeObjectForKey:NAMES_maxBitrate];
-    }
+- (void)setMaxBitrate:(nullable NSNumber<SDLInt> *)maxBitrate {
+    [store sdl_setObject:maxBitrate forName:SDLNameMaxBitrate];
 }
 
-- (NSNumber *)maxBitrate {
-    return [store objectForKey:NAMES_maxBitrate];
+- (nullable NSNumber<SDLInt> *)maxBitrate {
+    return [store sdl_objectForName:SDLNameMaxBitrate];
 }
 
-- (void)setSupportedFormats:(NSMutableArray *)supportedFormats {
-    if (supportedFormats != nil) {
-        [store setObject:supportedFormats forKey:NAMES_supportedFormats];
-    } else {
-        [store removeObjectForKey:NAMES_supportedFormats];
-    }
+- (void)setSupportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
+    [store sdl_setObject:supportedFormats forName:SDLNameSupportedFormats];
 }
 
-- (NSMutableArray *)supportedFormats {
-    NSMutableArray *array = [store objectForKey:NAMES_supportedFormats];
-    if ([array isEqual:[NSNull null]]) {
-        return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLVideoStreamingFormat.class]) {
-        return array;
-    } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLVideoStreamingFormat alloc] initWithDictionary:(NSMutableDictionary *)dict]];
-        }
-        return newList;
-    }
+- (nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
+    return [store sdl_objectsForName:SDLNameSupportedFormats ofClass:SDLVideoStreamingFormat.class];
 }
 
-- (void)setHapticSpatialDataSupported:(NSNumber *)hapticSpatialDataSupported {
-    if (hapticSpatialDataSupported != nil) {
-        [store setObject:hapticSpatialDataSupported forKey:NAMES_hapticSpatialDataSupported];
-    } else {
-        [store removeObjectForKey:NAMES_hapticSpatialDataSupported];
-    }
+- (void)setHapticSpatialDataSupported:(nullable NSNumber<SDLBool> *)hapticSpatialDataSupported {
+    [store sdl_setObject:hapticSpatialDataSupported forName:SDLNameHapticSpatialDataSupported];
 }
 
-- (NSNumber *)hapticSpatialDataSupported {
-    return [store objectForKey:NAMES_hapticSpatialDataSupported];
+- (nullable NSNumber<SDLBool> *)hapticSpatialDataSupported {
+    return [store sdl_objectForName:SDLNameHapticSpatialDataSupported];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

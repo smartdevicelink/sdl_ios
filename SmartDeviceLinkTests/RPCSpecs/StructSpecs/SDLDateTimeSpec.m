@@ -42,15 +42,15 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized with dictionary", ^{
-        NSMutableDictionary* dict = [@{NAMES_millisecond:@100,
-                                       NAMES_second:@4,
-                                       NAMES_minute:@12,
-                                       NAMES_hour:@20,
-                                       NAMES_day:@30,
-                                       NAMES_month:@1,
-                                       NAMES_year:@4000,
-                                       NAMES_timezoneMinuteOffset:@0,
-                                       NAMES_timezoneHourOffset:@1000} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameMillisecond:@100,
+                                       SDLNameSecond:@4,
+                                       SDLNameMinute:@12,
+                                       SDLNameHour:@20,
+                                       SDLNameDay:@30,
+                                       SDLNameMonth:@1,
+                                       SDLNameYear:@4000,
+                                       SDLNameTimezoneMinuteOffset:@0,
+                                       SDLNameTimezoneHourOffset:@1000} mutableCopy];
         SDLDateTime* testStruct = [[SDLDateTime alloc] initWithDictionary:dict];
         
         expect(testStruct.millisecond).to(equal(@100));

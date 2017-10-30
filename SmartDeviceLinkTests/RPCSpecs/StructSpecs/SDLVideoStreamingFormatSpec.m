@@ -20,12 +20,12 @@ QuickSpecBegin(SDLVideoStreamingFormatSpec)
 
 describe(@"Initialization tests", ^{
     it(@"Should get correctly when initialized with a dictionary", ^ {
-        NSMutableDictionary* dict = [@{NAMES_videoProtocol: [SDLVideoStreamingProtocol RAW],
-                                       NAMES_videoCodec: [SDLVideoStreamingCodec H264]} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameVideoProtocol: SDLVideoStreamingProtocolRAW,
+                                       SDLNameVideoCodec: SDLVideoStreamingCodecH264} mutableCopy];
         SDLVideoStreamingFormat* testStruct = [[SDLVideoStreamingFormat alloc] initWithDictionary:dict];
 
-        expect(testStruct.protocol).to(equal([SDLVideoStreamingProtocol RAW]));
-        expect(testStruct.codec).to(equal([SDLVideoStreamingCodec H264]));
+        expect(testStruct.protocol).to(equal(SDLVideoStreamingProtocolRAW));
+        expect(testStruct.codec).to(equal(SDLVideoStreamingCodecH264));
     });
 
     it(@"Should return nil if not set", ^ {

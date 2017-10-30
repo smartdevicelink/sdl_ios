@@ -25,11 +25,11 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.callActive = @YES;
         testStruct.phoneRoaming = @NO;
         testStruct.textMsgAvailable = @YES;
-        testStruct.battLevelStatus = [SDLDeviceLevelStatus FOUR_LEVEL_BARS];
+        testStruct.battLevelStatus = SDLDeviceLevelStatusFourBars;
         testStruct.stereoAudioOutputMuted = @YES;
         testStruct.monoAudioOutputMuted = @YES;
-        testStruct.signalLevelStatus = [SDLDeviceLevelStatus TWO_LEVEL_BARS];
-        testStruct.primaryAudioSource = [SDLPrimaryAudioSource BLUETOOTH_STEREO_BTST];
+        testStruct.signalLevelStatus = SDLDeviceLevelStatusTwoBars;
+        testStruct.primaryAudioSource = SDLPrimaryAudioSourceBluetoothStereo;
         testStruct.eCallEventActive = @NO;
         
         expect(testStruct.voiceRecOn).to(equal(@NO));
@@ -37,26 +37,26 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.callActive).to(equal(@YES));
         expect(testStruct.phoneRoaming).to(equal(@NO));
         expect(testStruct.textMsgAvailable).to(equal(@YES));
-        expect(testStruct.battLevelStatus).to(equal([SDLDeviceLevelStatus FOUR_LEVEL_BARS]));
+        expect(testStruct.battLevelStatus).to(equal(SDLDeviceLevelStatusFourBars));
         expect(testStruct.stereoAudioOutputMuted).to(equal(@YES));
         expect(testStruct.monoAudioOutputMuted).to(equal(@YES));
-        expect(testStruct.signalLevelStatus).to(equal([SDLDeviceLevelStatus TWO_LEVEL_BARS]));
-        expect(testStruct.primaryAudioSource).to(equal([SDLPrimaryAudioSource BLUETOOTH_STEREO_BTST]));
+        expect(testStruct.signalLevelStatus).to(equal(SDLDeviceLevelStatusTwoBars));
+        expect(testStruct.primaryAudioSource).to(equal(SDLPrimaryAudioSourceBluetoothStereo));
         expect(testStruct.eCallEventActive).to(equal(@NO));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_voiceRecOn:@NO,
-                                       NAMES_btIconOn:@NO,
-                                       NAMES_callActive:@YES,
-                                       NAMES_phoneRoaming:@NO,
-                                       NAMES_textMsgAvailable:@YES,
-                                       NAMES_battLevelStatus:[SDLDeviceLevelStatus FOUR_LEVEL_BARS],
-                                       NAMES_stereoAudioOutputMuted:@YES,
-                                       NAMES_monoAudioOutputMuted:@YES,
-                                       NAMES_signalLevelStatus:[SDLDeviceLevelStatus TWO_LEVEL_BARS],
-                                       NAMES_primaryAudioSource:[SDLPrimaryAudioSource BLUETOOTH_STEREO_BTST],
-                                       NAMES_eCallEventActive:@NO} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameVoiceRecognitionOn:@NO,
+                                       SDLNameBluetoothIconOn:@NO,
+                                       SDLNameCallActive:@YES,
+                                       SDLNamePhoneRoaming:@NO,
+                                       SDLNameTextMessageAvailable:@YES,
+                                       SDLNameBatteryLevelStatus:SDLDeviceLevelStatusFourBars,
+                                       SDLNameStereoAudioOutputMuted:@YES,
+                                       SDLNameMonoAudioOutputMuted:@YES,
+                                       SDLNameSignalLevelStatus:SDLDeviceLevelStatusTwoBars,
+                                       SDLNamePrimaryAudioSource:SDLPrimaryAudioSourceBluetoothStereo,
+                                       SDLNameECallEventActive:@NO} mutableCopy];
         SDLDeviceStatus* testStruct = [[SDLDeviceStatus alloc] initWithDictionary:dict];
         
         expect(testStruct.voiceRecOn).to(equal(@NO));
@@ -64,11 +64,11 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.callActive).to(equal(@YES));
         expect(testStruct.phoneRoaming).to(equal(@NO));
         expect(testStruct.textMsgAvailable).to(equal(@YES));
-        expect(testStruct.battLevelStatus).to(equal([SDLDeviceLevelStatus FOUR_LEVEL_BARS]));
+        expect(testStruct.battLevelStatus).to(equal(SDLDeviceLevelStatusFourBars));
         expect(testStruct.stereoAudioOutputMuted).to(equal(@YES));
         expect(testStruct.monoAudioOutputMuted).to(equal(@YES));
-        expect(testStruct.signalLevelStatus).to(equal([SDLDeviceLevelStatus TWO_LEVEL_BARS]));
-        expect(testStruct.primaryAudioSource).to(equal([SDLPrimaryAudioSource BLUETOOTH_STEREO_BTST]));
+        expect(testStruct.signalLevelStatus).to(equal(SDLDeviceLevelStatusTwoBars));
+        expect(testStruct.primaryAudioSource).to(equal(SDLPrimaryAudioSourceBluetoothStereo));
         expect(testStruct.eCallEventActive).to(equal(@NO));
     });
     

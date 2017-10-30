@@ -9,44 +9,21 @@
  *
  * @since SDL 1.0
  */
-@interface SDLAudioStreamingState : SDLEnum {
-}
+typedef SDLEnum SDLAudioStreamingState SDL_SWIFT_ENUM;
 
-/**
- * @abstract Convert String to SDLAudioStreamingState
- *
- * @param value The value of the string to get an object for
- *
- * @return SDLAudioStreamingState
- */
-+ (SDLAudioStreamingState *)valueOf:(NSString *)value;
-
-/**
- * @abstract Store the enumeration of all possible SDLAudioStreamingState
- *
- * @return an array that store all possible SDLAudioStreamingState
- */
-+ (NSArray *)values;
 /**
  * @abstract Currently streaming audio, if any, is audible to user.
- *
- * @return SDLAudioStreamingState with value of *AUDIBLE*
  */
-+ (SDLAudioStreamingState *)AUDIBLE;
+extern SDLAudioStreamingState const SDLAudioStreamingStateAudible;
 
 /**
  * @abstract Some kind of audio mixing is taking place. Currently streaming audio, if any, is audible to the user at a lowered volume.
  *
- * @return SDLAudioStreamingState with value of *ATTENUATED*
- *
  * @since SDL 2.0
  */
-+ (SDLAudioStreamingState *)ATTENUATED;
+extern SDLAudioStreamingState const SDLAudioStreamingStateAttenuated;
 
 /**
  * @abstract Currently streaming audio, if any, is not audible to user. made via VR session.
- *
- * @return SDLAudioStreamingState with value of *NOT_AUDIBLE*
  */
-+ (SDLAudioStreamingState *)NOT_AUDIBLE;
-@end
+extern SDLAudioStreamingState const SDLAudioStreamingStateNotAudible;

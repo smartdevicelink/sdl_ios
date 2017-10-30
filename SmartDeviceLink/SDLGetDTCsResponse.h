@@ -9,13 +9,14 @@
  *
  * Since <b>SmartDeviceLink 2.0</b>
  */
-@interface SDLGetDTCsResponse : SDLRPCResponse {
-}
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
 
-@property (strong) NSNumber *ecuHeader;
-@property (strong) NSMutableArray *dtc;
+@interface SDLGetDTCsResponse : SDLRPCResponse
+
+@property (strong, nonatomic) NSNumber<SDLInt> *ecuHeader;
+@property (strong, nonatomic) NSArray<NSString *> *dtc;
 
 @end
+
+NS_ASSUME_NONNULL_END

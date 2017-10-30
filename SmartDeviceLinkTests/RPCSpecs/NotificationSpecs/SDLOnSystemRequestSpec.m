@@ -20,37 +20,37 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLOnSystemRequest* testNotification = [[SDLOnSystemRequest alloc] init];
         
-        testNotification.requestType = [SDLRequestType FILE_RESUME];
+        testNotification.requestType = SDLRequestTypeFileResume;
         testNotification.url = [@[@"www.google.com"] mutableCopy];
         testNotification.timeout = @52345;
-        testNotification.fileType = [SDLFileType GRAPHIC_PNG];
+        testNotification.fileType = SDLFileTypePNG;
         testNotification.offset = @2532678684;
         testNotification.length = @50000000000;
         
-        expect(testNotification.requestType).to(equal([SDLRequestType FILE_RESUME]));
+        expect(testNotification.requestType).to(equal(SDLRequestTypeFileResume));
         expect(testNotification.url).to(equal([@[@"www.google.com"] mutableCopy]));
         expect(testNotification.timeout).to(equal(@52345));
-        expect(testNotification.fileType).to(equal([SDLFileType GRAPHIC_PNG]));
+        expect(testNotification.fileType).to(equal(SDLFileTypePNG));
         expect(testNotification.offset).to(equal(@2532678684));
         expect(testNotification.length).to(equal(@50000000000));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_notification:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_requestType:[SDLRequestType FILE_RESUME],
-                                                   NAMES_url:[@[@"www.google.com"] mutableCopy],
-                                                   NAMES_timeout:@52345,
-                                                   NAMES_fileType:[SDLFileType GRAPHIC_PNG],
-                                                   NAMES_offset:@2532678684,
-                                                   NAMES_length:@50000000000},
-                                             NAMES_operation_name:NAMES_OnSystemRequest}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameNotification:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameRequestType:SDLRequestTypeFileResume,
+                                                   SDLNameURL:[@[@"www.google.com"] mutableCopy],
+                                                   SDLNameTimeout:@52345,
+                                                   SDLNameFileType:SDLFileTypePNG,
+                                                   SDLNameOffset:@2532678684,
+                                                   SDLNameLength:@50000000000},
+                                             SDLNameOperationName:SDLNameOnSystemRequest}} mutableCopy];
         SDLOnSystemRequest* testNotification = [[SDLOnSystemRequest alloc] initWithDictionary:dict];
         
-        expect(testNotification.requestType).to(equal([SDLRequestType FILE_RESUME]));
+        expect(testNotification.requestType).to(equal(SDLRequestTypeFileResume));
         expect(testNotification.url).to(equal([@[@"www.google.com"] mutableCopy]));
         expect(testNotification.timeout).to(equal(@52345));
-        expect(testNotification.fileType).to(equal([SDLFileType GRAPHIC_PNG]));
+        expect(testNotification.fileType).to(equal(SDLFileTypePNG));
         expect(testNotification.offset).to(equal(@2532678684));
         expect(testNotification.length).to(equal(@50000000000));
     });

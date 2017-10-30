@@ -3,9 +3,7 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--init">-init</a></li>
   <li><a href="#section--initWithHandler:">-initWithHandler:</a></li>
-  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
   <li><a href="#section--initWithId:vrCommands:handler:">-initWithId:vrCommands:handler:</a></li>
   <li><a href="#section--initWithId:vrCommands:menuName:handler:">-initWithId:vrCommands:menuName:handler:</a></li>
   <li><a href="#section--initWithId:vrCommands:menuName:parentId:position:iconValue:iconType:handler:">-initWithId:vrCommands:menuName:parentId:position:iconValue:iconType:handler:</a></li>
@@ -46,24 +44,6 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section--init">
-      -init
-  </h3>
-  
-  <p>Constructs a new SDLAddCommand object</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
-
-  
-  
-  
   <h3 id="section--initWithHandler:">
       -initWithHandler:
   </h3>
@@ -73,11 +53,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithHandler</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCNotificationHandler">SDLRPCNotificationHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithHandler</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCCommandNotificationHandler">SDLRPCCommandNotificationHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCNotificationHandler">SDLRPCNotificationHandler</a></span><span class="o">!</span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCCommandNotificationHandler">SDLRPCCommandNotificationHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
   
   
@@ -91,29 +72,6 @@
     <p>An SDLAddCommand object</p>
   </div>
   
-  <h3 id="section--initWithDictionary:">
-      -initWithDictionary:
-  </h3>
-  
-  <p>Constructs a new <em>SDLAddCommand</em> object indicated by the dictionary parameter</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">dictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span><span class="o">!</span><span class="p">)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>dict</dt>
-      <dd><p>The dictionary to use</p></dd>
-  </dl>
-  
   <h3 id="section--initWithId:vrCommands:handler:">
       -initWithId:vrCommands:handler:
   </h3>
@@ -123,7 +81,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommand</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLRequestHandler.html">SDLRequestHandler</a></span><span class="o">&gt;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommand</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   
@@ -138,7 +96,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommand</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLRequestHandler.html">SDLRequestHandler</a></span><span class="o">&gt;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommand</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   
@@ -153,7 +111,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommand</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLRequestHandler.html">SDLRequestHandler</a></span><span class="o">&gt;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAddCommand</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
 
   
   
@@ -173,11 +131,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCNotificationHandler">SDLRPCNotificationHandler</a></span> <span class="n">handler</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCCommandNotificationHandler">SDLRPCCommandNotificationHandler</a></span> <span class="n">handler</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCNotificationHandler">SDLRPCNotificationHandler</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCCommandNotificationHandler">SDLRPCCommandNotificationHandler</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -195,11 +154,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="n">cmdID</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">cmdID</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">cmdID</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">cmdID</span><span class="p">:</span> <span class="kt">NSNumber</span> </code></pre>
 
   
   
@@ -220,11 +179,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLMenuParams.html">SDLMenuParams</a></span> <span class="o">*</span><span class="n">menuParams</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLMenuParams.html">SDLMenuParams</a></span> <span class="o">*</span><span class="n">menuParams</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">menuParams</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLMenuParams.html">SDLMenuParams</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">menuParams</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLMenuParams.html">SDLMenuParams</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -244,11 +203,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">vrCommands</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">vrCommands</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">vrCommands</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">vrCommands</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -268,11 +228,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="n">cmdIcon</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="n">cmdIcon</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">cmdIcon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">cmdIcon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

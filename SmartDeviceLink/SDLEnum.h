@@ -3,16 +3,16 @@
 
 
 #import <Foundation/Foundation.h>
+#import "SDLMacros.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLEnum : NSObject <NSCopying> {
-    NSString *value;
-}
+typedef NSString* SDLEnum SDL_SWIFT_ENUM;
 
-- (instancetype)initWithValue:(NSString *)value;
+@interface NSString (SDLEnum)
 
-- (BOOL)isEqualToEnum:(SDLEnum *)object;
-
-@property (strong, readonly) NSString *value;
+- (BOOL)isEqualToEnum:(SDLEnum)enumObj;
 
 @end
+
+NS_ASSUME_NONNULL_END

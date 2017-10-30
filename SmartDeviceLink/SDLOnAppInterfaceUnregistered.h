@@ -3,7 +3,7 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLAppInterfaceUnregisteredReason;
+#import "SDLAppInterfaceUnregisteredReason.h"
 
 
 /**
@@ -14,22 +14,16 @@
  * @since SDL 1.0
  * @see SDLRegisterAppInterface
  */
-@interface SDLOnAppInterfaceUnregistered : SDLRPCNotification {
-}
 
-/**
- * Constructs a newly allocated SDLOnAppInterfaceUnregistered object
- */
-- (instancetype)init;
-/**
- * Constructs a newly allocated SDLOnAppInterfaceUnregistered object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLOnAppInterfaceUnregistered : SDLRPCNotification
 
 /**
  * @abstract The reason application's interface was terminated
  */
-@property (strong) SDLAppInterfaceUnregisteredReason *reason;
+@property (strong, nonatomic) SDLAppInterfaceUnregisteredReason reason;
 
 @end
+
+NS_ASSUME_NONNULL_END

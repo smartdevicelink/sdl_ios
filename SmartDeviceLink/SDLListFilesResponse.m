@@ -4,44 +4,35 @@
 
 #import "SDLListFilesResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLListFilesResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_ListFiles]) {
+    if (self = [super initWithName:SDLNameListFiles]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (void)setFilenames:(nullable NSArray<NSString *> *)filenames {
+    [parameters sdl_setObject:filenames forName:SDLNameFilenames];
 }
 
-- (void)setFilenames:(NSMutableArray *)filenames {
-    if (filenames != nil) {
-        [parameters setObject:filenames forKey:NAMES_filenames];
-    } else {
-        [parameters removeObjectForKey:NAMES_filenames];
-    }
+- (nullable NSArray<NSString *> *)filenames {
+    return [parameters sdl_objectForName:SDLNameFilenames];
 }
 
-- (NSMutableArray *)filenames {
-    return [parameters objectForKey:NAMES_filenames];
+- (void)setSpaceAvailable:(NSNumber<SDLInt> *)spaceAvailable {
+    [parameters sdl_setObject:spaceAvailable forName:SDLNameSpaceAvailable];
 }
 
-- (void)setSpaceAvailable:(NSNumber *)spaceAvailable {
-    if (spaceAvailable != nil) {
-        [parameters setObject:spaceAvailable forKey:NAMES_spaceAvailable];
-    } else {
-        [parameters removeObjectForKey:NAMES_spaceAvailable];
-    }
-}
-
-- (NSNumber *)spaceAvailable {
-    return [parameters objectForKey:NAMES_spaceAvailable];
+- (NSNumber<SDLInt> *)spaceAvailable {
+    return [parameters sdl_objectForName:SDLNameSpaceAvailable];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

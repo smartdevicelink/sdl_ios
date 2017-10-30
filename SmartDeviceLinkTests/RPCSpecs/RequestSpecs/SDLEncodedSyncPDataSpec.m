@@ -23,10 +23,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_request:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_data:[@[@2, @2, @2] mutableCopy]},
-                                             NAMES_operation_name:NAMES_EncodedSyncPData}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameData:[@[@2, @2, @2] mutableCopy]},
+                                                             SDLNameOperationName:SDLNameEncodedSyncPData}} mutableCopy];
         SDLEncodedSyncPData* testRequest = [[SDLEncodedSyncPData alloc] initWithDictionary:dict];
         
         expect(testRequest.data).to(equal([@[@2, @2, @2] mutableCopy]));

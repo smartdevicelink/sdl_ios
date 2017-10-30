@@ -1,4 +1,4 @@
-//  SDLOnWaypointChangeSpec.m
+//  SDLOnWayPointChangeSpec.m
 //
 
 #import <Foundation/Foundation.h>
@@ -6,7 +6,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLOnWaypointChange.h"
+#import "SDLOnWayPointChange.h"
 
 #import "SDLImage.h"
 #import "SDLLocationCoordinate.h"
@@ -14,7 +14,7 @@
 #import "SDLNames.h"
 #import "SDLOasisAddress.h"
 
-QuickSpecBegin(SDLOnWaypointChangeSpec)
+QuickSpecBegin(SDLOnWayPointChangeSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     __block SDLOnWayPointChange* testNotification = nil;
@@ -63,12 +63,12 @@ describe(@"Getter/Setter Tests", ^ {
                 
                 someWaypoints = @[someLocation];
                 
-                NSDictionary *initDict = @{NAMES_notification : @{
-                                                   NAMES_parameters: @{
-                                                           NAMES_waypoints: someWaypoints
+                NSDictionary *initDict = @{SDLNameNotification : @{
+                                                   SDLNameParameters: @{
+                                                           SDLNameWayPoints: someWaypoints
                                                            }
                                                    },
-                                           NAMES_operation_name:NAMES_OnWaypointChange
+                                           SDLNameOperationName:SDLNameOnWayPointChange
                                            };
                 
                 testNotification = [[SDLOnWayPointChange alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
@@ -84,8 +84,8 @@ describe(@"Getter/Setter Tests", ^ {
         context(@"when parameters are not set", ^{
             beforeEach(^{
                 NSDictionary *initDict = @{
-                                           NAMES_request: @{
-                                                   NAMES_parameters: @{}
+                                           SDLNameNotification: @{
+                                                   SDLNameParameters: @{}
                                                    }
                                            };
                 

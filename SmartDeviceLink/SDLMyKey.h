@@ -2,16 +2,14 @@
 //
 
 #import "SDLRPCMessage.h"
+#import "SDLVehicleDataStatus.h"
 
-@class SDLVehicleDataStatus;
+NS_ASSUME_NONNULL_BEGIN
 
+@interface SDLMyKey : SDLRPCStruct
 
-@interface SDLMyKey : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
-@property (strong) SDLVehicleDataStatus *e911Override;
+@property (strong, nonatomic) SDLVehicleDataStatus e911Override;
 
 @end
+
+NS_ASSUME_NONNULL_END

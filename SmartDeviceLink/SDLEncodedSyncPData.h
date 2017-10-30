@@ -4,12 +4,12 @@
 
 #import "SDLRPCRequest.h"
 
-@interface SDLEncodedSyncPData : SDLRPCRequest {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLEncodedSyncPData : SDLRPCRequest
 
-@property (strong) NSMutableArray *data;
+@property (strong, nonatomic) NSArray<NSString *> *data;
 
 @end
+
+NS_ASSUME_NONNULL_END

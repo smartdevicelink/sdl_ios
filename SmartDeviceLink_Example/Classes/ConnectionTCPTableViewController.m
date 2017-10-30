@@ -46,10 +46,6 @@
     } @catch (NSException __unused *exception) {}
 }
 
-- (void)didReceiveMemoryWarning {
-    NSLog(@"***** MEMORY WARNING *****");
-}
-
 
 #pragma mark - IBActions
 

@@ -9,21 +9,21 @@
 #import <Foundation/Foundation.h>
 
 #import "SDLRPCRequest.h"
+#import "SDLSystemCapabilityType.h"
 
-@class SDLSystemCapabilityType;
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLGetSystemCapability : SDLRPCRequest
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
-- (instancetype)initWithType:(SDLSystemCapabilityType *)type;
+- (instancetype)initWithType:(SDLSystemCapabilityType)type;
 
 /**
  They type of capability you'd like to receive in the response.
 
  Mandatory
  */
-@property (strong, nonatomic) SDLSystemCapabilityType *systemCapabilityType;
+@property (strong, nonatomic) SDLSystemCapabilityType systemCapabilityType;
 
 @end
+
+NS_ASSUME_NONNULL_END

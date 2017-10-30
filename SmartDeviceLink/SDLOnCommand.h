@@ -3,8 +3,7 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLTriggerSource;
-
+#import "SDLTriggerSource.h"
 
 /**
  * This is called when a command was selected via VR after pressing the PTT button, or selected from the menu after
@@ -15,28 +14,21 @@
  * @since SDL 1.0
  * @see SDLAddCommand SDLDeleteCommand SDLDeleteSubMenu
  */
-@interface SDLOnCommand : SDLRPCNotification {
-}
 
-/**
- *Constructs a newly allocated SDLRPCNotification object
- */
-- (instancetype)init;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * Constructs a newly allocated SDLRPCNotification object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLOnCommand : SDLRPCNotification
 
 /**
  * @abstract The command ID of the command the user selected. This is the command ID value provided by the application in the <i>SDLAddCommand</i> operation that created the command.
  */
-@property (strong) NSNumber *cmdID;
+@property (strong, nonatomic) NSNumber<SDLInt> *cmdID;
 
 /**
  * @abstract Indicates whether command was selected via voice or via a menu selection (using the OK button).
  */
-@property (strong) SDLTriggerSource *triggerSource;
+@property (strong, nonatomic) SDLTriggerSource triggerSource;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -2,57 +2,35 @@
 //  SDLVideoStreamingCodec.h
 //  SmartDeviceLink-iOS
 //
-//  Created by Brett McIsaac on 7/27/17.
-//  Copyright © 2017 smartdevicelink. All rights reserved.
-//
 
 #import "SDLEnum.h"
 
 /**
  * Enum for each type of video streaming codec
- *
- * @since SDL 4.7
  */
-@interface SDLVideoStreamingCodec : SDLEnum
+typedef SDLEnum SDLVideoStreamingCodec SDL_SWIFT_ENUM;
 
 /**
- * Convert String to SDLVideoStreamingCodec
- *
- * @param value String value to retrieve the object for
- *
- * @return SDLVideoStreamingCodec
+ * @abstract SDLVideoStreamingCodec : H264
  */
-+ (SDLVideoStreamingCodec *)valueOf:(NSString *)value;
+extern SDLVideoStreamingCodec const SDLVideoStreamingCodecH264;
 
 /**
- @abstract Store the enumeration of all possible SDLVideoStreamingCodec
- @return an array that store all possible SDLVideoStreamingCodec
+ * @abstract SDLVideoStreamingCodec : H265
  */
-+ (NSArray *)values;
+extern SDLVideoStreamingCodec const SDLVideoStreamingCodecH265;
 
 /**
- @abstract SDLVideoStreamingCodec : H264
+ * @abstract SDLVideoStreamingCodec : Theora
  */
-+ (SDLVideoStreamingCodec *)H264;
+extern SDLVideoStreamingCodec const SDLVideoStreamingCodecTheora;
 
 /**
- @abstract SDLVideoStreamingCodec : H265
+ * @abstract SDLVideoStreamingCodec : VP8
  */
-+ (SDLVideoStreamingCodec *)H265;
+extern SDLVideoStreamingCodec const SDLVideoStreamingCodecVP8;
 
 /**
- @abstract SDLVideoStreamingCodec : Theora
+ * @abstract SDLVideoStreamingCodec : VP9
  */
-+ (SDLVideoStreamingCodec *)THEORA;
-
-/**
- @abstract SDLVideoStreamingCodec : VP8
- */
-+ (SDLVideoStreamingCodec *)VP8;
-
-/**
- @abstract SDLVideoStreamingCodec : VP9
- */
-+ (SDLVideoStreamingCodec *)VP9;
-
-@end
+extern SDLVideoStreamingCodec const SDLVideoStreamingCodecVP9;

@@ -1,0 +1,248 @@
+<h1>SDLClimateControlData Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithFanSpeed:desiredTemperature:acEnable:circulateAirEnable:autoModeEnable:defrostZone:dualModeEnable:acMaxEnable:ventilationMode:">-initWithFanSpeed:desiredTemperature:acEnable:circulateAirEnable:autoModeEnable:defrostZone:dualModeEnable:acMaxEnable:ventilationMode:</a></li>
+  <li><a href="#section-fanSpeed">fanSpeed</a></li>
+  <li><a href="#section-currentTemperature">currentTemperature</a></li>
+  <li><a href="#section-desiredTemperature">desiredTemperature</a></li>
+  <li><a href="#section-acEnable">acEnable</a></li>
+  <li><a href="#section-circulateAirEnable">circulateAirEnable</a></li>
+  <li><a href="#section-autoModeEnable">autoModeEnable</a></li>
+  <li><a href="#section-defrostZone">defrostZone</a></li>
+  <li><a href="#section-dualModeEnable">dualModeEnable</a></li>
+  <li><a href="#section-acMaxEnable">acMaxEnable</a></li>
+  <li><a href="#section-ventilationMode">ventilationMode</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithFanSpeed:desiredTemperature:acEnable:circulateAirEnable:autoModeEnable:defrostZone:dualModeEnable:acMaxEnable:ventilationMode:">
+      -initWithFanSpeed:desiredTemperature:acEnable:circulateAirEnable:autoModeEnable:defrostZone:dualModeEnable:acMaxEnable:ventilationMode:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section-fanSpeed">
+      fanSpeed
+  </h3>
+  
+  <p>@abstract Speed of Fan in integer</p>
+
+<p>Optional, MinValue- 0 MaxValue= 100</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">fanSpeed</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">fanSpeed</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-currentTemperature">
+      currentTemperature
+  </h3>
+  
+  <p>@abstract The Current Temperature in SDLTemperature</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    This property is readonly and cannot be set on the module.
+
+</div>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="n">currentTemperature</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">currentTemperature</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-desiredTemperature">
+      desiredTemperature
+  </h3>
+  
+  <p>@abstract Desired Temperature in SDLTemperature</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="n">desiredTemperature</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">desiredTemperature</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-acEnable">
+      acEnable
+  </h3>
+  
+  <p>@abstract Represents if AC is enabled.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">acEnable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">acEnable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-circulateAirEnable">
+      circulateAirEnable
+  </h3>
+  
+  <p>@abstract Represents if circulation of air is enabled.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">circulateAirEnable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">circulateAirEnable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-autoModeEnable">
+      autoModeEnable
+  </h3>
+  
+  <p>@abstract Represents if auto mode is enabled.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">autoModeEnable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">autoModeEnable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-defrostZone">
+      defrostZone
+  </h3>
+  
+  <p>@abstract Represents the kind of defrost zone</p>
+
+<p>Optional, SDLDefrostZone</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLDefrostZone.h@T@SDLDefrostZone">SDLDefrostZone</a></span> <span class="n">defrostZone</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">defrostZone</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLDefrostZone.h@T@SDLDefrostZone">SDLDefrostZone</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-dualModeEnable">
+      dualModeEnable
+  </h3>
+  
+  <p>@abstract Represents if dual mode is enabled.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">dualModeEnable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">dualModeEnable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-acMaxEnable">
+      acMaxEnable
+  </h3>
+  
+  <p>@abstract Represents if ac max is enabled.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">acMaxEnable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">acMaxEnable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-ventilationMode">
+      ventilationMode
+  </h3>
+  
+  <p>@abstract Represents the kind of Ventilation zone</p>
+
+<p>Optional, SDLVentilationMode</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVentilationMode.h@T@SDLVentilationMode">SDLVentilationMode</a></span> <span class="n">ventilationMode</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">ventilationMode</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLVentilationMode.h@T@SDLVentilationMode">SDLVentilationMode</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

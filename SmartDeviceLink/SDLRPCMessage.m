@@ -4,8 +4,10 @@
 
 #import "SDLRPCMessage.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRPCMessage
 
@@ -15,61 +17,50 @@
     if (self = [super init]) {
         function = [[NSMutableDictionary alloc] initWithCapacity:3];
         parameters = [[NSMutableDictionary alloc] init];
-        messageType = NAMES_request;
+        messageType = SDLNameRequest;
         [store setObject:function forKey:messageType];
-        [function setObject:parameters forKey:NAMES_parameters];
-        [function setObject:name forKey:NAMES_operation_name];
+        [function setObject:parameters forKey:SDLNameParameters];
+        [function setObject:name forKey:SDLNameOperationName];
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super initWithDictionary:dict]) {
         NSEnumerator *enumerator = [store keyEnumerator];
         while (messageType = [enumerator nextObject]) {
-            if ([messageType isEqualToString:@"bulkData"] == FALSE) {
+            if (![messageType isEqualToString:SDLNameBulkData]) {
                 break;
             }
         }
-
-        function = [store objectForKey:messageType];
-        parameters = [function objectForKey:NAMES_parameters];
-        self.bulkData = [dict objectForKey:@"bulkData"];
+        if (messageType != nil) {
+            function = [[store objectForKey:messageType] mutableCopy];
+            parameters = [[function objectForKey:SDLNameParameters] mutableCopy];
+        }
+        self.bulkData = [dict objectForKey:SDLNameBulkData];
     }
+    
     return self;
 }
 
-- (NSString *)getFunctionName {
-    return [function objectForKey:NAMES_operation_name];
+- (nullable NSString *)getFunctionName {
+    return [function sdl_objectForName:SDLNameOperationName];
 }
 
-- (void)setFunctionName:(NSString *)functionName {
-    if (functionName != nil) {
-        [function setObject:functionName forKey:NAMES_operation_name];
-    } else {
-        [function removeObjectForKey:NAMES_operation_name];
-    }
+- (void)setFunctionName:(nullable NSString *)functionName {
+    [function sdl_setObject:functionName forName:SDLNameOperationName];
 }
 
-- (NSObject *)getParameters:(NSString *)functionName {
-    return [parameters objectForKey:functionName];
+- (nullable NSObject *)getParameters:(NSString *)functionName {
+    return [parameters sdl_objectForName:functionName];
 }
 
-- (void)setParameters:(NSString *)functionName value:(NSObject *)value {
-    if (value != nil) {
-        [parameters setObject:value forKey:functionName];
-    } else {
-        [parameters removeObjectForKey:functionName];
-    }
-}
-
-- (void)dealloc {
-    function = nil;
-    parameters = nil;
+- (void)setParameters:(NSString *)functionName value:(nullable NSObject *)value {
+    [parameters sdl_setObject:value forName:functionName];
 }
 
 - (NSString *)name {
-    return [function objectForKey:NAMES_operation_name];
+    return [self getFunctionName];
 }
 
 - (NSString *)description {
@@ -79,3 +70,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

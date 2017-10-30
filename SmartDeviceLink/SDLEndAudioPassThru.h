@@ -14,20 +14,11 @@
  * Since <b>SmartDeviceLink 2.0</b><br>
  * see SDLPerformAudioPassThru
  */
-@interface SDLEndAudioPassThru : SDLRPCRequest {
-}
 
-/**
- * Constructs a new SDLEndAudioPassThru object
- */
-- (instancetype)init;
-/**
- * Constructs a new SDLEndAudioPassThru object indicated by the NSMutableDictionary
- * parameter
- * <p>
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLEndAudioPassThru : SDLRPCRequest
 
 @end
+
+NS_ASSUME_NONNULL_END

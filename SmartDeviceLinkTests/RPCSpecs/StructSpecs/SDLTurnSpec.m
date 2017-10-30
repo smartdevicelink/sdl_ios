@@ -28,8 +28,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_navigationText:@"NAVTEXT",
-                                       NAMES_turnIcon:image} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNavigationText:@"NAVTEXT",
+                                                       SDLNameTurnIcon:image} mutableCopy];
         SDLTurn* testStruct = [[SDLTurn alloc] initWithDictionary:dict];
         
         expect(testStruct.navigationText).to(equal(@"NAVTEXT"));

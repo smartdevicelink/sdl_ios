@@ -4,22 +4,15 @@
 
 #import "SDLSendLocationResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSendLocationResponse
 
 - (instancetype)init {
-    self = [super initWithName:NAMES_SendLocation];
-    if (!self) {
-        return nil;
-    }
-
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    self = [super initWithDictionary:dict];
+    self = [super initWithName:SDLNameSendLocation];
     if (!self) {
         return nil;
     }
@@ -28,3 +21,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

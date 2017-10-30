@@ -3,16 +3,17 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLTouchType;
+#import "SDLTouchType.h"
 
+@class SDLTouchEvent;
 
-@interface SDLOnTouchEvent : SDLRPCNotification {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLOnTouchEvent : SDLRPCNotification
 
-@property (strong) SDLTouchType *type;
-@property (strong) NSMutableArray *event;
+@property (strong, nonatomic) SDLTouchType type;
+@property (strong, nonatomic) NSArray<SDLTouchEvent *> *event;
 
 @end
+
+NS_ASSUME_NONNULL_END

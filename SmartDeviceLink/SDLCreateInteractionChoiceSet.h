@@ -19,20 +19,9 @@
  *
  * @see SDLDeleteInteractionChoiceSet SDLPerformInteraction
  */
-@interface SDLCreateInteractionChoiceSet : SDLRPCRequest {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * Constructs a new SDLCreateInteractionChoiceSet object
- */
-- (instancetype)init;
-
-/**
- * Constructs a new SDLCreateInteractionChoiceSet object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLCreateInteractionChoiceSet : SDLRPCRequest
 
 - (instancetype)initWithId:(UInt32)choiceId choiceSet:(NSArray<SDLChoice *> *)choiceSet;
 
@@ -41,13 +30,15 @@
  *
  * Required, Integer, 0 - 2,000,000,000
  */
-@property (strong) NSNumber *interactionChoiceSetID;
+@property (strong, nonatomic) NSNumber<SDLInt> *interactionChoiceSetID;
 
 /**
  * @abstract Array of choices, which the user can select by menu or voice recognition
  *
  * Required, SDLChoice, Array size 1 - 100
  */
-@property (strong) NSMutableArray *choiceSet;
+@property (strong, nonatomic) NSArray<SDLChoice *> *choiceSet;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -18,20 +18,20 @@ QuickSpecBegin(SDLChangeRegistrationSpec)
 
 describe(@"change registration", ^ {
     __block SDLChangeRegistration *testRequest = nil;
-    __block SDLLanguage *someLanguage = nil;
-    __block SDLLanguage *someOtherLanguage = nil;
+    __block SDLLanguage someLanguage = nil;
+    __block SDLLanguage someOtherLanguage = nil;
     __block NSString *someAppName = nil;
-    __block NSArray *someTTSChunks = nil;
+    __block NSArray<SDLTTSChunk *> *someTTSChunks = nil;
     __block NSString *someNGNMediaAppName = nil;
-    __block NSArray *someVRSynonyms = nil;
+    __block NSArray<NSString *> *someVRSynonyms = nil;
     
     describe(@"when initializing with properites", ^{
         context(@"when parameters are set", ^{
             beforeEach(^{
                 testRequest = [[SDLChangeRegistration alloc] init];
                 
-                someLanguage = [SDLLanguage IT_IT];
-                someOtherLanguage = [SDLLanguage KO_KR];
+                someLanguage = SDLLanguageItIt;
+                someOtherLanguage = SDLLanguageKoKr;
                 someAppName = @"someAppName";
                 someTTSChunks = @[[[SDLTTSChunk alloc] init]];
                 someNGNMediaAppName = @"some media app name";
@@ -105,22 +105,22 @@ describe(@"change registration", ^ {
     describe(@"when initializing with a dictionary", ^{
         context(@"when parameters are set", ^{
             beforeEach(^{
-                someLanguage = [SDLLanguage IT_IT];
-                someOtherLanguage = [SDLLanguage KO_KR];
+                someLanguage = SDLLanguageItIt;
+                someOtherLanguage = SDLLanguageKoKr;
                 someAppName = @"someAppName";
                 someTTSChunks = @[[[SDLTTSChunk alloc] init]];
                 someNGNMediaAppName = @"some media app name";
                 someVRSynonyms = @[@"some1", @"some2"];
                 
-                NSMutableDictionary* dict = [@{NAMES_request:
-                                                   @{NAMES_parameters:
-                                                         @{NAMES_language:someLanguage,
-                                                           NAMES_hmiDisplayLanguage:someOtherLanguage,
-                                                           NAMES_appName:someAppName,
-                                                           NAMES_ttsName:someTTSChunks,
-                                                           NAMES_ngnMediaScreenAppName:someNGNMediaAppName,
-                                                           NAMES_vrSynonyms:someVRSynonyms},
-                                                        NAMES_operation_name:NAMES_ChangeRegistration}} mutableCopy];
+                NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                                   @{SDLNameParameters:
+                                                                         @{SDLNameLanguage:someLanguage,
+                                                                           SDLNameHMIDisplayLanguage:someOtherLanguage,
+                                                                           SDLNameAppName:someAppName,
+                                                                           SDLNameTTSName:someTTSChunks,
+                                                                           SDLNameNGNMediaScreenAppName:someNGNMediaAppName,
+                                                                           SDLNameVRSynonyms:someVRSynonyms},
+                                                                     SDLNameOperationName:SDLNameChangeRegistration}} mutableCopy];
                 
                 testRequest = [[SDLChangeRegistration alloc] initWithDictionary:dict];
             });

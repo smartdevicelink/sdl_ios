@@ -18,7 +18,7 @@ QuickSpecBegin(SDLV2ProtocolMessageSpec)
 
 describe(@"RPCDictionary Tests", ^ {
     it(@"Should return the correct dictionary", ^ {
-        SDLServiceType serviceType = SDLServiceType_RPC;
+        SDLServiceType serviceType = SDLServiceTypeRPC;
         
         SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
         id headerMock = OCMPartialMock(testHeader);
@@ -46,11 +46,11 @@ describe(@"RPCDictionary Tests", ^ {
         
         SDLV2ProtocolMessage* testMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testHeader andPayload:[[NSMutableData alloc] initWithCapacity:0]];
         
-        expect([testMessage rpcDictionary]).to(equal(@{NAMES_request:
-                                                           @{NAMES_operation_name:NAMES_Slider,
-                                                             NAMES_correlationID:@99,
-                                                             NAMES_parameters:dictionary},
-                                                       NAMES_bulkData:[NSData dataWithBytes:"Database" length:strlen("Database")]}));
+        expect([testMessage rpcDictionary]).to(equal(@{SDLNameRequest:
+                                                           @{SDLNameOperationName:SDLNameSlider,
+                                                             SDLNameCorrelationId:@99,
+                                                             SDLNameParameters:dictionary},
+                                                       SDLNameBulkData:[NSData dataWithBytes:"Database" length:strlen("Database")]}));
     });
 });
 

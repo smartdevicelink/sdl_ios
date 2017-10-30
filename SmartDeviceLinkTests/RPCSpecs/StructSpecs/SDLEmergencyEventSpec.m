@@ -21,32 +21,32 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLEmergencyEvent* testStruct = [[SDLEmergencyEvent alloc] init];
         
-        testStruct.emergencyEventType = [SDLEmergencyEventType FRONTAL];
-        testStruct.fuelCutoffStatus = [SDLFuelCutoffStatus NORMAL_OPERATION];
-        testStruct.rolloverEvent = [SDLVehicleDataEventStatus _YES];
+        testStruct.emergencyEventType = SDLEmergencyEventTypeFrontal;
+        testStruct.fuelCutoffStatus = SDLFuelCutoffStatusNormalOperation;
+        testStruct.rolloverEvent = SDLVehicleDataEventStatusYes;
         testStruct.maximumChangeVelocity = @33;
-        testStruct.multipleEvents = [SDLVehicleDataEventStatus _NO];
+        testStruct.multipleEvents = SDLVehicleDataEventStatusNo;
         
-        expect(testStruct.emergencyEventType).to(equal([SDLEmergencyEventType FRONTAL]));
-        expect(testStruct.fuelCutoffStatus).to(equal([SDLFuelCutoffStatus NORMAL_OPERATION]));
-        expect(testStruct.rolloverEvent).to(equal([SDLVehicleDataEventStatus _YES]));
+        expect(testStruct.emergencyEventType).to(equal(SDLEmergencyEventTypeFrontal));
+        expect(testStruct.fuelCutoffStatus).to(equal(SDLFuelCutoffStatusNormalOperation));
+        expect(testStruct.rolloverEvent).to(equal(SDLVehicleDataEventStatusYes));
         expect(testStruct.maximumChangeVelocity).to(equal(@33));
-        expect(testStruct.multipleEvents).to(equal([SDLVehicleDataEventStatus _NO]));
+        expect(testStruct.multipleEvents).to(equal(SDLVehicleDataEventStatusNo));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_emergencyEventType:[SDLEmergencyEventType FRONTAL],
-                                       NAMES_fuelCutoffStatus:[SDLFuelCutoffStatus NORMAL_OPERATION],
-                                       NAMES_rolloverEvent:[SDLVehicleDataEventStatus _YES],
-                                       NAMES_maximumChangeVelocity:@33,
-                                       NAMES_multipleEvents:[SDLVehicleDataEventStatus _NO]} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameEmergencyEventType:SDLEmergencyEventTypeFrontal,
+                                       SDLNameFuelCutoffStatus:SDLFuelCutoffStatusNormalOperation,
+                                       SDLNameRolloverEvent:SDLVehicleDataEventStatusYes,
+                                       SDLNameMaximumChangeVelocity:@33,
+                                       SDLNameMultipleEvents:SDLVehicleDataEventStatusNo} mutableCopy];
         SDLEmergencyEvent* testStruct = [[SDLEmergencyEvent alloc] initWithDictionary:dict];
         
-        expect(testStruct.emergencyEventType).to(equal([SDLEmergencyEventType FRONTAL]));
-        expect(testStruct.fuelCutoffStatus).to(equal([SDLFuelCutoffStatus NORMAL_OPERATION]));
-        expect(testStruct.rolloverEvent).to(equal([SDLVehicleDataEventStatus _YES]));
+        expect(testStruct.emergencyEventType).to(equal(SDLEmergencyEventTypeFrontal));
+        expect(testStruct.fuelCutoffStatus).to(equal(SDLFuelCutoffStatusNormalOperation));
+        expect(testStruct.rolloverEvent).to(equal(SDLVehicleDataEventStatusYes));
         expect(testStruct.maximumChangeVelocity).to(equal(@33));
-        expect(testStruct.multipleEvents).to(equal([SDLVehicleDataEventStatus _NO]));
+        expect(testStruct.multipleEvents).to(equal(SDLVehicleDataEventStatusNo));
     });
     
     it(@"Should return nil if not set", ^ {

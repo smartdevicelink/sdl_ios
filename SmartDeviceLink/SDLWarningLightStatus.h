@@ -9,44 +9,24 @@
  *
  * @since SDL 2.0
  */
-@interface SDLWarningLightStatus : SDLEnum {
-}
-
-/**
- * Convert String to SDLWarningLightStatus
- * @param value The value of the string to get an object for
- * @return SDLWarningLightStatus
- */
-+ (SDLWarningLightStatus *)valueOf:(NSString *)value;
-
-/**
- * @abstract Store the enumeration of all possible SDLWarningLightStatus
- * @return an array that store all possible SDLWarningLightStatus
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLWarningLightStatus SDL_SWIFT_ENUM;
 
 /**
  * @abstract Warninglight Off
- * @return SDLWarningLightStatus instance with value of *OFF*
  */
-+ (SDLWarningLightStatus *)OFF;
+extern SDLWarningLightStatus const SDLWarningLightStatusOff;
 
 /**
  * @abstract Warninglight On
- * @return SDLWarningLightStatus instance with value of *ON*
  */
-+ (SDLWarningLightStatus *)ON;
+extern SDLWarningLightStatus const SDLWarningLightStatusOn;
 
 /**
  * @abstract Warninglight is flashing
- * @return SDLWarningLightStatus instance with value of *FLASH*
  */
-+ (SDLWarningLightStatus *)FLASH;
+extern SDLWarningLightStatus const SDLWarningLightStatusFlash;
 
 /**
  * @abstract Not used
- * @return SDLWarningLightStatus instance with value of *NOT_USED*
  */
-+ (SDLWarningLightStatus *)NOT_USED;
-
-@end
+extern SDLWarningLightStatus const SDLWarningLightStatusNotUsed;

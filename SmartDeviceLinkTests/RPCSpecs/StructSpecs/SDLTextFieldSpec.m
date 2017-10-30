@@ -20,26 +20,26 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLTextField* testStruct = [[SDLTextField alloc] init];
         
-        testStruct.name = [SDLTextFieldName tertiaryText];
-        testStruct.characterSet = [SDLCharacterSet TYPE5SET];
+        testStruct.name = SDLTextFieldNameTertiaryText;
+        testStruct.characterSet = SDLCharacterSetType5;
         testStruct.width = @111;
         testStruct.rows = @4;
         
-        expect(testStruct.name).to(equal([SDLTextFieldName tertiaryText]));
-        expect(testStruct.characterSet).to(equal([SDLCharacterSet TYPE5SET]));
+        expect(testStruct.name).to(equal(SDLTextFieldNameTertiaryText));
+        expect(testStruct.characterSet).to(equal(SDLCharacterSetType5));
         expect(testStruct.width).to(equal(@111));
         expect(testStruct.rows).to(equal(@4));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_name:[SDLTextFieldName tertiaryText],
-                                       NAMES_characterSet:[SDLCharacterSet TYPE5SET],
-                                       NAMES_width:@111,
-                                       NAMES_rows:@4} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameName:SDLTextFieldNameTertiaryText,
+                                       SDLNameCharacterSet:SDLCharacterSetType5,
+                                       SDLNameWidth:@111,
+                                       SDLNameRows:@4} mutableCopy];
         SDLTextField* testStruct = [[SDLTextField alloc] initWithDictionary:dict];
         
-        expect(testStruct.name).to(equal([SDLTextFieldName tertiaryText]));
-        expect(testStruct.characterSet).to(equal([SDLCharacterSet TYPE5SET]));
+        expect(testStruct.name).to(equal(SDLTextFieldNameTertiaryText));
+        expect(testStruct.characterSet).to(equal(SDLCharacterSetType5));
         expect(testStruct.width).to(equal(@111));
         expect(testStruct.rows).to(equal(@4));
     });

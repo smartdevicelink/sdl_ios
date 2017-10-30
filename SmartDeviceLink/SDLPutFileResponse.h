@@ -9,16 +9,12 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLPutFileResponse : SDLRPCResponse {
-}
-/**
- * @abstract Constructs a new SDLPutFileResponse object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLPutFileResponse object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-@property (strong) NSNumber *spaceAvailable;
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLPutFileResponse : SDLRPCResponse
+
+@property (strong, nonatomic) NSNumber<SDLInt> *spaceAvailable;
 @end
+
+NS_ASSUME_NONNULL_END

@@ -35,40 +35,31 @@
  *
  * @since SDL 1.0
  */
-@interface SDLAlert : SDLRPCRequest {
-}
 
-/**
- * Constructs a new SDLAlert object
- */
-- (instancetype)init;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * Constructs a new SDLAlert object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLAlert : SDLRPCRequest
 
-- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 duration:(UInt16)duration;
 
-- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3;
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 duration:(UInt16)duration;
 
-- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 duration:(UInt16)duration;
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3;
 
-- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons;
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 duration:(UInt16)duration;
 
-- (instancetype)initWithTTS:(NSString *)ttsText playTone:(BOOL)playTone;
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 duration:(UInt16)duration softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
 
-- (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 playTone:(BOOL)playTone duration:(UInt16)duration;
+- (instancetype)initWithTTS:(nullable NSString *)ttsText playTone:(BOOL)playTone;
 
-- (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration;
+- (instancetype)initWithTTS:(nullable NSString *)ttsText alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 playTone:(BOOL)playTone duration:(UInt16)duration;
 
-- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone;
+- (instancetype)initWithTTS:(nullable NSString *)ttsText alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration;
 
-- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(BOOL)playTone softButtons:(NSArray<SDLSoftButton *> *)softButtons;
+- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone;
 
-- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons;
+- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
+
+- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
 
 
 /**
@@ -82,7 +73,7 @@
  *
  * Optional, Max length 500 chars
  */
-@property (strong) NSString *alertText1;
+@property (nullable, strong, nonatomic) NSString *alertText1;
 
 /**
  * @abstract The String to be displayed in the second field of the display during the Alert
@@ -97,7 +88,7 @@
  *
  * Optional, Max length 500 chars
  */
-@property (strong) NSString *alertText2;
+@property (nullable, strong, nonatomic) NSString *alertText2;
 
 /**
  * @abstract the String to be displayed in the third field of the display during the Alert
@@ -111,7 +102,7 @@
  *
  * Optional, Max length 500 chars
  */
-@property (strong) NSString *alertText3;
+@property (nullable, strong, nonatomic) NSString *alertText3;
 
 /**
  * @abstract An array which, taken together, specify what is to be spoken to the user
@@ -120,7 +111,7 @@
  *
  * @see SDLTTSChunk
  */
-@property (strong) NSMutableArray *ttsChunks;
+@property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *ttsChunks;
 
 /**
  * @abstract The duration of the displayed portion of the alert, in milliseconds.
@@ -133,7 +124,7 @@
  * 
  * Optional, Integer, 3000 - 10000
  */
-@property (strong) NSNumber *duration;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *duration;
 
 /**
  * @abstract Whether the alert tone should be played before the TTS (if any) is spoken.
@@ -142,7 +133,7 @@
  * 
  * Optional, Boolean
  */
-@property (strong) NSNumber *playTone;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *playTone;
 
 /**
  * @abstract If supported on the given platform, the alert GUI will include some sort of animation indicating that loading of a feature is progressing.  e.g. a spinning wheel or hourglass, etc.
@@ -151,7 +142,7 @@
  *
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSNumber *progressIndicator;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *progressIndicator;
 
 /**
  * @abstract App defined SoftButtons.
@@ -162,6 +153,8 @@
  *
  * @see SDLSoftButton
  */
-@property (strong) NSMutableArray *softButtons;
+@property (nullable, strong, nonatomic) NSArray<SDLSoftButton *> *softButtons;
 
 @end
+
+NS_ASSUME_NONNULL_END

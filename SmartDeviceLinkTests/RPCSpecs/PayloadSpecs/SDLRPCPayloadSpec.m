@@ -15,9 +15,9 @@
 QuickSpecBegin(SDLRPCPayloadSpec)
 
 __block SDLRPCPayload* testPayload;
-__block NSDictionary* dict = @{NAMES_response:
-                                   @{NAMES_parameters:@{},
-                                     NAMES_operation_name:NAMES_DeleteCommand}};
+__block NSDictionary* dict = @{SDLNameResponse:
+                                   @{SDLNameParameters:@{},
+                                     SDLNameOperationName:SDLNameDeleteCommand}};
 
 NSData* (^testData)() = ^NSData* {
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:0];

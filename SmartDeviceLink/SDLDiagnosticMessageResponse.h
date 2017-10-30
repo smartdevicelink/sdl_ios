@@ -7,12 +7,13 @@
 /** SDLDiagnosticMessageResponse is sent, when SDLDiagnosticMessage has been called.
  * Since<b>SmartDeviceLink 3.0</b>
  */
-@interface SDLDiagnosticMessageResponse : SDLRPCResponse {
-}
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
 
-@property (strong) NSMutableArray *messageDataResult;
+@interface SDLDiagnosticMessageResponse : SDLRPCResponse
+
+@property (strong, nonatomic) NSArray<NSNumber<SDLInt> *> *messageDataResult;
 
 @end
+
+NS_ASSUME_NONNULL_END

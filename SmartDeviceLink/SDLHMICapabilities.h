@@ -4,30 +4,31 @@
 
 #import "SDLRPCStruct.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLHMICapabilities : SDLRPCStruct
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
 /**
- Availability of build in Nav. True: Available, False: Not Available
+ Availability of built in Nav. True: Available, False: Not Available
  
  Boolean value. Optional.
  */
-@property (copy, nonatomic) NSNumber *navigation;
+@property (nullable, copy, nonatomic) NSNumber<SDLBool> *navigation;
 
 /**
- Availability of build in phone. True: Available, False: Not Available
+ Availability of built in phone. True: Available, False: Not Available
  
  Boolean value. Optional.
  */
-@property (copy, nonatomic) NSNumber *phoneCall;
+@property (nullable, copy, nonatomic) NSNumber<SDLBool> *phoneCall;
 
 /**
- Availability of build in video streaming. True: Available, False: Not Available
+ Availability of built in video streaming. True: Available, False: Not Available
 
  Boolean value. Optional.
  */
-@property (copy, nonatomic) NSNumber *videoStreaming;
+@property (nullable, copy, nonatomic) NSNumber<SDLBool> *videoStreaming;
 
 @end
+
+NS_ASSUME_NONNULL_END

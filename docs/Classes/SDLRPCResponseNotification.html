@@ -5,6 +5,8 @@
 <ul>
   <li><a href="#section-response">response</a></li>
   <li><a href="#section--initWithName:object:rpcResponse:">-initWithName:object:rpcResponse:</a></li>
+  <li><a href="#section--isResponseMemberOfClass:">-isResponseMemberOfClass:</a></li>
+  <li><a href="#section--isResponseKindOfClass:">-isResponseKindOfClass:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -34,5 +36,51 @@
   
   
   
+  
+  <h3 id="section--isResponseMemberOfClass:">
+      -isResponseMemberOfClass:
+  </h3>
+  
+  <p>Returns whether or not the containing response is equal to a class, not including subclasses.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isResponseMemberOfClass</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">Class</span><span class="p">)</span><span class="nv">aClass</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">isResponseMember</span><span class="p">(</span><span class="n">of</span> <span class="nv">aClass</span><span class="p">:</span> <span class="kt">AnyClass</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>aClass</dt>
+      <dd><p>the class you are questioning</p></dd>
+  </dl>
+  
+  <h3 id="section--isResponseKindOfClass:">
+      -isResponseKindOfClass:
+  </h3>
+  
+  <p>Returns whether or not the containing response is a kind of class, including subclasses.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isResponseKindOfClass</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">Class</span><span class="p">)</span><span class="nv">aClass</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">isResponseKind</span><span class="p">(</span><span class="n">of</span> <span class="nv">aClass</span><span class="p">:</span> <span class="kt">AnyClass</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>aClass</dt>
+      <dd><p>the class you are questioning</p></dd>
+  </dl>
   
 </section>

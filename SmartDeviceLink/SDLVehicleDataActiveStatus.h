@@ -7,40 +7,29 @@
 /**
  Vehicle Data Activity Status
  */
-@interface SDLVehicleDataActiveStatus : SDLEnum {
-}
-
-/**
- * @abstract Convert String to SDLVehicleDataActiveStatus
- * @param value NSString
- * @return SDLVehicleDataActiveStatus
- */
-+ (SDLVehicleDataActiveStatus *)valueOf:(NSString *)value;
-
-/**
- @abstract return the array that store all possible SDLVehicleDataActiveStatus values
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLVehicleDataActiveStatus SDL_SWIFT_ENUM;
 
 /**
  @abstract SDLVehicleDataActiveStatus : Inactive not confirmed
  */
-+ (SDLVehicleDataActiveStatus *)INACTIVE_NOT_CONFIRMED;
+extern SDLVehicleDataActiveStatus const SDLVehicleDataActiveStatusInactiveNotConfirmed;
+
 /**
  @abstract SDLVehicleDataActiveStatus : Inactive confirmed
  */
-+ (SDLVehicleDataActiveStatus *)INACTIVE_CONFIRMED;
+extern SDLVehicleDataActiveStatus const SDLVehicleDataActiveStatusInactiveConfirmed;
+
 /**
  @abstract SDLVehicleDataActiveStatus : Active not confirmed
  */
-+ (SDLVehicleDataActiveStatus *)ACTIVE_NOT_CONFIRMED;
+extern SDLVehicleDataActiveStatus const SDLVehicleDataActiveStatusActiveNotConfirmed;
+
 /**
  @abstract SDLVehicleDataActiveStatus : Active confirmed
  */
-+ (SDLVehicleDataActiveStatus *)ACTIVE_CONFIRMED;
+extern SDLVehicleDataActiveStatus const SDLVehicleDataActiveStatusActiveConfirmed;
+
 /**
  @abstract SDLVehicleDataActiveStatus : Fault
  */
-+ (SDLVehicleDataActiveStatus *)FAULT;
-
-@end
+extern SDLVehicleDataActiveStatus const SDLVehicleDataActiveStatusFault;

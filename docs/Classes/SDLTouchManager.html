@@ -4,11 +4,14 @@
 
 <ul>
   <li><a href="#section-touchEventDelegate">touchEventDelegate</a></li>
+  <li><a href="#section-touchEventHandler">touchEventHandler</a></li>
   <li><a href="#section-tapDistanceThreshold">tapDistanceThreshold</a></li>
   <li><a href="#section-tapTimeThreshold">tapTimeThreshold</a></li>
   <li><a href="#section-movementTimeThreshold">movementTimeThreshold</a></li>
   <li><a href="#section-touchEnabled">touchEnabled</a></li>
   <li><a href="#section--cancelPendingTouches">-cancelPendingTouches</a></li>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithHitTester:">-initWithHitTester:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -21,10 +24,35 @@
       touchEventDelegate
   </h3>
   
-  <p>Undocumented</p>
+  <p>Notified of processed touches such as pinches, pans, and taps</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLTouchManagerDelegate.html">SDLTouchManagerDelegate</a></span><span class="o">&gt;</span>
+    <span class="n">touchEventDelegate</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-touchEventHandler">
+      touchEventHandler
+  </h3>
+  
+  <p>@abstract
+    Returns all OnTouchEvent notifications as SDLTouch and SDLTouchType objects.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLTouchManager.h@T@SDLTouchEventHandler">SDLTouchEventHandler</a></span> <span class="n">touchEventHandler</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">touchEventHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLTouchManager.h@T@SDLTouchEventHandler">SDLTouchEventHandler</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -32,11 +60,12 @@
       tapDistanceThreshold
   </h3>
   
-  <p>@abstract
-    Distance between two taps on the screen, in the head unit&rsquo;s coordinate system, used
-    for registering double-tap callbacks.
-@remark
-    Default is 50 pixels.</p>
+  <p>Distance between two taps on the screen, in the head unit&rsquo;s coordinate system, used for registering double-tap callbacks.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Defaults to 50 px.
+
+</div>
 
   
   
@@ -136,5 +165,41 @@
 
   
   
+  
+  <h3 id="section--init">
+      -init
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  
+  
+  
+  <h3 id="section--initWithHitTester:">
+      -initWithHitTester:
+  </h3>
+  
+  <p>Initialize a touch manager with a hit tester if available</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithHitTester</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nullable</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">SDLHapticHitTester</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">hitTester</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>hitTester</dt>
+      <dd><p>The hit tester to be used to correlate a point with a view</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The initialized touch manager</p>
+  </div>
   
 </section>

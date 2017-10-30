@@ -14,7 +14,7 @@ describe(@"A state machine", ^{
     __block SDLState *secondState = @"Second";
     __block SDLState *thirdState = @"Third";
     
-    __block NSDictionary *allowableStateTransitions = @{
+    __block NSDictionary<SDLState *, NSArray<SDLState *> *> *allowableStateTransitions = @{
                                                         initialState: @[secondState],
                                                         secondState: @[thirdState],
                                                         thirdState: @[initialState]

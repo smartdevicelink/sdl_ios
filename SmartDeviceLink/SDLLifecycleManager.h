@@ -9,11 +9,13 @@
 #import "SDLNotificationConstants.h"
 #import <Foundation/Foundation.h>
 
+#import "SDLAudioStreamingState.h"
+#import "SDLHMILevel.h"
+#import "SDLLanguage.h"
+#import "SDLSystemContext.h"
 
 @class SDLConfiguration;
 @class SDLFileManager;
-@class SDLHMILevel;
-@class SDLLanguage;
 @class SDLLifecycleConfiguration;
 @class SDLLockScreenConfiguration;
 @class SDLLockScreenManager;
@@ -58,7 +60,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 @property (strong, nonatomic) SDLFileManager *fileManager;
 @property (strong, nonatomic) SDLPermissionManager *permissionManager;
-@property (strong, nonatomic, readonly, nullable) SDLStreamingMediaManager *streamManager;
+@property (strong, nonatomic, nullable) SDLStreamingMediaManager *streamManager;
 @property (strong, nonatomic) SDLLockScreenManager *lockScreenManager;
 
 @property (strong, nonatomic, readonly) SDLNotificationDispatcher *notificationDispatcher;
@@ -73,7 +75,9 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 @property (assign, nonatomic) UInt16 lastCorrelationId;
 @property (copy, nonatomic, readonly) SDLLifecycleState *lifecycleState;
-@property (copy, nonatomic, nullable) SDLHMILevel *hmiLevel;
+@property (copy, nonatomic, nullable) SDLHMILevel hmiLevel;
+@property (copy, nonatomic, nullable) SDLAudioStreamingState audioStreamingState;
+@property (copy, nonatomic, nullable) SDLSystemContext systemContext;
 @property (strong, nonatomic, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
 
 

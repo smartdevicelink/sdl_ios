@@ -2,7 +2,7 @@
 //  SDLSendHapticDataSpec.m
 //  SmartDeviceLink-iOS
 //
-//  Created by Nicole on 8/2/17.
+//  Created by Nicole on 8/4/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
@@ -12,8 +12,9 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLNames.h"
-#import "SDLSendHapticData.h"
 #import "SDLHapticRect.h"
+#import "SDLRectangle.h"
+#import "SDLSendHapticData.h"
 
 QuickSpecBegin(SDLSendHapticDataSpec)
 
@@ -21,14 +22,7 @@ describe(@"Initialization Tests", ^ {
     __block SDLHapticRect *testStruct = nil;
 
     beforeEach(^{
-        NSMutableDictionary *dict = [@{NAMES_id:@2,
-                                       NAMES_hapticRectData: @{
-                                               NAMES_x:@20,
-                                               NAMES_y:@200,
-                                               NAMES_width:@2000,
-                                               NAMES_height:@3000
-                                               }} mutableCopy];
-         testStruct = [[SDLHapticRect alloc] initWithDictionary:dict];
+        testStruct = [[SDLHapticRect alloc] initWithId:123 rect:[[SDLRectangle alloc] initWithX:23.1 y:45.6 width:69.0 height:69]];
     });
 
     context(@"Getter/Setter Tests", ^ {
@@ -42,29 +36,27 @@ describe(@"Initialization Tests", ^ {
 
     context(@"Init tests", ^{
         it(@"Should get correctly when initialized with a dictionary", ^ {
-            NSMutableDictionary* dict = [@{NAMES_request:
-                                               @{NAMES_parameters:
-                                                     @{NAMES_hapticRectData:@[testStruct]},
-                                                 NAMES_operation_name:NAMES_SendHapticData}} mutableCopy];
+            NSMutableDictionary* dict = [@{SDLNameRequest:
+                                               @{SDLNameParameters:
+                                                     @{SDLNameHapticRectData:@[testStruct]},
+                                                 SDLNameOperationName:SDLNameSendHapticData}} mutableCopy];
             SDLSendHapticData *testRequest = [[SDLSendHapticData alloc] initWithDictionary:dict];
 
             expect(testRequest.hapticRectData).to(equal(@[testStruct]));
         });
 
         it(@"Should initialize correctly with initWithType:", ^{
-            SDLSendHapticData *testRequest = [[SDLSendHapticData alloc] initWithHapticRectData:[NSMutableArray arrayWithArray:@[testStruct]]];
+            SDLSendHapticData *testRequest = [[SDLSendHapticData alloc] initWithHapticRectData:@[testStruct]];
 
             expect(testRequest.hapticRectData).to(equal(@[testStruct]));
         });
 
         it(@"Should return nil if not set", ^ {
             SDLSendHapticData *testRequest = [[SDLSendHapticData alloc] init];
-            
+
             expect(testRequest.hapticRectData).to(beNil());
         });
     });
 });
-
-
 
 QuickSpecEnd

@@ -4,12 +4,19 @@
 
 #import <Foundation/Foundation.h>
 
+#import "NSMutableDictionary+Store.h"
+#import "SDLNames.h"
+#import "NSNumber+NumberType.h"
 
-@interface SDLFunctionID : NSObject {
-    NSDictionary *functionIDs;
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (NSString *)getFunctionName:(int)functionID;
-- (NSNumber *)getFunctionID:(NSString *)functionName;
+@interface SDLFunctionID : NSObject
+
++ (instancetype)sharedInstance;
+
+- (nullable SDLName)functionNameForId:(int)functionID;
+- (nullable NSNumber<SDLInt> *)functionIdForName:(SDLName)functionName;
 
 @end
+
+NS_ASSUME_NONNULL_END

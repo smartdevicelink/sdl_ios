@@ -9,11 +9,10 @@
  *
  * @since SDL 3.0
  */
-@interface SDLDiagnosticMessage : SDLRPCRequest {
-}
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLDiagnosticMessage : SDLRPCRequest
 
 - (instancetype)initWithTargetId:(UInt16)targetId length:(UInt16)length data:(NSArray<NSNumber<SDLUInt> *> *)data;
 
@@ -22,20 +21,22 @@
  *
  * Required, Integer, 0 - 65535
  */
-@property (strong) NSNumber *targetID;
+@property (strong, nonatomic) NSNumber<SDLInt> *targetID;
 
 /**
  * Length of message (in bytes)
  *
  * Required, Integer, 65535
  */
-@property (strong) NSNumber *messageLength;
+@property (strong, nonatomic) NSNumber<SDLInt> *messageLength;
 
 /**
  *  Array of bytes comprising CAN message.
  *
  * Required, Array of NSNumber (Integers), Array size 1 - 65535, Integer Size 0 - 255
  */
-@property (strong) NSMutableArray *messageData;
+@property (strong, nonatomic) NSArray<NSNumber<SDLInt> *> *messageData;
 
 @end
+
+NS_ASSUME_NONNULL_END

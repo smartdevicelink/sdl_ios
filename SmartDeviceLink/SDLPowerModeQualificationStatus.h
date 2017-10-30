@@ -4,15 +4,9 @@
 
 #import "SDLEnum.h"
 
-@interface SDLPowerModeQualificationStatus : SDLEnum {
-}
+typedef SDLEnum SDLPowerModeQualificationStatus SDL_SWIFT_ENUM;
 
-+ (SDLPowerModeQualificationStatus *)valueOf:(NSString *)value;
-+ (NSArray *)values;
-
-+ (SDLPowerModeQualificationStatus *)POWER_MODE_UNDEFINED;
-+ (SDLPowerModeQualificationStatus *)POWER_MODE_EVALUATION_IN_PROGRESS;
-+ (SDLPowerModeQualificationStatus *)NOT_DEFINED;
-+ (SDLPowerModeQualificationStatus *)POWER_MODE_OK;
-
-@end
+extern SDLPowerModeQualificationStatus const SDLPowerModeQualificationStatusUndefined;
+extern SDLPowerModeQualificationStatus const SDLPowerModeQualificationStatusEvaluationInProgress;
+extern SDLPowerModeQualificationStatus const SDLPowerModeQualificationStatusNotDefined;
+extern SDLPowerModeQualificationStatus const SDLPowerModeQualificationStatusOk;

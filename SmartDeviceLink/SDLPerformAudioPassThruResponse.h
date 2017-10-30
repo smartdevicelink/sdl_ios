@@ -9,17 +9,11 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLPerformAudioPassThruResponse : SDLRPCResponse {
-}
 
-/**
- * @abstract Constructs a new SDLPerformAudioPassThruResponse object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLPerformAudioPassThruResponse object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLPerformAudioPassThruResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

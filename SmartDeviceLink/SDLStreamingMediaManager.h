@@ -9,54 +9,21 @@
 #import <Foundation/Foundation.h>
 #import <VideoToolbox/VideoToolbox.h>
 
-#import "SDLProtocolListener.h"
+#import "SDLStreamingMediaManagerConstants.h"
 
 @class SDLAbstractProtocol;
-@class SDLDisplayCapabilities;
+@class SDLStreamingMediaConfiguration;
 @class SDLTouchManager;
-@class SDLVideoStreamingCodec;
-@class SDLVideoStreamingProtocol;
+@class SDLVideoStreamingFormat;
 
+@protocol SDLFocusableItemLocatorType;
+@protocol SDLConnectionManagerType;
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, SDLStreamingVideoError) {
-    SDLStreamingVideoErrorHeadUnitNACK = 0,
-    SDLSTreamingVideoErrorInvalidOperatingSystemVersion __deprecated_enum_msg("Use SDLStreamingVideoErrorInvalidOperatingSystemVersion instead") = 1,
-    SDLStreamingVideoErrorInvalidOperatingSystemVersion = 1,
-    SDLStreamingVideoErrorConfigurationCompressionSessionCreationFailure = 2,
-    SDLStreamingVideoErrorConfigurationAllocationFailure = 3,
-    SDLStreamingVideoErrorConfigurationCompressionSessionSetPropertyFailure = 4
-};
-
-typedef NS_ENUM(NSInteger, SDLEncryptionFlag) {
-    SDLEncryptionFlagNone,
-    SDLEncryptionFlagAuthenticateOnly,
-    SDLEncryptionFlagAuthenticateAndEncrypt
-};
-
-typedef NS_ENUM(NSInteger, SDLStreamingAudioError) {
-    SDLStreamingAudioErrorHeadUnitNACK
-};
-
-extern NSString *const SDLErrorDomainStreamingMediaVideo;
-extern NSString *const SDLErrorDomainStreamingMediaAudio;
-
-extern CGSize const SDLDefaultScreenSize;
-
-typedef void (^SDLStreamingStartBlock)(BOOL success, NSError *__nullable error);
-typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, NSError *__nullable error);
-
-
 #pragma mark - Interface
 
-@interface SDLStreamingMediaManager : NSObject <SDLProtocolListener>
-
-@property (assign, nonatomic, readonly) BOOL videoSessionConnected;
-@property (assign, nonatomic, readonly) BOOL audioSessionConnected;
-
-@property (assign, nonatomic, readonly) BOOL videoSessionEncrypted;
-@property (assign, nonatomic, readonly) BOOL audioSessionEncrypted;
+@interface SDLStreamingMediaManager : NSObject
 
 /**
  *  Touch Manager responsible for providing touch event notifications.
@@ -64,28 +31,56 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
 @property (nonatomic, strong, readonly) SDLTouchManager *touchManager;
 
 /**
- *  The settings used in a VTCompressionSessionRef encoder. These will be verified when the video stream is started. Acceptable properties for this are located in VTCompressionProperties. If set to nil, the defaultVideoEncoderSettings will be used.
- *
- *  @warning Video streaming must not be connected to update the encoder properties. If it is running, issue a stopVideoSession before updating.
+ A haptic interface that can be updated to reparse views within the window you've provided. Send a `SDLDidUpdateProjectionView` notification or call the `updateInterfaceLayout` method to reparse. The "output" of this haptic interface occurs in the `touchManager` property where it will call the delegate.
  */
-@property (strong, nonatomic, null_resettable) NSDictionary *videoEncoderSettings;
+@property (nonatomic, strong, readonly, nullable) id<SDLFocusableItemLocatorType> focusableItemManager;
 
 /**
- *  Display capabilties that will set the screenSize property. If set to nil, the SDLDefaultScreenSize will be used.
+ *  Whether or not video streaming is supported
  *
- *  @warning Video streaming must not be connected to update the encoder properties. If it is running, issue a stopVideoSession before updating.
+ *  @see SDLRegisterAppInterface SDLDisplayCapabilities
  */
-@property (strong, nonatomic, null_resettable) SDLDisplayCapabilities *displayCapabilties;
+@property (assign, nonatomic, readonly, getter=isStreamingSupported) BOOL streamingSupported;
 
 /**
- *  Provides default video encoder settings used.
+ *  Whether or not the video session is connected.
  */
-@property (strong, nonatomic, readonly) NSDictionary *defaultVideoEncoderSettings;
+@property (assign, nonatomic, readonly, getter=isVideoConnected) BOOL videoConnected;
+
+/**
+ *  Whether or not the video session is encrypted. This may be different than the requestedEncryptionType.
+ */
+@property (assign, nonatomic, readonly, getter=isVideoEncrypted) BOOL videoEncrypted;
+
+/**
+ *  Whether or not the audio session is connected.
+ */
+@property (assign, nonatomic, readonly, getter=isAudioConnected) BOOL audioConnected;
+
+/**
+ *  Whether or not the audio session is encrypted. This may be different than the requestedEncryptionType.
+ */
+@property (assign, nonatomic, readonly, getter=isAudioEncrypted) BOOL audioEncrypted;
+
+/**
+ *  Whether or not the video stream is paused due to either the application being backgrounded, the HMI state being either NONE or BACKGROUND, or the video stream not being ready.
+ */
+@property (assign, nonatomic, readonly, getter=isVideoStreamingPaused) BOOL videoStreamingPaused;
 
 /**
  *  This is the current screen size of a connected display. This will be the size the video encoder uses to encode the raw image data.
  */
 @property (assign, nonatomic, readonly) CGSize screenSize;
+
+/**
+ This is the agreed upon format of video encoder that is in use, or nil if not currently connected.
+ */
+@property (strong, nonatomic, readonly, nullable) SDLVideoStreamingFormat *videoFormat;
+
+/**
+ A list of all supported video formats by this manager
+ */
+@property (strong, nonatomic, readonly) NSArray<SDLVideoStreamingFormat *> *supportedFormats;
 
 /**
  *  The pixel buffer pool reference returned back from an active VTCompressionSessionRef encoder.
@@ -95,53 +90,33 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
  */
 @property (assign, nonatomic, readonly, nullable) CVPixelBufferPoolRef pixelBufferPool;
 
-
-- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol __deprecated_msg(("Please use initWithProtocol:displayCapabilities: instead"));
-
-- (instancetype)initWithProtocol:(SDLAbstractProtocol *)protocol displayCapabilities:(SDLDisplayCapabilities *)displayCapabilities;
-
 /**
- *  This method will attempt to start a streaming video session. It will set up iOS's video encoder, and call out to the head unit asking if it will start a video session. This will not use encryption.
+ *  The requested encryption type when a session attempts to connect. This setting applies to both video and audio sessions.
  *
- *  @warning If this method is called on an 8.0 device, it will assert (in debug), or return a failure immediately to your block (in release).
- *
- *  @param startBlock A block that will be called with the result of attempting to start a video session
+ *  DEFAULT: SDLStreamingEncryptionFlagAuthenticateAndEncrypt
  */
-- (void)startVideoSessionWithStartBlock:(SDLStreamingStartBlock)startBlock;
+@property (assign, nonatomic) SDLStreamingEncryptionFlag requestedEncryptionType;
+
+- (instancetype)init NS_UNAVAILABLE;
 
 /**
- This method will attempt to start a streaming video session. It will set up iOS's video encoder, and call out to the head unit asking if it will start a video session. This will not use encryption. To get proper values for height and width. If the remote system does not support GetSystemCapabilities, then call `startVideoSessionWithStartBlock:` instead.
+ Create a new streaming media manager for navigation and VPM apps with a specified configuration
 
- @warning If this method is called on an 8.0 device, it will assert (in debug), or return a failure immediately to your block (in release).
-
- @param height The height requested to be used
- @param width The width requested to be used
- @param startBlock A block that will be called with the result of attempting to start a video session
+ @param connectionManager The pass-through for RPCs
+ @param configuration The configuration of this streaming media session
+ @return A new streaming manager
  */
-- (void)startVideoSessionWithHeight:(int32_t)height width:(int32_t)width startBlock:(SDLStreamingStartBlock)startBlock;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
 
 /**
- *  Start a video session either with with no encryption (the default), with authentication but no encryption (this will attempt a TLS authentication with the other side, but will not physically encrypt the data after that), or authentication and encryption, which will encrypt all video data being sent.
- *
- *  @param encryptionFlag Whether and how much security to apply to the video session.
- *  @param startBlock     A block that will be called with the result of attempting to start a video session
+ *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
  */
-- (void)startVideoSessionWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingEncryptionStartBlock)startBlock;
+- (void)startWithProtocol:(SDLAbstractProtocol *)protocol;
 
 /**
- Start a video session either with with no encryption (the default), with authentication but no encryption (this will attempt a TLS authentication with the other side, but will not physically encrypt the data after that), or authentication and encryption, which will encrypt all video data being sent. To get proper values for height, width, protocol, and codec, call GetSystemCapabilities. If the remote system does not support GetSystemCapabilities, then call `startVideoSessionWithStartBlock:` instead.
-
- @param encryptionFlag Whether and how much security to apply to the video session.
- @param height The height requested to be used
- @param width The width requested to be used
- @param startBlock A block that will be called with the result of attempting to start a video session
+ *  Stop the manager. This method is used internally.
  */
-- (void)startVideoSessionWithTLS:(SDLEncryptionFlag)encryptionFlag height:(int32_t)height width:(int32_t)width startBlock:(SDLStreamingEncryptionStartBlock)startBlock;
-
-/**
- *  This method will stop a running video session if there is one running.
- */
-- (void)stopVideoSession;
+- (void)stop;
 
 /**
  *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.
@@ -153,28 +128,24 @@ typedef void (^SDLStreamingEncryptionStartBlock)(BOOL success, BOOL encryption, 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer;
 
 /**
- *  This method will attempt to start an audio session
+ *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.
  *
- *  @param startBlock A block that will be called with the result of attempting to start an audio session
+ *  @param imageBuffer A CVImageBufferRef to be encoded by Video Toolbox
+ *  @param presentationTimestamp A presentation timestamp for the frame, or kCMTimeInvalid if timestamp is unknown. If it's valid, it must be greater than the previous one.
+ *
+ *  @return Whether or not the data was successfully encoded and sent.
  */
-- (void)startAudioSessionWithStartBlock:(SDLStreamingStartBlock)startBlock;
-
-// TODO: Documentation
-- (void)startAudioSessionWithTLS:(SDLEncryptionFlag)encryptionFlag startBlock:(SDLStreamingEncryptionStartBlock)startBlock;
-
-/**
- *  This method will stop a running audio session if there is one running.
- */
-- (void)stopAudioSession;
+- (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp;
 
 /**
  *  This method receives PCM audio data and will attempt to send that data across to the head unit for immediate playback
  *
- *  @param pcmAudioData The data in PCM audio format, to be played
+ *  @param audioData The data in PCM audio format, to be played
  *
  *  @return Whether or not the data was successfully sent.
  */
-- (BOOL)sendAudioData:(NSData *)pcmAudioData;
+- (BOOL)sendAudioData:(NSData *)audioData;
+
 
 @end
 

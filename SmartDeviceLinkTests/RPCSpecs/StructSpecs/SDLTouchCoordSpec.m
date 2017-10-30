@@ -25,8 +25,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_x:@67,
-                                       NAMES_y:@362} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameX:@67,
+                                                       SDLNameY:@362} mutableCopy];
         SDLTouchCoord* testStruct = [[SDLTouchCoord alloc] initWithDictionary:dict];
         
         expect(testStruct.x).to(equal(@67));

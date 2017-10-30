@@ -4,44 +4,35 @@
 
 #import "SDLOnSyncPData.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnSyncPData
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnSyncPData]) {
+    if (self = [super initWithName:SDLNameOnSyncPData]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (void)setURL:(nullable NSString *)URL {
+    [parameters sdl_setObject:URL forName:SDLNameURLUppercase];
 }
 
-- (void)setURL:(NSString *)URL {
-    if (URL != nil) {
-        [parameters setObject:URL forKey:NAMES_URL];
-    } else {
-        [parameters removeObjectForKey:NAMES_URL];
-    }
+- (nullable NSString *)URL {
+    return [parameters sdl_objectForName:SDLNameURLUppercase];
 }
 
-- (NSString *)URL {
-    return [parameters objectForKey:NAMES_URL];
+- (void)setTimeout:(nullable NSNumber<SDLInt> *)Timeout {
+    [parameters sdl_setObject:Timeout forName:SDLNameTimeoutCapitalized];
 }
 
-- (void)setTimeout:(NSNumber *)Timeout {
-    if (Timeout != nil) {
-        [parameters setObject:Timeout forKey:NAMES_Timeout];
-    } else {
-        [parameters removeObjectForKey:NAMES_Timeout];
-    }
-}
-
-- (NSNumber *)Timeout {
-    return [parameters objectForKey:NAMES_Timeout];
+- (nullable NSNumber<SDLInt> *)Timeout {
+    return [parameters sdl_objectForName:SDLNameTimeoutCapitalized];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

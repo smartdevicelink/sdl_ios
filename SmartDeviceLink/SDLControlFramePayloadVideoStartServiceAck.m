@@ -10,8 +10,6 @@
 
 #import "bson_object.h"
 #import "SDLControlFramePayloadConstants.h"
-#import "SDLVideoStreamingCodec.h"
-#import "SDLVideoStreamingProtocol.h"
 
 
 @interface SDLControlFramePayloadVideoStartServiceAck ()
@@ -19,14 +17,14 @@
 @property (assign, nonatomic, readwrite) int64_t mtu;
 @property (assign, nonatomic, readwrite) int32_t height;
 @property (assign, nonatomic, readwrite) int32_t width;
-@property (copy, nonatomic, readwrite) SDLVideoStreamingProtocol *videoProtocol;
-@property (copy, nonatomic, readwrite) SDLVideoStreamingCodec *videoCodec;
+@property (copy, nonatomic, readwrite) SDLVideoStreamingProtocol videoProtocol;
+@property (copy, nonatomic, readwrite) SDLVideoStreamingCodec videoCodec;
 
 @end
 
 @implementation SDLControlFramePayloadVideoStartServiceAck
 
-- (instancetype)initWithMTU:(int64_t)mtu height:(int32_t)height width:(int32_t)width protocol:(SDLVideoStreamingProtocol *)protocol codec:(SDLVideoStreamingCodec *)codec {
+- (instancetype)initWithMTU:(int64_t)mtu height:(int32_t)height width:(int32_t)width protocol:(nullable SDLVideoStreamingProtocol)protocol codec:(nullable SDLVideoStreamingCodec)codec {
     self = [super init];
     if (!self) return nil;
 
@@ -79,11 +77,11 @@
     }
 
     if (self.videoProtocol != nil) {
-        bson_object_put_string(&payloadObject, SDLControlFrameVideoProtocolKey, (char *)self.videoProtocol.value.UTF8String);
+        bson_object_put_string(&payloadObject, SDLControlFrameVideoProtocolKey, (char *)self.videoProtocol.UTF8String);
     }
 
     if (self.videoCodec != nil) {
-        bson_object_put_string(&payloadObject, SDLControlFrameVideoCodecKey, (char *)self.videoCodec.value.UTF8String);
+        bson_object_put_string(&payloadObject, SDLControlFrameVideoCodecKey, (char *)self.videoCodec.UTF8String);
     }
 
     BytePtr bsonData = bson_object_to_bytes(&payloadObject);
@@ -103,12 +101,12 @@
 
     char *utf8String = bson_object_get_string(&payloadObject, SDLControlFrameVideoProtocolKey);
     if (utf8String != NULL) {
-        self.videoProtocol = [SDLVideoStreamingProtocol valueOf:[NSString stringWithUTF8String:utf8String]];
+        self.videoProtocol = [NSString stringWithUTF8String:utf8String];
     }
 
     utf8String = bson_object_get_string(&payloadObject, SDLControlFrameVideoCodecKey);
     if (utf8String != NULL) {
-        self.videoCodec = [SDLVideoStreamingCodec valueOf:[NSString stringWithUTF8String:utf8String]];
+        self.videoCodec = [NSString stringWithUTF8String:utf8String];
     }
 
     bson_object_deinitialize(&payloadObject);

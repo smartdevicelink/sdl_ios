@@ -9,7 +9,7 @@
 #import "SDLFileManager.h"
 
 #import "SDLConnectionManagerType.h"
-#import "SDLDebugTool.h"
+#import "SDLLogMacros.h"
 #import "SDLDeleteFileOperation.h"
 #import "SDLError.h"
 #import "SDLFile.h"
@@ -45,11 +45,13 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 // Local state
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
+@property (strong, nonatomic) NSMutableDictionary<SDLFileName *, NSOperation *> *uploadsInProgress;
 @property (strong, nonatomic) SDLStateMachine *stateMachine;
 @property (copy, nonatomic, nullable) SDLFileManagerStartupCompletionHandler startupCompletionHandler;
 
 @end
 
+#pragma mark Constants
 
 @implementation SDLFileManager
 
@@ -68,6 +70,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     _transactionQueue = [[NSOperationQueue alloc] init];
     _transactionQueue.name = @"SDLFileManager Transaction Queue";
     _transactionQueue.maxConcurrentOperationCount = 1;
+    _uploadsInProgress = [[NSMutableDictionary alloc] init];
 
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLFileManagerStateShutdown states:[self.class sdl_stateTransitionDictionary]];
 
@@ -122,11 +125,11 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
     return @{
-        SDLFileManagerStateShutdown: @[SDLFileManagerStateFetchingInitialList],
-        SDLFileManagerStateFetchingInitialList: @[SDLFileManagerStateShutdown, SDLFileManagerStateReady, SDLFileManagerStateStartupError],
-        SDLFileManagerStateReady: @[SDLFileManagerStateShutdown],
-        SDLFileManagerStateStartupError: @[SDLFileManagerStateShutdown]
-    };
+             SDLFileManagerStateShutdown: @[SDLFileManagerStateFetchingInitialList],
+             SDLFileManagerStateFetchingInitialList: @[SDLFileManagerStateShutdown, SDLFileManagerStateReady, SDLFileManagerStateStartupError],
+             SDLFileManagerStateReady: @[SDLFileManagerStateShutdown],
+             SDLFileManagerStateStartupError: @[SDLFileManagerStateShutdown]
+             };
 }
 
 - (void)didEnterStateStartupError {
@@ -171,19 +174,18 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 - (void)sdl_listRemoteFilesWithCompletionHandler:(SDLFileManagerListFilesCompletionHandler)handler {
     __weak typeof(self) weakSelf = self;
-    SDLListFilesOperation *listOperation = [[SDLListFilesOperation alloc] initWithConnectionManager:self.connectionManager
-                                                                                  completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSArray<NSString *> *_Nonnull fileNames, NSError *_Nullable error) {
-                                                                                      if (error != nil || !success) {
-                                                                                          handler(success, bytesAvailable, fileNames, error);
-                                                                                          BLOCK_RETURN;
-                                                                                      }
+    SDLListFilesOperation *listOperation = [[SDLListFilesOperation alloc] initWithConnectionManager:self.connectionManager completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSArray<NSString *> *_Nonnull fileNames, NSError *_Nullable error) {
+        if (error != nil || !success) {
+            handler(success, bytesAvailable, fileNames, error);
+            BLOCK_RETURN;
+        }
 
-                                                                                      // If there was no error, set our properties and call back to the startup completion handler
-                                                                                      [weakSelf.mutableRemoteFileNames addObjectsFromArray:fileNames];
-                                                                                      weakSelf.bytesAvailable = bytesAvailable;
+        // If there was no error, set our properties and call back to the startup completion handler
+        [weakSelf.mutableRemoteFileNames addObjectsFromArray:fileNames];
+        weakSelf.bytesAvailable = bytesAvailable;
 
-                                                                                      handler(success, bytesAvailable, fileNames, error);
-                                                                                  }];
+        handler(success, bytesAvailable, fileNames, error);
+    }];
 
     [self.transactionQueue addOperation:listOperation];
 }
@@ -194,30 +196,143 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 - (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)handler {
     if ((![self.remoteFileNames containsObject:name]) && (handler != nil)) {
         handler(NO, self.bytesAvailable, [NSError sdl_fileManager_noKnownFileError]);
+        return;
     }
 
     __weak typeof(self) weakSelf = self;
-    SDLDeleteFileOperation *deleteOperation = [[SDLDeleteFileOperation alloc] initWithFileName:name
-                                                                             connectionManager:self.connectionManager
-                                                                             completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
-                                                                                 __strong typeof(weakSelf) strongSelf = weakSelf;
+    SDLDeleteFileOperation *deleteOperation = [[SDLDeleteFileOperation alloc] initWithFileName:name connectionManager:self.connectionManager completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
 
-                                                                                 // Mutate self based on the changes
-                                                                                 strongSelf.bytesAvailable = bytesAvailable;
-                                                                                 if (success) {
-                                                                                     [strongSelf.mutableRemoteFileNames removeObject:name];
-                                                                                 }
+        // Mutate self based on the changes
+        strongSelf.bytesAvailable = bytesAvailable;
+        if (success) {
+            [strongSelf.mutableRemoteFileNames removeObject:name];
+        }
 
-                                                                                 if (handler != nil) {
-                                                                                     handler(YES, self.bytesAvailable, nil);
-                                                                                 }
-                                                                             }];
+        if (handler != nil) {
+            handler(success, self.bytesAvailable, error);
+        }
+    }];
 
     [self.transactionQueue addOperation:deleteOperation];
 }
 
+- (void)deleteRemoteFilesWithNames:(NSArray<SDLFileName *> *)names completionHandler:(nullable SDLFileManagerMultiDeleteCompletionHandler)completionHandler {
+    if (names.count == 0) {
+        @throw [NSException sdl_missingFilesException];
+    }
+
+    NSMutableDictionary *failedDeletes = [[NSMutableDictionary alloc] init];
+
+    dispatch_group_t deleteFilesTask = dispatch_group_create();
+    dispatch_group_enter(deleteFilesTask);
+    for(NSString *name in names) {
+        dispatch_group_enter(deleteFilesTask);
+        [self deleteRemoteFileWithName:name completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+            if(!success) {
+                failedDeletes[name] = error;
+            }
+            dispatch_group_leave(deleteFilesTask);
+        }];
+    }
+    dispatch_group_leave(deleteFilesTask);
+
+    // Wait for all files to be deleted
+    dispatch_group_notify(deleteFilesTask, dispatch_get_main_queue(), ^{
+        if (completionHandler == nil) { return; }
+        if (failedDeletes.count > 0) {
+            return completionHandler([NSError sdl_fileManager_unableToDelete_ErrorWithUserInfo:failedDeletes]);
+        }
+        return completionHandler(nil);
+    });
+}
 
 #pragma mark - Uploading
+
+- (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
+    [self uploadFiles:files progressHandler:nil completionHandler:completionHandler];
+}
+
+- (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
+    if (files.count == 0) {
+        @throw [NSException sdl_missingFilesException];
+    }
+
+    NSMutableDictionary *failedUploads = [[NSMutableDictionary alloc] init];
+    float totalBytesToUpload = (progressHandler == nil ? 0.0 : [self sdl_totalBytesToUpload:files]);
+    __block float totalBytesUploaded = 0.0;
+
+    dispatch_group_t uploadFilesTask = dispatch_group_create();
+    dispatch_group_enter(uploadFilesTask);
+    for(SDLFile *file in files) {
+        dispatch_group_enter(uploadFilesTask);
+
+        [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+            if(!success) {
+                failedUploads[file.name] = error;
+            }
+
+            // Send an update for each file sent to the remote
+            if (progressHandler != nil) {
+                totalBytesUploaded += file.fileSize;
+                float uploadPercentage = [self sdl_uploadPercentage:totalBytesToUpload uploadedBytes:totalBytesUploaded];
+                BOOL continueWithRemainingUploads = progressHandler(file.name, uploadPercentage, error);
+                if (!continueWithRemainingUploads) {
+                    // Cancel any remaining files waiting to be uploaded
+                    for(SDLFile *file in files) {
+                        NSOperation *fileUploadOperation = self.uploadsInProgress[file.name];
+                        if (fileUploadOperation) {
+                            [fileUploadOperation cancel];
+                        }
+                    }
+
+                    dispatch_group_leave(uploadFilesTask);
+                    BLOCK_RETURN;
+                }
+            }
+            dispatch_group_leave(uploadFilesTask);
+        }];
+    }
+    dispatch_group_leave(uploadFilesTask);
+
+    // Wait for all files to be uploaded
+    dispatch_group_notify(uploadFilesTask, dispatch_get_main_queue(), ^{
+        if (completionHandler == nil) { return; }
+        if (failedUploads.count > 0) {
+            return completionHandler([NSError sdl_fileManager_unableToUpload_ErrorWithUserInfo:failedUploads]);
+        }
+        return completionHandler(nil);
+    });
+}
+
+/**
+ *  Computes the total amount of bytes to be uploaded to the remote. This total is computed by summing up the file size of all files to be uploaded to the remote
+ *
+ *  @param files All the files being uploaded to the remote
+ *  @return The total byte count
+ */
+- (float)sdl_totalBytesToUpload:(NSArray<SDLFile *> *)files {
+    float totalBytes = 0.0;
+    for(SDLFile *file in files) {
+        totalBytes += file.fileSize;
+    }
+
+    return totalBytes;
+}
+
+/**
+ * Computes the percentage of files uploaded to the remote. This percentage is a decimal number between 0.0 - 1.0. It is calculated by dividing the total number of bytes in files successfully or unsuccessfully uploaded by the total number of bytes in all files to be uploaded.
+ *
+ *  @param totalBytes      The total number of bytes in all files to be uploaded
+ *  @param uploadedBytes   The total number of bytes in files successfully or unsuccessfully uploaded
+ *  @return                The upload percentage
+ */
+- (float)sdl_uploadPercentage:(float)totalBytes uploadedBytes:(float)uploadedBytes {
+    if (totalBytes == 0 || uploadedBytes == 0) {
+        return 0.0;
+    }
+    return uploadedBytes / totalBytes;
+}
 
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)handler {
     if (file == nil) {
@@ -253,23 +368,25 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     __block SDLFileManagerUploadCompletionHandler uploadCompletion = [handler copy];
 
     __weak typeof(self) weakSelf = self;
-    SDLFileWrapper *fileWrapper = [SDLFileWrapper wrapperWithFile:file
-                                                completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
-                                                    [weakSelf.class sdl_deleteTemporaryFile:file.fileURL];
+    SDLFileWrapper *fileWrapper = [SDLFileWrapper wrapperWithFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *_Nullable error) {
+        if (self.uploadsInProgress[file.name]) {
+            [self.uploadsInProgress removeObjectForKey:file.name];
+        }
 
-                                                    if (bytesAvailable != 0) {
-                                                        weakSelf.bytesAvailable = bytesAvailable;
-                                                    }
-                                                    if (success) {
-                                                        [weakSelf.mutableRemoteFileNames addObject:fileName];
-                                                    }
-                                                    if (uploadCompletion != nil) {
-                                                        uploadCompletion(success, bytesAvailable, error);
-                                                    }
-                                                }];
+        if (bytesAvailable != 0) {
+            weakSelf.bytesAvailable = bytesAvailable;
+        }
+        if (success) {
+            [weakSelf.mutableRemoteFileNames addObject:fileName];
+        }
+        if (uploadCompletion != nil) {
+            uploadCompletion(success, bytesAvailable, error);
+        }
+    }];
 
     SDLUploadFileOperation *uploadOperation = [[SDLUploadFileOperation alloc] initWithFile:fileWrapper connectionManager:self.connectionManager];
 
+    self.uploadsInProgress[file.name] = uploadOperation;
     [self.transactionQueue addOperation:uploadOperation];
 }
 
@@ -296,18 +413,10 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     }
 
     if (error != nil) {
-        NSString *debugString = [NSString stringWithFormat:@"[Error clearing temporary file directory] %@", error];
-        [SDLDebugTool logInfo:debugString];
+        SDLLogW(@"[Error clearing temporary file directory] %@", error);
     }
 }
 
-+ (void)sdl_deleteTemporaryFile:(NSURL *)fileURL {
-    NSError *error = nil;
-    if (![[NSFileManager defaultManager] removeItemAtURL:fileURL error:&error]) {
-        NSString *debugString = [NSString stringWithFormat:@"[Error clearing temporary file directory] %@ (%@)", error, fileURL];
-        [SDLDebugTool logInfo:debugString];
-    }
-}
 
 @end
 

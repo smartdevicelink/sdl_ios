@@ -9,18 +9,11 @@
  *
  * Since SmartDeviceLink 1.0
  */
-@interface SDLSpeakResponse : SDLRPCResponse {
-}
 
-/**
- * @abstract Constructs a new SDLSpeakResponse object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLSpeakResponse object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLSpeakResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

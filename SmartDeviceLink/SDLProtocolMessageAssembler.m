@@ -3,9 +3,17 @@
 
 #import "SDLProtocolMessageAssembler.h"
 
-#import "SDLDebugTool.h"
+#import "SDLLogMacros.h"
 #import "SDLProtocolHeader.h"
 #import "SDLProtocolMessage.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLProtocolMessageAssembler ()
+
+@property (nullable, strong) NSMutableDictionary<NSNumber *, NSData *> *parts;
+
+@end
 
 @implementation SDLProtocolMessageAssembler
 
@@ -19,7 +27,7 @@
 - (void)handleMessage:(SDLProtocolMessage *)message withCompletionHandler:(SDLMessageAssemblyCompletionHandler)completionHandler {
     // Validate input
     if (message.header.sessionID != self.sessionID) {
-        [SDLDebugTool logInfo:@"Error: message part sent to wrong assembler."];
+        SDLLogE(@"Message part sent to the wrong assembler. This session id: %d, message session id: %d", self.sessionID, message.header.sessionID);
         return;
     }
 
@@ -31,12 +39,12 @@
     // Determine which frame it is and save it.
     // Note: frames are numbered 1,2,3, ..., 0
     // Always 0 for last frame.
-    if (message.header.frameType == SDLFrameType_First) {
+    if (message.header.frameType == SDLFrameTypeFirst) {
         // If it's the first-frame, extract the meta-data
         self.expectedBytes = NSSwapBigIntToHost(((UInt32 *)message.payload.bytes)[0]);
         self.frameCount = NSSwapBigIntToHost(((UInt32 *)message.payload.bytes)[1]);
         self.parts[@"firstframe"] = message.payload;
-    } else if (message.header.frameType == SDLFrameType_Consecutive) {
+    } else if (message.header.frameType == SDLFrameTypeConsecutive) {
         // Save the frame w/ frame# as the key
         NSInteger frameNumber = message.header.frameData;
         NSNumber *frameNumberObj = @(frameNumber);
@@ -52,8 +60,8 @@
 
         // Create the header
         SDLProtocolHeader *header = message.header.copy;
-        header.frameType = SDLFrameType_Single;
-        header.frameData = SDLFrameData_SingleFrame;
+        header.frameType = SDLFrameTypeSingle;
+        header.frameData = SDLFrameInfoSingleFrame;
 
 
         // Create the payload
@@ -67,9 +75,8 @@
         [payload appendData:dataToAppend];
 
         // Validation
-        header.bytesInPayload = (UInt32)payload.length;
         if (payload.length != self.expectedBytes) {
-            [SDLDebugTool logFormat:@"Warning: collected bytes size of %lu not equal to expected size of %i.", (unsigned long)payload.length, (unsigned int)self.expectedBytes];
+            SDLLogW(@"Collected bytes size of %lu not equal to expected size of %i.", (unsigned long)payload.length, (unsigned int)self.expectedBytes);
         }
 
         // Create the message.
@@ -93,3 +100,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

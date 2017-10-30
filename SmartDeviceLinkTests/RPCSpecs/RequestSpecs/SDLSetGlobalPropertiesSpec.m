@@ -46,16 +46,16 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_request:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_helpPrompt:[@[chunk1] mutableCopy],
-                                                   NAMES_timeoutPrompt:[@[chunk2] mutableCopy],
-                                                   NAMES_vrHelpTitle:@"vr",
-                                                   NAMES_vrHelp:[@[help] mutableCopy],
-                                                   NAMES_menuTitle:@"TheNewMenu",
-                                                   NAMES_menuIcon:image,
-                                                   NAMES_keyboardProperties:keyboard},
-                                             NAMES_operation_name:NAMES_SetGlobalProperties}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameHelpPrompt:[@[chunk1] mutableCopy],
+                                                                   SDLNameTimeoutPrompt:[@[chunk2] mutableCopy],
+                                                                   SDLNameVRHelpTitle:@"vr",
+                                                                   SDLNameVRHelp:[@[help] mutableCopy],
+                                                                   SDLNameMenuTitle:@"TheNewMenu",
+                                                                   SDLNameMenuIcon:image,
+                                                                   SDLNameKeyboardProperties:keyboard},
+                                                             SDLNameOperationName:SDLNameSetGlobalProperties}} mutableCopy];
         SDLSetGlobalProperties* testRequest = [[SDLSetGlobalProperties alloc] initWithDictionary:dict];
         
         expect(testRequest.helpPrompt).to(equal([@[chunk1] mutableCopy]));
