@@ -6,26 +6,19 @@
   <li><a href="#section-_version">_version</a></li>
   <li><a href="#section-_bulkSessionID">_bulkSessionID</a></li>
   <li><a href="#section-_isConnected">_isConnected</a></li>
-  <li><a href="#section-_alreadyDestructed">_alreadyDestructed</a></li>
   <li><a href="#section-protocol">protocol</a></li>
   <li><a href="#section-transport">transport</a></li>
   <li><a href="#section-proxyListeners">proxyListeners</a></li>
   <li><a href="#section-startSessionTimer">startSessionTimer</a></li>
   <li><a href="#section-debugConsoleGroupName">debugConsoleGroupName</a></li>
   <li><a href="#section-proxyVersion">proxyVersion</a></li>
-  <li><a href="#section-streamingMediaManager">streamingMediaManager</a></li>
   <li><a href="#section--initWithTransport:protocol:delegate:">-initWithTransport:protocol:delegate:</a></li>
-  <li><a href="#section--dispose">-dispose</a></li>
   <li><a href="#section--addDelegate:">-addDelegate:</a></li>
   <li><a href="#section--removeDelegate:">-removeDelegate:</a></li>
   <li><a href="#section--sendRPC:">-sendRPC:</a></li>
-  <li><a href="#section--sendRPCRequest:">-sendRPCRequest:</a></li>
   <li><a href="#section--handleRPCDictionary:">-handleRPCDictionary:</a></li>
-  <li><a href="#section--handleRpcMessage:">-handleRpcMessage:</a></li>
   <li><a href="#section--handleProtocolMessage:">-handleProtocolMessage:</a></li>
   <li><a href="#section--addSecurityManagers:forAppId:">-addSecurityManagers:forAppId:</a></li>
-  <li><a href="#section-+enableSiphonDebug">+enableSiphonDebug</a></li>
-  <li><a href="#section-+disableSiphonDebug">+disableSiphonDebug</a></li>
   <li><a href="#section--putFileStream:withRequest:">-putFileStream:withRequest:</a></li>
 </ul>
 
@@ -59,17 +52,6 @@
   
   <h3 id="section-_isConnected">
       _isConnected
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
-  <h3 id="section-_alreadyDestructed">
-      _alreadyDestructed
   </h3>
   
   <p>Undocumented</p>
@@ -145,30 +127,8 @@
   
   
   
-  <h3 id="section-streamingMediaManager">
-      streamingMediaManager
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
   <h3 id="section--initWithTransport:protocol:delegate:">
       -initWithTransport:protocol:delegate:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
-  <h3 id="section--dispose">
-      -dispose
   </h3>
   
   <p>Undocumented</p>
@@ -211,30 +171,8 @@
   
   
   
-  <h3 id="section--sendRPCRequest:">
-      -sendRPCRequest:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
   <h3 id="section--handleRPCDictionary:">
       -handleRPCDictionary:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
-  <h3 id="section--handleRpcMessage:">
-      -handleRpcMessage:
   </h3>
   
   <p>Undocumented</p>
@@ -266,28 +204,6 @@
   
   
   
-  <h3 id="section-+enableSiphonDebug">
-      +enableSiphonDebug
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
-  <h3 id="section-+disableSiphonDebug">
-      +disableSiphonDebug
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
   <h3 id="section--putFileStream:withRequest:">
       -putFileStream:withRequest:
   </h3>
@@ -298,12 +214,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">putFileStream</span><span class="p">:(</span><span class="n">NSInputStream</span> <span class="o">*</span><span class="p">)</span><span class="nv">inputStream</span>
-          <span class="nf">withRequest</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLPutFile.html">SDLPutFile</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">putFileRPCRequest</span><span class="p">;</span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">putFileStream</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSInputStream</span> <span class="o">*</span><span class="p">)</span><span class="nv">inputStream</span>
+          <span class="nf">withRequest</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLPutFile.html">SDLPutFile</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">putFileRPCRequest</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">putFileStream</span><span class="p">(</span><span class="n">_</span> <span class="nv">inputStream</span><span class="p">:</span> <span class="kt">InputStream</span><span class="o">!</span><span class="p">,</span> <span class="n">withRequest</span> <span class="nv">putFileRPCRequest</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLPutFile.html">SDLPutFile</a></span><span class="o">!</span><span class="p">)</span></code></pre>
+  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">putFileStream</span><span class="p">(</span><span class="n">_</span> <span class="nv">inputStream</span><span class="p">:</span> <span class="kt">InputStream</span><span class="p">,</span> <span class="n">withRequest</span> <span class="nv">putFileRPCRequest</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLPutFile.html">SDLPutFile</a></span><span class="p">)</span></code></pre>
 
   
   

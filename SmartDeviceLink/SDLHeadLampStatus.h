@@ -3,31 +3,28 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLAmbientLightStatus;
+#import "SDLAmbientLightStatus.h"
 
 
 /**
  * Status of the head lamps
  */
-@interface SDLHeadLampStatus : SDLRPCStruct {
-}
-/**
- * @abstract Constructs a new SDLHeadLampStatus object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLHeadLampStatus object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLHeadLampStatus : SDLRPCStruct
+
 /**
  * @abstract A boolean value. Status of the low beam lamps.
  */
-@property (strong) NSNumber *lowBeamsOn;
+@property (strong, nonatomic) NSNumber<SDLBool> *lowBeamsOn;
 /**
  * @abstract A boolean value. Status of the high beam lamps.
  */
-@property (strong) NSNumber *highBeamsOn;
-@property (strong) SDLAmbientLightStatus *ambientLightSensorStatus;
+@property (strong, nonatomic) NSNumber<SDLBool> *highBeamsOn;
+
+@property (nullable, strong, nonatomic) SDLAmbientLightStatus ambientLightSensorStatus;
+
 @end
+
+NS_ASSUME_NONNULL_END

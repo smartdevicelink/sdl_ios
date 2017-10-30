@@ -36,7 +36,7 @@
  * 		</tr>
  *     <tr>
  * 			<td>vrCommands</td>
- * 			<td>NSMutableArray *</td>
+ * 			<td>NSArray *</td>
  * 			<td>An array of strings to be used as VR synonyms for this choice. If this array is provided, it must have at least one non-empty element</td>
  * 			<td>SmartDeviceLink 1.0</td>
  * 		</tr>
@@ -50,71 +50,63 @@
  *
  * Since <b>SmartDeviceLink 1.0</b><br>
  */
-@interface SDLChoice : SDLRPCStruct {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * Constructs a newly allocated SDLChoice object
- */
-- (instancetype)init;
+@interface SDLChoice : SDLRPCStruct
 
-/**
- * Constructs a newly allocated SDLChoice object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray<NSString *> *)vrCommands;
 
-- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands;
-
-- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray *)vrCommands image:(SDLImage *)image secondaryText:(NSString *)secondaryText secondaryImage:(SDLImage *)secondaryImage tertiaryText:(NSString *)tertiaryText;
+- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray<NSString *> *)vrCommands image:(nullable SDLImage *)image secondaryText:(nullable NSString *)secondaryText secondaryImage:(nullable SDLImage *)secondaryImage tertiaryText:(nullable NSString *)tertiaryText;
 
 /**
  * @abstract the application-scoped identifier that uniquely identifies this choice
  * 
  * Required, Integer 0 - 65535
  */
-@property (strong) NSNumber *choiceID;
+@property (strong, nonatomic) NSNumber<SDLInt> *choiceID;
 
 /**
  * @abstract Text which appears in menu, representing this choice
  *
  * Required, Max string length 500 chars
  */
-@property (strong) NSString *menuName;
+@property (strong, nonatomic) NSString *menuName;
 
 /**
  * @abstract VR synonyms for this choice
  *
  * Required, Array of Strings, Array length 1 - 100, Max String length 99 chars
  */
-@property (strong) NSMutableArray *vrCommands;
+@property (strong, nonatomic) NSArray<NSString *> *vrCommands;
 
 /**
  * @abstract The image of the choice
  *
  * Optional
  */
-@property (strong) SDLImage *image;
+@property (nullable, strong, nonatomic) SDLImage *image;
 
 /**
  * @abstract Optional secondary text to display; e.g. address of POI in a search result entry
  *
  * Optional, Max String length 500 chars
  */
-@property (strong) NSString *secondaryText;
+@property (nullable, strong, nonatomic) NSString *secondaryText;
 
 /**
  * @abstract Optional tertiary text to display; e.g. distance to POI for a search result entry
  *
  * Optional, Max String length 500 chars
  */
-@property (strong) NSString *tertiaryText;
+@property (nullable, strong, nonatomic) NSString *tertiaryText;
 
 /**
  * @abstract Optional secondary image for choice
  *
  * Optional
  */
-@property (strong) SDLImage *secondaryImage;
+@property (nullable, strong, nonatomic) SDLImage *secondaryImage;
 
 @end
+
+NS_ASSUME_NONNULL_END

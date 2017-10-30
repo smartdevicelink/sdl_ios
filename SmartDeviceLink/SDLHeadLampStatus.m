@@ -3,63 +3,38 @@
 
 #import "SDLHeadLampStatus.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLAmbientLightStatus.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLHeadLampStatus
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
+- (void)setLowBeamsOn:(NSNumber<SDLBool> *)lowBeamsOn {
+    [store sdl_setObject:lowBeamsOn forName:SDLNameLowBeamsOn];
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (NSNumber<SDLBool> *)lowBeamsOn {
+    return [store sdl_objectForName:SDLNameLowBeamsOn];
 }
 
-- (void)setLowBeamsOn:(NSNumber *)lowBeamsOn {
-    if (lowBeamsOn != nil) {
-        [store setObject:lowBeamsOn forKey:NAMES_lowBeamsOn];
-    } else {
-        [store removeObjectForKey:NAMES_lowBeamsOn];
-    }
+- (void)setHighBeamsOn:(NSNumber<SDLBool> *)highBeamsOn {
+    [store sdl_setObject:highBeamsOn forName:SDLNameHighBeamsOn];
 }
 
-- (NSNumber *)lowBeamsOn {
-    return [store objectForKey:NAMES_lowBeamsOn];
+- (NSNumber<SDLBool> *)highBeamsOn {
+    return [store sdl_objectForName:SDLNameHighBeamsOn];
 }
 
-- (void)setHighBeamsOn:(NSNumber *)highBeamsOn {
-    if (highBeamsOn != nil) {
-        [store setObject:highBeamsOn forKey:NAMES_highBeamsOn];
-    } else {
-        [store removeObjectForKey:NAMES_highBeamsOn];
-    }
+- (void)setAmbientLightSensorStatus:(nullable SDLAmbientLightStatus)ambientLightSensorStatus {
+    [store sdl_setObject:ambientLightSensorStatus forName:SDLNameAmbientLightSensorStatus];
 }
 
-- (NSNumber *)highBeamsOn {
-    return [store objectForKey:NAMES_highBeamsOn];
-}
-
-- (void)setAmbientLightSensorStatus:(SDLAmbientLightStatus *)ambientLightSensorStatus {
-    if (ambientLightSensorStatus != nil) {
-        [store setObject:ambientLightSensorStatus forKey:NAMES_ambientLightSensorStatus];
-    } else {
-        [store removeObjectForKey:NAMES_ambientLightSensorStatus];
-    }
-}
-
-- (SDLAmbientLightStatus *)ambientLightSensorStatus {
-    NSObject *obj = [store objectForKey:NAMES_ambientLightSensorStatus];
-    if (obj == nil || [obj isKindOfClass:SDLAmbientLightStatus.class]) {
-        return (SDLAmbientLightStatus *)obj;
-    } else {
-        return [SDLAmbientLightStatus valueOf:(NSString *)obj];
-    }
+- (nullable SDLAmbientLightStatus)ambientLightSensorStatus {
+    return [store sdl_objectForName:SDLNameAmbientLightSensorStatus];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -3,27 +3,26 @@
 
 #import "SDLRPCResponse.h"
 
+@class SDLButtonCapabilities;
 @class SDLDisplayCapabilities;
 @class SDLPresetBankCapabilities;
-
+@class SDLSoftButtonCapabilities;
 
 /**
  * Set Display Layout Response is sent, when SetDisplayLayout has been called
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLSetDisplayLayoutResponse : SDLRPCResponse {
-}
 
-/**
- * @abstract Constructs a new SDLSetDisplayLayoutResponse object
- */
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
 
-@property (strong) SDLDisplayCapabilities *displayCapabilities;
-@property (strong) NSMutableArray *buttonCapabilities;
-@property (strong) NSMutableArray *softButtonCapabilities;
-@property (strong) SDLPresetBankCapabilities *presetBankCapabilities;
+@interface SDLSetDisplayLayoutResponse : SDLRPCResponse
+
+@property (nullable, strong, nonatomic) SDLDisplayCapabilities *displayCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
+@property (nullable, strong, nonatomic) SDLPresetBankCapabilities *presetBankCapabilities;
 
 @end
+
+NS_ASSUME_NONNULL_END

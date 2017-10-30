@@ -7,6 +7,10 @@
   <li><a href="#section-SDLFileManagerErrorNoKnownFile">SDLFileManagerErrorNoKnownFile</a></li>
   <li><a href="#section-SDLFileManagerErrorUnableToStart">SDLFileManagerErrorUnableToStart</a></li>
   <li><a href="#section-SDLFileManagerErrorUnableToUpload">SDLFileManagerErrorUnableToUpload</a></li>
+  <li><a href="#section-SDLFileManagerErrorFileDoesNotExist">SDLFileManagerErrorFileDoesNotExist</a></li>
+  <li><a href="#section-SDLFileManagerUploadCanceled">SDLFileManagerUploadCanceled</a></li>
+  <li><a href="#section-SDLFileManagerMultipleFileUploadTasksFailed">SDLFileManagerMultipleFileUploadTasksFailed</a></li>
+  <li><a href="#section-SDLFileManagerMultipleFileDeleteTasksFailed">SDLFileManagerMultipleFileDeleteTasksFailed</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -28,7 +32,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">case</span> <span class="n">cannotOverwrite</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></code></pre>
+  <pre class="highlight"><code><span class="k">case</span> <span class="n">errorCannotOverwrite</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></code></pre>
 
   
   
@@ -46,7 +50,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">case</span> <span class="n">noKnownFile</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span></code></pre>
+  <pre class="highlight"><code><span class="k">case</span> <span class="n">errorNoKnownFile</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span></code></pre>
 
   
   
@@ -64,7 +68,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">case</span> <span class="n">unableToStart</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span></code></pre>
+  <pre class="highlight"><code><span class="k">case</span> <span class="n">errorUnableToStart</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span></code></pre>
 
   
   
@@ -82,7 +86,79 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">case</span> <span class="n">unableToUpload</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span></code></pre>
+  <pre class="highlight"><code><span class="k">case</span> <span class="n">errorUnableToUpload</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFileManagerErrorFileDoesNotExist">
+      SDLFileManagerErrorFileDoesNotExist
+  </h3>
+  
+  <p>The file manager could not find the local file.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="n">SDLFileManagerErrorFileDoesNotExist</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">case</span> <span class="n">errorFileDoesNotExist</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFileManagerUploadCanceled">
+      SDLFileManagerUploadCanceled
+  </h3>
+  
+  <p>The file manager could not find the local file.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="n">SDLFileManagerUploadCanceled</span> <span class="o">=</span> <span class="o">-</span><span class="mi">6</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">case</span> <span class="n">uploadCanceled</span> <span class="o">=</span> <span class="o">-</span><span class="mi">6</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFileManagerMultipleFileUploadTasksFailed">
+      SDLFileManagerMultipleFileUploadTasksFailed
+  </h3>
+  
+  <p>The file manager could not find the local file.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="n">SDLFileManagerMultipleFileUploadTasksFailed</span> <span class="o">=</span> <span class="o">-</span><span class="mi">7</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">case</span> <span class="n">multipleFileUploadTasksFailed</span> <span class="o">=</span> <span class="o">-</span><span class="mi">7</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFileManagerMultipleFileDeleteTasksFailed">
+      SDLFileManagerMultipleFileDeleteTasksFailed
+  </h3>
+  
+  <p>The file manager could not find the local file.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="n">SDLFileManagerMultipleFileDeleteTasksFailed</span> <span class="o">=</span> <span class="o">-</span><span class="mi">8</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">case</span> <span class="n">multipleFileDeleteTasksFailed</span> <span class="o">=</span> <span class="o">-</span><span class="mi">8</span></code></pre>
 
   
   

@@ -13,158 +13,313 @@
 
 QuickSpecBegin(SDLUploadFileOperationSpec)
 
-describe(@"Upload File Operation", ^{
+describe(@"Streaming upload of data", ^{
     __block NSString *testFileName = nil;
     __block NSData *testFileData = nil;
     __block SDLFile *testFile = nil;
     __block SDLFileWrapper *testFileWrapper = nil;
-    
+    __block NSInteger numberOfPutFiles = 0;
+
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLUploadFileOperation *testOperation = nil;
-    
+
     __block BOOL successResult = NO;
     __block NSUInteger bytesAvailableResult = NO;
     __block NSError *errorResult = nil;
-    
+
     beforeEach(^{
-        // Set the head unit size small so we have a low MTU size
-        [SDLGlobals globals].maxHeadUnitVersion = @"2.0.0";
+        [SDLGlobals sharedGlobals].maxHeadUnitVersion = @"2.0.0";
+
+        testFileName = nil;
+        testFileData = nil;
+        testFile = nil;
+        testFileWrapper = nil;
+        numberOfPutFiles = 0;
+
+        testOperation = nil;
+        testConnectionManager = nil;
+
+        successResult = NO;
+        bytesAvailableResult = NO;
+        errorResult = nil;
     });
-    
-    context(@"running a small file operation", ^{
+
+    context(@"When uploading data", ^{
+        context(@"data should be split into smaller packets if too large to send all at once", ^{
+            context(@"both data in memory and on disk can be uploaded", ^{
+                it(@"should split the data from a short chunk of text in memory correctly", ^{
+                    testFileName = @"TestSmallMemory";
+                    testFileData = [@"test1234" dataUsingEncoding:NSUTF8StringEncoding];
+                    testFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
+                });
+
+                it(@"should split the data from a large image in memory correctly", ^{
+                    testFileName = @"TestLargeMemory";
+                    UIImage *testImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+                    testFileData = UIImageJPEGRepresentation(testImage, 1.0);
+                    testFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
+                });
+
+                it(@"should split the data from a small text file correctly", ^{
+                    NSString *fileName = @"testFileJSON";
+                    testFileName = fileName;
+                    NSString *textFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:fileName ofType:@"json"];
+                    NSURL *textFileURL = [[NSURL alloc] initFileURLWithPath:textFilePath];
+                    testFile = [SDLFile fileAtFileURL:textFileURL name:fileName];
+                    testFileData = [[NSData alloc] initWithContentsOfURL:textFileURL];
+                });
+
+                it(@"should split the data from a large image file correctly", ^{
+                    NSString *fileName = @"testImagePNG";
+                    testFileName = fileName;
+                    NSString *imageFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:fileName ofType:@"png"];
+                    NSURL *imageFileURL = [[NSURL alloc] initFileURLWithPath:imageFilePath];
+                    testFile = [SDLFile fileAtFileURL:imageFileURL name:fileName];
+
+                    // For testing: get data to check if data chunks are being created correctly
+                    testFileData = [[NSData alloc] initWithContentsOfURL:imageFileURL];
+                });
+
+                afterEach(^{
+                    testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                        successResult = success;
+                        bytesAvailableResult = bytesAvailable;
+                        errorResult = error;
+                    }];
+
+                    numberOfPutFiles = ((([testFile fileSize] - 1) / [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeBulkData]) + 1);
+
+                    testConnectionManager = [[TestConnectionManager alloc] init];
+                    testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
+                    [testOperation start];
+                });
+            });
+
+            afterEach(^{
+                expect(@(testOperation.queuePriority)).to(equal(@(NSOperationQueuePriorityNormal)));
+
+                NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
+                expect(@(putFiles.count)).to(equal(@(numberOfPutFiles)));
+
+                // Test all packets for offset, length, and data
+                for (NSUInteger index = 0; index < numberOfPutFiles; index++) {
+                    SDLPutFile *putFile = putFiles[index];
+
+                    NSUInteger mtuSize = [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeBulkData];
+
+                    expect(putFile.offset).to(equal(@(index * mtuSize)));
+                    expect(putFile.persistentFile).to(equal(@NO));
+                    expect(putFile.syncFileName).to(equal(testFileName));
+                    expect(putFile.bulkData).to(equal([testFileData subdataWithRange:NSMakeRange((index * mtuSize), MIN(putFile.length.unsignedIntegerValue, mtuSize))]));
+
+                    // Length is used to inform the SDL Core of the total incoming packet size
+                    if (index == 0) {
+                        // The first putfile sent should have the full file size
+                        expect(putFile.length).to(equal(@([testFile fileSize])));
+                    } else if (index == numberOfPutFiles - 1) {
+                        // The last pufile contains the remaining data size
+                        expect(putFile.length).to(equal(@([testFile fileSize] - (index * mtuSize))));
+                    } else {
+                        // All other putfiles contain the max data size for a putfile packet
+                        expect(putFile.length).to(equal(@(mtuSize)));
+                    }
+                }
+            });
+        });
+
+        afterEach(^{
+            __block SDLPutFileResponse *goodResponse = nil;
+
+            // We must do some cleanup here otherwise the unit test cases will crash
+            NSInteger spaceLeft = 11212512;
+            for (int i = 0; i < numberOfPutFiles; i++) {
+                spaceLeft -= 1024;
+                goodResponse = [[SDLPutFileResponse alloc] init];
+                goodResponse.success = @YES;
+                goodResponse.spaceAvailable = @(spaceLeft);
+                [testConnectionManager respondToRequestWithResponse:goodResponse requestNumber:i error:nil];
+            }
+
+            expect(@(successResult)).toEventually(equal(@YES));
+            expect(@(bytesAvailableResult)).toEventually(equal(spaceLeft));
+            expect(errorResult).toEventually(beNil());
+            expect(@(testOperation.finished)).toEventually(equal(@YES));
+            expect(@(testOperation.executing)).toEventually(equal(@NO));
+        });
+    });
+
+    context(@"When a response to the data upload comes back", ^{
         beforeEach(^{
-            testFileName = @"test file";
-            testFileData = [@"test1234" dataUsingEncoding:NSUTF8StringEncoding];
+            testFileName = @"TestLargeMemory";
+            UIImage *testImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            testFileData = UIImageJPEGRepresentation(testImage, 1.0);
             testFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
             testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                 successResult = success;
                 bytesAvailableResult = bytesAvailable;
                 errorResult = error;
             }];
-            
+
+            NSUInteger mtuSize = [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeBulkData];
+
+            numberOfPutFiles = ((([testFile fileSize] - 1) / mtuSize) + 1);
+
             testConnectionManager = [[TestConnectionManager alloc] init];
             testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
-            
             [testOperation start];
-            [NSThread sleepForTimeInterval:0.5];
         });
-        
-        it(@"should have a priority of 'normal'", ^{
-            expect(@(testOperation.queuePriority)).to(equal(@(NSOperationQueuePriorityNormal)));
-        });
-        
-        it(@"should send putfiles", ^{
-            SDLPutFile *putFile = testConnectionManager.receivedRequests.lastObject;
-            expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLPutFile class]));
-            expect(putFile.bulkData).to(equal(testFileData));
-            expect(putFile.length).to(equal(@(testFileData.length)));
-            expect(putFile.offset).to(equal(@0));
-            expect(putFile.persistentFile).to(equal(@NO));
-            expect(putFile.syncFileName).to(equal(testFileName));
-        });
-        
-        context(@"when a good response comes back", ^{
-            __block SDLPutFileResponse *goodResponse = nil;
-            __block NSNumber *responseSpaceAvailable = nil;
-            __block NSMutableArray *responseFileNames = nil;
-            
+
+        context(@"If data was sent successfully", ^{
+             __block SDLPutFileResponse *goodResponse = nil;
+             __block NSInteger spaceLeft = 0;
+
             beforeEach(^{
-                responseSpaceAvailable = @(11212512);
-                responseFileNames = [NSMutableArray arrayWithArray:@[@"test1", @"test2"]];
-                
-                goodResponse = [[SDLPutFileResponse alloc] init];
-                goodResponse.success = @YES;
-                goodResponse.spaceAvailable = responseSpaceAvailable;
-                
-                [testConnectionManager respondToLastRequestWithResponse:goodResponse];
+                goodResponse = nil;
+                spaceLeft = 11212512;
             });
-            
-            it(@"should have called the completion handler with proper data", ^{
+
+            it(@"should have called the completion handler with success only if all packets were sent successfully", ^{
+                for (int i = 0; i < numberOfPutFiles; i++) {
+                    spaceLeft -= 1024;
+                    goodResponse = [[SDLPutFileResponse alloc] init];
+                    goodResponse.success = @YES;
+                    goodResponse.spaceAvailable = @(spaceLeft);
+                    [testConnectionManager respondToRequestWithResponse:goodResponse requestNumber:i error:nil];
+                }
+            });
+
+            afterEach(^{
                 expect(@(successResult)).toEventually(equal(@YES));
-                expect(@(bytesAvailableResult)).toEventually(equal(responseSpaceAvailable));
+                expect(@(bytesAvailableResult)).toEventually(equal(spaceLeft));
                 expect(errorResult).toEventually(beNil());
-            });
-            
-            it(@"should be set to finished", ^{
+
                 expect(@(testOperation.finished)).toEventually(equal(@YES));
                 expect(@(testOperation.executing)).toEventually(equal(@NO));
             });
         });
-        
-        context(@"when a bad response comes back", ^{
-            __block SDLPutFileResponse *badResponse = nil;
-            __block NSNumber *responseSpaceAvailable = nil;
-            
+
+        context(@"If data was not sent successfully", ^{
+            __block SDLPutFileResponse *response = nil;
             __block NSString *responseErrorDescription = nil;
             __block NSString *responseErrorReason = nil;
-            
+            __block NSInteger spaceLeft = 0;
+
             beforeEach(^{
-                responseSpaceAvailable = @(0);
-                
-                responseErrorDescription = @"some description";
-                responseErrorReason = @"some reason";
-                
-                badResponse = [[SDLPutFileResponse alloc] init];
-                badResponse.success = @NO;
-                badResponse.spaceAvailable = responseSpaceAvailable;
-                
-                [testConnectionManager respondToLastRequestWithResponse:badResponse error:[NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason]];
+                response = nil;
+                responseErrorDescription = nil;
+                responseErrorReason = nil;
+                spaceLeft = 11212512;
             });
-            
-            it(@"should have called completion handler with error", ^{
+
+            it(@"should have called the completion handler with error if the first packet was not sent successfully", ^{
+                for (int i = 0; i < numberOfPutFiles; i++) {
+                    spaceLeft -= 1024;
+                    response = [[SDLPutFileResponse alloc] init];
+                    response.spaceAvailable = @(spaceLeft);
+                    NSError *error = nil;
+
+                    if (i == 0) {
+                        // Only the first packet is sent unsuccessfully
+                        response.success = @NO;
+                        responseErrorDescription = @"some description";
+                        responseErrorReason = @"some reason";
+                        error = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason];
+                    } else  {
+                        response.success = @YES;
+                    }
+
+                    [testConnectionManager respondToRequestWithResponse:response requestNumber:i error:error];
+                }
+            });
+
+            it(@"should have called the completion handler with error if the last packet was not sent successfully", ^{
+                for (int i = 0; i < numberOfPutFiles; i++) {
+                    spaceLeft -= 1024;
+                    response = [[SDLPutFileResponse alloc] init];
+                    response.spaceAvailable = @(spaceLeft);
+                    NSError *error = nil;
+
+                    if (i == (numberOfPutFiles - 1)) {
+                        // Only the last packet is sent unsuccessfully
+                        response.success = @NO;
+                        responseErrorDescription = @"some description";
+                        responseErrorReason = @"some reason";
+                        error = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason];
+                    } else  {
+                        response.success = @YES;
+                    }
+
+                    [testConnectionManager respondToRequestWithResponse:response requestNumber:i error:error];
+                }
+            });
+
+            it(@"should have called the completion handler with error if all packets were not sent successfully", ^{
+                for (int i = 0; i < numberOfPutFiles; i++) {
+                    spaceLeft -= 1024;
+                    response = [[SDLPutFileResponse alloc] init];
+                    response.success = @NO;
+                    response.spaceAvailable = @(spaceLeft);
+
+                    responseErrorDescription = @"some description";
+                    responseErrorReason = @"some reason";
+
+                    [testConnectionManager respondToRequestWithResponse:response requestNumber:i error:[NSError sdl_lifecycle_unknownRemoteErrorWithDescription:responseErrorDescription andReason:responseErrorReason]];
+                }
+            });
+
+            afterEach(^{
                 expect(errorResult.localizedDescription).toEventually(match(responseErrorDescription));
                 expect(errorResult.localizedFailureReason).toEventually(match(responseErrorReason));
                 expect(@(successResult)).toEventually(equal(@NO));
-                expect(@(bytesAvailableResult)).toEventually(equal(@0));
             });
         });
     });
-    
-    context(@"sending a large file", ^{
+
+    context(@"When an incorrect file url is passed", ^{
         beforeEach(^{
-            UIImage *testImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
-            
-            testFileName = @"test file";
-            testFileData = UIImageJPEGRepresentation(testImage, 0.80);
-            testFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
+            NSString *fileName = @"testImagePNG";
+            testFileName = fileName;
+            NSString *imageFilePath = [[NSBundle bundleForClass:[self class]] pathForResource:fileName ofType:@"png"];
+            NSURL *imageFileURL = [[NSURL alloc] initWithString:imageFilePath]; // This will fail because local file paths need to be init with initFileURLWithPath
+            testFile = [SDLFile fileAtFileURL:imageFileURL name:fileName];
+
             testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
                 successResult = success;
                 bytesAvailableResult = bytesAvailable;
                 errorResult = error;
             }];
-            
+
             testConnectionManager = [[TestConnectionManager alloc] init];
             testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
-            
             [testOperation start];
-            [NSThread sleepForTimeInterval:0.5];
         });
-        
-        it(@"should send correct putfiles", ^{
-            NSArray<SDLPutFile *> *putFiles = testConnectionManager.receivedRequests;
-            
-            NSUInteger numberOfPutFiles = (((testFileData.length - 1) / [[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_BulkData]) + 1);
-            expect(@(putFiles.count)).to(equal(@(numberOfPutFiles)));
 
-            // Test all PutFiles pieces for offset & length.
-            for (NSUInteger index = 0; index < numberOfPutFiles; index++) {
-                SDLPutFile *putFile = putFiles[index];
-                
-                expect(putFile.offset).to(equal(@(index * [[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_BulkData])));
-                expect(putFile.persistentFile).to(equal(@NO));
-                expect(putFile.syncFileName).to(equal(testFileName));
-                expect(putFile.bulkData).to(equal([testFileData subdataWithRange:NSMakeRange((index * [[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_BulkData]), MIN(putFile.length.unsignedIntegerValue, [[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_BulkData]))]));
+        it(@"should have called the completion handler with an error", ^{
+            expect(errorResult).toEventually(equal([NSError sdl_fileManager_fileDoesNotExistError]));
+            expect(@(successResult)).toEventually(equal(@NO));
+        });
+    });
 
-                // First Putfile has some differences due to informing core of the total incoming packet size.
-                if (index == 0) {
-                    expect(putFile.length).to(equal(@(testFileData.length)));
-                } else if (index == numberOfPutFiles - 1) {
-                    expect(putFile.length).to(equal(@(testFileData.length - (index * [[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_BulkData]))));
-                } else {
-                    expect(putFile.length).to(equal(@([[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_BulkData])));
-                }
-            }
-            
+    context(@"When empty data is passed", ^{
+        beforeEach(^{
+            testFileName = @"TestEmptyMemory";
+            testFileData = [@"" dataUsingEncoding:NSUTF8StringEncoding];
+            testFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
+
+            testFileWrapper = [SDLFileWrapper wrapperWithFile:testFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                successResult = success;
+                bytesAvailableResult = bytesAvailable;
+                errorResult = error;
+            }];
+
+            testConnectionManager = [[TestConnectionManager alloc] init];
+            testOperation = [[SDLUploadFileOperation alloc] initWithFile:testFileWrapper connectionManager:testConnectionManager];
+            [testOperation start];
+        });
+
+        it(@"should have called the completion handler with an error", ^{
+            expect(errorResult).toEventually(equal([NSError sdl_fileManager_fileDoesNotExistError]));
+            expect(@(successResult)).toEventually(equal(@NO));
         });
     });
 });

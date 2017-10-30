@@ -21,25 +21,25 @@ describe(@"Getter/Setter Tests", ^ {
         
         testResponse.choiceID = @25;
         testResponse.manualTextEntry = @"entry";
-        testResponse.triggerSource = [SDLTriggerSource KEYBOARD];
+        testResponse.triggerSource = SDLTriggerSourceKeyboard;
         
         expect(testResponse.choiceID).to(equal(@25));
         expect(testResponse.manualTextEntry).to(equal(@"entry"));
-        expect(testResponse.triggerSource).to(equal([SDLTriggerSource KEYBOARD]));
+        expect(testResponse.triggerSource).to(equal(SDLTriggerSourceKeyboard));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_response:
-                                          @{NAMES_parameters:
-                                                @{NAMES_choiceID:@25,
-                                                  NAMES_manualTextEntry:@"entry",
-                                                  NAMES_triggerSource:[SDLTriggerSource KEYBOARD]},
-                                            NAMES_operation_name:NAMES_PerformInteraction}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameResponse:
+                                          @{SDLNameParameters:
+                                                @{SDLNameChoiceId:@25,
+                                                  SDLNameManualTextEntry:@"entry",
+                                                  SDLNameTriggerSource:SDLTriggerSourceKeyboard},
+                                            SDLNameOperationName:SDLNamePerformInteraction}} mutableCopy];
         SDLPerformInteractionResponse* testResponse = [[SDLPerformInteractionResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.choiceID).to(equal(@25));
         expect(testResponse.manualTextEntry).to(equal(@"entry"));
-        expect(testResponse.triggerSource).to(equal([SDLTriggerSource KEYBOARD]));
+        expect(testResponse.triggerSource).to(equal(SDLTriggerSourceKeyboard));
     });
     
     it(@"Should return nil if not set", ^ {

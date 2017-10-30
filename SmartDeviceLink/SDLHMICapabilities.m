@@ -4,63 +4,37 @@
 
 #import "SDLHMICapabilities.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLHMICapabilities
 
-- (instancetype)init {
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
-
-    return self;
+- (void)setNavigation:(nullable NSNumber<SDLBool> *)navigation {
+    [store sdl_setObject:navigation forName:SDLNameNavigation];
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    self = [super initWithDictionary:dict];
-    if (!self) {
-        return nil;
-    }
-
-    return self;
+- (nullable NSNumber<SDLBool> *)navigation {
+    return [store sdl_objectForName:SDLNameNavigation];
 }
 
-- (void)setNavigation:(NSNumber *)navigation {
-    if (navigation != nil) {
-        store[NAMES_navigation] = navigation;
-    } else {
-        [store removeObjectForKey:NAMES_navigation];
-    }
+- (void)setPhoneCall:(nullable NSNumber<SDLBool> *)phoneCall {
+    [store sdl_setObject:phoneCall forName:SDLNamePhoneCall];
 }
 
-- (NSNumber *)navigation {
-    return store[NAMES_navigation];
+- (nullable NSNumber<SDLBool> *)phoneCall {
+    return [store sdl_objectForName:SDLNamePhoneCall];
 }
 
-- (void)setPhoneCall:(NSNumber *)phoneCall {
-    if (phoneCall != nil) {
-        store[NAMES_phoneCall] = phoneCall;
-    } else {
-        [store removeObjectForKey:NAMES_phoneCall];
-    }
+- (void)setVideoStreaming:(nullable NSNumber<SDLBool> *)videoStreaming {
+    [store sdl_setObject:videoStreaming forName:SDLNameVideoStreaming];
 }
 
-- (NSNumber *)phoneCall {
-    return store[NAMES_phoneCall];
-}
-
-- (void)setVideoStreaming:(NSNumber *)videoStreaming {
-    if (videoStreaming != nil) {
-        store[NAMES_videoStreaming] = videoStreaming;
-    } else {
-        [store removeObjectForKey:NAMES_videoStreaming];
-    }
-}
-
-- (NSNumber *)videoStreaming {
-    return store[NAMES_videoStreaming];
+- (nullable NSNumber<SDLBool> *)videoStreaming {
+    return [store sdl_objectForName:SDLNameVideoStreaming];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

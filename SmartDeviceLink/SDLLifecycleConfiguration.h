@@ -6,22 +6,13 @@
 //  Copyright © 2015 smartdevicelink. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@class SDLAppHMIType;
+#import "SDLAppHMIType.h"
+#import "SDLLanguage.h"
+
 @class SDLFile;
-@class SDLLanguage;
 @class SDLTTSChunk;
-
-@protocol SDLSecurityType;
-
-
-typedef NS_OPTIONS(NSUInteger, SDLLogOutput) {
-    SDLLogOutputNone = 0,
-    SDLLogOutputConsole = 1 << 0,
-    SDLLogOutputFile = 1 << 1,
-    SDLLogOutputSiphon = 1 << 2
-};
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -41,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return The lifecycle configuration
  */
-+ (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId;
++ (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId NS_SWIFT_NAME(init(appName:appId:));
 
 /**
  *  A debug configuration that runs using TCP. Additional functionality should be customized on the properties.
@@ -53,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return The lifecycle configuration
  */
-+ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port;
++ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port NS_SWIFT_NAME(init(appName:appId:ipAddress:port:));
 
 /**
  *  Whether or not debug mode is enabled
@@ -93,17 +84,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The application type
  */
-@property (strong, nonatomic, null_resettable) SDLAppHMIType *appType;
+@property (strong, nonatomic, null_resettable) SDLAppHMIType appType;
 
 /**
  *  The default language to use
  */
-@property (strong, nonatomic) SDLLanguage *language;
+@property (strong, nonatomic) SDLLanguage language;
 
 /**
  *  An array of all the supported languages
  */
-@property (strong, nonatomic) NSArray<SDLLanguage *> *languagesSupported;
+@property (strong, nonatomic) NSArray<SDLLanguage> *languagesSupported;
 
 /**
  *  The application icon to be used on an app launching screen
@@ -124,16 +115,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  Additional voice recognition commands. May not interfere with any other app name or global commands.
  */
 @property (copy, nonatomic, nullable) NSArray<NSString *> *voiceRecognitionCommandNames;
-
-/**
- *  Set security managers which could be used. This is primarily used with video streaming applications to authenticate and perhaps encrypt traffic data.
- */
-@property (copy, nonatomic, nullable) NSArray<Class<SDLSecurityType>> *securityManagers;
-
-/**
- *  Which logging capabilities are currently enabled. The default is Console logging only.
- */
-@property (assign, nonatomic) SDLLogOutput logFlags;
 
 @end
 

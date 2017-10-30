@@ -23,10 +23,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_request:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_menuID:@25614},
-                                             NAMES_operation_name:NAMES_DeleteSubMenu}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameMenuId:@25614},
+                                                             SDLNameOperationName:SDLNameDeleteSubMenu}} mutableCopy];
         SDLDeleteSubMenu* testRequest = [[SDLDeleteSubMenu alloc] initWithDictionary:dict];
         
         expect(testRequest.menuID).to(equal(@25614));

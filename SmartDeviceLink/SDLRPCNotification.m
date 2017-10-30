@@ -4,7 +4,10 @@
 
 #import "SDLRPCNotification.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRPCNotification
 
@@ -14,22 +17,24 @@
         return nil;
     }
 
-    messageType = NAMES_notification;
+    messageType = SDLNameNotification;
     [store setObject:function forKey:messageType];
 
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
+- (instancetype)initWithDictionary:(NSDictionary *)dict {
     self = [super initWithDictionary:dict];
     if (!self) {
         return nil;
     }
 
-    messageType = NAMES_notification;
+    messageType = SDLNameNotification;
     [store setObject:function forKey:messageType];
 
     return self;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

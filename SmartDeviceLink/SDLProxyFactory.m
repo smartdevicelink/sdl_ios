@@ -3,12 +3,12 @@
 
 #import "SDLProxyFactory.h"
 
-#import "SDLDebugTool.h"
 #import "SDLIAPTransport.h"
 #import "SDLProtocol.h"
 #import "SDLProxy.h"
 #import "SDLTCPTransport.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLProxyFactory
 
@@ -35,3 +35,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

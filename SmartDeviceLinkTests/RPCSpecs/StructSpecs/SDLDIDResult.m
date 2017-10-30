@@ -19,22 +19,22 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLDIDResult* testStruct = [[SDLDIDResult alloc] init];
         
-        testStruct.resultCode = [SDLVehicleDataResultCode DATA_NOT_SUBSCRIBED];
+        testStruct.resultCode = SDLVehicleDataResultCodeDataNotSubscribed;
         testStruct.didLocation = @300;
         testStruct.data = @"gertwydhty4235tdhedt4tue";
         
-        expect(testStruct.resultCode).to(equal([SDLVehicleDataResultCode DATA_NOT_SUBSCRIBED]));
+        expect(testStruct.resultCode).to(equal(SDLVehicleDataResultCodeDataNotSubscribed));
         expect(testStruct.didLocation).to(equal(@300));
         expect(testStruct.data).to(equal(@"gertwydhty4235tdhedt4tue"));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_resultCode:[SDLVehicleDataResultCode DATA_NOT_SUBSCRIBED],
-                                       NAMES_didLocation:@300,
-                                       NAMES_data:@"gertwydhty4235tdhedt4tue"} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameResultCode:SDLVehicleDataResultCodeDataNotSubscribed,
+                                       SDLNameDIDLocation:@300,
+                                       SDLNameData:@"gertwydhty4235tdhedt4tue"} mutableCopy];
         SDLDIDResult* testStruct = [[SDLDIDResult alloc] initWithDictionary:dict];
         
-        expect(testStruct.resultCode).to(equal([SDLVehicleDataResultCode DATA_NOT_SUBSCRIBED]));
+        expect(testStruct.resultCode).to(equal(SDLVehicleDataResultCodeDataNotSubscribed));
         expect(testStruct.didLocation).to(equal(@300));
         expect(testStruct.data).to(equal(@"gertwydhty4235tdhedt4tue"));
     });

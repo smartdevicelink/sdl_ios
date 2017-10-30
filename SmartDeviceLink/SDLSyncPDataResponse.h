@@ -4,10 +4,10 @@
 
 #import "SDLRPCResponse.h"
 
-@interface SDLSyncPDataResponse : SDLRPCResponse {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLSyncPDataResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

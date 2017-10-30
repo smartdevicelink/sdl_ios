@@ -18,19 +18,19 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLOnAppInterfaceUnregistered* testNotification = [[SDLOnAppInterfaceUnregistered alloc] init];
         
-        testNotification.reason = [SDLAppInterfaceUnregisteredReason APP_UNAUTHORIZED];
+        testNotification.reason = SDLAppInterfaceUnregisteredReasonAppUnauthorized;
         
-        expect(testNotification.reason).to(equal([SDLAppInterfaceUnregisteredReason APP_UNAUTHORIZED]));
+        expect(testNotification.reason).to(equal(SDLAppInterfaceUnregisteredReasonAppUnauthorized));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_notification:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_reason:[SDLAppInterfaceUnregisteredReason APP_UNAUTHORIZED]},
-                                             NAMES_operation_name:NAMES_OnAppInterfaceUnregistered}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameNotification:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameReason:SDLAppInterfaceUnregisteredReasonAppUnauthorized},
+                                             SDLNameOperationName:SDLNameOnAppInterfaceUnregistered}} mutableCopy];
         SDLOnAppInterfaceUnregistered* testNotification = [[SDLOnAppInterfaceUnregistered alloc] initWithDictionary:dict];
         
-        expect(testNotification.reason).to(equal([SDLAppInterfaceUnregisteredReason APP_UNAUTHORIZED]));
+        expect(testNotification.reason).to(equal(SDLAppInterfaceUnregisteredReasonAppUnauthorized));
     });
     
     it(@"Should return nil if not set", ^ {

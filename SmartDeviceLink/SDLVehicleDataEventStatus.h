@@ -9,50 +9,20 @@
  *
  * @since SDL 2.0
  */
-@interface SDLVehicleDataEventStatus : SDLEnum {
-}
+typedef SDLEnum SDLVehicleDataEventStatus SDL_SWIFT_ENUM;
 
-/**
- * Convert String to SDLVehicleDataEventStatus
- *
- * @param value The value of the string to get an object for
- *
- * @return SDLVehicleDataEventStatus
- */
-+ (SDLVehicleDataEventStatus *)valueOf:(NSString *)value;
+extern SDLVehicleDataEventStatus const SDLVehicleDataEventStatusNoEvent;
 
-/**
- * @abstract Store the enumeration of all possible SDLVehicleDataEventStatus
- *
- * @return an array that store all possible SDLVehicleDataEventStatus
- */
-+ (NSArray *)values;
+extern SDLVehicleDataEventStatus const SDLVehicleDataEventStatusNo;
 
-/**
- * @return The SDLVehicleDataEventStatus instance with value of *NO_EVENT*
- */
-+ (SDLVehicleDataEventStatus *)NO_EVENT;
-
-/**
- * @return The SDLVehicleDataEventStatus instance with value of *NO*
- */
-+ (SDLVehicleDataEventStatus *)_NO;
-
-/**
- * @return The SDLVehicleDataEventStatus instance with value of *YES*
- */
-+ (SDLVehicleDataEventStatus *)_YES;
+extern SDLVehicleDataEventStatus const SDLVehicleDataEventStatusYes;
 
 /**
  * @abstract Vehicle data event is not supported
- *
- * @return the SDLVehicleDataEventStatus instance with value of *NOT_SUPPORTED*
  */
-+ (SDLVehicleDataEventStatus *)NOT_SUPPORTED;
+extern SDLVehicleDataEventStatus const SDLVehicleDataEventStatusNotSupported;
 
 /**
  * @abstract The SDLVehicleDataEventStatus instance with value of *FAULT*
  */
-+ (SDLVehicleDataEventStatus *)FAULT;
-
-@end
+extern SDLVehicleDataEventStatus const SDLVehicleDataEventStatusFault;

@@ -8,9 +8,7 @@
 
 #import "SDLLifecycleConfiguration.h"
 
-#import "SDLAppHMIType.h"
 #import "SDLFile.h"
-#import "SDLLanguage.h"
 
 static NSString *const DefaultTCPIPAddress = @"192.168.0.1";
 static UInt16 const DefaultTCPIPPort = 12345;
@@ -44,14 +42,13 @@ NS_ASSUME_NONNULL_BEGIN
     _appName = appName;
     _appId = appId;
 
-    _appType = [SDLAppHMIType DEFAULT];
-    _language = [SDLLanguage EN_US];
+    _appType = SDLAppHMITypeDefault;
+    _language = SDLLanguageEnUs;
     _languagesSupported = @[_language];
     _appIcon = nil;
     _shortAppName = nil;
     _ttsName = nil;
     _voiceRecognitionCommandNames = nil;
-    _logFlags = SDLLogOutputNone;
 
     return self;
 }
@@ -66,15 +63,13 @@ NS_ASSUME_NONNULL_BEGIN
     config.tcpDebugIPAddress = ipAddress;
     config.tcpDebugPort = port;
 
-    config.logFlags = SDLLogOutputConsole;
-
     return config;
 }
 
 #pragma mark Computed Properties
 
 - (BOOL)isMedia {
-    if ([self.appType isEqualToEnum:[SDLAppHMIType MEDIA]]) {
+    if ([self.appType isEqualToEnum:SDLAppHMITypeMedia]) {
         return YES;
     }
 
@@ -89,9 +84,9 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)setAppType:(nullable SDLAppHMIType *)appType {
+- (void)setAppType:(nullable SDLAppHMIType)appType {
     if (appType == nil) {
-        _appType = [SDLAppHMIType DEFAULT];
+        _appType = SDLAppHMITypeDefault;
         return;
     }
 

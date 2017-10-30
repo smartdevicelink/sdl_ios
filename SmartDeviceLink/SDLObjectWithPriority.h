@@ -5,14 +5,17 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLObjectWithPriority : NSObject
 
-@property (strong) id object;
-@property (assign) NSInteger priority;
+@property (nullable, strong, nonatomic) id object;
+@property (assign, nonatomic) NSInteger priority;
 
-- (instancetype)initWithObject:(id)object priority:(NSInteger)priority NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithObject:(nullable id)object priority:(NSInteger)priority NS_DESIGNATED_INITIALIZER;
 
-+ (instancetype)objectWithObject:(id)object priority:(NSInteger)priority;
++ (instancetype)objectWithObject:(nullable id)object priority:(NSInteger)priority;
 
 @end
+
+NS_ASSUME_NONNULL_END

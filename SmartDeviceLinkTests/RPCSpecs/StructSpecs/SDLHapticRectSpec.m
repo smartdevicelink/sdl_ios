@@ -2,7 +2,7 @@
 //  SDLHapticRectSpec.m
 //  SmartDeviceLink-iOS
 //
-//  Created by Nicole on 8/2/17.
+//  Created by Nicole on 8/3/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
@@ -18,8 +18,12 @@
 QuickSpecBegin(SDLHapticRectSpec)
 
 describe(@"Getter/Setter Tests", ^{
+    __block SDLRectangle *testRect = nil;
+    beforeEach(^{
+        testRect = [[SDLRectangle alloc] initWithX:1.2 y:42.3 width:78.9 height:69];
+    });
+
     it(@"Should set and get correctly", ^{
-        SDLRectangle *testRect = [[SDLRectangle alloc] initWithX:@1 y:@2 width:@3 height:@4];
         SDLHapticRect *testStruct = [[SDLHapticRect alloc] init];
 
         testStruct.id = @1;
@@ -29,15 +33,23 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.rect).to(equal(testRect));
     });
 
-    it(@"Should get correctly when initialized", ^{
-        NSMutableDictionary *dict = [@{NAMES_id:@2,
-                                       NAMES_rect: @{
-                                               NAMES_x:@20,
-                                               NAMES_y:@200,
-                                               NAMES_width:@2000,
-                                               NAMES_height:@3000
-                                               }} mutableCopy];
-        SDLHapticRect * testStruct = [[SDLHapticRect alloc] initWithDictionary:dict];
+    it(@"Should get correctly when initialized with parameters", ^{
+        SDLHapticRect *testStruct = [[SDLHapticRect alloc] initWithId:23 rect:testRect];
+
+        expect(testStruct.id).to(equal(@23));
+        expect(testStruct.rect).to(equal(testRect));
+    });
+
+    it(@"Should get correctly when initialized with a dict", ^{
+        NSMutableDictionary *dict = [@{SDLNameId:@2,
+                                       SDLNameRect: @{
+                                               SDLNameX:@20,
+                                               SDLNameY:@200,
+                                               SDLNameWidth:@2000,
+                                               SDLNameHeight:@3000
+                                               }
+                                       } mutableCopy];
+        SDLHapticRect *testStruct = [[SDLHapticRect alloc] initWithDictionary:dict];
 
         expect(testStruct.id).to(equal(@2));
         expect(testStruct.rect.x).to(equal(@20));

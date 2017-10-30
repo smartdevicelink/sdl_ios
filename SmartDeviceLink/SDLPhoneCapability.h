@@ -8,18 +8,9 @@
 
 #import "SDLRPCStruct.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLPhoneCapability : SDLRPCStruct
-
-/**
- * @abstract Constructs a newly allocated SDLPhoneCapability struct
- */
-- (instancetype)init;
-
-/**
- * @abstract Constructs a newly allocated SDLPhoneCapability struct indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 - (instancetype)initWithDialNumber:(BOOL)dialNumberEnabled;
 
@@ -27,6 +18,8 @@
  Whether or not the DialNumber RPC is enabled.
  Boolean, optional
  */
-@property (strong, nonatomic) NSNumber *dialNumberEnabled;
+@property (nullable, strong, nonatomic) NSNumber *dialNumberEnabled;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -1,462 +1,537 @@
 //  SDLNames.h
 //
 
+#import <Foundation/Foundation.h>
+#import "SDLMacros.h"
 
-#define NAMES_accPedalPosition @"accPedalPosition"
-#define NAMES_actual @"actual"
-#define NAMES_AddCommand @"AddCommand"
-#define NAMES_address @"address"
-#define NAMES_addressLines @"addressLines"
-#define NAMES_AddSubMenu @"AddSubMenu"
-#define NAMES_administrativeArea @"administrativeArea"
-#define NAMES_airbagStatus @"airbagStatus"
-#define NAMES_Alert @"Alert"
-#define NAMES_AlertManeuver @"AlertManeuver"
-#define NAMES_alertText1 @"alertText1"
-#define NAMES_alertText2 @"alertText2"
-#define NAMES_alertText3 @"alertText3"
-#define NAMES_alignment @"alignment"
-#define NAMES_allowed @"allowed"
-#define NAMES_altitude @"altitude"
-#define NAMES_ambientLightSensorStatus @"ambientLightSensorStatus"
-#define NAMES_ambientLightStatus @"ambientLightStatus"
-#define NAMES_appBundleID @"appBundleID"
-#define NAMES_appHMIType @"appHMIType"
-#define NAMES_appID @"appID"
-#define NAMES_appInfo @"appInfo"
-#define NAMES_appName @"appName"
-#define NAMES_appDisplayName @"appDisplayName"
-#define NAMES_appVersion @"appVersion"
-#define NAMES_audioPassThruCapabilities @"audioPassThruCapabilities"
-#define NAMES_audioPassThruDisplayText1 @"audioPassThruDisplayText1"
-#define NAMES_audioPassThruDisplayText2 @"audioPassThruDisplayText2"
-#define NAMES_audioStreamingState @"audioStreamingState"
-#define NAMES_audioType @"audioType"
-#define NAMES_autoCompleteText @"autoCompleteText"
-#define NAMES_auxECallNotificationStatus @"auxECallNotificationStatus"
-#define NAMES_battLevelStatus @"battLevelStatus"
-#define NAMES_beltStatus @"beltStatus"
-#define NAMES_bitsPerSample @"bitsPerSample"
-#define NAMES_bodyInformation @"bodyInformation"
-#define NAMES_btIconOn @"btIconOn"
-#define NAMES_bulkData @"bulkData"
-#define NAMES_buttonCapabilities @"buttonCapabilities"
-#define NAMES_buttonEventMode @"buttonEventMode"
-#define NAMES_buttonName @"buttonName"
-#define NAMES_buttonPressMode @"buttonPressMode"
-#define NAMES_c @"c"
-#define NAMES_callActive @"callActive"
-#define NAMES_carModeStatus @"carModeStatus"
-#define NAMES_carrier @"carrier"
-#define NAMES_ChangeRegistration @"ChangeRegistration"
-#define NAMES_characterSet @"characterSet"
-#define NAMES_choiceID @"choiceID"
-#define NAMES_choiceSet @"choiceSet"
-#define NAMES_clusterModes @"clusterModes"
-#define NAMES_clusterModeStatus @"clusterModeStatus"
-#define NAMES_cmdIcon @"cmdIcon"
-#define NAMES_cmdID @"cmdID"
-#define NAMES_compassDirection @"compassDirection"
-#define NAMES_correlationID @"correlationID"
-#define NAMES_CreateInteractionChoiceSet @"CreateInteractionChoiceSet"
-#define NAMES_countryCode @"countryCode"
-#define NAMES_countryName @"countryName"
-#define NAMES_customButtonID @"customButtonID"
-#define NAMES_customPresets @"customPresets"
-#define NAMES_data @"data"
-#define NAMES_dataResult @"dataResult"
-#define NAMES_dataType @"dataType"
-#define NAMES_day @"day"
-#define NAMES_DeleteCommand @"DeleteCommand"
-#define NAMES_DeleteFile @"DeleteFile"
-#define NAMES_DeleteInteractionChoiceSet @"DeleteInteractionChoiceSet"
-#define NAMES_DeleteSubMenu @"DeleteSubMenu"
-#define NAMES_deliveryMode @"deliveryMode"
-#define NAMES_deviceInfo @"deviceInfo"
-#define NAMES_deviceStatus @"deviceStatus"
-#define NAMES_DiagnosticMessage @"DiagnosticMessage"
-#define NAMES_dialNumberEnabled @"dialNumberEnabled"
-#define NAMES_didLocation @"didLocation"
-#define NAMES_didResult @"didResult"
-#define NAMES_dimension @"dimension"
-#define NAMES_displayCapabilities @"displayCapabilities"
-#define NAMES_displayLayout @"displayLayout"
-#define NAMES_displayType @"displayType"
-#define NAMES_distanceToEmpty @"distanceToEmpty"
-#define NAMES_distanceToManeuver @"distanceToManeuver"
-#define NAMES_distanceToManeuverScale @"distanceToManeuverScale"
-#define NAMES_doublePressAvailable @"doublePressAvailable"
-#define NAMES_driverAirbagDeployed @"driverAirbagDeployed"
-#define NAMES_driverBeltDeployed @"driverBeltDeployed"
-#define NAMES_driverBraking @"driverBraking"
-#define NAMES_driverBuckleBelted @"driverBuckleBelted"
-#define NAMES_driverCurtainAirbagDeployed @"driverCurtainAirbagDeployed"
-#define NAMES_driverDoorAjar @"driverDoorAjar"
-#define NAMES_driverKneeAirbagDeployed @"driverKneeAirbagDeployed"
-#define NAMES_driverSideAirbagDeployed @"driverSideAirbagDeployed"
-#define NAMES_dtc @"dtc"
-#define NAMES_dtcMask @"dtcMask"
-#define NAMES_duration @"duration"
-#define NAMES_e911Override @"e911Override"
-#define NAMES_eCallConfirmationStatus @"eCallConfirmationStatus"
-#define NAMES_eCallEventActive @"eCallEventActive"
-#define NAMES_eCallInfo @"eCallInfo"
-#define NAMES_eCallNotificationStatus @"eCallNotificationStatus"
-#define NAMES_ecuHeader @"ecuHeader"
-#define NAMES_ecuName @"ecuName"
-#define NAMES_emergencyEvent @"emergencyEvent"
-#define NAMES_emergencyEventType @"emergencyEventType"
-#define NAMES_EncodedSyncPData @"EncodedSyncPData"
-#define NAMES_EndAudioPassThru @"EndAudioPassThru"
-#define NAMES_endTime @"endTime"
-#define NAMES_engineTorque @"engineTorque"
-#define NAMES_eta @"eta"
-#define NAMES_event @"event"
-#define NAMES_externalTemperature @"externalTemperature"
-#define NAMES_fileName @"fileName"
-#define NAMES_filenames @"filenames"
-#define NAMES_fileType @"fileType"
-#define NAMES_firmwareRev @"firmwareRev"
-#define NAMES_fuelCutoffStatus @"fuelCutoffStatus"
-#define NAMES_fuelLevel @"fuelLevel"
-#define NAMES_fuelLevel_State @"fuelLevel_State"
-#define NAMES_fuelMaintenanceMode @"fuelMaintenanceMode"
-#define NAMES_GenericResponse @"GenericResponse"
-#define NAMES_GetDTCs @"GetDTCs"
-#define NAMES_GetSystemCapability @"GetSystemCapability"
-#define NAMES_GetVehicleData @"GetVehicleData"
-#define NAMES_GetWaypoints @"GetWayPoints"
-#define NAMES_getWayPointsEnabled @"getWayPointsEnabled"
-#define NAMES_gps @"gps"
-#define NAMES_graphic @"graphic"
-#define NAMES_graphicSupported @"graphicSupported"
-#define NAMES_hapticRectData @"hapticRectData"
-#define NAMES_hapticSpatialDataSupported @"hapticSpatialDataSupported"
-#define NAMES_hardware @"hardware"
-#define NAMES_hashID @"hashID"
-#define NAMES_height @"height"
-#define NAMES_hdop @"hdop"
-#define NAMES_heading @"heading"
-#define NAMES_headLampStatus @"headLampStatus"
-#define NAMES_helpPrompt @"helpPrompt"
-#define NAMES_highBeamsOn @"highBeamsOn"
-#define NAMES_hmiDisplayLanguage @"hmiDisplayLanguage"
-#define NAMES_hmiDisplayLanguageDesired @"hmiDisplayLanguageDesired"
-#define NAMES_hmiLevel @"hmiLevel"
-#define NAMES_hmiPermissions @"hmiPermissions"
-#define NAMES_hmiCapabilities @"hmiCapabilities"
-#define NAMES_hmiZoneCapabilities @"hmiZoneCapabilities"
-#define NAMES_hour @"hour"
-#define NAMES_hours @"hours"
-#define NAMES_id @"id"
-#define NAMES_ignitionStableStatus @"ignitionStableStatus"
-#define NAMES_ignitionStatus @"ignitionStatus"
-#define NAMES_image @"image"
-#define NAMES_imageFields @"imageFields"
-#define NAMES_imageResolution @"imageResolution"
-#define NAMES_imageSupported @"imageSupported"
-#define NAMES_imageType @"imageType"
-#define NAMES_imageTypeSupported @"imageTypeSupported"
-#define NAMES_info @"info"
-#define NAMES_initialPrompt @"initialPrompt"
-#define NAMES_initialText @"initialText"
-#define NAMES_innerLeftRear @"innerLeftRear"
-#define NAMES_innerRightRear @"innerRightRear"
-#define NAMES_instantFuelConsumption @"instantFuelConsumption"
-#define NAMES_interactionChoiceSetID @"interactionChoiceSetID"
-#define NAMES_interactionChoiceSetIDList @"interactionChoiceSetIDList"
-#define NAMES_interactionLayout @"interactionLayout"
-#define NAMES_interactionMode @"interactionMode"
-#define NAMES_isHighlighted @"isHighlighted"
-#define NAMES_isMediaApplication @"isMediaApplication"
-#define NAMES_keyboardLayout @"keyboardLayout"
-#define NAMES_keyboardProperties @"keyboardProperties"
-#define NAMES_keypressMode @"keypressMode"
-#define NAMES_language @"language"
-#define NAMES_languageDesired @"languageDesired"
-#define NAMES_latitudeDegrees @"latitudeDegrees"
-#define NAMES_leftFront @"leftFront"
-#define NAMES_leftRear @"leftRear"
-#define NAMES_leftRearInflatableBelted @"leftRearInflatableBelted"
-#define NAMES_leftRow2BuckleBelted @"leftRow2BuckleBelted"
-#define NAMES_leftRow3BuckleBelted @"leftRow3BuckleBelted"
-#define NAMES_length @"length"
-#define NAMES_limitedCharacterList @"limitedCharacterList"
-#define NAMES_ListFiles @"ListFiles"
-#define NAMES_locality @"locality"
-#define NAMES_locationCoordinate @"coordinate"
-#define NAMES_locationDescription @"locationDescription"
-#define NAMES_locationImage @"locationImage"
-#define NAMES_locationName @"locationName"
-#define NAMES_longitudeDegrees @"longitudeDegrees"
-#define NAMES_longPress @"longPress"
-#define NAMES_longPressAvailable @"longPressAvailable"
-#define NAMES_lowBeamsOn @"lowBeamsOn"
-#define NAMES_mainField1 @"mainField1"
-#define NAMES_mainField2 @"mainField2"
-#define NAMES_mainField3 @"mainField3"
-#define NAMES_mainField4 @"mainField4"
-#define NAMES_majorVersion @"majorVersion"
-#define NAMES_make @"make"
-#define NAMES_maneuverComplete @"maneuverComplete"
-#define NAMES_manualTextEntry @"manualTextEntry"
-#define NAMES_maxBitrate @"maxBitrate"
-#define NAMES_maxDuration @"maxDuration"
-#define NAMES_maximumChangeVelocity @"maximumChangeVelocity"
-#define NAMES_maxNumberRFCOMMPorts @"maxNumberRFCOMMPorts"
-#define NAMES_mediaClock @"mediaClock"
-#define NAMES_mediaClockFormats @"mediaClockFormats"
-#define NAMES_mediaTrack @"mediaTrack"
-#define NAMES_menuIcon @"menuIcon"
-#define NAMES_menuID @"menuID"
-#define NAMES_menuName @"menuName"
-#define NAMES_menuParams @"menuParams"
-#define NAMES_menuTitle @"menuTitle"
-#define NAMES_messageData @"messageData"
-#define NAMES_messageDataResult @"messageDataResult"
-#define NAMES_messageLength @"messageLength"
-#define NAMES_metadataTags @"metadataTags"
-#define NAMES_middleRow1BeltDeployed @"middleRow1BeltDeployed"
-#define NAMES_middleRow1BuckleBelted @"middleRow1BuckleBelted"
-#define NAMES_middleRow2BuckleBelted @"middleRow2BuckleBelted"
-#define NAMES_middleRow3BuckleBelted @"middleRow3BuckleBelted"
-#define NAMES_millisecond @"millisecond"
-#define NAMES_minorVersion @"minorVersion"
-#define NAMES_minute @"minute"
-#define NAMES_minutes @"minutes"
-#define NAMES_model @"model"
-#define NAMES_modelYear @"modelYear"
-#define NAMES_monoAudioOutputMuted @"monoAudioOutputMuted"
-#define NAMES_month @"month"
-#define NAMES_multipleEvents @"multipleEvents"
-#define NAMES_multiTouchAvailable @"multiTouchAvailable"
-#define NAMES_muteAudio @"muteAudio"
-#define NAMES_myKey @"myKey"
-#define NAMES_name @"name"
-#define NAMES_navigation @"navigation"
-#define NAMES_navigationCapability @"navigationCapability"
-#define NAMES_navigationText @"navigationText"
-#define NAMES_navigationText1 @"navigationText1"
-#define NAMES_navigationText2 @"navigationText2"
-#define NAMES_nextTurnIcon @"nextTurnIcon"
-#define NAMES_ngnMediaScreenAppName @"ngnMediaScreenAppName"
-#define NAMES_notification @"notification"
-#define NAMES_number @"number"
-#define NAMES_numCustomPresetsAvailable @"numCustomPresetsAvailable"
-#define NAMES_numTicks @"numTicks"
-#define NAMES_odometer @"odometer"
-#define NAMES_offset @"offset"
-#define NAMES_OnAppInterfaceUnregistered @"OnAppInterfaceUnregistered"
-#define NAMES_OnAudioPassThru @"OnAudioPassThru"
-#define NAMES_OnButtonEvent @"OnButtonEvent"
-#define NAMES_OnButtonPress @"OnButtonPress"
-#define NAMES_OnCommand @"OnCommand"
-#define NAMES_OnDriverDistraction @"OnDriverDistraction"
-#define NAMES_OnEncodedSyncPData @"OnEncodedSyncPData"
-#define NAMES_OnHashChange @"OnHashChange"
-#define NAMES_OnHMIStatus @"OnHMIStatus"
-#define NAMES_OnKeyboardInput @"OnKeyboardInput"
-#define NAMES_OnLanguageChange @"OnLanguageChange"
-#define NAMES_OnPermissionsChange @"OnPermissionsChange"
-#define NAMES_onScreenPresetsAvailable @"onScreenPresetsAvailable"
-#define NAMES_OnSyncPData @"OnSyncPData"
-#define NAMES_OnSystemRequest @"OnSystemRequest"
-#define NAMES_OnTBTClientState @"OnTBTClientState"
-#define NAMES_OnTouchEvent @"OnTouchEvent"
-#define NAMES_OnVehicleData @"OnVehicleData"
-#define NAMES_OnWaypointChange @"OnWayPointChange"
-#define NAMES_operation_name @"name"
-#define NAMES_os @"os"
-#define NAMES_osVersion @"osVersion"
-#define NAMES_parameterPermissions @"parameterPermissions"
-#define NAMES_parameters @"parameters"
-#define NAMES_parentID @"parentID"
-#define NAMES_parkBrakeActive @"parkBrakeActive"
-#define NAMES_passengerAirbagDeployed @"passengerAirbagDeployed"
-#define NAMES_passengerBeltDeployed @"passengerBeltDeployed"
-#define NAMES_passengerBuckleBelted @"passengerBuckleBelted"
-#define NAMES_passengerChildDetected @"passengerChildDetected"
-#define NAMES_passengerCurtainAirbagDeployed @"passengerCurtainAirbagDeployed"
-#define NAMES_passengerDoorAjar @"passengerDoorAjar"
-#define NAMES_passengerKneeAirbagDeployed @"passengerKneeAirbagDeployed"
-#define NAMES_passengerSideAirbagDeployed @"passengerSideAirbagDeployed"
-#define NAMES_patchVersion @"patchVersion"
-#define NAMES_pdop @"pdop"
-#define NAMES_PerformAudioPassThru @"PerformAudioPassThru"
-#define NAMES_PerformInteraction @"PerformInteraction"
-#define NAMES_permissionItem @"permissionItem"
-#define NAMES_persistentFile @"persistentFile"
-#define NAMES_phoneCall @"phoneCall"
-#define NAMES_phoneCapability @"phoneCapability"
-#define NAMES_phoneNumber @"phoneNumber"
-#define NAMES_phoneRoaming @"phoneRoaming"
-#define NAMES_playTone @"playTone"
-#define NAMES_position @"position"
-#define NAMES_postalCode @"postalCode"
-#define NAMES_powerModeActive @"powerModeActive"
-#define NAMES_powerModeQualificationStatus @"powerModeQualificationStatus"
-#define NAMES_powerModeStatus @"powerModeStatus"
-#define NAMES_preferredResolution @"preferredResolution"
-#define NAMES_prerecordedSpeech @"prerecordedSpeech"
-#define NAMES_presetBankCapabilities @"presetBankCapabilities"
-#define NAMES_pressAvailable @"pressAvailable"
-#define NAMES_pressure @"pressure"
-#define NAMES_pressureTelltale @"pressureTelltale"
-#define NAMES_primaryAudioSource @"primaryAudioSource"
-#define NAMES_prndl @"prndl"
-#define NAMES_progressIndicator @"progressIndicator"
-#define NAMES_properties @"properties"
-#define NAMES_PutFile @"PutFile"
-#define NAMES_ReadDID @"ReadDID"
-#define NAMES_rearLeftDoorAjar @"rearLeftDoorAjar"
-#define NAMES_rearRightDoorAjar @"rearRightDoorAjar"
-#define NAMES_reason @"reason"
-#define NAMES_rect @"rect"
-#define NAMES_RegisterAppInterface @"RegisterAppInterface"
-#define NAMES_request @"request"
-#define NAMES_requestType @"requestType"
-#define NAMES_reserved @"reserved"
-#define NAMES_ResetGlobalProperties @"ResetGlobalProperties"
-#define NAMES_resolution @"resolution"
-#define NAMES_resolutionHeight @"resolutionHeight"
-#define NAMES_resolutionWidth @"resolutionWidth"
-#define NAMES_response @"response"
-#define NAMES_result @"result"
-#define NAMES_resultCode @"resultCode"
-#define NAMES_rightFront @"rightFront"
-#define NAMES_rightRear @"rightRear"
-#define NAMES_rightRearInflatableBelted @"rightRearInflatableBelted"
-#define NAMES_rightRow2BuckleBelted @"rightRow2BuckleBelted"
-#define NAMES_rightRow3BuckleBelted @"rightRow3BuckleBelted"
-#define NAMES_rolloverEvent @"rolloverEvent"
-#define NAMES_rows @"rows"
-#define NAMES_rpcName @"rpcName"
-#define NAMES_rpm @"rpm"
-#define NAMES_samplingRate @"samplingRate"
-#define NAMES_satellites @"satellites"
-#define NAMES_screenParams @"screenParams"
-#define NAMES_ScrollableMessage @"ScrollableMessage"
-#define NAMES_scrollableMessageBody @"scrollableMessageBody"
-#define NAMES_sdlVersion @"sdlVersion"
-#define NAMES_searchAddress @"searchAddress"
-#define NAMES_secondaryGraphic @"secondaryGraphic"
-#define NAMES_secondaryImage @"secondaryImage"
-#define NAMES_secondaryText @"secondaryText"
-#define NAMES_second @"second"
-#define NAMES_seconds @"seconds"
-#define NAMES_SendHapticData @"SendHapticData"
-#define NAMES_SendHapticDataResponse @"SendHapticDataResponse"
-#define NAMES_SendLocation @"SendLocation"
-#define NAMES_sendLocationEnabled @"sendLocationEnabled"
-#define NAMES_SetAppIcon @"SetAppIcon"
-#define NAMES_SetDisplayLayout @"SetDisplayLayout"
-#define NAMES_SetGlobalProperties @"SetGlobalProperties"
-#define NAMES_SetMediaClockTimer @"SetMediaClockTimer"
-#define NAMES_shortPress @"shortPress"
-#define NAMES_shortPressAvailable @"shortPressAvailable"
-#define NAMES_Show @"Show"
-#define NAMES_ShowConstantTBT @"ShowConstantTBT"
-#define NAMES_signalLevelStatus @"signalLevelStatus"
-#define NAMES_Slider @"Slider"
-#define NAMES_sliderFooter @"sliderFooter"
-#define NAMES_sliderHeader @"sliderHeader"
-#define NAMES_sliderPosition @"sliderPosition"
-#define NAMES_softButtonCapabilities @"softButtonCapabilities"
-#define NAMES_softButtonID @"softButtonID"
-#define NAMES_softButtons @"softButtons"
-#define NAMES_spaceAvailable @"spaceAvailable"
-#define NAMES_Speak @"Speak"
-#define NAMES_speechCapabilities @"speechCapabilities"
-#define NAMES_speed @"speed"
-#define NAMES_startTime @"startTime"
-#define NAMES_state @"state"
-#define NAMES_stateOfCharge @"stateOfCharge"
-#define NAMES_status @"status"
-#define NAMES_statusBar @"statusBar"
-#define NAMES_steeringWheelAngle @"steeringWheelAngle"
-#define NAMES_stereoAudioOutputMuted @"stereoAudioOutputMuted"
-#define NAMES_subAdministrativeArea @"subAdministrativeArea"
-#define NAMES_subLocality @"subLocality"
-#define NAMES_Subscribe @"Subscribe"
-#define NAMES_SubscribeButton @"SubscribeButton"
-#define NAMES_SubscribeVehicleData @"SubscribeVehicleData"
-#define NAMES_SubscribeWaypoints @"SubscribeWayPoints"
-#define NAMES_subThoroughfare @"subThoroughfare"
-#define NAMES_success @"success"
-#define NAMES_supportedDiagModes @"supportedDiagModes"
-#define NAMES_supportedFormats @"supportedFormats"
-#define NAMES_syncFileName @"syncFileName"
-#define NAMES_syncMsgVersion @"syncMsgVersion"
-#define NAMES_SyncPData @"SyncPData"
-#define NAMES_systemAction @"systemAction"
-#define NAMES_systemCapability @"systemCapability"
-#define NAMES_systemCapabilityType @"systemCapabilityType"
-#define NAMES_systemContext @"systemContext"
-#define NAMES_systemFile @"systemFile"
-#define NAMES_SystemRequest @"SystemRequest"
-#define NAMES_systemSoftwareVersion @"systemSoftwareVersion"
-#define NAMES_DialNumber @"DialNumber"
-#define NAMES_targetID @"targetID"
-#define NAMES_templatesAvailable @"templatesAvailable"
-#define NAMES_tertiaryText @"tertiaryText"
-#define NAMES_text @"text"
-#define NAMES_textFields @"textFields"
-#define NAMES_textMsgAvailable @"textMsgAvailable"
-#define NAMES_thoroughfare @"thoroughfare"
-#define NAMES_timeout @"timeout"
-#define NAMES_Timeout @"Timeout"
-#define NAMES_timeoutPrompt @"timeoutPrompt"
-#define NAMES_timeStamp @"timeStamp"
-#define NAMES_timeToDestination @"timeToDestination"
-#define NAMES_timezoneHourOffset @"tz_hour"
-#define NAMES_timezoneMinuteOffset @"tz_minute"
-#define NAMES_tirePressure @"tirePressure"
-#define NAMES_totalDistance @"totalDistance"
-#define NAMES_touchEventAvailable @"touchEventAvailable"
-#define NAMES_triggerSource @"triggerSource"
-#define NAMES_trim @"trim"
-#define NAMES_tryAgainTime @"tryAgainTime"
-#define NAMES_ts @"ts"
-#define NAMES_ttsChunks @"ttsChunks"
-#define NAMES_ttsName @"ttsName"
-#define NAMES_turnIcon @"turnIcon"
-#define NAMES_turnList @"turnList"
-#define NAMES_type @"type"
-#define NAMES_UnregisterAppInterface @"UnregisterAppInterface"
-#define NAMES_Unsubscribe @"Unsubscribe"
-#define NAMES_UnsubscribeButton @"UnsubscribeButton"
-#define NAMES_UnsubscribeVehicleData @"UnsubscribeVehicleData"
-#define NAMES_UnsubscribeWaypoints @"UnsubscribeWayPoints"
-#define NAMES_updateMode @"updateMode"
-#define NAMES_UpdateTurnList @"UpdateTurnList"
-#define NAMES_upDownAvailable @"upDownAvailable"
-#define NAMES_url @"url"
-#define NAMES_URL @"URL"
-#define NAMES_userDisallowed @"userDisallowed"
-#define NAMES_utcDay @"utcDay"
-#define NAMES_utcHours @"utcHours"
-#define NAMES_utcMinutes @"utcMinutes"
-#define NAMES_utcMonth @"utcMonth"
-#define NAMES_utcSeconds @"utcSeconds"
-#define NAMES_utcYear @"utcYear"
-#define NAMES_value @"value"
-#define NAMES_vdop @"vdop"
-#define NAMES_vehicleType @"vehicleType"
-#define NAMES_videoCodec @"codec"
-#define NAMES_videoProtocol @"protocol"
-#define NAMES_videoStreaming @"videoStreaming"
-#define NAMES_videoStreamingCapability @"videoStreamingCapability"
-#define NAMES_vin @"vin"
-#define NAMES_voiceRecOn @"voiceRecOn"
-#define NAMES_vrCapabilities @"vrCapabilities"
-#define NAMES_vrCommands @"vrCommands"
-#define NAMES_vrHelp @"vrHelp"
-#define NAMES_vrHelpTitle @"vrHelpTitle"
-#define NAMES_vrSynonyms @"vrSynonyms"
-#define NAMES_waypoints @"wayPoints"
-#define NAMES_waypointType @"wayPointType"
-#define NAMES_width @"width"
-#define NAMES_wiperStatus @"wiperStatus"
-#define NAMES_x @"x"
-#define NAMES_y @"y"
-#define NAMES_year @"year"
+NS_ASSUME_NONNULL_BEGIN
+
+typedef NSString* SDLName SDL_SWIFT_ENUM;
+
+extern SDLName const SDLNameACEnable;
+extern SDLName const SDLNameACEnableAvailable;
+extern SDLName const SDLNameACMaxEnable;
+extern SDLName const SDLNameACMaxEnableAvailable;
+extern SDLName const SDLNameAccelerationPedalPosition;
+extern SDLName const SDLNameActual;
+extern SDLName const SDLNameAddCommand;
+extern SDLName const SDLNameAddress;
+extern SDLName const SDLNameAddressLines;
+extern SDLName const SDLNameAddSubMenu;
+extern SDLName const SDLNameAdministrativeArea;
+extern SDLName const SDLNameAirbagStatus;
+extern SDLName const SDLNameAlert;
+extern SDLName const SDLNameAlertManeuver;
+extern SDLName const SDLNameAlertText1;
+extern SDLName const SDLNameAlertText2;
+extern SDLName const SDLNameAlertText3;
+extern SDLName const SDLNameAlignment;
+extern SDLName const SDLNameAllowed;
+extern SDLName const SDLNameAltitude;
+extern SDLName const SDLNameAmbientLightSensorStatus;
+extern SDLName const SDLNameAmbientLightStatus;
+extern SDLName const SDLNameAppBundleId;
+extern SDLName const SDLNameAppHMIType;
+extern SDLName const SDLNameAppId;
+extern SDLName const SDLNameAppInfo;
+extern SDLName const SDLNameAppName;
+extern SDLName const SDLNameAppDisplayName;
+extern SDLName const SDLNameAppVersion;
+extern SDLName const SDLNameAudioPassThruCapabilities;
+extern SDLName const SDLNameAudioPassThruDisplayText1;
+extern SDLName const SDLNameAudioPassThruDisplayText2;
+extern SDLName const SDLNameAudioStreamingState;
+extern SDLName const SDLNameAudioType;
+extern SDLName const SDLNameAutoCompleteText;
+extern SDLName const SDLNameAutoModeEnable;
+extern SDLName const SDLNameAutoModeEnableAvailable;
+extern SDLName const SDLNameAuxECallNotificationStatus;
+extern SDLName const SDLNameAvailableHDs;
+extern SDLName const SDLNameAvailableHDsAvailable;
+extern SDLName const SDLNameBand;
+extern SDLName const SDLNameBatteryLevelStatus;
+extern SDLName const SDLNameBeltStatus;
+extern SDLName const SDLNameBitsPerSample;
+extern SDLName const SDLNameBodyInformation;
+extern SDLName const SDLNameBluetoothIconOn;
+extern SDLName const SDLNameBulkData;
+extern SDLName const SDLNameButtonCapabilities;
+extern SDLName const SDLNameButtonEventMode;
+extern SDLName const SDLNameButtonName;
+extern SDLName const SDLNameButtonPress;
+extern SDLName const SDLNameButtonPressMode;
+extern SDLName const SDLNameCoordinate;
+extern SDLName const SDLNameCallActive;
+extern SDLName const SDLNameCarModeStatus;
+extern SDLName const SDLNameCarrier;
+extern SDLName const SDLNameChangeRegistration;
+extern SDLName const SDLNameCharacterSet;
+extern SDLName const SDLNameChoiceId;
+extern SDLName const SDLNameChoiceSet;
+extern SDLName const SDLNameCirculateAirEnable;
+extern SDLName const SDLNameCirculateAirEnableAvailable;
+extern SDLName const SDLNameClimateControlData;
+extern SDLName const SDLNameClimateControlCapabilities;
+extern SDLName const SDLNameClusterModes;
+extern SDLName const SDLNameClusterModeStatus;
+extern SDLName const SDLNameCommandIcon;
+extern SDLName const SDLNameCommandId;
+extern SDLName const SDLNameCompassDirection;
+extern SDLName const SDLNameCorrelationId;
+extern SDLName const SDLNameCountryCode;
+extern SDLName const SDLNameCountryName;
+extern SDLName const SDLNameCreateInteractionChoiceSet;
+extern SDLName const SDLNameClockText;
+extern SDLName const SDLNameCurrentTemperature;
+extern SDLName const SDLNameCustomButtonId;
+extern SDLName const SDLNameCustomPresets;
+extern SDLName const SDLNameData;
+extern SDLName const SDLNameDataResult;
+extern SDLName const SDLNameDataType;
+extern SDLName const SDLNameDay;
+extern SDLName const SDLNameDefrostZone;
+extern SDLName const SDLNameDefrostZoneAvailable;
+extern SDLName const SDLNameDeleteCommand;
+extern SDLName const SDLNameDeleteFile;
+extern SDLName const SDLNameDeleteInteractionChoiceSet;
+extern SDLName const SDLNameDeleteSubMenu;
+extern SDLName const SDLNameDeliveryMode;
+extern SDLName const SDLNameDesiredTemperature;
+extern SDLName const SDLNameDesiredTemperatureAvailable;
+extern SDLName const SDLNameDeviceInfo;
+extern SDLName const SDLNameDeviceStatus;
+extern SDLName const SDLNameDiagnosticMessage;
+extern SDLName const SDLNameDialNumber;
+extern SDLName const SDLNameDialNumberEnabled;
+extern SDLName const SDLNameDIDLocation;
+extern SDLName const SDLNameDIDResult;
+extern SDLName const SDLNameDimension;
+extern SDLName const SDLNameDisplayCapabilities;
+extern SDLName const SDLNameDisplayLayout;
+extern SDLName const SDLNameDisplayType;
+extern SDLName const SDLNameDistanceToEmpty;
+extern SDLName const SDLNameDistanceToManeuver;
+extern SDLName const SDLNameDistanceToManeuverScale;
+extern SDLName const SDLNameDoublePressAvailable;
+extern SDLName const SDLNameDriverAirbagDeployed;
+extern SDLName const SDLNameDriverBeltDeployed;
+extern SDLName const SDLNameDriverBraking;
+extern SDLName const SDLNameDriverBuckleBelted;
+extern SDLName const SDLNameDriverCurtainAirbagDeployed;
+extern SDLName const SDLNameDriverDistractionStatus;
+extern SDLName const SDLNameDriverDoorAjar;
+extern SDLName const SDLNameDriverKneeAirbagDeployed;
+extern SDLName const SDLNameDriverSideAirbagDeployed;
+extern SDLName const SDLNameDTC;
+extern SDLName const SDLNameDTCMask;
+extern SDLName const SDLNameDualModeEnable;
+extern SDLName const SDLNameDualModeEnableAvailable;
+extern SDLName const SDLNameDuration;
+extern SDLName const SDLNameE911Override;
+extern SDLName const SDLNameECallConfirmationStatus;
+extern SDLName const SDLNameECallEventActive;
+extern SDLName const SDLNameECallInfo;
+extern SDLName const SDLNameECallNotificationStatus;
+extern SDLName const SDLNameECUHeader;
+extern SDLName const SDLNameECUName;
+extern SDLName const SDLNameEmergencyEvent;
+extern SDLName const SDLNameEmergencyEventType;
+extern SDLName const SDLNameEncodedSyncPData;
+extern SDLName const SDLNameEndAudioPassThru;
+extern SDLName const SDLNameEndTime;
+extern SDLName const SDLNameEngineTorque;
+extern SDLName const SDLNameETA;
+extern SDLName const SDLNameEvent;
+extern SDLName const SDLNameExternalTemperature;
+extern SDLName const SDLNameFanSpeed;
+extern SDLName const SDLNameFanSpeedAvailable;
+extern SDLName const SDLNameFilename;
+extern SDLName const SDLNameFilenames;
+extern SDLName const SDLNameFileType;
+extern SDLName const SDLNameFirmwareRevision;
+extern SDLName const SDLNameFrequencyInteger;
+extern SDLName const SDLNameFrequencyFraction;
+extern SDLName const SDLNameFuelCutoffStatus;
+extern SDLName const SDLNameFuelLevel;
+extern SDLName const SDLNameFuelLevelState;
+extern SDLName const SDLNameFuelMaintenanceMode;
+extern SDLName const SDLNameGenericResponse;
+extern SDLName const SDLNameGetDTCs;
+extern SDLName const SDLNameGetInteriorVehicleData;
+extern SDLName const SDLNameGetSystemCapability;
+extern SDLName const SDLNameGetVehicleData;
+extern SDLName const SDLNameGetWayPoints;
+extern SDLName const SDLNameGetWayPointsEnabled;
+extern SDLName const SDLNameGPS;
+extern SDLName const SDLNameGraphic;
+extern SDLName const SDLNameGraphicSupported;
+extern SDLName const SDLNameHapticRectData;
+extern SDLName const SDLNameHapticSpatialDataSupported;
+extern SDLName const SDLNameHardware;
+extern SDLName const SDLNameHashId;
+extern SDLName const SDLNameHDOP;
+extern SDLName const SDLNameHDChannel;
+extern SDLName const SDLNameHDChannelAvailable;
+extern SDLName const SDLNameHeading;
+extern SDLName const SDLNameHeadLampStatus;
+extern SDLName const SDLNameHeight;
+extern SDLName const SDLNameHelpPrompt;
+extern SDLName const SDLNameHighBeamsOn;
+extern SDLName const SDLNameHMIDisplayLanguage;
+extern SDLName const SDLNameHMIDisplayLanguageDesired;
+extern SDLName const SDLNameHMILevel;
+extern SDLName const SDLNameHMIPermissions;
+extern SDLName const SDLNameHMICapabilities;
+extern SDLName const SDLNameHMIZoneCapabilities;
+extern SDLName const SDLNameHour;
+extern SDLName const SDLNameHours;
+extern SDLName const SDLNameId;
+extern SDLName const SDLNameIgnitionStableStatus;
+extern SDLName const SDLNameIgnitionStatus;
+extern SDLName const SDLNameImage;
+extern SDLName const SDLNameImageFields;
+extern SDLName const SDLNameImageResolution;
+extern SDLName const SDLNameImageSupported;
+extern SDLName const SDLNameImageType;
+extern SDLName const SDLNameImageTypeSupported;
+extern SDLName const SDLNameInfo;
+extern SDLName const SDLNameInitialPrompt;
+extern SDLName const SDLNameInitialText;
+extern SDLName const SDLNameInnerLeftRear;
+extern SDLName const SDLNameInnerRightRear;
+extern SDLName const SDLNameInstantFuelConsumption;
+extern SDLName const SDLNameInteractionChoiceSetId;
+extern SDLName const SDLNameInteractionChoiceSetIdList;
+extern SDLName const SDLNameInteractionLayout;
+extern SDLName const SDLNameInteractionMode;
+extern SDLName const SDLNameIsHighlighted;
+extern SDLName const SDLNameIsMediaApplication;
+extern SDLName const SDLNameIsSubscribed;
+extern SDLName const SDLNameKeyboardLayout;
+extern SDLName const SDLNameKeyboardProperties;
+extern SDLName const SDLNameKeypressMode;
+extern SDLName const SDLNameLanguage;
+extern SDLName const SDLNameLanguageDesired;
+extern SDLName const SDLNameLatitudeDegrees;
+extern SDLName const SDLNameLeftFront;
+extern SDLName const SDLNameLeftRear;
+extern SDLName const SDLNameLeftRearInflatableBelted;
+extern SDLName const SDLNameLeftRow2BuckleBelted;
+extern SDLName const SDLNameLeftRow3BuckleBelted;
+extern SDLName const SDLNameLength;
+extern SDLName const SDLNameLimitedCharacterList;
+extern SDLName const SDLNameListFiles;
+extern SDLName const SDLNameLocality;
+extern SDLName const SDLNameLocationCoordinate;
+extern SDLName const SDLNameLocationDescription;
+extern SDLName const SDLNameLocationImage;
+extern SDLName const SDLNameLocationName;
+extern SDLName const SDLNameLocationTimeStamp;
+extern SDLName const SDLNameLongitudeDegrees;
+extern SDLName const SDLNameLongPress;
+extern SDLName const SDLNameLongPressAvailable;
+extern SDLName const SDLNameLowBeamsOn;
+extern SDLName const SDLNameMainField1;
+extern SDLName const SDLNameMainField2;
+extern SDLName const SDLNameMainField3;
+extern SDLName const SDLNameMainField4;
+extern SDLName const SDLNameMainField1Type;
+extern SDLName const SDLNameMainField2Type;
+extern SDLName const SDLNameMainField3Type;
+extern SDLName const SDLNameMainField4Type;
+extern SDLName const SDLNameMajorVersion;
+extern SDLName const SDLNameMake;
+extern SDLName const SDLNameManeuverComplete;
+extern SDLName const SDLNameManualTextEntry;
+extern SDLName const SDLNameMaxBitrate;
+extern SDLName const SDLNameMaxDuration;
+extern SDLName const SDLNameMaximumChangeVelocity;
+extern SDLName const SDLNameMaxNumberRFCOMMPorts;
+extern SDLName const SDLNameMediaClock;
+extern SDLName const SDLNameMediaClockFormats;
+extern SDLName const SDLNameMediaTrack;
+extern SDLName const SDLNameMenuIcon;
+extern SDLName const SDLNameMenuId;
+extern SDLName const SDLNameMenuName;
+extern SDLName const SDLNameMenuParams;
+extern SDLName const SDLNameMenuTitle;
+extern SDLName const SDLNameMessageData;
+extern SDLName const SDLNameMessageDataResult;
+extern SDLName const SDLNameMessageLength;
+extern SDLName const SDLNameMetadataTags;
+extern SDLName const SDLNameMiddleRow1BeltDeployed;
+extern SDLName const SDLNameMiddleRow1BuckleBelted;
+extern SDLName const SDLNameMiddleRow2BuckleBelted;
+extern SDLName const SDLNameMiddleRow3BuckleBelted;
+extern SDLName const SDLNameMillisecond;
+extern SDLName const SDLNameMinorVersion;
+extern SDLName const SDLNameMinute;
+extern SDLName const SDLNameMinutes;
+extern SDLName const SDLNameModel;
+extern SDLName const SDLNameModuleData;
+extern SDLName const SDLNameModuleName;
+extern SDLName const SDLNameModuleType;
+extern SDLName const SDLNameModelYear;
+extern SDLName const SDLNameMonoAudioOutputMuted;
+extern SDLName const SDLNameMonth;
+extern SDLName const SDLNameMultipleEvents;
+extern SDLName const SDLNameMultiTouchAvailable;
+extern SDLName const SDLNameMuteAudio;
+extern SDLName const SDLNameMyKey;
+extern SDLName const SDLNameName;
+extern SDLName const SDLNameNavigation;
+extern SDLName const SDLNameNavigationCapability;
+extern SDLName const SDLNameNavigationText;
+extern SDLName const SDLNameNavigationText1;
+extern SDLName const SDLNameNavigationText2;
+extern SDLName const SDLNameNextTurnIcon;
+extern SDLName const SDLNameNGNMediaScreenAppName;
+extern SDLName const SDLNameNotification;
+extern SDLName const SDLNameNumber;
+extern SDLName const SDLNameNumberCustomPresetsAvailable;
+extern SDLName const SDLNameNumberTicks;
+extern SDLName const SDLNameOdometer;
+extern SDLName const SDLNameOffset;
+extern SDLName const SDLNameOnAppInterfaceUnregistered;
+extern SDLName const SDLNameOnAudioPassThru;
+extern SDLName const SDLNameOnButtonEvent;
+extern SDLName const SDLNameOnButtonPress;
+extern SDLName const SDLNameOnCommand;
+extern SDLName const SDLNameOnDriverDistraction;
+extern SDLName const SDLNameOnEncodedSyncPData;
+extern SDLName const SDLNameOnHashChange;
+extern SDLName const SDLNameOnHMIStatus;
+extern SDLName const SDLNameOnInteriorVehicleData;
+extern SDLName const SDLNameOnKeyboardInput;
+extern SDLName const SDLNameOnLanguageChange;
+extern SDLName const SDLNameOnLockScreenStatus;
+extern SDLName const SDLNameOnPermissionsChange;
+extern SDLName const SDLNameOnScreenPresetsAvailable;
+extern SDLName const SDLNameOnSyncPData;
+extern SDLName const SDLNameOnSystemRequest;
+extern SDLName const SDLNameOnTBTClientState;
+extern SDLName const SDLNameOnTouchEvent;
+extern SDLName const SDLNameOnVehicleData;
+extern SDLName const SDLNameOnWayPointChange;
+extern SDLName const SDLNameOperationName;
+extern SDLName const SDLNameOS;
+extern SDLName const SDLNameOSVersion;
+extern SDLName const SDLNameParameterPermissions;
+extern SDLName const SDLNameParameters;
+extern SDLName const SDLNameParentId;
+extern SDLName const SDLNameParkBrakeActive;
+extern SDLName const SDLNamePassengerAirbagDeployed;
+extern SDLName const SDLNamePassengerBeltDeployed;
+extern SDLName const SDLNamePassengerBuckleBelted;
+extern SDLName const SDLNamePassengerChildDetected;
+extern SDLName const SDLNamePassengerCurtainAirbagDeployed;
+extern SDLName const SDLNamePassengerDoorAjar;
+extern SDLName const SDLNamePassengerKneeAirbagDeployed;
+extern SDLName const SDLNamePassengerSideAirbagDeployed;
+extern SDLName const SDLNamePatchVersion;
+extern SDLName const SDLNamePCMStreamCapabilities;
+extern SDLName const SDLNamePDOP;
+extern SDLName const SDLNamePerformAudioPassThru;
+extern SDLName const SDLNamePerformInteraction;
+extern SDLName const SDLNamePermissionItem;
+extern SDLName const SDLNamePersistentFile;
+extern SDLName const SDLNamePhoneCall;
+extern SDLName const SDLNamePhoneCapability;
+extern SDLName const SDLNamePhoneNumber;
+extern SDLName const SDLNamePhoneRoaming;
+extern SDLName const SDLNameProgramIdentification;
+extern SDLName const SDLNamePlayTone;
+extern SDLName const SDLNamePosition;
+extern SDLName const SDLNamePostalCode;
+extern SDLName const SDLNamePowerModeActive;
+extern SDLName const SDLNamePowerModeQualificationStatus;
+extern SDLName const SDLNamePowerModeStatus;
+extern SDLName const SDLNamePreferredResolution;
+extern SDLName const SDLNamePrerecordedSpeech;
+extern SDLName const SDLNamePresetBankCapabilities;
+extern SDLName const SDLNamePressAvailable;
+extern SDLName const SDLNamePressure;
+extern SDLName const SDLNamePressureTelltale;
+extern SDLName const SDLNamePrimaryAudioSource;
+extern SDLName const SDLNamePRNDL;
+extern SDLName const SDLNameProgressIndicator;
+extern SDLName const SDLNameProperties;
+extern SDLName const SDLNameProgramService;
+extern SDLName const SDLNameProgramType;
+extern SDLName const SDLNamePutFile;
+extern SDLName const SDLNameRadioBandAvailable;
+extern SDLName const SDLNameRadioControlCapabilities;
+extern SDLName const SDLNameRadioControlData;
+extern SDLName const SDLNameRadioEnable;
+extern SDLName const SDLNameRadioEnableAvailable;
+extern SDLName const SDLNameRadioFrequencyAvailable;
+extern SDLName const SDLNameRDSData;
+extern SDLName const SDLNameRDSDataAvailable;
+extern SDLName const SDLNameReadDID;
+extern SDLName const SDLNameRearLeftDoorAjar;
+extern SDLName const SDLNameRearRightDoorAjar;
+extern SDLName const SDLNameReason;
+extern SDLName const SDLNameRect;
+extern SDLName const SDLNameRegion;
+extern SDLName const SDLNameRegisterAppInterface;
+extern SDLName const SDLNameRemoteControlCapability;
+extern SDLName const SDLNameRequest;
+extern SDLName const SDLNameRequestType;
+extern SDLName const SDLNameReserved;
+extern SDLName const SDLNameResetGlobalProperties;
+extern SDLName const SDLNameResolution;
+extern SDLName const SDLNameResolutionHeight;
+extern SDLName const SDLNameResolutionWidth;
+extern SDLName const SDLNameResponse;
+extern SDLName const SDLNameResult;
+extern SDLName const SDLNameResultCode;
+extern SDLName const SDLNameRightFront;
+extern SDLName const SDLNameRightRear;
+extern SDLName const SDLNameRightRearInflatableBelted;
+extern SDLName const SDLNameRightRow2BuckleBelted;
+extern SDLName const SDLNameRightRow3BuckleBelted;
+extern SDLName const SDLNameRolloverEvent;
+extern SDLName const SDLNameRows;
+extern SDLName const SDLNameRPCName;
+extern SDLName const SDLNameRPM;
+extern SDLName const SDLNameRadioText;
+extern SDLName const SDLNameSamplingRate;
+extern SDLName const SDLNameSatellites;
+extern SDLName const SDLNameScreenParams;
+extern SDLName const SDLNameScrollableMessage;
+extern SDLName const SDLNameScrollableMessageBody;
+extern SDLName const SDLNameSDLVersion;
+extern SDLName const SDLNameSearchAddress;
+extern SDLName const SDLNameSecondaryGraphic;
+extern SDLName const SDLNameSecondaryImage;
+extern SDLName const SDLNameSecondaryText;
+extern SDLName const SDLNameSecond;
+extern SDLName const SDLNameSeconds;
+extern SDLName const SDLNameSendHapticData;
+extern SDLName const SDLNameSendHapticDataResponse;
+extern SDLName const SDLNameSendLocation;
+extern SDLName const SDLNameSendLocationEnabled;
+extern SDLName const SDLNameSetAppIcon;
+extern SDLName const SDLNameSetDisplayLayout;
+extern SDLName const SDLNameSetGlobalProperties;
+extern SDLName const SDLNameSetInteriorVehicleData;
+extern SDLName const SDLNameSetMediaClockTimer;
+extern SDLName const SDLNameShortPress;
+extern SDLName const SDLNameShortPressAvailable;
+extern SDLName const SDLNameShow;
+extern SDLName const SDLNameShowConstantTBT;
+extern SDLName const SDLNameSignalLevelStatus;
+extern SDLName const SDLNameSignalChangeThreshold;
+extern SDLName const SDLNameSignalChangeThresholdAvailable;
+extern SDLName const SDLNameSignalStrength;
+extern SDLName const SDLNameSignalStrengthAvailable;
+extern SDLName const SDLNameSlider;
+extern SDLName const SDLNameSliderFooter;
+extern SDLName const SDLNameSliderHeader;
+extern SDLName const SDLNameSliderPosition;
+extern SDLName const SDLNameSoftButtonCapabilities;
+extern SDLName const SDLNameSoftButtonId;
+extern SDLName const SDLNameSoftButtons;
+extern SDLName const SDLNameSpaceAvailable;
+extern SDLName const SDLNameSpeak;
+extern SDLName const SDLNameSpeechCapabilities;
+extern SDLName const SDLNameSpeed;
+extern SDLName const SDLNameStartTime;
+extern SDLName const SDLNameState;
+extern SDLName const SDLNameStateAvailable;
+extern SDLName const SDLNameStateOfCharge;
+extern SDLName const SDLNameStatus;
+extern SDLName const SDLNameStatusBar;
+extern SDLName const SDLNameSteeringWheelAngle;
+extern SDLName const SDLNameStereoAudioOutputMuted;
+extern SDLName const SDLNameSubAdministrativeArea;
+extern SDLName const SDLNameSubLocality;
+extern SDLName const SDLNameSubscribe;
+extern SDLName const SDLNameSubscribeButton;
+extern SDLName const SDLNameSubscribeVehicleData;
+extern SDLName const SDLNameSubscribeWayPoints;
+extern SDLName const SDLNameSubThoroughfare;
+extern SDLName const SDLNameSuccess;
+extern SDLName const SDLNameSupportedDiagnosticModes;
+extern SDLName const SDLNameSupportedFormats;
+extern SDLName const SDLNameSyncFileName;
+extern SDLName const SDLNameSyncMessageVersion;
+extern SDLName const SDLNameSyncPData;
+extern SDLName const SDLNameSystemAction;
+extern SDLName const SDLNameSystemCapability;
+extern SDLName const SDLNameSystemCapabilityType;
+extern SDLName const SDLNameSystemContext;
+extern SDLName const SDLNameSystemFile;
+extern SDLName const SDLNameSystemRequest;
+extern SDLName const SDLNameSystemSoftwareVersion;
+extern SDLName const SDLNameTrafficAnnouncementIdentification;
+extern SDLName const SDLNameTargetId;
+extern SDLName const SDLNameTemplatesAvailable;
+extern SDLName const SDLNameTertiaryText;
+extern SDLName const SDLNameText;
+extern SDLName const SDLNameTextFields;
+extern SDLName const SDLNameTextMessageAvailable;
+extern SDLName const SDLNameThoroughfare;
+extern SDLName const SDLNameTimeout;
+extern SDLName const SDLNameTimeoutCapitalized;
+extern SDLName const SDLNameTimeoutPrompt;
+extern SDLName const SDLNameTimeToDestination;
+extern SDLName const SDLNameTimezoneHourOffset;
+extern SDLName const SDLNameTimezoneMinuteOffset;
+extern SDLName const SDLNameTirePressure;
+extern SDLName const SDLNameTotalDistance;
+extern SDLName const SDLNameTouchEventAvailable;
+extern SDLName const SDLNameTrafficProgramIdentification;
+extern SDLName const SDLNameTriggerSource;
+extern SDLName const SDLNameTrim;
+extern SDLName const SDLNameTryAgainTime;
+extern SDLName const SDLNameTimestamp;
+extern SDLName const SDLNameTTSChunks;
+extern SDLName const SDLNameTTSName;
+extern SDLName const SDLNameTurnIcon;
+extern SDLName const SDLNameTurnList;
+extern SDLName const SDLNameType;
+extern SDLName const SDLNameUnit;
+extern SDLName const SDLNameUnregisterAppInterface;
+extern SDLName const SDLNameUnsubscribe;
+extern SDLName const SDLNameUnsubscribeButton;
+extern SDLName const SDLNameUnsubscribeVehicleData;
+extern SDLName const SDLNameUnsubscribeWayPoints;
+extern SDLName const SDLNameUpdateMode;
+extern SDLName const SDLNameUpdateTurnList;
+extern SDLName const SDLNameUpDownAvailable;
+extern SDLName const SDLNameURL;
+extern SDLName const SDLNameURLUppercase;
+extern SDLName const SDLNameUserDisallowed;
+extern SDLName const SDLNameUserSelected;
+extern SDLName const SDLNameUTCDay;
+extern SDLName const SDLNameUTCHours;
+extern SDLName const SDLNameUTCMinutes;
+extern SDLName const SDLNameUTCMonth;
+extern SDLName const SDLNameUTCSeconds;
+extern SDLName const SDLNameUTCYear;
+extern SDLName const SDLNameValue;
+extern SDLName const SDLNameVDOP;
+extern SDLName const SDLNameVehicleType;
+extern SDLName const SDLNameVideoCodec;
+extern SDLName const SDLNameVideoProtocol;
+extern SDLName const SDLNameVideoStreaming;
+extern SDLName const SDLNameVideoStreamingCapability;
+extern SDLName const SDLNameVentilationMode;
+extern SDLName const SDLNameVentilationModeAvailable;
+extern SDLName const SDLNameVIN;
+extern SDLName const SDLNameVoiceRecognitionOn;
+extern SDLName const SDLNameVRCapabilities;
+extern SDLName const SDLNameVRCommands;
+extern SDLName const SDLNameVRHelp;
+extern SDLName const SDLNameVRHelpTitle;
+extern SDLName const SDLNameVRSynonyms;
+extern SDLName const SDLNameWayPoints;
+extern SDLName const SDLNameWayPointType;
+extern SDLName const SDLNameWidth;
+extern SDLName const SDLNameWiperStatus;
+extern SDLName const SDLNameX;
+extern SDLName const SDLNameY;
+extern SDLName const SDLNameYear;
+
+NS_ASSUME_NONNULL_END

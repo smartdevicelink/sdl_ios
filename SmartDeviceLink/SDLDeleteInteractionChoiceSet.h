@@ -18,21 +18,10 @@
  * Since <b>SmartDeviceLink 1.0</b><br>
  * see SDLCreateInteractionChoiceSet SDLPerformInteraction
  */
-@interface SDLDeleteInteractionChoiceSet : SDLRPCRequest {
-}
 
-/**
- * Constructs a new SDLDeleteInteractionChoiceSet object
- */
-- (instancetype)init;
-/**
- * Constructs a new SDLDeleteInteractionChoiceSet object indicated by the
- * NSMutableDictionary parameter
- * <p>
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLDeleteInteractionChoiceSet : SDLRPCRequest
 
 - (instancetype)initWithId:(UInt32)choiceId;
 
@@ -42,6 +31,8 @@
  * <p>
  * <b>Notes: </b>Min Value: 0; Max Value: 2000000000
  */
-@property (strong) NSNumber *interactionChoiceSetID;
+@property (strong, nonatomic) NSNumber<SDLInt> *interactionChoiceSetID;
 
 @end
+
+NS_ASSUME_NONNULL_END

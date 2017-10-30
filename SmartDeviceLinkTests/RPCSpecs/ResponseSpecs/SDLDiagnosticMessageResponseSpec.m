@@ -17,19 +17,19 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLDiagnosticMessageResponse* testResponse = [[SDLDiagnosticMessageResponse alloc] init];
         
-        testResponse.messageDataResult = [@[@3, @9, @27, @81] mutableCopy];
+        testResponse.messageDataResult = @[@3, @9, @27, @81];
         
-        expect(testResponse.messageDataResult).to(equal([@[@3, @9, @27, @81] mutableCopy]));
+        expect(testResponse.messageDataResult).to(equal(@[@3, @9, @27, @81]));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_response:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_messageDataResult:[@[@3, @9, @27, @81] mutableCopy]},
-                                             NAMES_operation_name:NAMES_DiagnosticMessage}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameResponse:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameMessageDataResult:@[@3, @9, @27, @81]},
+                                                             SDLNameOperationName:SDLNameDiagnosticMessage}} mutableCopy];
         SDLDiagnosticMessageResponse* testResponse = [[SDLDiagnosticMessageResponse alloc] initWithDictionary:dict];
         
-        expect(testResponse.messageDataResult).to(equal([@[@3, @9, @27, @81] mutableCopy]));
+        expect(testResponse.messageDataResult).to(equal(@[@3, @9, @27, @81]));
     });
     
     it(@"Should return nil if not set", ^ {

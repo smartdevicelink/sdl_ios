@@ -4,21 +4,20 @@
 
 <ul>
   <li><a href="#section-SDLArtworkImageFormat">SDLArtworkImageFormat</a></li>
-  <li><a href="#section-SDLDebugType">SDLDebugType</a></li>
-  <li><a href="#section-SDLDebugOutput">SDLDebugOutput</a></li>
   <li><a href="#section-SDLManagerError">SDLManagerError</a></li>
   <li><a href="#section-SDLFileManagerError">SDLFileManagerError</a></li>
-  <li><a href="#section-SDLLogOutput">SDLLogOutput</a></li>
+  <li><a href="#section-SDLLogBytesDirection">SDLLogBytesDirection</a></li>
+  <li><a href="#section-SDLLogFlag">SDLLogFlag</a></li>
+  <li><a href="#section-SDLLogLevel">SDLLogLevel</a></li>
+  <li><a href="#section-SDLLogFormatType">SDLLogFormatType</a></li>
   <li><a href="#section-SDLPermissionGroupType">SDLPermissionGroupType</a></li>
   <li><a href="#section-SDLPermissionGroupStatus">SDLPermissionGroupStatus</a></li>
   <li><a href="#section-SDLProtocolError">SDLProtocolError</a></li>
   <li><a href="#section-SDLFrameType">SDLFrameType</a></li>
   <li><a href="#section-SDLServiceType">SDLServiceType</a></li>
-  <li><a href="#section-SDLFrameData">SDLFrameData</a></li>
+  <li><a href="#section-SDLFrameInfo">SDLFrameInfo</a></li>
   <li><a href="#section-SDLRPCMessageType">SDLRPCMessageType</a></li>
-  <li><a href="#section-SDLStreamingVideoError">SDLStreamingVideoError</a></li>
-  <li><a href="#section-SDLEncryptionFlag">SDLEncryptionFlag</a></li>
-  <li><a href="#section-SDLStreamingAudioError">SDLStreamingAudioError</a></li>
+  <li><a href="#section-SDLStreamingEncryptionFlag">SDLStreamingEncryptionFlag</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -34,30 +33,6 @@
   <p>Undocumented</p>
 
   <a href="Enums/SDLArtworkImageFormat.html" class="slightly-smaller">See more</a>
-  
-  
-  
-  
-  
-  <h3 id="section-SDLDebugType">
-      SDLDebugType
-  </h3>
-  
-  <p>Undocumented</p>
-
-  <a href="Enums/SDLDebugType.html" class="slightly-smaller">See more</a>
-  
-  
-  
-  
-  
-  <h3 id="section-SDLDebugOutput">
-      SDLDebugOutput
-  </h3>
-  
-  <p>Undocumented</p>
-
-  <a href="Enums/SDLDebugOutput.html" class="slightly-smaller">See more</a>
   
   
   
@@ -101,15 +76,94 @@
   
   
   
-  <h3 id="section-SDLLogOutput">
-      SDLLogOutput
+  <h3 id="section-SDLLogBytesDirection">
+      SDLLogBytesDirection
   </h3>
   
   <p>Undocumented</p>
 
-  <a href="Enums/SDLLogOutput.html" class="slightly-smaller">See more</a>
+  <a href="Enums/SDLLogBytesDirection.html" class="slightly-smaller">See more</a>
   
   
+  
+  
+  
+  <h3 id="section-SDLLogFlag">
+      SDLLogFlag
+  </h3>
+  
+  <p>Flags used for SDLLogLevel to provide correct enum values. This is purely for internal use.</p>
+
+<ul>
+<li>SDLLogFlagVerbose:   Verbose level logging</li>
+<li>SDLLogFlagDebug:     Debug level logging</li>
+<li>SDLLogFlagWarning:   Warning level logging</li>
+<li>SDLLogFlagError:     Error level logging.</li>
+</ul>
+
+  <a href="Enums/SDLLogFlag.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">enum</span> <span class="n">SDLLogFlag</span> <span class="p">{}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SDLLogFlag</span> <span class="p">:</span> <span class="kt">OptionSet</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLLogLevel">
+      SDLLogLevel
+  </h3>
+  
+  <p>An enum describing a level of logging.</p>
+
+<ul>
+<li>SDLLogLevelDefault:  This is used to describe that a <q>specific</q> logging will instead use the global log level, for example, a module may use the global log level instead of its own by specifying this level.</li>
+<li>SDLLogLevelOff:      This is used to describe a level that involves absolutely no logs being output.</li>
+<li>SDLLogLevelError:    Only error level logs will be output.</li>
+<li>SDLLogLevelWarning:  Both error and warning level logs will be output.</li>
+<li>SDLLogLevelDebug:    Error, warning, and debug level logs will be output. This level will never be output in RELEASE environments.</li>
+<li>SDLLogLevelVerbose:  All level logs will be output. This level will never be output in RELEASE environments.</li>
+</ul>
+
+  <a href="Enums/SDLLogLevel.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">enum</span> <span class="n">SDLLogLevel</span> <span class="p">{}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">enum</span> <span class="kt">SDLLogLevel</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLLogFormatType">
+      SDLLogFormatType
+  </h3>
+  
+  <p>The output format of logs; how they will appear when printed out into a string.</p>
+
+<ul>
+<li>SDLLogFormatTypeSimple:      A bare-bones log format: <code>09:52:07:324 🔹 (SDL)Protocol – a random test i guess</code></li>
+<li>SDLLogFormatTypeDefault:     A middle detail default log format: <code>09:52:07:324 🔹 (SDL)Protocol:SDLV2ProtocolHeader:25 – Some log message</code></li>
+<li>SDLLogFormatTypeDetailed:    A very detailed log format: <code>09:52:07:324 🔹 DEBUG com.apple.main-thread:(SDL)Protocol:[SDLV2ProtocolHeader parse:]:74 – Some log message</code></li>
+</ul>
+
+  <a href="Enums/SDLLogFormatType.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">enum</span> <span class="n">SDLLogFormatType</span> <span class="p">{}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">enum</span> <span class="kt">SDLLogFormatType</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
+
   
   
   
@@ -187,13 +241,13 @@
   
   
   
-  <h3 id="section-SDLFrameData">
-      SDLFrameData
+  <h3 id="section-SDLFrameInfo">
+      SDLFrameInfo
   </h3>
   
   <p>Undocumented</p>
 
-  <a href="Enums/SDLFrameData.html" class="slightly-smaller">See more</a>
+  <a href="Enums/SDLFrameInfo.html" class="slightly-smaller">See more</a>
   
   
   
@@ -211,37 +265,13 @@
   
   
   
-  <h3 id="section-SDLStreamingVideoError">
-      SDLStreamingVideoError
+  <h3 id="section-SDLStreamingEncryptionFlag">
+      SDLStreamingEncryptionFlag
   </h3>
   
   <p>Undocumented</p>
 
-  <a href="Enums/SDLStreamingVideoError.html" class="slightly-smaller">See more</a>
-  
-  
-  
-  
-  
-  <h3 id="section-SDLEncryptionFlag">
-      SDLEncryptionFlag
-  </h3>
-  
-  <p>Undocumented</p>
-
-  <a href="Enums/SDLEncryptionFlag.html" class="slightly-smaller">See more</a>
-  
-  
-  
-  
-  
-  <h3 id="section-SDLStreamingAudioError">
-      SDLStreamingAudioError
-  </h3>
-  
-  <p>Undocumented</p>
-
-  <a href="Enums/SDLStreamingAudioError.html" class="slightly-smaller">See more</a>
+  <a href="Enums/SDLStreamingEncryptionFlag.html" class="slightly-smaller">See more</a>
   
   
   

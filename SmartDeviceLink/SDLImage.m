@@ -3,25 +3,14 @@
 
 #import "SDLImage.h"
 
-#import "SDLImageType.h"
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLImage
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithName:(NSString *)name ofType:(SDLImageType *)imageType {
+- (instancetype)initWithName:(NSString *)name ofType:(SDLImageType)imageType {
     self = [self init];
     if (!self) {
         return nil;
@@ -34,32 +23,21 @@
 }
 
 - (void)setValue:(NSString *)value {
-    if (value != nil) {
-        [store setObject:value forKey:NAMES_value];
-    } else {
-        [store removeObjectForKey:NAMES_value];
-    }
+    [store sdl_setObject:value forName:SDLNameValue];
 }
 
 - (NSString *)value {
-    return [store objectForKey:NAMES_value];
+    return [store sdl_objectForName:SDLNameValue];
 }
 
-- (void)setImageType:(SDLImageType *)imageType {
-    if (imageType != nil) {
-        [store setObject:imageType forKey:NAMES_imageType];
-    } else {
-        [store removeObjectForKey:NAMES_imageType];
-    }
+- (void)setImageType:(SDLImageType)imageType {
+    [store sdl_setObject:imageType forName:SDLNameImageType];
 }
 
-- (SDLImageType *)imageType {
-    NSObject *obj = [store objectForKey:NAMES_imageType];
-    if (obj == nil || [obj isKindOfClass:SDLImageType.class]) {
-        return (SDLImageType *)obj;
-    } else {
-        return [SDLImageType valueOf:(NSString *)obj];
-    }
+- (SDLImageType)imageType {
+    return [store sdl_objectForName:SDLNameImageType];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

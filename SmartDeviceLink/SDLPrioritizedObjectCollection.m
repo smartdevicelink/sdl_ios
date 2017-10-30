@@ -6,9 +6,10 @@
 #import "SDLPrioritizedObjectCollection.h"
 #import "SDLObjectWithPriority.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPrioritizedObjectCollection () {
-    NSMutableArray *privateArray;
+    NSMutableArray<id> *privateArray;
 }
 @end
 
@@ -18,12 +19,12 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        privateArray = [NSMutableArray new];
+        privateArray = [NSMutableArray<id> new];
     }
     return self;
 }
 
-- (void)addObject:(id)object withPriority:(NSInteger)priority {
+- (void)addObject:(nullable id)object withPriority:(NSInteger)priority {
     if (object == nil || [[NSNull null] isEqual:object]) {
         return;
     }
@@ -49,7 +50,7 @@
     }
 }
 
-- (instancetype)nextObject {
+- (nullable instancetype)nextObject {
     if (privateArray.count == 0) {
         return nil;
     }
@@ -64,3 +65,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

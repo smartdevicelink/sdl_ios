@@ -11,18 +11,10 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLSetAppIcon : SDLRPCRequest {
-}
 
-/**
- * @abstract Constructs a new SDLSetAppIcon object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLSetAppIcon object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLSetAppIcon : SDLRPCRequest
 
 - (instancetype)initWithFileName:(NSString *)fileName;
 
@@ -33,6 +25,8 @@
  *            <p>
  *            <b>Notes: </b>Maxlength=500
  */
-@property (strong) NSString *syncFileName;
+@property (strong, nonatomic) NSString *syncFileName;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -3,22 +3,21 @@
 
 
 #import "SDLProtocolMessage.h"
+
+#import "NSMutableDictionary+Store.h"
 #import "SDLFunctionID.h"
+#import "SDLNames.h"
 #import "SDLProtocolHeader.h"
 #import "SDLRPCPayload.h"
 #import "SDLV1ProtocolMessage.h"
 #import "SDLV2ProtocolMessage.h"
 
-@interface SDLProtocolMessage ()
-
-@property (strong) NSMutableData *internalBuffer;
-
-@end
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLProtocolMessage
 
 // Returns a V1 or V2 object
-+ (instancetype)messageWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload {
++ (instancetype)messageWithHeader:(SDLProtocolHeader *)header andPayload:(nullable NSData *)payload {
     SDLProtocolMessage *newMessage = nil;
 
     UInt8 version = header.version;
@@ -33,7 +32,7 @@
     return newMessage;
 }
 
-- (NSDictionary *)rpcDictionary {
+- (nullable NSDictionary<NSString *, id> *)rpcDictionary {
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
@@ -50,25 +49,21 @@
     return dataOut;
 }
 
-+ (UInt8)determineVersion:(NSData *)data {
-    return [SDLProtocolHeader determineVersion:data];
-}
-
 - (NSString *)description {
     // Print the header data.
     NSMutableString *description = [[NSMutableString alloc] init];
     [description appendString:self.header.description];
 
     // If it's an RPC, provide greater detail
-    if (((self.header.serviceType == SDLServiceType_RPC) || (self.header.serviceType == SDLServiceType_BulkData)) && (self.header.frameType == SDLFrameType_Single)) {
+    if (((self.header.serviceType == SDLServiceTypeRPC) || (self.header.serviceType == SDLServiceTypeBulkData)) && (self.header.frameType == SDLFrameTypeSingle)) {
         // version of RPC Message determines how we access the info.
         if (self.header.version >= 2) {
             SDLRPCPayload *rpcPayload = [SDLRPCPayload rpcPayloadWithData:self.payload];
             if (rpcPayload) {
-                NSString *functionName = [[[SDLFunctionID alloc] init] getFunctionName:rpcPayload.functionID];
+                SDLName functionName = [[SDLFunctionID sharedInstance] functionNameForId:rpcPayload.functionID];
 
                 UInt8 rpcType = rpcPayload.rpcType;
-                NSArray *rpcTypeNames = @[@"Request", @"Response", @"Notification"];
+                NSArray<NSString *> *rpcTypeNames = @[@"Request", @"Response", @"Notification"];
                 NSString *rpcTypeString = nil;
                 if (rpcType >= 0 && rpcType < rpcTypeNames.count) {
                     rpcTypeString = rpcTypeNames[rpcType];
@@ -88,3 +83,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -3,11 +3,12 @@
 
 #import "SDLRPCRequest.h"
 
+#import "SDLTextAlignment.h"
+#import "SDLMetadataType.h"
+
 @class SDLImage;
 @class SDLSoftButton;
 @class SDLMetadataTags;
-@class SDLTextAlignment;
-@class SDLMetadataType;
 
 
 /**
@@ -32,33 +33,22 @@
  * Since SmartDeviceLink 1.0
  * See SDLAlert SDLSetMediaClockTimer
  */
-@interface SDLShow : SDLRPCRequest {
-}
 
-/**
- * @abstract Constructs a new SDLShow object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLShow object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 alignment:(SDLTextAlignment *)alignment;
+@interface SDLShow : SDLRPCRequest
 
-- (instancetype)initWithMainField1:(NSString *)mainField1 mainField1Type:(SDLMetadataType *)mainField1Type mainField2:(NSString *)mainField2 mainField2Type:(SDLMetadataType *)mainField2Type alignment:(SDLTextAlignment *)alignment;
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 alignment:(nullable SDLTextAlignment)alignment;
 
-- (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 alignment:(SDLTextAlignment *)alignment;
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type alignment:(nullable SDLTextAlignment)alignment;
 
-- (instancetype)initWithMainField1:(NSString *)mainField1 mainField1Type:(SDLMetadataType *)mainField1Type mainField2:(NSString *)mainField2 mainField2Type:(SDLMetadataType *)mainField2Type mainField3:(NSString *)mainField3 mainField3Type:(SDLMetadataType *)mainField3Type mainField4:(NSString *)mainField4 mainField4Type:(SDLMetadataType *)mainField4Type alignment:(SDLTextAlignment *)alignment;
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment;
 
-- (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 alignment:(SDLTextAlignment *)alignment statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack;
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type mainField3:(nullable NSString *)mainField3 mainField3Type:(nullable SDLMetadataType)mainField3Type mainField4:(nullable NSString *)mainField4 mainField4Type:(nullable SDLMetadataType)mainField4Type alignment:(nullable SDLTextAlignment)alignment;
 
-- (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 alignment:(SDLTextAlignment *)alignment statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack graphic:(SDLImage *)graphic softButtons:(NSArray<SDLSoftButton *> *)softButtons customPresets:(NSArray<NSString *> *)customPresets __deprecated_msg(("Use initWithMainField1:(NSString *)mainField1 (NSString *)mainField2 (NSString *)mainField3 (NSString *)mainField4 (SDLTextAlignment *)alignment (NSString *)statusBar (NSString *)mediaClock (NSString *)mediaTrack (SDLImage *)graphic (NSArray<SDLSoftButton *> *)softButtons (NSArray<NSString *> *)customPresets (SDLMetadataStruct *)metadata instead"));
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack;
 
-- (instancetype)initWithMainField1:(NSString *)mainField1 mainField2:(NSString *)mainField2 mainField3:(NSString *)mainField3 mainField4:(NSString *)mainField4 alignment:(SDLTextAlignment *)alignment statusBar:(NSString *)statusBar mediaClock:(NSString *)mediaClock mediaTrack:(NSString *)mediaTrack graphic:(SDLImage *)graphic softButtons:(NSArray<SDLSoftButton *> *)softButtons customPresets:(NSArray<NSString *> *)customPresets textFieldMetadata:(SDLMetadataTags *)metadata;
-
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets textFieldMetadata:(nullable SDLMetadataTags *)metadata;
 
 /**
  * @abstract The text displayed in a single-line display, or in the upper display
@@ -75,7 +65,7 @@
  *            cleared</li>
  *            </ul>
  */
-@property (strong) NSString *mainField1;
+@property (strong, nonatomic, nullable) NSString *mainField1;
 /**
  * @abstract The text displayed on the second display line of a two-line display
  *
@@ -93,7 +83,7 @@
  *            <li>Maxlength = 500</li>
  *            </ul>
  */
-@property (strong) NSString *mainField2;
+@property (strong, nonatomic, nullable) NSString *mainField2;
 /**
  * @abstract The text displayed on the first display line of the second page
  *
@@ -112,7 +102,7 @@
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSString *mainField3;
+@property (strong, nonatomic, nullable) NSString *mainField3;
 /**
  * @abstract The text displayed on the second display line of the second page
  *
@@ -131,7 +121,7 @@
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSString *mainField4;
+@property (strong, nonatomic, nullable) NSString *mainField4;
 /**
  * @abstract The alignment that Specifies how mainField1 and mainField2 text
  * should be aligned on display
@@ -147,7 +137,7 @@
  *            <li>Has no effect with navigation display</li>
  *            </ul>
  */
-@property (strong) SDLTextAlignment *alignment;
+@property (strong, nonatomic, nullable) SDLTextAlignment alignment;
 /**
  * @abstract Text in the Status Bar
  *
@@ -165,7 +155,7 @@
  *            parameter is ignored</li>
  *            </ul>
  */
-@property (strong) NSString *statusBar;
+@property (strong, nonatomic, nullable) NSString *statusBar;
 /**
  * @abstract This property is deprecated use SetMediaClockTimer instead.
  * <p> The value for the MediaClock field using a format described in the
@@ -182,7 +172,7 @@
  *            will not display anything)</li>
  *            </ul>
  */
-@property (strong) NSString *mediaClock;
+@property (strong, nonatomic, nullable) NSString *mediaClock;
 /**
  * @abstract The text in the track field
  *
@@ -195,7 +185,7 @@
  *            <li>This field is only valid for media applications on navigation displays</li>
  *            </ul>
  */
-@property (strong) NSString *mediaTrack;
+@property (strong, nonatomic, nullable) NSString *mediaTrack;
 /**
  * @abstract An image to be shown on supported displays
  *
@@ -205,7 +195,7 @@
  *            graphic shall not change<br/>
  * @since SmartDeviceLink 2.0
  */
-@property (strong) SDLImage *graphic;
+@property (strong, nonatomic, nullable) SDLImage *graphic;
 /**
  * @abstract An image to be shown on supported displays
  *
@@ -215,7 +205,7 @@
  *            graphic shall not change<br/>
  * @since SmartDeviceLink 2.0
  */
-@property (strong) SDLImage *secondaryGraphic;
+@property (strong, nonatomic, nullable) SDLImage *secondaryGraphic;
 /**
  * @abstract The the Soft buttons defined by the App
  *
@@ -232,7 +222,7 @@
  *
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSMutableArray *softButtons;
+@property (strong, nonatomic, nullable) NSArray<SDLSoftButton *> *softButtons;
 /**
  * @abstract The Custom Presets defined by the App
  *
@@ -246,7 +236,7 @@
  *            </ul>
  * @since SmartDeviceLink 2.0
  */
-@property (strong) NSMutableArray *customPresets;
+@property (strong, nonatomic, nullable) NSArray<NSString *> *customPresets;
 
 /**
  * @abstract Text Field Metadata
@@ -259,6 +249,8 @@
  *            If any text field contains no tags or the none tag, the metadata tag for that textfield should be removed.
  * @since SmartDeviceLink 2.0
  */
-@property (strong) SDLMetadataTags *metadataTags;
+@property (strong, nonatomic, nullable) SDLMetadataTags *metadataTags;
 
 @end
+
+NS_ASSUME_NONNULL_END

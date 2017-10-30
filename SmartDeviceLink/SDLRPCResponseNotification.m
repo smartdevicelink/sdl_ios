@@ -11,6 +11,7 @@
 #import "SDLNotificationConstants.h"
 #import "SDLRPCResponse.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRPCResponseNotification
 
@@ -30,4 +31,16 @@
     return _userInfo[SDLNotificationUserInfoObject];
 }
 
+- (BOOL)isResponseMemberOfClass:(Class)aClass {
+    NSAssert([self.response isMemberOfClass:aClass], @"A notification was sent with an unanticipated object");
+    return [self.response isMemberOfClass:aClass];
+}
+
+- (BOOL)isResponseKindOfClass:(Class)aClass {
+    NSAssert([self.response isKindOfClass:aClass], @"A notification was sent with an unanticipated object");
+    return [self.response isKindOfClass:aClass];
+}
+
 @end
+
+NS_ASSUME_NONNULL_END

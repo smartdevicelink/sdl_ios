@@ -45,7 +45,7 @@ describe(@"Data tests", ^ {
         SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
         
         id headerMock = OCMPartialMock(testHeader);
-        const char headerData[12] = {0x20 | SDLFrameType_First, SDLServiceType_BulkData, SDLFrameData_StartSessionACK, 0x5E, 0x0E, 0x00, 0x00, strlen("Test Data"), 0x65, 0x22, 0x41, 0x38};
+        const char headerData[12] = {0x20 | SDLFrameTypeFirst, SDLServiceTypeBulkData, SDLFrameInfoStartServiceACK, 0x5E, 0x0E, 0x00, 0x00, strlen("Test Data"), 0x65, 0x22, 0x41, 0x38};
         [[[headerMock stub] andReturn:[NSData dataWithBytes:headerData length:12]] data];
         
         testMessage.header = testHeader;

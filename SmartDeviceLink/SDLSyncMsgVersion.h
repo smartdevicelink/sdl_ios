@@ -9,42 +9,32 @@
  * 
  * @since SDL 1.0
  */
-@interface SDLSyncMsgVersion : SDLRPCStruct {
-}
 
-/**
- * @abstract Constructs a newly allocated SDLSyncMsgVersion object
- */
-- (instancetype)init;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * @abstract Constructs a newly allocated SDLSyncMsgVersion object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLSyncMsgVersion : SDLRPCStruct
 
-// TODO: (Alex M.)[2016-12-1] Change from NSInteger to UInt8
-- (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion __deprecated_msg("Use initWithMajorVersion:minorVersion:patchVersion: instead");
-
-- (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion patchVersion:(NSInteger)patchVersion;
+- (instancetype)initWithMajorVersion:(UInt8)majorVersion minorVersion:(UInt8)minorVersion patchVersion:(UInt8)patchVersion;
 
 /**
  * @abstract The major version indicates versions that is not-compatible to previous versions
  * 
  * Required, Integer, 1 - 10
  */
-@property (strong) NSNumber *majorVersion;
+@property (strong, nonatomic) NSNumber<SDLInt> *majorVersion;
 /**
  * @abstract The minor version indicates a change to a previous version that should still allow to be run on an older version (with limited functionality)
  * 
  * Required, Integer, 0 - 1000
  */
-@property (strong) NSNumber *minorVersion;
+@property (strong, nonatomic) NSNumber<SDLInt> *minorVersion;
 
 /**
  * @abstract Optional, allows backward-compatible fixes to the API without increasing the minor version of the interface
  *
  */
-@property (strong) NSNumber *patchVersion;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *patchVersion;
 
 @end
+
+NS_ASSUME_NONNULL_END

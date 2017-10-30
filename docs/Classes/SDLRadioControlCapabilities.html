@@ -1,0 +1,259 @@
+<h1>SDLRadioControlCapabilities Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithModuleName:radioEnableAvailable:radioBandAvailable:radioFrequencyAvailable:hdChannelAvailable:rdsDataAvailable:availableHDsAvailable:stateAvailable:signalStrengthAvailable:signalChangeThresholdAvailable:">-initWithModuleName:radioEnableAvailable:radioBandAvailable:radioFrequencyAvailable:hdChannelAvailable:rdsDataAvailable:availableHDsAvailable:stateAvailable:signalStrengthAvailable:signalChangeThresholdAvailable:</a></li>
+  <li><a href="#section-moduleName">moduleName</a></li>
+  <li><a href="#section-radioEnableAvailable">radioEnableAvailable</a></li>
+  <li><a href="#section-radioBandAvailable">radioBandAvailable</a></li>
+  <li><a href="#section-radioFrequencyAvailable">radioFrequencyAvailable</a></li>
+  <li><a href="#section-hdChannelAvailable">hdChannelAvailable</a></li>
+  <li><a href="#section-rdsDataAvailable">rdsDataAvailable</a></li>
+  <li><a href="#section-availableHDsAvailable">availableHDsAvailable</a></li>
+  <li><a href="#section-stateAvailable">stateAvailable</a></li>
+  <li><a href="#section-signalStrengthAvailable">signalStrengthAvailable</a></li>
+  <li><a href="#section-signalChangeThresholdAvailable">signalChangeThresholdAvailable</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Contains information about a radio control module&rsquo;s capabilities.</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithModuleName:radioEnableAvailable:radioBandAvailable:radioFrequencyAvailable:hdChannelAvailable:rdsDataAvailable:availableHDsAvailable:stateAvailable:signalStrengthAvailable:signalChangeThresholdAvailable:">
+      -initWithModuleName:radioEnableAvailable:radioBandAvailable:radioFrequencyAvailable:hdChannelAvailable:rdsDataAvailable:availableHDsAvailable:stateAvailable:signalStrengthAvailable:signalChangeThresholdAvailable:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLRadioControlCapabilities</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-moduleName">
+      moduleName
+  </h3>
+  
+  <p>@abstract The short friendly name of the climate control module.
+ It should not be used to identify a module by mobile application.</p>
+
+<p>Max string length 100 chars</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">moduleName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">moduleName</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-radioEnableAvailable">
+      radioEnableAvailable
+  </h3>
+  
+  <p>@abstract Availability of the control of enable/disable radio.
+ True: Available, False: Not Available, Not present: Not Available.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">radioEnableAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">radioEnableAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-radioBandAvailable">
+      radioBandAvailable
+  </h3>
+  
+  <p>@abstract  Availability of the control of radio band.
+ True: Available, False: Not Available, Not present: Not Available.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">radioBandAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">radioBandAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-radioFrequencyAvailable">
+      radioFrequencyAvailable
+  </h3>
+  
+  <p>@abstract Availability of the control of radio frequency.
+ True: Available, False: Not Available, Not present: Not Available.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">radioFrequencyAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">radioFrequencyAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-hdChannelAvailable">
+      hdChannelAvailable
+  </h3>
+  
+  <p>@abstract Availability of the control of HD radio channel.
+ True: Available, False: Not Available, Not present: Not Available.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">hdChannelAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">hdChannelAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-rdsDataAvailable">
+      rdsDataAvailable
+  </h3>
+  
+  <p>@abstract Availability of the getting Radio Data System (RDS) data.
+ True: Available, False: Not Available, Not present: Not Available.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">rdsDataAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">rdsDataAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-availableHDsAvailable">
+      availableHDsAvailable
+  </h3>
+  
+  <p>@abstract Availability of the getting the number of available HD channels.
+ True: Available, False: Not Available, Not present: Not Available.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">availableHDsAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">availableHDsAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-stateAvailable">
+      stateAvailable
+  </h3>
+  
+  <p>@abstract Availability of the getting the Radio state.
+ True: Available, False: Not Available, Not present: Not Available.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">stateAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">stateAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-signalStrengthAvailable">
+      signalStrengthAvailable
+  </h3>
+  
+  <p>@abstract Availability of the getting the signal strength.
+ True: Available, False: Not Available, Not present: Not Available.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">signalStrengthAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">signalStrengthAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+  <h3 id="section-signalChangeThresholdAvailable">
+      signalChangeThresholdAvailable
+  </h3>
+  
+  <p>@abstract Availability of the getting the signal Change Threshold
+ True: Available, False: Not Available, Not present: Not Available.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">signalChangeThresholdAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">signalChangeThresholdAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+
+  
+  
+  
+</section>

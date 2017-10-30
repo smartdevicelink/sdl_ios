@@ -38,19 +38,10 @@
  * @since SmartDeviceLink 1.0
  * @see SDLAlert
  */
-@interface SDLSpeak : SDLRPCRequest {
-}
 
-/**
- * @abstract Constructs a new SDLSpeak object
- */
-- (instancetype)init;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * @abstract Constructs a new SDLSpeak object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLSpeak : SDLRPCRequest
 
 - (instancetype)initWithTTS:(NSString *)ttsText;
 
@@ -65,6 +56,8 @@
  * 
  * @see SDLTTSChunk
  */
-@property (strong) NSMutableArray *ttsChunks;
+@property (strong, nonatomic) NSArray<SDLTTSChunk *> *ttsChunks;
 
 @end
+
+NS_ASSUME_NONNULL_END

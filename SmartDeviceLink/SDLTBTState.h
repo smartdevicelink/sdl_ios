@@ -4,21 +4,15 @@
 
 #import "SDLEnum.h"
 
-@interface SDLTBTState : SDLEnum {
-}
+typedef SDLEnum SDLTBTState SDL_SWIFT_ENUM;
 
-+ (SDLTBTState *)valueOf:(NSString *)value;
-+ (NSArray *)values;
-
-+ (SDLTBTState *)ROUTE_UPDATE_REQUEST;
-+ (SDLTBTState *)ROUTE_ACCEPTED;
-+ (SDLTBTState *)ROUTE_REFUSED;
-+ (SDLTBTState *)ROUTE_CANCELLED;
-+ (SDLTBTState *)ETA_REQUEST;
-+ (SDLTBTState *)NEXT_TURN_REQUEST;
-+ (SDLTBTState *)ROUTE_STATUS_REQUEST;
-+ (SDLTBTState *)ROUTE_SUMMARY_REQUEST;
-+ (SDLTBTState *)TRIP_STATUS_REQUEST;
-+ (SDLTBTState *)ROUTE_UPDATE_REQUEST_TIMEOUT;
-
-@end
+extern SDLTBTState const SDLTBTStateRouteUpdateRequest;
+extern SDLTBTState const SDLTBTStateRouteAccepted;
+extern SDLTBTState const SDLTBTStateRouteRefused;
+extern SDLTBTState const SDLTBTStateRouteCancelled;
+extern SDLTBTState const SDLTBTStateETARequest;
+extern SDLTBTState const SDLTBTStateNextTurnRequest;
+extern SDLTBTState const SDLTBTStateRouteStatusRequest;
+extern SDLTBTState const SDLTBTStateRouteSummaryRequest;
+extern SDLTBTState const SDLTBTStateTripStatusRequest;
+extern SDLTBTState const SDLTBTStateRouteUpdateRequestTimeout;

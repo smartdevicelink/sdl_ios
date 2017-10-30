@@ -4,63 +4,43 @@
 
 #import "SDLPerformInteractionResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
-#import "SDLTriggerSource.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPerformInteractionResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_PerformInteraction]) {
+    if (self = [super initWithName:SDLNamePerformInteraction]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (void)setChoiceID:(nullable NSNumber<SDLInt> *)choiceID {
+    [parameters sdl_setObject:choiceID forName:SDLNameChoiceId];
 }
 
-- (void)setChoiceID:(NSNumber *)choiceID {
-    if (choiceID != nil) {
-        [parameters setObject:choiceID forKey:NAMES_choiceID];
-    } else {
-        [parameters removeObjectForKey:NAMES_choiceID];
-    }
+- (nullable NSNumber<SDLInt> *)choiceID {
+    return [parameters sdl_objectForName:SDLNameChoiceId];
 }
 
-- (NSNumber *)choiceID {
-    return [parameters objectForKey:NAMES_choiceID];
+- (void)setManualTextEntry:(nullable NSString *)manualTextEntry {
+    [parameters sdl_setObject:manualTextEntry forName:SDLNameManualTextEntry];
 }
 
-- (void)setManualTextEntry:(NSString *)manualTextEntry {
-    if (manualTextEntry != nil) {
-        [parameters setObject:manualTextEntry forKey:NAMES_manualTextEntry];
-    } else {
-        [parameters removeObjectForKey:NAMES_manualTextEntry];
-    }
+- (nullable NSString *)manualTextEntry {
+    return [parameters sdl_objectForName:SDLNameManualTextEntry];
 }
 
-- (NSString *)manualTextEntry {
-    return [parameters objectForKey:NAMES_manualTextEntry];
+- (void)setTriggerSource:(nullable SDLTriggerSource)triggerSource {
+    [parameters sdl_setObject:triggerSource forName:SDLNameTriggerSource];
 }
 
-- (void)setTriggerSource:(SDLTriggerSource *)triggerSource {
-    if (triggerSource != nil) {
-        [parameters setObject:triggerSource forKey:NAMES_triggerSource];
-    } else {
-        [parameters removeObjectForKey:NAMES_triggerSource];
-    }
-}
-
-- (SDLTriggerSource *)triggerSource {
-    NSObject *obj = [parameters objectForKey:NAMES_triggerSource];
-    if (obj == nil || [obj isKindOfClass:SDLTriggerSource.class]) {
-        return (SDLTriggerSource *)obj;
-    } else {
-        return [SDLTriggerSource valueOf:(NSString *)obj];
-    }
+- (nullable SDLTriggerSource)triggerSource {
+    return [parameters sdl_objectForName:SDLNameTriggerSource];
 }
 
 @end
+    
+NS_ASSUME_NONNULL_END

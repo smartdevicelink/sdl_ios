@@ -4,44 +4,28 @@
 
 #import "SDLReadDIDResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLDIDResult.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLReadDIDResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_ReadDID]) {
+    if (self = [super initWithName:SDLNameReadDID]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (void)setDidResult:(nullable NSArray<SDLDIDResult *> *)didResult {
+    [parameters sdl_setObject:didResult forName:SDLNameDIDResult];
 }
 
-- (void)setDidResult:(NSMutableArray *)didResult {
-    if (didResult != nil) {
-        [parameters setObject:didResult forKey:NAMES_didResult];
-    } else {
-        [parameters removeObjectForKey:NAMES_didResult];
-    }
-}
-
-- (NSMutableArray *)didResult {
-    NSMutableArray *array = [parameters objectForKey:NAMES_didResult];
-    if ([array isEqual:[NSNull null]]) {
-        return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLDIDResult.class]) {
-        return array;
-    } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLDIDResult alloc] initWithDictionary:(NSMutableDictionary *)dict]];
-        }
-        return newList;
-    }
+- (nullable NSArray<SDLDIDResult *> *)didResult {
+    return [parameters sdl_objectsForName:SDLNameDIDResult ofClass:SDLDIDResult.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

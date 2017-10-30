@@ -9,47 +9,24 @@
  *
  * @since SDL 2.0
  */
-@interface SDLPermissionStatus : SDLEnum {
-}
-
-/**
- * @abstract SDLPermissionStatus
- *
- * @param value The value of the string to get an object for
- *
- * @return a SDLPermissionStatus object
- */
-+ (SDLPermissionStatus *)valueOf:(NSString *)value;
-
-/**
- * @abstract declare an array to store all possible SDLPermissionStatus values
- * @return the array
- */
-+ (NSArray *)values;
-
+typedef SDLEnum SDLPermissionStatus SDL_SWIFT_ENUM;
 
 /**
  * @abstract permission: allowed
- * @return permission status: *ALLOWED*
  */
-+ (SDLPermissionStatus *)ALLOWED;
+extern SDLPermissionStatus const SDLPermissionStatusAllowed;
 
 /**
  * @abstract permission: disallowed
- * @return permission status: *DISALLOWED*
  */
-+ (SDLPermissionStatus *)DISALLOWED;
+extern SDLPermissionStatus const SDLPermissionStatusDisallowed;
 
 /**
  * @abstract permission: user disallowed
- * @return permission status: *USER_DISALLOWED*
  */
-+ (SDLPermissionStatus *)USER_DISALLOWED;
+extern SDLPermissionStatus const SDLPermissionStatusUserDisallowed;
 
 /**
  * @abstract permission: user consent pending
- * @return permission status: *USER_CONSENT_PENDING*
  */
-+ (SDLPermissionStatus *)USER_CONSENT_PENDING;
-
-@end
+extern SDLPermissionStatus const SDLPermissionStatusUserConsentPending;

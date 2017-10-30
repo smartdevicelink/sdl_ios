@@ -3,110 +3,72 @@
 
 #import "SDLLocationDetails.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
 #import "SDLLocationCoordinate.h"
 #import "SDLNames.h"
 #import "SDLOasisAddress.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLLocationDetails
 
-- (void)setCoordinate:(SDLLocationCoordinate *)coordinate {
-    if (coordinate != nil) {
-        store[NAMES_locationCoordinate] = coordinate;
-    } else {
-        [store removeObjectForKey:NAMES_locationCoordinate];
-    }
+- (void)setCoordinate:(nullable SDLLocationCoordinate *)coordinate {
+    [store sdl_setObject:coordinate forName:SDLNameLocationCoordinate];
 }
 
-- (SDLLocationCoordinate *)coordinate {
-    NSObject *obj = [store objectForKey:NAMES_locationCoordinate];
-    if (obj == nil || [obj isKindOfClass:SDLLocationCoordinate.class]) {
-        return (SDLLocationCoordinate *)obj;
-    } else {
-        return [[SDLLocationCoordinate alloc] initWithDictionary:(NSMutableDictionary *)obj];
-    }
+- (nullable SDLLocationCoordinate *)coordinate {
+    return [store sdl_objectForName:SDLNameLocationCoordinate ofClass:SDLLocationCoordinate.class];
 }
 
-- (void)setLocationName:(NSString *)locationName {
-    if (locationName != nil) {
-        store[NAMES_locationName] = locationName;
-    } else {
-        [store removeObjectForKey:NAMES_locationName];
-    }
+- (void)setLocationName:(nullable NSString *)locationName {
+    [store sdl_setObject:locationName forName:SDLNameLocationName];
 }
 
-- (NSString *)locationName {
-    return store[NAMES_locationName];
+- (nullable NSString *)locationName {
+    return [store sdl_objectForName:SDLNameLocationName];
 }
 
-- (void)setAddressLines:(NSArray<NSString *> *)addressLines {
-    if (addressLines != nil) {
-        store[NAMES_addressLines] = addressLines;
-    } else {
-        [store removeObjectForKey:NAMES_addressLines];
-    }
+- (void)setAddressLines:(nullable NSArray<NSString *> *)addressLines {
+    [store sdl_setObject:addressLines forName:SDLNameAddressLines];
 }
 
-- (NSArray<NSString *> *)addressLines {
-    return store[NAMES_addressLines];
+- (nullable NSArray<NSString *> *)addressLines {
+    return [store sdl_objectForName:SDLNameAddressLines];
 }
 
-- (void)setLocationDescription:(NSString *)locationDescription {
-    if (locationDescription != nil) {
-        store[NAMES_locationDescription] = locationDescription;
-    } else {
-        [store removeObjectForKey:NAMES_locationDescription];
-    }
+- (void)setLocationDescription:(nullable NSString *)locationDescription {
+    [store sdl_setObject:locationDescription forName:SDLNameLocationDescription];
 }
 
-- (NSString *)locationDescription {
-    return store[NAMES_locationDescription];
+- (nullable NSString *)locationDescription {
+    return [store sdl_objectForName:SDLNameLocationDescription];
 }
 
-- (void)setPhoneNumber:(NSString *)phoneNumber {
-    if (phoneNumber != nil) {
-        store[NAMES_phoneNumber] = phoneNumber;
-    } else {
-        [store removeObjectForKey:NAMES_phoneNumber];
-    }
+- (void)setPhoneNumber:(nullable NSString *)phoneNumber {
+    [store sdl_setObject:phoneNumber forName:SDLNamePhoneNumber];
 }
 
-- (NSString *)phoneNumber {
-    return store[NAMES_phoneNumber];
+- (nullable NSString *)phoneNumber {
+    return [store sdl_objectForName:SDLNamePhoneNumber];
 }
 
-- (void)setLocationImage:(SDLImage *)locationImage {
-    if (locationImage != nil) {
-        store[NAMES_locationImage] = locationImage;
-    } else {
-        [store removeObjectForKey:NAMES_locationImage];
-    }
+- (void)setLocationImage:(nullable SDLImage *)locationImage {
+    [store sdl_setObject:locationImage forName:SDLNameLocationImage];
 }
 
-- (SDLImage *)locationImage {
-    NSObject *obj = [store objectForKey:NAMES_locationImage];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
-        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
-    }
+- (nullable SDLImage *)locationImage {
+    return [store sdl_objectForName:SDLNameLocationImage ofClass:SDLImage.class];
 }
 
-- (void)setSearchAddress:(SDLOasisAddress *)searchAddress {
-    if (searchAddress != nil) {
-        store[NAMES_searchAddress] = searchAddress;
-    } else {
-        [store removeObjectForKey:NAMES_searchAddress];
-    }
+- (void)setSearchAddress:(nullable SDLOasisAddress *)searchAddress {
+    [store sdl_setObject:searchAddress forName:SDLNameSearchAddress];
 }
 
-- (SDLOasisAddress *)searchAddress {
-    NSObject *obj = [store objectForKey:NAMES_searchAddress];
-    if (obj == nil || [obj isKindOfClass:SDLOasisAddress.class]) {
-        return (SDLOasisAddress *)obj;
-    } else {
-        return [[SDLOasisAddress alloc] initWithDictionary:(NSMutableDictionary *)obj];
-    }
+- (nullable SDLOasisAddress *)searchAddress {
+    return [store sdl_objectForName:SDLNameSearchAddress ofClass:SDLOasisAddress.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

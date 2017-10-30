@@ -4,15 +4,9 @@
 
 #import "SDLEnum.h"
 
-@interface SDLTouchType : SDLEnum {
-}
+typedef SDLEnum SDLTouchType SDL_SWIFT_ENUM;
 
-+ (SDLTouchType *)valueOf:(NSString *)value;
-+ (NSArray *)values;
-
-+ (SDLTouchType *)BEGIN;
-+ (SDLTouchType *)MOVE;
-+ (SDLTouchType *)END;
-+ (SDLTouchType *)CANCEL;
-
-@end
+extern SDLTouchType const SDLTouchTypeBegin;
+extern SDLTouchType const SDLTouchTypeMove;
+extern SDLTouchType const SDLTouchTypeEnd;
+extern SDLTouchType const SDLTouchTypeCancel;

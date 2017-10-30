@@ -23,8 +23,8 @@ describe(@"Getter/Setter Tests", ^ {
 
 describe(@"Initialization tests", ^{
     it(@"Should get correctly when initialized with a dictionary", ^ {
-        NSMutableDictionary* dict = [@{NAMES_getWayPointsEnabled: @(YES),
-                                       NAMES_sendLocationEnabled: @(YES)} mutableCopy];
+        NSDictionary *dict = @{SDLNameGetWayPointsEnabled: @(YES),
+                                       SDLNameSendLocationEnabled: @(YES)};
         SDLNavigationCapability* testStruct = [[SDLNavigationCapability alloc] initWithDictionary:dict];
 
         expect(testStruct.getWayPointsEnabled).to(equal(YES));

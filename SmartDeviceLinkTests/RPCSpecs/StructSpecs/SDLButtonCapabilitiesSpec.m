@@ -19,25 +19,25 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLButtonCapabilities* testStruct = [[SDLButtonCapabilities alloc] init];
         
-        testStruct.name = [SDLButtonName TUNEUP];
+        testStruct.name = SDLButtonNameTuneUp;
         testStruct.shortPressAvailable = @YES;
         testStruct.longPressAvailable = @YES;
         testStruct.upDownAvailable = @NO;
         
-        expect(testStruct.name).to(equal([SDLButtonName TUNEUP]));
+        expect(testStruct.name).to(equal(SDLButtonNameTuneUp));
         expect(testStruct.shortPressAvailable).to(equal(@YES));
         expect(testStruct.longPressAvailable).to(equal(@YES));
         expect(testStruct.upDownAvailable).to(equal(@NO));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_name:[SDLButtonName CUSTOM_BUTTON],
-                                       NAMES_shortPressAvailable:@YES,
-                                       NAMES_longPressAvailable:@YES,
-                                       NAMES_upDownAvailable:@NO} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameName:SDLButtonNameCustomButton,
+                                       SDLNameShortPressAvailable:@YES,
+                                       SDLNameLongPressAvailable:@YES,
+                                       SDLNameUpDownAvailable:@NO} mutableCopy];
         SDLButtonCapabilities* testStruct = [[SDLButtonCapabilities alloc] initWithDictionary:dict];
         
-        expect(testStruct.name).to(equal([SDLButtonName CUSTOM_BUTTON]));
+        expect(testStruct.name).to(equal(SDLButtonNameCustomButton));
         expect(testStruct.shortPressAvailable).to(equal(@YES));
         expect(testStruct.longPressAvailable).to(equal(@YES));
         expect(testStruct.upDownAvailable).to(equal(@NO));

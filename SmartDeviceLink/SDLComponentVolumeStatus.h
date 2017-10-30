@@ -9,56 +9,34 @@
  *
  * @since SDL 2.0
  */
-@interface SDLComponentVolumeStatus : SDLEnum {
-}
-
-/**
- * @abstract Convert String to SDLComponentVolumeStatus
- * @param value The value of the string to get an object for
- * @return SDLComponentVolumeStatus
- */
-+ (SDLComponentVolumeStatus *)valueOf:(NSString *)value;
-
-/**
- * @abstract Store the enumeration of all possible SDLComponentVolumeStatus
- * @return An array that store all possible SDLComponentVolumeStatus
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLComponentVolumeStatus SDL_SWIFT_ENUM;
 
 /**
  * @abstract Unknown SDLComponentVolumeStatus
- * @return a SDLComponentVolumeStatus with the value of *UNKNOWN*
  */
-+ (SDLComponentVolumeStatus *)UNKNOWN;
+extern SDLComponentVolumeStatus const SDLComponentVolumeStatusUnknown;
 
 /**
  * @abstract Normal SDLComponentVolumeStatus
- * @return a SDLComponentVolumeStatus with the value of *NORMAL*
  */
-+ (SDLComponentVolumeStatus *)NORMAL;
+extern SDLComponentVolumeStatus const SDLComponentVolumeStatusNormal;
 
 /**
  * @abstract Low SDLComponentVolumeStatus
- * @return a SDLComponentVolumeStatus with the value of *LOW*
  */
-+ (SDLComponentVolumeStatus *)LOW;
+extern SDLComponentVolumeStatus const SDLComponentVolumeStatusLow;
 
 /**
  * @abstract Fault SDLComponentVolumeStatus
- * @return a SDLComponentVolumeStatus with the value of *FAULT*
  */
-+ (SDLComponentVolumeStatus *)FAULT;
+extern SDLComponentVolumeStatus const SDLComponentVolumeStatusFault;
 
 /**
  * @abstract Alert SDLComponentVolumeStatus
- * @return a SDLComponentVolumeStatus with the value of *ALERT*
  */
-+ (SDLComponentVolumeStatus *)ALERT;
+extern SDLComponentVolumeStatus const SDLComponentVolumeStatusAlert;
 
 /**
  * @abstract Not supported SDLComponentVolumeStatus
- * @return a SDLComponentVolumeStatus with the value of *NOT_SUPPORTED*
  */
-+ (SDLComponentVolumeStatus *)NOT_SUPPORTED;
-
-@end
+extern SDLComponentVolumeStatus const SDLComponentVolumeStatusNotSupported;

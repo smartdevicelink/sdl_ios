@@ -4,75 +4,37 @@
 
 #import "SDLAudioPassThruCapabilities.h"
 
-#import "SDLAudioType.h"
-#import "SDLBitsPerSample.h"
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
-#import "SDLSamplingRate.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAudioPassThruCapabilities
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
+- (void)setSamplingRate:(SDLSamplingRate)samplingRate {
+    [store sdl_setObject:samplingRate forName:SDLNameSamplingRate];
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (SDLSamplingRate)samplingRate {
+    return [store sdl_objectForName:SDLNameSamplingRate];
 }
 
-- (void)setSamplingRate:(SDLSamplingRate *)samplingRate {
-    if (samplingRate != nil) {
-        [store setObject:samplingRate forKey:NAMES_samplingRate];
-    } else {
-        [store removeObjectForKey:NAMES_samplingRate];
-    }
+- (void)setBitsPerSample:(SDLBitsPerSample)bitsPerSample {
+    [store sdl_setObject:bitsPerSample forName:SDLNameBitsPerSample];
 }
 
-- (SDLSamplingRate *)samplingRate {
-    NSObject *obj = [store objectForKey:NAMES_samplingRate];
-    if (obj == nil || [obj isKindOfClass:SDLSamplingRate.class]) {
-        return (SDLSamplingRate *)obj;
-    } else {
-        return [SDLSamplingRate valueOf:(NSString *)obj];
-    }
+- (SDLBitsPerSample)bitsPerSample {
+    return [store sdl_objectForName:SDLNameBitsPerSample];
 }
 
-- (void)setBitsPerSample:(SDLBitsPerSample *)bitsPerSample {
-    if (bitsPerSample != nil) {
-        [store setObject:bitsPerSample forKey:NAMES_bitsPerSample];
-    } else {
-        [store removeObjectForKey:NAMES_bitsPerSample];
-    }
+- (void)setAudioType:(SDLAudioType)audioType {
+    [store sdl_setObject:audioType forName:SDLNameAudioType];
 }
 
-- (SDLBitsPerSample *)bitsPerSample {
-    NSObject *obj = [store objectForKey:NAMES_bitsPerSample];
-    if (obj == nil || [obj isKindOfClass:SDLBitsPerSample.class]) {
-        return (SDLBitsPerSample *)obj;
-    } else {
-        return [SDLBitsPerSample valueOf:(NSString *)obj];
-    }
-}
-
-- (void)setAudioType:(SDLAudioType *)audioType {
-    if (audioType != nil) {
-        [store setObject:audioType forKey:NAMES_audioType];
-    } else {
-        [store removeObjectForKey:NAMES_audioType];
-    }
-}
-
-- (SDLAudioType *)audioType {
-    NSObject *obj = [store objectForKey:NAMES_audioType];
-    if (obj == nil || [obj isKindOfClass:SDLAudioType.class]) {
-        return (SDLAudioType *)obj;
-    } else {
-        return [SDLAudioType valueOf:(NSString *)obj];
-    }
+- (SDLAudioType)audioType {
+    return [store sdl_objectForName:SDLNameAudioType];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

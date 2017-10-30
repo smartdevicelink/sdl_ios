@@ -3,9 +3,8 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLButtonName;
-@class SDLButtonPressMode;
-
+#import "SDLButtonName.h"
+#import "SDLButtonPressMode.h"
 
 /**
  * Notifies application of button press events for buttons to which the
@@ -49,20 +48,10 @@
  *
  * @since SDL 1.0
  */
-@interface SDLOnButtonPress : SDLRPCNotification {
-}
 
-/**
- * Constructs a newly allocated SDLOnButtonPress object
- */
-- (instancetype)init;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * Constructs a newly allocated SDLOnButtonPress object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLOnButtonPress : SDLRPCNotification
 
 /**
  * @abstract the button's name
@@ -71,7 +60,7 @@
  *
  * Required
  */
-@property (strong) SDLButtonName *buttonName;
+@property (strong, nonatomic) SDLButtonName buttonName;
 
 /**
  * @abstract Indicates whether this is a LONG or SHORT button press event
@@ -80,7 +69,7 @@
  *
  * Required
  */
-@property (strong) SDLButtonPressMode *buttonPressMode;
+@property (strong, nonatomic) SDLButtonPressMode buttonPressMode;
 
 /**
  * @abstract If ButtonName is "CUSTOM_BUTTON", this references the integer ID passed by a custom button. (e.g. softButton ID)
@@ -89,6 +78,8 @@
  *
  * Optional, Integer 0 - 65536
  */
-@property (strong) NSNumber *customButtonID;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *customButtonID;
 
 @end
+
+NS_ASSUME_NONNULL_END

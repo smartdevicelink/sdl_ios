@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class SDLFileType;
+#import "SDLFileType.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -41,10 +41,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) NSData *data;
 
 /**
+ *  The size of the binary data of the SDLFile.
+ */
+@property (nonatomic, readonly) unsigned long long fileSize;
+
+/**
  *  The system will attempt to determine the type of file that you have passed in. It will default to BINARY if it does not recognize the file type or the file type is not supported by SDL.
  */
-@property (strong, nonatomic, readonly) SDLFileType *fileType;
+@property (strong, nonatomic, readonly) SDLFileType fileType;
 
+/**
+ * A stream to pull binary data from a SDLFile. The stream only pulls required data from the file on disk or in memory. This reduces memory usage while uploading a large file to the remote system as each chunk of data can be released immediately after it is uploaded.
+ */
+@property (nonatomic, readonly) NSInputStream *inputStream;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -73,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of this class, or nil if a readable file at the path could not be found.
  */
-+ (instancetype)persistentFileAtFileURL:(NSURL *)url name:(NSString *)name;
++ (instancetype)persistentFileAtFileURL:(NSURL *)url name:(NSString *)name NS_SWIFT_UNAVAILABLE("Use the standard initializer and set persistant to true");
 
 /**
  *  Create an SDL file using a local file URL.
@@ -114,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of this class
  */
-+ (instancetype)persistentFileWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension;
++ (instancetype)persistentFileWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension NS_SWIFT_UNAVAILABLE("Use the standard initializer and set persistant to true");
 
 /**
  *  Create an SDL file using raw data. It is strongly preferred to pass a file URL instead of data, as it is currently held in memory until the file is sent.

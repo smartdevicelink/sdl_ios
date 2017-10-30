@@ -9,13 +9,14 @@
  *
  * Since <b>SmartDeviceLink 2.0</b>
  */
-@interface SDLListFilesResponse : SDLRPCResponse {
-}
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
 
-@property (strong) NSMutableArray *filenames;
-@property (strong) NSNumber *spaceAvailable;
+@interface SDLListFilesResponse : SDLRPCResponse
+
+@property (nullable, strong, nonatomic) NSArray<NSString *> *filenames;
+@property (strong, nonatomic) NSNumber<SDLInt> *spaceAvailable;
 
 @end
+
+NS_ASSUME_NONNULL_END

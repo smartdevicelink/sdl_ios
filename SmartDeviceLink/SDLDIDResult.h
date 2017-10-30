@@ -3,17 +3,16 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLVehicleDataResultCode;
+#import "SDLVehicleDataResultCode.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLDIDResult : SDLRPCStruct {
-}
+@interface SDLDIDResult : SDLRPCStruct
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
-@property (strong) SDLVehicleDataResultCode *resultCode;
-@property (strong) NSNumber *didLocation;
-@property (strong) NSString *data;
+@property (strong, nonatomic) SDLVehicleDataResultCode resultCode;
+@property (strong, nonatomic) NSNumber<SDLInt> *didLocation;
+@property (nullable, strong, nonatomic) NSString *data;
 
 @end
+
+NS_ASSUME_NONNULL_END

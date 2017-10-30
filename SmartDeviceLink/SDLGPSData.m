@@ -3,249 +3,157 @@
 
 #import "SDLGPSData.h"
 
-#import "SDLCompassDirection.h"
-#import "SDLDimension.h"
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLGPSData
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
+- (void)setLongitudeDegrees:(NSNumber<SDLFloat> *)longitudeDegrees {
+    [store sdl_setObject:longitudeDegrees forName:SDLNameLongitudeDegrees];
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (NSNumber<SDLFloat> *)longitudeDegrees {
+    return [store sdl_objectForName:SDLNameLongitudeDegrees];
 }
 
-- (void)setLongitudeDegrees:(NSNumber *)longitudeDegrees {
-    if (longitudeDegrees != nil) {
-        [store setObject:longitudeDegrees forKey:NAMES_longitudeDegrees];
-    } else {
-        [store removeObjectForKey:NAMES_longitudeDegrees];
-    }
+- (void)setLatitudeDegrees:(NSNumber<SDLFloat> *)latitudeDegrees {
+    [store sdl_setObject:latitudeDegrees forName:SDLNameLatitudeDegrees];
 }
 
-- (NSNumber *)longitudeDegrees {
-    return [store objectForKey:NAMES_longitudeDegrees];
+- (NSNumber<SDLFloat> *)latitudeDegrees {
+    return [store sdl_objectForName:SDLNameLatitudeDegrees];
 }
 
-- (void)setLatitudeDegrees:(NSNumber *)latitudeDegrees {
-    if (latitudeDegrees != nil) {
-        [store setObject:latitudeDegrees forKey:NAMES_latitudeDegrees];
-    } else {
-        [store removeObjectForKey:NAMES_latitudeDegrees];
-    }
+- (void)setUtcYear:(NSNumber<SDLInt> *)utcYear {
+    [store sdl_setObject:utcYear forName:SDLNameUTCYear];
 }
 
-- (NSNumber *)latitudeDegrees {
-    return [store objectForKey:NAMES_latitudeDegrees];
+- (NSNumber<SDLInt> *)utcYear {
+    return [store sdl_objectForName:SDLNameUTCYear];
 }
 
-- (void)setUtcYear:(NSNumber *)utcYear {
-    if (utcYear != nil) {
-        [store setObject:utcYear forKey:NAMES_utcYear];
-    } else {
-        [store removeObjectForKey:NAMES_utcYear];
-    }
+- (void)setUtcMonth:(NSNumber<SDLInt> *)utcMonth {
+    [store sdl_setObject:utcMonth forName:SDLNameUTCMonth];
 }
 
-- (NSNumber *)utcYear {
-    return [store objectForKey:NAMES_utcYear];
+- (NSNumber<SDLInt> *)utcMonth {
+    return [store sdl_objectForName:SDLNameUTCMonth];
 }
 
-- (void)setUtcMonth:(NSNumber *)utcMonth {
-    if (utcMonth != nil) {
-        [store setObject:utcMonth forKey:NAMES_utcMonth];
-    } else {
-        [store removeObjectForKey:NAMES_utcMonth];
-    }
+- (void)setUtcDay:(NSNumber<SDLInt> *)utcDay {
+    [store sdl_setObject:utcDay forName:SDLNameUTCDay];
 }
 
-- (NSNumber *)utcMonth {
-    return [store objectForKey:NAMES_utcMonth];
+- (NSNumber<SDLInt> *)utcDay {
+    return [store sdl_objectForName:SDLNameUTCDay];
 }
 
-- (void)setUtcDay:(NSNumber *)utcDay {
-    if (utcDay != nil) {
-        [store setObject:utcDay forKey:NAMES_utcDay];
-    } else {
-        [store removeObjectForKey:NAMES_utcDay];
-    }
+- (void)setUtcHours:(NSNumber<SDLInt> *)utcHours {
+    [store sdl_setObject:utcHours forName:SDLNameUTCHours];
 }
 
-- (NSNumber *)utcDay {
-    return [store objectForKey:NAMES_utcDay];
+- (NSNumber<SDLInt> *)utcHours {
+    return [store sdl_objectForName:SDLNameUTCHours];
 }
 
-- (void)setUtcHours:(NSNumber *)utcHours {
-    if (utcHours != nil) {
-        [store setObject:utcHours forKey:NAMES_utcHours];
-    } else {
-        [store removeObjectForKey:NAMES_utcHours];
-    }
+- (void)setUtcMinutes:(NSNumber<SDLInt> *)utcMinutes {
+    [store sdl_setObject:utcMinutes forName:SDLNameUTCMinutes];
 }
 
-- (NSNumber *)utcHours {
-    return [store objectForKey:NAMES_utcHours];
+- (NSNumber<SDLInt> *)utcMinutes {
+    return [store sdl_objectForName:SDLNameUTCMinutes];
 }
 
-- (void)setUtcMinutes:(NSNumber *)utcMinutes {
-    if (utcMinutes != nil) {
-        [store setObject:utcMinutes forKey:NAMES_utcMinutes];
-    } else {
-        [store removeObjectForKey:NAMES_utcMinutes];
-    }
+- (void)setUtcSeconds:(NSNumber<SDLInt> *)utcSeconds {
+    [store sdl_setObject:utcSeconds forName:SDLNameUTCSeconds];
 }
 
-- (NSNumber *)utcMinutes {
-    return [store objectForKey:NAMES_utcMinutes];
+- (NSNumber<SDLInt> *)utcSeconds {
+    return [store sdl_objectForName:SDLNameUTCSeconds];
 }
 
-- (void)setUtcSeconds:(NSNumber *)utcSeconds {
-    if (utcSeconds != nil) {
-        [store setObject:utcSeconds forKey:NAMES_utcSeconds];
-    } else {
-        [store removeObjectForKey:NAMES_utcSeconds];
-    }
+- (void)setCompassDirection:(SDLCompassDirection)compassDirection {
+    [store sdl_setObject:compassDirection forName:SDLNameCompassDirection];
 }
 
-- (NSNumber *)utcSeconds {
-    return [store objectForKey:NAMES_utcSeconds];
+- (SDLCompassDirection)compassDirection {
+    return [store sdl_objectForName:SDLNameCompassDirection];
 }
 
-- (void)setCompassDirection:(SDLCompassDirection *)compassDirection {
-    if (compassDirection != nil) {
-        [store setObject:compassDirection forKey:NAMES_compassDirection];
-    } else {
-        [store removeObjectForKey:NAMES_compassDirection];
-    }
+- (void)setPdop:(NSNumber<SDLFloat> *)pdop {
+    [store sdl_setObject:pdop forName:SDLNamePDOP];
 }
 
-- (SDLCompassDirection *)compassDirection {
-    NSObject *obj = [store objectForKey:NAMES_compassDirection];
-    if (obj == nil || [obj isKindOfClass:SDLCompassDirection.class]) {
-        return (SDLCompassDirection *)obj;
-    } else {
-        return [SDLCompassDirection valueOf:(NSString *)obj];
-    }
+- (NSNumber<SDLFloat> *)pdop {
+    return [store sdl_objectForName:SDLNamePDOP];
 }
 
-- (void)setPdop:(NSNumber *)pdop {
-    if (pdop != nil) {
-        [store setObject:pdop forKey:NAMES_pdop];
-    } else {
-        [store removeObjectForKey:NAMES_pdop];
-    }
+- (void)setHdop:(NSNumber<SDLFloat> *)hdop {
+    [store sdl_setObject:hdop forName:SDLNameHDOP];
 }
 
-- (NSNumber *)pdop {
-    return [store objectForKey:NAMES_pdop];
+- (NSNumber<SDLFloat> *)hdop {
+    return [store sdl_objectForName:SDLNameHDOP];
 }
 
-- (void)setHdop:(NSNumber *)hdop {
-    if (hdop != nil) {
-        [store setObject:hdop forKey:NAMES_hdop];
-    } else {
-        [store removeObjectForKey:NAMES_hdop];
-    }
+- (void)setVdop:(NSNumber<SDLFloat> *)vdop {
+    [store sdl_setObject:vdop forName:SDLNameVDOP];
 }
 
-- (NSNumber *)hdop {
-    return [store objectForKey:NAMES_hdop];
+- (NSNumber<SDLFloat> *)vdop {
+    return [store sdl_objectForName:SDLNameVDOP];
 }
 
-- (void)setVdop:(NSNumber *)vdop {
-    if (vdop != nil) {
-        [store setObject:vdop forKey:NAMES_vdop];
-    } else {
-        [store removeObjectForKey:NAMES_vdop];
-    }
+- (void)setActual:(NSNumber<SDLBool> *)actual {
+    [store sdl_setObject:actual forName:SDLNameActual];
 }
 
-- (NSNumber *)vdop {
-    return [store objectForKey:NAMES_vdop];
+- (NSNumber<SDLBool> *)actual {
+    return [store sdl_objectForName:SDLNameActual];
 }
 
-- (void)setActual:(NSNumber *)actual {
-    if (actual != nil) {
-        [store setObject:actual forKey:NAMES_actual];
-    } else {
-        [store removeObjectForKey:NAMES_actual];
-    }
+- (void)setSatellites:(NSNumber<SDLInt> *)satellites {
+    [store sdl_setObject:satellites forName:SDLNameSatellites];
 }
 
-- (NSNumber *)actual {
-    return [store objectForKey:NAMES_actual];
+- (NSNumber<SDLInt> *)satellites {
+    return [store sdl_objectForName:SDLNameSatellites];
 }
 
-- (void)setSatellites:(NSNumber *)satellites {
-    if (satellites != nil) {
-        [store setObject:satellites forKey:NAMES_satellites];
-    } else {
-        [store removeObjectForKey:NAMES_satellites];
-    }
+- (void)setDimension:(SDLDimension)dimension {
+    [store sdl_setObject:dimension forName:SDLNameDimension];
 }
 
-- (NSNumber *)satellites {
-    return [store objectForKey:NAMES_satellites];
+- (SDLDimension)dimension {
+    return [store sdl_objectForName:SDLNameDimension];
 }
 
-- (void)setDimension:(SDLDimension *)dimension {
-    if (dimension != nil) {
-        [store setObject:dimension forKey:NAMES_dimension];
-    } else {
-        [store removeObjectForKey:NAMES_dimension];
-    }
+- (void)setAltitude:(NSNumber<SDLFloat> *)altitude {
+    [store sdl_setObject:altitude forName:SDLNameAltitude];
 }
 
-- (SDLDimension *)dimension {
-    NSObject *obj = [store objectForKey:NAMES_dimension];
-    if (obj == nil || [obj isKindOfClass:SDLDimension.class]) {
-        return (SDLDimension *)obj;
-    } else {
-        return [SDLDimension valueOf:(NSString *)obj];
-    }
+- (NSNumber<SDLFloat> *)altitude {
+    return [store sdl_objectForName:SDLNameAltitude];
 }
 
-- (void)setAltitude:(NSNumber *)altitude {
-    if (altitude != nil) {
-        [store setObject:altitude forKey:NAMES_altitude];
-    } else {
-        [store removeObjectForKey:NAMES_altitude];
-    }
+- (void)setHeading:(NSNumber<SDLFloat> *)heading {
+    [store sdl_setObject:heading forName:SDLNameHeading];
 }
 
-- (NSNumber *)altitude {
-    return [store objectForKey:NAMES_altitude];
+- (NSNumber<SDLFloat> *)heading {
+    return [store sdl_objectForName:SDLNameHeading];
 }
 
-- (void)setHeading:(NSNumber *)heading {
-    if (heading != nil) {
-        [store setObject:heading forKey:NAMES_heading];
-    } else {
-        [store removeObjectForKey:NAMES_heading];
-    }
+- (void)setSpeed:(NSNumber<SDLFloat> *)speed {
+    [store sdl_setObject:speed forName:SDLNameSpeed];
 }
 
-- (NSNumber *)heading {
-    return [store objectForKey:NAMES_heading];
-}
-
-- (void)setSpeed:(NSNumber *)speed {
-    if (speed != nil) {
-        [store setObject:speed forKey:NAMES_speed];
-    } else {
-        [store removeObjectForKey:NAMES_speed];
-    }
-}
-
-- (NSNumber *)speed {
-    return [store objectForKey:NAMES_speed];
+- (NSNumber<SDLFloat> *)speed {
+    return [store sdl_objectForName:SDLNameSpeed];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

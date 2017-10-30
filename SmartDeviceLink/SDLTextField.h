@@ -3,8 +3,8 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLCharacterSet;
-@class SDLTextFieldName;
+#import "SDLCharacterSet.h"
+#import "SDLTextFieldName.h"
 
 
 /**
@@ -56,20 +56,10 @@
  *
  * @since SDL 1.0
  */
-@interface SDLTextField : SDLRPCStruct {
-}
 
-/**
- * @abstract Constructs a newly allocated SDLTextField object
- */
-- (instancetype)init;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * @abstract Constructs a newly allocated SDLTextField object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use to construct the object
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLTextField : SDLRPCStruct
 
 /**
  * @abstract The enumeration identifying the field.
@@ -78,7 +68,7 @@
  *
  * Required
  */
-@property (strong) SDLTextFieldName *name;
+@property (strong, nonatomic) SDLTextFieldName name;
 
 /**
  * @abstract The character set that is supported in this field.
@@ -87,20 +77,22 @@
  *
  * Required
  */
-@property (strong) SDLCharacterSet *characterSet;
+@property (strong, nonatomic) SDLCharacterSet characterSet;
 
 /**
  * @abstract The number of characters in one row of this field.
  * 
  * Required, Integer 1 - 500
  */
-@property (strong) NSNumber *width;
+@property (strong, nonatomic) NSNumber<SDLInt> *width;
 
 /**
  * @abstract The number of rows for this text field.
  * 
  * Required, Integer 1 - 8
  */
-@property (strong) NSNumber *rows;
+@property (strong, nonatomic) NSNumber<SDLInt> *rows;
 
 @end
+
+NS_ASSUME_NONNULL_END

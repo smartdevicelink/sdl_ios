@@ -8,18 +8,9 @@
 
 #import "SDLRPCStruct.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLNavigationCapability : SDLRPCStruct
-
-/**
- * @abstract Constructs a newly allocated SDLNavigationCapability struct
- */
-- (instancetype)init;
-
-/**
- * @abstract Constructs a newly allocated SDLNavigationCapability struct indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 - (instancetype)initWithSendLocation:(BOOL)sendLocationEnabled waypoints:(BOOL)waypointsEnabled;
 
@@ -27,12 +18,14 @@
  Whether or not the SendLocation RPC is enabled.
  Boolean, optional
  */
-@property (copy, nonatomic) NSNumber *sendLocationEnabled;
+@property (nullable, copy, nonatomic) NSNumber *sendLocationEnabled;
 
 /**
  Whether or not Waypoint related RPCs are enabled.
  Boolean, optional
  */
-@property (copy, nonatomic) NSNumber *getWayPointsEnabled;
+@property (nullable, copy, nonatomic) NSNumber *getWayPointsEnabled;
 
 @end
+
+NS_ASSUME_NONNULL_END

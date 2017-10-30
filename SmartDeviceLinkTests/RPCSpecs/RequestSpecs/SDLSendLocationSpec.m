@@ -17,10 +17,10 @@ describe(@"Send Location RPC", ^{
     __block NSNumber *someLatitude = nil;
     __block NSString *someLocation = nil;
     __block NSString *someLocationDescription = nil;
-    __block NSArray *someAddressLines = nil;
+    __block NSArray<NSString *> *someAddressLines = nil;
     __block NSString *somePhoneNumber = nil;
     __block SDLImage *someImage = nil;
-    __block SDLDeliveryMode *someDeliveryMode = nil;
+    __block SDLDeliveryMode someDeliveryMode = nil;
     __block SDLDateTime* someTime = nil;
     __block SDLOasisAddress* someAddress = nil;
     
@@ -38,7 +38,7 @@ describe(@"Send Location RPC", ^{
                 someAddressLines = @[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"];
                 somePhoneNumber = @"248-591-0333";
                 someImage = [[SDLImage alloc] init];
-                someDeliveryMode = [SDLDeliveryMode PROMPT];
+                someDeliveryMode = SDLDeliveryModePrompt;
                 someTime = [[SDLDateTime alloc] init];
                 someAddress = [[SDLOasisAddress alloc] init];
                 
@@ -159,22 +159,22 @@ describe(@"Send Location RPC", ^{
                 someAddressLines = @[@"3136 Hilton Rd", @"Ferndale, MI", @"48220"];
                 somePhoneNumber = @"248-591-0333";
                 someImage = [[SDLImage alloc] init];
-                someDeliveryMode = [SDLDeliveryMode PROMPT];
+                someDeliveryMode = SDLDeliveryModePrompt;
                 someTime = [[SDLDateTime alloc] init];
                 someAddress = [[SDLOasisAddress alloc] init];
                 NSDictionary *initDict = @{
-                                           NAMES_request: @{
-                                                   NAMES_parameters: @{
-                                                           NAMES_longitudeDegrees: someLongitude,
-                                                           NAMES_latitudeDegrees: someLatitude,
-                                                           NAMES_locationName: someLocation,
-                                                           NAMES_locationDescription: someLocationDescription,
-                                                           NAMES_addressLines: someAddressLines,
-                                                           NAMES_phoneNumber: somePhoneNumber,
-                                                           NAMES_locationImage: someImage,
-                                                           NAMES_deliveryMode: someDeliveryMode,
-                                                           NAMES_timeStamp: someTime,
-                                                           NAMES_address: someAddress
+                                           SDLNameRequest: @{
+                                                   SDLNameParameters: @{
+                                                           SDLNameLongitudeDegrees: someLongitude,
+                                                           SDLNameLatitudeDegrees: someLatitude,
+                                                           SDLNameLocationName: someLocation,
+                                                           SDLNameLocationDescription: someLocationDescription,
+                                                           SDLNameAddressLines: someAddressLines,
+                                                           SDLNamePhoneNumber: somePhoneNumber,
+                                                           SDLNameLocationImage: someImage,
+                                                           SDLNameDeliveryMode: someDeliveryMode,
+                                                           SDLNameLocationTimeStamp: someTime,
+                                                           SDLNameAddress: someAddress
                                                            }
                                                    }
                                            };
@@ -236,9 +236,9 @@ describe(@"Send Location RPC", ^{
     
         context(@"when parameters are not set", ^{
             beforeEach(^{
-                NSDictionary *initDict = @{
-                                           NAMES_request: @{
-                                                   NAMES_parameters: @{}
+                NSDictionary<NSString *, id> *initDict = @{
+                                           SDLNameRequest: @{
+                                                   SDLNameParameters: @{}
                                                    }
                                            };
                 

@@ -3,69 +3,45 @@
 
 #import "SDLOnButtonPress.h"
 
-#import "SDLButtonName.h"
-#import "SDLButtonPressMode.h"
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnButtonPress
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnButtonPress]) {
+    if (self = [super initWithName:SDLNameOnButtonPress]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (void)setButtonName:(SDLButtonName)buttonName {
+    [parameters sdl_setObject:buttonName forName:SDLNameButtonName];
 }
 
-- (void)setButtonName:(SDLButtonName *)buttonName {
-    if (buttonName != nil) {
-        [parameters setObject:buttonName forKey:NAMES_buttonName];
-    } else {
-        [parameters removeObjectForKey:NAMES_buttonName];
-    }
+- (SDLButtonName)buttonName {
+    NSObject *obj = [parameters sdl_objectForName:SDLNameButtonName];
+    return (SDLButtonName)obj;
 }
 
-- (SDLButtonName *)buttonName {
-    NSObject *obj = [parameters objectForKey:NAMES_buttonName];
-    if (obj == nil || [obj isKindOfClass:SDLButtonName.class]) {
-        return (SDLButtonName *)obj;
-    } else {
-        return [SDLButtonName valueOf:(NSString *)obj];
-    }
+- (void)setButtonPressMode:(SDLButtonPressMode)buttonPressMode {
+    [parameters sdl_setObject:buttonPressMode forName:SDLNameButtonPressMode];
 }
 
-- (void)setButtonPressMode:(SDLButtonPressMode *)buttonPressMode {
-    if (buttonPressMode != nil) {
-        [parameters setObject:buttonPressMode forKey:NAMES_buttonPressMode];
-    } else {
-        [parameters removeObjectForKey:NAMES_buttonPressMode];
-    }
+- (SDLButtonPressMode)buttonPressMode {
+    NSObject *obj = [parameters sdl_objectForName:SDLNameButtonPressMode];
+    return (SDLButtonPressMode)obj;
 }
 
-- (SDLButtonPressMode *)buttonPressMode {
-    NSObject *obj = [parameters objectForKey:NAMES_buttonPressMode];
-    if (obj == nil || [obj isKindOfClass:SDLButtonPressMode.class]) {
-        return (SDLButtonPressMode *)obj;
-    } else {
-        return [SDLButtonPressMode valueOf:(NSString *)obj];
-    }
+- (void)setCustomButtonID:(nullable NSNumber<SDLInt> *)customButtonID {
+    [parameters sdl_setObject:customButtonID forName:SDLNameCustomButtonId];
 }
 
-- (void)setCustomButtonID:(NSNumber *)customButtonID {
-    if (customButtonID != nil) {
-        [parameters setObject:customButtonID forKey:NAMES_customButtonID];
-    } else {
-        [parameters removeObjectForKey:NAMES_customButtonID];
-    }
-}
-
-- (NSNumber *)customButtonID {
-    return [parameters objectForKey:NAMES_customButtonID];
+- (nullable NSNumber<SDLInt> *)customButtonID {
+    return [parameters sdl_objectForName:SDLNameCustomButtonId];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

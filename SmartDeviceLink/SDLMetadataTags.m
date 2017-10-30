@@ -1,145 +1,78 @@
 //
-//  SDLMetadataTags.m
+//  SDLMetadataStruct.m
 //  SmartDeviceLink-iOS
 //
-//  Created by Brett McIsaac on 8/1/17.
+//  Created by Brett McIsaac on 8/3/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
 #import "SDLMetadataTags.h"
-#import "SDLMetadataType.h"
+
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLMetadataTags
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithTextFieldTypes:(NSArray<SDLMetadataType *> *)mainField1 mainField2:(NSArray<SDLMetadataType *> *)mainField2 {
+- (instancetype)initWithTextFieldTypes:(nullable NSArray<SDLMetadataType> *)mainField1 mainField2:(nullable NSArray<SDLMetadataType> *)mainField2 {
     self = [self init];
     if (!self) {
         return self;
     }
 
-    self.mainField1 = [mainField1 mutableCopy];
-    self.mainField2 = [mainField2 mutableCopy];
+    self.mainField1 = mainField1;
+    self.mainField2 = mainField2;
 
     return self;
 }
 
-- (instancetype)initWithTextFieldTypes:(NSArray<SDLMetadataType *> *)mainField1 mainField2:(NSArray<SDLMetadataType *> *)mainField2 mainField3:(NSArray<SDLMetadataType *> *)mainField3 mainField4:(NSArray<SDLMetadataType *> *)mainField4 {
+- (instancetype)initWithTextFieldTypes:(nullable NSArray<SDLMetadataType> *)mainField1 mainField2:(nullable NSArray<SDLMetadataType> *)mainField2 mainField3:(nullable NSArray<SDLMetadataType> *)mainField3 mainField4:(nullable NSArray<SDLMetadataType> *)mainField4 {
     self = [self init];
     if (!self) {
         return self;
     }
 
-    self.mainField1 = [mainField1 mutableCopy];
-    self.mainField2 = [mainField2 mutableCopy];
-    self.mainField3 = [mainField3 mutableCopy];
-    self.mainField4 = [mainField4 mutableCopy];
+    self.mainField1 = mainField1;
+    self.mainField2 = mainField2;
+    self.mainField3 = mainField3;
+    self.mainField4 = mainField4;
 
     return self;
 }
 
-- (void)setMainField1:(NSMutableArray<SDLMetadataType *> *)mainField1 {
-    if (mainField1 != nil) {
-        [store setObject:mainField1 forKey:NAMES_mainField1];
-    } else {
-        [store removeObjectForKey:NAMES_mainField1];
-    }
+- (void)setMainField1:(nullable NSArray<SDLMetadataType> *)mainField1 {
+    [store sdl_setObject:mainField1 forName:SDLNameMainField1];
 }
 
-- (NSMutableArray<SDLMetadataType *> *)mainField1 {
-    NSMutableArray *array = [store objectForKey:NAMES_mainField1];
-    if ([array isEqual:[NSNull null]]) {
-        return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLMetadataType.class]) {
-        return array;
-    } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (SDLMetadataType *type in array) {
-            [newList addObject:type];
-        }
-        return newList;
-    }
+- (nullable NSArray<SDLMetadataType> *)mainField1 {
+    return [store sdl_objectForName:SDLNameMainField1];
 }
 
-- (void)setMainField2:(NSMutableArray<SDLMetadataType *> *)mainField2 {
-    if (mainField2 != nil) {
-        [store setObject:mainField2 forKey:NAMES_mainField2];
-    } else {
-        [store removeObjectForKey:NAMES_mainField2];
-    }
+- (void)setMainField2:(nullable NSArray<SDLMetadataType> *)mainField2 {
+    [store sdl_setObject:mainField2 forName:SDLNameMainField2];
 }
 
-- (NSMutableArray<SDLMetadataType *> *)mainField2 {
-    NSMutableArray *array = [store objectForKey:NAMES_mainField2];
-    if ([array isEqual:[NSNull null]]) {
-        return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLMetadataType.class]) {
-        return array;
-    } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (SDLMetadataType *type in array) {
-            [newList addObject:type];
-        }
-        return newList;
-    }
+- (nullable NSArray<SDLMetadataType> *)mainField2 {
+    return [store sdl_objectForName:SDLNameMainField2];
 }
 
-- (void)setMainField3:(NSMutableArray<SDLMetadataType *> *)mainField3 {
-    if (mainField3 != nil) {
-        [store setObject:mainField3 forKey:NAMES_mainField3];
-    } else {
-        [store removeObjectForKey:NAMES_mainField3];
-    }
+- (void)setMainField3:(nullable NSArray<SDLMetadataType> *)mainField3 {
+    [store sdl_setObject:mainField3 forName:SDLNameMainField3];
 }
 
-- (NSMutableArray<SDLMetadataType *> *)mainField3 {
-    NSMutableArray *array = [store objectForKey:NAMES_mainField3];
-    if ([array isEqual:[NSNull null]]) {
-        return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLMetadataType.class]) {
-        return array;
-    } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (SDLMetadataType *type in array) {
-            [newList addObject:type];
-        }
-        return newList;
-    }
+- (nullable NSArray<SDLMetadataType> *)mainField3 {
+    return [store sdl_objectForName:SDLNameMainField3];
 }
 
-- (void)setMainField4:(NSMutableArray<SDLMetadataType *> *)mainField4 {
-    if (mainField4 != nil) {
-        [store setObject:mainField4 forKey:NAMES_mainField4];
-    } else {
-        [store removeObjectForKey:NAMES_mainField4];
-    }
+- (void)setMainField4:(nullable NSArray<SDLMetadataType> *)mainField4 {
+    [store sdl_setObject:mainField4 forName:SDLNameMainField4];
 }
 
-- (NSMutableArray<SDLMetadataType *> *)mainField4 {
-    NSMutableArray *array = [store objectForKey:NAMES_mainField4];
-    if ([array isEqual:[NSNull null]]) {
-        return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLMetadataType.class]) {
-        return array;
-    } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (SDLMetadataType *type in array) {
-            [newList addObject:type];
-        }
-        return newList;
-    }
+- (nullable NSArray<SDLMetadataType> *)mainField4 {
+    return [store sdl_objectForName:SDLNameMainField4];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

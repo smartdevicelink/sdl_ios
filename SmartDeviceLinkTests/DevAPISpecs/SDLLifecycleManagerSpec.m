@@ -12,6 +12,7 @@
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
+#import "SDLLogConfiguration.h"
 #import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLOnHashChange.h"
@@ -19,11 +20,14 @@
 #import "SDLPermissionManager.h"
 #import "SDLProxy.h"
 #import "SDLProxyFactory.h"
+#import "SDLProtocol.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResult.h"
 #import "SDLShow.h"
 #import "SDLStateMachine.h"
+#import "SDLStreamingMediaConfiguration.h"
+#import "SDLStreamingMediaManager.h"
 #import "SDLTextAlignment.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnregisterAppInterfaceResponse.h"
@@ -56,43 +60,49 @@ QuickConfigurationEnd
 
 QuickSpecBegin(SDLLifecycleManagerSpec)
 
-xdescribe(@"a lifecycle manager", ^{
+describe(@"a lifecycle manager", ^{
     __block SDLLifecycleManager *testManager = nil;
     __block SDLConfiguration *testConfig = nil;
     
     __block id managerDelegateMock = OCMProtocolMock(@protocol(SDLManagerDelegate));
+    __block id protocolMock = OCMClassMock([SDLAbstractProtocol class]);
     __block id proxyBuilderClassMock = OCMStrictClassMock([SDLProxyFactory class]);
     __block id proxyMock = OCMClassMock([SDLProxy class]);
     __block id lockScreenManagerMock = OCMClassMock([SDLLockScreenManager class]);
     __block id fileManagerMock = OCMClassMock([SDLFileManager class]);
     __block id permissionManagerMock = OCMClassMock([SDLPermissionManager class]);
+    __block id streamingManagerMock = OCMClassMock([SDLStreamingMediaManager class]);
     
     beforeEach(^{
         OCMStub([proxyBuilderClassMock buildSDLProxyWithListener:[OCMArg any]]).andReturn(proxyMock);
+        OCMStub([(SDLProxy*)proxyMock protocol]).andReturn(protocolMock);
         
         SDLLifecycleConfiguration *testLifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"Test App" appId:@"Test Id"];
         testLifecycleConfig.shortAppName = @"Short Name";
+        testLifecycleConfig.appType = SDLAppHMITypeNavigation;
         
-        testConfig = [SDLConfiguration configurationWithLifecycle:testLifecycleConfig lockScreen:[SDLLockScreenConfiguration disabledConfiguration]];
+        testConfig = [SDLConfiguration configurationWithLifecycle:testLifecycleConfig lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] streamingMedia:[SDLStreamingMediaConfiguration insecureConfiguration]];
         testManager = [[SDLLifecycleManager alloc] initWithConfiguration:testConfig delegate:managerDelegateMock];
         testManager.lockScreenManager = lockScreenManagerMock;
         testManager.fileManager = fileManagerMock;
         testManager.permissionManager = permissionManagerMock;
+        testManager.streamManager = streamingManagerMock;
     });
     
-    it(@"should initialize properties", ^{
-        expect(testManager.configuration).to(equal(testConfig));
+    xit(@"should initialize properties", ^{
+        expect(testManager.configuration).toNot(equal(testConfig)); // This is copied
         expect(testManager.delegate).to(equal(managerDelegateMock)); // TODO: Broken on OCMock 3.3.1 & Swift 3 Quick / Nimble
         expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
         expect(@(testManager.lastCorrelationId)).to(equal(@0));
         expect(testManager.fileManager).toNot(beNil());
         expect(testManager.permissionManager).toNot(beNil());
-        expect(testManager.streamManager).to(beNil());
+        expect(testManager.streamManager).toNot(beNil());
         expect(testManager.proxy).to(beNil());
         expect(testManager.registerResponse).to(beNil());
         expect(testManager.lockScreenManager).toNot(beNil());
         expect(testManager.notificationDispatcher).toNot(beNil());
         expect(testManager.responseDispatcher).toNot(beNil());
+        expect(testManager.streamManager).toNot(beNil());
         expect(@([testManager conformsToProtocol:@protocol(SDLConnectionManagerType)])).to(equal(@YES));
     });
     
@@ -100,7 +110,7 @@ xdescribe(@"a lifecycle manager", ^{
     
     describe(@"after receiving an HMI Status", ^{
         __block SDLOnHMIStatus *testHMIStatus = nil;
-        __block SDLHMILevel *testHMILevel = nil;
+        __block SDLHMILevel testHMILevel = nil;
         
         beforeEach(^{
             testHMIStatus = [[SDLOnHMIStatus alloc] init];
@@ -108,7 +118,7 @@ xdescribe(@"a lifecycle manager", ^{
         
         context(@"a non-none hmi level", ^{
             beforeEach(^{
-                testHMILevel = [SDLHMILevel NONE];
+                testHMILevel = SDLHMILevelNone;
                 testHMIStatus.hmiLevel = testHMILevel;
                 
                 [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
@@ -121,7 +131,7 @@ xdescribe(@"a lifecycle manager", ^{
         
         context(@"a non-full, non-none hmi level", ^{
             beforeEach(^{
-                testHMILevel = [SDLHMILevel BACKGROUND];
+                testHMILevel = SDLHMILevelBackground;
                 testHMIStatus.hmiLevel = testHMILevel;
                 
                 [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
@@ -134,7 +144,7 @@ xdescribe(@"a lifecycle manager", ^{
         
         context(@"a full hmi level", ^{
             beforeEach(^{
-                testHMILevel = [SDLHMILevel FULL];
+                testHMILevel = SDLHMILevelFull;
                 testHMIStatus.hmiLevel = testHMILevel;
                 
                 [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
@@ -227,17 +237,20 @@ xdescribe(@"a lifecycle manager", ^{
                     OCMStub([(SDLLockScreenManager *)lockScreenManagerMock start]);
                     OCMStub([fileManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), fileManagerStartError, nil])]);
                     OCMStub([permissionManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), permissionManagerStartError, nil])]);
+                    OCMStub([streamingManagerMock startWithProtocol:protocolMock]);
                     
-                    // Send an RAI response to move the lifecycle forward
+                    // Send an RAI response & make sure we have an HMI status to move the lifecycle forward
+                    testManager.hmiLevel = SDLHMILevelFull;
                     [testManager.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
                     [NSThread sleepForTimeInterval:0.3];
                 });
                 
                 it(@"should eventually reach the ready state", ^{
-                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateReady));
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateReady));
                     OCMVerify([(SDLLockScreenManager *)lockScreenManagerMock start]);
                     OCMVerify([fileManagerMock startWithCompletionHandler:[OCMArg any]]);
                     OCMVerify([permissionManagerMock startWithCompletionHandler:[OCMArg any]]);
+                    OCMVerify([streamingManagerMock startWithProtocol:[OCMArg any]]);
                 });
                 
                 itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
@@ -268,7 +281,7 @@ xdescribe(@"a lifecycle manager", ^{
             context(@"before register response is a success", ^{
                 it(@"ready handler should not be called yet", ^{
                     SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
-                    response.resultCode = [SDLResult SUCCESS];
+                    response.resultCode = SDLResultSuccess;
                     testManager.registerResponse = response;
                     
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpHMI fromOldState:nil callEnterTransition:YES];
@@ -281,22 +294,23 @@ xdescribe(@"a lifecycle manager", ^{
             context(@"assume hmi status is nil", ^{
                 it(@"mock notification and ensure state changes to ready", ^{
                     __block SDLOnHMIStatus *testHMIStatus = nil;
-                    __block SDLHMILevel *testHMILevel = nil;
+                    __block SDLHMILevel testHMILevel = nil;
                     testHMIStatus = [[SDLOnHMIStatus alloc] init];
                     
                     SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
-                    response.resultCode = [SDLResult SUCCESS];
+                    response.resultCode = SDLResultSuccess;
                     testManager.registerResponse = response;
                     
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpHMI fromOldState:nil callEnterTransition:YES];
                     
-                    testHMILevel = [SDLHMILevel FULL];
+                    testHMILevel = SDLHMILevelFull;
                     testHMIStatus.hmiLevel = testHMILevel;
                     
                     [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
-                    
-                    expect(@(readyHandlerSuccess)).to(equal(@YES));
-                    expect(readyHandlerError).toNot(beNil());
+
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateReady));
+                    expect(@(readyHandlerSuccess)).toEventually(equal(@YES));
+                    expect(readyHandlerError).toEventually(beNil());
                 });
             });
         });
@@ -305,7 +319,7 @@ xdescribe(@"a lifecycle manager", ^{
             context(@"when the register response is a success", ^{
                 it(@"should call the ready handler with success", ^{
                     SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
-                    response.resultCode = [SDLResult SUCCESS];
+                    response.resultCode = SDLResultSuccess;
                     testManager.registerResponse = response;
                     
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:YES];
@@ -318,7 +332,7 @@ xdescribe(@"a lifecycle manager", ^{
             context(@"when the register response is a warning", ^{
                 it(@"should call the ready handler with success but error", ^{
                     SDLRegisterAppInterfaceResponse *response = [[SDLRegisterAppInterfaceResponse alloc] init];
-                    response.resultCode = [SDLResult WARNINGS];
+                    response.resultCode = SDLResultWarnings;
                     response.info = @"some info";
                     testManager.registerResponse = response;
 
@@ -326,7 +340,7 @@ xdescribe(@"a lifecycle manager", ^{
 
                     expect(@(readyHandlerSuccess)).to(equal(@YES));
                     expect(readyHandlerError).toNot(beNil());
-                    expect(@(readyHandlerError.code)).to(equal(@(SDLManagerErrorRegistrationFailed)));
+                    expect(@(readyHandlerError.code)).to(equal(@(SDLManagerErrorRegistrationSuccessWithWarning)));
                     expect(readyHandlerError.userInfo[NSLocalizedFailureReasonErrorKey]).to(match(response.info));
                 });
             });
@@ -342,12 +356,6 @@ xdescribe(@"a lifecycle manager", ^{
                 [testManager sendRequest:testShow];
                 
                 OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLShow class]]]);
-            });
-            
-            it(@"cannot send a nil RPC", ^{
-                SDLShow *testShow = nil;
-
-                expectAction(^{ [testManager sendRequest:testShow]; }).to(raiseException().named(NSInternalInconsistencyException));
             });
             
             describe(@"stopping the manager", ^{
@@ -379,8 +387,8 @@ xdescribe(@"a lifecycle manager", ^{
             
             describe(@"receiving an HMI level change", ^{
                 __block SDLOnHMIStatus *testHMIStatus = nil;
-                __block SDLHMILevel *testHMILevel = nil;
-                __block SDLHMILevel *oldHMILevel = nil;
+                __block SDLHMILevel testHMILevel = nil;
+                __block SDLHMILevel oldHMILevel = nil;
                 
                 beforeEach(^{
                     oldHMILevel = testManager.hmiLevel;
@@ -389,7 +397,7 @@ xdescribe(@"a lifecycle manager", ^{
                 
                 context(@"a full hmi level", ^{
                     beforeEach(^{
-                        testHMILevel = [SDLHMILevel FULL];
+                        testHMILevel = SDLHMILevelFull;
                         testHMIStatus.hmiLevel = testHMILevel;
                         
                         [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
@@ -404,7 +412,63 @@ xdescribe(@"a lifecycle manager", ^{
                     });
                 });
             });
-        });
+            
+            describe(@"receiving an audio state change", ^{
+                __block SDLOnHMIStatus *testHMIStatus = nil;
+                __block SDLAudioStreamingState testAudioStreamingState = nil;
+                __block SDLAudioStreamingState oldAudioStreamingState = nil;
+                
+                beforeEach(^{
+                    oldAudioStreamingState = testManager.audioStreamingState;
+                    testHMIStatus = [[SDLOnHMIStatus alloc] init];
+                });
+                
+                context(@"a not audible audio state", ^{
+                    beforeEach(^{
+                        testAudioStreamingState = SDLAudioStreamingStateNotAudible;
+                        testHMIStatus.audioStreamingState = testAudioStreamingState;
+                        
+                        [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
+                    });
+                    
+                    it(@"should set the audio state", ^{
+                        expect(testManager.audioStreamingState).toEventually(equal(testAudioStreamingState));
+                    });
+                    
+                    it(@"should call the delegate", ^{
+                        OCMVerify([managerDelegateMock audioStreamingState:oldAudioStreamingState didChangeToState:testAudioStreamingState]);
+                    });
+                });
+            });
+            
+            describe(@"receiving a system context change", ^{
+                __block SDLOnHMIStatus *testHMIStatus = nil;
+                __block SDLSystemContext testSystemContext = nil;
+                __block SDLSystemContext oldSystemContext = nil;
+                
+                beforeEach(^{
+                    oldSystemContext = testManager.systemContext;
+                    testHMIStatus = [[SDLOnHMIStatus alloc] init];
+                });
+                
+                context(@"a alert system context state", ^{
+                    beforeEach(^{
+                        testSystemContext = SDLSystemContextAlert;
+                        testHMIStatus.systemContext = testSystemContext;
+                        
+                        [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
+                    });
+                    
+                    it(@"should set the system context", ^{
+                        expect(testManager.systemContext).toEventually(equal(testSystemContext));
+                    });
+                    
+                    it(@"should call the delegate", ^{
+                        OCMVerify([managerDelegateMock systemContext:oldSystemContext didChangeToContext:testSystemContext]);
+                    });
+                });
+            });
+         });
     });
 });
 

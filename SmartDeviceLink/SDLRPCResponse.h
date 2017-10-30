@@ -4,14 +4,17 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLResult;
+#import "SDLResult.h"
 
-@interface SDLRPCResponse : SDLRPCMessage {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-@property (strong) NSNumber *correlationID;
-@property (strong) NSNumber *success;
-@property (strong) SDLResult *resultCode;
-@property (strong) NSString *info;
+@interface SDLRPCResponse : SDLRPCMessage
+
+@property (strong, nonatomic) NSNumber<SDLInt> *correlationID;
+@property (strong, nonatomic) NSNumber<SDLBool> *success;
+@property (strong, nonatomic) SDLResult resultCode;
+@property (nullable, strong, nonatomic) NSString *info;
 
 @end
+
+NS_ASSUME_NONNULL_END

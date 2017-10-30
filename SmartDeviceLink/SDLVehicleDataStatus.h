@@ -9,36 +9,19 @@
  *
  * @since SDL 2.0
  */
-@interface SDLVehicleDataStatus : SDLEnum {
-}
-
-/**
- * Convert String to SDLVehicleDataStatus
- * @param value The value of the string to get an object for
- * @return SDLVehicleDataStatus
- */
-+ (SDLVehicleDataStatus *)valueOf:(NSString *)value;
-
-/**
- * @abstract Store the enumeration of all possible SDLVehicleDataStatus
- * @return an array that store all possible SDLVehicleDataStatus
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLVehicleDataStatus SDL_SWIFT_ENUM;
 
 /**
  * @abstract No data avaliable
- * @return SDLVehicleDataStatus: *NO_DATA_EXISTS*
  */
-+ (SDLVehicleDataStatus *)NO_DATA_EXISTS;
+extern SDLVehicleDataStatus const SDLVehicleDataStatusNoDataExists;
 
 /**
  * @abstract return SDLVehicleDataStatus: *OFF*
  */
-+ (SDLVehicleDataStatus *)OFF;
+extern SDLVehicleDataStatus const SDLVehicleDataStatusOff;
 
 /**
  * @abstract return SDLVehicleDataStatus: *ON*
  */
-+ (SDLVehicleDataStatus *)ON;
-
-@end
+extern SDLVehicleDataStatus const SDLVehicleDataStatusOn;

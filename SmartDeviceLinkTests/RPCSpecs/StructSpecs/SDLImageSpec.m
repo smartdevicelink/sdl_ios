@@ -20,19 +20,19 @@ describe(@"Getter/Setter Tests", ^ {
         SDLImage* testStruct = [[SDLImage alloc] init];
         
         testStruct.value = @"value";
-        testStruct.imageType = [SDLImageType STATIC];
+        testStruct.imageType = SDLImageTypeStatic;
         
         expect(testStruct.value).to(equal(@"value"));
-        expect(testStruct.imageType).to(equal([SDLImageType STATIC]));
+        expect(testStruct.imageType).to(equal(SDLImageTypeStatic));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_value:@"value",
-                                       NAMES_imageType:[SDLImageType STATIC]} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameValue:@"value",
+                                       SDLNameImageType:SDLImageTypeStatic} mutableCopy];
         SDLImage* testStruct = [[SDLImage alloc] initWithDictionary:dict];
         
         expect(testStruct.value).to(equal(@"value"));
-        expect(testStruct.imageType).to(equal([SDLImageType STATIC]));
+        expect(testStruct.imageType).to(equal(SDLImageTypeStatic));
     });
     
     it(@"Should return nil if not set", ^ {

@@ -19,20 +19,20 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLVehicleDataResult* testStruct = [[SDLVehicleDataResult alloc] init];
         
-        testStruct.dataType = [SDLVehicleDataType VEHICLEDATA_AIRBAGSTATUS];
-        testStruct.resultCode = [SDLVehicleDataResultCode DISALLOWED];
+        testStruct.dataType = SDLVehicleDataTypeAirbagStatus;
+        testStruct.resultCode = SDLVehicleDataResultCodeDisallowed;
         
-        expect(testStruct.dataType).to(equal([SDLVehicleDataType VEHICLEDATA_AIRBAGSTATUS]));
-        expect(testStruct.resultCode).to(equal([SDLVehicleDataResultCode DISALLOWED]));
+        expect(testStruct.dataType).to(equal(SDLVehicleDataTypeAirbagStatus));
+        expect(testStruct.resultCode).to(equal(SDLVehicleDataResultCodeDisallowed));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_dataType:[SDLVehicleDataType VEHICLEDATA_AIRBAGSTATUS],
-                                       NAMES_resultCode:[SDLVehicleDataResultCode DISALLOWED]} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameDataType:SDLVehicleDataTypeAirbagStatus,
+                                       SDLNameResultCode:SDLVehicleDataResultCodeDisallowed} mutableCopy];
         SDLVehicleDataResult* testStruct = [[SDLVehicleDataResult alloc] initWithDictionary:dict];
         
-        expect(testStruct.dataType).to(equal([SDLVehicleDataType VEHICLEDATA_AIRBAGSTATUS]));
-        expect(testStruct.resultCode).to(equal([SDLVehicleDataResultCode DISALLOWED]));
+        expect(testStruct.dataType).to(equal(SDLVehicleDataTypeAirbagStatus));
+        expect(testStruct.resultCode).to(equal(SDLVehicleDataResultCodeDisallowed));
     });
     
     it(@"Should return nil if not set", ^ {

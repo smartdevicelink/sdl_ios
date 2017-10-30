@@ -4,14 +4,8 @@
 
 #import "SDLEnum.h"
 
-@interface SDLTimerMode : SDLEnum {
-}
+typedef SDLEnum SDLTimerMode SDL_SWIFT_ENUM;
 
-+ (SDLTimerMode *)valueOf:(NSString *)value;
-+ (NSArray *)values;
-
-+ (SDLTimerMode *)UP;
-+ (SDLTimerMode *)DOWN;
-+ (SDLTimerMode *)NONE;
-
-@end
+extern SDLTimerMode const SDLTimerModeUp;
+extern SDLTimerMode const SDLTimerModeDown;
+extern SDLTimerMode const SDLTimerModeNone;

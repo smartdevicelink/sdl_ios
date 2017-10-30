@@ -9,19 +9,10 @@
  *
  * @since SDL 1.0
  */
-@interface SDLStartTime : SDLRPCStruct {
-}
 
-/**
- * @abstract Constructs a newly allocated SDLStartTime object
- */
-- (instancetype)init;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * @abstract Constructs a newly allocated SDLStartTime object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLStartTime : SDLRPCStruct
 
 - (instancetype)initWithHours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds;
 
@@ -32,20 +23,22 @@
  *
  * Required, Integer, 0 - 59
  */
-@property (strong) NSNumber *hours;
+@property (strong, nonatomic) NSNumber<SDLInt> *hours;
 
 /**
  * @abstract The minute of the media clock
  *
  * Required, Integer, 0 - 59
  */
-@property (strong) NSNumber *minutes;
+@property (strong, nonatomic) NSNumber<SDLInt> *minutes;
 
 /**
  * @abstract The second of the media clock
  *
  * Required, Integer, 0 - 59
  */
-@property (strong) NSNumber *seconds;
+@property (strong, nonatomic) NSNumber<SDLInt> *seconds;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -4,21 +4,23 @@
 
 #import "SDLV1ProtocolHeader.h"
 
-const int V1PROTOCOL_HEADERSIZE = 8;
+const int ProtocolV1HeaderByteSize = 8;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLV1ProtocolHeader
 
 - (instancetype)init {
     if (self = [super init]) {
         _version = 1;
-        _size = V1PROTOCOL_HEADERSIZE;
+        _size = ProtocolV1HeaderByteSize;
     }
     return self;
 }
 
 - (NSData *)data {
     // Assembles the properties in the binary header format
-    Byte headerBytes[V1PROTOCOL_HEADERSIZE] = {0};
+    Byte headerBytes[ProtocolV1HeaderByteSize] = {0};
 
     Byte version = (self.version & 0xF) << 4; // first 4 bits
     Byte compressed = (self.encrypted ? 1 : 0) << 3; // next 1 bit
@@ -34,12 +36,12 @@ const int V1PROTOCOL_HEADERSIZE = 8;
     *p = CFSwapInt32HostToBig(self.bytesInPayload); // swap the byte order
 
     // Now put it all in an NSData object.
-    NSData *dataOut = [NSData dataWithBytes:headerBytes length:V1PROTOCOL_HEADERSIZE];
+    NSData *dataOut = [NSData dataWithBytes:headerBytes length:ProtocolV1HeaderByteSize];
 
     return dataOut;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     SDLV1ProtocolHeader *newHeader = [[SDLV1ProtocolHeader allocWithZone:zone] init];
     newHeader.encrypted = self.encrypted;
     newHeader.frameType = self.frameType;
@@ -82,3 +84,5 @@ const int V1PROTOCOL_HEADERSIZE = 8;
 
 
 @end
+
+NS_ASSUME_NONNULL_END

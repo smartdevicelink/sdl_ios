@@ -4,12 +4,12 @@
 
 #import "SDLRPCNotification.h"
 
-@interface SDLOnHashChange : SDLRPCNotification {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLOnHashChange : SDLRPCNotification
 
-@property (strong) NSString *hashID;
+@property (strong, nonatomic) NSString *hashID;
 
 @end
+
+NS_ASSUME_NONNULL_END

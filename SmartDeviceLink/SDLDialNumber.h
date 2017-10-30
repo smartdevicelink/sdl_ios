@@ -9,10 +9,10 @@
  
  @since SDL 4.0
  */
-@interface SDLDialNumber : SDLRPCRequest
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLDialNumber : SDLRPCRequest
 
 - (instancetype)initWithNumber:(NSString *)number;
 
@@ -22,3 +22,5 @@
 @property (strong, nonatomic) NSString *number;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -2,6 +2,8 @@
 
 #import "SDLAbstractTransport.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLAbstractTransport
 
 - (instancetype)init {
@@ -22,13 +24,11 @@
     [self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)dispose {
-    [self doesNotRecognizeSelector:_cmd];
-}
-
 - (double)retryDelay {
     [self doesNotRecognizeSelector:_cmd];
     return 0.0;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

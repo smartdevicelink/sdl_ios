@@ -21,29 +21,29 @@ describe(@"Getter/Setter Tests", ^ {
         
         testNotification.driverDistractionStatus = @NO;
         testNotification.userSelected = @3;
-        testNotification.lockScreenStatus = [SDLLockScreenStatus REQUIRED];
-        testNotification.hmiLevel = [SDLHMILevel NONE];
+        testNotification.lockScreenStatus = SDLLockScreenStatusRequired;
+        testNotification.hmiLevel = SDLHMILevelNone;
         
         expect(testNotification.driverDistractionStatus).to(equal(@NO));
         expect(testNotification.userSelected).to(equal(@3));
-        expect(testNotification.lockScreenStatus).to(equal([SDLLockScreenStatus REQUIRED]));
-        expect(testNotification.hmiLevel).to(equal([SDLHMILevel NONE]));
+        expect(testNotification.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
+        expect(testNotification.hmiLevel).to(equal(SDLHMILevelNone));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_notification:
-                                           @{NAMES_parameters:
-                                                 @{@"driverdistractionstatus":@NO,
-                                                   @"userselected":@3,
-                                                   @"OnLockScreenStatus":[SDLLockScreenStatus REQUIRED],
-                                                   @"hmilevel":[SDLHMILevel NONE]},
-                                             NAMES_operation_name:@"OnLockScreenStatus"}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameNotification:
+                                           @{SDLNameParameters:
+                                                 @{@"driverDistractionStatus":@NO,
+                                                   @"userSelected":@3,
+                                                   @"OnLockScreenStatus":SDLLockScreenStatusRequired,
+                                                   @"hmiLevel":SDLHMILevelNone},
+                                             SDLNameOperationName:@"OnLockScreenStatus"}} mutableCopy];
         SDLOnLockScreenStatus* testNotification = [[SDLOnLockScreenStatus alloc] initWithDictionary:dict];
         
         expect(testNotification.driverDistractionStatus).to(equal(@NO));
         expect(testNotification.userSelected).to(equal(@3));
-        expect(testNotification.lockScreenStatus).to(equal([SDLLockScreenStatus REQUIRED]));
-        expect(testNotification.hmiLevel).to(equal([SDLHMILevel NONE]));
+        expect(testNotification.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
+        expect(testNotification.hmiLevel).to(equal(SDLHMILevelNone));
     });
     
     it(@"Should return nil if not set", ^ {

@@ -8,24 +8,12 @@
 
 #import "SDLNavigationCapability.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLNavigationCapability
-
-- (instancetype)init {
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
-
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
 
 - (instancetype)initWithSendLocation:(BOOL)sendLocationEnabled waypoints:(BOOL)waypointsEnabled {
     self = [self init];
@@ -39,28 +27,22 @@
     return self;
 }
 
-- (void)setSendLocationEnabled:(NSNumber *)sendLocationEnabled {
-    if (sendLocationEnabled != nil) {
-        store[NAMES_sendLocationEnabled] = sendLocationEnabled;
-    } else {
-        [store removeObjectForKey:NAMES_sendLocationEnabled];
-    }
+- (void)setSendLocationEnabled:(nullable NSNumber *)sendLocationEnabled {
+    [store sdl_setObject:sendLocationEnabled forName:SDLNameSendLocationEnabled];
 }
 
-- (NSNumber *)sendLocationEnabled {
-    return store[NAMES_sendLocationEnabled];
+- (nullable NSNumber *)sendLocationEnabled {
+    return [store sdl_objectForName:SDLNameSendLocationEnabled];
 }
 
-- (void)setGetWayPointsEnabled:(NSNumber *)getWayPointsEnabled {
-    if (getWayPointsEnabled != nil) {
-        store[NAMES_getWayPointsEnabled] = getWayPointsEnabled;
-    } else {
-        [store removeObjectForKey:NAMES_getWayPointsEnabled];
-    }
+- (void)setGetWayPointsEnabled:(nullable NSNumber *)getWayPointsEnabled {
+    [store sdl_setObject:getWayPointsEnabled forName:SDLNameGetWayPointsEnabled];
 }
 
-- (NSNumber *)getWayPointsEnabled {
-    return store[NAMES_getWayPointsEnabled];
+- (nullable NSNumber *)getWayPointsEnabled {
+    return [store sdl_objectForName:SDLNameGetWayPointsEnabled];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

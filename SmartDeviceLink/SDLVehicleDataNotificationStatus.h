@@ -9,40 +9,24 @@
  *
  * @since SDL 2.0
  */
-@interface SDLVehicleDataNotificationStatus : SDLEnum {
-}
-
-/**
- * Convert String to SDLVehicleDataNotificationStatus
- * @param value The value of the string to get an object for
- * @return SDLVehicleDataNotificationStatus
- */
-+ (SDLVehicleDataNotificationStatus *)valueOf:(NSString *)value;
-
-/**
- * @abstract Store the enumeration of all possible SDLVehicleDataNotificationStatus
- * @return an array that store all possible SDLVehicleDataNotificationStatus
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLVehicleDataNotificationStatus SDL_SWIFT_ENUM;
 
 /**
  * @abstract SDLVehicleDataNotificationStatus: *NOT_SUPPORTED*
  */
-+ (SDLVehicleDataNotificationStatus *)NOT_SUPPORTED;
+extern SDLVehicleDataNotificationStatus const SDLVehicleDataNotificationStatusNotSupported;
 
 /**
  @abstract SDLVehicleDataNotificationStatus: *NORMAL*
  */
-+ (SDLVehicleDataNotificationStatus *)NORMAL;
+extern SDLVehicleDataNotificationStatus const SDLVehicleDataNotificationStatusNormal;
 
 /**
  @abstract SDLVehicleDataNotificationStatus: *ACTIVE*
  */
-+ (SDLVehicleDataNotificationStatus *)ACTIVE;
+extern SDLVehicleDataNotificationStatus const SDLVehicleDataNotificationStatusActive;
 
 /**
  @abstract SDLVehicleDataNotificationStatus: *NOT_USED*
  */
-+ (SDLVehicleDataNotificationStatus *)NOT_USED;
-
-@end
+extern SDLVehicleDataNotificationStatus const SDLVehicleDataNotificationStatusNotUsed;

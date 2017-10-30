@@ -8,46 +8,32 @@
  *<b> Since:</b> SmartDeviceLink 2.0
  *<p>
  */
-
-@interface SDLEmergencyEventType : SDLEnum {
-}
-
-+ (SDLEmergencyEventType *)valueOf:(NSString *)value;
-+ (NSArray *)values;
+typedef SDLEnum SDLEmergencyEventType SDL_SWIFT_ENUM;
 
 /** No emergency event has happened.
  */
-
-+ (SDLEmergencyEventType *)NO_EVENT;
+extern SDLEmergencyEventType const SDLEmergencyEventTypeNoEvent;
 
 /** Frontal collision has happened.
  */
-
-+ (SDLEmergencyEventType *)FRONTAL;
+extern SDLEmergencyEventType const SDLEmergencyEventTypeFrontal;
 
 /** Side collision has happened.
  */
-
-+ (SDLEmergencyEventType *)SIDE;
+extern SDLEmergencyEventType const SDLEmergencyEventTypeSide;
 
 /**Rear collision has happened.
  */
-
-+ (SDLEmergencyEventType *)REAR;
+extern SDLEmergencyEventType const SDLEmergencyEventTypeRear;
 
 /** A rollover event has happened.
  */
-
-+ (SDLEmergencyEventType *)ROLLOVER;
+extern SDLEmergencyEventType const SDLEmergencyEventTypeRollover;
 
 /** The signal is not supported
  */
-
-+ (SDLEmergencyEventType *)NOT_SUPPORTED;
+extern SDLEmergencyEventType const SDLEmergencyEventTypeNotSupported;
 
 /** Emergency status cannot be determined
  */
-
-+ (SDLEmergencyEventType *)FAULT;
-
-@end
+extern SDLEmergencyEventType const SDLEmergencyEventTypeFault;

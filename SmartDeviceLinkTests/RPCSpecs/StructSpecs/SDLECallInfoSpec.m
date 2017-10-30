@@ -20,24 +20,24 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLECallInfo* testStruct = [[SDLECallInfo alloc] init];
         
-        testStruct.eCallNotificationStatus = [SDLVehicleDataNotificationStatus NORMAL];
-        testStruct.auxECallNotificationStatus = [SDLVehicleDataNotificationStatus ACTIVE];
-        testStruct.eCallConfirmationStatus = [SDLECallConfirmationStatus CALL_IN_PROGRESS];
+        testStruct.eCallNotificationStatus = SDLVehicleDataNotificationStatusNormal;
+        testStruct.auxECallNotificationStatus = SDLVehicleDataNotificationStatusActive;
+        testStruct.eCallConfirmationStatus = SDLECallConfirmationStatusInProgress;
         
-        expect(testStruct.eCallNotificationStatus).to(equal([SDLVehicleDataNotificationStatus NORMAL]));
-        expect(testStruct.auxECallNotificationStatus).to(equal([SDLVehicleDataNotificationStatus ACTIVE]));
-        expect(testStruct.eCallConfirmationStatus).to(equal([SDLECallConfirmationStatus CALL_IN_PROGRESS]));
+        expect(testStruct.eCallNotificationStatus).to(equal(SDLVehicleDataNotificationStatusNormal));
+        expect(testStruct.auxECallNotificationStatus).to(equal(SDLVehicleDataNotificationStatusActive));
+        expect(testStruct.eCallConfirmationStatus).to(equal(SDLECallConfirmationStatusInProgress));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_eCallNotificationStatus:[SDLVehicleDataNotificationStatus NORMAL],
-                                       NAMES_auxECallNotificationStatus:[SDLVehicleDataNotificationStatus ACTIVE],
-                                       NAMES_eCallConfirmationStatus:[SDLECallConfirmationStatus CALL_IN_PROGRESS]} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameECallNotificationStatus:SDLVehicleDataNotificationStatusNormal,
+                                       SDLNameAuxECallNotificationStatus:SDLVehicleDataNotificationStatusActive,
+                                       SDLNameECallConfirmationStatus:SDLECallConfirmationStatusInProgress} mutableCopy];
         SDLECallInfo* testStruct = [[SDLECallInfo alloc] initWithDictionary:dict];
         
-        expect(testStruct.eCallNotificationStatus).to(equal([SDLVehicleDataNotificationStatus NORMAL]));
-        expect(testStruct.auxECallNotificationStatus).to(equal([SDLVehicleDataNotificationStatus ACTIVE]));
-        expect(testStruct.eCallConfirmationStatus).to(equal([SDLECallConfirmationStatus CALL_IN_PROGRESS]));
+        expect(testStruct.eCallNotificationStatus).to(equal(SDLVehicleDataNotificationStatusNormal));
+        expect(testStruct.auxECallNotificationStatus).to(equal(SDLVehicleDataNotificationStatusActive));
+        expect(testStruct.eCallConfirmationStatus).to(equal(SDLECallConfirmationStatusInProgress));
     });
     
     it(@"Should return nil if not set", ^ {

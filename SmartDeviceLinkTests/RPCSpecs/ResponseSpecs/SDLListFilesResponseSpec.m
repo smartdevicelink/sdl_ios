@@ -25,11 +25,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_response:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_filenames:[@[@"Music/music.mp3", @"Documents/document.txt", @"Downloads/format.exe"] mutableCopy],
-                                                   NAMES_spaceAvailable:@500000000},
-                                             NAMES_operation_name:NAMES_ListFiles}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameResponse:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameFilenames:[@[@"Music/music.mp3", @"Documents/document.txt", @"Downloads/format.exe"] mutableCopy],
+                                                                   SDLNameSpaceAvailable:@500000000},
+                                                             SDLNameOperationName:SDLNameListFiles}} mutableCopy];
         SDLListFilesResponse* testResponse = [[SDLListFilesResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.filenames).to(equal([@[@"Music/music.mp3", @"Documents/document.txt", @"Downloads/format.exe"] mutableCopy]));

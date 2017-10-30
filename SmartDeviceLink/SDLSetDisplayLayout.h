@@ -4,7 +4,7 @@
 
 #import "SDLRPCRequest.h"
 
-@class SDLPredefinedLayout;
+#import "SDLPredefinedLayout.h"
 
 /**
  * Used to set an alternate display layout. If not sent, default screen for
@@ -12,21 +12,12 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLSetDisplayLayout : SDLRPCRequest {
-}
 
-/**
- * @abstract Constructs a new SDLSetDisplayLayout object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLSetDisplayLayout object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout *)predefinedLayout;
+@interface SDLSetDisplayLayout : SDLRPCRequest
+
+- (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout;
 
 - (instancetype)initWithLayout:(NSString *)displayLayout;
 
@@ -37,6 +28,8 @@
  * include: "ONSCREEN_PRESETS" Custom screen containing app-defined onscreen
  * presets. Currently defined for GEN2
  */
-@property (strong) NSString *displayLayout;
+@property (strong, nonatomic) NSString *displayLayout;
 
 @end
+
+NS_ASSUME_NONNULL_END

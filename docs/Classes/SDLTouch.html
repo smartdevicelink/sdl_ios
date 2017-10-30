@@ -1,0 +1,145 @@
+<h1>SDLTouch Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithTouchEvent:">-initWithTouchEvent:</a></li>
+  <li><a href="#section-identifier">identifier</a></li>
+  <li><a href="#section-location">location</a></li>
+  <li><a href="#section-timeStamp">timeStamp</a></li>
+  <li><a href="#section-isFirstFinger">isFirstFinger</a></li>
+  <li><a href="#section-isSecondFinger">isSecondFinger</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithTouchEvent:">
+      -initWithTouchEvent:
+  </h3>
+  
+  <p>@abstract
+    Initializes a touch.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTouchEvent</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLTouchEvent.html">SDLTouchEvent</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">touchEvent</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">touchEvent</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchEvent.html">SDLTouchEvent</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>touchEvent</dt>
+      <dd><p>Incoming touch event from onOnTouchEvent notification.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLTouch
+Instance of SDLTouch.</p>
+  </div>
+  
+  <h3 id="section-identifier">
+      identifier
+  </h3>
+  
+  <p>@abstract
+    Identifier of the touch&rsquo;s finger. Refer to SDLTouchIdentifier for valid 
+    identifiers.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSInteger</span> <span class="n">identifier</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-location">
+      location
+  </h3>
+  
+  <p>@abstract
+    Location of touch point, in the head unit&rsquo;s coordinate system.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGPoint</span> <span class="n">location</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">location</span><span class="p">:</span> <span class="kt">CGPoint</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-timeStamp">
+      timeStamp
+  </h3>
+  
+  <p>@abstract
+    Timestamp in which the touch occured.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSUInteger</span> <span class="n">timeStamp</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">timeStamp</span><span class="p">:</span> <span class="kt">UInt</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-isFirstFinger">
+      isFirstFinger
+  </h3>
+  
+  <p>@abstract
+    Returns whether or not this touch is a first finger.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">isFirstFinger</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">isFirstFinger</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-isSecondFinger">
+      isSecondFinger
+  </h3>
+  
+  <p>@abstract
+    Returns whether or not this touch is a second finger.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">isSecondFinger</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">isSecondFinger</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

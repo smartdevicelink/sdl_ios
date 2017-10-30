@@ -63,9 +63,9 @@ describe(@"Getter/Setter Tests", ^ {
                 
                 someWaypoints = @[someLocation];
                 
-                NSDictionary *initDict = @{NAMES_response : @{
-                                                   NAMES_parameters: @{
-                                                           NAMES_waypoints: someWaypoints
+                NSDictionary *initDict = @{SDLNameResponse : @{
+                                                   SDLNameParameters: @{
+                                                           SDLNameWayPoints: someWaypoints
                                                            }
                                                    }
                                            };
@@ -83,8 +83,8 @@ describe(@"Getter/Setter Tests", ^ {
         context(@"when parameters are not set", ^{
             beforeEach(^{
                 NSDictionary *initDict = @{
-                                           NAMES_request: @{
-                                                   NAMES_parameters: @{}
+                                           SDLNameRequest: @{
+                                                   SDLNameParameters: @{}
                                                    }
                                            };
                 

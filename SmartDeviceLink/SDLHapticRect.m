@@ -2,68 +2,47 @@
 //  SDLHapticRect.m
 //  SmartDeviceLink-iOS
 //
-//  Created by Nicole on 8/2/17.
+//  Created by Nicole on 8/3/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLHapticRect.h"
-
 #import "SDLNames.h"
 #import "SDLRectangle.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLHapticRect
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithId:(NSNumber *)id rect:(SDLRectangle *)rect {
+- (instancetype)initWithId:(UInt32)id rect:(nonnull SDLRectangle *)rect {
     self = [self init];
     if (!self) {
         return nil;
     }
 
-    self.id = id;
+    self.id = @(id);
     self.rect = rect;
 
     return self;
 }
 
-- (void)setId:(NSNumber *)id {
-    if (id != nil) {
-        [store setObject:id forKey:NAMES_id];
-    } else {
-        [store removeObjectForKey:NAMES_id];
-    }
+- (void)setId:(NSNumber<SDLInt> *)id {
+    [store sdl_setObject:id forName:SDLNameId];
 }
 
-- (NSNumber *)id {
-    return [store objectForKey:NAMES_id];
+- (NSNumber<SDLInt> *)id {
+    return [store sdl_objectForName:SDLNameId];
 }
 
 - (void)setRect:(SDLRectangle *)rect {
-    if (rect != nil) {
-        [store setObject:rect forKey:NAMES_rect];
-    } else {
-        [store removeObjectForKey:NAMES_rect];
-    }
+    [store sdl_setObject:rect forName:SDLNameRect];
 }
 
 - (SDLRectangle *)rect {
-    NSObject *obj = store[NAMES_rect];
-    if (obj == nil || [obj isKindOfClass:SDLRectangle.class]) {
-        return (SDLRectangle *)obj;
-    } else {
-        return [[SDLRectangle alloc] initWithDictionary:(NSMutableDictionary *)obj];
-    }
+    return [store sdl_objectForName:SDLNameRect ofClass:SDLRectangle.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

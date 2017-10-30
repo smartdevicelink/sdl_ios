@@ -12,11 +12,13 @@
 
 @class SDLSystemCapability;
 
-@interface SDLGetSystemCapabilityResponse : SDLRPCResponse
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLGetSystemCapabilityResponse : SDLRPCResponse
 
 @property (strong, nonatomic) SDLSystemCapability *systemCapability;
 
 @end
+
+NS_ASSUME_NONNULL_END

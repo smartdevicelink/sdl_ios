@@ -3,35 +3,20 @@
 
 #import "SDLConfiguration.h"
 #import "SDLLifecycleConfiguration.h"
+#import "SDLLogConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
+#import "SDLStreamingMediaConfiguration.h"
 
 QuickSpecBegin(SDLConfigurationSpec)
 
 describe(@"a configuration", ^{
     __block SDLConfiguration *testConfig = nil;
-    
-    context(@"created with a custom lifecycle and default lockscreen config", ^{
-        __block SDLLifecycleConfiguration *someLifecycleConfig = nil;
-        __block NSString *someAppName = nil;
-        __block NSString *someAppId = nil;
-        
-        beforeEach(^{
-            someAppName = @"some name";
-            someAppId = @"some id";
-            someLifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:someAppName appId:someAppId];
-            
-            testConfig = [SDLConfiguration configurationWithLifecycle:someLifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration]];
-        });
-        
-        it(@"should contain the correct configs", ^{
-            expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
-            expect(@(testConfig.lockScreenConfig.enableAutomaticLockScreen)).to(equal(@YES));
-        });
-    });
-    
-    context(@"created with a custom lifecycle and lockscreen config", ^{
+
+    context(@"created with custom configs", ^{
         __block SDLLifecycleConfiguration *someLifecycleConfig = nil;
         __block SDLLockScreenConfiguration *someLockscreenConfig = nil;
+        __block SDLLogConfiguration *someLogConfig = nil;
+        __block SDLStreamingMediaConfiguration *someStreamingConfig = nil;
         
         __block NSString *someAppName = nil;
         __block NSString *someAppId = nil;
@@ -46,13 +31,44 @@ describe(@"a configuration", ^{
             
             someLifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:someAppName appId:someAppId];
             someLockscreenConfig = [SDLLockScreenConfiguration enabledConfigurationWithAppIcon:someImage backgroundColor:someBackgroundColor];
-            
-            testConfig = [SDLConfiguration configurationWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig];
+            someLogConfig = [SDLLogConfiguration defaultConfiguration];
+            someStreamingConfig  = [SDLStreamingMediaConfiguration insecureConfiguration];
         });
         
-        it(@"should contain the correct configs", ^{
+        it(@"should create correctly with initWithLifecycle:lockScreen:logging:", ^{
+            testConfig = [[SDLConfiguration alloc] initWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig];
+
             expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
             expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));
+            expect(testConfig.loggingConfig).to(equal(someLogConfig));
+            expect(testConfig.streamingMediaConfig).to(beNil());
+        });
+
+        it(@"should create correctly with configurationWithLifecycle:lockScreen:logging:", ^{
+            testConfig = [SDLConfiguration configurationWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig];
+
+            expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
+            expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));
+            expect(testConfig.loggingConfig).to(equal(someLogConfig));
+            expect(testConfig.streamingMediaConfig).to(beNil());
+        });
+
+        it(@"should create correctly with initWithLifecycle:lockScreen:logging:streamingMedia:", ^{
+            testConfig = [[SDLConfiguration alloc] initWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig streamingMedia:nil];
+
+            expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
+            expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));
+            expect(testConfig.loggingConfig).to(equal(someLogConfig));
+            expect(testConfig.streamingMediaConfig).to(beNil());
+        });
+
+        it(@"should create correctly with configurationWithLifecycle:lockScreen:logging:streamingMedia:", ^{
+            testConfig = [SDLConfiguration configurationWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig streamingMedia:nil];
+
+            expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
+            expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));
+            expect(testConfig.loggingConfig).to(equal(someLogConfig));
+            expect(testConfig.streamingMediaConfig).to(beNil());
         });
     });
 });

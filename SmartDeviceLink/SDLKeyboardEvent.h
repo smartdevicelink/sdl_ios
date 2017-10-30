@@ -9,37 +9,29 @@
  * @since SmartDeviceLink 3.0
  *
  */
-@interface SDLKeyboardEvent : SDLEnum {
-}
-
-+ (SDLKeyboardEvent *)valueOf:(NSString *)value;
-+ (NSArray *)values;
+typedef SDLEnum SDLKeyboardEvent SDL_SWIFT_ENUM;
 
 /** The use has pressed the keyboard key (applies to both SINGLE_KEYPRESS and RESEND_CURRENT_ENTRY modes).
  *
  */
-+ (SDLKeyboardEvent *)KEYPRESS;
+extern SDLKeyboardEvent const SDLKeyboardEventKeypress;
 
 /** The User has finished entering text from the keyboard and submitted the entry.
  *
  */
-
-+ (SDLKeyboardEvent *)ENTRY_SUBMITTED;
+extern SDLKeyboardEvent const SDLKeyboardEventSubmitted;
 
 /** The User has pressed the HMI-defined "Cancel" button.
  *
  */
-+ (SDLKeyboardEvent *)ENTRY_CANCELLED;
-
+extern SDLKeyboardEvent const SDLKeyboardEventCancelled;
 
 /** The User has not finished entering text and the keyboard is aborted with the event of higher priority.
  *
  */
-+ (SDLKeyboardEvent *)ENTRY_ABORTED;
+extern SDLKeyboardEvent const SDLKeyboardEventAborted;
 
 /**
  * @since SDL 4.0
  */
-+ (SDLKeyboardEvent *)ENTRY_VOICE;
-
-@end
+extern SDLKeyboardEvent const SDLKeyboardEventVoice;

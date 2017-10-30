@@ -11,46 +11,37 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLSlider : SDLRPCRequest {
-}
 
-/**
- * @abstract Constructs a new SDLSlider object
- */
-- (instancetype)init;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * @abstract Constructs a new SDLSlider object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLSlider : SDLRPCRequest
 
 - (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position;
 
-- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooter:(NSString *)sliderFooter timeout:(UInt16)timeout;
+- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooter:(nullable NSString *)sliderFooter timeout:(UInt16)timeout;
 
-- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(NSArray<NSString *> *)sliderFooters timeout:(UInt16)timeout;
+- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(nullable NSArray<NSString *> *)sliderFooters timeout:(UInt16)timeout;
 
 /**
  * @abstract Represents a number of selectable items on a horizontal axis
  *
  * Required, Integer, 2 - 26
  */
-@property (strong) NSNumber *numTicks;
+@property (strong, nonatomic) NSNumber<SDLInt> *numTicks;
 
 /**
  * @abstract An Initial position of slider control
  *
  * Required, Integer, 1 - 26
  */
-@property (strong) NSNumber *position;
+@property (strong, nonatomic) NSNumber<SDLInt> *position;
 
 /**
  * @abstract A text header to display
  *
  * Rquired, Max length 500 chars
  */
-@property (strong) NSString *sliderHeader;
+@property (strong, nonatomic) NSString *sliderHeader;
 
 /**
  * @abstract A text footer to display
@@ -65,7 +56,7 @@
  *
  * Optional, Array of Strings, Array length 1 - 26, Max string length 500 chars
  */
-@property (strong) NSMutableArray *sliderFooter;
+@property (strong, nonatomic, nullable) NSArray<NSString *> *sliderFooter;
 
 /**
  * @abstract An App defined timeout
@@ -76,6 +67,8 @@
  *
  * Optional, Integer, 1000 - 65535
  */
-@property (strong) NSNumber *timeout;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *timeout;
 
 @end
+
+NS_ASSUME_NONNULL_END
