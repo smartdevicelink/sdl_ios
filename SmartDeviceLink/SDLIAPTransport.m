@@ -239,7 +239,13 @@ int const streamOpenTimeoutSeconds = 2;
 
 - (BOOL)sdl_connectAccessory:(EAAccessory *)accessory {
     BOOL connecting = NO;
-    
+
+    if ([self.class sdl_supportsRequiredProtocolStrings] != nil) {
+        NSString *failedString = [self.class sdl_supportsRequiredProtocolStrings];
+        NSAssert(NO, @"Some SDL protocol strings are not supported, check the README for all strings that must be included in your info.plist file. Missing string: %@", failedString);
+        return connecting;
+    }
+
     if ([accessory supportsProtocol:multiSessionProtocolString] && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
         [self sdl_createIAPDataSessionWithAccessory:accessory forProtocol:multiSessionProtocolString];
         connecting = YES;
@@ -254,6 +260,32 @@ int const streamOpenTimeoutSeconds = 2;
     return connecting;
 }
 
+/**
+ Check all required protocol strings in the info.plist dictionary.
+
+ @return A missing protocol string or nil if all strings are supported.
+ */
++ (nullable NSString *)sdl_supportsRequiredProtocolStrings {
+    NSArray<NSString *> *protocolStrings = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UISupportedExternalAccessoryProtocols"];
+
+    if (![protocolStrings containsObject:multiSessionProtocolString]) {
+        return multiSessionProtocolString;
+    }
+
+    if (![protocolStrings containsObject:legacyProtocolString]) {
+        return legacyProtocolString;
+    }
+
+    for (int i = 0; i < 30; i++) {
+        NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%i", indexedProtocolStringPrefix, i];
+        if (![protocolStrings containsObject:indexedProtocolString]) {
+            return indexedProtocolString;
+        }
+    }
+
+    return nil;
+}
+
 - (void)sdl_establishSessionWithAccessory:(EAAccessory *)accessory {
     [SDLDebugTool logInfo:@"Attempting To Connect"];
     if (self.retryCounter < createSessionRetries) {
@@ -263,6 +295,12 @@ int const streamOpenTimeoutSeconds = 2;
         // If we are being called from sdl_connectAccessory, the EAAccessoryDidConnectNotification will contain the SDL accessory to connect to and we can connect without searching the accessory manager's connected accessory list. Otherwise, we fall through to a search.
         if (sdlAccessory != nil && [self sdl_connectAccessory:sdlAccessory]) {
             // Connection underway, exit
+            return;
+        }
+
+        if ([self.class sdl_supportsRequiredProtocolStrings] != nil) {
+            NSString *failedString = [self.class sdl_supportsRequiredProtocolStrings];
+            NSAssert(NO, @"Some SDL protocol strings are not supported, check the README for all strings that must be included in your info.plist file. Missing string: %@", failedString);
             return;
         }
 
