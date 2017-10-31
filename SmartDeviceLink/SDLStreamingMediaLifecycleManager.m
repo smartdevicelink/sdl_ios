@@ -107,9 +107,12 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogV(@"Creating StreamingLifecycleManager");
     _connectionManager = connectionManager;
 
-    if (configuration.window != nil) {
-        _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithWindow:configuration.window connectionManager:_connectionManager];
+    if (@available(iOS 9.0, *)) {
+        if (configuration.window != nil) {
+            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithWindow:configuration.window connectionManager:_connectionManager];
+        }
     }
+
     _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager];
 
     _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;

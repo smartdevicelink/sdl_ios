@@ -45,12 +45,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)logWithLog:(SDLLogModel *)log formattedLog:(NSString *)stringLog {
-    NSString *moduleName = log.moduleName ? log.moduleName : @"";
-    if (self.clients[moduleName] == nil) {
-        self.clients[moduleName] = os_log_create("com.sdl.log", moduleName.UTF8String);
-    }
+    if (@available(iOS 10.0, *)) {
+        NSString *moduleName = log.moduleName ? log.moduleName : @"";
+        if (self.clients[moduleName] == nil) {
+            self.clients[moduleName] = os_log_create("com.sdl.log", moduleName.UTF8String);
+        }
 
-    os_log_with_type(self.clients[moduleName], [self oslogLevelForSDLLogLevel:log.level], "%{public}@", log.message);
+        os_log_with_type(self.clients[moduleName], [self oslogLevelForSDLLogLevel:log.level], "%{public}@", log.message);
+    }
 }
 
 - (void)teardownLogger {

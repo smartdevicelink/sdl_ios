@@ -1,3 +1,8 @@
+# 5.0.0 Release Candidate 2 (changes since RC 1)
+### Bug Fixes
+* Fixed podspec
+* Focus manager will only activate on iOS 9+, it uses APIs only available on iOS 9+
+
 # 5.0.0 Release Notes
 ### Breaking Changes
 * `SDLProxy.streamingMediaManager` is now removed. If you wish to use a streaming media manager, you must use `SDLManager.streamingMediaManager`. The streaming media manager has been entirely redesigned and now takes into account both phone and head unit app lifecycles [SDL-0033](https://github.com/smartdevicelink/sdl_ios/issues/583). There is now a streaming media configuration added to `SDLConfiguration`.
