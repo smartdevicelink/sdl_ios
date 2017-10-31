@@ -12,7 +12,7 @@ s.source       = { :git => "https://github.com/smartdevicelink/sdl_ios.git", :ta
 s.requires_arc = true
 s.resource_bundles = { 'SmartDeviceLink' => ['SmartDeviceLink/Assets/**/*'] }
 
-s.default_subspecs = 'Default'
+s.default_subspec = 'Default'
 
 s.subspec 'Default' do |ss|
 ss.source_files = 'SmartDeviceLink/*.{h,m}'
@@ -339,7 +339,7 @@ ss.public_header_files = [
 end
 
 s.subspec 'Swift' do |ss|
-ss.dependency 'SmartDeviceLink-iOS/Default'
+ss.dependency 'SmartDeviceLink/Default'
 ss.source_files = 'SmartDeviceLinkSwift/*.swift'
 end
 
