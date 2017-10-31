@@ -53,16 +53,18 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)updateInterfaceLayout {
-    self.focusableViews = [[NSMutableArray alloc] init];
-    [self sdl_parseViewHierarchy:self.projectionWindow.subviews.lastObject];
-    
-    // If there is a preferred view bring that into top of the array
-    NSUInteger preferredViewIndex = [self.focusableViews indexOfObject:self.projectionWindow.subviews.lastObject.preferredFocusedView];
-    if (preferredViewIndex != NSNotFound && self.focusableViews.count > 1) {
-        [self.focusableViews exchangeObjectAtIndex:preferredViewIndex withObjectAtIndex:0];
-    }
+    if (@available(iOS 9.0, *)) {
+        self.focusableViews = [[NSMutableArray alloc] init];
+        [self sdl_parseViewHierarchy:self.projectionWindow.subviews.lastObject];
 
-    [self sdl_sendHapticRPC];
+        // If there is a preferred view bring that into top of the array
+        NSUInteger preferredViewIndex = [self.focusableViews indexOfObject:self.projectionWindow.subviews.lastObject.preferredFocusedView];
+        if (preferredViewIndex != NSNotFound && self.focusableViews.count > 1) {
+            [self.focusableViews exchangeObjectAtIndex:preferredViewIndex withObjectAtIndex:0];
+        }
+
+        [self sdl_sendHapticRPC];
+    }
 }
 
 /**
@@ -75,25 +77,27 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogW(@"Error: Cannot parse nil view");
         return;
     }
-    
-    NSArray *focusableSubviews = [currentView.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(UIView *  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
-        return (evaluatedObject.canBecomeFocused || [evaluatedObject isKindOfClass:[UIButton class]]);
-    }]];
-    
-    BOOL isButton = [currentView isKindOfClass:[UIButton class]];
-    if ((currentView.canBecomeFocused || isButton) && focusableSubviews.count == 0) {
-        //if current view is focusable and it doesn't have any focusable sub views then add the current view and return
-        [self.focusableViews addObject:currentView];
-        return;
-    } else if (currentView.subviews.count > 0) {
-        // if current view has focusable sub views parse them recursively
-        NSArray<UIView *> *subviews = currentView.subviews;
-        
-        for (UIView *childView in subviews) {
-            [self sdl_parseViewHierarchy:childView];
+
+    if (@available(iOS 9.0, *)) {
+        NSArray *focusableSubviews = [currentView.subviews filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(UIView *  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+            return (evaluatedObject.canBecomeFocused || [evaluatedObject isKindOfClass:[UIButton class]]);
+        }]];
+
+        BOOL isButton = [currentView isKindOfClass:[UIButton class]];
+        if ((currentView.canBecomeFocused || isButton) && focusableSubviews.count == 0) {
+            //if current view is focusable and it doesn't have any focusable sub views then add the current view and return
+            [self.focusableViews addObject:currentView];
+            return;
+        } else if (currentView.subviews.count > 0) {
+            // if current view has focusable sub views parse them recursively
+            NSArray<UIView *> *subviews = currentView.subviews;
+
+            for (UIView *childView in subviews) {
+                [self sdl_parseViewHierarchy:childView];
+            }
+        } else {
+            return;
         }
-    } else {
-        return;
     }
 }
 

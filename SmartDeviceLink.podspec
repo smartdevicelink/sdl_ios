@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "SmartDeviceLink"
-s.version      = "5.0.0-rc.1"
+s.version      = "5.0.0-rc.2"
 s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
 s.license      = { :type => "New BSD", :file => "LICENSE" }
@@ -28,7 +28,6 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLAirbagStatus.h',
 'SmartDeviceLink/SDLAlert.h',
 'SmartDeviceLink/SDLAlertManeuver.h',
-'SmartDeviceLink/SDLButtonPress.h',
 'SmartDeviceLink/SDLAlertManeuverResponse.h',
 'SmartDeviceLink/SDLAlertResponse.h',
 'SmartDeviceLink/SDLButtonPressResponse.h',
@@ -46,6 +45,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLButtonCapabilities.h',
 'SmartDeviceLink/SDLButtonEventMode.h',
 'SmartDeviceLink/SDLButtonName.h',
+'SmartDeviceLink/SDLButtonPress.h',
 'SmartDeviceLink/SDLButtonPressMode.h',
 'SmartDeviceLink/SDLCarModeStatus.h',
 'SmartDeviceLink/SDLChangeRegistration.h',
