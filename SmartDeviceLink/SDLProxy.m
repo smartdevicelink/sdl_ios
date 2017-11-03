@@ -117,26 +117,28 @@ static float DefaultConnectionTimeout = 45.0;
 #pragma mark - Application Lifecycle
 
 - (void)sendMobileHMIState {
-    UIApplicationState appState = [UIApplication sharedApplication].applicationState;
-    SDLOnHMIStatus *HMIStatusRPC = [[SDLOnHMIStatus alloc] init];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIApplicationState appState = [UIApplication sharedApplication].applicationState;
+        SDLOnHMIStatus *HMIStatusRPC = [[SDLOnHMIStatus alloc] init];
 
-    HMIStatusRPC.audioStreamingState = SDLAudioStreamingStateNotAudible;
-    HMIStatusRPC.systemContext = SDLSystemContextMain;
+        HMIStatusRPC.audioStreamingState = SDLAudioStreamingStateNotAudible;
+        HMIStatusRPC.systemContext = SDLSystemContextMain;
 
-    switch (appState) {
-        case UIApplicationStateActive: {
-            HMIStatusRPC.hmiLevel = SDLHMILevelFull;
-        } break;
-        case UIApplicationStateBackground: // Fallthrough
-        case UIApplicationStateInactive: {
-            HMIStatusRPC.hmiLevel = SDLHMILevelBackground;
-        } break;
-        default:
-            break;
-    }
+        switch (appState) {
+            case UIApplicationStateActive: {
+                HMIStatusRPC.hmiLevel = SDLHMILevelFull;
+            } break;
+            case UIApplicationStateBackground: // Fallthrough
+            case UIApplicationStateInactive: {
+                HMIStatusRPC.hmiLevel = SDLHMILevelBackground;
+            } break;
+            default:
+                break;
+        }
 
-    SDLLogD(@"Mobile UIApplication state changed, sending to remote system: %@", HMIStatusRPC.hmiLevel);
-    [self sendRPC:HMIStatusRPC];
+        SDLLogD(@"Mobile UIApplication state changed, sending to remote system: %@", HMIStatusRPC.hmiLevel);
+        [self sendRPC:HMIStatusRPC];
+    });
 }
 
 #pragma mark - Accessors
