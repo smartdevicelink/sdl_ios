@@ -78,7 +78,7 @@ typedef NSNumber* MTUBox;
 - (NSUInteger)mtuSizeForServiceType:(SDLServiceType)serviceType {
     if (self.dynamicMTUDict[@(serviceType)] != nil) {
         return self.dynamicMTUDict[@(serviceType)].unsignedIntegerValue;
-    } else if (self.dynamicMTUDict[@(SDLServiceTypeRPC)]) {
+    } else if (self.dynamicMTUDict[@(SDLServiceTypeRPC)] != nil) {
         return self.dynamicMTUDict[@(SDLServiceTypeRPC)].unsignedIntegerValue;
     } else {
         return [self sdl_defaultMaxMTUSize];

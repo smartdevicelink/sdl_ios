@@ -88,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Check for RPCs that require an extra handler
     if ([request isKindOfClass:[SDLAddCommand class]]) {
         SDLAddCommand *addCommand = (SDLAddCommand *)request;
-        if (!addCommand.cmdID) {
+        if (addCommand.cmdID == nil) {
             @throw [NSException sdl_missingIdException];
         }
         if (addCommand.handler) {
@@ -141,7 +141,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_addToCustomButtonHandlerMap:(NSArray<SDLSoftButton *> *)softButtons {
     for (SDLSoftButton *sb in softButtons) {
-        if (!sb.softButtonID) {
+        if (sb.softButtonID == nil) {
             @throw [NSException sdl_missingIdException];
         }
         if (sb.handler) {
