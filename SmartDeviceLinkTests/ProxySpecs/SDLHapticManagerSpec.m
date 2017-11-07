@@ -10,13 +10,14 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLFocusableItemLocator.h"
-#import "SDLSendHapticData.h"
+#import "SDLHapticRect.h"
+#import "SDLLifecycleManager.h"
 #import "SDLManager.h"
+#import "SDLRectangle.h"
+#import "SDLSendHapticData.h"
 #import "SDLTouchCoord.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouch.h"
-#import "SDLRectangle.h"
-#import "SDLLifecycleManager.h"
 
 BOOL compareRectangle(SDLRectangle *sdlRectangle, CGRect cgRect)
 {
