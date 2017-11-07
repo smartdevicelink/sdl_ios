@@ -462,7 +462,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogV(@"ACK: %@", audioAckPayload);
 
     if (audioAckPayload.mtu != SDLControlFrameInt64NotFound) {
-        [[SDLGlobals sharedGlobals] setDynamicMTUSize:audioAckPayload.mtu forServiceType:SDLServiceTypeAudio];
+        [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)audioAckPayload.mtu forServiceType:SDLServiceTypeAudio];
     }
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateReady];
@@ -476,7 +476,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogV(@"ACK: %@", videoAckPayload);
 
     if (videoAckPayload.mtu != SDLControlFrameInt64NotFound) {
-        [[SDLGlobals sharedGlobals] setDynamicMTUSize:videoAckPayload.mtu forServiceType:SDLServiceTypeVideo];
+        [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)videoAckPayload.mtu forServiceType:SDLServiceTypeVideo];
     }
 
     // This is the definitive screen size that will be used
@@ -748,7 +748,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         if (![self.supportedFormats containsObject:self.preferredFormats[self.preferredFormatIndex]]) {
             self.preferredFormatIndex++;
         } else {
-            SDLLogV(@"Preferred format index found: %lu", self.preferredFormatIndex);
+            SDLLogV(@"Preferred format index found: %lu", (unsigned long)self.preferredFormatIndex);
             break;
         }
     }
@@ -756,7 +756,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     // If this fails we have no known formats to use
     if (self.preferredFormatIndex >= self.preferredFormats.count
         || self.preferredResolutionIndex >= self.preferredResolutions.count) {
-        SDLLogE(@"No preferred format or no preferred resolution found that works: format index %lu, resolution index %lu", self.preferredFormatIndex, self.preferredResolutionIndex);
+        SDLLogE(@"No preferred format or no preferred resolution found that works: format index %lu, resolution index %lu", (unsigned long)self.preferredFormatIndex, (unsigned long)self.preferredResolutionIndex);
         [self sdl_transitionToStoppedState:SDLServiceTypeVideo];
         return;
     }

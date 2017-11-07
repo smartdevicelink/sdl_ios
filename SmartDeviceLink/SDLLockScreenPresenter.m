@@ -23,7 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    [[self.class sdl_getCurrentViewController] presentViewController:self.viewController animated:YES completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[self.class sdl_getCurrentViewController] presentViewController:self.viewController animated:YES completion:nil];
+    });
 }
 
 - (void)dismiss {
@@ -31,7 +33,9 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    [self.viewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.viewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    });
 }
 
 - (BOOL)presented {
@@ -39,7 +43,12 @@ NS_ASSUME_NONNULL_BEGIN
         return NO;
     }
 
-    return (self.viewController.isViewLoaded && (self.viewController.view.window || self.viewController.isBeingPresented));
+    __block BOOL presented = NO;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        presented = (self.viewController.isViewLoaded && (self.viewController.view.window || self.viewController.isBeingPresented));
+    });
+
+    return presented;
 }
 
 + (UIViewController *)sdl_getCurrentViewController {

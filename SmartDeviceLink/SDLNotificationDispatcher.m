@@ -23,21 +23,21 @@ NS_ASSUME_NONNULL_BEGIN
     if (infoObject != nil) {
         userInfo = @{SDLNotificationUserInfoObject: infoObject};
     }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
     });
 }
 
 - (void)postRPCResponseNotification:(NSString *)name response:(__kindof SDLRPCResponse *)response {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:name object:self rpcResponse:response];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
     });
 }
 
 - (void)postRPCNotificationNotification:(NSString *)name notification:(__kindof SDLRPCNotification *)rpcNotification {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:name object:self rpcNotification:rpcNotification];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
     });
