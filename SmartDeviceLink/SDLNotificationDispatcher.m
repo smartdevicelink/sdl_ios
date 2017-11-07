@@ -16,7 +16,24 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface SDLNotificationDispatcher()
+
+@property (strong, nonatomic) dispatch_queue_t rpcResponseQueue;
+
+@end
+
 @implementation SDLNotificationDispatcher
+
+- (instancetype)init {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+
+    _rpcResponseQueue = dispatch_queue_create("com.smartdevicelink.rpcNotificationQueue", DISPATCH_QUEUE_CONCURRENT);
+
+    return self;
+}
 
 - (void)postNotificationName:(NSString *)name infoObject:(nullable id)infoObject {
     NSDictionary<NSString *, id> *userInfo = nil;
@@ -24,20 +41,20 @@ NS_ASSUME_NONNULL_BEGIN
         userInfo = @{SDLNotificationUserInfoObject: infoObject};
     }
 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    dispatch_async(_rpcResponseQueue, ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
     });
 }
 
 - (void)postRPCResponseNotification:(NSString *)name response:(__kindof SDLRPCResponse *)response {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    dispatch_async(_rpcResponseQueue, ^{
         SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:name object:self rpcResponse:response];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
     });
 }
 
 - (void)postRPCNotificationNotification:(NSString *)name notification:(__kindof SDLRPCNotification *)rpcNotification {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    dispatch_async(_rpcResponseQueue, ^{
         SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:name object:self rpcNotification:rpcNotification];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
     });
