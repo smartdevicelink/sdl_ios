@@ -4860,7 +4860,7 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRectangle.h",
-      "line": 11,
+      "line": 15,
       "symbol": "SDLRectangle",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"

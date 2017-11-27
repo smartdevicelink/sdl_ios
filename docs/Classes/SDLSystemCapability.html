@@ -33,9 +33,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSystemCapability</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithNavigationCapability</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLNavigationCapability.html">SDLNavigationCapability</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">capability</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="n"><a href="../Classes/SDLSystemCapability.html#/c:objc(cs)SDLSystemCapability(py)navigationCapability">navigationCapability</a></span> <span class="nv">capability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLNavigationCapability.html">SDLNavigationCapability</a></span><span class="p">)</span></code></pre>
+
   
   
   
@@ -48,9 +51,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSystemCapability</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithPhoneCapability</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLPhoneCapability.html">SDLPhoneCapability</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">capability</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="n"><a href="../Classes/SDLSystemCapability.html#/c:objc(cs)SDLSystemCapability(py)phoneCapability">phoneCapability</a></span> <span class="nv">capability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLPhoneCapability.html">SDLPhoneCapability</a></span><span class="p">)</span></code></pre>
+
   
   
   
@@ -63,9 +69,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSystemCapability</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithVideoStreamingCapability</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLVideoStreamingCapability.html">SDLVideoStreamingCapability</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">capability</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="n"><a href="../Classes/SDLSystemCapability.html#/c:objc(cs)SDLSystemCapability(py)videoStreamingCapability">videoStreamingCapability</a></span> <span class="nv">capability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVideoStreamingCapability.html">SDLVideoStreamingCapability</a></span><span class="p">)</span></code></pre>
+
   
   
   
@@ -78,9 +87,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSystemCapability</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithRemoteControlCapability</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html">SDLRemoteControlCapabilities</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">capability</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="n"><a href="../Classes/SDLSystemCapability.html#/c:objc(cs)SDLSystemCapability(py)remoteControlCapability">remoteControlCapability</a></span> <span class="nv">capability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRemoteControlCapabilities.html">SDLRemoteControlCapabilities</a></span><span class="p">)</span></code></pre>
+
   
   
   
@@ -93,9 +105,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSystemCapability</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span> <span class="n">systemCapabilityType</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">systemCapabilityType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -108,9 +123,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSystemCapability</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLNavigationCapability.html">SDLNavigationCapability</a></span> <span class="o">*</span><span class="n">navigationCapability</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">navigationCapability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLNavigationCapability.html">SDLNavigationCapability</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -123,9 +141,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSystemCapability</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLPhoneCapability.html">SDLPhoneCapability</a></span> <span class="o">*</span><span class="n">phoneCapability</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">phoneCapability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLPhoneCapability.html">SDLPhoneCapability</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -138,9 +159,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSystemCapability</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVideoStreamingCapability.html">SDLVideoStreamingCapability</a></span> <span class="o">*</span><span class="n">videoStreamingCapability</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">videoStreamingCapability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVideoStreamingCapability.html">SDLVideoStreamingCapability</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -153,9 +177,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLSystemCapability</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html">SDLRemoteControlCapabilities</a></span> <span class="o">*</span><span class="n">remoteControlCapability</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">remoteControlCapability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRemoteControlCapabilities.html">SDLRemoteControlCapabilities</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   

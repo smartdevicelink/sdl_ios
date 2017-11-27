@@ -27,7 +27,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">lowBeamsOn</span><span class="p">:</span> <span class="kt">NSNumber</span> </code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">lowBeamsOn</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -45,7 +45,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">highBeamsOn</span><span class="p">:</span> <span class="kt">NSNumber</span> </code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">highBeamsOn</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -59,9 +59,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLHeadLampStatus</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLAmbientLightStatus.h@T@SDLAmbientLightStatus">SDLAmbientLightStatus</a></span> <span class="n">ambientLightSensorStatus</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">ambientLightSensorStatus</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAmbientLightStatus.h@T@SDLAmbientLightStatus">SDLAmbientLightStatus</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
