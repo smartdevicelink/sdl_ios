@@ -15,7 +15,6 @@
 #import "SDLGlobals.h"
 #import "SDLImageResolution.h"
 #import "SDLLogMacros.h"
-#import "SDLNavigationLockScreenManager.h"
 #import "SDLNotificationConstants.h"
 #import "SDLStreamingMediaManager.h"
 #import "SDLStreamingMediaConfiguration.h"
@@ -32,7 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) NSUInteger targetFramerate;
 
 @property (weak, nonatomic, nullable) SDLStreamingMediaManager *streamManager;
-@property (strong, nonatomic) SDLNavigationLockScreenManager *lockScreenManager;
 
 @property (assign, nonatomic, getter=isLockScreenMoving) BOOL lockScreenMoving;
 
@@ -46,9 +44,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     _streamManager = streamManager;
     _targetFramerate = framesPerSecond;
-    _lockScreenManager = [[SDLNavigationLockScreenManager alloc] init];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_transportDidDisconnect:) name:SDLTransportDidDisconnect object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveVideoStreamStarted:) name:SDLVideoStreamDidStartNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveVideoStreamStopped:) name:SDLVideoStreamDidStopNotification object:nil];
@@ -60,11 +55,6 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStoppedMoving:) name:SDLLockScreenManagerDidDismissLockScreenViewController object:nil];
 
     return self;
-}
-
-- (void)sdl_transportDidDisconnect:(NSNotification *)notification {
-    // Dismiss the lockscreen.
-    [self.lockScreenManager dismiss];
 }
 
 - (void)sdl_sendFrame:(CADisplayLink *)displayLink {
@@ -179,7 +169,7 @@ NS_ASSUME_NONNULL_BEGIN
     return pixelBuffer;
 }
 
-+ (NSString *)sdl_md5HashForImageRef:(CGImageRef)imageRef {
++ (nullable NSString *)sdl_md5HashForImageRef:(CGImageRef)imageRef {
     CFMutableDataRef imageData = CFDataCreateMutable(NULL, 0);
     CGImageDestinationRef destination = CGImageDestinationCreateWithData(imageData, kUTTypePNG, 1, NULL);
     CGImageDestinationAddImage(destination, imageRef, nil);
@@ -246,12 +236,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIFont*)sdl_fontFittingSize:(CGSize)size forText:(NSString*)text {
     CGFloat fontSize = 100;
     while (fontSize > 0.0) {
-        CGSize size = [text boundingRectWithSize:CGSizeMake(size.width, CGFLOAT_MAX)
-                                         options:NSStringDrawingUsesLineFragmentOrigin
-                                      attributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:fontSize]}
-                                         context:nil].size;
+        CGSize textSize = [text boundingRectWithSize:CGSizeMake(size.width, CGFLOAT_MAX)
+                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                          attributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:fontSize]}
+                                             context:nil].size;
 
-        if (size.height <= size.height) break;
+        if (textSize.height <= size.height) { break; }
 
         fontSize -= 10.0;
     }

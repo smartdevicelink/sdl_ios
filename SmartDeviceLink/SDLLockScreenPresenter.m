@@ -9,14 +9,10 @@
 #import "SDLLockScreenPresenter.h"
 
 #import "SDLScreenshotViewController.h"
+#import "SDLStreamingMediaManagerConstants.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
-
-NSString *const SDLLockScreenManagerWillPresentLockScreenViewController = @"com.sdl.lockscreen.willPresent";
-NSString *const SDLLockScreenManagerDidPresentLockScreenViewController = @"com.sdl.lockscreen.didPresent";
-NSString *const SDLLockScreenManagerWillDismissLockScreenViewController = @"com.sdl.lockscreen.willDismiss";
-NSString *const SDLLockScreenManagerDidDismissLockScreenViewController = @"com.sdl.lockscreen.didDismiss";
 
 @interface SDLLockScreenPresenter ()
 

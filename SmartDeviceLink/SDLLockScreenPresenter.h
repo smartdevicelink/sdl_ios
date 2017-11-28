@@ -12,11 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString *const SDLLockScreenManagerWillPresentLockScreenViewController;
-extern NSString *const SDLLockScreenManagerDidPresentLockScreenViewController;
-extern NSString *const SDLLockScreenManagerWillDismissLockScreenViewController;
-extern NSString *const SDLLockScreenManagerDidDismissLockScreenViewController;
-
 /**
  *  An instance of `SDLViewControllerPresentable` used in production (not testing) for presenting the SDL lock screen.
  */
