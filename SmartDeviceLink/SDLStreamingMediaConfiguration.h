@@ -51,8 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic, nullable) UIViewController *rootViewController;
 
-@property (assign, nonatomic) BOOL disableAutomaticVideoStream;
-
 /**
  Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually.
 

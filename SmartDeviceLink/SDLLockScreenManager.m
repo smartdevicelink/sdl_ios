@@ -59,7 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
         self.presenter.lockViewController = nil;
         return;
     } else if (self.config.customViewController != nil) {
-        self.presenter.lockViewController = self.config.customViewController;
+        self.e
+        .lockViewController = self.config.customViewController;
     } else {
         SDLLockScreenViewController *viewController = nil;
 

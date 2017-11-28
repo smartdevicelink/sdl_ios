@@ -9,6 +9,7 @@
 #import "SDLStreamingMediaLifecycleManager.h"
 
 #import "SDLAbstractProtocol.h"
+#import "SDLCarWindow.h"
 #import "SDLControlFramePayloadAudioStartServiceAck.h"
 #import "SDLControlFramePayloadConstants.h"
 #import "SDLControlFramePayloadNak.h"
@@ -105,17 +106,22 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     SDLLogV(@"Creating StreamingLifecycleManager");
-    _connectionManager = connectionManager;
 
-    if (@available(iOS 9.0, *)) {
-        if (configuration.rootViewController != nil) {
+    _connectionManager = connectionManager;
+    _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
+
+    if (configuration.rootViewController != nil) {
+        if (@available(iOS 9.0, *)) {
             _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:configuration.rootViewController connectionManager:_connectionManager];
         }
+
+        NSUInteger framerate = ((NSNumber *)_videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).unsignedIntegerValue;
+        _carWindow = [[SDLCarWindow alloc] initWithStreamManager:self targetFramerate:framerate];
+        _carWindow.rootViewController = configuration.rootViewController;
     }
 
     _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager];
 
-    _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
     _requestedEncryptionType = configuration.maximumDesiredEncryption;
     _dataSource = configuration.dataSource;
     _screenSize = SDLDefaultScreenSize;
@@ -782,7 +788,17 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 
-#pragma mark Getters
+#pragma mark Setters / Getters
+
+- (void)setRootViewController:(UIViewController *)rootViewController {
+    if (self.focusableItemManager != nil) {
+        self.focusableItemManager.viewController = rootViewController;
+    }
+
+    if (self.carWindow != nil) {
+        self.carWindow.rootViewController = rootViewController;
+    }
+}
 
 - (BOOL)isAppStateVideoStreamCapable {
     return [self.appStateMachine isCurrentState:SDLAppStateActive];

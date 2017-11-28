@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class SDLStreamingMediaLifecycleManager;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLCarWindow : NSObject
+
+- (instancetype)initWithStreamManager:(SDLStreamingMediaLifecycleManager *)streamManager targetFramerate:(NSUInteger)framesPerSecond;
 
 /**
  *  View Controller that will be streamed.

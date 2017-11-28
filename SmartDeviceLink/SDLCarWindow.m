@@ -16,8 +16,8 @@
 #import "SDLImageResolution.h"
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
-#import "SDLStreamingMediaManager.h"
 #import "SDLStreamingMediaConfiguration.h"
+#import "SDLStreamingMediaLifecycleManager.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) NSUInteger sameFrameCounter;
 @property (assign, nonatomic) NSUInteger targetFramerate;
 
-@property (weak, nonatomic, nullable) SDLStreamingMediaManager *streamManager;
+@property (weak, nonatomic, nullable) SDLStreamingMediaLifecycleManager *streamManager;
 
 @property (assign, nonatomic, getter=isLockScreenMoving) BOOL lockScreenMoving;
 
@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLCarWindow
 
-- (instancetype)initWithStreamManager:(SDLStreamingMediaManager *)streamManager framesPerSecond:(NSUInteger)framesPerSecond {
+- (instancetype)initWithStreamManager:(SDLStreamingMediaLifecycleManager *)streamManager targetFramerate:(NSUInteger)framesPerSecond {
     self = [super init];
     if (!self) { return nil; }
 

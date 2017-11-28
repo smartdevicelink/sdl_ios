@@ -39,10 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
     _dataSource = dataSource;
     _rootViewController = rootViewController;
 
-    if (rootViewController == nil) {
-        _disableAutomaticVideoStream = YES;
-    }
-
     return self;
 }
 

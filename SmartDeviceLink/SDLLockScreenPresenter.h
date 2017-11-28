@@ -17,8 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLLockScreenPresenter : NSObject <SDLViewControllerPresentable>
 
-- (instancetype)initWithLockViewController:(UIViewController *)lockViewController;
-
 /**
  *  The view controller to be presented.
  */

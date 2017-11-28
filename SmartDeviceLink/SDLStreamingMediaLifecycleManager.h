@@ -15,6 +15,7 @@
 #import "SDLStreamingMediaManagerConstants.h"
 
 @class SDLAbstractProtocol;
+@class SDLCarWindow;
 @class SDLImageResolution;
 @class SDLStateMachine;
 @class SDLStreamingMediaConfiguration;
@@ -63,6 +64,10 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
  *  Touch Manager responsible for providing touch event notifications.
  */
 @property (nonatomic, strong, readonly) SDLTouchManager *touchManager;
+
+@property (nonatomic, strong) UIViewController *rootViewController;
+
+@property (strong, nonatomic, readonly, nullable) SDLCarWindow *carWindow;
 
 /**
  A haptic interface that can be updated to reparse views within the window you've provided. Send a `SDLDidUpdateProjectionView` notification or call the `updateInterfaceLayout` method to reparse. The "output" of this haptic interface occurs in the `touchManager` property where it will call the delegate.

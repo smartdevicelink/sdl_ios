@@ -24,11 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLLockScreenPresenter
 
-- (instancetype)initWithLockViewController:(UIViewController *)lockViewController {
+- (instancetype)init {
     self = [super init];
     if (!self) { return nil; }
-
-    _lockViewController = lockViewController;
 
     CGRect screenFrame = [[UIScreen mainScreen] bounds];
     _lockWindow = [[UIWindow alloc] initWithFrame:screenFrame];
