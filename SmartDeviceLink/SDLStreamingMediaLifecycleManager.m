@@ -108,8 +108,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _connectionManager = connectionManager;
 
     if (@available(iOS 9.0, *)) {
-        if (configuration.window != nil) {
-            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithWindow:configuration.window connectionManager:_connectionManager];
+        if (configuration.rootViewController != nil) {
+            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:configuration.rootViewController connectionManager:_connectionManager];
         }
     }
 

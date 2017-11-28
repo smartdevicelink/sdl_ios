@@ -96,6 +96,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)insecureConfiguration NS_SWIFT_UNAVAILABLE("Use the standard initializer instead");
 
++ (instancetype)autostreamingInsecureConfigurationWithInitialViewController:(UIViewController *)initialViewController;
++ (instancetype)autostreamingSecureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers initialViewController:(UIViewController *)initialViewController;
+
 @end
 
 NS_ASSUME_NONNULL_END
