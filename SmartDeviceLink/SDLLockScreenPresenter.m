@@ -8,38 +8,104 @@
 
 #import "SDLLockScreenPresenter.h"
 
+#import "SDLScreenshotViewController.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
+NSString *const SDLLockScreenManagerWillPresentLockScreenViewController = @"com.sdl.lockscreen.willPresent";
+NSString *const SDLLockScreenManagerDidPresentLockScreenViewController = @"com.sdl.lockscreen.didPresent";
+NSString *const SDLLockScreenManagerWillDismissLockScreenViewController = @"com.sdl.lockscreen.willDismiss";
+NSString *const SDLLockScreenManagerDidDismissLockScreenViewController = @"com.sdl.lockscreen.didDismiss";
+
 @interface SDLLockScreenPresenter ()
+
+@property (strong, nonatomic) SDLScreenshotViewController *screenshotViewController;
+@property (strong, nonatomic) UIWindow *lockWindow;
 
 @end
 
 
 @implementation SDLLockScreenPresenter
 
+- (instancetype)initWithLockViewController:(UIViewController *)lockViewController {
+    self = [super init];
+    if (!self) { return nil; }
+
+    _lockViewController = lockViewController;
+
+    CGRect screenFrame = [[UIScreen mainScreen] bounds];
+    _lockWindow = [[UIWindow alloc] initWithFrame:screenFrame];
+    _screenshotViewController = [[SDLScreenshotViewController alloc] init];
+    _lockWindow.rootViewController = _screenshotViewController;
+
+    return self;
+}
+
 - (void)present {
-    if (!self.viewController) {
+    NSArray* windows = [[UIApplication sharedApplication] windows];
+    UIWindow* mapWindow = windows.firstObject;
+
+    if (self.lockWindow.isKeyWindow || mapWindow == self.lockWindow) {
         return;
     }
 
-    [[self.class sdl_getCurrentViewController] presentViewController:self.viewController animated:YES completion:nil];
+    // We let ourselves know that the lockscreen will present, because we have to pause streaming video for that 0.3 seconds or else it will be very janky.
+    [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        CGRect firstFrame = mapWindow.frame;
+        firstFrame.origin.x = CGRectGetWidth(firstFrame);
+        mapWindow.frame = firstFrame;
+
+        // Take a screenshot of the mapWindow.
+        [(SDLScreenshotViewController*)self.lockWindow.rootViewController loadScreenshotOfWindow:mapWindow];
+
+        // We then move the lockWindow to the original mapWindow location.
+        self.lockWindow.frame = mapWindow.bounds;
+        [self.lockWindow makeKeyAndVisible];
+
+        // And present the lock screen.
+        [self.lockWindow.rootViewController presentViewController:self.lockViewController animated:YES completion:^{
+            // Tell ourselves we are done.
+            [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerDidPresentLockScreenViewController object:nil];
+        }];
+    });
 }
 
 - (void)dismiss {
-    if (!self.viewController) {
+    NSArray *windows = [[UIApplication sharedApplication] windows];
+    UIWindow *appWindow = windows.firstObject;
+
+    if (appWindow.isKeyWindow || appWindow == self.lockWindow) {
         return;
     }
 
-    [self.viewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    // Let us know we are about to dismiss.
+    [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillDismissLockScreenViewController object:nil];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Take a screenshot of the mapWindow.
+        [(SDLScreenshotViewController*)self.lockWindow.rootViewController loadScreenshotOfWindow:appWindow];
+
+        // Dismiss the lockscreen, showing the screenshot.
+        [self.lockViewController dismissViewControllerAnimated:YES completion:^{
+            CGRect lockFrame = self.lockWindow.frame;
+            lockFrame.origin.x = CGRectGetWidth(lockFrame);
+            self.lockWindow.frame = lockFrame;
+
+            // Quickly move the map back, and make it the key window.
+            appWindow.frame = self.lockWindow.bounds;
+            [appWindow makeKeyAndVisible];
+
+            // Tell ourselves we are done.
+            [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerDidDismissLockScreenViewController object:nil];
+        }];
+    });
 }
 
 - (BOOL)presented {
-    if (!self.viewController) {
-        return NO;
-    }
-
-    return (self.viewController.isViewLoaded && (self.viewController.view.window || self.viewController.isBeingPresented));
+    return (self.lockViewController.isViewLoaded && (self.lockViewController.view.window || self.lockViewController.isBeingPresented) && self.lockWindow.isKeyWindow);
 }
 
 + (UIViewController *)sdl_getCurrentViewController {

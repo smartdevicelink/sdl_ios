@@ -990,6 +990,10 @@
 		5DBF0D601F3B3DB4008AF2C9 /* SDLControlFrameVideoStartServiceAckSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBF0D5F1F3B3DB4008AF2C9 /* SDLControlFrameVideoStartServiceAckSpec.m */; };
 		5DC09EDA1F2F7FEC00F4AB1D /* SDLControlFramePayloadNakSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC09ED91F2F7FEC00F4AB1D /* SDLControlFramePayloadNakSpec.m */; };
 		5DC978261B7A38640012C2F1 /* SDLGlobalsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC978251B7A38640012C2F1 /* SDLGlobalsSpec.m */; };
+		5DCD7AE01FCCA8D200A0FC7F /* SDLCarWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DCD7ADC1FCCA8D100A0FC7F /* SDLCarWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5DCD7AE11FCCA8D200A0FC7F /* SDLCarWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCD7ADD1FCCA8D200A0FC7F /* SDLCarWindow.m */; };
+		5DCD7AF31FCCA8E400A0FC7F /* SDLScreenshotViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DCD7AE61FCCA8E400A0FC7F /* SDLScreenshotViewController.h */; };
+		5DCD7AF71FCCA8E400A0FC7F /* SDLScreenshotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCD7AEA1FCCA8E400A0FC7F /* SDLScreenshotViewController.m */; };
 		5DCF76F51ACDBAD300BB647B /* SDLSendLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DCF76F31ACDBAD300BB647B /* SDLSendLocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DCF76F61ACDBAD300BB647B /* SDLSendLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCF76F41ACDBAD300BB647B /* SDLSendLocation.m */; };
 		5DCF76F91ACDD7CD00BB647B /* SDLSendLocationResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DCF76F71ACDD7CD00BB647B /* SDLSendLocationResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2205,6 +2209,10 @@
 		5DC09ED91F2F7FEC00F4AB1D /* SDLControlFramePayloadNakSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLControlFramePayloadNakSpec.m; path = ControlFramePayloadSpecs/SDLControlFramePayloadNakSpec.m; sourceTree = "<group>"; };
 		5DC978251B7A38640012C2F1 /* SDLGlobalsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLGlobalsSpec.m; path = UtilitiesSpecs/SDLGlobalsSpec.m; sourceTree = "<group>"; };
 		5DCA93821EE0844D0015768E /* SmartDeviceLink.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = SmartDeviceLink.podspec; sourceTree = SOURCE_ROOT; };
+		5DCD7ADC1FCCA8D100A0FC7F /* SDLCarWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLCarWindow.h; sourceTree = "<group>"; };
+		5DCD7ADD1FCCA8D200A0FC7F /* SDLCarWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLCarWindow.m; sourceTree = "<group>"; };
+		5DCD7AE61FCCA8E400A0FC7F /* SDLScreenshotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLScreenshotViewController.h; sourceTree = "<group>"; };
+		5DCD7AEA1FCCA8E400A0FC7F /* SDLScreenshotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLScreenshotViewController.m; sourceTree = "<group>"; };
 		5DCF76F31ACDBAD300BB647B /* SDLSendLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSendLocation.h; sourceTree = "<group>"; };
 		5DCF76F41ACDBAD300BB647B /* SDLSendLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendLocation.m; sourceTree = "<group>"; };
 		5DCF76F71ACDD7CD00BB647B /* SDLSendLocationResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSendLocationResponse.h; sourceTree = "<group>"; };
@@ -3877,6 +3885,8 @@
 				5D616B481D552F7A00553F6B /* SDLLockScreen.storyboard */,
 				5D6F7A331BC5B9B60070BF37 /* SDLLockScreenViewController.h */,
 				5D6F7A341BC5B9B60070BF37 /* SDLLockScreenViewController.m */,
+				5DCD7AE61FCCA8E400A0FC7F /* SDLScreenshotViewController.h */,
+				5DCD7AEA1FCCA8E400A0FC7F /* SDLScreenshotViewController.m */,
 			);
 			name = "Lock Screen UI";
 			sourceTree = "<group>";
@@ -4359,6 +4369,15 @@
 			name = General;
 			sourceTree = "<group>";
 		};
+		5DCD7AD91FCCA5BF00A0FC7F /* CarWindow */ = {
+			isa = PBXGroup;
+			children = (
+				5DCD7ADC1FCCA8D100A0FC7F /* SDLCarWindow.h */,
+				5DCD7ADD1FCCA8D200A0FC7F /* SDLCarWindow.m */,
+			);
+			name = CarWindow;
+			sourceTree = "<group>";
+		};
 		5DD67CAD1E65DD9C009CD394 /* Apple SysLog */ = {
 			isa = PBXGroup;
 			children = (
@@ -4414,6 +4433,7 @@
 		DA8966E71E56937100413EAB /* Streaming */ = {
 			isa = PBXGroup;
 			children = (
+				5DCD7AD91FCCA5BF00A0FC7F /* CarWindow */,
 				5DA5918E1F96820F003264C3 /* Focus / Haptic */,
 				DAC5724C1D0FE3B60004288B /* Touches */,
 				DA8966F01E56970C00413EAB /* Utilities */,
@@ -4546,6 +4566,7 @@
 				5D61FC781A84238C00846EE7 /* SDLDeleteFileResponse.h in Headers */,
 				5DA240001F325621009C0313 /* SDLStreamingMediaConfiguration.h in Headers */,
 				5D61FC5F1A84238C00846EE7 /* SDLCharacterSet.h in Headers */,
+				5DCD7AF31FCCA8E400A0FC7F /* SDLScreenshotViewController.h in Headers */,
 				5DD67CC71E68B568009CD394 /* SDLLogMacros.h in Headers */,
 				5D61FCFF1A84238C00846EE7 /* SDLOnAppInterfaceUnregistered.h in Headers */,
 				5D61FDC51A84238C00846EE7 /* SDLTCPTransport.h in Headers */,
@@ -4903,6 +4924,7 @@
 				5DD67CB01E65DDB7009CD394 /* SDLLogTargetAppleSystemLog.h in Headers */,
 				5D61FCBF1A84238C00846EE7 /* SDLHexUtility.h in Headers */,
 				5D00AC6B1F141339004000D9 /* SDLSystemCapability.h in Headers */,
+				5DCD7AE01FCCA8D200A0FC7F /* SDLCarWindow.h in Headers */,
 				5D61FD6F1A84238C00846EE7 /* SDLRPCPayload.h in Headers */,
 				5D61FCF01A84238C00846EE7 /* SDLLockScreenStatusManager.h in Headers */,
 				5D61FD311A84238C00846EE7 /* SDLPolicyDataParser.h in Headers */,
@@ -5461,6 +5483,7 @@
 				DA8966EC1E56939F00413EAB /* SDLStreamingMediaLifecycleManager.m in Sources */,
 				DAC5726A1D10D5FC0004288B /* dispatch_timer.m in Sources */,
 				5D61FC6C1A84238C00846EE7 /* SDLCreateInteractionChoiceSet.m in Sources */,
+				5DCD7AF71FCCA8E400A0FC7F /* SDLScreenshotViewController.m in Sources */,
 				5D61FD081A84238C00846EE7 /* SDLOnCommand.m in Sources */,
 				5D53C46E1B7A99B9003526EA /* SDLStreamingMediaManager.m in Sources */,
 				5D61FD6A1A84238C00846EE7 /* SDLRPCMessage.m in Sources */,

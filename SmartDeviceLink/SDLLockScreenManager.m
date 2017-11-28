@@ -16,6 +16,7 @@
 #import "SDLNotificationConstants.h"
 #import "SDLOnLockScreenStatus.h"
 #import "SDLRPCNotificationNotification.h"
+#import "SDLScreenshotViewController.h"
 #import "SDLViewControllerPresentable.h"
 
 
@@ -55,11 +56,10 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Create and initialize the lock screen controller depending on the configuration
     if (!self.config.enableAutomaticLockScreen) {
-        self.presenter.viewController = nil;
-
+        self.presenter.lockViewController = nil;
         return;
     } else if (self.config.customViewController != nil) {
-        self.presenter.viewController = self.config.customViewController;
+        self.presenter.lockViewController = self.config.customViewController;
     } else {
         SDLLockScreenViewController *viewController = nil;
 
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         viewController.appIcon = self.config.appIcon;
         viewController.backgroundColor = self.config.backgroundColor;
-        self.presenter.viewController = viewController;
+        self.presenter.lockViewController = viewController;
     }
 
     self.canPresent = YES;
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable UIViewController *)lockScreenViewController {
-    return self.presenter.viewController;
+    return self.presenter.lockViewController;
 }
 
 
