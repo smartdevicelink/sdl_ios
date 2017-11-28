@@ -23,9 +23,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLHapticRect</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">id</span> <span class="nf">rect</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLRectangle.html">SDLRectangle</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">rect</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">rect</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRectangle.html">SDLRectangle</a></span><span class="p">)</span></code></pre>
+
   
   
   
@@ -43,7 +46,7 @@ Required, Integer, 0 - 2,000,000,000</p>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">NSNumber</span> </code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -57,9 +60,12 @@ Required, Integer, 0 - 2,000,000,000</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLHapticRect</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLRectangle.html">SDLRectangle</a></span> <span class="o">*</span><span class="n">rect</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">rect</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRectangle.html">SDLRectangle</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   

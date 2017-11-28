@@ -1,4 +1,4 @@
-<h1>Enums  Reference</h1>
+<h1>Enumerations  Reference</h1>
 
 <h3>Section Contents</h3>
 
@@ -22,7 +22,7 @@
 
 <h3>Overview</h3>
 
-<p>The following enums are available globally.</p>
+<p>The following enumerations are available globally.</p>
 
 
 <section class="section task-group-section">
@@ -35,6 +35,16 @@
   <a href="Enums/SDLArtworkImageFormat.html" class="slightly-smaller">See more</a>
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">,</span> <span class="n">SDLArtworkImageFormat</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SDLArtworkImageFormatPNG</span><span class="p">,</span>
+    <span class="n">SDLArtworkImageFormatJPG</span>
+<span class="p">}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">enum</span> <span class="kt">SDLArtworkImageFormat</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
+
   
   
   
@@ -85,6 +95,16 @@
   <a href="Enums/SDLLogBytesDirection.html" class="slightly-smaller">See more</a>
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">,</span> <span class="n">SDLLogBytesDirection</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SDLLogBytesDirectionTransmit</span><span class="p">,</span>
+    <span class="n">SDLLogBytesDirectionReceive</span>
+<span class="p">}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">enum</span> <span class="kt">SDLLogBytesDirection</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
+
   
   
   
@@ -214,6 +234,15 @@
   <a href="Enums/SDLProtocolError.html" class="slightly-smaller">See more</a>
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">,</span> <span class="n">SDLProtocolError</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SDLProtocolErrorNoSecurityManager</span><span class="p">,</span>
+<span class="p">}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">enum</span> <span class="kt">SDLProtocolError</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
+
   
   
   
@@ -226,6 +255,18 @@
   <a href="Enums/SDLFrameType.html" class="slightly-smaller">See more</a>
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">UInt8</span><span class="p">,</span> <span class="n">SDLFrameType</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SDLFrameTypeControl</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">,</span>
+    <span class="n">SDLFrameTypeSingle</span> <span class="o">=</span> <span class="mh">0x01</span><span class="p">,</span>
+    <span class="n">SDLFrameTypeFirst</span> <span class="o">=</span> <span class="mh">0x02</span><span class="p">,</span>
+    <span class="n">SDLFrameTypeConsecutive</span> <span class="o">=</span> <span class="mh">0x03</span>
+<span class="p">}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">enum</span> <span class="kt">SDLFrameType</span> <span class="p">:</span> <span class="kt">UInt8</span></code></pre>
+
   
   
   
@@ -238,6 +279,19 @@
   <a href="Enums/SDLServiceType.html" class="slightly-smaller">See more</a>
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">UInt8</span><span class="p">,</span> <span class="n">SDLServiceType</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SDLServiceTypeControl</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">,</span>
+    <span class="n">SDLServiceTypeRPC</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">rpc</span><span class="p">)</span> <span class="o">=</span> <span class="mh">0x07</span><span class="p">,</span>
+    <span class="n">SDLServiceTypeAudio</span> <span class="o">=</span> <span class="mh">0x0A</span><span class="p">,</span>
+    <span class="n">SDLServiceTypeVideo</span> <span class="o">=</span> <span class="mh">0x0B</span><span class="p">,</span>
+    <span class="n">SDLServiceTypeBulkData</span> <span class="o">=</span> <span class="mh">0x0F</span>
+<span class="p">}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">enum</span> <span class="kt">SDLServiceType</span> <span class="p">:</span> <span class="kt">UInt8</span></code></pre>
+
   
   
   
@@ -250,6 +304,29 @@
   <a href="Enums/SDLFrameInfo.html" class="slightly-smaller">See more</a>
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">UInt8</span><span class="p">,</span> <span class="n">SDLFrameInfo</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SDLFrameInfoHeartbeat</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">,</span>
+    <span class="n">SDLFrameInfoStartService</span> <span class="o">=</span> <span class="mh">0x01</span><span class="p">,</span>
+    <span class="n">SDLFrameInfoStartServiceACK</span> <span class="o">=</span> <span class="mh">0x02</span><span class="p">,</span>
+    <span class="n">SDLFrameInfoStartServiceNACK</span> <span class="o">=</span> <span class="mh">0x03</span><span class="p">,</span>
+    <span class="n">SDLFrameInfoEndService</span> <span class="o">=</span> <span class="mh">0x04</span><span class="p">,</span>
+    <span class="n">SDLFrameInfoEndServiceACK</span> <span class="o">=</span> <span class="mh">0x05</span><span class="p">,</span>
+    <span class="n">SDLFrameInfoEndServiceNACK</span> <span class="o">=</span> <span class="mh">0x06</span><span class="p">,</span>
+    <span class="n">SDLFrameInfoServiceDataAck</span> <span class="o">=</span> <span class="mh">0xFE</span><span class="p">,</span>
+    <span class="n">SDLFrameInfoHeartbeatACK</span> <span class="o">=</span> <span class="mh">0xFF</span><span class="p">,</span>
+    <span class="c1">// If frameType == Single (0x01)
+</span>    <span class="n">SDLFrameInfoSingleFrame</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">,</span>
+    <span class="c1">// If frameType == First (0x02)
+</span>    <span class="n">SDLFrameInfoFirstFrame</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">,</span>
+    <span class="c1">// If frametype == Consecutive (0x03)
+</span>    <span class="n">SDLFrameInfoConsecutiveLastFrame</span> <span class="o">=</span> <span class="mh">0x00</span>
+<span class="p">}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">enum</span> <span class="kt">SDLFrameInfo</span> <span class="p">:</span> <span class="kt">UInt8</span></code></pre>
+
   
   
   
@@ -262,6 +339,17 @@
   <a href="Enums/SDLRPCMessageType.html" class="slightly-smaller">See more</a>
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">Byte</span><span class="p">,</span> <span class="n">SDLRPCMessageType</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SDLRPCMessageTypeRequest</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">SDLRPCMessageTypeResponse</span><span class="p">,</span>
+    <span class="n">SDLRPCMessageTypeNotification</span>
+<span class="p">}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">enum</span> <span class="kt">SDLRPCMessageType</span> <span class="p">:</span> <span class="kt">UInt8</span></code></pre>
+
   
   
   
@@ -274,6 +362,17 @@
   <a href="Enums/SDLStreamingEncryptionFlag.html" class="slightly-smaller">See more</a>
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">,</span> <span class="n">SDLStreamingEncryptionFlag</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SDLStreamingEncryptionFlagNone</span><span class="p">,</span>
+    <span class="n">SDLStreamingEncryptionFlagAuthenticateOnly</span><span class="p">,</span>
+    <span class="n">SDLStreamingEncryptionFlagAuthenticateAndEncrypt</span>
+<span class="p">}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">enum</span> <span class="kt">SDLStreamingEncryptionFlag</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+
   
   
   

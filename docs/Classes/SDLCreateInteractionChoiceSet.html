@@ -36,9 +36,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLCreateInteractionChoiceSet</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">choiceId</span> <span class="nf">choiceSet</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLChoice.html">SDLChoice</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">choiceSet</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="n">id</span> <span class="nv">choiceId</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">choiceSet</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLChoice.html">SDLChoice</a></span><span class="p">])</span></code></pre>
+
   
   
   
@@ -58,7 +61,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">interactionChoiceSetID</span><span class="p">:</span> <span class="kt">NSNumber</span> </code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">interactionChoiceSetID</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
