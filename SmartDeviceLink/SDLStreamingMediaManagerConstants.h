@@ -24,4 +24,9 @@ extern NSString *const SDLVideoStreamDidStopNotification;
 extern NSString *const SDLAudioStreamDidStartNotification;
 extern NSString *const SDLAudioStreamDidStopNotification;
 
+extern NSString *const SDLLockScreenManagerWillPresentLockScreenViewController;
+extern NSString *const SDLLockScreenManagerDidPresentLockScreenViewController;
+extern NSString *const SDLLockScreenManagerWillDismissLockScreenViewController;
+extern NSString *const SDLLockScreenManagerDidDismissLockScreenViewController;
+
 NS_ASSUME_NONNULL_END

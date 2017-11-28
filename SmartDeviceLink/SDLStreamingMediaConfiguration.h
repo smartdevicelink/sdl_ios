@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) SDLStreamingEncryptionFlag maximumDesiredEncryption;
 
 /**
- *  Properties to use for applications that utilitze the video encoder for streaming. See VTCompressionProperties.h for more details. For example, you can set kVTCompressionPropertyKey_ExpectedFrameRate to set your expected framerate.
+ *  Properties to use for applications that utilitze the video encoder for streaming. See VTCompressionProperties.h for more details. For example, you can set kVTCompressionPropertyKey_ExpectedFrameRate to set your framerate. Setting the framerate this way will also set the framerate if you use CarWindow automatic streaming.
  */
 @property (copy, nonatomic, nullable) NSDictionary<NSString *, id> *customVideoEncoderSettings;
 
@@ -47,7 +47,9 @@ NS_ASSUME_NONNULL_BEGIN
 
  @warning This is a weak property and it's therefore your job to hold a strong reference to this window.
  */
-@property (weak, nonatomic, nullable) UIWindow *window;
+@property (weak, nonatomic, nullable) UIWindow *window __deprecated_msg("Use rootViewController instead");
+
+@property (weak, nonatomic, nullable) UIViewController *rootViewController;
 
 /**
  Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually.
@@ -65,7 +67,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param window The UIWindow you are running the content that is being streamed on, to use for haptics if needed and possible (only works for UIViews)
  @return The configuration
  */
-- (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers encryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource window:(nullable UIWindow *)window;
+- (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers encryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource window:(nullable UIWindow *)window __deprecated_msg("Use initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:rootViewController: instead");
+
+- (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers encryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource rootViewController:(nullable UIViewController *)rootViewController;
 
 /**
  Create a secure configuration for each of the security managers provided.
@@ -89,6 +93,9 @@ NS_ASSUME_NONNULL_BEGIN
  @return The configuration
  */
 + (instancetype)insecureConfiguration NS_SWIFT_UNAVAILABLE("Use the standard initializer instead");
+
++ (instancetype)autostreamingInsecureConfigurationWithInitialViewController:(UIViewController *)initialViewController;
++ (instancetype)autostreamingSecureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers initialViewController:(UIViewController *)initialViewController;
 
 @end
 
