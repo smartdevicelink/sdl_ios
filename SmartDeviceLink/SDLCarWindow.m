@@ -72,7 +72,6 @@ NS_ASSUME_NONNULL_BEGIN
         }
         
         self.lastMd5HashTimestamp = displayLink.timestamp;
-        SDLLogD(@"Send Carwindow frame");
         
         CGRect bounds = self.rootViewController.view.bounds;
         
