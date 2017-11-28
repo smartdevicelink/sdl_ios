@@ -174,6 +174,8 @@ NS_ASSUME_NONNULL_BEGIN
     CGImageDestinationRef destination = CGImageDestinationCreateWithData(imageData, kUTTypePNG, 1, NULL);
     CGImageDestinationAddImage(destination, imageRef, nil);
     if (!CGImageDestinationFinalize(destination)) {
+        CFRelease(imageData);
+        CFRelease(destination);
         return nil;
     }
 
@@ -228,7 +230,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     CGContextRestoreGState(context);
     UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
-    CGContextRelease(context);
 
     return image;
 }
