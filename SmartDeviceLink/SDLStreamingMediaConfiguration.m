@@ -49,6 +49,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initWithSecurityManagers:securityManagers];
 }
 
+#pragma mark - Getters / Setters
+- (void)setWindow:(nullable UIWindow *)window {
+    _window = window;
+    if (window != nil) {
+        _rootViewController = window.rootViewController;
+    }
+}
+
 #pragma mark NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
