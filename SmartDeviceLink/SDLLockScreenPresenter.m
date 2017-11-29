@@ -8,6 +8,7 @@
 
 #import "SDLLockScreenPresenter.h"
 
+#import "SDLLogMacros.h"
 #import "SDLScreenshotViewController.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
@@ -38,9 +39,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)present {
     NSArray* windows = [[UIApplication sharedApplication] windows];
-    UIWindow* mapWindow = windows.firstObject;
+    UIWindow* appWindow = windows.firstObject;
 
-    if (self.lockWindow.isKeyWindow || mapWindow == self.lockWindow) {
+    if (self.lockWindow.isKeyWindow || appWindow == self.lockWindow) {
         return;
     }
 
@@ -48,18 +49,19 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        CGRect firstFrame = mapWindow.frame;
+        CGRect firstFrame = appWindow.frame;
         firstFrame.origin.x = CGRectGetWidth(firstFrame);
-        mapWindow.frame = firstFrame;
+        appWindow.frame = firstFrame;
 
-        // Take a screenshot of the mapWindow.
-        [(SDLScreenshotViewController*)self.lockWindow.rootViewController loadScreenshotOfWindow:mapWindow];
+        // Take a screenshot of the appWindow.
+        [(SDLScreenshotViewController*)self.lockWindow.rootViewController loadScreenshotOfWindow:appWindow];
 
-        // We then move the lockWindow to the original mapWindow location.
-        self.lockWindow.frame = mapWindow.bounds;
+        // We then move the lockWindow to the original appWindow location.
+        self.lockWindow.frame = appWindow.bounds;
         [self.lockWindow makeKeyAndVisible];
 
         // And present the lock screen.
+        SDLLogD(@"Present lock screen window");
         [self.lockWindow.rootViewController presentViewController:self.lockViewController animated:YES completion:^{
             // Tell ourselves we are done.
             [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerDidPresentLockScreenViewController object:nil];
@@ -79,10 +81,11 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillDismissLockScreenViewController object:nil];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        // Take a screenshot of the mapWindow.
+        // Take a screenshot of the appWindow.
         [(SDLScreenshotViewController*)self.lockWindow.rootViewController loadScreenshotOfWindow:appWindow];
 
         // Dismiss the lockscreen, showing the screenshot.
+        SDLLogD(@"Dismiss lock screen window");
         [self.lockViewController dismissViewControllerAnimated:YES completion:^{
             CGRect lockFrame = self.lockWindow.frame;
             lockFrame.origin.x = CGRectGetWidth(lockFrame);
@@ -100,16 +103,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)presented {
     return (self.lockViewController.isViewLoaded && (self.lockViewController.view.window || self.lockViewController.isBeingPresented) && self.lockWindow.isKeyWindow);
-}
-
-+ (UIViewController *)sdl_getCurrentViewController {
-    // http://stackoverflow.com/questions/6131205/iphone-how-to-find-topmost-view-controller
-    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
-    while (topController.presentedViewController != nil) {
-        topController = topController.presentedViewController;
-    }
-
-    return topController;
 }
 
 @end

@@ -49,6 +49,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (weak, nonatomic, nullable) UIWindow *window __deprecated_msg("Use rootViewController instead");
 
+/**
+ Set the initial view controller your video streaming content is within.
+
+ Activates the haptic view parser and CarWindow systems when set. This library will also use that information to attempt to return the touched view to you in `SDLTouchManagerDelegate`.
+
+ @note If you wish to alter this rootViewController while streaming via CarWindow, you must set a new `rootViewController` on `SDLStreamingMediaManager` and this will update both the haptic view parser and CarWindow.
+
+ @warning Apps using views outside of the `UIView` heirarchy (such as OpenGL) are currently unsupported. If you app uses partial views in the heirarchy, only those views will be discovered. Your OpenGL views will not be discoverable to a haptic interface head unit and you will have to manually make these views discoverable via the `SDLSendHapticData` RPC request.
+
+ @warning This is a weak property and it's therefore your job to hold a strong reference to this view controller.
+ */
 @property (weak, nonatomic, nullable) UIViewController *rootViewController;
 
 /**
@@ -69,6 +80,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers encryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource window:(nullable UIWindow *)window __deprecated_msg("Use initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:rootViewController: instead");
 
+/**
+ Manually set all the properties to the streaming media configuration
+
+ @param securityManagers The security managers to use or nil for none.
+ @param encryptionFlag The maximum encrpytion supported. If the connected head unit supports less than set here, it will still connect, but if it supports more than set here, it will not connect.
+ @param videoSettings Custom video encoder settings to be used in video streaming.
+ @param rootViewController The UIViewController wih the content that is being streamed on, to use for haptics if needed and possible (only works for UIViews)
+ @return The configuration
+ */
 - (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers encryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *, id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource rootViewController:(nullable UIViewController *)rootViewController;
 
 /**
@@ -94,7 +114,21 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)insecureConfiguration NS_SWIFT_UNAVAILABLE("Use the standard initializer instead");
 
+/**
+ Create a CarWindow insecure configuration with a view controller
+
+ @param initialViewController The initial view controller that will be streamed
+ @return The configuration
+ */
 + (instancetype)autostreamingInsecureConfigurationWithInitialViewController:(UIViewController *)initialViewController;
+
+/**
+ Create a CarWindow secure configuration with a view controller and security managers
+
+ @param securityManagers The security managers available for secure streaming use
+ @param initialViewController The initial view controller that will be streamed
+ @return The configuration
+ */
 + (instancetype)autostreamingSecureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers initialViewController:(UIViewController *)initialViewController;
 
 @end

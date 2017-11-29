@@ -410,7 +410,7 @@ NS_ASSUME_NONNULL_BEGIN
                 SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
 
                 if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
-                    [[SDLGlobals sharedGlobals] setDynamicMTUSize:startServiceACKPayload.mtu forServiceType:startServiceACK.header.serviceType];
+                    [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:startServiceACK.header.serviceType];
                 }
                 if (startServiceACKPayload.hashId != SDLControlFrameInt32NotFound) {
                     self.hashId = startServiceACKPayload.hashId;

@@ -990,7 +990,7 @@
 		5DBF0D601F3B3DB4008AF2C9 /* SDLControlFrameVideoStartServiceAckSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBF0D5F1F3B3DB4008AF2C9 /* SDLControlFrameVideoStartServiceAckSpec.m */; };
 		5DC09EDA1F2F7FEC00F4AB1D /* SDLControlFramePayloadNakSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC09ED91F2F7FEC00F4AB1D /* SDLControlFramePayloadNakSpec.m */; };
 		5DC978261B7A38640012C2F1 /* SDLGlobalsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC978251B7A38640012C2F1 /* SDLGlobalsSpec.m */; };
-		5DCD7AE01FCCA8D200A0FC7F /* SDLCarWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DCD7ADC1FCCA8D100A0FC7F /* SDLCarWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5DCD7AE01FCCA8D200A0FC7F /* SDLCarWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DCD7ADC1FCCA8D100A0FC7F /* SDLCarWindow.h */; };
 		5DCD7AE11FCCA8D200A0FC7F /* SDLCarWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCD7ADD1FCCA8D200A0FC7F /* SDLCarWindow.m */; };
 		5DCD7AF31FCCA8E400A0FC7F /* SDLScreenshotViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DCD7AE61FCCA8E400A0FC7F /* SDLScreenshotViewController.h */; };
 		5DCD7AF71FCCA8E400A0FC7F /* SDLScreenshotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCD7AEA1FCCA8E400A0FC7F /* SDLScreenshotViewController.m */; };

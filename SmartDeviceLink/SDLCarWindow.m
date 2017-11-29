@@ -42,6 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
+    SDLLogD(@"Initializing Car Window automatic streaming with framerate: %lu", (unsigned long)framesPerSecond);
+
     _streamManager = streamManager;
     _targetFramerate = framesPerSecond;
 
@@ -64,10 +66,12 @@ NS_ASSUME_NONNULL_BEGIN
         }
         
         if (self.sameFrameCounter == 30 && ((displayLink.timestamp - self.lastMd5HashTimestamp) <= 0.1)) {
+            SDLLogD(@"Paused CarWindow, no frame changes in over a second");
             return;
         }
 
         if (self.isLockScreenMoving) {
+            SDLLogD(@"Paused CarWindow, lock screen moving");
             return;
         }
         
@@ -116,6 +120,8 @@ NS_ASSUME_NONNULL_BEGIN
         // If the video stream has started, we want to resize the streamingViewController to the size from the RegisterAppInterface
         self.rootViewController.view.frame = CGRectMake(0, 0, self.streamManager.screenSize.width, self.streamManager.screenSize.height);
         self.rootViewController.view.bounds = self.rootViewController.view.frame;
+
+        SDLLogD(@"Video stream started, setting CarWindow frame to: %@", NSStringFromCGRect(self.rootViewController.view.bounds));
         
         // And reset the frame counter (incase we are coming from a disconnect).
         self.sameFrameCounter = 0;
@@ -139,10 +145,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         // And also reset the streamingViewController's frame, because we are about to show it.
         self.rootViewController.view.frame = [UIScreen mainScreen].bounds;
-        SDLLogW(@"Setting the view back: %@", NSStringFromCGRect(self.rootViewController.view.frame));
-        // If the stream stops, we pause and invalidate the displayLink (do we really need to do this? can we just pause it).
-        self.displayLink.paused = YES;
-        [self.displayLink invalidate];
+        SDLLogD(@"Video stream ended, setting view controller frame back: %@", NSStringFromCGRect(self.rootViewController.view.frame));
     });
 }
 
