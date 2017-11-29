@@ -3,7 +3,7 @@
 //  ios
 //
 //  Created by Muller, Alexander (A.) on 2/6/17.
-//  Copyright © 2017 Mapbox. All rights reserved.
+//  Copyright © 2017 Ford Motor Company. All rights reserved.
 //
 
 #import "SDLScreenshotViewController.h"
@@ -17,15 +17,16 @@
 @implementation SDLScreenshotViewController
 
 - (instancetype)init {
-    if (self = [super init]) {
-        
-        self.view.backgroundColor = [UIColor clearColor];
-        
-        self.imageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-        self.imageView.backgroundColor = [UIColor clearColor];
-        self.imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        [self.view addSubview:self.imageView];
-    }
+    self = [super init];
+    if (!self) { return nil; }
+
+    self.view.backgroundColor = [UIColor clearColor];
+
+    self.imageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+    self.imageView.backgroundColor = [UIColor clearColor];
+    self.imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:self.imageView];
+
     return self;
 }
 

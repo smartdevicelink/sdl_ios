@@ -1,6 +1,5 @@
 //
 //  SDLCarWindow.h
-//  Projection
 //
 //  Created by Muller, Alexander (A.) on 10/6/16.
 //  Copyright © 2016 Ford Motor Company. All rights reserved.
