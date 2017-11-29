@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateInterfaceLayout {
     if (@available(iOS 9.0, *)) {
         self.focusableViews = [[NSMutableArray alloc] init];
-        [self sdl_parseViewHierarchy:self.viewController.view.subviews.lastObject];
+        [self sdl_parseViewHierarchy:self.viewController.view];
 
         // If there is a preferred view bring that into top of the array
         NSUInteger preferredViewIndex = [self.focusableViews indexOfObject:self.viewController.view.subviews.lastObject.preferredFocusedView];
