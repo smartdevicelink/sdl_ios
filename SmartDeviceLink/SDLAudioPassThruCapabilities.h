@@ -3,9 +3,9 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLAudioType;
-@class SDLBitsPerSample;
-@class SDLSamplingRate;
+#import "SDLAudioType.h"
+#import "SDLBitsPerSample.h"
+#import "SDLSamplingRate.h"
 
 
 /**
@@ -20,21 +20,21 @@
  * 		</tr>
  * 		<tr>
  * 			<td>samplingRate</td>
- * 			<td>SDLSamplingRate * </td>
+ * 			<td>SDLSamplingRate </td>
  * 			<td>Describes the sampling rate for AudioPassThru
  * 			</td>
  * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>bitsPerSample</td>
- * 			<td>SDLBitsPerSample * </td>
+ * 			<td>SDLBitsPerSample </td>
  * 			<td>Describes the sample depth in bit for AudioPassThru
  * 			</td>
  * 			<td>SmartDeviceLink 2.0</td>
  * 		</tr>
  * 		<tr>
  * 			<td>audioType</td>
- * 			<td>SDLAudioType * </td>
+ * 			<td>SDLAudioType </td>
  * 			<td>Describes the audiotype for AudioPassThru
  * 			</td>
  * 			<td>SmartDeviceLink 2.0</td>
@@ -42,33 +42,27 @@
  *  </table>
  * Since <b>SmartDeviceLink 2.0</b>
  */
-@interface SDLAudioPassThruCapabilities : SDLRPCStruct {
-}
 
-/**
- * Constructs a newly allocated SDLAudioPassThruCapabilities object
- */
-- (instancetype)init;
-/**
- * Constructs a newly allocated SDLAudioPassThruCapabilities object indicated by the Hashtable parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLAudioPassThruCapabilities : SDLRPCStruct
 
 /**
  * @abstract The sampling rate for AudioPassThru<br>
  *
  */
-@property (strong) SDLSamplingRate *samplingRate;
+@property (strong, nonatomic) SDLSamplingRate samplingRate;
 /**
  * @abstract The sample depth in bit for AudioPassThru<br>
  *
  */
-@property (strong) SDLBitsPerSample *bitsPerSample;
+@property (strong, nonatomic) SDLBitsPerSample bitsPerSample;
 /**
  * @abstract The audiotype for AudioPassThru<br>
  *
  */
-@property (strong) SDLAudioType *audioType;
+@property (strong, nonatomic) SDLAudioType audioType;
 
 @end
+
+NS_ASSUME_NONNULL_END

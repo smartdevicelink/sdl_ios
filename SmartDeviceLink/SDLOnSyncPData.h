@@ -4,13 +4,13 @@
 
 #import "SDLRPCNotification.h"
 
-@interface SDLOnSyncPData : SDLRPCNotification {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLOnSyncPData : SDLRPCNotification
 
-@property (strong) NSString *URL;
-@property (strong) NSNumber *Timeout;
+@property (nullable, strong, nonatomic) NSString *URL;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *Timeout;
 
 @end
+
+NS_ASSUME_NONNULL_END

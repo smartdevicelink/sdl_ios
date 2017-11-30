@@ -6,6 +6,8 @@
 #import "SDLV1ProtocolHeader.h"
 #import "SDLV2ProtocolHeader.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLProtocolHeader
 
 @synthesize version = _version;
@@ -20,20 +22,12 @@
     return self;
 }
 
-- (BOOL)compressed {
-    return _encrypted;
-}
-
-- (void)setCompressed:(BOOL)compressed {
-    _encrypted = compressed;
-}
-
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     [self doesNotRecognizeSelector:_cmd];
     return 0;
 }
 
-- (NSData *)data {
+- (nullable NSData *)data {
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
@@ -76,3 +70,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

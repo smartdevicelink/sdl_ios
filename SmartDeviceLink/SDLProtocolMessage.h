@@ -2,21 +2,23 @@
 //
 
 #import <Foundation/Foundation.h>
+
 @class SDLProtocolHeader;
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLProtocolMessage : NSObject
 
-@property (strong) SDLProtocolHeader *header;
-@property (strong) NSData *payload;
-@property (strong, readonly) NSData *data;
+@property (strong, nonatomic) SDLProtocolHeader *header;
+@property (nullable, strong, nonatomic) NSData *payload;
+@property (strong, nonatomic, readonly) NSData *data;
 
-+ (instancetype)messageWithHeader:(SDLProtocolHeader *)header andPayload:(NSData *)payload; // Returns a V1 or V2 object
++ (instancetype)messageWithHeader:(SDLProtocolHeader *)header andPayload:(nullable NSData *)payload; // Returns a V1 or V2 object
 
 - (NSUInteger)size;
 - (NSString *)description;
-- (NSDictionary *)rpcDictionary; // Use for RPC type messages to obtain the data in a dictionary
-
-+ (UInt8)determineVersion:(NSData *)data __deprecated_msg(("Use SDLProtocolHeader determineVersion: instead"));
+- (nullable NSDictionary<NSString *, id> *)rpcDictionary; // Use for RPC type messages to obtain the data in a dictionary
 
 @end
+
+NS_ASSUME_NONNULL_END

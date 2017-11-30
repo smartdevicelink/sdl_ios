@@ -4,23 +4,20 @@
 
 #import "SDLReadDID.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLReadDID
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_ReadDID]) {
+    if (self = [super initWithName:SDLNameReadDID]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithECUName:(UInt16)ecuName didLocation:(NSArray<NSNumber<SDLUInt> *> *)didLocation {
+- (instancetype)initWithECUName:(UInt16)ecuName didLocation:(NSArray<NSNumber<SDLInt> *> *)didLocation {
     self = [self init];
     if (!self) {
         return nil;
@@ -32,28 +29,22 @@
     return self;
 }
 
-- (void)setEcuName:(NSNumber *)ecuName {
-    if (ecuName != nil) {
-        [parameters setObject:ecuName forKey:NAMES_ecuName];
-    } else {
-        [parameters removeObjectForKey:NAMES_ecuName];
-    }
+- (void)setEcuName:(NSNumber<SDLInt> *)ecuName {
+    [parameters sdl_setObject:ecuName forName:SDLNameECUName];
 }
 
-- (NSNumber *)ecuName {
-    return [parameters objectForKey:NAMES_ecuName];
+- (NSNumber<SDLInt> *)ecuName {
+    return [parameters sdl_objectForName:SDLNameECUName];
 }
 
-- (void)setDidLocation:(NSMutableArray *)didLocation {
-    if (didLocation != nil) {
-        [parameters setObject:didLocation forKey:NAMES_didLocation];
-    } else {
-        [parameters removeObjectForKey:NAMES_didLocation];
-    }
+- (void)setDidLocation:(NSArray<NSNumber<SDLInt> *> *)didLocation {
+    [parameters sdl_setObject:didLocation forName:SDLNameDIDLocation];
 }
 
-- (NSMutableArray *)didLocation {
-    return [parameters objectForKey:NAMES_didLocation];
+- (NSArray<NSNumber<SDLInt> *> *)didLocation {
+    return [parameters sdl_objectForName:SDLNameDIDLocation];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

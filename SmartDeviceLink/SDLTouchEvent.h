@@ -4,11 +4,11 @@
 
 #import "SDLRPCMessage.h"
 
-@interface SDLTouchEvent : SDLRPCStruct {
-}
+@class SDLTouchCoord;
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLTouchEvent : SDLRPCStruct
 
 /**
  A touch's unique identifier.  The application can track the current touch events by id.
@@ -17,7 +17,7 @@
  
  Mandatory, 0-9
  */
-@property (strong) NSNumber *touchEventId;
+@property (strong, nonatomic) NSNumber<SDLInt> *touchEventId;
 
 /**
  The time that the touch was recorded.  This number can the time since the beginning of the session or something else as long as the units are in milliseconds.
@@ -30,11 +30,13 @@
  
  Mandatory, array size 1-1000, contains <NSNumber> size 0-5000000000
  */
-@property (strong) NSMutableArray *timeStamp;
+@property (strong, nonatomic) NSArray<NSNumber<SDLInt> *> *timeStamp;
 
 /**
  *  Mandatory, array size 1-1000, contains SDLTouchCoord
  */
-@property (strong) NSMutableArray *coord;
+@property (strong, nonatomic) NSArray<SDLTouchCoord *> *coord;
 
 @end
+
+NS_ASSUME_NONNULL_END

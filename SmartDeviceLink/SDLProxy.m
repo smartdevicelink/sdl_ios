@@ -8,18 +8,16 @@
 
 #import "SDLAbstractTransport.h"
 #import "SDLAudioStreamingState.h"
-#import "SDLDebugTool.h"
+#import "SDLLogMacros.h"
 #import "SDLEncodedSyncPData.h"
 #import "SDLFileType.h"
 #import "SDLFunctionID.h"
 #import "SDLGlobals.h"
 #import "SDLHMILevel.h"
-#import "SDLJsonDecoder.h"
-#import "SDLJsonEncoder.h"
 #import "SDLLanguage.h"
 #import "SDLLayoutMode.h"
 #import "SDLLockScreenStatusManager.h"
-#import "SDLNames.h"
+
 #import "SDLOnHMIStatus.h"
 #import "SDLOnSystemRequest.h"
 #import "SDLPolicyDataParser.h"
@@ -30,34 +28,34 @@
 #import "SDLRPCResponse.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRequestType.h"
-#import "SDLSiphonServer.h"
 #import "SDLStreamingMediaManager.h"
 #import "SDLSystemContext.h"
 #import "SDLSystemRequest.h"
 #import "SDLTimer.h"
-#import "SDLURLSession.h"
 #import "SDLVehicleType.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString SDLVehicleMake;
 
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
-NSString *const SDLProxyVersion = @"4.7.3";
-const float startSessionTime = 10.0;
-const float notifyProxyClosedDelay = 0.1;
-const int POLICIES_CORRELATION_ID = 65535;
-
+NSString *const SDLProxyVersion = @"5.0.0";
+const float StartSessionTime = 10.0;
+const float NotifyProxyClosedDelay = 0.1;
+const int PoliciesCorrelationId = 65535;
+static float DefaultConnectionTimeout = 45.0;
 
 @interface SDLProxy () {
     SDLLockScreenStatusManager *_lsm;
 }
 
 @property (copy, nonatomic) NSString *appId;
-@property (strong, nonatomic) NSMutableSet *mutableProxyListeners;
-@property (nonatomic, strong, readwrite, nullable) SDLStreamingMediaManager *streamingMediaManager;
-@property (nonatomic, strong, nullable) SDLDisplayCapabilities *displayCapabilities;
+@property (strong, nonatomic) NSMutableSet<NSObject<SDLProxyListener> *> *mutableProxyListeners;
+@property (nullable, nonatomic, strong) SDLDisplayCapabilities *displayCapabilities;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
+@property (nonatomic, strong) NSURLSession* urlSession;
 
 @end
 
@@ -67,9 +65,9 @@ const int POLICIES_CORRELATION_ID = 65535;
 #pragma mark - Object lifecycle
 - (instancetype)initWithTransport:(SDLAbstractTransport *)transport protocol:(SDLAbstractProtocol *)protocol delegate:(NSObject<SDLProxyListener> *)theDelegate {
     if (self = [super init]) {
+        SDLLogD(@"Framework Version: %@", self.proxyVersion);
         _debugConsoleGroupName = @"default";
         _lsm = [[SDLLockScreenStatusManager alloc] init];
-        _alreadyDestructed = NO;
 
         _mutableProxyListeners = [NSMutableSet setWithObject:theDelegate];
         _securityManagers = [NSMutableDictionary dictionary];
@@ -81,46 +79,31 @@ const int POLICIES_CORRELATION_ID = 65535;
 
         [self.transport connect];
 
-        [SDLDebugTool logInfo:@"SDLProxy initWithTransport"];
+        SDLLogV(@"Proxy transport initialization");
+        [[EAAccessoryManager sharedAccessoryManager] registerForLocalNotifications];
+        
+        NSURLSessionConfiguration* configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        configuration.timeoutIntervalForRequest = DefaultConnectionTimeout;
+        configuration.timeoutIntervalForResource = DefaultConnectionTimeout;
+        configuration.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
+        
+        _urlSession = [NSURLSession sessionWithConfiguration:configuration];
+
     }
 
     return self;
 }
 
-- (void)destructObjects {
-    if (!_alreadyDestructed) {
-        _alreadyDestructed = YES;
-
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-
-        [[SDLURLSession defaultSession] cancelAllTasks];
-
-        [self.protocol dispose];
-        [self.transport dispose];
-
-        _transport = nil;
-        _protocol = nil;
-        _mutableProxyListeners = nil;
-        _streamingMediaManager = nil;
-        _displayCapabilities = nil;
-    }
-}
-
-- (void)dispose {
-    if (self.transport != nil) {
-        [self.transport disconnect];
-    }
-
+- (void)dealloc {
     if (self.protocol.securityManager != nil) {
         [self.protocol.securityManager stop];
     }
-
-    [self destructObjects];
-}
-
-- (void)dealloc {
-    [self destructObjects];
-    [SDLDebugTool logInfo:@"SDLProxy Dealloc" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:_debugConsoleGroupName];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
+    
+    [_urlSession invalidateAndCancel];
+    SDLLogV(@"Proxy dealloc");
 }
 
 - (void)notifyProxyClosed {
@@ -137,30 +120,28 @@ const int POLICIES_CORRELATION_ID = 65535;
     UIApplicationState appState = [UIApplication sharedApplication].applicationState;
     SDLOnHMIStatus *HMIStatusRPC = [[SDLOnHMIStatus alloc] init];
 
-    HMIStatusRPC.audioStreamingState = [SDLAudioStreamingState NOT_AUDIBLE];
-    HMIStatusRPC.systemContext = [SDLSystemContext MAIN];
+    HMIStatusRPC.audioStreamingState = SDLAudioStreamingStateNotAudible;
+    HMIStatusRPC.systemContext = SDLSystemContextMain;
 
     switch (appState) {
         case UIApplicationStateActive: {
-            HMIStatusRPC.hmiLevel = [SDLHMILevel FULL];
+            HMIStatusRPC.hmiLevel = SDLHMILevelFull;
         } break;
         case UIApplicationStateBackground: // Fallthrough
         case UIApplicationStateInactive: {
-            HMIStatusRPC.hmiLevel = [SDLHMILevel BACKGROUND];
+            HMIStatusRPC.hmiLevel = SDLHMILevelBackground;
         } break;
         default:
             break;
     }
 
-    NSString *log = [NSString stringWithFormat:@"Sending new mobile hmi state: %@", HMIStatusRPC.hmiLevel.value];
-    [SDLDebugTool logInfo:log withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
+    SDLLogD(@"Mobile UIApplication state changed, sending to remote system: %@", HMIStatusRPC.hmiLevel);
     [self sendRPC:HMIStatusRPC];
 }
 
 #pragma mark - Accessors
 
-- (NSSet *)proxyListeners {
+- (NSSet<NSObject<SDLProxyListener> *> *)proxyListeners {
     return [self.mutableProxyListeners copy];
 }
 
@@ -170,20 +151,6 @@ const int POLICIES_CORRELATION_ID = 65535;
 - (NSString *)proxyVersion {
     return SDLProxyVersion;
 }
-
-- (SDLStreamingMediaManager *)streamingMediaManager {
-    if (_streamingMediaManager == nil) {
-        if (self.displayCapabilities == nil) {
-            return nil;
-        }
-        _streamingMediaManager = [[SDLStreamingMediaManager alloc] initWithProtocol:self.protocol displayCapabilities:self.displayCapabilities];
-        [self.protocol.protocolDelegateTable addObject:_streamingMediaManager];
-        [self.mutableProxyListeners addObject:_streamingMediaManager.touchManager];
-    }
-
-    return _streamingMediaManager;
-}
-
 
 #pragma mark - SecurityManager
 
@@ -211,7 +178,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
-- (id<SDLSecurityType>)securityManagerForMake:(NSString *)make {
+- (nullable id<SDLSecurityType>)securityManagerForMake:(NSString *)make {
     if ((make != nil) && (self.securityManagers[make] != nil)) {
         Class securityManagerClass = self.securityManagers[make];
         self.protocol.appId = self.appId;
@@ -226,16 +193,16 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 - (void)onProtocolOpened {
     _isConnected = YES;
-    [SDLDebugTool logInfo:@"StartSession (request)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
-    [self.protocol startServiceWithType:SDLServiceType_RPC];
+    SDLLogV(@"Proxy RPC protocol opened");
+    // THe RPC payload will be created by the protocol object...it's weird and confusing, I know.
+    [self.protocol startServiceWithType:SDLServiceTypeRPC payload:nil];
 
     if (self.startSessionTimer == nil) {
-        self.startSessionTimer = [[SDLTimer alloc] initWithDuration:startSessionTime repeat:NO];
+        self.startSessionTimer = [[SDLTimer alloc] initWithDuration:StartSessionTime repeat:NO];
         __weak typeof(self) weakSelf = self;
         self.startSessionTimer.elapsedBlock = ^{
-            [SDLDebugTool logInfo:@"Start Session Timeout" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:weakSelf.debugConsoleGroupName];
-            [weakSelf performSelector:@selector(notifyProxyClosed) withObject:nil afterDelay:notifyProxyClosedDelay];
+            SDLLogW(@"Start session timed out");
+            [weakSelf performSelector:@selector(notifyProxyClosed) withObject:nil afterDelay:NotifyProxyClosedDelay];
         };
     }
     [self.startSessionTimer start];
@@ -249,14 +216,12 @@ const int POLICIES_CORRELATION_ID = 65535;
     [self invokeMethodOnDelegates:@selector(onError:) withObject:e];
 }
 
-- (void)handleProtocolStartSessionACK:(SDLProtocolHeader *)header {
+- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     // Turn off the timer, the start session response came back
     [self.startSessionTimer cancel];
+    SDLLogV(@"StartSession (response)\nSessionId: %d for serviceType %d", startServiceACK.header.sessionID, startServiceACK.header.serviceType);
 
-    NSString *logMessage = [NSString stringWithFormat:@"StartSession (response)\nSessionId: %d for serviceType %d", header.sessionID, header.serviceType];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-
-    if (header.serviceType == SDLServiceType_RPC) {
+    if (startServiceACK.header.serviceType == SDLServiceTypeRPC) {
         [self invokeMethodOnDelegates:@selector(onProxyOpened) withObject:nil];
     }
 }
@@ -265,8 +230,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     @try {
         [self handleProtocolMessage:msgData];
     } @catch (NSException *e) {
-        NSString *logMessage = [NSString stringWithFormat:@"Proxy: Failed to handle protocol message %@", e];
-        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Debug toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        SDLLogW(@"Proxy: Failed to handle protocol message %@", e);
     }
 }
 
@@ -276,30 +240,23 @@ const int POLICIES_CORRELATION_ID = 65535;
     @try {
         [self.protocol sendRPC:message];
     } @catch (NSException *exception) {
-        NSString *logMessage = [NSString stringWithFormat:@"Proxy: Failed to send RPC message: %@", message.name];
-        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_Debug toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-    }
-}
-
-- (void)sendRPCRequest:(SDLRPCMessage *)msg {
-    if ([msg isKindOfClass:SDLRPCRequest.class]) {
-        [self sendRPC:msg];
+        SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
     }
 }
 
 - (void)handleProtocolMessage:(SDLProtocolMessage *)incomingMessage {
     // Convert protocol message to dictionary
-    NSDictionary *rpcMessageAsDictionary = [incomingMessage rpcDictionary];
+    NSDictionary<NSString *, id> *rpcMessageAsDictionary = [incomingMessage rpcDictionary];
     [self handleRPCDictionary:rpcMessageAsDictionary];
 }
 
-- (void)handleRPCDictionary:(NSDictionary *)dict {
+- (void)handleRPCDictionary:(NSDictionary<NSString *, id> *)dict {
     SDLRPCMessage *message = [[SDLRPCMessage alloc] initWithDictionary:[dict mutableCopy]];
     NSString *functionName = [message getFunctionName];
     NSString *messageType = [message messageType];
 
     // If it's a response, append response
-    if ([messageType isEqualToString:NAMES_response]) {
+    if ([messageType isEqualToString:SDLNameResponse]) {
         BOOL notGenericResponseMessage = ![functionName isEqualToString:@"GenericResponse"];
         if (notGenericResponseMessage) {
             functionName = [NSString stringWithFormat:@"%@Response", functionName];
@@ -311,20 +268,15 @@ const int POLICIES_CORRELATION_ID = 65535;
     SDLRPCMessage *newMessage = [[NSClassFromString(functionClassName) alloc] initWithDictionary:[dict mutableCopy]];
 
     // Log the RPC message
-    NSString *logMessage = [NSString stringWithFormat:@"%@", newMessage];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"Message received: %@", newMessage);
 
     // Intercept and handle several messages ourselves
-    if ([functionName isEqualToString:NAMES_OnAppInterfaceUnregistered] || [functionName isEqualToString:NAMES_UnregisterAppInterface]) {
+    if ([functionName isEqualToString:SDLNameOnAppInterfaceUnregistered] || [functionName isEqualToString:SDLNameUnregisterAppInterface]) {
         [self handleRPCUnregistered:dict];
     }
 
     if ([functionName isEqualToString:@"RegisterAppInterfaceResponse"]) {
         [self handleRegisterAppInterfaceResponse:(SDLRPCResponse *)newMessage];
-    }
-
-    if ([functionName isEqualToString:@"EncodedSyncPDataResponse"]) {
-        [SDLDebugTool logInfo:@"EncodedSyncPData (response)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     }
 
     if ([functionName isEqualToString:@"OnEncodedSyncPData"]) {
@@ -355,34 +307,23 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
-- (void)handleRpcMessage:(NSDictionary *)msg {
-    [self handleRPCDictionary:msg];
-}
-
 
 #pragma mark - RPC Handlers
 
-- (void)handleRPCUnregistered:(NSDictionary *)messageDictionary {
-    NSString *logMessage = [NSString stringWithFormat:@"Unregistration forced by module. %@", messageDictionary];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+- (void)handleRPCUnregistered:(NSDictionary<NSString *, id> *)messageDictionary {
+    SDLLogW(@"Unregistration forced by module. %@", messageDictionary);
     [self notifyProxyClosed];
 }
 
 - (void)handleRegisterAppInterfaceResponse:(SDLRPCResponse *)response {
-    //Print Proxy Version To Console
-    NSString *logMessage = [NSString stringWithFormat:@"Framework Version: %@", self.proxyVersion];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
     SDLRegisterAppInterfaceResponse *registerResponse = (SDLRegisterAppInterfaceResponse *)response;
-    self.displayCapabilities = registerResponse.displayCapabilities;
-    if (_streamingMediaManager) {
-        _streamingMediaManager.displayCapabilties = registerResponse.displayCapabilities;
-    }
+
     self.protocol.securityManager = [self securityManagerForMake:registerResponse.vehicleType.make];
     if (self.protocol.securityManager && [self.protocol.securityManager respondsToSelector:@selector(setAppId:)]) {
         self.protocol.securityManager.appId = self.appId;
     }
 
-    if ([SDLGlobals globals].majorProtocolVersion >= 4) {
+    if ([SDLGlobals sharedGlobals].majorProtocolVersion >= 4) {
         [self sendMobileHMIState];
         // Send SDL updates to application state
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendMobileHMIState) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -392,11 +333,10 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 - (void)handleSyncPData:(SDLRPCMessage *)message {
     // If URL != nil, perform HTTP Post and don't pass the notification to proxy listeners
-    NSString *logMessage = [NSString stringWithFormat:@"OnEncodedSyncPData (notification)\n%@", message];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"OnEncodedSyncPData: %@", message);
 
     NSString *urlString = (NSString *)[message getParameters:@"URL"];
-    NSDictionary *encodedSyncPData = (NSDictionary *)[message getParameters:@"data"];
+    NSDictionary<NSString *, id> *encodedSyncPData = (NSDictionary<NSString *, id> *)[message getParameters:@"data"];
     NSNumber *encodedSyncPTimeout = (NSNumber *)[message getParameters:@"Timeout"];
 
     if (urlString && encodedSyncPData && encodedSyncPTimeout) {
@@ -404,34 +344,32 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
-- (void)handleSystemRequest:(NSDictionary *)dict {
-    [SDLDebugTool logInfo:@"OnSystemRequest (notification)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+- (void)handleSystemRequest:(NSDictionary<NSString *, id> *)dict {
+    SDLLogV(@"OnSystemRequest");
 
     SDLOnSystemRequest *systemRequest = [[SDLOnSystemRequest alloc] initWithDictionary:[dict mutableCopy]];
-    SDLRequestType *requestType = systemRequest.requestType;
+    SDLRequestType requestType = systemRequest.requestType;
 
     // Handle the various OnSystemRequest types
-    if (requestType == [SDLRequestType PROPRIETARY]) {
+    if ([requestType isEqualToEnum:SDLRequestTypeProprietary]) {
         [self handleSystemRequestProprietary:systemRequest];
-    } else if (requestType == [SDLRequestType LOCK_SCREEN_ICON_URL]) {
+    } else if ([requestType isEqualToEnum:SDLRequestTypeLockScreenIconURL]) {
         [self handleSystemRequestLockScreenIconURL:systemRequest];
-    } else if (requestType == [SDLRequestType HTTP]) {
+    } else if ([requestType isEqualToEnum:SDLRequestTypeHTTP]) {
         [self sdl_handleSystemRequestHTTP:systemRequest];
-    } else if (requestType == [SDLRequestType LAUNCH_APP]) {
+    } else if ([requestType isEqualToEnum:SDLRequestTypeLaunchApp]) {
         [self sdl_handleSystemRequestLaunchApp:systemRequest];
     }
 }
 
 - (void)handleSystemRequestResponse:(SDLRPCMessage *)message {
-    NSString *logMessage = [NSString stringWithFormat:@"SystemRequest (response)\n%@", message];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"SystemRequestResponse to be discarded");
 }
 
 
 #pragma mark Handle Post-Invoke of Delegate Methods
 - (void)handleAfterHMIStatus:(SDLRPCMessage *)message {
-    NSString *statusString = (NSString *)[message getParameters:NAMES_hmiLevel];
-    SDLHMILevel *hmiLevel = [SDLHMILevel valueOf:statusString];
+    SDLHMILevel hmiLevel = (SDLHMILevel)[message getParameters:SDLNameHMILevel];
     _lsm.hmiLevel = hmiLevel;
 
     SEL callbackSelector = NSSelectorFromString(@"onOnLockScreenNotification:");
@@ -439,7 +377,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 - (void)handleAfterDriverDistraction:(SDLRPCMessage *)message {
-    NSString *stateString = (NSString *)[message getParameters:NAMES_state];
+    NSString *stateString = (NSString *)[message getParameters:SDLNameState];
     BOOL state = [stateString isEqualToString:@"DD_ON"] ? YES : NO;
     _lsm.driverDistracted = state;
 
@@ -452,7 +390,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 - (void)sdl_handleSystemRequestLaunchApp:(SDLOnSystemRequest *)request {
     NSURL *URLScheme = [NSURL URLWithString:request.url];
     if (URLScheme == nil) {
-        [SDLDebugTool logInfo:[NSString stringWithFormat:@"Launch App failure: invalid URL sent from module: %@", request.url] withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        SDLLogW(@"System request LaunchApp failed: invalid URL sent from module: %@", request.url);
         return;
     }
     // If system version is less than 9.0 http://stackoverflow.com/a/5337804/1370927
@@ -466,12 +404,12 @@ const int POLICIES_CORRELATION_ID = 65535;
 }
 
 - (void)handleSystemRequestProprietary:(SDLOnSystemRequest *)request {
-    NSDictionary *JSONDictionary = [self validateAndParseSystemRequest:request];
+    NSDictionary<NSString *, id> *JSONDictionary = [self validateAndParseSystemRequest:request];
     if (JSONDictionary == nil || request.url == nil) {
         return;
     }
 
-    NSDictionary *requestData = JSONDictionary[@"HTTPRequest"];
+    NSDictionary<NSString *, id> *requestData = JSONDictionary[@"HTTPRequest"];
     NSString *bodyString = requestData[@"body"];
     NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
 
@@ -480,8 +418,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     NSData *policyData = [pdp unwrap:bodyData];
     if (policyData != nil) {
         [pdp parsePolicyData:policyData];
-        NSString *logMessage = [NSString stringWithFormat:@"Policy Data from Module\n%@", pdp];
-        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        SDLLogV(@"Policy data received");
     }
 
     // Send the HTTP Request
@@ -489,27 +426,23 @@ const int POLICIES_CORRELATION_ID = 65535;
     [self uploadForBodyDataDictionary:JSONDictionary
                             URLString:request.url
                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                        __strong typeof(weakSelf) strongSelf = weakSelf;
-                        NSString *logMessage = nil;
+                         __strong typeof(weakSelf) strongSelf = weakSelf;
 
                         if (error) {
-                            logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP response) = ERROR: %@", error];
-                            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+                            SDLLogW(@"OnSystemRequest HTTP response error: %@", error);
                             return;
                         }
 
                         if (data == nil || data.length == 0) {
-                            [SDLDebugTool logInfo:@"OnSystemRequest (HTTP response) failure: no data returned" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:strongSelf.debugConsoleGroupName];
+                            SDLLogW(@"OnSystemRequest HTTP response error: no data received");
                             return;
                         }
 
-                        // Show the HTTP response
-                        [SDLDebugTool logInfo:@"OnSystemRequest (HTTP response)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:strongSelf.debugConsoleGroupName];
-
                         // Create the SystemRequest RPC to send to module.
+                        SDLLogV(@"OnSystemRequest HTTP response");
                         SDLSystemRequest *request = [[SDLSystemRequest alloc] init];
-                        request.correlationID = [NSNumber numberWithInt:POLICIES_CORRELATION_ID];
-                        request.requestType = [SDLRequestType PROPRIETARY];
+                        request.correlationID = [NSNumber numberWithInt:PoliciesCorrelationId];
+                        request.requestType = SDLRequestTypeProprietary;
                         request.bulkData = data;
 
                         // Parse and display the policy data.
@@ -517,31 +450,27 @@ const int POLICIES_CORRELATION_ID = 65535;
                         NSData *policyData = [pdp unwrap:data];
                         if (policyData) {
                             [pdp parsePolicyData:policyData];
-                            logMessage = [NSString stringWithFormat:@"Policy Data from Cloud\n%@", pdp];
-                            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:strongSelf.debugConsoleGroupName];
+                            SDLLogV(@"Cloud policy data: %@", pdp);
                         }
 
-                        // Send and log RPC Request
-                        logMessage = [NSString stringWithFormat:@"SystemRequest (request)\n%@\nData length=%lu", [request serializeAsDictionary:2], (unsigned long)data.length];
-                        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:strongSelf.debugConsoleGroupName];
+                        // Send the RPC Request
                         [strongSelf sendRPC:request];
                     }];
 }
 
 - (void)handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
-    __weak typeof(self) weakSelf = self;
-    [[SDLURLSession defaultSession] dataFromURL:[NSURL URLWithString:request.url]
-                              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                  __strong typeof(weakSelf) strongSelf = weakSelf;
-                                  if (error != nil) {
-                                      NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest failure (HTTP response), download task failed: %@", error.localizedDescription];
-                                      [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
-                                      return;
-                                  }
-
-                                  UIImage *icon = [UIImage imageWithData:data];
-                                  [strongSelf invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:icon];
-                              }];
+	__weak typeof(self) weakSelf = self;
+    [self sdl_sendDataTaskWithURL:[NSURL URLWithString:request.url]
+                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+					__strong typeof(weakSelf) strongSelf = weakSelf;
+                    if (error != nil) {
+                        SDLLogW(@"OnSystemRequest (lock screen icon) HTTP download task failed: %@", error.localizedDescription);
+                        return;
+                    }
+                    
+                    UIImage *icon = [UIImage imageWithData:data];
+                    [strongSelf invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:icon];
+                }];
 }
 
 - (void)sdl_handleSystemRequestHTTP:(SDLOnSystemRequest *)request {
@@ -555,32 +484,27 @@ const int POLICIES_CORRELATION_ID = 65535;
               toURLString:request.url
         completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            NSString *logMessage = nil;
             if (error != nil) {
-                logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP response) = ERROR: %@", error.localizedDescription];
-                [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:strongSelf.debugConsoleGroupName];
+                SDLLogW(@"OnSystemRequest (HTTP) error: %@", error.localizedDescription);
                 return;
             }
 
             if (data.length == 0) {
-                [SDLDebugTool logInfo:@"OnSystemRequest (HTTP response) failure: no data returned" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:strongSelf.debugConsoleGroupName];
+                SDLLogW(@"OnSystemRequest (HTTP) error: no data returned");
                 return;
             }
 
             // Show the HTTP response
-            NSString *responseLogString = [NSString stringWithFormat:@"OnSystemRequest (HTTP) response: %@", response];
-            [SDLDebugTool logInfo:responseLogString withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:strongSelf.debugConsoleGroupName];
+            SDLLogV(@"OnSystemRequest (HTTP) response: %@", response);
 
             // Create the SystemRequest RPC to send to module.
             SDLPutFile *putFile = [[SDLPutFile alloc] init];
-            putFile.fileType = [SDLFileType JSON];
-            putFile.correlationID = @(POLICIES_CORRELATION_ID);
+            putFile.fileType = SDLFileTypeJSON;
+            putFile.correlationID = @(PoliciesCorrelationId);
             putFile.syncFileName = @"response_data";
             putFile.bulkData = data;
 
-            // Send and log RPC Request
-            logMessage = [NSString stringWithFormat:@"SystemRequest (request)\n%@\nData length=%lu", [request serializeAsDictionary:2], (unsigned long)data.length];
-            [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+            // Send RPC Request
             [strongSelf sendRPC:putFile];
         }];
 }
@@ -592,26 +516,26 @@ const int POLICIES_CORRELATION_ID = 65535;
  *
  *  @return A parsed JSON dictionary, or nil if it couldn't be parsed
  */
-- (NSDictionary *)validateAndParseSystemRequest:(SDLOnSystemRequest *)request {
+- (nullable NSDictionary<NSString *, id> *)validateAndParseSystemRequest:(SDLOnSystemRequest *)request {
     NSString *urlString = request.url;
-    SDLFileType *fileType = request.fileType;
+    SDLFileType fileType = request.fileType;
 
     // Validate input
     if (urlString == nil || [NSURL URLWithString:urlString] == nil) {
-        [SDLDebugTool logInfo:@"OnSystemRequest (notification) failure: url is nil" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        SDLLogW(@"OnSystemRequest validation failure: URL is nil");
         return nil;
     }
 
-    if (fileType != [SDLFileType JSON]) {
-        [SDLDebugTool logInfo:@"OnSystemRequest (notification) failure: file type is not JSON" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    if (![fileType isEqualToEnum:SDLFileTypeJSON]) {
+        SDLLogW(@"OnSystemRequest validation failure: file type is not JSON");
         return nil;
     }
 
     // Get data dictionary from the bulkData
     NSError *error = nil;
-    NSDictionary *JSONDictionary = [NSJSONSerialization JSONObjectWithData:request.bulkData options:kNilOptions error:&error];
+    NSDictionary<NSString *, id> *JSONDictionary = [NSJSONSerialization JSONObjectWithData:request.bulkData options:kNilOptions error:&error];
     if (error != nil) {
-        [SDLDebugTool logInfo:@"OnSystemRequest failure: notification data is not valid JSON." withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        SDLLogW(@"OnSystemRequest validation failure: data is not valid JSON");
         return nil;
     }
 
@@ -632,12 +556,10 @@ const int POLICIES_CORRELATION_ID = 65535;
     [request setValue:@"application/json" forHTTPHeaderField:@"content-type"];
     request.HTTPMethod = @"POST";
 
-    // Logging
-    NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP Request) to URL %@", urlString];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"OnSystemRequest (HTTP) upload task created for URL: %@", urlString);
 
     // Create the upload task
-    [[SDLURLSession defaultSession] uploadWithURLRequest:request data:data completionHandler:completionHandler];
+    [self sdl_sendUploadRequest:request withData:data completionHandler:completionHandler];
 }
 
 /**
@@ -647,13 +569,13 @@ const int POLICIES_CORRELATION_ID = 65535;
  *  @param urlString         A string containing the URL to send the upload to
  *  @param completionHandler A completion handler returning the response from the server to the upload task
  */
-- (void)uploadForBodyDataDictionary:(NSDictionary *)dictionary URLString:(NSString *)urlString completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
+- (void)uploadForBodyDataDictionary:(NSDictionary<NSString *, id> *)dictionary URLString:(NSString *)urlString completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
     NSParameterAssert(dictionary != nil);
     NSParameterAssert(urlString != nil);
     NSParameterAssert(completionHandler != NULL);
 
     // Extract data from the dictionary
-    NSDictionary *requestData = dictionary[@"HTTPRequest"];
+    NSDictionary<NSString *, id> *requestData = dictionary[@"HTTPRequest"];
     NSDictionary *headers = requestData[@"headers"];
     NSString *contentType = headers[@"ContentType"];
     NSTimeInterval timeout = [headers[@"ConnectTimeout"] doubleValue];
@@ -668,14 +590,29 @@ const int POLICIES_CORRELATION_ID = 65535;
     request.timeoutInterval = timeout;
     request.HTTPMethod = method;
 
-    // Logging
-    NSString *logMessage = [NSString stringWithFormat:@"OnSystemRequest (HTTP Request) to URL %@", urlString];
-    [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"OnSystemRequest (Proprietary) upload task created for URL: %@", urlString);
 
     // Create the upload task
-    [[SDLURLSession defaultSession] uploadWithURLRequest:request data:bodyData completionHandler:completionHandler];
+    [self sdl_sendUploadRequest:request withData:bodyData completionHandler:completionHandler];
 }
 
+- (void)sdl_sendUploadRequest:(NSURLRequest*)request withData:(NSData*)data completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
+    NSMutableURLRequest* mutableRequest = [request mutableCopy];
+    
+    if ([mutableRequest.URL.scheme isEqualToString:@"http"]) {
+        mutableRequest.URL = [NSURL URLWithString:[mutableRequest.URL.absoluteString stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
+    }
+    
+    [[self.urlSession uploadTaskWithRequest:request fromData:data completionHandler:completionHandler] resume];
+}
+
+- (void)sdl_sendDataTaskWithURL:(NSURL*)url completionHandler:(URLSessionTaskCompletionHandler)completionHandler {
+    if ([url.scheme isEqualToString:@"http"]) {
+        url = [NSURL URLWithString:[url.absoluteString stringByReplacingCharactersInRange:NSMakeRange(0, 4) withString:@"https"]];
+    }
+    
+    [[self.urlSession dataTaskWithURL:url completionHandler:completionHandler] resume];
+}
 
 #pragma mark - Delegate management
 
@@ -691,7 +628,7 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
-- (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(id)object {
+- (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(nullable id)object {
     dispatch_async(dispatch_get_main_queue(), ^{
         @autoreleasepool {
             for (id<SDLProxyListener> listener in self.proxyListeners) {
@@ -707,7 +644,7 @@ const int POLICIES_CORRELATION_ID = 65535;
 
 #pragma mark - System Request and SyncP handling
 
-- (void)sendEncodedSyncPData:(NSDictionary *)encodedSyncPData toURL:(NSString *)urlString withTimeout:(NSNumber *)timeout {
+- (void)sendEncodedSyncPData:(NSDictionary<NSString *, id> *)encodedSyncPData toURL:(NSString *)urlString withTimeout:(NSNumber *)timeout {
     // Configure HTTP URL & Request
     NSURL *url = [NSURL URLWithString:urlString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -717,45 +654,43 @@ const int POLICIES_CORRELATION_ID = 65535;
 
     // Prepare the data in the required format
     NSString *encodedSyncPDataString = [[NSString stringWithFormat:@"%@", encodedSyncPData] componentsSeparatedByString:@"\""][1];
-    NSArray *array = [NSArray arrayWithObject:encodedSyncPDataString];
-    NSDictionary *dictionary = @{ @"data": array };
+    NSArray<NSString *> *array = [NSArray arrayWithObject:encodedSyncPDataString];
+    NSDictionary<NSString *, id> *dictionary = @{ @"data": array };
     NSError *JSONSerializationError = nil;
     NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:&JSONSerializationError];
     if (JSONSerializationError) {
-        NSString *logMessage = [NSString stringWithFormat:@"Error formatting data for HTTP Request. %@", JSONSerializationError];
-        [SDLDebugTool logInfo:logMessage withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        SDLLogW(@"Error attempting to create SyncPData for HTTP request: %@", JSONSerializationError);
         return;
     }
 
     // Send the HTTP Request
     __weak typeof(self) weakSelf = self;
-    [[SDLURLSession defaultSession] uploadWithURLRequest:request
-                                                    data:data
-                                       completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                           __strong typeof(self) strongSelf = weakSelf;
-                                           [strongSelf syncPDataNetworkRequestCompleteWithData:data response:response error:error];
-                                       }];
+    [[self.urlSession uploadTaskWithRequest:request
+                                   fromData:data
+                          completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                                           [weakSelf syncPDataNetworkRequestCompleteWithData:data response:response error:error];
+                                       }] resume];
 
-    [SDLDebugTool logInfo:@"OnEncodedSyncPData (HTTP request)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"OnEncodedSyncPData (HTTP Request)");
 }
 
 // Handle the OnEncodedSyncPData HTTP Response
 - (void)syncPDataNetworkRequestCompleteWithData:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error {
     // Sample of response: {"data":["SDLKGLSDKFJLKSjdslkfjslkJLKDSGLKSDJFLKSDJF"]}
-    [SDLDebugTool logInfo:@"OnEncodedSyncPData (HTTP response)" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+    SDLLogV(@"OnEncodedSyncPData (HTTP Response): %@", response);
 
     // Validate response data.
     if (data == nil || data.length == 0) {
-        [SDLDebugTool logInfo:@"OnEncodedSyncPData (HTTP response) failure: no data returned" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+        SDLLogW(@"OnEncodedSyncPData (HTTP Response): no data returned");
         return;
     }
 
     // Convert data to RPCRequest
     NSError *JSONConversionError = nil;
-    NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&JSONConversionError];
+    NSDictionary<NSString *, id> *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&JSONConversionError];
     if (!JSONConversionError) {
         SDLEncodedSyncPData *request = [[SDLEncodedSyncPData alloc] init];
-        request.correlationID = [NSNumber numberWithInt:POLICIES_CORRELATION_ID];
+        request.correlationID = [NSNumber numberWithInt:PoliciesCorrelationId];
         request.data = [responseDictionary objectForKey:@"data"];
 
         [self sendRPC:request];
@@ -779,7 +714,7 @@ const int POLICIES_CORRELATION_ID = 65535;
             // Grab some bytes from the stream and send them in a SDLPutFile RPC Request
             NSUInteger currentStreamOffset = [[stream propertyForKey:NSStreamFileCurrentOffsetKey] unsignedIntegerValue];
 
-            NSMutableData *buffer = [NSMutableData dataWithLength:[[SDLGlobals globals] mtuSizeForServiceType:SDLServiceType_RPC]];
+            NSMutableData *buffer = [NSMutableData dataWithLength:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
             NSUInteger nBytesRead = [(NSInputStream *)stream read:(uint8_t *)buffer.mutableBytes maxLength:buffer.length];
             if (nBytesRead > 0) {
                 NSData *data = [buffer subdataWithRange:NSMakeRange(0, nBytesRead)];
@@ -804,7 +739,7 @@ const int POLICIES_CORRELATION_ID = 65535;
             break;
         }
         case NSStreamEventErrorOccurred: {
-            [SDLDebugTool logInfo:@"Stream Event: Error" withType:SDLDebugType_RPC toOutput:SDLDebugOutput_All toGroup:self.debugConsoleGroupName];
+            SDLLogE(@"NSStream error attempting to upload putfile stream: %lu", (unsigned long)eventCode);
             break;
         }
         default: {
@@ -813,14 +748,6 @@ const int POLICIES_CORRELATION_ID = 65535;
     }
 }
 
-
-#pragma mark - Siphon management
-+ (void)enableSiphonDebug {
-    [SDLSiphonServer enableSiphonDebug];
-}
-
-+ (void)disableSiphonDebug {
-    [SDLSiphonServer disableSiphonDebug];
-}
-
 @end
+
+NS_ASSUME_NONNULL_END

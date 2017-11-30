@@ -4,10 +4,10 @@
 
 #import "SDLRPCMessage.h"
 
-@interface SDLRPCNotification : SDLRPCMessage {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)initWithName:(NSString *)name;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLRPCNotification : SDLRPCMessage
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -14,24 +14,7 @@
  *
  * @since SDL 1.0
  */
-@interface SDLMediaClockFormat : SDLEnum {
-}
-
-/**
- * @abstract Media Clock Format
- *
- * @param value The value of the string to get an object for
- *
- * @return SDLMediaClockFormat
- */
-+ (SDLMediaClockFormat *)valueOf:(NSString *)value;
-
-/**
- * @abstract declare an array that store all possible Media clock formats inside
- *
- * @return the array
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLMediaClockFormat SDL_SWIFT_ENUM;
 
 /**
  * @abstract Media clock format: Clock1
@@ -42,10 +25,8 @@
  * <li>maxMinutes = 59</li>
  * <li>maxSeconds = 59</li>
  * </ul>
- *
-  * @return The SDLMediaClockFormat object with value *CLOCK1*
  */
-+ (SDLMediaClockFormat *)CLOCK1;
+extern SDLMediaClockFormat const SDLMediaClockFormatClock1;
 
 /**
  * @abstract Media clock format: Clock2
@@ -56,10 +37,8 @@
  * <li>maxMinutes = 59</li>
  * <li>maxSeconds = 59</li>
  * </ul>
- *
- * @return The SDLMediaClockFormat object with value *CLOCK2*
  */
-+ (SDLMediaClockFormat *)CLOCK2;
+extern SDLMediaClockFormat const SDLMediaClockFormatClock2;
 
 /**
  * @abstract Media clock format: Clock3
@@ -72,9 +51,8 @@
  * </ul>
  *
  * @since SDL 2.0
- * @return The SDLMediaClockFormat object with value *CLOCK3*
  */
-+ (SDLMediaClockFormat *)CLOCK3;
+extern SDLMediaClockFormat const SDLMediaClockFormatClock3;
 
 /**
  * @abstract Media clock format: ClockText1
@@ -89,10 +67,8 @@
  * <li>:|sp : colon or space</li>
  * <li>used for Type II headunit</li>
  * </ul>
- *
- * @return The SDLMediaClockFormat object with value *CLOCKTEXT1*
  */
-+ (SDLMediaClockFormat *)CLOCKTEXT1;
+extern SDLMediaClockFormat const SDLMediaClockFormatClockText1;
 
 /**
  * @abstract Media clock format: ClockText2
@@ -109,10 +85,8 @@
  * </ul>
  * difference between CLOCKTEXT1 and CLOCKTEXT2 is the supported character
  * set
- *
- * @return The SDLMediaClockFormat object with value *CLOCKTEXT2*
  */
-+ (SDLMediaClockFormat *)CLOCKTEXT2;
+extern SDLMediaClockFormat const SDLMediaClockFormatClockText2;
 
 /**
  * @abstract Media clock format: ClockText3
@@ -129,10 +103,8 @@
  * </ul>
  * difference between CLOCKTEXT1 and CLOCKTEXT2 is the supported character
  * set
- *
- * @return The SDLMediaClockFormat object with value *CLOCKTEXT3*
  */
-+ (SDLMediaClockFormat *)CLOCKTEXT3;
+extern SDLMediaClockFormat const SDLMediaClockFormatClockText3;
 
 /**
  * @abstract Media clock format: ClockText4
@@ -147,8 +119,5 @@
  * </ul>
  *
  * @since SDL 2.0
- * @return The SDLMediaClockFormat object with value *CLOCKTEXT4*
  */
-+ (SDLMediaClockFormat *)CLOCKTEXT4;
-
-@end
+extern SDLMediaClockFormat const SDLMediaClockFormatClockText4;

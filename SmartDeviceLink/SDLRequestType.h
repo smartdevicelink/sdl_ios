@@ -4,31 +4,25 @@
 
 #import "SDLEnum.h"
 
-@interface SDLRequestType : SDLEnum {
-}
+typedef SDLEnum SDLRequestType SDL_SWIFT_ENUM;
 
-+ (SDLRequestType *)valueOf:(NSString *)value;
-+ (NSArray *)values;
-
-+ (SDLRequestType *)HTTP;
-+ (SDLRequestType *)FILE_RESUME;
-+ (SDLRequestType *)AUTH_REQUEST;
-+ (SDLRequestType *)AUTH_CHALLENGE;
-+ (SDLRequestType *)AUTH_ACK;
-+ (SDLRequestType *)PROPRIETARY;
-+ (SDLRequestType *)QUERY_APPS;
-+ (SDLRequestType *)LAUNCH_APP;
-+ (SDLRequestType *)LOCK_SCREEN_ICON_URL;
-+ (SDLRequestType *)TRAFFIC_MESSAGE_CHANNEL;
-+ (SDLRequestType *)DRIVER_PROFILE;
-+ (SDLRequestType *)VOICE_SEARCH;
-+ (SDLRequestType *)NAVIGATION;
-+ (SDLRequestType *)PHONE;
-+ (SDLRequestType *)CLIMATE;
-+ (SDLRequestType *)SETTINGS;
-+ (SDLRequestType *)VEHICLE_DIAGNOSTICS;
-+ (SDLRequestType *)EMERGENCY;
-+ (SDLRequestType *)MEDIA;
-+ (SDLRequestType *)FOTA;
-
-@end
+extern SDLRequestType const SDLRequestTypeHTTP;
+extern SDLRequestType const SDLRequestTypeFileResume;
+extern SDLRequestType const SDLRequestTypeAuthenticationRequest;
+extern SDLRequestType const SDLRequestTypeAuthenticationChallenge;
+extern SDLRequestType const SDLRequestTypeAuthenticationAck;
+extern SDLRequestType const SDLRequestTypeProprietary;
+extern SDLRequestType const SDLRequestTypeQueryApps;
+extern SDLRequestType const SDLRequestTypeLaunchApp;
+extern SDLRequestType const SDLRequestTypeLockScreenIconURL;
+extern SDLRequestType const SDLRequestTypeTrafficMessageChannel;
+extern SDLRequestType const SDLRequestTypeDriverProfile;
+extern SDLRequestType const SDLRequestTypeVoiceSearch;
+extern SDLRequestType const SDLRequestTypeNavigation;
+extern SDLRequestType const SDLRequestTypePhone;
+extern SDLRequestType const SDLRequestTypeClimate;
+extern SDLRequestType const SDLRequestTypeSettings;
+extern SDLRequestType const SDLRequestTypeVehicleDiagnostics;
+extern SDLRequestType const SDLRequestTypeEmergency;
+extern SDLRequestType const SDLRequestTypeMedia;
+extern SDLRequestType const SDLRequestTypeFOTA;

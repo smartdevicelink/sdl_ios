@@ -4,17 +4,20 @@
 
 #import "SDLRPCResponse.h"
 
+@class SDLDIDResult;
+
 /**
  * Read DID Response is sent, when ReadDID has been called
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLReadDIDResponse : SDLRPCResponse {
-}
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
 
-@property (strong) NSMutableArray *didResult;
+@interface SDLReadDIDResponse : SDLRPCResponse
+
+@property (nullable, strong, nonatomic) NSArray<SDLDIDResult *> *didResult;
 
 @end
+
+NS_ASSUME_NONNULL_END

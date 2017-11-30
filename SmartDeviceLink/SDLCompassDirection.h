@@ -9,68 +9,44 @@
  *
  * @since SDL 2.0
  */
-@interface SDLCompassDirection : SDLEnum {
-}
-
-/**
- * @abstract Convert String to SDLCompassDirection
- * @param value The value of the string to get an object for
- * @return SDLCompassDirection
- */
-+ (SDLCompassDirection *)valueOf:(NSString *)value;
-
-/**
- * @abstract Store the enumeration of all possible SDLCompassDirection
- * @return An array that store all possible SDLCompassDirection
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLCompassDirection SDL_SWIFT_ENUM;
 
 /**
  * @abstract Direction North
- * @return A SDLCompassDirection with the value of *NORTH*
  */
-+ (SDLCompassDirection *)NORTH;
+extern SDLCompassDirection const SDLCompassDirectionNorth;
 
 /**
  * @abstract Direction Northwest
- * @return A SDLCompassDirection with the value of *NORTHWEST*
  */
-+ (SDLCompassDirection *)NORTHWEST;
+extern SDLCompassDirection const SDLCompassDirectionNorthwest;
 
 /**
  * @abstract Direction West
- * @return A SDLCompassDirection with the value of *WEST*
  */
-+ (SDLCompassDirection *)WEST;
+extern SDLCompassDirection const SDLCompassDirectionWest;
 
 /**
  * @abstract Direction Southwest
- * @return A SDLCompassDirection with the value of *SOUTHWEST*
  */
-+ (SDLCompassDirection *)SOUTHWEST;
+extern SDLCompassDirection const SDLCompassDirectionSouthwest;
 
 /**
  * @abstract Direction South
- * @return A SDLCompassDirection with the value of *SOUTH*
  */
-+ (SDLCompassDirection *)SOUTH;
+extern SDLCompassDirection const SDLCompassDirectionSouth;
 
 /**
  * @abstract Direction Southeast
- * @return A SDLCompassDirection with the value of *SOUTHEAST*
  */
-+ (SDLCompassDirection *)SOUTHEAST;
+extern SDLCompassDirection const SDLCompassDirectionSoutheast;
 
 /**
  * @abstract Direction East
- * @return A SDLCompassDirection with the value of *EAST*
  */
-+ (SDLCompassDirection *)EAST;
+extern SDLCompassDirection const SDLCompassDirectionEast;
 
 /**
  * @abstract Direction Northeast
- * @return A SDLCompassDirection with the value of *NORTHEAST*
  */
-+ (SDLCompassDirection *)NORTHEAST;
-
-@end
+extern SDLCompassDirection const SDLCompassDirectionNortheast;

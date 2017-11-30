@@ -4,18 +4,15 @@
 
 #import "SDLDeleteFile.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeleteFile
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_DeleteFile]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameDeleteFile]) {
     }
     return self;
 }
@@ -32,15 +29,13 @@
 }
 
 - (void)setSyncFileName:(NSString *)syncFileName {
-    if (syncFileName != nil) {
-        [parameters setObject:syncFileName forKey:NAMES_syncFileName];
-    } else {
-        [parameters removeObjectForKey:NAMES_syncFileName];
-    }
+    [parameters sdl_setObject:syncFileName forName:SDLNameSyncFileName];
 }
 
 - (NSString *)syncFileName {
-    return [parameters objectForKey:NAMES_syncFileName];
+    return [parameters sdl_objectForName:SDLNameSyncFileName];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

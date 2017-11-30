@@ -7,44 +7,24 @@
 /**
  * The SDLMaintenanceModeStatus class.
  */
-@interface SDLMaintenanceModeStatus : SDLEnum {
-}
-
-/**
- * @abstract Maintenance Mode Status
- * @param value The value of the string to get an object for
- * @return SDLMaintenanceModeStatus
- */
-+ (SDLMaintenanceModeStatus *)valueOf:(NSString *)value;
-
-/**
- * @abstract declare an array that store all possible Maintenance Mode Status inside
- * @return the array
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLMaintenanceModeStatus SDL_SWIFT_ENUM;
 
 /**
  * @abstract Maintenance Mode Status : Normal
- * @return the object with value of *NORMAL*
  */
-+ (SDLMaintenanceModeStatus *)NORMAL;
+extern SDLMaintenanceModeStatus const SDLMaintenanceModeStatusNormal;
 
 /**
  * @abstract Maintenance Mode Status : Near
- * @return the object with value of *NEAR*
  */
-+ (SDLMaintenanceModeStatus *)NEAR;
+extern SDLMaintenanceModeStatus const SDLMaintenanceModeStatusNear;
 
 /**
  * @abstract Maintenance Mode Status : Active
- * @return the object with value of *ACTIVE*
  */
-+ (SDLMaintenanceModeStatus *)ACTIVE;
+extern SDLMaintenanceModeStatus const SDLMaintenanceModeStatusActive;
 
 /**
  * @abstract Maintenance Mode Status : Feature not present
- * @return the object with value of *FEATURE_NOT_PRESENT*
  */
-+ (SDLMaintenanceModeStatus *)FEATURE_NOT_PRESENT;
-
-@end
+extern SDLMaintenanceModeStatus const SDLMaintenanceModeStatusFeatureNotPresent;

@@ -6,22 +6,13 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <CoreGraphics/CoreGraphics.h>
+#import <Foundation/Foundation.h>
 
+#import "NSNumber+NumberType.h"
 #import "SDLRPCStruct.h"
 
 @interface SDLRectangle : SDLRPCStruct
-
-/**
- *  @abstract Constructs a newly allocated SDLRectangle object
- */
-- (instancetype)init;
-
-/**
- *  @abstract Constructs a newly allocated SDLRectangle object indicated by the dictionary parameter
- *  @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
 
 /**
  Create a Rectangle
@@ -32,7 +23,7 @@
  @param height The height
  @return An new SDLRectangle object
  */
-- (instancetype)initWithX:(NSNumber *)x y:(NSNumber *)y width:(NSNumber *)width height:(NSNumber *)height;
+- (instancetype)initWithX:(float)x y:(float)y width:(float)width height:(float)height;
 
 /**
  Create a Rectangle from a CGRect
@@ -43,28 +34,27 @@
 - (instancetype)initWithCGRect:(CGRect)rect;
 
 /**
- *  The upper left X-coordinate of the rectangle
+ *  The X-coordinate of the user control
  *  Required, Float
  */
-@property (strong, nonatomic) NSNumber *x;
+@property (strong, nonatomic) NSNumber<SDLFloat> *x;
 
 /**
- *  The upper left Y-coordinate of the rectangle
+ *  The Y-coordinate of the user control
  *  Required, Float
  */
-@property (strong, nonatomic) NSNumber *y;
+@property (strong, nonatomic) NSNumber<SDLFloat> *y;
 
 /**
- *  The width of the rectangle
+ *  The width of the user control's bounding rectangle
  *  Required, Float
  */
-@property (strong, nonatomic) NSNumber *width;
+@property (strong, nonatomic) NSNumber<SDLFloat> *width;
 
 /**
- *  The height of the rectangle
+ *  The height of the user control's bounding rectangle
  *  Required, Float
  */
-@property (strong, nonatomic) NSNumber *height;
-
+@property (strong, nonatomic) NSNumber<SDLFloat> *height;
 
 @end

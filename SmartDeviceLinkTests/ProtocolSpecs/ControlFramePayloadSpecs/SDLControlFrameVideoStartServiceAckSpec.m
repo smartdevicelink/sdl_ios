@@ -16,16 +16,16 @@ describe(@"Test encoding data", ^{
     __block int64_t testMTU = SDLControlFrameInt64NotFound;
     __block int32_t testHeight = SDLControlFrameInt32NotFound;
     __block int32_t testWidth = SDLControlFrameInt32NotFound;
-    __block SDLVideoStreamingCodec *testCodec = nil;
-    __block SDLVideoStreamingProtocol *testProtocol = nil;
+    __block SDLVideoStreamingCodec testCodec = nil;
+    __block SDLVideoStreamingProtocol testProtocol = nil;
 
     context(@"with paramaters", ^{
         beforeEach(^{
             testMTU = 1247988;
             testHeight = 5974;
             testWidth = 36;
-            testCodec = [SDLVideoStreamingCodec H264];
-            testProtocol = [SDLVideoStreamingProtocol RAW];
+            testCodec = SDLVideoStreamingCodecH264;
+            testProtocol = SDLVideoStreamingProtocolRAW;
 
             testPayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:testHeight width:testWidth protocol:testProtocol codec:testCodec];
         });
@@ -58,15 +58,15 @@ describe(@"Test decoding data", ^{
     __block int64_t testMTU = SDLControlFrameInt64NotFound;
     __block int32_t testHeight = SDLControlFrameInt32NotFound;
     __block int32_t testWidth = SDLControlFrameInt32NotFound;
-    __block SDLVideoStreamingCodec *testCodec = nil;
-    __block SDLVideoStreamingProtocol *testProtocol = nil;
+    __block SDLVideoStreamingCodec testCodec = nil;
+    __block SDLVideoStreamingProtocol testProtocol = nil;
 
     beforeEach(^{
         testMTU = 4584651;
         testHeight = 787;
         testWidth = 36365;
-        testCodec = [SDLVideoStreamingCodec VP8];
-        testProtocol = [SDLVideoStreamingProtocol RTSP];
+        testCodec = SDLVideoStreamingCodecVP8;
+        testProtocol = SDLVideoStreamingProtocolRTSP;
 
         SDLControlFramePayloadVideoStartServiceAck *firstPayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:testHeight width:testWidth protocol:testProtocol codec:testCodec];
         testData = firstPayload.data;

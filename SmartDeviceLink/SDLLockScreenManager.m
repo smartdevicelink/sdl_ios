@@ -9,7 +9,7 @@
 #import "SDLLockScreenManager.h"
 
 #import "NSBundle+SDLBundle.h"
-#import "SDLDebugTool.h"
+#import "SDLLogMacros.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenStatus.h"
 #import "SDLLockScreenViewController.h"
@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
         @try {
             viewController = [[UIStoryboard storyboardWithName:@"SDLLockScreen" bundle:[NSBundle sdlBundle]] instantiateInitialViewController];
         } @catch (NSException *exception) {
-            [SDLDebugTool logInfo:@"SDL Error: Attempted to instantiate the default SDL Lock Screen and could not find the storyboard. Be sure the 'SmartDeviceLink' bundle is within your main bundle. We're just going to return without instantiating the lock screen."];
+            SDLLogE(@"Attempted to instantiate the default SDL Lock Screen and could not find the storyboard. Be sure the 'SmartDeviceLink' bundle is within your main bundle. We're just going to return without instantiating the lock screen");
             return;
         }
 
@@ -93,8 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Notification Selectors
 
 - (void)sdl_lockScreenStatusDidChange:(SDLRPCNotificationNotification *)notification {
-    NSAssert([notification.notification isKindOfClass:[SDLOnLockScreenStatus class]], @"A notification was sent with an unanticipated object");
-    if (![notification.notification isKindOfClass:[SDLOnLockScreenStatus class]]) {
+    if (![notification isNotificationMemberOfClass:[SDLOnLockScreenStatus class]]) {
         return;
     }
 
@@ -129,17 +128,17 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Present the VC depending on the lock screen status
-    if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus REQUIRED]]) {
+    if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
         if (!self.presenter.presented && self.canPresent) {
             [self.presenter present];
         }
-    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OPTIONAL]]) {
+    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
         if (self.config.showInOptionalState && !self.presenter.presented && self.canPresent) {
             [self.presenter present];
         } else if (self.presenter.presented) {
             [self.presenter dismiss];
         }
-    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OFF]]) {
+    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOff]) {
         if (self.presenter.presented) {
             [self.presenter dismiss];
         }

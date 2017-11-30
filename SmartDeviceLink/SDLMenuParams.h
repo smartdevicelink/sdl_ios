@@ -9,19 +9,10 @@
  *
  * @since SDL 1.0
  */
-@interface SDLMenuParams : SDLRPCStruct {
-}
 
-/**
- * Constructs a newly allocated SDLMenuParams object
- */
-- (instancetype)init;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * Constructs a newly allocated SDLMenuParams object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLMenuParams : SDLRPCStruct
 
 - (instancetype)initWithMenuName:(NSString *)menuName;
 
@@ -33,7 +24,7 @@
  *
  * Optional, Integer, 0 - 2,000,000,000
  */
-@property (strong) NSNumber *parentID;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *parentID;
 
 /**
  * @abstract The position within the items of the parent Command Menu
@@ -47,13 +38,15 @@
  *
  * Optional, Integer, 0 - 1000
  */
-@property (strong) NSNumber *position;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *position;
 
 /**
  * @abstract the menu name which appears in menu, representing this command
  * 
  * Required, max length 500 characters
  */
-@property (strong) NSString *menuName;
+@property (strong, nonatomic) NSString *menuName;
 
 @end
+
+NS_ASSUME_NONNULL_END

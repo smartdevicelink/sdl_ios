@@ -3,81 +3,47 @@
 
 #import "SDLTextField.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLCharacterSet.h"
 #import "SDLNames.h"
 #import "SDLTextFieldName.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTextField
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
+- (void)setName:(SDLTextFieldName)name {
+    [store sdl_setObject:name forName:SDLNameName];
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (SDLTextFieldName)name {
+    return [store sdl_objectForName:SDLNameName];
 }
 
-- (void)setName:(SDLTextFieldName *)name {
-    if (name != nil) {
-        [store setObject:name forKey:NAMES_name];
-    } else {
-        [store removeObjectForKey:NAMES_name];
-    }
+- (void)setCharacterSet:(SDLCharacterSet)characterSet {
+    [store sdl_setObject:characterSet forName:SDLNameCharacterSet];
 }
 
-- (SDLTextFieldName *)name {
-    NSObject *obj = [store objectForKey:NAMES_name];
-    if (obj == nil || [obj isKindOfClass:SDLTextFieldName.class]) {
-        return (SDLTextFieldName *)obj;
-    } else {
-        return [SDLTextFieldName valueOf:(NSString *)obj];
-    }
+- (SDLCharacterSet)characterSet {
+    return [store sdl_objectForName:SDLNameCharacterSet];
 }
 
-- (void)setCharacterSet:(SDLCharacterSet *)characterSet {
-    if (characterSet != nil) {
-        [store setObject:characterSet forKey:NAMES_characterSet];
-    } else {
-        [store removeObjectForKey:NAMES_characterSet];
-    }
+- (void)setWidth:(NSNumber<SDLInt> *)width {
+    [store sdl_setObject:width forName:SDLNameWidth];
 }
 
-- (SDLCharacterSet *)characterSet {
-    NSObject *obj = [store objectForKey:NAMES_characterSet];
-    if (obj == nil || [obj isKindOfClass:SDLCharacterSet.class]) {
-        return (SDLCharacterSet *)obj;
-    } else {
-        return [SDLCharacterSet valueOf:(NSString *)obj];
-    }
+- (NSNumber<SDLInt> *)width {
+    return [store sdl_objectForName:SDLNameWidth];
 }
 
-- (void)setWidth:(NSNumber *)width {
-    if (width != nil) {
-        [store setObject:width forKey:NAMES_width];
-    } else {
-        [store removeObjectForKey:NAMES_width];
-    }
+- (void)setRows:(NSNumber<SDLInt> *)rows {
+    [store sdl_setObject:rows forName:SDLNameRows];
 }
 
-- (NSNumber *)width {
-    return [store objectForKey:NAMES_width];
-}
-
-- (void)setRows:(NSNumber *)rows {
-    if (rows != nil) {
-        [store setObject:rows forKey:NAMES_rows];
-    } else {
-        [store removeObjectForKey:NAMES_rows];
-    }
-}
-
-- (NSNumber *)rows {
-    return [store objectForKey:NAMES_rows];
+- (NSNumber<SDLInt> *)rows {
+    return [store sdl_objectForName:SDLNameRows];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

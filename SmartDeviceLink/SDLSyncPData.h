@@ -4,10 +4,10 @@
 
 #import "SDLRPCRequest.h"
 
-@interface SDLSyncPData : SDLRPCRequest {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLSyncPData : SDLRPCRequest
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -4,7 +4,7 @@
 
 #import "SDLV2ProtocolHeader.h"
 
-const int V2PROTOCOL_HEADERSIZE = 12;
+const int ProtocolV2HeaderByteSize = 12;
 
 
 @interface SDLV2ProtocolHeader ()
@@ -22,14 +22,14 @@ const int V2PROTOCOL_HEADERSIZE = 12;
 - (instancetype)initWithVersion:(UInt8)version {
     if (self = [super init]) {
         _version = version;
-        _size = V2PROTOCOL_HEADERSIZE;
+        _size = ProtocolV2HeaderByteSize;
     }
     return self;
 }
 
 - (NSData *)data {
     // Assembles the properties in the binary header format
-    Byte headerBytes[V2PROTOCOL_HEADERSIZE] = {0};
+    Byte headerBytes[ProtocolV2HeaderByteSize] = {0};
 
     Byte version = (self.version & 0xF) << 4; // first 4 bits
     Byte encrypted = (self.encrypted ? 1 : 0) << 3; // next 1 bit
@@ -48,7 +48,7 @@ const int V2PROTOCOL_HEADERSIZE = 12;
     *p = CFSwapInt32HostToBig(self.messageID);
 
     // Now put it all in an NSData object.
-    NSData *dataOut = [NSData dataWithBytes:headerBytes length:V2PROTOCOL_HEADERSIZE];
+    NSData *dataOut = [NSData dataWithBytes:headerBytes length:ProtocolV2HeaderByteSize];
 
     return dataOut;
 }
@@ -87,22 +87,22 @@ const int V2PROTOCOL_HEADERSIZE = 12;
 - (NSString *)description {
     NSString *frameTypeString = nil;
     if (self.frameType >= 0 && self.frameType <= 3) {
-        NSArray *frameTypeNames = @[@"Control", @"Single", @"First", @"Consecutive"];
+        NSArray<NSString *> *frameTypeNames = @[@"Control", @"Single", @"First", @"Consecutive"];
         frameTypeString = frameTypeNames[self.frameType];
     }
 
 
     NSString *frameDataString = nil;
-    if (self.frameType == SDLFrameType_Control) {
+    if (self.frameType == SDLFrameTypeControl) {
         if (self.frameData >= 0 && self.frameData <= 5) {
             NSArray *controlFrameDataNames = @[@"Heartbeat", @"StartSession", @"StartSessionACK", @"StartSessionNACK", @"EndSession", @"EndSessionACK", @"EndSessionNACK"];
             frameDataString = controlFrameDataNames[self.frameData];
         } else {
             frameDataString = @"Reserved";
         }
-    } else if (self.frameType == SDLFrameType_Single || self.frameType == SDLFrameType_First) {
+    } else if (self.frameType == SDLFrameTypeSingle || self.frameType == SDLFrameTypeFirst) {
         frameDataString = @"Reserved";
-    } else if (self.frameType == SDLFrameType_Consecutive) {
+    } else if (self.frameType == SDLFrameTypeConsecutive) {
         frameDataString = @"Frame#";
     }
 

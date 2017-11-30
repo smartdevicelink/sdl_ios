@@ -9,18 +9,11 @@
  *
  * Since SmartDeviceLink 1.0
  */
-@interface SDLResetGlobalPropertiesResponse : SDLRPCResponse {
-}
 
-/**
- * @abstract Constructs a new SDLResetGlobalPropertiesResponse object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLResetGlobalPropertiesResponse object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLResetGlobalPropertiesResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -3,8 +3,7 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLDriverDistractionState;
-
+#import "SDLDriverDistractionState.h"
 
 /**
  * Notifies the application of the current driver distraction state (whether driver distraction rules are in effect, or
@@ -23,24 +22,16 @@
  *
  * @since SDL 1.0
  */
-@interface SDLOnDriverDistraction : SDLRPCNotification {
-}
 
-/**
- * Constructs a newly allocated SDLOnDriverDistraction object
- */
-- (instancetype)init;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * Constructs a newly allocated SDLOnDriverDistraction object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLOnDriverDistraction : SDLRPCNotification
 
 /**
  * @abstract The driver distraction state (i.e. whether driver distraction rules are in effect, or not)
  */
-@property (strong) SDLDriverDistractionState *state;
+@property (strong, nonatomic) SDLDriverDistractionState state;
 
 @end
+
+NS_ASSUME_NONNULL_END

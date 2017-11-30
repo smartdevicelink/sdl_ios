@@ -27,12 +27,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_notification:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_data:[@[@0] mutableCopy],
-                                                   NAMES_URL:@"www.zombo.com",
-                                                   NAMES_Timeout:@564},
-                                             NAMES_operation_name:NAMES_OnEncodedSyncPData}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameData:[@[@0] mutableCopy],
+                                                                   SDLNameURLUppercase:@"www.zombo.com",
+                                                                   SDLNameTimeoutCapitalized:@564},
+                                                             SDLNameOperationName:SDLNameOnEncodedSyncPData}} mutableCopy];
         SDLOnEncodedSyncPData* testNotification = [[SDLOnEncodedSyncPData alloc] initWithDictionary:dict];
         
         expect(testNotification.data).to(equal([@[@0] mutableCopy]));

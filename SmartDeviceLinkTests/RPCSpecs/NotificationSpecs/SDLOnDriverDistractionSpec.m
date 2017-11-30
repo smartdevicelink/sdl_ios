@@ -18,19 +18,19 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLOnDriverDistraction* testNotification = [[SDLOnDriverDistraction alloc] init];
         
-        testNotification.state = [SDLDriverDistractionState DD_ON];
+        testNotification.state = SDLDriverDistractionStateOn;
         
-        expect(testNotification.state).to(equal([SDLDriverDistractionState DD_ON]));
+        expect(testNotification.state).to(equal(SDLDriverDistractionStateOn));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_notification:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_state:[SDLDriverDistractionState DD_ON]},
-                                             NAMES_operation_name:NAMES_OnDriverDistraction}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameNotification:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameState:SDLDriverDistractionStateOn},
+                                             SDLNameOperationName:SDLNameOnDriverDistraction}} mutableCopy];
         SDLOnDriverDistraction* testNotification = [[SDLOnDriverDistraction alloc] initWithDictionary:dict];
         
-        expect(testNotification.state).to(equal([SDLDriverDistractionState DD_ON]));
+        expect(testNotification.state).to(equal(SDLDriverDistractionStateOn));
     });
     
     it(@"Should return nil if not set", ^ {

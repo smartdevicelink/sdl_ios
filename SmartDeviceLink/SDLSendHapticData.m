@@ -2,29 +2,26 @@
 //  SDLSendHapticData.m
 //  SmartDeviceLink-iOS
 //
-//  Created by Nicole on 8/2/17.
+//  Created by Nicole on 8/3/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLSendHapticData.h"
 #import "SDLHapticRect.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLSendHapticData
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_SendHapticData]) {
+    if (self = [super initWithName:SDLNameSendHapticData]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithHapticRectData:(NSMutableArray *)hapticRectData {
+- (instancetype)initWithHapticRectData:(NSArray<SDLHapticRect *> *)hapticRectData {
     self = [self init];
     if (!self) {
         return nil;
@@ -35,27 +32,14 @@
     return self;
 }
 
-- (void)setHapticRectData:(NSMutableArray *)hapticRectData {
-    if (hapticRectData != nil) {
-        [parameters setObject:hapticRectData forKey:NAMES_hapticRectData];
-    } else {
-        [parameters removeObjectForKey:NAMES_hapticRectData];
-    }
+- (void)setHapticRectData:(nullable NSArray<SDLHapticRect *> *)hapticRectData {
+    [parameters sdl_setObject:hapticRectData forName:SDLNameHapticRectData];
 }
 
-- (NSMutableArray *)hapticRectData {
-    NSMutableArray *array = [parameters objectForKey:NAMES_hapticRectData];
-    if ([array isEqual:[NSNull null]]) {
-        return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLHapticRect.class]) {
-        return array;
-    } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLHapticRect alloc] initWithDictionary:(NSMutableDictionary *) dict]];
-        }
-        return newList;
-    }
+- (nullable NSArray<SDLHapticRect *> *)hapticRectData {
+    return [parameters sdl_objectsForName:SDLNameHapticRectData ofClass:SDLHapticRect.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

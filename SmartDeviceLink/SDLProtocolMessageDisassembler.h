@@ -5,9 +5,12 @@
 
 @class SDLProtocolMessage;
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLProtocolMessageDisassembler : NSObject
 
-+ (NSArray *)disassemble:(SDLProtocolMessage *)protocolMessage withLimit:(NSUInteger)mtu;
++ (NSArray<SDLProtocolMessage *> *)disassemble:(SDLProtocolMessage *)protocolMessage withLimit:(NSUInteger)mtu;
 
 @end
+
+NS_ASSUME_NONNULL_END

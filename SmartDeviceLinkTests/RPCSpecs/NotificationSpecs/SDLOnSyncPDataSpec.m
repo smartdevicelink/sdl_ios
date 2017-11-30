@@ -25,11 +25,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_notification:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_URL:@"https://www.youtube.com/watch?v=ygr5AHufBN4",
-                                                   NAMES_Timeout:@8357},
-                                             NAMES_operation_name:NAMES_OnSyncPData}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameURLUppercase:@"https://www.youtube.com/watch?v=ygr5AHufBN4",
+                                                                   SDLNameTimeoutCapitalized:@8357},
+                                                             SDLNameOperationName:SDLNameOnSyncPData}} mutableCopy];
         SDLOnSyncPData* testNotification = [[SDLOnSyncPData alloc] initWithDictionary:dict];
         
         expect(testNotification.URL).to(equal(@"https://www.youtube.com/watch?v=ygr5AHufBN4"));

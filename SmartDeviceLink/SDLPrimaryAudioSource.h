@@ -9,64 +9,39 @@
  *
  * @since SDL 2.0
  */
-@interface SDLPrimaryAudioSource : SDLEnum {
-}
-
-/**
- * @abstract get SDLPrimaryAudioSource according value string
- *
- * @param value String value to retrieve the object enum for
- *
- * @return SDLPrimaryAudioSource object
- */
-+ (SDLPrimaryAudioSource *)valueOf:(NSString *)value;
-
-/**
- * @abstract declare an array to store all possible SDLPrimaryAudioSource values
- * @return the array
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLPrimaryAudioSource SDL_SWIFT_ENUM;
 
 /**
  * @abstract Currently no source selected
- * @return the current primary audio source: *NO_SOURCE_SELECTED*
  */
-+ (SDLPrimaryAudioSource *)NO_SOURCE_SELECTED;
+extern SDLPrimaryAudioSource const SDLPrimaryAudioSourceNoSourceSelected;
 
 /**
  * @abstract USB is current source
- * @return the current primary audio source: *USB*
  */
-+ (SDLPrimaryAudioSource *)USB;
+extern SDLPrimaryAudioSource const SDLPrimaryAudioSourceUSB;
 
 /**
  * @abstract USB2 is current source
- * @return the current primary audio source: *USB2*
  */
-+ (SDLPrimaryAudioSource *)USB2;
+extern SDLPrimaryAudioSource const SDLPrimaryAudioSourceUSB2;
 
 /**
  * @abstract Bluetooth Stereo is current source
- * @return the current primary audio source: *BLUETOOTH_STEREO_BTST*
  */
-+ (SDLPrimaryAudioSource *)BLUETOOTH_STEREO_BTST;
+extern SDLPrimaryAudioSource const SDLPrimaryAudioSourceBluetoothStereo;
 
 /**
  * @abstract Line in is current source
- * @return the current primary audio source: *LINE_IN*
  */
-+ (SDLPrimaryAudioSource *)LINE_IN;
+extern SDLPrimaryAudioSource const SDLPrimaryAudioSourceLineIn;
 
 /**
  * @abstract iPod is current source
- * @return the current primary audio source: *IPOD*
  */
-+ (SDLPrimaryAudioSource *)IPOD;
+extern SDLPrimaryAudioSource const SDLPrimaryAudioSourceIpod;
 
 /**
  * @abstract Mobile app is current source
- * @return the current primary audio source: *MOBILE_APP*
  */
-+ (SDLPrimaryAudioSource *)MOBILE_APP;
-
-@end
+extern SDLPrimaryAudioSource const SDLPrimaryAudioSourceMobileApp;

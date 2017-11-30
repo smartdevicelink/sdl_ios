@@ -9,135 +9,84 @@
  *
  * @since SDL 2.0
  */
-@interface SDLPRNDL : SDLEnum {
-}
-
-/**
- * @abstract get SDLPRNDL according value string
- *
- * @param value The value of the string to get an object for
- *
- * @return SDLPRNDL object
- */
-+ (SDLPRNDL *)valueOf:(NSString *)value;
-
-/**
- * @abstract declare an array to store all possible SDLPRNDL values
- *
- * @return the array
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLPRNDL SDL_SWIFT_ENUM;
 
 /**
  *  @abstract Park
- *
- *  @return SDLPRNDL: *PARK*
  */
-+ (SDLPRNDL *)PARK;
+extern SDLPRNDL const SDLPRNDLPark;
 
 /**
  *  @abstract Reverse gear
- *
- *  @return SDLPRNDL: *REVERSE*
  */
-+ (SDLPRNDL *)REVERSE;
+extern SDLPRNDL const SDLPRNDLReverse;
 
 /**
  *  @abstract No gear
- *
- *  @return SDLPRNDL: *NEUTRAL*
  */
-+ (SDLPRNDL *)NEUTRAL;
+extern SDLPRNDL const SDLPRNDLNeutral;
 
 /**
  *  @abstract: Drive gear
- *
- *  @return SDLPRNDL: *DRIVE*
  */
-+ (SDLPRNDL *)DRIVE;
+extern SDLPRNDL const SDLPRNDLDrive;
 
 /**
  * @abstract Drive Sport mode
- *
- * @return SDLPRNDL: *SPORT*
  */
-+ (SDLPRNDL *)SPORT;
+extern SDLPRNDL const SDLPRNDLSport;
 
 /**
  * @abstract 1st gear hold
- *
- * @return SDLPRNDL: *LOWGEAR*
  */
-+ (SDLPRNDL *)LOWGEAR;
+extern SDLPRNDL const SDLPRNDLLowGear;
 
 /**
  * @abstract First gear
- *
- * @return SDLPRNDL: *FIRST*
  */
-+ (SDLPRNDL *)FIRST;
+extern SDLPRNDL const SDLPRNDLFirst;
 
 /**
  * @abstract Second gear
- *
- * @return SDLPRNDL: *SECOND*
  */
-+ (SDLPRNDL *)SECOND;
+extern SDLPRNDL const SDLPRNDLSecond;
 
 /**
  * @abstract Third gear
- *
- * @return SDLPRNDL: *THIRD*
  */
-+ (SDLPRNDL *)THIRD;
+extern SDLPRNDL const SDLPRNDLThird;
 
 /**
  * @abstract Fourth gear
- *
- * @return SDLPRNDL: *FOURTH*
  */
-+ (SDLPRNDL *)FOURTH;
+extern SDLPRNDL const SDLPRNDLFourth;
 
 /**
  * @abstract Fifth gear
- *
- * @return SDLPRNDL: *FIFTH*
  */
-+ (SDLPRNDL *)FIFTH;
+extern SDLPRNDL const SDLPRNDLFifth;
 
 /**
  * @abstract Sixth gear
- *
- * @return SDLPRNDL: *SIXTH*
  */
-+ (SDLPRNDL *)SIXTH;
+extern SDLPRNDL const SDLPRNDLSixth;
 
 /**
  * @abstract Seventh gear
- *
- * @return SDLPRNDL: *SEVENTH*
  */
-+ (SDLPRNDL *)SEVENTH;
+extern SDLPRNDL const SDLPRNDLSeventh;
 
 /**
  * @abstract Eighth gear
- *
- * @return SDLPRNDL: *EIGHTH*
  */
-+ (SDLPRNDL *)EIGHTH;
+extern SDLPRNDL const SDLPRNDLEighth;
 
 /**
  * @abstract Unknown
- *
- * @return SDLPRNDL: *UNKNOWN*
  */
-+ (SDLPRNDL *)UNKNOWN;
+extern SDLPRNDL const SDLPRNDLUnknown;
 
 /**
  * @abstract Fault
- *
- * @return SDLPRNDL: *FAULT*
  */
-+ (SDLPRNDL *)FAULT;
-
-@end
+extern SDLPRNDL const SDLPRNDLFault;

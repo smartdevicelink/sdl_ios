@@ -23,7 +23,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_onScreenPresetsAvailable:@YES} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameOnScreenPresetsAvailable:@YES} mutableCopy];
         SDLPresetBankCapabilities* testStruct = [[SDLPresetBankCapabilities alloc] initWithDictionary:dict];
         
         expect(testStruct.onScreenPresetsAvailable).to(equal(@YES));

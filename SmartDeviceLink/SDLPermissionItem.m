@@ -3,69 +3,39 @@
 
 #import "SDLPermissionItem.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLHMIPermissions.h"
 #import "SDLNames.h"
 #import "SDLParameterPermissions.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPermissionItem
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setRpcName:(NSString *)rpcName {
-    if (rpcName != nil) {
-        [store setObject:rpcName forKey:NAMES_rpcName];
-    } else {
-        [store removeObjectForKey:NAMES_rpcName];
-    }
+    [store sdl_setObject:rpcName forName:SDLNameRPCName];
 }
 
 - (NSString *)rpcName {
-    return [store objectForKey:NAMES_rpcName];
+    return [store sdl_objectForName:SDLNameRPCName];
 }
 
 - (void)setHmiPermissions:(SDLHMIPermissions *)hmiPermissions {
-    if (hmiPermissions != nil) {
-        [store setObject:hmiPermissions forKey:NAMES_hmiPermissions];
-    } else {
-        [store removeObjectForKey:NAMES_hmiPermissions];
-    }
+    [store sdl_setObject:hmiPermissions forName:SDLNameHMIPermissions];
 }
 
 - (SDLHMIPermissions *)hmiPermissions {
-    NSObject *obj = [store objectForKey:NAMES_hmiPermissions];
-    if (obj == nil || [obj isKindOfClass:SDLHMIPermissions.class]) {
-        return (SDLHMIPermissions *)obj;
-    } else {
-        return [[SDLHMIPermissions alloc] initWithDictionary:(NSMutableDictionary *)obj];
-    }
+    return [store sdl_objectForName:SDLNameHMIPermissions ofClass:SDLHMIPermissions.class];
 }
 
 - (void)setParameterPermissions:(SDLParameterPermissions *)parameterPermissions {
-    if (parameterPermissions != nil) {
-        [store setObject:parameterPermissions forKey:NAMES_parameterPermissions];
-    } else {
-        [store removeObjectForKey:NAMES_parameterPermissions];
-    }
+    [store sdl_setObject:parameterPermissions forName:SDLNameParameterPermissions];
 }
 
 - (SDLParameterPermissions *)parameterPermissions {
-    NSObject *obj = [store objectForKey:NAMES_parameterPermissions];
-    if (obj == nil || [obj isKindOfClass:SDLParameterPermissions.class]) {
-        return (SDLParameterPermissions *)obj;
-    } else {
-        return [[SDLParameterPermissions alloc] initWithDictionary:(NSMutableDictionary *)obj];
-    }
+    return [store sdl_objectForName:SDLNameParameterPermissions ofClass:SDLParameterPermissions.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

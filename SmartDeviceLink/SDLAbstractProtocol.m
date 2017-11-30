@@ -4,6 +4,7 @@
 
 #import "SDLRPCMessage.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAbstractProtocol
 
@@ -16,27 +17,11 @@
 }
 
 // Implement in subclasses.
-- (void)sendStartSessionWithType:(SDLServiceType)serviceType {
+- (void)startServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload {
     [self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)startServiceWithType:(SDLServiceType)serviceType {
-    [self doesNotRecognizeSelector:_cmd];
-}
-
-- (void)startServiceWithType:(SDLServiceType)serviceType payload:(NSData *)payload {
-    [self doesNotRecognizeSelector:_cmd];
-}
-
-- (void)startSecureServiceWithType:(SDLServiceType)serviceType completionHandler:(void (^)(BOOL, NSError *))completionHandler {
-    [self doesNotRecognizeSelector:_cmd];
-}
-
-- (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(NSData *)payload completionHandler:(void (^)(BOOL, NSError *))completionHandler {
-    [self doesNotRecognizeSelector:_cmd];
-}
-
-- (void)sendEndSessionWithType:(SDLServiceType)serviceType {
+- (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload completionHandler:(void (^)(BOOL, NSError *))completionHandler {
     [self doesNotRecognizeSelector:_cmd];
 }
 
@@ -53,14 +38,6 @@
     return NO;
 }
 
-- (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest {
-    [self doesNotRecognizeSelector:_cmd];
-}
-
-- (void)sendHeartbeat {
-    [self doesNotRecognizeSelector:_cmd];
-}
-
 - (void)handleBytesFromTransport:(NSData *)receivedData {
     [self doesNotRecognizeSelector:_cmd];
 }
@@ -69,15 +46,7 @@
     [self doesNotRecognizeSelector:_cmd];
 }
 
-- (void)sendRawDataStream:(NSInputStream *)inputStream withServiceType:(SDLServiceType)serviceType {
-    [self doesNotRecognizeSelector:_cmd];
-}
-
 - (void)sendEncryptedRawData:(NSData *)data onService:(SDLServiceType)serviceType {
-    [self doesNotRecognizeSelector:_cmd];
-}
-
-- (void)dispose {
     [self doesNotRecognizeSelector:_cmd];
 }
 
@@ -104,3 +73,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

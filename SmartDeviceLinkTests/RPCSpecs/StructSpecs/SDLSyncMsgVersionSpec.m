@@ -16,30 +16,30 @@ QuickSpecBegin(SDLSyncMsgVersionSpec)
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLSyncMsgVersion* testStruct = [[SDLSyncMsgVersion alloc] init];
-        
+
         testStruct.majorVersion = @4;
         testStruct.minorVersion = @532;
         testStruct.patchVersion = @12;
-        
+
         expect(testStruct.majorVersion).to(equal(@4));
         expect(testStruct.minorVersion).to(equal(@532));
         expect(testStruct.patchVersion).to(equal(@12));
     });
-    
+
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_majorVersion:@4,
-                                       NAMES_minorVersion:@532,
-                                       NAMES_patchVersion:@12} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameMajorVersion:@4,
+                                       SDLNameMinorVersion:@532,
+                                       SDLNamePatchVersion:@12} mutableCopy];
         SDLSyncMsgVersion* testStruct = [[SDLSyncMsgVersion alloc] initWithDictionary:dict];
-        
+
         expect(testStruct.majorVersion).to(equal(@4));
         expect(testStruct.minorVersion).to(equal(@532));
         expect(testStruct.patchVersion).to(equal(@12));
     });
-    
+
     it(@"Should return nil if not set", ^ {
         SDLSyncMsgVersion* testStruct = [[SDLSyncMsgVersion alloc] init];
-        
+
         expect(testStruct.majorVersion).to(beNil());
         expect(testStruct.minorVersion).to(beNil());
         expect(testStruct.patchVersion).to(beNil());

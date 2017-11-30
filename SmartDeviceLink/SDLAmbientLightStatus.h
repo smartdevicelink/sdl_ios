@@ -8,19 +8,13 @@
  * Reflects the status of the ambient light sensor
  * @since SDL 3.0
  */
-@interface SDLAmbientLightStatus : SDLEnum {
-}
+typedef SDLEnum SDLAmbientLightStatus SDL_SWIFT_ENUM;
 
-+ (SDLAmbientLightStatus *)valueOf:(NSString *)value;
-+ (NSArray *)values;
-
-+ (SDLAmbientLightStatus *)NIGHT;
-+ (SDLAmbientLightStatus *)TWILIGHT_1;
-+ (SDLAmbientLightStatus *)TWILIGHT_2;
-+ (SDLAmbientLightStatus *)TWILIGHT_3;
-+ (SDLAmbientLightStatus *)TWILIGHT_4;
-+ (SDLAmbientLightStatus *)DAY;
-+ (SDLAmbientLightStatus *)UNKNOWN;
-+ (SDLAmbientLightStatus *)INVALID;
-
-@end
+extern SDLAmbientLightStatus const SDLAmbientLightStatusNight;
+extern SDLAmbientLightStatus const SDLAmbientLightStatusTwilight1;
+extern SDLAmbientLightStatus const SDLAmbientLightStatusTwilight2;
+extern SDLAmbientLightStatus const SDLAmbientLightStatusTwilight3;
+extern SDLAmbientLightStatus const SDLAmbientLightStatusTwilight4;
+extern SDLAmbientLightStatus const SDLAmbientLightStatusDay;
+extern SDLAmbientLightStatus const SDLAmbientLightStatusUnknown;
+extern SDLAmbientLightStatus const SDLAmbientLightStatusInvalid;

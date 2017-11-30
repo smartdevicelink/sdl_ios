@@ -1,7 +1,70 @@
+# 5.0.0
+No changes since RC3
+
+# 5.0.0 Release Candidate 3 (changes since RC 2)
+### Bug Fixes
+* Fix a possible crash if the List Files request from the FileManager fails due to disconnection or unregistration.
+
+# 5.0.0 Release Candidate 2 (changes since RC 1)
+### Bug Fixes
+* Fixed podspec
+* Focus manager will only activate on iOS 9+, it uses APIs only available on iOS 9+
+
+# 5.0.0 Release Notes
+### Breaking Changes
+* `SDLProxy.streamingMediaManager` is now removed. If you wish to use a streaming media manager, you must use `SDLManager.streamingMediaManager`. The streaming media manager has been entirely redesigned and now takes into account both phone and head unit app lifecycles [SDL-0033](https://github.com/smartdevicelink/sdl_ios/issues/583). There is now a streaming media configuration added to `SDLConfiguration`.
+* `SDLJingle` constants have been removed [#7](https://github.com/smartdevicelink/sdl_ios/issues/7).
+* Public files `SDLJsonEncoder.h`, `SDLJsonDecoder.h`, `SDLDecoder.h`, and `SDLEncoder.h` have been removed [#8](https://github.com/smartdevicelink/sdl_ios/issues/8).
+* `SDLSiphonServer` has been removed; if something similar is needed, it may be custom built and inserted into the `SDLLogManager` [#85](https://github.com/smartdevicelink/sdl_ios/issues/85).
+* RPC array and dictionary properties are now immutable [#152](https://github.com/smartdevicelink/sdl_ios/issues/152).
+* `SDLOnWaypointChange`, a misspelling of `SDLOnWayPointChange` has been removed [#489](https://github.com/smartdevicelink/sdl_ios/issues/489).
+* `SDLRPCStruct` and all RPC subclasses now take an immutable dictionary to decode [#122](https://github.com/smartdevicelink/sdl_ios/issues/122) [SDL-0005](https://github.com/smartdevicelink/sdl_ios/issues/151), [SDL-0005](https://github.com/smartdevicelink/sdl_ios/issues/507).
+* SDL enums are now all stringly typed in Objective-C, and swift enums in Swift [#20](https://github.com/smartdevicelink/sdl_ios/issues/20) [SDL-0006](https://github.com/smartdevicelink/sdl_ios/issues/425).
+* iOS 6 and iOS 7 are no longer supported [SDL-0008](https://github.com/smartdevicelink/sdl_ios/issues/419) [SDL-0024](https://github.com/smartdevicelink/sdl_ios/issues/526).
+* Use nullability annotations throughout the project [#73](https://github.com/smartdevicelink/sdl_ios/issues/73) [SDL-0018](https://github.com/smartdevicelink/sdl_ios/issues/484).
+* Remove `SDLRPCRequestFactory`, initializers now exist on most RPC classes [SDL-0020](https://github.com/smartdevicelink/sdl_ios/issues/485).
+* `SDLTTSChunkFactory` was removed, use the initializers on `SDLTTSChunk` instead [SDL-0021](https://github.com/smartdevicelink/sdl_ios/issues/486).
+* Handler events now provide better parameters instead of generic ones [SDL-0027](https://github.com/smartdevicelink/sdl_ios/issues/537).
+
+### Enhancements
+* Most properties are now nonatomic, which should speed up the library significantly [#49](https://github.com/smartdevicelink/sdl_ios/issues/49).
+* `SDLLockScreenViewController` now uses template images, reducing the size of the library [#450](https://github.com/smartdevicelink/sdl_ios/issues/450).
+* RPC classes now conform to `NSCopying` [SDL-0011](https://github.com/smartdevicelink/sdl_ios/issues/523).
+* Added convenience methods for pulling out SDL notifications from `NSNotification` callbacks [#553](https://github.com/smartdevicelink/sdl_ios/issues/553).
+* `SDLTouchManager` now supports gesture cancellation [#673](https://github.com/smartdevicelink/sdl_ios/issues/673).
+* `SDLStreamingMediaManager` now supports automatic `GetSystemCapability` calls [#686](https://github.com/smartdevicelink/sdl_ios/issues/686).
+* `SDLRegisterAppInterfaceResponse` fixed `pcmCapabilities` not being exposed [#714](https://github.com/smartdevicelink/sdl_ios/issues/714).
+* Generics have been added for collections throughout the library [SDL-0007](https://github.com/smartdevicelink/sdl_ios/issues/444).
+* `SDLFileManager` will not stream from a file on disk if possible [SDL-0025](https://github.com/smartdevicelink/sdl_ios/issues/536).
+* `SDLFileManager` added methods for sending multiple files in one call [SDL-0029](https://github.com/smartdevicelink/sdl_ios/issues/558).
+* Added additional `SDLManager` delegate methods for all `onHMIStatus` state changes [SDL-0032](https://github.com/smartdevicelink/sdl_ios/issues/569).
+* Added a handler to `SDLPerformAudioPassThru` [SDL-0035](https://github.com/smartdevicelink/sdl_ios/issues/585).
+* `SDLStreamingMediaManager` now supports H.264 + RTP [SDL-0048](https://github.com/smartdevicelink/sdl_ios/issues/619).
+* Added SDL Remote Control baseline [SDL-0071](https://github.com/smartdevicelink/sdl_ios/issues/650).
+* Focusable items can now be sent (to Core 4.4+) and a manager exists that will automatically handle finding and sending those rects if a `UIWindow` is set in the `SDLStreamingMediaConfiguration`. They will also be passed back to the developer through the `SDLTouchManagerDelegate` [SDL-0075](https://github.com/smartdevicelink/sdl_ios/issues/664) [SDL-0081](https://github.com/smartdevicelink/sdl_ios/issues/698) [SDL-0090](https://github.com/smartdevicelink/sdl_ios/issues/728).
+
+### Bug Fixes
+* Services are now properly ended with hash ids [#661](https://github.com/smartdevicelink/sdl_ios/issues/661).
+* Constants are now unified into one style [#711](https://github.com/smartdevicelink/sdl_ios/issues/711).
+* Fix streaming media manager always assumed 30fps streaming; it can now be custom set by developers in the video encoding dictionary [#717](https://github.com/smartdevicelink/sdl_ios/issues/717).
+
+### Example App
+
+### Other
+* SDL constants are now constants instead of `#define` [#3](https://github.com/smartdevicelink/sdl_ios/issues/3).
+* Some protocol property and enum names were incorrect but now fixed [#275](https://github.com/smartdevicelink/sdl_ios/issues/275).
+* Internal getters and setters on RPC classes no longer repeat code everywhere [#493](https://github.com/smartdevicelink/sdl_ios/issues/493).
+* `SDLOnLockScreenStatus` does not use constants for property keys [#497](https://github.com/smartdevicelink/sdl_ios/issues/497).
+* Removed deprecated methods [#679](https://github.com/smartdevicelink/sdl_ios/issues/679).
+
+# 4.7.4 Release Notes
+### Bug Fixes
+* Fix for connecting video streaming on Core 4.4.0 (to be released) and above.
+
 # 4.7.3 Release Notes
 ### Bug Fixes
-* Performance fixes for streaming video
-* Fixes for background connection on IAP transports
+* Performance fixes for streaming video.
+* Fixes for background connection on IAP transports.
 
 # 4.7.2 Release Notes
 ### Bug Fixes

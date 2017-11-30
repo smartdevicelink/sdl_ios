@@ -4,18 +4,15 @@
 
 #import "SDLDeleteInteractionChoiceSet.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeleteInteractionChoiceSet
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_DeleteInteractionChoiceSet]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameDeleteInteractionChoiceSet]) {
     }
     return self;
 }
@@ -31,16 +28,14 @@
     return self;
 }
 
-- (void)setInteractionChoiceSetID:(NSNumber *)interactionChoiceSetID {
-    if (interactionChoiceSetID != nil) {
-        [parameters setObject:interactionChoiceSetID forKey:NAMES_interactionChoiceSetID];
-    } else {
-        [parameters removeObjectForKey:NAMES_interactionChoiceSetID];
-    }
+- (void)setInteractionChoiceSetID:(NSNumber<SDLInt> *)interactionChoiceSetID {
+    [parameters sdl_setObject:interactionChoiceSetID forName:SDLNameInteractionChoiceSetId];
 }
 
-- (NSNumber *)interactionChoiceSetID {
-    return [parameters objectForKey:NAMES_interactionChoiceSetID];
+- (NSNumber<SDLInt> *)interactionChoiceSetID {
+    return [parameters sdl_objectForName:SDLNameInteractionChoiceSetId];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -20,14 +20,14 @@ describe(@"Getter/Setter Tests", ^ {
         SDLPutFile* testRequest = [[SDLPutFile alloc] init];
         
         testRequest.syncFileName = @"fileName";
-        testRequest.fileType = [SDLFileType GRAPHIC_JPEG];
+        testRequest.fileType = SDLFileTypeJPEG;
         testRequest.persistentFile = @YES;
         testRequest.systemFile = @NO;
         testRequest.offset = @987654321;
         testRequest.length = @123456789;
         
         expect(testRequest.syncFileName).to(equal(@"fileName"));
-        expect(testRequest.fileType).to(equal([SDLFileType GRAPHIC_JPEG]));
+        expect(testRequest.fileType).to(equal(SDLFileTypeJPEG));
         expect(testRequest.persistentFile).to(equal(@YES));
         expect(testRequest.systemFile).to(equal(@NO));
         expect(testRequest.offset).to(equal(@987654321));
@@ -35,19 +35,19 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_request:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_syncFileName:@"fileName",
-                                                   NAMES_fileType:[SDLFileType GRAPHIC_JPEG],
-                                                   NAMES_persistentFile:@YES,
-                                                   NAMES_systemFile:@NO,
-                                                   NAMES_offset:@987654321,
-                                                   NAMES_length:@123456789},
-                                             NAMES_operation_name:NAMES_PutFile}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameRequest:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameSyncFileName:@"fileName",
+                                                   SDLNameFileType:SDLFileTypeJPEG,
+                                                   SDLNamePersistentFile:@YES,
+                                                   SDLNameSystemFile:@NO,
+                                                   SDLNameOffset:@987654321,
+                                                   SDLNameLength:@123456789},
+                                             SDLNameOperationName:SDLNamePutFile}} mutableCopy];
         SDLPutFile* testRequest = [[SDLPutFile alloc] initWithDictionary:dict];
         
         expect(testRequest.syncFileName).to(equal(@"fileName"));
-        expect(testRequest.fileType).to(equal([SDLFileType GRAPHIC_JPEG]));
+        expect(testRequest.fileType).to(equal(SDLFileTypeJPEG));
         expect(testRequest.persistentFile).to(equal(@YES));
         expect(testRequest.systemFile).to(equal(@NO));
         expect(testRequest.offset).to(equal(@987654321));

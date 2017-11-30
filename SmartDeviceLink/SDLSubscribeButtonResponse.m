@@ -4,20 +4,19 @@
 
 #import "SDLSubscribeButtonResponse.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSubscribeButtonResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_SubscribeButton]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
+    if (self = [super initWithName:SDLNameSubscribeButton]) {
     }
     return self;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

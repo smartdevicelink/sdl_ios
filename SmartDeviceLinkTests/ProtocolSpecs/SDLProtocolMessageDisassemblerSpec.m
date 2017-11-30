@@ -34,16 +34,16 @@ describe(@"Disassemble Tests", ^ {
         SDLV2ProtocolMessage* testMessage = [[SDLV2ProtocolMessage alloc] init];
         SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
         
-        testHeader.frameType = SDLFrameType_Single;
-        testHeader.serviceType = SDLServiceType_BulkData;
-        testHeader.frameData = SDLFrameData_SingleFrame;
+        testHeader.frameType = SDLFrameTypeSingle;
+        testHeader.serviceType = SDLServiceTypeBulkData;
+        testHeader.frameData = SDLFrameInfoSingleFrame;
         testHeader.sessionID = 0x84;
         testHeader.bytesInPayload = (UInt32)payloadData.length;
         
         testMessage.header = testHeader;
         testMessage.payload = payloadData;
         
-        NSArray* messageList = [SDLProtocolMessageDisassembler disassemble:testMessage withLimit:[globals mtuSizeForServiceType:testHeader.serviceType]];
+        NSArray<SDLProtocolMessage *> *messageList = [SDLProtocolMessageDisassembler disassemble:testMessage withLimit:[globals mtuSizeForServiceType:testHeader.serviceType]];
         
         //Payload length per message
         UInt32 payloadLength = 1012; // v1/2 MTU(1024) - header length(12)
@@ -55,9 +55,9 @@ describe(@"Disassemble Tests", ^ {
         //First frame
         expect(message.payload).to(equal([NSData dataWithBytes:firstPayload length:8]));
         
-        expect(@(message.header.frameType)).to(equal(@(SDLFrameType_First)));
-        expect(@(message.header.serviceType)).to(equal(@(SDLServiceType_BulkData)));
-        expect(@(message.header.frameData)).to(equal(@(SDLFrameData_FirstFrame)));
+        expect(@(message.header.frameType)).to(equal(@(SDLFrameTypeFirst)));
+        expect(@(message.header.serviceType)).to(equal(@(SDLServiceTypeBulkData)));
+        expect(@(message.header.frameData)).to(equal(@(SDLFrameInfoFirstFrame)));
         expect(@(message.header.sessionID)).to(equal(@0x84));
         expect(@(message.header.bytesInPayload)).to(equal(@8));
         
@@ -68,8 +68,8 @@ describe(@"Disassemble Tests", ^ {
             //Consecutive frames
             expect(message.payload).to(equal([NSData dataWithData:[payloadData subdataWithRange:NSMakeRange(offset, payloadLength)]]));
             
-            expect(@(message.header.frameType)).to(equal(@(SDLFrameType_Consecutive)));
-            expect(@(message.header.serviceType)).to(equal(@(SDLServiceType_BulkData)));
+            expect(@(message.header.frameType)).to(equal(@(SDLFrameTypeConsecutive)));
+            expect(@(message.header.serviceType)).to(equal(@(SDLServiceTypeBulkData)));
             expect(@(message.header.frameData)).to(equal(@(i)));
             expect(@(message.header.sessionID)).to(equal(@0x84));
             expect(@(message.header.bytesInPayload)).to(equal(@(payloadLength)));
@@ -84,9 +84,9 @@ describe(@"Disassemble Tests", ^ {
         //Last frame
         expect(message.payload).to(equal([NSData dataWithData:[payloadData subdataWithRange:NSMakeRange(offset, remaining)]]));
         
-        expect(@(message.header.frameType)).to(equal(@(SDLFrameType_Consecutive)));
-        expect(@(message.header.serviceType)).to(equal(@(SDLServiceType_BulkData)));
-        expect(@(message.header.frameData)).to(equal(@(SDLFrameData_ConsecutiveLastFrame)));
+        expect(@(message.header.frameType)).to(equal(@(SDLFrameTypeConsecutive)));
+        expect(@(message.header.serviceType)).to(equal(@(SDLServiceTypeBulkData)));
+        expect(@(message.header.frameData)).to(equal(@(SDLFrameInfoConsecutiveLastFrame)));
         expect(@(message.header.sessionID)).to(equal(@0x84));
         expect(@(message.header.bytesInPayload)).to(equal(@(remaining)));
     });

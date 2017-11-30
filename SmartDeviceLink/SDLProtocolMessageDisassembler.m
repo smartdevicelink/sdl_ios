@@ -5,13 +5,14 @@
 #import "SDLProtocolHeader.h"
 #import "SDLProtocolMessage.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLProtocolMessageDisassembler
 
 
 // Use to break up a large message into a sequence of smaller messages,
 // each of which is less than 'mtu' number of bytes total size.
-+ (NSArray *)disassemble:(SDLProtocolMessage *)incomingMessage withLimit:(NSUInteger)mtu {
++ (NSArray<SDLProtocolMessage *> *)disassemble:(SDLProtocolMessage *)incomingMessage withLimit:(NSUInteger)mtu {
     // Questions:
     // What message IDs does the current system use? Same messageIDs? Same CorrelationIDs?
     // What gets simply copied from incoming header to created headers; and what needs adjustment?
@@ -32,18 +33,17 @@
     NSUInteger numberOfDataBytesPerMessage = mtu - headerSize;
 
     // Create the outgoing array to hold the messages we will create.
-    NSMutableArray *outgoingMessages = [NSMutableArray arrayWithCapacity:numberOfMessagesRequired + 1];
+    NSMutableArray<SDLProtocolMessage *> *outgoingMessages = [NSMutableArray arrayWithCapacity:numberOfMessagesRequired + 1];
 
 
     // Create the first message
     SDLProtocolHeader *firstFrameHeader = [incomingMessage.header copy];
-    firstFrameHeader.frameType = SDLFrameType_First;
+    firstFrameHeader.frameType = SDLFrameTypeFirst;
 
     UInt32 payloadData[2];
     payloadData[0] = CFSwapInt32HostToBig((UInt32)incomingMessage.payload.length);
     payloadData[1] = CFSwapInt32HostToBig((UInt32)numberOfMessagesRequired);
     NSMutableData *firstFramePayload = [NSMutableData dataWithBytes:payloadData length:sizeof(payloadData)];
-    firstFrameHeader.bytesInPayload = (UInt32)firstFramePayload.length;
 
     SDLProtocolMessage *firstMessage = [SDLProtocolMessage messageWithHeader:firstFrameHeader andPayload:firstFramePayload];
     outgoingMessages[0] = firstMessage;
@@ -56,12 +56,11 @@
         UInt8 frameNumber = (n % 255) + 1;
 
         SDLProtocolHeader *nextFrameHeader = [incomingMessage.header copy];
-        nextFrameHeader.frameType = SDLFrameType_Consecutive;
+        nextFrameHeader.frameType = SDLFrameTypeConsecutive;
         nextFrameHeader.frameData = frameNumber;
 
         NSUInteger offsetOfDataForThisFrame = headerSize + (n * numberOfDataBytesPerMessage);
         NSData *nextFramePayload = [incomingMessage.data subdataWithRange:NSMakeRange(offsetOfDataForThisFrame, numberOfDataBytesPerMessage)];
-        nextFrameHeader.bytesInPayload = (UInt32)nextFramePayload.length;
 
         SDLProtocolMessage *nextMessage = [SDLProtocolMessage messageWithHeader:nextFrameHeader andPayload:nextFramePayload];
         outgoingMessages[n + 1] = nextMessage;
@@ -70,15 +69,14 @@
 
     // Create the last message
     SDLProtocolHeader *lastFrameHeader = [incomingMessage.header copy];
-    lastFrameHeader.frameType = SDLFrameType_Consecutive;
-    lastFrameHeader.frameData = SDLFrameData_ConsecutiveLastFrame;
+    lastFrameHeader.frameType = SDLFrameTypeConsecutive;
+    lastFrameHeader.frameData = SDLFrameInfoConsecutiveLastFrame;
 
     NSUInteger numberOfMessagesCreatedSoFar = numberOfMessagesRequired - 1;
     NSUInteger numberOfDataBytesSentSoFar = numberOfMessagesCreatedSoFar * numberOfDataBytesPerMessage;
     NSUInteger numberOfDataBytesInLastMessage = incomingPayloadSize - numberOfDataBytesSentSoFar;
     NSUInteger offsetOfDataForLastFrame = headerSize + numberOfDataBytesSentSoFar;
     NSData *lastFramePayload = [incomingMessage.data subdataWithRange:NSMakeRange(offsetOfDataForLastFrame, numberOfDataBytesInLastMessage)];
-    lastFrameHeader.bytesInPayload = (UInt32)lastFramePayload.length;
 
     SDLProtocolMessage *lastMessage = [SDLProtocolMessage messageWithHeader:lastFrameHeader andPayload:lastFramePayload];
     outgoingMessages[numberOfMessagesRequired] = lastMessage;
@@ -87,3 +85,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

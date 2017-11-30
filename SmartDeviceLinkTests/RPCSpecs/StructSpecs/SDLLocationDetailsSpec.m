@@ -99,13 +99,13 @@ describe(@"Getter/Setter Tests", ^ {
                 someImage = [[SDLImage alloc] init];
                 someAddress = [[SDLOasisAddress alloc] initWithSubThoroughfare:@"test" thoroughfare:@"1" locality:@"local" administrativeArea:@"admin" postalCode:@"48067" countryCode:@"12345"];
                 NSDictionary *initDict = @{
-                                           NAMES_locationCoordinate: someCoordinate,
-                                           NAMES_locationName: someLocation,
-                                           NAMES_locationDescription: someLocationDescription,
-                                           NAMES_addressLines: someAddressLines,
-                                           NAMES_phoneNumber: somePhoneNumber,
-                                           NAMES_locationImage: someImage,
-                                           NAMES_searchAddress: someAddress
+                                           SDLNameLocationCoordinate: someCoordinate,
+                                           SDLNameLocationName: someLocation,
+                                           SDLNameLocationDescription: someLocationDescription,
+                                           SDLNameAddressLines: someAddressLines,
+                                           SDLNamePhoneNumber: somePhoneNumber,
+                                           SDLNameLocationImage: someImage,
+                                           SDLNameSearchAddress: someAddress
                                            };
                 
                 testStruct = [[SDLLocationDetails alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
@@ -151,8 +151,8 @@ describe(@"Getter/Setter Tests", ^ {
         context(@"when parameters are not set", ^{
             beforeEach(^{
                 NSDictionary *initDict = @{
-                                           NAMES_request: @{
-                                                   NAMES_parameters: @{}
+                                           SDLNameRequest: @{
+                                                   SDLNameParameters: @{}
                                                    }
                                            };
                 

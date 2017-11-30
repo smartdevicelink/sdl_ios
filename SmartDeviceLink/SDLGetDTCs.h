@@ -13,19 +13,10 @@
  * <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
  * <p>
  */
-@interface SDLGetDTCs : SDLRPCRequest {
-}
-/**
- * Constructs a new SDLGetDTCs object
- */
-- (instancetype)init;
-/**
- * Constructs a new SDLGetDTCs object indicated by the dictionary parameter
- * <p>
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLGetDTCs : SDLRPCRequest
 
 - (instancetype)initWithECUName:(UInt16)name;
 
@@ -38,9 +29,11 @@
  *            <p>
  *            <b>Notes: </b>Minvalue:0; Maxvalue:65535
  */
-@property (strong) NSNumber *ecuName;
+@property (strong, nonatomic) NSNumber<SDLInt> *ecuName;
 /**
  * @abstract  DTC Mask Byte to be sent in diagnostic request to module. NSNumber* dtcMask Minvalue:0; Maxvalue:255
  */
-@property (strong) NSNumber *dtcMask;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *dtcMask;
 @end
+
+NS_ASSUME_NONNULL_END

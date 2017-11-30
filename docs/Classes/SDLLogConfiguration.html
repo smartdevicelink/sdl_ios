@@ -1,0 +1,197 @@
+<h1>SDLLogConfiguration Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-modules">modules</a></li>
+  <li><a href="#section-targets">targets</a></li>
+  <li><a href="#section-filters">filters</a></li>
+  <li><a href="#section-formatType">formatType</a></li>
+  <li><a href="#section-asynchronous">asynchronous</a></li>
+  <li><a href="#section-errorsAsynchronous">errorsAsynchronous</a></li>
+  <li><a href="#section-globalLogLevel">globalLogLevel</a></li>
+  <li><a href="#section-+defaultConfiguration">+defaultConfiguration</a></li>
+  <li><a href="#section-+debugConfiguration">+debugConfiguration</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-modules">
+      modules
+  </h3>
+  
+  <p>Any custom logging modules used by the developer&rsquo;s code. Defaults to none.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSSet</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLLogFileModule.html">SDLLogFileModule</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">modules</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">modules</span><span class="p">:</span> <span class="kt">Set</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-targets">
+      targets
+  </h3>
+  
+  <p>Where the logs will attempt to output. Defaults to Console.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLLogTarget.html">SDLLogTarget</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">targets</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">targets</span><span class="p">:</span> <span class="kt">Set</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-filters">
+      filters
+  </h3>
+  
+  <p>What log filters will run over this session. Defaults to none.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLLogFilter.html">SDLLogFilter</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">filters</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">filters</span><span class="p">:</span> <span class="kt">Set</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-formatType">
+      formatType
+  </h3>
+  
+  <p>How detailed of logs will be output. Defaults to Default.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Enums/SDLLogFormatType.html">SDLLogFormatType</a></span> <span class="n">formatType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">formatType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLLogFormatType.html">SDLLogFormatType</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-asynchronous">
+      asynchronous
+  </h3>
+  
+  <p>Whether or not logs will be run on a separate queue, asynchronously, allowing the following code to run before the log completes. Or if it will occur synchronously, which will prevent logs from being missed, but will slow down surrounding code. Defaults to YES.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">getter</span><span class="o">=</span><span class="n">isAsynchronous</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">BOOL</span> <span class="n">asynchronous</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">isAsynchronous</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-errorsAsynchronous">
+      errorsAsynchronous
+  </h3>
+  
+  <p>Whether or not error logs will be dispatched to loggers asynchronously. Defaults to NO.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">getter</span><span class="o">=</span><span class="n">areErrorsAsynchronous</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">BOOL</span> <span class="n">errorsAsynchronous</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">areErrorsAsynchronous</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-globalLogLevel">
+      globalLogLevel
+  </h3>
+  
+  <p>Any modules that do not have an explicitly specified level will by default use the global log level. Defaults to Error.
+Do not specify Default for this parameter.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Enums/SDLLogLevel.html">SDLLogLevel</a></span> <span class="n">globalLogLevel</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">globalLogLevel</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLLogLevel.html">SDLLogLevel</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-+defaultConfiguration">
+      +defaultConfiguration
+  </h3>
+  
+  <p>A default logger for production. This sets the format type to Default, the log level to Error, and only enables the ASL logger.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">defaultConfiguration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="err">`</span><span class="k">default</span><span class="err">`</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>A default configuration that may be customized.</p>
+  </div>
+  
+  <h3 id="section-+debugConfiguration">
+      +debugConfiguration
+  </h3>
+  
+  <p>A debug logger for use in development. This sets the format type to Detailed, the log level to Debug, and enables the Console and ASL loggers.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">debugConfiguration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">debug</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>A debug configuration that may be customized.</p>
+  </div>
+  
+</section>

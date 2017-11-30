@@ -7,10 +7,11 @@
 /** SDLShowConstantTBTResponse is sent, when SDLShowConstantTBT has been called.
  * Since<b>SmartDeviceLink 2.0</b>
  */
-@interface SDLShowConstantTBTResponse : SDLRPCResponse {
-}
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLShowConstantTBTResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

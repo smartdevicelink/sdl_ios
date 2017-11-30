@@ -85,7 +85,15 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
  *  @param name       The name of the remote file. It should be a name currently stored in remoteFileNames
  *  @param completion An optional completion handler that sends an error should one occur.
  */
-- (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)completion;
+- (void)deleteRemoteFileWithName:(SDLFileName *)name completionHandler:(nullable SDLFileManagerDeleteCompletionHandler)completion NS_SWIFT_NAME(delete(fileName:completionHandler:));
+
+/**
+ *  Deletes an array of files on the remote file system. The files are deleted in the order in which they are added to the array, with the first file to be deleted at index 0. The delete queue is sequential, meaning that once a delete request is sent to Core, the queue waits until a response is received from Core before the next the next delete request is sent.
+ *
+ *  @param names  The names of the files to be deleted
+ *  @param completionHandler  an optional SDLFileManagerMultiDeleteCompletionHandler
+ */
+- (void)deleteRemoteFilesWithNames:(NSArray<SDLFileName *> *)names completionHandler:(nullable SDLFileManagerMultiDeleteCompletionHandler)completionHandler NS_SWIFT_NAME(delete(fileNames:completionHandler:));
 
 /**
  *  Upload a file to the remote file system. If a file with the [SDLFile name] already exists, this will overwrite that file. If you do not want that to happen, check remoteFileNames before uploading, or change allowOverwrite to NO.
@@ -93,7 +101,26 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
  *  @param file       An SDLFile that contains metadata about the file to be sent
  *  @param completion An optional completion handler that sends an error should one occur.
  */
-- (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)completion;
+- (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)completion NS_SWIFT_NAME(upload(file:completionHandler:));
+
+/**
+ *  Uploads an array of files to the remote file system. The files will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once a upload request is sent to Core, the queue waits until a response is received from Core before the next the next upload request is sent.
+ *
+ *  The optional progress handler can be used to keep track of the upload progress. After each file upload, the progress handler returns the upload percentage and an error, if one occured during the upload process. The progress handler also includes an option to cancel the upload of all remaining files in queue.
+ *
+ *  @param files  An array of SDLFiles to be sent
+ *  @param progressHandler an optional SDLFileManagerMultiUploadProgressHandler
+ *  @param completionHandler an optional SDLFileManagerMultiUploadCompletionHandler
+ */
+- (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler NS_SWIFT_NAME(upload(files:progressHandler:completionHandler:));
+
+/**
+ *  Uploads an array of files to the remote file system. The files will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once a upload request is sent to Core, the queue waits until a response is received from Core before the next the next upload request is sent.
+ *
+ *  @param files  An array of SDLFiles to be sent
+ *  @param completionHandler  an optional SDLFileManagerMultiUploadCompletionHandler
+ */
+- (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler NS_SWIFT_NAME(upload(files:completionHandler:));
 
 /**
  *  A URL to the directory where temporary files are stored. When an SDLFile is created with NSData, it writes to a temporary file until the file manager finishes uploading it.

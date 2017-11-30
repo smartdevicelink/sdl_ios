@@ -9,20 +9,11 @@
  *
  * Since SmartDeviceLink 1.0
  */
-@interface SDLSetMediaClockTimerResponse : SDLRPCResponse {
-}
 
-/**
- * @abstract Constructs a new SDLSetMediaClockTimerResponse object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLSetMediaClockTimerResponse object indicated by the NSMutableDictionary
- * parameter
- * <p>
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLSetMediaClockTimerResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

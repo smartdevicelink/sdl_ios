@@ -4,9 +4,12 @@
 
 #import "SDLRPCMessage.h"
 
-@interface SDLRPCRequest : SDLRPCMessage {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-@property (strong) NSNumber *correlationID;
+@interface SDLRPCRequest : SDLRPCMessage
+
+@property (strong, nonatomic) NSNumber<SDLInt> *correlationID;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -4,25 +4,20 @@
 
 #import "SDLSystemRequest.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
-#import "SDLRequestType.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSystemRequest
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_SystemRequest]) {
+    if (self = [super initWithName:SDLNameSystemRequest]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithType:(SDLRequestType *)requestType fileName:(NSString *)fileName {
+- (instancetype)initWithType:(SDLRequestType)requestType fileName:(nullable NSString *)fileName {
     self = [self init];
     if (!self) {
         return nil;
@@ -34,33 +29,22 @@
     return self;
 }
 
-- (void)setRequestType:(SDLRequestType *)requestType {
-    if (requestType != nil) {
-        [parameters setObject:requestType forKey:NAMES_requestType];
-    } else {
-        [parameters removeObjectForKey:NAMES_requestType];
-    }
+- (void)setRequestType:(SDLRequestType)requestType {
+    [parameters sdl_setObject:requestType forName:SDLNameRequestType];
 }
 
-- (SDLRequestType *)requestType {
-    NSObject *obj = [parameters objectForKey:NAMES_requestType];
-    if (obj == nil || [obj isKindOfClass:SDLRequestType.class]) {
-        return (SDLRequestType *)obj;
-    } else {
-        return [SDLRequestType valueOf:(NSString *)obj];
-    }
+- (SDLRequestType)requestType {
+    return [parameters sdl_objectForName:SDLNameRequestType];
 }
 
-- (void)setFileName:(NSString *)fileName {
-    if (fileName != nil) {
-        [parameters setObject:fileName forKey:NAMES_fileName];
-    } else {
-        [parameters removeObjectForKey:NAMES_fileName];
-    }
+- (void)setFileName:(nullable NSString *)fileName {
+    [parameters sdl_setObject:fileName forName:SDLNameFilename];
 }
 
-- (NSString *)fileName {
-    return [parameters objectForKey:NAMES_fileName];
+- (nullable NSString *)fileName {
+    return [parameters sdl_objectForName:SDLNameFilename];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

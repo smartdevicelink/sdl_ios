@@ -3,11 +3,15 @@
 
 #import "SDLAbstractTransport.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLTCPTransport : SDLAbstractTransport {
-    CFSocketRef socket;
+    _Nullable CFSocketRef socket;
 }
 
-@property (strong, atomic) NSString *hostName;
-@property (strong, atomic) NSString *portNumber;
+@property (strong, nonatomic) NSString *hostName;
+@property (strong, nonatomic) NSString *portNumber;
 
 @end
+
+NS_ASSUME_NONNULL_END

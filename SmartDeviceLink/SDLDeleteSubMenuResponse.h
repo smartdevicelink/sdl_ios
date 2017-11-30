@@ -9,10 +9,11 @@
  *
  * Since <b>SmartDeviceLink 1.0</b>
  */
-@interface SDLDeleteSubMenuResponse : SDLRPCResponse {
-}
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLDeleteSubMenuResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

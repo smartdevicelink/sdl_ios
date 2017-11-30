@@ -3,12 +3,11 @@
 
 #import "SDLRPCRequest.h"
 
+#import "SDLImageType.h"
 #import "SDLNotificationConstants.h"
-#import "SDLRequestHandler.h"
 
-@class SDLMenuParams;
 @class SDLImage;
-@class SDLImageType;
+@class SDLMenuParams;
 
 /**
  * This class will add a command to the application's Command Menu SDLMenuParams
@@ -34,12 +33,10 @@
  *
  * @see SDLDeleteCommand SDLAddSubMenu SDLDeleteSubMenu
  */
-@interface SDLAddCommand : SDLRPCRequest <SDLRequestHandler>
 
-/**
- * Constructs a new SDLAddCommand object
- */
-- (instancetype)init;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLAddCommand : SDLRPCRequest
 
 /**
  *  Construct a SDLAddCommand with a handler callback when an event occurs.
@@ -48,27 +45,20 @@
  *
  *  @return An SDLAddCommand object
  */
-- (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler;
+- (instancetype)initWithHandler:(nullable SDLRPCCommandNotificationHandler)handler;
 
-/**
- * Constructs a new *SDLAddCommand* object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands handler:(nullable SDLRPCCommandNotificationHandler)handler;
 
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray<NSString *> *)vrCommands handler:(SDLRPCNotificationHandler)handler;
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName handler:(SDLRPCCommandNotificationHandler)handler;
 
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName handler:(SDLRPCNotificationHandler)handler;
-
-- (instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(NSString *)iconValue iconType:(SDLImageType *)iconType handler:(SDLRPCNotificationHandler)handler;
+- (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(NSString *)iconValue iconType:(SDLImageType)iconType handler:(nullable SDLRPCCommandNotificationHandler)handler;
 
 /**
  *  A handler that will let you know when the button you created is subscribed.
  *
  *  @warning This will only work if you use SDLManager.
  */
-@property (copy, nonatomic) SDLRPCNotificationHandler handler;
+@property (nullable, copy, nonatomic) SDLRPCCommandNotificationHandler handler;
 
 /**
  * @abstract A Unique Command ID that identifies the command
@@ -77,7 +67,7 @@
  *
  * Required, Integer, 0 - 2,000,000,000
  */
-@property (strong) NSNumber *cmdID;
+@property (strong, nonatomic) NSNumber<SDLInt> *cmdID;
 
 /**
  * @abstract a *SDLMenuParams* pointer which will defined the command and how it is added to the Command Menu
@@ -89,7 +79,7 @@
  *
  * Optional
  */
-@property (strong) SDLMenuParams *menuParams;
+@property (nullable, strong, nonatomic) SDLMenuParams *menuParams;
 
 /**
  * @abstract An array of strings to be used as VR synonyms for this command.
@@ -100,7 +90,7 @@
  *
  * Optional, Array of Strings, Max String length 99 chars, Array size 1 - 100
  */
-@property (strong) NSMutableArray *vrCommands;
+@property (nullable, strong, nonatomic) NSArray<NSString *> *vrCommands;
 
 /**
  * @abstract Image struct containing a static or dynamic icon
@@ -111,6 +101,8 @@
  *
  * Optional
  */
-@property (strong) SDLImage *cmdIcon;
+@property (nullable, strong, nonatomic) SDLImage *cmdIcon;
 
 @end
+
+NS_ASSUME_NONNULL_END

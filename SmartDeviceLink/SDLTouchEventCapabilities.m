@@ -4,56 +4,37 @@
 
 #import "SDLTouchEventCapabilities.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTouchEventCapabilities
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
+- (void)setPressAvailable:(NSNumber<SDLBool> *)pressAvailable {
+    [store sdl_setObject:pressAvailable forName:SDLNamePressAvailable];
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (NSNumber<SDLBool> *)pressAvailable {
+    return [store sdl_objectForName:SDLNamePressAvailable];
 }
 
-- (void)setPressAvailable:(NSNumber *)pressAvailable {
-    if (pressAvailable != nil) {
-        [store setObject:pressAvailable forKey:NAMES_pressAvailable];
-    } else {
-        [store removeObjectForKey:NAMES_pressAvailable];
-    }
+- (void)setMultiTouchAvailable:(NSNumber<SDLBool> *)multiTouchAvailable {
+    [store sdl_setObject:multiTouchAvailable forName:SDLNameMultiTouchAvailable];
 }
 
-- (NSNumber *)pressAvailable {
-    return [store objectForKey:NAMES_pressAvailable];
+- (NSNumber<SDLBool> *)multiTouchAvailable {
+    return [store sdl_objectForName:SDLNameMultiTouchAvailable];
 }
 
-- (void)setMultiTouchAvailable:(NSNumber *)multiTouchAvailable {
-    if (multiTouchAvailable != nil) {
-        [store setObject:multiTouchAvailable forKey:NAMES_multiTouchAvailable];
-    } else {
-        [store removeObjectForKey:NAMES_multiTouchAvailable];
-    }
+- (void)setDoublePressAvailable:(NSNumber<SDLBool> *)doublePressAvailable {
+    [store sdl_setObject:doublePressAvailable forName:SDLNameDoublePressAvailable];
 }
 
-- (NSNumber *)multiTouchAvailable {
-    return [store objectForKey:NAMES_multiTouchAvailable];
-}
-
-- (void)setDoublePressAvailable:(NSNumber *)doublePressAvailable {
-    if (doublePressAvailable != nil) {
-        [store setObject:doublePressAvailable forKey:NAMES_doublePressAvailable];
-    } else {
-        [store removeObjectForKey:NAMES_doublePressAvailable];
-    }
-}
-
-- (NSNumber *)doublePressAvailable {
-    return [store objectForKey:NAMES_doublePressAvailable];
+- (NSNumber<SDLBool> *)doublePressAvailable {
+    return [store sdl_objectForName:SDLNameDoublePressAvailable];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

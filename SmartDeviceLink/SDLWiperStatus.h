@@ -7,95 +7,79 @@
 /**
  * Wiper Status
  */
-@interface SDLWiperStatus : SDLEnum {
-}
-
-/**
- * Convert String to SDLWiperStatus
- * @param value The value of the string to get an object for
- * @return SDLWiperStatus
- */
-+ (SDLWiperStatus *)valueOf:(NSString *)value;
-
-/**
- * @abstract Store the enumeration of all possible SDLWiperStatus
- * @return An array that store all possible SDLWiperStatus
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLWiperStatus SDL_SWIFT_ENUM;
 
 /**
  * @abstract SDLWiperStatus: *OFF*
  */
-+ (SDLWiperStatus *)OFF;
+extern SDLWiperStatus const SDLWiperStatusOff;
 
 /**
  * @abstract SDLWiperStatus: *AUTO_OFF*
  */
-+ (SDLWiperStatus *)AUTO_OFF;
+extern SDLWiperStatus const SDLWiperStatusAutomaticOff;
 
 /**
  * @abstract SDLWiperStatus: *OFF_MOVING*
  */
-+ (SDLWiperStatus *)OFF_MOVING;
+extern SDLWiperStatus const SDLWiperStatusOffMoving;
 
 /**
  * @abstract SDLWiperStatus: *MAN_INT_OFF*
  */
-+ (SDLWiperStatus *)MAN_INT_OFF;
+extern SDLWiperStatus const SDLWiperStatusManualIntervalOff;
 
 /**
  * @abstract SDLWiperStatus: *MAN_INT_ON*
  */
-+ (SDLWiperStatus *)MAN_INT_ON;
+extern SDLWiperStatus const SDLWiperStatusManualIntervalOn;
 
 /**
  * @abstract SDLWiperStatus: *MAN_LOW*
  */
-+ (SDLWiperStatus *)MAN_LOW;
+extern SDLWiperStatus const SDLWiperStatusManualLow;
 
 /**
  * @abstract SDLWiperStatus: *MAN_HIGH*
  */
-+ (SDLWiperStatus *)MAN_HIGH;
+extern SDLWiperStatus const SDLWiperStatusManualHigh;
 
 /**
  * @abstract SDLWiperStatus: *MAN_FLICK*
  */
-+ (SDLWiperStatus *)MAN_FLICK;
+extern SDLWiperStatus const SDLWiperStatusManualFlick;
 
 /**
  * @abstract SDLWiperStatus: *WASH*
  */
-+ (SDLWiperStatus *)WASH;
+extern SDLWiperStatus const SDLWiperStatusWash;
 
 /**
  * @abstract SDLWiperStatus: *AUTO_LOW*
  */
-+ (SDLWiperStatus *)AUTO_LOW;
+extern SDLWiperStatus const SDLWiperStatusAutomaticLow;
 
 /**
  * @abstract SDLWiperStatus: *AUTO_HIGH*
  */
-+ (SDLWiperStatus *)AUTO_HIGH;
+extern SDLWiperStatus const SDLWiperStatusAutomaticHigh;
 
 /**
  * @abstract SDLWiperStatus: *COURTESYWIPE*
  */
-+ (SDLWiperStatus *)COURTESYWIPE;
+extern SDLWiperStatus const SDLWiperStatusCourtesyWipe;
 
 /**
  * @abstract SDLWiperStatus: *AUTO_ADJUST*
  */
-+ (SDLWiperStatus *)AUTO_ADJUST;
+extern SDLWiperStatus const SDLWiperStatusAutomaticAdjust;
 
 /**
  * @abstract SDLWiperStatus: *STALLED*
  */
-+ (SDLWiperStatus *)STALLED;
+extern SDLWiperStatus const SDLWiperStatusStalled;
 
 /**
  * @abstract SDLWiperStatus: *NO_DATA_EXISTS*
  */
-+ (SDLWiperStatus *)NO_DATA_EXISTS;
-
-@end
+extern SDLWiperStatus const SDLWiperStatusNoDataExists;

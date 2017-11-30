@@ -3,25 +3,15 @@
 
 #import "SDLTurn.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTurn
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithNavigationText:(NSString *)navigationText turnIcon:(SDLImage *)icon {
+- (instancetype)initWithNavigationText:(nullable NSString *)navigationText turnIcon:(nullable SDLImage *)icon {
     self = [self init];
     if (!self) {
         return nil;
@@ -33,33 +23,22 @@
     return self;
 }
 
-- (void)setNavigationText:(NSString *)navigationText {
-    if (navigationText != nil) {
-        [store setObject:navigationText forKey:NAMES_navigationText];
-    } else {
-        [store removeObjectForKey:NAMES_navigationText];
-    }
+- (void)setNavigationText:(nullable NSString *)navigationText {
+    [store sdl_setObject:navigationText forName:SDLNameNavigationText];
 }
 
-- (NSString *)navigationText {
-    return [store objectForKey:NAMES_navigationText];
+- (nullable NSString *)navigationText {
+    return [store sdl_objectForName:SDLNameNavigationText];
 }
 
-- (void)setTurnIcon:(SDLImage *)turnIcon {
-    if (turnIcon != nil) {
-        [store setObject:turnIcon forKey:NAMES_turnIcon];
-    } else {
-        [store removeObjectForKey:NAMES_turnIcon];
-    }
+- (void)setTurnIcon:(nullable SDLImage *)turnIcon {
+    [store sdl_setObject:turnIcon forName:SDLNameTurnIcon];
 }
 
-- (SDLImage *)turnIcon {
-    NSObject *obj = [store objectForKey:NAMES_turnIcon];
-    if (obj == nil || [obj isKindOfClass:SDLImage.class]) {
-        return (SDLImage *)obj;
-    } else {
-        return [[SDLImage alloc] initWithDictionary:(NSMutableDictionary *)obj];
-    }
+- (nullable SDLImage *)turnIcon {
+    return [store sdl_objectForName:SDLNameTurnIcon ofClass:SDLImage.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -21,22 +21,22 @@ describe(@"Getter/Setter Tests", ^ {
         
         testStruct.lowBeamsOn = @YES;
         testStruct.highBeamsOn = @NO;
-        testStruct.ambientLightSensorStatus = [SDLAmbientLightStatus TWILIGHT_3];
+        testStruct.ambientLightSensorStatus = SDLAmbientLightStatusTwilight3;
         
         expect(testStruct.lowBeamsOn).to(equal(@YES));
         expect(testStruct.highBeamsOn).to(equal(@NO));
-        expect(testStruct.ambientLightSensorStatus).to(equal([SDLAmbientLightStatus TWILIGHT_3]));
+        expect(testStruct.ambientLightSensorStatus).to(equal(SDLAmbientLightStatusTwilight3));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_lowBeamsOn:@YES,
-                                       NAMES_highBeamsOn:@NO,
-                                       NAMES_ambientLightSensorStatus:[SDLAmbientLightStatus TWILIGHT_3]} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameLowBeamsOn:@YES,
+                                       SDLNameHighBeamsOn:@NO,
+                                       SDLNameAmbientLightSensorStatus:SDLAmbientLightStatusTwilight3} mutableCopy];
         SDLHeadLampStatus* testStruct = [[SDLHeadLampStatus alloc] initWithDictionary:dict];
         
         expect(testStruct.lowBeamsOn).to(equal(@YES));
         expect(testStruct.highBeamsOn).to(equal(@NO));
-        expect(testStruct.ambientLightSensorStatus).to(equal([SDLAmbientLightStatus TWILIGHT_3]));
+        expect(testStruct.ambientLightSensorStatus).to(equal(SDLAmbientLightStatusTwilight3));
     });
     
     it(@"Should return nil if not set", ^ {

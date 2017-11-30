@@ -3,23 +3,23 @@
 
 #import "SDLRPCRequest.h"
 
-@class SDLRequestType;
-
+#import "SDLRequestType.h"
 
 /** An asynchronous request from the device; binary data can be included in hybrid part of message for some requests<br> (such as HTTP, Proprietary, or Authentication requests)
  * <p>
  * @since SmartDeviceLink 3.0
  *
  */
-@interface SDLSystemRequest : SDLRPCRequest {
-}
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)initWithType:(SDLRequestType *)requestType fileName:(NSString *)fileName;
+@interface SDLSystemRequest : SDLRPCRequest
 
-@property (strong) SDLRequestType *requestType;
-@property (strong) NSString *fileName;
+- (instancetype)initWithType:(SDLRequestType)requestType fileName:(nullable NSString *)fileName;
+
+@property (strong, nonatomic) SDLRequestType requestType;
+@property (strong, nonatomic, nullable) NSString *fileName;
 
 @end
+
+NS_ASSUME_NONNULL_END

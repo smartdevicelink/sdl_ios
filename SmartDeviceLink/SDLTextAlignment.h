@@ -9,44 +9,19 @@
  *
  * @since SDL 1.0
  */
-@interface SDLTextAlignment : SDLEnum {
-}
-
-/**
- * Convert String to SDLTextAlignment
- *
- * @param value The value of the string to get an object for
- *
- * @return SDLTextAlignment
- */
-+ (SDLTextAlignment *)valueOf:(NSString *)value;
-
-/**
- * @abstract Store the enumeration of all possible SDLTextAlignment
- *
- * @return an array that store all possible SDLTextAlignment
- */
-+ (NSArray *)values;
+typedef SDLEnum SDLTextAlignment SDL_SWIFT_ENUM;
 
 /**
  * @abstract Text aligned left.
- *
- * @return A SDLTextAlignment object with value of *LEFT_ALIGNED*
  */
-+ (SDLTextAlignment *)LEFT_ALIGNED;
+extern SDLTextAlignment const SDLTextAlignmentLeft;
 
 /**
  * @abstract Text aligned right.
- *
- * @return A SDLTextAlignment object with value of *RIGHT_ALIGNED*
  */
-+ (SDLTextAlignment *)RIGHT_ALIGNED;
+extern SDLTextAlignment const SDLTextAlignmentRight;
 
 /**
  * @abstract Text aligned centered.
- *
- * @return A SDLTextAlignment object with value of *CENTERED*
  */
-+ (SDLTextAlignment *)CENTERED;
-
-@end
+extern SDLTextAlignment const SDLTextAlignmentCenter;

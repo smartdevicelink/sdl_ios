@@ -6,10 +6,13 @@
 #import "SDLAbstractTransport.h"
 #import "SDLIAPSessionDelegate.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLIAPTransport : SDLAbstractTransport <SDLIAPSessionDelegate>
 
-@property (strong, atomic) SDLIAPSession *controlSession;
-@property (strong, atomic) SDLIAPSession *session;
+@property (nullable, strong, nonatomic) SDLIAPSession *controlSession;
+@property (nullable, strong, nonatomic) SDLIAPSession *session;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -23,10 +23,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_request:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_interactionChoiceSetID:@20314},
-                                             NAMES_operation_name:NAMES_DeleteInteractionChoiceSet}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameInteractionChoiceSetId:@20314},
+                                                             SDLNameOperationName:SDLNameDeleteInteractionChoiceSet}} mutableCopy];
         SDLDeleteInteractionChoiceSet* testRequest = [[SDLDeleteInteractionChoiceSet alloc] initWithDictionary:dict];
         
         expect(testRequest.interactionChoiceSetID).to(equal(@20314));

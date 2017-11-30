@@ -3,22 +3,22 @@
 
 #import "SDLRPCMessage.h"
 
+#import "SDLWarningLightStatus.h"
+
 @class SDLSingleTireStatus;
-@class SDLWarningLightStatus;
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLTireStatus : SDLRPCStruct {
-}
+@interface SDLTireStatus : SDLRPCStruct
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
-@property (strong) SDLWarningLightStatus *pressureTelltale;
-@property (strong) SDLSingleTireStatus *leftFront;
-@property (strong) SDLSingleTireStatus *rightFront;
-@property (strong) SDLSingleTireStatus *leftRear;
-@property (strong) SDLSingleTireStatus *rightRear;
-@property (strong) SDLSingleTireStatus *innerLeftRear;
-@property (strong) SDLSingleTireStatus *innerRightRear;
+@property (strong, nonatomic) SDLWarningLightStatus pressureTelltale;
+@property (strong, nonatomic) SDLSingleTireStatus *leftFront;
+@property (strong, nonatomic) SDLSingleTireStatus *rightFront;
+@property (strong, nonatomic) SDLSingleTireStatus *leftRear;
+@property (strong, nonatomic) SDLSingleTireStatus *rightRear;
+@property (strong, nonatomic) SDLSingleTireStatus *innerLeftRear;
+@property (strong, nonatomic) SDLSingleTireStatus *innerRightRear;
 
 @end
+
+NS_ASSUME_NONNULL_END

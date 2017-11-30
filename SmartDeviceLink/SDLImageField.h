@@ -3,18 +3,19 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLImageFieldName;
+#import "SDLFileType.h"
+#import "SDLImageFieldName.h"
+
 @class SDLImageResolution;
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLImageField : SDLRPCStruct {
-}
+@interface SDLImageField : SDLRPCStruct
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
-@property (strong) SDLImageFieldName *name;
-@property (strong) NSMutableArray *imageTypeSupported;
-@property (strong) SDLImageResolution *imageResolution;
+@property (strong, nonatomic) SDLImageFieldName name;
+@property (strong, nonatomic) NSArray<SDLFileType> *imageTypeSupported;
+@property (nullable, strong, nonatomic) SDLImageResolution *imageResolution;
 
 @end
+
+NS_ASSUME_NONNULL_END

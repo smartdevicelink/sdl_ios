@@ -4,10 +4,18 @@
 
 #import "SDLRPCResponse.h"
 
-@class SDLLanguage;
+#import "SDLHMIZoneCapabilities.h"
+#import "SDLLanguage.h"
+#import "SDLPrerecordedSpeech.h"
+#import "SDLSpeechCapabilities.h"
+#import "SDLVrCapabilities.h"
+
+@class SDLAudioPassThruCapabilities;
+@class SDLButtonCapabilities;
 @class SDLDisplayCapabilities;
 @class SDLHMICapabilities;
 @class SDLPresetBankCapabilities;
+@class SDLSoftButtonCapabilities;
 @class SDLSyncMsgVersion;
 @class SDLVehicleType;
 
@@ -17,27 +25,17 @@
  *
  * Since SmartDeviceLink 1.0
  */
-@interface SDLRegisterAppInterfaceResponse : SDLRPCResponse {
-}
 
-/**
- * @abstract Constructs a new SDLRegisterAppInterfaceResponse object
- */
-- (instancetype)init;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- * Constructs a new SDLRegisterAppInterfaceResponse object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLRegisterAppInterfaceResponse : SDLRPCResponse
 
 /**
  * @see SDLSyncMsgVersion
  *
  * Optional
  */
-@property (strong) SDLSyncMsgVersion *syncMsgVersion;
+@property (nullable, strong, nonatomic) SDLSyncMsgVersion *syncMsgVersion;
 
 /**
  * The currently active VR+TTS language on Sync.
@@ -46,7 +44,7 @@
  *
  * Optional
  */
-@property (strong) SDLLanguage *language;
+@property (nullable, strong, nonatomic) SDLLanguage language;
 
 /**
  * The currently active display language on Sync
@@ -56,21 +54,21 @@
  *
  * Optional
  */
-@property (strong) SDLLanguage *hmiDisplayLanguage;
+@property (nullable, strong, nonatomic) SDLLanguage hmiDisplayLanguage;
 
 /**
  * @see SDLDisplayCapabilities
  *
  * Optional
  */
-@property (strong) SDLDisplayCapabilities *displayCapabilities;
+@property (nullable, strong, nonatomic) SDLDisplayCapabilities *displayCapabilities;
 
 /**
  * @see SDLButtonCapabilities
  *
  * Optional, Array of length 1 - 100, of SDLButtonCapabilities
  */
-@property (strong) NSMutableArray *buttonCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
 
 /**
  * If returned, the platform supports on-screen SoftButtons
@@ -79,7 +77,7 @@
  *
  * Optional, Array of length 1 - 100, of SDLSoftButtonCapabilities
  */
-@property (strong) NSMutableArray *softButtonCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
 
 /**
  * If returned, the platform supports custom on-screen Presets
@@ -88,42 +86,47 @@
  *
  * Optional
  */
-@property (strong) SDLPresetBankCapabilities *presetBankCapabilities;
+@property (nullable, strong, nonatomic) SDLPresetBankCapabilities *presetBankCapabilities;
 
 /**
  * @see SDLHMIZoneCapabilities
  *
  * Optional, Array of length 1 - 100, of SDLHMIZoneCapabilities
  */
-@property (strong) NSMutableArray *hmiZoneCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLHMIZoneCapabilities> *hmiZoneCapabilities;
 
 /**
  * @see SDLSpeechCapabilities
  *
  * Optional, Array of length 1 - 100, of SDLSpeechCapabilities
  */
-@property (strong) NSMutableArray *speechCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLSpeechCapabilities> *speechCapabilities;
 
 /**
  * @see SDLPrerecordedSpeech
  *
  * Optional, Array of length 1 - 100, of SDLPrerecordedSpeech
  */
-@property (strong) NSMutableArray *prerecordedSpeech;
+@property (nullable, strong, nonatomic) NSArray<SDLPrerecordedSpeech> *prerecordedSpeech;
 
 /**
  * @see SDLVRCapabilities
  *
  * Optional, Array of length 1 - 100, of SDLVRCapabilities
  */
-@property (strong) NSMutableArray *vrCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLVRCapabilities> *vrCapabilities;
 
 /**
  * @see SDLAudioPassThruCapabilities
  *
  * Optional, Array of length 1 - 100, of SDLAudioPassThruCapabilities
  */
-@property (strong) NSMutableArray *audioPassThruCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
+
+/**
+ @see SDLAudioPassThruCapabilities
+ */
+@property (nullable, strong, nonatomic) SDLAudioPassThruCapabilities *pcmStreamCapabilities;
 
 /**
  * Specifies the vehicle's type
@@ -132,35 +135,37 @@
  *
  * Optional, Array of length 1 - 100, of SDLVehicleType
  */
-@property (strong) SDLVehicleType *vehicleType;
+@property (nullable, strong, nonatomic) SDLVehicleType *vehicleType;
 
 /**
  * Specifies the white-list of supported diagnostic modes (0x00-0xFF) capable for DiagnosticMessage requests. If a mode outside this list is requested, it will be rejected.
  *
  * Optional, Array of length 1 - 100, Integer 0 - 255
  */
-@property (strong) NSMutableArray *supportedDiagModes;
+@property (nullable, strong, nonatomic) NSArray<NSNumber<SDLInt> *> *supportedDiagModes;
 
 /**
  * @see SDLHMICapabilities
  *
  * Optional
  */
-@property (strong) SDLHMICapabilities *hmiCapabilities;
+@property (nullable, strong, nonatomic) SDLHMICapabilities *hmiCapabilities;
 
 /**
  * The SmartDeviceLink version
  *
  * Optional, String max length 100
  */
-@property (strong) NSString *sdlVersion;
+@property (nullable, strong, nonatomic) NSString *sdlVersion;
 
 /**
  * The software version of the system that implements the SmartDeviceLink core
  *
  * Optional, String max length 100
  */
-@property (strong) NSString *systemSoftwareVersion;
+@property (nullable, strong, nonatomic) NSString *systemSoftwareVersion;
 
 
 @end
+
+NS_ASSUME_NONNULL_END

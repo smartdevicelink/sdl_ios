@@ -3,25 +3,20 @@
 
 #import "SDLPutFile.h"
 
-#import "SDLFileType.h"
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPutFile
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_PutFile]) {
+    if (self = [super initWithName:SDLNamePutFile]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType *)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt64)offset length:(UInt64)length {
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length {
     self = [self initWithFileName:fileName fileType:fileType persistentFile:persistentFile];
     if (!self) {
         return nil;
@@ -34,7 +29,7 @@
     return self;
 }
 
-- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType *)fileType persistentFile:(BOOL)persistentFile {
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile {
     self = [self initWithFileName:fileName fileType:fileType];
     if (!self) {
         return nil;
@@ -45,7 +40,7 @@
     return self;
 }
 
-- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType *)fileType {
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType {
     self = [self init];
     if (!self) {
         return nil;
@@ -58,80 +53,53 @@
 }
 
 - (void)setSyncFileName:(NSString *)syncFileName {
-    if (syncFileName != nil) {
-        [parameters setObject:syncFileName forKey:NAMES_syncFileName];
-    } else {
-        [parameters removeObjectForKey:NAMES_syncFileName];
-    }
+    [parameters sdl_setObject:syncFileName forName:SDLNameSyncFileName];
 }
 
 - (NSString *)syncFileName {
-    return [parameters objectForKey:NAMES_syncFileName];
+    return [parameters sdl_objectForName:SDLNameSyncFileName];
 }
 
-- (void)setFileType:(SDLFileType *)fileType {
-    if (fileType != nil) {
-        [parameters setObject:fileType forKey:NAMES_fileType];
-    } else {
-        [parameters removeObjectForKey:NAMES_fileType];
-    }
+- (void)setFileType:(SDLFileType)fileType {
+    [parameters sdl_setObject:fileType forName:SDLNameFileType];
 }
 
-- (SDLFileType *)fileType {
-    NSObject *obj = [parameters objectForKey:NAMES_fileType];
-    if (obj == nil || [obj isKindOfClass:SDLFileType.class]) {
-        return (SDLFileType *)obj;
-    } else {
-        return [SDLFileType valueOf:(NSString *)obj];
-    }
+- (SDLFileType)fileType {
+    return [parameters sdl_objectForName:SDLNameFileType];
 }
 
-- (void)setPersistentFile:(NSNumber *)persistentFile {
-    if (persistentFile != nil) {
-        [parameters setObject:persistentFile forKey:NAMES_persistentFile];
-    } else {
-        [parameters removeObjectForKey:NAMES_persistentFile];
-    }
+- (void)setPersistentFile:(nullable NSNumber<SDLBool> *)persistentFile {
+    [parameters sdl_setObject:persistentFile forName:SDLNamePersistentFile];
 }
 
-- (NSNumber *)persistentFile {
-    return [parameters objectForKey:NAMES_persistentFile];
+- (nullable NSNumber<SDLBool> *)persistentFile {
+    return [parameters sdl_objectForName:SDLNamePersistentFile];
 }
 
-- (void)setSystemFile:(NSNumber *)systemFile {
-    if (systemFile != nil) {
-        [parameters setObject:systemFile forKey:NAMES_systemFile];
-    } else {
-        [parameters removeObjectForKey:NAMES_systemFile];
-    }
+- (void)setSystemFile:(nullable NSNumber<SDLBool> *)systemFile {
+    [parameters sdl_setObject:systemFile forName:SDLNameSystemFile];
 }
 
-- (NSNumber *)systemFile {
-    return [parameters objectForKey:NAMES_systemFile];
+- (nullable NSNumber<SDLBool> *)systemFile {
+    return [parameters sdl_objectForName:SDLNameSystemFile];
 }
 
-- (void)setOffset:(NSNumber *)offset {
-    if (offset != nil) {
-        [parameters setObject:offset forKey:NAMES_offset];
-    } else {
-        [parameters removeObjectForKey:NAMES_offset];
-    }
+- (void)setOffset:(nullable NSNumber<SDLUInt> *)offset {
+    [parameters sdl_setObject:offset forName:SDLNameOffset];
 }
 
-- (NSNumber *)offset {
-    return [parameters objectForKey:NAMES_offset];
+- (nullable NSNumber<SDLUInt> *)offset {
+    return [parameters sdl_objectForName:SDLNameOffset];
 }
 
-- (void)setLength:(NSNumber *)length {
-    if (length != nil) {
-        [parameters setObject:length forKey:NAMES_length];
-    } else {
-        [parameters removeObjectForKey:NAMES_length];
-    }
+- (void)setLength:(nullable NSNumber<SDLUInt> *)length {
+    [parameters sdl_setObject:length forName:SDLNameLength];
 }
 
-- (NSNumber *)length {
-    return [parameters objectForKey:NAMES_length];
+- (nullable NSNumber<SDLUInt> *)length {
+    return [parameters sdl_objectForName:SDLNameLength];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

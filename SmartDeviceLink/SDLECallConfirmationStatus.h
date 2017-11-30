@@ -8,45 +8,32 @@
  *<b>Since</b> SmartDeviceLink 2.0
  <p>
  */
-@interface SDLECallConfirmationStatus : SDLEnum {
-}
-
-+ (SDLECallConfirmationStatus *)valueOf:(NSString *)value;
-+ (NSArray *)values;
+typedef SDLEnum SDLECallConfirmationStatus SDL_SWIFT_ENUM;
 
 /** No E-Call signal triggered.
  */
-
-+ (SDLECallConfirmationStatus *)NORMAL;
+extern SDLECallConfirmationStatus const SDLECallConfirmationStatusNormal;
 
 /** An E-Call is being in progress.
  */
-
-+ (SDLECallConfirmationStatus *)CALL_IN_PROGRESS;
+extern SDLECallConfirmationStatus const SDLECallConfirmationStatusInProgress;
 
 /** CALL_CANCELLED	An E-Call was cancelled by the user.
  */
-
-+ (SDLECallConfirmationStatus *)CALL_CANCELLED;
+extern SDLECallConfirmationStatus const SDLECallConfirmationStatusCancelled;
 
 /** The E-Call sequence is completed.
  */
-
-+ (SDLECallConfirmationStatus *)CALL_COMPLETED;
+extern SDLECallConfirmationStatus const SDLECallConfirmationStatusCompleted;
 
 /** An E-Call could not be connected.
  */
-
-+ (SDLECallConfirmationStatus *)CALL_UNSUCCESSFUL;
+extern SDLECallConfirmationStatus const SDLECallConfirmationStatusUnsuccessful;
 
 /** E-Call is not configured on this vehicle.
  */
-
-+ (SDLECallConfirmationStatus *)ECALL_CONFIGURED_OFF;
+extern SDLECallConfirmationStatus const SDLECallConfirmationStatusConfiguredOff;
 
 /** E-Call is considered to be complete without Emergency Operator contact.
  */
-
-+ (SDLECallConfirmationStatus *)CALL_COMPLETE_DTMF_TIMEOUT;
-
-@end
+extern SDLECallConfirmationStatus const SDLECallConfirmationStatusCompleteDTMFTimeout;
