@@ -49,15 +49,11 @@ typedef NS_ENUM(NSInteger, SDLPCMAudioStreamManagerError) {
     return self;
 }
 
-- (void)setSdlManager:(nullable SDLManager *)sdlManager {
-    _streamManager = sdlManager.streamManager;
-}
-
 - (NSArray<SDLFile *> *)queue {
     return [_mutableQueue copy];
 }
 
-- (void)pushWithContentsOfURL:(NSURL *)fileURL {
+- (void)pushWithFileURL:(NSURL *)fileURL {
     __weak SDLAudioStreamManager *weakSelf = self;
     dispatch_async(_transcodeQueue, ^{
         [weakSelf sdl_pushWithContentsOfURL:fileURL];
@@ -100,7 +96,7 @@ typedef NS_ENUM(NSInteger, SDLPCMAudioStreamManagerError) {
     __block SDLAudioFile *file = self.mutableQueue.firstObject;
     [self.mutableQueue removeObjectAtIndex:0];
 
-    // Strip the first 52 byte (because of WAVE format) and send to the audio stream
+    // Strip the first bunch of bytes (because of WAVE format) and send to the audio stream
     SDLLogD(@"Playing audio file: %@", file.fileURL);
     NSData *audioData = [file.data subdataWithRange:NSMakeRange(5760, (file.data.length - 5760))]; // TODO: We have to find out how to properly strip a header, but /shrug
     BOOL success = [self.streamManager sendAudioData:audioData];

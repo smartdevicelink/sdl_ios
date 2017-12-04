@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SDLAudioManagerType.h"
-
 @class SDLAudioFile;
 @class SDLManager;
 @class SDLStreamingMediaLifecycleManager;
@@ -19,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString *const SDLErrorDomainPCMAudioStreamManager;
 
-@interface SDLAudioStreamManager : NSObject <SDLAudioManagerType>
+@interface SDLAudioStreamManager : NSObject
 
 @property (weak, nonatomic) id<SDLPCMAudioStreamManagerDelegate> delegate;
 

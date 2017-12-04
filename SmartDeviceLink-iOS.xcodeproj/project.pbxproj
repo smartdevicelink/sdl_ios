@@ -338,7 +338,6 @@
 		5D23C9511FCF59F400002CA5 /* SDLPCMAudioConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D23C94A1FCF59F400002CA5 /* SDLPCMAudioConverter.m */; };
 		5D23C9521FCF59F400002CA5 /* SDLAudioFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D23C94B1FCF59F400002CA5 /* SDLAudioFile.m */; };
 		5D23C9531FCF59F400002CA5 /* SDLPCMAudioStreamManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D23C94C1FCF59F400002CA5 /* SDLPCMAudioStreamManagerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D23C9551FCF5B1200002CA5 /* SDLAudioManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D23C9541FCF5B1200002CA5 /* SDLAudioManagerType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D2F58081D0717D5001085CE /* SDLManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D3E48751D6F3B330000BFEF /* SDLAsynchronousOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E48731D6F3B330000BFEF /* SDLAsynchronousOperation.h */; };
 		5D3E48761D6F3B330000BFEF /* SDLAsynchronousOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E48741D6F3B330000BFEF /* SDLAsynchronousOperation.m */; };
@@ -1544,7 +1543,6 @@
 		5D23C94A1FCF59F400002CA5 /* SDLPCMAudioConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPCMAudioConverter.m; sourceTree = "<group>"; };
 		5D23C94B1FCF59F400002CA5 /* SDLAudioFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAudioFile.m; sourceTree = "<group>"; };
 		5D23C94C1FCF59F400002CA5 /* SDLPCMAudioStreamManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPCMAudioStreamManagerDelegate.h; sourceTree = "<group>"; };
-		5D23C9541FCF5B1200002CA5 /* SDLAudioManagerType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAudioManagerType.h; sourceTree = "<group>"; };
 		5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLManagerDelegate.h; sourceTree = "<group>"; };
 		5D3E48731D6F3B330000BFEF /* SDLAsynchronousOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAsynchronousOperation.h; sourceTree = "<group>"; };
 		5D3E48741D6F3B330000BFEF /* SDLAsynchronousOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAsynchronousOperation.m; sourceTree = "<group>"; };
@@ -2836,7 +2834,6 @@
 		5D23C9441FCF59F400002CA5 /* AudioManager */ = {
 			isa = PBXGroup;
 			children = (
-				5D23C9541FCF5B1200002CA5 /* SDLAudioManagerType.h */,
 				5D23C94C1FCF59F400002CA5 /* SDLPCMAudioStreamManagerDelegate.h */,
 				5D23C9451FCF59F400002CA5 /* SDLAudioStreamManager.h */,
 				5D23C9461FCF59F400002CA5 /* SDLAudioStreamManager.m */,
@@ -4884,7 +4881,6 @@
 				5D61FE0B1A84238C00846EE7 /* SDLVehicleType.h in Headers */,
 				5D61FCC31A84238C00846EE7 /* SDLHMIPermissions.h in Headers */,
 				5D61FE131A84238C00846EE7 /* SDLWiperStatus.h in Headers */,
-				5D23C9551FCF5B1200002CA5 /* SDLAudioManagerType.h in Headers */,
 				5D16545A1D3E7A1600554D93 /* SDLLifecycleManager.h in Headers */,
 				5D61FCBD1A84238C00846EE7 /* SDLHeadLampStatus.h in Headers */,
 				5D61FDC31A84238C00846EE7 /* SDLTBTState.h in Headers */,

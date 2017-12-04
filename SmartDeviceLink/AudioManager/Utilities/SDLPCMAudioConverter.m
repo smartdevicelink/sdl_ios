@@ -47,7 +47,9 @@ NSString *const SDLErrorDomainPCMAudioStreamConverter = @"com.sdl.extension.pcmA
     // Open the input file
     OSStatus err = ExtAudioFileOpenURL(inputFileURL, &infile);
     if (err != noErr) {
-        *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:@{@"type": @"ExtAudioFileOpenURL"}];
+        if (*error != nil) {
+            *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:@{@"type": @"ExtAudioFileOpenURL"}];
+        }
         return nil;
     }
 
@@ -55,7 +57,9 @@ NSString *const SDLErrorDomainPCMAudioStreamConverter = @"com.sdl.extension.pcmA
     UInt32 size = sizeof(inputFormat);
     err = ExtAudioFileGetProperty(infile, kExtAudioFileProperty_FileDataFormat, &size, &inputFormat);
     if (err != noErr) {
-        *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:@{@"type": @"kExtAudioFileProperty_FileDataFormat"}];
+        if (*error != nil) {
+            *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:@{@"type": @"kExtAudioFileProperty_FileDataFormat"}];
+        }
         return nil;
     }
 
@@ -68,7 +72,9 @@ NSString *const SDLErrorDomainPCMAudioStreamConverter = @"com.sdl.extension.pcmA
     [self.class printAudioStreamBasicDescription:outputFormat];
     err = ExtAudioFileCreateWithURL(outputFileURL, kAudioFileCAFType, &outputFormat, NULL, kAudioFileFlags_EraseFile, &outfile);
     if (err != noErr) {
-        *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:@{@"type": @"ExtAudioFileCreateWithURL"}];
+        if (*error != nil) {
+            *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:@{@"type": @"ExtAudioFileCreateWithURL"}];
+        }
         return nil;
     }
 
@@ -77,14 +83,18 @@ NSString *const SDLErrorDomainPCMAudioStreamConverter = @"com.sdl.extension.pcmA
     size = sizeof(clientFormat);
     err = ExtAudioFileSetProperty(infile, kExtAudioFileProperty_ClientDataFormat, size, &clientFormat);
     if (err != noErr) {
-        *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:@{@"type": @"kExtAudioFileProperty_ClientDataFormat"}];
+        if (*error != nil) {
+            *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:@{@"type": @"kExtAudioFileProperty_ClientDataFormat"}];
+        }
         return nil;
     }
 
     size = sizeof(clientFormat);
     err = ExtAudioFileSetProperty(outfile, kExtAudioFileProperty_ClientDataFormat, size, &clientFormat);
     if (err != noErr) {
-        *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:@{@"type": @"kExtAudioFileProperty_ClientDataFormat"}];
+        if (*error != nil) {
+            *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:@{@"type": @"kExtAudioFileProperty_ClientDataFormat"}];
+        }
         return nil;
     }
 
@@ -92,7 +102,9 @@ NSString *const SDLErrorDomainPCMAudioStreamConverter = @"com.sdl.extension.pcmA
     size = sizeof(outConverter);
     err = ExtAudioFileGetProperty(outfile, kExtAudioFileProperty_AudioConverter, &size, &outConverter);
     if (err != noErr) {
-        *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:@{@"type": @"kExtAudioFileProperty_AudioConverter"}];
+        if (*error != nil) {
+            *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:@{@"type": @"kExtAudioFileProperty_AudioConverter"}];
+        }
         return nil;
     }
 
@@ -114,7 +126,9 @@ NSString *const SDLErrorDomainPCMAudioStreamConverter = @"com.sdl.extension.pcmA
 
         err = ExtAudioFileRead(infile, &numFrames, &fillBufList);
         if (err != noErr) {
-            *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:nil];
+            if (*error != nil) {
+                *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:nil];
+            }
             return nil;
         }
 
@@ -123,7 +137,9 @@ NSString *const SDLErrorDomainPCMAudioStreamConverter = @"com.sdl.extension.pcmA
 
         err = ExtAudioFileWrite(outfile, numFrames, &fillBufList);
         if (err != noErr) {
-            *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:nil];
+            if (*error != nil) {
+                *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamConverter code:err userInfo:nil];
+            }
             return nil;
         }
     }
