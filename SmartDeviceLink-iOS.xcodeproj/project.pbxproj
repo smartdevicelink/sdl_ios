@@ -331,7 +331,7 @@
 		5D1665C91CF8CA3D00CC4CA1 /* SDLPermissionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1665C71CF8CA3D00CC4CA1 /* SDLPermissionFilter.m */; };
 		5D1665CB1CF8CA6700CC4CA1 /* NSNumber+NumberType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1665CA1CF8CA6700CC4CA1 /* NSNumber+NumberType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D1665CD1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1665CC1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D23C94D1FCF59F400002CA5 /* SDLAudioStreamManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D23C9451FCF59F400002CA5 /* SDLAudioStreamManager.h */; };
+		5D23C94D1FCF59F400002CA5 /* SDLAudioStreamManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D23C9451FCF59F400002CA5 /* SDLAudioStreamManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D23C94E1FCF59F400002CA5 /* SDLAudioStreamManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D23C9461FCF59F400002CA5 /* SDLAudioStreamManager.m */; };
 		5D23C94F1FCF59F400002CA5 /* SDLPCMAudioConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D23C9481FCF59F400002CA5 /* SDLPCMAudioConverter.h */; };
 		5D23C9501FCF59F400002CA5 /* SDLAudioFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D23C9491FCF59F400002CA5 /* SDLAudioFile.h */; };

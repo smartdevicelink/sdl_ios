@@ -10,6 +10,8 @@
 
 @interface SDLStreamingAudioManagerMock()
 
+@property (assign, nonatomic, readwrite, getter=isAudioConnected) BOOL audioConnected;
+
 @property (strong, nonatomic) NSMutableData *mutableDataSinceClear;
 
 @property (assign, nonatomic, readwrite) BOOL fileFinishedPlaying;
@@ -52,6 +54,10 @@
     }
 
     return YES;
+}
+
+- (void)setAudioConnected:(BOOL)audioConnected {
+    _audioConnected = audioConnected;
 }
 
 #pragma mark SDLAudioStreamManagerDelegate

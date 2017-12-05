@@ -18,6 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString *const SDLErrorDomainAudioStreamManager;
 
+typedef NS_ENUM(NSInteger, SDLAudioStreamManagerError) {
+    SDLAudioStreamManagerErrorNotConnected = -1,
+    SDLAudioStreamManagerErrorNoQueuedAudio = -2
+};
+
 @interface SDLAudioStreamManager : NSObject
 
 @property (weak, nonatomic) id<SDLAudioStreamManagerDelegate> delegate;

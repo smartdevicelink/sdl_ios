@@ -19,16 +19,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioStreamManager";
 
-typedef NS_ENUM(NSInteger, SDLPCMAudioStreamManagerError) {
-    SDLPCMAudioStreamManagerErrorNotConnected = -1,
-    SDLPCMAudioStreamManagerErrorNoQueuedAudio = -2
-};
-
 @interface SDLAudioStreamManager ()
 
 @property (weak, nonatomic) id<SDLStreamingAudioManagerType> streamManager;
 @property (strong, nonatomic) NSMutableArray<SDLAudioFile *> *mutableQueue;
 @property (strong, nonatomic) dispatch_queue_t audioQueue;
+@property (assign, nonatomic, readwrite, getter=isPlaying) BOOL playing;
 
 @property (assign, nonatomic) BOOL shouldPlayWhenReady;
 
@@ -94,9 +90,11 @@ typedef NS_ENUM(NSInteger, SDLPCMAudioStreamManagerError) {
         return;
     }
 
-    if (!self.streamManager.isAudioConnected && self.delegate != nil) {
-        NSError *error = [NSError errorWithDomain:SDLErrorDomainAudioStreamManager code:SDLPCMAudioStreamManagerErrorNotConnected userInfo:nil];
-        [self.delegate audioStreamManager:self errorDidOccurForFile:self.mutableQueue.firstObject error:error];
+    if (!self.streamManager.isAudioConnected) {
+        if (self.delegate != nil) {
+            NSError *error = [NSError errorWithDomain:SDLErrorDomainAudioStreamManager code:SDLAudioStreamManagerErrorNotConnected userInfo:nil];
+            [self.delegate audioStreamManager:self errorDidOccurForFile:self.mutableQueue.firstObject error:error];
+        }
         return;
     }
 
@@ -106,11 +104,14 @@ typedef NS_ENUM(NSInteger, SDLPCMAudioStreamManagerError) {
 
     // Strip the first bunch of bytes (because of how Apple outputs the data) and send to the audio stream, if we don't do this, it will make a weird click sound
     SDLLogD(@"Playing audio file: %@", file.fileURL);
-    NSData *audioData = [file.data subdataWithRange:NSMakeRange(5760, (file.data.length - 5760))]; // TODO: We have to find out how to properly strip a header, but /shrug
+    NSData *audioData = [file.data subdataWithRange:NSMakeRange(5760, (file.data.length - 5760))];
     BOOL success = [self.streamManager sendAudioData:audioData];
+    self.playing = YES;
 
+    float audioLengthSecs = (float)audioData.length / 32000.0;
     __weak SDLAudioStreamManager *weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((audioData.length / 32000) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(audioLengthSecs * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.playing = NO;
         NSError *error = nil;
         if (self.delegate != nil) {
             [weakSelf.delegate audioStreamManager:self fileDidFinishPlaying:file successfully:success];
