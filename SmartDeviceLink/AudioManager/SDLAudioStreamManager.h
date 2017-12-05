@@ -11,22 +11,23 @@
 @class SDLAudioFile;
 @class SDLManager;
 @class SDLStreamingMediaLifecycleManager;
-@protocol SDLPCMAudioStreamManagerDelegate;
+@protocol SDLStreamingAudioManagerType;
+@protocol SDLAudioStreamManagerDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString *const SDLErrorDomainPCMAudioStreamManager;
+extern NSString *const SDLErrorDomainAudioStreamManager;
 
 @interface SDLAudioStreamManager : NSObject
 
-@property (weak, nonatomic) id<SDLPCMAudioStreamManagerDelegate> delegate;
+@property (weak, nonatomic) id<SDLAudioStreamManagerDelegate> delegate;
 
 @property (assign, nonatomic, readonly, getter=isPlaying) BOOL playing;
 @property (copy, nonatomic, readonly) NSArray<SDLAudioFile *> *queue;
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithManager:(SDLStreamingMediaLifecycleManager *)streamManager NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithManager:(id<SDLStreamingAudioManagerType>)streamManager NS_DESIGNATED_INITIALIZER;
 
 /**
  Push a new file URL onto the queue after converting it into the correct PCM format for streaming binary data.
@@ -42,7 +43,7 @@ extern NSString *const SDLErrorDomainPCMAudioStreamManager;
 
  When complete, this will callback on the delegate.
  */
-- (BOOL)playNextWhenReady;
+- (void)playNextWhenReady;
 
 /**
  Stop playing the queue after the current item completes and clear the queue. If nothing is playing, the queue will be cleared.

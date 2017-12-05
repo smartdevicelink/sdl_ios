@@ -39,6 +39,11 @@ NSString *const SDLErrorDomainPCMAudioStreamConverter = @"com.sdl.extension.pcmA
 }
 
 - (nullable NSURL *)convertFileWithError:(NSError *__autoreleasing *)error {
+    if (NSTemporaryDirectory() == nil) {
+        // We can't write to disk for some reason
+        return nil;
+    }
+
     CFURLRef inputFileURL = (__bridge CFURLRef)_inputFileURL;
     NSURL *outputURL = [[[NSURL fileURLWithPath:NSTemporaryDirectory() isDirectory:YES] URLByAppendingPathComponent:[NSUUID UUID].UUIDString] URLByAppendingPathExtension:@"caf"];
     CFURLRef outputFileURL = (__bridge CFURLRef)outputURL;

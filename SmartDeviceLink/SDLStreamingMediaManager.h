@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <VideoToolbox/VideoToolbox.h>
 
+#import "SDLStreamingAudioManagerType.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
 @class SDLAbstractProtocol;
@@ -23,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Interface
 
-@interface SDLStreamingMediaManager : NSObject
+@interface SDLStreamingMediaManager : NSObject <SDLStreamingAudioManagerType>
 
 /**
  *  Touch Manager responsible for providing touch event notifications.

@@ -13,8 +13,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol SDLPCMAudioStreamManagerDelegate <NSObject>
+@protocol SDLAudioStreamManagerDelegate <NSObject>
 
+@required
 - (void)audioStreamManager:(SDLAudioStreamManager *)audioManager fileDidFinishPlaying:(SDLAudioFile *)file successfully:(BOOL)successfully;
 - (void)audioStreamManager:(SDLAudioStreamManager *)audioManager errorDidOccurForFile:(SDLAudioFile *)file error:(NSError *)error;
 

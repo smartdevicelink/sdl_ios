@@ -12,6 +12,7 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLHMILevel.h"
 #import "SDLProtocolListener.h"
+#import "SDLStreamingAudioManagerType.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
 @class SDLAbstractProtocol;
@@ -45,7 +46,7 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
 
 #pragma mark - Interface
 
-@interface SDLStreamingMediaLifecycleManager : NSObject <SDLProtocolListener>
+@interface SDLStreamingMediaLifecycleManager : NSObject <SDLProtocolListener, SDLStreamingAudioManagerType>
 
 @property (strong, nonatomic, readonly) SDLStateMachine *appStateMachine;
 @property (strong, nonatomic, readonly) SDLStateMachine *videoStreamStateMachine;

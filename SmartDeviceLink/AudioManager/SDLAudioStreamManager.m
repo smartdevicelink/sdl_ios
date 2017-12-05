@@ -12,12 +12,12 @@
 #import "SDLLogMacros.h"
 #import "SDLManager.h"
 #import "SDLPCMAudioConverter.h"
-#import "SDLPCMAudioStreamManagerDelegate.h"
-#import "SDLStreamingMediaLifecycleManager.h"
+#import "SDLAudioStreamManagerDelegate.h"
+#import "SDLStreamingAudioManagerType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-NSString *const SDLErrorDomainPCMAudioStreamManager = @"com.sdl.extension.pcmAudioStreamManager";
+NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioStreamManager";
 
 typedef NS_ENUM(NSInteger, SDLPCMAudioStreamManagerError) {
     SDLPCMAudioStreamManagerErrorNotConnected = -1,
@@ -26,9 +26,9 @@ typedef NS_ENUM(NSInteger, SDLPCMAudioStreamManagerError) {
 
 @interface SDLAudioStreamManager ()
 
-@property (weak, nonatomic) SDLStreamingMediaLifecycleManager *streamManager;
+@property (weak, nonatomic) id<SDLStreamingAudioManagerType> streamManager;
 @property (strong, nonatomic) NSMutableArray<SDLAudioFile *> *mutableQueue;
-@property (strong, nonatomic) dispatch_queue_t transcodeQueue;
+@property (strong, nonatomic) dispatch_queue_t audioQueue;
 
 @property (assign, nonatomic) BOOL shouldPlayWhenReady;
 
@@ -36,12 +36,12 @@ typedef NS_ENUM(NSInteger, SDLPCMAudioStreamManagerError) {
 
 @implementation SDLAudioStreamManager
 
-- (instancetype)initWithManager:(SDLStreamingMediaLifecycleManager *)streamManager {
+- (instancetype)initWithManager:(id<SDLStreamingAudioManagerType>)streamManager {
     self = [super init];
     if (!self) { return nil; }
 
     _mutableQueue = [NSMutableArray array];
-    _transcodeQueue = dispatch_queue_create("com.sdl.pcmAudioTranscode", DISPATCH_QUEUE_SERIAL);
+    _audioQueue = dispatch_queue_create("com.sdl.audiomanager.transcode", DISPATCH_QUEUE_SERIAL);
     _shouldPlayWhenReady = NO;
 
     _streamManager = streamManager;
@@ -54,9 +54,8 @@ typedef NS_ENUM(NSInteger, SDLPCMAudioStreamManagerError) {
 }
 
 - (void)pushWithFileURL:(NSURL *)fileURL {
-    __weak SDLAudioStreamManager *weakSelf = self;
-    dispatch_async(_transcodeQueue, ^{
-        [weakSelf sdl_pushWithContentsOfURL:fileURL];
+    dispatch_async(_audioQueue, ^{
+        [self sdl_pushWithContentsOfURL:fileURL];
     });
 }
 
@@ -64,31 +63,39 @@ typedef NS_ENUM(NSInteger, SDLPCMAudioStreamManagerError) {
     // Convert and store in the queue
     NSError *error = nil;
     SDLPCMAudioConverter *converter = [[SDLPCMAudioConverter alloc] initWithFileURL:fileURL];
-    NSURL *_Nullable outputFile = [converter convertFileWithError:&error];
+    NSURL *_Nullable outputFileURL = [converter convertFileWithError:&error];
     UInt32 estimatedDuration = converter.estimatedDuration;
 
-    if (outputFile == nil) {
-        SDLLogW(@"Error converting file to CAF / PCM: %@", error);
-        [self.delegate audioStreamManager:self errorDidOccurForFile:[[SDLAudioFile alloc] initWithFileURL:fileURL estimatedDuration:UINT32_MAX] error:error];
+    if (outputFileURL == nil) {
+        SDLLogE(@"Error converting file to CAF / PCM: %@", error);
+        if (self.delegate != nil) {
+            [self.delegate audioStreamManager:self errorDidOccurForFile:[[SDLAudioFile alloc] initWithFileURL:fileURL estimatedDuration:UINT32_MAX] error:error];
+        }
         return;
     }
 
-    SDLAudioFile *audioFile = [[SDLAudioFile alloc] initWithFileURL:outputFile estimatedDuration:estimatedDuration];
+    SDLAudioFile *audioFile = [[SDLAudioFile alloc] initWithFileURL:outputFileURL estimatedDuration:estimatedDuration];
     [self.mutableQueue addObject:audioFile];
 
     if (self.shouldPlayWhenReady) {
-        [self playNextWhenReady];
+        [self sdl_playNextWhenReady];
     }
 }
 
-- (BOOL)playNextWhenReady {
-    if ((self.mutableQueue.count == 0)) {
+- (void)playNextWhenReady {
+    dispatch_async(_audioQueue, ^{
+        [self sdl_playNextWhenReady];
+    });
+}
+
+- (void)sdl_playNextWhenReady {
+    if (self.mutableQueue.count == 0) {
         self.shouldPlayWhenReady = YES;
-        return NO;
+        return;
     }
 
-    if (!self.streamManager.isAudioConnected) {
-        NSError *error = [NSError errorWithDomain:SDLErrorDomainPCMAudioStreamManager code:SDLPCMAudioStreamManagerErrorNotConnected userInfo:nil];
+    if (!self.streamManager.isAudioConnected && self.delegate != nil) {
+        NSError *error = [NSError errorWithDomain:SDLErrorDomainAudioStreamManager code:SDLPCMAudioStreamManagerErrorNotConnected userInfo:nil];
         [self.delegate audioStreamManager:self errorDidOccurForFile:self.mutableQueue.firstObject error:error];
     }
 
@@ -96,7 +103,7 @@ typedef NS_ENUM(NSInteger, SDLPCMAudioStreamManagerError) {
     __block SDLAudioFile *file = self.mutableQueue.firstObject;
     [self.mutableQueue removeObjectAtIndex:0];
 
-    // Strip the first bunch of bytes (because of WAVE format) and send to the audio stream
+    // Strip the first bunch of bytes (because of how Apple outputs the data) and send to the audio stream, if we don't do this, it will make a weird click sound
     SDLLogD(@"Playing audio file: %@", file.fileURL);
     NSData *audioData = [file.data subdataWithRange:NSMakeRange(5760, (file.data.length - 5760))]; // TODO: We have to find out how to properly strip a header, but /shrug
     BOOL success = [self.streamManager sendAudioData:audioData];
@@ -104,20 +111,22 @@ typedef NS_ENUM(NSInteger, SDLPCMAudioStreamManagerError) {
     __weak SDLAudioStreamManager *weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)((audioData.length / 32000) * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         NSError *error = nil;
-        [weakSelf.delegate audioStreamManager:self fileDidFinishPlaying:file successfully:success];
+        if (self.delegate != nil) {
+            [weakSelf.delegate audioStreamManager:self fileDidFinishPlaying:file successfully:success];
+        }
         SDLLogD(@"Ending Audio file: %@", file.fileURL);
         [[NSFileManager defaultManager] removeItemAtURL:file.fileURL error:&error];
-        if (error != nil) {
+        if (self.delegate != nil && error != nil) {
             [weakSelf.delegate audioStreamManager:self errorDidOccurForFile:file error:error];
         }
     });
-
-    return YES;
 }
 
 - (void)stop {
-    self.shouldPlayWhenReady = NO;
-    [self.mutableQueue removeAllObjects];
+    dispatch_async(_audioQueue, ^{
+        self.shouldPlayWhenReady = NO;
+        [self.mutableQueue removeAllObjects];
+    });
 }
 
 @end
