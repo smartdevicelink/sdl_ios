@@ -97,6 +97,7 @@ typedef NS_ENUM(NSInteger, SDLPCMAudioStreamManagerError) {
     if (!self.streamManager.isAudioConnected && self.delegate != nil) {
         NSError *error = [NSError errorWithDomain:SDLErrorDomainAudioStreamManager code:SDLPCMAudioStreamManagerErrorNotConnected userInfo:nil];
         [self.delegate audioStreamManager:self errorDidOccurForFile:self.mutableQueue.firstObject error:error];
+        return;
     }
 
     self.shouldPlayWhenReady = NO;
