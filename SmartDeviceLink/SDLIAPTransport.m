@@ -139,7 +139,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
  *  @param notification Contains information about the connected accessory
  */
 - (void)sdl_accessoryConnected:(NSNotification *)notification {
-    EAAccessory *accessory = notification.userInfo[EAAccessoryKey];
+    //EAAccessory *accessory = notification.userInfo[EAAccessoryKey];
     
     double retryDelay = self.retryDelay;
     SDLLogD(@"Accessory Connected (%@), Opening in %0.03fs", notification.userInfo[EAAccessoryKey], retryDelay);
@@ -150,7 +150,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
     }
     
     self.retryCounter = 0;
-    [self performSelector:@selector(sdl_connect:) withObject:accessory afterDelay:retryDelay];
+    [self performSelector:@selector(sdl_connect:) withObject:nil afterDelay:retryDelay];
 }
 
 /**
@@ -430,7 +430,10 @@ int const ProtocolIndexTimeoutSeconds = 20;
     // Control Session Opened
     if ([ControlProtocolString isEqualToString:session.protocol]) {
         SDLLogD(@"Control Session Established");
-        [self.protocolIndexTimer start];
+        
+        if (!self.session) {
+            [self.protocolIndexTimer start];
+        }
     }
     
     // Data Session Opened
@@ -506,7 +509,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
         SDLLogD(@"Control Stream will switch to protocol %@", indexedProtocolString);
         
         // Destroy the control session
-        [strongSelf.protocolIndexTimer cancel];
+        //[strongSelf.protocolIndexTimer cancel];
         dispatch_sync(dispatch_get_main_queue(), ^{
             [strongSelf.controlSession stop];
             strongSelf.controlSession.streamDelegate = nil;
@@ -517,6 +520,7 @@ int const ProtocolIndexTimeoutSeconds = 20;
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.retryCounter = 0;
                 [strongSelf sdl_createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
+                [strongSelf.protocolIndexTimer cancel];
             });
         }
     };
