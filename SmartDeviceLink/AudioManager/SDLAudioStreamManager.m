@@ -65,12 +65,12 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
     if (outputFileURL == nil) {
         SDLLogE(@"Error converting file to CAF / PCM: %@", error);
         if (self.delegate != nil) {
-            [self.delegate audioStreamManager:self errorDidOccurForFile:[[SDLAudioFile alloc] initWithFileURL:fileURL estimatedDuration:UINT32_MAX] error:error];
+            [self.delegate audioStreamManager:self errorDidOccurForFile:fileURL error:error];
         }
         return;
     }
 
-    SDLAudioFile *audioFile = [[SDLAudioFile alloc] initWithFileURL:outputFileURL estimatedDuration:estimatedDuration];
+    SDLAudioFile *audioFile = [[SDLAudioFile alloc] initWithInputFileURL:fileURL outputFileURL:outputFileURL estimatedDuration:estimatedDuration];
     [self.mutableQueue addObject:audioFile];
 
     if (self.shouldPlayWhenReady) {
@@ -93,7 +93,7 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
     if (!self.streamManager.isAudioConnected) {
         if (self.delegate != nil) {
             NSError *error = [NSError errorWithDomain:SDLErrorDomainAudioStreamManager code:SDLAudioStreamManagerErrorNotConnected userInfo:nil];
-            [self.delegate audioStreamManager:self errorDidOccurForFile:self.mutableQueue.firstObject error:error];
+            [self.delegate audioStreamManager:self errorDidOccurForFile:self.mutableQueue.firstObject.inputFileURL error:error];
         }
         return;
     }
@@ -103,23 +103,23 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
     [self.mutableQueue removeObjectAtIndex:0];
 
     // Strip the first bunch of bytes (because of how Apple outputs the data) and send to the audio stream, if we don't do this, it will make a weird click sound
-    SDLLogD(@"Playing audio file: %@", file.fileURL);
+    SDLLogD(@"Playing audio file: %@", file);
     NSData *audioData = [file.data subdataWithRange:NSMakeRange(5760, (file.data.length - 5760))];
-    BOOL success = [self.streamManager sendAudioData:audioData];
+    __block BOOL success = [self.streamManager sendAudioData:audioData];
     self.playing = YES;
 
     float audioLengthSecs = (float)audioData.length / 32000.0;
-    __weak SDLAudioStreamManager *weakSelf = self;
+    __weak typeof(self) weakself = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(audioLengthSecs * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.playing = NO;
+        weakself.playing = NO;
         NSError *error = nil;
-        if (self.delegate != nil) {
-            [weakSelf.delegate audioStreamManager:self fileDidFinishPlaying:file successfully:success];
+        if (weakself.delegate != nil) {
+            [weakself.delegate audioStreamManager:weakself fileDidFinishPlaying:file.inputFileURL successfully:success];
         }
-        SDLLogD(@"Ending Audio file: %@", file.fileURL);
-        [[NSFileManager defaultManager] removeItemAtURL:file.fileURL error:&error];
-        if (self.delegate != nil && error != nil) {
-            [weakSelf.delegate audioStreamManager:self errorDidOccurForFile:file error:error];
+        SDLLogD(@"Ending Audio file: %@", file);
+        [[NSFileManager defaultManager] removeItemAtURL:file.outputFileURL error:&error];
+        if (weakself.delegate != nil && error != nil) {
+            [weakself.delegate audioStreamManager:weakself errorDidOccurForFile:file.inputFileURL error:error];
         }
     });
 }

@@ -12,7 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLAudioFile ()
 
-@property (copy, nonatomic, readwrite, nullable) NSURL *fileURL;
+@property (copy, nonatomic, readwrite) NSURL *inputFileURL;
+@property (copy, nonatomic, readwrite) NSURL *outputFileURL;
 @property (copy, nonatomic, readwrite) NSData *data;
 @property (copy, nonatomic, readwrite) NSString *name;
 
@@ -20,19 +21,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAudioFile
 
-- (instancetype)initWithFileURL:(NSURL *)url estimatedDuration:(UInt32)duration {
+- (instancetype)initWithInputFileURL:(NSURL *)inputURL outputFileURL:(NSURL *)outputURL estimatedDuration:(UInt32)duration {
     self = [super init];
     if (!self) { return nil; }
 
-    _fileURL = url;
+    _inputFileURL = inputURL;
+    _outputFileURL = outputURL;
     _estimatedDuration = duration;
 
     return self;
 }
 
 - (NSData *)data {
-    if (_data.length == 0 && _fileURL != nil) {
-        return [NSData dataWithContentsOfURL:_fileURL];
+    if (_data.length == 0) {
+        return [NSData dataWithContentsOfURL:_outputFileURL];
     }
 
     return _data;
@@ -44,9 +46,9 @@ NS_ASSUME_NONNULL_BEGIN
  @return The size of the data.
  */
 - (unsigned long long)fileSize {
-    if (_fileURL) {
+    if (_outputFileURL != nil) {
         // Data in file
-        NSString *path = [_fileURL path];
+        NSString *path = [_outputFileURL path];
         return [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil].fileSize;
     } else if (_data) {
         // Data in memory

@@ -12,7 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLAudioFile : NSObject
 
-@property (copy, nonatomic, readonly) NSURL *fileURL;
+@property (copy, nonatomic, readonly) NSURL *inputFileURL;
+
+@property (copy, nonatomic, readonly) NSURL *outputFileURL;
 
 /**
  In seconds. UINT32_MAX if unknown.
@@ -23,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic, readonly) unsigned long long fileSize;
 
-- (instancetype)initWithFileURL:(NSURL *)url estimatedDuration:(UInt32)duration;
+- (instancetype)initWithInputFileURL:(NSURL *)inputURL outputFileURL:(NSURL *)outputURL estimatedDuration:(UInt32)duration;
 
 @end
 
