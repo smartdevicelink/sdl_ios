@@ -1,3 +1,6 @@
+# 5.0.0
+No changes since RC3
+
 # 5.0.0 Release Candidate 3 (changes since RC 2)
 ### Bug Fixes
 * Fix a possible crash if the List Files request from the FileManager fails due to disconnection or unregistration.
