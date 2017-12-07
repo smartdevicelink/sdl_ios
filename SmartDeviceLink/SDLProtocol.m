@@ -166,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - End Service
 
 - (void)endServiceWithType:(SDLServiceType)serviceType {
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].majorProtocolVersion];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].majorProtocolVersion];
     header.frameType = SDLFrameTypeControl;
     header.serviceType = serviceType;
     header.frameData = SDLFrameInfoEndService;
@@ -196,7 +196,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
     NSParameterAssert(message != nil);
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:[SDLGlobals sharedGlobals].majorProtocolVersion] options:kNilOptions error:error];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].majorProtocolVersion] options:kNilOptions error:error];
     
     if (error != nil) {
         SDLLogW(@"Error encoding JSON data: %@", *error);

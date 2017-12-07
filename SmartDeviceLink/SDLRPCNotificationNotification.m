@@ -15,15 +15,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRPCNotificationNotification
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wimplicit-atomic-properties"
+@synthesize name = _name;
+@synthesize object = _object;
+@synthesize userInfo = _userInfo;
+#pragma clang diagnostic pop
+
 - (instancetype)initWithName:(NSString *)name object:(nullable id)object rpcNotification:(SDLRPCNotification *)notification {
-    self = [super initWithName:name object:object userInfo:@{SDLNotificationUserInfoObject: notification}];
+    _name = name;
+    _object = object;
+    _userInfo = @{SDLNotificationUserInfoObject: notification};
+
     if (!self) { return nil; }
 
     return self;
 }
 
 - (__kindof SDLRPCNotification *)notification {
-    return self.userInfo[SDLNotificationUserInfoObject];
+    return _userInfo[SDLNotificationUserInfoObject];
 }
 
 - (BOOL)isNotificationMemberOfClass:(Class)aClass {

@@ -15,15 +15,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRPCResponseNotification
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wimplicit-atomic-properties"
+@synthesize name = _name;
+@synthesize object = _object;
+@synthesize userInfo = _userInfo;
+#pragma clang diagnostic pop
+
 - (instancetype)initWithName:(NSString *)name object:(nullable id)object rpcResponse:(SDLRPCResponse *)response {
-    self = [super initWithName:name object:object userInfo:@{SDLNotificationUserInfoObject: response}];
-    if (!self) { return nil; }
+    _name = name;
+    _object = object;
+    _userInfo = @{SDLNotificationUserInfoObject: response};
 
     return self;
 }
 
 - (__kindof SDLRPCResponse *)response {
-    return self.userInfo[SDLNotificationUserInfoObject];
+    return _userInfo[SDLNotificationUserInfoObject];
 }
 
 - (BOOL)isResponseMemberOfClass:(Class)aClass {
