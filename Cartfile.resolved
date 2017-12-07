@@ -1,5 +1,5 @@
-github "AliSoftware/OHHTTPStubs" "aa3625962f35855086b483ba8618d0b93362d419"
-github "Quick/Nimble" "v7.0.2"
+github "AliSoftware/OHHTTPStubs" "6.1.0"
+github "Quick/Nimble" "v7.0.3"
 github "Quick/Quick" "v1.2.0"
 github "erikdoe/ocmock" "v3.4.1"
 github "facebook/ios-snapshot-test-case" "2.1.4"

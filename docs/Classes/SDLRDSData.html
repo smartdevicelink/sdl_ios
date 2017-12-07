@@ -31,9 +31,12 @@ in conventional FM radio broadcasts.</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLRDSData</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithProgramService</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">programService</span> <span class="nf">radioText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">radioText</span> <span class="nf">clockText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">clockText</span> <span class="nf">programIdentification</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">programIdentification</span> <span class="nf">programType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">programType</span> <span class="nf">trafficProgramIdentification</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">trafficProgramIdentification</span> <span class="nf">trafficAnnouncementIdentification</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">trafficAnnouncementIdentification</span> <span class="nf">region</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">region</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">programService</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">radioText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">clockText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">programIdentification</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">programType</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?,</span> <span class="nv">trafficProgramIdentification</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">trafficAnnouncementIdentification</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?,</span> <span class="nv">region</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
   
   
   
@@ -134,7 +137,7 @@ in conventional FM radio broadcasts.</p>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">programType</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">programType</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -155,7 +158,7 @@ in conventional FM radio broadcasts.</p>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">trafficProgramIdentification</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">trafficProgramIdentification</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -176,7 +179,7 @@ in conventional FM radio broadcasts.</p>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">trafficAnnouncementIdentification</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">trafficAnnouncementIdentification</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

@@ -82,7 +82,7 @@ describe(@"SDLFileManager", ^{
             expect(testFileManager.currentState).to(match(SDLFileManagerStateFetchingInitialList));
         });
 
-        describe(@"after receiving a ListFiles response", ^{
+        describe(@"after going to the shutdown state and receiving a ListFiles response", ^{
             __block SDLListFilesResponse *testListFilesResponse = nil;
             __block NSSet<NSString *> *testInitialFileNames = nil;
 
@@ -94,10 +94,33 @@ describe(@"SDLFileManager", ^{
                 testListFilesResponse.spaceAvailable = @(initialSpaceAvailable);
                 testListFilesResponse.filenames = [NSArray arrayWithArray:[testInitialFileNames allObjects]];
 
+                [testFileManager stop];
+                [testConnectionManager respondToLastRequestWithResponse:testListFilesResponse];
+            });
+
+            it(@"should remain in the stopped state after receiving the response if disconnected", ^{
+
+                expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateShutdown));
+            });
+        });
+
+        describe(@"after receiving a ListFiles response", ^{
+            __block SDLListFilesResponse *testListFilesResponse = nil;
+            __block NSSet<NSString *> *testInitialFileNames = nil;
+
+            beforeEach(^{
+                testInitialFileNames = [NSSet setWithArray:@[@"testFile1", @"testFile2", @"testFile3"]];
+
+                testListFilesResponse = [[SDLListFilesResponse alloc] init];
+                testListFilesResponse.success = @YES;
+                testListFilesResponse.spaceAvailable = @(initialSpaceAvailable);
+                testListFilesResponse.filenames = [NSArray arrayWithArray:[testInitialFileNames allObjects]];
                 [testConnectionManager respondToLastRequestWithResponse:testListFilesResponse];
             });
 
             it(@"the file manager should be in the correct state", ^{
+                [testConnectionManager respondToLastRequestWithResponse:testListFilesResponse];
+
                 expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
                 expect(testFileManager.remoteFileNames).toEventually(equal(testInitialFileNames));
                 expect(@(testFileManager.bytesAvailable)).toEventually(equal(@(initialSpaceAvailable)));

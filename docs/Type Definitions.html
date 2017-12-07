@@ -549,6 +549,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n">NSString</span><span class="o">*</span> <span class="n">SDLEnum</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SDLEnum</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+
   
   
   
@@ -559,6 +566,10 @@
   <p>Undocumented</p>
 
   
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n">NSString</span> <span class="n">SDLFileName</span></code></pre>
+
   
   
   
@@ -571,6 +582,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLFileManagerStartupCompletionHandler</span><span class="p">)(</span><span class="n">BOOL</span> <span class="n">success</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">__nullable</span> <span class="n">error</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">SDLFileManagerStartupCompletionHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
   
   
   
@@ -1064,6 +1082,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLLockScreenStatus</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SDLLockScreenStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+
   
   
   
@@ -1120,6 +1145,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLManagerReadyBlock</span><span class="p">)(</span><span class="n">BOOL</span> <span class="n">success</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span> <span class="n">error</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">SDLManagerReadyBlock</span> <span class="o">=</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
   
   
   
@@ -1174,6 +1206,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLModuleType</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SDLModuleType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+
   
   
   
@@ -1185,6 +1224,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n">NOTIFICATION_TYPEDEF</span> <span class="n">SDLNotificationName</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">SDLNotificationName</span> <span class="o">=</span> <span class="kt">NSString</span></code></pre>
+
   
   
   
@@ -1196,6 +1242,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">SDLNotificationUserInfoKey</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">SDLNotificationUserInfoKey</span> <span class="o">=</span> <span class="kt">NSString</span></code></pre>
+
   
   
   
@@ -1343,6 +1396,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">SDLPermissionRPCName</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">SDLPermissionRPCName</span> <span class="o">=</span> <span class="kt">NSString</span></code></pre>
+
   
   
   
@@ -1354,6 +1414,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n">NSUUID</span> <span class="o">*</span><span class="n">SDLPermissionObserverIdentifier</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">SDLPermissionObserverIdentifier</span> <span class="o">=</span> <span class="kt">NSUUID</span></code></pre>
+
   
   
   
@@ -1372,7 +1439,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">SDLPermissionsChangedHandler</span> <span class="o">=</span> <span class="p">([</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">NSNumber</span> </code></pre>
+  <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">SDLPermissionsChangedHandler</span> <span class="o">=</span> <span class="p">([</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">],</span> <span class="kt"><a href="Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
 
   
   
@@ -1412,6 +1479,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLPowerModeQualificationStatus</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SDLPowerModeQualificationStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+
   
   
   
@@ -1423,6 +1497,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLPowerModeStatus</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SDLPowerModeStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+
   
   
   
@@ -1434,6 +1515,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLPredefinedLayout</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SDLPredefinedLayout</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+
   
   
   
@@ -1445,6 +1533,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLPrerecordedSpeech</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SDLPrerecordedSpeech</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+
   
   
   
@@ -1476,6 +1571,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLRadioBand</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SDLRadioBand</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+
   
   
   
@@ -1505,6 +1607,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLRequestType</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SDLRequestType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+
   
   
   
@@ -1574,6 +1683,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLSpeechCapabilities</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SDLSpeechCapabilities</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+
   
   
   
@@ -1641,6 +1757,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLTBTState</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SDLTBTState</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+
   
   
   
@@ -1652,6 +1775,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLTemperatureUnit</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SDLTemperatureUnit</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+
   
   
   
@@ -1703,6 +1833,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLTimerMode</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SDLTimerMode</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+
   
   
   
@@ -1715,6 +1852,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
   <a href="Type Definitions/SDLTouchIdentifier.html" class="slightly-smaller">See more</a>
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+    <span class="n">SDLTouchIdentifierFirstFinger</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">SDLTouchIdentifierSecondFinger</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="p">}</span> <span class="n">SDLTouchIdentifier</span></code></pre>
+
+  
   
   
   
@@ -1726,6 +1870,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="kt">void</span><span class="p">(</span><span class="o">^</span><span class="n">SDLTouchEventHandler</span><span class="p">)(</span><span class="n"><a href="Classes/SDLTouch.html">SDLTouch</a></span> <span class="o">*</span><span class="n">touch</span><span class="p">,</span> <span class="n"><a href="Type Definitions.html#/c:SDLTouchType.h@T@SDLTouchType">SDLTouchType</a></span> <span class="n">type</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">typealias</span> <span class="kt">SDLTouchEventHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Classes/SDLTouch.html">SDLTouch</a></span><span class="p">,</span> <span class="kt"><a href="Type Definitions.html#/c:SDLTouchType.h@T@SDLTouchType">SDLTouchType</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
   
   
   
@@ -1737,6 +1888,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLTouchType</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SDLTouchType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+
   
   
   
@@ -1902,6 +2060,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLVentilationMode</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SDLVentilationMode</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+
   
   
   
@@ -1989,6 +2154,13 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLWayPointType</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SDLWayPointType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+
   
   
   

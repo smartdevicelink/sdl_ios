@@ -38,9 +38,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLLogFileModule.html">SDLLogFileModule</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">modules</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">modules</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">AnyHashable</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -53,9 +56,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLLogTarget.html">SDLLogTarget</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="n">targets</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">targets</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">AnyHashable</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -68,9 +74,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLLogFilter.html">SDLLogFilter</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">filters</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">filters</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">AnyHashable</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -101,9 +110,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="../Enums/SDLLogFormatType.html">SDLLogFormatType</a></span> <span class="n">formatType</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">formatType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLLogFormatType.html">SDLLogFormatType</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -116,9 +128,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">isAsynchronous</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">asynchronous</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">isAsynchronous</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -131,9 +146,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">areErrorsAsynchronous</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">errorsAsynchronous</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">areErrorsAsynchronous</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -146,9 +164,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">class</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSDateFormatter</span> <span class="o">*</span><span class="n">dateFormatter</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="k">var</span> <span class="nv">dateFormatter</span><span class="p">:</span> <span class="kt">DateFormatter</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -161,9 +182,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">class</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">dispatch_queue_t</span> <span class="n">logQueue</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">unowned(unsafe)</span> <span class="kd">class</span> <span class="k">var</span> <span class="nv">logQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -176,9 +200,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLLogManager</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLogManager</span> <span class="o">*</span><span class="p">)</span><span class="n">sharedManager</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">shared</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">SDLLogManager</span></code></pre>
+
   
   
   

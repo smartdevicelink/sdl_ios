@@ -29,6 +29,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleProtocolStartServiceACKMessage</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">startServiceACK</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">handleProtocolStartServiceACKMessage</span><span class="p">(</span><span class="n">_</span> <span class="nv">startServiceACK</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span><span class="p">)</span></code></pre>
+
   
   
   
@@ -40,6 +47,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleProtocolStartServiceNAKMessage</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">startServiceNAK</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">handleProtocolStartServiceNAKMessage</span><span class="p">(</span><span class="n">_</span> <span class="nv">startServiceNAK</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span><span class="p">)</span></code></pre>
+
   
   
   
@@ -51,6 +65,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleProtocolEndServiceACKMessage</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">endServiceACK</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">handleProtocolEndServiceACKMessage</span><span class="p">(</span><span class="n">_</span> <span class="nv">endServiceACK</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span><span class="p">)</span></code></pre>
+
   
   
   
@@ -62,6 +83,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleProtocolEndServiceNAKMessage</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">endServiceNAK</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">handleProtocolEndServiceNAKMessage</span><span class="p">(</span><span class="n">_</span> <span class="nv">endServiceNAK</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span><span class="p">)</span></code></pre>
+
   
   
   
@@ -73,6 +101,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleHeartbeatForSession</span><span class="p">:(</span><span class="n">Byte</span><span class="p">)</span><span class="nv">session</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">handleHeartbeat</span><span class="p">(</span><span class="n">forSession</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">)</span></code></pre>
+
   
   
   
@@ -84,6 +119,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">handleHeartbeatACK</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">handleHeartbeatACK</span><span class="p">()</span></code></pre>
+
   
   
   
@@ -95,6 +137,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onProtocolMessageReceived</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">msg</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">onProtocolMessageReceived</span><span class="p">(</span><span class="n">_</span> <span class="nv">msg</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span><span class="p">)</span></code></pre>
+
   
   
   
@@ -106,6 +155,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">onProtocolOpened</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">onProtocolOpened</span><span class="p">()</span></code></pre>
+
   
   
   
@@ -117,6 +173,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">onProtocolClosed</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">onProtocolClosed</span><span class="p">()</span></code></pre>
+
   
   
   
@@ -128,6 +191,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onError</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">info</span> <span class="nf">exception</span><span class="p">:(</span><span class="n">NSException</span> <span class="o">*</span><span class="p">)</span><span class="nv">e</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">onError</span><span class="p">(</span><span class="n">_</span> <span class="nv">info</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">exception</span> <span class="nv">e</span><span class="p">:</span> <span class="kt">NSException</span><span class="p">)</span></code></pre>
+
   
   
   

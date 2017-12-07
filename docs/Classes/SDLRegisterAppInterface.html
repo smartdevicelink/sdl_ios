@@ -108,9 +108,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLRegisterAppInterface</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLifecycleConfiguration</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfiguration</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">lifecycleConfiguration</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span><span class="p">)</span></code></pre>
+
   
   
   
@@ -123,9 +126,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLRegisterAppInterface</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span> <span class="nf">appId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span> <span class="nf">languageDesired</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">languageDesired</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">languageDesired</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span></code></pre>
+
   
   
   
@@ -138,9 +144,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLRegisterAppInterface</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span> <span class="nf">appId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span> <span class="nf">languageDesired</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">languageDesired</span> <span class="nf">isMediaApp</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">isMediaApp</span> <span class="nf">appType</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="p">)</span><span class="nv">appType</span> <span class="nf">shortAppName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">shortAppName</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">languageDesired</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">,</span> <span class="nv">isMediaApp</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">appType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="p">,</span> <span class="nv">shortAppName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
   
   
   
@@ -153,9 +162,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLRegisterAppInterface</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span> <span class="nf">appId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span> <span class="nf">languageDesired</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">languageDesired</span> <span class="nf">isMediaApp</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">isMediaApp</span> <span class="nf">appType</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="p">)</span><span class="nv">appType</span> <span class="nf">shortAppName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">shortAppName</span> <span class="nf">ttsName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsName</span> <span class="nf">vrSynonyms</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrSynonyms</span> <span class="nf">hmiDisplayLanguageDesired</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">hmiDisplayLanguageDesired</span> <span class="nf">resumeHash</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">resumeHash</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">languageDesired</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">,</span> <span class="nv">isMediaApp</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">appType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="p">,</span> <span class="nv">shortAppName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">ttsName</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?,</span> <span class="nv">vrSynonyms</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">hmiDisplayLanguageDesired</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">,</span> <span class="nv">resumeHash</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
   
   
   
@@ -304,7 +316,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">isMediaApplication</span><span class="p">:</span> <span class="kt">NSNumber</span> </code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">isMediaApplication</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

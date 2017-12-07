@@ -27,9 +27,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLMenuParams</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMenuName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">menuName</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">menuName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
   
   
   
@@ -42,9 +45,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLMenuParams</span> <span class="p">:</span> <span class="nc"><a href="../Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMenuName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">menuName</span> <span class="nf">parentId</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">parentId</span> <span class="nf">position</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">position</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">menuName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">parentId</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">position</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span></code></pre>
+
   
   
   
@@ -64,7 +70,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">parentID</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">parentID</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -92,7 +98,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">position</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> </code></pre>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">position</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

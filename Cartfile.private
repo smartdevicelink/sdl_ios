@@ -1,5 +1,6 @@
+# github "Quick/Quick" ~> 1.1
 github "Quick/Quick" ~> 1.2
 github "Quick/Nimble" ~> 7.0
-github "AliSoftware/OHHTTPStubs" "master"
+github "AliSoftware/OHHTTPStubs" ~> 6.1
 github "erikdoe/ocmock" ~> 3.4
 github "facebook/ios-snapshot-test-case" ~> 2.1

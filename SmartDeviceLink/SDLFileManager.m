@@ -151,6 +151,11 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 - (void)didEnterStateFetchingInitialList {
     __weak typeof(self) weakSelf = self;
     [self sdl_listRemoteFilesWithCompletionHandler:^(BOOL success, NSUInteger bytesAvailable, NSArray<NSString *> *_Nonnull fileNames, NSError *_Nullable error) {
+        // If we've already shut down by this point, just stay in the shutdown state
+        if ([weakSelf.stateMachine.currentState isEqualToString:SDLFileManagerStateShutdown]) {
+            BLOCK_RETURN;
+        }
+
         // If there was an error, we'll pass the error to the startup handler and cancel out
         if (error != nil) {
             [weakSelf.stateMachine transitionToState:SDLFileManagerStateStartupError];
