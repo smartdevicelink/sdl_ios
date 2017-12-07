@@ -15,20 +15,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRPCNotificationNotification
 
-@synthesize name = _name;
-@synthesize object = _object;
-@synthesize userInfo = _userInfo;
-
 - (instancetype)initWithName:(NSString *)name object:(nullable id)object rpcNotification:(SDLRPCNotification *)notification {
-    _name = name;
-    _object = object;
-    _userInfo = @{SDLNotificationUserInfoObject: notification};
+    self = [super initWithName:name object:object userInfo:@{SDLNotificationUserInfoObject: notification}];
+    if (!self) { return nil; }
 
     return self;
 }
 
 - (__kindof SDLRPCNotification *)notification {
-    return _userInfo[SDLNotificationUserInfoObject];
+    return self.userInfo[SDLNotificationUserInfoObject];
 }
 
 - (BOOL)isNotificationMemberOfClass:(Class)aClass {
