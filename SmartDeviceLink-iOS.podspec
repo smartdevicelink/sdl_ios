@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "SmartDeviceLink-iOS"
-s.version      = "4.6.1"
+s.version      = "5.0.0"
 s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
 s.license      = { :type => "New BSD", :file => "LICENSE" }
@@ -45,6 +45,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLButtonCapabilities.h',
 'SmartDeviceLink/SDLButtonEventMode.h',
 'SmartDeviceLink/SDLButtonName.h',
+'SmartDeviceLink/SDLButtonPress.h',
 'SmartDeviceLink/SDLButtonPressMode.h',
 'SmartDeviceLink/SDLCarModeStatus.h',
 'SmartDeviceLink/SDLChangeRegistration.h',
@@ -334,11 +335,6 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLWiperStatus.h',
 'SmartDeviceLink/SmartDeviceLink.h',
 ]
-end
-
-s.subspec 'Swift' do |ss|
-ss.dependency 'SmartDeviceLink-iOS/Default'
-ss.source_files = 'SmartDeviceLinkSwift/*.swift'
 end
 
 end

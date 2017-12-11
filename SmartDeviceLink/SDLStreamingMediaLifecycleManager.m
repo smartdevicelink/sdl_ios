@@ -20,6 +20,7 @@
 #import "SDLGetSystemCapabilityResponse.h"
 #import "SDLGlobals.h"
 #import "SDLFocusableItemLocator.h"
+#import "SDLH264VideoEncoder.h"
 #import "SDLHMICapabilities.h"
 #import "SDLImageResolution.h"
 #import "SDLLogMacros.h"
@@ -35,7 +36,7 @@
 #import "SDLStreamingMediaManagerDataSource.h"
 #import "SDLSystemCapability.h"
 #import "SDLTouchManager.h"
-#import "SDLH264VideoEncoder.h"
+#import "SDLVehicleType.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLVideoStreamingCodec.h"
 #import "SDLVideoStreamingFormat.h"
@@ -78,6 +79,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 @property (strong, nonatomic, nullable) SDLH264VideoEncoder *videoEncoder;
 @property (copy, nonatomic) NSDictionary<NSString *, id> *videoEncoderSettings;
+@property (copy, nonatomic) NSArray<NSString *> *secureMakes;
+@property (copy, nonatomic) NSString *connectedVehicleMake;
 
 @property (strong, nonatomic, readwrite) SDLStateMachine *appStateMachine;
 @property (strong, nonatomic, readwrite) SDLStateMachine *videoStreamStateMachine;
@@ -104,9 +107,12 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogV(@"Creating StreamingLifecycleManager");
     _connectionManager = connectionManager;
 
-    if (configuration.window != nil) {
-        _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithWindow:configuration.window connectionManager:_connectionManager];
+    if (@available(iOS 9.0, *)) {
+        if (configuration.window != nil) {
+            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithWindow:configuration.window connectionManager:_connectionManager];
+        }
     }
+
     _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager];
 
     _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
@@ -116,6 +122,12 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _backgroundingPixelBuffer = NULL;
     _preferredFormatIndex = 0;
     _preferredResolutionIndex = 0;
+
+    NSMutableArray<NSString *> *tempMakeArray = [NSMutableArray array];
+    for (Class securityManagerClass in configuration.securityManagers) {
+        [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
+    }
+    _secureMakes = [tempMakeArray copy];
 
     SDLAppState *initialState = SDLAppStateInactive;
     switch ([[UIApplication sharedApplication] applicationState]) {
@@ -158,6 +170,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self sdl_stopVideoSession];
 
     self.restartVideoStream = NO;
+
+    self.hmiLevel = SDLHMILevelNone;
+
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateStopped];
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
 }
@@ -402,7 +417,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)didEnterStateAudioStreamStarting {
     SDLLogD(@"Audio stream starting");
-    if (self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) {
+    if ((self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) && ([self.secureMakes containsObject:self.connectedVehicleMake])) {
         [self.protocol startSecureServiceWithType:SDLServiceTypeAudio payload:nil completionHandler:^(BOOL success, NSError * _Nonnull error) {
             if (error) {
                 SDLLogE(@"TLS setup error: %@", error);
@@ -576,6 +591,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         _screenSize = SDLDefaultScreenSize;
     }
 
+    self.connectedVehicleMake = registerResponse.vehicleType.make;
+
     SDLLogD(@"Determined base screen size on display capabilities: %@", NSStringFromCGSize(_screenSize));
 }
 
@@ -607,6 +624,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)sdl_startVideoSession {
     SDLLogV(@"Attempting to start video session");
+
+    if (!self.isHmiStateVideoStreamCapable) {
+        SDLLogV(@"SDL Core is not ready to stream video. Video start service request will not be sent.");
+        return;
+    }
 
     if (!self.isStreamingSupported) {
         SDLLogV(@"Streaming is not supported. Video start service request will not be sent.");
@@ -745,7 +767,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLControlFramePayloadVideoStartService *startVideoPayload = [[SDLControlFramePayloadVideoStartService alloc] initWithVideoHeight:preferredResolution.resolutionHeight.intValue width:preferredResolution.resolutionWidth.intValue protocol:preferredFormat.protocol codec:preferredFormat.codec];
 
     // Decide if we need to start a secure service or not
-    if (self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) {
+    if ((self.requestedEncryptionType != SDLStreamingEncryptionFlagNone) && ([self.secureMakes containsObject:self.connectedVehicleMake])) {
         SDLLogD(@"Sending secure video start service with payload: %@", startVideoPayload);
         [self.protocol startSecureServiceWithType:SDLServiceTypeVideo payload:startVideoPayload.data completionHandler:^(BOOL success, NSError *error) {
             if (error) {

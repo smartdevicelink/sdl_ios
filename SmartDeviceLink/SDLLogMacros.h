@@ -27,6 +27,7 @@
 
 #else
 
+#define SDLLogBytes(bytes, transmissionDirection)
 #define SDLLogV(msg, ...)
 #define SDLLogD(msg, ...)
 

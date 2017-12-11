@@ -1,0 +1,116 @@
+<h1>SDLVideoStreamingCapability Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithPreferredResolution:maxBitrate:supportedFormats:hapticDataSupported:">-initWithPreferredResolution:maxBitrate:supportedFormats:hapticDataSupported:</a></li>
+  <li><a href="#section-preferredResolution">preferredResolution</a></li>
+  <li><a href="#section-maxBitrate">maxBitrate</a></li>
+  <li><a href="#section-supportedFormats">supportedFormats</a></li>
+  <li><a href="#section-hapticSpatialDataSupported">hapticSpatialDataSupported</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithPreferredResolution:maxBitrate:supportedFormats:hapticDataSupported:">
+      -initWithPreferredResolution:maxBitrate:supportedFormats:hapticDataSupported:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithPreferredResolution</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">preferredResolution</span> <span class="nf">maxBitrate</span><span class="p">:(</span><span class="kt">int32_t</span><span class="p">)</span><span class="nv">maxBitrate</span> <span class="nf">supportedFormats</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVideoStreamingFormat.html">SDLVideoStreamingFormat</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">supportedFormats</span> <span class="nf">hapticDataSupported</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">hapticDataSupported</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">preferredResolution</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImageResolution.html">SDLImageResolution</a></span><span class="p">?,</span> <span class="nv">maxBitrate</span><span class="p">:</span> <span class="kt">Int32</span><span class="p">,</span> <span class="nv">supportedFormats</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLVideoStreamingFormat.html">SDLVideoStreamingFormat</a></span><span class="p">]?,</span> <span class="nv">hapticDataSupported</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-preferredResolution">
+      preferredResolution
+  </h3>
+  
+  <p>@abstract The preferred resolution of a video stream for decoding and rendering on HMI, optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="n">preferredResolution</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">preferredResolution</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImageResolution.html">SDLImageResolution</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-maxBitrate">
+      maxBitrate
+  </h3>
+  
+  <p>@abstract The maximum bitrate of video stream that is supported, in kbps, optional</p>
+
+<p>minvalue= 0</p>
+
+<p>maxvalue= 2147483647</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">maxBitrate</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">maxBitrate</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-supportedFormats">
+      supportedFormats
+  </h3>
+  
+  <p>@abstract Detailed information on each format supported by this system, in its preferred order, optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVideoStreamingFormat.html">SDLVideoStreamingFormat</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">supportedFormats</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">supportedFormats</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLVideoStreamingFormat.html">SDLVideoStreamingFormat</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-hapticSpatialDataSupported">
+      hapticSpatialDataSupported
+  </h3>
+  
+  <p>True if the system can utilize the haptic spatial data from the source being streamed.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">hapticSpatialDataSupported</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">hapticSpatialDataSupported</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

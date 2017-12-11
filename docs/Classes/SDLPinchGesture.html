@@ -1,0 +1,148 @@
+<h1>SDLPinchGesture Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithFirstTouch:secondTouch:">-initWithFirstTouch:secondTouch:</a></li>
+  <li><a href="#section-firstTouch">firstTouch</a></li>
+  <li><a href="#section-secondTouch">secondTouch</a></li>
+  <li><a href="#section-distance">distance</a></li>
+  <li><a href="#section-center">center</a></li>
+  <li><a href="#section-isValid">isValid</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithFirstTouch:secondTouch:">
+      -initWithFirstTouch:secondTouch:
+  </h3>
+  
+  <p>@abstract
+    Initializes a pinch gesture.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithFirstTouch</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLTouch.html">SDLTouch</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">firstTouch</span>
+                               <span class="nf">secondTouch</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLTouch.html">SDLTouch</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">secondTouch</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">firstTouch</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouch.html">SDLTouch</a></span><span class="p">,</span> <span class="nv">secondTouch</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouch.html">SDLTouch</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>firstTouch</dt>
+      <dd><p>First touch of the gesture</p></dd>
+      <dt>secondTouch</dt>
+      <dd><p>Second touch of the gesture</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>SDLPinchGesture
+Instance of SDLPinchGesture.</p>
+  </div>
+  
+  <h3 id="section-firstTouch">
+      firstTouch
+  </h3>
+  
+  <p>@abstract
+    First touch of a pinch gesture.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLTouch.html">SDLTouch</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">firstTouch</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">firstTouch</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouch.html">SDLTouch</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-secondTouch">
+      secondTouch
+  </h3>
+  
+  <p>@abstract
+    Second touch of a pinch gesture.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLTouch.html">SDLTouch</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">secondTouch</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">secondTouch</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouch.html">SDLTouch</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-distance">
+      distance
+  </h3>
+  
+  <p>@abstract
+    Distance between first and second touches.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">distance</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">distance</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-center">
+      center
+  </h3>
+  
+  <p>@abstract
+    Center point between first and second touches.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">CGPoint</span> <span class="n">center</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">center</span><span class="p">:</span> <span class="kt">CGPoint</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-isValid">
+      isValid
+  </h3>
+  
+  <p>@abstract
+    Returns whether or not the pinch gesture is valid. This is true if both touches
+    are non null.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">isValid</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight"><code><span class="k">var</span> <span class="nv">isValid</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>
