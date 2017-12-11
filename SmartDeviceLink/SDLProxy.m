@@ -56,6 +56,7 @@ static float DefaultConnectionTimeout = 45.0;
 @property (nullable, nonatomic, strong) SDLDisplayCapabilities *displayCapabilities;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
 @property (nonatomic, strong) NSURLSession* urlSession;
+@property (strong, nonatomic) dispatch_queue_t rpcProcessingQueue;
 
 @end
 
@@ -68,6 +69,7 @@ static float DefaultConnectionTimeout = 45.0;
         SDLLogD(@"Framework Version: %@", self.proxyVersion);
         _debugConsoleGroupName = @"default";
         _lsm = [[SDLLockScreenStatusManager alloc] init];
+        _rpcProcessingQueue = dispatch_queue_create("com.sdl.rpcProcessingQueue", DISPATCH_QUEUE_SERIAL);
 
         _mutableProxyListeners = [NSMutableSet setWithObject:theDelegate];
         _securityManagers = [NSMutableDictionary dictionary];
@@ -629,13 +631,12 @@ static float DefaultConnectionTimeout = 45.0;
 }
 
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(nullable id)object {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        @autoreleasepool {
-            for (id<SDLProxyListener> listener in self.proxyListeners) {
-                if ([listener respondsToSelector:aSelector]) {
-                    // HAX: http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
-                    ((void (*)(id, SEL, id))[(NSObject *)listener methodForSelector:aSelector])(listener, aSelector, object);
-                }
+    // Occurs on the protocol receive serial queue
+    dispatch_async(_rpcProcessingQueue, ^{
+        for (id<SDLProxyListener> listener in self.proxyListeners) {
+            if ([listener respondsToSelector:aSelector]) {
+                // HAX: http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown
+                ((void (*)(id, SEL, id))[(NSObject *)listener methodForSelector:aSelector])(listener, aSelector, object);
             }
         }
     });
