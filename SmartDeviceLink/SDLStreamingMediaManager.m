@@ -328,7 +328,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     if (videoAckPayload.height != SDLControlFrameInt32NotFound && videoAckPayload.width != SDLControlFrameInt32NotFound) {
-        _screenSize = CGSizeMake(videoAckPayload.height, videoAckPayload.width);
+        _screenSize = CGSizeMake(videoAckPayload.width, videoAckPayload.height);
     }
 
     NSError *error = nil;
