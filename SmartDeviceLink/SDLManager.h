@@ -38,7 +38,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 /**
  *  The current HMI level of the running app.
  */
-@property (copy, nonatomic, readonly) SDLHMILevel hmiLevel;
+@property (copy, nonatomic, readonly, nullable) SDLHMILevel hmiLevel;
 
 /**
  *  The current audio streaming state of the running app.
