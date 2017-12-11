@@ -31,16 +31,21 @@ NS_ASSUME_NONNULL_BEGIN
         userInfo = @{SDLNotificationUserInfoObject: infoObject};
     }
 
+    // Runs on `com.sdl.rpcProcessingQueue`
     [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
 }
 
 - (void)postRPCResponseNotification:(NSString *)name response:(__kindof SDLRPCResponse *)response {
     SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:name object:self rpcResponse:response];
+
+    // Runs on `com.sdl.rpcProcessingQueue`
     [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 - (void)postRPCNotificationNotification:(NSString *)name notification:(__kindof SDLRPCNotification *)rpcNotification {
     SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:name object:self rpcNotification:rpcNotification];
+
+    // Runs on `com.sdl.rpcProcessingQueue`
     [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
