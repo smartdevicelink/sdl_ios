@@ -22,8 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
-
-
     return self;
 }
 
