@@ -139,8 +139,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
  *  @param notification Contains information about the connected accessory
  */
 - (void)sdl_accessoryConnected:(NSNotification *)notification {
-    //EAAccessory *accessory = notification.userInfo[EAAccessoryKey];
-    
     double retryDelay = self.retryDelay;
     SDLLogD(@"Accessory Connected (%@), Opening in %0.03fs", notification.userInfo[EAAccessoryKey], retryDelay);
     
@@ -509,7 +507,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
         SDLLogD(@"Control Stream will switch to protocol %@", indexedProtocolString);
         
         // Destroy the control session
-        //[strongSelf.protocolIndexTimer cancel];
         dispatch_sync(dispatch_get_main_queue(), ^{
             [strongSelf.controlSession stop];
             strongSelf.controlSession.streamDelegate = nil;
