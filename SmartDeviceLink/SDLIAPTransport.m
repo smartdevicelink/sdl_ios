@@ -24,8 +24,8 @@ NSString *const IndexedProtocolStringPrefix = @"com.smartdevicelink.prot";
 NSString *const MultiSessionProtocolString = @"com.smartdevicelink.multisession";
 NSString *const BackgroundTaskName = @"com.sdl.transport.iap.backgroundTask";
 
-int const CreateSessionRetries = 1;
-int const ProtocolIndexTimeoutSeconds = 20;
+int const CreateSessionRetries = 3;
+int const ProtocolIndexTimeoutSeconds = 10;
 
 @interface SDLIAPTransport () {
     BOOL _alreadyDestructed;
@@ -149,7 +149,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
         [self sdl_backgroundTaskStart];
     }
     
-    self.retryCounter = 0;
     [self performSelector:@selector(sdl_connect:) withObject:accessory afterDelay:retryDelay];
 }
 
@@ -161,10 +160,11 @@ int const ProtocolIndexTimeoutSeconds = 20;
 - (void)sdl_accessoryDisconnected:(NSNotification *)notification {
     EAAccessory *accessory = [notification.userInfo objectForKey:EAAccessoryKey];
     if (accessory.connectionID != self.session.accessory.connectionID) {
-        SDLLogD(@"Accessory disconnected event (%@)", accessory);
+        SDLLogV(@"Accessory disconnected during control session (%@)", accessory);
+        self.retryCounter = 0;
     }
     if ([accessory.serialNumber isEqualToString:self.session.accessory.serialNumber]) {
-        SDLLogD(@"Connected accessory disconnected event");
+        SDLLogV(@"Accessory disconnected during data session (%@)", accessory);
         self.retryCounter = 0;
         self.sessionSetupInProgress = NO;
         [self disconnect];
@@ -184,7 +184,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
 - (void)sdl_applicationWillEnterForeground:(NSNotification *)notification {
     SDLLogV(@"App foregrounded, attempting connection");
     [self sdl_backgroundTaskEnd];
-    self.retryCounter = 0;
     [self connect];
 }
 
@@ -421,7 +420,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
     }
     
     // Search connected accessories
-    self.retryCounter = 0;
     [self sdl_connect:nil];
 }
 
@@ -515,7 +513,6 @@ int const ProtocolIndexTimeoutSeconds = 20;
         
         if (accessory.isConnected) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.retryCounter = 0;
                 [strongSelf sdl_createIAPDataSessionWithAccessory:accessory forProtocol:indexedProtocolString];
             });
         }
