@@ -208,8 +208,8 @@ describe(@"the streaming media manager", ^{
                                 sendNotificationForHMILevel(SDLHMILevelNone);
                             });
 
-                            it(@"should close only the video stream", ^{
-                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
+                            it(@"should close both streams", ^{
+                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateShuttingDown));
                                 expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateShuttingDown));
                             });
                         });
@@ -273,8 +273,8 @@ describe(@"the streaming media manager", ^{
                             sendNotificationForHMILevel(SDLHMILevelNone);
                         });
 
-                        it(@"should close only the video stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
+                        it(@"should close both streams", ^{
+                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateShuttingDown));
                             expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateShuttingDown));
                         });
                     });
@@ -330,8 +330,8 @@ describe(@"the streaming media manager", ^{
                             sendNotificationForHMILevel(SDLHMILevelNone);
                         });
 
-                        it(@"should only start the audio stream", ^{
-                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStarting));
+                        it(@"should not start either stream", ^{
+                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateStopped));
                             expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateStopped));
                         });
                     });
