@@ -1,3 +1,8 @@
+# 4.7.5 Release Notes
+### Bug Fixes
+* Fixed looping infinite iAP transport causing crashes
+* Fixed `SDLStreamingMediaManager` using reversed width / height in its `screenSize`
+
 # 4.7.4 Release Notes
 ### Bug Fixes
 * Fix for connecting video streaming on Core 4.4.0 (to be released) and above.
