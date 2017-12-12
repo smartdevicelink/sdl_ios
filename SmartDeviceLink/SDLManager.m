@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.configuration;
 }
 
-- (SDLHMILevel)hmiLevel {
+- (nullable SDLHMILevel)hmiLevel {
     return self.lifecycleManager.hmiLevel;
 }
 
