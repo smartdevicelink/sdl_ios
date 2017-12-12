@@ -149,6 +149,21 @@ NS_ASSUME_NONNULL_BEGIN
     });
 }
 
+#pragma mark - Custom Accessors
+- (void)setRootViewController:(nullable UIViewController *)rootViewController {
+    if (rootViewController == nil) {
+        return;
+    }
+
+    if (!(rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationPortrait ||
+          rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationLandscapeLeft ||
+          rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationLandscapeRight)) {
+        NSAssert((rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationPortrait ||
+                  rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationLandscapeLeft ||
+                  rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationLandscapeRight), @"SDLCarWindow rootViewController must support only a single interface orientation");
+    }
+}
+
 #pragma mark - Private Helpers
 + (CVPixelBufferRef)sdl_pixelBufferForImageRef:(CGImageRef)imageRef usingPool:(CVPixelBufferPoolRef)pool {
     CGFloat imageWidth = CGImageGetWidth(imageRef);
