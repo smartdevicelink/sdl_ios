@@ -30,6 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong, readonly) SDLTouchManager *touchManager;
 
+/**
+ This property is used for SDLCarWindow, the ability to stream any view controller. To start, you must set an initial view controller on `SDLStreamingMediaConfiguration` `rootViewController`. After streaming begins, you can replace that view controller with a new root by placing the new view controller into this property.
+ */
 @property (nonatomic, strong) UIViewController *rootViewController;
 
 /**
