@@ -35,9 +35,9 @@ typedef NS_ENUM(NSInteger, SDLAudioStreamManagerError) {
 - (instancetype)initWithManager:(id<SDLStreamingAudioManagerType>)streamManager NS_DESIGNATED_INITIALIZER;
 
 /**
- Push a new file URL onto the queue after converting it into the correct PCM format for streaming binary data.
+ Push a new file URL onto the queue after converting it into the correct PCM format for streaming binary data. Call `playNextWhenReady` to start playing the next completed pushed file.
 
- @note This happens on a global background thread and will provide an error callback using the delegate if the conversion fails.
+ @note This happens on a serial background thread and will provide an error callback using the delegate if the conversion fails.
 
  @param fileURL File URL to convert
  */
