@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The projection view controller associated with the Haptic Manager
  */
-@property (nonatomic, weak) UIViewController *viewController;
+@property (nonatomic, strong) UIViewController *viewController;
 
 @end
 

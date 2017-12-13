@@ -39,6 +39,10 @@ NS_ASSUME_NONNULL_BEGIN
     return NO;
 }
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
     BOOL useWhiteIcon = [self.class sdl_shouldUseWhiteForegroundForBackgroundColor:self.backgroundColor];
 

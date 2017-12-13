@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @warning This is a weak property and it's therefore your job to hold a strong reference to this view controller.
  */
-@property (weak, nonatomic, nullable) UIViewController *rootViewController;
+@property (strong, nonatomic, nullable) UIViewController *rootViewController;
 
 /**
  Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually.

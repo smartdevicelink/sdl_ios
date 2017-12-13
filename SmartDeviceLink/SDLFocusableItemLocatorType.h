@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The projection view controller associated with the Haptic Manager
  */
-@property (nonatomic, weak) UIViewController *viewController;
+@property (nonatomic, strong) UIViewController *viewController;
 
 /**
  Initializes haptic interface. After initializing the application must call updateInterfaceLayout to process the UIWindow. Application must update later view changes in the window by sending SDLDidUpdateProjectionView  notification.

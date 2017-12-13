@@ -45,16 +45,13 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    // We let ourselves know that the lockscreen will present, because we have to pause streaming video for that 0.3 seconds or else it will be very janky.
-    [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
-
     dispatch_async(dispatch_get_main_queue(), ^{
+        // We let ourselves know that the lockscreen will present, because we have to pause streaming video for that 0.3 seconds or else it will be very janky.
+        [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
+
         CGRect firstFrame = appWindow.frame;
         firstFrame.origin.x = CGRectGetWidth(firstFrame);
         appWindow.frame = firstFrame;
-
-        // Take a screenshot of the appWindow.
-        [(SDLScreenshotViewController*)self.lockWindow.rootViewController loadScreenshotOfWindow:appWindow];
 
         // We then move the lockWindow to the original appWindow location.
         self.lockWindow.frame = appWindow.bounds;
@@ -77,14 +74,11 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    // Let us know we are about to dismiss.
-    [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillDismissLockScreenViewController object:nil];
-
     dispatch_async(dispatch_get_main_queue(), ^{
-        // Take a screenshot of the appWindow.
-        [(SDLScreenshotViewController*)self.lockWindow.rootViewController loadScreenshotOfWindow:appWindow];
+        // Let us know we are about to dismiss.
+        [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillDismissLockScreenViewController object:nil];
 
-        // Dismiss the lockscreen, showing the screenshot.
+        // Dismiss the lockscreen
         SDLLogD(@"Dismiss lock screen window");
         [self.lockViewController dismissViewControllerAnimated:YES completion:^{
             CGRect lockFrame = self.lockWindow.frame;

@@ -41,6 +41,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     if (self.supportedOrientation == 0) {
         return UIInterfaceOrientationMaskPortrait;
