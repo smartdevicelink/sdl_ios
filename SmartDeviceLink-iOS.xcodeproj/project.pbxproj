@@ -331,6 +331,8 @@
 		5D1665C91CF8CA3D00CC4CA1 /* SDLPermissionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1665C71CF8CA3D00CC4CA1 /* SDLPermissionFilter.m */; };
 		5D1665CB1CF8CA6700CC4CA1 /* NSNumber+NumberType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1665CA1CF8CA6700CC4CA1 /* NSNumber+NumberType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D1665CD1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1665CC1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D293AFE1FE078A9000CBD7E /* SDLCarWindowViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D293AFC1FE078A9000CBD7E /* SDLCarWindowViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D293AFF1FE078A9000CBD7E /* SDLCarWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D293AFD1FE078A9000CBD7E /* SDLCarWindowViewController.m */; };
 		5D2F58081D0717D5001085CE /* SDLManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D3E48751D6F3B330000BFEF /* SDLAsynchronousOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E48731D6F3B330000BFEF /* SDLAsynchronousOperation.h */; };
 		5D3E48761D6F3B330000BFEF /* SDLAsynchronousOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E48741D6F3B330000BFEF /* SDLAsynchronousOperation.m */; };
@@ -1533,6 +1535,8 @@
 		5D1665C71CF8CA3D00CC4CA1 /* SDLPermissionFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPermissionFilter.m; sourceTree = "<group>"; };
 		5D1665CA1CF8CA6700CC4CA1 /* NSNumber+NumberType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+NumberType.h"; sourceTree = "<group>"; };
 		5D1665CC1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionConstants.h; sourceTree = "<group>"; };
+		5D293AFC1FE078A9000CBD7E /* SDLCarWindowViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCarWindowViewController.h; sourceTree = "<group>"; };
+		5D293AFD1FE078A9000CBD7E /* SDLCarWindowViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCarWindowViewController.m; sourceTree = "<group>"; };
 		5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLManagerDelegate.h; sourceTree = "<group>"; };
 		5D3E48731D6F3B330000BFEF /* SDLAsynchronousOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAsynchronousOperation.h; sourceTree = "<group>"; };
 		5D3E48741D6F3B330000BFEF /* SDLAsynchronousOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAsynchronousOperation.m; sourceTree = "<group>"; };
@@ -4374,6 +4378,8 @@
 			children = (
 				5DCD7ADC1FCCA8D100A0FC7F /* SDLCarWindow.h */,
 				5DCD7ADD1FCCA8D200A0FC7F /* SDLCarWindow.m */,
+				5D293AFC1FE078A9000CBD7E /* SDLCarWindowViewController.h */,
+				5D293AFD1FE078A9000CBD7E /* SDLCarWindowViewController.m */,
 			);
 			name = CarWindow;
 			sourceTree = "<group>";
@@ -4873,6 +4879,7 @@
 				5D61FDEF1A84238C00846EE7 /* SDLUpdateMode.h in Headers */,
 				EED5CA001F4D18DC00F04000 /* SDLRAWH264Packetizer.h in Headers */,
 				DA8966EB1E56939F00413EAB /* SDLStreamingMediaLifecycleManager.h in Headers */,
+				5D293AFE1FE078A9000CBD7E /* SDLCarWindowViewController.h in Headers */,
 				5D61FDDB1A84238C00846EE7 /* SDLTriggerSource.h in Headers */,
 				5D61FD8F1A84238C00846EE7 /* SDLShow.h in Headers */,
 				5D61FDDD1A84238C00846EE7 /* SDLTTSChunk.h in Headers */,
@@ -5170,6 +5177,7 @@
 				5D7F87F41CE3C29E002DD7C4 /* SDLFileWrapper.m in Sources */,
 				5D61FD941A84238C00846EE7 /* SDLShowConstantTBTResponse.m in Sources */,
 				5D61FE0A1A84238C00846EE7 /* SDLVehicleDataType.m in Sources */,
+				5D293AFF1FE078A9000CBD7E /* SDLCarWindowViewController.m in Sources */,
 				5D61FD1A1A84238C00846EE7 /* SDLOnSyncPData.m in Sources */,
 				8B7B319F1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.m in Sources */,
 				5D61FC461A84238C00846EE7 /* SDLAudioPassThruCapabilities.m in Sources */,
