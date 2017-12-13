@@ -60,49 +60,47 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_sendFrame:(CADisplayLink *)displayLink {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (!self.streamManager.isVideoConnected || self.streamManager.isVideoStreamingPaused) {
+    if (!self.streamManager.isVideoConnected || self.streamManager.isVideoStreamingPaused) {
+        return;
+    }
+
+    if (self.sameFrameCounter == 30 && ((displayLink.timestamp - self.lastMd5HashTimestamp) <= 0.1)) {
+        SDLLogD(@"Paused CarWindow, no frame changes in over a second");
+        return;
+    }
+
+    if (self.isLockScreenMoving) {
+        SDLLogD(@"Paused CarWindow, lock screen moving");
+        return;
+    }
+
+    self.lastMd5HashTimestamp = displayLink.timestamp;
+
+    CGRect bounds = self.rootViewController.view.bounds;
+
+    UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1.0f);
+    [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:YES];
+    UIImage *screenshot = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    CGImageRef imageRef = screenshot.CGImage;
+
+    // We use MD5 Hashes to determine if we are sending the same frame over and over. If so, we will only send 30.
+    NSString *currentMd5Hash = [self.class sdl_md5HashForImageRef:imageRef];
+    if ([currentMd5Hash isEqualToString:self.previousMd5Hash]) {
+        if (self.sameFrameCounter == 30) {
             return;
         }
-        
-        if (self.sameFrameCounter == 30 && ((displayLink.timestamp - self.lastMd5HashTimestamp) <= 0.1)) {
-            SDLLogD(@"Paused CarWindow, no frame changes in over a second");
-            return;
-        }
+        self.sameFrameCounter++;
+    } else {
+        self.sameFrameCounter = 0;
+    }
 
-        if (self.isLockScreenMoving) {
-            SDLLogD(@"Paused CarWindow, lock screen moving");
-            return;
-        }
-        
-        self.lastMd5HashTimestamp = displayLink.timestamp;
-        
-        CGRect bounds = self.rootViewController.view.bounds;
-        
-        UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1.0f);
-        [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:YES];
-        UIImage *screenshot = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        CGImageRef imageRef = screenshot.CGImage;
-        
-        // We use MD5 Hashes to determine if we are sending the same frame over and over. If so, we will only send 30.
-        NSString *currentMd5Hash = [self.class sdl_md5HashForImageRef:imageRef];
-        if ([currentMd5Hash isEqualToString:self.previousMd5Hash]) {
-            if (self.sameFrameCounter == 30) {
-                return;
-            }
-            self.sameFrameCounter++;
-        } else {
-            self.sameFrameCounter = 0;
-        }
+    self.previousMd5Hash = currentMd5Hash;
 
-        self.previousMd5Hash = currentMd5Hash;
-
-        CVPixelBufferRef pixelBuffer = [self.class sdl_pixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool];
-        [self.streamManager sendVideoData:pixelBuffer];
-        CVPixelBufferRelease(pixelBuffer);
-    });
+    CVPixelBufferRef pixelBuffer = [self.class sdl_pixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool];
+    [self.streamManager sendVideoData:pixelBuffer];
+    CVPixelBufferRelease(pixelBuffer);
 }
 
 #pragma mark - SDLNavigationLockScreenManager Notifications
