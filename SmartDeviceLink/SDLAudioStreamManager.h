@@ -44,7 +44,7 @@ typedef NS_ENUM(NSInteger, SDLAudioStreamManagerError) {
 - (void)pushWithFileURL:(NSURL *)fileURL;
 
 /**
- Play the next item in the queue. If an item is currently playing, it will continue playing and this item will begin playing after it is completed. If all items are playing via `playAll`, this will do nothing.
+ Play the next item in the queue. If an item is currently playing, it will continue playing and this item will begin playing after it is completed.
 
  When complete, this will callback on the delegate.
  */
