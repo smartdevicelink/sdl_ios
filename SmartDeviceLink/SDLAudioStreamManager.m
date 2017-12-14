@@ -108,7 +108,7 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
     __block BOOL success = [self.streamManager sendAudioData:audioData];
     self.playing = YES;
 
-    float audioLengthSecs = (float)audioData.length / 32000.0;
+    float audioLengthSecs = (float)audioData.length / (float)32000.0;
     __weak typeof(self) weakself = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(audioLengthSecs * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         weakself.playing = NO;
