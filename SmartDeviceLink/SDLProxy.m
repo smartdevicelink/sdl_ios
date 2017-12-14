@@ -43,7 +43,7 @@ typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLRe
 
 NSString *const SDLProxyVersion = @"5.0.0";
 const float StartSessionTime = 10.0;
-const float NotifyProxyClosedDelay = 0.1;
+const float NotifyProxyClosedDelay = (float)0.1;
 const int PoliciesCorrelationId = 65535;
 static float DefaultConnectionTimeout = 45.0;
 
@@ -715,15 +715,15 @@ static float DefaultConnectionTimeout = 45.0;
             NSUInteger currentStreamOffset = [[stream propertyForKey:NSStreamFileCurrentOffsetKey] unsignedIntegerValue];
 
             NSMutableData *buffer = [NSMutableData dataWithLength:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
-            NSUInteger nBytesRead = [(NSInputStream *)stream read:(uint8_t *)buffer.mutableBytes maxLength:buffer.length];
+            NSInteger nBytesRead = [(NSInputStream *)stream read:(uint8_t *)buffer.mutableBytes maxLength:buffer.length];
             if (nBytesRead > 0) {
-                NSData *data = [buffer subdataWithRange:NSMakeRange(0, nBytesRead)];
+                NSData *data = [buffer subdataWithRange:NSMakeRange(0, (NSUInteger)nBytesRead)];
                 NSUInteger baseOffset = [(NSNumber *)objc_getAssociatedObject(stream, @"BaseOffset") unsignedIntegerValue];
                 NSUInteger newOffset = baseOffset + currentStreamOffset;
 
                 SDLPutFile *putFileRPCRequest = (SDLPutFile *)objc_getAssociatedObject(stream, @"SDLPutFile");
                 [putFileRPCRequest setOffset:[NSNumber numberWithUnsignedInteger:newOffset]];
-                [putFileRPCRequest setLength:[NSNumber numberWithUnsignedInteger:nBytesRead]];
+                [putFileRPCRequest setLength:[NSNumber numberWithUnsignedInteger:(NSUInteger)nBytesRead]];
                 [putFileRPCRequest setBulkData:data];
 
                 [self sendRPC:putFileRPCRequest];

@@ -16,5 +16,5 @@ CGPoint CGPointCenterOfPoints(CGPoint point1, CGPoint point2) {
 }
 
 CGFloat CGPointDistanceBetweenPoints(CGPoint point1, CGPoint point2) {
-    return hypotf(point1.x - point2.x, point1.y - point2.y);
+    return hypot(point1.x - point2.x, point1.y - point2.y);
 }

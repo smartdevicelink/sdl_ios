@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableDictionary <NSString *, id> *innerDictionary = [[NSMutableDictionary alloc] init];
     NSString *functionName = [[SDLFunctionID sharedInstance] functionNameForId:rpcPayload.functionID];
     [innerDictionary setObject:functionName forKey:SDLNameOperationName];
-    [innerDictionary setObject:[NSNumber numberWithInt:rpcPayload.correlationID] forKey:SDLNameCorrelationId];
+    [innerDictionary setObject:[NSNumber numberWithUnsignedInt:rpcPayload.correlationID] forKey:SDLNameCorrelationId];
 
     // Get the json data from the struct
     if (rpcPayload.jsonData) {

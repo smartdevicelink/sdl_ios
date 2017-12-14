@@ -58,7 +58,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     OSStatus status;
     
     // Create a compression session
-    status = VTCompressionSessionCreate(NULL, dimensions.width, dimensions.height, kCMVideoCodecType_H264, NULL, self.sdl_pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
+    status = VTCompressionSessionCreate(NULL, (int32_t)dimensions.width, (int32_t)dimensions.height, kCMVideoCodecType_H264, NULL, self.sdl_pixelBufferOptions, NULL, &sdl_videoEncoderOutputCallback, (__bridge void *)self, &_compressionSession);
     
     if (status != noErr) {
         if (!*error) {
@@ -144,7 +144,7 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
             timeRate = ((NSNumber *)self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).intValue;
         }
         
-        presentationTimestamp = CMTimeMake(self.currentFrameNumber, timeRate);
+        presentationTimestamp = CMTimeMake((int64_t)self.currentFrameNumber, timeRate);
     }
     self.currentFrameNumber++;
 
@@ -267,7 +267,7 @@ void sdl_videoEncoderOutputCallback(void * CM_NULLABLE outputCallbackRefCon, voi
             const uint8_t *parameterSetPointer;
             size_t parameterSetLength;
             CMVideoFormatDescriptionGetH264ParameterSetAtIndex(description,
-                                                               i,
+                                                               (size_t)i,
                                                                &parameterSetPointer,
                                                                &parameterSetLength,
                                                                NULL,
