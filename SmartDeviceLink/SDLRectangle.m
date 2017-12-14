@@ -25,7 +25,7 @@
 }
 
 - (instancetype)initWithCGRect:(CGRect)rect {
-    return [self initWithX:rect.origin.x y:rect.origin.y width:rect.size.width height:rect.size.height];
+    return [self initWithX:(float)rect.origin.x y:(float)rect.origin.y width:(float)rect.size.width height:(float)rect.size.height];
 }
 
 - (void)setX:(NSNumber<SDLFloat> *)x {
