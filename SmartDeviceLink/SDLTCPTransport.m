@@ -46,22 +46,20 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 }
 
 - (void)connect {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        SDLLogD(@"Attemping to connect");
-        
-        int sock_fd = call_socket([self.hostName UTF8String], [self.portNumber UTF8String]);
-        if (sock_fd < 0) {
-            SDLLogE(@"Server not ready, connection failed");
-            return;
-        }
-        
-        CFSocketContext socketCtxt = {0, (__bridge void *)(self), NULL, NULL, NULL};
-        socket = CFSocketCreateWithNative(kCFAllocatorDefault, sock_fd, kCFSocketDataCallBack | kCFSocketConnectCallBack, (CFSocketCallBack)&TCPCallback, &socketCtxt);
-        CFRunLoopSourceRef source = CFSocketCreateRunLoopSource(kCFAllocatorDefault, socket, 0);
-        CFRunLoopRef loop = CFRunLoopGetCurrent();
-        CFRunLoopAddSource(loop, source, kCFRunLoopDefaultMode);
-        CFRelease(source);
-    }];
+    SDLLogD(@"Attemping to connect");
+
+    int sock_fd = call_socket([self.hostName UTF8String], [self.portNumber UTF8String]);
+    if (sock_fd < 0) {
+        SDLLogE(@"Server not ready, connection failed");
+        return;
+    }
+
+    CFSocketContext socketCtxt = {0, (__bridge void *)(self), NULL, NULL, NULL};
+    socket = CFSocketCreateWithNative(kCFAllocatorDefault, sock_fd, kCFSocketDataCallBack | kCFSocketConnectCallBack, (CFSocketCallBack)&TCPCallback, &socketCtxt);
+    CFRunLoopSourceRef source = CFSocketCreateRunLoopSource(kCFAllocatorDefault, socket, 0);
+    CFRunLoopRef loop = CFRunLoopGetCurrent();
+    CFRunLoopAddSource(loop, source, kCFRunLoopDefaultMode);
+    CFRelease(source);
 }
 
 - (void)sendData:(NSData *)msgBytes {
