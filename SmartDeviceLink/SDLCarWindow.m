@@ -127,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
         // And start up the displayLink
         self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(sdl_sendFrame:)];
         if (SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"10")) {
-            self.displayLink.preferredFramesPerSecond = self.targetFramerate;
+            self.displayLink.preferredFramesPerSecond = (NSInteger)self.targetFramerate;
         } else {
             self.displayLink.frameInterval = 60/self.targetFramerate;
         }
