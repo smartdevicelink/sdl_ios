@@ -129,7 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
         if (SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"10")) {
             self.displayLink.preferredFramesPerSecond = (NSInteger)self.targetFramerate;
         } else {
-            self.displayLink.frameInterval = 60/self.targetFramerate;
+            self.displayLink.frameInterval = (60 / self.targetFramerate);
         }
         [self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     });

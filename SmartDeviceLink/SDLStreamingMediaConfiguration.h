@@ -126,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
  Create a CarWindow secure configuration with a view controller and security managers
 
  @param securityManagers The security managers available for secure streaming use
- @param initialViewController The initial view controller that will be streamed
+ @param initialViewController The initial view controller that will be streamed, this can be a basic `UIViewController` if you need to set your actual streaming view controller at a later time on `SDLManager.streamingManager.rootViewController`.
  @return The configuration
  */
 + (instancetype)autostreamingSecureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers initialViewController:(UIViewController *)initialViewController;
