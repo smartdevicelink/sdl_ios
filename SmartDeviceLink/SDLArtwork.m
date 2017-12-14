@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-#pragma Private Lifecycle
+#pragma mark Private Lifecycle
 
 - (instancetype)initWithImage:(UIImage *)image name:(NSString *)name persistent:(BOOL)persistent asImageFormat:(SDLArtworkImageFormat)imageFormat {
     NSData *imageData = nil;

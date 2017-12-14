@@ -493,7 +493,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
         
         // Read in the stream a single byte at a time
         uint8_t buf[1];
-        NSUInteger len = [istream read:buf maxLength:1];
+        NSInteger len = [istream read:buf maxLength:1];
         if (len <= 0) {
             return;
         }
@@ -566,7 +566,12 @@ int const ProtocolIndexTimeoutSeconds = 10;
             // It is necessary to check the stream status and whether there are bytes available because the dataStreamHasBytesHandler is executed on the IO thread and the accessory disconnect notification arrives on the main thread, causing data to be passed to the delegate while the main thread is tearing down the transport.
             
             NSInteger bytesRead = [istream read:buf maxLength:[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
-            NSData *dataIn = [NSData dataWithBytes:buf length:bytesRead];
+            if (bytesRead < 0) {
+                SDLLogE(@"Failed to read from data stream");
+                break;
+            }
+
+            NSData *dataIn = [NSData dataWithBytes:buf length:(NSUInteger)bytesRead];
             SDLLogBytes(dataIn, SDLLogBytesDirectionReceive);
 
             if (bytesRead > 0) {
