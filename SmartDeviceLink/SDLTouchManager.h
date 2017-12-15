@@ -10,7 +10,7 @@
 
 #import "SDLTouchType.h"
 
-@protocol SDLHapticHitTester;
+@protocol SDLFocusableItemHitTester;
 @protocol SDLTouchManagerDelegate;
 
 @class SDLTouch;
@@ -82,7 +82,7 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
  @param hitTester The hit tester to be used to correlate a point with a view
  @return The initialized touch manager
  */
-- (instancetype)initWithHitTester:(nullable id<SDLHapticHitTester>)hitTester;
+- (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester;
 
 @end
 

@@ -1,5 +1,5 @@
 //
-//  SDLHapticHitTester.h
+//  SDLFocusableItemHitTester.h
 //  SmartDeviceLink-iOS
 //
 //  Copyright © 2017 smartdevicelink. All rights reserved.

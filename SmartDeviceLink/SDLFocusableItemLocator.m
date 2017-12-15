@@ -124,7 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.connectionManager sendManagerRequest:hapticRPC withResponseHandler:nil];
 }
 
-#pragma mark SDLHapticHitTester functions
+#pragma mark SDLFocusableItemHitTester functions
 - (nullable UIView *)viewForPoint:(CGPoint)point {
     UIView *selectedView = nil;
     
