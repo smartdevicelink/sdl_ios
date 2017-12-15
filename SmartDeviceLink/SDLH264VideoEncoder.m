@@ -35,13 +35,14 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
     if (self != [SDLH264VideoEncoder class]) {
         return;
     }
-    
+
+    // https://support.google.com/youtube/answer/1722171?hl=en
     _defaultVideoEncoderSettings = @{
                                      (__bridge NSString *)kVTCompressionPropertyKey_ProfileLevel: (__bridge NSString *)kVTProfileLevel_H264_Baseline_AutoLevel,
                                      (__bridge NSString *)kVTCompressionPropertyKey_RealTime: @YES,
-                                     (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate: @30,
+                                     (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate: @20,
                                      (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate: @1000000,
-                                     (__bridge NSString *)kVTCompressionPropertyKey_DataRateLimits: @[@150000, @1, @130000, @5],
+                                     (__bridge NSString *)kVTCompressionPropertyKey_DataRateLimits: @[@700000, @5]
                                      };
 }
 
@@ -105,7 +106,8 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
         status = VTSessionSetProperty(self.compressionSession, (__bridge CFStringRef)key, (__bridge CFTypeRef)value);
         if (status != noErr) {
             if (!*error) {
-                *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{ @"OSStatus": @(status) }];
+                NSString *description = [NSString stringWithFormat:@"Setting key failed \"%@\"", key];
+                *error = [NSError errorWithDomain:SDLErrorDomainVideoEncoder code:SDLVideoEncoderErrorConfigurationCompressionSessionSetPropertyFailure userInfo:@{NSLocalizedDescriptionKey: description, @"OSStatus": @(status)}];
             }
             return nil;
         }
