@@ -30,6 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Properties to use for applications that utilitze the video encoder for streaming. See VTCompressionProperties.h for more details. For example, you can set kVTCompressionPropertyKey_ExpectedFrameRate to set your framerate. Setting the framerate this way will also set the framerate if you use CarWindow automatic streaming.
+ *  Properties to use for applications that utilize the video encoder for streaming. See VTCompressionProperties.h for more details. For example, you can set kVTCompressionPropertyKey_ExpectedFrameRate to set your framerate. Setting the framerate this way will also set the framerate if you use CarWindow automatic streaming.
+ *
+ *  Other properties you may want to try adjusting include kVTCompressionPropertyKey_AverageBitRate and kVTCompressionPropertyKey_DataRateLimits.
  */
 @property (copy, nonatomic, nullable) NSDictionary<NSString *, id> *customVideoEncoderSettings;
 

@@ -40,6 +40,8 @@ static NSDictionary<NSString *, id>* _defaultVideoEncoderSettings;
                                      (__bridge NSString *)kVTCompressionPropertyKey_ProfileLevel: (__bridge NSString *)kVTProfileLevel_H264_Baseline_AutoLevel,
                                      (__bridge NSString *)kVTCompressionPropertyKey_RealTime: @YES,
                                      (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate: @30,
+                                     (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate: @1000000,
+                                     (__bridge NSString *)kVTCompressionPropertyKey_DataRateLimits: @[@150000, @1, @130000, @5],
                                      };
 }
 
