@@ -25,9 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLCarWindow ()
 
 @property (strong, nonatomic, nullable) CADisplayLink *displayLink;
-@property (strong, nonatomic, nullable) NSString *previousMd5Hash;
-@property (assign, nonatomic) CFTimeInterval lastMd5HashTimestamp;
-@property (assign, nonatomic) NSUInteger sameFrameCounter;
 @property (assign, nonatomic) NSUInteger targetFramerate;
 
 @property (weak, nonatomic, nullable) SDLStreamingMediaLifecycleManager *streamManager;
@@ -64,17 +61,10 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    if (self.sameFrameCounter == 30 && ((displayLink.timestamp - self.lastMd5HashTimestamp) <= 0.1)) {
-        SDLLogD(@"Paused CarWindow, no frame changes in over a second");
-        return;
-    }
-
     if (self.isLockScreenMoving) {
         SDLLogD(@"Paused CarWindow, lock screen moving");
         return;
     }
-
-    self.lastMd5HashTimestamp = displayLink.timestamp;
 
     CGRect bounds = self.rootViewController.view.bounds;
 
@@ -84,20 +74,6 @@ NS_ASSUME_NONNULL_BEGIN
     UIGraphicsEndImageContext();
 
     CGImageRef imageRef = screenshot.CGImage;
-
-    // We use MD5 Hashes to determine if we are sending the same frame over and over. If so, we will only send 30.
-    NSString *currentMd5Hash = [self.class sdl_md5HashForImageRef:imageRef];
-    if ([currentMd5Hash isEqualToString:self.previousMd5Hash]) {
-        if (self.sameFrameCounter == 30) {
-            return;
-        }
-        self.sameFrameCounter++;
-    } else {
-        self.sameFrameCounter = 0;
-    }
-
-    self.previousMd5Hash = currentMd5Hash;
-
     CVPixelBufferRef pixelBuffer = [self.class sdl_pixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool];
     [self.streamManager sendVideoData:pixelBuffer];
     CVPixelBufferRelease(pixelBuffer);
@@ -120,9 +96,6 @@ NS_ASSUME_NONNULL_BEGIN
         self.rootViewController.view.bounds = self.rootViewController.view.frame;
 
         SDLLogD(@"Video stream started, setting CarWindow frame to: %@", NSStringFromCGRect(self.rootViewController.view.bounds));
-        
-        // And reset the frame counter (incase we are coming from a disconnect).
-        self.sameFrameCounter = 0;
         
         // And start up the displayLink
         self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(sdl_sendFrame:)];
@@ -161,8 +134,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Private Helpers
 + (CVPixelBufferRef)sdl_pixelBufferForImageRef:(CGImageRef)imageRef usingPool:(CVPixelBufferPoolRef)pool {
-    CGFloat imageWidth = CGImageGetWidth(imageRef);
-    CGFloat imageHeight = CGImageGetHeight(imageRef);
+    size_t imageWidth = CGImageGetWidth(imageRef);
+    size_t imageHeight = CGImageGetHeight(imageRef);
 
     CVPixelBufferRef pixelBuffer;
     CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault, pool,&pixelBuffer);
@@ -179,33 +152,6 @@ NS_ASSUME_NONNULL_BEGIN
     CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
 
     return pixelBuffer;
-}
-
-+ (nullable NSString *)sdl_md5HashForImageRef:(CGImageRef)imageRef {
-    CFMutableDataRef imageData = CFDataCreateMutable(NULL, 0);
-    CGImageDestinationRef destination = CGImageDestinationCreateWithData(imageData, kUTTypePNG, 1, NULL);
-    CGImageDestinationAddImage(destination, imageRef, nil);
-    if (!CGImageDestinationFinalize(destination)) {
-        CFRelease(imageData);
-        CFRelease(destination);
-        return nil;
-    }
-
-    CFRelease(destination);
-
-    NSData *data = (__bridge NSData *)imageData;
-
-    unsigned char result[CC_MD5_DIGEST_LENGTH];
-    CC_MD5(data.bytes, (unsigned int)data.length, result);
-
-    CFRelease(imageData);
-
-    NSMutableString *ret = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH*2];
-    for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
-        [ret appendFormat:@"%02x",result[i]];
-    }
-
-    return [ret copy];
 }
 
 #pragma mark Backgrounded Screen / Text
