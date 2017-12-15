@@ -38,6 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
     _customVideoEncoderSettings = videoSettings;
     _dataSource = dataSource;
     _rootViewController = rootViewController;
+    _carWindowDrawsAfterScreenUpdates = YES;
 
     return self;
 }

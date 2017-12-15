@@ -29,7 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) SDLStreamingEncryptionFlag maximumDesiredEncryption;
 
 /**
- *  Properties to use for applications that utilitze the video encoder for streaming. See VTCompressionProperties.h for more details. For example, you can set kVTCompressionPropertyKey_ExpectedFrameRate to set your framerate. Setting the framerate this way will also set the framerate if you use CarWindow automatic streaming.
  *  Properties to use for applications that utilize the video encoder for streaming. See VTCompressionProperties.h for more details. For example, you can set kVTCompressionPropertyKey_ExpectedFrameRate to set your framerate. Setting the framerate this way will also set the framerate if you use CarWindow automatic streaming.
  *
  *  Other properties you may want to try adjusting include kVTCompressionPropertyKey_AverageBitRate and kVTCompressionPropertyKey_DataRateLimits.
@@ -64,6 +63,11 @@ NS_ASSUME_NONNULL_BEGIN
  @warning This is a weak property and it's therefore your job to hold a strong reference to this view controller.
  */
 @property (strong, nonatomic, nullable) UIViewController *rootViewController;
+
+/**
+ Declares if CarWindow will wait until after the screen updates to draw. Defaults to YES.
+ */
+@property (assign, nonatomic) BOOL carWindowDrawsAfterScreenUpdates;
 
 /**
  Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually.

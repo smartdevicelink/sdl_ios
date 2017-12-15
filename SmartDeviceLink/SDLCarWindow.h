@@ -20,15 +20,17 @@ NS_ASSUME_NONNULL_BEGIN
  Initialize the CarWindow automatic streamer.
 
  @param streamManager The stream manager to use for retrieving head unit dimension details and forwarding video frame data
- @param framesPerSecond The number of frames per second CarWindow should attempt to generate
+ @param drawsAfterScreenUpdates Whether or not it should wait until a screen update to draw.
  @return An instance of this class
  */
-- (instancetype)initWithStreamManager:(SDLStreamingMediaLifecycleManager *)streamManager targetFramerate:(NSUInteger)framesPerSecond;
+- (instancetype)initWithStreamManager:(SDLStreamingMediaLifecycleManager *)streamManager drawsAfterScreenUpdates:(BOOL)drawsAfterScreenUpdates;
 
 /**
  *  View Controller that will be streamed.
  */
 @property (strong, nonatomic, nullable) UIViewController *rootViewController;
+
+- (void)syncFrame;
 
 @end
 

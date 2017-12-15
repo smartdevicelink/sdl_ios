@@ -55,7 +55,12 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
  *  @remark
  *      Default is 0.05 seconds.
  */
-@property (nonatomic, assign) CGFloat movementTimeThreshold;
+@property (nonatomic, assign) CGFloat movementTimeThreshold __deprecated_msg("This is now unused, the movement time threshold is now synced to the framerate automatically");
+
+/**
+ If set to YES, the display link syncing will be ignored and `movementTimeThreshold` will be used.
+ */
+@property (assign, nonatomic) BOOL disableSyncedPanning;
 
 /**
  *  @abstract
@@ -83,6 +88,11 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
  @return The initialized touch manager
  */
 - (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester;
+
+/**
+ Called by SDLStreamingMediaManager in sync with the streaming framerate. This helps to moderate panning gestures by allowing the UI to be modified in time with the framerate.
+ */
+- (void)syncFrame;
 
 @end
 

@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, nullable) CADisplayLink *displayLink;
 @property (assign, nonatomic) NSUInteger targetFramerate;
+@property (assign, nonatomic) BOOL drawsAfterScreenUpdates;
 
 @property (weak, nonatomic, nullable) SDLStreamingMediaLifecycleManager *streamManager;
 
@@ -35,14 +36,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLCarWindow
 
-- (instancetype)initWithStreamManager:(SDLStreamingMediaLifecycleManager *)streamManager targetFramerate:(NSUInteger)framesPerSecond {
+- (instancetype)initWithStreamManager:(SDLStreamingMediaLifecycleManager *)streamManager drawsAfterScreenUpdates:(BOOL)drawsAfterScreenUpdates {
     self = [super init];
     if (!self) { return nil; }
 
-    SDLLogD(@"Initializing Car Window automatic streaming with framerate: %lu", (unsigned long)framesPerSecond);
-
     _streamManager = streamManager;
-    _targetFramerate = framesPerSecond;
+    _drawsAfterScreenUpdates = drawsAfterScreenUpdates;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveVideoStreamStarted:) name:SDLVideoStreamDidStartNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveVideoStreamStopped:) name:SDLVideoStreamDidStopNotification object:nil];
@@ -56,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)sdl_sendFrame:(CADisplayLink *)displayLink {
+- (void)syncFrame {
     if (!self.streamManager.isVideoConnected || self.streamManager.isVideoStreamingPaused) {
         return;
     }
@@ -69,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
     CGRect bounds = self.rootViewController.view.bounds;
 
     UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1.0f);
-    [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:YES];
+    [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:self.drawsAfterScreenUpdates];
     UIImage *screenshot = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
@@ -96,24 +95,11 @@ NS_ASSUME_NONNULL_BEGIN
         self.rootViewController.view.bounds = self.rootViewController.view.frame;
 
         SDLLogD(@"Video stream started, setting CarWindow frame to: %@", NSStringFromCGRect(self.rootViewController.view.bounds));
-        
-        // And start up the displayLink
-        self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(sdl_sendFrame:)];
-        if (SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"10")) {
-            self.displayLink.preferredFramesPerSecond = (NSInteger)self.targetFramerate;
-        } else {
-            self.displayLink.frameInterval = (60 / self.targetFramerate);
-        }
-        [self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     });
 }
 
 - (void)sdl_didReceiveVideoStreamStopped:(NSNotification *)notification {
     dispatch_async(dispatch_get_main_queue(), ^{
-        // If the video stream has stopped, we want to resize the streamingViewController to the ordinary size
-        self.displayLink.paused = YES;
-        [self.displayLink invalidate];
-
         // And also reset the streamingViewController's frame, because we are about to show it.
         self.rootViewController.view.frame = [UIScreen mainScreen].bounds;
         SDLLogD(@"Video stream ended, setting view controller frame back: %@", NSStringFromCGRect(self.rootViewController.view.frame));

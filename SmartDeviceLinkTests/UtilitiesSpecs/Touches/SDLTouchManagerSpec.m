@@ -44,7 +44,6 @@ describe(@"SDLTouchManager Tests", ^{
             expect(touchManager.touchEventDelegate).to(beNil());
             expect(@(touchManager.tapDistanceThreshold)).to(equal(@50));
             expect(@(touchManager.tapTimeThreshold)).to(beCloseTo(@0.4).within(0.0001));
-            expect(@(touchManager.movementTimeThreshold)).to(beCloseTo(@0.05).within(0.0001));
             expect(@(touchManager.isTouchEnabled)).to(beTruthy());
         });
     });
@@ -441,8 +440,7 @@ describe(@"SDLTouchManager Tests", ^{
                 SDLTouchCoord* panStartTouchCoord = [[SDLTouchCoord alloc] init];
                 panStartTouchCoord.x = @(panStartPoint.x);
                 panStartTouchCoord.y = @(panStartPoint.y);
-                double movementTimeThresholdOffset = (touchManager.movementTimeThreshold + .01) * 1000;
-                NSUInteger panStartTimeStamp = ([[NSDate date] timeIntervalSince1970] * 1000) + movementTimeThresholdOffset;
+                NSUInteger panStartTimeStamp = ([[NSDate date] timeIntervalSince1970] * 1000);
                 SDLTouchEvent* panStartTouchEvent = [[SDLTouchEvent alloc] init];
                 panStartTouchEvent.coord = [NSArray arrayWithObject:panStartTouchCoord];
                 panStartTouchEvent.timeStamp = [NSArray arrayWithObject:@(panStartTimeStamp)];
@@ -455,7 +453,7 @@ describe(@"SDLTouchManager Tests", ^{
                 SDLTouchCoord* panMoveTouchCoord = [[SDLTouchCoord alloc] init];
                 panMoveTouchCoord.x = @(panMovePoint.x);
                 panMoveTouchCoord.y = @(panMovePoint.y);
-                NSUInteger panMoveTimeStamp = panStartTimeStamp + movementTimeThresholdOffset;
+                NSUInteger panMoveTimeStamp = panStartTimeStamp;
                 SDLTouchEvent* panMoveTouchEvent = [[SDLTouchEvent alloc] init];
                 panMoveTouchEvent.coord = [NSArray arrayWithObject:panMoveTouchCoord];
                 panMoveTouchEvent.timeStamp = [NSArray arrayWithObject:@(panMoveTimeStamp)];
@@ -468,10 +466,9 @@ describe(@"SDLTouchManager Tests", ^{
                 SDLTouchCoord* panSecondMoveTouchCoord = [[SDLTouchCoord alloc] init];
                 panSecondMoveTouchCoord.x = @(panSecondMovePoint.x);
                 panSecondMoveTouchCoord.y = @(panSecondMovePoint.y);
-                NSUInteger panSecondMoveTimeStamp = panMoveTimeStamp + movementTimeThresholdOffset;
                 SDLTouchEvent* panSecondMoveTouchEvent = [[SDLTouchEvent alloc] init];
                 panSecondMoveTouchEvent.coord = [NSArray arrayWithObject:panSecondMoveTouchCoord];
-                panSecondMoveTouchEvent.timeStamp = [NSArray arrayWithObject:@(panSecondMoveTimeStamp)];
+                panSecondMoveTouchEvent.timeStamp = [NSArray arrayWithObject:@(panMoveTimeStamp)];
                 panSecondMoveOnTouchEvent = [[SDLOnTouchEvent alloc] init];
                 panSecondMoveOnTouchEvent.event = [NSArray arrayWithObject:panSecondMoveTouchEvent];
                 panSecondMoveOnTouchEvent.type = SDLTouchTypeMove;
@@ -481,10 +478,9 @@ describe(@"SDLTouchManager Tests", ^{
                 SDLTouchCoord* panEndTouchCoord = [[SDLTouchCoord alloc] init];
                 panEndTouchCoord.x = @(panEndPoint.x);
                 panEndTouchCoord.y = @(panEndPoint.y);
-                NSUInteger panEndTimeStamp = panSecondMoveTimeStamp + movementTimeThresholdOffset;
                 SDLTouchEvent* panEndTouchEvent = [[SDLTouchEvent alloc] init];
                 panEndTouchEvent.coord = [NSArray arrayWithObject:panEndTouchCoord];
-                panEndTouchEvent.timeStamp = [NSArray arrayWithObject:@(panEndTimeStamp)];
+                panEndTouchEvent.timeStamp = [NSArray arrayWithObject:@(panMoveTimeStamp)];
                 panEndOnTouchEvent = [[SDLOnTouchEvent alloc] init];
                 panEndOnTouchEvent.event = [NSArray arrayWithObject:panEndTouchEvent];
                 panEndOnTouchEvent.type = SDLTouchTypeEnd;
@@ -494,10 +490,9 @@ describe(@"SDLTouchManager Tests", ^{
                 SDLTouchCoord* panCancelAfterMoveTouchCoord = [[SDLTouchCoord alloc] init];
                 panCancelAfterMoveTouchCoord.x = @(panCancelPointAfterMove.x);
                 panCancelAfterMoveTouchCoord.y = @(panCancelPointAfterMove.y);
-                NSUInteger panCancelAfterMoveTimeStamp = panMoveTimeStamp + movementTimeThresholdOffset;
                 SDLTouchEvent* panCancelAfterMoveTouchEvent = [[SDLTouchEvent alloc] init];
                 panCancelAfterMoveTouchEvent.coord = [NSArray arrayWithObject:panCancelAfterMoveTouchCoord];
-                panCancelAfterMoveTouchEvent.timeStamp = [NSArray arrayWithObject:@(panCancelAfterMoveTimeStamp)];
+                panCancelAfterMoveTouchEvent.timeStamp = [NSArray arrayWithObject:@(panMoveTimeStamp)];
                 panCancelAfterMoveOnTouchEvent = [[SDLOnTouchEvent alloc] init];
                 panCancelAfterMoveOnTouchEvent.event = [NSArray arrayWithObject:panCancelAfterMoveTouchEvent];
                 panCancelAfterMoveOnTouchEvent.type = SDLTouchTypeCancel;
@@ -507,10 +502,9 @@ describe(@"SDLTouchManager Tests", ^{
                 SDLTouchCoord* panCancelAfterSecondMoveTouchCoord = [[SDLTouchCoord alloc] init];
                 panCancelAfterSecondMoveTouchCoord.x = @(panCancelPointAfterSecondMove.x);
                 panCancelAfterSecondMoveTouchCoord.y = @(panCancelPointAfterSecondMove.y);
-                NSUInteger panCancelAfterSecondMoveTimeStamp = panEndTimeStamp;
                 SDLTouchEvent* panCancelAfterSecondMoveTouchEvent = [[SDLTouchEvent alloc] init];
                 panCancelAfterSecondMoveTouchEvent.coord = [NSArray arrayWithObject:panCancelAfterSecondMoveTouchCoord];
-                panCancelAfterSecondMoveTouchEvent.timeStamp = [NSArray arrayWithObject:@(panCancelAfterSecondMoveTimeStamp)];
+                panCancelAfterSecondMoveTouchEvent.timeStamp = [NSArray arrayWithObject:@(panMoveTimeStamp)];
                 panCancelAfterSecondMoveOnTouchEvent = [[SDLOnTouchEvent alloc] init];
                 panCancelAfterSecondMoveOnTouchEvent.event = [NSArray arrayWithObject:panCancelAfterSecondMoveTouchEvent];
                 panCancelAfterSecondMoveOnTouchEvent.type = SDLTouchTypeCancel;
@@ -553,7 +547,9 @@ describe(@"SDLTouchManager Tests", ^{
 
                     performTouchEvent(touchManager, panStartOnTouchEvent);
                     performTouchEvent(touchManager, panMoveOnTouchEvent);
+                    [touchManager syncFrame];
                     performTouchEvent(touchManager, panSecondMoveOnTouchEvent);
+                    [touchManager syncFrame];
                     performTouchEvent(touchManager, panEndOnTouchEvent);
 
                     expectedDidCallBeginPan = YES;
@@ -632,7 +628,9 @@ describe(@"SDLTouchManager Tests", ^{
 
                     performTouchEvent(touchManager, panStartOnTouchEvent);
                     performTouchEvent(touchManager, panMoveOnTouchEvent);
+                    [touchManager syncFrame];
                     performTouchEvent(touchManager, panSecondMoveOnTouchEvent);
+                    [touchManager syncFrame];
                     performTouchEvent(touchManager, panCancelAfterMoveOnTouchEvent);
 
                     expectedDidCallBeginPan = YES;
@@ -707,11 +705,10 @@ describe(@"SDLTouchManager Tests", ^{
                 SDLTouchCoord* secondFingerMoveTouchCoord = [[SDLTouchCoord alloc] init];
                 secondFingerMoveTouchCoord.x = @(secondFingerTouchCoord.x.floatValue - 50);
                 secondFingerMoveTouchCoord.y = @(secondFingerTouchCoord.y.floatValue - 40);
-                NSUInteger secondFingerMoveTimeStamp = secondFingerTimeStamp + ((touchManager.movementTimeThreshold + 0.1) * 1000);
                 SDLTouchEvent* secondFingerMoveTouchEvent = [[SDLTouchEvent alloc] init];
                 secondFingerMoveTouchEvent.touchEventId = @1;
                 secondFingerMoveTouchEvent.coord = [NSArray arrayWithObject:secondFingerMoveTouchCoord];
-                secondFingerMoveTouchEvent.timeStamp = [NSArray arrayWithObject:@(secondFingerMoveTimeStamp)];
+                secondFingerMoveTouchEvent.timeStamp = [NSArray arrayWithObject:@(secondFingerTimeStamp)];
                 pinchMoveSecondFingerOnTouchEvent = [[SDLOnTouchEvent alloc] init];
                 pinchMoveSecondFingerOnTouchEvent.event = [NSArray arrayWithObject:secondFingerMoveTouchEvent];
                 pinchMoveSecondFingerOnTouchEvent.type = SDLTouchTypeMove;
@@ -723,11 +720,10 @@ describe(@"SDLTouchManager Tests", ^{
 
                 // Second finger end
                 SDLTouchCoord* secondFingerEndTouchCoord = secondFingerMoveTouchCoord;
-                NSUInteger secondFingerEndTimeStamp = secondFingerMoveTimeStamp + ((touchManager.movementTimeThreshold + 0.1) * 1000);
                 SDLTouchEvent* secondFingerEndTouchEvent = [[SDLTouchEvent alloc] init];
                 secondFingerEndTouchEvent.touchEventId = @1;
                 secondFingerEndTouchEvent.coord = [NSArray arrayWithObject:secondFingerEndTouchCoord];
-                secondFingerEndTouchEvent.timeStamp = [NSArray arrayWithObject:@(secondFingerEndTimeStamp)];
+                secondFingerEndTouchEvent.timeStamp = [NSArray arrayWithObject:@(secondFingerTimeStamp)];
                 pinchEndSecondFingerOnTouchEvent = [[SDLOnTouchEvent alloc] init];
                 pinchEndSecondFingerOnTouchEvent.event = [NSArray arrayWithObject:secondFingerEndTouchEvent];
                 pinchEndSecondFingerOnTouchEvent.type = SDLTouchTypeEnd;
@@ -735,11 +731,10 @@ describe(@"SDLTouchManager Tests", ^{
 
                 // First finger cancel
                 SDLTouchCoord* firstFingerCanceledTouchCoord = secondFingerMoveTouchCoord;
-                NSUInteger firstFingerCanceledTimeStamp = secondFingerMoveTimeStamp + ((touchManager.movementTimeThreshold + 0.1) * 1000);
                 SDLTouchEvent* firstFingerCanceledTouchEvent = [[SDLTouchEvent alloc] init];
                 firstFingerCanceledTouchEvent.touchEventId = @0;
                 firstFingerCanceledTouchEvent.coord = [NSArray arrayWithObject:firstFingerCanceledTouchCoord];
-                firstFingerCanceledTouchEvent.timeStamp = [NSArray arrayWithObject:@(firstFingerCanceledTimeStamp)];
+                firstFingerCanceledTouchEvent.timeStamp = [NSArray arrayWithObject:@(secondFingerTimeStamp)];
                 pinchCancelFirstFingerOnTouchEvent = [[SDLOnTouchEvent alloc] init];
                 pinchCancelFirstFingerOnTouchEvent.event = [NSArray arrayWithObject:firstFingerCanceledTouchEvent];
                 pinchCancelFirstFingerOnTouchEvent.type = SDLTouchTypeCancel;
@@ -747,11 +742,10 @@ describe(@"SDLTouchManager Tests", ^{
 
                 // Second finger cancel
                 SDLTouchCoord* secondFingerCanceledTouchCoord = secondFingerMoveTouchCoord;
-                NSUInteger secondFingerCanceledTimeStamp = firstFingerTimeStamp + ((touchManager.movementTimeThreshold + 0.1) * 1000);
                 SDLTouchEvent* secondFingerCanceledTouchEvent = [[SDLTouchEvent alloc] init];
                 secondFingerCanceledTouchEvent.touchEventId = @1;
                 secondFingerCanceledTouchEvent.coord = [NSArray arrayWithObject:secondFingerCanceledTouchCoord];
-                secondFingerCanceledTouchEvent.timeStamp = [NSArray arrayWithObject:@(secondFingerCanceledTimeStamp)];
+                secondFingerCanceledTouchEvent.timeStamp = [NSArray arrayWithObject:@(firstFingerTimeStamp)];
                 pinchCancelSecondFingerOnTouchEvent = [[SDLOnTouchEvent alloc] init];
                 pinchCancelSecondFingerOnTouchEvent.event = [NSArray arrayWithObject:secondFingerCanceledTouchEvent];
                 pinchCancelSecondFingerOnTouchEvent.type = SDLTouchTypeCancel;
@@ -799,6 +793,7 @@ describe(@"SDLTouchManager Tests", ^{
                     performTouchEvent(touchManager, pinchStartFirstFingerOnTouchEvent);
                     performTouchEvent(touchManager, pinchStartSecondFingerOnTouchEvent);
                     performTouchEvent(touchManager, pinchMoveSecondFingerOnTouchEvent);
+                    [touchManager syncFrame];
                     performTouchEvent(touchManager, pinchEndSecondFingerOnTouchEvent);
 
                     expectedDidCallBeginPinch = YES;
@@ -879,6 +874,7 @@ describe(@"SDLTouchManager Tests", ^{
                     performTouchEvent(touchManager, pinchStartFirstFingerOnTouchEvent);
                     performTouchEvent(touchManager, pinchStartSecondFingerOnTouchEvent);
                     performTouchEvent(touchManager, pinchMoveSecondFingerOnTouchEvent);
+                    [touchManager syncFrame];
                     performTouchEvent(touchManager, pinchCancelSecondFingerOnTouchEvent);
 
                     expectedDidCallBeginPinch = YES;
