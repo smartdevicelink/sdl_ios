@@ -114,7 +114,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
 
     if (configuration.rootViewController != nil) {
-        NSAssert(configuration.forceFramerateSync, @"When using CarWindow (rootViewController != nil), forceFrameRateSync must be YES");
+        NSAssert(configuration.enableForcedFramerateSync, @"When using CarWindow (rootViewController != nil), forceFrameRateSync must be YES");
         if (@available(iOS 9.0, *)) {
             SDLLogD(@"Initializing focusable item locator");
             _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:configuration.rootViewController connectionManager:_connectionManager];
@@ -129,7 +129,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     _requestedEncryptionType = configuration.maximumDesiredEncryption;
     _dataSource = configuration.dataSource;
-    _useDisplayLink = configuration.forceFramerateSync;
+    _useDisplayLink = configuration.enableForcedFramerateSync;
     _screenSize = SDLDefaultScreenSize;
     _backgroundingPixelBuffer = NULL;
     _preferredFormatIndex = 0;
