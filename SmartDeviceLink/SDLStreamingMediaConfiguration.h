@@ -70,6 +70,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL carWindowDrawsAfterScreenUpdates;
 
 /**
+ When YES, the StreamingMediaManager will run a CADisplayLink with the framerate set to the video encoder settings kVTCompressionPropertyKey_ExpectedFrameRate. This then forces TouchManager (and CarWindow, if used) to sync their callbacks to the framerate. If using CarWindow, this *must* be YES. If NO, `enableSyncedPanning` on SDLTouchManager will be set to NO. Defaults to YES.
+ */
+@property (assign, nonatomic) BOOL forceFramerateSync;
+
+/**
  Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually.
 
  @return The configuration

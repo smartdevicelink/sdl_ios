@@ -58,9 +58,9 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
 @property (nonatomic, assign) CGFloat movementTimeThreshold __deprecated_msg("This is now unused, the movement time threshold is now synced to the framerate automatically");
 
 /**
- If set to YES, the display link syncing will be ignored and `movementTimeThreshold` will be used.
+ If set to NO, the display link syncing will be ignored and `movementTimeThreshold` will be used. Defaults to YES.
  */
-@property (assign, nonatomic) BOOL disableSyncedPanning;
+@property (assign, nonatomic) BOOL enableSyncedPanning;
 
 /**
  *  @abstract

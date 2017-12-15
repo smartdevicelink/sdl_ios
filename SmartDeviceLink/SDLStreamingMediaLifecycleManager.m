@@ -90,6 +90,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (assign, nonatomic) CV_NULLABLE CVPixelBufferRef backgroundingPixelBuffer;
 
 @property (strong, nonatomic, nullable) CADisplayLink *displayLink;
+@property (assign, nonatomic) BOOL useDisplayLink;
 
 @property (assign, nonatomic) CMTime lastPresentationTimestamp;
 
@@ -113,6 +114,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
 
     if (configuration.rootViewController != nil) {
+        NSAssert(configuration.forceFramerateSync, @"When using CarWindow (rootViewController != nil), forceFrameRateSync must be YES");
         if (@available(iOS 9.0, *)) {
             SDLLogD(@"Initializing focusable item locator");
             _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:configuration.rootViewController connectionManager:_connectionManager];
@@ -127,6 +129,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     _requestedEncryptionType = configuration.maximumDesiredEncryption;
     _dataSource = configuration.dataSource;
+    _useDisplayLink = configuration.forceFramerateSync;
     _screenSize = SDLDefaultScreenSize;
     _backgroundingPixelBuffer = NULL;
     _preferredFormatIndex = 0;
@@ -404,18 +407,22 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamDidStartNotification object:nil];
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        // And start up the displayLink
-        NSInteger targetFramerate = ((NSNumber *)self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).integerValue;
-        SDLLogD(@"Initializing CADisplayLink with framerate: %ld", (long)targetFramerate);
-        self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(sdl_displayLinkFired:)];
-        if (SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"10")) {
-            self.displayLink.preferredFramesPerSecond = targetFramerate;
-        } else {
-            self.displayLink.frameInterval = (60 / targetFramerate);
-        }
-        [self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-    });
+    if (self.useDisplayLink) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // And start up the displayLink
+            NSInteger targetFramerate = ((NSNumber *)self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).integerValue;
+            SDLLogD(@"Initializing CADisplayLink with framerate: %ld", (long)targetFramerate);
+            self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(sdl_displayLinkFired:)];
+            if (SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"10")) {
+                self.displayLink.preferredFramesPerSecond = targetFramerate;
+            } else {
+                self.displayLink.frameInterval = (60 / targetFramerate);
+            }
+            [self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+        });
+    } else {
+        self.touchManager.enableSyncedPanning = NO;
+    }
 }
 
 - (void)didEnterStateVideoStreamShuttingDown {

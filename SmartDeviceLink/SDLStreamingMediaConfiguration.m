@@ -39,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
     _dataSource = dataSource;
     _rootViewController = rootViewController;
     _carWindowDrawsAfterScreenUpdates = YES;
+    _forceFramerateSync = YES;
 
     return self;
 }

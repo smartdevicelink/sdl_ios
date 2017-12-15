@@ -107,7 +107,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     _tapTimeThreshold = 0.4f;
     _tapDistanceThreshold = 50.0f;
     _touchEnabled = YES;
-    _disableSyncedPanning = NO;
+    _enableSyncedPanning = YES;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onTouchEvent:) name:SDLDidReceiveTouchEventNotification object:nil];
 
@@ -230,7 +230,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 - (void)sdl_handleTouchMoved:(SDLTouch *)touch {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    if (self.disableSyncedPanning &&
+    if (!self.enableSyncedPanning &&
         ((touch.timeStamp - self.previousTouch.timeStamp) <= (self.movementTimeThreshold * NSEC_PER_USEC))) {
         return; // no-op
     }
@@ -247,7 +247,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
                 } break;
             }
 
-            if (self.disableSyncedPanning) {
+            if (!self.enableSyncedPanning) {
                 [self syncFrame];
             }
         } break;
@@ -262,7 +262,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             }
         } break;
         case SDLPerformingTouchTypePanningTouch: {
-            if (self.disableSyncedPanning) {
+            if (!self.enableSyncedPanning) {
                 [self syncFrame];
             }
             self.lastStoredTouchLocation = touch.location;
