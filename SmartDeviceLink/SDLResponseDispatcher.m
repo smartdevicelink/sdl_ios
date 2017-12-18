@@ -15,6 +15,7 @@
 #import "SDLDeleteCommand.h"
 #import "SDLDeleteCommandResponse.h"
 #import "SDLError.h"
+#import "SDLLogMacros.h"
 #import "SDLOnAudioPassThru.h"
 #import "SDLOnButtonEvent.h"
 #import "SDLOnButtonPress.h"
@@ -174,6 +175,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Run the response handler
     if (handler) {
+        if (!response.success.boolValue) {
+            SDLLogW(@"Request failed: %@, response: %@, error: %@", request, response, error);
+        }
         handler(request, response, error);
     }
 
