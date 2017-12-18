@@ -30,7 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic, nullable) SDLStreamingMediaLifecycleManager *streamManager;
 
-@property (assign, nonatomic, getter=isLockScreenMoving) BOOL lockScreenMoving;
+@property (assign, nonatomic, getter=isLockScreenPresenting) BOOL lockScreenPresenting;
+@property (assign, nonatomic, getter=isLockScreenDismissing) BOOL lockScreenBeingDismissed;
 
 @end
 
@@ -46,11 +47,11 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveVideoStreamStarted:) name:SDLVideoStreamDidStartNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveVideoStreamStopped:) name:SDLVideoStreamDidStopNotification object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenMoving:) name:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenMoving:) name:SDLLockScreenManagerWillDismissLockScreenViewController object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_willPresentLockScreenViewController:) name:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_willDismissLockScreenViewController:) name:SDLLockScreenManagerWillDismissLockScreenViewController object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStoppedMoving:) name:SDLLockScreenManagerDidPresentLockScreenViewController object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_lockScreenStoppedMoving:) name:SDLLockScreenManagerDidDismissLockScreenViewController object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_willPresentLockScreenViewController:) name:SDLLockScreenManagerDidPresentLockScreenViewController object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_willDismissLockScreenViewController:) name:SDLLockScreenManagerDidDismissLockScreenViewController object:nil];
 
     return self;
 }
@@ -60,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    if (self.isLockScreenMoving) {
+    if (self.isLockScreenPresenting || self.isLockScreenDismissing) {
         SDLLogD(@"Paused CarWindow, lock screen moving");
         return;
     }
@@ -79,12 +80,20 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - SDLNavigationLockScreenManager Notifications
-- (void)sdl_lockScreenMoving:(NSNotification *)notification {
-    self.lockScreenMoving = YES;
+- (void)sdl_willPresentLockScreenViewController:(NSNotification *)notification {
+    self.lockScreenPresenting = YES;
 }
 
-- (void)sdl_lockScreenStoppedMoving:(NSNotification *)notification {
-    self.lockScreenMoving = NO;
+- (void)sdl_didPresentLockScreenViewController:(NSNotification *)notification {
+    self.lockScreenPresenting = NO;
+}
+
+- (void)sdl_willDismissLockScreenViewController:(NSNotification *)notification {
+    self.lockScreenBeingDismissed = YES;
+}
+
+- (void)sdl_didDismissLockScreenViewController:(NSNotification *)notification {
+    self.lockScreenBeingDismissed = NO;
 }
 
 #pragma mark - SDLNavigationLifecycleManager Notifications
