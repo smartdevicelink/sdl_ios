@@ -44,9 +44,13 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     __block BOOL presented = NO;
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            presented = (self.viewController.isViewLoaded && (self.viewController.view.window || self.viewController.isBeingPresented));
+        });
+    } else {
         presented = (self.viewController.isViewLoaded && (self.viewController.view.window || self.viewController.isBeingPresented));
-    });
+    }
 
     return presented;
 }
