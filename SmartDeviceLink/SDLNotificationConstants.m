@@ -8,6 +8,8 @@
 
 #import "SDLNotificationConstants.h"
 
+/// These notifications will be returned on a background serial queue
+
 SDLNotificationUserInfoKey const SDLNotificationUserInfoObject = @"SDLNotificationUserInfoObject";
 
 

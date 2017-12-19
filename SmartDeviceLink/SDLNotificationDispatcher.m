@@ -18,29 +18,35 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLNotificationDispatcher
 
+- (instancetype)init {
+    self = [super init];
+    if (!self) { return nil; }
+
+    return self;
+}
+
 - (void)postNotificationName:(NSString *)name infoObject:(nullable id)infoObject {
     NSDictionary<NSString *, id> *userInfo = nil;
     if (infoObject != nil) {
         userInfo = @{SDLNotificationUserInfoObject: infoObject};
     }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
-    });
+
+    // Runs on `com.sdl.rpcProcessingQueue`
+    [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
 }
 
 - (void)postRPCResponseNotification:(NSString *)name response:(__kindof SDLRPCResponse *)response {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:name object:self rpcResponse:response];
-        [[NSNotificationCenter defaultCenter] postNotification:notification];
-    });
+    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:name object:self rpcResponse:response];
+
+    // Runs on `com.sdl.rpcProcessingQueue`
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 - (void)postRPCNotificationNotification:(NSString *)name notification:(__kindof SDLRPCNotification *)rpcNotification {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:name object:self rpcNotification:rpcNotification];
-        [[NSNotificationCenter defaultCenter] postNotification:notification];
-    });
+    SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:name object:self rpcNotification:rpcNotification];
+
+    // Runs on `com.sdl.rpcProcessingQueue`
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 #pragma mark - SDLProxyListener Delegate Methods
