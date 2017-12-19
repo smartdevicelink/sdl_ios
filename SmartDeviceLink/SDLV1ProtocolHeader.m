@@ -22,8 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
     // Assembles the properties in the binary header format
     Byte headerBytes[ProtocolV1HeaderByteSize] = {0};
 
-    Byte version = (self.version & 0xF) << 4; // first 4 bits
-    Byte compressed = (self.encrypted ? 1 : 0) << 3; // next 1 bit
+    Byte version = (Byte)((self.version & 0xF) << 4); // first 4 bits
+    Byte compressed = (Byte)((self.encrypted ? 1 : 0) << 3); // next 1 bit
     Byte frameType = (self.frameType & 0x7); // last 3 bits
 
     headerBytes[0] = version | compressed | frameType;

@@ -8,6 +8,7 @@
 
 #import "SDLStreamingMediaManager.h"
 
+#import "SDLAudioStreamManager.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManagerDataSource.h"
@@ -65,6 +66,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SDLTouchManager *)touchManager {
     return self.lifecycleManager.touchManager;
+}
+
+- (SDLAudioStreamManager *)audioManager {
+    return self.lifecycleManager.audioManager;
 }
 
 - (nullable id<SDLFocusableItemLocatorType>)focusableItemManager {

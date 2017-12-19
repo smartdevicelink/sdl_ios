@@ -35,8 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
         // Find correct place to insert.
         // Sorted in descending order.
         BOOL lowerPriorityFound = NO;
-        NSInteger currentCount = privateArray.count;
-        for (int x = 0; x < currentCount; x++) {
+        NSUInteger currentCount = privateArray.count;
+        for (NSUInteger x = 0; x < currentCount; x++) {
             SDLObjectWithPriority *o = privateArray[x];
             if (o.priority <= priority) {
                 lowerPriorityFound = YES;

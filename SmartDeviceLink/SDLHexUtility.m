@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
     return ret;
 }
 
-static inline char itoh(int i) {
+static inline char itoh(char i) {
     if (i > 9) {
         return 'A' + (i - 10);
     }
@@ -36,8 +36,8 @@ NSString *getHexString(NSData *data) {
     buffer = malloc(length * 2);
 
     for (NSUInteger i = 0; i < length; i++) {
-        buffer[i * 2] = itoh((bytes[i] >> 4) & 0xF);
-        buffer[(i * 2) + 1] = itoh(bytes[i] & 0xF);
+        buffer[i * 2] = (Byte)itoh((bytes[i] >> 4) & 0xF);
+        buffer[(i * 2) + 1] = (Byte)itoh(bytes[i] & 0xF);
     }
 
     NSString *hexString = [[NSString alloc] initWithBytesNoCopy:buffer

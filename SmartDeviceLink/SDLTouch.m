@@ -31,12 +31,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithTouchEvent:(SDLTouchEvent *)touchEvent {
     self = [self init];
     if (self) {
-        _identifier = touchEvent.touchEventId.unsignedIntegerValue;
+        _identifier = touchEvent.touchEventId.integerValue;
 
         id firstTimeStamp = touchEvent.timeStamp.firstObject;
         // In the event we receive a null timestamp, we will supply a device timestamp.
         if ([firstTimeStamp isKindOfClass:[NSNull class]] && [firstTimeStamp isEqual:[NSNull null]]) {
-            _timeStamp = [[NSDate date] timeIntervalSince1970] * 1000.0;
+            _timeStamp = (NSUInteger)([[NSDate date] timeIntervalSince1970] * 1000);
         } else {
             NSNumber *timeStampNumber = (NSNumber *)firstTimeStamp;
             _timeStamp = timeStampNumber.unsignedIntegerValue;
