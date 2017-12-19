@@ -66,7 +66,7 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
     dispatch_async(_sendQueue, ^{
         @autoreleasepool {
             SDLLogBytes(msgBytes, SDLLogBytesDirectionTransmit);
-            CFSocketError e = CFSocketSendData(socket, NULL, (__bridge CFDataRef)msgBytes, 10000);
+            CFSocketError e = CFSocketSendData(self->socket, NULL, (__bridge CFDataRef)msgBytes, 10000);
             if (e != kCFSocketSuccess) {
                 NSString *errorCause = nil;
                 switch (e) {
@@ -151,7 +151,7 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
         }
 
         // Handle the data we received
-        NSData *convertedData = [NSData dataWithBytes:(UInt8 *)CFDataGetBytePtr((CFDataRef)data) length:(int)CFDataGetLength((CFDataRef)data)];
+        NSData *convertedData = [NSData dataWithBytes:(UInt8 *)CFDataGetBytePtr((CFDataRef)data) length:(NSUInteger)CFDataGetLength((CFDataRef)data)];
         SDLLogBytes(convertedData, SDLLogBytesDirectionReceive);
         [transport.delegate onDataReceived:convertedData];
     } else {

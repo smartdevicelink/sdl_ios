@@ -2,15 +2,17 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SmartDeviceLink.h"
-
 #import "SDLManager.h"
 
 #import "NSMapTable+Subscripting.h"
+#import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLLifecycleConfiguration.h"
 #import "SDLLifecycleManager.h"
+#import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
 #import "SDLLockScreenPresenter.h"
+#import "SDLLogConfiguration.h"
 #import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLResponseDispatcher.h"
@@ -64,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.configuration;
 }
 
-- (SDLHMILevel)hmiLevel {
+- (nullable SDLHMILevel)hmiLevel {
     return self.lifecycleManager.hmiLevel;
 }
 
