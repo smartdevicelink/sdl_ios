@@ -318,6 +318,16 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLLockScreenConfiguration.h"
 #import "SDLStreamingMediaConfiguration.h"
 
+// Streaming
+#import "SDLAudioStreamManager.h"
+#import "SDLAudioStreamManagerDelegate.h"
+#import "SDLCarWindowViewController.h"
+#import "SDLStreamingAudioManagerType.h"
+#import "SDLStreamingMediaManager.h"
+#import "SDLTouchManager.h"
+#import "SDLTouchManagerDelegate.h"
+#import "SDLSecurityType.h"
+
 // Files
 #import "SDLArtwork.h"
 #import "SDLFile.h"
@@ -334,13 +344,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 // Permissions
 #import "SDLPermissionConstants.h"
 #import "SDLPermissionManager.h"
-
-// Streaming
-#import "SDLCarWindowViewController.h"
-#import "SDLSecurityType.h"
-#import "SDLStreamingMediaManager.h"
-#import "SDLTouchManager.h"
-#import "SDLTouchManagerDelegate.h"
 
 // Touches
 #import "SDLPinchGesture.h"

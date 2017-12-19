@@ -12,9 +12,11 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLHMILevel.h"
 #import "SDLProtocolListener.h"
+#import "SDLStreamingAudioManagerType.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
 @class SDLAbstractProtocol;
+@class SDLAudioStreamManager;
 @class SDLCarWindow;
 @class SDLImageResolution;
 @class SDLStateMachine;
@@ -46,7 +48,7 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
 
 #pragma mark - Interface
 
-@interface SDLStreamingMediaLifecycleManager : NSObject <SDLProtocolListener>
+@interface SDLStreamingMediaLifecycleManager : NSObject <SDLProtocolListener, SDLStreamingAudioManagerType>
 
 @property (strong, nonatomic, readonly) SDLStateMachine *appStateMachine;
 @property (strong, nonatomic, readonly) SDLStateMachine *videoStreamStateMachine;
@@ -65,8 +67,8 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
  */
 @property (nonatomic, strong, readonly) SDLTouchManager *touchManager;
 
+@property (nonatomic, strong, readonly) SDLAudioStreamManager *audioManager;
 @property (nonatomic, strong) UIViewController *rootViewController;
-
 @property (strong, nonatomic, readonly, nullable) SDLCarWindow *carWindow;
 
 /**

@@ -9,6 +9,7 @@
 #import "SDLStreamingMediaLifecycleManager.h"
 
 #import "SDLAbstractProtocol.h"
+#import "SDLAudioStreamManager.h"
 #import "SDLCarWindow.h"
 #import "SDLControlFramePayloadAudioStartServiceAck.h"
 #import "SDLControlFramePayloadConstants.h"
@@ -126,6 +127,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager];
+    _audioManager = [[SDLAudioStreamManager alloc] initWithManager:self];
 
     _requestedEncryptionType = configuration.maximumDesiredEncryption;
     _dataSource = configuration.dataSource;
@@ -838,7 +840,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (BOOL)isHmiStateAudioStreamCapable {
-    return YES;
+    return ![self.hmiLevel isEqualToEnum:SDLHMILevelNone];
 }
 
 - (BOOL)isHmiStateVideoStreamCapable {

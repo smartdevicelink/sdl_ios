@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <VideoToolbox/VideoToolbox.h>
 
+#import "SDLStreamingAudioManagerType.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
 @class SDLAbstractProtocol;
+@class SDLAudioStreamManager;
 @class SDLStreamingMediaConfiguration;
 @class SDLTouchManager;
 @class SDLVideoStreamingFormat;
@@ -23,12 +25,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Interface
 
-@interface SDLStreamingMediaManager : NSObject
+@interface SDLStreamingMediaManager : NSObject <SDLStreamingAudioManagerType>
 
 /**
  *  Touch Manager responsible for providing touch event notifications.
  */
 @property (nonatomic, strong, readonly) SDLTouchManager *touchManager;
+
+@property (nonatomic, strong, readonly) SDLAudioStreamManager *audioManager;
 
 /**
  This property is used for SDLCarWindow, the ability to stream any view controller. To start, you must set an initial view controller on `SDLStreamingMediaConfiguration` `rootViewController`. After streaming begins, you can replace that view controller with a new root by placing the new view controller into this property.
