@@ -12,9 +12,11 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLHMILevel.h"
 #import "SDLProtocolListener.h"
+#import "SDLStreamingAudioManagerType.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
 @class SDLAbstractProtocol;
+@class SDLAudioStreamManager;
 @class SDLImageResolution;
 @class SDLStateMachine;
 @class SDLStreamingMediaConfiguration;
@@ -45,7 +47,7 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
 
 #pragma mark - Interface
 
-@interface SDLStreamingMediaLifecycleManager : NSObject <SDLProtocolListener>
+@interface SDLStreamingMediaLifecycleManager : NSObject <SDLProtocolListener, SDLStreamingAudioManagerType>
 
 @property (strong, nonatomic, readonly) SDLStateMachine *appStateMachine;
 @property (strong, nonatomic, readonly) SDLStateMachine *videoStreamStateMachine;
@@ -63,6 +65,8 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
  *  Touch Manager responsible for providing touch event notifications.
  */
 @property (nonatomic, strong, readonly) SDLTouchManager *touchManager;
+
+@property (nonatomic, strong, readonly) SDLAudioStreamManager *audioManager;
 
 /**
  A haptic interface that can be updated to reparse views within the window you've provided. Send a `SDLDidUpdateProjectionView` notification or call the `updateInterfaceLayout` method to reparse. The "output" of this haptic interface occurs in the `touchManager` property where it will call the delegate.
