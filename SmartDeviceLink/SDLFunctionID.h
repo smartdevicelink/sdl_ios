@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedInstance;
 
-- (nullable SDLName)functionNameForId:(int)functionID;
+- (nullable SDLName)functionNameForId:(UInt32)functionID;
 - (nullable NSNumber<SDLInt> *)functionIdForName:(SDLName)functionName;
 
 @end

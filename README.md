@@ -44,7 +44,7 @@ You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartD
 In your podfile, you want to add `pod 'SmartDeviceLink', '~> 5.0'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 8.0+.
 
 ###### Swift
-If you are building a Swift app, then add this instead `pod 'SmartDeviceLink-iOS/Swift', '~> 5.0'`. Then run `pod install` in your terminal.
+If you are building a Swift app, then add this instead `pod 'SmartDeviceLink/Swift', '~> 5.0'`. Then run `pod install` in your terminal.
 
 ##### Carthage
 
