@@ -38,14 +38,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)present {
-    NSArray* windows = [[UIApplication sharedApplication] windows];
-    UIWindow* appWindow = windows.firstObject;
-
-    if (self.lockWindow.isKeyWindow || appWindow == self.lockWindow) {
-        return;
-    }
-
     dispatch_async(dispatch_get_main_queue(), ^{
+        NSArray* windows = [[UIApplication sharedApplication] windows];
+        UIWindow* appWindow = windows.firstObject;
+
+        if (self.lockWindow.isKeyWindow || appWindow == self.lockWindow) {
+            return;
+        }
+
         // We let ourselves know that the lockscreen will present, because we have to pause streaming video for that 0.3 seconds or else it will be very janky.
         [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
 
@@ -67,14 +67,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)dismiss {
-    NSArray *windows = [[UIApplication sharedApplication] windows];
-    UIWindow *appWindow = windows.firstObject;
-
-    if (appWindow.isKeyWindow || appWindow == self.lockWindow) {
-        return;
-    }
-
     dispatch_async(dispatch_get_main_queue(), ^{
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        UIWindow *appWindow = windows.firstObject;
+
+        if (appWindow.isKeyWindow || appWindow == self.lockWindow) {
+            return;
+        }
+
         // Let us know we are about to dismiss.
         [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillDismissLockScreenViewController object:nil];
 
@@ -96,6 +96,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)presented {
+    __block BOOL isPresented = NO;
+    if ([NSThread isMainThread]) {
+        isPresented = [self sdl_presented];
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            isPresented = [self sdl_presented];
+        });
+    }
+    
+    return self;
+}
+
+- (BOOL)sdl_presented {
     return (self.lockViewController.isViewLoaded && (self.lockViewController.view.window || self.lockViewController.isBeingPresented) && self.lockWindow.isKeyWindow);
 }
 

@@ -734,6 +734,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)sdl_displayLinkFired:(CADisplayLink *)displayLink {
+    NSAssert([NSThread isMainThread], @"Display link should always fire on the main thread");
     SDLLogV(@"DisplayLink frame fired, duration: %f, last frame timestamp: %f, target timestamp: %f", displayLink.duration, displayLink.timestamp, displayLink.targetTimestamp);
 
     [self.touchManager syncFrame];

@@ -24,11 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLCarWindow ()
 
-@property (strong, nonatomic, nullable) CADisplayLink *displayLink;
-@property (assign, nonatomic) NSUInteger targetFramerate;
-@property (assign, nonatomic) BOOL drawsAfterScreenUpdates;
-
 @property (weak, nonatomic, nullable) SDLStreamingMediaLifecycleManager *streamManager;
+
+@property (assign, nonatomic) BOOL drawsAfterScreenUpdates;
 
 @property (assign, nonatomic, getter=isLockScreenPresenting) BOOL lockScreenPresenting;
 @property (assign, nonatomic, getter=isLockScreenDismissing) BOOL lockScreenBeingDismissed;
