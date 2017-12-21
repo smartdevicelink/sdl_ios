@@ -292,8 +292,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)didEnterStateSettingUpAppIcon {
     // We only want to send the app icon when the file manager is complete, and when that's done, wait for hmi status to be ready
-    [self sdl_sendAppIcon:self.configuration.lifecycleConfig.appIcon withCompletion:^{
-       [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
+    [self sdl_sendAppIcon:self.configuration.lifecycleConfig.appIcon withCompletion:^() {
+        // We could have been shut down while setting up the app icon, make sure we still want to continue or we could crash
+        if (self.lifecycleState == SDLLifecycleStateSettingUpAppIcon) {
+            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
+        }
    }];
 }
 
@@ -357,6 +360,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                 SDLLogW(@"Failed to upload app icon: A file with this name already exists on the system");
             } else {
                 SDLLogW(@"Unexpected error uploading app icon: %@", error);
+                completion();
                 return;
             }
         }
