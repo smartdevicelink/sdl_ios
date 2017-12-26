@@ -69,7 +69,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
         return;
     }
-    
+
     SDLLogD(@"Starting background task");
     self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:BackgroundTaskName expirationHandler:^{
         SDLLogD(@"Background task expired");
@@ -198,6 +198,12 @@ int const ProtocolIndexTimeoutSeconds = 10;
 #pragma mark - Stream Lifecycle
 
 - (void)connect {
+    UIApplicationState state = [UIApplication sharedApplication].applicationState;
+    if (state != UIApplicationStateActive) {
+        SDLLogV(@"App inactive on connect, starting background task");
+        [self sdl_backgroundTaskStart];
+    }
+
     [self sdl_connect:nil];
 }
 
@@ -517,6 +523,8 @@ int const ProtocolIndexTimeoutSeconds = 10;
                 [strongSelf.protocolIndexTimer cancel];
             });
         }
+
+        [strongSelf sdl_backgroundTaskStart];
     };
 }
 
@@ -581,6 +589,8 @@ int const ProtocolIndexTimeoutSeconds = 10;
                 break;
             }
         }
+
+        [strongSelf sdl_backgroundTaskStart];
     };
 }
 
@@ -644,6 +654,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 - (void)sdl_destructObjects {
     if (!_alreadyDestructed) {
+        [self sdl_backgroundTaskEnd];
         _alreadyDestructed = YES;
         self.controlSession = nil;
         self.session = nil;
