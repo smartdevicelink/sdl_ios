@@ -115,14 +115,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Custom Accessors
 - (void)setRootViewController:(nullable UIViewController *)rootViewController {
-    _rootViewController = rootViewController;
-
     if (rootViewController == nil) {
+        _rootViewController = nil;
         return;
     }
+
     NSAssert((rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskPortrait ||
               rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskLandscapeLeft ||
               rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskLandscapeRight), @"SDLCarWindow rootViewController must support only a single interface orientation");
+
+    if (self.streamManager.screenSize.width != 0) {
+        rootViewController.view.frame = CGRectMake(0, 0, self.streamManager.screenSize.width, self.streamManager.screenSize.height);
+        rootViewController.view.bounds = rootViewController.view.frame;
+    }
+
+    _rootViewController = rootViewController;
 }
 
 #pragma mark - Private Helpers
