@@ -138,7 +138,10 @@ NS_ASSUME_NONNULL_BEGIN
     size_t imageHeight = CGImageGetHeight(imageRef);
 
     CVPixelBufferRef pixelBuffer;
-    CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault, pool,&pixelBuffer);
+    CVReturn result = CVPixelBufferPoolCreatePixelBuffer(kCFAllocatorDefault, pool, &pixelBuffer);
+    if (result != kCVReturnSuccess) {
+        return nil;
+    }
 
     CVPixelBufferLockBaseAddress(pixelBuffer, 0);
     void *data = CVPixelBufferGetBaseAddress(pixelBuffer);
