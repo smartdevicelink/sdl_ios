@@ -16,6 +16,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
+    SDLCarWindowRenderingTypeLayer,
+    SDLCarWindowRenderingTypeView
+};
+
 @interface SDLStreamingMediaConfiguration : NSObject <NSCopying>
 
 /**
@@ -65,9 +70,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) UIViewController *rootViewController;
 
 /**
- Declares if CarWindow will wait until after the screen updates to draw. Defaults to YES.
+ Declares if CarWindow will wait until after the screen updates to draw. Only applies to view rendering. Defaults to NO.
  */
 @property (assign, nonatomic) BOOL carWindowDrawsAfterScreenUpdates;
+
+/**
+ Declares if CarWindow will use layer rendering or view rendering. Defaults to layer rendering.
+ */
+@property (assign, nonatomic) SDLCarWindowRenderingType carWindowRenderingType;
 
 /**
  When YES, the StreamingMediaManager will run a CADisplayLink with the framerate set to the video encoder settings kVTCompressionPropertyKey_ExpectedFrameRate. This then forces TouchManager (and CarWindow, if used) to sync their callbacks to the framerate. If using CarWindow, this *must* be YES. If NO, `enableSyncedPanning` on SDLTouchManager will be set to NO. Defaults to YES.

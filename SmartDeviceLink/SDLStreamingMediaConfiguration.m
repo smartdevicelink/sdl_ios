@@ -38,7 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
     _customVideoEncoderSettings = videoSettings;
     _dataSource = dataSource;
     _rootViewController = rootViewController;
-    _carWindowDrawsAfterScreenUpdates = YES;
+    _carWindowRenderingType = SDLCarWindowRenderingTypeLayer;
+    _carWindowDrawsAfterScreenUpdates = NO;
     _enableForcedFramerateSync = YES;
 
     return self;
@@ -74,7 +75,12 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    return [[self.class allocWithZone:zone] initWithSecurityManagers:_securityManagers encryptionFlag:_maximumDesiredEncryption videoSettings:_customVideoEncoderSettings dataSource:_dataSource rootViewController:_rootViewController];
+    SDLStreamingMediaConfiguration *newConfig = [[self.class allocWithZone:zone] initWithSecurityManagers:_securityManagers encryptionFlag:_maximumDesiredEncryption videoSettings:_customVideoEncoderSettings dataSource:_dataSource rootViewController:_rootViewController];
+
+    newConfig.carWindowRenderingType = self.carWindowRenderingType;
+    newConfig.carWindowDrawsAfterScreenUpdates = self.carWindowDrawsAfterScreenUpdates;
+    
+    return newConfig;
 }
 
 @end
