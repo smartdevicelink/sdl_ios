@@ -122,7 +122,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         }
 
         SDLLogD(@"Initializing CarWindow");
-        _carWindow = [[SDLCarWindow alloc] initWithStreamManager:self drawsAfterScreenUpdates:configuration.carWindowDrawsAfterScreenUpdates];
+        _carWindow = [[SDLCarWindow alloc] initWithStreamManager:self configuration:configuration];
         _carWindow.rootViewController = configuration.rootViewController;
     }
 

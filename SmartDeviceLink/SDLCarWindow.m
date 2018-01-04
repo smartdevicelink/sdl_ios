@@ -83,8 +83,10 @@ NS_ASSUME_NONNULL_BEGIN
 
     CGImageRef imageRef = screenshot.CGImage;
     CVPixelBufferRef pixelBuffer = [self.class sdl_pixelBufferForImageRef:imageRef usingPool:self.streamManager.pixelBufferPool];
-    [self.streamManager sendVideoData:pixelBuffer];
-    CVPixelBufferRelease(pixelBuffer);
+    if (pixelBuffer != nil) {
+        [self.streamManager sendVideoData:pixelBuffer];
+        CVPixelBufferRelease(pixelBuffer);
+    }
 }
 
 #pragma mark - SDLNavigationLockScreenManager Notifications
@@ -143,7 +145,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Private Helpers
-+ (CVPixelBufferRef)sdl_pixelBufferForImageRef:(CGImageRef)imageRef usingPool:(CVPixelBufferPoolRef)pool {
++ (nullable CVPixelBufferRef)sdl_pixelBufferForImageRef:(CGImageRef)imageRef usingPool:(CVPixelBufferPoolRef)pool {
     size_t imageWidth = CGImageGetWidth(imageRef);
     size_t imageHeight = CGImageGetHeight(imageRef);
 
