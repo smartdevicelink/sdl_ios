@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic, nullable) SDLStreamingMediaLifecycleManager *streamManager;
 
+@property (assign, nonatomic) SDLCarWindowRenderingType renderingType;
 @property (assign, nonatomic) BOOL drawsAfterScreenUpdates;
 
 @property (assign, nonatomic, getter=isLockScreenPresenting) BOOL lockScreenPresenting;
@@ -35,12 +36,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLCarWindow
 
-- (instancetype)initWithStreamManager:(SDLStreamingMediaLifecycleManager *)streamManager drawsAfterScreenUpdates:(BOOL)drawsAfterScreenUpdates {
+- (instancetype)initWithStreamManager:(SDLStreamingMediaLifecycleManager *)streamManager configuration:(nonnull SDLStreamingMediaConfiguration *)configuration {
     self = [super init];
     if (!self) { return nil; }
 
     _streamManager = streamManager;
-    _drawsAfterScreenUpdates = drawsAfterScreenUpdates;
+    _renderingType = configuration.carWindowRenderingType;
+    _drawsAfterScreenUpdates = configuration.carWindowDrawsAfterScreenUpdates;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveVideoStreamStarted:) name:SDLVideoStreamDidStartNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveVideoStreamStopped:) name:SDLVideoStreamDidStopNotification object:nil];
@@ -67,7 +69,15 @@ NS_ASSUME_NONNULL_BEGIN
     CGRect bounds = self.rootViewController.view.bounds;
 
     UIGraphicsBeginImageContextWithOptions(bounds.size, YES, 1.0f);
-    [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:self.drawsAfterScreenUpdates];
+    switch (self.renderingType) {
+        case SDLCarWindowRenderingTypeLayer: {
+            [self.rootViewController.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+        } break;
+        case SDLCarWindowRenderingTypeView: {
+            [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:self.drawsAfterScreenUpdates];
+        } break;
+    }
+
     UIImage *screenshot = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 

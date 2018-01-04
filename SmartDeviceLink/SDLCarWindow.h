@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class SDLStreamingMediaConfiguration;
 @class SDLStreamingMediaLifecycleManager;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -20,10 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
  Initialize the CarWindow automatic streamer.
 
  @param streamManager The stream manager to use for retrieving head unit dimension details and forwarding video frame data
- @param drawsAfterScreenUpdates Whether or not it should wait until a screen update to draw.
+ @param configuration The streaming media configuration
  @return An instance of this class
  */
-- (instancetype)initWithStreamManager:(SDLStreamingMediaLifecycleManager *)streamManager drawsAfterScreenUpdates:(BOOL)drawsAfterScreenUpdates;
+- (instancetype)initWithStreamManager:(SDLStreamingMediaLifecycleManager *)streamManager configuration:(SDLStreamingMediaConfiguration *)configuration;
 
 /**
  *  View Controller that will be streamed.
