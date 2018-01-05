@@ -53,6 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithId:(UInt32)commandId vrCommands:(nullable NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position iconValue:(NSString *)iconValue iconType:(SDLImageType)iconType handler:(nullable SDLRPCCommandNotificationHandler)handler;
 
+-(instancetype)initWithId:(UInt32)commandId vrCommands:(NSArray<NSString *> *)vrCommands menuName:(NSString *)menuName parentId:(UInt32)parentId position:(UInt16)position icon:(SDLImage *)icon handler:(SDLRPCCommandNotificationHandler)handler;
+
 /**
  *  A handler that will let you know when the button you created is subscribed.
  *
