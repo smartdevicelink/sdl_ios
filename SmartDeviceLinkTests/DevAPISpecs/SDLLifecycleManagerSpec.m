@@ -208,7 +208,7 @@ describe(@"a lifecycle manager", ^{
                     [NSThread sleepForTimeInterval:0.1];
                 });
                 
-                fit(@"should be in the started state", ^{
+                it(@"should be in the started state", ^{
                     expect(testManager.lifecycleState).to(match(SDLLifecycleStateReconnecting));
                 });
             });
