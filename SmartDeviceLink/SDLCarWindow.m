@@ -42,7 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     _streamManager = streamManager;
     _renderingType = configuration.carWindowRenderingType;
-    _drawsAfterScreenUpdates = configuration.carWindowDrawsAfterScreenUpdates;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveVideoStreamStarted:) name:SDLVideoStreamDidStartNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveVideoStreamStopped:) name:SDLVideoStreamDidStopNotification object:nil];
@@ -73,8 +72,11 @@ NS_ASSUME_NONNULL_BEGIN
         case SDLCarWindowRenderingTypeLayer: {
             [self.rootViewController.view.layer renderInContext:UIGraphicsGetCurrentContext()];
         } break;
-        case SDLCarWindowRenderingTypeView: {
-            [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:self.drawsAfterScreenUpdates];
+        case SDLCarWindowRenderingTypeViewAfterScreenUpdates: {
+            [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:YES];
+        } break;
+        case SDLCarWindowRenderingTypeViewBeforeScreenUpdates: {
+            [self.rootViewController.view drawViewHierarchyInRect:bounds afterScreenUpdates:NO];
         } break;
     }
 

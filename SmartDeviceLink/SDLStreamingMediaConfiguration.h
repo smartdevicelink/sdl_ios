@@ -18,7 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
     SDLCarWindowRenderingTypeLayer,
-    SDLCarWindowRenderingTypeView
+    SDLCarWindowRenderingTypeViewAfterScreenUpdates,
+    SDLCarWindowRenderingTypeViewBeforeScreenUpdates
 };
 
 @interface SDLStreamingMediaConfiguration : NSObject <NSCopying>
@@ -61,18 +62,17 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
 
  Activates the haptic view parser and CarWindow systems when set. This library will also use that information to attempt to return the touched view to you in `SDLTouchManagerDelegate`.
 
- @note If you wish to alter this rootViewController while streaming via CarWindow, you must set a new `rootViewController` on `SDLStreamingMediaManager` and this will update both the haptic view parser and CarWindow.
+ @note If you wish to alter this `rootViewController` while streaming via CarWindow, you must set a new `rootViewController` on `SDLStreamingMediaManager` and this will update both the haptic view parser and CarWindow.
 
  @warning Apps using views outside of the `UIView` heirarchy (such as OpenGL) are currently unsupported. If you app uses partial views in the heirarchy, only those views will be discovered. Your OpenGL views will not be discoverable to a haptic interface head unit and you will have to manually make these views discoverable via the `SDLSendHapticData` RPC request.
 
- @warning This is a weak property and it's therefore your job to hold a strong reference to this view controller.
+ @warning If the `rootViewController` is app UI and is set from the `UIViewController` class, it should only be set after viewDidAppear:animated is called. Setting the `rootViewController` in `viewDidLoad` or `viewWillAppear:animated` can cause weird behavior when setting the new frame.
+
+ @warning If setting the `rootViewController` when the app returns to the foreground, the app should register for the `UIApplicationDidBecomeActive` notification and not the `UIApplicationWillEnterForeground` notification. Setting the frame after a notification from the latter can also cause weird behavior when setting the new frame.
+
+ @warning While `viewDidLoad` will fire, appearance methods will not.
  */
 @property (strong, nonatomic, nullable) UIViewController *rootViewController;
-
-/**
- Declares if CarWindow will wait until after the screen updates to draw. Only applies to view rendering. Defaults to NO.
- */
-@property (assign, nonatomic) BOOL carWindowDrawsAfterScreenUpdates;
 
 /**
  Declares if CarWindow will use layer rendering or view rendering. Defaults to layer rendering.
