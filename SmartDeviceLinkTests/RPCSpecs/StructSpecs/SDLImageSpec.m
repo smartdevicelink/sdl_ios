@@ -21,9 +21,9 @@ describe(@"Getter/Setter Tests", ^ {
         
         testStruct.value = @"value";
         testStruct.imageType = SDLImageTypeStatic;
-        
         expect(testStruct.value).to(equal(@"value"));
         expect(testStruct.imageType).to(equal(SDLImageTypeStatic));
+        expect(testStruct.isTemplateImage).to(equal(NO));
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -33,6 +33,18 @@ describe(@"Getter/Setter Tests", ^ {
         
         expect(testStruct.value).to(equal(@"value"));
         expect(testStruct.imageType).to(equal(SDLImageTypeStatic));
+        expect(testStruct.isTemplateImage).to(equal(NO));
+    });
+    
+    it(@"Should get correctly when initialized with template", ^ {
+        NSMutableDictionary* dict = [@{SDLNameValue:@"value",
+                                       SDLNameImageType:SDLImageTypeStatic,
+                                       SDLNameIsTemplateImage:@YES} mutableCopy];
+        SDLImage* testStruct = [[SDLImage alloc] initWithDictionary:dict];
+        
+        expect(testStruct.value).to(equal(@"value"));
+        expect(testStruct.imageType).to(equal(SDLImageTypeStatic));
+        expect(testStruct.isTemplateImage).to(equal(YES));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -40,6 +52,7 @@ describe(@"Getter/Setter Tests", ^ {
         
         expect(testStruct.value).to(beNil());
         expect(testStruct.imageType).to(beNil());
+        expect(testStruct.isTemplateImage).to(equal(NO));
     });
 });
 
