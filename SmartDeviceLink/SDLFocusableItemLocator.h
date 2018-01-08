@@ -16,6 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) BOOL enableHapticDataRequests;
 
+/**
+ The projection view controller associated with the Haptic Manager
+ */
+@property (nonatomic, strong) UIViewController *viewController;
+
 @end
 
 NS_ASSUME_NONNULL_END

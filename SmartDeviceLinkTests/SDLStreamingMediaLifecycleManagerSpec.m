@@ -7,6 +7,7 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
+#import "SDLCarWindowViewController.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLControlFramePayloadAudioStartServiceAck.h"
 #import "SDLControlFramePayloadConstants.h"
@@ -46,7 +47,7 @@ QuickSpecBegin(SDLStreamingMediaLifecycleManagerSpec)
 describe(@"the streaming media manager", ^{
     __block SDLStreamingMediaLifecycleManager *streamingLifecycleManager = nil;
     __block SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
-    __block UIWindow *testWindow = [[UIWindow alloc] init];
+    __block SDLCarWindowViewController *testViewController = [[SDLCarWindowViewController alloc] init];
     __block SDLFakeStreamingManagerDataSource *testDataSource = [[SDLFakeStreamingManagerDataSource alloc] init];
     __block NSString *someBackgroundTitleString = nil;
     __block TestConnectionManager *testConnectionManager = nil;
@@ -65,7 +66,7 @@ describe(@"the streaming media manager", ^{
                                                          (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate : @1
                                                          };
         testConfiguration.dataSource = testDataSource;
-        testConfiguration.window = testWindow;
+        testConfiguration.rootViewController = testViewController;
         someBackgroundTitleString = @"Open Test App";
         testConnectionManager = [[TestConnectionManager alloc] init];
         streamingLifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration];

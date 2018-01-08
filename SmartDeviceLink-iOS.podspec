@@ -51,6 +51,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLButtonPress.h',
 'SmartDeviceLink/SDLButtonPressMode.h',
 'SmartDeviceLink/SDLCarModeStatus.h',
+'SmartDeviceLink/SDLCarWindowViewController.h',
 'SmartDeviceLink/SDLChangeRegistration.h',
 'SmartDeviceLink/SDLChangeRegistrationResponse.h',
 'SmartDeviceLink/SDLCharacterSet.h',

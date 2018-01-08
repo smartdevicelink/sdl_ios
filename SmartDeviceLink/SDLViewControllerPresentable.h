@@ -13,7 +13,7 @@
  */
 @protocol SDLViewControllerPresentable <NSObject>
 
-@property (strong, nonatomic) UIViewController *viewController;
+@property (strong, nonatomic) UIViewController *lockViewController;
 @property (assign, nonatomic, readonly) BOOL presented;
 
 - (void)present;

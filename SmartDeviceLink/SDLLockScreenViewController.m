@@ -39,6 +39,10 @@ NS_ASSUME_NONNULL_BEGIN
     return NO;
 }
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
     BOOL useWhiteIcon = [self.class sdl_shouldUseWhiteForegroundForBackgroundColor:self.backgroundColor];
 
@@ -63,7 +67,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setBackgroundColor:(UIColor *_Nullable)backgroundColor {
     _backgroundColor = backgroundColor;
 
-    self.view.backgroundColor = _backgroundColor;
     [self sdl_layoutViews];
 }
 
@@ -84,6 +87,8 @@ NS_ASSUME_NONNULL_BEGIN
         self.arrowDownImageView.tintColor = iconColor;
 
         self.lockedLabel.textColor = iconColor;
+
+        self.view.backgroundColor = self.backgroundColor;
 
         if (self.vehicleIcon != nil && self.appIcon != nil) {
             [self sdl_setVehicleAndAppIconsLayout];

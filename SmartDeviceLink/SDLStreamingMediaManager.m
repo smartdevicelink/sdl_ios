@@ -72,6 +72,10 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.audioManager;
 }
 
+- (UIViewController *)rootViewController {
+    return self.lifecycleManager.rootViewController;
+}
+
 - (nullable id<SDLFocusableItemLocatorType>)focusableItemManager {
     return self.lifecycleManager.focusableItemManager;
 }
@@ -121,6 +125,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Setters
+- (void)setRootViewController:(UIViewController *)rootViewController {
+    self.lifecycleManager.rootViewController = rootViewController;
+}
+
 - (void)setRequestedEncryptionType:(SDLStreamingEncryptionFlag)requestedEncryptionType {
     self.lifecycleManager.requestedEncryptionType = requestedEncryptionType;
 }
