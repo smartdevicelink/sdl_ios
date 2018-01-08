@@ -16,6 +16,7 @@
 #import "SDLImageResolution.h"
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
+#import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaLifecycleManager.h"
 #import "SDLStreamingMediaManagerConstants.h"
@@ -31,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic, getter=isLockScreenPresenting) BOOL lockScreenPresenting;
 @property (assign, nonatomic, getter=isLockScreenDismissing) BOOL lockScreenBeingDismissed;
+
+@property (assign, nonatomic, getter=isVideoStreamStarted) BOOL videoStreamStarted;
 
 @end
 
@@ -110,6 +113,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDLNavigationLifecycleManager Notifications
 - (void)sdl_didReceiveVideoStreamStarted:(NSNotification *)notification {
+    self.videoStreamStarted = true;
+
     dispatch_async(dispatch_get_main_queue(), ^{
         // If the video stream has started, we want to resize the streamingViewController to the size from the RegisterAppInterface
         self.rootViewController.view.frame = CGRectMake(0, 0, self.streamManager.screenSize.width, self.streamManager.screenSize.height);
@@ -120,6 +125,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_didReceiveVideoStreamStopped:(NSNotification *)notification {
+    self.videoStreamStarted = false;
+
     dispatch_async(dispatch_get_main_queue(), ^{
         // And also reset the streamingViewController's frame, because we are about to show it.
         self.rootViewController.view.frame = [UIScreen mainScreen].bounds;
@@ -129,8 +136,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Custom Accessors
 - (void)setRootViewController:(nullable UIViewController *)rootViewController {
-    if (rootViewController == nil) {
-        _rootViewController = nil;
+    if (rootViewController == nil || !self.isVideoStreamStarted) {
+        _rootViewController = rootViewController;
         return;
     }
 
