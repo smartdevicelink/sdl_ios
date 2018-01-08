@@ -242,7 +242,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
             if (error != nil || ![response.success boolValue]) {
                 SDLLogE(@"Failed to register the app. Error: %@, Response: %@", error, response);
                 weakSelf.readyHandler(NO, error);
-                [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+
+                if (weakSelf.lifecycleState != SDLLifecycleStateReconnecting) {
+                    [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+                }
+                
                 return;
             }
 

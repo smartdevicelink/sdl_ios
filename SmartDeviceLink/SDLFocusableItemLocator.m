@@ -20,11 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLFocusableItemLocator()
 
 /**
- The projection window associated with the Haptic Manager
- */
-@property (nonatomic, weak) UIWindow *projectionWindow;
-
-/**
  Array of focusable view objects extracted from the projection window
  */
 @property (nonatomic, strong) NSMutableArray<UIView *> *focusableViews;
@@ -39,26 +34,30 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLFocusableItemLocator
 
 - (instancetype)initWithWindow:(UIWindow *)window connectionManager:(id<SDLConnectionManagerType>)connectionManager{
+    return [self initWithViewController:window.rootViewController connectionManager:connectionManager];
+}
+
+- (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager {
     self = [super init];
     if(!self) {
         return nil;
     }
-    
-    _projectionWindow = window;
+
+    _viewController = viewController;
     _connectionManager = connectionManager;
     _enableHapticDataRequests = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_projectionViewUpdated:) name:SDLDidUpdateProjectionView object:nil];
-    
+
     return self;
 }
 
 - (void)updateInterfaceLayout {
     if (@available(iOS 9.0, *)) {
         self.focusableViews = [[NSMutableArray alloc] init];
-        [self sdl_parseViewHierarchy:self.projectionWindow.subviews.lastObject];
+        [self sdl_parseViewHierarchy:self.viewController.view];
 
         // If there is a preferred view bring that into top of the array
-        NSUInteger preferredViewIndex = [self.focusableViews indexOfObject:self.projectionWindow.subviews.lastObject.preferredFocusedView];
+        NSUInteger preferredViewIndex = [self.focusableViews indexOfObject:self.viewController.view.subviews.lastObject.preferredFocusedView];
         if (preferredViewIndex != NSNotFound && self.focusableViews.count > 1) {
             [self.focusableViews exchangeObjectAtIndex:preferredViewIndex withObjectAtIndex:0];
         }
@@ -112,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableArray<SDLHapticRect *> *hapticRects = [[NSMutableArray alloc] init];
     
     for (UIView *view in self.focusableViews) {
-        CGPoint originOnScreen = [self.projectionWindow convertPoint:view.frame.origin toView:nil];
+        CGPoint originOnScreen = [self.viewController.view convertPoint:view.frame.origin toView:nil];
         CGRect convertedRect = {originOnScreen, view.bounds.size};
         SDLRectangle* rect = [[SDLRectangle alloc] initWithCGRect:(convertedRect)];
         // using the view index as the id field in SendHapticData request (should be guaranteed unique)
@@ -125,13 +124,13 @@ NS_ASSUME_NONNULL_BEGIN
     [self.connectionManager sendManagerRequest:hapticRPC withResponseHandler:nil];
 }
 
-#pragma mark SDLHapticHitTester functions
+#pragma mark SDLFocusableItemHitTester functions
 - (nullable UIView *)viewForPoint:(CGPoint)point {
     UIView *selectedView = nil;
     
     for (UIView *view in self.focusableViews) {
         //Convert the absolute location to local location and check if that falls within view boundary
-        CGPoint localPoint = [view convertPoint:point fromView:self.projectionWindow];
+        CGPoint localPoint = [view convertPoint:point fromView:self.viewController.view];
         if ([view pointInside:localPoint withEvent:nil]) {
             if (selectedView != nil) {
                 selectedView = nil;

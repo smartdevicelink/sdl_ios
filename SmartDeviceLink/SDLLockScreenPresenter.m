@@ -8,61 +8,109 @@
 
 #import "SDLLockScreenPresenter.h"
 
+#import "SDLLogMacros.h"
+#import "SDLScreenshotViewController.h"
+#import "SDLStreamingMediaManagerConstants.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLockScreenPresenter ()
+
+@property (strong, nonatomic) SDLScreenshotViewController *screenshotViewController;
+@property (strong, nonatomic) UIWindow *lockWindow;
 
 @end
 
 
 @implementation SDLLockScreenPresenter
 
-- (void)present {
-    if (!self.viewController) {
-        return;
-    }
+- (instancetype)init {
+    self = [super init];
+    if (!self) { return nil; }
 
+    CGRect screenFrame = [[UIScreen mainScreen] bounds];
+    _lockWindow = [[UIWindow alloc] initWithFrame:screenFrame];
+    _screenshotViewController = [[SDLScreenshotViewController alloc] init];
+    _lockWindow.rootViewController = _screenshotViewController;
+
+    return self;
+}
+
+- (void)present {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[self.class sdl_getCurrentViewController] presentViewController:self.viewController animated:YES completion:nil];
+        NSArray* windows = [[UIApplication sharedApplication] windows];
+        UIWindow* appWindow = windows.firstObject;
+
+        if (self.lockWindow.isKeyWindow || appWindow == self.lockWindow) {
+            return;
+        }
+
+        // We let ourselves know that the lockscreen will present, because we have to pause streaming video for that 0.3 seconds or else it will be very janky.
+        [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillPresentLockScreenViewController object:nil];
+
+        CGRect firstFrame = appWindow.frame;
+        firstFrame.origin.x = CGRectGetWidth(firstFrame);
+        appWindow.frame = firstFrame;
+
+        // We then move the lockWindow to the original appWindow location.
+        self.lockWindow.frame = appWindow.bounds;
+        [self.screenshotViewController loadScreenshotOfWindow:appWindow];
+        [self.lockWindow makeKeyAndVisible];
+
+        // And present the lock screen.
+        SDLLogD(@"Present lock screen window");
+        [self.lockWindow.rootViewController presentViewController:self.lockViewController animated:YES completion:^{
+            // Tell ourselves we are done.
+            [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerDidPresentLockScreenViewController object:nil];
+        }];
     });
 }
 
 - (void)dismiss {
-    if (!self.viewController) {
-        return;
-    }
-
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.viewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        UIWindow *appWindow = windows.firstObject;
+
+        if (appWindow.isKeyWindow || appWindow == self.lockWindow) {
+            return;
+        }
+
+        // Let us know we are about to dismiss.
+        [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerWillDismissLockScreenViewController object:nil];
+
+        // Dismiss the lockscreen
+        SDLLogD(@"Dismiss lock screen window");
+        [self.lockViewController dismissViewControllerAnimated:YES completion:^{
+            CGRect lockFrame = self.lockWindow.frame;
+            lockFrame.origin.x = CGRectGetWidth(lockFrame);
+            self.lockWindow.frame = lockFrame;
+
+            // Quickly move the map back, and make it the key window.
+            appWindow.frame = self.lockWindow.bounds;
+            [appWindow makeKeyAndVisible];
+
+            // Tell ourselves we are done.
+            [[NSNotificationCenter defaultCenter] postNotificationName:SDLLockScreenManagerDidDismissLockScreenViewController object:nil];
+        }];
     });
 }
 
 - (BOOL)presented {
-    if (!self.viewController) {
-        return NO;
-    }
-
-    __block BOOL presented = NO;
-    if (![NSThread isMainThread]) {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            presented = (self.viewController.isViewLoaded && (self.viewController.view.window || self.viewController.isBeingPresented));
-        });
+    __block BOOL isPresented = NO;
+    if ([NSThread isMainThread]) {
+        isPresented = [self sdl_presented];
     } else {
-        presented = (self.viewController.isViewLoaded && (self.viewController.view.window || self.viewController.isBeingPresented));
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            isPresented = [self sdl_presented];
+        });
     }
-
-    return presented;
+    
+    return isPresented;
 }
 
-+ (UIViewController *)sdl_getCurrentViewController {
-    // http://stackoverflow.com/questions/6131205/iphone-how-to-find-topmost-view-controller
-    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
-    while (topController.presentedViewController != nil) {
-        topController = topController.presentedViewController;
-    }
-
-    return topController;
+- (BOOL)sdl_presented {
+    return (self.lockViewController.isViewLoaded && (self.lockViewController.view.window || self.lockViewController.isBeingPresented) && self.lockWindow.isKeyWindow);
 }
 
 @end

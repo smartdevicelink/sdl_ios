@@ -209,7 +209,7 @@ describe(@"a lifecycle manager", ^{
                 });
                 
                 it(@"should be in the started state", ^{
-                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateStarted));
+                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateReconnecting));
                 });
             });
             

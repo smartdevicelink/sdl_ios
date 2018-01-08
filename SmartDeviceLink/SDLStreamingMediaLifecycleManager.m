@@ -10,6 +10,7 @@
 
 #import "SDLAbstractProtocol.h"
 #import "SDLAudioStreamManager.h"
+#import "SDLCarWindow.h"
 #import "SDLControlFramePayloadAudioStartServiceAck.h"
 #import "SDLControlFramePayloadConstants.h"
 #import "SDLControlFramePayloadNak.h"
@@ -89,6 +90,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 @property (assign, nonatomic) CV_NULLABLE CVPixelBufferRef backgroundingPixelBuffer;
 
+@property (strong, nonatomic, nullable) CADisplayLink *displayLink;
+@property (assign, nonatomic) BOOL useDisplayLink;
+
 @property (assign, nonatomic) CMTime lastPresentationTimestamp;
 
 @end
@@ -106,20 +110,28 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     SDLLogV(@"Creating StreamingLifecycleManager");
-    _connectionManager = connectionManager;
 
-    if (@available(iOS 9.0, *)) {
-        if (configuration.window != nil) {
-            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithWindow:configuration.window connectionManager:_connectionManager];
+    _connectionManager = connectionManager;
+    _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
+
+    if (configuration.rootViewController != nil) {
+        NSAssert(configuration.enableForcedFramerateSync, @"When using CarWindow (rootViewController != nil), forceFrameRateSync must be YES");
+        if (@available(iOS 9.0, *)) {
+            SDLLogD(@"Initializing focusable item locator");
+            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:configuration.rootViewController connectionManager:_connectionManager];
         }
+
+        SDLLogD(@"Initializing CarWindow");
+        _carWindow = [[SDLCarWindow alloc] initWithStreamManager:self configuration:configuration];
+        _carWindow.rootViewController = configuration.rootViewController;
     }
 
     _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager];
     _audioManager = [[SDLAudioStreamManager alloc] initWithManager:self];
 
-    _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
     _requestedEncryptionType = configuration.maximumDesiredEncryption;
     _dataSource = configuration.dataSource;
+    _useDisplayLink = configuration.enableForcedFramerateSync;
     _screenSize = SDLDefaultScreenSize;
     _backgroundingPixelBuffer = NULL;
     _preferredFormatIndex = 0;
@@ -312,6 +324,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         _videoEncoder = nil;
     }
 
+    self.displayLink.paused = YES;
+    [self.displayLink invalidate];
+
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamDidStopNotification object:nil];
 
     if (self.shouldRestartVideoStream) {
@@ -393,6 +408,23 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamDidStartNotification object:nil];
+
+    if (self.useDisplayLink) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // And start up the displayLink
+            NSInteger targetFramerate = ((NSNumber *)self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).integerValue;
+            SDLLogD(@"Initializing CADisplayLink with framerate: %ld", (long)targetFramerate);
+            self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(sdl_displayLinkFired:)];
+            if (SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"10")) {
+                self.displayLink.preferredFramesPerSecond = targetFramerate;
+            } else {
+                self.displayLink.frameInterval = (60 / targetFramerate);
+            }
+            [self.displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+        });
+    } else {
+        self.touchManager.enableSyncedPanning = NO;
+    }
 }
 
 - (void)didEnterStateVideoStreamShuttingDown {
@@ -643,8 +675,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         return;
     }
 
-    if ([self.videoStreamStateMachine isCurrentState:SDLVideoStreamStateStopped]
-          && self.isHmiStateVideoStreamCapable) {
+    if ([self.videoStreamStateMachine isCurrentState:SDLVideoStreamStateStopped] && self.isHmiStateVideoStreamCapable) {
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStarting];
     } else {
         SDLLogE(@"Unable to send video start service request\n"
@@ -699,6 +730,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         default:
             break;
     }
+}
+
+- (void)sdl_displayLinkFired:(CADisplayLink *)displayLink {
+    NSAssert([NSThread isMainThread], @"Display link should always fire on the main thread");
+    SDLLogV(@"DisplayLink frame fired, duration: %f, last frame timestamp: %f, target timestamp: %f", displayLink.duration, displayLink.timestamp, displayLink.targetTimestamp);
+
+    [self.touchManager syncFrame];
+    [self.carWindow syncFrame];
 }
 
 - (void)sdl_sendBackgroundFrames {
@@ -758,7 +797,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     // If this fails we have no known formats to use
     if (self.preferredFormatIndex >= self.preferredFormats.count
         || self.preferredResolutionIndex >= self.preferredResolutions.count) {
-        SDLLogE(@"No preferred format or no preferred resolution found that works: format index %lu, resolution index %lu", self.preferredFormatIndex, self.preferredResolutionIndex);
+        SDLLogE(@"No preferred format or no preferred resolution found that works: format index %lu, resolution index %lu", (unsigned long)self.preferredFormatIndex, (unsigned long)self.preferredResolutionIndex);
         [self sdl_transitionToStoppedState:SDLServiceTypeVideo];
         return;
     }
@@ -784,7 +823,17 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 
-#pragma mark Getters
+#pragma mark Setters / Getters
+
+- (void)setRootViewController:(UIViewController *)rootViewController {
+    if (self.focusableItemManager != nil) {
+        self.focusableItemManager.viewController = rootViewController;
+    }
+
+    if (self.carWindow != nil) {
+        self.carWindow.rootViewController = rootViewController;
+    }
+}
 
 - (BOOL)isAppStateVideoStreamCapable {
     return [self.appStateMachine isCurrentState:SDLAppStateActive];
