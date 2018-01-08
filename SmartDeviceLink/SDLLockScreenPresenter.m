@@ -55,6 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         // We then move the lockWindow to the original appWindow location.
         self.lockWindow.frame = appWindow.bounds;
+        [self.screenshotViewController loadScreenshotOfWindow:appWindow];
         [self.lockWindow makeKeyAndVisible];
 
         // And present the lock screen.
