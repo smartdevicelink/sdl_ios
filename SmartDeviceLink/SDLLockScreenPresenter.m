@@ -39,10 +39,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)present {
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSArray* windows = [[UIApplication sharedApplication] windows];
-        UIWindow* appWindow = windows.firstObject;
+        if (self.lockWindow.isKeyWindow) {
+            SDLLogW(@"Attempted to present lock window when it is already presented");
+            return;
+        }
 
-        if (self.lockWindow.isKeyWindow || appWindow == self.lockWindow) {
+        NSArray* windows = [[UIApplication sharedApplication] windows];
+        UIWindow *appWindow = nil;
+        for (UIWindow *window in windows) {
+            if (window != self.lockWindow) {
+                appWindow = window;
+                break;
+            }
+        }
+
+        if (appWindow == nil) {
+            SDLLogE(@"Unable to find the app's window");
             return;
         }
 
@@ -69,11 +81,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)dismiss {
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSArray *windows = [[UIApplication sharedApplication] windows];
-        UIWindow *appWindow = windows.firstObject;
+        NSArray* windows = [[UIApplication sharedApplication] windows];
+        UIWindow *appWindow = nil;
+        for (UIWindow *window in windows) {
+            if (window != self.lockWindow) {
+                appWindow = window;
+                break;
+            }
+        }
 
-        if (appWindow.isKeyWindow || appWindow == self.lockWindow) {
+        if (appWindow == nil) {
+            SDLLogE(@"Unable to find the app's window");
             return;
+        } else if (appWindow.isKeyWindow) {
+            SDLLogW(@"Attempted to dismiss lock screen, but it is already dismissed");
         }
 
         // Let us know we are about to dismiss.
@@ -105,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
             isPresented = [self sdl_presented];
         });
     }
-    
+
     return isPresented;
 }
 
@@ -116,3 +137,4 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
