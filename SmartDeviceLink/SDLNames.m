@@ -205,6 +205,7 @@ SDLName const SDLNameInteractionMode = @"interactionMode";
 SDLName const SDLNameIsHighlighted = @"isHighlighted";
 SDLName const SDLNameIsMediaApplication = @"isMediaApplication";
 SDLName const SDLNameIsSubscribed = @"isSubscribed";
+SDLName const SDLNameIsTemplateImage = @"isTemplate";
 SDLName const SDLNameKeyboardLayout = @"keyboardLayout";
 SDLName const SDLNameKeyboardProperties = @"keyboardProperties";
 SDLName const SDLNameKeypressMode = @"keypressMode";
