@@ -95,6 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
             return;
         } else if (appWindow.isKeyWindow) {
             SDLLogW(@"Attempted to dismiss lock screen, but it is already dismissed");
+            return;
         }
 
         // Let us know we are about to dismiss.
