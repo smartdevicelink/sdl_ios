@@ -46,7 +46,9 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 }
 
 - (void)connect {
+    __weak typeof(self) weakself = self;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        __strong typeof(self) strongself = weakself;
         SDLLogD(@"Attemping to connect");
         
         int sock_fd = call_socket([self.hostName UTF8String], [self.portNumber UTF8String]);
@@ -56,8 +58,8 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
         }
         
         CFSocketContext socketCtxt = {0, (__bridge void *)(self), NULL, NULL, NULL};
-        socket = CFSocketCreateWithNative(kCFAllocatorDefault, sock_fd, kCFSocketDataCallBack | kCFSocketConnectCallBack, (CFSocketCallBack)&TCPCallback, &socketCtxt);
-        CFRunLoopSourceRef source = CFSocketCreateRunLoopSource(kCFAllocatorDefault, socket, 0);
+        strongself->socket = CFSocketCreateWithNative(kCFAllocatorDefault, sock_fd, kCFSocketDataCallBack | kCFSocketConnectCallBack, (CFSocketCallBack)&TCPCallback, &socketCtxt);
+        CFRunLoopSourceRef source = CFSocketCreateRunLoopSource(kCFAllocatorDefault, strongself->socket, 0);
         CFRunLoopRef loop = CFRunLoopGetCurrent();
         CFRunLoopAddSource(loop, source, kCFRunLoopDefaultMode);
         CFRelease(source);
