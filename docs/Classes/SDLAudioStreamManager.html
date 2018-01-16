@@ -1,0 +1,169 @@
+<h1>SDLAudioStreamManager Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-delegate">delegate</a></li>
+  <li><a href="#section-playing">playing</a></li>
+  <li><a href="#section-queue">queue</a></li>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithManager:">-initWithManager:</a></li>
+  <li><a href="#section--pushWithFileURL:">-pushWithFileURL:</a></li>
+  <li><a href="#section--playNextWhenReady">-playNextWhenReady</a></li>
+  <li><a href="#section--stop">-stop</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-delegate">
+      delegate
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLAudioStreamManagerDelegate.html">SDLAudioStreamManagerDelegate</a></span><span class="o">&gt;</span> <span class="n">delegate</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section-playing">
+      playing
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">isPlaying</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">playing</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">isPlaying</span><span class="p">:</span> <span class="nf">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-queue">
+      queue
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">SDLAudioFile</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">queue</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">queue</span><span class="p">:</span> <span class="p">[</span><span class="kt">SDLAudioFile</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--init">
+      -init
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_UNAVAILABLE</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section--initWithManager:">
+      -initWithManager:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithManager</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLStreamingAudioManagerType.html">SDLStreamingAudioManagerType</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">streamManager</span> <span class="n">NS_DESIGNATED_INITIALIZER</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  
+  <h3 id="section--pushWithFileURL:">
+      -pushWithFileURL:
+  </h3>
+  
+  <p>Push a new file URL onto the queue after converting it into the correct PCM format for streaming binary data. Call <code>playNextWhenReady</code> to start playing the next completed pushed file.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>This happens on a serial background thread and will provide an error callback using the delegate if the conversion fails.</p>
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">pushWithFileURL</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileURL</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">push</span><span class="p">(</span><span class="n">withFileURL</span> <span class="nv">fileURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>fileURL</dt>
+      <dd><p>File URL to convert</p></dd>
+  </dl>
+  
+  <h3 id="section--playNextWhenReady">
+      -playNextWhenReady
+  </h3>
+  
+  <p>Play the next item in the queue. If an item is currently playing, it will continue playing and this item will begin playing after it is completed.</p>
+
+<p>When complete, this will callback on the delegate.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">playNextWhenReady</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">playNextWhenReady</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--stop">
+      -stop
+  </h3>
+  
+  <p>Stop playing the queue after the current item completes and clear the queue. If nothing is playing, the queue will be cleared.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stop</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+</section>

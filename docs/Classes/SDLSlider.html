@@ -27,55 +27,110 @@
       -initWithNumTicks:position:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Create an SDLSlider with only the number of ticks and position. Note that this is not enough to get a SUCCESS response. You must supply additional data. See below for required parameters.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithNumTicks</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">numTicks</span> <span class="nf">position</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">position</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithNumTicks</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">numTicks</span>
+                                <span class="nf">position</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">position</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">numTicks</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">position</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">numTicks</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">position</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">)</span></code></pre>
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>numTicks</dt>
+      <dd><p>The number of ticks present on the slider.</p></dd>
+      <dt>position</dt>
+      <dd><p>The default starting position of the slider.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLSlider RPC Request.</p>
+  </div>
   
   <h3 id="section--initWithNumTicks:position:sliderHeader:sliderFooter:timeout:">
       -initWithNumTicks:position:sliderHeader:sliderFooter:timeout:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Create an SDLSlider with all required data and a static footer (or no footer).</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithNumTicks</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">numTicks</span> <span class="nf">position</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">position</span> <span class="nf">sliderHeader</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">sliderHeader</span> <span class="nf">sliderFooter</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">sliderFooter</span> <span class="nf">timeout</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">timeout</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithNumTicks</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">numTicks</span>
+                                <span class="nf">position</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">position</span>
+                            <span class="nf">sliderHeader</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">sliderHeader</span>
+                            <span class="nf">sliderFooter</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">sliderFooter</span>
+                                 <span class="nf">timeout</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">timeout</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">numTicks</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">position</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">sliderHeader</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">sliderFooter</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">timeout</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">numTicks</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">position</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">sliderHeader</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">sliderFooter</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">timeout</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span></code></pre>
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>numTicks</dt>
+      <dd><p>The number of ticks present on the slider.</p></dd>
+      <dt>position</dt>
+      <dd><p>The default starting position of the slider.</p></dd>
+      <dt>sliderHeader</dt>
+      <dd><p>The header describing the slider.</p></dd>
+      <dt>sliderFooter</dt>
+      <dd><p>A static footer with text, or nil for no footer.</p></dd>
+      <dt>timeout</dt>
+      <dd><p>The length of time in milliseconds the popup should be displayed before automatically disappearing.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLSlider RPC Request.</p>
+  </div>
   
   <h3 id="section--initWithNumTicks:position:sliderHeader:sliderFooters:timeout:">
       -initWithNumTicks:position:sliderHeader:sliderFooters:timeout:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Create an SDLSlider with all required data and a dynamic footer (or no footer).</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithNumTicks</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">numTicks</span> <span class="nf">position</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">position</span> <span class="nf">sliderHeader</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">sliderHeader</span> <span class="nf">sliderFooters</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">sliderFooters</span> <span class="nf">timeout</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">timeout</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithNumTicks</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">numTicks</span>
+                                <span class="nf">position</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">position</span>
+                            <span class="nf">sliderHeader</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">sliderHeader</span>
+                           <span class="nf">sliderFooters</span><span class="p">:</span>
+                               <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">sliderFooters</span>
+                                 <span class="nf">timeout</span><span class="p">:(</span><span class="n">UInt16</span><span class="p">)</span><span class="nv">timeout</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">numTicks</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">position</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">sliderHeader</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">sliderFooters</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">timeout</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">numTicks</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">position</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">sliderHeader</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">sliderFooters</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">timeout</span><span class="p">:</span> <span class="kt">UInt16</span><span class="p">)</span></code></pre>
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>numTicks</dt>
+      <dd><p>The number of ticks present on the slider.</p></dd>
+      <dt>position</dt>
+      <dd><p>The default starting position of the slider.</p></dd>
+      <dt>sliderHeader</dt>
+      <dd><p>The header describing the slider.</p></dd>
+      <dt>sliderFooters</dt>
+      <dd><p>An array of footers. This should be the same length as <code><a href="../Classes/SDLSlider.html#/c:objc(cs)SDLSlider(py)numTicks">numTicks</a></code> as each footer should correspond to a tick, or no footer if nil.</p></dd>
+      <dt>timeout</dt>
+      <dd><p>The length of time in milliseconds the popup should be displayed before automatically disappearing.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An SDLSlider RPC Request.</p>
+  </div>
   
   <h3 id="section-numTicks">
       numTicks
@@ -88,11 +143,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">numTicks</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">numTicks</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">numTicks</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">numTicks</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="nf">SDLInt</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -108,11 +163,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">position</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">position</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">position</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">position</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="nf">SDLInt</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -123,16 +178,16 @@
   
   <p>@abstract A text header to display</p>
 
-<p>Rquired, Max length 500 chars</p>
+<p>Required, Max length 500 chars</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">sliderHeader</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">sliderHeader</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">sliderHeader</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">sliderHeader</span><span class="p">:</span> <span class="nf">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -156,12 +211,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
     <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">sliderFooter</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">sliderFooter</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">sliderFooter</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -170,7 +225,7 @@
       timeout
   </h3>
   
-  <p>@abstract An App defined timeout</p>
+  <p>@abstract An App defined timeout in milliseconds</p>
 
 <p>@discussion Indicates how long of a timeout from the last action (i.e. sliding control resets timeout).</p>
 
@@ -181,11 +236,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">timeout</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">timeout</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">timeout</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">timeout</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

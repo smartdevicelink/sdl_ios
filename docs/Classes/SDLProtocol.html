@@ -28,11 +28,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startServiceWithType</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span> <span class="nf">payload</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">payload</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startServiceWithType</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span> <span class="nf">payload</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">payload</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">startService</span><span class="p">(</span><span class="n">with</span> <span class="nv">serviceType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">,</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt">Data</span><span class="p">?)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">startService</span><span class="p">(</span><span class="n">with</span> <span class="nv">serviceType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">,</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt">Data</span><span class="p">?)</span></code></pre>
 
   
   
@@ -46,11 +46,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startSecureServiceWithType</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span> <span class="nf">payload</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">payload</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">BOOL</span> <span class="n">success</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">))</span><span class="nv">completionHandler</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startSecureServiceWithType</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span> <span class="nf">payload</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">payload</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">BOOL</span> <span class="n">success</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">))</span><span class="nv">completionHandler</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">startSecureService</span><span class="p">(</span><span class="n">with</span> <span class="nv">serviceType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">,</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt">Data</span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="kt">Error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">startSecureService</span><span class="p">(</span><span class="n">with</span> <span class="nv">serviceType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">,</span> <span class="nv">payload</span><span class="p">:</span> <span class="kt">Data</span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="kt">Error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
   
   
@@ -64,11 +64,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">endServiceWithType</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">endServiceWithType</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">endService</span><span class="p">(</span><span class="n">with</span> <span class="nv">serviceType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">endService</span><span class="p">(</span><span class="n">with</span> <span class="nv">serviceType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span></code></pre>
 
   
   
@@ -82,11 +82,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendRPC</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLRPCMessage.html">SDLRPCMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendRPC</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLRPCMessage.html">SDLRPCMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendRPC</span><span class="p">(</span><span class="n">_</span> <span class="nv">message</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRPCMessage.html">SDLRPCMessage</a></span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">sendRPC</span><span class="p">(</span><span class="n">_</span> <span class="nv">message</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRPCMessage.html">SDLRPCMessage</a></span><span class="p">)</span></code></pre>
 
   
   
@@ -100,11 +100,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">sendRPC</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLRPCMessage.html">SDLRPCMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span> <span class="nf">encrypted</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">encryption</span> <span class="nf">error</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">**</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">sendRPC</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLRPCMessage.html">SDLRPCMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span> <span class="nf">encrypted</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">encryption</span> <span class="nf">error</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">**</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendRPC</span><span class="p">(</span><span class="n">_</span> <span class="nv">message</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRPCMessage.html">SDLRPCMessage</a></span><span class="p">,</span> <span class="n">encrypted</span> <span class="nv">encryption</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">sendRPC</span><span class="p">(</span><span class="n">_</span> <span class="nv">message</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRPCMessage.html">SDLRPCMessage</a></span><span class="p">,</span> <span class="n">encrypted</span> <span class="nv">encryption</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span></code></pre>
 
   
   
@@ -118,11 +118,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendRawData</span><span class="p">:(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span> <span class="nf">withServiceType</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendRawData</span><span class="p">:(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span> <span class="nf">withServiceType</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendRawData</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="n">with</span> <span class="nv">serviceType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">sendRawData</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="n">with</span> <span class="nv">serviceType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span></code></pre>
 
   
   
@@ -136,11 +136,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendEncryptedRawData</span><span class="p">:(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span> <span class="nf">onService</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendEncryptedRawData</span><span class="p">:(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span> <span class="nf">onService</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendEncryptedRawData</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="n">on</span> <span class="nv">serviceType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">sendEncryptedRawData</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="n">on</span> <span class="nv">serviceType</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLServiceType.html">SDLServiceType</a></span><span class="p">)</span></code></pre>
 
   
   
@@ -154,11 +154,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleBytesFromTransport</span><span class="p">:(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">receivedData</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleBytesFromTransport</span><span class="p">:(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">receivedData</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">handleBytes</span><span class="p">(</span><span class="n">fromTransport</span> <span class="nv">receivedData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">handleBytes</span><span class="p">(</span><span class="n">fromTransport</span> <span class="nv">receivedData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span></code></pre>
 
   
   

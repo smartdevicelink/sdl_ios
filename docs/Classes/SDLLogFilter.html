@@ -31,11 +31,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLogConstants.h@T@SDLLogFilterBlock">SDLLogFilterBlock</a></span> <span class="n">filter</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLogConstants.h@T@SDLLogFilterBlock">SDLLogFilterBlock</a></span> <span class="n">filter</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">filter</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLogConstants.h@T@SDLLogFilterBlock">SDLLogFilterBlock</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">filter</span><span class="p">:</span> <span class="nf">SDLLogFilterBlock</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
@@ -49,7 +49,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_UNAVAILABLE</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_UNAVAILABLE</span><span class="p">;</span></code></pre>
 
   
   
@@ -64,11 +64,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithCustomFilter</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLogConstants.h@T@SDLLogFilterBlock">SDLLogFilterBlock</a></span><span class="p">)</span><span class="nv">filter</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithCustomFilter</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLogConstants.h@T@SDLLogFilterBlock">SDLLogFilterBlock</a></span><span class="p">)</span><span class="nv">filter</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="n">customFilter</span> <span class="nv">filter</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLogConstants.h@T@SDLLogFilterBlock">SDLLogFilterBlock</a></span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">customFilter</span> <span class="nv">filter</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLogConstants.h@T@SDLLogFilterBlock">SDLLogFilterBlock</a></span><span class="p">)</span></code></pre>
 
   
   
@@ -91,12 +91,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLogFilter</span> <span class="o">*</span><span class="p">)</span><span class="nf">filterByDisallowingString</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">string</span>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLogFilter</span> <span class="o">*</span><span class="p">)</span><span class="nf">filterByDisallowingString</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">string</span>
                                       <span class="nf">caseSensitive</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">caseSensitive</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="n">byDisallowingString</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">caseSensitive</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="n">byDisallowingString</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">caseSensitive</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
 
   
   
@@ -121,12 +121,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLogFilter</span> <span class="o">*</span><span class="p">)</span><span class="nf">filterByAllowingString</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">string</span>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLogFilter</span> <span class="o">*</span><span class="p">)</span><span class="nf">filterByAllowingString</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">string</span>
                                    <span class="nf">caseSensitive</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">caseSensitive</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="n">byAllowing</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">caseSensitive</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="n">byAllowing</span> <span class="nv">string</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">caseSensitive</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
 
   
   
@@ -151,12 +151,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLogFilter</span> <span class="o">*</span><span class="p">)</span><span class="nf">filterByDisallowingRegex</span><span class="p">:</span>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLogFilter</span> <span class="o">*</span><span class="p">)</span><span class="nf">filterByDisallowingRegex</span><span class="p">:</span>
     <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSRegularExpression</span> <span class="o">*</span><span class="p">)</span><span class="nv">regex</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="n">byDisallowingRegex</span> <span class="nv">regex</span><span class="p">:</span> <span class="kt">NSRegularExpression</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="n">byDisallowingRegex</span> <span class="nv">regex</span><span class="p">:</span> <span class="kt">NSRegularExpression</span><span class="p">)</span></code></pre>
 
   
   
@@ -179,12 +179,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLogFilter</span> <span class="o">*</span><span class="p">)</span><span class="nf">filterByAllowingRegex</span><span class="p">:</span>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLogFilter</span> <span class="o">*</span><span class="p">)</span><span class="nf">filterByAllowingRegex</span><span class="p">:</span>
     <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSRegularExpression</span> <span class="o">*</span><span class="p">)</span><span class="nv">regex</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="n">byAllowingRegex</span> <span class="nv">regex</span><span class="p">:</span> <span class="kt">NSRegularExpression</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="n">byAllowingRegex</span> <span class="nv">regex</span><span class="p">:</span> <span class="kt">NSRegularExpression</span><span class="p">)</span></code></pre>
 
   
   
@@ -207,12 +207,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLogFilter</span> <span class="o">*</span><span class="p">)</span><span class="nf">filterByDisallowingModules</span><span class="p">:</span>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLogFilter</span> <span class="o">*</span><span class="p">)</span><span class="nf">filterByDisallowingModules</span><span class="p">:</span>
     <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">modules</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="n">byDisallowingModules</span> <span class="nv">modules</span><span class="p">:</span> <span class="kt">Set</span></code></pre>
+  <pre class="highlight swift"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="n">byDisallowingModules</span> <span class="nv">modules</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
 
   
   
@@ -235,12 +235,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLogFilter</span> <span class="o">*</span><span class="p">)</span><span class="nf">filterByAllowingModules</span><span class="p">:</span>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLogFilter</span> <span class="o">*</span><span class="p">)</span><span class="nf">filterByAllowingModules</span><span class="p">:</span>
     <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">modules</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="n">byAllowingModules</span> <span class="nv">modules</span><span class="p">:</span> <span class="kt">Set</span></code></pre>
+  <pre class="highlight swift"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="n">byAllowingModules</span> <span class="nv">modules</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
 
   
   
@@ -263,12 +263,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLogFilter</span> <span class="o">*</span><span class="p">)</span><span class="nf">filterByDisallowingFileNames</span><span class="p">:</span>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLogFilter</span> <span class="o">*</span><span class="p">)</span><span class="nf">filterByDisallowingFileNames</span><span class="p">:</span>
     <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileNames</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="n">byDisallowingFileNames</span> <span class="nv">fileNames</span><span class="p">:</span> <span class="kt">Set</span></code></pre>
+  <pre class="highlight swift"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="n">byDisallowingFileNames</span> <span class="nv">fileNames</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
 
   
   
@@ -291,12 +291,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLogFilter</span> <span class="o">*</span><span class="p">)</span><span class="nf">filterByAllowingFileNames</span><span class="p">:</span>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLogFilter</span> <span class="o">*</span><span class="p">)</span><span class="nf">filterByAllowingFileNames</span><span class="p">:</span>
     <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileNames</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="n">byAllowingFileNames</span> <span class="nv">fileNames</span><span class="p">:</span> <span class="kt">Set</span></code></pre>
+  <pre class="highlight swift"><code><span class="cm">/*not inherited*/</span> <span class="nf">init</span><span class="p">(</span><span class="n">byAllowingFileNames</span> <span class="nv">fileNames</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span></code></pre>
 
   
   
