@@ -7,12 +7,14 @@
   <li><a href="#section-SDLUInt">SDLUInt</a></li>
   <li><a href="#section-SDLBool">SDLBool</a></li>
   <li><a href="#section-SDLFloat">SDLFloat</a></li>
+  <li><a href="#section-SDLAudioStreamManagerDelegate">SDLAudioStreamManagerDelegate</a></li>
   <li><a href="#section-SDLIAPSessionDelegate">SDLIAPSessionDelegate</a></li>
   <li><a href="#section-SDLLogTarget">SDLLogTarget</a></li>
   <li><a href="#section-SDLManagerDelegate">SDLManagerDelegate</a></li>
   <li><a href="#section-SDLProtocolListener">SDLProtocolListener</a></li>
   <li><a href="#section-SDLProxyListener">SDLProxyListener</a></li>
   <li><a href="#section-SDLSecurityType">SDLSecurityType</a></li>
+  <li><a href="#section-SDLStreamingAudioManagerType">SDLStreamingAudioManagerType</a></li>
   <li><a href="#section-SDLTouchManagerDelegate">SDLTouchManagerDelegate</a></li>
   <li><a href="#section-SDLTransportDelegate">SDLTransportDelegate</a></li>
 </ul>
@@ -32,11 +34,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">SDLInt</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLInt</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">SDLInt</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLInt</span></code></pre>
 
   
   
@@ -50,11 +52,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">SDLUInt</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLUInt</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">SDLUInt</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLUInt</span></code></pre>
 
   
   
@@ -68,11 +70,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">SDLBool</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLBool</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">SDLBool</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLBool</span></code></pre>
 
   
   
@@ -86,11 +88,36 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">SDLFloat</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLFloat</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">SDLFloat</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLFloat</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAudioStreamManagerDelegate">
+      SDLAudioStreamManagerDelegate
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Protocols/SDLAudioStreamManagerDelegate.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLAudioStreamManagerDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+
+<span class="err">@required</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">audioStreamManager</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="p">)</span><span class="n">audioManager</span> <span class="n">fileDidFinishPlaying</span><span class="o">:</span><span class="p">(</span><span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="n">fileURL</span> <span class="n">successfully</span><span class="o">:</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">successfully</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">audioStreamManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">audioManager</span> <span class="nf">errorDidOccurForFile</span><span class="p">:(</span><span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileURL</span> <span class="nf">error</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLAudioStreamManagerDelegate</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
 
   
   
@@ -105,7 +132,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">SDLIAPSessionDelegate</span>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLIAPSessionDelegate</span>
 
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onSessionInitializationCompleteForSession</span><span class="p">:(</span><span class="n">SDLIAPSession</span> <span class="o">*</span><span class="p">)</span><span class="nv">session</span><span class="p">;</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onSessionStreamsEnded</span><span class="p">:(</span><span class="n">SDLIAPSession</span> <span class="o">*</span><span class="p">)</span><span class="nv">session</span><span class="p">;</span>
@@ -114,7 +141,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">SDLIAPSessionDelegate</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLIAPSessionDelegate</span></code></pre>
 
   
   
@@ -129,7 +156,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">SDLLogTarget</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLLogTarget</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
 
 <span class="cm">/**
  A simple convenience initializer to create the object. This *should not* start up the logger.
@@ -158,7 +185,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">SDLLogTarget</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLLogTarget</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
 
   
   
@@ -173,7 +200,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">SDLManagerDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLManagerDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
 
 <span class="cm">/**
  *  Called upon a disconnection from the remote system.
@@ -210,7 +237,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">SDLManagerDelegate</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLManagerDelegate</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
 
   
   
@@ -225,17 +252,17 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">SDLProtocolListener</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLProtocolListener</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
 
 <span class="k">@optional</span>
-<span class="c1">// v4.7.0 protocol handlers
-</span><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">handleProtocolStartServiceACKMessage</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="n">startServiceACK</span><span class="p">;</span>
+<span class="c1">// v4.7.0 protocol handlers</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">handleProtocolStartServiceACKMessage</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="n">startServiceACK</span><span class="p">;</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleProtocolStartServiceNAKMessage</span><span class="p">:(</span><span class="n"><a href="Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">startServiceNAK</span><span class="p">;</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleProtocolEndServiceACKMessage</span><span class="p">:(</span><span class="n"><a href="Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">endServiceACK</span><span class="p">;</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleProtocolEndServiceNAKMessage</span><span class="p">:(</span><span class="n"><a href="Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">endServiceNAK</span><span class="p">;</span>
 
-<span class="c1">// Older protocol handlers
-</span><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleHeartbeatForSession</span><span class="p">:(</span><span class="n">Byte</span><span class="p">)</span><span class="nv">session</span><span class="p">;</span>
+<span class="c1">// Older protocol handlers</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleHeartbeatForSession</span><span class="p">:(</span><span class="n">Byte</span><span class="p">)</span><span class="nv">session</span><span class="p">;</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">handleHeartbeatACK</span><span class="p">;</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onProtocolMessageReceived</span><span class="p">:(</span><span class="n"><a href="Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">msg</span><span class="p">;</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">onProtocolOpened</span><span class="p">;</span>
@@ -246,7 +273,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">SDLProtocolListener</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLProtocolListener</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
 
   
   
@@ -261,7 +288,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">SDLProxyListener</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLProxyListener</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
 
 <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">onOnDriverDistraction</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Classes/SDLOnDriverDistraction.html">SDLOnDriverDistraction</a></span> <span class="o">*</span><span class="p">)</span><span class="n">notification</span><span class="p">;</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onOnHMIStatus</span><span class="p">:(</span><span class="n"><a href="Classes/SDLOnHMIStatus.html">SDLOnHMIStatus</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">notification</span><span class="p">;</span>
@@ -344,7 +371,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">SDLProxyListener</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLProxyListener</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
 
   
   
@@ -359,7 +386,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">SDLSecurityType</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLSecurityType</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
 
 <span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">appId</span><span class="p">;</span>
 
@@ -377,7 +404,32 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">SDLSecurityType</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLSecurityType</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLStreamingAudioManagerType">
+      SDLStreamingAudioManagerType
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Protocols/SDLStreamingAudioManagerType.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLStreamingAudioManagerType</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">isAudioConnected</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">audioConnected</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">sendAudioData</span><span class="p">:(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">audioData</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLStreamingAudioManagerType</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
 
   
   
@@ -392,7 +444,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">SDLTouchManagerDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLTouchManagerDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
 
 <span class="k">@optional</span>
 
@@ -501,7 +553,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">SDLTouchManagerDelegate</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLTouchManagerDelegate</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
 
   
   
@@ -516,7 +568,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">SDLTransportDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLTransportDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
 
 <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">onTransportConnected</span><span class="p">;</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">onTransportDisconnected</span><span class="p">;</span>
@@ -526,7 +578,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">SDLTransportDelegate</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLTransportDelegate</span></code></pre>
 
   
   

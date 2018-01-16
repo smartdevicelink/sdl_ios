@@ -491,6 +491,104 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioStreamManager.h",
+      "line": 19,
+      "symbol": "SDLErrorDomainAudioStreamManager",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioStreamManager.h",
+      "line": 21,
+      "symbol": "SDLAudioStreamManagerError",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioStreamManager.h",
+      "line": 21,
+      "symbol": "SDLAudioStreamManagerError",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioStreamManager.h",
+      "line": 22,
+      "symbol": "SDLAudioStreamManagerError.SDLAudioStreamManagerErrorNotConnected",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioStreamManager.h",
+      "line": 23,
+      "symbol": "SDLAudioStreamManagerError.SDLAudioStreamManagerErrorNoQueuedAudio",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioStreamManager.h",
+      "line": 26,
+      "symbol": "SDLAudioStreamManager",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioStreamManager.h",
+      "line": 28,
+      "symbol": "SDLAudioStreamManager.delegate",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioStreamManager.h",
+      "line": 30,
+      "symbol": "SDLAudioStreamManager.playing",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioStreamManager.h",
+      "line": 31,
+      "symbol": "SDLAudioStreamManager.queue",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioStreamManager.h",
+      "line": 33,
+      "symbol": "SDLAudioStreamManager.-init",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioStreamManager.h",
+      "line": 35,
+      "symbol": "SDLAudioStreamManager.-initWithManager:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioStreamManagerDelegate.h",
+      "line": 16,
+      "symbol": "SDLAudioStreamManagerDelegate",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioStreamManagerDelegate.h",
+      "line": 19,
+      "symbol": "SDLAudioStreamManagerDelegate.-audioStreamManager:fileDidFinishPlaying:successfully:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAudioStreamManagerDelegate.h",
+      "line": 20,
+      "symbol": "SDLAudioStreamManagerDelegate.-audioStreamManager:errorDidOccurForFile:error:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLBeltStatus.h",
       "line": 10,
       "symbol": "SDLBeltStatus",
@@ -614,6 +712,13 @@
       "line": 9,
       "symbol": "SDLButtonPressResponse",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLCarWindowViewController.h",
+      "line": 16,
+      "symbol": "SDLCarWindowViewController.supportedOrientation",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
       "warning": "undocumented"
     },
     {
@@ -5426,27 +5531,6 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSlider.h",
-      "line": 19,
-      "symbol": "SDLSlider.-initWithNumTicks:position:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSlider.h",
-      "line": 21,
-      "symbol": "SDLSlider.-initWithNumTicks:position:sliderHeader:sliderFooter:timeout:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSlider.h",
-      "line": 23,
-      "symbol": "SDLSlider.-initWithNumTicks:position:sliderHeader:sliderFooters:timeout:",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSoftButton.h",
       "line": 14,
       "symbol": "SDLSoftButton",
@@ -5573,22 +5657,85 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingAudioManagerType.h",
+      "line": 11,
+      "symbol": "SDLStreamingAudioManagerType",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingAudioManagerType.h",
+      "line": 13,
+      "symbol": "SDLStreamingAudioManagerType.audioConnected",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingAudioManagerType.h",
+      "line": 15,
+      "symbol": "SDLStreamingAudioManagerType.-sendAudioData:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaConfiguration.h",
       "line": 19,
+      "symbol": "SDLCarWindowRenderingType",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaConfiguration.h",
+      "line": 19,
+      "symbol": "SDLCarWindowRenderingType",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaConfiguration.h",
+      "line": 20,
+      "symbol": "SDLCarWindowRenderingType.SDLCarWindowRenderingTypeLayer",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaConfiguration.h",
+      "line": 21,
+      "symbol": "SDLCarWindowRenderingType.SDLCarWindowRenderingTypeViewAfterScreenUpdates",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaConfiguration.h",
+      "line": 22,
+      "symbol": "SDLCarWindowRenderingType.SDLCarWindowRenderingTypeViewBeforeScreenUpdates",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaConfiguration.h",
+      "line": 25,
       "symbol": "SDLStreamingMediaConfiguration",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManager.h",
-      "line": 26,
+      "line": 28,
       "symbol": "SDLStreamingMediaManager",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManager.h",
-      "line": 100,
+      "line": 35,
+      "symbol": "SDLStreamingMediaManager.audioManager",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManager.h",
+      "line": 109,
       "symbol": "SDLStreamingMediaManager.-init",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
@@ -5660,6 +5807,34 @@
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
       "line": 25,
       "symbol": "SDLAudioStreamDidStopNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 27,
+      "symbol": "SDLLockScreenManagerWillPresentLockScreenViewController",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 28,
+      "symbol": "SDLLockScreenManagerDidPresentLockScreenViewController",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 29,
+      "symbol": "SDLLockScreenManagerWillDismissLockScreenViewController",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 30,
+      "symbol": "SDLLockScreenManagerDidDismissLockScreenViewController",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
@@ -6218,7 +6393,7 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLTouchManager.h",
-      "line": 77,
+      "line": 82,
       "symbol": "SDLTouchManager.-init",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"

@@ -11,12 +11,12 @@
 
 <h3>Overview</h3>
 
-<pre class="highlight plaintext"><code>To help prevent driver distraction, any SmartDeviceLink application is required to implement a lockscreen that must be enforced while the application is active on the system while the vehicle is in motion.
+<pre class="highlight objective_c"><code><span class="n">To</span> <span class="n">help</span> <span class="n">prevent</span> <span class="n">driver</span> <span class="n">distraction</span><span class="p">,</span> <span class="n">any</span> <span class="n">SmartDeviceLink</span> <span class="n">application</span> <span class="n">is</span> <span class="n">required</span> <span class="n">to</span> <span class="n">implement</span> <span class="n">a</span> <span class="n">lockscreen</span> <span class="n">that</span> <span class="n">must</span> <span class="n">be</span> <span class="n">enforced</span> <span class="k">while</span> <span class="n">the</span> <span class="n">application</span> <span class="n">is</span> <span class="n">active</span> <span class="n">on</span> <span class="n">the</span> <span class="n">system</span> <span class="k">while</span> <span class="n">the</span> <span class="n">vehicle</span> <span class="n">is</span> <span class="k">in</span> <span class="n">motion</span><span class="p">.</span>
 
-This lockscreen must perform the following:
-Limit all application control usability from the mobile device with a full-screen static image overlay or separate view.
-For simplicity, the OnLockScreenStatus RPC will be provided via the onOnLockScreenNotification call back. The call back will include the LockScreenStatus enum which indicates if the lockscreen is required, optional or not required.
-The call back also includes details regarding the current HMI_Status level, driver distraction status and user selection status of the application.
+<span class="n">This</span> <span class="n">lockscreen</span> <span class="n">must</span> <span class="n">perform</span> <span class="n">the</span> <span class="n">following</span><span class="o">:</span>
+<span class="n">Limit</span> <span class="n">all</span> <span class="n">application</span> <span class="n">control</span> <span class="n">usability</span> <span class="n">from</span> <span class="n">the</span> <span class="n">mobile</span> <span class="n">device</span> <span class="n">with</span> <span class="n">a</span> <span class="n">full</span><span class="o">-</span><span class="n">screen</span> <span class="k">static</span> <span class="n">image</span> <span class="n">overlay</span> <span class="n">or</span> <span class="n">separate</span> <span class="n">view</span><span class="p">.</span>
+<span class="n">For</span> <span class="n">simplicity</span><span class="p">,</span> <span class="n">the</span> <span class="n">OnLockScreenStatus</span> <span class="n">RPC</span> <span class="n">will</span> <span class="n">be</span> <span class="n">provided</span> <span class="n">via</span> <span class="n">the</span> <span class="n">onOnLockScreenNotification</span> <span class="n">call</span> <span class="n">back</span><span class="p">.</span> <span class="n">The</span> <span class="n">call</span> <span class="n">back</span> <span class="n">will</span> <span class="n">include</span> <span class="n">the</span> <span class="n">LockScreenStatus</span> <span class="k">enum</span> <span class="n">which</span> <span class="n">indicates</span> <span class="k">if</span> <span class="n">the</span> <span class="n">lockscreen</span> <span class="n">is</span> <span class="n">required</span><span class="p">,</span> <span class="n">optional</span> <span class="n">or</span> <span class="n">not</span> <span class="n">required</span><span class="p">.</span>
+<span class="n">The</span> <span class="n">call</span> <span class="n">back</span> <span class="n">also</span> <span class="n">includes</span> <span class="n">details</span> <span class="n">regarding</span> <span class="n">the</span> <span class="n">current</span> <span class="n">HMI_Status</span> <span class="n">level</span><span class="p">,</span> <span class="n">driver</span> <span class="n">distraction</span> <span class="n">status</span> <span class="n">and</span> <span class="n">user</span> <span class="n">selection</span> <span class="n">status</span> <span class="n">of</span> <span class="n">the</span> <span class="n">application</span><span class="p">.</span>
 </code></pre>
 
 
@@ -30,12 +30,12 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
     <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">driverDistractionStatus</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">driverDistractionStatus</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">driverDistractionStatus</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="nf">SDLBool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -53,12 +53,12 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
     <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">userSelected</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">userSelected</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">userSelected</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="nf">SDLBool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -76,12 +76,12 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
     <span class="n"><a href="../Type Definitions.html#/c:SDLLockScreenStatus.h@T@SDLLockScreenStatus">SDLLockScreenStatus</a></span> <span class="n">_Nonnull</span> <span class="n">lockScreenStatus</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">lockScreenStatus</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLockScreenStatus.h@T@SDLLockScreenStatus">SDLLockScreenStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">lockScreenStatus</span><span class="p">:</span> <span class="nf">SDLLockScreenStatus</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -99,11 +99,11 @@ The call back also includes details regarding the current HMI_Status level, driv
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLHMILevel.h@T@SDLHMILevel">SDLHMILevel</a></span> <span class="n">_Nonnull</span> <span class="n">hmiLevel</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLHMILevel.h@T@SDLHMILevel">SDLHMILevel</a></span> <span class="n">_Nonnull</span> <span class="n">hmiLevel</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">hmiLevel</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLHMILevel.h@T@SDLHMILevel">SDLHMILevel</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">hmiLevel</span><span class="p">:</span> <span class="nf">SDLHMILevel</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

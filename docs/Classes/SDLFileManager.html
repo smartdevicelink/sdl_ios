@@ -35,12 +35,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
     <span class="n">NSSet</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileName">SDLFileName</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">remoteFileNames</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">remoteFileNames</span><span class="p">:</span> <span class="kt">Set</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">remoteFileNames</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
@@ -54,11 +54,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSUInteger</span> <span class="n">bytesAvailable</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSUInteger</span> <span class="n">bytesAvailable</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">bytesAvailable</span><span class="p">:</span> <span class="kt">UInt</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">bytesAvailable</span><span class="p">:</span> <span class="nf">UInt</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
@@ -72,11 +72,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">currentState</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">currentState</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">currentState</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">currentState</span><span class="p">:</span> <span class="nf">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
@@ -90,12 +90,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
     <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">__kindof</span> <span class="n">NSOperation</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">pendingTransactions</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">pendingTransactions</span><span class="p">:</span> <span class="p">[</span><span class="kt">Operation</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">pendingTransactions</span><span class="p">:</span> <span class="p">[</span><span class="kt">Operation</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
@@ -109,11 +109,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">suspended</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">suspended</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">suspended</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">suspended</span><span class="p">:</span> <span class="nf">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -127,7 +127,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
 
   
   
@@ -146,7 +146,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithConnectionManager</span><span class="p">:</span>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithConnectionManager</span><span class="p">:</span>
     <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">SDLConnectionManagerType</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">manager</span><span class="p">;</span></code></pre>
 
   
@@ -171,12 +171,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startWithCompletionHandler</span><span class="p">:</span>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startWithCompletionHandler</span><span class="p">:</span>
     <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLFileManager.h@T@SDLFileManagerStartupCompletionHandler">SDLFileManagerStartupCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManager.h@T@SDLFileManagerStartupCompletionHandler">SDLFileManagerStartupCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManager.h@T@SDLFileManagerStartupCompletionHandler">SDLFileManagerStartupCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
   
   
@@ -195,11 +195,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stop</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stop</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span></code></pre>
 
   
   
@@ -213,13 +213,13 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">deleteRemoteFileWithName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileName">SDLFileName</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">deleteRemoteFileWithName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileName">SDLFileName</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
                <span class="nf">completionHandler</span><span class="p">:</span>
                    <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerDeleteCompletionHandler">SDLFileManagerDeleteCompletionHandler</a></span><span class="p">)</span><span class="nv">completion</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="n">fileName</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">completionHandler</span> <span class="nv">completion</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerDeleteCompletionHandler">SDLFileManagerDeleteCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="n">fileName</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">completionHandler</span> <span class="nv">completion</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerDeleteCompletionHandler">SDLFileManagerDeleteCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
   
   
@@ -240,14 +240,14 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">deleteRemoteFilesWithNames</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileName">SDLFileName</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">names</span>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">deleteRemoteFilesWithNames</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileName">SDLFileName</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">names</span>
                  <span class="nf">completionHandler</span><span class="p">:</span>
                      <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerMultiDeleteCompletionHandler">SDLFileManagerMultiDeleteCompletionHandler</a></span><span class="p">)</span>
                          <span class="n">completionHandler</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="n">fileNames</span> <span class="nv">names</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerMultiDeleteCompletionHandler">SDLFileManagerMultiDeleteCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="n">fileNames</span> <span class="nv">names</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerMultiDeleteCompletionHandler">SDLFileManagerMultiDeleteCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
   
   
@@ -268,13 +268,13 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">uploadFile</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLFile.html">SDLFile</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">file</span>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">uploadFile</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLFile.html">SDLFile</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">file</span>
     <span class="nf">completionHandler</span><span class="p">:</span>
         <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerUploadCompletionHandler">SDLFileManagerUploadCompletionHandler</a></span><span class="p">)</span><span class="nv">completion</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">upload</span><span class="p">(</span><span class="nv">file</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLFile.html">SDLFile</a></span><span class="p">,</span> <span class="n">completionHandler</span> <span class="nv">completion</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerUploadCompletionHandler">SDLFileManagerUploadCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">upload</span><span class="p">(</span><span class="nv">file</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLFile.html">SDLFile</a></span><span class="p">,</span> <span class="n">completionHandler</span> <span class="nv">completion</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerUploadCompletionHandler">SDLFileManagerUploadCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
   
   
@@ -297,7 +297,7 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">uploadFiles</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLFile.html">SDLFile</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">files</span>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">uploadFiles</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLFile.html">SDLFile</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">files</span>
       <span class="nf">progressHandler</span><span class="p">:</span>
           <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerMultiUploadProgressHandler">SDLFileManagerMultiUploadProgressHandler</a></span><span class="p">)</span><span class="nv">progressHandler</span>
     <span class="nf">completionHandler</span><span class="p">:</span>
@@ -305,7 +305,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">upload</span><span class="p">(</span><span class="nv">files</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLFile.html">SDLFile</a></span><span class="p">],</span> <span class="nv">progressHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerMultiUploadProgressHandler">SDLFileManagerMultiUploadProgressHandler</a></span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerMultiUploadCompletionHandler">SDLFileManagerMultiUploadCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">upload</span><span class="p">(</span><span class="nv">files</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLFile.html">SDLFile</a></span><span class="p">],</span> <span class="nv">progressHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerMultiUploadProgressHandler">SDLFileManagerMultiUploadProgressHandler</a></span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerMultiUploadCompletionHandler">SDLFileManagerMultiUploadCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
   
   
@@ -328,13 +328,13 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">uploadFiles</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLFile.html">SDLFile</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">files</span>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">uploadFiles</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLFile.html">SDLFile</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">files</span>
     <span class="nf">completionHandler</span><span class="p">:</span>
         <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerMultiUploadCompletionHandler">SDLFileManagerMultiUploadCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">func</span> <span class="nf">upload</span><span class="p">(</span><span class="nv">files</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLFile.html">SDLFile</a></span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerMultiUploadCompletionHandler">SDLFileManagerMultiUploadCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">upload</span><span class="p">(</span><span class="nv">files</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLFile.html">SDLFile</a></span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerMultiUploadCompletionHandler">SDLFileManagerMultiUploadCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
 
   
   
@@ -357,11 +357,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="n">temporaryFileDirectory</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="n">temporaryFileDirectory</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">temporaryFileDirectory</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">URL</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">temporaryFileDirectory</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">URL</span></code></pre>
 
   
   
