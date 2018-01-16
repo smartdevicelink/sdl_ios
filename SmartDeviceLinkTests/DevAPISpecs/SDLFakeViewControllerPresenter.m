@@ -19,13 +19,13 @@
 @implementation SDLFakeViewControllerPresenter
 
 - (void)present {
-    if (!self.viewController) { return; }
+    if (!self.lockViewController) { return; }
     
     _presented = YES;
 }
 
 - (void)dismiss {
-    if (!self.viewController) { return; }
+    if (!self.lockViewController) { return; }
     
     _presented = NO;
 }

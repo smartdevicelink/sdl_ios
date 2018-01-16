@@ -18,14 +18,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooter:(nullable NSString *)sliderFooter timeout:(UInt16)timeout {
-    NSMutableArray *sliderFooters = [NSMutableArray arrayWithCapacity:numTicks];
-
-    // Populates array with the same footer value for each position
-    for (int i = 0; i < sliderFooters.count; i++) {
-        sliderFooters[0] = sliderFooter;
+    NSArray<NSString *> *footer = nil;
+    if (sliderFooter != nil) {
+        footer = @[sliderFooter];
     }
 
-    return [self initWithNumTicks:numTicks position:position sliderHeader:sliderHeader sliderFooter:[sliderFooters copy] timeout:timeout];
+    return [self initWithNumTicks:numTicks position:position sliderHeader:sliderHeader sliderFooters:footer timeout:timeout];
 }
 
 - (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(nullable NSArray<NSString *> *)sliderFooters timeout:(UInt16)timeout {

@@ -46,27 +46,31 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
 }
 
 - (void)connect {
-    SDLLogD(@"Attemping to connect");
-
-    int sock_fd = call_socket([self.hostName UTF8String], [self.portNumber UTF8String]);
-    if (sock_fd < 0) {
-        SDLLogE(@"Server not ready, connection failed");
-        return;
-    }
-
-    CFSocketContext socketCtxt = {0, (__bridge void *)(self), NULL, NULL, NULL};
-    socket = CFSocketCreateWithNative(kCFAllocatorDefault, sock_fd, kCFSocketDataCallBack | kCFSocketConnectCallBack, (CFSocketCallBack)&TCPCallback, &socketCtxt);
-    CFRunLoopSourceRef source = CFSocketCreateRunLoopSource(kCFAllocatorDefault, socket, 0);
-    CFRunLoopRef loop = CFRunLoopGetCurrent();
-    CFRunLoopAddSource(loop, source, kCFRunLoopDefaultMode);
-    CFRelease(source);
+    __weak typeof(self) weakself = self;
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        __strong typeof(self) strongself = weakself;
+        SDLLogD(@"Attemping to connect");
+        
+        int sock_fd = call_socket([self.hostName UTF8String], [self.portNumber UTF8String]);
+        if (sock_fd < 0) {
+            SDLLogE(@"Server not ready, connection failed");
+            return;
+        }
+        
+        CFSocketContext socketCtxt = {0, (__bridge void *)(self), NULL, NULL, NULL};
+        strongself->socket = CFSocketCreateWithNative(kCFAllocatorDefault, sock_fd, kCFSocketDataCallBack | kCFSocketConnectCallBack, (CFSocketCallBack)&TCPCallback, &socketCtxt);
+        CFRunLoopSourceRef source = CFSocketCreateRunLoopSource(kCFAllocatorDefault, strongself->socket, 0);
+        CFRunLoopRef loop = CFRunLoopGetCurrent();
+        CFRunLoopAddSource(loop, source, kCFRunLoopDefaultMode);
+        CFRelease(source);
+    }];
 }
 
 - (void)sendData:(NSData *)msgBytes {
     dispatch_async(_sendQueue, ^{
         @autoreleasepool {
             SDLLogBytes(msgBytes, SDLLogBytesDirectionTransmit);
-            CFSocketError e = CFSocketSendData(socket, NULL, (__bridge CFDataRef)msgBytes, 10000);
+            CFSocketError e = CFSocketSendData(self->socket, NULL, (__bridge CFDataRef)msgBytes, 10000);
             if (e != kCFSocketSuccess) {
                 NSString *errorCause = nil;
                 switch (e) {
@@ -151,7 +155,7 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
         }
 
         // Handle the data we received
-        NSData *convertedData = [NSData dataWithBytes:(UInt8 *)CFDataGetBytePtr((CFDataRef)data) length:(int)CFDataGetLength((CFDataRef)data)];
+        NSData *convertedData = [NSData dataWithBytes:(UInt8 *)CFDataGetBytePtr((CFDataRef)data) length:(NSUInteger)CFDataGetLength((CFDataRef)data)];
         SDLLogBytes(convertedData, SDLLogBytesDirectionReceive);
         [transport.delegate onDataReceived:convertedData];
     } else {

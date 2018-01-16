@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLStreamingMediaConfiguration
 
 - (instancetype)init {
-    return [self initWithSecurityManagers:nil encryptionFlag:SDLStreamingEncryptionFlagNone videoSettings:nil dataSource:nil window:nil];
+    return [self initWithSecurityManagers:nil encryptionFlag:SDLStreamingEncryptionFlagNone videoSettings:nil dataSource:nil rootViewController:nil];
 }
 
 + (instancetype)insecureConfiguration {
@@ -24,6 +24,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers encryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *,id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource window:(nullable UIWindow *)window {
+    return [self initWithSecurityManagers:securityManagers encryptionFlag:encryptionFlag videoSettings:videoSettings dataSource:dataSource rootViewController:window.rootViewController];
+}
+
+- (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers encryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *,id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource rootViewController:(nullable UIViewController *)rootViewController {
     self = [super init];
     if (!self) {
         return nil;
@@ -33,7 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
     _maximumDesiredEncryption = encryptionFlag;
     _customVideoEncoderSettings = videoSettings;
     _dataSource = dataSource;
-    _window = window;
+    _rootViewController = rootViewController;
+    _carWindowRenderingType = SDLCarWindowRenderingTypeLayer;
+    _enableForcedFramerateSync = YES;
 
     return self;
 }
@@ -42,17 +48,37 @@ NS_ASSUME_NONNULL_BEGIN
     NSAssert(securityManagers.count > 0, @"A secure streaming media configuration requires security managers to be passed.");
     SDLStreamingEncryptionFlag encryptionFlag = SDLStreamingEncryptionFlagAuthenticateAndEncrypt;
 
-    return [self initWithSecurityManagers:securityManagers encryptionFlag:encryptionFlag videoSettings:nil dataSource:nil window:nil];
+    return [self initWithSecurityManagers:securityManagers encryptionFlag:encryptionFlag videoSettings:nil dataSource:nil rootViewController:nil];
 }
 
 + (instancetype)secureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers {
     return [[self alloc] initWithSecurityManagers:securityManagers];
 }
 
++ (instancetype)autostreamingInsecureConfigurationWithInitialViewController:(UIViewController *)initialViewController {
+    return [[self alloc] initWithSecurityManagers:nil encryptionFlag:SDLStreamingEncryptionFlagNone videoSettings:nil dataSource:nil rootViewController:initialViewController];
+}
+
++ (instancetype)autostreamingSecureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers initialViewController:(UIViewController *)initialViewController {
+    return [[self alloc] initWithSecurityManagers:securityManagers encryptionFlag:SDLStreamingEncryptionFlagAuthenticateAndEncrypt videoSettings:nil dataSource:nil rootViewController:initialViewController];
+}
+
+#pragma mark - Getters / Setters
+- (void)setWindow:(nullable UIWindow *)window {
+    _window = window;
+    if (window != nil) {
+        _rootViewController = window.rootViewController;
+    }
+}
+
 #pragma mark NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    return [[self.class allocWithZone:zone] initWithSecurityManagers:_securityManagers encryptionFlag:_maximumDesiredEncryption videoSettings:_customVideoEncoderSettings dataSource:_dataSource window:_window];
+    SDLStreamingMediaConfiguration *newConfig = [[self.class allocWithZone:zone] initWithSecurityManagers:_securityManagers encryptionFlag:_maximumDesiredEncryption videoSettings:_customVideoEncoderSettings dataSource:_dataSource rootViewController:_rootViewController];
+
+    newConfig.carWindowRenderingType = self.carWindowRenderingType;
+    
+    return newConfig;
 }
 
 @end

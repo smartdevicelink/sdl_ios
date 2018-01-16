@@ -133,12 +133,6 @@ NS_ASSUME_NONNULL_BEGIN
     
     self.initialShowState = SDLHMIInitialShowStateShown;
     [self sdlex_showWithManager:self.sdlManager];
-
-    SDLHapticRect *hapticRect = [[SDLHapticRect alloc] initWithId:1 rect:[[SDLRectangle alloc] initWithX:12.34 y:42.3 width:69 height:69]];
-    SDLSendHapticData *sendHaptic = [[SDLSendHapticData alloc] initWithHapticRectData:@[hapticRect]];
-    [self.sdlManager sendRequest:sendHaptic withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        NSLog(@"STOP");
-    }];
 }
 
 - (void)sdlex_showWithManager:(SDLManager *)manager {

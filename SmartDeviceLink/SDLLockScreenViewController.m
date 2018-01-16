@@ -39,6 +39,10 @@ NS_ASSUME_NONNULL_BEGIN
     return NO;
 }
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
     BOOL useWhiteIcon = [self.class sdl_shouldUseWhiteForegroundForBackgroundColor:self.backgroundColor];
 
@@ -63,7 +67,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setBackgroundColor:(UIColor *_Nullable)backgroundColor {
     _backgroundColor = backgroundColor;
 
-    self.view.backgroundColor = _backgroundColor;
     [self sdl_layoutViews];
 }
 
@@ -71,37 +74,41 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Layout
 
 - (void)sdl_layoutViews {
-    UIColor *iconColor = [self.class sdl_accentColorBasedOnColor:self.backgroundColor];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIColor *iconColor = [self.class sdl_accentColorBasedOnColor:self.backgroundColor];
 
-    self.sdlIconImageView.image = [self.class sdl_imageWithName:@"sdl_logo_black"];
-    self.sdlIconImageView.tintColor = iconColor;
+        self.sdlIconImageView.image = [self.class sdl_imageWithName:@"sdl_logo_black"];
+        self.sdlIconImageView.tintColor = iconColor;
 
-    self.arrowUpImageView.image = [self.class sdl_imageWithName:@"lock_arrow_up_black"];
-    self.arrowUpImageView.tintColor = iconColor;
-    
-    self.arrowDownImageView.image = [self.class sdl_imageWithName:@"lock_arrow_down_black"];
-    self.arrowDownImageView.tintColor = iconColor;
-    
-    self.lockedLabel.textColor = iconColor;
+        self.arrowUpImageView.image = [self.class sdl_imageWithName:@"lock_arrow_up_black"];
+        self.arrowUpImageView.tintColor = iconColor;
 
-    if (self.vehicleIcon != nil && self.appIcon != nil) {
-        [self sdl_setVehicleAndAppIconsLayout];
-    } else if (self.vehicleIcon != nil) {
-        [self sdl_setVehicleIconOnlyLayout];
-    } else if (self.appIcon != nil) {
-        [self sdl_setAppIconOnlyLayout];
-    } else {
-        [self sdl_setNoIconsLayout];
-    }
+        self.arrowDownImageView.image = [self.class sdl_imageWithName:@"lock_arrow_down_black"];
+        self.arrowDownImageView.tintColor = iconColor;
 
-    // HAX: The autolayout doesn't scale for 4s, so hide a view so it doesn't look like garbage.
-    if (CGRectGetHeight([UIScreen mainScreen].bounds) == 480) {
-        self.sdlIconImageView.hidden = YES;
-    } else {
-        self.sdlIconImageView.hidden = NO;
-    }
+        self.lockedLabel.textColor = iconColor;
 
-    [self.view layoutIfNeeded];
+        self.view.backgroundColor = self.backgroundColor;
+
+        if (self.vehicleIcon != nil && self.appIcon != nil) {
+            [self sdl_setVehicleAndAppIconsLayout];
+        } else if (self.vehicleIcon != nil) {
+            [self sdl_setVehicleIconOnlyLayout];
+        } else if (self.appIcon != nil) {
+            [self sdl_setAppIconOnlyLayout];
+        } else {
+            [self sdl_setNoIconsLayout];
+        }
+
+        // HAX: The autolayout doesn't scale for 4s, so hide a view so it doesn't look like garbage.
+        if (CGRectGetHeight([UIScreen mainScreen].bounds) == 480) {
+            self.sdlIconImageView.hidden = YES;
+        } else {
+            self.sdlIconImageView.hidden = NO;
+        }
+
+        [self.view layoutIfNeeded];
+    });
 }
 
 - (void)sdl_setVehicleAndAppIconsLayout {

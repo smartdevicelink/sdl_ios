@@ -8,6 +8,7 @@
 
 #import "SDLStreamingMediaManager.h"
 
+#import "SDLAudioStreamManager.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManagerDataSource.h"
@@ -67,6 +68,14 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.touchManager;
 }
 
+- (SDLAudioStreamManager *)audioManager {
+    return self.lifecycleManager.audioManager;
+}
+
+- (UIViewController *)rootViewController {
+    return self.lifecycleManager.rootViewController;
+}
+
 - (nullable id<SDLFocusableItemLocatorType>)focusableItemManager {
     return self.lifecycleManager.focusableItemManager;
 }
@@ -116,6 +125,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Setters
+- (void)setRootViewController:(UIViewController *)rootViewController {
+    self.lifecycleManager.rootViewController = rootViewController;
+}
+
 - (void)setRequestedEncryptionType:(SDLStreamingEncryptionFlag)requestedEncryptionType {
     self.lifecycleManager.requestedEncryptionType = requestedEncryptionType;
 }

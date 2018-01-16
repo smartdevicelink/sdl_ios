@@ -19,7 +19,7 @@ __block NSDictionary* dict = @{SDLNameResponse:
                                    @{SDLNameParameters:@{},
                                      SDLNameOperationName:SDLNameDeleteCommand}};
 
-NSData* (^testData)() = ^NSData* {
+NSData* (^testData)(void) = ^NSData* {
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:0];
     NSData* binaryData = [NSData dataWithBytes:"PrimitiveString" length:strlen("PrimitiveString")];
     

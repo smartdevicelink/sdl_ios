@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 
             NSData *binaryData = nil;
             NSUInteger offsetOfBinaryData = RPC_HEADER_SIZE + jsonDataSize;
-            NSInteger binaryDataSize = data.length - jsonDataSize - RPC_HEADER_SIZE;
+            NSUInteger binaryDataSize = data.length - jsonDataSize - RPC_HEADER_SIZE;
             if (binaryDataSize > 0) {
                 binaryData = [data subdataWithRange:NSMakeRange(offsetOfBinaryData, binaryDataSize)];
             }
@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
     *(UInt32 *)&headerBuffer[0] = CFSwapInt32HostToBig(self.functionID);
     *(UInt32 *)&headerBuffer[4] = CFSwapInt32HostToBig(self.correlationID);
     *(UInt32 *)&headerBuffer[8] = CFSwapInt32HostToBig((UInt32)self.jsonData.length);
-    UInt8 rpcType = (self.rpcType & 0x0F) << 4;
+    UInt8 rpcType = (Byte)((self.rpcType & 0x0F) << 4);
     headerBuffer[0] &= 0x0F;
     headerBuffer[0] |= rpcType;
 

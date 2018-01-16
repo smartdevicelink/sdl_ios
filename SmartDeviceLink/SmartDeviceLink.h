@@ -13,10 +13,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLProxy.h"
 #import "SDLProxyFactory.h"
 #import "SDLProxyListener.h"
-#import "SDLSecurityType.h"
-#import "SDLStreamingMediaManager.h"
-#import "SDLTouchManager.h"
-#import "SDLTouchManagerDelegate.h"
 
 /***** Transport *****/
 #import "SDLAbstractTransport.h"
@@ -321,6 +317,16 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLStreamingMediaConfiguration.h"
+
+// Streaming
+#import "SDLAudioStreamManager.h"
+#import "SDLAudioStreamManagerDelegate.h"
+#import "SDLCarWindowViewController.h"
+#import "SDLStreamingAudioManagerType.h"
+#import "SDLStreamingMediaManager.h"
+#import "SDLTouchManager.h"
+#import "SDLTouchManagerDelegate.h"
+#import "SDLSecurityType.h"
 
 // Files
 #import "SDLArtwork.h"

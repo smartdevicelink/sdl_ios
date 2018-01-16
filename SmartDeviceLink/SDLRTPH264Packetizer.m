@@ -227,7 +227,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return number of bytes written, which is always 12.
  */
 - (NSUInteger)sdl_writeRTPHeader:(UInt8 *)rtpHeaderBuffer marker:(BOOL)isLast presentationTimestamp:(double)presentationTimestamp {
-    UInt32 presentationTimestampIn90kHz = presentationTimestamp * ClockRate;
+    UInt32 presentationTimestampIn90kHz = (UInt32)(presentationTimestamp * ClockRate);
 
     // Version = 2, Padding = 0, Extension = 0, CSRC count = 0
     rtpHeaderBuffer[0] = 0x80;

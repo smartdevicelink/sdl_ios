@@ -104,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (nullable SDLName)functionNameForId:(int)functionID {
+- (nullable SDLName)functionNameForId:(UInt32)functionID {
     return self.functionIds[@(functionID)];
 }
 
