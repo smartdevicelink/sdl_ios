@@ -9,6 +9,7 @@
 #import "SDLAudioStreamManager.h"
 
 #import "SDLAudioFile.h"
+#import "SDLFile.h"
 #import "SDLLogMacros.h"
 #import "SDLManager.h"
 #import "SDLPCMAudioConverter.h"
