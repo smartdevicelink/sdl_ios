@@ -61,6 +61,12 @@ Tagged to our releases is a dynamic framework file that can be drag-and-dropped 
 lipo -remove i386 -remove x86_64 -o SmartDeviceLink.framework/SmartDeviceLink SmartDeviceLink.framework/SmartDeviceLink`
 ```
 
+You can check the current architectures like so:
+
+```
+lipo -info SmartDeviceLink.framework/SmartDeviceLink
+```
+
 ### Reference Documentation
 
 You can find the latest reference documentation on [SmartDeviceLink.com Documentation](https://smartdevicelink.com/en/docs/iOS/master/), and view guides on [SmartDeviceLink.com Guides](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/).
