@@ -55,7 +55,17 @@ If you are building a Swift app, then include both packaged frameworks for expan
 
 ##### Dynamic Framework
 
-Tagged to our releases is a dynamic framework file that can be drag-and-dropped into the application. Dynamic frameworks are supported on iOS 8+. **WARNING: You cannot submit your app to the app store with the framework as is. You MUST strip the simulator part of the framework first. Use a script such as Carthage's to accomplish this**.
+Tagged to our releases is a dynamic framework file that can be drag-and-dropped into the application. Dynamic frameworks are supported on iOS 8+. **WARNING: You cannot submit your app to the app store with the framework as is. You MUST strip the simulator part of the framework first. Strip the x64 and i386 portions first like so:**
+
+```
+lipo -remove i386 -remove x86_64 -o SmartDeviceLink.framework/SmartDeviceLink SmartDeviceLink.framework/SmartDeviceLink`
+```
+
+You can check the current architectures like so:
+
+```
+lipo -info SmartDeviceLink.framework/SmartDeviceLink
+```
 
 ### Reference Documentation
 
