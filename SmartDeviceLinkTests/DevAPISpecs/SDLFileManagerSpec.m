@@ -29,7 +29,7 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
 
 QuickSpecBegin(SDLFileManagerSpec)
 
-describe(@"SDLFileManager", ^{
+fdescribe(@"SDLFileManager", ^{
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLFileManager *testFileManager = nil;
     __block NSUInteger initialSpaceAvailable = 250;
@@ -225,6 +225,7 @@ describe(@"SDLFileManager", ^{
 
                         it(@"should set the file manager state to be waiting", ^{
                             expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
+                            expect(testFileManager.uploadedEphemeralFileNames).to(beEmpty());
                         });
 
                         it(@"should create a putfile with the correct data", ^{
@@ -253,6 +254,7 @@ describe(@"SDLFileManager", ^{
                                 expect(@(testFileManager.bytesAvailable)).toEventually(equal(testResponseBytesAvailable));
                                 expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
                                 expect(testFileManager.remoteFileNames).toEventually(contain(testFileName));
+                                expect(testFileManager.uploadedEphemeralFileNames).toEventually(contain(testFileName));
                             });
 
                             it(@"should call the completion handler with the correct data", ^{
@@ -282,6 +284,7 @@ describe(@"SDLFileManager", ^{
                                 expect(@(testFileManager.bytesAvailable)).toEventually(equal(@(initialSpaceAvailable)));
                                 expect(testFileManager.remoteFileNames).toEventually(contain(testFileName));
                                 expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
+                                expect(testFileManager.uploadedEphemeralFileNames).to(beEmpty());
                             });
 
                             it(@"should call the completion handler with the correct data", ^{
@@ -307,7 +310,7 @@ describe(@"SDLFileManager", ^{
                         });
                     });
 
-                    context(@"when allow overwrite is false", ^{
+                    context(@"when allow overwrite is NO", ^{
                         __block SDLRPCRequest *lastRequest = nil;
 
                         beforeEach(^{
@@ -373,6 +376,7 @@ describe(@"SDLFileManager", ^{
                         it(@"should set the file manager state correctly", ^{
                             expect(@(testFileManager.bytesAvailable)).toEventually(equal(testResponseBytesAvailable));
                             expect(testFileManager.remoteFileNames).toEventually(contain(testFileName));
+                            expect(testFileManager.uploadedEphemeralFileNames).toEventually(contain(testUploadFile.name));
                             expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
                         });
 
@@ -404,6 +408,7 @@ describe(@"SDLFileManager", ^{
                         it(@"should set the file manager state correctly", ^{
                             expect(@(testFileManager.bytesAvailable)).toEventually(equal(@(initialSpaceAvailable)));
                             expect(testFileManager.remoteFileNames).toEventuallyNot(contain(testFileName));
+                            expect(testFileManager.uploadedEphemeralFileNames).toEventuallyNot(contain(testUploadFile.name));
                             expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
                         });
 
