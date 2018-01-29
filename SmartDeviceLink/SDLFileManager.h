@@ -32,11 +32,6 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 @property (copy, nonatomic, readonly) NSSet<SDLFileName *> *remoteFileNames;
 
 /**
- A set of all names of files uploaded this session (and this session only)
- */
-@property (copy, nonatomic, readonly) NSSet<SDLFileName *> *uploadedEphemeralFileNames;
-
-/**
  *  The number of bytes still available for files for this app.
  */
 @property (assign, nonatomic, readonly) NSUInteger bytesAvailable;

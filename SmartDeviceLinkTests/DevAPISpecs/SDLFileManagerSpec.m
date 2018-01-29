@@ -25,11 +25,12 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
 
 @interface SDLFileManager ()
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
+@property (strong, nonatomic) NSMutableSet<SDLFileName *> *uploadedEphemeralFileNames;
 @end
 
 QuickSpecBegin(SDLFileManagerSpec)
 
-fdescribe(@"SDLFileManager", ^{
+describe(@"SDLFileManager", ^{
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLFileManager *testFileManager = nil;
     __block NSUInteger initialSpaceAvailable = 250;
