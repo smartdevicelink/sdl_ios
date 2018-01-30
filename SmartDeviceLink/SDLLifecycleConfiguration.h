@@ -87,6 +87,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, null_resettable) SDLAppHMIType appType;
 
 /**
+ Additional applicatiion types beyond `appType`
+ */
+@property (copy, nonatomic, nullable) NSArray<SDLAppHMIType> *additionalAppTypes;
+
+/**
  *  The default language to use
  */
 @property (strong, nonatomic) SDLLanguage language;
