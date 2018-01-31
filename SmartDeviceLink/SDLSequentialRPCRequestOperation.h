@@ -13,8 +13,12 @@
 
 @protocol SDLConnectionManagerType;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLSequentialRPCRequestOperation : SDLAsynchronousOperation
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager requests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler;
 
 @end
+
+NS_ASSUME_NONNULL_END

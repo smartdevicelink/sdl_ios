@@ -12,6 +12,7 @@
 
 #import "NSMapTable+Subscripting.h"
 #import "SDLAbstractProtocol.h"
+#import "SDLAsynchronousRPCRequestOperation.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLLogMacros.h"
@@ -39,6 +40,7 @@
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResponseDispatcher.h"
 #import "SDLResult.h"
+#import "SDLSequentialRPCRequestOperation.h"
 #import "SDLSetAppIcon.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
@@ -104,6 +106,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _notificationDispatcher = [[SDLNotificationDispatcher alloc] init];
     _responseDispatcher = [[SDLResponseDispatcher alloc] initWithNotificationDispatcher:_notificationDispatcher];
     _registerResponse = nil;
+
+    _rpcOperationQueue = [[NSOperationQueue alloc] init];
+    _rpcOperationQueue.name = @"SDL RPC Queue";
+    _rpcOperationQueue.maxConcurrentOperationCount = 1;
 
     // Managers
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
@@ -204,6 +210,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.lockScreenManager stop];
     [self.streamManager stop];
     [self.responseDispatcher clear];
+
+    [self.rpcOperationQueue cancelAllOperations];
 
     self.registerResponse = nil;
     self.lastCorrelationId = 0;
@@ -393,6 +401,21 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)sendRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self request:request responseHandler:handler];
+    [self.rpcOperationQueue addOperation:op];
+}
+
+- (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+    SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self requests:requests progressHandler:progressHandler completionHandler:completionHandler];
+    [self.rpcOperationQueue addOperation:op];
+}
+
+- (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+    SDLSequentialRPCRequestOperation *op = [[SDLSequentialRPCRequestOperation alloc] initWithConnectionManager:self requests:requests progressHandler:progressHandler completionHandler:completionHandler];
+    [self.rpcOperationQueue addOperation:op];
+}
+
+- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         SDLLogW(@"Manager not ready, message not sent (%@)", request);
         if (handler) {
@@ -405,17 +428,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self sdl_sendRequest:request withResponseHandler:handler];
 }
 
-- (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
-
-}
-
-- (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
-
-}
-
 // Managers need to avoid state checking. Part of <SDLConnectionManagerType>.
-- (void)sendManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)block {
-    [self sdl_sendRequest:request withResponseHandler:block];
+- (void)sendConnectionManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    [self sdl_sendRequest:request withResponseHandler:handler];
 }
 
 - (void)sdl_sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {

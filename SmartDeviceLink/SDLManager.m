@@ -94,6 +94,10 @@ NS_ASSUME_NONNULL_BEGIN
     self.lifecycleManager.delegate = delegate;
 }
 
+- (NSArray<__kindof NSOperation *> *)pendingRPCTransactions {
+    return self.lifecycleManager.rpcOperationQueue.operations;
+}
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (nullable SDLProxy *)proxy {
