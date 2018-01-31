@@ -49,7 +49,8 @@ extern SDLLifecycleState *const SDLLifecycleStateSettingUpHMI;
 extern SDLLifecycleState *const SDLLifecycleStateUnregistering;
 extern SDLLifecycleState *const SDLLifecycleStateReady;
 
-
+typedef void (^SDLMultipleRequestCompletionHandler)(BOOL success);
+typedef BOOL (^SDLMultipleRequestProgressHandler)(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *__nullable response, NSError *__nullable error, float percentComplete);
 typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 
@@ -121,6 +122,10 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *  @param handler The handler that will be called when the response returns
  */
 - (void)sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler;
+
+- (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler;
+
+- (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler;
 
 @end
 

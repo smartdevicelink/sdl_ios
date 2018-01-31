@@ -405,13 +405,21 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self sdl_sendRequest:request withResponseHandler:handler];
 }
 
+- (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+
+}
+
+- (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+
+}
+
 // Managers need to avoid state checking. Part of <SDLConnectionManagerType>.
 - (void)sendManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)block {
     [self sdl_sendRequest:request withResponseHandler:block];
 }
 
 - (void)sdl_sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    // We will allow things to be sent in a "SDLLifeCycleStateConnected" state in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
+    // We will allow things to be sent in a "SDLLifecycleStateConnected" state in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
     NSParameterAssert(request != nil);
 
     // If, for some reason, the request is nil we should error out.
