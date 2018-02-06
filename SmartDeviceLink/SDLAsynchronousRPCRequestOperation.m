@@ -80,6 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
                 self.completionHandler(NO);
             }
 
+            [self finishOperation];
             break;
         }
 
@@ -88,29 +89,34 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_sendRequest:(SDLRPCRequest *)request {
+    __weak typeof(self) weakSelf = self;
     [self.connectionManager sendConnectionRequest:request withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        self.requestsComplete++;
+        __strong typeof(self) strongSelf = weakSelf;
+
+        strongSelf.requestsComplete++;
         // If this request failed and no request has yet failed, set our internal request failed to YES
-        if (!self.requestFailed && error != nil) {
-            self.requestFailed = YES;
+        if (!strongSelf.requestFailed && error != nil) {
+            strongSelf.requestFailed = YES;
         }
 
-        if (self.progressHandler != NULL) {
+        if (strongSelf.progressHandler != NULL) {
             // If the user decided to cancel, cancel for our next go around.
-            BOOL cancelled = self.progressHandler(request, response, error, self.percentComplete);
+            BOOL cancelled = strongSelf.progressHandler(request, response, error, strongSelf.percentComplete);
             if (cancelled) {
-                [self cancel];
+                [strongSelf cancel];
                 return;
             }
         }
 
         // If we've received responses for all requests, call the completion handler.
-        if (self.requestsComplete == self.requests.count) {
-            if (self.completionHandler != NULL) {
-                self.completionHandler(self.requestFailed);
-            } else if (self.responseHandler != NULL) {
-                self.responseHandler(request, response, error);
+        if (strongSelf.requestsComplete == strongSelf.requests.count) {
+            if (strongSelf.completionHandler != NULL) {
+                strongSelf.completionHandler(strongSelf.requestFailed);
+            } else if (strongSelf.responseHandler != NULL) {
+                strongSelf.responseHandler(request, response, error);
             }
+
+            [strongSelf finishOperation];
         }
     }];
 }

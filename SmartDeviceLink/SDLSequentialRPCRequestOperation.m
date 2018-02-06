@@ -61,6 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
             self.completionHandler(self.requestFailed);
         }
 
+        [self finishOperation];
         return;
     }
 
