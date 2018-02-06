@@ -119,6 +119,12 @@ static float DefaultConnectionTimeout = 45.0;
 #pragma mark - Application Lifecycle
 
 - (void)sendMobileHMIState {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self sdl_sendMobileHMIState];
+    });
+}
+
+- (void)sdl_sendMobileHMIState {
     UIApplicationState appState = [UIApplication sharedApplication].applicationState;
     SDLOnHMIStatus *HMIStatusRPC = [[SDLOnHMIStatus alloc] init];
 
@@ -133,8 +139,7 @@ static float DefaultConnectionTimeout = 45.0;
         case UIApplicationStateInactive: {
             HMIStatusRPC.hmiLevel = SDLHMILevelBackground;
         } break;
-        default:
-            break;
+        default: break;
     }
 
     SDLLogD(@"Mobile UIApplication state changed, sending to remote system: %@", HMIStatusRPC.hmiLevel);
