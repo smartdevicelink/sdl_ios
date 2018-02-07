@@ -109,7 +109,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     _rpcOperationQueue = [[NSOperationQueue alloc] init];
     _rpcOperationQueue.name = @"SDL RPC Queue";
-    _rpcOperationQueue.maxConcurrentOperationCount = 1;
+    _rpcOperationQueue.maxConcurrentOperationCount = 3;
 
     // Managers
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];

@@ -117,7 +117,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
-    [self sendRequests:requests progressHandler:progressHandler completionHandler:completionHandler];
+    [self.lifecycleManager sendRequests:requests progressHandler:progressHandler completionHandler:completionHandler];
 }
 
 - (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {

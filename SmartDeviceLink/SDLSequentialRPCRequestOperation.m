@@ -16,8 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSArray<SDLRPCRequest *> *requests;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (assign, nonatomic, nullable) SDLMultipleRequestProgressHandler progressHandler;
-@property (assign, nonatomic, nullable) SDLMultipleRequestCompletionHandler completionHandler;
+@property (copy, nonatomic, nullable) SDLMultipleRequestProgressHandler progressHandler;
+@property (copy, nonatomic, nullable) SDLMultipleRequestCompletionHandler completionHandler;
 
 @property (strong, nonatomic) NSUUID *operationId;
 @property (assign, nonatomic) NSUInteger requestsComplete;
@@ -39,12 +39,14 @@ NS_ASSUME_NONNULL_BEGIN
     executing = NO;
     finished = NO;
 
+    _connectionManager = connectionManager;
     _requests = requests;
     _progressHandler = progressHandler;
     _completionHandler = completionHandler;
 
     _operationId = [NSUUID UUID];
     _requestsComplete = 0;
+    _currentRequestIndex = 0;
 
     return self;
 }
@@ -65,12 +67,13 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    if (self.currentRequestIndex >= self.requests.count) {
+    if (self.currentRequestIndex >= self.requests.count - 1) {
         if (self.completionHandler != nil) {
             self.completionHandler(self.requestFailed);
         }
 
         [self finishOperation];
+        return;
     }
 
     SDLRPCRequest *request = self.requests[self.currentRequestIndex];
@@ -81,12 +84,11 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         if (self.progressHandler != NULL) {
-            BOOL cancelled = self.progressHandler(request, response, error, self.percentComplete);
+            BOOL continueWithRemainingRequests = self.progressHandler(request, response, error, self.percentComplete);
 
             // If the user decided to cancel, cancel for our next go around.
-            if (cancelled) {
+            if (!continueWithRemainingRequests) {
                 [self cancel];
-                return;
             }
         }
 

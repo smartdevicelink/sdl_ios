@@ -39,7 +39,7 @@ typedef void (^SDLMultipleRequestCompletionHandler)(BOOL success);
  @param response The response received
  @param error The error that occurred during the request if any occurred.
  @param percentComplete The percentage of requests that have received a response
- @return Return NO to cancel any requests that have not yet been sent. This is really only useful for a sequential send (sendSequentialRequests:progressHandler:completionHandler:). Return YES to continue sending requests.
+ @return continueSendingRequests NO to cancel any requests that have not yet been sent. This is really only useful for a sequential send (sendSequentialRequests:progressHandler:completionHandler:). Return YES to continue sending requests.
  */
 typedef BOOL (^SDLMultipleRequestProgressHandler)(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *__nullable response, NSError *__nullable error, float percentComplete);
 
