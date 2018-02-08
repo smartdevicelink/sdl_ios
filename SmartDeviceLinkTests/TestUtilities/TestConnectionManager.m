@@ -25,10 +25,14 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)sendManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     self.lastRequestBlock = handler;
     request.correlationID = [self test_nextCorrelationID];
     [self.receivedRequests addObject:request];
+}
+
+- (void)sendConnectionManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    [self sendConnectionRequest:request withResponseHandler:handler];
 }
 
 - (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *)response {

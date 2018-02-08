@@ -129,19 +129,27 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLSetDisplayLayout *displayLayout = [[SDLSetDisplayLayout alloc] initWithLayout:SDLPredefinedLayoutNonMedia];
-    [self.sdlManager sendRequest:displayLayout];
-    
+//    [self.sdlManager sendRequest:displayLayout];
+
     self.initialShowState = SDLHMIInitialShowStateShown;
-    [self sdlex_showWithManager:self.sdlManager];
+    SDLShow *show = [self sdlex_show];
+
+    [self.sdlManager sendSequentialRequests:@[displayLayout, show] progressHandler:^BOOL(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+        NSLog(@"Display layout / show progress: %f%%", percentComplete);
+        return YES;
+    } completionHandler:nil];
 }
 
-- (void)sdlex_showWithManager:(SDLManager *)manager {
+- (SDLShow *)sdlex_show {
     NSString *mainField1Text = isTextOn ? @"Smart Device Link" : @"";
     NSString *mainField2Text = isTextOn ? @"Example App" : @"";
     SDLShow* show = [[SDLShow alloc] initWithMainField1:mainField1Text mainField2:mainField2Text alignment:SDLTextAlignmentCenter];
     show.softButtons = [self sdlex_softButtons];
     show.graphic = areImagesVisible ? [self.class sdlex_mainGraphicImage] : [self.class sdlex_mainGraphicImage];
-    [manager sendRequest:show];
+    return show;
+//    [manager sendRequest:show withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+//        NSLog(@"Show request: %@ response: %@ error: %@", request, response, error);
+//    }];
 }
 
 - (NSArray<SDLSoftButton *> *)sdlex_softButtons {
@@ -358,7 +366,7 @@ static Boolean isHexagonOn = true;
         }
 
         isHexagonOn = !isHexagonOn;
-        [self sdlex_showWithManager:manager];
+        [self sdlex_showInitialData];
 
         SDLLogD(@"Hexagon icon button press fired %d", isHexagonOn);
     }];
@@ -386,7 +394,7 @@ static Boolean isTextOn = true;
         }
 
         isTextOn = !isTextOn;
-        [self sdlex_showWithManager:manager];
+        [self sdlex_showInitialData];
 
         SDLLogD(@"Text visibility soft button press fired");
     }];
@@ -405,12 +413,12 @@ static Boolean areImagesVisible = true;
         if (areImagesVisible) {
             [self sdlex_deleteFiles:[self.class sdlex_allArtFileNames] completionHandler:^(BOOL success) {
                 if (!success) { return; }
-                [self sdlex_showWithManager:manager];
+                [self sdlex_showInitialData];
             }];
         } else {
             [self sdlex_uploadFilesWithProgressHandler:[self.class sdlex_allArt] completionHandler:^(BOOL success) {
                 if (!success) { return; }
-                [self sdlex_showWithManager:manager];
+                [self sdlex_showInitialData];
             }];
         }
 
@@ -551,9 +559,12 @@ static Boolean areImagesVisible = true;
 }
 
 - (void)sdlex_prepareRemoteSystem {
-    [self.sdlManager sendRequest:[self.class sdlex_speakNameCommandWithManager:self.sdlManager]];
-    [self.sdlManager sendRequest:[self.class sdlex_interactionSetCommandWithManager:self.sdlManager]];
-    [self.sdlManager sendRequest:[self.class sdlex_vehicleDataCommandWithManager:self.sdlManager]];
+    [self.sdlManager sendRequests:@[[self.class sdlex_speakNameCommandWithManager:self.sdlManager], [self.class sdlex_interactionSetCommandWithManager:self.sdlManager], [self.class sdlex_vehicleDataCommandWithManager:self.sdlManager]]
+                  progressHandler:^BOOL(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+                      NSLog(@"Commands sent updated, percent complete %f%%", percentComplete * 100);
+                      return YES;
+    }
+                completionHandler:nil];
     
     dispatch_group_t dataDispatchGroup = dispatch_group_create();
     dispatch_group_enter(dataDispatchGroup);

@@ -15,7 +15,7 @@
 #import "SDLRPCResponse.h"
 #import "TestConnectionManager.h"
 #import "TestMultipleFilesConnectionManager.h"
-#import "TestProgressResponse.h"
+#import "TestFileProgressResponse.h"
 #import "TestResponse.h"
 
 typedef NSString SDLFileManagerState;
@@ -586,6 +586,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                 testConnectionManager.responses = testConnectionManagerResponses;
             });
 
+            // TODO: This should use itBehavesLike
             afterEach(^{
                 waitUntilTimeout(10, ^(void (^done)(void)){
                     [testFileManager uploadFiles:testSDLFiles completionHandler:^(NSError * _Nullable error) {
@@ -719,7 +720,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                         testFileManagerResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulResponse error:nil];
 
                         testTotalBytesUploaded += testSDLFile.fileSize;
-                        testFileManagerProgressResponses[testFileName] = [[TestProgressResponse alloc] initWithFileName:testFileName testUploadPercentage:testTotalBytesUploaded / testTotalBytesToUpload error:nil];
+                        testFileManagerProgressResponses[testFileName] = [[TestFileProgressResponse alloc] initWithFileName:testFileName testUploadPercentage:testTotalBytesUploaded / testTotalBytesToUpload error:nil];
                     }
                     expectedSpaceLeft = @(testSpaceAvailable);
                     testConnectionManager.responses = testFileManagerResponses;
@@ -729,7 +730,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
             afterEach(^{
                 waitUntilTimeout(10, ^(void (^done)(void)){
                     [testFileManager uploadFiles:testSDLFiles progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
-                        TestProgressResponse *testProgressResponse = testFileManagerProgressResponses[fileName];
+                        TestFileProgressResponse *testProgressResponse = testFileManagerProgressResponses[fileName];
                         expect(fileName).to(equal(testProgressResponse.testFileName));
                         expect(uploadPercentage).to(equal(testProgressResponse.testUploadPercentage));
                         expect(error).to(testProgressResponse.testError == nil ? beNil() : equal(testProgressResponse.testError));
