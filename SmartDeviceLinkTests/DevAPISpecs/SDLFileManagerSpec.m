@@ -790,14 +790,14 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                     }
 
                     testResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulResponse error:nil];
-                    testProgressResponses[testFileName] = [[TestProgressResponse alloc] initWithFileName:testFileName testUploadPercentage:0.0 error:nil];
+                    testProgressResponses[testFileName] = [[TestFileProgressResponse alloc] initWithFileName:testFileName testUploadPercentage:0.0 error:nil];
                 }
                 testConnectionManager.responses = testResponses;
 
                 waitUntilTimeout(10, ^(void (^done)(void)){
                     [testFileManager uploadFiles:testSDLFiles progressHandler:^(NSString * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
                         // Once operations are canceled, the order in which the operations complete is random, so the upload percentage and the error message can vary. This means we can not test the error message or upload percentage it will be different every test run.
-                        TestProgressResponse *testProgressResponse = testProgressResponses[fileName];
+                        TestFileProgressResponse *testProgressResponse = testProgressResponses[fileName];
                         expect(fileName).to(equal(testProgressResponse.testFileName));
 
                         NSString *cancelFileName = [NSString stringWithFormat:@"%@%d", testFileNameBase, testCancelIndex];
@@ -873,7 +873,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                     }
 
                     testResponses[testFileName] = [[TestResponse alloc] initWithResponse:successfulResponse error:nil];
-                    testProgressResponses[testFileName] = [[TestProgressResponse alloc] initWithFileName:testFileName testUploadPercentage:0.0 error:nil];
+                    testProgressResponses[testFileName] = [[TestFileProgressResponse alloc] initWithFileName:testFileName testUploadPercentage:0.0 error:nil];
                 }
 
                 for(int i = 0; i < testOtherFileCount; i += 1) {
@@ -892,7 +892,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                 waitUntilTimeout(10, ^(void (^done)(void)){
                     [testFileManager uploadFiles:testSDLFiles progressHandler:^(NSString * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
                         // Once operations are canceled, the order in which the operations complete is random, so the upload percentage and the error message can vary. This means we can not test the error message or upload percentage it will be different every test run.
-                        TestProgressResponse *testProgressResponse = testProgressResponses[fileName];
+                        TestFileProgressResponse *testProgressResponse = testProgressResponses[fileName];
                         expect(fileName).to(equal(testProgressResponse.testFileName));
 
                         NSString *cancelFileName = [NSString stringWithFormat:@"%@%d", testFileNameBase, testCancelIndex];
