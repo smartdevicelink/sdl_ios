@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Computed Properties
 
 - (BOOL)isMedia {
-    if ([self.appType isEqualToEnum:SDLAppHMITypeMedia]) {
+    if ([self.appType isEqualToEnum:SDLAppHMITypeMedia] || [self.additionalAppTypes containsObject:SDLAppHMITypeMedia]) {
         return YES;
     }
 
