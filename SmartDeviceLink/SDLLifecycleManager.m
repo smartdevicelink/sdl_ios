@@ -331,6 +331,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     // Send the hmi level going from NONE to whatever we're at now (could still be NONE)
     [self.delegate hmiLevel:SDLHMILevelNone didChangeToLevel:self.hmiLevel];
+
+    // Send the audio streaming state going from NOT_AUDIBLE to whatever we're at now (could still be NOT_AUDIBLE)
+    if ([self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
+        [self.delegate audioStreamingState:SDLAudioStreamingStateNotAudible didChangeToState:self.audioStreamingState];
+    }
 }
 
 - (void)didEnterStateUnregistering {
@@ -485,6 +490,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     self.systemContext = hmiStatusNotification.systemContext;
 
     SDLLogD(@"HMI level changed from %@ to %@", oldHMILevel, self.hmiLevel);
+    SDLLogD(@"Audio streaming state changed from %@ to %@", oldStreamingState, self.audioStreamingState);
 
 	if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateSettingUpHMI]) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
