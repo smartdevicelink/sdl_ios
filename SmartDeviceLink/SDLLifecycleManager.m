@@ -110,8 +110,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
     
-    if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation]
-        || [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection]) {
+    if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] ||
+        [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] ||
+        [configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeNavigation] ||
+        [configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeProjection]) {
         _streamManager = [[SDLStreamingMediaManager alloc] initWithConnectionManager:self configuration:configuration.streamingMediaConfig];
     } else {
         SDLLogV(@"Skipping StreamingMediaManager setup due to app type");
