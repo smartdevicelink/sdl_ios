@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-    
+
     _receivedRequests = [NSMutableArray<__kindof SDLRPCRequest *> array];
 
     return self;

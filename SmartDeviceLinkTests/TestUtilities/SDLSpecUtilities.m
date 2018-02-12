@@ -8,16 +8,21 @@
 
 #import "SDLSpecUtilities.h"
 
+#import "NSNumber+NumberType.h"
 #import "SDLAddCommandResponse.h"
+
+#import "TestResponse.h"
 
 @implementation SDLSpecUtilities
 
-+ (SDLAddCommandResponse *)addCommandRPCResponseWithCorrelationId:(NSNumber<SDLInt>)correlationId {
++ (TestResponse *)addCommandRPCResponseWithCorrelationId:(NSNumber<SDLInt> *)correlationId {
     SDLAddCommandResponse *response = [[SDLAddCommandResponse alloc] init];
     response.success = @YES;
     response.correlationID = correlationId;
 
-    return response;
+    TestResponse *testResponse = [[TestResponse alloc] initWithResponse:response error:nil];
+
+    return testResponse;
 }
 
 @end

@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import "NSNumber+NumberType.h"
+
 @class SDLAddCommandResponse;
+@class TestResponse;
 
 @interface SDLSpecUtilities : NSObject
 
-+ (SDLAddCommandResponse *)addCommandRPCResponseWithCorrelationId:(NSNumber<SDLInt>)correlationId;
++ (TestResponse *)addCommandRPCResponseWithCorrelationId:(NSNumber<SDLInt> *)correlationId;
 
 @end

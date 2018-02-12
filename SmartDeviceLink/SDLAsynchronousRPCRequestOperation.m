@@ -113,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
         // If we've received responses for all requests, call the completion handler.
         if (strongSelf.requestsComplete >= strongSelf.requests.count) {
             if (strongSelf.completionHandler != NULL) {
-                strongSelf.completionHandler(strongSelf.requestFailed);
+                strongSelf.completionHandler(!strongSelf.requestFailed);
             } else if (strongSelf.responseHandler != NULL) {
                 strongSelf.responseHandler(request, response, error);
             }

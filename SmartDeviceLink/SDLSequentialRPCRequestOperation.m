@@ -47,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
     _operationId = [NSUUID UUID];
     _requestsComplete = 0;
     _currentRequestIndex = 0;
+    _requestFailed = NO;
 
     return self;
 }
@@ -58,26 +59,31 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_sendNextRequest {
+    // The operation was canceled while in progress
     if (self.cancelled) {
         if (self.completionHandler != nil) {
-            self.completionHandler(self.requestFailed);
+            self.completionHandler(NO);
         }
 
         [self finishOperation];
         return;
     }
 
+    // The operation is done, all requests have been sent and all responses received
     if (self.currentRequestIndex >= self.requests.count - 1) {
         if (self.completionHandler != nil) {
-            self.completionHandler(self.requestFailed);
+            self.completionHandler(!self.requestFailed);
         }
 
         [self finishOperation];
         return;
     }
 
+    // Send the next request
     SDLRPCRequest *request = self.requests[self.currentRequestIndex];
     [self.connectionManager sendConnectionRequest:request withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        self.requestsComplete++;
+
         // If this request failed and no request has yet failed, set our internal request failed to YES
         if (!self.requestFailed && error != nil) {
             self.requestFailed = YES;
@@ -100,7 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Getters
 
 - (float)percentComplete {
-    return self.requestsComplete / self.requests.count;
+    return (float)self.requestsComplete / (float)self.requests.count;
 }
 
 #pragma mark - Property Overrides

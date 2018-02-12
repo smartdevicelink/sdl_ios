@@ -9,10 +9,11 @@
 
 #import "TestMultipleRequestsConnectionManager.h"
 #import "TestRequestProgressResponse.h"
+#import "TestResponse.h"
 
 QuickSpecBegin(SDLSequentialRPCRequestOperationSpec)
 
-fdescribe(@"Sending sequential requests", ^{
+describe(@"Sending sequential requests", ^{
     __block TestMultipleRequestsConnectionManager *testConnectionManager = nil;
     __block SDLSequentialRPCRequestOperation *testOperation = nil;
     __block NSOperationQueue *testOperationQueue = nil;
@@ -41,7 +42,7 @@ fdescribe(@"Sending sequential requests", ^{
                     [sendRequests addObject:addCommand];
 
                     testConnectionManager.responses[addCommand.correlationID] = [SDLSpecUtilities addCommandRPCResponseWithCorrelationId:addCommand.correlationID];
-                    testProgressResponses[addCommand.correlationID] = [[TestRequestProgressResponse alloc] initWithCorrelationId:addCommand.correlationID percentComplete:(i/3) error:nil];
+                    testProgressResponses[addCommand.correlationID] = [[TestRequestProgressResponse alloc] initWithCorrelationId:addCommand.correlationID percentComplete:((float)(i+1)/3.0) error:nil];
                 }
 
                 testOperation = [[SDLSequentialRPCRequestOperation alloc] initWithConnectionManager:testConnectionManager requests:sendRequests.copy progressHandler:^BOOL(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
@@ -53,7 +54,7 @@ fdescribe(@"Sending sequential requests", ^{
 
                     return YES;
                 } completionHandler:^(BOOL success) {
-                    expect(success).to(beTrue());
+                    expect(success).to(beTruthy());
                 }];
 
                 [testOperationQueue addOperation:testOperation];
@@ -65,7 +66,7 @@ fdescribe(@"Sending sequential requests", ^{
             });
         });
 
-        context(@"where the requests are cancelled", ^{
+        fcontext(@"where the requests are cancelled", ^{
             it(@"Should only send the one before cancellation", ^{
                 for (int i = 0; i < 3; i++) {
                     SDLAddCommand *addCommand = [[SDLAddCommand alloc] init];
@@ -73,7 +74,7 @@ fdescribe(@"Sending sequential requests", ^{
                     [sendRequests addObject:addCommand];
 
                     testConnectionManager.responses[addCommand.correlationID] = [SDLSpecUtilities addCommandRPCResponseWithCorrelationId:addCommand.correlationID];
-                    testProgressResponses[addCommand.correlationID] = [[TestRequestProgressResponse alloc] initWithCorrelationId:addCommand.correlationID percentComplete:(i/3) error:nil];
+                    testProgressResponses[addCommand.correlationID] = [[TestRequestProgressResponse alloc] initWithCorrelationId:addCommand.correlationID percentComplete:((float)(i+1)/3.0) error:nil];
                 }
 
                 testOperation = [[SDLSequentialRPCRequestOperation alloc] initWithConnectionManager:testConnectionManager requests:sendRequests.copy progressHandler:^BOOL(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
@@ -81,14 +82,19 @@ fdescribe(@"Sending sequential requests", ^{
 
                     expect(progressResponse.percentComplete).to(beCloseTo(percentComplete));
                     expect(response).toNot(beNil());
-                    expect(error).toNot(beNil());
+                    expect(error).to(beNil());
 
                     return NO;
                 } completionHandler:^(BOOL success) {
-                    expect(success).to(beFalse());
+                    expect(success).to(beFalsy());
                 }];
 
                 [testOperationQueue addOperation:testOperation];
+
+                for (int i = 0; i < 3; i++) {
+                    [NSThread sleepForTimeInterval:0.1];
+                    [testConnectionManager respondToLastRequestWithResponse:testConnectionManager.responses[@(i)]];
+                }
             });
         });
     });
