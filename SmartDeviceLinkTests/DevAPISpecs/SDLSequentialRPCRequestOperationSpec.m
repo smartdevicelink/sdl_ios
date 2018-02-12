@@ -60,7 +60,7 @@ describe(@"Sending sequential requests", ^{
                 [testOperationQueue addOperation:testOperation];
 
                 for (int i = 0; i < 3; i++) {
-                    [NSThread sleepForTimeInterval:0.1];
+                    [NSThread sleepForTimeInterval:0.3];
                     [testConnectionManager respondToLastRequestWithResponse:testConnectionManager.responses[@(i)]];
                 }
             });
@@ -91,8 +91,8 @@ describe(@"Sending sequential requests", ^{
 
                 [testOperationQueue addOperation:testOperation];
 
-                for (int i = 0; i < 3; i++) {
-                    [NSThread sleepForTimeInterval:0.1];
+                for (int i = 0; i < 1; i++) {
+                    [NSThread sleepForTimeInterval:0.3];
                     [testConnectionManager respondToLastRequestWithResponse:testConnectionManager.responses[@(i)]];
                 }
             });
