@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // The operation is done, all requests have been sent and all responses received
-    if (self.currentRequestIndex >= self.requests.count - 1) {
+    if (self.currentRequestIndex >= self.requests.count) {
         if (self.completionHandler != nil) {
             self.completionHandler(!self.requestFailed);
         }

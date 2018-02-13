@@ -3,4 +3,8 @@
 
 QuickSpecBegin(SDLAsynchronousRPCRequestOperationSpec)
 
+describe(@"sending asynchronous requests", ^{
+    <#code#>
+});
+
 QuickSpecEnd

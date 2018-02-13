@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSUUID *operationId;
 @property (assign, nonatomic) NSUInteger requestsComplete;
+@property (assign, nonatomic) NSUInteger requestsStarted;
 @property (assign, nonatomic, readonly) float percentComplete;
 @property (assign, nonatomic) BOOL requestFailed;
 
@@ -42,6 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     _operationId = [NSUUID UUID];
     _requestsComplete = 0;
+    _requestsStarted = 0;
+    _requestFailed = NO;
 
     return self;
 }
@@ -87,6 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         [self sdl_sendRequest:request];
+        self.requestsStarted++;
     }
 }
 
@@ -94,6 +98,14 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendConnectionRequest:request withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(self) strongSelf = weakSelf;
+
+        if (strongSelf.isCancelled) {
+            strongSelf.requestFailed = YES;
+            if (!strongSelf.isFinished) {
+                [strongSelf finishOperation];
+            }
+            return;
+        }
 
         strongSelf.requestsComplete++;
         // If this request failed and no request has yet failed, set our internal request failed to YES
@@ -106,6 +118,8 @@ NS_ASSUME_NONNULL_BEGIN
             BOOL continueWithRemainingRequests = strongSelf.progressHandler(request, response, error, strongSelf.percentComplete);
             if (!continueWithRemainingRequests) {
                 [strongSelf cancel];
+                [strongSelf finishOperation];
+
                 return;
             }
         }
