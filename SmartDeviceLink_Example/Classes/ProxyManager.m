@@ -26,12 +26,6 @@ typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
     SDLHMIFirstStateFull
 };
 
-typedef NS_ENUM(NSUInteger, SDLHMIInitialShowState) {
-    SDLHMIInitialShowStateNone,
-    SDLHMIInitialShowStateDataAvailable,
-    SDLHMIInitialShowStateShown
-};
-
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -39,7 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Describes the first time the HMI state goes non-none and full.
 @property (assign, nonatomic) SDLHMIFirstState firstTimeState;
-@property (assign, nonatomic) SDLHMIInitialShowState initialShowState;
 
 @end
 
@@ -66,7 +59,6 @@ NS_ASSUME_NONNULL_BEGIN
     
     _state = ProxyStateStopped;
     _firstTimeState = SDLHMIFirstStateNone;
-    _initialShowState = SDLHMIInitialShowStateNone;
     
     return self;
 }
@@ -124,18 +116,17 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Helpers
 
 - (void)sdlex_showInitialData {
-    if ((self.initialShowState != SDLHMIInitialShowStateDataAvailable) || ![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
+    if (![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
         return;
     }
 
     SDLSetDisplayLayout *displayLayout = [[SDLSetDisplayLayout alloc] initWithLayout:SDLPredefinedLayoutNonMedia];
-//    [self.sdlManager sendRequest:displayLayout];
+    [self.sdlManager sendRequest:displayLayout];
 
-    self.initialShowState = SDLHMIInitialShowStateShown;
     SDLShow *show = [self sdlex_show];
 
     [self.sdlManager sendSequentialRequests:@[displayLayout, show] progressHandler:^BOOL(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
-        NSLog(@"Display layout / show progress: %f%%", percentComplete);
+        NSLog(@"Display layout / show progress: %f%%", percentComplete * 100);
         return YES;
     } completionHandler:nil];
 }
@@ -386,7 +377,7 @@ static Boolean isHexagonOn = true;
     return softButton;
 }
 
-static Boolean isTextOn = true;
+static BOOL isTextOn = YES;
 - (SDLSoftButton *)sdlex_softButton3WithManager:(SDLManager *)manager {
     SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
         if (buttonPressNotification == nil) {
@@ -583,7 +574,6 @@ static Boolean areImagesVisible = true;
     
     dispatch_group_leave(dataDispatchGroup);
     dispatch_group_notify(dataDispatchGroup, dispatch_get_main_queue(), ^{
-        self.initialShowState = SDLHMIInitialShowStateDataAvailable;
         [self sdlex_showInitialData];
     });
 }
@@ -594,7 +584,6 @@ static Boolean areImagesVisible = true;
 - (void)managerDidDisconnect {
     // Reset our state
     self.firstTimeState = SDLHMIFirstStateNone;
-    self.initialShowState = SDLHMIInitialShowStateNone;
     [self sdlex_updateProxyState:ProxyStateStopped];
     if (ShouldRestartOnDisconnect) {
         [self startManager];

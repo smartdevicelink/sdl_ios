@@ -73,7 +73,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 // Private properties
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
-@property (copy, nonatomic) dispatch_queue_t transmitQueue;
+@property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
 
 @end
 
@@ -111,7 +111,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _rpcOperationQueue = [[NSOperationQueue alloc] init];
     _rpcOperationQueue.name = @"com.sdl.lifecycle.rpcOperation.concurrent";
     _rpcOperationQueue.maxConcurrentOperationCount = 3;
-    _transmitQueue = dispatch_queue_create("com.sdl.lifecycle.rpcTransmit.serial", DISPATCH_QUEUE_SERIAL);
+    _lifecycleQueue = dispatch_queue_create("com.sdl.lifecycle", DISPATCH_QUEUE_SERIAL);
 
     // Managers
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
@@ -135,6 +135,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler {
+    dispatch_sync(_lifecycleQueue, ^{
+        [self sdl_startWithReadyHandler:readyHandler];
+    });
+}
+
+- (void)sdl_startWithReadyHandler:(SDLManagerReadyBlock)readyHandler {
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateStopped]) {
         SDLLogW(@"Warning: SDL has already been started, this attempt will be ignored");
         return;
@@ -147,12 +153,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)stop {
-    SDLLogD(@"Lifecycle manager stopped");
-    if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
-    } else {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
-    }
+    dispatch_sync(_lifecycleQueue, ^{
+        SDLLogD(@"Lifecycle manager stopped");
+        if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
+            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
+        } else {
+            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+        }
+    });
 }
 
 
@@ -248,20 +256,22 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     __weak typeof(self) weakSelf = self;
     [self sdl_sendRequest:regRequest
         withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
-            // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
-            if (error != nil || ![response.success boolValue]) {
-                SDLLogE(@"Failed to register the app. Error: %@, Response: %@", error, response);
-                weakSelf.readyHandler(NO, error);
+            dispatch_async(weakSelf.lifecycleQueue, ^{
+                // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
+                if (error != nil || ![response.success boolValue]) {
+                    SDLLogE(@"Failed to register the app. Error: %@, Response: %@", error, response);
+                    weakSelf.readyHandler(NO, error);
 
-                if (weakSelf.lifecycleState != SDLLifecycleStateReconnecting) {
-                    [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+                    if (weakSelf.lifecycleState != SDLLifecycleStateReconnecting) {
+                        [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+                    }
+
+                    return;
                 }
-                
-                return;
-            }
 
-            weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
-            [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
+                weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
+                [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
+            });
         }];
 }
 
@@ -299,18 +309,21 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     dispatch_group_leave(managerGroup);
 
     // When done, we want to transition, even if there were errors. They may be expected, e.g. on head units that do not support files.
-    dispatch_group_notify(managerGroup, dispatch_get_main_queue(), ^{
+    dispatch_group_notify(managerGroup, self.lifecycleQueue, ^{
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpAppIcon];
     });
 }
 
 - (void)didEnterStateSettingUpAppIcon {
     // We only want to send the app icon when the file manager is complete, and when that's done, wait for hmi status to be ready
+    __weak typeof(self) weakself = self;
     [self sdl_sendAppIcon:self.configuration.lifecycleConfig.appIcon withCompletion:^() {
-        // We could have been shut down while setting up the app icon, make sure we still want to continue or we could crash
-        if (self.lifecycleState == SDLLifecycleStateSettingUpAppIcon) {
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
-        }
+        dispatch_async(weakself.lifecycleQueue, ^{
+            // We could have been shut down while setting up the app icon, make sure we still want to continue or we could crash
+            if (weakself.lifecycleState == SDLLifecycleStateSettingUpAppIcon) {
+                [weakself.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
+            }
+        });
    }];
 }
 
@@ -336,11 +349,16 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     // If we got to this point, we succeeded, send the error if there was a warning.
-    self.readyHandler(YES, startError);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.readyHandler(YES, startError);
+    });
+
     [self.notificationDispatcher postNotificationName:SDLDidBecomeReady infoObject:nil];
 
     // Send the hmi level going from NONE to whatever we're at now (could still be NONE)
-    [self.delegate hmiLevel:SDLHMILevelNone didChangeToLevel:self.hmiLevel];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.delegate hmiLevel:SDLHMILevelNone didChangeToLevel:self.hmiLevel];
+    });
 }
 
 - (void)didEnterStateUnregistering {
@@ -421,7 +439,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         SDLLogW(@"Manager not ready, message not sent (%@)", request);
         if (handler) {
-            handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
+            });
         }
 
         return;
@@ -436,7 +456,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)sdl_sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    dispatch_async(_transmitQueue, ^{
+    dispatch_async(_lifecycleQueue, ^{
         [self _sdl_sendRequest:request withResponseHandler:handler];
     });
 }
@@ -450,7 +470,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         NSError *error = [NSError sdl_lifecycle_rpcErrorWithDescription:@"Nil Request Sent" andReason:@"A nil RPC request was passed and cannot be sent."];
         SDLLogW(@"%@", error);
         if (handler) {
-            handler(nil, nil, error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                handler(nil, nil, error);
+            });
         }
         return;
     }
@@ -487,20 +509,31 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 - (void)transportDidConnect {
     SDLLogD(@"Transport connected");
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateConnected];
+
+    dispatch_async(self.lifecycleQueue, ^{
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateConnected];
+    });
 }
 
 - (void)transportDidDisconnect {
     SDLLogD(@"Transport Disconnected");
 
-    if (self.lifecycleState == SDLLifecycleStateUnregistering || self.lifecycleState == SDLLifecycleStateStopped) {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
-    } else {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReconnecting];
-    }
+    dispatch_async(self.lifecycleQueue, ^{
+        if (self.lifecycleState == SDLLifecycleStateUnregistering || self.lifecycleState == SDLLifecycleStateStopped) {
+            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+        } else {
+            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReconnecting];
+        }
+    });
 }
 
 - (void)hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
+    dispatch_async(self.lifecycleQueue, ^{
+        [self sdl_hmiStatusDidChange:notification];
+    });
+}
+
+- (void)sdl_hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
     if (![notification isNotificationMemberOfClass:[SDLOnHMIStatus class]]) {
         return;
     }
@@ -508,16 +541,16 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLOnHMIStatus *hmiStatusNotification = notification.notification;
     SDLHMILevel oldHMILevel = self.hmiLevel;
     self.hmiLevel = hmiStatusNotification.hmiLevel;
-    
+
     SDLAudioStreamingState oldStreamingState = self.audioStreamingState;
     self.audioStreamingState = hmiStatusNotification.audioStreamingState;
-    
+
     SDLSystemContext oldSystemContext = self.systemContext;
     self.systemContext = hmiStatusNotification.systemContext;
 
     SDLLogD(@"HMI level changed from %@ to %@", oldHMILevel, self.hmiLevel);
 
-	if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateSettingUpHMI]) {
+    if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateSettingUpHMI]) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
     }
 
@@ -525,22 +558,30 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
-    if (![oldHMILevel isEqualToEnum:self.hmiLevel]) {
-        [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
-    }
-        
-    if (![oldStreamingState isEqualToEnum:self.audioStreamingState]
-        && [self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
-        [self.delegate audioStreamingState:oldStreamingState didChangeToState:self.audioStreamingState];
-    }
-    
-    if (![oldSystemContext isEqualToEnum:self.systemContext]
-        && [self.delegate respondsToSelector:@selector(systemContext:didChangeToContext:)]) {
-        [self.delegate systemContext:oldSystemContext didChangeToContext:self.systemContext];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (![oldHMILevel isEqualToEnum:self.hmiLevel]) {
+            [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
+        }
+
+        if (![oldStreamingState isEqualToEnum:self.audioStreamingState]
+            && [self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
+            [self.delegate audioStreamingState:oldStreamingState didChangeToState:self.audioStreamingState];
+        }
+
+        if (![oldSystemContext isEqualToEnum:self.systemContext]
+            && [self.delegate respondsToSelector:@selector(systemContext:didChangeToContext:)]) {
+            [self.delegate systemContext:oldSystemContext didChangeToContext:self.systemContext];
+        }
+    });
 }
 
 - (void)remoteHardwareDidUnregister:(SDLRPCNotificationNotification *)notification {
+    dispatch_async(self.lifecycleQueue, ^{
+        [self sdl_remoteHardwareDidUnregister:notification];
+    });
+}
+
+- (void)sdl_remoteHardwareDidUnregister:(SDLRPCNotificationNotification *)notification {
     if (![notification isNotificationMemberOfClass:[SDLOnAppInterfaceUnregistered class]]) {
         return;
     }
