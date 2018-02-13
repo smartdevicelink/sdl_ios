@@ -73,6 +73,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 // Private properties
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
+@property (copy, nonatomic) dispatch_queue_t transmitQueue;
 
 @end
 
@@ -108,8 +109,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _registerResponse = nil;
 
     _rpcOperationQueue = [[NSOperationQueue alloc] init];
-    _rpcOperationQueue.name = @"SDL RPC Queue";
+    _rpcOperationQueue.name = @"com.sdl.lifecycle.rpcOperation.concurrent";
     _rpcOperationQueue.maxConcurrentOperationCount = 3;
+    _transmitQueue = dispatch_queue_create("com.sdl.lifecycle.rpcTransmit.serial", DISPATCH_QUEUE_SERIAL);
 
     // Managers
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
@@ -434,6 +436,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)sdl_sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    dispatch_async(_transmitQueue, ^{
+        [self _sdl_sendRequest:request withResponseHandler:handler];
+    });
+}
+
+- (void)_sdl_sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     // We will allow things to be sent in a "SDLLifecycleStateConnected" state in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
     NSParameterAssert(request != nil);
 
