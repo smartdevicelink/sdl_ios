@@ -209,6 +209,7 @@ static float DefaultConnectionTimeout = 45.0;
         __weak typeof(self) weakSelf = self;
         self.startSessionTimer.elapsedBlock = ^{
             SDLLogW(@"Start session timed out");
+            [weakSelf.transport disconnect];
             [weakSelf performSelector:@selector(notifyProxyClosed) withObject:nil afterDelay:NotifyProxyClosedDelay];
         };
     }
