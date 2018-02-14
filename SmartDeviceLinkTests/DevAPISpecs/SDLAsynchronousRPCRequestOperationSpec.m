@@ -10,7 +10,7 @@
 
 QuickSpecBegin(SDLAsynchronousRPCRequestOperationSpec)
 
-fdescribe(@"sending asynchronous requests", ^{
+describe(@"sending asynchronous requests", ^{
     __block TestMultipleRequestsConnectionManager *testConnectionManager = nil;
     __block SDLAsynchronousRPCRequestOperation *testOperation = nil;
     __block NSOperationQueue *testOperationQueue = nil;
@@ -65,7 +65,7 @@ fdescribe(@"sending asynchronous requests", ^{
             });
         });
 
-        context(@"where the requests are canceled", ^{
+        fcontext(@"where the requests are canceled", ^{
             it(@"should only send the one before cancellation", ^{
                 testOperation = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:testConnectionManager requests:sendRequests.copy progressHandler:^BOOL(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
                     TestRequestProgressResponse *progressResponse = testProgressResponses[request.correlationID];

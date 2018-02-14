@@ -425,12 +425,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.rpcOperationQueue addOperation:op];
 }
 
-- (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+- (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self requests:requests progressHandler:progressHandler completionHandler:completionHandler];
     [self.rpcOperationQueue addOperation:op];
 }
 
-- (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+- (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     SDLSequentialRPCRequestOperation *op = [[SDLSequentialRPCRequestOperation alloc] initWithConnectionManager:self requests:requests progressHandler:progressHandler completionHandler:completionHandler];
     [self.rpcOperationQueue addOperation:op];
 }

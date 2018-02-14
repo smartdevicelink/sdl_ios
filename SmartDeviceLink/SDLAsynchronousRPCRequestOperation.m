@@ -10,6 +10,7 @@
 
 #import "SDLConnectionManagerType.h"
 #import "SDLError.h"
+#import "SDLGlobals.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSArray<SDLRPCRequest *> *requests;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (copy, nonatomic, nullable) SDLMultipleRequestProgressHandler progressHandler;
+@property (copy, nonatomic, nullable) SDLMultipleAsyncRequestProgressHandler progressHandler;
 @property (copy, nonatomic, nullable) SDLMultipleRequestCompletionHandler completionHandler;
 @property (copy, nonatomic, nullable) SDLResponseHandler responseHandler;
 
@@ -49,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager requests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager requests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     self = [self init];
 
     _connectionManager = connectionManager;
@@ -79,13 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_sendRequests {
     for (SDLRPCRequest *request in self.requests) {
         if (self.isCancelled) {
-            if (self.completionHandler != NULL) {
-                self.completionHandler(NO);
-            } else if (self.responseHandler != NULL) {
-                self.responseHandler(request, nil, [NSError sdl_lifecycle_multipleRequestsCancelled]);
-            }
-
-            [self finishOperation];
+            [self sdl_abortOperationWithRequest:request];
             break;
         }
 
@@ -100,41 +95,45 @@ NS_ASSUME_NONNULL_BEGIN
         __strong typeof(self) strongSelf = weakSelf;
 
         if (strongSelf.isCancelled) {
-            strongSelf.requestFailed = YES;
-            if (!strongSelf.isFinished) {
-                [strongSelf finishOperation];
-            }
-            return;
+            [self sdl_abortOperationWithRequest:request];
+            BLOCK_RETURN;
         }
 
         strongSelf.requestsComplete++;
-        // If this request failed and no request has yet failed, set our internal request failed to YES
-        if (!strongSelf.requestFailed && error != nil) {
+
+        // If this request failed set our internal request failed to YES
+        if (error != nil) {
             strongSelf.requestFailed = YES;
         }
 
         if (strongSelf.progressHandler != NULL) {
-            // If the user decided to cancel, cancel for our next go around.
-            BOOL continueWithRemainingRequests = strongSelf.progressHandler(request, response, error, strongSelf.percentComplete);
-            if (!continueWithRemainingRequests) {
-                [strongSelf cancel];
-                [strongSelf finishOperation];
-
-                return;
-            }
+            strongSelf.progressHandler(request, response, error, strongSelf.percentComplete);
+        } else if (strongSelf.responseHandler != NULL) {
+            strongSelf.responseHandler(request, response, error);
         }
 
         // If we've received responses for all requests, call the completion handler.
         if (strongSelf.requestsComplete >= strongSelf.requests.count) {
-            if (strongSelf.completionHandler != NULL) {
-                strongSelf.completionHandler(!strongSelf.requestFailed);
-            } else if (strongSelf.responseHandler != NULL) {
-                strongSelf.responseHandler(request, response, error);
-            }
-
             [strongSelf finishOperation];
         }
     }];
+}
+
+- (void)sdl_abortOperationWithRequest:(SDLRPCRequest *)request {
+    if (self.isFinished) { return; }
+    self.requestFailed = YES;
+
+    for (NSUInteger i = self.requestsComplete; i <= self.requests.count; i++) {
+        if (self.progressHandler != NULL) {
+            self.progressHandler(self.requests[i], nil, [NSError sdl_lifecycle_multipleRequestsCancelled], self.percentComplete);
+        }
+
+        if (self.responseHandler != NULL) {
+            self.responseHandler(request, nil, [NSError sdl_lifecycle_multipleRequestsCancelled]);
+        }
+    }
+
+    [self finishOperation];
 }
 
 #pragma mark - Getters
@@ -144,6 +143,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Property Overrides
+
+- (void)finishOperation {
+    if (self.completionHandler != NULL) {
+        self.completionHandler(!self.requestFailed);
+    }
+
+    [super finishOperation];
+}
 
 - (nullable NSString *)name {
     return [NSString stringWithFormat:@"%@ - %@", self.class, self.operationId];

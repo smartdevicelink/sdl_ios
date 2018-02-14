@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSArray<SDLRPCRequest *> *requests;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (copy, nonatomic, nullable) SDLMultipleRequestProgressHandler progressHandler;
+@property (copy, nonatomic, nullable) SDLMultipleSequentialRequestProgressHandler progressHandler;
 @property (copy, nonatomic, nullable) SDLMultipleRequestCompletionHandler completionHandler;
 
 @property (strong, nonatomic) NSUUID *operationId;
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
     BOOL finished;
 }
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager requests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager requests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     self = [super init];
     if (!self) { return nil; }
 
