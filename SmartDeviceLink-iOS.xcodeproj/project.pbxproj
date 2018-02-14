@@ -930,11 +930,9 @@
 		5DA102A51D4122C700C15826 /* NSMutableDictionary+SafeRemove.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA102A31D4122C700C15826 /* NSMutableDictionary+SafeRemove.m */; };
 		5DA22CB71D075CF200245F5F /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA22CB31D075CF200245F5F /* Nimble.framework */; };
 		5DA22CB81D075CF200245F5F /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA22CB41D075CF200245F5F /* OCMock.framework */; };
-		5DA22CB91D075CF200245F5F /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA22CB51D075CF200245F5F /* OHHTTPStubs.framework */; };
 		5DA22CBA1D075CF200245F5F /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA22CB61D075CF200245F5F /* Quick.framework */; };
 		5DA22CBB1D075DE800245F5F /* Nimble.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DA22CB31D075CF200245F5F /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DA22CBC1D075DE800245F5F /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DA22CB41D075CF200245F5F /* OCMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5DA22CBD1D075DE800245F5F /* OHHTTPStubs.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DA22CB51D075CF200245F5F /* OHHTTPStubs.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DA22CBE1D075DE800245F5F /* Quick.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DA22CB61D075CF200245F5F /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DA22CBF1D075DEC00245F5F /* SmartDeviceLink.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DA23FF01F2FA0FF009C0313 /* SDLControlFramePayloadEndServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA23FEF1F2FA0FF009C0313 /* SDLControlFramePayloadEndServiceSpec.m */; };
@@ -1212,7 +1210,6 @@
 				5DA22CBF1D075DEC00245F5F /* SmartDeviceLink.framework in CopyFiles */,
 				5DA22CBB1D075DE800245F5F /* Nimble.framework in CopyFiles */,
 				5DA22CBC1D075DE800245F5F /* OCMock.framework in CopyFiles */,
-				5DA22CBD1D075DE800245F5F /* OHHTTPStubs.framework in CopyFiles */,
 				5DA22CBE1D075DE800245F5F /* Quick.framework in CopyFiles */,
 				5D5DBF091D48E3AC00D4F914 /* FBSnapshotTestCase.framework in CopyFiles */,
 			);
@@ -2438,7 +2435,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				167ED93C1A9BCB8A00797BE5 /* SmartDeviceLink.framework in Frameworks */,
-				5DA22CB91D075CF200245F5F /* OHHTTPStubs.framework in Frameworks */,
 				5DA22CB81D075CF200245F5F /* OCMock.framework in Frameworks */,
 				5DA22CBA1D075CF200245F5F /* Quick.framework in Frameworks */,
 				5D5DBF081D48E39C00D4F914 /* FBSnapshotTestCase.framework in Frameworks */,
@@ -6394,7 +6390,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.smartdevicelink.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};

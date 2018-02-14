@@ -9,7 +9,6 @@
 
 #import "TestMultipleRequestsConnectionManager.h"
 #import "TestRequestProgressResponse.h"
-#import "TestResponse.h"
 
 
 QuickSpecBegin(SDLSequentialRPCRequestOperationSpec)
