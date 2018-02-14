@@ -40,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
     _rootViewController = rootViewController;
     _carWindowRenderingType = SDLCarWindowRenderingTypeLayer;
     _enableForcedFramerateSync = YES;
+    _allowMultipleViewControllerOrientations = NO;
 
     return self;
 }
@@ -77,6 +78,8 @@ NS_ASSUME_NONNULL_BEGIN
     SDLStreamingMediaConfiguration *newConfig = [[self.class allocWithZone:zone] initWithSecurityManagers:_securityManagers encryptionFlag:_maximumDesiredEncryption videoSettings:_customVideoEncoderSettings dataSource:_dataSource rootViewController:_rootViewController];
 
     newConfig.carWindowRenderingType = self.carWindowRenderingType;
+    newConfig.enableForcedFramerateSync = self.enableForcedFramerateSync;
+    newConfig.allowMultipleViewControllerOrientations = self.allowMultipleViewControllerOrientations;
     
     return newConfig;
 }
