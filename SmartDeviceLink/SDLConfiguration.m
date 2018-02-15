@@ -63,11 +63,11 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (_streamingMediaConfig != nil) {
         // If we have a streaming config, the apptype MUST be navigation or projection
-        NSAssert(([_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] || [_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection]), @"You should only set a streaming media configuration if your app is a NAVIGATION or PROJECTION HMI type");
+        NSAssert(([_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] || [_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] || [_lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeNavigation] || [_lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeProjection]), @"You should only set a streaming media configuration if your app is a NAVIGATION or PROJECTION HMI type");
         _streamingMediaConfig = streamingMediaConfig;
     } else {
         // If we don't have a streaming config, we MUST NOT be navigation or projection
-        NSAssert(!([_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] || [_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection]), @"If your app is a NAVIGATION or PROJECTION HMI type, you must set a streaming media configuration on SDLConfiguration");
+        NSAssert(!([_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] || [_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] || [_lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeNavigation] || [_lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeProjection]), @"If your app is a NAVIGATION or PROJECTION HMI type, you must set a streaming media configuration on SDLConfiguration");
     }
 
     return self;
