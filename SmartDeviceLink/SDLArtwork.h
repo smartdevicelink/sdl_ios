@@ -65,6 +65,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithImage:(UIImage *)image name:(NSString *)name persistent:(BOOL)persistent asImageFormat:(SDLArtworkImageFormat)imageFormat;
 
+/**
+ * TODO
+
+ *  @param image       The UIImage to be sent to the remote head unit
+ *  @param persistent  Whether or not the artwork should be persistent.
+ *  @param imageFormat Whether the image should be converted to a PNG or JPG before transmission. Images with transparency or few colors should be PNGs. Images with many colors should be JPGs.
+ *
+ *  @return An instance of this class to be passed to the file manager.
+ */
+- (instancetype)initWithImage:(UIImage *)image persistent:(BOOL)persistent asImageFormat:(SDLArtworkImageFormat)imageFormat;
+
 @end
 
 NS_ASSUME_NONNULL_END
