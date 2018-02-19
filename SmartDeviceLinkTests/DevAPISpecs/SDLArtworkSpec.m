@@ -5,7 +5,7 @@
 #import "SDLFileType.h"
 
 @interface SDLArtwork()
-- (NSString *)md5HashFromNSData:(NSData *)data;
+- (NSString *)sdl_md5HashFromNSData:(NSData *)data;
 @end
 
 QuickSpecBegin(SDLArtworkSpec)
@@ -62,7 +62,7 @@ describe(@"SDLArtwork", ^{
 
             context(@"When no name is provided", ^{
                 it(@"should create a unique name based on the hash of the image", ^{
-                    expectedName = [[SDLArtwork alloc] md5HashFromNSData:UIImagePNGRepresentation(testImagePNG)];
+                    expectedName = [[SDLArtwork alloc] sdl_md5HashFromNSData:UIImagePNGRepresentation(testImagePNG)];
                     expectedArtwork = [[SDLArtwork alloc] initWithImage:testImagePNG persistent:true asImageFormat:SDLArtworkImageFormatPNG];
                 });
 
@@ -135,14 +135,14 @@ describe(@"SDLArtwork", ^{
         });
 
         it(@"should create the same name for the same image", ^{
-            expectedName1 = [[SDLArtwork alloc] md5HashFromNSData:UIImagePNGRepresentation(testImagePNG)];
-            expectedName2 = [[SDLArtwork alloc] md5HashFromNSData:UIImagePNGRepresentation(testImagePNG)];
+            expectedName1 = [[SDLArtwork alloc] sdl_md5HashFromNSData:UIImagePNGRepresentation(testImagePNG)];
+            expectedName2 = [[SDLArtwork alloc] sdl_md5HashFromNSData:UIImagePNGRepresentation(testImagePNG)];
             expect(expectedName1).to(equal(expectedName2));
         });
 
         it(@"should not create the same name for different images", ^{
-            expectedName1 = [[SDLArtwork alloc] md5HashFromNSData:UIImagePNGRepresentation(testImagePNG)];
-            expectedName2 = [[SDLArtwork alloc] md5HashFromNSData:UIImagePNGRepresentation(testImagePNG2)];
+            expectedName1 = [[SDLArtwork alloc] sdl_md5HashFromNSData:UIImagePNGRepresentation(testImagePNG)];
+            expectedName2 = [[SDLArtwork alloc] sdl_md5HashFromNSData:UIImagePNGRepresentation(testImagePNG2)];
             expect(expectedName1).toNot(equal(expectedName2));
         });
     });

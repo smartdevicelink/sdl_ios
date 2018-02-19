@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLArtwork.h"
 #import "SDLFileManagerConstants.h"
 
 @class SDLFile;
@@ -102,6 +103,14 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
  *  @param completion An optional completion handler that sends an error should one occur.
  */
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)completion NS_SWIFT_NAME(upload(file:completionHandler:));
+
+/**
+ *  TODO
+ *
+ *  @param artwork TODO
+ *  @param completion TODO
+ */
+- (void)uploadArtwork:(SDLArtwork *)artwork completionHandler:(nullable SDLFileManagerUploadArtworkCompletionHandler)completion NS_SWIFT_NAME(upload(artwork:completionHandler:));
 
 /**
  *  Uploads an array of files to the remote file system. The files will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once a upload request is sent to Core, the queue waits until a response is received from Core before the next the next upload request is sent.

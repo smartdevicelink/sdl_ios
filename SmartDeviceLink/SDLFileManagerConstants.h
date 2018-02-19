@@ -19,9 +19,19 @@ typedef NSString SDLFileName;
  *
  *  @param success              Whether or not the upload was successful
  *  @param bytesAvailable       The amount of space left for files on Core
- *  @param error                The error that occurred during the request if one occurred, nil if no error occured
+ *  @param error                The error that occurred during the request if one occurred, nil if not error occured
  */
 typedef void (^SDLFileManagerUploadCompletionHandler)(BOOL success, NSUInteger bytesAvailable, NSError *__nullable error);
+
+/**
+ *  A completion handler called after a response from Core to a artwork upload request.
+ *
+ *  @param success             Whether or not the upload was successful
+ *  @param artworkName         The unique identifier for the uploaded file.
+ *  @param bytesAvailable      The amount of space left for files on Core
+ *  @param error               The error that occurred during the request if one occurred, nil if not
+ */
+typedef void (^SDLFileManagerUploadArtworkCompletionHandler)(BOOL success, NSString *artworkName, NSUInteger bytesAvailable, NSError *__nullable error);
 
 /**
  *  A completion handler called after a set of upload requests has completed.

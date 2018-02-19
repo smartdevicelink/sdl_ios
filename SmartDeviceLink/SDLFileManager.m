@@ -260,6 +260,19 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     [self uploadFiles:files progressHandler:nil completionHandler:completionHandler];
 }
 
+- (void)uploadArtwork:(SDLArtwork *)artwork completionHandler:(nullable SDLFileManagerUploadArtworkCompletionHandler)completion NS_SWIFT_NAME(upload(artwork:completionHandler:)) {
+    if ([self.remoteFileNames containsObject:artwork.name]) {
+        // Artwork already uploaded; return artwork name
+        if (completion == nil) { return; }
+        completion(true, artwork.name, self.bytesAvailable, nil);
+    } else {
+        // Upload artwork and return artwork name when finished
+        [self uploadFile:artwork completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+            completion(success, artwork.name, bytesAvailable, error);
+        }];
+    }
+}
+
 - (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
     if (files.count == 0) {
         @throw [NSException sdl_missingFilesException];
