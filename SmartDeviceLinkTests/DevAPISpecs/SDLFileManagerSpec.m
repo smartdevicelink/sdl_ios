@@ -436,6 +436,24 @@ describe(@"SDLFileManager", ^{
                     });
                 });
             });
+
+            describe(@"uploading artwork file", ^{
+                beforeEach(^{
+
+                });
+
+                it(@"should return the artwork name when the artwork has already been uploaded", ^{
+
+                });
+
+                it(@"should upload the art and return the artwork name if the artwork has not yet been uploaded", ^{
+
+                });
+
+                afterEach(^{
+
+                });
+            });
         });
 
         afterEach(^{
