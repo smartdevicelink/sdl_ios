@@ -551,9 +551,8 @@ static Boolean areImagesVisible = true;
 
 - (void)sdlex_prepareRemoteSystem {
     [self.sdlManager sendRequests:@[[self.class sdlex_speakNameCommandWithManager:self.sdlManager], [self.class sdlex_interactionSetCommandWithManager:self.sdlManager], [self.class sdlex_vehicleDataCommandWithManager:self.sdlManager]]
-                  progressHandler:^BOOL(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+                  progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
                       NSLog(@"Commands sent updated, percent complete %f%%", percentComplete * 100);
-                      return YES;
     }
                 completionHandler:nil];
     

@@ -447,21 +447,19 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
-    [self sdl_sendRequest:request withResponseHandler:handler];
+    dispatch_async(_lifecycleQueue, ^{
+        [self sdl_sendRequest:request withResponseHandler:handler];
+    });
 }
 
 // Managers need to avoid state checking. Part of <SDLConnectionManagerType>.
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    [self sdl_sendRequest:request withResponseHandler:handler];
-}
-
-- (void)sdl_sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     dispatch_async(_lifecycleQueue, ^{
-        [self _sdl_sendRequest:request withResponseHandler:handler];
+        [self sdl_sendRequest:request withResponseHandler:handler];
     });
 }
 
-- (void)_sdl_sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+- (void)sdl_sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     // We will allow things to be sent in a "SDLLifecycleStateConnected" state in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
     NSParameterAssert(request != nil);
 

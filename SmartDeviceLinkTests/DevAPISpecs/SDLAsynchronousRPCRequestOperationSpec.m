@@ -43,48 +43,61 @@ describe(@"sending asynchronous requests", ^{
             }
         });
 
-        context(@"where the requests are continued", ^{
-            it(@"should correctly send all requests", ^{
-                testOperation = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:testConnectionManager requests:sendRequests.copy progressHandler:^BOOL(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
-                    TestRequestProgressResponse *progressResponse = testProgressResponses[request.correlationID];
+        it(@"should correctly send all requests", ^{
+            testOperation = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:testConnectionManager requests:sendRequests.copy progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+                TestRequestProgressResponse *progressResponse = testProgressResponses[request.correlationID];
 
-                    expect(progressResponse.percentComplete).to(beCloseTo(percentComplete));
-                    expect(response).toNot(beNil());
-                    expect(error).to(beNil());
+                expect(progressResponse.percentComplete).to(beCloseTo(percentComplete));
+                expect(response).toNot(beNil());
+                expect(error).to(beNil());
 
-                    [resultResponses addObject:response];
+                [resultResponses addObject:response];
+            } completionHandler:^(BOOL success) {
+                expect(resultResponses).to(haveCount(3));
+                expect(success).to(beTruthy());
+            }];
 
-                    return YES;
-                } completionHandler:^(BOOL success) {
-                    expect(resultResponses).to(haveCount(3));
-                    expect(success).to(beTruthy());
-                }];
+            [testOperationQueue addOperation:testOperation];
+            [NSThread sleepForTimeInterval:0.5];
+        });
+    });
 
-                [testOperationQueue addOperation:testOperation];
-                [NSThread sleepForTimeInterval:0.5];
-            });
+    context(@"where not all requests succeed", ^{
+        __block NSError *testError = [NSError errorWithDomain:@"com.test" code:-3 userInfo:nil];
+
+        beforeEach(^{
+            for (int i = 0; i < 3; i++) {
+                SDLAddCommand *addCommand = [[SDLAddCommand alloc] init];
+                addCommand.correlationID = @(i);
+                [sendRequests addObject:addCommand];
+
+                NSError *error = (i == 1) ? testError : nil;
+
+                testConnectionManager.responses[addCommand.correlationID] = [SDLSpecUtilities addCommandRPCResponseWithCorrelationId:addCommand.correlationID];
+                testProgressResponses[addCommand.correlationID] = [[TestRequestProgressResponse alloc] initWithCorrelationId:addCommand.correlationID percentComplete:((float)(i+1)/3.0) error:error];
+            }
         });
 
-        fcontext(@"where the requests are canceled", ^{
-            it(@"should only send the one before cancellation", ^{
-                testOperation = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:testConnectionManager requests:sendRequests.copy progressHandler:^BOOL(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
-                    TestRequestProgressResponse *progressResponse = testProgressResponses[request.correlationID];
+        it(@"should pass along the error", ^{
+            testOperation = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:testConnectionManager requests:sendRequests.copy progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+                TestRequestProgressResponse *progressResponse = testProgressResponses[request.correlationID];
 
-                    expect(progressResponse.percentComplete).to(beCloseTo(percentComplete));
-                    expect(response).toNot(beNil());
+                expect(progressResponse.percentComplete).to(beCloseTo(percentComplete));
+                expect(response).toNot(beNil());
+                if (![request.correlationID isEqualToNumber:@1]) {
                     expect(error).to(beNil());
+                } else {
+                    expect(error.code).to(equal(testError.code));
+                }
 
-                    [resultResponses addObject:response];
+                [resultResponses addObject:response];
+            } completionHandler:^(BOOL success) {
+                expect(resultResponses).to(haveCount(3));
+                expect(success).to(beFalsy());
+            }];
 
-                    return NO;
-                } completionHandler:^(BOOL success) {
-                    expect(resultResponses).to(haveCount(1));
-                    expect(success).to(beFalsy());
-                }];
-
-                [testOperationQueue addOperation:testOperation];
-                [NSThread sleepForTimeInterval:0.5];
-            });
+            [testOperationQueue addOperation:testOperation];
+            [NSThread sleepForTimeInterval:0.5];
         });
     });
 });
