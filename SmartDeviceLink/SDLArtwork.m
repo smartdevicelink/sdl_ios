@@ -40,9 +40,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithImage:(UIImage *)image persistent:(BOOL)persistent asImageFormat:(SDLArtworkImageFormat)imageFormat {
     NSData *imageData = [self dataForUIImage:image imageFormat:imageFormat];
-    return [super initWithData:[self dataForUIImage:image imageFormat:imageFormat] name:[self md5HashFromNSData:imageData] fileExtension:[self fileExtensionForImageFormat:imageFormat] persistent:persistent];
+    NSString *imageName = [self md5HashFromNSData:imageData];
+    return [super initWithData:[self dataForUIImage:image imageFormat:imageFormat] name:(imageName != nil ? imageName : @"") fileExtension:[self fileExtensionForImageFormat:imageFormat] persistent:persistent];
 }
 
+/**
+ * Returns the JPG or PNG image data for a UIImage.
+ *
+ *  @param image        A UIImage
+ *  @param imageFormat  The image format to use when converting the UIImage to NSData
+ *  @return             The image data
+ */
 - (NSData *)dataForUIImage:(UIImage *)image imageFormat:(SDLArtworkImageFormat)imageFormat {
     NSData *imageData = nil;
     switch (imageFormat) {
@@ -56,6 +64,12 @@ NS_ASSUME_NONNULL_BEGIN
     return imageData;
 }
 
+/**
+ *  Returns the file extension for the image format.
+ *
+ *  @param imageFormat  Whether the image is a PNG or JPG
+ *  @return             The file extension for the image format
+ */
 - (NSString *)fileExtensionForImageFormat:(SDLArtworkImageFormat)imageFormat {
     NSString *fileExtension = nil;
     switch (imageFormat) {
@@ -69,8 +83,14 @@ NS_ASSUME_NONNULL_BEGIN
     return fileExtension;
 }
 
+/**
+ *  Creates a string representation of NSData by hashing the data using the MD5 hash function. This string is not guaranteed to be unique as collisions can occur, however collisions are extremely rare.
+ *
+ *  @param data     The data to hash
+ *  @return         A MD5 hash of the data
+ */
 - (NSString *)md5HashFromNSData:(NSData *)data {
-    if (data == nil) { return @""; }
+    if (data == nil) { return nil; }
 
     unsigned char hash[CC_MD5_DIGEST_LENGTH];
     CC_MD5([data bytes], (CC_LONG)[data length], hash);
