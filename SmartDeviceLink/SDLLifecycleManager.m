@@ -118,8 +118,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
     
-    if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation]
-        || [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection]) {
+    if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] ||
+        [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] ||
+        [configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeNavigation] ||
+        [configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeProjection]) {
         _streamManager = [[SDLStreamingMediaManager alloc] initWithConnectionManager:self configuration:configuration.streamingMediaConfig];
     } else {
         SDLLogV(@"Skipping StreamingMediaManager setup due to app type");
@@ -358,6 +360,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     // Send the hmi level going from NONE to whatever we're at now (could still be NONE)
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.delegate hmiLevel:SDLHMILevelNone didChangeToLevel:self.hmiLevel];
+
+		// Send the audio streaming state going from NOT_AUDIBLE to whatever we're at now (could still be NOT_AUDIBLE)
+    	if ([self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
+        	[self.delegate audioStreamingState:SDLAudioStreamingStateNotAudible didChangeToState:self.audioStreamingState];
+    	}
     });
 }
 
@@ -547,6 +554,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     self.systemContext = hmiStatusNotification.systemContext;
 
     SDLLogD(@"HMI level changed from %@ to %@", oldHMILevel, self.hmiLevel);
+    SDLLogD(@"Audio streaming state changed from %@ to %@", oldStreamingState, self.audioStreamingState);
 
     if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateSettingUpHMI]) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];

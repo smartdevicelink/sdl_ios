@@ -70,10 +70,12 @@ NS_ASSUME_NONNULL_BEGIN
     __block NSInteger highestCorrelationIDReceived = -1;
 
     if (self.isCancelled) {
+        [self finishOperation];
         return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileUploadCanceled]);
     }
 
     if (file == nil) {
+        [self finishOperation];
         return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
     }
 
@@ -81,6 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.inputStream == nil || ![self.inputStream hasBytesAvailable]) {
         // If the file does not exist or the passed data is nil, return an error
         [self sdl_closeInputStream];
+        [self finishOperation];
         return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
     }
 

@@ -40,12 +40,13 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 
 // Remote state
-@property (strong, nonatomic, readwrite) NSMutableSet<SDLFileName *> *mutableRemoteFileNames;
+@property (strong, nonatomic) NSMutableSet<SDLFileName *> *mutableRemoteFileNames;
 @property (assign, nonatomic, readwrite) NSUInteger bytesAvailable;
 
 // Local state
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 @property (strong, nonatomic) NSMutableDictionary<SDLFileName *, NSOperation *> *uploadsInProgress;
+@property (strong, nonatomic) NSMutableSet<SDLFileName *> *uploadedEphemeralFileNames;
 @property (strong, nonatomic) SDLStateMachine *stateMachine;
 @property (copy, nonatomic, nullable) SDLFileManagerStartupCompletionHandler startupCompletionHandler;
 
@@ -71,6 +72,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     _transactionQueue.name = @"SDLFileManager Transaction Queue";
     _transactionQueue.maxConcurrentOperationCount = 1;
     _uploadsInProgress = [[NSMutableDictionary alloc] init];
+    _uploadedEphemeralFileNames = [[NSMutableSet<SDLFileName *> alloc] init];
 
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLFileManagerStateShutdown states:[self.class sdl_stateTransitionDictionary]];
 
@@ -272,6 +274,11 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     for(SDLFile *file in files) {
         dispatch_group_enter(uploadFilesTask);
 
+        // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly. This led to attempted uploads failing due to the system thinking they were already there when they were not.
+        if (!file.persistent && [self.remoteFileNames containsObject:file.name] && ![self.uploadedEphemeralFileNames containsObject:file.name]) {
+            file.overwrite = true;
+        }
+
         [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
             if(!success) {
                 failedUploads[file.name] = error;
@@ -383,6 +390,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         }
         if (success) {
             [weakSelf.mutableRemoteFileNames addObject:fileName];
+            [weakSelf.uploadedEphemeralFileNames addObject:fileName];
         }
         if (uploadCompletion != nil) {
             uploadCompletion(success, bytesAvailable, error);
