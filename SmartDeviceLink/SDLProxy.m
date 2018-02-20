@@ -100,6 +100,10 @@ static float DefaultConnectionTimeout = 45.0;
     if (self.protocol.securityManager != nil) {
         [self.protocol.securityManager stop];
     }
+
+    if (self.transport != nil) {
+        [self.transport disconnect];
+    }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
@@ -209,7 +213,6 @@ static float DefaultConnectionTimeout = 45.0;
         __weak typeof(self) weakSelf = self;
         self.startSessionTimer.elapsedBlock = ^{
             SDLLogW(@"Start session timed out");
-            [weakSelf.transport disconnect];
             [weakSelf performSelector:@selector(notifyProxyClosed) withObject:nil afterDelay:NotifyProxyClosedDelay];
         };
     }
