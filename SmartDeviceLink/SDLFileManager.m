@@ -260,17 +260,18 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     [self uploadFiles:files progressHandler:nil completionHandler:completionHandler];
 }
 
-- (void)uploadArtwork:(SDLArtwork *)artwork completionHandler:(nullable SDLFileManagerUploadArtworkCompletionHandler)completion NS_SWIFT_NAME(upload(artwork:completionHandler:)) {
+- (void)uploadArtwork:(SDLArtwork *)artwork completionHandler:(nullable SDLFileManagerUploadArtworkCompletionHandler)completion {
     if ([self.remoteFileNames containsObject:artwork.name]) {
-        // Artwork already uploaded; return artwork name
+        // Artwork with same name already uploaded to remote; return artwork name
         if (completion == nil) { return; }
-        completion(true, artwork.name, self.bytesAvailable, nil);
-    } else {
-        // Upload artwork and return artwork name when finished
-        [self uploadFile:artwork completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-            completion(success, artwork.name, bytesAvailable, error);
-        }];
+        return completion(true, artwork.name, self.bytesAvailable, nil);
     }
+
+    // Upload artwork and return artwork name when finished
+    [self uploadFile:artwork completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+        if (completion == nil) { return; }
+        completion(success, artwork.name, bytesAvailable, error);
+    }];
 }
 
 - (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
@@ -380,7 +381,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         if (handler != nil) {
             handler(NO, self.bytesAvailable, [NSError sdl_fileManager_cannotOverwriteError]);
         }
-
         return;
     }
 

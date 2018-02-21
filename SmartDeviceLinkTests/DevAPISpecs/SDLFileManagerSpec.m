@@ -100,7 +100,6 @@ describe(@"SDLFileManager", ^{
             });
 
             it(@"should remain in the stopped state after receiving the response if disconnected", ^{
-
                 expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateShutdown));
             });
         });
@@ -437,21 +436,74 @@ describe(@"SDLFileManager", ^{
                 });
             });
 
-            describe(@"uploading artwork file", ^{
+            describe(@"uploading artwork", ^{
+                __block UIImage *testUIImage = nil;
+                __block SDLArtwork *testArtwork = nil;
+
+                __block NSString *expectedArtworkName = nil;
+                __block NSUInteger expectedRemoteFilesCount = 0;
+                __block NSUInteger expectedBytesAvailable = 0;
+
+                __block Boolean expectedToUploadArtwork = true;
+
                 beforeEach(^{
+                    UIGraphicsBeginImageContextWithOptions(CGSizeMake(5, 5), YES, 0);
+                    CGContextRef context = UIGraphicsGetCurrentContext();
+                    [[UIColor blackColor] setFill];
+                    CGContextFillRect(context, CGRectMake(0, 0, 5, 5));
+                    UIImage *blackSquareImage = UIGraphicsGetImageFromCurrentImageContext();
+                    UIGraphicsEndImageContext();
+                    testUIImage = blackSquareImage;
 
+                    expectedRemoteFilesCount = testInitialFileNames.count;
+                    expect(testFileManager.remoteFileNames.count).to(equal(expectedRemoteFilesCount));
+
+                    expectedBytesAvailable = initialSpaceAvailable;
+                    expect(testFileManager.bytesAvailable).to(equal(expectedBytesAvailable));
                 });
 
-                it(@"should return the artwork name when the artwork has already been uploaded", ^{
-
+                context(@"when sending artwork that has already been uploaded", ^{
+                    it(@"should not upload the artwork again and simply return the artwork name", ^{
+                        expectedArtworkName = [testListFilesResponse.filenames firstObject];
+                        expectedRemoteFilesCount = testInitialFileNames.count;
+                        expectedBytesAvailable = initialSpaceAvailable;
+                        expectedToUploadArtwork = false;
+                    });
                 });
 
-                it(@"should upload the art and return the artwork name if the artwork has not yet been uploaded", ^{
-
+                context(@"when sending artwork that has not yet been uploaded", ^{
+                    it(@"should upload the artwork and return the artwork name when done", ^{
+                        expectedArtworkName = @"uniqueArtworkName";
+                        expectedRemoteFilesCount = testInitialFileNames.count + 1;
+                        expectedBytesAvailable = 22;
+                        expectedToUploadArtwork = true;
+                    });
                 });
 
                 afterEach(^{
+                    testArtwork = [[SDLArtwork alloc] initWithImage:testUIImage name:expectedArtworkName persistent:true asImageFormat:SDLArtworkImageFormatPNG];
 
+                    waitUntilTimeout(1, ^(void (^done)(void)){
+                        [testFileManager uploadArtwork:testArtwork completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                            expect(artworkName).to(equal(expectedArtworkName));
+                            expect(success).to(beTrue());
+                            expect(bytesAvailable).to(equal(expectedBytesAvailable));
+                            expect(error).to(beNil());
+
+                            expect(testFileManager.remoteFileNames.count).to(equal(expectedRemoteFilesCount));
+
+                            done();
+                        }];
+
+                        if (expectedToUploadArtwork) {
+                            [NSThread sleepForTimeInterval:0.1];
+
+                            SDLPutFileResponse *successfulPutFileResponse = [[SDLPutFileResponse alloc] init];
+                            successfulPutFileResponse.success = @YES;
+                            successfulPutFileResponse.spaceAvailable = @(expectedBytesAvailable);
+                            [testConnectionManager respondToLastRequestWithResponse:successfulPutFileResponse];
+                        }
+                    });
                 });
             });
         });

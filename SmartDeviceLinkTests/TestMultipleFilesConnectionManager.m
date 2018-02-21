@@ -21,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sendManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     [super sendManagerRequest:request withResponseHandler:handler];
 
-    // Send a response if the request is a putfile
     if ([[request name] isEqualToString:SDLNamePutFile]) {
         SDLPutFile *putfileRequest = (SDLPutFile *)request;
         TestResponse *response = self.responses[putfileRequest.syncFileName];
