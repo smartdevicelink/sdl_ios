@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithImage:(UIImage *)image name:(NSString *)name persistent:(BOOL)persistent asImageFormat:(SDLArtworkImageFormat)imageFormat;
 
 /**
- * TODO
+ *  Create a file for transmission to the remote system from a UIImage. A unique name will be assigned to the image. This name is a string representation of the image's data which is created by hashing the data using the MD5 algorithm.
 
  *  @param image       The UIImage to be sent to the remote head unit
  *  @param persistent  Whether or not the artwork should be persistent.
