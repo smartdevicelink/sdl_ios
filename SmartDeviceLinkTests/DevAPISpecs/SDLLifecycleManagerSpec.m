@@ -356,8 +356,7 @@ xdescribe(@"a lifecycle manager", ^{
                     
                     testManager.registerResponse = response;
                     
-                    SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] init];
-                    update.appName = @"EnGb";
+                    SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] initWithAppName:@"EnGb" shortAppName:nil ttsName:nil voiceRecognitionCommandNames:nil];
                     
                     OCMStub([managerDelegateMock managerShouldUpdateLifecycleToLanguage:[OCMArg any]]).andReturn(update);
                     expect(testManager.configuration.lifecycleConfig.language).to(be(SDLLanguageEnUs));
