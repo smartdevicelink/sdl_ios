@@ -10,11 +10,14 @@
 #import <Foundation/Foundation.h>
 
 @class SDLRPCRequest;
+@class SDLRegisterAppInterfaceResponse;
 
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLConnectionManagerType <NSObject>
+
+@property (strong, nonatomic, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
 
 /**
  *  A special method on the connection manager which is used by managers that must bypass the default block on RPC sends before managers complete setup.
