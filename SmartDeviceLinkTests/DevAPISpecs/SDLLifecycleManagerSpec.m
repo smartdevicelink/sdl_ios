@@ -79,7 +79,7 @@ xdescribe(@"a lifecycle manager", ^{
         testLifecycleConfig.shortAppName = @"Short Name";
         testLifecycleConfig.appType = SDLAppHMITypeNavigation;
         
-        testConfig = [SDLConfiguration configurationWithLifecycle:testLifecycleConfig lockScreen:[SDLLockScreenConfiguration disabledConfiguration]];
+        testConfig = [SDLConfiguration configurationWithLifecycle:testLifecycleConfig lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] streamingMedia:[SDLStreamingMediaConfiguration insecureConfiguration]];
         testConfig.lifecycleConfig.languagesSupported = @[SDLLanguageEnUs, SDLLanguageEnGb];
         testConfig.lifecycleConfig.language = SDLLanguageEnUs;
         
