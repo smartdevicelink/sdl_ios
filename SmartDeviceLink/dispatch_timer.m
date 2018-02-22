@@ -16,8 +16,8 @@ dispatch_source_t dispatch_create_timer(double afterInterval, bool repeating, di
                                                      0,
                                                      queue);
     dispatch_source_set_timer(timer,
-                              dispatch_time(DISPATCH_TIME_NOW, afterInterval * NSEC_PER_SEC),
-                              afterInterval * NSEC_PER_SEC,
+                              dispatch_time(DISPATCH_TIME_NOW, (int64_t)(afterInterval * NSEC_PER_SEC)),
+                              (uint64_t)(afterInterval * NSEC_PER_SEC),
                               (1ull * NSEC_PER_SEC) / 10);
     dispatch_source_set_event_handler(timer, ^{
         if (!repeating) {

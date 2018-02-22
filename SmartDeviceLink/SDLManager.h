@@ -38,7 +38,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 /**
  *  The current HMI level of the running app.
  */
-@property (copy, nonatomic, readonly) SDLHMILevel hmiLevel;
+@property (copy, nonatomic, readonly, nullable) SDLHMILevel hmiLevel;
 
 /**
  *  The current audio streaming state of the running app.
@@ -102,7 +102,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *
  *  @param readyHandler The block called when the manager is ready to be used or an error occurs while attempting to become ready.
  */
-- (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler;
+- (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler NS_SWIFT_NAME(start(readyHandler:));
 
 /**
  *  Stop the manager, it will disconnect if needed and no longer look for a connection. You probably don't need to call this method ever.
@@ -127,7 +127,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *  @param request The RPC request to send
  *  @param handler The handler that will be called when the response returns
  */
-- (void)sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler;
+- (void)sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler NS_SWIFT_NAME(send(request:responseHandler:));
 
 @end
 

@@ -1,0 +1,137 @@
+<h1>SDLLogLevel Enumeration Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-SDLLogLevelDefault">SDLLogLevelDefault</a></li>
+  <li><a href="#section-SDLLogLevelOff">SDLLogLevelOff</a></li>
+  <li><a href="#section-SDLLogLevelError">SDLLogLevelError</a></li>
+  <li><a href="#section-SDLLogLevelWarning">SDLLogLevelWarning</a></li>
+  <li><a href="#section-SDLLogLevelDebug">SDLLogLevelDebug</a></li>
+  <li><a href="#section-SDLLogLevelVerbose">SDLLogLevelVerbose</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>An enum describing a level of logging.</p>
+
+<ul>
+<li>SDLLogLevelDefault:  This is used to describe that a <q>specific</q> logging will instead use the global log level, for example, a module may use the global log level instead of its own by specifying this level.</li>
+<li>SDLLogLevelOff:      This is used to describe a level that involves absolutely no logs being output.</li>
+<li>SDLLogLevelError:    Only error level logs will be output.</li>
+<li>SDLLogLevelWarning:  Both error and warning level logs will be output.</li>
+<li>SDLLogLevelDebug:    Error, warning, and debug level logs will be output. This level will never be output in RELEASE environments.</li>
+<li>SDLLogLevelVerbose:  All level logs will be output. This level will never be output in RELEASE environments.</li>
+</ul>
+
+
+<section class="section task-group-section">
+  <h3 id="section-SDLLogLevelDefault">
+      SDLLogLevelDefault
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLLogLevelDefault</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="p">`</span><span class="nv">default</span><span class="p">`</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLLogLevelOff">
+      SDLLogLevelOff
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLLogLevelOff</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">off</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLLogLevelError">
+      SDLLogLevelError
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLLogLevelError</span> <span class="o">=</span> <span class="n">SDLLogFlagError</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">error</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLLogLevelWarning">
+      SDLLogLevelWarning
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLLogLevelWarning</span> <span class="o">=</span> <span class="p">(</span><span class="n">SDLLogFlagError</span> <span class="o">|</span> <span class="n">SDLLogFlagWarning</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">warning</span> <span class="o">=</span> <span class="mi">3</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLLogLevelDebug">
+      SDLLogLevelDebug
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLLogLevelDebug</span> <span class="o">=</span> <span class="p">(</span><span class="n">SDLLogFlagWarning</span> <span class="o">|</span> <span class="n">SDLLogFlagDebug</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">debug</span> <span class="o">=</span> <span class="mi">6</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLLogLevelVerbose">
+      SDLLogLevelVerbose
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLLogLevelVerbose</span> <span class="o">=</span> <span class="p">(</span><span class="n">SDLLogFlagDebug</span> <span class="o">|</span> <span class="n">SDLLogFlagVerbose</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">verbose</span> <span class="o">=</span> <span class="mi">12</span></code></pre>
+
+  
+  
+  
+</section>

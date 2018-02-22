@@ -12,6 +12,7 @@
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenManager.h"
+#import "SDLLogConfiguration.h"
 #import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLOnHashChange.h"
@@ -25,6 +26,7 @@
 #import "SDLResult.h"
 #import "SDLShow.h"
 #import "SDLStateMachine.h"
+#import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManager.h"
 #import "SDLTextAlignment.h"
 #import "SDLUnregisterAppInterface.h"
@@ -58,7 +60,7 @@ QuickConfigurationEnd
 
 QuickSpecBegin(SDLLifecycleManagerSpec)
 
-xdescribe(@"a lifecycle manager", ^{
+describe(@"a lifecycle manager", ^{
     __block SDLLifecycleManager *testManager = nil;
     __block SDLConfiguration *testConfig = nil;
     
@@ -82,7 +84,6 @@ xdescribe(@"a lifecycle manager", ^{
         testConfig = [SDLConfiguration configurationWithLifecycle:testLifecycleConfig lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] streamingMedia:[SDLStreamingMediaConfiguration insecureConfiguration]];
         testConfig.lifecycleConfig.languagesSupported = @[SDLLanguageEnUs, SDLLanguageEnGb];
         testConfig.lifecycleConfig.language = SDLLanguageEnUs;
-        
         testManager = [[SDLLifecycleManager alloc] initWithConfiguration:testConfig delegate:managerDelegateMock];
         testManager.lockScreenManager = lockScreenManagerMock;
         testManager.fileManager = fileManagerMock;
@@ -91,7 +92,7 @@ xdescribe(@"a lifecycle manager", ^{
         
     });
     
-    it(@"should initialize properties", ^{
+    xit(@"should initialize properties", ^{
         expect(testManager.configuration).toNot(equal(testConfig)); // This is copied
         expect(testManager.delegate).to(equal(managerDelegateMock)); // TODO: Broken on OCMock 3.3.1 & Swift 3 Quick / Nimble
         expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
@@ -211,7 +212,7 @@ xdescribe(@"a lifecycle manager", ^{
                 });
                 
                 it(@"should be in the started state", ^{
-                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateStarted));
+                    expect(testManager.lifecycleState).to(match(SDLLifecycleStateReconnecting));
                 });
             });
             
@@ -234,25 +235,25 @@ xdescribe(@"a lifecycle manager", ^{
             describe(@"after receiving a register app interface response", ^{
                 __block NSError *fileManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
                 __block NSError *permissionManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
-                __block NSError *streamingManagerStartError = [NSError errorWithDomain:@"testDomain" code:0 userInfo:nil];
                 
                 beforeEach(^{
                     OCMStub([(SDLLockScreenManager *)lockScreenManagerMock start]);
                     OCMStub([fileManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), fileManagerStartError, nil])]);
                     OCMStub([permissionManagerMock startWithCompletionHandler:([OCMArg invokeBlockWithArgs:@(YES), permissionManagerStartError, nil])]);
-                    OCMStub([streamingManagerMock startWithProtocol:protocolMock completionHandler:([OCMArg invokeBlockWithArgs:@(YES), streamingManagerStartError, nil])]);
+                    OCMStub([streamingManagerMock startWithProtocol:protocolMock]);
                     
-                    // Send an RAI response to move the lifecycle forward
+                    // Send an RAI response & make sure we have an HMI status to move the lifecycle forward
+                    testManager.hmiLevel = SDLHMILevelFull;
                     [testManager.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
                     [NSThread sleepForTimeInterval:0.3];
                 });
                 
                 it(@"should eventually reach the ready state", ^{
-                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateReady));
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateReady));
                     OCMVerify([(SDLLockScreenManager *)lockScreenManagerMock start]);
                     OCMVerify([fileManagerMock startWithCompletionHandler:[OCMArg any]]);
                     OCMVerify([permissionManagerMock startWithCompletionHandler:[OCMArg any]]);
-                    OCMVerify([streamingManagerMock startWithProtocol:[OCMArg any] completionHandler:[OCMArg any]]);
+                    OCMVerify([streamingManagerMock startWithProtocol:[OCMArg any]]);
                 });
                 
                 itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
@@ -309,9 +310,10 @@ xdescribe(@"a lifecycle manager", ^{
                     testHMIStatus.hmiLevel = testHMILevel;
                     
                     [testManager.notificationDispatcher postRPCNotificationNotification:SDLDidChangeHMIStatusNotification notification:testHMIStatus];
-                    
-                    expect(@(readyHandlerSuccess)).to(equal(@YES));
-                    expect(readyHandlerError).toNot(beNil());
+
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateReady));
+                    expect(@(readyHandlerSuccess)).toEventually(equal(@YES));
+                    expect(readyHandlerError).toEventually(beNil());
                 });
             });
         });

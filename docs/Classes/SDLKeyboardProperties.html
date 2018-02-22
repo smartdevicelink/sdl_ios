@@ -3,8 +3,6 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--init">-init</a></li>
-  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
   <li><a href="#section--initWithLanguage:layout:keypressMode:limitedCharacterList:autoCompleteText:">-initWithLanguage:layout:keypressMode:limitedCharacterList:autoCompleteText:</a></li>
   <li><a href="#section-language">language</a></li>
   <li><a href="#section-keyboardLayout">keyboardLayout</a></li>
@@ -19,28 +17,6 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section--init">
-      -init
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
-  <h3 id="section--initWithDictionary:">
-      -initWithDictionary:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
   <h3 id="section--initWithLanguage:layout:keypressMode:limitedCharacterList:autoCompleteText:">
       -initWithLanguage:layout:keypressMode:limitedCharacterList:autoCompleteText:
   </h3>
@@ -49,6 +25,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLanguage</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">language</span> <span class="nf">layout</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLKeyboardLayout.h@T@SDLKeyboardLayout">SDLKeyboardLayout</a></span><span class="p">)</span><span class="nv">layout</span> <span class="nf">keypressMode</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLKeypressMode.h@T@SDLKeypressMode">SDLKeypressMode</a></span><span class="p">)</span><span class="nv">keypressMode</span> <span class="nf">limitedCharacterList</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">limitedCharacterList</span> <span class="nf">autoCompleteText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">autoCompleteText</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">language</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">?,</span> <span class="nv">layout</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLKeyboardLayout.h@T@SDLKeyboardLayout">SDLKeyboardLayout</a></span><span class="p">?,</span> <span class="nv">keypressMode</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLKeypressMode.h@T@SDLKeypressMode">SDLKeypressMode</a></span><span class="p">?,</span> <span class="nv">limitedCharacterList</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">autoCompleteText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
   
   
   
@@ -60,6 +43,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span> <span class="n">language</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">language</span><span class="p">:</span> <span class="nf">SDLLanguage</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -71,6 +61,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLKeyboardLayout.h@T@SDLKeyboardLayout">SDLKeyboardLayout</a></span> <span class="n">keyboardLayout</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">keyboardLayout</span><span class="p">:</span> <span class="nf">SDLKeyboardLayout</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -82,6 +79,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLKeypressMode.h@T@SDLKeypressMode">SDLKeypressMode</a></span> <span class="n">keypressMode</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">keypressMode</span><span class="p">:</span> <span class="nf">SDLKeypressMode</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -93,6 +97,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">limitedCharacterList</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">limitedCharacterList</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -104,6 +115,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">autoCompleteText</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">autoCompleteText</span><span class="p">:</span> <span class="nf">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   

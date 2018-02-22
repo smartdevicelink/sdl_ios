@@ -14,6 +14,7 @@
 #import "SDLPhoneCapability.h"
 #import "SDLSystemCapabilityType.h"
 #import "SDLVideoStreamingCapability.h"
+#import "SDLRemoteControlCapabilities.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -55,6 +56,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithRemoteControlCapability:(SDLRemoteControlCapabilities *)capability {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.systemCapabilityType = SDLSystemCapabilityTypeRemoteControl;
+    self.remoteControlCapability = capability;
+
+    return self;
+}
+
 - (void)setSystemCapabilityType:(SDLSystemCapabilityType)type {
     [store sdl_setObject:type forName:SDLNameSystemCapabilityType];
 }
@@ -87,6 +100,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLVideoStreamingCapability *)videoStreamingCapability {
     return [store sdl_objectForName:SDLNameVideoStreamingCapability ofClass:SDLVideoStreamingCapability.class];
+}
+
+- (void)setRemoteControlCapability:(nullable SDLRemoteControlCapabilities *)remoteControlCapability {
+    [store sdl_setObject:remoteControlCapability forName:SDLNameRemoteControlCapability];
+}
+
+- (nullable SDLRemoteControlCapabilities *)remoteControlCapability {
+    return [store sdl_objectForName:SDLNameRemoteControlCapability ofClass:SDLRemoteControlCapabilities.class];
 }
 
 @end

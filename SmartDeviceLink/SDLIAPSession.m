@@ -81,12 +81,20 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
 
 - (void)stop {
     // This method must be called on the main thread
-    NSAssert([NSThread isMainThread], @"stop must be called on the main thread");
-    
+    if ([NSThread isMainThread]) {
+        [self sdl_stop];
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self sdl_stop];
+        });
+    }
+}
+
+- (void)sdl_stop {
     if (self.isDataSession) {
         [self.ioStreamThread cancel];
 
-        long lWait = dispatch_semaphore_wait(self.canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, StreamThreadWaitSecs * NSEC_PER_SEC));
+        long lWait = dispatch_semaphore_wait(self.canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(StreamThreadWaitSecs * NSEC_PER_SEC)));
         if (lWait == 0) {
             SDLLogW(@"Stream thread cancelled");
         } else {
@@ -111,29 +119,33 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
 - (void)sendData:(NSData *)data {
     // Enqueue the data for transmission on the IO thread
     [self.sendDataQueue enqueueBuffer:data.mutableCopy];
+
+    [self performSelector:@selector(sdl_dequeueAndWriteToOutputStream) onThread:self.ioStreamThread withObject:nil waitUntilDone:NO];
 }
 
-- (BOOL)sdl_dequeueAndWriteToOutputStream:(NSError **)error {
+- (void)sdl_dequeueAndWriteToOutputStream {
     NSOutputStream *ostream = self.easession.outputStream;
+    if (!ostream.hasSpaceAvailable) {
+        return;
+    }
+    
     NSMutableData *remainder = [self.sendDataQueue frontBuffer];
-    BOOL allDataWritten = NO;
 
-    if (error != nil && remainder != nil && ostream.streamStatus == NSStreamStatusOpen) {
-        NSInteger bytesRemaining = remainder.length;
+    if (remainder != nil && ostream.streamStatus == NSStreamStatusOpen) {
+        NSUInteger bytesRemaining = remainder.length;
         NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:bytesRemaining];
         if (bytesWritten < 0) {
-            *error = ostream.streamError;
+            if (ostream.streamError != nil) {
+                [self sdl_handleOutputStreamWriteError:ostream.streamError];
+            }
         } else if (bytesWritten == bytesRemaining) {
             // Remove the data from the queue
             [self.sendDataQueue popBuffer];
-            allDataWritten = YES;
         } else {
             // Cleave the sent bytes from the data, the remainder will sit at the head of the queue
-            [remainder replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
+            [remainder replaceBytesInRange:NSMakeRange(0, (NSUInteger)bytesWritten) withBytes:NULL length:0];
         }
     }
-
-    return allDataWritten;
 }
 
 - (void)sdl_handleOutputStreamWriteError:(NSError *)error {
@@ -163,10 +175,7 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
         SDLLogD(@"Starting the accessory event loop");
         do {
             if (self.sendDataQueue.count > 0 && !self.sendDataQueue.frontDequeued) {
-                NSError *sendErr = nil;
-                if (![self sdl_dequeueAndWriteToOutputStream:&sendErr] && sendErr != nil) {
-                    [self sdl_handleOutputStreamWriteError:sendErr];
-                }
+                [self sdl_dequeueAndWriteToOutputStream];
             }
             // The principle here is to give the event loop enough time to process stream events while also allowing it to handle new enqueued data buffers in a timely manner. We're capping the run loop CPU time at 0.25s maximum before it will return control to the rest of the loop.
             [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.25f]];
@@ -277,11 +286,7 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
             return;
         }
 
-        NSError *sendErr = nil;
-
-        if (![strongSelf sdl_dequeueAndWriteToOutputStream:&sendErr] && sendErr != nil) {
-            [strongSelf sdl_handleOutputStreamWriteError:sendErr];
-        }
+        [strongSelf sdl_dequeueAndWriteToOutputStream];
     };
 }
 

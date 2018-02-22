@@ -59,12 +59,15 @@ NS_ASSUME_NONNULL_BEGIN
     _lifecycleConfig = lifecycleConfig;
     _lockScreenConfig = lockScreenConfig ?: [SDLLockScreenConfiguration enabledConfiguration];
     _loggingConfig = logConfig ?: [SDLLogConfiguration defaultConfiguration];
+    _streamingMediaConfig = streamingMediaConfig;
 
     if (_streamingMediaConfig != nil) {
-        NSAssert(!([_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] || [_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection]), @"You should only set a streaming media configuration if your app is a NAVIGATION or PROJECTION HMI type");
+        // If we have a streaming config, the apptype MUST be navigation or projection
+        NSAssert(([_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] || [_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] || [_lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeNavigation] || [_lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeProjection]), @"You should only set a streaming media configuration if your app is a NAVIGATION or PROJECTION HMI type");
         _streamingMediaConfig = streamingMediaConfig;
     } else {
-        NSAssert(([_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] || [_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection]), @"If your app is a NAVIGATION or PROJECTION HMI type, you must set a streaming media configuration on SDLConfiguration");
+        // If we don't have a streaming config, we MUST NOT be navigation or projection
+        NSAssert(!([_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] || [_lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] || [_lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeNavigation] || [_lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeProjection]), @"If your app is a NAVIGATION or PROJECTION HMI type, you must set a streaming media configuration on SDLConfiguration");
     }
 
     return self;
@@ -77,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLConfiguration *new = [[SDLConfiguration allocWithZone:zone] initWithLifecycle: _lifecycleConfig lockScreen: _lockScreenConfig logging:_loggingConfig];
+    SDLConfiguration *new = [[SDLConfiguration allocWithZone:zone] initWithLifecycle: _lifecycleConfig lockScreen: _lockScreenConfig logging:_loggingConfig streamingMedia:_streamingMediaConfig];
 
     return new;
 }

@@ -38,42 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) SDLStreamingMediaConfiguration *streamingMediaConfig;
 
 /**
- Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and a default logging configuration.
-
- @param lifecycleConfiguration The lifecycle configuration to be used.
- @return The configuration
- */
-- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfiguration __deprecated_msg(("Use initWithLifecycle:lockScreen:logging: instead"));
-
-/**
- Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and a default logging configuration.
-
- @param lifecycleConfiguration The lifecycle configuration to be used.
- @return The configuration
- */
-+ (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfiguration __deprecated_msg(("Use configurationWithLifecycle:lockScreen:logging: instead"));
-
-/**
- *  Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and a default logging configuration.
- *
- *  @param lifecycleConfig  The lifecycle configuration to be used.
- *  @param lockScreenConfig The lockscreen configuration to be used, or `enabledConfiguration` if nil.
- *
- *  @return The configuration
- */
-- (instancetype)initWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig __deprecated_msg(("Use initWithLifecycle:lockScreen:logging: instead"));
-
-/**
- *  Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and a default logging configuration.
- *
- *  @param lifecycleConfig  The lifecycle configuration to be used.
- *  @param lockScreenConfig The lockscreen configuration to be used, or `enabledConfiguration` if nil.
- *
- *  @return The configuration
- */
-+ (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig __deprecated_msg(("Use configurationWithLifecycle:lockScreen:logging: instead"));
-
-/**
  Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and logging configuration.
 
  @param lifecycleConfig The lifecycle configuration to be used.
@@ -91,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param logConfig The logging configuration to be used, or `defaultConfiguration` if nil.
  @return The configuration
  */
-+ (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig;
++ (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig NS_SWIFT_UNAVAILABLE("Use an initializer instead");
 
 /**
  Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, logging, and streaming media configuration.
@@ -113,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param streamingMediaConfig The streaming media configuration to be used, or nil because it is not needed.
  @return The configuration
  */
-+ (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig streamingMedia:(nullable SDLStreamingMediaConfiguration *)streamingMediaConfig;
++ (instancetype)configurationWithLifecycle:(SDLLifecycleConfiguration *)lifecycleConfig lockScreen:(nullable SDLLockScreenConfiguration *)lockScreenConfig logging:(nullable SDLLogConfiguration *)logConfig streamingMedia:(nullable SDLStreamingMediaConfiguration *)streamingMediaConfig NS_SWIFT_UNAVAILABLE("Use an initializer instead");
 
 @end
 

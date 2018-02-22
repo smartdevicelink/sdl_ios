@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.sdlManager) { return; }
     SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId]];
     
-    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration]];
+    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration debugConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
 
     [self startManager];
@@ -88,11 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Check for previous instance of sdlManager
     if (self.sdlManager) { return; }
     SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
-
-    SDLLogConfiguration *logConfiguration = [SDLLogConfiguration defaultConfiguration];
-    logConfiguration.formatType = SDLLogFormatTypeSimple;
-    
-    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration]];
+    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration debugConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
 
     [self startManager];
@@ -137,12 +133,6 @@ NS_ASSUME_NONNULL_BEGIN
     
     self.initialShowState = SDLHMIInitialShowStateShown;
     [self sdlex_showWithManager:self.sdlManager];
-
-    SDLHapticRect *hapticRect = [[SDLHapticRect alloc] initWithId:1 rect:[[SDLRectangle alloc] initWithX:12.34 y:42.3 width:69 height:69]];
-    SDLSendHapticData *sendHaptic = [[SDLSendHapticData alloc] initWithHapticRectData:@[hapticRect]];
-    [self.sdlManager sendRequest:sendHaptic withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        NSLog(@"STOP");
-    }];
 }
 
 - (void)sdlex_showWithManager:(SDLManager *)manager {

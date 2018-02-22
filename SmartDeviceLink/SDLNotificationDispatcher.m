@@ -14,10 +14,16 @@
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
 
-
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLNotificationDispatcher
+
+- (instancetype)init {
+    self = [super init];
+    if (!self) { return nil; }
+
+    return self;
+}
 
 - (void)postNotificationName:(NSString *)name infoObject:(nullable id)infoObject {
     NSDictionary<NSString *, id> *userInfo = nil;
@@ -25,25 +31,23 @@ NS_ASSUME_NONNULL_BEGIN
         userInfo = @{SDLNotificationUserInfoObject: infoObject};
     }
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
-    });
+    // Runs on `com.sdl.rpcProcessingQueue`
+    [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
 }
 
 - (void)postRPCResponseNotification:(NSString *)name response:(__kindof SDLRPCResponse *)response {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:name object:self rpcResponse:response];
-        [[NSNotificationCenter defaultCenter] postNotification:notification];
-    });
+    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:name object:self rpcResponse:response];
+
+    // Runs on `com.sdl.rpcProcessingQueue`
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 - (void)postRPCNotificationNotification:(NSString *)name notification:(__kindof SDLRPCNotification *)rpcNotification {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:name object:self rpcNotification:rpcNotification];
-        [[NSNotificationCenter defaultCenter] postNotification:notification];
-    });
-}
+    SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:name object:self rpcNotification:rpcNotification];
 
+    // Runs on `com.sdl.rpcProcessingQueue`
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+}
 
 #pragma mark - SDLProxyListener Delegate Methods
 
@@ -65,7 +69,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onOnDriverDistraction:(SDLOnDriverDistraction *)notification {
     [self postRPCNotificationNotification:SDLDidChangeDriverDistractionStateNotification notification:notification];
 }
-
 
 #pragma mark Optional Methods
 
@@ -92,6 +95,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onAlertResponse:(SDLAlertResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveAlertResponse response:response];
+}
+
+- (void)onButtonPressResponse:(SDLButtonPressResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveButtonPressResponse response:response];
 }
 
 - (void)onChangeRegistrationResponse:(SDLChangeRegistrationResponse *)response {
@@ -140,6 +147,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onGetDTCsResponse:(SDLGetDTCsResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveGetDTCsResponse response:response];
+}
+
+- (void)onGetInteriorVehicleDataResponse:(SDLGetInteriorVehicleDataResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveGetInteriorVehicleDataResponse response:response];
 }
 
 - (void)onGetSystemCapabilityResponse:(SDLGetSystemCapabilityResponse *)response {
@@ -204,6 +215,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onSetGlobalPropertiesResponse:(SDLSetGlobalPropertiesResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveSetGlobalPropertiesResponse response:response];
+}
+
+- (void)onSetInteriorVehicleDataResponse:(SDLSetInteriorVehicleDataResponse *)response{
+    [self postRPCResponseNotification:SDLDidReceiveSetInteriorVehicleDataResponse response:response];
 }
 
 - (void)onSetMediaClockTimerResponse:(SDLSetMediaClockTimerResponse *)response {
@@ -288,6 +303,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onOnHashChange:(SDLOnHashChange *)notification {
     [self postRPCNotificationNotification:SDLDidReceiveNewHashNotification notification:notification];
+}
+
+- (void)onOnInteriorVehicleData:(SDLOnInteriorVehicleData *)notification {
+    [self postRPCNotificationNotification:SDLDidReceiveInteriorVehicleDataNotification notification:notification];
 }
 
 - (void)onOnKeyboardInput:(SDLOnKeyboardInput *)notification {

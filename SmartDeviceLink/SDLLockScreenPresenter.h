@@ -6,7 +6,7 @@
 //  Copyright © 2016 smartdevicelink. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 #import "SDLViewControllerPresentable.h"
 
@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The view controller to be presented.
  */
-@property (strong, nonatomic) UIViewController *viewController;
+@property (strong, nonatomic) UIViewController *lockViewController;
 
 /**
  *  Whether or not `viewController` is currently presented.

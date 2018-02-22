@@ -62,3 +62,7 @@ extern SDLAppHMIType const SDLAppHMITypeTesting;
  * @abstract System App
  */
 extern SDLAppHMIType const SDLAppHMITypeSystem;
+
+/**
+ * @abstract Remote control */
+extern SDLAppHMIType const SDLAppHMITypeRemoteControl;

@@ -82,25 +82,13 @@ NS_ASSUME_NONNULL_BEGIN
     return header.sessionID;
 }
 
-- (void)sendStartSessionWithType:(SDLServiceType)serviceType {
-    [self startServiceWithType:serviceType payload:nil];
-}
-
 
 #pragma mark - Start Service
-
-- (void)startServiceWithType:(SDLServiceType)serviceType {
-    [self startServiceWithType:serviceType payload:nil];
-}
 
 - (void)startServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload {
     // No encryption, just build and send the message synchronously
     SDLProtocolMessage *message = [self sdl_createStartServiceMessageWithType:serviceType encrypted:NO payload:payload];
     [self sdl_sendDataToTransport:message.data onService:serviceType];
-}
-
-- (void)startSecureServiceWithType:(SDLServiceType)serviceType completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
-    [self startSecureServiceWithType:serviceType payload:nil completionHandler:completionHandler];
 }
 
 - (void)startSecureServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload completionHandler:(void (^)(BOOL success, NSError *error))completionHandler {
@@ -118,7 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLProtocolMessage *)sdl_createStartServiceMessageWithType:(SDLServiceType)serviceType encrypted:(BOOL)encryption payload:(nullable NSData *)payload {
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].majorProtocolVersion];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].majorProtocolVersion];
     NSData *servicePayload = payload;
 
     switch (serviceType) {
@@ -177,12 +165,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - End Service
 
-- (void)sendEndSessionWithType:(SDLServiceType)serviceType {
-    [self endServiceWithType:serviceType];
-}
-
 - (void)endServiceWithType:(SDLServiceType)serviceType {
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].majorProtocolVersion];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].majorProtocolVersion];
     header.frameType = SDLFrameTypeControl;
     header.serviceType = serviceType;
     header.frameData = SDLFrameInfoEndService;
@@ -212,7 +196,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)sendRPC:(SDLRPCMessage *)message encrypted:(BOOL)encryption error:(NSError *__autoreleasing *)error {
     NSParameterAssert(message != nil);
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:[SDLGlobals sharedGlobals].majorProtocolVersion] options:kNilOptions error:error];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[message serializeAsDictionary:(Byte)[SDLGlobals sharedGlobals].majorProtocolVersion] options:kNilOptions error:error];
     
     if (error != nil) {
         SDLLogW(@"Error encoding JSON data: %@", *error);
@@ -235,17 +219,17 @@ NS_ASSUME_NONNULL_BEGIN
             // Build a binary header
             // Serialize the RPC data into an NSData
             SDLRPCPayload *rpcPayload = [[SDLRPCPayload alloc] init];
-            rpcPayload.functionID = [[[SDLFunctionID sharedInstance] functionIdForName:[message getFunctionName]] intValue];
+            rpcPayload.functionID = [[[SDLFunctionID sharedInstance] functionIdForName:[message getFunctionName]] unsignedIntValue];
             rpcPayload.jsonData = jsonData;
             rpcPayload.binaryData = message.bulkData;
 
             // If it's a request or a response, we need to pull out the correlation ID, so we'll downcast
             if ([message isKindOfClass:SDLRPCRequest.class]) {
                 rpcPayload.rpcType = SDLRPCMessageTypeRequest;
-                rpcPayload.correlationID = [((SDLRPCRequest *)message).correlationID intValue];
+                rpcPayload.correlationID = [((SDLRPCRequest *)message).correlationID unsignedIntValue];
             } else if ([message isKindOfClass:SDLRPCResponse.class]) {
                 rpcPayload.rpcType = SDLRPCMessageTypeResponse;
-                rpcPayload.correlationID = [((SDLRPCResponse *)message).correlationID intValue];
+                rpcPayload.correlationID = [((SDLRPCResponse *)message).correlationID unsignedIntValue];
             } else if ([message isKindOfClass:[SDLRPCNotification class]]) {
                 rpcPayload.rpcType = SDLRPCMessageTypeNotification;
             } else {
@@ -266,7 +250,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Build the protocol level header & message
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].majorProtocolVersion];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].majorProtocolVersion];
     header.encrypted = encryption;
     header.frameType = SDLFrameTypeSingle;
     header.serviceType = (message.bulkData.length <= 0) ? SDLServiceTypeRPC : SDLServiceTypeBulkData;
@@ -295,11 +279,6 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
-// SDLRPCRequest in from app -> SDLProtocolMessage out to transport layer.
-- (void)sendRPCRequest:(SDLRPCRequest *)rpcRequest {
-    [self sendRPC:rpcRequest];
-}
-
 // Use for normal messages
 - (void)sdl_sendDataToTransport:(NSData *)data onService:(NSInteger)priority {
     [_prioritizedCollection addObject:data withPriority:priority];
@@ -307,7 +286,7 @@ NS_ASSUME_NONNULL_BEGIN
     // TODO: (Joel F.)[2016-02-11] Autoreleasepool?
     dispatch_async(_sendQueue, ^{
         NSData *dataToTransmit = nil;
-        while (dataToTransmit = (NSData *)[_prioritizedCollection nextObject]) {
+        while (dataToTransmit = (NSData *)[self->_prioritizedCollection nextObject]) {
             [self.transport sendData:dataToTransmit];
         };
     });
@@ -322,7 +301,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_sendRawData:(NSData *)data onService:(SDLServiceType)service encryption:(BOOL)encryption {
-    SDLV2ProtocolHeader *header = [[SDLV2ProtocolHeader alloc] initWithVersion:[SDLGlobals sharedGlobals].majorProtocolVersion];
+    SDLV2ProtocolHeader *header = [[SDLV2ProtocolHeader alloc] initWithVersion:(UInt8)[SDLGlobals sharedGlobals].majorProtocolVersion];
     header.encrypted = encryption;
     header.frameType = SDLFrameTypeSingle;
     header.serviceType = service;
@@ -431,7 +410,7 @@ NS_ASSUME_NONNULL_BEGIN
                 SDLControlFramePayloadRPCStartServiceAck *startServiceACKPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
 
                 if (startServiceACKPayload.mtu != SDLControlFrameInt64NotFound) {
-                    [[SDLGlobals sharedGlobals] setDynamicMTUSize:startServiceACKPayload.mtu forServiceType:startServiceACK.header.serviceType];
+                    [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)startServiceACKPayload.mtu forServiceType:startServiceACK.header.serviceType];
                 }
                 if (startServiceACKPayload.hashId != SDLControlFrameInt32NotFound) {
                     self.hashId = startServiceACKPayload.hashId;
@@ -461,19 +440,6 @@ NS_ASSUME_NONNULL_BEGIN
         if ([listener respondsToSelector:@selector(handleProtocolStartServiceACKMessage:)]) {
             [listener handleProtocolStartServiceACKMessage:startServiceACK];
         }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:)]) {
-            [listener handleProtocolStartSessionACK:startServiceACK.header];
-        }
-
-        if ([listener respondsToSelector:@selector(handleProtocolStartSessionACK:sessionID:version:)]) {
-            [listener handleProtocolStartSessionACK:startServiceACK.header.serviceType
-                                          sessionID:startServiceACK.header.sessionID
-                                            version:startServiceACK.header.version];
-#pragma clang diagnostic pop
-        }
     }
 }
 
@@ -484,13 +450,6 @@ NS_ASSUME_NONNULL_BEGIN
         if ([listener respondsToSelector:@selector(handleProtocolStartServiceNAKMessage:)]) {
             [listener handleProtocolStartServiceNAKMessage:startServiceNAK];
         }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        if ([listener respondsToSelector:@selector(handleProtocolStartSessionNACK:)]) {
-            [listener handleProtocolStartSessionNACK:startServiceNAK.header.serviceType];
-        }
-#pragma clang diagnostic pop
     }
 }
 
@@ -502,14 +461,7 @@ NS_ASSUME_NONNULL_BEGIN
         if ([listener respondsToSelector:@selector(handleProtocolEndServiceACKMessage:)]) {
             [listener handleProtocolEndServiceACKMessage:endServiceACK];
         }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        if ([listener respondsToSelector:@selector(handleProtocolEndSessionACK:)]) {
-            [listener handleProtocolEndSessionACK:endServiceACK.header.serviceType];
-        }
     }
-#pragma clang diagnostic pop
 }
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
@@ -519,19 +471,12 @@ NS_ASSUME_NONNULL_BEGIN
         if ([listener respondsToSelector:@selector(handleProtocolEndServiceNAKMessage:)]) {
             [listener handleProtocolEndServiceNAKMessage:endServiceNAK];
         }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        if ([listener respondsToSelector:@selector(handleProtocolEndSessionNACK:)]) {
-            [listener handleProtocolEndSessionNACK:endServiceNAK.header.serviceType];
-        }
     }
-#pragma clang diagnostic pop
 }
 
 - (void)handleHeartbeatForSession:(Byte)session {
     // Respond with a heartbeat ACK
-    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:[SDLGlobals sharedGlobals].majorProtocolVersion];
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].majorProtocolVersion];
     header.frameType = SDLFrameTypeControl;
     header.serviceType = SDLServiceTypeControl;
     header.frameData = SDLFrameInfoHeartbeatACK;

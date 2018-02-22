@@ -41,10 +41,10 @@ See the [roadmap](https://github.com/smartdevicelink/sdl_ios/wiki/Roadmap) to se
 
 You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartDeviceLink-iOS). You can get started with Cocoapods by [following their install guide](https://guides.cocoapods.org/using/getting-started.html#getting-started), and learn how to use Cocoapods to install dependencies [by following this guide](https://guides.cocoapods.org/using/using-cocoapods.html).
 
-In your podfile, you want to add `pod 'SmartDeviceLink', '~> 4.6'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 6.0+.
+In your podfile, you want to add `pod 'SmartDeviceLink', '~> 5.1'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 8.0+.
 
 ###### Swift
-If you are building a Swift app, then add this instead `pod 'SmartDeviceLink-iOS/Swift', '~> 4.5'`. Then run `pod install` in your terminal.
+If you are building a Swift app, then add this instead `pod 'SmartDeviceLink/Swift', '~> 5.0'`. Then run `pod install` in your terminal.
 
 ##### Carthage
 
@@ -55,7 +55,17 @@ If you are building a Swift app, then include both packaged frameworks for expan
 
 ##### Dynamic Framework
 
-Tagged to our releases is a dynamic framework file that can be drag-and-dropped into the application. Dynamic frameworks are supported on iOS 8+. **WARNING: You cannot submit your app to the app store with the framework as is. You MUST strip the simulator part of the framework first. Use a script such as Carthage's to accomplish this**.
+Tagged to our releases is a dynamic framework file that can be drag-and-dropped into the application. Dynamic frameworks are supported on iOS 8+. **WARNING: You cannot submit your app to the app store with the framework as is. You MUST strip the simulator part of the framework first. Strip the x64 and i386 portions first like so:**
+
+```
+lipo -remove i386 -remove x86_64 -o SmartDeviceLink.framework/SmartDeviceLink SmartDeviceLink.framework/SmartDeviceLink`
+```
+
+You can check the current architectures like so:
+
+```
+lipo -info SmartDeviceLink.framework/SmartDeviceLink
+```
 
 ### Reference Documentation
 

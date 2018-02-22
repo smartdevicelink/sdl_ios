@@ -25,6 +25,7 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
 
 @interface SDLFileManager ()
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
+@property (strong, nonatomic) NSMutableSet<SDLFileName *> *uploadedEphemeralFileNames;
 @end
 
 QuickSpecBegin(SDLFileManagerSpec)
@@ -82,7 +83,7 @@ describe(@"SDLFileManager", ^{
             expect(testFileManager.currentState).to(match(SDLFileManagerStateFetchingInitialList));
         });
 
-        describe(@"after receiving a ListFiles response", ^{
+        describe(@"after going to the shutdown state and receiving a ListFiles response", ^{
             __block SDLListFilesResponse *testListFilesResponse = nil;
             __block NSSet<NSString *> *testInitialFileNames = nil;
 
@@ -94,10 +95,33 @@ describe(@"SDLFileManager", ^{
                 testListFilesResponse.spaceAvailable = @(initialSpaceAvailable);
                 testListFilesResponse.filenames = [NSArray arrayWithArray:[testInitialFileNames allObjects]];
 
+                [testFileManager stop];
+                [testConnectionManager respondToLastRequestWithResponse:testListFilesResponse];
+            });
+
+            it(@"should remain in the stopped state after receiving the response if disconnected", ^{
+
+                expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateShutdown));
+            });
+        });
+
+        describe(@"after receiving a ListFiles response", ^{
+            __block SDLListFilesResponse *testListFilesResponse = nil;
+            __block NSSet<NSString *> *testInitialFileNames = nil;
+
+            beforeEach(^{
+                testInitialFileNames = [NSSet setWithArray:@[@"testFile1", @"testFile2", @"testFile3"]];
+
+                testListFilesResponse = [[SDLListFilesResponse alloc] init];
+                testListFilesResponse.success = @YES;
+                testListFilesResponse.spaceAvailable = @(initialSpaceAvailable);
+                testListFilesResponse.filenames = [NSArray arrayWithArray:[testInitialFileNames allObjects]];
                 [testConnectionManager respondToLastRequestWithResponse:testListFilesResponse];
             });
 
             it(@"the file manager should be in the correct state", ^{
+                [testConnectionManager respondToLastRequestWithResponse:testListFilesResponse];
+
                 expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
                 expect(testFileManager.remoteFileNames).toEventually(equal(testInitialFileNames));
                 expect(@(testFileManager.bytesAvailable)).toEventually(equal(@(initialSpaceAvailable)));
@@ -202,6 +226,7 @@ describe(@"SDLFileManager", ^{
 
                         it(@"should set the file manager state to be waiting", ^{
                             expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
+                            expect(testFileManager.uploadedEphemeralFileNames).to(beEmpty());
                         });
 
                         it(@"should create a putfile with the correct data", ^{
@@ -230,6 +255,7 @@ describe(@"SDLFileManager", ^{
                                 expect(@(testFileManager.bytesAvailable)).toEventually(equal(testResponseBytesAvailable));
                                 expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
                                 expect(testFileManager.remoteFileNames).toEventually(contain(testFileName));
+                                expect(testFileManager.uploadedEphemeralFileNames).toEventually(contain(testFileName));
                             });
 
                             it(@"should call the completion handler with the correct data", ^{
@@ -259,6 +285,7 @@ describe(@"SDLFileManager", ^{
                                 expect(@(testFileManager.bytesAvailable)).toEventually(equal(@(initialSpaceAvailable)));
                                 expect(testFileManager.remoteFileNames).toEventually(contain(testFileName));
                                 expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
+                                expect(testFileManager.uploadedEphemeralFileNames).to(beEmpty());
                             });
 
                             it(@"should call the completion handler with the correct data", ^{
@@ -284,7 +311,7 @@ describe(@"SDLFileManager", ^{
                         });
                     });
 
-                    context(@"when allow overwrite is false", ^{
+                    context(@"when allow overwrite is NO", ^{
                         __block SDLRPCRequest *lastRequest = nil;
 
                         beforeEach(^{
@@ -350,6 +377,7 @@ describe(@"SDLFileManager", ^{
                         it(@"should set the file manager state correctly", ^{
                             expect(@(testFileManager.bytesAvailable)).toEventually(equal(testResponseBytesAvailable));
                             expect(testFileManager.remoteFileNames).toEventually(contain(testFileName));
+                            expect(testFileManager.uploadedEphemeralFileNames).toEventually(contain(testUploadFile.name));
                             expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
                         });
 
@@ -381,6 +409,7 @@ describe(@"SDLFileManager", ^{
                         it(@"should set the file manager state correctly", ^{
                             expect(@(testFileManager.bytesAvailable)).toEventually(equal(@(initialSpaceAvailable)));
                             expect(testFileManager.remoteFileNames).toEventuallyNot(contain(testFileName));
+                            expect(testFileManager.uploadedEphemeralFileNames).toEventuallyNot(contain(testUploadFile.name));
                             expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
                         });
 

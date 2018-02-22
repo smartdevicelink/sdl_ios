@@ -8,6 +8,10 @@
 
 #import "SDLStreamingMediaManager.h"
 
+#import "SDLAudioStreamManager.h"
+#import "SDLConnectionManagerType.h"
+#import "SDLStreamingMediaConfiguration.h"
+#import "SDLStreamingMediaManagerDataSource.h"
 #import "SDLStreamingMediaLifecycleManager.h"
 #import "SDLTouchManager.h"
 
@@ -26,23 +30,19 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Public
 #pragma mark Lifecycle
 
-- (instancetype)init {
-    return [self initWithEncryption:SDLStreamingEncryptionFlagAuthenticateAndEncrypt videoEncoderSettings:nil];
-}
-
-- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration {
     self = [super init];
     if (!self) {
         return nil;
     }
     
-    _lifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithEncryption:encryption videoEncoderSettings:videoEncoderSettings];
+    _lifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
 
     return self;
 }
 
-- (void)startWithProtocol:(SDLAbstractProtocol *)protocol completionHandler:(void (^)(BOOL, NSError * _Nullable))completionHandler {
-    [self.lifecycleManager startWithProtocol:protocol completionHandler:completionHandler];
+- (void)startWithProtocol:(SDLAbstractProtocol *)protocol {
+    [self.lifecycleManager startWithProtocol:protocol];
 }
 
 - (void)stop {
@@ -68,12 +68,20 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.touchManager;
 }
 
-- (BOOL)isAudioStreamingSupported {
-    return self.lifecycleManager.isAudioStreamingSupported;
+- (SDLAudioStreamManager *)audioManager {
+    return self.lifecycleManager.audioManager;
 }
 
-- (BOOL)isVideoStreamingSupported {
-    return self.lifecycleManager.isVideoStreamingSupported;
+- (UIViewController *)rootViewController {
+    return self.lifecycleManager.rootViewController;
+}
+
+- (nullable id<SDLFocusableItemLocatorType>)focusableItemManager {
+    return self.lifecycleManager.focusableItemManager;
+}
+
+- (BOOL)isStreamingSupported {
+    return self.lifecycleManager.isStreamingSupported;
 }
 
 - (BOOL)isAudioConnected {
@@ -100,6 +108,14 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.screenSize;
 }
 
+- (nullable SDLVideoStreamingFormat *)videoFormat {
+    return self.lifecycleManager.videoFormat;
+}
+
+- (NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
+    return self.lifecycleManager.supportedFormats;
+}
+
 - (CVPixelBufferPoolRef __nullable)pixelBufferPool {
     return self.lifecycleManager.pixelBufferPool;
 }
@@ -109,6 +125,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Setters
+- (void)setRootViewController:(UIViewController *)rootViewController {
+    self.lifecycleManager.rootViewController = rootViewController;
+}
+
 - (void)setRequestedEncryptionType:(SDLStreamingEncryptionFlag)requestedEncryptionType {
     self.lifecycleManager.requestedEncryptionType = requestedEncryptionType;
 }

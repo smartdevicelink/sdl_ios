@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-#import "SDLTouchManagerDelegate.h"
-
 #import "SDLTouchType.h"
+
+@protocol SDLFocusableItemHitTester;
+@protocol SDLTouchManagerDelegate;
 
 @class SDLTouch;
 
@@ -21,6 +22,9 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
 
 @interface SDLTouchManager : NSObject
 
+/**
+ Notified of processed touches such as pinches, pans, and taps
+ */
 @property (nonatomic, weak, nullable) id<SDLTouchManagerDelegate> touchEventDelegate;
 
 /**
@@ -30,11 +34,9 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
 @property (copy, nonatomic, nullable) SDLTouchEventHandler touchEventHandler;
 
 /**
- *  @abstract
- *      Distance between two taps on the screen, in the head unit's coordinate system, used
- *      for registering double-tap callbacks.
- *  @remark
- *      Default is 50 pixels.
+ Distance between two taps on the screen, in the head unit's coordinate system, used for registering double-tap callbacks.
+
+ @note Defaults to 50 px.
  */
 @property (nonatomic, assign) CGFloat tapDistanceThreshold;
 
@@ -53,7 +55,12 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
  *  @remark
  *      Default is 0.05 seconds.
  */
-@property (nonatomic, assign) CGFloat movementTimeThreshold;
+@property (nonatomic, assign) CGFloat movementTimeThreshold __deprecated_msg("This is now unused, the movement time threshold is now synced to the framerate automatically");
+
+/**
+ If set to NO, the display link syncing will be ignored and `movementTimeThreshold` will be used. Defaults to YES.
+ */
+@property (assign, nonatomic) BOOL enableSyncedPanning;
 
 /**
  *  @abstract
@@ -71,6 +78,21 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
  *      Currently only impacts the timer used to register single taps.
  */
 - (void)cancelPendingTouches;
+
+- (instancetype)init NS_UNAVAILABLE;
+
+/**
+ Initialize a touch manager with a hit tester if available
+
+ @param hitTester The hit tester to be used to correlate a point with a view
+ @return The initialized touch manager
+ */
+- (instancetype)initWithHitTester:(nullable id<SDLFocusableItemHitTester>)hitTester;
+
+/**
+ Called by SDLStreamingMediaManager in sync with the streaming framerate. This helps to moderate panning gestures by allowing the UI to be modified in time with the framerate.
+ */
+- (void)syncFrame;
 
 @end
 

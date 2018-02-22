@@ -49,10 +49,6 @@ NS_ASSUME_NONNULL_BEGIN
     return dataOut;
 }
 
-+ (UInt8)determineVersion:(NSData *)data {
-    return [SDLProtocolHeader determineVersion:data];
-}
-
 - (NSString *)description {
     // Print the header data.
     NSMutableString *description = [[NSMutableString alloc] init];

@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of this class, or nil if a readable file at the path could not be found.
  */
-+ (instancetype)persistentFileAtFileURL:(NSURL *)url name:(NSString *)name;
++ (instancetype)persistentFileAtFileURL:(NSURL *)url name:(NSString *)name NS_SWIFT_UNAVAILABLE("Use the standard initializer and set persistant to true");
 
 /**
  *  Create an SDL file using a local file URL.
@@ -123,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of this class
  */
-+ (instancetype)persistentFileWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension;
++ (instancetype)persistentFileWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension NS_SWIFT_UNAVAILABLE("Use the standard initializer and set persistant to true");
 
 /**
  *  Create an SDL file using raw data. It is strongly preferred to pass a file URL instead of data, as it is currently held in memory until the file is sent.

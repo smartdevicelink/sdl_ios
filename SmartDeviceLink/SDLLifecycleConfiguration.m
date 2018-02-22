@@ -9,7 +9,6 @@
 #import "SDLLifecycleConfiguration.h"
 
 #import "SDLFile.h"
-#import "SDLVideoEncoder.h"
 
 static NSString *const DefaultTCPIPAddress = @"192.168.0.1";
 static UInt16 const DefaultTCPIPPort = 12345;
@@ -70,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Computed Properties
 
 - (BOOL)isMedia {
-    if ([self.appType isEqualToEnum:SDLAppHMITypeMedia]) {
+    if ([self.appType isEqualToEnum:SDLAppHMITypeMedia] || [self.additionalAppTypes containsObject:SDLAppHMITypeMedia]) {
         return YES;
     }
 
@@ -103,6 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
     newConfig->_tcpDebugIPAddress = _tcpDebugIPAddress;
     newConfig->_tcpDebugPort = _tcpDebugPort;
     newConfig->_appType = _appType;
+    newConfig->_additionalAppTypes = _additionalAppTypes;
     newConfig->_language = _language;
     newConfig->_languagesSupported = _languagesSupported;
     newConfig->_appIcon = _appIcon;

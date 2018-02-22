@@ -24,7 +24,7 @@
 
 @implementation SDLControlFramePayloadVideoStartServiceAck
 
-- (instancetype)initWithMTU:(int64_t)mtu height:(int32_t)height width:(int32_t)width protocol:(SDLVideoStreamingProtocol)protocol codec:(SDLVideoStreamingCodec)codec {
+- (instancetype)initWithMTU:(int64_t)mtu height:(int32_t)height width:(int32_t)width protocol:(nullable SDLVideoStreamingProtocol)protocol codec:(nullable SDLVideoStreamingCodec)codec {
     self = [super init];
     if (!self) return nil;
 

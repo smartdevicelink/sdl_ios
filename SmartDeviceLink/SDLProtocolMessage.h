@@ -19,8 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)description;
 - (nullable NSDictionary<NSString *, id> *)rpcDictionary; // Use for RPC type messages to obtain the data in a dictionary
 
-+ (UInt8)determineVersion:(NSData *)data __deprecated_msg(("Use SDLProtocolHeader determineVersion: instead"));
-
 @end
 
 NS_ASSUME_NONNULL_END

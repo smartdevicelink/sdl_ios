@@ -1,18 +1,18 @@
 Pod::Spec.new do |s|
 
 s.name         = "SmartDeviceLink"
-s.version      = "4.6.1"
+s.version      = "5.1.0"
 s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
 s.license      = { :type => "New BSD", :file => "LICENSE" }
 s.author       = { "SmartDeviceLink Team" => "developer@smartdevicelink.com" }
 s.platform     = :ios, "8.0"
-s.dependency     'BiSON', '~> 1.0'
+s.dependency     'BiSON', '~> 1.1.1'
 s.source       = { :git => "https://github.com/smartdevicelink/sdl_ios.git", :tag => s.version.to_s }
 s.requires_arc = true
 s.resource_bundles = { 'SmartDeviceLink' => ['SmartDeviceLink/Assets/**/*'] }
 
-s.default_subspecs = 'Default'
+s.default_subspec = 'Default'
 
 s.subspec 'Default' do |ss|
 ss.source_files = 'SmartDeviceLink/*.{h,m}'
@@ -30,6 +30,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLAlertManeuver.h',
 'SmartDeviceLink/SDLAlertManeuverResponse.h',
 'SmartDeviceLink/SDLAlertResponse.h',
+'SmartDeviceLink/SDLButtonPressResponse.h',
 'SmartDeviceLink/SDLAmbientLightStatus.h',
 'SmartDeviceLink/SDLAppHMIType.h',
 'SmartDeviceLink/SDLAppInfo.h',
@@ -37,6 +38,9 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLArtwork.h',
 'SmartDeviceLink/SDLAudioPassThruCapabilities.h',
 'SmartDeviceLink/SDLAudioStreamingState.h',
+'SmartDeviceLink/SDLAudioStreamManager.h',
+'SmartDeviceLink/SDLAudioStreamManagerDelegate.h',
+'SmartDeviceLink/SDLStreamingAudioManagerType.h',
 'SmartDeviceLink/SDLAudioType.h',
 'SmartDeviceLink/SDLBeltStatus.h',
 'SmartDeviceLink/SDLBitsPerSample.h',
@@ -44,12 +48,16 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLButtonCapabilities.h',
 'SmartDeviceLink/SDLButtonEventMode.h',
 'SmartDeviceLink/SDLButtonName.h',
+'SmartDeviceLink/SDLButtonPress.h',
 'SmartDeviceLink/SDLButtonPressMode.h',
 'SmartDeviceLink/SDLCarModeStatus.h',
+'SmartDeviceLink/SDLCarWindowViewController.h',
 'SmartDeviceLink/SDLChangeRegistration.h',
 'SmartDeviceLink/SDLChangeRegistrationResponse.h',
 'SmartDeviceLink/SDLCharacterSet.h',
 'SmartDeviceLink/SDLChoice.h',
+'SmartDeviceLink/SDLClimateControlCapabilities.h',
+'SmartDeviceLink/SDLClimateControlData.h',
 'SmartDeviceLink/SDLClusterModeStatus.h',
 'SmartDeviceLink/SDLCompassDirection.h',
 'SmartDeviceLink/SDLComponentVolumeStatus.h',
@@ -57,6 +65,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLCreateInteractionChoiceSet.h',
 'SmartDeviceLink/SDLCreateInteractionChoiceSetResponse.h',
 'SmartDeviceLink/SDLDateTime.h',
+'SmartDeviceLink/SDLDefrostZone.h',
 'SmartDeviceLink/SDLDeleteCommand.h',
 'SmartDeviceLink/SDLDeleteCommandResponse.h',
 'SmartDeviceLink/SDLDeleteFile.h',
@@ -95,7 +104,9 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLFuelCutoffStatus.h',
 'SmartDeviceLink/SDLGenericResponse.h',
 'SmartDeviceLink/SDLGetDTCs.h',
+'SmartDeviceLink/SDLGetInteriorVehicleData.h',
 'SmartDeviceLink/SDLGetDTCsResponse.h',
+'SmartDeviceLink/SDLGetInteriorVehicleDataResponse.h',
 'SmartDeviceLink/SDLGetSystemCapability.h',
 'SmartDeviceLink/SDLGetSystemCapabilityResponse.h',
 'SmartDeviceLink/SDLGetVehicleData.h',
@@ -152,6 +163,8 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLMenuParams.h',
 'SmartDeviceLink/SDLMetadataTags.h',
 'SmartDeviceLink/SDLMetadataType.h',
+'SmartDeviceLink/SDLModuleData.h',
+'SmartDeviceLink/SDLModuleType.h',
 'SmartDeviceLink/SDLMyKey.h',
 'SmartDeviceLink/SDLNavigationCapability.h',
 'SmartDeviceLink/SDLNotificationConstants.h',
@@ -164,6 +177,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLOnDriverDistraction.h',
 'SmartDeviceLink/SDLOnEncodedSyncPData.h',
 'SmartDeviceLink/SDLOnHashChange.h',
+'SmartDeviceLink/SDLOnInteriorVehicleData.h',
 'SmartDeviceLink/SDLOnHMIStatus.h',
 'SmartDeviceLink/SDLOnKeyboardInput.h',
 'SmartDeviceLink/SDLOnLanguageChange.h',
@@ -202,15 +216,22 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLProxyListener.h',
 'SmartDeviceLink/SDLPutFile.h',
 'SmartDeviceLink/SDLPutFileResponse.h',
+'SmartDeviceLink/SDLRadioBand.h',
+'SmartDeviceLink/SDLRadioControlCapabilities.h',
+'SmartDeviceLink/SDLRadioControlData.h',
+'SmartDeviceLink/SDLRadioState.h',
 'SmartDeviceLink/SDLReadDID.h',
 'SmartDeviceLink/SDLRectangle.h',
 'SmartDeviceLink/SDLReadDIDResponse.h',
+'SmartDeviceLink/SDLRectangle.h',
 'SmartDeviceLink/SDLRegisterAppInterface.h',
 'SmartDeviceLink/SDLRegisterAppInterfaceResponse.h',
+'SmartDeviceLink/SDLRemoteControlCapabilities.h',
 'SmartDeviceLink/SDLRequestType.h',
 'SmartDeviceLink/SDLResetGlobalProperties.h',
 'SmartDeviceLink/SDLResetGlobalPropertiesResponse.h',
 'SmartDeviceLink/SDLResult.h',
+'SmartDeviceLink/SDLRDSData.h',
 'SmartDeviceLink/SDLRPCMessage.h',
 'SmartDeviceLink/SDLRPCMessageType.h',
 'SmartDeviceLink/SDLRPCNotification.h',
@@ -233,7 +254,9 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLSetDisplayLayout.h',
 'SmartDeviceLink/SDLSetDisplayLayoutResponse.h',
 'SmartDeviceLink/SDLSetGlobalProperties.h',
+'SmartDeviceLink/SDLSetInteriorVehicleData.h',
 'SmartDeviceLink/SDLSetGlobalPropertiesResponse.h',
+'SmartDeviceLink/SDLSetInteriorVehicleDataResponse.h',
 'SmartDeviceLink/SDLSetMediaClockTimer.h',
 'SmartDeviceLink/SDLSetMediaClockTimerResponse.h',
 'SmartDeviceLink/SDLShow.h',
@@ -267,6 +290,8 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLSystemCapabilityType.h',
 'SmartDeviceLink/SDLSystemContext.h',
 'SmartDeviceLink/SDLTBTState.h',
+'SmartDeviceLink/SDLTemperature.h',
+'SmartDeviceLink/SDLTemperatureUnit.h',
 'SmartDeviceLink/SDLTCPTransport.h',
 'SmartDeviceLink/SDLTextAlignment.h',
 'SmartDeviceLink/SDLTextField.h',
@@ -302,6 +327,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLVehicleDataResultCode.h',
 'SmartDeviceLink/SDLVehicleDataStatus.h',
 'SmartDeviceLink/SDLVehicleDataType.h',
+'SmartDeviceLink/SDLVentilationMode.h',
 'SmartDeviceLink/SDLVehicleType.h',
 'SmartDeviceLink/SDLVideoStreamingCapability.h',
 'SmartDeviceLink/SDLVideoStreamingCodec.h',
@@ -317,7 +343,7 @@ ss.public_header_files = [
 end
 
 s.subspec 'Swift' do |ss|
-ss.dependency 'SmartDeviceLink-iOS/Default'
+ss.dependency 'SmartDeviceLink/Default'
 ss.source_files = 'SmartDeviceLinkSwift/*.swift'
 end
 

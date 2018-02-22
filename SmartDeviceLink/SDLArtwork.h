@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of this class to be passed to the file manager.
  */
-+ (instancetype)artworkWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat;
++ (instancetype)artworkWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat NS_SWIFT_UNAVAILABLE("Use the standard initializer and set persistant to false");
 
 /**
  *  Convenience Helper to create a persistent artwork from an image.
@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of this class to be passed to the file manager.
  */
-+ (instancetype)persistentArtworkWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat;
++ (instancetype)persistentArtworkWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat NS_SWIFT_UNAVAILABLE("Use the standard initializer and set persistant to true");
 
 /**
  *  Create a file for transmission to the remote system from a UIImage.

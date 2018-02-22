@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return The lifecycle configuration
  */
-+ (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId;
++ (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId NS_SWIFT_NAME(init(appName:appId:));
 
 /**
  *  A debug configuration that runs using TCP. Additional functionality should be customized on the properties.
@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return The lifecycle configuration
  */
-+ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port;
++ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port NS_SWIFT_NAME(init(appName:appId:ipAddress:port:));
 
 /**
  *  Whether or not debug mode is enabled
@@ -85,6 +85,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  The application type
  */
 @property (strong, nonatomic, null_resettable) SDLAppHMIType appType;
+
+/**
+ Additional application types beyond `appType`
+ */
+@property (copy, nonatomic, nullable) NSArray<SDLAppHMIType> *additionalAppTypes;
 
 /**
  *  The default language to use

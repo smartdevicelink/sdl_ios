@@ -9,33 +9,47 @@
 #import <Foundation/Foundation.h>
 #import <VideoToolbox/VideoToolbox.h>
 
+#import "SDLStreamingAudioManagerType.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
 @class SDLAbstractProtocol;
+@class SDLAudioStreamManager;
+@class SDLStreamingMediaConfiguration;
 @class SDLTouchManager;
+@class SDLVideoStreamingFormat;
+
+@protocol SDLFocusableItemLocatorType;
+@protocol SDLConnectionManagerType;
 
 NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Interface
 
-@interface SDLStreamingMediaManager : NSObject
+@interface SDLStreamingMediaManager : NSObject <SDLStreamingAudioManagerType>
 
 /**
  *  Touch Manager responsible for providing touch event notifications.
  */
 @property (nonatomic, strong, readonly) SDLTouchManager *touchManager;
 
+@property (nonatomic, strong, readonly) SDLAudioStreamManager *audioManager;
+
+/**
+ This property is used for SDLCarWindow, the ability to stream any view controller. To start, you must set an initial view controller on `SDLStreamingMediaConfiguration` `rootViewController`. After streaming begins, you can replace that view controller with a new root by placing the new view controller into this property.
+ */
+@property (nonatomic, strong) UIViewController *rootViewController;
+
+/**
+ A haptic interface that can be updated to reparse views within the window you've provided. Send a `SDLDidUpdateProjectionView` notification or call the `updateInterfaceLayout` method to reparse. The "output" of this haptic interface occurs in the `touchManager` property where it will call the delegate.
+ */
+@property (nonatomic, strong, readonly, nullable) id<SDLFocusableItemLocatorType> focusableItemManager;
+
 /**
  *  Whether or not video streaming is supported
  *
  *  @see SDLRegisterAppInterface SDLDisplayCapabilities
  */
-@property (assign, nonatomic, readonly, getter=isVideoStreamingSupported) BOOL videoStreamingSupported;
-
-/**
- *  Whether or not audio streaming is supported. Currently this is the same as videoStreamingSupported.
- */
-@property (assign, nonatomic, readonly, getter=isAudioStreamingSupported) BOOL audioStreamingSupported;
+@property (assign, nonatomic, readonly, getter=isStreamingSupported) BOOL streamingSupported;
 
 /**
  *  Whether or not the video session is connected.
@@ -68,6 +82,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly) CGSize screenSize;
 
 /**
+ This is the agreed upon format of video encoder that is in use, or nil if not currently connected.
+ */
+@property (strong, nonatomic, readonly, nullable) SDLVideoStreamingFormat *videoFormat;
+
+/**
+ A list of all supported video formats by this manager
+ */
+@property (strong, nonatomic, readonly) NSArray<SDLVideoStreamingFormat *> *supportedFormats;
+
+/**
  *  The pixel buffer pool reference returned back from an active VTCompressionSessionRef encoder.
  *
  *  @warning This will only return a valid pixel buffer pool after the encoder has been initialized (when the video     session has started).
@@ -82,22 +106,21 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic) SDLStreamingEncryptionFlag requestedEncryptionType;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 /**
- *  Creates a streaming manager with a specified encryption type.
- *
- *  @param encryption               The encryption type requested when starting to stream.
- *  @param videoEncoderSettings     The video encoder settings to use with SDLVideoEncoder.
- *
- *  @return An instance of SDLStreamingMediaManager
+ Create a new streaming media manager for navigation and VPM apps with a specified configuration
+
+ @param connectionManager The pass-through for RPCs
+ @param configuration The configuration of this streaming media session
+ @return A new streaming manager
  */
-- (instancetype)initWithEncryption:(SDLStreamingEncryptionFlag)encryption videoEncoderSettings:(nullable NSDictionary<NSString *, id> *)videoEncoderSettings NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
- *
- *  @param completionHandler The block to be called when the manager's setup is complete.
  */
-- (void)startWithProtocol:(SDLAbstractProtocol*)protocol completionHandler:(void (^)(BOOL success, NSError *__nullable error))completionHandler;
+- (void)startWithProtocol:(SDLAbstractProtocol *)protocol;
 
 /**
  *  Stop the manager. This method is used internally.

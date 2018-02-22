@@ -3,11 +3,10 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--handleProtocolStartSessionACK:sessionID:version:">-handleProtocolStartSessionACK:sessionID:version:</a></li>
-  <li><a href="#section--handleProtocolStartSessionACK:">-handleProtocolStartSessionACK:</a></li>
-  <li><a href="#section--handleProtocolStartSessionNACK:">-handleProtocolStartSessionNACK:</a></li>
-  <li><a href="#section--handleProtocolEndSessionACK:">-handleProtocolEndSessionACK:</a></li>
-  <li><a href="#section--handleProtocolEndSessionNACK:">-handleProtocolEndSessionNACK:</a></li>
+  <li><a href="#section--handleProtocolStartServiceACKMessage:">-handleProtocolStartServiceACKMessage:</a></li>
+  <li><a href="#section--handleProtocolStartServiceNAKMessage:">-handleProtocolStartServiceNAKMessage:</a></li>
+  <li><a href="#section--handleProtocolEndServiceACKMessage:">-handleProtocolEndServiceACKMessage:</a></li>
+  <li><a href="#section--handleProtocolEndServiceNAKMessage:">-handleProtocolEndServiceNAKMessage:</a></li>
   <li><a href="#section--handleHeartbeatForSession:">-handleHeartbeatForSession:</a></li>
   <li><a href="#section--handleHeartbeatACK">-handleHeartbeatACK</a></li>
   <li><a href="#section--onProtocolMessageReceived:">-onProtocolMessageReceived:</a></li>
@@ -22,58 +21,75 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section--handleProtocolStartSessionACK:sessionID:version:">
-      -handleProtocolStartSessionACK:sessionID:version:
+  <h3 id="section--handleProtocolStartServiceACKMessage:">
+      -handleProtocolStartServiceACKMessage:
   </h3>
   
   <p>Undocumented</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleProtocolStartServiceACKMessage</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">startServiceACK</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">handleProtocolStartServiceACKMessage</span><span class="p">(</span><span class="n">_</span> <span class="nv">startServiceACK</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span><span class="p">)</span></code></pre>
+
   
   
   
-  <h3 id="section--handleProtocolStartSessionACK:">
-      -handleProtocolStartSessionACK:
+  <h3 id="section--handleProtocolStartServiceNAKMessage:">
+      -handleProtocolStartServiceNAKMessage:
   </h3>
   
   <p>Undocumented</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleProtocolStartServiceNAKMessage</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">startServiceNAK</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">handleProtocolStartServiceNAKMessage</span><span class="p">(</span><span class="n">_</span> <span class="nv">startServiceNAK</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span><span class="p">)</span></code></pre>
+
   
   
   
-  <h3 id="section--handleProtocolStartSessionNACK:">
-      -handleProtocolStartSessionNACK:
+  <h3 id="section--handleProtocolEndServiceACKMessage:">
+      -handleProtocolEndServiceACKMessage:
   </h3>
   
   <p>Undocumented</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleProtocolEndServiceACKMessage</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">endServiceACK</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">handleProtocolEndServiceACKMessage</span><span class="p">(</span><span class="n">_</span> <span class="nv">endServiceACK</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span><span class="p">)</span></code></pre>
+
   
   
   
-  <h3 id="section--handleProtocolEndSessionACK:">
-      -handleProtocolEndSessionACK:
+  <h3 id="section--handleProtocolEndServiceNAKMessage:">
+      -handleProtocolEndServiceNAKMessage:
   </h3>
   
   <p>Undocumented</p>
 
   
   
-  
-  
-  
-  <h3 id="section--handleProtocolEndSessionNACK:">
-      -handleProtocolEndSessionNACK:
-  </h3>
-  
-  <p>Undocumented</p>
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleProtocolEndServiceNAKMessage</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">endServiceNAK</span><span class="p">;</span></code></pre>
 
   
-  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">handleProtocolEndServiceNAKMessage</span><span class="p">(</span><span class="n">_</span> <span class="nv">endServiceNAK</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span><span class="p">)</span></code></pre>
+
   
   
   
@@ -85,6 +101,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleHeartbeatForSession</span><span class="p">:(</span><span class="n">Byte</span><span class="p">)</span><span class="nv">session</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">handleHeartbeat</span><span class="p">(</span><span class="n">forSession</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">)</span></code></pre>
+
   
   
   
@@ -96,6 +119,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">handleHeartbeatACK</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">handleHeartbeatACK</span><span class="p">()</span></code></pre>
+
   
   
   
@@ -107,6 +137,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onProtocolMessageReceived</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">msg</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">onProtocolMessageReceived</span><span class="p">(</span><span class="n">_</span> <span class="nv">msg</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLProtocolMessage.html">SDLProtocolMessage</a></span><span class="p">)</span></code></pre>
+
   
   
   
@@ -118,6 +155,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">onProtocolOpened</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">onProtocolOpened</span><span class="p">()</span></code></pre>
+
   
   
   
@@ -129,6 +173,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">onProtocolClosed</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">onProtocolClosed</span><span class="p">()</span></code></pre>
+
   
   
   
@@ -140,6 +191,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onError</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">info</span> <span class="nf">exception</span><span class="p">:(</span><span class="n">NSException</span> <span class="o">*</span><span class="p">)</span><span class="nv">e</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">onError</span><span class="p">(</span><span class="n">_</span> <span class="nv">info</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">exception</span> <span class="nv">e</span><span class="p">:</span> <span class="kt">NSException</span><span class="p">)</span></code></pre>
+
   
   
   
