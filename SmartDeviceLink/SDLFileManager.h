@@ -99,16 +99,16 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 /**
  *  Upload a file to the remote file system. If a file with the [SDLFile name] already exists, this will overwrite that file. If you do not want that to happen, check remoteFileNames before uploading, or change allowOverwrite to NO.
  *
- *  @param file       An SDLFile that contains metadata about the file to be sent
+ *  @param file       A SDLFile that contains metadata about the file to be sent
  *  @param completion An optional completion handler that sends an error should one occur.
  */
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)completion NS_SWIFT_NAME(upload(file:completionHandler:));
 
 /**
- *  TODO
+ *  Uploads an artwork file to the remote file system and returns the name of the uploaded artwork once completed. If an artwork with the same name is already on the remote system, the artwork is not uploaded and the artwork name is simply returned.
  *
- *  @param artwork TODO
- *  @param completion TODO
+ *  @param artwork      A SDLArwork containing an image to be sent
+ *  @param completion   An optional completion handler that returns the name of the uploaded artwork. It also returns an error if the upload fails.
  */
 - (void)uploadArtwork:(SDLArtwork *)artwork completionHandler:(nullable SDLFileManagerUploadArtworkCompletionHandler)completion NS_SWIFT_NAME(upload(artwork:completionHandler:));
 
