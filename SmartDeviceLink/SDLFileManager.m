@@ -261,7 +261,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 }
 
 - (void)uploadArtwork:(SDLArtwork *)artwork completionHandler:(nullable SDLFileManagerUploadArtworkCompletionHandler)completion {
-    if ([self.remoteFileNames containsObject:artwork.name]) {
+    if ([self.remoteFileNames containsObject:artwork.name] && !artwork.overwrite) {
         // Artwork with same name already uploaded to remote; return artwork name
         if (completion == nil) { return; }
         return completion(true, artwork.name, self.bytesAvailable, nil);

@@ -441,10 +441,12 @@ describe(@"SDLFileManager", ^{
                 __block SDLArtwork *testArtwork = nil;
 
                 __block NSString *expectedArtworkName = nil;
+                __block Boolean expectedOverwrite = false;
                 __block NSUInteger expectedRemoteFilesCount = 0;
                 __block NSUInteger expectedBytesAvailable = 0;
 
                 __block Boolean expectedToUploadArtwork = true;
+                __block NSUInteger expectedRPCsSentCount = 1;
 
                 beforeEach(^{
                     UIGraphicsBeginImageContextWithOptions(CGSizeMake(5, 5), YES, 0);
@@ -460,28 +462,40 @@ describe(@"SDLFileManager", ^{
 
                     expectedBytesAvailable = initialSpaceAvailable;
                     expect(testFileManager.bytesAvailable).to(equal(expectedBytesAvailable));
+
+                    expectedRPCsSentCount = 1; // ListFiles RPC
+                    expect(testConnectionManager.receivedRequests.count).to(equal(expectedRPCsSentCount));
                 });
 
-                context(@"when sending artwork that has already been uploaded", ^{
-                    it(@"should not upload the artwork again and simply return the artwork name", ^{
-                        expectedArtworkName = [testListFilesResponse.filenames firstObject];
-                        expectedRemoteFilesCount = testInitialFileNames.count;
-                        expectedBytesAvailable = initialSpaceAvailable;
-                        expectedToUploadArtwork = false;
-                    });
+                it(@"should not upload the artwork again and simply return the artwork name when sending artwork that has already been uploaded", ^{
+                    expectedArtworkName = [testListFilesResponse.filenames firstObject];
+                    expectedOverwrite = false;
+                    expectedRemoteFilesCount = testInitialFileNames.count;
+                    expectedBytesAvailable = initialSpaceAvailable;
+                    expectedToUploadArtwork = false;
                 });
 
-                context(@"when sending artwork that has not yet been uploaded", ^{
-                    it(@"should upload the artwork and return the artwork name when done", ^{
-                        expectedArtworkName = @"uniqueArtworkName";
-                        expectedRemoteFilesCount = testInitialFileNames.count + 1;
-                        expectedBytesAvailable = 22;
-                        expectedToUploadArtwork = true;
-                    });
+                it(@"should upload the artwork and return the artwork name when done when sending artwork that has not yet been uploaded", ^{
+                    expectedArtworkName = @"uniqueArtworkName";
+                    expectedOverwrite = false;
+                    expectedRemoteFilesCount = testInitialFileNames.count + 1;
+                    expectedBytesAvailable = 22;
+                    expectedToUploadArtwork = true;
+                    expectedRPCsSentCount += 1;
+                });
+
+                it(@"should upload the artwork and return the artwork name when done when sending arwork that is already been uploaded but overwrite is enabled", ^{
+                    expectedArtworkName = [testListFilesResponse.filenames firstObject];
+                    expectedOverwrite = true;
+                    expectedRemoteFilesCount = testInitialFileNames.count;
+                    expectedBytesAvailable = initialSpaceAvailable;
+                    expectedToUploadArtwork = true;
+                    expectedRPCsSentCount += 1;
                 });
 
                 afterEach(^{
                     testArtwork = [[SDLArtwork alloc] initWithImage:testUIImage name:expectedArtworkName persistent:true asImageFormat:SDLArtworkImageFormatPNG];
+                    testArtwork.overwrite = expectedOverwrite;
 
                     waitUntilTimeout(1, ^(void (^done)(void)){
                         [testFileManager uploadArtwork:testArtwork completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
@@ -504,6 +518,8 @@ describe(@"SDLFileManager", ^{
                             [testConnectionManager respondToLastRequestWithResponse:successfulPutFileResponse];
                         }
                     });
+
+                    expect(testConnectionManager.receivedRequests.count).to(equal(expectedRPCsSentCount));
                 });
             });
         });
