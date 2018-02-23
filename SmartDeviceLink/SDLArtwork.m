@@ -27,21 +27,29 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initWithImage:image name:name persistent:NO asImageFormat:imageFormat];
 }
 
++ (instancetype)artworkWithImage:(UIImage *)image asImageFormat:(SDLArtworkImageFormat)imageFormat {
+    return [[self alloc] initWithImage:image persistent:NO asImageFormat:imageFormat];
+}
+
 + (instancetype)persistentArtworkWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat {
     return [[self alloc] initWithImage:image name:name persistent:YES asImageFormat:imageFormat];
+}
+
++ (instancetype)persistentArtworkWithImage:(UIImage *)image asImageFormat:(SDLArtworkImageFormat)imageFormat {
+    return [[self alloc] initWithImage:image persistent:YES asImageFormat:imageFormat];
 }
 
 
 #pragma mark Private Lifecycle
 
 - (instancetype)initWithImage:(UIImage *)image name:(NSString *)name persistent:(BOOL)persistent asImageFormat:(SDLArtworkImageFormat)imageFormat {
-    return [super initWithData:[self sdl_dataForUIImage:image imageFormat:imageFormat] name:name fileExtension:[self sdl_fileExtensionForImageFormat:imageFormat] persistent:persistent];
+    return [super initWithData:[self.class sdl_dataForUIImage:image imageFormat:imageFormat] name:name fileExtension:[self.class sdl_fileExtensionForImageFormat:imageFormat] persistent:persistent];
 }
 
 - (instancetype)initWithImage:(UIImage *)image persistent:(BOOL)persistent asImageFormat:(SDLArtworkImageFormat)imageFormat {
-    NSData *imageData = [self sdl_dataForUIImage:image imageFormat:imageFormat];
-    NSString *imageName = [self sdl_md5HashFromNSData:imageData];
-    return [super initWithData:[self sdl_dataForUIImage:image imageFormat:imageFormat] name:(imageName != nil ? imageName : @"") fileExtension:[self sdl_fileExtensionForImageFormat:imageFormat] persistent:persistent];
+    NSData *imageData = [self.class sdl_dataForUIImage:image imageFormat:imageFormat];
+    NSString *imageName = [self.class sdl_md5HashFromNSData:imageData];
+    return [super initWithData:[self.class sdl_dataForUIImage:image imageFormat:imageFormat] name:(imageName != nil ? imageName : @"") fileExtension:[self.class sdl_fileExtensionForImageFormat:imageFormat] persistent:persistent];
 }
 
 /**
@@ -51,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param imageFormat  The image format to use when converting the UIImage to NSData
  *  @return             The image data
  */
-- (NSData *)sdl_dataForUIImage:(UIImage *)image imageFormat:(SDLArtworkImageFormat)imageFormat {
++ (NSData *)sdl_dataForUIImage:(UIImage *)image imageFormat:(SDLArtworkImageFormat)imageFormat {
     NSData *imageData = nil;
     switch (imageFormat) {
         case SDLArtworkImageFormatPNG: {
@@ -70,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param imageFormat  Whether the image is a PNG or JPG
  *  @return             The file extension for the image format
  */
-- (NSString *)sdl_fileExtensionForImageFormat:(SDLArtworkImageFormat)imageFormat {
++ (NSString *)sdl_fileExtensionForImageFormat:(SDLArtworkImageFormat)imageFormat {
     NSString *fileExtension = nil;
     switch (imageFormat) {
         case SDLArtworkImageFormatPNG: {
@@ -91,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param data     The data to hash
  *  @return         A MD5 hash of the data
  */
-- (NSString *)sdl_md5HashFromNSData:(NSData *)data {
++ (NSString *)sdl_md5HashFromNSData:(NSData *)data {
     if (data == nil) { return nil; }
 
     unsigned char hash[CC_MD5_DIGEST_LENGTH];
