@@ -100,6 +100,10 @@ static float DefaultConnectionTimeout = 45.0;
     if (self.protocol.securityManager != nil) {
         [self.protocol.securityManager stop];
     }
+
+    if (self.transport != nil) {
+        [self.transport disconnect];
+    }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
