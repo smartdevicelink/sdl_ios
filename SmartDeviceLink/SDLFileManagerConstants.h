@@ -19,7 +19,7 @@ typedef NSString SDLFileName;
  *
  *  @param success              Whether or not the upload was successful
  *  @param bytesAvailable       The amount of space left for files on Core
- *  @param error                The error that occurred during the request if one occurred, nil if not error occured
+ *  @param error                The error that occurred during the request if one occurred, nil if no error occured
  */
 typedef void (^SDLFileManagerUploadCompletionHandler)(BOOL success, NSUInteger bytesAvailable, NSError *__nullable error);
 
