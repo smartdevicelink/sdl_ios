@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Describes the first time the HMI state goes non-none and full.
 @property (assign, nonatomic) SDLHMIFirstState firstTimeState;
 @property (assign, nonatomic) SDLHMIInitialShowState initialShowState;
+@property (assign, nonatomic) BOOL areImagesVisible;
 
 @end
 
@@ -61,6 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
     _state = ProxyStateStopped;
     _firstTimeState = SDLHMIFirstStateNone;
     _initialShowState = SDLHMIInitialShowStateNone;
+    _areImagesVisible = true;
     
     return self;
 }
@@ -134,44 +136,16 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *mainField2Text = isTextOn ? @"Example App" : @"";
     SDLShow* show = [[SDLShow alloc] initWithMainField1:mainField1Text mainField2:mainField2Text alignment:SDLTextAlignmentCenter];
 
-    [self sdlex_softButtons:^(NSArray<SDLSoftButton *> *softButtons) {
+    [self sdlex_prepareSoftButtonsWithImages:self.areImagesVisible completionHandler:^(NSArray<SDLSoftButton *> * _Nonnull softButtons) {
         show.softButtons = softButtons;
         [manager sendRequest:show];
     }];
 
-    [self sdlex_mainGraphicImage:^(SDLImage * _Nullable sdlImage) {
+    [self sdlex_prepareMainGraphicImageWithImages:self.areImagesVisible completionHandler:^(SDLImage * _Nullable sdlImage) {
         if (sdlImage == nil) { return ;}
         show.graphic = sdlImage;
         [manager sendRequest:show];
     }];
-}
-
-- (void)sdlex_softButtons:(void (^)(NSArray<SDLSoftButton *> *softButtons))completionHandler {
-    SDLSoftButton *button = [[SDLSoftButton alloc] init];
-    NSMutableArray<SDLSoftButton *> *softButtons = [[NSMutableArray alloc] initWithObjects:button, button, button, button, nil];
-
-    dispatch_group_t dataDispatchGroup = dispatch_group_create();
-    dispatch_group_enter(dataDispatchGroup);
-
-    dispatch_group_enter(dataDispatchGroup);
-    [self sdlex_softButton1WithManager:self.sdlManager isImageVisible:areImagesVisible completionHandler:^(SDLSoftButton * _Nonnull button) {
-        softButtons[0] = button;
-        dispatch_group_leave(dataDispatchGroup);
-    }];
-
-    dispatch_group_enter(dataDispatchGroup);
-    [self sdlex_softButton2WithManager:self.sdlManager isImageVisible:areImagesVisible completionHandler:^(SDLSoftButton * _Nonnull button) {
-        softButtons[1] = button;
-        dispatch_group_leave(dataDispatchGroup);
-    }];
-
-    softButtons[2] = [self sdlex_softButton3WithManager:self.sdlManager];
-    softButtons[3] = [self sdlex_softButton4WithManager:self.sdlManager areImagesVisible:areImagesVisible];
-
-    dispatch_group_leave(dataDispatchGroup);
-    dispatch_group_notify(dataDispatchGroup, dispatch_get_main_queue(), ^{
-        completionHandler(softButtons);
-    });
 }
 
 - (void)sdlex_setupPermissionsCallbacks {
@@ -343,7 +317,36 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)sdlex_softButton1WithManager:(SDLManager *)manager isImageVisible:(Boolean)imageVisible completionHandler:(void (^)(SDLSoftButton * button))completionHandler {
+- (void)sdlex_prepareSoftButtonsWithImages:(BOOL)areImagesVisible completionHandler:(void (^)(NSArray<SDLSoftButton *> *softButtons))completionHandler {
+    // Save each soft button in a specific index position in the array. Once all buttons have been return all the buttons. This is done to prevent flickering that can occur if the UI is updated everytime a button is created.
+    SDLSoftButton *button = [[SDLSoftButton alloc] init];
+    NSMutableArray<SDLSoftButton *> *softButtons = [[NSMutableArray alloc] initWithObjects:button, button, button, button, nil];
+
+    dispatch_group_t dataDispatchGroup = dispatch_group_create();
+    dispatch_group_enter(dataDispatchGroup);
+
+    dispatch_group_enter(dataDispatchGroup);
+    [self sdlex_prepareSoftButton1WithManager:self.sdlManager isImageVisible:areImagesVisible completionHandler:^(SDLSoftButton * _Nonnull button) {
+        softButtons[0] = button;
+        dispatch_group_leave(dataDispatchGroup);
+    }];
+
+    dispatch_group_enter(dataDispatchGroup);
+    [self sdlex_prepareSoftButton2WithManager:self.sdlManager isImageVisible:areImagesVisible completionHandler:^(SDLSoftButton * _Nonnull button) {
+        softButtons[1] = button;
+        dispatch_group_leave(dataDispatchGroup);
+    }];
+
+    softButtons[2] = [self sdlex_prepareSoftButton3WithManager:self.sdlManager];
+    softButtons[3] = [self sdlex_prepareSoftButton4WithManager:self.sdlManager areImagesVisible:areImagesVisible];
+
+    dispatch_group_leave(dataDispatchGroup);
+    dispatch_group_notify(dataDispatchGroup, dispatch_get_main_queue(), ^{
+        completionHandler(softButtons);
+    });
+}
+
+- (void)sdlex_prepareSoftButton1WithManager:(SDLManager *)manager isImageVisible:(BOOL)imageVisible completionHandler:(void (^)(SDLSoftButton * button))completionHandler {
     SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
         if (buttonPressNotification == nil) {
             return;
@@ -358,7 +361,7 @@ NS_ASSUME_NONNULL_BEGIN
     softButton.softButtonID = @100;
 
     SDLArtwork *artwork = [self.class sdlex_softButton1Artwork];
-    if (!areImagesVisible) {
+    if (!imageVisible) {
         softButton.type = SDLSoftButtonTypeText;
         return completionHandler(softButton);
     }
@@ -370,8 +373,8 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-static Boolean isHexagonOn = true;
-- (void)sdlex_softButton2WithManager:(SDLManager *)manager isImageVisible:(Boolean)imageVisible completionHandler:(void (^)(SDLSoftButton * button))completionHandler {
+static BOOL isHexagonOn = true;
+- (void)sdlex_prepareSoftButton2WithManager:(SDLManager *)manager isImageVisible:(BOOL)imageVisible completionHandler:(void (^)(SDLSoftButton * button))completionHandler {
     SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
         if (buttonPressNotification == nil) { return; }
 
@@ -380,7 +383,7 @@ static Boolean isHexagonOn = true;
     }];
     softButton.softButtonID = @200;
 
-    if (!areImagesVisible) {
+    if (!imageVisible) {
         softButton.type = SDLSoftButtonTypeText;
         softButton.text = isHexagonOn ? @"➖Hex" : @"➕Hex";
         return completionHandler(softButton);
@@ -394,8 +397,8 @@ static Boolean isHexagonOn = true;
     }];
 }
 
-static Boolean isTextOn = true;
-- (SDLSoftButton *)sdlex_softButton3WithManager:(SDLManager *)manager {
+static BOOL isTextOn = true;
+- (SDLSoftButton *)sdlex_prepareSoftButton3WithManager:(SDLManager *)manager {
     SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
         if (buttonPressNotification == nil) {
             return;
@@ -413,26 +416,25 @@ static Boolean isTextOn = true;
     return softButton;
 }
 
-static Boolean areImagesVisible = true;
-- (SDLSoftButton *)sdlex_softButton4WithManager:(SDLManager *)manager areImagesVisible:(Boolean)imagesVisible {
+- (SDLSoftButton *)sdlex_prepareSoftButton4WithManager:(SDLManager *)manager areImagesVisible:(BOOL)imageVisible {
     SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
         if (buttonPressNotification == nil) { return; }
 
-        areImagesVisible = !areImagesVisible;
+        self.areImagesVisible = !self.areImagesVisible;
         [self sdlex_showWithManager:manager];
 
         SDLLogD(@"Image visibility soft button press fired %d", isHexagonOn);
     }];
 
-    softButton.text = areImagesVisible ? @"➖Icons" : @"➕Icons";
+    softButton.text = imageVisible ? @"➖Icons" : @"➕Icons";
     softButton.softButtonID = @400;
     softButton.type = SDLSoftButtonTypeText;
 
     return softButton;
 }
 
-- (void)sdlex_mainGraphicImage:(void (^)(SDLImage * _Nullable sdlImage))completionHandler {
-    SDLArtwork *mainGraphicImage = areImagesVisible ? [self.class sdlex_mainGraphicArtwork] : [self.class sdlex_mainGraphicBlank];
+- (void)sdlex_prepareMainGraphicImageWithImages:(BOOL)imageVisible completionHandler:(void (^)(SDLImage * _Nullable sdlImage))completionHandler {
+    SDLArtwork *mainGraphicImage = imageVisible ? [self.class sdlex_mainGraphicArtwork] : [self.class sdlex_mainGraphicBlank];
     [self sdlex_uploadArtwork:mainGraphicImage completionHandler:^(BOOL success, SDLImage * _Nullable sdlImage) {
         if (!success) {
             SDLLogE(@"Artwork %@ failed to upload", sdlImage.value);
@@ -485,13 +487,9 @@ static Boolean areImagesVisible = true;
     for (SDLArtwork *artwork in artworks) {
         [[self.sdlManager fileManager] uploadArtwork:artwork completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
             if (completionHandler == nil) { return; }
-            success ? completionHandler(success, [self sdlex_createSDLImage:artworkName]) : completionHandler(success, nil);
+            success ? completionHandler(success, [[SDLImage alloc] initWithName:artworkName]) : completionHandler(success, nil);
         }];
     }
-}
-
-- (SDLImage *)sdlex_createSDLImage:(NSString *)artworkName {
-    return [[SDLImage alloc] initWithName:artworkName];
 }
 
 - (void)sdlex_prepareRemoteSystem {
@@ -520,8 +518,6 @@ static Boolean areImagesVisible = true;
     if (![newLevel isEqualToEnum:SDLHMILevelNone] && (self.firstTimeState == SDLHMIFirstStateNone)) {
         // This is our first time in a non-NONE state
         self.firstTimeState = SDLHMIFirstStateNonNone;
-        
-        // Send AddCommands
         [self sdlex_prepareRemoteSystem];
     }
     
