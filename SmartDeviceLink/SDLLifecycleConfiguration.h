@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The full name of the app
  */
-@property (copy, nonatomic, readonly) NSString *appName;
+@property (copy, nonatomic) NSString *appName;
 
 /**
  *  The app id. This must be the same as the app id received from the SDL developer portal or OEM.

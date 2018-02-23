@@ -44,6 +44,8 @@
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManager.h"
 #import "SDLUnregisterAppInterface.h"
+#import "SDLLifecycleConfigurationUpdate.h"
+#import "SDLChangeRegistration.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -53,6 +55,7 @@ SDLLifecycleState *const SDLLifecycleStateStarted = @"Started";
 SDLLifecycleState *const SDLLifecycleStateReconnecting = @"Reconnecting";
 SDLLifecycleState *const SDLLifecycleStateConnected = @"Connected";
 SDLLifecycleState *const SDLLifecycleStateRegistered = @"Registered";
+SDLLifecycleState *const SDLLifecycleStateUpdatingConfiguration = @"UpdatingConfiguration";
 SDLLifecycleState *const SDLLifecycleStateSettingUpManagers = @"SettingUpManagers";
 SDLLifecycleState *const SDLLifecycleStateSettingUpAppIcon = @"SettingUpAppIcon";
 SDLLifecycleState *const SDLLifecycleStateSettingUpHMI = @"SettingUpHMI";
@@ -165,7 +168,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         SDLLifecycleStateStarted: @[SDLLifecycleStateConnected, SDLLifecycleStateStopped, SDLLifecycleStateReconnecting],
         SDLLifecycleStateReconnecting: @[SDLLifecycleStateStarted, SDLLifecycleStateStopped],
         SDLLifecycleStateConnected: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateRegistered],
-        SDLLifecycleStateRegistered: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpManagers],
+        SDLLifecycleStateRegistered: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpManagers, SDLLifecycleStateUpdatingConfiguration],
+        SDLLifecycleStateUpdatingConfiguration: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpManagers],
         SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpAppIcon],
         SDLLifecycleStateSettingUpAppIcon: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpHMI],
         SDLLifecycleStateSettingUpHMI: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateReady],
@@ -258,6 +262,49 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateRegistered {
+    NSArray<SDLLanguage> *supportedLanguages = self.configuration.lifecycleConfig.languagesSupported;
+    SDLLanguage desiredLanguage = self.configuration.lifecycleConfig.language;
+    SDLLanguage actualLanguage = self.registerResponse.language;
+    BOOL delegateCanUpdateLifecycle = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:)];
+    
+    // language mismatch? but actual language is a supported language? and delegate has implemented method?
+    if (actualLanguage != desiredLanguage && [supportedLanguages containsObject:actualLanguage] && delegateCanUpdateLifecycle) {
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUpdatingConfiguration];
+    } else {
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpManagers];
+    }
+}
+
+- (void)didEnterStateUpdatingConfiguration {
+    // we can expect that the delegate has implemented the update method and the actual language is a supported language
+    SDLLanguage actualLanguage = self.registerResponse.language;
+
+    SDLLifecycleConfigurationUpdate *configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage];
+    
+    if (configUpdate) {
+        self.configuration.lifecycleConfig.language = actualLanguage;
+        if (configUpdate.appName) {
+            self.configuration.lifecycleConfig.appName = configUpdate.appName;
+        }
+        if (configUpdate.shortAppName) {
+            self.configuration.lifecycleConfig.shortAppName = configUpdate.shortAppName;
+        }
+        if (configUpdate.ttsName) {
+            self.configuration.lifecycleConfig.ttsName = configUpdate.ttsName;
+        }
+        if (configUpdate.voiceRecognitionCommandNames) {
+            self.configuration.lifecycleConfig.voiceRecognitionCommandNames = configUpdate.voiceRecognitionCommandNames;
+        }
+        
+        SDLChangeRegistration *changeRegistration = [[SDLChangeRegistration alloc] initWithLanguage:actualLanguage hmiDisplayLanguage:actualLanguage];
+        changeRegistration.appName = configUpdate.appName;
+        changeRegistration.ngnMediaScreenAppName = configUpdate.shortAppName;
+        changeRegistration.ttsName = configUpdate.ttsName;
+        changeRegistration.vrSynonyms = configUpdate.voiceRecognitionCommandNames;
+      
+        [self sendRequest:changeRegistration];
+    }
+    
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpManagers];
 }
 
