@@ -99,7 +99,7 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 /**
  *  Upload a file to the remote file system. If a file with the [SDLFile name] already exists, this will overwrite that file. If you do not want that to happen, check remoteFileNames before uploading, or change allowOverwrite to NO.
  *
- *  @param file       A SDLFile that contains metadata about the file to be sent
+ *  @param file       An SDLFile that contains metadata about the file to be sent
  *  @param completion An optional completion handler that sends an error should one occur.
  */
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)completion NS_SWIFT_NAME(upload(file:completionHandler:));

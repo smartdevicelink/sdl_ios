@@ -261,15 +261,12 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 }
 
 - (void)uploadArtwork:(SDLArtwork *)artwork completionHandler:(nullable SDLFileManagerUploadArtworkCompletionHandler)completion {
-    if ([self.remoteFileNames containsObject:artwork.name] && !artwork.overwrite) {
-        // Artwork with same name already uploaded to remote; return artwork name
-        if (completion == nil) { return; }
-        return completion(true, artwork.name, self.bytesAvailable, nil);
-    }
-
-    // Upload artwork and return artwork name when finished
     [self uploadFile:artwork completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
         if (completion == nil) { return; }
+        if (error != nil && error.code == SDLFileManagerErrorCannotOverwrite) {
+            // Artwork with same name already uploaded to remote
+            return completion(true, artwork.name, bytesAvailable, nil);
+        }
         completion(success, artwork.name, bytesAvailable, error);
     }];
 }
@@ -287,11 +284,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     dispatch_group_enter(uploadFilesTask);
     for(SDLFile *file in files) {
         dispatch_group_enter(uploadFilesTask);
-
-        // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly. This led to attempted uploads failing due to the system thinking they were already there when they were not.
-        if (!file.persistent && [self.remoteFileNames containsObject:file.name] && ![self.uploadedEphemeralFileNames containsObject:file.name]) {
-            file.overwrite = true;
-        }
 
         [self uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
             if(!success) {
@@ -361,9 +353,9 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 }
 
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)handler {
-    if (file == nil) {
+    if (file == nil || file.data == nil || file.data.length == 0) {
         if (handler != nil) {
-            handler(NO, self.bytesAvailable, [NSError sdl_fileManager_unableToUploadError]);
+            handler(NO, self.bytesAvailable, [NSError sdl_fileManager_dataMissingError]);
         }
         return;
     }
@@ -374,6 +366,11 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
             handler(NO, self.bytesAvailable, [NSError sdl_fileManager_unableToUploadError]);
         }
         return;
+    }
+
+    // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly. This led to attempted uploads failing due to the system thinking they were already there when they were not.
+    if (!file.persistent && [self.remoteFileNames containsObject:file.name] && ![self.uploadedEphemeralFileNames containsObject:file.name]) {
+        file.overwrite = true;
     }
 
     // Check our overwrite settings and error out if it would overwrite

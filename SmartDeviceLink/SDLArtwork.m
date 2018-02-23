@@ -86,6 +86,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Creates a string representation of NSData by hashing the data using the MD5 hash function. This string is not guaranteed to be unique as collisions can occur, however collisions are extremely rare.
  *
+ *  Sourced from https://stackoverflow.com/questions/2018550/how-do-i-create-an-md5-hash-of-a-string-in-cocoa
+ *
  *  @param data     The data to hash
  *  @return         A MD5 hash of the data
  */

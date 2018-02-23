@@ -43,6 +43,7 @@ extern SDLErrorDomain *const SDLErrorDomainFileManager;
 + (NSError *)sdl_fileManager_unableToDelete_ErrorWithUserInfo:(NSDictionary *)userInfo;
 + (NSError *)sdl_fileManager_fileDoesNotExistError;
 + (NSError *)sdl_fileManager_fileUploadCanceled;
++ (NSError *)sdl_fileManager_dataMissingError;
 
 @end
 
