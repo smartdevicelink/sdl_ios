@@ -47,9 +47,10 @@ typedef void(^SDLSoftButtonUpdateCompletionHandler)(NSError *__nullable error);
  Update a button with a particular name by replacing the current state with a new state. This immediately sends the update. If you have multiple changes to make, call `beginUpdates`, make the changes, then call `endUpdatesWithCompletionHandler`
 
  @param buttonName The name of the button to swap states
- @param state The state to become the current state
+ @param stateName The state to become the current state
+ @return If the update found a button named buttonName and a state is found named stateName. This will return YES even if currently batching updates.
  */
-- (void)updateButtonNamed:(NSString *)buttonName replacingCurrentStateWithState:(SDLSoftButtonState *)state;
+- (BOOL)updateButtonNamed:(NSString *)buttonName replacingCurrentStateWithState:(NSString *)stateName;
 
 - (void)beginUpdates;
 - (void)endUpdatesWithCompletionHandler:(SDLSoftButtonUpdateCompletionHandler)handler;

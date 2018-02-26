@@ -8,6 +8,9 @@
 
 #import "SDLSoftButtonManager.h"
 
+#import "SDLSoftButtonObject.h"
+#import "SDLSoftButtonState.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSoftButtonManager()
@@ -29,8 +32,24 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)updateButtonNamed:(NSString *)buttonName replacingCurrentStateWithState:(SDLSoftButtonState *)state {
-    
+- (BOOL)updateButtonNamed:(NSString *)buttonName replacingCurrentStateWithState:(SDLSoftButtonState *)state {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", buttonName];
+    NSArray<SDLSoftButtonObject *> *buttons = [self.softButtons filteredArrayUsingPredicate:predicate];
+    if (buttons.count == 0) {
+        return NO;
+    }
+
+    NSAssert(buttons.count == 1, @"Multiple SDLSoftButtonObjects are named the same thing, this should have been checked for");
+    SDLSoftButtonObject *button = buttons.firstObject;
+    [button transitionToState:state.name];
+
+    if (_isBatchingUpdates) {
+        return YES;
+    }
+
+    // TODO: Else send the update
+
+    return YES;
 }
 
 - (void)beginUpdates {
@@ -44,6 +63,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setSoftButtons:(NSArray<SDLSoftButtonObject *> *)softButtons {
     // TODO: Update soft buttons
     _isBatchingUpdates = NO;
+
+    // TODO: Check to make sure no two soft buttons have the same name
 }
 
 @end

@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
     _currentStateName = initialStateName;
     _eventHandler = eventHandler;
 
+    // Make sure there aren't two states with the same name
+
     return self;
 }
 
@@ -30,8 +32,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithName:name states:@[state] initialStateName:state.name handler:eventHandler];
 }
 
-- (void)transitionToState:(NSString *)stateName {
-    // TODO: 
+- (BOOL)transitionToState:(NSString *)stateName {
+    // TODO
+
+    return YES;
 }
 
 @end

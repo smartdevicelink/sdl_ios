@@ -62,8 +62,9 @@ NS_ASSUME_NONNULL_BEGIN
  @warning This method will throw an exception and crash your app (on purpose) if you attempt an invalid transition. So...don't do that.
 
  @param stateName The next state.
+ @return YES if a state was found with that name, NO otherwise.
  */
-- (void)transitionToState:(NSString *)stateName;
+- (BOOL)transitionToState:(NSString *)stateName;
 
 @end
 
