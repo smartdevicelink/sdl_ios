@@ -10,10 +10,12 @@
 
 #import "SDLArtwork.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLSoftButtonState
 
 - (instancetype)initWithStateName:(NSString *)stateName text:(nullable NSString *)text image:(nullable UIImage *)image {
-    SDLArtwork *artwork = [[SDLArtwork alloc] initWithImage:image name:stateName persistent:NO asImageFormat:SDLArtworkImageFormatPNG];
+    SDLArtwork *artwork = [[SDLArtwork alloc] initWithImage:image name:stateName persistent:NO asImageFormat:SDLArtworkImageFormatPNG]; // TODO: Use new artwork initializer
     return [self initWithStateName:stateName text:text artwork:artwork];
 }
 
@@ -29,3 +31,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

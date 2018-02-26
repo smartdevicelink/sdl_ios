@@ -121,7 +121,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
     
     SDLSendHapticData* hapticRPC = [[SDLSendHapticData alloc] initWithHapticRectData:hapticRects];
-    [self.connectionManager sendManagerRequest:hapticRPC withResponseHandler:nil];
+    [self.connectionManager sendConnectionManagerRequest:hapticRPC withResponseHandler:nil];
 }
 
 #pragma mark SDLFocusableItemHitTester functions

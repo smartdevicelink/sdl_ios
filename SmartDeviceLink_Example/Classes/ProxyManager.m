@@ -26,12 +26,6 @@ typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
     SDLHMIFirstStateFull
 };
 
-typedef NS_ENUM(NSUInteger, SDLHMIInitialShowState) {
-    SDLHMIInitialShowStateNone,
-    SDLHMIInitialShowStateDataAvailable,
-    SDLHMIInitialShowStateShown
-};
-
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -39,7 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Describes the first time the HMI state goes non-none and full.
 @property (assign, nonatomic) SDLHMIFirstState firstTimeState;
-@property (assign, nonatomic) SDLHMIInitialShowState initialShowState;
 
 @end
 
@@ -66,7 +59,6 @@ NS_ASSUME_NONNULL_BEGIN
     
     _state = ProxyStateStopped;
     _firstTimeState = SDLHMIFirstStateNone;
-    _initialShowState = SDLHMIInitialShowStateNone;
     
     return self;
 }
@@ -124,24 +116,31 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Helpers
 
 - (void)sdlex_showInitialData {
-    if ((self.initialShowState != SDLHMIInitialShowStateDataAvailable) || ![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
+    if (![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
         return;
     }
 
     SDLSetDisplayLayout *displayLayout = [[SDLSetDisplayLayout alloc] initWithLayout:SDLPredefinedLayoutNonMedia];
     [self.sdlManager sendRequest:displayLayout];
-    
-    self.initialShowState = SDLHMIInitialShowStateShown;
-    [self sdlex_showWithManager:self.sdlManager];
+
+    SDLShow *show = [self sdlex_show];
+
+    [self.sdlManager sendSequentialRequests:@[displayLayout, show] progressHandler:^BOOL(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+        NSLog(@"Display layout / show progress: %f%%", percentComplete * 100);
+        return YES;
+    } completionHandler:nil];
 }
 
-- (void)sdlex_showWithManager:(SDLManager *)manager {
+- (SDLShow *)sdlex_show {
     NSString *mainField1Text = isTextOn ? @"Smart Device Link" : @"";
     NSString *mainField2Text = isTextOn ? @"Example App" : @"";
     SDLShow* show = [[SDLShow alloc] initWithMainField1:mainField1Text mainField2:mainField2Text alignment:SDLTextAlignmentCenter];
     show.softButtons = [self sdlex_softButtons];
     show.graphic = areImagesVisible ? [self.class sdlex_mainGraphicImage] : [self.class sdlex_mainGraphicImage];
-    [manager sendRequest:show];
+    return show;
+//    [manager sendRequest:show withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+//        NSLog(@"Show request: %@ response: %@ error: %@", request, response, error);
+//    }];
 }
 
 - (NSArray<SDLSoftButton *> *)sdlex_softButtons {
@@ -358,7 +357,7 @@ static Boolean isHexagonOn = true;
         }
 
         isHexagonOn = !isHexagonOn;
-        [self sdlex_showWithManager:manager];
+        [self sdlex_showInitialData];
 
         SDLLogD(@"Hexagon icon button press fired %d", isHexagonOn);
     }];
@@ -378,7 +377,7 @@ static Boolean isHexagonOn = true;
     return softButton;
 }
 
-static Boolean isTextOn = true;
+static BOOL isTextOn = YES;
 - (SDLSoftButton *)sdlex_softButton3WithManager:(SDLManager *)manager {
     SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
         if (buttonPressNotification == nil) {
@@ -386,7 +385,7 @@ static Boolean isTextOn = true;
         }
 
         isTextOn = !isTextOn;
-        [self sdlex_showWithManager:manager];
+        [self sdlex_showInitialData];
 
         SDLLogD(@"Text visibility soft button press fired");
     }];
@@ -405,12 +404,12 @@ static Boolean areImagesVisible = true;
         if (areImagesVisible) {
             [self sdlex_deleteFiles:[self.class sdlex_allArtFileNames] completionHandler:^(BOOL success) {
                 if (!success) { return; }
-                [self sdlex_showWithManager:manager];
+                [self sdlex_showInitialData];
             }];
         } else {
             [self sdlex_uploadFilesWithProgressHandler:[self.class sdlex_allArt] completionHandler:^(BOOL success) {
                 if (!success) { return; }
-                [self sdlex_showWithManager:manager];
+                [self sdlex_showInitialData];
             }];
         }
 
@@ -551,9 +550,11 @@ static Boolean areImagesVisible = true;
 }
 
 - (void)sdlex_prepareRemoteSystem {
-    [self.sdlManager sendRequest:[self.class sdlex_speakNameCommandWithManager:self.sdlManager]];
-    [self.sdlManager sendRequest:[self.class sdlex_interactionSetCommandWithManager:self.sdlManager]];
-    [self.sdlManager sendRequest:[self.class sdlex_vehicleDataCommandWithManager:self.sdlManager]];
+    [self.sdlManager sendRequests:@[[self.class sdlex_speakNameCommandWithManager:self.sdlManager], [self.class sdlex_interactionSetCommandWithManager:self.sdlManager], [self.class sdlex_vehicleDataCommandWithManager:self.sdlManager]]
+                  progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+                      NSLog(@"Commands sent updated, percent complete %f%%", percentComplete * 100);
+    }
+                completionHandler:nil];
     
     dispatch_group_t dataDispatchGroup = dispatch_group_create();
     dispatch_group_enter(dataDispatchGroup);
@@ -572,7 +573,6 @@ static Boolean areImagesVisible = true;
     
     dispatch_group_leave(dataDispatchGroup);
     dispatch_group_notify(dataDispatchGroup, dispatch_get_main_queue(), ^{
-        self.initialShowState = SDLHMIInitialShowStateDataAvailable;
         [self sdlex_showInitialData];
     });
 }
@@ -583,7 +583,6 @@ static Boolean areImagesVisible = true;
 - (void)managerDidDisconnect {
     // Reset our state
     self.firstTimeState = SDLHMIFirstStateNone;
-    self.initialShowState = SDLHMIInitialShowStateNone;
     [self sdlex_updateProxyState:ProxyStateStopped];
     if (ShouldRestartOnDisconnect) {
         [self startManager];

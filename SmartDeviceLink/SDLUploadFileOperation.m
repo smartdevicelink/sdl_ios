@@ -121,7 +121,7 @@ NS_ASSUME_NONNULL_BEGIN
         currentOffset += dataSize;
 
         __weak typeof(self) weakself = self;
-        [self.connectionManager sendManagerRequest:putFile withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+        [self.connectionManager sendConnectionManagerRequest:putFile withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             typeof(weakself) strongself = weakself;
 
             // Check if the upload process has been cancelled by another packet. If so, stop the upload process.

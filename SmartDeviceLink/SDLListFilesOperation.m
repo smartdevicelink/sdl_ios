@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLListFiles *listFiles = [[SDLListFiles alloc] init];
 
     __weak typeof(self) weakSelf = self;
-    [self.connectionManager sendManagerRequest:listFiles
+    [self.connectionManager sendConnectionManagerRequest:listFiles
                            withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
                                SDLListFilesResponse *listFilesResponse = (SDLListFilesResponse *)response;
                                BOOL success = [listFilesResponse.success boolValue];

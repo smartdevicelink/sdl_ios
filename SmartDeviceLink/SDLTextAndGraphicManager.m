@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) SDLShow *inProgressUpdate;
 @property (strong, nonatomic) SDLShow *queuedImageUpdate;
-@property (assign, nonatomic, getter=hasQueuedUpdate) BOOL queuedUpdate;
+@property (copy, nonatomic, getter=hasQueuedUpdate) SDLTextAndGraphicUpdateCompletionHandler queuedUpdateHandler;
 
 // Describes the display capabilities for the current display layout
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateWithCompletionHandler:(SDLTextAndGraphicUpdateCompletionHandler)handler {
     if (self.inProgressUpdate != nil) {
-        self.queuedUpdate = YES;
+        self.queuedUpdateHandler = handler;
         return;
     }
 
@@ -78,28 +78,53 @@ NS_ASSUME_NONNULL_BEGIN
     fullShow = [self sdl_assembleShowText:fullShow forNumberOfLines:numberOfShowLines];
     fullShow = [self sdl_assembleShowImages:fullShow];
 
-    SDLShow *showToSend = nil;
-    if (![self sdl_shouldUpdateImages]) {
+    if (!([self sdl_shouldUpdatePrimaryImage] || [self sdl_shouldUpdateSecondaryImage])) {
         // If there's no images to update, just send the text update
-        SDLShow *textShow = [self sdl_extractTextFromShow:fullShow];
+        self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
     } else {
         // If there's images to update
         if ([self sdl_uploadedArtworkOrDoesntExist:self.primaryGraphic] && [self sdl_uploadedArtworkOrDoesntExist:self.secondaryGraphic]) {
-            // If the files to be updated are already uploaded, send the full show immediately
+            // The files to be updated are already uploaded, send the full show immediately
+            self.inProgressUpdate = fullShow;
         } else {
             // We need to upload or queue the upload of the images
             // Send the text immediately
-            SDLShow *textShow = [self sdl_extractTextFromShow:fullShow];
+            self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
             // Start uploading the images
+            [self sdl_uploadImagesWithCompletionHandler:^(NSError * _Nonnull error) {
+                // TODO: Check if queued image update still matches our images (there could have been a new Show in the meantime) and send the queuedImageUpdate if it does. Send delete if it doesn't?
+            }];
+            // TODO: If a new update comes in while this upload is happening, what do we do?
             // When the images are done uploading, send another show with the images
+            self.queuedImageUpdate = fullShow;
         }
     }
 
-    if (showToSend != nil) {
-        
+    if (self.inProgressUpdate != nil) {
+        [self.connectionManager sendConnectionRequest:self.inProgressUpdate withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            if (response.success && error != nil) {
+                [self sdl_updateCurrentScreenDataFromShow:(SDLShow *)request];
+            }
+
+            handler(error);
+
+            if (self.queuedUpdateHandler != NULL) {
+                [self updateWithCompletionHandler:self.queuedUpdateHandler];
+            }
+        }];
     }
 }
 
+#pragma mark - Upload Images
+
+- (void)sdl_uploadImagesWithCompletionHandler:(void (^)(NSError *error))handler {
+    if ([self sdl_shouldUpdatePrimaryImage]) {
+        // TODO: upload artwork needed
+    }
+    if ([self sdl_shouldUpdateSecondaryImage]) {
+        // TODO: upload artwork needed
+    }
+}
 
 #pragma mark - Assembly of Shows
 
@@ -232,17 +257,30 @@ NS_ASSUME_NONNULL_BEGIN
     return newShow;
 }
 
+- (void)sdl_updateCurrentScreenDataFromShow:(SDLShow *)show {
+    // If the items are nil, they were not updated, so we can't just set it directly
+    self.currentScreenData.mainField1 = show.mainField1 ?: self.currentScreenData.mainField1;
+    self.currentScreenData.mainField2 = show.mainField2 ?: self.currentScreenData.mainField2;
+    self.currentScreenData.mainField3 = show.mainField3 ?: self.currentScreenData.mainField3;
+    self.currentScreenData.mainField4 = show.mainField4 ?: self.currentScreenData.mainField4;
+    self.currentScreenData.metadataTags = show.metadataTags ?: self.currentScreenData.metadataTags;
+    self.currentScreenData.alignment = show.alignment ?: self.currentScreenData.alignment;
+    self.currentScreenData.graphic = show.graphic ?: self.currentScreenData.graphic;
+    self.currentScreenData.secondaryGraphic = show.secondaryGraphic ?: self.currentScreenData.secondaryGraphic;
+}
+
 #pragma mark - Helpers
 
 - (BOOL)sdl_uploadedArtworkOrDoesntExist:(SDLArtwork *)artwork {
     return (!artwork || [self.fileManager hasUploadedFile:artwork]);
 }
 
-- (BOOL)sdl_shouldUpdateImages {
-    BOOL shouldUpdatePrimary = (![self.currentScreenData.graphic.value isEqualToString:self.primaryGraphic.name] && self.primaryGraphic != nil);
-    BOOL shouldUpdateSecondary = (![self.currentScreenData.secondaryGraphic.value isEqualToString:self.secondaryGraphic.name] && self.secondaryGraphic != nil);
+- (BOOL)sdl_shouldUpdatePrimaryImage {
+    return (![self.currentScreenData.graphic.value isEqualToString:self.primaryGraphic.name] && self.primaryGraphic != nil);
+}
 
-    return (shouldUpdatePrimary || shouldUpdateSecondary);
+- (BOOL)sdl_shouldUpdateSecondaryImage {
+    return (![self.currentScreenData.secondaryGraphic.value isEqualToString:self.secondaryGraphic.name] && self.secondaryGraphic != nil);
 }
 
 - (NSArray *)sdl_findNonNilFields {

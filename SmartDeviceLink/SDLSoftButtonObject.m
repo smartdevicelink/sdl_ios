@@ -10,6 +10,8 @@
 
 #import "SDLSoftButtonState.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLSoftButtonObject
 
 - (instancetype)initWithName:(NSString *)name states:(NSArray<SDLSoftButtonState *> *)states initialStateName:(NSString *)initialStateName handler:(SDLRPCButtonNotificationHandler)eventHandler {
@@ -29,7 +31,9 @@
 }
 
 - (void)transitionToState:(NSString *)stateName {
-    
+    // TODO: 
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

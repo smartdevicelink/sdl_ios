@@ -33,6 +33,19 @@ NS_ASSUME_NONNULL_BEGIN
     
 }
 
+- (void)beginUpdates {
+    _isBatchingUpdates = YES;
+}
+
+- (void)endUpdatesWithCompletionHandler:(SDLSoftButtonUpdateCompletionHandler)handler {
+    _isBatchingUpdates = NO;
+}
+
+- (void)setSoftButtons:(NSArray<SDLSoftButtonObject *> *)softButtons {
+    // TODO: Update soft buttons
+    _isBatchingUpdates = NO;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
