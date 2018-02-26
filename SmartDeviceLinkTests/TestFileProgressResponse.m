@@ -6,9 +6,9 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import "TestProgressResponse.h"
+#import "TestFileProgressResponse.h"
 
-@implementation TestProgressResponse
+@implementation TestFileProgressResponse
 
 - (instancetype)initWithFileName:(NSString *)testFileName testUploadPercentage:(float)testUploadPercentage error:(NSError *)testError {
     self = [super init];

@@ -94,6 +94,10 @@ NS_ASSUME_NONNULL_BEGIN
     self.lifecycleManager.delegate = delegate;
 }
 
+- (NSArray<__kindof NSOperation *> *)pendingRPCTransactions {
+    return self.lifecycleManager.rpcOperationQueue.operations;
+}
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (nullable SDLProxy *)proxy {
@@ -110,6 +114,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sendRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     [self.lifecycleManager sendRequest:request withResponseHandler:handler];
+}
+
+- (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+    [self.lifecycleManager sendRequests:requests progressHandler:progressHandler completionHandler:completionHandler];
+}
+
+- (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+    [self.lifecycleManager sendSequentialRequests:requests progressHandler:progressHandler completionHandler:completionHandler];
 }
 
 @end

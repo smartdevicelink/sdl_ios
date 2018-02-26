@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLDeleteFile *deleteFile = [[SDLDeleteFile alloc] initWithFileName:self.fileName];
 
     typeof(self) weakself = self;
-    [self.connectionManager sendManagerRequest:deleteFile
+    [self.connectionManager sendConnectionManagerRequest:deleteFile
                            withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
                                // Pull out the parameters
                                SDLDeleteFileResponse *deleteFileResponse = (SDLDeleteFileResponse *)response;
