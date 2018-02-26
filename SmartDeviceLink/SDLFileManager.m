@@ -256,6 +256,19 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 #pragma mark - Uploading
 
+- (BOOL)hasUploadedFile:(SDLFile *)file {
+    // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly.
+    if (file.persistent && [self.remoteFileNames containsObject:file.name]) {
+        // If it's a persistant file, the bug won't present itself; just check if it's on the remote system
+        return true;
+    } else if (file.persistent && [self.remoteFileNames containsObject:file.name] && [self.uploadedEphemeralFileNames containsObject:file.name]) {
+        // If it's an ephemeral file, the bug will present itself; check that it's a remote file AND that we've uploaded it this session
+        return true;
+    }
+
+    return false;
+}
+
 - (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
     [self uploadFiles:files progressHandler:nil completionHandler:completionHandler];
 }
@@ -275,7 +288,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         dispatch_group_enter(uploadFilesTask);
 
         // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly. This led to attempted uploads failing due to the system thinking they were already there when they were not.
-        if (!file.persistent && [self.remoteFileNames containsObject:file.name] && ![self.uploadedEphemeralFileNames containsObject:file.name]) {
+        if (!file.persistent && ![self hasUploadedFile:file]) {
             file.overwrite = true;
         }
 

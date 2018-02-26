@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class SDLArtwork;
+@class SDLFileManager;
 @class SDLTextAndGraphicConfiguration;
 
 @protocol SDLConnectionManagerType;
@@ -29,8 +30,6 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
  */
 @property (copy, nonatomic) SDLTextAndGraphicConfiguration *configuration;
 
-@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-
 /**
  A text field that corresponds to SDLShow mainField1. Setting to nil is equivalent to setting an empty string.
  */
@@ -46,10 +45,9 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
 /**
  Create a Text and Image Manager with a custom SDLTextAndImageConfiguration.
 
- @param configuration The configuration to use
  @return A new SDLTextAndImageManager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLTextAndGraphicConfiguration *)configuration;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
 
 /**
  Update text fields with new text set into the text field properties. Pass an empty string `\@""` to clear the text field.

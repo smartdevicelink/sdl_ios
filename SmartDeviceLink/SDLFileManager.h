@@ -80,6 +80,14 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
 - (void)stop;
 
 /**
+ Check if the remote system contains a file
+
+ @param file The file to check
+ @return Whether or not the remote system has the file
+ */
+- (BOOL)hasUploadedFile:(SDLFile *)file;
+
+/**
  *  Delete a file stored on the remote system
  *
  *  @param name       The name of the remote file. It should be a name currently stored in remoteFileNames

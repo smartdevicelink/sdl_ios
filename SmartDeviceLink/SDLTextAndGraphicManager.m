@@ -8,8 +8,11 @@
 
 #import "SDLTextAndGraphicManager.h"
 
+#import "SDLArtwork.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLDisplayCapabilities.h"
+#import "SDLFileManager.h"
+#import "SDLImage.h"
 #import "SDLMetadataTags.h"
 #import "SDLNotificationConstants.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -22,18 +25,37 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLTextAndGraphicManager()
 
+// Dependencies
+@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic) SDLFileManager *fileManager;
+
+/**
+ A show describing the current text and images on the screen (not soft buttons, etc.)
+ */
+@property (strong, nonatomic) SDLShow *currentScreenData;
+
+/**
+ This is the "full" update, including both text and image names, whether or not that will succeed at the moment (e.g. if images are in the process of uploading)
+ */
+@property (strong, nonatomic) SDLShow *inProgressUpdate;
+@property (strong, nonatomic) SDLShow *queuedImageUpdate;
+@property (assign, nonatomic, getter=hasQueuedUpdate) BOOL queuedUpdate;
+
+// Describes the display capabilities for the current display layout
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 
 @end
 
 @implementation SDLTextAndGraphicManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLTextAndGraphicConfiguration *)configuration {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(nonnull SDLFileManager *)fileManager {
     self = [super init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
-    _configuration = configuration;
+    _fileManager = fileManager;
+
+    _currentScreenData = [[SDLShow alloc] init];
 
     // TODO: Is this too early?
     self.displayCapabilities = self.connectionManager.registerResponse.displayCapabilities;
@@ -44,15 +66,57 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)updateWithCompletionHandler:(SDLTextAndGraphicUpdateCompletionHandler)handler {
+    if (self.inProgressUpdate != nil) {
+        self.queuedUpdate = YES;
+        return;
+    }
+
     NSUInteger numberOfShowLines = self.displayCapabilities.textFields.count; // TODO: Will this work?
-    SDLShow *show = [[SDLShow alloc] init];
-    show = [self sdl_assembleShowMetadataTags:show];
-    show = [self sdl_assembleShowText:show forNumberOfLines:numberOfShowLines];
-    show.alignment = self.configuration.alignment;
+    SDLShow *fullShow = [[SDLShow alloc] init];
+    fullShow = [self sdl_assembleShowMetadataTags:fullShow];
+    fullShow.alignment = self.configuration.alignment ?: SDLTextAlignmentCenter;
+    fullShow = [self sdl_assembleShowText:fullShow forNumberOfLines:numberOfShowLines];
+    fullShow = [self sdl_assembleShowImages:fullShow];
+
+    SDLShow *showToSend = nil;
+    if (![self sdl_shouldUpdateImages]) {
+        // If there's no images to update, just send the text update
+        SDLShow *textShow = [self sdl_extractTextFromShow:fullShow];
+    } else {
+        // If there's images to update
+        if ([self sdl_uploadedArtworkOrDoesntExist:self.primaryGraphic] && [self sdl_uploadedArtworkOrDoesntExist:self.secondaryGraphic]) {
+            // If the files to be updated are already uploaded, send the full show immediately
+        } else {
+            // We need to upload or queue the upload of the images
+            // Send the text immediately
+            SDLShow *textShow = [self sdl_extractTextFromShow:fullShow];
+            // Start uploading the images
+            // When the images are done uploading, send another show with the images
+        }
+    }
+
+    if (showToSend != nil) {
+        
+    }
 }
 
+
+#pragma mark - Assembly of Shows
+
 - (SDLShow *)sdl_assembleShowImages:(SDLShow *)show {
-    // TODO: Need to upload and send
+    BOOL shouldUpdatePrimary = (![self.currentScreenData.graphic.value isEqualToString:self.primaryGraphic.name] && self.primaryGraphic != nil);
+    BOOL shouldUpdateSecondary = (![self.currentScreenData.secondaryGraphic.value isEqualToString:self.secondaryGraphic.name] && self.secondaryGraphic != nil);
+
+    if (!shouldUpdatePrimary && !shouldUpdateSecondary) {
+        return show;
+    }
+
+    if (shouldUpdatePrimary) {
+        show.graphic = [[SDLImage alloc] initWithName:self.primaryGraphic.name ofType:SDLImageTypeDynamic];
+    }
+    if (shouldUpdateSecondary) {
+        show.graphic = [[SDLImage alloc] initWithName:self.primaryGraphic.name ofType:SDLImageTypeDynamic];
+    }
 
     return show;
 }
@@ -104,17 +168,12 @@ NS_ASSUME_NONNULL_BEGIN
     return show;
 }
 
-- (NSArray *)sdl_findNonNilFields {
-    NSMutableArray *array = [NSMutableArray array];
-    self.textField1.length > 0 ? [array addObject:self.textField1] : nil;
-    self.textField2.length > 0 ? [array addObject:self.textField2] : nil;
-    self.textField3.length > 0 ? [array addObject:self.textField3] : nil;
-    self.textField4.length > 0 ? [array addObject:self.textField4] : nil;
-
-    return array.copy;
-}
-
 - (SDLShow *)sdl_assembleShowMetadataTags:(SDLShow *)show {
+    if (self.configuration == nil) {
+        show.metadataTags = nil;
+        return show;
+    }
+
     NSUInteger numberOfShowLines = self.displayCapabilities.textFields.count; // TODO: Will this work?
     SDLMetadataTags *tags = [[SDLMetadataTags alloc] init];
     NSMutableArray<SDLMetadataType> *metadataArray = [NSMutableArray array];
@@ -150,6 +209,50 @@ NS_ASSUME_NONNULL_BEGIN
 
     show.metadataTags = tags;
     return show;
+}
+
+#pragma mark - Extraction
+
+- (SDLShow *)sdl_extractTextFromShow:(SDLShow *)show {
+    SDLShow *newShow = [[SDLShow alloc] init];
+    newShow.mainField1 = show.mainField1;
+    newShow.mainField2 = show.mainField2;
+    newShow.mainField3 = show.mainField3;
+    newShow.mainField4 = show.mainField4;
+    newShow.metadataTags = show.metadataTags;
+
+    return newShow;
+}
+
+- (SDLShow *)sdl_extractImageFromShow:(SDLShow *)show {
+    SDLShow *newShow = [[SDLShow alloc] init];
+    newShow.graphic = show.graphic;
+    newShow.secondaryGraphic = show.secondaryGraphic;
+
+    return newShow;
+}
+
+#pragma mark - Helpers
+
+- (BOOL)sdl_uploadedArtworkOrDoesntExist:(SDLArtwork *)artwork {
+    return (!artwork || [self.fileManager hasUploadedFile:artwork]);
+}
+
+- (BOOL)sdl_shouldUpdateImages {
+    BOOL shouldUpdatePrimary = (![self.currentScreenData.graphic.value isEqualToString:self.primaryGraphic.name] && self.primaryGraphic != nil);
+    BOOL shouldUpdateSecondary = (![self.currentScreenData.secondaryGraphic.value isEqualToString:self.secondaryGraphic.name] && self.secondaryGraphic != nil);
+
+    return (shouldUpdatePrimary || shouldUpdateSecondary);
+}
+
+- (NSArray *)sdl_findNonNilFields {
+    NSMutableArray *array = [NSMutableArray array];
+    self.textField1.length > 0 ? [array addObject:self.textField1] : nil;
+    self.textField2.length > 0 ? [array addObject:self.textField2] : nil;
+    self.textField3.length > 0 ? [array addObject:self.textField3] : nil;
+    self.textField4.length > 0 ? [array addObject:self.textField4] : nil;
+
+    return array.copy;
 }
 
 #pragma mark - RPC Responses

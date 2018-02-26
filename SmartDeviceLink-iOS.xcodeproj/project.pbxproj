@@ -324,8 +324,8 @@
 		5D0A7383203F23F30001595D /* SDLSoftButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A7381203F23F30001595D /* SDLSoftButtonManager.m */; };
 		5D0A7386203F24060001595D /* SDLSoftButtonState.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D0A7384203F24060001595D /* SDLSoftButtonState.h */; };
 		5D0A7387203F24060001595D /* SDLSoftButtonState.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A7385203F24060001595D /* SDLSoftButtonState.m */; };
-		5D0A738A203F24320001595D /* SDLSoftButtonWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D0A7388203F24320001595D /* SDLSoftButtonWrapper.h */; };
-		5D0A738B203F24320001595D /* SDLSoftButtonWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A7389203F24320001595D /* SDLSoftButtonWrapper.m */; };
+		5D0A738A203F24320001595D /* SDLSoftButtonObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D0A7388203F24320001595D /* SDLSoftButtonObject.h */; };
+		5D0A738B203F24320001595D /* SDLSoftButtonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A7389203F24320001595D /* SDLSoftButtonObject.m */; };
 		5D0A9F911F15550400CC80DD /* SDLSystemCapabilityTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A9F901F15550400CC80DD /* SDLSystemCapabilityTypeSpec.m */; };
 		5D0A9F931F15560B00CC80DD /* SDLNavigationCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A9F921F15560B00CC80DD /* SDLNavigationCapabilitySpec.m */; };
 		5D0A9F951F15585B00CC80DD /* SDLPhoneCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A9F941F15585B00CC80DD /* SDLPhoneCapabilitySpec.m */; };
@@ -1541,8 +1541,8 @@
 		5D0A7381203F23F30001595D /* SDLSoftButtonManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSoftButtonManager.m; sourceTree = "<group>"; };
 		5D0A7384203F24060001595D /* SDLSoftButtonState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSoftButtonState.h; sourceTree = "<group>"; };
 		5D0A7385203F24060001595D /* SDLSoftButtonState.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSoftButtonState.m; sourceTree = "<group>"; };
-		5D0A7388203F24320001595D /* SDLSoftButtonWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSoftButtonWrapper.h; sourceTree = "<group>"; };
-		5D0A7389203F24320001595D /* SDLSoftButtonWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSoftButtonWrapper.m; sourceTree = "<group>"; };
+		5D0A7388203F24320001595D /* SDLSoftButtonObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSoftButtonObject.h; sourceTree = "<group>"; };
+		5D0A7389203F24320001595D /* SDLSoftButtonObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSoftButtonObject.m; sourceTree = "<group>"; };
 		5D0A9F901F15550400CC80DD /* SDLSystemCapabilityTypeSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSystemCapabilityTypeSpec.m; sourceTree = "<group>"; };
 		5D0A9F921F15560B00CC80DD /* SDLNavigationCapabilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationCapabilitySpec.m; sourceTree = "<group>"; };
 		5D0A9F941F15585B00CC80DD /* SDLPhoneCapabilitySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPhoneCapabilitySpec.m; sourceTree = "<group>"; };
@@ -2858,8 +2858,8 @@
 		5D0A736F203F0C450001595D /* Show */ = {
 			isa = PBXGroup;
 			children = (
-				5D0A737F203F23D10001595D /* Soft Button */,
 				5D0A737E203F23BD0001595D /* Configuration */,
+				5D0A737F203F23D10001595D /* Soft Button */,
 				5D0A737D203F23B30001595D /* Text and Graphic */,
 			);
 			name = Show;
@@ -2917,8 +2917,8 @@
 				5D0A7381203F23F30001595D /* SDLSoftButtonManager.m */,
 				5D0A7384203F24060001595D /* SDLSoftButtonState.h */,
 				5D0A7385203F24060001595D /* SDLSoftButtonState.m */,
-				5D0A7388203F24320001595D /* SDLSoftButtonWrapper.h */,
-				5D0A7389203F24320001595D /* SDLSoftButtonWrapper.m */,
+				5D0A7388203F24320001595D /* SDLSoftButtonObject.h */,
+				5D0A7389203F24320001595D /* SDLSoftButtonObject.m */,
 			);
 			name = "Soft Button";
 			sourceTree = "<group>";
@@ -4914,7 +4914,7 @@
 				5D61FCEC1A84238C00846EE7 /* SDLListFiles.h in Headers */,
 				5D2F58081D0717D5001085CE /* SDLManagerDelegate.h in Headers */,
 				5D61FC881A84238C00846EE7 /* SDLDiagnosticMessage.h in Headers */,
-				5D0A738A203F24320001595D /* SDLSoftButtonWrapper.h in Headers */,
+				5D0A738A203F24320001595D /* SDLSoftButtonObject.h in Headers */,
 				5D61FDB31A84238C00846EE7 /* SDLSubscribeVehicleDataResponse.h in Headers */,
 				5D61FC961A84238C00846EE7 /* SDLECallConfirmationStatus.h in Headers */,
 				5D4D67AC1D2ED37A00468B4A /* SDLNotificationDispatcher.h in Headers */,
@@ -5397,7 +5397,7 @@
 				5D61FDFE1A84238C00846EE7 /* SDLVehicleDataActiveStatus.m in Sources */,
 				1E5AD0411F1F58480029B8AF /* SDLVentilationMode.m in Sources */,
 				5D61FCD01A84238C00846EE7 /* SDLImageField.m in Sources */,
-				5D0A738B203F24320001595D /* SDLSoftButtonWrapper.m in Sources */,
+				5D0A738B203F24320001595D /* SDLSoftButtonObject.m in Sources */,
 				5D61FC3C1A84238C00846EE7 /* SDLAlertManeuverResponse.m in Sources */,
 				DA9F7E741DCC004C00ACAE48 /* SDLGetWayPointsResponse.m in Sources */,
 				5D61FD4D1A84238C00846EE7 /* SDLProtocolMessageDisassembler.m in Sources */,

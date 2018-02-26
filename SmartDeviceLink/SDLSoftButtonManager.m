@@ -8,6 +8,31 @@
 
 #import "SDLSoftButtonManager.h"
 
-@implementation SDLSoftButtonManager
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLSoftButtonManager()
+
+@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic) SDLFileManager *fileManager;
 
 @end
+
+@implementation SDLSoftButtonManager
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager {
+    self = [super init];
+    if (!self) { return nil; }
+
+    _connectionManager = connectionManager;
+    _fileManager = fileManager;
+
+    return self;
+}
+
+- (void)updateButtonNamed:(NSString *)buttonName replacingCurrentStateWithState:(SDLSoftButtonState *)state {
+    
+}
+
+@end
+
+NS_ASSUME_NONNULL_END
