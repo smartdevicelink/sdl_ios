@@ -4,6 +4,7 @@
 #import "SDLAppHMIType.h"
 #import "SDLLanguage.h"
 #import "SDLLifecycleConfiguration.h"
+#import "SDLLifecycleConfigurationUpdate.h"
 #import "SDLSpeechCapabilities.h"
 #import "SDLTTSChunk.h"
 
@@ -158,6 +159,110 @@ describe(@"a lifecycle configuration", ^{
                 expect(testConfig.ttsName).to(contain(someTTSChunk));
                 expect(testConfig.ttsName).to(haveCount(@1));
                 expect(testConfig.voiceRecognitionCommandNames).to(haveCount(@(someSynonyms.count)));
+            });
+        });
+    });
+    
+    context(@"that configuration update properties are set", ^{
+        describe(@"after using default init", ^{
+            __block SDLLifecycleConfigurationUpdate *update = nil;
+            
+            beforeEach(^{
+                update = [[SDLLifecycleConfigurationUpdate alloc] init];
+            });
+            
+            it(@"should have all properties to nil", ^{
+                expect(update.appName).to(beNil());
+                expect(update.shortAppName).to(beNil());
+                expect(update.ttsName).to(beNil());
+                expect(update.voiceRecognitionCommandNames).to(beNil());
+            });
+                       
+            it(@"should set app name", ^{
+                NSString *test = @"Some Test String";
+                update.appName = test;
+                expect(update.appName).to(match(test));
+                expect(update.shortAppName).to(beNil());
+                expect(update.ttsName).to(beNil());
+                expect(update.voiceRecognitionCommandNames).to(beNil());
+            });
+                       
+            it(@"should set short app name", ^{
+                NSString *test = @"Some Test String";
+                update.shortAppName = test;
+                expect(update.appName).to(beNil());
+                expect(update.shortAppName).to(match(test));
+                expect(update.ttsName).to(beNil());
+                expect(update.voiceRecognitionCommandNames).to(beNil());
+            });
+                       
+            it(@"should set tts app name", ^{
+                NSArray<SDLTTSChunk *> *test = [SDLTTSChunk textChunksFromString:@"Some Test String"];
+                update.ttsName = test;
+                expect(update.appName).to(beNil());
+                expect(update.shortAppName).to(beNil());
+                expect(update.ttsName).to(match(test));
+                expect(update.voiceRecognitionCommandNames).to(beNil());
+            });
+                       
+            it(@"should set vr synonyms", ^{
+                NSArray<NSString *> *test = @[@"Some Test String"];
+                update.voiceRecognitionCommandNames = test;
+                expect(update.appName).to(beNil());
+                expect(update.shortAppName).to(beNil());
+                expect(update.ttsName).to(beNil());
+                expect(update.voiceRecognitionCommandNames).to(match(test));
+            });
+        });
+        
+        describe(@"after using default init", ^{
+            it(@"should have all properties to nil", ^{
+                SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] initWithAppName:nil shortAppName:nil ttsName:nil voiceRecognitionCommandNames:nil];
+                
+                expect(update.appName).to(beNil());
+                expect(update.shortAppName).to(beNil());
+                expect(update.ttsName).to(beNil());
+                expect(update.voiceRecognitionCommandNames).to(beNil());
+            });
+            
+            it(@"should set app name", ^{
+                NSString *test = @"Some Test String";
+                SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] initWithAppName:test shortAppName:nil ttsName:nil voiceRecognitionCommandNames:nil];
+                
+                expect(update.appName).to(match(test));
+                expect(update.shortAppName).to(beNil());
+                expect(update.ttsName).to(beNil());
+                expect(update.voiceRecognitionCommandNames).to(beNil());
+            });
+            
+            it(@"should set short app name", ^{
+                NSString *test = @"Some Test String";
+                SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] initWithAppName:nil shortAppName:test ttsName:nil voiceRecognitionCommandNames:nil];
+                
+                expect(update.appName).to(beNil());
+                expect(update.shortAppName).to(match(test));
+                expect(update.ttsName).to(beNil());
+                expect(update.voiceRecognitionCommandNames).to(beNil());
+            });
+            
+            it(@"should set tts app name", ^{
+                NSArray<SDLTTSChunk *> *test = [SDLTTSChunk textChunksFromString:@"Some Test String"];
+                SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] initWithAppName:nil shortAppName:nil ttsName:test voiceRecognitionCommandNames:nil];
+                
+                expect(update.appName).to(beNil());
+                expect(update.shortAppName).to(beNil());
+                expect(update.ttsName).to(match(test));
+                expect(update.voiceRecognitionCommandNames).to(beNil());
+            });
+            
+            it(@"should set vr synonyms", ^{
+                NSArray<NSString *> *test = @[@"Some Test String"];
+                SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] initWithAppName:nil shortAppName:nil ttsName:nil voiceRecognitionCommandNames:test];
+                
+                expect(update.appName).to(beNil());
+                expect(update.shortAppName).to(beNil());
+                expect(update.ttsName).to(beNil());
+                expect(update.voiceRecognitionCommandNames).to(match(test));
             });
         });
     });
