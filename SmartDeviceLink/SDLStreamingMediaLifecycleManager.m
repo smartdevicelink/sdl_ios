@@ -291,7 +291,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     [self sdl_sendBackgroundFrames];
     [self.touchManager cancelPendingTouches];
-    self.restartVideoStream = YES;
+
+    [self sdl_stopAudioSession];
+    [self sdl_stopVideoSession];
 }
 
 // Per Apple's guidelines: https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/StrategiesforHandlingAppStateTransitions/StrategiesforHandlingAppStateTransitions.html
