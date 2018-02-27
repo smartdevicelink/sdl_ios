@@ -29,8 +29,10 @@
 @class SDLRPCNotification;
 @class SDLRPCRequest;
 @class SDLRPCResponse;
+@class SDLSoftButtonManager;
 @class SDLStateMachine;
 @class SDLStreamingMediaManager;
+@class SDLTextAndGraphicManager;
 
 @protocol SDLManagerDelegate;
 
@@ -65,6 +67,8 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 @property (strong, nonatomic) SDLPermissionManager *permissionManager;
 @property (strong, nonatomic, nullable) SDLStreamingMediaManager *streamManager;
 @property (strong, nonatomic) SDLLockScreenManager *lockScreenManager;
+@property (strong, nonatomic, readonly) SDLTextAndGraphicManager *textAndGraphicManager;
+@property (strong, nonatomic, readonly) SDLSoftButtonManager *softButtonManager;
 
 @property (strong, nonatomic, readonly) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readonly) SDLResponseDispatcher *responseDispatcher;

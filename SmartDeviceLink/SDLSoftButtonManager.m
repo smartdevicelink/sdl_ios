@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)updateButtonNamed:(NSString *)buttonName replacingCurrentStateWithState:(SDLSoftButtonState *)state {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", buttonName];
-    NSArray<SDLSoftButtonObject *> *buttons = [self.softButtons filteredArrayUsingPredicate:predicate];
+    NSArray<SDLSoftButtonObject *> *buttons = [self.softButtonObjects filteredArrayUsingPredicate:predicate];
     if (buttons.count == 0) {
         return NO;
     }
