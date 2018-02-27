@@ -25,12 +25,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  All states available to this button
  */
-@property (copy, nonatomic, readonly) NSArray<SDLSoftButtonState *> *states;
+@property (strong, nonatomic, readonly) NSArray<SDLSoftButtonState *> *states;
 
 /**
  The name of the current state of this soft button
  */
-@property (copy, nonatomic, readonly) NSString *currentStateName;
+@property (copy, nonatomic, readonly) SDLSoftButtonState *currentState;
 
 /**
  The handler to be called when the button is in the current state and is pressed
@@ -65,6 +65,8 @@ NS_ASSUME_NONNULL_BEGIN
  @return YES if a state was found with that name, NO otherwise.
  */
 - (BOOL)transitionToState:(NSString *)stateName;
+
+- (nullable SDLSoftButtonState *)stateWithName:(NSString *)stateName;
 
 @end
 

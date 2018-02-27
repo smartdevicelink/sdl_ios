@@ -9,8 +9,18 @@
 #import "SDLSoftButtonState.h"
 
 #import "SDLArtwork.h"
+#import "SDLImage.h"
+#import "SDLSoftButton.h"
+#import "SDLSoftButtonType.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLSoftButtonState()
+
+@property (strong, nonatomic, readonly) SDLSoftButtonType type;
+@property (strong, nonatomic, readonly, nullable) SDLImage *image;
+
+@end
 
 @implementation SDLSoftButtonState
 
@@ -28,6 +38,27 @@ NS_ASSUME_NONNULL_BEGIN
     _artwork = artwork;
 
     return self;
+}
+
+- (SDLSoftButton *)softButton {
+    SDLSystemAction action = self.systemAction ?: SDLSystemActionDefaultAction;
+    return [[SDLSoftButton alloc] initWithType:self.type text:self.text image:self.image highlighted:self.highlighted buttonId:0 systemAction:action handler:nil];
+}
+
+- (SDLSoftButtonType)type {
+    if (self.artwork != nil && self.text != nil) {
+        return SDLSoftButtonTypeBoth;
+    } else if (self.artwork != nil) {
+        return SDLSoftButtonTypeImage;
+    } else {
+        return SDLSoftButtonTypeText;
+    }
+}
+
+- (nullable SDLImage *)image {
+    if (self.artwork == nil) { return nil; }
+
+    return [[SDLImage alloc] initWithName:self.artwork.name ofType:SDLImageTypeDynamic];
 }
 
 @end

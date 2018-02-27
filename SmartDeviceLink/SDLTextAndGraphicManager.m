@@ -37,9 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  This is the "full" update, including both text and image names, whether or not that will succeed at the moment (e.g. if images are in the process of uploading)
  */
-@property (strong, nonatomic) SDLShow *inProgressUpdate;
-@property (strong, nonatomic) SDLShow *queuedImageUpdate;
-@property (copy, nonatomic, getter=hasQueuedUpdate) SDLTextAndGraphicUpdateCompletionHandler queuedUpdateHandler;
+@property (strong, nonatomic, nullable) SDLShow *inProgressUpdate;
+@property (strong, nonatomic, nullable) SDLShow *queuedImageUpdate;
+
+@property (assign, nonatomic) BOOL hasQueuedUpdate;
+@property (copy, nonatomic, nullable) SDLTextAndGraphicUpdateCompletionHandler queuedUpdateHandler;
 
 // Describes the display capabilities for the current display layout
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
@@ -65,12 +67,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)updateWithCompletionHandler:(SDLTextAndGraphicUpdateCompletionHandler)handler {
+- (void)updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
     if (self.inProgressUpdate != nil) {
-        self.queuedUpdateHandler = handler;
+        if (handler != nil) {
+            self.queuedUpdateHandler = handler;
+        } else {
+            self.hasQueuedUpdate = YES;
+        }
+
         return;
     }
 
+    NSUInteger numberOfImages = self.displayCapabilities.imageFields.count; // TODO: This probably won't work without further tweaks?
     NSUInteger numberOfShowLines = self.displayCapabilities.textFields.count; // TODO: Will this work?
     SDLShow *fullShow = [[SDLShow alloc] init];
     fullShow = [self sdl_assembleShowMetadataTags:fullShow];
@@ -79,43 +87,54 @@ NS_ASSUME_NONNULL_BEGIN
     fullShow = [self sdl_assembleShowImages:fullShow];
 
     if (!([self sdl_shouldUpdatePrimaryImage] || [self sdl_shouldUpdateSecondaryImage])) {
-        // If there's no images to update, just send the text update
+        // If there are no images to update, just send the text update
         self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
+    } else if ([self sdl_uploadedArtworkOrDoesntExist:self.primaryGraphic] && [self sdl_uploadedArtworkOrDoesntExist:self.secondaryGraphic]) {
+        // The files to be updated are already uploaded, send the full show immediately
+        self.inProgressUpdate = fullShow;
     } else {
-        // If there's images to update
-        if ([self sdl_uploadedArtworkOrDoesntExist:self.primaryGraphic] && [self sdl_uploadedArtworkOrDoesntExist:self.secondaryGraphic]) {
-            // The files to be updated are already uploaded, send the full show immediately
-            self.inProgressUpdate = fullShow;
-        } else {
-            // We need to upload or queue the upload of the images
-            // Send the text immediately
-            self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
-            // Start uploading the images
-            [self sdl_uploadImagesWithCompletionHandler:^(NSError * _Nonnull error) {
-                // TODO: Check if queued image update still matches our images (there could have been a new Show in the meantime) and send the queuedImageUpdate if it does. Send delete if it doesn't?
-            }];
-            // TODO: If a new update comes in while this upload is happening, what do we do?
-            // When the images are done uploading, send another show with the images
-            self.queuedImageUpdate = fullShow;
-        }
-    }
-
-    if (self.inProgressUpdate != nil) {
-        [self.connectionManager sendConnectionRequest:self.inProgressUpdate withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-            if (response.success && error != nil) {
-                [self sdl_updateCurrentScreenDataFromShow:(SDLShow *)request];
-            }
-
-            handler(error);
-
-            if (self.queuedUpdateHandler != NULL) {
-                [self updateWithCompletionHandler:self.queuedUpdateHandler];
+        // We need to upload or queue the upload of the images
+        // Send the text immediately
+        self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
+        // Start uploading the images
+        __block SDLShow *thisUpdate = fullShow;
+        [self sdl_uploadImagesWithCompletionHandler:^(NSError * _Nonnull error) {
+            // Check if queued image update still matches our images (there could have been a new Show in the meantime) and send a new update if it does. Since the images will already be on the head unit, the whole show will be sent
+            // TODO: Send delete if it doesn't?
+            if ([self sdl_showImages:thisUpdate isEqualToShowImages:self.queuedImageUpdate]) {
+                [self updateWithCompletionHandler:handler];
             }
         }];
+        // TODO: If a new update comes in while this upload is happening, what do we do?
+        // When the images are done uploading, send another show with the images
+        self.queuedImageUpdate = [self sdl_extractImageFromShow:fullShow];
     }
+
+    [self sdl_sendShow:self.inProgressUpdate withHandler:^(NSError * _Nullable error) {
+        self.inProgressUpdate = nil;
+        handler(error);
+    }];
 }
 
-#pragma mark - Upload Images
+#pragma mark - Upload / Send
+
+- (void)sdl_sendShow:(SDLShow *)show withHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
+    if (show == nil) { return; }
+
+    [self.connectionManager sendConnectionRequest:show withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (response.success && error != nil) {
+            [self sdl_updateCurrentScreenDataFromShow:(SDLShow *)request];
+        }
+
+        handler(error);
+
+        if (self.hasQueuedUpdate) {
+            [self updateWithCompletionHandler:[self.queuedUpdateHandler copy]];
+            self.queuedUpdateHandler = nil;
+            self.hasQueuedUpdate = NO;
+        }
+    }];
+}
 
 - (void)sdl_uploadImagesWithCompletionHandler:(void (^)(NSError *error))handler {
     if ([self sdl_shouldUpdatePrimaryImage]) {
@@ -129,17 +148,14 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Assembly of Shows
 
 - (SDLShow *)sdl_assembleShowImages:(SDLShow *)show {
-    BOOL shouldUpdatePrimary = (![self.currentScreenData.graphic.value isEqualToString:self.primaryGraphic.name] && self.primaryGraphic != nil);
-    BOOL shouldUpdateSecondary = (![self.currentScreenData.secondaryGraphic.value isEqualToString:self.secondaryGraphic.name] && self.secondaryGraphic != nil);
-
-    if (!shouldUpdatePrimary && !shouldUpdateSecondary) {
+    if (![self sdl_shouldUpdatePrimaryImage] && ![self sdl_shouldUpdateSecondaryImage]) {
         return show;
     }
 
-    if (shouldUpdatePrimary) {
+    if ([self sdl_shouldUpdatePrimaryImage]) {
         show.graphic = [[SDLImage alloc] initWithName:self.primaryGraphic.name ofType:SDLImageTypeDynamic];
     }
-    if (shouldUpdateSecondary) {
+    if ([self sdl_shouldUpdateSecondaryImage]) {
         show.graphic = [[SDLImage alloc] initWithName:self.primaryGraphic.name ofType:SDLImageTypeDynamic];
     }
 
@@ -293,12 +309,25 @@ NS_ASSUME_NONNULL_BEGIN
     return array.copy;
 }
 
+#pragma mark - Equality
+
+- (BOOL)sdl_showImages:(SDLShow *)show isEqualToShowImages:(SDLShow *)show2 {
+    return ([show.graphic.value isEqualToString:show2.graphic.value] && [show.secondaryGraphic.value isEqualToString:show2.secondaryGraphic.value]);
+}
+
+#pragma mark - Getters
+
+- (BOOL)hasQueuedUpdate {
+    return (_hasQueuedUpdate || _queuedUpdateHandler != nil);
+}
+
 #pragma mark - RPC Responses
 
 - (void)sdl_displayLayoutResponse:(SDLRPCNotificationNotification *)notification {
     self.displayCapabilities = (SDLDisplayCapabilities *)notification.notification;
 
     // TODO: Send an updated Show
+    [self updateWithCompletionHandler:nil];
 }
 
 @end

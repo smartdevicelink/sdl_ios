@@ -201,6 +201,10 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
             userInfo:nil];
 }
 
++ (NSException *)sdl_invalidSoftButtonStateException {
+    return [NSException exceptionWithName:@"InvalidSoftButtonState" reason:@"Attempting to transition to a state that does not exist" userInfo:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

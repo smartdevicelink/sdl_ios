@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#import "SDLSystemAction.h"
+
 @class SDLArtwork;
+@class SDLSoftButton;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -33,6 +36,16 @@ NS_ASSUME_NONNULL_BEGIN
  Whether or not the button should be highlighted on the UI
  */
 @property (assign, nonatomic, getter=isHighlighted) BOOL highlighted;
+
+/**
+ A special system action
+ */
+@property (strong, nonatomic) SDLSystemAction systemAction;
+
+/**
+ An SDLSoftButton describing this state
+ */
+@property (strong, nonatomic, readonly) SDLSoftButton *softButton;
 
 - (instancetype)init NS_UNAVAILABLE;
 

@@ -64,9 +64,9 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
 
  If it needs to be uploaded, it will be. Once the upload is complete, the on-screen graphic will be updated.
 
- @param handler A handler run when the fields have finished updating, with an error if the update failed
+ @param handler A handler run when the fields have finished updating, with an error if the update failed. This handler may be called multiple times when the text update is sent and the image update is sent.
  */
-- (void)updateWithCompletionHandler:(SDLTextAndGraphicUpdateCompletionHandler)handler;
+- (void)updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler;
 
 @end
 

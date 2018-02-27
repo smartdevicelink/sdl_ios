@@ -26,9 +26,9 @@ typedef void(^SDLSoftButtonUpdateCompletionHandler)(NSError *__nullable error);
 @interface SDLSoftButtonManager : NSObject
 
 /**
- An array of soft button wrappers containing soft button states. This is the current set of soft buttons in the process of being displayed or that are currently displayed. To display a new set of soft buttons, set this property. Setting this property will cause a Show to be sent with all of the soft buttons and their initial states; this resets `isBatchingUpdates` and will ignore `beginBatchingUpdates` and `endBatchingUpdates`.
+ An array of soft button wrappers containing soft button states. This is the current set of soft buttons in the process of being displayed or that are currently displayed.
  */
-@property (copy, nonatomic) NSArray<SDLSoftButtonObject *> *softButtons;
+@property (copy, nonatomic, readonly) NSArray<SDLSoftButtonObject *> *softButtonObjects;
 
 @property (assign, nonatomic, readonly) BOOL isBatchingUpdates;
 
@@ -52,7 +52,24 @@ typedef void(^SDLSoftButtonUpdateCompletionHandler)(NSError *__nullable error);
  */
 - (BOOL)updateButtonNamed:(NSString *)buttonName replacingCurrentStateWithState:(NSString *)stateName;
 
+/**
+ To display a new set of soft buttons, call this method. Calling this property will cause a Show to be sent with all of the soft buttons and their initial states as well as uploading any images of additional states (after the initial state is sent); this resets `isBatchingUpdates` and will ignore `beginBatchingUpdates` and `endBatchingUpdates`. If any soft buttons are image only, all soft buttons will wait to show until the images are uploaded, otherwise, text buttons will be sent, then buttons re-sent when images are uploaded. If updates are called during this process, they will be queued.
+
+ @param softButtons The new soft button objects to use
+ @return If two softbuttons are found with the same name, this will return NO and nothing will occur
+ */
+- (BOOL)setSoftButtons:(NSArray<SDLSoftButtonObject *> *)softButtons; // TODO: Probably a completion handler with error?
+
+/**
+ Begins waiting for `endUpdatesWithCompletionHandler:` and pauses soft button transitions until that method is called.
+ */
 - (void)beginUpdates;
+
+/**
+ Cause all transitions in between `beginUpdates` and this method call to occur in one RPC update.
+
+ @param handler The handler called once the update is completed.
+ */
 - (void)endUpdatesWithCompletionHandler:(SDLSoftButtonUpdateCompletionHandler)handler;
 
 @end
