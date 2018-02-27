@@ -90,6 +90,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     _softButtonObjects = softButtons;
 
+    // TODO: Upload all soft button images, the initial state images first, then the other states. We need to send updates when the initial state is ready.
+    // TODO: We'll also need to handle changes that occur during that process
+
     [self sdl_updateSoftButtonsWithCompletionHandler:nil];
 
     return YES;
@@ -113,7 +116,13 @@ NS_ASSUME_NONNULL_BEGIN
     self.inProgressUpdate = [[SDLShow alloc] init];
     self.inProgressUpdate.softButtons = [self sdl_createSoftButtonsFromCurrentState];
     if ([self sdl_currentStateHasImages] && ![self sdl_allCurrentStateImagesAreUploaded]) {
-        // The images don't yet exist on the head unit, so we must upload them before showing the buttons
+        // The images don't yet exist on the head unit, send a text update if possible
+        NSArray<SDLSoftButton *> *textOnlyButtons = [self sdl_textButtonsForCurrentState];
+        if (textOnlyButtons != nil) {
+            self.inProgressUpdate.softButtons = textOnlyButtons;
+        } else {
+            return;
+        }
     }
 
     [self.connectionManager sendConnectionRequest:self.inProgressUpdate withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
@@ -124,6 +133,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Images
+
+- (void)sdl_uploadArtworks:(NSArray<SDLArtwork *> *)artworks withCompletionHandler:(void (^)(NSError *error))handler {
+    // TODO: Need uploadArtworks
+}
 
 - (BOOL)sdl_currentStateHasImages {
     for (SDLSoftButtonObject *object in self.softButtonObjects) {
@@ -146,25 +159,22 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
-- (void)sdl_uploadArtworks:(NSArray<SDLArtwork *> *)artworks withCompletionHandler:(void (^)(NSError *error))handler {
-    // TODO: Need uploadArtworks
-}
-
 #pragma mark - Creating Soft Buttons
 
 /**
  Returns text soft buttons representing the initial states of the button objects, or nil if _any_ of the buttons' current states are image only buttons.
 
- @param buttons The buttons to extract from
  @return The text soft buttons
  */
-- (nullable NSArray<SDLSoftButton *> *)sdl_extractInitialTextFromSoftButtons:(NSArray<SDLSoftButtonObject *> *)buttons {
-    NSMutableArray<SDLSoftButton *> *textButtons = [NSMutableArray arrayWithCapacity:buttons.count];
-    for (SDLSoftButtonObject *buttonObject in buttons) {
+- (nullable NSArray<SDLSoftButton *> *)sdl_textButtonsForCurrentState {
+    NSMutableArray<SDLSoftButton *> *textButtons = [NSMutableArray arrayWithCapacity:self.softButtonObjects.count];
+    for (SDLSoftButtonObject *buttonObject in self.softButtonObjects) {
         SDLSoftButtonState *currentState = buttonObject.currentState;
         if (currentState.artwork != nil && currentState.text == nil) {
             return nil;
         }
+
+        [textButtons addObject:currentState.softButton];
     }
 
     return [textButtons copy];
