@@ -33,12 +33,17 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
 /**
  A text field that corresponds to SDLShow mainField1. Setting to nil is equivalent to setting an empty string.
  */
-@property (copy, nonatomic, readonly, nullable) NSString *textField1;
-@property (copy, nonatomic, readonly, nullable) NSString *textField2;
-@property (copy, nonatomic, readonly, nullable) NSString *textField3;
-@property (copy, nonatomic, readonly, nullable) NSString *textField4;
-@property (strong, nonatomic, readonly, nullable) SDLArtwork *primaryGraphic;
-@property (strong, nonatomic, readonly, nullable) SDLArtwork *secondaryGraphic;
+@property (copy, nonatomic, nullable) NSString *textField1;
+@property (copy, nonatomic, nullable) NSString *textField2;
+@property (copy, nonatomic, nullable) NSString *textField3;
+@property (copy, nonatomic, nullable) NSString *textField4;
+@property (strong, nonatomic, nullable) SDLArtwork *primaryGraphic;
+@property (strong, nonatomic, nullable) SDLArtwork *secondaryGraphic;
+
+/**
+ If you want to make a graphic blank, set it to this artwork
+ */
+@property (strong, nonatomic, readonly) SDLArtwork *blankArtwork;
 
 - (instancetype)init NS_UNAVAILABLE;
 

@@ -34,6 +34,10 @@ NS_ASSUME_NONNULL_BEGIN
 // Describes the first time the HMI state goes non-none and full.
 @property (assign, nonatomic) SDLHMIFirstState firstTimeState;
 
+@property (assign, nonatomic, getter=isTextEnabled) BOOL textEnabled;
+@property (assign, nonatomic, getter=isHexagonEnabled) BOOL hexagonEnabled;
+@property (assign, nonatomic, getter=areImagesEnabled) BOOL imagesEnabled;
+
 @end
 
 
@@ -59,6 +63,10 @@ NS_ASSUME_NONNULL_BEGIN
     
     _state = ProxyStateStopped;
     _firstTimeState = SDLHMIFirstStateNone;
+
+    _textEnabled = YES;
+    _hexagonEnabled = YES;
+    _imagesEnabled = YES;
     
     return self;
 }
@@ -123,32 +131,36 @@ NS_ASSUME_NONNULL_BEGIN
     SDLSetDisplayLayout *displayLayout = [[SDLSetDisplayLayout alloc] initWithLayout:SDLPredefinedLayoutNonMedia];
     [self.sdlManager sendRequest:displayLayout];
 
-    SDLShow *show = [self sdlex_show];
-
-    [self.sdlManager sendSequentialRequests:@[displayLayout, show] progressHandler:^BOOL(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
-        NSLog(@"Display layout / show progress: %f%%", percentComplete * 100);
-        return YES;
-    } completionHandler:nil];
+    [self sdlex_updateScreen];
 }
 
-- (SDLShow *)sdlex_show {
-    NSString *mainField1Text = isTextOn ? @"Smart Device Link" : @"";
-    NSString *mainField2Text = isTextOn ? @"Example App" : @"";
-    SDLShow* show = [[SDLShow alloc] initWithMainField1:mainField1Text mainField2:mainField2Text alignment:SDLTextAlignmentCenter];
-    show.softButtons = [self sdlex_softButtons];
-    show.graphic = areImagesVisible ? [self.class sdlex_mainGraphicImage] : [self.class sdlex_mainGraphicImage];
-    return show;
-//    [manager sendRequest:show withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-//        NSLog(@"Show request: %@ response: %@ error: %@", request, response, error);
-//    }];
+- (void)setTextEnabled:(BOOL)textEnabled {
+    _textEnabled = textEnabled;
+    [self sdlex_updateScreen];
 }
 
-- (NSArray<SDLSoftButton *> *)sdlex_softButtons {
-    SDLSoftButton *starSoftButton = [self.class sdlex_softButton1WithManager:self.sdlManager];
-    SDLSoftButton *hexagonSoftButton = [self sdlex_softButton2WithManager:self.sdlManager];
-    SDLSoftButton *textSoftButton = [self sdlex_softButton3WithManager:self.sdlManager];
-    SDLSoftButton *imageSoftButton = [self sdlex_softButton4WithManager:self.sdlManager];
-    return @[starSoftButton, hexagonSoftButton, textSoftButton, imageSoftButton];
+- (void)setImagesEnabled:(BOOL)imagesEnabled {
+    _imagesEnabled = imagesEnabled;
+    [self sdlex_updateScreen];
+}
+
+- (void)setHexagonEnabled:(BOOL)hexagonEnabled {
+    _hexagonEnabled = hexagonEnabled;
+    [self.sdlManager.softButtonManager updateButtonNamed:@"HexagonButton" replacingCurrentStateWithState:(hexagonEnabled ? @"onState" : @"offState")];
+}
+
+- (void)sdlex_updateScreen {
+    SDLTextAndGraphicConfiguration *config = [[SDLTextAndGraphicConfiguration alloc] initWithTextField1:nil textField2:nil textField3:nil textField4:nil alignment:SDLTextAlignmentLeft];
+    self.sdlManager.textAndGraphicManager.configuration = config;
+
+    self.sdlManager.textAndGraphicManager.textField1 = self.isTextEnabled ? @"SmartDeviceLink" : nil;
+    self.sdlManager.textAndGraphicManager.textField2 = self.isTextEnabled ? @"Example App" : nil;
+
+    self.sdlManager.textAndGraphicManager.primaryGraphic = self.areImagesEnabled ? [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] name:@"PrimaryArt" asImageFormat:SDLArtworkImageFormatPNG] : self.sdlManager.textAndGraphicManager.blankArtwork;
+
+    [self.sdlManager.textAndGraphicManager updateWithCompletionHandler:^(NSError * _Nullable error) {
+        NSLog(@"Updated text and graphics, error? %@", error);
+    }];
 }
 
 - (void)sdlex_setupPermissionsCallbacks {
@@ -321,121 +333,61 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-+ (SDLSoftButton *)sdlex_softButton1WithManager:(SDLManager *)manager {
-    SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
-        if (buttonPressNotification == nil) {
+- (NSArray<SDLSoftButtonObject *> *)sdlex_softButtons {
+    SDLSoftButtonState *starImageState = [[SDLSoftButtonState alloc] initWithStateName:@"imageState" text:@"Press" image:[UIImage imageNamed:@"star_softbutton_icon"]];
+    SDLSoftButtonState *starTextState = [[SDLSoftButtonState alloc] initWithStateName:@"textState" text:@"Press" image:nil];
+
+    __weak typeof(self) weakself = self;
+    SDLSoftButtonObject *starButton = [[SDLSoftButtonObject alloc] initWithName:@"StarButton" states:@[starImageState, starTextState] initialStateName:@"imageState" handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+        if (buttonPress == nil) {
             return;
         }
 
         SDLAlert* alert = [[SDLAlert alloc] init];
         alert.alertText1 = @"You pushed the soft button!";
-        [manager sendRequest:alert];
+        [weakself.sdlManager sendRequest:alert];
 
         SDLLogD(@"Star icon soft button press fired");
     }];
-    softButton.text = @"Press";
-    softButton.softButtonID = @100;
 
-    if (areImagesVisible) {
-        softButton.type = SDLSoftButtonTypeBoth;
-        SDLImage* image = [[SDLImage alloc] init];
-        image.imageType = SDLImageTypeDynamic;
-        image.value = StarSoftButtonArtworkName;
-        softButton.image = image;
-    } else {
-        softButton.type = SDLSoftButtonTypeText;
-    }
-
-    return softButton;
-}
-
-static Boolean isHexagonOn = true;
-- (SDLSoftButton *)sdlex_softButton2WithManager:(SDLManager *)manager {
-    SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
-        if (buttonPressNotification == nil) {
+    SDLSoftButtonState *hexOnState = [[SDLSoftButtonState alloc] initWithStateName:@"onState" text:@"➖Hex" image:[UIImage imageNamed:@"hexagon_on_softbutton_icon"]];
+    SDLSoftButtonState *hexOffState = [[SDLSoftButtonState alloc] initWithStateName:@"offState" text:@"➕Hex" image:[UIImage imageNamed:@"hexagon_off_softbutton_icon"]];
+    SDLSoftButtonObject *hexButton = [[SDLSoftButtonObject alloc] initWithName:@"HexagonButton" states:@[hexOnState, hexOffState] initialStateName:@"onState" handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+        if (buttonPress == nil) {
             return;
         }
 
-        isHexagonOn = !isHexagonOn;
-        [self sdlex_showInitialData];
-
-        SDLLogD(@"Hexagon icon button press fired %d", isHexagonOn);
+        weakself.hexagonEnabled = !weakself.hexagonEnabled;
+        SDLLogD(@"Hexagon icon button press fired %d", self.hexagonEnabled);
     }];
-    softButton.softButtonID = @200;
 
-    if (areImagesVisible) {
-        softButton.type = SDLSoftButtonTypeImage;
-        SDLImage* image = [[SDLImage alloc] init];
-        image.value = isHexagonOn ? HexagonOnSoftButtonArtworkName : HexagonOffSoftButtonArtworkName;
-        image.imageType = SDLImageTypeDynamic;
-        softButton.image = image;
-    } else {
-        softButton.text = isHexagonOn ? @"➖Hex" : @"➕Hex";
-        softButton.type = SDLSoftButtonTypeText;
-    }
-
-    return softButton;
-}
-
-static BOOL isTextOn = YES;
-- (SDLSoftButton *)sdlex_softButton3WithManager:(SDLManager *)manager {
-    SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
-        if (buttonPressNotification == nil) {
+    SDLSoftButtonState *textOnState = [[SDLSoftButtonState alloc] initWithStateName:@"onState" text:@"➖Text" image:nil];
+    SDLSoftButtonState *textOffState = [[SDLSoftButtonState alloc] initWithStateName:@"offState" text:@"➕Text" image:nil];
+    SDLSoftButtonObject *textButton = [[SDLSoftButtonObject alloc] initWithName:@"TextButton" states:@[textOnState, textOffState] initialStateName:@"onState" handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+        if (buttonPress == nil) {
             return;
         }
 
-        isTextOn = !isTextOn;
-        [self sdlex_showInitialData];
+        weakself.textEnabled = !weakself.textEnabled;
+        [weakself.sdlManager.softButtonManager updateButtonNamed:@"TextButton" replacingCurrentStateWithState:(weakself.textEnabled ? @"onState" : @"offState")];
 
-        SDLLogD(@"Text visibility soft button press fired");
+        SDLLogD(@"Text visibility soft button press fired %d", weakself.textEnabled);
     }];
-    softButton.softButtonID = @300;
-    softButton.text = isTextOn ? @"➖Text" : @"➕Text";
-    softButton.type = SDLSoftButtonTypeText;
 
-    return softButton;
-}
-
-static Boolean areImagesVisible = true;
-- (SDLSoftButton *)sdlex_softButton4WithManager:(SDLManager *)manager {
-    SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
-        if (buttonPressNotification == nil) { return; }
-
-        if (areImagesVisible) {
-            [self sdlex_deleteFiles:[self.class sdlex_allArtFileNames] completionHandler:^(BOOL success) {
-                if (!success) { return; }
-                [self sdlex_showInitialData];
-            }];
-        } else {
-            [self sdlex_uploadFilesWithProgressHandler:[self.class sdlex_allArt] completionHandler:^(BOOL success) {
-                if (!success) { return; }
-                [self sdlex_showInitialData];
-            }];
+    SDLSoftButtonState *imagesOnState = [[SDLSoftButtonState alloc] initWithStateName:@"onState" text:@"➖Icons" image:nil];
+    SDLSoftButtonState *imagesOffState = [[SDLSoftButtonState alloc] initWithStateName:@"offState" text:@"➕Icons" image:nil];
+    SDLSoftButtonObject *imagesButton = [[SDLSoftButtonObject alloc] initWithName:@"ImagesButton" states:@[imagesOnState, imagesOffState] initialStateName:@"onState" handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+        if (buttonPress == nil) {
+            return;
         }
 
-        areImagesVisible = !areImagesVisible;
+        weakself.imagesEnabled = !weakself.imagesEnabled;
+        [weakself.sdlManager.softButtonManager updateButtonNamed:@"ImagesButton" replacingCurrentStateWithState:(weakself.imagesEnabled ? @"onState" : @"offState")];
 
-        SDLLogD(@"Image visibility soft button press fired %d", isHexagonOn);
+        SDLLogD(@"Image visibility soft button press fired %d", weakself.imagesEnabled);
     }];
 
-    softButton.text = areImagesVisible ? @"➖Icons" : @"➕Icons";
-    softButton.softButtonID = @400;
-    softButton.type = SDLSoftButtonTypeText;
-
-    return softButton;
-}
-
-+ (SDLImage *)sdlex_mainGraphicImage {
-    SDLImage* image = [[SDLImage alloc] init];
-    if (areImagesVisible) {
-        image.imageType = SDLImageTypeDynamic;
-        image.value = MainGraphicArtworkName;
-    } else {
-        image.imageType = SDLImageTypeDynamic;
-        image.value = MainGraphicBlankArtworkName;
-    }
-
-    return image;
+    return @[starButton, hexButton, textButton, imagesButton];
 }
 
 + (void)sdlex_sendGetVehicleDataWithManager:(SDLManager *)manager {
@@ -447,64 +399,6 @@ static Boolean areImagesVisible = true;
 }
 
 #pragma mark - Files / Artwork
-
-+ (NSArray<SDLArtwork *> *)sdlex_allArtAndBlankPlaceholderArt {
-    NSMutableArray<SDLArtwork *> *art = [NSMutableArray array];
-    [art addObjectsFromArray:[self.class sdlex_allArt]];
-    [art addObject:[self.class sdlex_mainGraphicBlank]];
-    return art;
-}
-
-+ (NSArray<SDLArtwork *> *)sdlex_allArt {
-    NSMutableArray<SDLArtwork *> *art = [NSMutableArray array];
-    [art addObjectsFromArray:[self.class sdlex_softButtonArt]];
-    [art addObject:[self.class sdlex_mainGraphicArtwork]];
-    return art;
-}
-
-+ (NSArray<NSString *> *)sdlex_allArtFileNames {
-    NSMutableArray<NSString *> *fileNames = [NSMutableArray array];
-    for (SDLArtwork *art in [self.class sdlex_allArt]) {
-        [fileNames addObject:art.name];
-    }
-    return fileNames;
-}
-
-+ (NSArray<SDLArtwork *> *)sdlex_softButtonArt {
-    return [[NSArray alloc] initWithObjects:[self.class sdlex_softButton1Artwork], [self.class sdlex_softButton2OnArtwork], [self.class sdlex_softButton2OffArtwork], nil];
-}
-
-+ (NSArray<NSString *> *)sdlex_softButtonArtFileNames {
-    NSMutableArray<NSString *> *fileNames = [NSMutableArray array];
-    for (SDLArtwork *art in [self.class sdlex_softButtonArt]) {
-        [fileNames addObject:art.name];
-    }
-    return fileNames;
-}
-
-+ (SDLArtwork *)sdlex_softButton1Artwork {
-    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"star_softbutton_icon"] name:StarSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
-}
-
-+ (SDLArtwork *)sdlex_softButton2OnArtwork {
-    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"hexagon_on_softbutton_icon"] name:HexagonOnSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
-}
-
-+ (SDLArtwork *)sdlex_softButton2OffArtwork {
-    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"hexagon_off_softbutton_icon"] name:HexagonOffSoftButtonArtworkName asImageFormat:SDLArtworkImageFormatPNG];
-}
-
-+ (SDLArtwork *)sdlex_mainGraphicArtwork {
-    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] name:MainGraphicArtworkName asImageFormat:SDLArtworkImageFormatPNG];
-}
-
-+ (SDLArtwork *)sdlex_mainGraphicBlank {
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(5, 5), NO, 0.0);
-    UIImage *blankImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    SDLArtwork *mainGraphicBlank = [SDLArtwork artworkWithImage:blankImage name:MainGraphicBlankArtworkName asImageFormat:SDLArtworkImageFormatPNG];
-    return mainGraphicBlank;
-}
 
 - (void)sdlex_uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(void (^)(BOOL success))completionHandler {
     [self.sdlManager.fileManager uploadFiles:files completionHandler:^(NSError * _Nullable error) {
@@ -558,12 +452,6 @@ static Boolean areImagesVisible = true;
     
     dispatch_group_t dataDispatchGroup = dispatch_group_create();
     dispatch_group_enter(dataDispatchGroup);
-    
-    dispatch_group_enter(dataDispatchGroup);
-    [self sdlex_uploadFiles:[self.class sdlex_allArtAndBlankPlaceholderArt] completionHandler:^(BOOL success) {
-        dispatch_group_leave(dataDispatchGroup);
-        if (!success) { return; }
-    }];
 
     dispatch_group_enter(dataDispatchGroup);
     [self.sdlManager sendRequest:[self.class sdlex_createOnlyChoiceInteractionSet] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {

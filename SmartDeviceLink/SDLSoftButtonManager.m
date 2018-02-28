@@ -17,6 +17,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface SDLSoftButtonObject()
+
+@property (assign, nonatomic) NSUInteger buttonId;
+
+@end
+
 @interface SDLSoftButtonManager()
 
 @property (strong, nonatomic) NSArray<SDLSoftButton *> *currentSoftButtons;
@@ -78,9 +84,10 @@ NS_ASSUME_NONNULL_BEGIN
 
     // TODO: Check number of soft buttons vs. allowed number of buttons
 
-    // Check to make sure no two soft buttons have the same name, there aren't many soft buttons, so n^2 isn't going to be bad
+    // Set the soft button ids. Check to make sure no two soft buttons have the same name, there aren't many soft buttons, so n^2 isn't going to be bad
     for (NSUInteger i = 0; i < softButtons.count; i++) {
         NSString *buttonName = softButtons[i].name;
+        softButtons[i].buttonId = i * 100;
         for (NSUInteger j = i; j < softButtons.count; i++) {
             if ([softButtons[j].name isEqualToString:buttonName]) {
                 return NO;
@@ -168,13 +175,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable NSArray<SDLSoftButton *> *)sdl_textButtonsForCurrentState {
     NSMutableArray<SDLSoftButton *> *textButtons = [NSMutableArray arrayWithCapacity:self.softButtonObjects.count];
+    NSUInteger buttonId = 0;
     for (SDLSoftButtonObject *buttonObject in self.softButtonObjects) {
         SDLSoftButtonState *currentState = buttonObject.currentState;
         if (currentState.artwork != nil && currentState.text == nil) {
             return nil;
         }
 
+        SDLSoftButton *button = currentState.softButton;
+        button.handler = [buttonObject.eventHandler copy];
+        button.softButtonID = @(buttonId);
         [textButtons addObject:currentState.softButton];
+
+        buttonId += 100;
     }
 
     return [textButtons copy];

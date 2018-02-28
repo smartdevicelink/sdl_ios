@@ -322,7 +322,7 @@
 		5D07C0322044AD0C00D1ECDC /* SDLAsynchronousRPCRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D07C0302044AD0C00D1ECDC /* SDLAsynchronousRPCRequestOperation.m */; };
 		5D0A7374203F0C730001595D /* SDLTextAndGraphicManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D0A7372203F0C730001595D /* SDLTextAndGraphicManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D0A7375203F0C730001595D /* SDLTextAndGraphicManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A7373203F0C730001595D /* SDLTextAndGraphicManager.m */; };
-		5D0A737B203F0CCC0001595D /* SDLTextAndGraphicConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D0A7379203F0CCC0001595D /* SDLTextAndGraphicConfiguration.h */; };
+		5D0A737B203F0CCC0001595D /* SDLTextAndGraphicConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D0A7379203F0CCC0001595D /* SDLTextAndGraphicConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D0A737C203F0CCC0001595D /* SDLTextAndGraphicConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A737A203F0CCC0001595D /* SDLTextAndGraphicConfiguration.m */; };
 		5D0A7382203F23F30001595D /* SDLSoftButtonManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D0A7380203F23F30001595D /* SDLSoftButtonManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D0A7383203F23F30001595D /* SDLSoftButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A7381203F23F30001595D /* SDLSoftButtonManager.m */; };

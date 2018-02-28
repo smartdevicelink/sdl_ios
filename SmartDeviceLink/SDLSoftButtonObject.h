@@ -10,6 +10,7 @@
 
 #import "SDLNotificationConstants.h"
 
+@class SDLSoftButtonObject;
 @class SDLSoftButtonState;
 
 

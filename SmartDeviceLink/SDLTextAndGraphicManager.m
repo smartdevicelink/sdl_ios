@@ -321,6 +321,13 @@ NS_ASSUME_NONNULL_BEGIN
     return (_hasQueuedUpdate || _queuedUpdateHandler != nil);
 }
 
+- (SDLArtwork *)blankArtwork {
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(5, 5), NO, 0.0);
+    UIImage *blankImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return [SDLArtwork artworkWithImage:blankImage name:@"sdl_BlankArt" asImageFormat:SDLArtworkImageFormatPNG];
+}
+
 #pragma mark - RPC Responses
 
 - (void)sdl_displayLayoutResponse:(SDLRPCNotificationNotification *)notification {

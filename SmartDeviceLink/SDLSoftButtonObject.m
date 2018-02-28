@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSoftButtonObject()
 
+@property (assign, nonatomic) NSUInteger buttonId;
 @property (strong, nonatomic) NSString *currentStateName;
 
 @end
