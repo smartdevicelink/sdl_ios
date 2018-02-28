@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLTextAndGraphicConfiguration : NSObject
+@interface SDLTextAndGraphicConfiguration : NSObject <NSCopying>
 
 @property (copy, nonatomic) SDLTextAlignment alignment;
 @property (copy, nonatomic, nullable) SDLMetadataType textField1Type;

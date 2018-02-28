@@ -11,15 +11,17 @@
 #import "SDLArtwork.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLDisplayCapabilities.h"
+#import "SDLDisplayCapabilities+ShowManagerExtensions.h"
 #import "SDLFileManager.h"
 #import "SDLImage.h"
 #import "SDLMetadataTags.h"
 #import "SDLNotificationConstants.h"
 #import "SDLRegisterAppInterfaceResponse.h"
-#import "SDLRPCNotificationNotification.h"
+#import "SDLRPCResponseNotification.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLShow.h"
 #import "SDLTextAndGraphicConfiguration.h"
+#import "SDLTextField.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -43,7 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (copy, nonatomic, nullable) SDLTextAndGraphicUpdateCompletionHandler queuedUpdateHandler;
 
-// Describes the display capabilities for the current display layout
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 
 @end
@@ -59,9 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _currentScreenData = [[SDLShow alloc] init];
 
-    // TODO: Is this too early?
-    self.displayCapabilities = self.connectionManager.registerResponse.displayCapabilities;
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
 
     return self;
@@ -78,12 +77,10 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    NSUInteger numberOfImages = self.displayCapabilities.imageFields.count; // TODO: This probably won't work without further tweaks?
-    NSUInteger numberOfShowLines = self.displayCapabilities.textFields.count; // TODO: Will this work?
     SDLShow *fullShow = [[SDLShow alloc] init];
     fullShow = [self sdl_assembleShowMetadataTags:fullShow];
     fullShow.alignment = self.configuration.alignment ?: SDLTextAlignmentCenter;
-    fullShow = [self sdl_assembleShowText:fullShow forNumberOfLines:numberOfShowLines];
+    fullShow = [self sdl_assembleShowText:fullShow forDisplayCapabilities:self.displayCapabilities];
     fullShow = [self sdl_assembleShowImages:fullShow];
 
     if (!([self sdl_shouldUpdatePrimaryImage] || [self sdl_shouldUpdateSecondaryImage])) {
@@ -112,7 +109,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     [self sdl_sendShow:self.inProgressUpdate withHandler:^(NSError * _Nullable error) {
         self.inProgressUpdate = nil;
-        handler(error);
+        if (handler != NULL) {
+            handler(error);
+        }
     }];
 }
 
@@ -126,7 +125,9 @@ NS_ASSUME_NONNULL_BEGIN
             [self sdl_updateCurrentScreenDataFromShow:(SDLShow *)request];
         }
 
-        handler(error);
+        if (handler != NULL) {
+            handler(error);
+        }
 
         if (self.hasQueuedUpdate) {
             [self updateWithCompletionHandler:[self.queuedUpdateHandler copy]];
@@ -162,7 +163,7 @@ NS_ASSUME_NONNULL_BEGIN
     return show;
 }
 
-- (SDLShow *)sdl_assembleShowText:(SDLShow *)show forNumberOfLines:(NSUInteger)numberOfLines {
+- (SDLShow *)sdl_assembleShowText:(SDLShow *)show forDisplayCapabilities:(SDLDisplayCapabilities *)displayCapabilities {
     NSArray *nonNilFields = [self sdl_findNonNilFields];
     if (nonNilFields.count == 0) {
         show.mainField1 = @"";
@@ -172,38 +173,78 @@ NS_ASSUME_NONNULL_BEGIN
         return show;
     }
 
+    NSUInteger numberOfLines = [displayCapabilities maxNumberOfMainFieldLines];
     if (numberOfLines == 1) {
-        NSMutableString *showString1 = nonNilFields.firstObject;
-        for (NSUInteger i = 1; i < nonNilFields.count; i++) {
-            [showString1 appendFormat:@" - %@", nonNilFields[i]];
-        }
-        show.mainField1 = showString1.copy;
+        show = [self sdl_assembleOneLineShowText:show withShowFields:nonNilFields];
     } else if (numberOfLines == 2) {
-        if (nonNilFields.count <= 2) {
-            show.mainField1 = nonNilFields.firstObject;
-            show.mainField2 = nonNilFields[1] ?: @"";
-        } else if (nonNilFields.count == 3) {
-            show.mainField1 = nonNilFields[0];
-            show.mainField2 = [NSString stringWithFormat:@"%@ - %@", nonNilFields[1], nonNilFields[2]];
-        } else if (nonNilFields.count == 4) {
-            show.mainField1 = [NSString stringWithFormat:@"%@ - %@", nonNilFields[0], nonNilFields[1]];
-            show.mainField2 = [NSString stringWithFormat:@"%@ - %@", nonNilFields[2], nonNilFields[3]];
-        }
+        show = [self sdl_assembleTwoLineShowText:show withShowFields:nonNilFields];
     } else if (numberOfLines == 3) {
-        if (nonNilFields.count <= 3) {
-            show.mainField1 = nonNilFields.firstObject;
-            show.mainField2 = nonNilFields[1] ?: @"";
-            show.mainField3 = nonNilFields[2] ?: @"";
-        } else if (nonNilFields.count == 4) {
-            show.mainField1 = nonNilFields.firstObject;
-            show.mainField2 = nonNilFields[1];
-            show.mainField3 = [NSString stringWithFormat:@"%@ - %@", nonNilFields[2], nonNilFields[3]];
-        }
+        show = [self sdl_assembleThreeLineShowText:show withShowFields:nonNilFields];
     } else if (numberOfLines == 4) {
-        show.mainField1 = nonNilFields.firstObject;
-        show.mainField2 = nonNilFields[1];
-        show.mainField3 = nonNilFields[2];
-        show.mainField4 = nonNilFields[3];
+        show = [self sdl_assembleFourLineShowText:show withShowFields:nonNilFields];
+    }
+
+    return show;
+}
+
+- (SDLShow *)sdl_assembleOneLineShowText:(SDLShow *)show withShowFields:(NSArray<NSString *> *)fields {
+    NSMutableString *showString1 = [NSMutableString stringWithString:fields[0]];
+    for (NSUInteger i = 1; i < fields.count; i++) {
+        [showString1 appendFormat:@" - %@", fields[i]];
+    }
+    show.mainField1 = showString1.copy;
+
+    return show;
+}
+
+- (SDLShow *)sdl_assembleTwoLineShowText:(SDLShow *)show withShowFields:(NSArray<NSString *> *)fields {
+    if (fields.count == 1) {
+        show.mainField1 = fields[0];
+    } else if (fields.count == 2) {
+        show.mainField1 = fields[0];
+        show.mainField2 = fields[1];
+    } else if (fields.count == 3) {
+        show.mainField1 = fields[0];
+        show.mainField2 = [NSString stringWithFormat:@"%@ - %@", fields[1], fields[2]];
+    } else if (fields.count == 4) {
+        show.mainField1 = [NSString stringWithFormat:@"%@ - %@", fields[0], fields[1]];
+        show.mainField2 = [NSString stringWithFormat:@"%@ - %@", fields[2], fields[3]];
+    }
+
+    return show;
+}
+
+- (SDLShow *)sdl_assembleThreeLineShowText:(SDLShow *)show withShowFields:(NSArray<NSString *> *)fields {
+    if (fields.count == 1) {
+        show.mainField1 = fields[0];
+    } else if (fields.count == 2) {
+        show.mainField1 = fields[0];
+        show.mainField2 = fields[1];
+    } else if (fields.count == 3) {
+        show.mainField1 = fields[0];
+        show.mainField2 = fields[1];
+        show.mainField3 = fields[2];
+    } else if (fields.count == 4) {
+        show.mainField1 = fields[0];
+        show.mainField2 = fields[1];
+        show.mainField3 = [NSString stringWithFormat:@"%@ - %@", fields[2], fields[3]];
+    }
+
+    return show;
+}
+
+- (SDLShow *)sdl_assembleFourLineShowText:(SDLShow *)show withShowFields:(NSArray<NSString *> *)fields {
+    if (fields.count == 4) {
+        show.mainField4 = fields[3];
+    }
+    if (fields.count >= 3) {
+        show.mainField3 = fields[2];
+    }
+    if (fields.count >= 2) {
+        show.mainField2 = fields[1];
+    }
+    if (fields.count >= 1) {
+        show.mainField1 = fields[0];
     }
 
     return show;
@@ -215,7 +256,7 @@ NS_ASSUME_NONNULL_BEGIN
         return show;
     }
 
-    NSUInteger numberOfShowLines = self.displayCapabilities.textFields.count; // TODO: Will this work?
+    NSUInteger numberOfShowLines = self.displayCapabilities.maxNumberOfMainFieldLines;
     SDLMetadataTags *tags = [[SDLMetadataTags alloc] init];
     NSMutableArray<SDLMetadataType> *metadataArray = [NSMutableArray array];
 
@@ -292,10 +333,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_shouldUpdatePrimaryImage {
-    return (![self.currentScreenData.graphic.value isEqualToString:self.primaryGraphic.name] && self.primaryGraphic != nil);
+    return ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] && ![self.currentScreenData.graphic.value isEqualToString:self.primaryGraphic.name] && self.primaryGraphic != nil);
 }
 
 - (BOOL)sdl_shouldUpdateSecondaryImage {
+//     TODO: How to detect secondary image?
     return (![self.currentScreenData.secondaryGraphic.value isEqualToString:self.secondaryGraphic.name] && self.secondaryGraphic != nil);
 }
 
@@ -306,7 +348,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.textField3.length > 0 ? [array addObject:self.textField3] : nil;
     self.textField4.length > 0 ? [array addObject:self.textField4] : nil;
 
-    return array.copy;
+    return [array copy];
 }
 
 #pragma mark - Equality
@@ -315,7 +357,7 @@ NS_ASSUME_NONNULL_BEGIN
     return ([show.graphic.value isEqualToString:show2.graphic.value] && [show.secondaryGraphic.value isEqualToString:show2.secondaryGraphic.value]);
 }
 
-#pragma mark - Getters
+#pragma mark - Getters / Setters
 
 - (BOOL)hasQueuedUpdate {
     return (_hasQueuedUpdate || _queuedUpdateHandler != nil);
@@ -330,10 +372,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - RPC Responses
 
-- (void)sdl_displayLayoutResponse:(SDLRPCNotificationNotification *)notification {
-    self.displayCapabilities = (SDLDisplayCapabilities *)notification.notification;
+- (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
+    SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
+    self.displayCapabilities = response.displayCapabilities;
+}
 
-    // TODO: Send an updated Show
+- (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
+    SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
+    self.displayCapabilities = response.displayCapabilities;
+
+    // Auto-send an updated show
     [self updateWithCompletionHandler:nil];
 }
 

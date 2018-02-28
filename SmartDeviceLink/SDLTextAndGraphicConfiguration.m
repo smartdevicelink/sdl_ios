@@ -35,6 +35,17 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] init];
 }
 
+- (id)copyWithZone:(nullable NSZone *)zone {
+    SDLTextAndGraphicConfiguration *config = [[self class] allocWithZone:zone];
+    config->_textField1Type = [_textField1Type copyWithZone:zone];
+    config->_textField2Type = [_textField2Type copyWithZone:zone];
+    config->_textField3Type = [_textField3Type copyWithZone:zone];
+    config->_textField4Type = [_textField4Type copyWithZone:zone];
+    config->_alignment = [_alignment copyWithZone:zone];
+
+    return config;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

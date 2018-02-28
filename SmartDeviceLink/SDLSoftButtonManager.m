@@ -9,7 +9,11 @@
 #import "SDLSoftButtonManager.h"
 
 #import "SDLConnectionManagerType.h"
+#import "SDLDisplayCapabilities.h"
 #import "SDLFileManager.h"
+#import "SDLRegisterAppInterfaceResponse.h"
+#import "SDLRPCResponseNotification.h"
+#import "SDLSetDisplayLayoutResponse.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
 #import "SDLSoftButtonObject.h"
@@ -35,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (copy, nonatomic, nullable) SDLSoftButtonUpdateCompletionHandler queuedUpdateHandler;
 
+@property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
+
 @end
 
 @implementation SDLSoftButtonManager
@@ -45,6 +51,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     _connectionManager = connectionManager;
     _fileManager = fileManager;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
 
     return self;
 }
@@ -200,6 +209,21 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return [softButtons copy];
+}
+
+#pragma mark - RPC Responses
+
+- (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
+    SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
+    self.displayCapabilities = response.displayCapabilities;
+}
+
+- (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
+    SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
+    self.displayCapabilities = response.displayCapabilities;
+
+    // Auto-send an updated Show
+    [self sdl_updateSoftButtonsWithCompletionHandler:nil];
 }
 
 @end

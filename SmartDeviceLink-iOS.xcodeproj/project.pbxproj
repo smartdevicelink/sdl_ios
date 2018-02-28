@@ -345,6 +345,8 @@
 		5D1665C91CF8CA3D00CC4CA1 /* SDLPermissionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1665C71CF8CA3D00CC4CA1 /* SDLPermissionFilter.m */; };
 		5D1665CB1CF8CA6700CC4CA1 /* NSNumber+NumberType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1665CA1CF8CA6700CC4CA1 /* NSNumber+NumberType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D1665CD1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1665CC1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D1BF6AF204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1BF6AD204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.h */; };
+		5D1BF6B0204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1BF6AE204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.m */; };
 		5D293AFE1FE078A9000CBD7E /* SDLCarWindowViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D293AFC1FE078A9000CBD7E /* SDLCarWindowViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D293AFF1FE078A9000CBD7E /* SDLCarWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D293AFD1FE078A9000CBD7E /* SDLCarWindowViewController.m */; };
 		5D2F58081D0717D5001085CE /* SDLManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1578,6 +1580,8 @@
 		5D1665C71CF8CA3D00CC4CA1 /* SDLPermissionFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPermissionFilter.m; sourceTree = "<group>"; };
 		5D1665CA1CF8CA6700CC4CA1 /* NSNumber+NumberType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+NumberType.h"; sourceTree = "<group>"; };
 		5D1665CC1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionConstants.h; sourceTree = "<group>"; };
+		5D1BF6AD204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SDLDisplayCapabilities+ShowManagerExtensions.h"; sourceTree = "<group>"; };
+		5D1BF6AE204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SDLDisplayCapabilities+ShowManagerExtensions.m"; sourceTree = "<group>"; };
 		5D293AFC1FE078A9000CBD7E /* SDLCarWindowViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCarWindowViewController.h; sourceTree = "<group>"; };
 		5D293AFD1FE078A9000CBD7E /* SDLCarWindowViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCarWindowViewController.m; sourceTree = "<group>"; };
 		5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLManagerDelegate.h; sourceTree = "<group>"; };
@@ -2944,6 +2948,7 @@
 		5D0A737D203F23B30001595D /* Text and Graphic */ = {
 			isa = PBXGroup;
 			children = (
+				5D1BF6AA2047429C00D36881 /* Utilities */,
 				5D0A7372203F0C730001595D /* SDLTextAndGraphicManager.h */,
 				5D0A7373203F0C730001595D /* SDLTextAndGraphicManager.m */,
 			);
@@ -2991,6 +2996,15 @@
 				5D1654591D3E7A1600554D93 /* SDLLifecycleManager.m */,
 			);
 			name = Lifecycle;
+			sourceTree = "<group>";
+		};
+		5D1BF6AA2047429C00D36881 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				5D1BF6AD204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.h */,
+				5D1BF6AE204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.m */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 		5D23C9441FCF59F400002CA5 /* AudioManager */ = {
@@ -5027,6 +5041,7 @@
 				5D61FD591A84238C00846EE7 /* SDLReadDID.h in Headers */,
 				5D82041A1BCD80BA00D0A41B /* SDLLockScreenConfiguration.h in Headers */,
 				5D61FC611A84238C00846EE7 /* SDLChoice.h in Headers */,
+				5D1BF6AF204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.h in Headers */,
 				5D7F87F31CE3C29E002DD7C4 /* SDLFileWrapper.h in Headers */,
 				5D61FC7C1A84238C00846EE7 /* SDLDeleteInteractionChoiceSetResponse.h in Headers */,
 				5D61FDB91A84238C00846EE7 /* SDLSyncPDataResponse.h in Headers */,
@@ -5667,6 +5682,7 @@
 				1E5AD0891F20B9AA0029B8AF /* SDLGetInteriorVehicleData.m in Sources */,
 				5D61FE041A84238C00846EE7 /* SDLVehicleDataResult.m in Sources */,
 				5D61FD5C1A84238C00846EE7 /* SDLReadDIDResponse.m in Sources */,
+				5D1BF6B0204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.m in Sources */,
 				5D61FD321A84238C00846EE7 /* SDLPolicyDataParser.m in Sources */,
 				5D61FC621A84238C00846EE7 /* SDLChoice.m in Sources */,
 				1E5AD0811F20B73E0029B8AF /* SDLButtonPress.m in Sources */,
