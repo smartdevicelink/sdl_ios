@@ -723,6 +723,73 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
             });
         });
 
+        context(@"and all artworks are uploaded successfully", ^{
+            __block NSMutableArray<SDLArtwork *> *testArtworks = nil;
+            __block NSMutableDictionary *testConnectionManagerResponses;
+
+            __block NSMutableArray<NSString*> *expectedArtworkNames = nil;
+            __block NSNumber *expectedSpaceAvailable = 0;
+
+            beforeEach(^{
+                testArtworks = [NSMutableArray array];
+                testConnectionManagerResponses = [NSMutableDictionary dictionary];
+
+                expectedArtworkNames = [NSMutableArray array];
+            });
+
+            it(@"should upload one artwork successfully", ^{
+                UIGraphicsBeginImageContextWithOptions(CGSizeMake(5, 5), YES, 0);
+                CGContextRef context = UIGraphicsGetCurrentContext();
+                [[UIColor blackColor] setFill];
+                CGContextFillRect(context, CGRectMake(0, 0, 5, 5));
+                UIImage *blackSquareImage = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+
+                SDLArtwork *testArtwork = [SDLArtwork artworkWithImage:blackSquareImage asImageFormat:SDLArtworkImageFormatPNG];
+                [testArtworks addObject:testArtwork];
+                [expectedArtworkNames addObject:testArtwork.name];
+
+                successfulResponse.spaceAvailable = @22;
+                testConnectionManagerResponses[testArtwork.name] = [[TestResponse alloc] initWithResponse:successfulResponse error:nil];
+                expectedSpaceLeft = @22;
+                testConnectionManager.responses = testConnectionManagerResponses;
+            });
+
+            it(@"should upload multiple artworks successfully", ^{
+                NSInteger spaceAvailable = 6000;
+                for (NSUInteger i = 0; i < 500; i += 1) {
+                    UIGraphicsBeginImageContextWithOptions(CGSizeMake(5, 5), YES, 0);
+                    CGContextRef context = UIGraphicsGetCurrentContext();
+                    CGFloat grey = (i % 255) / 255.0;
+                    [[UIColor colorWithRed:grey green:grey blue:grey alpha:1.0] setFill];
+                    CGContextFillRect(context, CGRectMake(0, 0, i + 1, i + 1));
+                    UIImage *greySquareImage = UIGraphicsGetImageFromCurrentImageContext();
+                    UIGraphicsEndImageContext();
+
+                    SDLArtwork *testArtwork = [SDLArtwork artworkWithImage:greySquareImage asImageFormat:SDLArtworkImageFormatPNG];
+                    [testArtworks addObject:testArtwork];
+                    [expectedArtworkNames addObject:testArtwork.name];
+
+                    successfulResponse.spaceAvailable = @(spaceAvailable -= 1);
+                    [expectedSuccessfulFileNames addObject:testArtwork.name];
+                    testConnectionManagerResponses[testArtwork.name] = [[TestResponse alloc] initWithResponse:successfulResponse error:nil];
+                }
+                expectedSpaceLeft = @(spaceAvailable);
+                testConnectionManager.responses = testConnectionManagerResponses;
+            });
+
+            afterEach(^{
+                waitUntilTimeout(10, ^(void (^done)(void)){
+                    [testFileManager uploadArtworks:testArtworks completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+                        expect(artworkNames).to(equal(expectedArtworkNames));
+                        expect(error).to(beNil());
+                        expect(testFileManager.bytesAvailable).to(equal(expectedSpaceLeft));
+                        done();
+                    }];
+                });
+            });
+        });
+
         context(@"and all files are not uploaded successfully", ^{
             __block NSMutableDictionary *testConnectionManagerResponses;
             __block NSMutableDictionary *expectedFailedUploads;
@@ -1233,6 +1300,18 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
         it(@"should throw an exception when the delete function is passed an empty array", ^{
             expectAction(^{
                 [testFileManager deleteRemoteFilesWithNames:[NSArray array] completionHandler:nil];
+            }).to(raiseException().named([NSException sdl_missingFilesException].name));
+        });
+
+        it(@"should throw an exception when the artwork upload function is passed an empty array", ^{
+            expectAction(^{
+                [testFileManager uploadArtworks:[NSArray array] completionHandler:nil];
+            }).to(raiseException().named([NSException sdl_missingFilesException].name));
+        });
+
+        it(@"should throw an exception when the artwork upload function with a progress handler is passed an empty array", ^{
+            expectAction(^{
+                [testFileManager uploadArtworks:[NSArray array] progressHandler:nil completionHandler:nil];
             }).to(raiseException().named([NSException sdl_missingFilesException].name));
         });
     });
