@@ -215,6 +215,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
     switch (touch.identifier) {
         case SDLTouchIdentifierFirstFinger: {
+            self.firstTouch = touch;
             self.previousTouch = touch;
         } break;
         case SDLTouchIdentifierSecondFinger: {
@@ -338,6 +339,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         case SDLPerformingTouchTypeNone: break;
     }
 
+    self.firstTouch = nil;
     self.previousTouch = nil;
     _performingTouchType = SDLPerformingTouchTypeNone;
 }
@@ -377,6 +379,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         case SDLPerformingTouchTypeNone: break;
     }
 
+    self.firstTouch = nil;
     self.previousTouch = nil;
     _performingTouchType = SDLPerformingTouchTypeNone;
 }
