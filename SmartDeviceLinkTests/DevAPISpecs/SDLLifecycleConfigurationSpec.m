@@ -201,7 +201,7 @@ describe(@"a lifecycle configuration", ^{
                 update.ttsName = test;
                 expect(update.appName).to(beNil());
                 expect(update.shortAppName).to(beNil());
-                expect(update.ttsName).to(match(test));
+                expect(update.ttsName).to(equal(test));
                 expect(update.voiceRecognitionCommandNames).to(beNil());
             });
                        
@@ -211,7 +211,7 @@ describe(@"a lifecycle configuration", ^{
                 expect(update.appName).to(beNil());
                 expect(update.shortAppName).to(beNil());
                 expect(update.ttsName).to(beNil());
-                expect(update.voiceRecognitionCommandNames).to(match(test));
+                expect(update.voiceRecognitionCommandNames).to(equal(test));
             });
         });
         
@@ -251,7 +251,7 @@ describe(@"a lifecycle configuration", ^{
                 
                 expect(update.appName).to(beNil());
                 expect(update.shortAppName).to(beNil());
-                expect(update.ttsName).to(match(test));
+                expect(update.ttsName).to(equal(test));
                 expect(update.voiceRecognitionCommandNames).to(beNil());
             });
             
@@ -262,7 +262,7 @@ describe(@"a lifecycle configuration", ^{
                 expect(update.appName).to(beNil());
                 expect(update.shortAppName).to(beNil());
                 expect(update.ttsName).to(beNil());
-                expect(update.voiceRecognitionCommandNames).to(match(test));
+                expect(update.voiceRecognitionCommandNames).to(equal(test));
             });
         });
     });

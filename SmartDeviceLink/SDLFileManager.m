@@ -255,76 +255,9 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 }
 
 #pragma mark - Uploading
-
+#pragma mark Files
 - (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
     [self uploadFiles:files progressHandler:nil completionHandler:completionHandler];
-}
-
-- (void)uploadArtwork:(SDLArtwork *)artwork completionHandler:(nullable SDLFileManagerUploadArtworkCompletionHandler)completion {
-    [self uploadFile:artwork completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-        if (completion == nil) { return; }
-        if ([self isErrorACannotOverwriteError:error]) {
-            // Artwork with same name already uploaded to remote
-            return completion(true, artwork.name, bytesAvailable, nil);
-        }
-        completion(success, artwork.name, bytesAvailable, error);
-    }];
-}
-
-- (void)uploadArtworks:(NSArray<SDLArtwork *> *)artworks completionHandler:(nullable SDLFileManagerMultiUploadArtworkCompletionHandler)completion {
-    [self uploadArtworks:artworks progressHandler:nil completionHandler:completion];
-}
-
-- (void)uploadArtworks:(NSArray<SDLArtwork *> *)artworks progressHandler:(nullable SDLFileManagerMultiUploadArtworkProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadArtworkCompletionHandler)completion {
-    if (artworks.count == 0) {
-        @throw [NSException sdl_missingFilesException];
-    }
-
-    [self uploadFiles:artworks progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
-        if (progressHandler == nil) { return YES; }
-        if ([self isErrorACannotOverwriteError:error]) {
-            // Artwork with same name already uploaded to remote
-            return progressHandler(fileName, uploadPercentage, nil);
-        }
-        return progressHandler(fileName, uploadPercentage, error);
-    } completionHandler:^(NSError * _Nullable error) {
-        if (completion == nil) { return; }
-
-        NSMutableArray<NSString *> *successfulArtworkUploadNames = [NSMutableArray array];
-        for (SDLArtwork *artwork in artworks) {
-            [successfulArtworkUploadNames addObject:artwork.name];
-        }
-
-        if (error != nil) {
-            // Some or all of the artworks failed to upload
-            NSMutableDictionary *unsuccessfulArtworkUploadErrorUserInfo = [[NSMutableDictionary alloc] initWithDictionary:error.userInfo];
-            for (NSString *erroredArtworkName in error.userInfo) {
-                if ([self isErrorACannotOverwriteError:[error.userInfo objectForKey:erroredArtworkName]]) {
-                    // Since artwork with same name already uploaded to remote, remove the artwork name from the error list
-                    [unsuccessfulArtworkUploadErrorUserInfo removeObjectForKey:erroredArtworkName];
-                } else {
-                    // Since artwork upload failed, remove the artwork name from the list of successful artwork uploads
-                    for (NSUInteger i = 0; i < successfulArtworkUploadNames.count; i += 1) {
-                        if ([successfulArtworkUploadNames[i] isEqualToString:erroredArtworkName]) {
-                            [successfulArtworkUploadNames removeObjectAtIndex:i];
-                            break;
-                        }
-                    }
-                }
-                return completion(successfulArtworkUploadNames, unsuccessfulArtworkUploadErrorUserInfo == nil || unsuccessfulArtworkUploadErrorUserInfo.count == 0 ? nil : [[NSError alloc] initWithDomain:error.domain code:error.code userInfo:unsuccessfulArtworkUploadErrorUserInfo]);
-            }
-        } else {
-            // All artworks uploaded successfully
-            return completion(successfulArtworkUploadNames, nil);
-        }
-    }];
-}
-
-- (BOOL)isErrorACannotOverwriteError:(NSError * _Nullable)error {
-    if (error != nil && error.code == SDLFileManagerErrorCannotOverwrite) {
-        return YES;
-    }
-    return NO;
 }
 
 - (void)uploadFiles:(NSArray<SDLFile *> *)files progressHandler:(nullable SDLFileManagerMultiUploadProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
@@ -469,6 +402,72 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     [self.transactionQueue addOperation:uploadOperation];
 }
 
+#pragma mark Artworks
+
+- (void)uploadArtwork:(SDLArtwork *)artwork completionHandler:(nullable SDLFileManagerUploadArtworkCompletionHandler)completion {
+    [self uploadFile:artwork completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+        if (completion == nil) { return; }
+        if ([self isErrorACannotOverwriteError:error]) {
+            // Artwork with same name already uploaded to remote
+            return completion(true, artwork.name, bytesAvailable, nil);
+        }
+        completion(success, artwork.name, bytesAvailable, error);
+    }];
+}
+
+- (void)uploadArtworks:(NSArray<SDLArtwork *> *)artworks completionHandler:(nullable SDLFileManagerMultiUploadArtworkCompletionHandler)completion {
+    [self uploadArtworks:artworks progressHandler:nil completionHandler:completion];
+}
+
+- (void)uploadArtworks:(NSArray<SDLArtwork *> *)artworks progressHandler:(nullable SDLFileManagerMultiUploadArtworkProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadArtworkCompletionHandler)completion {
+    if (artworks.count == 0) {
+        @throw [NSException sdl_missingFilesException];
+    }
+
+    [self uploadFiles:artworks progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
+        if (progressHandler == nil) { return YES; }
+        if ([self isErrorACannotOverwriteError:error]) {
+            // Artwork with same name already uploaded to remote
+            return progressHandler(fileName, uploadPercentage, nil);
+        }
+        return progressHandler(fileName, uploadPercentage, error);
+    } completionHandler:^(NSError * _Nullable error) {
+        if (completion == nil) { return; }
+
+        NSMutableSet<NSString *> *successfulArtworkUploadNames = [NSMutableSet set];
+        for (SDLArtwork *artwork in artworks) {
+            [successfulArtworkUploadNames addObject:artwork.name];
+        }
+        NSMutableDictionary *unsuccessfulArtworkUploadErrorUserInfo = [[NSMutableDictionary alloc] initWithDictionary:error.userInfo];
+
+        if (error != nil) {
+            for (NSString *erroredArtworkName in error.userInfo) {
+                if (![self isErrorACannotOverwriteError:[error.userInfo objectForKey:erroredArtworkName]]) {
+                    [successfulArtworkUploadNames removeObject:erroredArtworkName];
+                } else {
+                    // An overwrite error means that the artwork is alread uploaded to the remote
+                    [unsuccessfulArtworkUploadErrorUserInfo removeObjectForKey:erroredArtworkName];
+                }
+            }
+        }
+
+        return completion(successfulArtworkUploadNames == nil || successfulArtworkUploadNames.count == 0 ? [NSArray array] : [NSArray arrayWithArray:[successfulArtworkUploadNames allObjects]], unsuccessfulArtworkUploadErrorUserInfo == nil || unsuccessfulArtworkUploadErrorUserInfo.count == 0 ? nil : [[NSError alloc] initWithDomain:error.domain code:error.code userInfo:unsuccessfulArtworkUploadErrorUserInfo]);
+    }];
+}
+
+- (void)printArray:(NSArray<NSString *> *)array location:(NSString *)location {
+    NSLog(@"\n%@Artwork names:", location);
+    for (NSString *name in array) {
+        NSLog(@"\n\tname: %@", name);
+    }
+}
+
+- (BOOL)isErrorACannotOverwriteError:(NSError * _Nullable)error {
+    if (error != nil && error.code == SDLFileManagerErrorCannotOverwrite) {
+        return YES;
+    }
+    return NO;
+}
 
 #pragma mark - Temporary Files
 
