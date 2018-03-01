@@ -445,13 +445,13 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
                 if (![self isErrorACannotOverwriteError:[error.userInfo objectForKey:erroredArtworkName]]) {
                     [successfulArtworkUploadNames removeObject:erroredArtworkName];
                 } else {
-                    // An overwrite error means that the artwork is alread uploaded to the remote
+                    // An overwrite error means that the artwork is already uploaded to the remote
                     [unsuccessfulArtworkUploadErrorUserInfo removeObjectForKey:erroredArtworkName];
                 }
             }
         }
 
-        return completion(successfulArtworkUploadNames == nil || successfulArtworkUploadNames.count == 0 ? [NSArray array] : [NSArray arrayWithArray:[successfulArtworkUploadNames allObjects]], unsuccessfulArtworkUploadErrorUserInfo == nil || unsuccessfulArtworkUploadErrorUserInfo.count == 0 ? nil : [[NSError alloc] initWithDomain:error.domain code:error.code userInfo:unsuccessfulArtworkUploadErrorUserInfo]);
+        return completion([NSArray arrayWithArray:[successfulArtworkUploadNames allObjects]], unsuccessfulArtworkUploadErrorUserInfo == nil || unsuccessfulArtworkUploadErrorUserInfo.count == 0 ? nil : [[NSError alloc] initWithDomain:error.domain code:error.code userInfo:unsuccessfulArtworkUploadErrorUserInfo]);
     }];
 }
 
