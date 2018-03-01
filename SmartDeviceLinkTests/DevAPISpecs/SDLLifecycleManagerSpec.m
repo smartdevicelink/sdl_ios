@@ -42,15 +42,12 @@ QuickConfigurationBegin(SendingRPCsConfiguration)
 + (void)configure:(Configuration *)configuration {
     sharedExamples(@"unable to send an RPC", ^(QCKDSLSharedExampleContext exampleContext) {
         it(@"cannot publicly send RPCs", ^{
-            __block NSError *testError = nil;
             SDLLifecycleManager *testManager = exampleContext()[@"manager"];
             SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil alignment:nil];
             
             [testManager sendRequest:testShow withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-                testError = error;
+                expect(error).to(equal([NSError sdl_lifecycle_notReadyError]));
             }];
-            
-            expect(testError).to(equal([NSError sdl_lifecycle_notReadyError]));
         });
     });
 }
@@ -327,8 +324,8 @@ describe(@"a lifecycle manager", ^{
                     
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:YES];
 
-                    expect(@(readyHandlerSuccess)).to(equal(@YES));
-                    expect(readyHandlerError).to(beNil());
+                    expect(@(readyHandlerSuccess)).toEventually(equal(@YES));
+                    expect(readyHandlerError).toEventually(beNil());
                 });
             });
 
@@ -341,10 +338,10 @@ describe(@"a lifecycle manager", ^{
 
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:YES];
 
-                    expect(@(readyHandlerSuccess)).to(equal(@YES));
-                    expect(readyHandlerError).toNot(beNil());
-                    expect(@(readyHandlerError.code)).to(equal(@(SDLManagerErrorRegistrationSuccessWithWarning)));
-                    expect(readyHandlerError.userInfo[NSLocalizedFailureReasonErrorKey]).to(match(response.info));
+                    expect(@(readyHandlerSuccess)).toEventually(equal(@YES));
+                    expect(readyHandlerError).toEventuallyNot(beNil());
+                    expect(@(readyHandlerError.code)).toEventually(equal(@(SDLManagerErrorRegistrationSuccessWithWarning)));
+                    expect(readyHandlerError.userInfo[NSLocalizedFailureReasonErrorKey]).toEventually(match(response.info));
                 });
             });
             
