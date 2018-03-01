@@ -366,9 +366,9 @@ NS_ASSUME_NONNULL_BEGIN
         return completionHandler(softButton);
     }
 
-    [self sdlex_uploadArtwork:artwork completionHandler:^(BOOL success, SDLImage * _Nullable sdlImage) {
-        softButton.type = SDLSoftButtonTypeBoth;
-        softButton.image = sdlImage;
+    [manager.fileManager uploadArtwork:artwork completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
+        softButton.type = success ? SDLSoftButtonTypeBoth : SDLSoftButtonTypeText;
+        softButton.image = success ? [[SDLImage alloc] initWithName:artworkName] : nil;
         return completionHandler(softButton);
     }];
 }
@@ -390,9 +390,9 @@ static BOOL isHexagonOn = true;
     }
 
     SDLArtwork *artwork = isHexagonOn ? [self.class sdlex_softButton2OnArtwork] : [self.class sdlex_softButton2OffArtwork];
-    [self sdlex_uploadArtwork:artwork completionHandler:^(BOOL success, SDLImage * _Nullable sdlImage) {
-        softButton.type = SDLSoftButtonTypeImage;
-        softButton.image = sdlImage;
+    [manager.fileManager uploadArtwork:artwork completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
+        softButton.type = success ? SDLSoftButtonTypeImage : SDLSoftButtonTypeText;
+        softButton.image = success ? [[SDLImage alloc] initWithName:artworkName] : nil;
         return completionHandler(softButton);
     }];
 }
@@ -435,12 +435,12 @@ static BOOL isTextOn = true;
 
 - (void)sdlex_prepareMainGraphicImageWithImages:(BOOL)imageVisible completionHandler:(void (^)(SDLImage * _Nullable sdlImage))completionHandler {
     SDLArtwork *mainGraphicImage = imageVisible ? [self.class sdlex_mainGraphicArtwork] : [self.class sdlex_mainGraphicBlank];
-    [self sdlex_uploadArtwork:mainGraphicImage completionHandler:^(BOOL success, SDLImage * _Nullable sdlImage) {
+    [self.sdlManager.fileManager uploadArtwork:mainGraphicImage completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
         if (!success) {
-            SDLLogE(@"Artwork %@ failed to upload", sdlImage.value);
+            SDLLogE(@"Artwork %@ failed to upload", artworkName);
             return completionHandler(nil);
         }
-        return completionHandler(sdlImage);
+        return completionHandler([[SDLImage alloc] initWithName:artworkName]);
     }];
 }
 
@@ -477,31 +477,6 @@ static BOOL isTextOn = true;
     return [[SDLArtwork alloc] initWithImage:blankImage persistent:false asImageFormat:SDLArtworkImageFormatPNG];
 }
 
-// MARK: - Uploads
-
-- (void)sdlex_uploadArtwork:(SDLArtwork *)artwork completionHandler:(void (^)(BOOL success, SDLImage * _Nullable sdlImage))completionHandler {
-    return [self sdlex_uploadArtworks:@[artwork] completionHandler:completionHandler];
-}
-
-- (void)sdlex_uploadArtworks:(NSArray<SDLArtwork *> *)artworks completionHandler:(void (^)(BOOL success, SDLImage * _Nullable sdlImage))completionHandler {
-    for (SDLArtwork *artwork in artworks) {
-        [[self.sdlManager fileManager] uploadArtwork:artwork completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
-            if (completionHandler == nil) { return; }
-            success ? completionHandler(success, [[SDLImage alloc] initWithName:artworkName]) : completionHandler(success, nil);
-        }];
-    }
-}
-
-- (void)sdlex_prepareRemoteSystem {
-    [self.sdlManager sendRequest:[self.class sdlex_speakNameCommandWithManager:self.sdlManager]];
-    [self.sdlManager sendRequest:[self.class sdlex_interactionSetCommandWithManager:self.sdlManager]];
-    [self.sdlManager sendRequest:[self.class sdlex_vehicleDataCommandWithManager:self.sdlManager]];
-    
-    [self.sdlManager sendRequest:[self.class sdlex_createOnlyChoiceInteractionSet] withResponseHandler:nil];
-    self.initialShowState = SDLHMIInitialShowStateDataAvailable;
-    [self sdlex_showInitialData];
-}
-
 #pragma mark - SDLManagerDelegate
 
 - (void)managerDidDisconnect {
@@ -530,6 +505,16 @@ static BOOL isTextOn = true;
         // We're always going to try to show the initial state, because if we've already shown it, it won't be shown, and we need to guard against some possible weird states
         [self sdlex_showInitialData];
     }
+}
+
+- (void)sdlex_prepareRemoteSystem {
+    [self.sdlManager sendRequest:[self.class sdlex_speakNameCommandWithManager:self.sdlManager]];
+    [self.sdlManager sendRequest:[self.class sdlex_interactionSetCommandWithManager:self.sdlManager]];
+    [self.sdlManager sendRequest:[self.class sdlex_vehicleDataCommandWithManager:self.sdlManager]];
+
+    [self.sdlManager sendRequest:[self.class sdlex_createOnlyChoiceInteractionSet] withResponseHandler:nil];
+    self.initialShowState = SDLHMIInitialShowStateDataAvailable;
+    [self sdlex_showInitialData];
 }
 
 @end
