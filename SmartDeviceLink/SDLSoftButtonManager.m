@@ -97,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
     for (NSUInteger i = 0; i < softButtons.count; i++) {
         NSString *buttonName = softButtons[i].name;
         softButtons[i].buttonId = i * 100;
-        for (NSUInteger j = i; j < softButtons.count; i++) {
+        for (NSUInteger j = (i + 1); j < softButtons.count; j++) {
             if ([softButtons[j].name isEqualToString:buttonName]) {
                 return NO;
             }
@@ -184,19 +184,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable NSArray<SDLSoftButton *> *)sdl_textButtonsForCurrentState {
     NSMutableArray<SDLSoftButton *> *textButtons = [NSMutableArray arrayWithCapacity:self.softButtonObjects.count];
-    NSUInteger buttonId = 0;
     for (SDLSoftButtonObject *buttonObject in self.softButtonObjects) {
-        SDLSoftButtonState *currentState = buttonObject.currentState;
-        if (currentState.artwork != nil && currentState.text == nil) {
+        SDLSoftButton *button = buttonObject.currentStateSoftButton;
+        if (button.text == nil) {
             return nil;
         }
 
-        SDLSoftButton *button = currentState.softButton;
-        button.handler = [buttonObject.eventHandler copy];
-        button.softButtonID = @(buttonId);
-        [textButtons addObject:currentState.softButton];
-
-        buttonId += 100;
+        button.image = nil;
+        button.type = SDLSoftButtonTypeText;
+        [textButtons addObject:button];
     }
 
     return [textButtons copy];
@@ -205,7 +201,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray<SDLSoftButton *> *)sdl_createSoftButtonsFromCurrentState {
     NSMutableArray<SDLSoftButton *> *softButtons = [NSMutableArray arrayWithCapacity:self.softButtonObjects.count];
     for (SDLSoftButtonObject *button in self.softButtonObjects) {
-        [softButtons addObject:button.currentState.softButton];
+        [softButtons addObject:button.currentStateSoftButton];
     }
 
     return [softButtons copy];

@@ -9,6 +9,7 @@
 #import "SDLSoftButtonObject.h"
 
 #import "SDLError.h"
+#import "SDLSoftButton.h"
 #import "SDLSoftButtonState.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -63,6 +64,14 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (SDLSoftButton *)currentStateSoftButton {
+    SDLSoftButton *button = self.currentState.softButton;
+    button.softButtonID = @(self.buttonId);
+    button.handler = self.eventHandler;
+
+    return button;
+}
+
 - (nullable SDLSoftButtonState *)stateWithName:(NSString *)stateName {
     for (SDLSoftButtonState *state in self.states) {
         if ([state.name isEqualToString:stateName]) {
@@ -76,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)sdl_hasTwoStatesOfSameName:(NSArray<SDLSoftButtonState *> *)states {
     for (NSUInteger i = 0; i < states.count; i++) {
         NSString *stateName = states[i].name;
-        for (NSUInteger j = 0; j < states.count; j++) {
+        for (NSUInteger j = (i + 1); j < states.count; j++) {
             if ([states[j].name isEqualToString:stateName]) {
                 return YES;
             }

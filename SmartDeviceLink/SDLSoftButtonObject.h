@@ -10,6 +10,7 @@
 
 #import "SDLNotificationConstants.h"
 
+@class SDLSoftButton;
 @class SDLSoftButtonObject;
 @class SDLSoftButtonState;
 
@@ -32,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
  The name of the current state of this soft button
  */
 @property (copy, nonatomic, readonly) SDLSoftButtonState *currentState;
+
+@property (strong, nonatomic, readonly) SDLSoftButton *currentStateSoftButton;
 
 /**
  The handler to be called when the button is in the current state and is pressed

@@ -132,6 +132,8 @@ NS_ASSUME_NONNULL_BEGIN
     [self.sdlManager sendRequest:displayLayout];
 
     [self sdlex_updateScreen];
+
+    [self.sdlManager.softButtonManager setSoftButtons:[self sdlex_softButtons]];
 }
 
 - (void)setTextEnabled:(BOOL)textEnabled {
