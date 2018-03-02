@@ -1107,13 +1107,13 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                             [expectedSuccessfulFileNames addObject:testArtwork.name];
                             testFileManagerResponses[testArtwork.name] = [[TestResponse alloc] initWithResponse:successfulResponse error:nil];
 
-                            testFileManagerProgressResponses[testArtwork.name] = [[TestProgressResponse alloc] initWithFileName:testArtwork.name testUploadPercentage:0 error:nil];
+                            testFileManagerProgressResponses[testArtwork.name] = [[TestFileProgressResponse alloc] initWithFileName:testArtwork.name testUploadPercentage:0 error:nil];
                         }
 
                         float testTotalBytesUploaded = 0.0;
                         for (SDLArtwork *artwork in testArtworks) {
                             testTotalBytesUploaded += artwork.fileSize;
-                            TestProgressResponse *response = testFileManagerProgressResponses[artwork.name];
+                            TestFileProgressResponse *response = testFileManagerProgressResponses[artwork.name];
                             response.testUploadPercentage = testTotalBytesUploaded / testTotalBytesToUpload;
                         }
 
@@ -1125,7 +1125,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
                 afterEach(^{
                     waitUntilTimeout(10, ^(void (^done)(void)){
                         [testFileManager uploadArtworks:testArtworks progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
-                            TestProgressResponse *testProgressResponse = testFileManagerProgressResponses[artworkName];
+                            TestFileProgressResponse *testProgressResponse = testFileManagerProgressResponses[artworkName];
                             expect(artworkName).to(equal(testProgressResponse.testFileName));
                             expect(uploadPercentage).to(equal(testProgressResponse.testUploadPercentage));
                             expect(error).to(testProgressResponse.testError == nil ? beNil() : equal(testProgressResponse.testError));
