@@ -342,7 +342,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 }
 
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)handler {
-    if (file == nil || file.data == nil || file.data.length == 0) {
+    if (file == nil || file.data.length == 0) {
         if (handler != nil) {
             handler(NO, self.bytesAvailable, [NSError sdl_fileManager_dataMissingError]);
         }
@@ -427,7 +427,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     [self uploadFiles:artworks progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
         if (progressHandler == nil) { return YES; }
         if ([self isErrorACannotOverwriteError:error]) {
-            // Artwork with same name already uploaded to remote
             return progressHandler(fileName, uploadPercentage, nil);
         }
         return progressHandler(fileName, uploadPercentage, error);
@@ -445,13 +444,13 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
                 if (![self isErrorACannotOverwriteError:[error.userInfo objectForKey:erroredArtworkName]]) {
                     [successfulArtworkUploadNames removeObject:erroredArtworkName];
                 } else {
-                    // An overwrite error means that the artwork is already uploaded to the remote
+                    // An overwrite error means that an artwork with the same name is already uploaded to the remote
                     [unsuccessfulArtworkUploadErrorUserInfo removeObjectForKey:erroredArtworkName];
                 }
             }
         }
 
-        return completion([NSArray arrayWithArray:[successfulArtworkUploadNames allObjects]], unsuccessfulArtworkUploadErrorUserInfo == nil || unsuccessfulArtworkUploadErrorUserInfo.count == 0 ? nil : [[NSError alloc] initWithDomain:error.domain code:error.code userInfo:unsuccessfulArtworkUploadErrorUserInfo]);
+        return completion([NSArray arrayWithArray:[successfulArtworkUploadNames allObjects]], unsuccessfulArtworkUploadErrorUserInfo.count == 0 ? nil : [[NSError alloc] initWithDomain:error.domain code:error.code userInfo:unsuccessfulArtworkUploadErrorUserInfo]);
     }];
 }
 
