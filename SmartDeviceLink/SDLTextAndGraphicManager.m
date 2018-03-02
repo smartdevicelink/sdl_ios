@@ -138,12 +138,17 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_uploadImagesWithCompletionHandler:(void (^)(NSError *error))handler {
+    NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray array];
     if ([self sdl_shouldUpdatePrimaryImage]) {
-        // TODO: upload artwork needed
+        [artworksToUpload addObject:self.primaryGraphic];
     }
     if ([self sdl_shouldUpdateSecondaryImage]) {
-        // TODO: upload artwork needed
+        [artworksToUpload addObject:self.secondaryGraphic];
     }
+
+    [self.fileManager uploadArtworks:artworksToUpload completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+        handler(error);
+    }];
 }
 
 #pragma mark - Assembly of Shows
@@ -333,12 +338,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_shouldUpdatePrimaryImage {
-    return ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] && ![self.currentScreenData.graphic.value isEqualToString:self.primaryGraphic.name] && self.primaryGraphic != nil);
+    return ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic]
+            && ![self.currentScreenData.graphic.value isEqualToString:self.primaryGraphic.name]
+            && self.primaryGraphic != nil);
 }
 
 - (BOOL)sdl_shouldUpdateSecondaryImage {
-//     TODO: How to detect secondary image?
-    return (![self.currentScreenData.secondaryGraphic.value isEqualToString:self.secondaryGraphic.name] && self.secondaryGraphic != nil);
+    // Cannot detect if there is a secondary image, so we'll just try to detect if there's a primary image and allow it if there is.
+    return ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic]
+            && ![self.currentScreenData.secondaryGraphic.value isEqualToString:self.secondaryGraphic.name]
+            && self.secondaryGraphic != nil);
 }
 
 - (NSArray *)sdl_findNonNilFields {
@@ -367,6 +376,7 @@ NS_ASSUME_NONNULL_BEGIN
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(5, 5), NO, 0.0);
     UIImage *blankImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+
     return [SDLArtwork artworkWithImage:blankImage name:@"sdl_BlankArt" asImageFormat:SDLArtworkImageFormatPNG];
 }
 

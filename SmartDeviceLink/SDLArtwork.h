@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of this class to be passed to the file manager.
  */
-+ (instancetype)artworkWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat NS_SWIFT_UNAVAILABLE("Use the standard initializer and set persistant to false") __deprecated_msg("Use artworkWithImage:asImageFormat: instead");
++ (instancetype)artworkWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat NS_SWIFT_UNAVAILABLE("Use the standard initializer and set persistant to false");
 
 /**
  *  Convenience Helper to create an ephemeral artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image's data which is created by hashing the data using the MD5 algorithm.
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return An instance of this class to be passed to the file manager.
  */
-+ (instancetype)persistentArtworkWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat NS_SWIFT_UNAVAILABLE("Use the standard initializer and set persistant to true") __deprecated_msg("Use persistentArtworkWithImage:asImageFormat instead");
++ (instancetype)persistentArtworkWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat NS_SWIFT_UNAVAILABLE("Use the standard initializer and set persistant to true");
 
 /**
  *  Convenience Helper to create a persistent artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image's data which is created by hashing the data using the MD5 algorithm.
