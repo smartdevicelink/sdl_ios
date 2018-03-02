@@ -15,31 +15,68 @@
 
 QuickSpecBegin(SDLImageSpec)
 
-describe(@"Getter/Setter Tests", ^ {
-    it(@"Should set and get correctly", ^ {
-        SDLImage* testStruct = [[SDLImage alloc] init];
-        
-        testStruct.value = @"value";
-        testStruct.imageType = SDLImageTypeStatic;
-        
-        expect(testStruct.value).to(equal(@"value"));
-        expect(testStruct.imageType).to(equal(SDLImageTypeStatic));
+describe(@"Getter/Setter Tests", ^{
+    context(@"When creating", ^{
+        __block SDLImage *testSDLImage = nil;
+        __block NSString *expectedValue;
+        __block SDLImageType expectedImageType;
+
+        beforeEach(^{
+            testSDLImage = nil;
+            expectedValue = nil;
+            expectedImageType = nil;
+        });
+
+        it(@"Should set and get correctly", ^{
+            NSString *value = @"value";
+            SDLImageType imageType = SDLImageTypeDynamic;
+
+            testSDLImage = [[SDLImage alloc] init];
+            testSDLImage.value = value;
+            testSDLImage.imageType = imageType;
+
+            expectedValue = value;
+            expectedImageType = imageType;
+        });
+
+        it(@"Should get correctly when initialized as a dictionary", ^{
+            NSString *value = @"value";
+            SDLImageType imageType = SDLImageTypeStatic;
+
+            NSMutableDictionary* dict = [@{SDLNameValue:value,
+                                           SDLNameImageType:imageType} mutableCopy];
+            testSDLImage = [[SDLImage alloc] initWithDictionary:dict];
+
+            expectedValue = value;
+            expectedImageType = imageType;
+        });
+
+        it(@"Should get correctly when initialized with a name only", ^{
+            NSString *name = @"value";
+            testSDLImage = [[SDLImage alloc] initWithName:name];
+
+            expectedValue = name;
+            expectedImageType = SDLImageTypeDynamic;
+        });
+
+        it(@"Should get correctly when initialized with static image value", ^{
+            UInt16 staticImageValue = 2568;
+            testSDLImage = [[SDLImage alloc] initWithStaticImageValue:staticImageValue];
+
+            expectedValue = @"2568";
+            expectedImageType = SDLImageTypeStatic;
+        });
+
+        afterEach(^{
+            expect(testSDLImage.value).to(equal(expectedValue));
+            expect(testSDLImage.imageType).to(equal(expectedImageType));
+        });
     });
-    
-    it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameValue:@"value",
-                                       SDLNameImageType:SDLImageTypeStatic} mutableCopy];
-        SDLImage* testStruct = [[SDLImage alloc] initWithDictionary:dict];
-        
-        expect(testStruct.value).to(equal(@"value"));
-        expect(testStruct.imageType).to(equal(SDLImageTypeStatic));
-    });
-    
-    it(@"Should return nil if not set", ^ {
-        SDLImage* testStruct = [[SDLImage alloc] init];
-        
-        expect(testStruct.value).to(beNil());
-        expect(testStruct.imageType).to(beNil());
+
+    it(@"Should return nil if not set", ^{
+        SDLImage *testSDLImage = [[SDLImage alloc] init];
+        expect(testSDLImage.value).to(beNil());
+        expect(testSDLImage.imageType).to(beNil());
     });
 });
 
