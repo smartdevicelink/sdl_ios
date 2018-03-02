@@ -120,11 +120,11 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 }
 
 - (void)syncFrame {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (!self.isTouchEnabled || (!self.touchEventHandler && !self.touchEventDelegate)) {
-            return;
-        }
+    if (!self.isTouchEnabled || (!self.touchEventHandler && !self.touchEventDelegate)) {
+        return;
+    }
 
+    dispatch_async(dispatch_get_main_queue(), ^{
         if (self.performingTouchType == SDLPerformingTouchTypePanningTouch) {
             CGPoint storedTouchLocation = self.lastStoredTouchLocation;
             CGPoint notifiedTouchLocation = self.lastNotifiedTouchLocation;
@@ -155,7 +155,6 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             }
 
             self.previousPinchDistance = self.currentPinchGesture.distance;
-
         }
     });
 }
@@ -168,27 +167,27 @@ static NSUInteger const MaximumNumberOfTouches = 2;
  *  @param notification     A SDLOnTouchEvent notification.
  */
 - (void)sdl_onTouchEvent:(SDLRPCNotificationNotification *)notification {
+    if (!self.isTouchEnabled
+        || (!self.touchEventHandler && !self.touchEventDelegate)
+        || ![notification.notification isKindOfClass:SDLOnTouchEvent.class]) {
+        return;
+    }
+
+    SDLOnTouchEvent* onTouchEvent = (SDLOnTouchEvent*)notification.notification;
+
+    SDLTouchType touchType = onTouchEvent.type;
+    SDLTouchEvent *touchEvent = onTouchEvent.event.firstObject;
+    SDLTouch *touch = [[SDLTouch alloc] initWithTouchEvent:touchEvent];
+
+    if (self.touchEventHandler) {
+        self.touchEventHandler(touch, touchType);
+    }
+
+    if (!self.touchEventDelegate || (touch.identifier > MaximumNumberOfTouches)) {
+        return;
+    }
+
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (!self.isTouchEnabled
-            || (!self.touchEventHandler && !self.touchEventDelegate)
-            || ![notification.notification isKindOfClass:SDLOnTouchEvent.class]) {
-            return;
-        }
-
-        SDLOnTouchEvent* onTouchEvent = (SDLOnTouchEvent*)notification.notification;
-
-        SDLTouchType touchType = onTouchEvent.type;
-        SDLTouchEvent *touchEvent = onTouchEvent.event.firstObject;
-        SDLTouch *touch = [[SDLTouch alloc] initWithTouchEvent:touchEvent];
-
-        if (self.touchEventHandler) {
-            self.touchEventHandler(touch, touchType);
-        }
-
-        if (!self.touchEventDelegate || (touch.identifier > MaximumNumberOfTouches)) {
-            return;
-        }
-
         if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeBegin]) {
             [self sdl_handleTouchBegan:touch];
         } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeMove]) {
