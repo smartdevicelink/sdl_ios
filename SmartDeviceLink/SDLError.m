@@ -163,6 +163,15 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerUploadCanceled userInfo:userInfo];
 }
 
++ (NSError *)sdl_fileManager_dataMissingError {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"The file upload was canceled", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The data for the file is missing", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure the data used to create the file is valid", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorFileDataMissing userInfo:userInfo];
+}
+
 #pragma mark SDLUploadFileOperation
 
 + (NSError *)sdl_fileManager_fileDoesNotExistError {

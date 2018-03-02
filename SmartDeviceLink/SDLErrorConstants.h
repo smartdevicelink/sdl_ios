@@ -82,4 +82,8 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
      *  One or more of multiple files being uploaded or deleted failed.
      */
     SDLFileManagerMultipleFileDeleteTasksFailed = -8,
+    /*
+     *  The file data is nil or empty.
+     */
+    SDLFileManagerErrorFileDataMissing = -9,
 };
