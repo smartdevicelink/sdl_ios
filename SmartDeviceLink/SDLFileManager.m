@@ -455,13 +455,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     }];
 }
 
-- (void)printArray:(NSArray<NSString *> *)array location:(NSString *)location {
-    NSLog(@"\n%@Artwork names:", location);
-    for (NSString *name in array) {
-        NSLog(@"\n\tname: %@", name);
-    }
-}
-
 - (BOOL)isErrorACannotOverwriteError:(NSError * _Nullable)error {
     if (error != nil && error.code == SDLFileManagerErrorCannotOverwrite) {
         return YES;
