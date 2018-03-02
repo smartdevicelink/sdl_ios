@@ -22,6 +22,15 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithName:(NSString *)name {
+    return [self initWithName:name ofType:SDLImageTypeDynamic];
+}
+
+- (instancetype)initWithStaticImageValue:(UInt16)staticImageValue {
+    NSString *value = [NSString stringWithFormat:@"%hu", staticImageValue];
+    return [self initWithName:value ofType:SDLImageTypeStatic];
+}
+
 - (void)setValue:(NSString *)value {
     [store sdl_setObject:value forName:SDLNameValue];
 }

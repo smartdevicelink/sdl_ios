@@ -17,6 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithName:(NSString *)name ofType:(SDLImageType)imageType;
 
+- (instancetype)initWithName:(NSString *)name;
+
+- (instancetype)initWithStaticImageValue:(UInt16)staticImageValue;
+
 /**
  * @abstract The static hex icon value or the binary image file name identifier (sent by SDLPutFile)
  *
@@ -25,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *value;
 
 /**
- * @abstract Describes, whether it is a static or dynamic image
+ * @abstract Describes whether the image is static or dynamic
  *
  * Required
  */
