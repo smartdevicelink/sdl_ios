@@ -101,6 +101,12 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
                            userInfo:userInfo];
 }
 
++ (NSError *)sdl_lifecycle_multipleRequestsCancelled {
+    return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
+                               code:SDLManagerErrorCancelled
+                           userInfo:nil];
+}
+
 
 #pragma mark SDLFileManager
 

@@ -1,5 +1,5 @@
 //
-//  TestProgressResponse.h
+//  TestFileProgressResponse.h
 //  SmartDeviceLink-iOS
 //
 //  Created by Nicole on 8/17/17.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TestProgressResponse : NSObject
+@interface TestFileProgressResponse : NSObject
 
 @property (strong, nonatomic) NSString *testFileName;
 @property (nonatomic) float testUploadPercentage;

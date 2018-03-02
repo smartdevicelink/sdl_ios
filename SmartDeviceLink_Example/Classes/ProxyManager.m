@@ -20,12 +20,6 @@ typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
     SDLHMIFirstStateFull
 };
 
-typedef NS_ENUM(NSUInteger, SDLHMIInitialShowState) {
-    SDLHMIInitialShowStateNone,
-    SDLHMIInitialShowStateDataAvailable,
-    SDLHMIInitialShowStateShown
-};
-
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -33,7 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Describes the first time the HMI state goes non-none and full.
 @property (assign, nonatomic) SDLHMIFirstState firstTimeState;
-@property (assign, nonatomic) SDLHMIInitialShowState initialShowState;
 @property (assign, nonatomic) BOOL areImagesVisible;
 
 @end
@@ -61,32 +54,30 @@ NS_ASSUME_NONNULL_BEGIN
     
     _state = ProxyStateStopped;
     _firstTimeState = SDLHMIFirstStateNone;
-    _initialShowState = SDLHMIInitialShowStateNone;
-    _areImagesVisible = true;
-    
+    _areImagesVisible = YES;
+
     return self;
 }
 
 - (void)startIAP {
-    [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
     // Check for previous instance of sdlManager
     if (self.sdlManager) { return; }
+    [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
     SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId]];
-    
-    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration debugConfiguration]];
-    self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
-
-    [self startManager];
+    [self sdlex_startWithLifecycleConfiguration:lifecycleConfig];
 }
 
 - (void)startTCP {
-    [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
     // Check for previous instance of sdlManager
     if (self.sdlManager) { return; }
+    [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
     SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
-    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration debugConfiguration]];
-    self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
+    [self sdlex_startWithLifecycleConfiguration:lifecycleConfig];
+}
 
+- (void)sdlex_startWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
+    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[self.class sdlex_logConfiguration]];
+    self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
     [self startManager];
 }
 
@@ -100,49 +91,46 @@ NS_ASSUME_NONNULL_BEGIN
         }
         
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
-
         [weakSelf sdlex_setupPermissionsCallbacks];
-        
-        if ([weakSelf.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
-            [weakSelf sdlex_showInitialData];
-        }
     }];
 }
 
 - (void)reset {
     [self sdlex_updateProxyState:ProxyStateStopped];
     [self.sdlManager stop];
-    // Remove reference
     self.sdlManager = nil;
 }
-
 
 #pragma mark - Helpers
 
 - (void)sdlex_showInitialData {
-    if ((self.initialShowState != SDLHMIInitialShowStateDataAvailable) || ![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
-        return;
-    }
+    SDLSetDisplayLayout *displayLayout = [[SDLSetDisplayLayout alloc] initWithLayout:SDLPredefinedLayoutMedia];
+    SDLAddCommand *speakNameAddCommand = [self.class sdlex_speakNameCommandWithManager:self.sdlManager];
+    SDLAddCommand *performInteractionChoiceSetAddCommand = [self.class sdlex_interactionSetCommandWithManager:self.sdlManager];
+    SDLAddCommand *getVehicleDataAddCommand = [self.class sdlex_vehicleDataCommandWithManager:self.sdlManager];
+    SDLCreateInteractionChoiceSet *createInteractionChoiceSet = [self.class sdlex_createOnlyChoiceInteractionSet];
 
-    SDLSetDisplayLayout *displayLayout = [[SDLSetDisplayLayout alloc] initWithLayout:SDLPredefinedLayoutNonMedia];
-    [self.sdlManager sendRequest:displayLayout];
-    
-    self.initialShowState = SDLHMIInitialShowStateShown;
-    [self sdlex_showWithManager:self.sdlManager];
+    [self.sdlManager sendSequentialRequests:@[displayLayout, speakNameAddCommand, performInteractionChoiceSetAddCommand, getVehicleDataAddCommand, createInteractionChoiceSet] progressHandler:^BOOL(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+        SDLLogD(@"Show initial data RPC. Request: %@. Response: %@. Percentage complete: %f, error: %@", request, response, percentComplete, error);
+        return YES;
+    } completionHandler:^(BOOL success) {
+        !success ? SDLLogW(@"Some show initial data RPCs were not sent successfully") : SDLLogD(@"All show initial data RPCs were sent successfully");
+    }];
 }
 
-- (void)sdlex_showWithManager:(SDLManager *)manager {
+- (void)sdlex_updateShowWithManager:(SDLManager *)manager {
     NSString *mainField1Text = isTextOn ? @"Smart Device Link" : @"";
     NSString *mainField2Text = isTextOn ? @"Example App" : @"";
     SDLShow* show = [[SDLShow alloc] initWithMainField1:mainField1Text mainField2:mainField2Text alignment:SDLTextAlignmentCenter];
 
     [self sdlex_prepareSoftButtonsWithImages:self.areImagesVisible completionHandler:^(NSArray<SDLSoftButton *> * _Nonnull softButtons) {
+        if (softButtons.count == 0) { return; }
         show.softButtons = softButtons;
         [manager sendRequest:show];
     }];
 
     [self sdlex_prepareMainGraphicImageWithImages:self.areImagesVisible completionHandler:^(SDLImage * _Nullable sdlImage) {
-        if (sdlImage == nil) { return ;}
+        if (sdlImage == nil) { return; }
         show.graphic = sdlImage;
         [manager sendRequest:show];
     }];
@@ -188,6 +176,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Example" files:[NSSet setWithArray:@[@"ProxyManager"]]];
     logConfig.modules = [logConfig.modules setByAddingObject:sdlExampleModule];
     logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
+    logConfig.globalLogLevel = SDLLogLevelVerbose;
 
     return logConfig;
 }
@@ -293,14 +282,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (void)sdlex_sendPerformOnlyChoiceInteractionWithManager:(SDLManager *)manager {
-    SDLPerformInteraction *performOnlyChoiceInteraction = [[SDLPerformInteraction alloc] init];
-    performOnlyChoiceInteraction.initialText = @"Choose the only one! You have 5 seconds...";
-    performOnlyChoiceInteraction.initialPrompt = [SDLTTSChunk textChunksFromString:@"Choose it"];
-    performOnlyChoiceInteraction.interactionMode = SDLInteractionModeBoth;
-    performOnlyChoiceInteraction.interactionChoiceSetIDList = @[@0];
-    performOnlyChoiceInteraction.helpPrompt = [SDLTTSChunk textChunksFromString:@"Do it"];
-    performOnlyChoiceInteraction.timeoutPrompt = [SDLTTSChunk textChunksFromString:@"Too late"];
-    performOnlyChoiceInteraction.timeout = @5000;
+    SDLPerformInteraction *performOnlyChoiceInteraction = [[SDLPerformInteraction alloc] initWithInitialPrompt:@"Choose an item from the list" initialText:@"Choose the only option! You have 5 seconds..." interactionChoiceSetIDList:@[@0] helpPrompt:@"Select an item from the list" timeoutPrompt:@"The list is closing" interactionMode:SDLInteractionModeBoth timeout:5000 vrHelp:nil];
     performOnlyChoiceInteraction.interactionLayout = SDLLayoutModeListOnly;
     
     [manager sendRequest:performOnlyChoiceInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLPerformInteractionResponse * _Nullable response, NSError * _Nullable error) {
@@ -318,9 +300,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdlex_prepareSoftButtonsWithImages:(BOOL)areImagesVisible completionHandler:(void (^)(NSArray<SDLSoftButton *> *softButtons))completionHandler {
-    // Save each soft button in a specific index position in the array. Once all buttons have been return all the buttons. This is done to prevent flickering that can occur if the UI is updated everytime a button is created.
-    SDLSoftButton *button = [[SDLSoftButton alloc] init];
-    NSMutableArray<SDLSoftButton *> *softButtons = [[NSMutableArray alloc] initWithObjects:button, button, button, button, nil];
+    // Save each soft button to a specific index position in the array. Once all buttons have been created, return the array of buttons. This is done to prevent flickering that can occur if the UI is updated everytime a button is created.
+    NSMutableArray<SDLSoftButton *> *softButtons = [[NSMutableArray alloc] initWithObjects:[[SDLSoftButton alloc] init], [[SDLSoftButton alloc] init], [[SDLSoftButton alloc] init], [[SDLSoftButton alloc] init], nil];
 
     dispatch_group_t dataDispatchGroup = dispatch_group_create();
     dispatch_group_enter(dataDispatchGroup);
@@ -373,13 +354,12 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-static BOOL isHexagonOn = true;
+static BOOL isHexagonOn = YES;
 - (void)sdlex_prepareSoftButton2WithManager:(SDLManager *)manager isImageVisible:(BOOL)imageVisible completionHandler:(void (^)(SDLSoftButton * button))completionHandler {
     SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
         if (buttonPressNotification == nil) { return; }
-
         isHexagonOn = !isHexagonOn;
-        [self sdlex_showWithManager:manager];
+        [self sdlex_updateShowWithManager:manager];
     }];
     softButton.softButtonID = @200;
 
@@ -397,18 +377,15 @@ static BOOL isHexagonOn = true;
     }];
 }
 
-static BOOL isTextOn = true;
+static BOOL isTextOn = YES;
 - (SDLSoftButton *)sdlex_prepareSoftButton3WithManager:(SDLManager *)manager {
     SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
-        if (buttonPressNotification == nil) {
-            return;
-        }
+        if (buttonPressNotification == nil) { return; }
 
         isTextOn = !isTextOn;
-        [self sdlex_showWithManager:manager];
-
-        SDLLogD(@"Text visibility soft button press fired");
+        [self sdlex_updateShowWithManager:manager];
     }];
+
     softButton.softButtonID = @300;
     softButton.text = isTextOn ? @"➖Text" : @"➕Text";
     softButton.type = SDLSoftButtonTypeText;
@@ -419,11 +396,8 @@ static BOOL isTextOn = true;
 - (SDLSoftButton *)sdlex_prepareSoftButton4WithManager:(SDLManager *)manager areImagesVisible:(BOOL)imageVisible {
     SDLSoftButton* softButton = [[SDLSoftButton alloc] initWithHandler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
         if (buttonPressNotification == nil) { return; }
-
-        self.areImagesVisible = !self.areImagesVisible;
-        [self sdlex_showWithManager:manager];
-
-        SDLLogD(@"Image visibility soft button press fired %d", isHexagonOn);
+        self.areImagesVisible = !imageVisible;
+        [self sdlex_updateShowWithManager:manager];
     }];
 
     softButton.text = imageVisible ? @"➖Icons" : @"➕Icons";
@@ -455,26 +429,26 @@ static BOOL isTextOn = true;
 #pragma mark - Files / Artwork
 
 + (SDLArtwork *)sdlex_softButton1Artwork {
-    return [[SDLArtwork alloc] initWithImage:[UIImage imageNamed:@"star_softbutton_icon"] persistent:false asImageFormat:SDLArtworkImageFormatPNG];
+    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"star_softbutton_icon"] asImageFormat:SDLArtworkImageFormatPNG];
 }
 
 + (SDLArtwork *)sdlex_softButton2OnArtwork {
-    return [[SDLArtwork alloc] initWithImage:[UIImage imageNamed:@"hexagon_on_softbutton_icon"] persistent:false asImageFormat:SDLArtworkImageFormatPNG];
+    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"hexagon_on_softbutton_icon"] asImageFormat:SDLArtworkImageFormatPNG];
 }
 
 + (SDLArtwork *)sdlex_softButton2OffArtwork {
-    return [[SDLArtwork alloc] initWithImage:[UIImage imageNamed:@"hexagon_off_softbutton_icon"] persistent:false asImageFormat:SDLArtworkImageFormatPNG];
+    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"hexagon_off_softbutton_icon"] asImageFormat:SDLArtworkImageFormatPNG];
 }
 
 + (SDLArtwork *)sdlex_mainGraphicArtwork {
-    return [[SDLArtwork alloc] initWithImage:[UIImage imageNamed:@"sdl_logo_green"] persistent:false asImageFormat:SDLArtworkImageFormatPNG];
+    return [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] asImageFormat:SDLArtworkImageFormatPNG];
 }
 
 + (SDLArtwork *)sdlex_mainGraphicBlank {
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(5, 5), NO, 0.0);
     UIImage *blankImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    return [[SDLArtwork alloc] initWithImage:blankImage persistent:false asImageFormat:SDLArtworkImageFormatPNG];
+    return [SDLArtwork artworkWithImage:blankImage asImageFormat:SDLArtworkImageFormatPNG];
 }
 
 #pragma mark - SDLManagerDelegate
@@ -482,7 +456,6 @@ static BOOL isTextOn = true;
 - (void)managerDidDisconnect {
     // Reset our state
     self.firstTimeState = SDLHMIFirstStateNone;
-    self.initialShowState = SDLHMIInitialShowStateNone;
     [self sdlex_updateProxyState:ProxyStateStopped];
     if (ShouldRestartOnDisconnect) {
         [self startManager];
@@ -493,28 +466,14 @@ static BOOL isTextOn = true;
     if (![newLevel isEqualToEnum:SDLHMILevelNone] && (self.firstTimeState == SDLHMIFirstStateNone)) {
         // This is our first time in a non-NONE state
         self.firstTimeState = SDLHMIFirstStateNonNone;
-        [self sdlex_prepareRemoteSystem];
+        [self sdlex_showInitialData];
     }
     
     if ([newLevel isEqualToEnum:SDLHMILevelFull] && (self.firstTimeState != SDLHMIFirstStateFull)) {
         // This is our first time in a FULL state
         self.firstTimeState = SDLHMIFirstStateFull;
+        [self sdlex_updateShowWithManager:self.sdlManager];
     }
-    
-    if ([newLevel isEqualToEnum:SDLHMILevelFull]) {
-        // We're always going to try to show the initial state, because if we've already shown it, it won't be shown, and we need to guard against some possible weird states
-        [self sdlex_showInitialData];
-    }
-}
-
-- (void)sdlex_prepareRemoteSystem {
-    [self.sdlManager sendRequest:[self.class sdlex_speakNameCommandWithManager:self.sdlManager]];
-    [self.sdlManager sendRequest:[self.class sdlex_interactionSetCommandWithManager:self.sdlManager]];
-    [self.sdlManager sendRequest:[self.class sdlex_vehicleDataCommandWithManager:self.sdlManager]];
-
-    [self.sdlManager sendRequest:[self.class sdlex_createOnlyChoiceInteractionSet] withResponseHandler:nil];
-    self.initialShowState = SDLHMIInitialShowStateDataAvailable;
-    [self sdlex_showInitialData];
 }
 
 @end
