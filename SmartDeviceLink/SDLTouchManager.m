@@ -291,9 +291,11 @@ static NSUInteger const MaximumNumberOfTouches = 2;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:self.currentPinchGesture.center] : nil;
                         [self.touchEventDelegate touchManager:self pinchDidEndInView:hitView atCenterPoint:self.currentPinchGesture.center];
+                        self.currentPinchGesture = nil;
                     });
+                } else {
+                    self.currentPinchGesture = nil;
                 }
-                self.currentPinchGesture = nil;
             }
         } break;
         case SDLPerformingTouchTypePanningTouch: {
