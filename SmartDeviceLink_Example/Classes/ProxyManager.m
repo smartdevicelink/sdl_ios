@@ -172,11 +172,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLLogConfiguration *)sdlex_logConfiguration {
+    // The default configuration shows Error, Warning and Debug logs. The only logs not shown with the default log configuration is Verbose.
     SDLLogConfiguration *logConfig = [SDLLogConfiguration defaultConfiguration];
     SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Example" files:[NSSet setWithArray:@[@"ProxyManager"]]];
     logConfig.modules = [logConfig.modules setByAddingObject:sdlExampleModule];
     logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
-    logConfig.globalLogLevel = SDLLogLevelVerbose;
+    // logConfig.globalLogLevel = SDLLogLevelVerbose;
 
     return logConfig;
 }
@@ -284,7 +285,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)sdlex_sendPerformOnlyChoiceInteractionWithManager:(SDLManager *)manager {
     SDLPerformInteraction *performOnlyChoiceInteraction = [[SDLPerformInteraction alloc] initWithInitialPrompt:@"Choose an item from the list" initialText:@"Choose the only option! You have 5 seconds..." interactionChoiceSetIDList:@[@0] helpPrompt:@"Select an item from the list" timeoutPrompt:@"The list is closing" interactionMode:SDLInteractionModeBoth timeout:5000 vrHelp:nil];
     performOnlyChoiceInteraction.interactionLayout = SDLLayoutModeListOnly;
-    
+
     [manager sendRequest:performOnlyChoiceInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLPerformInteractionResponse * _Nullable response, NSError * _Nullable error) {
         SDLLogD(@"Perform Interaction fired");
         if ((response == nil) || (error != nil)) {
