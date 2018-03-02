@@ -12,6 +12,7 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLDisplayCapabilities+ShowManagerExtensions.h"
+#import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLImage.h"
 #import "SDLMetadataTags.h"
@@ -40,8 +41,9 @@ NS_ASSUME_NONNULL_BEGIN
  This is the "full" update, including both text and image names, whether or not that will succeed at the moment (e.g. if images are in the process of uploading)
  */
 @property (strong, nonatomic, nullable) SDLShow *inProgressUpdate;
-@property (strong, nonatomic, nullable) SDLShow *queuedImageUpdate;
+@property (copy, nonatomic, nullable) SDLTextAndGraphicUpdateCompletionHandler inProgressHandler;
 
+@property (strong, nonatomic, nullable) SDLShow *queuedImageUpdate;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (copy, nonatomic, nullable) SDLTextAndGraphicUpdateCompletionHandler queuedUpdateHandler;
 
@@ -68,6 +70,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
     if (self.inProgressUpdate != nil) {
+        // If we already have a pending update, we're going to tell the old handler that it was superseded by a new update and then return
+        if (self.queuedUpdateHandler != nil) {
+            self.queuedUpdateHandler([NSError sdl_textAndGraphicManager_pendingUpdateSuperseded]);
+            self.queuedUpdateHandler = nil;
+        }
+
         if (handler != nil) {
             self.queuedUpdateHandler = handler;
         } else {
@@ -83,6 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
     fullShow = [self sdl_assembleShowText:fullShow forDisplayCapabilities:self.displayCapabilities];
     fullShow = [self sdl_assembleShowImages:fullShow];
 
+    __weak typeof(self)weakSelf = self;
     if (!([self sdl_shouldUpdatePrimaryImage] || [self sdl_shouldUpdateSecondaryImage])) {
         // If there are no images to update, just send the text update
         self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
@@ -96,46 +105,40 @@ NS_ASSUME_NONNULL_BEGIN
         // Start uploading the images
         __block SDLShow *thisUpdate = fullShow;
         [self sdl_uploadImagesWithCompletionHandler:^(NSError * _Nonnull error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
             // Check if queued image update still matches our images (there could have been a new Show in the meantime) and send a new update if it does. Since the images will already be on the head unit, the whole show will be sent
             // TODO: Send delete if it doesn't?
-            if ([self sdl_showImages:thisUpdate isEqualToShowImages:self.queuedImageUpdate]) {
-                [self updateWithCompletionHandler:handler];
+            if ([strongSelf sdl_showImages:thisUpdate isEqualToShowImages:strongSelf.queuedImageUpdate]) {
+                [strongSelf updateWithCompletionHandler:handler];
             }
         }];
         // TODO: If a new update comes in while this upload is happening, what do we do?
         // When the images are done uploading, send another show with the images
-        self.queuedImageUpdate = [self sdl_extractImageFromShow:fullShow];
+        self.queuedImageUpdate = fullShow;
     }
 
-    [self sdl_sendShow:self.inProgressUpdate withHandler:^(NSError * _Nullable error) {
-        self.inProgressUpdate = nil;
-        if (handler != NULL) {
-            handler(error);
+    self.inProgressHandler = handler;
+    [self.connectionManager sendConnectionRequest:self.inProgressUpdate withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (response.success) {
+            [strongSelf sdl_updateCurrentScreenDataFromShow:(SDLShow *)request];
+        }
+
+        strongSelf.inProgressUpdate = nil;
+        if (strongSelf.inProgressHandler != nil) {
+            strongSelf.inProgressHandler(error);
+            strongSelf.inProgressHandler = nil;
+        }
+
+        if (strongSelf.hasQueuedUpdate) {
+            [strongSelf updateWithCompletionHandler:[self.queuedUpdateHandler copy]];
+            strongSelf.queuedUpdateHandler = nil;
+            strongSelf.hasQueuedUpdate = NO;
         }
     }];
 }
 
 #pragma mark - Upload / Send
-
-- (void)sdl_sendShow:(SDLShow *)show withHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
-    if (show == nil) { return; }
-
-    [self.connectionManager sendConnectionRequest:show withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (response.success && error != nil) {
-            [self sdl_updateCurrentScreenDataFromShow:(SDLShow *)request];
-        }
-
-        if (handler != NULL) {
-            handler(error);
-        }
-
-        if (self.hasQueuedUpdate) {
-            [self updateWithCompletionHandler:[self.queuedUpdateHandler copy]];
-            self.queuedUpdateHandler = nil;
-            self.hasQueuedUpdate = NO;
-        }
-    }];
-}
 
 - (void)sdl_uploadImagesWithCompletionHandler:(void (^)(NSError *error))handler {
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray array];
@@ -363,7 +366,15 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Equality
 
 - (BOOL)sdl_showImages:(SDLShow *)show isEqualToShowImages:(SDLShow *)show2 {
-    return ([show.graphic.value isEqualToString:show2.graphic.value] && [show.secondaryGraphic.value isEqualToString:show2.secondaryGraphic.value]);
+    BOOL same = NO;
+    same = ((show.graphic.value == nil && show.graphic.value == nil)
+            || [show.graphic.value isEqualToString:show2.graphic.value]);
+    if (!same) { return NO; }
+
+    same = ((show.secondaryGraphic.value == nil && show.secondaryGraphic.value == nil)
+            || [show.secondaryGraphic.value isEqualToString:show2.secondaryGraphic.value]);
+
+    return same;
 }
 
 #pragma mark - Getters / Setters

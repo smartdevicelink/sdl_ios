@@ -152,6 +152,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_uploadArtworks:(NSArray<SDLArtwork *> *)artworks withCompletionHandler:(void (^)(NSError *error))handler {
     // TODO: Need uploadArtworks
+    [self.fileManager uploadArtworks:artworks completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+        handler(error);
+    }];
 }
 
 - (BOOL)sdl_currentStateHasImages {

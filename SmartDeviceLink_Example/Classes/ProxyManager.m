@@ -446,25 +446,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdlex_prepareRemoteSystem {
-    [self.sdlManager sendRequests:@[[self.class sdlex_speakNameCommandWithManager:self.sdlManager], [self.class sdlex_interactionSetCommandWithManager:self.sdlManager], [self.class sdlex_vehicleDataCommandWithManager:self.sdlManager]]
+    [self.sdlManager sendRequests:@[[self.class sdlex_speakNameCommandWithManager:self.sdlManager], [self.class sdlex_interactionSetCommandWithManager:self.sdlManager], [self.class sdlex_vehicleDataCommandWithManager:self.sdlManager], [self.class sdlex_createOnlyChoiceInteractionSet]]
                   progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
                       NSLog(@"Commands sent updated, percent complete %f%%", percentComplete * 100);
     }
                 completionHandler:nil];
-    
-    dispatch_group_t dataDispatchGroup = dispatch_group_create();
-    dispatch_group_enter(dataDispatchGroup);
-
-    dispatch_group_enter(dataDispatchGroup);
-    [self.sdlManager sendRequest:[self.class sdlex_createOnlyChoiceInteractionSet] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        // Interaction choice set ready
-        dispatch_group_leave(dataDispatchGroup);
-    }];
-    
-    dispatch_group_leave(dataDispatchGroup);
-    dispatch_group_notify(dataDispatchGroup, dispatch_get_main_queue(), ^{
-        [self sdlex_showInitialData];
-    });
 }
 
 

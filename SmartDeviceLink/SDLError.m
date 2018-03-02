@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 SDLErrorDomain *const SDLErrorDomainLifecycleManager = @"com.sdl.lifecyclemanager.error";
 SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
+SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager = @"com.sdl.textandgraphicmanager.error";
 
 @implementation NSError (SDLErrors)
 
@@ -183,6 +184,11 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorFileDoesNotExist userInfo:userInfo];
 }
 
+#pragma mark Text and Graphic Manager
+
++ (NSError *)sdl_textAndGraphicManager_pendingUpdateSuperseded {
+    return [NSError errorWithDomain:SDLErrorDomainTextAndGraphicManager code:SDLTextAndGraphicManagerErrorPendingUpdateSuperseded userInfo:nil];
+}
 
 @end
 
