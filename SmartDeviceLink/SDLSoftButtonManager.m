@@ -10,6 +10,7 @@
 
 #import "SDLConnectionManagerType.h"
 #import "SDLDisplayCapabilities.h"
+#import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCResponseNotification.h"
@@ -34,7 +35,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
 
-@property (strong, nonatomic) SDLShow *inProgressUpdate;
+@property (strong, nonatomic, nullable) SDLShow *inProgressUpdate;
+@property (copy, nonatomic, nullable) SDLSoftButtonUpdateCompletionHandler inProgressHandler;
+
 @property (strong, nonatomic, nullable) SDLShow *queuedImageUpdate;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (copy, nonatomic, nullable) SDLSoftButtonUpdateCompletionHandler queuedUpdateHandler;
@@ -58,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (BOOL)updateButtonNamed:(NSString *)buttonName replacingCurrentStateWithState:(SDLSoftButtonState *)state {
+- (BOOL)updateButtonNamed:(NSString *)buttonName replacingCurrentStateWithState:(NSString *)stateName {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", buttonName];
     NSArray<SDLSoftButtonObject *> *buttons = [self.softButtonObjects filteredArrayUsingPredicate:predicate];
     if (buttons.count == 0) {
@@ -67,14 +70,13 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSAssert(buttons.count == 1, @"Multiple SDLSoftButtonObjects are named the same thing, this should have been checked for");
     SDLSoftButtonObject *button = buttons.firstObject;
-    [button transitionToState:state.name];
+    [button transitionToState:stateName];
 
     if (_isBatchingUpdates) {
         return YES;
     }
 
-    // TODO: Else send the update
-    [self sdl_updateSoftButtonsWithCompletionHandler:nil];
+    [self sdl_updateWithCompletionHandler:nil];
 
     return YES;
 }
@@ -85,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)endUpdatesWithCompletionHandler:(SDLSoftButtonUpdateCompletionHandler)handler {
     _isBatchingUpdates = NO;
-    [self sdl_updateSoftButtonsWithCompletionHandler:handler];
+    [self sdl_updateWithCompletionHandler:handler];
 }
 
 - (BOOL)setSoftButtons:(NSArray<SDLSoftButtonObject *> *)softButtons {
@@ -106,16 +108,49 @@ NS_ASSUME_NONNULL_BEGIN
 
     _softButtonObjects = softButtons;
 
-    // TODO: Upload all soft button images, the initial state images first, then the other states. We need to send updates when the initial state is ready.
-    // TODO: We'll also need to handle changes that occur during that process
+    // Upload all soft button images, the initial state images first, then the other states. We need to send updates when the initial state is ready.
+    NSMutableArray<SDLArtwork *> *initialStatesToBeUploaded = [NSMutableArray array];
+    for (SDLSoftButtonObject *object in self.softButtonObjects) {
+        if (object.currentState.artwork != nil && ![self.fileManager hasUploadedFile:object.currentState.artwork]) {
+            [initialStatesToBeUploaded addObject:object.currentState.artwork];
+        }
+    }
+    NSMutableArray<SDLArtwork *> *otherStatesToBeUploaded = [NSMutableArray array];
+    for (SDLSoftButtonObject *object in self.softButtonObjects) {
+        for (SDLSoftButtonState *state in object.states) {
+            if ([state.name isEqualToString:object.currentState.name]) { continue; }
+            if (state.artwork != nil && ![self.fileManager hasUploadedFile:state.artwork]) {
+                [otherStatesToBeUploaded addObject:state.artwork];
+            }
+        }
+    }
 
-    [self sdl_updateSoftButtonsWithCompletionHandler:nil];
+    // Upload initial images, then other state images
+    if (initialStatesToBeUploaded.count > 0) {
+        [self.fileManager uploadArtworks:[initialStatesToBeUploaded copy] completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+            [self sdl_updateWithCompletionHandler:nil];
+        }];
+    }
+    if (otherStatesToBeUploaded.count > 0) {
+        [self.fileManager uploadArtworks:[otherStatesToBeUploaded copy] completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+            // In case our soft button states have changed in the meantime
+            [self sdl_updateWithCompletionHandler:nil];
+        }];
+    }
+
+    [self sdl_updateWithCompletionHandler:nil];
 
     return YES;
 }
 
-- (void)sdl_updateSoftButtonsWithCompletionHandler:(nullable SDLSoftButtonUpdateCompletionHandler)handler {
+- (void)sdl_updateWithCompletionHandler:(nullable SDLSoftButtonUpdateCompletionHandler)handler {
     if (self.inProgressUpdate != nil) {
+        // If we already have a pending update, we're going to tell the old handler that it was superseded by a new update and then return
+        if (self.queuedUpdateHandler != nil) {
+            self.queuedUpdateHandler([NSError sdl_softButtonManager_pendingUpdateSuperseded]);
+            self.queuedUpdateHandler = nil;
+        }
+
         if (handler != nil) {
             self.queuedUpdateHandler = handler;
         } else {
@@ -125,25 +160,35 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    // TODO: Upload initial images, then other state images
-    // TODO: Needs upload artworks
-
-    // TODO: Create soft buttons
+    self.inProgressHandler = [handler copy];
     self.inProgressUpdate = [[SDLShow alloc] init];
-    self.inProgressUpdate.softButtons = [self sdl_createSoftButtonsFromCurrentState];
     if ([self sdl_currentStateHasImages] && ![self sdl_allCurrentStateImagesAreUploaded]) {
-        // The images don't yet exist on the head unit, send a text update if possible
+        // The images don't yet exist on the head unit, send a text update if possible, otherwise, don't send anything yet
         NSArray<SDLSoftButton *> *textOnlyButtons = [self sdl_textButtonsForCurrentState];
         if (textOnlyButtons != nil) {
             self.inProgressUpdate.softButtons = textOnlyButtons;
         } else {
-            return;
+            return; // TODO: I think this will mess things up
         }
+    } else {
+        self.inProgressUpdate.softButtons = [self sdl_softButtonsForCurrentState];
     }
 
+    __weak typeof(self) weakSelf = self;
     [self.connectionManager sendConnectionRequest:self.inProgressUpdate withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (handler != NULL) {
-            handler(error);
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+
+        NSLog(@"SoftButton update request: %@, response: %@, error: %@", request, response, error);
+        strongSelf.inProgressUpdate = nil;
+        if (strongSelf.inProgressHandler != nil) {
+            strongSelf.inProgressHandler(error);
+            strongSelf.inProgressHandler = nil;
+        }
+
+        if (strongSelf.hasQueuedUpdate) {
+            [strongSelf sdl_updateWithCompletionHandler:[strongSelf.queuedUpdateHandler copy]];
+            strongSelf.queuedUpdateHandler = nil;
+            strongSelf.hasQueuedUpdate = NO;
         }
     }];
 }
@@ -151,7 +196,6 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Images
 
 - (void)sdl_uploadArtworks:(NSArray<SDLArtwork *> *)artworks withCompletionHandler:(void (^)(NSError *error))handler {
-    // TODO: Need uploadArtworks
     [self.fileManager uploadArtworks:artworks completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
         handler(error);
     }];
@@ -201,7 +245,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [textButtons copy];
 }
 
-- (NSArray<SDLSoftButton *> *)sdl_createSoftButtonsFromCurrentState {
+- (NSArray<SDLSoftButton *> *)sdl_softButtonsForCurrentState {
     NSMutableArray<SDLSoftButton *> *softButtons = [NSMutableArray arrayWithCapacity:self.softButtonObjects.count];
     for (SDLSoftButtonObject *button in self.softButtonObjects) {
         [softButtons addObject:button.currentStateSoftButton];
@@ -219,10 +263,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
-    self.displayCapabilities = response.displayCapabilities;
 
-    // Auto-send an updated Show
-    [self sdl_updateSoftButtonsWithCompletionHandler:nil];
+    if (response.displayCapabilities != nil) {
+        self.displayCapabilities = response.displayCapabilities;
+
+        // Auto-send an updated Show
+        [self sdl_updateWithCompletionHandler:nil];
+    }
 }
 
 @end

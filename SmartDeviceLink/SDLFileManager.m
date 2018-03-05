@@ -262,7 +262,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     if (file.persistent && [self.remoteFileNames containsObject:file.name]) {
         // If it's a persistant file, the bug won't present itself; just check if it's on the remote system
         return true;
-    } else if (file.persistent && [self.remoteFileNames containsObject:file.name] && [self.uploadedEphemeralFileNames containsObject:file.name]) {
+    } else if (!file.persistent && [self.remoteFileNames containsObject:file.name] && [self.uploadedEphemeralFileNames containsObject:file.name]) {
         // If it's an ephemeral file, the bug will present itself; check that it's a remote file AND that we've uploaded it this session
         return true;
     }

@@ -46,7 +46,8 @@ extern SDLErrorDomain *const SDLErrorDomainFileManager;
 + (NSError *)sdl_fileManager_fileUploadCanceled;
 + (NSError *)sdl_fileManager_dataMissingError;
 
-#pragma mark Text and Graphic Manager
+#pragma mark Show Managers
++ (NSError *)sdl_softButtonManager_pendingUpdateSuperseded;
 + (NSError *)sdl_textAndGraphicManager_pendingUpdateSuperseded;
 
 @end

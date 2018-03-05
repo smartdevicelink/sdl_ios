@@ -91,6 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
     fullShow = [self sdl_assembleShowText:fullShow forDisplayCapabilities:self.displayCapabilities];
     fullShow = [self sdl_assembleShowImages:fullShow];
 
+    self.inProgressHandler = handler;
     __weak typeof(self)weakSelf = self;
     if (!([self sdl_shouldUpdatePrimaryImage] || [self sdl_shouldUpdateSecondaryImage])) {
         // If there are no images to update, just send the text update
@@ -109,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
             // Check if queued image update still matches our images (there could have been a new Show in the meantime) and send a new update if it does. Since the images will already be on the head unit, the whole show will be sent
             // TODO: Send delete if it doesn't?
             if ([strongSelf sdl_showImages:thisUpdate isEqualToShowImages:strongSelf.queuedImageUpdate]) {
-                [strongSelf updateWithCompletionHandler:handler];
+                [strongSelf updateWithCompletionHandler:strongSelf.inProgressHandler];
             }
         }];
         // TODO: If a new update comes in while this upload is happening, what do we do?
@@ -117,9 +118,10 @@ NS_ASSUME_NONNULL_BEGIN
         self.queuedImageUpdate = fullShow;
     }
 
-    self.inProgressHandler = handler;
     [self.connectionManager sendConnectionRequest:self.inProgressUpdate withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
+        NSLog(@"TextAndGraphic update request: %@, response: %@, error: %@", request, response, error);
+
         if (response.success) {
             [strongSelf sdl_updateCurrentScreenDataFromShow:(SDLShow *)request];
         }
@@ -131,7 +133,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         if (strongSelf.hasQueuedUpdate) {
-            [strongSelf updateWithCompletionHandler:[self.queuedUpdateHandler copy]];
+            [strongSelf updateWithCompletionHandler:[strongSelf.queuedUpdateHandler copy]];
             strongSelf.queuedUpdateHandler = nil;
             strongSelf.hasQueuedUpdate = NO;
         }
@@ -400,10 +402,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
-    self.displayCapabilities = response.displayCapabilities;
 
-    // Auto-send an updated show
-    [self updateWithCompletionHandler:nil];
+    if (response.displayCapabilities != nil) {
+        // TODO: We should probably allow the set to nil and just allow everything if we have a nil displayCapabilities
+        self.displayCapabilities = response.displayCapabilities;
+
+        // Auto-send an updated show
+        [self updateWithCompletionHandler:nil];
+    }
 }
 
 @end

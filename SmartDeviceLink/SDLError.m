@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 SDLErrorDomain *const SDLErrorDomainLifecycleManager = @"com.sdl.lifecyclemanager.error";
 SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
 SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager = @"com.sdl.textandgraphicmanager.error";
+SDLErrorDomain *const SDLErrorDomainSoftButtonManager = @"com.sdl.softbuttonmanager.error";
 
 @implementation NSError (SDLErrors)
 
@@ -184,10 +185,14 @@ SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager = @"com.sdl.textandgra
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorFileDoesNotExist userInfo:userInfo];
 }
 
-#pragma mark Text and Graphic Manager
+#pragma mark Show Managers
 
 + (NSError *)sdl_textAndGraphicManager_pendingUpdateSuperseded {
     return [NSError errorWithDomain:SDLErrorDomainTextAndGraphicManager code:SDLTextAndGraphicManagerErrorPendingUpdateSuperseded userInfo:nil];
+}
+
++ (NSError *)sdl_softButtonManager_pendingUpdateSuperseded {
+    return [NSError errorWithDomain:SDLErrorDomainSoftButtonManager code:SDLSoftButtonManagerErrorPendingUpdateSuperseded userInfo:nil];
 }
 
 @end
