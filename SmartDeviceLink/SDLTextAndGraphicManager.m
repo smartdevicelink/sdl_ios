@@ -49,6 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 
+@property (assign, nonatomic, getter=isBatchingUpdates) BOOL batchUpdates;
+
 @end
 
 @implementation SDLTextAndGraphicManager
@@ -68,7 +70,67 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
+- (void)beginUpdates {
+    self.batchUpdates = YES;
+}
+
+- (void)endUpdatesWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
+    __weak typeof(self) weakSelf = self;
+    [self sdl_updateWithCompletionHandler:^(NSError * _Nullable error) {
+        __strong typeof(self) strongSelf = weakSelf;
+
+        strongSelf.batchUpdates = NO;
+        handler(error);
+    }];
+}
+
+#pragma mark - Setters
+
+- (void)setTextField1:(nullable NSString *)textField1 {
+    _textField1 = textField1;
+    if (!_batchUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    }
+}
+
+- (void)setTextField2:(nullable NSString *)textField2 {
+    _textField2 = textField2;
+    if (!_batchUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    }
+}
+
+- (void)setTextField3:(nullable NSString *)textField3 {
+    _textField3 = textField3;
+    if (!_batchUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    }
+}
+
+- (void)setTextField4:(nullable NSString *)textField4 {
+    _textField4 = textField4;
+    if (!_batchUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    }
+}
+
+- (void)setPrimaryGraphic:(nullable SDLArtwork *)primaryGraphic {
+    _primaryGraphic = primaryGraphic;
+    if (!_batchUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    }
+}
+
+- (void)setSecondaryGraphic:(nullable SDLArtwork *)secondaryGraphic {
+    _secondaryGraphic = secondaryGraphic;
+    if (!_batchUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    }
+}
+
+#pragma mark - Upload / Send
+
+- (void)sdl_updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
     if (self.inProgressUpdate != nil) {
         // If we already have a pending update, we're going to tell the old handler that it was superseded by a new update and then return
         if (self.queuedUpdateHandler != nil) {
@@ -88,7 +150,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLShow *fullShow = [[SDLShow alloc] init];
     fullShow = [self sdl_assembleShowMetadataTags:fullShow];
     fullShow.alignment = self.configuration.alignment ?: SDLTextAlignmentCenter;
-    fullShow = [self sdl_assembleShowText:fullShow forDisplayCapabilities:self.displayCapabilities];
+    fullShow = [self sdl_assembleShowText:fullShow];
     fullShow = [self sdl_assembleShowImages:fullShow];
 
     self.inProgressHandler = handler;
@@ -110,7 +172,7 @@ NS_ASSUME_NONNULL_BEGIN
             // Check if queued image update still matches our images (there could have been a new Show in the meantime) and send a new update if it does. Since the images will already be on the head unit, the whole show will be sent
             // TODO: Send delete if it doesn't?
             if ([strongSelf sdl_showImages:thisUpdate isEqualToShowImages:strongSelf.queuedImageUpdate]) {
-                [strongSelf updateWithCompletionHandler:strongSelf.inProgressHandler];
+                [strongSelf sdl_updateWithCompletionHandler:strongSelf.inProgressHandler];
             }
         }];
         // TODO: If a new update comes in while this upload is happening, what do we do?
@@ -133,14 +195,12 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         if (strongSelf.hasQueuedUpdate) {
-            [strongSelf updateWithCompletionHandler:[strongSelf.queuedUpdateHandler copy]];
+            [strongSelf sdl_updateWithCompletionHandler:[strongSelf.queuedUpdateHandler copy]];
             strongSelf.queuedUpdateHandler = nil;
             strongSelf.hasQueuedUpdate = NO;
         }
     }];
 }
-
-#pragma mark - Upload / Send
 
 - (void)sdl_uploadImagesWithCompletionHandler:(void (^)(NSError *error))handler {
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray array];
@@ -173,17 +233,14 @@ NS_ASSUME_NONNULL_BEGIN
     return show;
 }
 
-- (SDLShow *)sdl_assembleShowText:(SDLShow *)show forDisplayCapabilities:(SDLDisplayCapabilities *)displayCapabilities {
+- (SDLShow *)sdl_assembleShowText:(SDLShow *)show {
     NSArray *nonNilFields = [self sdl_findNonNilFields];
     if (nonNilFields.count == 0) {
-        show.mainField1 = @"";
-        show.mainField2 = @"";
-        show.mainField3 = @"";
-        show.mainField4 = @"";
+        [self sdl_setBlankTextFieldsWithShow:show withOne:YES two:YES three:YES four:YES];
         return show;
     }
 
-    NSUInteger numberOfLines = [displayCapabilities maxNumberOfMainFieldLines];
+    NSUInteger numberOfLines = [self.displayCapabilities maxNumberOfMainFieldLines];
     if (numberOfLines == 1) {
         show = [self sdl_assembleOneLineShowText:show withShowFields:nonNilFields];
     } else if (numberOfLines == 2) {
@@ -210,12 +267,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLShow *)sdl_assembleTwoLineShowText:(SDLShow *)show withShowFields:(NSArray<NSString *> *)fields {
     if (fields.count == 1) {
         show.mainField1 = fields[0];
+        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:YES three:YES four:YES];
     } else if (fields.count == 2) {
         show.mainField1 = fields[0];
         show.mainField2 = fields[1];
+        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:NO three:YES four:YES];
     } else if (fields.count == 3) {
         show.mainField1 = fields[0];
         show.mainField2 = [NSString stringWithFormat:@"%@ - %@", fields[1], fields[2]];
+        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:NO three:NO four:YES];
     } else if (fields.count == 4) {
         show.mainField1 = [NSString stringWithFormat:@"%@ - %@", fields[0], fields[1]];
         show.mainField2 = [NSString stringWithFormat:@"%@ - %@", fields[2], fields[3]];
@@ -227,13 +287,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLShow *)sdl_assembleThreeLineShowText:(SDLShow *)show withShowFields:(NSArray<NSString *> *)fields {
     if (fields.count == 1) {
         show.mainField1 = fields[0];
+        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:YES three:YES four:YES];
     } else if (fields.count == 2) {
         show.mainField1 = fields[0];
         show.mainField2 = fields[1];
+        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:NO three:YES four:YES];
     } else if (fields.count == 3) {
         show.mainField1 = fields[0];
         show.mainField2 = fields[1];
         show.mainField3 = fields[2];
+        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:NO three:NO four:YES];
     } else if (fields.count == 4) {
         show.mainField1 = fields[0];
         show.mainField2 = fields[1];
@@ -244,18 +307,33 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLShow *)sdl_assembleFourLineShowText:(SDLShow *)show withShowFields:(NSArray<NSString *> *)fields {
-    if (fields.count == 4) {
+    if (fields.count == 1) {
+        show.mainField1 = fields[0];
+        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:YES three:YES four:YES];
+    } else if (fields.count == 2) {
+        show.mainField1 = fields[0];
+        show.mainField2 = fields[1];
+        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:NO three:YES four:YES];
+    } else if (fields.count == 3) {
+        show.mainField1 = fields[0];
+        show.mainField2 = fields[1];
+        show.mainField3 = fields[2];
+        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:NO three:NO four:YES];
+    } else if (fields.count == 4) {
+        show.mainField1 = fields[0];
+        show.mainField2 = fields[1];
+        show.mainField3 = fields[2];
         show.mainField4 = fields[3];
     }
-    if (fields.count >= 3) {
-        show.mainField3 = fields[2];
-    }
-    if (fields.count >= 2) {
-        show.mainField2 = fields[1];
-    }
-    if (fields.count >= 1) {
-        show.mainField1 = fields[0];
-    }
+
+    return show;
+}
+
+- (SDLShow *)sdl_setBlankTextFieldsWithShow:(SDLShow *)show withOne:(BOOL)oneBlank two:(BOOL)twoBlank three:(BOOL)threeBlank four:(BOOL)fourBlank {
+    oneBlank ? show.mainField1 = @"" : nil;
+    twoBlank ? show.mainField2 = @"" : nil;
+    threeBlank ? show.mainField2 = @"" : nil;
+    fourBlank ? show.mainField2 = @"" : nil;
 
     return show;
 }
@@ -408,7 +486,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.displayCapabilities = response.displayCapabilities;
 
         // Auto-send an updated show
-        [self updateWithCompletionHandler:nil];
+        [self sdl_updateWithCompletionHandler:nil];
     }
 }
 

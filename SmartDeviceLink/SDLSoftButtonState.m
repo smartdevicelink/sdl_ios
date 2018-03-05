@@ -61,6 +61,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [[SDLImage alloc] initWithName:self.artwork.name ofType:SDLImageTypeDynamic];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"Name: %@, Text: %@, Image: %@", self.name, self.text, self.image.value];
+}
+
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"Name: %@, Text: %@, Image: %@, Soft Button: %@", self.name, self.text, self.image, self.softButton];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

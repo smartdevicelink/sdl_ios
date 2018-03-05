@@ -95,6 +95,19 @@ NS_ASSUME_NONNULL_BEGIN
     return NO;
 }
 
+- (NSString *)description {
+    NSMutableArray<NSString *> *allStateNames = [NSMutableArray array];
+    for (SDLSoftButtonState *state in self.states) {
+        [allStateNames addObject:state.name];
+    }
+
+    return [NSString stringWithFormat:@"Name: %@, Current State: %@, All States: %@", self.name, self.currentStateName, allStateNames];
+}
+
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"Name: %@, Current State: %@, All States: %@", self.name, self.currentState, self.states];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

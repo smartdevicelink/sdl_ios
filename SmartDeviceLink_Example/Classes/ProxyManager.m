@@ -155,12 +155,13 @@ NS_ASSUME_NONNULL_BEGIN
     SDLTextAndGraphicConfiguration *config = [[SDLTextAndGraphicConfiguration alloc] initWithTextField1:nil textField2:nil textField3:nil textField4:nil alignment:SDLTextAlignmentLeft];
     self.sdlManager.textAndGraphicManager.configuration = config;
 
+    [self.sdlManager.textAndGraphicManager beginUpdates];
     self.sdlManager.textAndGraphicManager.textField1 = self.isTextEnabled ? @"SmartDeviceLink" : nil;
     self.sdlManager.textAndGraphicManager.textField2 = self.isTextEnabled ? @"Example App" : nil;
 
     self.sdlManager.textAndGraphicManager.primaryGraphic = self.areImagesEnabled ? [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] name:@"PrimaryArt" asImageFormat:SDLArtworkImageFormatPNG] : self.sdlManager.textAndGraphicManager.blankArtwork;
 
-    [self.sdlManager.textAndGraphicManager updateWithCompletionHandler:^(NSError * _Nullable error) {
+    [self.sdlManager.textAndGraphicManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
         NSLog(@"Updated text and graphics, error? %@", error);
     }];
 }

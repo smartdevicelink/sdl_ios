@@ -54,6 +54,8 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
  */
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
 
+- (void)beginUpdates;
+
 /**
  Update text fields with new text set into the text field properties. Pass an empty string `\@""` to clear the text field.
 
@@ -71,7 +73,7 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
 
  @param handler A handler run when the fields have finished updating, with an error if the update failed. This handler may be called multiple times when the text update is sent and the image update is sent.
  */
-- (void)updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler;
+- (void)endUpdatesWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler;
 
 @end
 
