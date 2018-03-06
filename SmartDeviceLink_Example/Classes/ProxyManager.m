@@ -133,7 +133,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     [self sdlex_updateScreen];
 
-    [self.sdlManager.softButtonManager setSoftButtons:[self sdlex_softButtons]];
+    self.sdlManager.screenManager.softButtonObjects = [self sdlex_softButtons];
 }
 
 - (void)setTextEnabled:(BOOL)textEnabled {
@@ -148,20 +148,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setHexagonEnabled:(BOOL)hexagonEnabled {
     _hexagonEnabled = hexagonEnabled;
-    [self.sdlManager.softButtonManager updateButtonNamed:@"HexagonButton" replacingCurrentStateWithState:(hexagonEnabled ? @"onState" : @"offState")];
+
+    SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:@"HexagonButton"];
+    [object transitionToState:(hexagonEnabled ? @"onState" : @"offState")];
 }
 
 - (void)sdlex_updateScreen {
-    SDLTextAndGraphicConfiguration *config = [[SDLTextAndGraphicConfiguration alloc] initWithTextField1:nil textField2:nil textField3:nil textField4:nil alignment:SDLTextAlignmentLeft];
-    self.sdlManager.textAndGraphicManager.configuration = config;
+    [self.sdlManager.screenManager beginUpdates];
+    self.sdlManager.screenManager.textAlignment = SDLTextAlignmentLeft;
+    self.sdlManager.screenManager.textField1 = self.isTextEnabled ? @"SmartDeviceLink" : nil;
+    self.sdlManager.screenManager.textField2 = self.isTextEnabled ? @"Example App" : nil;
 
-    [self.sdlManager.textAndGraphicManager beginUpdates];
-    self.sdlManager.textAndGraphicManager.textField1 = self.isTextEnabled ? @"SmartDeviceLink" : nil;
-    self.sdlManager.textAndGraphicManager.textField2 = self.isTextEnabled ? @"Example App" : nil;
+    self.sdlManager.screenManager.primaryGraphic = self.areImagesEnabled ? [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] name:@"PrimaryArt" asImageFormat:SDLArtworkImageFormatPNG] : nil;
 
-    self.sdlManager.textAndGraphicManager.primaryGraphic = self.areImagesEnabled ? [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] name:@"PrimaryArt" asImageFormat:SDLArtworkImageFormatPNG] : self.sdlManager.textAndGraphicManager.blankArtwork;
-
-    [self.sdlManager.textAndGraphicManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
+    [self.sdlManager.screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
         NSLog(@"Updated text and graphics, error? %@", error);
     }];
 }
@@ -372,7 +372,8 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         weakself.textEnabled = !weakself.textEnabled;
-        [weakself.sdlManager.softButtonManager updateButtonNamed:@"TextButton" replacingCurrentStateWithState:(weakself.textEnabled ? @"onState" : @"offState")];
+        SDLSoftButtonObject *object = [weakself.sdlManager.screenManager softButtonObjectNamed:@"TextButton"];
+        [object transitionToState:(weakself.textEnabled ? @"onState" : @"offState")];
 
         SDLLogD(@"Text visibility soft button press fired %d", weakself.textEnabled);
     }];
@@ -385,7 +386,9 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         weakself.imagesEnabled = !weakself.imagesEnabled;
-        [weakself.sdlManager.softButtonManager updateButtonNamed:@"ImagesButton" replacingCurrentStateWithState:(weakself.imagesEnabled ? @"onState" : @"offState")];
+
+        SDLSoftButtonObject *object = [weakself.sdlManager.screenManager softButtonObjectNamed:@"ImagesButton"];
+        [object transitionToState:(weakself.imagesEnabled ? @"onState" : @"offState")];
 
         SDLLogD(@"Image visibility soft button press fired %d", weakself.imagesEnabled);
     }];

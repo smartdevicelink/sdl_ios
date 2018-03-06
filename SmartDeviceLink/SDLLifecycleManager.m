@@ -42,13 +42,12 @@
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResponseDispatcher.h"
 #import "SDLResult.h"
+#import "SDLScreenManager.h"
 #import "SDLSequentialRPCRequestOperation.h"
 #import "SDLSetAppIcon.h"
-#import "SDLSoftButtonManager.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManager.h"
-#import "SDLTextAndGraphicManager.h"
 #import "SDLUnregisterAppInterface.h"
 
 
@@ -122,8 +121,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
-    _textAndGraphicManager = [[SDLTextAndGraphicManager alloc] initWithConnectionManager:self fileManager:_fileManager];
-    _softButtonManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:self fileManager:_fileManager];
+    _screenManager = [[SDLScreenManager alloc] initWithConnectionManager:self fileManager:_fileManager];
     
     if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] ||
         [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] ||

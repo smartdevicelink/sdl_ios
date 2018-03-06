@@ -21,7 +21,6 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLShow.h"
-#import "SDLTextAndGraphicConfiguration.h"
 #import "SDLTextField.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -49,7 +48,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 
-@property (assign, nonatomic, getter=isBatchingUpdates) BOOL batchUpdates;
+@property (strong, nonatomic) SDLArtwork *blankArtwork;
+
+@property (assign, nonatomic) BOOL isDirty;
 
 @end
 
@@ -62,6 +63,8 @@ NS_ASSUME_NONNULL_BEGIN
     _connectionManager = connectionManager;
     _fileManager = fileManager;
 
+    _alignment = SDLTextAlignmentCenter;
+
     _currentScreenData = [[SDLShow alloc] init];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
@@ -70,65 +73,16 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)beginUpdates {
-    self.batchUpdates = YES;
-}
-
-- (void)endUpdatesWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
-    __weak typeof(self) weakSelf = self;
-    [self sdl_updateWithCompletionHandler:^(NSError * _Nullable error) {
-        __strong typeof(self) strongSelf = weakSelf;
-
-        strongSelf.batchUpdates = NO;
-        handler(error);
-    }];
-}
-
-#pragma mark - Setters
-
-- (void)setTextField1:(nullable NSString *)textField1 {
-    _textField1 = textField1;
-    if (!_batchUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    }
-}
-
-- (void)setTextField2:(nullable NSString *)textField2 {
-    _textField2 = textField2;
-    if (!_batchUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    }
-}
-
-- (void)setTextField3:(nullable NSString *)textField3 {
-    _textField3 = textField3;
-    if (!_batchUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    }
-}
-
-- (void)setTextField4:(nullable NSString *)textField4 {
-    _textField4 = textField4;
-    if (!_batchUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    }
-}
-
-- (void)setPrimaryGraphic:(nullable SDLArtwork *)primaryGraphic {
-    _primaryGraphic = primaryGraphic;
-    if (!_batchUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    }
-}
-
-- (void)setSecondaryGraphic:(nullable SDLArtwork *)secondaryGraphic {
-    _secondaryGraphic = secondaryGraphic;
-    if (!_batchUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    }
-}
-
 #pragma mark - Upload / Send
+
+- (void)updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
+    self.batchUpdates = NO;
+
+    if (self.isDirty) {
+        self.isDirty = NO;
+        [self sdl_updateWithCompletionHandler:handler];
+    }
+}
 
 - (void)sdl_updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
     if (self.inProgressUpdate != nil) {
@@ -149,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLShow *fullShow = [[SDLShow alloc] init];
     fullShow = [self sdl_assembleShowMetadataTags:fullShow];
-    fullShow.alignment = self.configuration.alignment ?: SDLTextAlignmentCenter;
+    fullShow.alignment = self.alignment;
     fullShow = [self sdl_assembleShowText:fullShow];
     fullShow = [self sdl_assembleShowImages:fullShow];
 
@@ -175,7 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
                 [strongSelf sdl_updateWithCompletionHandler:strongSelf.inProgressHandler];
             }
         }];
-        // TODO: If a new update comes in while this upload is happening, what do we do?
+        
         // When the images are done uploading, send another show with the images
         self.queuedImageUpdate = fullShow;
     }
@@ -339,42 +293,37 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLShow *)sdl_assembleShowMetadataTags:(SDLShow *)show {
-    if (self.configuration == nil) {
-        show.metadataTags = nil;
-        return show;
-    }
-
     NSUInteger numberOfShowLines = self.displayCapabilities.maxNumberOfMainFieldLines;
     SDLMetadataTags *tags = [[SDLMetadataTags alloc] init];
     NSMutableArray<SDLMetadataType> *metadataArray = [NSMutableArray array];
 
     if (numberOfShowLines == 1) {
-        self.configuration.textField1Type ? [metadataArray addObject:self.configuration.textField1Type] : nil;
-        self.configuration.textField2Type ? [metadataArray addObject:self.configuration.textField2Type] : nil;
-        self.configuration.textField3Type ? [metadataArray addObject:self.configuration.textField3Type] : nil;
-        self.configuration.textField4Type ? [metadataArray addObject:self.configuration.textField4Type] : nil;
+        self.textField1Type ? [metadataArray addObject:self.textField1Type] : nil;
+        self.textField2Type ? [metadataArray addObject:self.textField2Type] : nil;
+        self.textField3Type ? [metadataArray addObject:self.textField3Type] : nil;
+        self.textField4Type ? [metadataArray addObject:self.textField4Type] : nil;
         tags.mainField1 = metadataArray.copy;
     } else if (numberOfShowLines == 2) {
-        self.configuration.textField1Type ? [metadataArray addObject:self.configuration.textField1Type] : nil;
-        self.configuration.textField2Type ? [metadataArray addObject:self.configuration.textField2Type] : nil;
+        self.textField1Type ? [metadataArray addObject:self.textField1Type] : nil;
+        self.textField2Type ? [metadataArray addObject:self.textField2Type] : nil;
         tags.mainField1 = metadataArray.copy;
 
         [metadataArray removeAllObjects];
-        self.configuration.textField3Type ? [metadataArray addObject:self.configuration.textField3Type] : nil;
-        self.configuration.textField4Type ? [metadataArray addObject:self.configuration.textField4Type] : nil;
+        self.textField3Type ? [metadataArray addObject:self.textField3Type] : nil;
+        self.textField4Type ? [metadataArray addObject:self.textField4Type] : nil;
         tags.mainField2 = metadataArray.copy;
     } else if (numberOfShowLines == 3) {
-        tags.mainField1 = self.configuration.textField1Type ? @[self.configuration.textField1Type] : nil;
-        tags.mainField2 = self.configuration.textField2Type ? @[self.configuration.textField2Type] : nil;
+        tags.mainField1 = self.textField1Type ? @[self.textField1Type] : nil;
+        tags.mainField2 = self.textField2Type ? @[self.textField2Type] : nil;
 
-        self.configuration.textField3Type ? [metadataArray addObject:self.configuration.textField3Type] : nil;
-        self.configuration.textField4Type ? [metadataArray addObject:self.configuration.textField4Type] : nil;
+        self.textField3Type ? [metadataArray addObject:self.textField3Type] : nil;
+        self.textField4Type ? [metadataArray addObject:self.textField4Type] : nil;
         tags.mainField3 = metadataArray.copy;
     } else if (numberOfShowLines >= 4) {
-        tags.mainField1 = self.configuration.textField1Type ? @[self.configuration.textField1Type] : nil;
-        tags.mainField2 = self.configuration.textField2Type ? @[self.configuration.textField2Type] : nil;
-        tags.mainField3 = self.configuration.textField3Type ? @[self.configuration.textField3Type] : nil;
-        tags.mainField4 = self.configuration.textField4Type ? @[self.configuration.textField4Type] : nil;
+        tags.mainField1 = self.textField1Type ? @[self.textField1Type] : nil;
+        tags.mainField2 = self.textField2Type ? @[self.textField2Type] : nil;
+        tags.mainField3 = self.textField3Type ? @[self.textField3Type] : nil;
+        tags.mainField4 = self.textField4Type ? @[self.textField4Type] : nil;
     }
 
     show.metadataTags = tags;
@@ -459,16 +408,123 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Getters / Setters
 
+#pragma mark - Setters
+
+- (void)setTextField1:(nullable NSString *)textField1 {
+    _textField1 = textField1;
+    if (!self.isBatchingUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    } else {
+        _isDirty = YES;
+    }
+}
+
+- (void)setTextField2:(nullable NSString *)textField2 {
+    _textField2 = textField2;
+    if (!self.isBatchingUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    } else {
+        _isDirty = YES;
+    }
+}
+
+- (void)setTextField3:(nullable NSString *)textField3 {
+    _textField3 = textField3;
+    if (!self.isBatchingUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    } else {
+        _isDirty = YES;
+    }
+}
+
+- (void)setTextField4:(nullable NSString *)textField4 {
+    _textField4 = textField4;
+    if (!self.isBatchingUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    } else {
+        _isDirty = YES;
+    }
+}
+
+- (void)setPrimaryGraphic:(nullable SDLArtwork *)primaryGraphic {
+    _primaryGraphic = primaryGraphic;
+    if (!self.isBatchingUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    } else {
+        _isDirty = YES;
+    }
+}
+
+- (void)setSecondaryGraphic:(nullable SDLArtwork *)secondaryGraphic {
+    _secondaryGraphic = secondaryGraphic;
+    if (!self.isBatchingUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    } else {
+        _isDirty = YES;
+    }
+}
+
+- (void)setAlignment:(nullable SDLTextAlignment)alignment {
+    _alignment = alignment ? alignment : SDLTextAlignmentCenter;
+    if (!self.isBatchingUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    } else {
+        _isDirty = YES;
+    }
+}
+
+- (void)setTextField1Type:(nullable SDLMetadataType)textField1Type {
+    _textField1Type = textField1Type;
+    if (!self.isBatchingUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    } else {
+        _isDirty = YES;
+    }
+}
+
+- (void)setTextField2Type:(nullable SDLMetadataType)textField2Type {
+    _textField2Type = textField2Type;
+    if (!self.isBatchingUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    } else {
+        _isDirty = YES;
+    }
+}
+
+- (void)setTextField3Type:(nullable SDLMetadataType)textField3Type {
+    _textField3Type = textField3Type;
+    if (!self.isBatchingUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    } else {
+        _isDirty = YES;
+    }
+}
+
+- (void)setTextField4Type:(nullable SDLMetadataType)textField4Type {
+    _textField4Type = textField4Type;
+    if (!self.isBatchingUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    } else {
+        _isDirty = YES;
+    }
+}
+
 - (BOOL)hasQueuedUpdate {
     return (_hasQueuedUpdate || _queuedUpdateHandler != nil);
 }
 
 - (SDLArtwork *)blankArtwork {
+    if (_blankArtwork != nil) {
+        return _blankArtwork;
+    }
+
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(5, 5), NO, 0.0);
     UIImage *blankImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
-    return [SDLArtwork artworkWithImage:blankImage name:@"sdl_BlankArt" asImageFormat:SDLArtworkImageFormatPNG];
+    _blankArtwork = [SDLArtwork artworkWithImage:blankImage name:@"sdl_BlankArt" asImageFormat:SDLArtworkImageFormatPNG];
+
+    return _blankArtwork;
 }
 
 #pragma mark - RPC Responses

@@ -18,9 +18,8 @@
 @class SDLRPCNotification;
 @class SDLRPCRequest;
 @class SDLRPCResponse;
-@class SDLSoftButtonManager;
+@class SDLScreenManager;
 @class SDLStreamingMediaManager;
-@class SDLTextAndGraphicManager;
 
 @protocol SDLManagerDelegate;
 
@@ -96,9 +95,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  */
 @property (strong, nonatomic, readonly, nullable) SDLStreamingMediaManager *streamManager;
 
-@property (strong, nonatomic, readonly) SDLTextAndGraphicManager *textAndGraphicManager;
-
-@property (strong, nonatomic, readonly) SDLSoftButtonManager *softButtonManager;
+@property (strong, nonatomic, readonly) SDLScreenManager *screenManager;
 
 /**
  *  The response of a register call after it has been received.

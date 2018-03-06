@@ -10,6 +10,7 @@
 
 #import "SDLError.h"
 #import "SDLSoftButton.h"
+#import "SDLSoftButtonManager.h"
 #import "SDLSoftButtonState.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) NSUInteger buttonId;
 @property (strong, nonatomic) NSString *currentStateName;
+@property (weak, nonatomic) SDLSoftButtonManager *manager;
 
 @end
 
@@ -50,6 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.currentStateName = stateName;
+    [self.manager updateWithCompletionHandler:nil];
 
     return YES;
 }

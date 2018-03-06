@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLSoftButtonObject()
 
 @property (assign, nonatomic) NSUInteger buttonId;
+@property (weak, nonatomic) SDLSoftButtonManager *manager;
 
 @end
 
@@ -61,52 +62,27 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (BOOL)updateButtonNamed:(NSString *)buttonName replacingCurrentStateWithState:(NSString *)stateName {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", buttonName];
-    NSArray<SDLSoftButtonObject *> *buttons = [self.softButtonObjects filteredArrayUsingPredicate:predicate];
-    if (buttons.count == 0) {
-        return NO;
-    }
-
-    NSAssert(buttons.count == 1, @"Multiple SDLSoftButtonObjects are named the same thing, this should have been checked for");
-    SDLSoftButtonObject *button = buttons.firstObject;
-    [button transitionToState:stateName];
-
-    if (_isBatchingUpdates) {
-        return YES;
-    }
-
-    [self sdl_updateWithCompletionHandler:nil];
-
-    return YES;
-}
-
-- (void)beginUpdates {
-    _isBatchingUpdates = YES;
-}
-
-- (void)endUpdatesWithCompletionHandler:(SDLSoftButtonUpdateCompletionHandler)handler {
-    _isBatchingUpdates = NO;
-    [self sdl_updateWithCompletionHandler:handler];
-}
-
-- (BOOL)setSoftButtons:(NSArray<SDLSoftButtonObject *> *)softButtons {
-    _isBatchingUpdates = NO;
-
+- (void)setSoftButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects {
+    // TODO: Cancel if set w/ in progress update / queued update
     // TODO: Check number of soft buttons vs. allowed number of buttons
+    // TODO: If set nil / empty array, remove all buttons
 
     // Set the soft button ids. Check to make sure no two soft buttons have the same name, there aren't many soft buttons, so n^2 isn't going to be bad
-    for (NSUInteger i = 0; i < softButtons.count; i++) {
-        NSString *buttonName = softButtons[i].name;
-        softButtons[i].buttonId = i * 100;
-        for (NSUInteger j = (i + 1); j < softButtons.count; j++) {
-            if ([softButtons[j].name isEqualToString:buttonName]) {
-                return NO;
+    for (NSUInteger i = 0; i < softButtonObjects.count; i++) {
+        NSString *buttonName = softButtonObjects[i].name;
+        softButtonObjects[i].buttonId = i * 100;
+        for (NSUInteger j = (i + 1); j < softButtonObjects.count; j++) {
+            if ([softButtonObjects[j].name isEqualToString:buttonName]) {
+                return;
             }
         }
     }
 
-    _softButtonObjects = softButtons;
+    _softButtonObjects = softButtonObjects;
+
+    for (SDLSoftButtonObject *button in _softButtonObjects) {
+        button.manager = self;
+    }
 
     // Upload all soft button images, the initial state images first, then the other states. We need to send updates when the initial state is ready.
     NSMutableArray<SDLArtwork *> *initialStatesToBeUploaded = [NSMutableArray array];
@@ -128,22 +104,34 @@ NS_ASSUME_NONNULL_BEGIN
     // Upload initial images, then other state images
     if (initialStatesToBeUploaded.count > 0) {
         [self.fileManager uploadArtworks:[initialStatesToBeUploaded copy] completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
-            [self sdl_updateWithCompletionHandler:nil];
+            [self updateWithCompletionHandler:nil];
         }];
     }
     if (otherStatesToBeUploaded.count > 0) {
         [self.fileManager uploadArtworks:[otherStatesToBeUploaded copy] completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
             // In case our soft button states have changed in the meantime
-            [self sdl_updateWithCompletionHandler:nil];
+            [self updateWithCompletionHandler:nil];
         }];
     }
 
-    [self sdl_updateWithCompletionHandler:nil];
-
-    return YES;
+    [self updateWithCompletionHandler:nil];
 }
 
-- (void)sdl_updateWithCompletionHandler:(nullable SDLSoftButtonUpdateCompletionHandler)handler {
+- (nullable SDLSoftButtonObject *)softButtonObjectNamed:(NSString *)name {
+    for (SDLSoftButtonObject *object in self.softButtonObjects) {
+        if ([object.name isEqualToString:name]) {
+            return object;
+        }
+    }
+
+    return nil;
+}
+
+- (void)updateWithCompletionHandler:(nullable SDLSoftButtonUpdateCompletionHandler)handler {
+    if (self.isBatchingUpdates) {
+        return;
+    }
+
     if (self.inProgressUpdate != nil) {
         // If we already have a pending update, we're going to tell the old handler that it was superseded by a new update and then return
         if (self.queuedUpdateHandler != nil) {
@@ -186,7 +174,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         if (strongSelf.hasQueuedUpdate) {
-            [strongSelf sdl_updateWithCompletionHandler:[strongSelf.queuedUpdateHandler copy]];
+            [strongSelf updateWithCompletionHandler:[strongSelf.queuedUpdateHandler copy]];
             strongSelf.queuedUpdateHandler = nil;
             strongSelf.hasQueuedUpdate = NO;
         }
@@ -268,7 +256,7 @@ NS_ASSUME_NONNULL_BEGIN
         self.displayCapabilities = response.displayCapabilities;
 
         // Auto-send an updated Show
-        [self sdl_updateWithCompletionHandler:nil];
+        [self updateWithCompletionHandler:nil];
     }
 }
 

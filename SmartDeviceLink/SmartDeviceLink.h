@@ -347,11 +347,9 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLPermissionManager.h"
 
 // Show
-#import "SDLSoftButtonManager.h"
+#import "SDLScreenManager.h"
 #import "SDLSoftButtonObject.h"
 #import "SDLSoftButtonState.h"
-#import "SDLTextAndGraphicManager.h"
-#import "SDLTextAndGraphicConfiguration.h"
 
 // Touches
 #import "SDLPinchGesture.h"

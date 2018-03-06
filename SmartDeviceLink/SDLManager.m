@@ -84,12 +84,8 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.streamManager;
 }
 
-- (SDLTextAndGraphicManager *)textAndGraphicManager {
-    return self.lifecycleManager.textAndGraphicManager;
-}
-
-- (SDLSoftButtonManager *)softButtonManager {
-    return self.lifecycleManager.softButtonManager;
+- (SDLScreenManager *)screenManager {
+    return self.lifecycleManager.screenManager;
 }
 
 - (nullable SDLRegisterAppInterfaceResponse *)registerResponse {
