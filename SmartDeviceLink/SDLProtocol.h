@@ -57,6 +57,17 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
 #pragma mark - Sending
 
 /**
+ *  Pre-configure protocol header for specified service type
+ *
+ *  This is used to initialize Session ID before starting a protocol.
+ *
+ *  @param header The header which is applied to the service type
+ *  @param serviceType A SDLServiceType object
+ *  @return YES if the header is successfully set, NO otherwise
+ */
+- (BOOL)storeHeader:(SDLProtocolHeader *)header forServiceType:(SDLServiceType)serviceType;
+
+/**
  *  Sends a start service message to Core
  *
  *  @param serviceType A SDLServiceType object

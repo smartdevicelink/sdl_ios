@@ -10,6 +10,7 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLTransportType.h"
+#import "SDLGlobals.h"
 #import "SDLProtocolHeader.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolMessage.h"
@@ -54,6 +55,44 @@ describe(@"Send StartService Tests", ^ {
             
             [testProtocol startServiceWithType:SDLServiceTypeBulkData payload:nil];
             
+            expect(@(verified)).toEventually(beTruthy());
+        });
+
+        it(@"Should reuse stored header of RPC service when starting other service", ^{
+            // reset max protocol version before test
+            [[SDLGlobals sharedGlobals] setMaxHeadUnitVersion:@"2.0.0"];
+
+            SDLServiceType serviceTypeToStart = SDLServiceTypeVideo;
+
+            // reference header (which is taken from Start Service ACK of Version Negotiation)
+            SDLV2ProtocolHeader *refHeader = [[SDLV2ProtocolHeader alloc] init];
+            refHeader.frameType = SDLFrameTypeControl;
+            refHeader.serviceType = SDLServiceTypeRPC;
+            refHeader.frameData = SDLFrameInfoStartServiceACK;
+            refHeader.sessionID = 100;
+
+            SDLV2ProtocolHeader *header = [refHeader copy];
+            header.serviceType = serviceTypeToStart;
+            header.frameData = SDLFrameInfoStartService;
+            NSData *headerData = [header data];
+
+            SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
+
+            __block BOOL verified = NO;
+            id transportMock = OCMProtocolMock(@protocol(SDLTransportType));
+            [[[transportMock stub] andDo:^(NSInvocation* invocation) {
+                verified = YES;
+
+                __unsafe_unretained NSData* data;
+                [invocation getArgument:&data atIndex:2];
+                NSData* dataSent = [data copy];
+                expect(dataSent).to(equal(headerData));
+            }] sendData:[OCMArg any]];
+            testProtocol.transport = transportMock;
+
+            [testProtocol storeHeader:header forServiceType:SDLServiceTypeRPC];
+            [testProtocol startServiceWithType:serviceTypeToStart payload:nil];
+
             expect(@(verified)).toEventually(beTruthy());
         });
     });
