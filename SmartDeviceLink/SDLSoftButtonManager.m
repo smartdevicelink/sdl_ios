@@ -63,13 +63,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setSoftButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects {
-    // TODO: Cancel if set w/ in progress update / queued update
-    // TODO: Check number of soft buttons vs. allowed number of buttons
-
-    if (softButtonObjects == nil) {
-        _softButtonObjects = nil;
-
-        return;
+    self.inProgressUpdate = nil;
+    if (self.inProgressHandler != nil) {
+        self.inProgressHandler([NSError sdl_softButtonManager_pendingUpdateSuperseded]);
+        self.inProgressHandler = nil;
+    }
+    self.hasQueuedUpdate = NO;
+    if (self.queuedUpdateHandler != nil) {
+        self.queuedUpdateHandler([NSError sdl_softButtonManager_pendingUpdateSuperseded]);
+        self.queuedUpdateHandler = nil;
     }
 
     // Set the soft button ids. Check to make sure no two soft buttons have the same name, there aren't many soft buttons, so n^2 isn't going to be bad
@@ -164,7 +166,8 @@ NS_ASSUME_NONNULL_BEGIN
         if (textOnlyButtons != nil) {
             self.inProgressUpdate.softButtons = textOnlyButtons;
         } else {
-            return; // TODO: I think this will mess things up?
+            self.inProgressUpdate = nil;
+            return;
         }
     } else {
         self.inProgressUpdate.softButtons = [self sdl_softButtonsForCurrentState];

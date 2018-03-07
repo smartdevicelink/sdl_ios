@@ -28,7 +28,7 @@ typedef void(^SDLSoftButtonUpdateCompletionHandler)(NSError *__nullable error);
 /**
  HAX: This is necessary due to a Ford Sync 3 bug that doesn't like Show requests without a main field being set (it will accept them, but with a GENERIC_ERROR, and 10-15 seconds late...)
  */
-@property (copy, nonatomic) NSString *currentMainField1;
+@property (copy, nonatomic, nullable) NSString *currentMainField1;
 
 /**
  An array of soft button wrappers containing soft button states. This is the current set of soft buttons in the process of being displayed or that are currently displayed.

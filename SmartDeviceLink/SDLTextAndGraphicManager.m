@@ -136,8 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     [self.connectionManager sendConnectionRequest:self.inProgressUpdate withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        NSLog(@"TextAndGraphic update request: %@, response: %@, error: %@", request, response, error);
-
+        // TODO: Monitor and delete old images when space is low?
         if (response.success) {
             [strongSelf sdl_updateCurrentScreenDataFromShow:(SDLShow *)request];
         }

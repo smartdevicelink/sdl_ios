@@ -15,6 +15,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface SDLFile()
+
+@property (assign, nonatomic, readwrite) BOOL persistent;
+
+@end
+
 @interface SDLSoftButtonState()
 
 @property (strong, nonatomic, readonly) SDLSoftButtonType type;
@@ -25,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLSoftButtonState
 
 - (instancetype)initWithStateName:(NSString *)stateName text:(nullable NSString *)text image:(nullable UIImage *)image {
-    SDLArtwork *artwork = [[SDLArtwork alloc] initWithImage:image name:stateName persistent:NO asImageFormat:SDLArtworkImageFormatPNG]; // TODO: Use new artwork initializer
+    SDLArtwork *artwork = [[SDLArtwork alloc] initWithImage:image persistent:YES asImageFormat:SDLArtworkImageFormatPNG];
     return [self initWithStateName:stateName text:text artwork:artwork];
 }
 
@@ -36,8 +42,13 @@ NS_ASSUME_NONNULL_BEGIN
     _name = stateName;
     _text = text;
     _artwork = artwork;
+    _ephemeralArtwork = NO;
 
     return self;
+}
+
+- (void)setEphemeralArtwork:(BOOL)ephemeralArtwork {
+    _artwork.persistent = !ephemeralArtwork;
 }
 
 - (SDLSoftButton *)softButton {
