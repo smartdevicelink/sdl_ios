@@ -26,9 +26,14 @@ typedef void(^SDLSoftButtonUpdateCompletionHandler)(NSError *__nullable error);
 @interface SDLSoftButtonManager : NSObject
 
 /**
+ HAX: This is necessary due to a Ford Sync 3 bug that doesn't like Show requests without a main field being set (it will accept them, but with a GENERIC_ERROR, and 10-15 seconds late...)
+ */
+@property (copy, nonatomic) NSString *currentMainField1;
+
+/**
  An array of soft button wrappers containing soft button states. This is the current set of soft buttons in the process of being displayed or that are currently displayed.
  */
-@property (copy, nonatomic) NSArray<SDLSoftButtonObject *> *softButtonObjects; // TODO: Make sure that setting to nil will remove soft buttons
+@property (copy, nonatomic) NSArray<SDLSoftButtonObject *> *softButtonObjects;
 
 @property (assign, nonatomic, getter=isBatchingUpdates) BOOL batchUpdates;
 
@@ -50,6 +55,12 @@ typedef void(^SDLSoftButtonUpdateCompletionHandler)(NSError *__nullable error);
  */
 - (void)updateWithCompletionHandler:(nullable SDLSoftButtonUpdateCompletionHandler)handler;
 
+/**
+ Returns a soft button object associated with the manager that is named the specified name or nil if nothing corresponds.
+
+ @param name The name to find a soft button for
+ @return The soft button associated with that name or nil if none exists
+ */
 - (nullable SDLSoftButtonObject *)softButtonObjectNamed:(NSString *)name;
 
 @end

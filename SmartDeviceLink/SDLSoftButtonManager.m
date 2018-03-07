@@ -65,7 +65,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setSoftButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects {
     // TODO: Cancel if set w/ in progress update / queued update
     // TODO: Check number of soft buttons vs. allowed number of buttons
-    // TODO: If set nil / empty array, remove all buttons
+
+    if (softButtonObjects == nil) {
+        _softButtonObjects = nil;
+
+        return;
+    }
 
     // Set the soft button ids. Check to make sure no two soft buttons have the same name, there aren't many soft buttons, so n^2 isn't going to be bad
     for (NSUInteger i = 0; i < softButtonObjects.count; i++) {
@@ -150,13 +155,16 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.inProgressHandler = [handler copy];
     self.inProgressUpdate = [[SDLShow alloc] init];
-    if ([self sdl_currentStateHasImages] && ![self sdl_allCurrentStateImagesAreUploaded]) {
+    self.inProgressUpdate.mainField1 = self.currentMainField1;
+    if (self.softButtonObjects == nil) {
+        self.inProgressUpdate.softButtons = @[];
+    } else if ([self sdl_currentStateHasImages] && ![self sdl_allCurrentStateImagesAreUploaded]) {
         // The images don't yet exist on the head unit, send a text update if possible, otherwise, don't send anything yet
         NSArray<SDLSoftButton *> *textOnlyButtons = [self sdl_textButtonsForCurrentState];
         if (textOnlyButtons != nil) {
             self.inProgressUpdate.softButtons = textOnlyButtons;
         } else {
-            return; // TODO: I think this will mess things up
+            return; // TODO: I think this will mess things up?
         }
     } else {
         self.inProgressUpdate.softButtons = [self sdl_softButtonsForCurrentState];

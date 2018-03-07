@@ -286,8 +286,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLShow *)sdl_setBlankTextFieldsWithShow:(SDLShow *)show withOne:(BOOL)oneBlank two:(BOOL)twoBlank three:(BOOL)threeBlank four:(BOOL)fourBlank {
     oneBlank ? show.mainField1 = @"" : nil;
     twoBlank ? show.mainField2 = @"" : nil;
-    threeBlank ? show.mainField2 = @"" : nil;
-    fourBlank ? show.mainField2 = @"" : nil;
+    threeBlank ? show.mainField3 = @"" : nil;
+    fourBlank ? show.mainField4 = @"" : nil;
 
     return show;
 }

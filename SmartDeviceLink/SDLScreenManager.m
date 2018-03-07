@@ -47,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setTextField1:(nullable NSString *)textField1 {
     self.textAndGraphicManager.textField1 = textField1;
+    self.softButtonManager.currentMainField1 = textField1;
 }
 
 - (void)setTextField2:(nullable NSString *)textField2 {
