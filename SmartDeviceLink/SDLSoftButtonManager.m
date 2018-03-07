@@ -155,7 +155,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.inProgressHandler = [handler copy];
     self.inProgressUpdate = [[SDLShow alloc] init];
-    self.inProgressUpdate.mainField1 = self.currentMainField1;
+    self.inProgressUpdate.mainField1 = self.currentMainField1 ?: @"";
     if (self.softButtonObjects == nil) {
         self.inProgressUpdate.softButtons = @[];
     } else if ([self sdl_currentStateHasImages] && ![self sdl_allCurrentStateImagesAreUploaded]) {
