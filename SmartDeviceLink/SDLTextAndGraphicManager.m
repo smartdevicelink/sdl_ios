@@ -193,7 +193,7 @@ NS_ASSUME_NONNULL_BEGIN
         return show;
     }
 
-    NSUInteger numberOfLines = [self.displayCapabilities maxNumberOfMainFieldLines];
+    NSUInteger numberOfLines = self.displayCapabilities ? self.displayCapabilities.maxNumberOfMainFieldLines : 4;
     if (numberOfLines == 1) {
         show = [self sdl_assembleOneLineShowText:show withShowFields:nonNilFields];
     } else if (numberOfLines == 2) {
@@ -292,7 +292,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLShow *)sdl_assembleShowMetadataTags:(SDLShow *)show {
-    NSUInteger numberOfShowLines = self.displayCapabilities.maxNumberOfMainFieldLines;
+    NSUInteger numberOfShowLines = self.displayCapabilities ? self.displayCapabilities.maxNumberOfMainFieldLines : 4;
     SDLMetadataTags *tags = [[SDLMetadataTags alloc] init];
     NSMutableArray<SDLMetadataType> *metadataArray = [NSMutableArray array];
 
@@ -369,14 +369,18 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)sdl_shouldUpdatePrimaryImage {
-    return ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic]
+    BOOL hasGraphic = self.displayCapabilities ? [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] : YES;
+
+    return (hasGraphic
             && ![self.currentScreenData.graphic.value isEqualToString:self.primaryGraphic.name]
             && self.primaryGraphic != nil);
 }
 
 - (BOOL)sdl_shouldUpdateSecondaryImage {
+    BOOL hasGraphic = self.displayCapabilities ? [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] : YES;
+
     // Cannot detect if there is a secondary image, so we'll just try to detect if there's a primary image and allow it if there is.
-    return ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic]
+    return (hasGraphic
             && ![self.currentScreenData.secondaryGraphic.value isEqualToString:self.secondaryGraphic.name]
             && self.secondaryGraphic != nil);
 }
@@ -536,13 +540,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
 
-    if (response.displayCapabilities != nil) {
-        // TODO: We should probably allow the set to nil and just allow everything if we have a nil displayCapabilities
-        self.displayCapabilities = response.displayCapabilities;
+    self.displayCapabilities = response.displayCapabilities;
 
-        // Auto-send an updated show
-        [self sdl_updateWithCompletionHandler:nil];
-    }
+    // Auto-send an updated show
+    [self sdl_updateWithCompletionHandler:nil];
 }
 
 @end

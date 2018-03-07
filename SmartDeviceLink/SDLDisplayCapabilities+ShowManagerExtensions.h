@@ -12,9 +12,9 @@
 
 @interface SDLDisplayCapabilities (ShowManagerExtensions)
 
-- (BOOL)hasTextFieldOfName:(SDLTextFieldName)name;
-- (NSUInteger)maxNumberOfMainFieldLines;
+@property (assign, nonatomic, readonly) NSUInteger maxNumberOfMainFieldLines;
 
+- (BOOL)hasTextFieldOfName:(SDLTextFieldName)name;
 - (BOOL)hasImageFieldOfName:(SDLImageFieldName)name;
 
 @end

@@ -17,6 +17,7 @@
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
+#import "SDLSoftButtonCapabilities.h"
 #import "SDLSoftButtonObject.h"
 #import "SDLSoftButtonState.h"
 
@@ -44,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) SDLSoftButtonUpdateCompletionHandler queuedUpdateHandler;
 
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
+@property (strong, nonatomic, nullable) SDLSoftButtonCapabilities *softButtonCapabilities;
 
 @end
 
@@ -91,19 +93,21 @@ NS_ASSUME_NONNULL_BEGIN
         button.manager = self;
     }
 
-    // Upload all soft button images, the initial state images first, then the other states. We need to send updates when the initial state is ready.
     NSMutableArray<SDLArtwork *> *initialStatesToBeUploaded = [NSMutableArray array];
-    for (SDLSoftButtonObject *object in self.softButtonObjects) {
-        if (object.currentState.artwork != nil && ![self.fileManager hasUploadedFile:object.currentState.artwork]) {
-            [initialStatesToBeUploaded addObject:object.currentState.artwork];
-        }
-    }
     NSMutableArray<SDLArtwork *> *otherStatesToBeUploaded = [NSMutableArray array];
-    for (SDLSoftButtonObject *object in self.softButtonObjects) {
-        for (SDLSoftButtonState *state in object.states) {
-            if ([state.name isEqualToString:object.currentState.name]) { continue; }
-            if (state.artwork != nil && ![self.fileManager hasUploadedFile:state.artwork]) {
-                [otherStatesToBeUploaded addObject:state.artwork];
+    if (self.displayCapabilities ? self.displayCapabilities.graphicSupported.boolValue : YES) {
+        // Upload all soft button images, the initial state images first, then the other states. We need to send updates when the initial state is ready.
+        for (SDLSoftButtonObject *object in self.softButtonObjects) {
+            if (object.currentState.artwork != nil && ![self.fileManager hasUploadedFile:object.currentState.artwork]) {
+                [initialStatesToBeUploaded addObject:object.currentState.artwork];
+            }
+        }
+        for (SDLSoftButtonObject *object in self.softButtonObjects) {
+            for (SDLSoftButtonState *state in object.states) {
+                if ([state.name isEqualToString:object.currentState.name]) { continue; }
+                if (state.artwork != nil && ![self.fileManager hasUploadedFile:state.artwork]) {
+                    [otherStatesToBeUploaded addObject:state.artwork];
+                }
             }
         }
     }
@@ -160,8 +164,9 @@ NS_ASSUME_NONNULL_BEGIN
     self.inProgressUpdate.mainField1 = self.currentMainField1 ?: @"";
     if (self.softButtonObjects == nil) {
         self.inProgressUpdate.softButtons = @[];
-    } else if ([self sdl_currentStateHasImages] && ![self sdl_allCurrentStateImagesAreUploaded]) {
-        // The images don't yet exist on the head unit, send a text update if possible, otherwise, don't send anything yet
+    } else if (([self sdl_currentStateHasImages] && ![self sdl_allCurrentStateImagesAreUploaded])
+               || self.softButtonCapabilities ? !self.softButtonCapabilities.imageSupported : YES) {
+        // The images don't yet exist on the head unit, or we cannot use images, send a text update if possible, otherwise, don't send anything yet
         NSArray<SDLSoftButton *> *textOnlyButtons = [self sdl_textButtonsForCurrentState];
         if (textOnlyButtons != nil) {
             self.inProgressUpdate.softButtons = textOnlyButtons;
@@ -257,18 +262,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
+    self.softButtonCapabilities = response.softButtonCapabilities ? response.softButtonCapabilities.firstObject : nil;
     self.displayCapabilities = response.displayCapabilities;
 }
 
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
 
-    if (response.displayCapabilities != nil) {
-        self.displayCapabilities = response.displayCapabilities;
+    self.softButtonCapabilities = response.softButtonCapabilities ? response.softButtonCapabilities.firstObject : nil;
+    self.displayCapabilities = response.displayCapabilities;
 
-        // Auto-send an updated Show
-        [self updateWithCompletionHandler:nil];
-    }
+    // Auto-send an updated Show
+    [self updateWithCompletionHandler:nil];
 }
 
 @end
