@@ -19,3 +19,6 @@ extern char *const SDLControlFrameVideoProtocolKey;
 extern char *const SDLControlFrameVideoCodecKey;
 extern char *const SDLControlFrameHeightKey;
 extern char *const SDLControlFrameWidthKey;
+extern char *const SDLControlFrameSecondaryTransportsKey;
+extern char *const SDLControlFrameAudioServiceTransportsKey;
+extern char *const SDLControlFrameVideoServiceTransportsKey;

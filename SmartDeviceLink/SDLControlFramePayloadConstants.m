@@ -19,3 +19,6 @@ char *const SDLControlFrameVideoProtocolKey = "videoProtocol";
 char *const SDLControlFrameVideoCodecKey = "videoCodec";
 char *const SDLControlFrameHeightKey = "height";
 char *const SDLControlFrameWidthKey = "width";
+char *const SDLControlFrameSecondaryTransportsKey = "secondaryTransports";
+char *const SDLControlFrameAudioServiceTransportsKey = "audioServiceTransports";
+char *const SDLControlFrameVideoServiceTransportsKey = "videoServiceTransports";
