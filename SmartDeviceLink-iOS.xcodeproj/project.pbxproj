@@ -323,8 +323,6 @@
 		5D0A7374203F0C730001595D /* SDLTextAndGraphicManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D0A7372203F0C730001595D /* SDLTextAndGraphicManager.h */; };
 		5D0A7375203F0C730001595D /* SDLTextAndGraphicManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A7373203F0C730001595D /* SDLTextAndGraphicManager.m */; };
 		5D0A7382203F23F30001595D /* SDLSoftButtonManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D0A7380203F23F30001595D /* SDLSoftButtonManager.h */; };
-		5D0A737B203F0CCC0001595D /* SDLTextAndGraphicConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D0A7379203F0CCC0001595D /* SDLTextAndGraphicConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D0A737C203F0CCC0001595D /* SDLTextAndGraphicConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A737A203F0CCC0001595D /* SDLTextAndGraphicConfiguration.m */; };
 		5D0A7383203F23F30001595D /* SDLSoftButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A7381203F23F30001595D /* SDLSoftButtonManager.m */; };
 		5D0A7386203F24060001595D /* SDLSoftButtonState.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D0A7384203F24060001595D /* SDLSoftButtonState.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D0A7387203F24060001595D /* SDLSoftButtonState.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A7385203F24060001595D /* SDLSoftButtonState.m */; };
@@ -972,6 +970,11 @@
 		5DA8A0EA1E955FE00039C50D /* SDLLogModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBF06301E64A9C600A5CF03 /* SDLLogModel.m */; };
 		5DAD5F7F204DEDEB0025624C /* SDLScreenManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DAD5F7D204DEDEB0025624C /* SDLScreenManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DAD5F80204DEDEB0025624C /* SDLScreenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAD5F7E204DEDEB0025624C /* SDLScreenManager.m */; };
+		5DAD5F8520507E1F0025624C /* SDLScreenManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAD5F8420507E1F0025624C /* SDLScreenManagerSpec.m */; };
+		5DAD5F87205087430025624C /* SDLTextAndGraphicManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAD5F86205087430025624C /* SDLTextAndGraphicManagerSpec.m */; };
+		5DAD5F8920508F090025624C /* SDLSoftButtonStateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAD5F8820508F090025624C /* SDLSoftButtonStateSpec.m */; };
+		5DAD5F8B20508F140025624C /* SDLSoftButtonObjectSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAD5F8A20508F140025624C /* SDLSoftButtonObjectSpec.m */; };
+		5DAD5F8D20508F220025624C /* SDLSoftButtonManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAD5F8C20508F220025624C /* SDLSoftButtonManagerSpec.m */; };
 		5DADA7751F4DFED60084D17D /* SDLRectangle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DADA7731F4DFED60084D17D /* SDLRectangle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DADA7761F4DFED60084D17D /* SDLRectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DADA7741F4DFED60084D17D /* SDLRectangle.m */; };
 		5DADA7781F4E059E0084D17D /* SDLRectangleSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DADA7771F4E059E0084D17D /* SDLRectangleSpec.m */; };
@@ -2224,6 +2227,11 @@
 		5DA49CE41F1EA83300E65FC5 /* SDLControlFramePayloadRPCStartService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLControlFramePayloadRPCStartService.m; sourceTree = "<group>"; };
 		5DAD5F7D204DEDEB0025624C /* SDLScreenManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLScreenManager.h; sourceTree = "<group>"; };
 		5DAD5F7E204DEDEB0025624C /* SDLScreenManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLScreenManager.m; sourceTree = "<group>"; };
+		5DAD5F8420507E1F0025624C /* SDLScreenManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLScreenManagerSpec.m; sourceTree = "<group>"; };
+		5DAD5F86205087430025624C /* SDLTextAndGraphicManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLTextAndGraphicManagerSpec.m; path = DevAPISpecs/SDLTextAndGraphicManagerSpec.m; sourceTree = "<group>"; };
+		5DAD5F8820508F090025624C /* SDLSoftButtonStateSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSoftButtonStateSpec.m; path = DevAPISpecs/SDLSoftButtonStateSpec.m; sourceTree = "<group>"; };
+		5DAD5F8A20508F140025624C /* SDLSoftButtonObjectSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSoftButtonObjectSpec.m; sourceTree = "<group>"; };
+		5DAD5F8C20508F220025624C /* SDLSoftButtonManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSoftButtonManagerSpec.m; path = DevAPISpecs/SDLSoftButtonManagerSpec.m; sourceTree = "<group>"; };
 		5DADA7731F4DFED60084D17D /* SDLRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLRectangle.h; sourceTree = "<group>"; };
 		5DADA7741F4DFED60084D17D /* SDLRectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRectangle.m; sourceTree = "<group>"; };
 		5DADA7771F4E059E0084D17D /* SDLRectangleSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRectangleSpec.m; sourceTree = "<group>"; };
@@ -2908,7 +2916,7 @@
 			name = "Request Operations";
 			sourceTree = "<group>";
 		};
-		5D0A736F203F0C450001595D /* Show */ = {
+		5D0A736F203F0C450001595D /* Screen */ = {
 			isa = PBXGroup;
 			children = (
 				5D0A737F203F23D10001595D /* Soft Button */,
@@ -2916,7 +2924,7 @@
 				5DAD5F7D204DEDEB0025624C /* SDLScreenManager.h */,
 				5DAD5F7E204DEDEB0025624C /* SDLScreenManager.m */,
 			);
-			name = Show;
+			name = Screen;
 			sourceTree = "<group>";
 		};
 		5D0A7376203F0C8F0001595D /* Configuration */ = {
@@ -4344,6 +4352,34 @@
 			name = "Focus / Haptic";
 			sourceTree = "<group>";
 		};
+		5DAD5F8120507DE40025624C /* Show */ = {
+			isa = PBXGroup;
+			children = (
+				5DAD5F8220507DED0025624C /* Soft Button */,
+				5DAD5F8320507DF30025624C /* Text and Graphic */,
+				5DAD5F8420507E1F0025624C /* SDLScreenManagerSpec.m */,
+			);
+			name = Show;
+			sourceTree = "<group>";
+		};
+		5DAD5F8220507DED0025624C /* Soft Button */ = {
+			isa = PBXGroup;
+			children = (
+				5DAD5F8820508F090025624C /* SDLSoftButtonStateSpec.m */,
+				5DAD5F8A20508F140025624C /* SDLSoftButtonObjectSpec.m */,
+				5DAD5F8C20508F220025624C /* SDLSoftButtonManagerSpec.m */,
+			);
+			name = "Soft Button";
+			sourceTree = "<group>";
+		};
+		5DAD5F8320507DF30025624C /* Text and Graphic */ = {
+			isa = PBXGroup;
+			children = (
+				5DAD5F86205087430025624C /* SDLTextAndGraphicManagerSpec.m */,
+			);
+			name = "Text and Graphic";
+			sourceTree = "<group>";
+		};
 		5DAE06711BDEC68700F9B498 /* Developer API Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -4473,7 +4509,7 @@
 				5D82042A1BCEA91E00D0A41B /* Files */,
 				5D8204291BCEA91400D0A41B /* Permissions */,
 				DA8966E71E56937100413EAB /* Streaming */,
-				5D0A736F203F0C450001595D /* Show */,
+				5D0A736F203F0C450001595D /* Screen */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -4490,6 +4526,7 @@
 		5DBAE0A81D35886E00CE00BF /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				5DAD5F8120507DE40025624C /* Show */,
 				DA8966ED1E5693D100413EAB /* Streaming */,
 				5D1654541D3E753100554D93 /* Lifecycle */,
 				5D76E31A1D3805E600647CFA /* LockScreen */,
@@ -5848,6 +5885,7 @@
 				1EE8C4481F38430900FDC2CF /* SDLRadioControlCapabilitiesSpec.m in Sources */,
 				162E83221A9BDE8B00906325 /* SDLAddCommandSpec.m in Sources */,
 				162E83121A9BDE8B00906325 /* SDLOnButtonPressSpec.m in Sources */,
+				5DAD5F8520507E1F0025624C /* SDLScreenManagerSpec.m in Sources */,
 				162E838D1A9BDE8B00906325 /* SDLStartTimeSpec.m in Sources */,
 				162E836E1A9BDE8B00906325 /* SDLUnsubscribeButtonResponseSpec.m in Sources */,
 				5DEF69611FD6FB75004B8C2F /* SDLAudioStreamManagerSpec.m in Sources */,
@@ -5918,6 +5956,7 @@
 				162E83291A9BDE8B00906325 /* SDLDeleteFileSpec.m in Sources */,
 				1680B11D1A9CD7AD00DBD79E /* SDLProtocolMessageDisassemblerSpec.m in Sources */,
 				8BBEA6091F324832003EEA26 /* SDLMetadataTypeSpec.m in Sources */,
+				5DAD5F8B20508F140025624C /* SDLSoftButtonObjectSpec.m in Sources */,
 				DA9F7E9E1DCC05B900ACAE48 /* SDLWaypointTypeSpec.m in Sources */,
 				162E838E1A9BDE8B00906325 /* SDLSyncMsgVersionSpec.m in Sources */,
 				5D76E31C1D3805FF00647CFA /* SDLLockScreenManagerSpec.m in Sources */,
@@ -5926,6 +5965,7 @@
 				162E837B1A9BDE8B00906325 /* SDLDisplayCapabilitiesSpec.m in Sources */,
 				162E82DE1A9BDE8B00906325 /* SDLFuelCutoffStatusSpec.m in Sources */,
 				162E83271A9BDE8B00906325 /* SDLCreateInteractionChoiceSetSpec.m in Sources */,
+				5DAD5F8920508F090025624C /* SDLSoftButtonStateSpec.m in Sources */,
 				162E83111A9BDE8B00906325 /* SDLOnButtonEventSpec.m in Sources */,
 				1FF7DAC01F75CF6C00B46C30 /* SDLHapticManagerSpec.m in Sources */,
 				162E82FA1A9BDE8B00906325 /* SDLSoftButtonTypeSpec.m in Sources */,
@@ -5997,6 +6037,7 @@
 				162E838F1A9BDE8B00906325 /* SDLTextFieldSpec.m in Sources */,
 				162E82CA1A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m in Sources */,
 				162E83091A9BDE8B00906325 /* SDLVehicleDataStatusSpec.m in Sources */,
+				5DAD5F8D20508F220025624C /* SDLSoftButtonManagerSpec.m in Sources */,
 				162E83741A9BDE8B00906325 /* SDLBodyInformationSpec.m in Sources */,
 				162E83641A9BDE8B00906325 /* SDLSetMediaClockTimerResponseSpec.m in Sources */,
 				162E839C1A9BDE8B00906325 /* SDLRPCRequestSpec.m in Sources */,
@@ -6058,6 +6099,7 @@
 				8B7B31B11F2FBD9500BDC38D /* SDLVideoStreamingFormatSpec.m in Sources */,
 				162E831D1A9BDE8B00906325 /* SDLOnSystemRequestSpec.m in Sources */,
 				162E835D1A9BDE8B00906325 /* SDLReadDIDResponseSpec.m in Sources */,
+				5DAD5F87205087430025624C /* SDLTextAndGraphicManagerSpec.m in Sources */,
 				162E82D41A9BDE8A00906325 /* SDLCharacterSetSpec.m in Sources */,
 				162E830F1A9BDE8B00906325 /* SDLOnAppInterfaceUnregisteredSpec.m in Sources */,
 				162E83971A9BDE8B00906325 /* SDLVehicleTypeSpec.m in Sources */,

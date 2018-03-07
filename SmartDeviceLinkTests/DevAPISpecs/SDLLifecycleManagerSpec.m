@@ -86,7 +86,6 @@ describe(@"a lifecycle manager", ^{
         testManager.fileManager = fileManagerMock;
         testManager.permissionManager = permissionManagerMock;
         testManager.streamManager = streamingManagerMock;
-        
     });
     
     xit(@"should initialize properties", ^{
