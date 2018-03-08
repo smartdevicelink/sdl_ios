@@ -171,7 +171,9 @@ fdescribe(@"a soft button manager", ^{
             });
 
             it(@"should set the in progress update", ^{
-                expect(testManager.inProgressUpdate
+                NSArray<SDLSoftButton *> *inProgressSoftButtons = testManager.inProgressUpdate.softButtons;
+
+                expect(testManager.inProgressUpdate.mainField1).to(equal(@""));
             });
         });
     });
