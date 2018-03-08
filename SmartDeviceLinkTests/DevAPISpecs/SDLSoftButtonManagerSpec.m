@@ -3,15 +3,41 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLArtwork.h"
+#import "SDLDisplayCapabilities.h"
 #import "SDLFileManager.h"
+#import "SDLShow.h"
+#import "SDLSoftButtonCapabilities.h"
 #import "SDLSoftButtonManager.h"
 #import "SDLSoftButtonObject.h"
 #import "SDLSoftButtonState.h"
 #import "TestConnectionManager.h"
 
+@interface SDLSoftButtonObject()
+
+@property (assign, nonatomic) NSUInteger buttonId;
+@property (weak, nonatomic) SDLSoftButtonManager *manager;
+
+@end
+
+@interface SDLSoftButtonManager()
+
+@property (strong, nonatomic) NSArray<SDLSoftButton *> *currentSoftButtons;
+
+@property (strong, nonatomic, nullable) SDLShow *inProgressUpdate;
+@property (copy, nonatomic, nullable) SDLSoftButtonUpdateCompletionHandler inProgressHandler;
+
+@property (strong, nonatomic, nullable) SDLShow *queuedImageUpdate;
+@property (assign, nonatomic) BOOL hasQueuedUpdate;
+@property (copy, nonatomic, nullable) SDLSoftButtonUpdateCompletionHandler queuedUpdateHandler;
+
+@property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
+@property (strong, nonatomic, nullable) SDLSoftButtonCapabilities *softButtonCapabilities;
+
+@end
+
 QuickSpecBegin(SDLSoftButtonManagerSpec)
 
-describe(@"a soft button manager", ^{
+fdescribe(@"a soft button manager", ^{
     __block SDLSoftButtonManager *testManager = nil;
 
     __block SDLFileManager *testFileManager = nil;
@@ -39,13 +65,115 @@ describe(@"a soft button manager", ^{
         testConnectionManager = [[TestConnectionManager alloc] init];
 
         testManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager];
-
-        testObject1 = [[SDLSoftButtonObject alloc] initWithName:object1Name states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
-        testObject2 = [[SDLSoftButtonObject alloc] initWithName:object2Name state:object2State1 handler:nil];
     });
 
-    it(@"should set soft buttons correctly", ^{
-        testManager.softButtonObjects = @[testObject1, testObject2];
+    context(@"when button objects have the same name", ^{
+        beforeEach(^{
+            NSString *sameName = @"Same name";
+            testObject1 = [[SDLSoftButtonObject alloc] initWithName:sameName states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
+            testObject2 = [[SDLSoftButtonObject alloc] initWithName:sameName state:object2State1 handler:nil];
+
+            testManager.softButtonObjects = @[testObject1, testObject2];
+        });
+
+        it(@"should fail to set the buttons", ^{
+            expect(testManager.softButtonObjects).to(beEmpty());
+        });
+    });
+
+    context(@"when button objects have different names", ^{
+        beforeEach(^{
+            testObject1 = [[SDLSoftButtonObject alloc] initWithName:object1Name states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
+            testObject2 = [[SDLSoftButtonObject alloc] initWithName:object2Name state:object2State1 handler:nil];
+
+            testManager.softButtonObjects = @[testObject1, testObject2];
+        });
+
+        it(@"should set soft buttons correctly", ^{
+            expect(testManager.softButtonObjects).toNot(beNil());
+            expect(testObject1.buttonId).to(equal(0));
+            expect(testObject2.buttonId).to(equal(100));
+            expect(testObject1.manager).to(equal(testManager));
+            expect(testObject2.manager).to(equal(testManager));
+        });
+
+        it(@"should retrieve soft buttons correctly", ^{
+            expect([testManager softButtonObjectNamed:object1Name].name).to(equal(object1Name));
+        });
+    });
+
+    describe(@"uploading the images", ^{
+        context(@"when files are already on the file system", ^{
+            beforeEach(^{
+                OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
+
+                testObject1 = [[SDLSoftButtonObject alloc] initWithName:object1Name states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
+                testObject2 = [[SDLSoftButtonObject alloc] initWithName:object2Name state:object2State1 handler:nil];
+
+                testManager.softButtonObjects = @[testObject1, testObject2];
+            });
+
+            it(@"should not have attempted to upload any artworks", ^{
+                OCMReject([testFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
+            });
+        });
+
+        context(@"when files are not already on the file system", ^{
+            __block id mockManager = nil;
+
+            beforeEach(^{
+                mockManager = OCMPartialMock(testManager);
+                OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
+
+                testObject1 = [[SDLSoftButtonObject alloc] initWithName:object1Name states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
+                testObject2 = [[SDLSoftButtonObject alloc] initWithName:object2Name state:object2State1 handler:nil];
+
+                testManager.softButtonObjects = @[testObject1, testObject2];
+            });
+
+            it(@"should attempt to upload an artwork", ^{
+                OCMVerify([testFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
+                OCMVerify([mockManager updateWithCompletionHandler:[OCMArg any]]);
+            });
+
+            afterEach(^{
+                [mockManager stopMocking];
+            });
+        });
+    });
+
+    describe(@"updating the system", ^{
+        __block id mockManager = nil;
+
+        beforeEach(^{
+            mockManager = OCMPartialMock(testManager);
+            OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
+
+            testObject1 = [[SDLSoftButtonObject alloc] initWithName:object1Name states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
+            testObject2 = [[SDLSoftButtonObject alloc] initWithName:object2Name state:object2State1 handler:nil];
+
+            testManager.softButtonObjects = @[testObject1, testObject2];
+        });
+
+        context(@"manually while batching is enabled", ^{
+            beforeEach(^{
+                testManager.batchUpdates = YES;
+            });
+
+            it(@"should not run the rest of the update method", ^{
+                expectAction(^{
+                    [testManager updateWithCompletionHandler:^(NSError * _Nullable error) {}];
+                }).to(raiseException());
+            });
+
+            afterEach(^{
+                [mockManager stopMocking];
+            });
+        });
+
+        context(@"manually while batching is disabled", ^{
+
+        });
     });
 });
 

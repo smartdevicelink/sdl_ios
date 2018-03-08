@@ -2206,7 +2206,6 @@
 		5DA102A31D4122C700C15826 /* NSMutableDictionary+SafeRemove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+SafeRemove.m"; sourceTree = "<group>"; };
 		5DA22CB31D075CF200245F5F /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = sdl_ios/Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		5DA22CB41D075CF200245F5F /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = sdl_ios/Carthage/Build/iOS/OCMock.framework; sourceTree = "<group>"; };
-		5DA22CB51D075CF200245F5F /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = sdl_ios/Carthage/Build/iOS/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		5DA22CB61D075CF200245F5F /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = sdl_ios/Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
 		5DA23FEF1F2FA0FF009C0313 /* SDLControlFramePayloadEndServiceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLControlFramePayloadEndServiceSpec.m; sourceTree = "<group>"; };
 		5DA23FF21F2FA35C009C0313 /* SDLControlFramePayloadAudioStartServiceAckSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLControlFramePayloadAudioStartServiceAckSpec.m; sourceTree = "<group>"; };
@@ -2821,7 +2820,6 @@
 				5D5DBF071D48E39C00D4F914 /* FBSnapshotTestCase.framework */,
 				5DA22CB31D075CF200245F5F /* Nimble.framework */,
 				5DA22CB41D075CF200245F5F /* OCMock.framework */,
-				5DA22CB51D075CF200245F5F /* OHHTTPStubs.framework */,
 				5DA22CB61D075CF200245F5F /* Quick.framework */,
 			);
 			name = Libraries;

@@ -57,6 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _connectionManager = connectionManager;
     _fileManager = fileManager;
+    _softButtonObjects = @[];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
@@ -82,6 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
         softButtonObjects[i].buttonId = i * 100;
         for (NSUInteger j = (i + 1); j < softButtonObjects.count; j++) {
             if ([softButtonObjects[j].name isEqualToString:buttonName]) {
+                _softButtonObjects = @[];
                 return;
             }
         }
@@ -139,9 +141,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)updateWithCompletionHandler:(nullable SDLSoftButtonUpdateCompletionHandler)handler {
-    if (self.isBatchingUpdates) {
-        return;
-    }
+    NSAssert(!self.isBatchingUpdates, @"Cannot update soft button manager while in the middle of batching");
 
     if (self.inProgressUpdate != nil) {
         // If we already have a pending update, we're going to tell the old handler that it was superseded by a new update and then return
