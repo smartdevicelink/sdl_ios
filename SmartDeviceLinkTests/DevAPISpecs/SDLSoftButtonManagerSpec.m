@@ -143,10 +143,7 @@ fdescribe(@"a soft button manager", ^{
     });
 
     describe(@"updating the system", ^{
-        __block id mockManager = nil;
-
         beforeEach(^{
-            mockManager = OCMPartialMock(testManager);
             OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
 
             testObject1 = [[SDLSoftButtonObject alloc] initWithName:object1Name states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
@@ -165,14 +162,17 @@ fdescribe(@"a soft button manager", ^{
                     [testManager updateWithCompletionHandler:^(NSError * _Nullable error) {}];
                 }).to(raiseException());
             });
-
-            afterEach(^{
-                [mockManager stopMocking];
-            });
         });
 
         context(@"manually while batching is disabled", ^{
+            beforeEach(^{
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:^(NSError * _Nullable error) {}];
+            });
 
+            it(@"should set the in progress update", ^{
+                expect(testManager.inProgressUpdate
+            });
         });
     });
 });
