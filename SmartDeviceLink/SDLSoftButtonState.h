@@ -43,11 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLSystemAction systemAction;
 
 /**
- The artwork should be ephemeral, not persistant. Usually you want persistant so that you don't need to re-upload on every ignition cycle.
- */
-@property (assign, nonatomic) BOOL ephemeralArtwork;
-
-/**
  An SDLSoftButton describing this state
  */
 @property (strong, nonatomic, readonly) SDLSoftButton *softButton;

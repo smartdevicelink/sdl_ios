@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param eventHandler The handler to be called when the button is in the current state and is pressed
  @param initialStateName The first state to use
  */
-- (instancetype)initWithName:(NSString *)name states:(NSArray<SDLSoftButtonState *> *)states initialStateName:(NSString *)initialStateName handler:(SDLRPCButtonNotificationHandler)eventHandler;
+- (instancetype)initWithName:(NSString *)name states:(NSArray<SDLSoftButtonState *> *)states initialStateName:(NSString *)initialStateName handler:(nullable SDLRPCButtonNotificationHandler)eventHandler;
 
 /**
  Create a single-state soft button. For example, a button that brings up a Perform Interaction menu.
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param eventHandler The handler to be called when the button is in the current state and is pressed
  @param state The single state of the button
  */
-- (instancetype)initWithName:(NSString *)name state:(SDLSoftButtonState *)state handler:(SDLRPCButtonNotificationHandler)eventHandler;
+- (instancetype)initWithName:(NSString *)name state:(SDLSoftButtonState *)state handler:(nullable SDLRPCButtonNotificationHandler)eventHandler;
 
 /**
  Transition the soft button to another state in the `states` property. The wrapper considers all transitions valid (assuming a state with that name exists).
@@ -70,6 +70,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)transitionToState:(NSString *)stateName;
 
+/**
+ Return a state from the state array with a specific name.
+
+ @param stateName The name of the state to return
+ @return The state, or nil if no state with that name exists
+ */
 - (nullable SDLSoftButtonState *)stateWithName:(NSString *)stateName;
 
 @end

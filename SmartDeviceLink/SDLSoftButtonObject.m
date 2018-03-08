@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSoftButtonObject
 
-- (instancetype)initWithName:(NSString *)name states:(NSArray<SDLSoftButtonState *> *)states initialStateName:(NSString *)initialStateName handler:(SDLRPCButtonNotificationHandler)eventHandler {
+- (instancetype)initWithName:(NSString *)name states:(NSArray<SDLSoftButtonState *> *)states initialStateName:(NSString *)initialStateName handler:(nullable SDLRPCButtonNotificationHandler)eventHandler {
     self = [super init];
     if (!self) { return nil; }
 
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithName:(NSString *)name state:(SDLSoftButtonState *)state handler:(SDLRPCButtonNotificationHandler)eventHandler {
+- (instancetype)initWithName:(NSString *)name state:(SDLSoftButtonState *)state handler:(nullable SDLRPCButtonNotificationHandler)eventHandler {
     return [self initWithName:name states:@[state] initialStateName:state.name handler:eventHandler];
 }
 

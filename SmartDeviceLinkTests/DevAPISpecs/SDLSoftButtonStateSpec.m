@@ -2,9 +2,11 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLArtwork.h"
+#import "SDLImage.h"
+#import "SDLSoftButton.h"
 #import "SDLSoftButtonState.h"
 
-QuickSpecBegin(SDLSoftButtonState)
+QuickSpecBegin(SDLSoftButtonStateSpec)
 
 describe(@"soft button state", ^{
     __block SDLSoftButtonState *testState = nil;
@@ -22,11 +24,41 @@ describe(@"soft button state", ^{
         expect(testState.text).to(equal(testStateText));
         expect(testState.highlighted).to(beFalsy());
         expect(testState.systemAction).to(equal(SDLSystemActionDefaultAction));
-        expect(testState.ephemeralArtwork).to(beFalsy());
-
         expect(testState.artwork.persistent).to(beTruthy());
         expect(testState.artwork.fileType).to(equal(SDLFileTypePNG));
         // The rest should be tested in SDLArtwork
+    });
+
+    context(@"when created with an artwork", ^{
+        __block SDLArtwork *testArtwork = nil;
+        __block NSString *testArtworkName = @"Test Artwork Name";
+        beforeEach(^{
+            testArtwork = [[SDLArtwork alloc] initWithImage:testStateImage name:testArtworkName persistent:YES asImageFormat:SDLArtworkImageFormatPNG];
+
+            testState = [[SDLSoftButtonState alloc] initWithStateName:testStateName text:testStateText artwork:testArtwork];
+        });
+
+        it(@"should properly create", ^{
+            expect(testState.name).to(equal(testStateName));
+            expect(testState.text).to(equal(testStateText));
+            expect(testState.highlighted).to(beFalsy());
+            expect(testState.systemAction).to(equal(SDLSystemActionDefaultAction));
+            expect(testState.artwork.persistent).to(beTruthy());
+            expect(testState.artwork.fileType).to(equal(SDLFileTypePNG));
+        });
+
+        it(@"should properly create a soft button", ^{
+            SDLSoftButton *testSoftButton = testState.softButton;
+
+            expect(testSoftButton.type).to(equal(SDLSoftButtonTypeBoth));
+//            expect(testSoftButton.handler).to(beNil());
+            expect(testSoftButton.softButtonID).to(equal(0));
+            expect(testSoftButton.isHighlighted).to(beFalsy());
+            expect(testSoftButton.systemAction).to(equal(SDLSystemActionDefaultAction));
+            expect(testSoftButton.text).to(equal(testStateText));
+            expect(testSoftButton.image.imageType).to(equal(SDLImageTypeDynamic));
+            expect(testSoftButton.image.value).to(equal(testArtworkName));
+        });
     });
 });
 

@@ -42,13 +42,9 @@ NS_ASSUME_NONNULL_BEGIN
     _name = stateName;
     _text = text;
     _artwork = artwork;
-    _ephemeralArtwork = NO;
+    _systemAction = SDLSystemActionDefaultAction;
 
     return self;
-}
-
-- (void)setEphemeralArtwork:(BOOL)ephemeralArtwork {
-    _artwork.persistent = !ephemeralArtwork;
 }
 
 - (SDLSoftButton *)softButton {

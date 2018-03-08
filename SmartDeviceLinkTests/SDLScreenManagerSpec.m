@@ -2,9 +2,10 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
-#import "SDLTextAndGraphicManager.h"
+#import "SDLFileManager.h"
 #import "SDLScreenManager.h"
 #import "SDLSoftButtonManager.h"
+#import "SDLTextAndGraphicManager.h"
 #import "TestConnectionManager.h"
 
 @interface SDLScreenManager()
@@ -24,7 +25,7 @@ describe(@"screen manager", ^{
     __block SDLScreenManager *testScreenManager = nil;
 
     beforeEach(^{
-        testScreenManager = [[SDLScreenManager alloc] initWithConnectionManager:testConnectionManager fileManager:mockFileManager];
+        testScreenManager = [[SDLScreenManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager];
         testScreenManager.textAndGraphicManager = mockTextAndGraphicManager;
         testScreenManager.softButtonManager = mockSoftButtonManager;
     });
