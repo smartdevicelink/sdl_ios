@@ -165,7 +165,6 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Begin / End Updates
 
 - (void)beginUpdates {
-    _isBatchingUpdates = YES;
     self.softButtonManager.batchUpdates = YES;
     self.textAndGraphicManager.batchUpdates = YES;
 }

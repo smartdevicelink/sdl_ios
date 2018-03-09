@@ -44,8 +44,6 @@ typedef void(^SDLScreenManagerUpdateCompletionHandler)(NSError *__nullable error
 
 @property (copy, nonatomic) NSArray<SDLSoftButtonObject *> *softButtonObjects;
 
-@property (assign, nonatomic, readonly) BOOL isBatchingUpdates;
-
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
 
 /**

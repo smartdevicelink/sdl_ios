@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Upload / Send
 
 - (void)updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
-    self.batchUpdates = NO;
+    NSAssert(!self.isBatchingUpdates, @"Cannot update soft button manager while in the middle of batching");
 
     if (self.isDirty) {
         self.isDirty = NO;
@@ -416,6 +416,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setTextField1:(nullable NSString *)textField1 {
     _textField1 = textField1;
     if (!self.isBatchingUpdates) {
+        // If we aren't batching, send the update immediately, if we are, set ourselves as dirty (so we know we should send an update after the batch ends)
         [self sdl_updateWithCompletionHandler:nil];
     } else {
         _isDirty = YES;
