@@ -204,10 +204,10 @@ describe(@"a soft button manager", ^{
             });
 
             it(@"should not run the rest of the update method", ^{
-                expectAction(^{
-                    [testManager updateWithCompletionHandler:^(NSError * _Nullable error) {}];
-                }).to(raiseException());
+                expect(testManager.hasQueuedUpdate).to(beFalse());
             });
+
+            // TODO: Transition Soft Button Objects
         });
 
         context(@"manually while batching is disabled", ^{
@@ -216,12 +216,10 @@ describe(@"a soft button manager", ^{
             });
 
             it(@"should run the rest of the update method and queue this update", ^{
-                expectAction(^{
-                    [testManager updateWithCompletionHandler:^(NSError * _Nullable error) {}];
-                }).toNot(raiseException());
-
                 expect(testManager.hasQueuedUpdate).to(beTrue());
             });
+
+            // TODO: Transition Soft Button Objects
         });
     });
 });

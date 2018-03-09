@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Upload / Send
 
 - (void)updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
-    NSAssert(!self.isBatchingUpdates, @"Cannot update soft button manager while in the middle of batching");
+    if (self.isBatchingUpdates) { return; }
 
     if (self.isDirty) {
         self.isDirty = NO;

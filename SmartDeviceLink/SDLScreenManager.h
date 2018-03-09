@@ -28,7 +28,6 @@ typedef void(^SDLScreenManagerUpdateCompletionHandler)(NSError *__nullable error
 
 @interface SDLScreenManager : NSObject
 
-//@property (copy, nonatomic) SDLScreenConfiguration *configuration;
 @property (copy, nonatomic, nullable) NSString *textField1;
 @property (copy, nonatomic, nullable) NSString *textField2;
 @property (copy, nonatomic, nullable) NSString *textField3;

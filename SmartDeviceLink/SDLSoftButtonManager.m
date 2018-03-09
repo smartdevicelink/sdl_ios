@@ -141,7 +141,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)updateWithCompletionHandler:(nullable SDLSoftButtonUpdateCompletionHandler)handler {
-    NSAssert(!self.isBatchingUpdates, @"Cannot update soft button manager while in the middle of batching");
+    if (self.isBatchingUpdates) { return; }
 
     [self sdl_updateWithCompletionHandler:handler];
 }
