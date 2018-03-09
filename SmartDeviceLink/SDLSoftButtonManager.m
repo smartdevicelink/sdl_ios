@@ -117,17 +117,17 @@ NS_ASSUME_NONNULL_BEGIN
     // Upload initial images, then other state images
     if (initialStatesToBeUploaded.count > 0) {
         [self.fileManager uploadArtworks:[initialStatesToBeUploaded copy] completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
-            [self updateWithCompletionHandler:nil];
+            [self sdl_updateWithCompletionHandler:nil];
         }];
     }
     if (otherStatesToBeUploaded.count > 0) {
         [self.fileManager uploadArtworks:[otherStatesToBeUploaded copy] completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
             // In case our soft button states have changed in the meantime
-            [self updateWithCompletionHandler:nil];
+            [self sdl_updateWithCompletionHandler:nil];
         }];
     }
 
-    [self updateWithCompletionHandler:nil];
+    [self sdl_updateWithCompletionHandler:nil];
 }
 
 - (nullable SDLSoftButtonObject *)softButtonObjectNamed:(NSString *)name {
@@ -143,6 +143,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateWithCompletionHandler:(nullable SDLSoftButtonUpdateCompletionHandler)handler {
     NSAssert(!self.isBatchingUpdates, @"Cannot update soft button manager while in the middle of batching");
 
+    [self sdl_updateWithCompletionHandler:handler];
+}
+
+- (void)sdl_updateWithCompletionHandler:(nullable SDLSoftButtonUpdateCompletionHandler)handler {
     if (self.inProgressUpdate != nil) {
         // If we already have a pending update, we're going to tell the old handler that it was superseded by a new update and then return
         if (self.queuedUpdateHandler != nil) {
@@ -165,7 +169,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.softButtonObjects == nil) {
         self.inProgressUpdate.softButtons = @[];
     } else if (([self sdl_currentStateHasImages] && ![self sdl_allCurrentStateImagesAreUploaded])
-               || self.softButtonCapabilities ? !self.softButtonCapabilities.imageSupported : YES) {
+               && (self.softButtonCapabilities ? !self.softButtonCapabilities.imageSupported : YES)) {
         // The images don't yet exist on the head unit, or we cannot use images, send a text update if possible, otherwise, don't send anything yet
         NSArray<SDLSoftButton *> *textOnlyButtons = [self sdl_textButtonsForCurrentState];
         if (textOnlyButtons != nil) {
@@ -256,6 +260,12 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return [softButtons copy];
+}
+
+#pragma mark - Getters
+
+- (BOOL)hasQueuedUpdate {
+    return (_queuedUpdateHandler != nil ?: _hasQueuedUpdate);
 }
 
 #pragma mark - RPC Responses

@@ -5,7 +5,9 @@
 #import "SDLArtwork.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLFileManager.h"
+#import "SDLImage.h"
 #import "SDLShow.h"
+#import "SDLSoftButton.h"
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLSoftButtonManager.h"
 #import "SDLSoftButtonObject.h"
@@ -116,13 +118,22 @@ fdescribe(@"a soft button manager", ^{
             it(@"should not have attempted to upload any artworks", ^{
                 OCMReject([testFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
             });
+
+            it(@"should set the in progress update", ^{
+                NSArray<SDLSoftButton *> *inProgressSoftButtons = testManager.inProgressUpdate.softButtons;
+
+                expect(testManager.hasQueuedUpdate).to(beFalse());
+                expect(testManager.inProgressUpdate.mainField1).to(equal(@""));
+                expect(inProgressSoftButtons).to(haveCount(2));
+                expect(inProgressSoftButtons[0].text).to(equal(object1State1Text));
+                expect(inProgressSoftButtons[1].text).to(equal(object2State1Text));
+                expect(inProgressSoftButtons[0].image).to(beNil());
+                expect(inProgressSoftButtons[1].image.value).to(equal(object2State1ArtworkName));
+            });
         });
 
-        context(@"when files are not already on the file system", ^{
-            __block id mockManager = nil;
-
+        context(@"when files are not already on the file system, before upload finishes", ^{
             beforeEach(^{
-                mockManager = OCMPartialMock(testManager);
                 OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
 
                 testObject1 = [[SDLSoftButtonObject alloc] initWithName:object1Name states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
@@ -133,11 +144,46 @@ fdescribe(@"a soft button manager", ^{
 
             it(@"should attempt to upload an artwork", ^{
                 OCMVerify([testFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
-                OCMVerify([mockManager updateWithCompletionHandler:[OCMArg any]]);
             });
 
-            afterEach(^{
-                [mockManager stopMocking];
+            it(@"should set the in progress update for text only buttons", ^{
+                NSArray<SDLSoftButton *> *inProgressSoftButtons = testManager.inProgressUpdate.softButtons;
+
+                expect(testManager.hasQueuedUpdate).to(beFalse());
+                expect(testManager.inProgressUpdate.mainField1).to(equal(@""));
+                expect(inProgressSoftButtons).to(haveCount(2));
+                expect(inProgressSoftButtons[0].text).to(equal(object1State1Text));
+                expect(inProgressSoftButtons[1].text).to(equal(object2State1Text));
+                expect(inProgressSoftButtons[0].image).to(beNil());
+                expect(inProgressSoftButtons[1].image).to(beNil());
+            });
+        });
+
+        context(@"when files are not already on the file system, after upload finishes", ^{
+            beforeEach(^{
+                OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
+                OCMStub([testFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg invokeBlock]]);
+
+                testObject1 = [[SDLSoftButtonObject alloc] initWithName:object1Name states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
+                testObject2 = [[SDLSoftButtonObject alloc] initWithName:object2Name state:object2State1 handler:nil];
+
+                testManager.softButtonObjects = @[testObject1, testObject2];
+            });
+
+            it(@"should attempt to upload an artwork", ^{
+                OCMVerify([testFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
+            });
+
+            it(@"should set the in progress update for text only buttons and have a queued update", ^{
+                NSArray<SDLSoftButton *> *inProgressSoftButtons = testManager.inProgressUpdate.softButtons;
+
+                expect(testManager.hasQueuedUpdate).to(beTrue());
+                expect(testManager.inProgressUpdate.mainField1).to(equal(@""));
+                expect(inProgressSoftButtons).to(haveCount(2));
+                expect(inProgressSoftButtons[0].text).to(equal(object1State1Text));
+                expect(inProgressSoftButtons[1].text).to(equal(object2State1Text));
+                expect(inProgressSoftButtons[0].image).to(beNil());
+                expect(inProgressSoftButtons[1].image).to(beNil());
             });
         });
     });
@@ -167,13 +213,14 @@ fdescribe(@"a soft button manager", ^{
         context(@"manually while batching is disabled", ^{
             beforeEach(^{
                 testManager.batchUpdates = NO;
-                [testManager updateWithCompletionHandler:^(NSError * _Nullable error) {}];
             });
 
-            it(@"should set the in progress update", ^{
-                NSArray<SDLSoftButton *> *inProgressSoftButtons = testManager.inProgressUpdate.softButtons;
+            it(@"should run the rest of the update method and queue this update", ^{
+                expectAction(^{
+                    [testManager updateWithCompletionHandler:^(NSError * _Nullable error) {}];
+                }).toNot(raiseException());
 
-                expect(testManager.inProgressUpdate.mainField1).to(equal(@""));
+                expect(testManager.hasQueuedUpdate).to(beTrue());
             });
         });
     });
