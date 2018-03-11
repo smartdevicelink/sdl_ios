@@ -531,6 +531,14 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (void)handleTransportEventUpdateMessage:(SDLProtocolMessage *)transportEventUpdate {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleTransportEventUpdateMessage:)]) {
+            [listener handleTransportEventUpdateMessage:transportEventUpdate];
+        }
+    }
+}
+
 - (void)onProtocolMessageReceived:(SDLProtocolMessage *)msg {
     // Control service (but not control frame type) messages are TLS handshake messages
     if (msg.header.serviceType == SDLServiceTypeControl) {

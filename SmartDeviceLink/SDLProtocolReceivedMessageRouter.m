@@ -82,6 +82,11 @@ NS_ASSUME_NONNULL_BEGIN
                 [self.delegate handleHeartbeatACK];
             }
         } break;
+        case SDLFrameInfoTransportEventUpdate: {
+            if ([self.delegate respondsToSelector:@selector(handleTransportEventUpdateMessage:)]) {
+                [self.delegate handleTransportEventUpdateMessage:message];
+            }
+        } break;
         default: break; // Other frame data is possible, but we don't care about them
     }
 }

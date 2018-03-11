@@ -49,6 +49,7 @@ typedef NS_ENUM(UInt8, SDLServiceType) {
  - SDLFrameInfoEndService: Requests that a specific type of service is ended.
  - SDLFrameInfoEndServiceACK: Acknowledges that the specific service has been ended successfully.
  - SDLFrameInfoEndServiceNACK: Negatively acknowledges that the specific service was not ended or has not yet been started.
+ - SDLFrameInfoTransportEventUpdate: Indicates the status or configuration of transport(s) is/are updated.
  - SDLFrameInfoServiceDataAck: Deprecated.
  - SDLFrameInfoHeartbeatACK: Acknowledges that a Heartbeat control packet has been received.
  - SDLFrameInfoSingleFrame: Payload contains a single packet.
@@ -63,6 +64,7 @@ typedef NS_ENUM(UInt8, SDLFrameInfo) {
     SDLFrameInfoEndService = 0x04,
     SDLFrameInfoEndServiceACK = 0x05,
     SDLFrameInfoEndServiceNACK = 0x06,
+    SDLFrameInfoTransportEventUpdate = 0xFD,
     SDLFrameInfoServiceDataAck = 0xFE,
     SDLFrameInfoHeartbeatACK = 0xFF,
     // If frameType == Single (0x01)

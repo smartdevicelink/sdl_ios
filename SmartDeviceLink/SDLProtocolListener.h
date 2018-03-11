@@ -40,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param endServiceNAK   A SDLProtocolMessage object
  */
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK;
+- (void)handleTransportEventUpdateMessage:(SDLProtocolMessage *)transportEventUpdate;
 
 #pragma mark - Older protocol handlers
 
