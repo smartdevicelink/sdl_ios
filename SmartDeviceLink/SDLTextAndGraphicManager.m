@@ -171,6 +171,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Assembly of Shows
 
+#pragma mark Images
+
 - (SDLShow *)sdl_assembleShowImages:(SDLShow *)show {
     if (![self sdl_shouldUpdatePrimaryImage] && ![self sdl_shouldUpdateSecondaryImage]) {
         return show;
@@ -186,12 +188,12 @@ NS_ASSUME_NONNULL_BEGIN
     return show;
 }
 
+#pragma mark Text
+
 - (SDLShow *)sdl_assembleShowText:(SDLShow *)show {
-    NSArray *nonNilFields = [self sdl_findNonNilFields];
-    if (nonNilFields.count == 0) {
-        [self sdl_setBlankTextFieldsWithShow:show withOne:YES two:YES three:YES four:YES];
-        return show;
-    }
+    [self sdl_setBlankTextFieldsWithShow:show];
+    NSArray *nonNilFields = [self sdl_findNonNilTextFields];
+    if (nonNilFields.count == 0) { return show; }
 
     NSUInteger numberOfLines = self.displayCapabilities ? self.displayCapabilities.maxNumberOfMainFieldLines : 4;
     if (numberOfLines == 1) {
@@ -220,15 +222,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLShow *)sdl_assembleTwoLineShowText:(SDLShow *)show withShowFields:(NSArray<NSString *> *)fields {
     if (fields.count == 1) {
         show.mainField1 = fields[0];
-        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:YES three:YES four:YES];
     } else if (fields.count == 2) {
         show.mainField1 = fields[0];
         show.mainField2 = fields[1];
-        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:NO three:YES four:YES];
     } else if (fields.count == 3) {
         show.mainField1 = fields[0];
         show.mainField2 = [NSString stringWithFormat:@"%@ - %@", fields[1], fields[2]];
-        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:NO three:NO four:YES];
     } else if (fields.count == 4) {
         show.mainField1 = [NSString stringWithFormat:@"%@ - %@", fields[0], fields[1]];
         show.mainField2 = [NSString stringWithFormat:@"%@ - %@", fields[2], fields[3]];
@@ -240,16 +239,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLShow *)sdl_assembleThreeLineShowText:(SDLShow *)show withShowFields:(NSArray<NSString *> *)fields {
     if (fields.count == 1) {
         show.mainField1 = fields[0];
-        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:YES three:YES four:YES];
     } else if (fields.count == 2) {
         show.mainField1 = fields[0];
         show.mainField2 = fields[1];
-        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:NO three:YES four:YES];
     } else if (fields.count == 3) {
         show.mainField1 = fields[0];
         show.mainField2 = fields[1];
         show.mainField3 = fields[2];
-        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:NO three:NO four:YES];
     } else if (fields.count == 4) {
         show.mainField1 = fields[0];
         show.mainField2 = fields[1];
@@ -262,16 +258,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLShow *)sdl_assembleFourLineShowText:(SDLShow *)show withShowFields:(NSArray<NSString *> *)fields {
     if (fields.count == 1) {
         show.mainField1 = fields[0];
-        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:YES three:YES four:YES];
     } else if (fields.count == 2) {
         show.mainField1 = fields[0];
         show.mainField2 = fields[1];
-        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:NO three:YES four:YES];
     } else if (fields.count == 3) {
         show.mainField1 = fields[0];
         show.mainField2 = fields[1];
         show.mainField3 = fields[2];
-        [self sdl_setBlankTextFieldsWithShow:show withOne:NO two:NO three:NO four:YES];
     } else if (fields.count == 4) {
         show.mainField1 = fields[0];
         show.mainField2 = fields[1];
@@ -282,50 +275,113 @@ NS_ASSUME_NONNULL_BEGIN
     return show;
 }
 
-- (SDLShow *)sdl_setBlankTextFieldsWithShow:(SDLShow *)show withOne:(BOOL)oneBlank two:(BOOL)twoBlank three:(BOOL)threeBlank four:(BOOL)fourBlank {
-    oneBlank ? show.mainField1 = @"" : nil;
-    twoBlank ? show.mainField2 = @"" : nil;
-    threeBlank ? show.mainField3 = @"" : nil;
-    fourBlank ? show.mainField4 = @"" : nil;
+- (SDLShow *)sdl_setBlankTextFieldsWithShow:(SDLShow *)show {
+    show.mainField1 = @"";
+    show.mainField2 = @"";
+    show.mainField3 = @"";
+    show.mainField4 = @"";
 
     return show;
 }
 
+#pragma mark Metadata
+
 - (SDLShow *)sdl_assembleShowMetadataTags:(SDLShow *)show {
     NSUInteger numberOfShowLines = self.displayCapabilities ? self.displayCapabilities.maxNumberOfMainFieldLines : 4;
+    NSArray *nonNilFields = [self sdl_findNonNilMetadataFields];
+
+    if (numberOfShowLines == 1) {
+        show = [self sdl_assembleOneLineShowMetadata:show];
+    } else if (numberOfShowLines == 2) {
+        show = [self sdl_assembleTwoLineShowMetadata:show withMetadataFields:nonNilFields];
+    } else if (numberOfShowLines == 3) {
+        show = [self sdl_assembleThreeLineShowMetadata:show withMetadataFields:nonNilFields];
+    } else if (numberOfShowLines >= 4) {
+        show = [self sdl_assembleFourLineShowMetadata:show withMetadataFields:nonNilFields];
+    }
+
+    return show;
+}
+
+- (SDLShow *)sdl_assembleOneLineShowMetadata:(SDLShow *)show {
     SDLMetadataTags *tags = [[SDLMetadataTags alloc] init];
     NSMutableArray<SDLMetadataType> *metadataArray = [NSMutableArray array];
 
-    if (numberOfShowLines == 1) {
-        self.textField1Type ? [metadataArray addObject:self.textField1Type] : nil;
-        self.textField2Type ? [metadataArray addObject:self.textField2Type] : nil;
-        self.textField3Type ? [metadataArray addObject:self.textField3Type] : nil;
-        self.textField4Type ? [metadataArray addObject:self.textField4Type] : nil;
-        tags.mainField1 = metadataArray.copy;
-    } else if (numberOfShowLines == 2) {
-        self.textField1Type ? [metadataArray addObject:self.textField1Type] : nil;
-        self.textField2Type ? [metadataArray addObject:self.textField2Type] : nil;
-        tags.mainField1 = metadataArray.copy;
+    self.textField1Type ? [metadataArray addObject:self.textField1Type] : nil;
+    self.textField2Type ? [metadataArray addObject:self.textField2Type] : nil;
+    self.textField3Type ? [metadataArray addObject:self.textField3Type] : nil;
+    self.textField4Type ? [metadataArray addObject:self.textField4Type] : nil;
+    tags.mainField1 = [metadataArray copy];
 
-        [metadataArray removeAllObjects];
-        self.textField3Type ? [metadataArray addObject:self.textField3Type] : nil;
-        self.textField4Type ? [metadataArray addObject:self.textField4Type] : nil;
-        tags.mainField2 = metadataArray.copy;
-    } else if (numberOfShowLines == 3) {
-        tags.mainField1 = self.textField1Type ? @[self.textField1Type] : nil;
-        tags.mainField2 = self.textField2Type ? @[self.textField2Type] : nil;
+    show.metadataTags = tags;
+    return show;
+}
 
-        self.textField3Type ? [metadataArray addObject:self.textField3Type] : nil;
-        self.textField4Type ? [metadataArray addObject:self.textField4Type] : nil;
-        tags.mainField3 = metadataArray.copy;
-    } else if (numberOfShowLines >= 4) {
-        tags.mainField1 = self.textField1Type ? @[self.textField1Type] : nil;
-        tags.mainField2 = self.textField2Type ? @[self.textField2Type] : nil;
-        tags.mainField3 = self.textField3Type ? @[self.textField3Type] : nil;
-        tags.mainField4 = self.textField4Type ? @[self.textField4Type] : nil;
+- (SDLShow *)sdl_assembleTwoLineShowMetadata:(SDLShow *)show withMetadataFields:(NSArray<SDLMetadataType> *)fields {
+    SDLMetadataTags *tags = [[SDLMetadataTags alloc] init];
+
+    if (fields.count == 1) {
+        tags.mainField1 = fields;
+    } else if (fields.count == 2) {
+        tags.mainField1 = @[fields[0]];
+        tags.mainField2 = @[fields[1]];
+    } else if (fields.count == 3) {
+        tags.mainField1 = @[fields[0]];
+        tags.mainField2 = @[fields[1], fields[2]];
+    } else if (fields.count == 4) {
+        tags.mainField1 = @[fields[0], fields[1]];
+        tags.mainField2 = @[fields[2], fields[3]];
     }
 
     show.metadataTags = tags;
+
+    return show;
+}
+
+- (SDLShow *)sdl_assembleThreeLineShowMetadata:(SDLShow *)show withMetadataFields:(NSArray<SDLMetadataType> *)fields {
+    SDLMetadataTags *tags = [[SDLMetadataTags alloc] init];
+
+    if (fields.count == 1) {
+        tags.mainField1 = fields;
+    } else if (fields.count == 2) {
+        tags.mainField1 = @[fields[0]];
+        tags.mainField2 = @[fields[1]];
+    } else if (fields.count == 3) {
+        tags.mainField1 = @[fields[0]];
+        tags.mainField2 = @[fields[1]];
+        tags.mainField3 = @[fields[2]];
+    } else if (fields.count == 4) {
+        tags.mainField1 = @[fields[0]];
+        tags.mainField2 = @[fields[1]];
+        tags.mainField3 = @[fields[2], fields[3]];
+    }
+
+    show.metadataTags = tags;
+
+    return show;
+}
+
+- (SDLShow *)sdl_assembleFourLineShowMetadata:(SDLShow *)show withMetadataFields:(NSArray<SDLMetadataType> *)fields {
+    SDLMetadataTags *tags = [[SDLMetadataTags alloc] init];
+
+    if (fields.count == 1) {
+        tags.mainField1 = fields;
+    } else if (fields.count == 2) {
+        tags.mainField1 = @[fields[0]];
+        tags.mainField2 = @[fields[1]];
+    } else if (fields.count == 3) {
+        tags.mainField1 = @[fields[0]];
+        tags.mainField2 = @[fields[1]];
+        tags.mainField3 = @[fields[2]];
+    } else if (fields.count == 4) {
+        tags.mainField1 = @[fields[0]];
+        tags.mainField2 = @[fields[1]];
+        tags.mainField3 = @[fields[2]];
+        tags.mainField4 = @[fields[3]];
+    }
+
+    show.metadataTags = tags;
+
     return show;
 }
 
@@ -385,12 +441,22 @@ NS_ASSUME_NONNULL_BEGIN
             && self.secondaryGraphic != nil);
 }
 
-- (NSArray *)sdl_findNonNilFields {
+- (NSArray<NSString *> *)sdl_findNonNilTextFields {
     NSMutableArray *array = [NSMutableArray array];
     self.textField1.length > 0 ? [array addObject:self.textField1] : nil;
     self.textField2.length > 0 ? [array addObject:self.textField2] : nil;
     self.textField3.length > 0 ? [array addObject:self.textField3] : nil;
     self.textField4.length > 0 ? [array addObject:self.textField4] : nil;
+
+    return [array copy];
+}
+
+- (NSArray<SDLMetadataType> *)sdl_findNonNilMetadataFields {
+    NSMutableArray *array = [NSMutableArray array];
+    self.textField1Type.length > 0 ? [array addObject:self.textField1Type] : nil;
+    self.textField2Type.length > 0 ? [array addObject:self.textField2Type] : nil;
+    self.textField3Type.length > 0 ? [array addObject:self.textField3Type] : nil;
+    self.textField4Type.length > 0 ? [array addObject:self.textField4Type] : nil;
 
     return [array copy];
 }
