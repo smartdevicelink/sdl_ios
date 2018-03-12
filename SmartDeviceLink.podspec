@@ -138,6 +138,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLLanguage.h',
 'SmartDeviceLink/SDLLayoutMode.h',
 'SmartDeviceLink/SDLLifecycleConfiguration.h',
+'SmartDeviceLink/SDLLifecycleConfigurationUpdate.h',
 'SmartDeviceLink/SDLListFiles.h',
 'SmartDeviceLink/SDLListFilesResponse.h',
 'SmartDeviceLink/SDLLocationCoordinate.h',
