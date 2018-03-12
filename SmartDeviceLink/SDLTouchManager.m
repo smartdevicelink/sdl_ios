@@ -246,8 +246,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     
     CGFloat xDelta = fabs(touch.location.x - self.firstTouch.location.x);
     CGFloat yDelta = fabs(touch.location.y - self.firstTouch.location.y);
-    if (xDelta <= self.panDistanceThreshold && yDelta <= self.panDistanceThreshold)
-    {
+    if (xDelta <= self.panDistanceThreshold && yDelta <= self.panDistanceThreshold) {
         return;
     }
 
