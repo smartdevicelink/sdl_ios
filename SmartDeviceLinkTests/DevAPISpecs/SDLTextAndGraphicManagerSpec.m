@@ -407,13 +407,13 @@ fdescribe(@"text and graphic manager", ^{
                     testManager.batchUpdates = NO;
                     [testManager updateWithCompletionHandler:nil];
 
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                    expect(testManager.inProgressUpdate.mainField2).to(equal([NSString stringWithFormat:@"%@ - %@", textLine2, textLine3]));
+                    expect(testManager.inProgressUpdate.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", textLine1, textLine2]));
+                    expect(testManager.inProgressUpdate.mainField2).to(equal(textLine3));
                     expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2[1]).to(equal(line3Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(2));
+                    expect(testManager.inProgressUpdate.metadataTags.mainField1[1]).to(equal(line2Type));
+                    expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(2));
+                    expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line3Type));
+                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
                     expect(testManager.inProgressUpdate.mainField3).to(beEmpty());
                     expect(testManager.inProgressUpdate.metadataTags.mainField3).to(beNil());
                 });
