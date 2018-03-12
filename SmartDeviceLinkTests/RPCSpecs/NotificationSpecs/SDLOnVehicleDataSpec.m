@@ -25,6 +25,7 @@ SDLAirbagStatus* airbag = [[SDLAirbagStatus alloc] init];
 SDLEmergencyEvent* event = [[SDLEmergencyEvent alloc] init];
 SDLClusterModeStatus* clusterMode = [[SDLClusterModeStatus alloc] init];
 SDLMyKey* myKey = [[SDLMyKey alloc] init];
+SDLFuelRange *fuelRange = [[SDLFuelRange alloc] init];
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
@@ -55,6 +56,7 @@ describe(@"Getter/Setter Tests", ^ {
         testNotification.emergencyEvent = event;
         testNotification.clusterModeStatus = clusterMode;
         testNotification.myKey = myKey;
+        testNotification.fuelRange = @[fuelRange];
         
         expect(testNotification.gps).to(equal(gps));
         expect(testNotification.speed).to(equal(@70.1));
@@ -81,6 +83,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.emergencyEvent).to(equal(event));
         expect(testNotification.clusterModeStatus).to(equal(clusterMode));
         expect(testNotification.myKey).to(equal(myKey));
+        expect(testNotification.fuelRange).to(equal(@[fuelRange]));
+
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -110,7 +114,8 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameAirbagStatus:airbag,
                                                    SDLNameEmergencyEvent:event,
                                                    SDLNameClusterModeStatus:clusterMode,
-                                                   SDLNameMyKey:myKey},
+                                                   SDLNameMyKey:myKey,
+                                                   SDLNameFuelRange:@[fuelRange]},
                                              SDLNameOperationName:SDLNameOnVehicleData}} mutableCopy];
         SDLOnVehicleData* testNotification = [[SDLOnVehicleData alloc] initWithDictionary:dict];
         
@@ -139,6 +144,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.emergencyEvent).to(equal(event));
         expect(testNotification.clusterModeStatus).to(equal(clusterMode));
         expect(testNotification.myKey).to(equal(myKey));
+        expect(testNotification.fuelRange).to(equal(@[fuelRange]));
+
     });
     
     it(@"Should return nil if not set", ^ {
@@ -169,6 +176,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.emergencyEvent).to(beNil());
         expect(testNotification.clusterModeStatus).to(beNil());
         expect(testNotification.myKey).to(beNil());
+        expect(testNotification.fuelRange).to(beNil());
     });
 });
 
