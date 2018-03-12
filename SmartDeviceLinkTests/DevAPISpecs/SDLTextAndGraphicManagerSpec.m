@@ -252,389 +252,390 @@ fdescribe(@"text and graphic manager", ^{
         });
     });
 
-    describe(@"running an update", ^{
-        context(@"while batching", ^{
-            NSString *textLine1 = @"line1";
-            NSString *textLine2 = @"line2";
-            NSString *textLine3 = @"line3";
-            NSString *textLine4 = @"line4";
+    describe(@"batching an update", ^{
+        NSString *textLine1 = @"line1";
+        NSString *textLine2 = @"line2";
+        NSString *textLine3 = @"line3";
+        NSString *textLine4 = @"line4";
 
-            SDLMetadataType line1Type = SDLMetadataTypeMediaTitle;
-            SDLMetadataType line2Type = SDLMetadataTypeMediaAlbum;
-            SDLMetadataType line3Type = SDLMetadataTypeMediaArtist;
-            SDLMetadataType line4Type = SDLMetadataTypeMediaStation;
+        SDLMetadataType line1Type = SDLMetadataTypeMediaTitle;
+        SDLMetadataType line2Type = SDLMetadataTypeMediaAlbum;
+        SDLMetadataType line3Type = SDLMetadataTypeMediaArtist;
+        SDLMetadataType line4Type = SDLMetadataTypeMediaStation;
 
+        beforeEach(^{
+            testManager.batchUpdates = YES;
+
+            testManager.textField1 = nil;
+            testManager.textField2 = nil;
+            testManager.textField3 = nil;
+            testManager.textField4 = nil;
+            testManager.textField1Type = nil;
+            testManager.textField2Type = nil;
+            testManager.textField3Type = nil;
+            testManager.textField4Type = nil;
+        });
+
+        context(@"with one line available", ^{
             beforeEach(^{
-                testManager.batchUpdates = YES;
-
-                testManager.textField1 = nil;
-                testManager.textField2 = nil;
-                testManager.textField3 = nil;
-                testManager.textField4 = nil;
-                testManager.textField1Type = nil;
-                testManager.textField2Type = nil;
-                testManager.textField3Type = nil;
-                testManager.textField4Type = nil;
+                testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
+                SDLTextField *lineOneField = [[SDLTextField alloc] init];
+                lineOneField.name = SDLTextFieldNameMainField1;
+                testManager.displayCapabilities.textFields = @[lineOneField];
             });
 
-            context(@"with one line available", ^{
-                beforeEach(^{
-                    testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
-                    SDLTextField *lineOneField = [[SDLTextField alloc] init];
-                    lineOneField.name = SDLTextFieldNameMainField1;
-                    testManager.displayCapabilities.textFields = @[lineOneField];
-                });
+            it(@"should format a one line text and metadata update properly", ^{
+                testManager.textField1 = textLine1;
+                testManager.textField1Type = line1Type;
 
-                it(@"should format a one line text and metadata update properly", ^{
-                    testManager.textField1 = textLine1;
-                    testManager.textField1Type = line1Type;
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
 
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1.firstObject).to(equal(line1Type));
-                    expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
-                });
-
-                it(@"should format a two line text and metadata update properly", ^{
-                    testManager.textField1 = textLine1;
-                    testManager.textField2 = textLine2;
-                    testManager.textField1Type = line1Type;
-                    testManager.textField2Type = line2Type;
-
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", textLine1, textLine2]));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[1]).to(equal(line2Type));
-                    expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
-                });
-
-                it(@"should format a three line text and metadata update properly", ^{
-                    testManager.textField1 = textLine1;
-                    testManager.textField2 = textLine2;
-                    testManager.textField3 = textLine3;
-                    testManager.textField1Type = line1Type;
-                    testManager.textField2Type = line2Type;
-                    testManager.textField3Type = line3Type;
-
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@ - %@", textLine1, textLine2, textLine3]));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[1]).to(equal(line2Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[2]).to(equal(line3Type));
-                    expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
-                });
-
-                it(@"should format a four line text and metadata update properly", ^{
-                    testManager.textField1 = textLine1;
-                    testManager.textField2 = textLine2;
-                    testManager.textField3 = textLine3;
-                    testManager.textField4 = textLine4;
-                    testManager.textField1Type = line1Type;
-                    testManager.textField2Type = line2Type;
-                    testManager.textField3Type = line3Type;
-                    testManager.textField4Type = line4Type;
-
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@ - %@ - %@", textLine1, textLine2, textLine3, textLine4]));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[1]).to(equal(line2Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[2]).to(equal(line3Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[3]).to(equal(line4Type));
-                    expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
-                });
+                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1.firstObject).to(equal(line1Type));
+                expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
             });
 
-            context(@"with two lines available", ^{
-                beforeEach(^{
-                    testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
-                    SDLTextField *lineTwoField = [[SDLTextField alloc] init];
-                    lineTwoField.name = SDLTextFieldNameMainField2;
-                    testManager.displayCapabilities.textFields = @[lineTwoField];
-                });
+            it(@"should format a two line text and metadata update properly", ^{
+                testManager.textField1 = textLine1;
+                testManager.textField2 = textLine2;
+                testManager.textField1Type = line1Type;
+                testManager.textField2Type = line2Type;
 
-                it(@"should format a one line text and metadata update properly", ^{
-                    testManager.textField1 = textLine1;
-                    testManager.textField1Type = line1Type;
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
 
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1.firstObject).to(equal(line1Type));
-                    expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
-                });
-
-                it(@"should format a two line text and metadata update properly", ^{
-                    testManager.textField1 = textLine1;
-                    testManager.textField2 = textLine2;
-                    testManager.textField1Type = line1Type;
-                    testManager.textField2Type = line2Type;
-
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1.firstObject).to(equal(line1Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.mainField3).to(beEmpty());
-                    expect(testManager.inProgressUpdate.metadataTags.mainField3).to(beNil());
-                });
-
-                it(@"should format a three line text and metadata update properly", ^{
-                    testManager.textField1 = textLine1;
-                    testManager.textField2 = textLine2;
-                    testManager.textField3 = textLine3;
-                    testManager.textField1Type = line1Type;
-                    testManager.textField2Type = line2Type;
-                    testManager.textField3Type = line3Type;
-
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", textLine1, textLine2]));
-                    expect(testManager.inProgressUpdate.mainField2).to(equal(textLine3));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[1]).to(equal(line2Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(2));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line3Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.mainField3).to(beEmpty());
-                    expect(testManager.inProgressUpdate.metadataTags.mainField3).to(beNil());
-                });
-
-                it(@"should format a four line text and metadata update properly", ^{
-                    testManager.textField1 = textLine1;
-                    testManager.textField2 = textLine2;
-                    testManager.textField3 = textLine3;
-                    testManager.textField4 = textLine4;
-                    testManager.textField1Type = line1Type;
-                    testManager.textField2Type = line2Type;
-                    testManager.textField3Type = line3Type;
-                    testManager.textField4Type = line4Type;
-
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", textLine1, textLine2]));
-                    expect(testManager.inProgressUpdate.mainField2).to(equal([NSString stringWithFormat:@"%@ - %@", textLine3, textLine4]));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[1]).to(equal(line2Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(2));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line3Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2[1]).to(equal(line4Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(2));
-                    expect(testManager.inProgressUpdate.mainField3).to(beEmpty());
-                    expect(testManager.inProgressUpdate.metadataTags.mainField3).to(beNil());
-                });
+                expect(testManager.inProgressUpdate.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", textLine1, textLine2]));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[1]).to(equal(line2Type));
+                expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
             });
 
-            context(@"with three lines available", ^{
-                beforeEach(^{
-                    testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
-                    SDLTextField *lineThreeField = [[SDLTextField alloc] init];
-                    lineThreeField.name = SDLTextFieldNameMainField3;
-                    testManager.displayCapabilities.textFields = @[lineThreeField];
-                });
+            it(@"should format a three line text and metadata update properly", ^{
+                testManager.textField1 = textLine1;
+                testManager.textField2 = textLine2;
+                testManager.textField3 = textLine3;
+                testManager.textField1Type = line1Type;
+                testManager.textField2Type = line2Type;
+                testManager.textField3Type = line3Type;
 
-                it(@"should format a one line text and metadata update properly", ^{
-                    testManager.textField1 = textLine1;
-                    testManager.textField1Type = line1Type;
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
 
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                    expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
-                });
-
-                it(@"should format a two line text and metadata update properly", ^{
-                    testManager.textField1 = textLine1;
-                    testManager.textField2 = textLine2;
-                    testManager.textField1Type = line1Type;
-                    testManager.textField2Type = line2Type;
-
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1.firstObject).to(equal(line1Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.mainField3).to(beEmpty());
-                    expect(testManager.inProgressUpdate.metadataTags.mainField3).to(beNil());
-                });
-
-                it(@"should format a three line text and metadata update properly", ^{
-                    testManager.textField1 = textLine1;
-                    testManager.textField2 = textLine2;
-                    testManager.textField3 = textLine3;
-                    testManager.textField1Type = line1Type;
-                    testManager.textField2Type = line2Type;
-                    testManager.textField3Type = line3Type;
-
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                    expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
-                    expect(testManager.inProgressUpdate.mainField3).to(equal(textLine3));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField3[0]).to(equal(line3Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField3).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.mainField4).to(beEmpty());
-                    expect(testManager.inProgressUpdate.metadataTags.mainField4).to(beNil());
-                });
-
-                it(@"should format a four line text and metadata update properly", ^{
-                    testManager.textField1 = textLine1;
-                    testManager.textField2 = textLine2;
-                    testManager.textField3 = textLine3;
-                    testManager.textField4 = textLine4;
-                    testManager.textField1Type = line1Type;
-                    testManager.textField2Type = line2Type;
-                    testManager.textField3Type = line3Type;
-                    testManager.textField4Type = line4Type;
-
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                    expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
-                    expect(testManager.inProgressUpdate.mainField3).to(equal([NSString stringWithFormat:@"%@ - %@", textLine3, textLine4]));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField3[0]).to(equal(line3Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField3[1]).to(equal(line4Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField3).to(haveCount(2));
-                    expect(testManager.inProgressUpdate.mainField4).to(beEmpty());
-                    expect(testManager.inProgressUpdate.metadataTags.mainField4).to(beNil());
-                });
+                expect(testManager.inProgressUpdate.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@ - %@", textLine1, textLine2, textLine3]));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[1]).to(equal(line2Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[2]).to(equal(line3Type));
+                expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
             });
 
-            context(@"with four lines available", ^{
-                beforeEach(^{
-                    testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
-                    SDLTextField *lineFourField = [[SDLTextField alloc] init];
-                    lineFourField.name = SDLTextFieldNameMainField4;
-                    testManager.displayCapabilities.textFields = @[lineFourField];
-                });
+            it(@"should format a four line text and metadata update properly", ^{
+                testManager.textField1 = textLine1;
+                testManager.textField2 = textLine2;
+                testManager.textField3 = textLine3;
+                testManager.textField4 = textLine4;
+                testManager.textField1Type = line1Type;
+                testManager.textField2Type = line2Type;
+                testManager.textField3Type = line3Type;
+                testManager.textField4Type = line4Type;
 
-                it(@"should format a one line text and metadata update properly", ^{
-                    testManager.textField1 = textLine1;
-                    testManager.textField1Type = line1Type;
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
 
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                    expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
-                });
-
-                it(@"should format a two line text and metadata update properly", ^{
-                    testManager.textField1 = textLine1;
-                    testManager.textField2 = textLine2;
-                    testManager.textField1Type = line1Type;
-                    testManager.textField2Type = line2Type;
-
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1.firstObject).to(equal(line1Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.mainField3).to(beEmpty());
-                    expect(testManager.inProgressUpdate.metadataTags.mainField3).to(beNil());
-                });
-
-                it(@"should format a three line text and metadata update properly", ^{
-                    testManager.textField1 = textLine1;
-                    testManager.textField2 = textLine2;
-                    testManager.textField3 = textLine3;
-                    testManager.textField1Type = line1Type;
-                    testManager.textField2Type = line2Type;
-                    testManager.textField3Type = line3Type;
-
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                    expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
-                    expect(testManager.inProgressUpdate.mainField3).to(equal(textLine3));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField3[0]).to(equal(line3Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField3).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.mainField4).to(beEmpty());
-                    expect(testManager.inProgressUpdate.metadataTags.mainField4).to(beNil());
-                });
-
-                it(@"should format a four line text and metadata update properly", ^{
-                    testManager.textField1 = textLine1;
-                    testManager.textField2 = textLine2;
-                    testManager.textField3 = textLine3;
-                    testManager.textField4 = textLine4;
-                    testManager.textField1Type = line1Type;
-                    testManager.textField2Type = line2Type;
-                    testManager.textField3Type = line3Type;
-                    testManager.textField4Type = line4Type;
-
-                    testManager.batchUpdates = NO;
-                    [testManager updateWithCompletionHandler:nil];
-
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
-                    expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
-                    expect(testManager.inProgressUpdate.mainField3).to(equal(textLine3));
-                    expect(testManager.inProgressUpdate.mainField4).to(equal(textLine4));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField3[0]).to(equal(line3Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField3).to(haveCount(1));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField4[0]).to(equal(line4Type));
-                    expect(testManager.inProgressUpdate.metadataTags.mainField4).to(haveCount(1));
-                });
+                expect(testManager.inProgressUpdate.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@ - %@ - %@", textLine1, textLine2, textLine3, textLine4]));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[1]).to(equal(line2Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[2]).to(equal(line3Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[3]).to(equal(line4Type));
+                expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
             });
         });
 
-        context(@"while not batching", ^{
+        context(@"with two lines available", ^{
             beforeEach(^{
-                testManager.batchUpdates = NO;
+                testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
+                SDLTextField *lineTwoField = [[SDLTextField alloc] init];
+                lineTwoField.name = SDLTextFieldNameMainField2;
+                testManager.displayCapabilities.textFields = @[lineTwoField];
             });
 
+            it(@"should format a one line text and metadata update properly", ^{
+                testManager.textField1 = textLine1;
+                testManager.textField1Type = line1Type;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1.firstObject).to(equal(line1Type));
+                expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
+            });
+
+            it(@"should format a two line text and metadata update properly", ^{
+                testManager.textField1 = textLine1;
+                testManager.textField2 = textLine2;
+                testManager.textField1Type = line1Type;
+                testManager.textField2Type = line2Type;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1.firstObject).to(equal(line1Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
+                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
+                expect(testManager.inProgressUpdate.mainField3).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(beNil());
+            });
+
+            it(@"should format a three line text and metadata update properly", ^{
+                testManager.textField1 = textLine1;
+                testManager.textField2 = textLine2;
+                testManager.textField3 = textLine3;
+                testManager.textField1Type = line1Type;
+                testManager.textField2Type = line2Type;
+                testManager.textField3Type = line3Type;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", textLine1, textLine2]));
+                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine3));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[1]).to(equal(line2Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(2));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line3Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
+                expect(testManager.inProgressUpdate.mainField3).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(beNil());
+            });
+
+            it(@"should format a four line text and metadata update properly", ^{
+                testManager.textField1 = textLine1;
+                testManager.textField2 = textLine2;
+                testManager.textField3 = textLine3;
+                testManager.textField4 = textLine4;
+                testManager.textField1Type = line1Type;
+                testManager.textField2Type = line2Type;
+                testManager.textField3Type = line3Type;
+                testManager.textField4Type = line4Type;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.mainField1).to(equal([NSString stringWithFormat:@"%@ - %@", textLine1, textLine2]));
+                expect(testManager.inProgressUpdate.mainField2).to(equal([NSString stringWithFormat:@"%@ - %@", textLine3, textLine4]));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[1]).to(equal(line2Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(2));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line3Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2[1]).to(equal(line4Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(2));
+                expect(testManager.inProgressUpdate.mainField3).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(beNil());
+            });
+        });
+
+        context(@"with three lines available", ^{
+            beforeEach(^{
+                testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
+                SDLTextField *lineThreeField = [[SDLTextField alloc] init];
+                lineThreeField.name = SDLTextFieldNameMainField3;
+                testManager.displayCapabilities.textFields = @[lineThreeField];
+            });
+
+            it(@"should format a one line text and metadata update properly", ^{
+                testManager.textField1 = textLine1;
+                testManager.textField1Type = line1Type;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
+                expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
+            });
+
+            it(@"should format a two line text and metadata update properly", ^{
+                testManager.textField1 = textLine1;
+                testManager.textField2 = textLine2;
+                testManager.textField1Type = line1Type;
+                testManager.textField2Type = line2Type;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1.firstObject).to(equal(line1Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
+                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
+                expect(testManager.inProgressUpdate.mainField3).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(beNil());
+            });
+
+            it(@"should format a three line text and metadata update properly", ^{
+                testManager.textField1 = textLine1;
+                testManager.textField2 = textLine2;
+                testManager.textField3 = textLine3;
+                testManager.textField1Type = line1Type;
+                testManager.textField2Type = line2Type;
+                testManager.textField3Type = line3Type;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
+                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
+                expect(testManager.inProgressUpdate.mainField3).to(equal(textLine3));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
+                expect(testManager.inProgressUpdate.metadataTags.mainField3[0]).to(equal(line3Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(haveCount(1));
+                expect(testManager.inProgressUpdate.mainField4).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField4).to(beNil());
+            });
+
+            it(@"should format a four line text and metadata update properly", ^{
+                testManager.textField1 = textLine1;
+                testManager.textField2 = textLine2;
+                testManager.textField3 = textLine3;
+                testManager.textField4 = textLine4;
+                testManager.textField1Type = line1Type;
+                testManager.textField2Type = line2Type;
+                testManager.textField3Type = line3Type;
+                testManager.textField4Type = line4Type;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
+                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
+                expect(testManager.inProgressUpdate.mainField3).to(equal([NSString stringWithFormat:@"%@ - %@", textLine3, textLine4]));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
+                expect(testManager.inProgressUpdate.metadataTags.mainField3[0]).to(equal(line3Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField3[1]).to(equal(line4Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(haveCount(2));
+                expect(testManager.inProgressUpdate.mainField4).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField4).to(beNil());
+            });
+        });
+
+        context(@"with four lines available", ^{
+            beforeEach(^{
+                testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
+                SDLTextField *lineFourField = [[SDLTextField alloc] init];
+                lineFourField.name = SDLTextFieldNameMainField4;
+                testManager.displayCapabilities.textFields = @[lineFourField];
+            });
+
+            it(@"should format a one line text and metadata update properly", ^{
+                testManager.textField1 = textLine1;
+                testManager.textField1Type = line1Type;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
+                expect(testManager.inProgressUpdate.mainField2).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(beNil());
+            });
+
+            it(@"should format a two line text and metadata update properly", ^{
+                testManager.textField1 = textLine1;
+                testManager.textField2 = textLine2;
+                testManager.textField1Type = line1Type;
+                testManager.textField2Type = line2Type;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1.firstObject).to(equal(line1Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
+                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
+                expect(testManager.inProgressUpdate.mainField3).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(beNil());
+            });
+
+            it(@"should format a three line text and metadata update properly", ^{
+                testManager.textField1 = textLine1;
+                testManager.textField2 = textLine2;
+                testManager.textField3 = textLine3;
+                testManager.textField1Type = line1Type;
+                testManager.textField2Type = line2Type;
+                testManager.textField3Type = line3Type;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
+                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
+                expect(testManager.inProgressUpdate.mainField3).to(equal(textLine3));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
+                expect(testManager.inProgressUpdate.metadataTags.mainField3[0]).to(equal(line3Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(haveCount(1));
+                expect(testManager.inProgressUpdate.mainField4).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField4).to(beNil());
+            });
+
+            it(@"should format a four line text and metadata update properly", ^{
+                testManager.textField1 = textLine1;
+                testManager.textField2 = textLine2;
+                testManager.textField3 = textLine3;
+                testManager.textField4 = textLine4;
+                testManager.textField1Type = line1Type;
+                testManager.textField2Type = line2Type;
+                testManager.textField3Type = line3Type;
+                testManager.textField4Type = line4Type;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.mainField1).to(equal(textLine1));
+                expect(testManager.inProgressUpdate.mainField2).to(equal(textLine2));
+                expect(testManager.inProgressUpdate.mainField3).to(equal(textLine3));
+                expect(testManager.inProgressUpdate.mainField4).to(equal(textLine4));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1[0]).to(equal(line1Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(haveCount(1));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2[0]).to(equal(line2Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField2).to(haveCount(1));
+                expect(testManager.inProgressUpdate.metadataTags.mainField3[0]).to(equal(line3Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField3).to(haveCount(1));
+                expect(testManager.inProgressUpdate.metadataTags.mainField4[0]).to(equal(line4Type));
+                expect(testManager.inProgressUpdate.metadataTags.mainField4).to(haveCount(1));
+            });
+        });
+
+        context(@"updating images", ^{
             // TODO
+            context(@"when the image is already on the head unit", ^{
+                <#code#>
+            });
+
+            context(@"when the image is not on the head unit", ^{
+                <#code#>
+            });
         });
     });
 });
