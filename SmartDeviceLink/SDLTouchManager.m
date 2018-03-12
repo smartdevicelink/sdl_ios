@@ -43,7 +43,13 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
 /*!
  *  @abstract
- *      First Touch received from onOnTouchEvent.
+ *      First touch received from onOnTouchEvent.
+ */
+@property (nonatomic, strong, nullable) SDLTouch *firstTouch;
+
+/*!
+ *  @abstract
+ *      Previous touch received from onOnTouchEvent.
  */
 @property (nonatomic, strong, nullable) SDLTouch *previousTouch;
 
@@ -106,6 +112,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     _movementTimeThreshold = 0.05f;
     _tapTimeThreshold = 0.4f;
     _tapDistanceThreshold = 50.0f;
+    _panDistanceThreshold = 8.0f;
     _touchEnabled = YES;
     _enableSyncedPanning = YES;
 
@@ -208,6 +215,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
     switch (touch.identifier) {
         case SDLTouchIdentifierFirstFinger: {
+            self.firstTouch = touch;
             self.previousTouch = touch;
         } break;
         case SDLTouchIdentifierSecondFinger: {
@@ -237,6 +245,12 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         return; // no-op
     }
 #pragma clang diagnostic pop
+    
+    CGFloat xDelta = fabs(touch.location.x - self.firstTouch.location.x);
+    CGFloat yDelta = fabs(touch.location.y - self.firstTouch.location.y);
+    if (xDelta <= self.panDistanceThreshold && yDelta <= self.panDistanceThreshold) {
+        return;
+    }
 
     switch (self.performingTouchType) {
         case SDLPerformingTouchTypeMultiTouch: {
@@ -334,6 +348,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         case SDLPerformingTouchTypeNone: break;
     }
 
+    self.firstTouch = nil;
     self.previousTouch = nil;
     _performingTouchType = SDLPerformingTouchTypeNone;
 }
@@ -373,6 +388,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         case SDLPerformingTouchTypeNone: break;
     }
 
+    self.firstTouch = nil;
     self.previousTouch = nil;
     _performingTouchType = SDLPerformingTouchTypeNone;
 }

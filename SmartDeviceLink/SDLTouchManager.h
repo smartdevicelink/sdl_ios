@@ -41,6 +41,13 @@ typedef void(^SDLTouchEventHandler)(SDLTouch *touch, SDLTouchType type);
 @property (nonatomic, assign) CGFloat tapDistanceThreshold;
 
 /**
+ Minimum distance for a pan gesture in the head unit's coordinate system, used for registering pan callbacks.
+ 
+ @note Defaults to 8 px.
+ */
+@property (nonatomic, assign) CGFloat panDistanceThreshold;
+
+/**
  *  @abstract
  *      Time (in seconds) between tap events to register a double-tap callback.
  *  @remark
