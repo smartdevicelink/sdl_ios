@@ -145,9 +145,9 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     if (!self.allowMultipleOrientations
-        && (rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskPortrait ||
-            rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskLandscapeLeft ||
-            rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskLandscapeRight)) {
+        && !(rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskPortrait ||
+             rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskLandscapeLeft ||
+             rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskLandscapeRight)) {
         @throw [NSException sdl_carWindowOrientationException];
     }
 
