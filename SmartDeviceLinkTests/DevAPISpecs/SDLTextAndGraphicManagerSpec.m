@@ -4,6 +4,7 @@
 
 #import "SDLDisplayCapabilities.h"
 #import "SDLFileManager.h"
+#import "SDLImage.h"
 #import "SDLMetadataTags.h"
 #import "SDLShow.h"
 #import "SDLTextAndGraphicManager.h"
@@ -38,9 +39,13 @@ QuickSpecBegin(SDLTextAndGraphicManagerSpec)
 fdescribe(@"text and graphic manager", ^{
     __block SDLTextAndGraphicManager *testManager = nil;
     __block TestConnectionManager *mockConnectionManager = [[TestConnectionManager alloc] init];
-    __block SDLFileManager *mockFileManager = OCMClassMock([SDLFileManager class]);
+    __block SDLFileManager *mockFileManager = nil;
+
+    __block NSString *testArtworkName = @"some artwork name";
+    __block SDLArtwork *testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName fileExtension:@"png" persistent:NO];
 
     beforeEach(^{
+        mockFileManager = OCMClassMock([SDLFileManager class]);
         testManager = [[SDLTextAndGraphicManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager];
     });
 
@@ -60,8 +65,6 @@ fdescribe(@"text and graphic manager", ^{
 
     describe(@"setting setters", ^{
         __block NSString *testString = @"some string";
-        __block NSString *testArtworkName = @"some artwork name";
-        __block SDLArtwork *testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName fileExtension:@"png" persistent:NO];
 
         context(@"while batching", ^{
             beforeEach(^{
@@ -628,13 +631,44 @@ fdescribe(@"text and graphic manager", ^{
         });
 
         context(@"updating images", ^{
-            // TODO
+            beforeEach(^{
+                testManager.batchUpdates = YES;
+            });
+
             context(@"when the image is already on the head unit", ^{
-                <#code#>
+                beforeEach(^{
+                    OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
+
+                    testManager.primaryGraphic = testArtwork;
+                    testManager.secondaryGraphic = testArtwork;
+                    testManager.batchUpdates = NO;
+                    [testManager updateWithCompletionHandler:nil];
+                });
+
+                it(@"should immediately attempt to update", ^{
+                    expect(testManager.inProgressUpdate.mainField1).to(equal(@""));
+                    expect(testManager.inProgressUpdate.graphic.value).to(equal(testArtworkName));
+                    expect(testManager.inProgressUpdate.secondaryGraphic.value).to(equal(testArtworkName));
+                });
             });
 
             context(@"when the image is not on the head unit", ^{
-                <#code#>
+                beforeEach(^{
+                    OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
+
+                    testManager.primaryGraphic = testArtwork;
+                    testManager.secondaryGraphic = testArtwork;
+                    testManager.batchUpdates = NO;
+                    [testManager updateWithCompletionHandler:nil];
+                });
+
+                it(@"should immediately attempt to update without the images", ^{
+                    expect(testManager.inProgressUpdate.mainField1).to(equal(@""));
+                    expect(testManager.inProgressUpdate.graphic.value).to(beNil());
+                    expect(testManager.inProgressUpdate.secondaryGraphic.value).to(beNil());
+                    expect(testManager.queuedImageUpdate.graphic.value).to(equal(testArtworkName));
+                    expect(testManager.queuedImageUpdate.secondaryGraphic.value).to(equal(testArtworkName));
+                });
             });
         });
     });

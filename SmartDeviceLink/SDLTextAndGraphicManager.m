@@ -182,7 +182,7 @@ NS_ASSUME_NONNULL_BEGIN
         show.graphic = [[SDLImage alloc] initWithName:self.primaryGraphic.name ofType:SDLImageTypeDynamic];
     }
     if ([self sdl_shouldUpdateSecondaryImage]) {
-        show.graphic = [[SDLImage alloc] initWithName:self.primaryGraphic.name ofType:SDLImageTypeDynamic];
+        show.secondaryGraphic = [[SDLImage alloc] initWithName:self.secondaryGraphic.name ofType:SDLImageTypeDynamic];
     }
 
     return show;
