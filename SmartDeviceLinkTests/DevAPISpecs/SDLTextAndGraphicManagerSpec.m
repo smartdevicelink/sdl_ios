@@ -36,7 +36,7 @@
 
 QuickSpecBegin(SDLTextAndGraphicManagerSpec)
 
-fdescribe(@"text and graphic manager", ^{
+describe(@"text and graphic manager", ^{
     __block SDLTextAndGraphicManager *testManager = nil;
     __block TestConnectionManager *mockConnectionManager = [[TestConnectionManager alloc] init];
     __block SDLFileManager *mockFileManager = nil;
