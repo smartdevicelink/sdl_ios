@@ -39,7 +39,7 @@
 
 QuickSpecBegin(SDLSoftButtonManagerSpec)
 
-describe(@"a soft button manager", ^{
+fdescribe(@"a soft button manager", ^{
     __block SDLSoftButtonManager *testManager = nil;
 
     __block SDLFileManager *testFileManager = nil;
@@ -188,7 +188,7 @@ describe(@"a soft button manager", ^{
         });
     });
 
-    describe(@"updating the system", ^{
+    describe(@"transitioning soft button states", ^{
         beforeEach(^{
             OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
 
@@ -198,28 +198,14 @@ describe(@"a soft button manager", ^{
             testManager.softButtonObjects = @[testObject1, testObject2];
         });
 
-        context(@"manually while batching is enabled", ^{
-            beforeEach(^{
-                testManager.batchUpdates = YES;
-            });
+        it(@"should queue an update", ^{
+            testManager.inProgressUpdate = nil; // Reset due to setting the soft button objects
+            [testObject1 transitionToState:object1State2Name];
 
-            it(@"should not run the rest of the update method", ^{
-                expect(testManager.hasQueuedUpdate).to(beFalse());
-            });
-
-            // TODO: Transition Soft Button Objects
-        });
-
-        context(@"manually while batching is disabled", ^{
-            beforeEach(^{
-                testManager.batchUpdates = NO;
-            });
-
-            it(@"should run the rest of the update method and queue this update", ^{
-                expect(testManager.hasQueuedUpdate).to(beTrue());
-            });
-
-            // TODO: Transition Soft Button Objects
+            expect(testManager.inProgressUpdate).toNot(beNil());
+            expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
+            expect(testManager.inProgressUpdate.softButtons[0].text).to(equal(object1State2Text));
+            expect(testManager.inProgressUpdate.softButtons[1].text).to(equal(object2State1Text));
         });
     });
 });
