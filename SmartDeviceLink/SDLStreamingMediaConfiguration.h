@@ -85,6 +85,11 @@ typedef NS_ENUM(NSUInteger, SDLCarWindowRenderingType) {
 @property (assign, nonatomic) BOOL enableForcedFramerateSync;
 
 /**
+ When YES, the StreamingMediaManager will disable its internal checks that the `rootViewController` only has one `supportedOrientation`. Having multiple orientations can cause streaming issues. If you wish to disable this check, set it to YES. Defaults to NO.
+ */
+@property (assign, nonatomic) BOOL allowMultipleViewControllerOrientations;
+
+/**
  Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually.
 
  @return The configuration

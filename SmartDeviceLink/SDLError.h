@@ -53,6 +53,7 @@ extern SDLErrorDomain *const SDLErrorDomainFileManager;
 + (NSException *)sdl_missingHandlerException;
 + (NSException *)sdl_missingIdException;
 + (NSException *)sdl_missingFilesException;
++ (NSException *)sdl_carWindowOrientationException;
 
 @end
 

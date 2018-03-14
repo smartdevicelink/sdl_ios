@@ -210,6 +210,12 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
             userInfo:nil];
 }
 
++ (NSException *)sdl_carWindowOrientationException {
+    return [NSException exceptionWithName:@"com.sdl.carwindow.orientationException"
+                                   reason:@"SDLCarWindow rootViewController must support only a single interface orientation"
+                                 userInfo:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
