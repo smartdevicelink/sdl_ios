@@ -185,7 +185,7 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendConnectionRequest:self.inProgressUpdate withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        
+
         strongSelf.inProgressUpdate = nil;
         if (strongSelf.inProgressHandler != nil) {
             strongSelf.inProgressHandler(error);
@@ -201,12 +201,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Images
-
-- (void)sdl_uploadArtworks:(NSArray<SDLArtwork *> *)artworks withCompletionHandler:(void (^)(NSError *error))handler {
-    [self.fileManager uploadArtworks:artworks completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
-        handler(error);
-    }];
-}
 
 - (BOOL)sdl_currentStateHasImages {
     for (SDLSoftButtonObject *object in self.softButtonObjects) {
