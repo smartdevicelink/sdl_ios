@@ -26,6 +26,14 @@ describe(@"Getter/Setter Tests", ^ {
 
     });
 
+    it(@"Should set and get correctly", ^ {
+        SDLFuelRange* testStruct = [[SDLFuelRange alloc] initWithType:SDLFuelTypeCNG range:12];
+
+        expect(testStruct.type).to(equal(SDLFuelTypeCNG));
+        expect(testStruct.range).to(equal(@12));
+
+    });
+
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameType:SDLFuelTypeGasoline,
                                        SDLNameRange:@12} mutableCopy];
