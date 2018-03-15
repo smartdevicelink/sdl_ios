@@ -255,10 +255,11 @@ describe(@"the streaming media manager", ^{
                                 [streamingLifecycleManager.appStateMachine setToState:SDLAppStateInactive fromOldState:nil callEnterTransition:YES];
                             });
 
-                            it(@"should flag to restart the video stream", ^{
-                                expect(@(streamingLifecycleManager.shouldRestartVideoStream)).to(equal(@YES));
-                                expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateReady));
-                                expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
+                            it(@"should shut down the video stream", ^{
+                                expect(@(streamingLifecycleManager.shouldRestartVideoStream)).to(beFalse());
+
+                            expect(streamingLifecycleManager.currentAudioStreamState).to(equal(SDLAudioStreamStateShuttingDown));
+                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateShuttingDown));
                             });
                         });
                     });

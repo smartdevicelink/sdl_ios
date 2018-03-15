@@ -1,3 +1,7 @@
+# 5.1.1
+### Bug Fixes
+* Fixed import statement, allows for Cocoapods release
+
 # 5.1.0
 ### Enhancements
 * Log unsuccessful RPC responses automatically [#811](https://github.com/smartdevicelink/sdl_ios/issues/811).

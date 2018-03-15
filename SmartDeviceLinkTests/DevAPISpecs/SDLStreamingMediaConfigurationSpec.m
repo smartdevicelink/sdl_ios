@@ -35,6 +35,7 @@ describe(@"a streaming media configuration", ^{
             expect(testConfig.securityManagers).to(contain(testFakeSecurityManager.class));
             expect(@(testConfig.maximumDesiredEncryption)).to(equal(@(SDLStreamingEncryptionFlagAuthenticateAndEncrypt)));
             expect(testConfig.customVideoEncoderSettings).to(equal(testVideoEncoderSettings));
+            expect(testConfig.allowMultipleViewControllerOrientations).to(equal(NO));
             expect(testConfig.dataSource).to(equal(testDataSource));
             expect(testConfig.rootViewController).to(equal(testViewController));
         });
@@ -49,6 +50,7 @@ describe(@"a streaming media configuration", ^{
             expect(testConfig.securityManagers).to(beNil());
             expect(@(testConfig.maximumDesiredEncryption)).to(equal(@(SDLStreamingEncryptionFlagNone)));
             expect(testConfig.customVideoEncoderSettings).to(beNil());
+            expect(testConfig.allowMultipleViewControllerOrientations).to(equal(NO));
             expect(testConfig.dataSource).to(beNil());
             expect(testConfig.rootViewController).to(beNil());
         });
@@ -67,6 +69,7 @@ describe(@"a streaming media configuration", ^{
             expect(testConfig.securityManagers).to(contain(testFakeSecurityManager.class));
             expect(@(testConfig.maximumDesiredEncryption)).to(equal(@(SDLStreamingEncryptionFlagAuthenticateAndEncrypt)));
             expect(testConfig.customVideoEncoderSettings).to(beNil());
+            expect(testConfig.allowMultipleViewControllerOrientations).to(equal(NO));
             expect(testConfig.dataSource).to(beNil());
             expect(testConfig.rootViewController).to(beNil());
         });

@@ -225,6 +225,12 @@ SDLErrorDomain *const SDLErrorDomainSoftButtonManager = @"com.sdl.softbuttonmana
     return [NSException exceptionWithName:@"InvalidSoftButtonState" reason:@"Attempting to transition to a state that does not exist" userInfo:nil];
 }
 
++ (NSException *)sdl_carWindowOrientationException {
+    return [NSException exceptionWithName:@"com.sdl.carwindow.orientationException"
+                                   reason:@"SDLCarWindow rootViewController must support only a single interface orientation"
+                                 userInfo:nil];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

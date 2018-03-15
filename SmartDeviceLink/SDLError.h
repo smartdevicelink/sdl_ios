@@ -58,6 +58,7 @@ extern SDLErrorDomain *const SDLErrorDomainFileManager;
 + (NSException *)sdl_missingIdException;
 + (NSException *)sdl_missingFilesException;
 + (NSException *)sdl_invalidSoftButtonStateException;
++ (NSException *)sdl_carWindowOrientationException;
 
 @end
 
