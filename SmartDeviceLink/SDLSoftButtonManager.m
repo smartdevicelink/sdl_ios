@@ -185,8 +185,7 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendConnectionRequest:self.inProgressUpdate withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-
-        NSLog(@"SoftButton update request: %@, response: %@, error: %@", request, response, error);
+        
         strongSelf.inProgressUpdate = nil;
         if (strongSelf.inProgressHandler != nil) {
             strongSelf.inProgressHandler(error);
