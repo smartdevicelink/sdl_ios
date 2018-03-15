@@ -15,6 +15,7 @@
 #import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLImage.h"
+#import "SDLLogMacros.h"
 #import "SDLMetadataTags.h"
 #import "SDLNotificationConstants.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -85,9 +86,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
+    SDLLogD(@"Updating text and graphics");
     if (self.inProgressUpdate != nil) {
+        SDLLogV(@"In progress update exists, queueing update");
         // If we already have a pending update, we're going to tell the old handler that it was superseded by a new update and then return
         if (self.queuedUpdateHandler != nil) {
+            SDLLogV(@"Queued update already exists, superseding previous queued update");
             self.queuedUpdateHandler([NSError sdl_textAndGraphicManager_pendingUpdateSuperseded]);
             self.queuedUpdateHandler = nil;
         }
@@ -110,12 +114,15 @@ NS_ASSUME_NONNULL_BEGIN
     self.inProgressHandler = handler;
     __weak typeof(self)weakSelf = self;
     if (!([self sdl_shouldUpdatePrimaryImage] || [self sdl_shouldUpdateSecondaryImage])) {
+        SDLLogV(@"No images to send, only sending text");
         // If there are no images to update, just send the text update
         self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
     } else if ([self sdl_uploadedArtworkOrDoesntExist:self.primaryGraphic] && [self sdl_uploadedArtworkOrDoesntExist:self.secondaryGraphic]) {
+        SDLLogV(@"Images already uploaded, sending full update");
         // The files to be updated are already uploaded, send the full show immediately
         self.inProgressUpdate = fullShow;
     } else {
+        SDLLogV(@"Images need to be uploaded, sending text and uploading images");
         // We need to upload or queue the upload of the images
         // Send the text immediately
         self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
@@ -123,10 +130,18 @@ NS_ASSUME_NONNULL_BEGIN
         __block SDLShow *thisUpdate = fullShow;
         [self sdl_uploadImagesWithCompletionHandler:^(NSError * _Nonnull error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
+
+            if (error != nil) {
+                SDLLogE(@"Error uploading text and graphic image: %@", error);
+            }
+
             // Check if queued image update still matches our images (there could have been a new Show in the meantime) and send a new update if it does. Since the images will already be on the head unit, the whole show will be sent
             // TODO: Send delete if it doesn't?
             if ([strongSelf sdl_showImages:thisUpdate isEqualToShowImages:strongSelf.queuedImageUpdate]) {
+                SDLLogV(@"Queued image update matches the images we need, sending update");
                 [strongSelf sdl_updateWithCompletionHandler:strongSelf.inProgressHandler];
+            } else {
+                SDLLogV(@"Queued image update does not match the images we need, skipping update");
             }
         }];
         
@@ -136,6 +151,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     [self.connectionManager sendConnectionRequest:self.inProgressUpdate withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
+        SDLLogD(@"Text and Graphic update completed");
+
         // TODO: Monitor and delete old images when space is low?
         if (response.success) {
             [strongSelf sdl_updateCurrentScreenDataFromShow:(SDLShow *)request];
@@ -148,6 +165,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         if (strongSelf.hasQueuedUpdate) {
+            SDLLogV(@"Queued update exists, sending another update");
             [strongSelf sdl_updateWithCompletionHandler:[strongSelf.queuedUpdateHandler copy]];
             strongSelf.queuedUpdateHandler = nil;
             strongSelf.hasQueuedUpdate = NO;

@@ -12,6 +12,7 @@
 #import "SDLDisplayCapabilities.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
+#import "SDLLogMacros.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCResponseNotification.h"
 #import "SDLSetDisplayLayoutResponse.h"
@@ -84,6 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
         for (NSUInteger j = (i + 1); j < softButtonObjects.count; j++) {
             if ([softButtonObjects[j].name isEqualToString:buttonName]) {
                 _softButtonObjects = @[];
+                SDLLogE(@"Attempted to set soft button objects, but two buttons had the same name: %@", softButtonObjects);
                 return;
             }
         }
@@ -116,12 +118,24 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Upload initial images, then other state images
     if (initialStatesToBeUploaded.count > 0) {
+        SDLLogD(@"Uploading soft button initial artworks");
         [self.fileManager uploadArtworks:[initialStatesToBeUploaded copy] completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+            if (error != nil) {
+                SDLLogE(@"Error uploading soft button artworks: %@", error);
+            }
+
+            SDLLogD(@"Soft button initial artworks uploaded");
             [self sdl_updateWithCompletionHandler:nil];
         }];
     }
     if (otherStatesToBeUploaded.count > 0) {
+        SDLLogD(@"Uploading soft button other state artworks");
         [self.fileManager uploadArtworks:[otherStatesToBeUploaded copy] completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+            if (error != nil) {
+                SDLLogE(@"Error uploading soft button artworks: %@", error);
+            }
+
+            SDLLogD(@"Soft button other state artworks uploaded");
             // In case our soft button states have changed in the meantime
             [self sdl_updateWithCompletionHandler:nil];
         }];
@@ -147,9 +161,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_updateWithCompletionHandler:(nullable SDLSoftButtonUpdateCompletionHandler)handler {
+    SDLLogD(@"Updating soft buttons");
     if (self.inProgressUpdate != nil) {
+        SDLLogV(@"In progress update exists, queueing update");
         // If we already have a pending update, we're going to tell the old handler that it was superseded by a new update and then return
         if (self.queuedUpdateHandler != nil) {
+            SDLLogV(@"Queued update already exists, superseding previous queued update");
             self.queuedUpdateHandler([NSError sdl_softButtonManager_pendingUpdateSuperseded]);
             self.queuedUpdateHandler = nil;
         }
@@ -167,24 +184,30 @@ NS_ASSUME_NONNULL_BEGIN
     self.inProgressUpdate = [[SDLShow alloc] init];
     self.inProgressUpdate.mainField1 = self.currentMainField1 ?: @"";
     if (self.softButtonObjects == nil) {
+        SDLLogV(@"Soft button objects are nil, sending an empty array");
         self.inProgressUpdate.softButtons = @[];
     } else if (([self sdl_currentStateHasImages] && ![self sdl_allCurrentStateImagesAreUploaded])
                && (self.softButtonCapabilities ? !self.softButtonCapabilities.imageSupported : YES)) {
         // The images don't yet exist on the head unit, or we cannot use images, send a text update if possible, otherwise, don't send anything yet
         NSArray<SDLSoftButton *> *textOnlyButtons = [self sdl_textButtonsForCurrentState];
         if (textOnlyButtons != nil) {
+            SDLLogV(@"Soft button images unavailable, sending text buttons");
             self.inProgressUpdate.softButtons = textOnlyButtons;
         } else {
+            SDLLogV(@"Soft button images unavailable, text buttons unavailable");
             self.inProgressUpdate = nil;
             return;
         }
     } else {
+        SDLLogV(@"Sending soft buttons with images");
         self.inProgressUpdate.softButtons = [self sdl_softButtonsForCurrentState];
     }
 
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendConnectionRequest:self.inProgressUpdate withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
+
+        SDLLogD(@"Soft button update completed");
 
         strongSelf.inProgressUpdate = nil;
         if (strongSelf.inProgressHandler != nil) {
@@ -193,6 +216,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         if (strongSelf.hasQueuedUpdate) {
+            SDLLogV(@"Queued update exists, sending another update");
             [strongSelf updateWithCompletionHandler:[strongSelf.queuedUpdateHandler copy]];
             strongSelf.queuedUpdateHandler = nil;
             strongSelf.hasQueuedUpdate = NO;

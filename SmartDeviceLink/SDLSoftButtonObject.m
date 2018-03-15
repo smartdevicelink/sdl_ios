@@ -9,6 +9,7 @@
 #import "SDLSoftButtonObject.h"
 
 #import "SDLError.h"
+#import "SDLLogMacros.h"
 #import "SDLSoftButton.h"
 #import "SDLSoftButtonManager.h"
 #import "SDLSoftButtonState.h"
@@ -48,9 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)transitionToState:(NSString *)stateName {
     if ([self stateWithName:stateName] == nil) {
+        SDLLogE(@"Attempted to transition to state: %@ on soft button: %@ but no state with that name was found", stateName, self.name);
         return NO;
     }
 
+    SDLLogD(@"Transitioning button %@ to state %@", self.name, stateName);
     self.currentStateName = stateName;
     [self.manager updateWithCompletionHandler:nil];
 
