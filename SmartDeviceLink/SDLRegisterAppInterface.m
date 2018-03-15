@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
-    NSArray<SDLAppHMIType> *allHMITypes = [lifecycleConfiguration.additionalAppTypes arrayByAddingObject:lifecycleConfiguration.appType];
+    NSArray<SDLAppHMIType> *allHMITypes = lifecycleConfiguration.additionalAppTypes ? [lifecycleConfiguration.additionalAppTypes arrayByAddingObject:lifecycleConfiguration.appType] : @[lifecycleConfiguration.appType];
 
     return [self initWithAppName:lifecycleConfiguration.appName
                            appId:lifecycleConfiguration.appId
