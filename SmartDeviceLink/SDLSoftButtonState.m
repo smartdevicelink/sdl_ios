@@ -10,6 +10,7 @@
 
 #import "SDLArtwork.h"
 #import "SDLImage.h"
+#import "SDLLogMacros.h"
 #import "SDLSoftButton.h"
 #import "SDLSoftButtonType.h"
 
@@ -40,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) { return nil; }
 
     if (artwork == nil && text == nil) {
+        SDLLogE(@"Attempted to create an invalid soft button state: text and artwork are both nil");
         return nil;
     }
 
