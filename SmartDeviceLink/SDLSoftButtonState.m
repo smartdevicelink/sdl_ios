@@ -39,6 +39,10 @@ NS_ASSUME_NONNULL_BEGIN
     self = [super init];
     if (!self) { return nil; }
 
+    if (artwork == nil && text == nil) {
+        return nil;
+    }
+
     _name = stateName;
     _text = text;
     _artwork = artwork;
