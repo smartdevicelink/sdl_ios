@@ -205,7 +205,7 @@ static float DefaultConnectionTimeout = 45.0;
 - (void)onProtocolOpened {
     _isConnected = YES;
     SDLLogV(@"Proxy RPC protocol opened");
-    // THe RPC payload will be created by the protocol object...it's weird and confusing, I know.
+    // The RPC payload will be created by the protocol object...it's weird and confusing, I know.
     [self.protocol startServiceWithType:SDLServiceTypeRPC payload:nil];
 
     if (self.startSessionTimer == nil) {

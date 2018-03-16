@@ -63,6 +63,10 @@
     return [SDLLogFileModule moduleWithName:@"Streaming" files:[NSSet setWithArray:@[@"SDLH264VideoEncoder", @"SDLRAWH264Packetizer", @"SDLRTPH264Packetizer", @"SDLStreamingMediaManager", @"SDLStreamingMediaLifecycleManager", @"SDLTouchManager", @"SDLCarWindow"]]];
 }
 
++ (SDLLogFileModule *)sdl_screenManagerModule {
+    return [SDLLogFileModule moduleWithName:@"Screen" files:[NSSet setWithArray:@[@"SDLTextAndGraphicManager", @"SDLSoftButtonManager", @"SDLScreenManager", @"SDLSoftButtonObject", @"SDLSoftButtonState"]]];
+}
+
 
 #pragma mark Utilities
 

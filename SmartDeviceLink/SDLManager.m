@@ -16,7 +16,9 @@
 #import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLResponseDispatcher.h"
+#import "SDLSoftButtonManager.h"
 #import "SDLStateMachine.h"
+#import "SDLTextAndGraphicManager.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -80,6 +82,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLStreamingMediaManager *)streamManager {
     return self.lifecycleManager.streamManager;
+}
+
+- (SDLScreenManager *)screenManager {
+    return self.lifecycleManager.screenManager;
 }
 
 - (nullable SDLRegisterAppInterfaceResponse *)registerResponse {

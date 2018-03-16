@@ -87,3 +87,11 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
      */
     SDLFileManagerErrorFileDataMissing = -9,
 };
+
+typedef NS_ENUM(NSInteger, SDLTextAndGraphicManagerError) {
+    SDLTextAndGraphicManagerErrorPendingUpdateSuperseded = -1
+};
+
+typedef NS_ENUM(NSInteger, SDLSoftButtonManagerError) {
+    SDLSoftButtonManagerErrorPendingUpdateSuperseded = -1
+};

@@ -10,6 +10,7 @@
 #import <Foundation/Foundation.h>
 
 @class SDLRPCRequest;
+@class SDLRegisterAppInterfaceResponse;
 
 
 NS_ASSUME_NONNULL_BEGIN

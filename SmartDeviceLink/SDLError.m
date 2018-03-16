@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 SDLErrorDomain *const SDLErrorDomainLifecycleManager = @"com.sdl.lifecyclemanager.error";
 SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
+SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager = @"com.sdl.textandgraphicmanager.error";
+SDLErrorDomain *const SDLErrorDomainSoftButtonManager = @"com.sdl.softbuttonmanager.error";
 
 @implementation NSError (SDLErrors)
 
@@ -183,6 +185,15 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorFileDoesNotExist userInfo:userInfo];
 }
 
+#pragma mark Show Managers
+
++ (NSError *)sdl_textAndGraphicManager_pendingUpdateSuperseded {
+    return [NSError errorWithDomain:SDLErrorDomainTextAndGraphicManager code:SDLTextAndGraphicManagerErrorPendingUpdateSuperseded userInfo:nil];
+}
+
++ (NSError *)sdl_softButtonManager_pendingUpdateSuperseded {
+    return [NSError errorWithDomain:SDLErrorDomainSoftButtonManager code:SDLSoftButtonManagerErrorPendingUpdateSuperseded userInfo:nil];
+}
 
 @end
 
@@ -208,6 +219,10 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
             exceptionWithName:@"MissingFilesNames"
             reason:@"This request requires that the array of files not be empty"
             userInfo:nil];
+}
+
++ (NSException *)sdl_invalidSoftButtonStateException {
+    return [NSException exceptionWithName:@"InvalidSoftButtonState" reason:@"Attempting to transition to a state that does not exist" userInfo:nil];
 }
 
 + (NSException *)sdl_carWindowOrientationException {

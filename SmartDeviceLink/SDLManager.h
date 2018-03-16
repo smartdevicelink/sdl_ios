@@ -18,6 +18,7 @@
 @class SDLRPCNotification;
 @class SDLRPCRequest;
 @class SDLRPCResponse;
+@class SDLScreenManager;
 @class SDLStreamingMediaManager;
 
 @protocol SDLManagerDelegate;
@@ -93,6 +94,8 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *  The streaming media manager to be used for starting video sessions.
  */
 @property (strong, nonatomic, readonly, nullable) SDLStreamingMediaManager *streamManager;
+
+@property (strong, nonatomic, readonly) SDLScreenManager *screenManager;
 
 /**
  *  The response of a register call after it has been received.
