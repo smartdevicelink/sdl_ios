@@ -155,11 +155,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self.sdlManager.screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
         NSLog(@"Updated text and graphics, error? %@", error);
     }];
-
-    [self.sdlManager.fileManager uploadArtwork:[SDLArtwork artworkWithImage:[UIImage imageNamed:@""] asImageFormat:SDLArtworkImageFormatPNG] completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
-        if (error != nil) { return; }
-        SDLImage *image = [[SDLImage alloc] initWithName:artworkName];
-    }];
 }
 
 - (void)sdlex_setupPermissionsCallbacks {
