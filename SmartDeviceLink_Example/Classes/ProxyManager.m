@@ -3,21 +3,12 @@
 //  SmartDeviceLink-iOS
 
 #import "SmartDeviceLink.h"
-
 #import "ProxyManager.h"
-
 #import "Preferences.h"
 
 
 NSString *const SDLAppName = @"SDL Example App";
 NSString *const SDLAppId = @"9999";
-
-NSString *const HexagonOffSoftButtonArtworkName = @"HexagonOffSoftButtonIcon";
-NSString *const HexagonOnSoftButtonArtworkName = @"HexagonOnSoftButtonIcon";
-NSString *const MainGraphicArtworkName = @"MainArtwork";
-NSString *const MainGraphicBlankArtworkName = @"MainBlankArtwork";
-NSString *const StarSoftButtonArtworkName = @"StarSoftButtonIcon";
-
 BOOL const ShouldRestartOnDisconnect = NO;
 
 typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
@@ -159,10 +150,15 @@ NS_ASSUME_NONNULL_BEGIN
     self.sdlManager.screenManager.textField1 = self.isTextEnabled ? @"SmartDeviceLink" : nil;
     self.sdlManager.screenManager.textField2 = self.isTextEnabled ? @"Example App" : nil;
 
-    self.sdlManager.screenManager.primaryGraphic = self.areImagesEnabled ? [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] name:@"PrimaryArt" asImageFormat:SDLArtworkImageFormatPNG] : nil;
+    self.sdlManager.screenManager.primaryGraphic = self.areImagesEnabled ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] asImageFormat:SDLArtworkImageFormatPNG] : nil;
 
     [self.sdlManager.screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
         NSLog(@"Updated text and graphics, error? %@", error);
+    }];
+
+    [self.sdlManager.fileManager uploadArtwork:[SDLArtwork artworkWithImage:[UIImage imageNamed:@""] asImageFormat:SDLArtworkImageFormatPNG] completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
+        if (error != nil) { return; }
+        SDLImage *image = [[SDLImage alloc] initWithName:artworkName];
     }];
 }
 
@@ -191,8 +187,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
-    SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"AppIcon60x60@2x"] name:@"AppIcon" asImageFormat:SDLArtworkImageFormatPNG];
-    
+    SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"AppIcon60x60@2x"] asImageFormat:SDLArtworkImageFormatPNG];
+
     config.shortAppName = @"SDL Example";
     config.appIcon = appIconArt;
     config.voiceRecognitionCommandNames = @[@"S D L Example"];
@@ -401,51 +397,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     [manager sendRequest:getVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         NSLog(@"vehicle data response: %@", response);
-    }];
-}
-
-#pragma mark - Files / Artwork
-
-- (void)sdlex_uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(void (^)(BOOL success))completionHandler {
-    [self.sdlManager.fileManager uploadFiles:files completionHandler:^(NSError * _Nullable error) {
-        if(!error) {
-            return completionHandler(true);
-        } else {
-            SDLLogD(@"Failed file uploads: %@", error.userInfo);
-            return completionHandler(false);
-        }
-    }];
-}
-
-- (void)sdlex_uploadFilesWithProgressHandler:(NSArray<SDLFile *> *)files completionHandler:(void (^)(BOOL success))completionHandler {
-    [self.sdlManager.fileManager uploadFiles:files progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
-        if (error) {
-            SDLLogD(@"The file did not upload: %@", error);
-            // You may want to cancel all future file uploads if the last file failed during the upload process
-            return NO;
-        }
-
-        // The file was sent successfully
-        // Keep uploading the rest of the files
-        return YES;
-    } completionHandler:^(NSError * _Nullable error) {
-        if(!error) {
-            return completionHandler(true);
-        } else {
-            SDLLogD(@"Failed file uploads: %@", error.userInfo);
-            return completionHandler(false);
-        }
-    }];
-}
-
-- (void)sdlex_deleteFiles:(NSArray<NSString *> *)fileNames completionHandler:(void (^)(BOOL success))completionHandler {
-    [self.sdlManager.fileManager deleteRemoteFilesWithNames:fileNames completionHandler:^(NSError * _Nullable error) {
-        if(!error) {
-            return completionHandler(true);
-        } else {
-            SDLLogD(@"Failed file deletes: %@", error.userInfo);
-            return completionHandler(false);
-        }
     }];
 }
 
