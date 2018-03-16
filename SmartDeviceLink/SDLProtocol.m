@@ -8,6 +8,7 @@
 #import "SDLControlFramePayloadConstants.h"
 #import "SDLControlFramePayloadEndService.h"
 #import "SDLControlFramePayloadNak.h"
+#import "SDLControlFramePayloadRegisterSecondaryTransportNak.h"
 #import "SDLControlFramePayloadRPCStartService.h"
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
 #import "SDLLogMacros.h"
@@ -217,6 +218,23 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
     [self sdl_sendDataToTransport:message.data onService:serviceType];
+}
+
+
+#pragma mark - Register Secondary Transport
+
+- (void)registerSecondaryTransport:(nullable NSData *)payload {
+    SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].majorProtocolVersion];
+    header.frameType = SDLFrameTypeControl;
+    header.serviceType = SDLServiceTypeControl;
+    header.frameData = SDLFrameInfoRegisterSecondaryTransport;
+    header.sessionID = [self sdl_retrieveSessionIDforServiceType:SDLServiceTypeControl];
+    if ([SDLGlobals sharedGlobals].majorProtocolVersion >= 2) {
+        [((SDLV2ProtocolHeader *)header) setMessageID:++_messageID];
+    }
+
+    SDLProtocolMessage *message = [SDLProtocolMessage messageWithHeader:header andPayload:payload];
+    [self sdl_sendDataToTransport:message.data onService:SDLServiceTypeControl];
 }
 
 
@@ -506,6 +524,24 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+- (void)handleProtocolRegisterSecondaryTransportACKMessage:(SDLProtocolMessage *)registerSecondaryTransportACK {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleProtocolRegisterSecondaryTransportACKMessage:)]) {
+            [listener handleProtocolRegisterSecondaryTransportACKMessage:registerSecondaryTransportACK];
+        }
+    }
+}
+
+- (void)handleProtocolRegisterSecondaryTransportNAKMessage:(SDLProtocolMessage *)registerSecondaryTransportNAK {
+    [self sdl_logControlNAKPayload:registerSecondaryTransportNAK];
+
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(handleProtocolRegisterSecondaryTransportNAKMessage:)]) {
+            [listener handleProtocolRegisterSecondaryTransportNAKMessage:registerSecondaryTransportNAK];
+        }
+    }
+}
+
 - (void)handleHeartbeatForSession:(Byte)session {
     // Respond with a heartbeat ACK
     SDLProtocolHeader *header = [SDLProtocolHeader headerForVersion:(UInt8)[SDLGlobals sharedGlobals].majorProtocolVersion];
@@ -578,12 +614,23 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_logControlNAKPayload:(SDLProtocolMessage *)nakMessage {
-    if (nakMessage.header.version >= 5) {
-        SDLControlFramePayloadNak *endServiceNakPayload = [[SDLControlFramePayloadNak alloc] initWithData:nakMessage.payload];
-        NSArray<NSString *> *rejectedParams = endServiceNakPayload.rejectedParams;
-        if (rejectedParams.count > 0) {
-            SDLLogE(@"Start Service NAK'd, service type: %@, rejectedParams: %@", @(nakMessage.header.serviceType), rejectedParams);
-        }
+    switch (nakMessage.header.frameData) {
+        case SDLFrameInfoStartServiceNACK: // fallthrough
+        case SDLFrameInfoEndServiceNACK:
+            if (nakMessage.header.version >= 5) {
+                SDLControlFramePayloadNak *endServiceNakPayload = [[SDLControlFramePayloadNak alloc] initWithData:nakMessage.payload];
+                NSArray<NSString *> *rejectedParams = endServiceNakPayload.rejectedParams;
+                if (rejectedParams.count > 0) {
+                    SDLLogE(@"Start Service NAK'd, service type: %@, rejectedParams: %@", @(nakMessage.header.serviceType), rejectedParams);
+                }
+            }
+            break;
+        case SDLFrameInfoRegisterSecondaryTransportNACK: {
+            SDLControlFramePayloadRegisterSecondaryTransportNak *payload = [[SDLControlFramePayloadRegisterSecondaryTransportNak alloc] initWithData:nakMessage.payload];
+            SDLLogE(@"Register Secondary Transport NAK'd, reason: %@", payload.reason);
+        } break;
+        default:
+            break;
     }
 }
 

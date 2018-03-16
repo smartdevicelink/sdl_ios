@@ -92,6 +92,13 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
 - (void)endServiceWithType:(SDLServiceType)serviceType;
 
 /**
+ *  Sends a Register Secondary Transport control frame to Core
+ *
+ *  @param payload The data to send in the message
+ */
+- (void)registerSecondaryTransport:(nullable NSData *)payload;
+
+/**
  *  Sends an unencrypted RPC to Core
  *
  *  @param message A SDLRPCMessage message

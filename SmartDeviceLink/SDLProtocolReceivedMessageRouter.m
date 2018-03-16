@@ -72,6 +72,16 @@ NS_ASSUME_NONNULL_BEGIN
                 [self.delegate handleProtocolEndServiceNAKMessage:message];
             }
         } break;
+        case SDLFrameInfoRegisterSecondaryTransportACK: {
+            if ([self.delegate respondsToSelector:@selector(handleProtocolRegisterSecondaryTransportACKMessage:)]) {
+                [self.delegate handleProtocolRegisterSecondaryTransportACKMessage:message];
+            }
+        } break;
+        case SDLFrameInfoRegisterSecondaryTransportNACK: {
+            if ([self.delegate respondsToSelector:@selector(handleProtocolRegisterSecondaryTransportNAKMessage:)]) {
+                [self.delegate handleProtocolRegisterSecondaryTransportNAKMessage:message];
+            }
+        } break;
         case SDLFrameInfoHeartbeat: {
             if ([self.delegate respondsToSelector:@selector(handleHeartbeatForSession:)]) {
                 [self.delegate handleHeartbeatForSession:message.header.sessionID];

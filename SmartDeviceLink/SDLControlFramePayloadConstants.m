@@ -14,6 +14,7 @@ int64_t const SDLControlFrameInt64NotFound = -1;
 char *const SDLControlFrameProtocolVersionKey = "protocolVersion";
 char *const SDLControlFrameHashIdKey = "hashId";
 char *const SDLControlFrameMTUKey = "mtu";
+char *const SDLControlFrameReasonKey = "reason";
 char *const SDLControlFrameRejectedParams = "rejectedParams";
 char *const SDLControlFrameVideoProtocolKey = "videoProtocol";
 char *const SDLControlFrameVideoCodecKey = "videoCodec";
