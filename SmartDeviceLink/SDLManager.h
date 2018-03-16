@@ -179,7 +179,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  Send all of the requests one at a time, with the next one going out only after the previous one has received a response. Call the completionHandler after all requests have either failed or given a response.
 
  @param requests The requests to be sent
- @param progressHandler A handler called every time a response is received
+ @param progressHandler A handler called every time a response is received. Return NO to cancel any requests that have not yet been sent, YES to continue sending requests.
  @param completionHandler A handler to call when all requests have been responded to
  */
 - (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler NS_SWIFT_NAME(sendSequential(requests:progressHandler:completionHandler:));
