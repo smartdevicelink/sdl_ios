@@ -62,6 +62,10 @@ NS_ASSUME_NONNULL_BEGIN
     self.textAndGraphicManager.textField4 = textField4;
 }
 
+- (void)setMediaTrackTextField:(nullable NSString *)mediaTrackTextField {
+    self.textAndGraphicManager.mediaTrackTextField = mediaTrackTextField;
+}
+
 - (void)setPrimaryGraphic:(nullable SDLArtwork *)primaryGraphic {
     if (primaryGraphic == nil) {
         self.textAndGraphicManager.primaryGraphic = self.textAndGraphicManager.blankArtwork;
@@ -120,6 +124,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSString *)textField4 {
     return _textAndGraphicManager.textField4;
+}
+
+- (nullable NSString *)mediaTrackTextField {
+    return _textAndGraphicManager.mediaTrackTextField;
 }
 
 - (nullable SDLArtwork *)primaryGraphic {

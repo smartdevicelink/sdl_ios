@@ -210,6 +210,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SDLShow *)sdl_assembleShowText:(SDLShow *)show {
     [self sdl_setBlankTextFieldsWithShow:show];
+
+    if (self.mediaTrackTextField != nil) {
+        show.mediaTrack = self.mediaTrackTextField;
+    } else {
+        show.mediaTrack = @"";
+    }
+    
     NSArray *nonNilFields = [self sdl_findNonNilTextFields];
     if (nonNilFields.count == 0) { return show; }
 
@@ -489,6 +496,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setTextField4:(nullable NSString *)textField4 {
     _textField4 = textField4;
+    if (!self.isBatchingUpdates) {
+        [self sdl_updateWithCompletionHandler:nil];
+    } else {
+        _isDirty = YES;
+    }
+}
+
+- (void)setMediaTrackTextField:(nullable NSString *)mediaTrackTextField {
+    _mediaTrackTextField = mediaTrackTextField;
     if (!self.isBatchingUpdates) {
         [self sdl_updateWithCompletionHandler:nil];
     } else {

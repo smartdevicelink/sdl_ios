@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithName:name states:@[state] initialStateName:state.name handler:eventHandler];
 }
 
-- (BOOL)transitionToState:(NSString *)stateName {
+- (BOOL)transitionToStateNamed:(NSString *)stateName {
     if ([self stateWithName:stateName] == nil) {
         SDLLogE(@"Attempted to transition to state: %@ on soft button: %@ but no state with that name was found", stateName, self.name);
         return NO;
@@ -58,6 +58,19 @@ NS_ASSUME_NONNULL_BEGIN
     [self.manager updateWithCompletionHandler:nil];
 
     return YES;
+}
+
+- (void)transitionToNextState {
+    NSString *nextStateName = nil;
+    for (NSUInteger i = 0; i < self.states.count; i++) {
+        if ([self.states[i].name isEqualToString:self.currentStateName]) {
+            NSUInteger nextStateNumber = (i == self.states.count) ? 0 : i;
+            nextStateName = self.states[nextStateNumber].name;
+            break;
+        }
+    }
+
+    [self transitionToStateNamed:nextStateName];
 }
 
 - (SDLSoftButtonState *)currentState {
