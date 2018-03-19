@@ -3097,7 +3097,7 @@
 				5D4019B21A76EC350006B0C2 /* Supporting Files */,
 			);
 			name = Example;
-			path = "SmartDeviceLink-iOS";
+			path = SmartDeviceLink_Example;
 			sourceTree = "<group>";
 		};
 		5D4019B21A76EC350006B0C2 /* Supporting Files */ = {

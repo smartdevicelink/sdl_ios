@@ -6,9 +6,12 @@
 #import "ProxyManager.h"
 #import "Preferences.h"
 
-
-NSString *const SDLAppName = @"SDL Example App";
+NSString *const SDLAppNameEnglish = @"SDL Example App";
+NSString *const SDLAppNameFrench = @"SDL Exemple App";
+NSString *const SDLAppNameSpanish = @"SDL Aplicación de ejemplo";
 NSString *const SDLAppId = @"9999";
+
+
 BOOL const ShouldRestartOnDisconnect = NO;
 
 typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
@@ -66,20 +69,20 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
     // Check for previous instance of sdlManager
     if (self.sdlManager) { return; }
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId]];
-    
-    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration debugConfiguration]];
-    self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
-
-    [self startManager];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppNameEnglish appId:SDLAppId]];
+    [self sdlex_setupConfigurationWithLifecycleConfiguration:lifecycleConfig];
 }
 
 - (void)startTCP {
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
     // Check for previous instance of sdlManager
     if (self.sdlManager) { return; }
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
-    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration debugConfiguration]];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppNameEnglish appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
+    [self sdlex_setupConfigurationWithLifecycleConfiguration:lifecycleConfig];
+}
+
+- (void)sdlex_setupConfigurationWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
+    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[self.class sdlex_logConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
 
     [self startManager];
@@ -188,6 +191,8 @@ NS_ASSUME_NONNULL_BEGIN
     config.appIcon = appIconArt;
     config.voiceRecognitionCommandNames = @[@"S D L Example"];
     config.ttsName = [SDLTTSChunk textChunksFromString:config.shortAppName];
+    config.language = SDLLanguageEnUs;
+    config.languagesSupported = @[SDLLanguageFrCa, SDLLanguageEsMx];
 
     return config;
 }
@@ -197,7 +202,8 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Example" files:[NSSet setWithArray:@[@"ProxyManager"]]];
     logConfig.modules = [logConfig.modules setByAddingObject:sdlExampleModule];
     logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
-//    logConfig.filters = [logConfig.filters setByAddingObject:[SDLLogFilter filterByAllowingModules:[NSSet setWithObject:@"Transport"]]];
+    // logConfig.filters = [logConfig.filters setByAddingObject:[SDLLogFilter filterByAllowingModules:[NSSet setWithObject:@"Transport"]]];
+    logConfig.globalLogLevel = SDLLogLevelVerbose;
 
     return logConfig;
 }
@@ -433,6 +439,23 @@ NS_ASSUME_NONNULL_BEGIN
         // We're always going to try to show the initial state, because if we've already shown it, it won't be shown, and we need to guard against some possible weird states
         [self sdlex_showInitialData];
     }
+}
+
+- (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language {
+    SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] init];
+
+    if ([language isEqualToEnum:SDLLanguageEnUs]) {
+        update.appName = SDLAppNameEnglish;
+    } else if ([language isEqualToString:SDLLanguageEsMx]) {
+        update.appName = SDLAppNameSpanish;
+    } else if ([language isEqualToString:SDLLanguageFrCa]) {
+        update.appName = SDLAppNameFrench;
+    } else {
+        return nil;
+    }
+
+    update.ttsName = [SDLTTSChunk textChunksFromString:update.appName];
+    return update;
 }
 
 @end
