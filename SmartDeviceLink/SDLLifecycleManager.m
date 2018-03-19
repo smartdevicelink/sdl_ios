@@ -323,8 +323,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         changeRegistration.ngnMediaScreenAppName = configUpdate.shortAppName;
         changeRegistration.ttsName = configUpdate.ttsName;
         changeRegistration.vrSynonyms = configUpdate.voiceRecognitionCommandNames;
-      
-        [self sendRequest:changeRegistration];
+
+        [self sendConnectionManagerRequest:changeRegistration withResponseHandler:nil];
     }
     
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpManagers];
@@ -492,9 +492,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]
-        && !([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateSettingUpManagers]
-             && [request isKindOfClass:SDLChangeRegistration.class])) {
+    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         SDLLogW(@"Manager not ready, message not sent (%@)", request);
         if (handler) {
             dispatch_async(dispatch_get_main_queue(), ^{
