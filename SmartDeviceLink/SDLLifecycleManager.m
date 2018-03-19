@@ -492,7 +492,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
+    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]
+        && !([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateSettingUpManagers]
+             && [request isKindOfClass:SDLChangeRegistration.class])) {
         SDLLogW(@"Manager not ready, message not sent (%@)", request);
         if (handler) {
             dispatch_async(dispatch_get_main_queue(), ^{
