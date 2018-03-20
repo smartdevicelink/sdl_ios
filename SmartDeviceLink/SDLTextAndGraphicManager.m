@@ -70,6 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
     _alignment = SDLTextAlignmentCenter;
 
     _currentScreenData = [[SDLShow alloc] init];
+    _currentLevel = SDLHMILevelNone;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
@@ -91,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
     // Don't send if we're in HMI NONE
-    if ([self.currentLevel isEqualToString:SDLHMILevelNone]) {
+    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
         return;
     }
 

@@ -65,6 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
     _fileManager = fileManager;
     _softButtonObjects = @[];
 
+    _currentLevel = SDLHMILevelNone; // Assume NONE until we get something else
     _waitingOnHMILevelUpdateToSetButtons = NO;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
@@ -75,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setSoftButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects {
-    if ([self.currentLevel isEqualToString:SDLHMILevelNone]) {
+    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
         _waitingOnHMILevelUpdateToSetButtons = YES;
         _softButtonObjects = softButtonObjects;
         return;
@@ -176,7 +177,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_updateWithCompletionHandler:(nullable SDLSoftButtonUpdateCompletionHandler)handler {
     // Don't send if we're in HMI NONE
-    if ([self.currentLevel isEqualToString:SDLHMILevelNone]) {
+    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
         return;
     }
 

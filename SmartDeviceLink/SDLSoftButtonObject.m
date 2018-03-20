@@ -70,6 +70,10 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
 
+    if (nextStateName == nil) {
+        return;
+    }
+    
     [self transitionToStateNamed:nextStateName];
 }
 
