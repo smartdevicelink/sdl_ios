@@ -18,7 +18,9 @@
 #import "SDLLogMacros.h"
 #import "SDLMetadataTags.h"
 #import "SDLNotificationConstants.h"
+#import "SDLOnHMIStatus.h"
 #import "SDLRegisterAppInterfaceResponse.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLShow.h"
@@ -48,6 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) SDLTextAndGraphicUpdateCompletionHandler queuedUpdateHandler;
 
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
+@property (strong, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @property (strong, nonatomic) SDLArtwork *blankArtwork;
 
@@ -70,6 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
 
     return self;
 }
@@ -86,6 +90,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
+    // Don't send if we're in HMI NONE
+    if ([self.currentLevel isEqualToString:SDLHMILevelNone]) {
+        return;
+    }
+
     SDLLogD(@"Updating text and graphics");
     if (self.inProgressUpdate != nil) {
         SDLLogV(@"In progress update exists, queueing update");
@@ -602,11 +611,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
-
     self.displayCapabilities = response.displayCapabilities;
 
     // Auto-send an updated show
     [self sdl_updateWithCompletionHandler:nil];
+}
+
+- (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
+    SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
+
+    // Auto-send an updated show if we were in NONE and now we are not
+    if ([self.currentLevel isEqualToString:SDLHMILevelNone] && ![hmiStatus.hmiLevel isEqualToString:SDLHMILevelNone]) {
+        [self sdl_updateWithCompletionHandler:nil];
+    }
+
+    self.currentLevel = hmiStatus.hmiLevel;
 }
 
 @end
