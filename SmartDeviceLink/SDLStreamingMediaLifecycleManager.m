@@ -736,7 +736,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)sdl_displayLinkFired:(CADisplayLink *)displayLink {
     NSAssert([NSThread isMainThread], @"Display link should always fire on the main thread");
-    SDLLogV(@"DisplayLink frame fired, duration: %f, last frame timestamp: %f, target timestamp: %f", displayLink.duration, displayLink.timestamp, displayLink.targetTimestamp);
+    if (@available(iOS 10.0, *)) {
+        SDLLogV(@"DisplayLink frame fired, duration: %f, last frame timestamp: %f, target timestamp: %f", displayLink.duration, displayLink.timestamp, displayLink.targetTimestamp);
+    } else {
+        SDLLogV(@"DisplayLink frame fired, duration: %f, last frame timestamp: %f, target timestamp: (not available)", displayLink.duration, displayLink.timestamp);
+    }
 
     [self.touchManager syncFrame];
     [self.carWindow syncFrame];
