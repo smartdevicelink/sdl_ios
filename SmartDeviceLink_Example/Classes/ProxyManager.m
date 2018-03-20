@@ -459,6 +459,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     update.ttsName = [SDLTTSChunk textChunksFromString:update.appName];
+    update.voiceRecognitionCommandNames = @[@"S D L", @"SDL", @"SmartDevice", @"SmartDeviceLink", @"Example"];
     return update;
 }
 
