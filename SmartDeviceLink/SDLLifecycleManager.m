@@ -323,8 +323,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         changeRegistration.ngnMediaScreenAppName = configUpdate.shortAppName;
         changeRegistration.ttsName = configUpdate.ttsName;
         changeRegistration.vrSynonyms = configUpdate.voiceRecognitionCommandNames;
-      
-        [self sendRequest:changeRegistration];
+
+        [self sendConnectionManagerRequest:changeRegistration withResponseHandler:nil];
     }
     
     [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpManagers];
