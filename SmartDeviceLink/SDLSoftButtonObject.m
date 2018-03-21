@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *nextStateName = nil;
     for (NSUInteger i = 0; i < self.states.count; i++) {
         if ([self.states[i].name isEqualToString:self.currentStateName]) {
-            NSUInteger nextStateNumber = (i == self.states.count) ? 0 : i;
+            NSUInteger nextStateNumber = (i == self.states.count - 1) ? 0 : (i + 1);
             nextStateName = self.states[nextStateNumber].name;
             break;
         }
