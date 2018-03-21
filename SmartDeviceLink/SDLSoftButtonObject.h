@@ -68,7 +68,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param stateName The next state.
  @return YES if a state was found with that name, NO otherwise.
  */
-- (BOOL)transitionToState:(NSString *)stateName;
+- (BOOL)transitionToStateNamed:(NSString *)stateName NS_SWIFT_NAME(transition(toState:));
+
+- (void)transitionToNextState;
 
 /**
  Return a state from the state array with a specific name.

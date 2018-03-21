@@ -150,7 +150,7 @@ NS_ASSUME_NONNULL_BEGIN
     _hexagonEnabled = hexagonEnabled;
 
     SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:@"HexagonButton"];
-    [object transitionToState:(hexagonEnabled ? @"onState" : @"offState")];
+    [object transitionToStateNamed:(hexagonEnabled ? @"onState" : @"offState")];
 }
 
 - (void)sdlex_updateScreen {
@@ -373,7 +373,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         weakself.textEnabled = !weakself.textEnabled;
         SDLSoftButtonObject *object = [weakself.sdlManager.screenManager softButtonObjectNamed:@"TextButton"];
-        [object transitionToState:(weakself.textEnabled ? @"onState" : @"offState")];
+        [object transitionToNextState];
 
         SDLLogD(@"Text visibility soft button press fired %d", weakself.textEnabled);
     }];
@@ -388,7 +388,7 @@ NS_ASSUME_NONNULL_BEGIN
         weakself.imagesEnabled = !weakself.imagesEnabled;
 
         SDLSoftButtonObject *object = [weakself.sdlManager.screenManager softButtonObjectNamed:@"ImagesButton"];
-        [object transitionToState:(weakself.imagesEnabled ? @"onState" : @"offState")];
+        [object transitionToNextState];
 
         SDLLogD(@"Image visibility soft button press fired %d", weakself.imagesEnabled);
     }];

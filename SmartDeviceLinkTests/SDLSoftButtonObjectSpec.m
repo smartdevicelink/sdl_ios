@@ -32,7 +32,7 @@ describe(@"a soft button object", ^{
         });
 
         it(@"should not allow transitioning to another state", ^{
-            BOOL performedTransition = [testObject transitionToState:@"Some other state"];
+            BOOL performedTransition = [testObject transitionToStateNamed:@"Some other state"];
             expect(performedTransition).to(beFalsy());
         });
 
@@ -70,7 +70,7 @@ describe(@"a soft button object", ^{
         });
 
         it(@"should transitioning to the second state", ^{
-            BOOL performedTransition = [testObject transitionToState:testSecondStateName];
+            BOOL performedTransition = [testObject transitionToStateNamed:testSecondStateName];
             expect(performedTransition).to(beTruthy());
             expect(testObject.currentState.name).to(equal(testSecondStateName));
         });

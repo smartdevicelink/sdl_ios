@@ -5,6 +5,7 @@
 #import "SDLArtwork.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLFileManager.h"
+#import "SDLHMILevel.h"
 #import "SDLImage.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
@@ -31,6 +32,8 @@
 @property (strong, nonatomic, nullable) SDLShow *queuedImageUpdate;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (copy, nonatomic, nullable) SDLSoftButtonUpdateCompletionHandler queuedUpdateHandler;
+@property (strong, nonatomic, nullable) SDLHMILevel currentLevel;
+@property (assign, nonatomic) BOOL waitingOnHMILevelUpdateToSetButtons;
 
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 @property (strong, nonatomic, nullable) SDLSoftButtonCapabilities *softButtonCapabilities;
@@ -67,6 +70,42 @@ fdescribe(@"a soft button manager", ^{
         testConnectionManager = [[TestConnectionManager alloc] init];
 
         testManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager];
+
+        testManager.currentLevel = SDLHMILevelFull;
+    });
+
+    context(@"when in HMI NONE", ^{
+        beforeEach(^{
+            testManager.currentLevel = SDLHMILevelNone;
+
+            NSString *sameName = @"Same name";
+            testObject1 = [[SDLSoftButtonObject alloc] initWithName:sameName states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
+            testObject2 = [[SDLSoftButtonObject alloc] initWithName:sameName state:object2State1 handler:nil];
+
+            testManager.softButtonObjects = @[testObject1, testObject2];
+        });
+
+        it(@"should not set the soft buttons", ^{
+            expect(testManager.waitingOnHMILevelUpdateToSetButtons).to(beTrue());
+            expect(testManager.inProgressUpdate).to(beNil());
+        });
+    });
+
+    context(@"when no HMI level has been received", ^{
+        beforeEach(^{
+            testManager.currentLevel = nil;
+
+            NSString *sameName = @"Same name";
+            testObject1 = [[SDLSoftButtonObject alloc] initWithName:sameName states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
+            testObject2 = [[SDLSoftButtonObject alloc] initWithName:sameName state:object2State1 handler:nil];
+
+            testManager.softButtonObjects = @[testObject1, testObject2];
+        });
+
+        it(@"should not set the soft buttons", ^{
+            expect(testManager.waitingOnHMILevelUpdateToSetButtons).to(beTrue());
+            expect(testManager.inProgressUpdate).to(beNil());
+        });
     });
 
     context(@"when button objects have the same name", ^{
@@ -101,6 +140,19 @@ fdescribe(@"a soft button manager", ^{
 
         it(@"should retrieve soft buttons correctly", ^{
             expect([testManager softButtonObjectNamed:object1Name].name).to(equal(object1Name));
+        });
+
+        context(@"when the HMI level is now NONE", ^{
+            beforeEach(^{
+                testManager.currentLevel = SDLHMILevelNone;
+                testManager.inProgressUpdate = nil;
+            });
+
+            it(@"should not transition buttons", ^{
+                [testObject1 transitionToNextState];
+
+                expect(testManager.inProgressUpdate).to(beNil());
+            });
         });
     });
 
@@ -200,7 +252,7 @@ fdescribe(@"a soft button manager", ^{
 
         it(@"should queue an update", ^{
             testManager.inProgressUpdate = nil; // Reset due to setting the soft button objects
-            [testObject1 transitionToState:object1State2Name];
+            [testObject1 transitionToStateNamed:object1State2Name];
 
             expect(testManager.inProgressUpdate).toNot(beNil());
             expect(testManager.inProgressUpdate.mainField1).to(beEmpty());

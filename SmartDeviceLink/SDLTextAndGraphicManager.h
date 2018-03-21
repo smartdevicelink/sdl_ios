@@ -35,6 +35,7 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
 @property (copy, nonatomic, nullable) NSString *textField2;
 @property (copy, nonatomic, nullable) NSString *textField3;
 @property (copy, nonatomic, nullable) NSString *textField4;
+@property (copy, nonatomic, nullable) NSString *mediaTrackTextField;
 @property (strong, nonatomic, nullable) SDLArtwork *primaryGraphic;
 @property (strong, nonatomic, nullable) SDLArtwork *secondaryGraphic;
 
