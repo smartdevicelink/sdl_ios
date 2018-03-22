@@ -19,14 +19,14 @@
 #import "SDLError.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
-#import "SDLStreamingMediaLifecycleManager.h"
 #import "SDLStreamingMediaManagerConstants.h"
+#import "SDLStreamingMediaVideoLifecycleManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLCarWindow ()
 
-@property (weak, nonatomic, nullable) SDLStreamingMediaLifecycleManager *streamManager;
+@property (weak, nonatomic, nullable) SDLStreamingMediaVideoLifecycleManager *streamManager;
 
 @property (assign, nonatomic) SDLCarWindowRenderingType renderingType;
 @property (assign, nonatomic) BOOL drawsAfterScreenUpdates;
@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLCarWindow
 
-- (instancetype)initWithStreamManager:(SDLStreamingMediaLifecycleManager *)streamManager configuration:(nonnull SDLStreamingMediaConfiguration *)configuration {
+- (instancetype)initWithStreamManager:(SDLStreamingMediaVideoLifecycleManager *)streamManager configuration:(nonnull SDLStreamingMediaConfiguration *)configuration {
     self = [super init];
     if (!self) { return nil; }
 

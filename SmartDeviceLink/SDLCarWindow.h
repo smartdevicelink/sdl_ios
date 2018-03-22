@@ -8,7 +8,7 @@
 #import <UIKit/UIKit.h>
 
 @class SDLStreamingMediaConfiguration;
-@class SDLStreamingMediaLifecycleManager;
+@class SDLStreamingMediaVideoLifecycleManager;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param configuration The streaming media configuration
  @return An instance of this class
  */
-- (instancetype)initWithStreamManager:(SDLStreamingMediaLifecycleManager *)streamManager configuration:(SDLStreamingMediaConfiguration *)configuration;
+- (instancetype)initWithStreamManager:(SDLStreamingMediaVideoLifecycleManager *)streamManager configuration:(SDLStreamingMediaConfiguration *)configuration;
 
 /**
  *  View Controller that will be streamed.
