@@ -41,6 +41,8 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
 
 /**
  *  A table for tracking all subscribers
+ *
+ *  If you update protocolDelegateTable while the protocol is running, please make sure to guard with @synchronized.
  */
 @property (nullable, strong, nonatomic) NSHashTable<id<SDLProtocolListener>> *protocolDelegateTable;
 

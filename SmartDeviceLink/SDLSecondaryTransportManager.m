@@ -80,11 +80,15 @@ static const float RetryConnectionDelay = 15.0;
 }
 
 - (void)start {
-    [self.primaryProtocol.protocolDelegateTable addObject:self];
+    @synchronized(self.primaryProtocol.protocolDelegateTable) {
+        [self.primaryProtocol.protocolDelegateTable addObject:self];
+    }
 }
 
 - (void)stop {
-    [self.primaryProtocol.protocolDelegateTable removeObject:self];
+    @synchronized(self.primaryProtocol.protocolDelegateTable) {
+        [self.primaryProtocol.protocolDelegateTable removeObject:self];
+    }
 }
 
 // called from protocol's _reeiveQueue of Primary Transport

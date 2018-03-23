@@ -111,8 +111,10 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
 - (void)startWithProtocol:(SDLProtocol *)protocol {
     _protocol = protocol;
 
-    if (![self.protocol.protocolDelegateTable containsObject:self]) {
-        [self.protocol.protocolDelegateTable addObject:self];
+    @synchronized(self.protocol.protocolDelegateTable) {
+        if (![self.protocol.protocolDelegateTable containsObject:self]) {
+            [self.protocol.protocolDelegateTable addObject:self];
+        }
     }
 }
 
