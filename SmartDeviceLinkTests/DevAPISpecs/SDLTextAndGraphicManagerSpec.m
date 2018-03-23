@@ -4,6 +4,7 @@
 
 #import "SDLDisplayCapabilities.h"
 #import "SDLFileManager.h"
+#import "SDLHMILevel.h"
 #import "SDLImage.h"
 #import "SDLMetadataTags.h"
 #import "SDLShow.h"
@@ -27,6 +28,7 @@
 @property (copy, nonatomic, nullable) SDLTextAndGraphicUpdateCompletionHandler queuedUpdateHandler;
 
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
+@property (strong, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @property (strong, nonatomic) SDLArtwork *blankArtwork;
 
@@ -41,6 +43,7 @@ describe(@"text and graphic manager", ^{
     __block TestConnectionManager *mockConnectionManager = [[TestConnectionManager alloc] init];
     __block SDLFileManager *mockFileManager = nil;
 
+    __block NSString *testString = @"some string";
     __block NSString *testArtworkName = @"some artwork name";
     __block SDLArtwork *testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName fileExtension:@"png" persistent:NO];
 
@@ -63,8 +66,38 @@ describe(@"text and graphic manager", ^{
         expect(testManager.textField4Type).to(beNil());
     });
 
+    context(@"when in HMI NONE", ^{
+        beforeEach(^{
+            testManager.currentLevel = SDLHMILevelNone;
+        });
+
+        it(@"should not set text field 1", ^{
+            testManager.textField1 = testString;
+
+            expect(testManager.textField1).to(equal(testString));
+            expect(testManager.inProgressUpdate).to(beNil());
+            expect(testManager.isDirty).to(beFalse());
+        });
+    });
+
+    context(@"when no HMI level has been received", ^{
+        beforeEach(^{
+            testManager.currentLevel = nil;
+        });
+
+        it(@"should not set text field 1", ^{
+            testManager.textField1 = testString;
+
+            expect(testManager.textField1).to(equal(testString));
+            expect(testManager.inProgressUpdate).to(beNil());
+            expect(testManager.isDirty).to(beFalse());
+        });
+    });
+
     describe(@"setting setters", ^{
-        __block NSString *testString = @"some string";
+        beforeEach(^{
+            testManager.currentLevel = SDLHMILevelFull;
+        });
 
         context(@"while batching", ^{
             beforeEach(^{
@@ -267,6 +300,7 @@ describe(@"text and graphic manager", ^{
         SDLMetadataType line4Type = SDLMetadataTypeMediaStation;
 
         beforeEach(^{
+            testManager.currentLevel = SDLHMILevelFull;
             testManager.batchUpdates = YES;
 
             testManager.textField1 = nil;

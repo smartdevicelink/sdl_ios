@@ -13,7 +13,9 @@
 #import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLLogMacros.h"
+#import "SDLOnHMIStatus.h"
 #import "SDLRegisterAppInterfaceResponse.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLShow.h"
@@ -45,8 +47,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (copy, nonatomic, nullable) SDLSoftButtonUpdateCompletionHandler queuedUpdateHandler;
 
+@property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 @property (strong, nonatomic, nullable) SDLSoftButtonCapabilities *softButtonCapabilities;
+
+@property (assign, nonatomic) BOOL waitingOnHMILevelUpdateToSetButtons;
 
 @end
 
@@ -60,13 +65,23 @@ NS_ASSUME_NONNULL_BEGIN
     _fileManager = fileManager;
     _softButtonObjects = @[];
 
+    _currentLevel = SDLHMILevelNone; // Assume NONE until we get something else
+    _waitingOnHMILevelUpdateToSetButtons = NO;
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
 
     return self;
 }
 
 - (void)setSoftButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects {
+    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
+        _waitingOnHMILevelUpdateToSetButtons = YES;
+        _softButtonObjects = softButtonObjects;
+        return;
+    }
+
     self.inProgressUpdate = nil;
     if (self.inProgressHandler != nil) {
         self.inProgressHandler([NSError sdl_softButtonManager_pendingUpdateSuperseded]);
@@ -161,6 +176,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_updateWithCompletionHandler:(nullable SDLSoftButtonUpdateCompletionHandler)handler {
+    // Don't send if we're in HMI NONE
+    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
+        return;
+    }
+
     SDLLogD(@"Updating soft buttons");
     if (self.inProgressUpdate != nil) {
         SDLLogV(@"In progress update exists, queueing update");
@@ -301,6 +321,22 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Auto-send an updated Show
     [self updateWithCompletionHandler:nil];
+}
+
+- (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
+    SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
+
+    SDLHMILevel oldHMILevel = self.currentLevel;
+    self.currentLevel = hmiStatus.hmiLevel;
+
+    // Auto-send an updated show if we were in NONE and now we are not
+    if ([oldHMILevel isEqualToString:SDLHMILevelNone] && ![self.currentLevel isEqualToString:SDLHMILevelNone]) {
+        if (self.waitingOnHMILevelUpdateToSetButtons) {
+            [self setSoftButtonObjects:_softButtonObjects];
+        } else {
+            [self sdl_updateWithCompletionHandler:nil];
+        }
+    }
 }
 
 @end
