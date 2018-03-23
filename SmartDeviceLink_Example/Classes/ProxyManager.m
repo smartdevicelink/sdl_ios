@@ -6,9 +6,7 @@
 #import "ProxyManager.h"
 #import "Preferences.h"
 
-NSString *const SDLAppNameEnglish = @"SDL Example App";
-NSString *const SDLAppNameFrench = @"SDL Exemple App";
-NSString *const SDLAppNameSpanish = @"SDL Aplicación de ejemplo";
+NSString *const SDLAppName = @"SDL Example App";
 NSString *const SDLAppId = @"9999";
 
 
@@ -69,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
     // Check for previous instance of sdlManager
     if (self.sdlManager) { return; }
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppNameEnglish appId:SDLAppId]];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId]];
     [self sdlex_setupConfigurationWithLifecycleConfiguration:lifecycleConfig];
 }
 
@@ -77,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
     // Check for previous instance of sdlManager
     if (self.sdlManager) { return; }
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppNameEnglish appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
     [self sdlex_setupConfigurationWithLifecycleConfiguration:lifecycleConfig];
 }
 
@@ -144,7 +142,7 @@ NS_ASSUME_NONNULL_BEGIN
     _hexagonEnabled = hexagonEnabled;
 
     SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:@"HexagonButton"];
-    [object transitionToStateNamed:(hexagonEnabled ? @"onState" : @"offState")];
+    [object transitionToNextState];
 }
 
 - (void)sdlex_updateScreen {
@@ -449,17 +447,19 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] init];
 
     if ([language isEqualToEnum:SDLLanguageEnUs]) {
-        update.appName = SDLAppNameEnglish;
+        update.appName = SDLAppName;
     } else if ([language isEqualToString:SDLLanguageEsMx]) {
+        NSString *SDLAppNameSpanish = @"SDL Aplicación de ejemplo";
         update.appName = SDLAppNameSpanish;
     } else if ([language isEqualToString:SDLLanguageFrCa]) {
+        NSString *SDLAppNameFrench = @"SDL Exemple App";
         update.appName = SDLAppNameFrench;
     } else {
         return nil;
     }
 
     update.ttsName = [SDLTTSChunk textChunksFromString:update.appName];
-    update.voiceRecognitionCommandNames = @[@"S D L", @"SDL", @"SmartDevice", @"SmartDeviceLink", @"Example"];
+    update.voiceRecognitionCommandNames = @[@"S D L", @"SmartDevice", @"SmartDeviceLink"];
     return update;
 }
 
