@@ -201,7 +201,6 @@ NS_ASSUME_NONNULL_BEGIN
     logConfig.modules = [logConfig.modules setByAddingObject:sdlExampleModule];
     logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
     // logConfig.filters = [logConfig.filters setByAddingObject:[SDLLogFilter filterByAllowingModules:[NSSet setWithObject:@"Transport"]]];
-    logConfig.globalLogLevel = SDLLogLevelVerbose;
 
     return logConfig;
 }
