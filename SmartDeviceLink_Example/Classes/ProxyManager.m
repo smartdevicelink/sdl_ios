@@ -136,13 +136,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setImagesEnabled:(BOOL)imagesEnabled {
     _imagesEnabled = imagesEnabled;
     [self sdlex_updateScreen];
+    [self setHexagonButtonIcon:self.isHexagonEnabled imagesEnabled:imagesEnabled];
 }
 
 - (void)setHexagonEnabled:(BOOL)hexagonEnabled {
     _hexagonEnabled = hexagonEnabled;
+    [self setHexagonButtonIcon:hexagonEnabled imagesEnabled:self.areImagesEnabled];
+}
 
+- (void)setHexagonButtonIcon:(BOOL)hexagonEnabled imagesEnabled:(BOOL)imagesEnabled {
     SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:@"HexagonButton"];
-    [object transitionToNextState];
+    imagesEnabled ? [object transitionToStateNamed:(hexagonEnabled ? @"imageOnState" : @"imageOffState")] : [object transitionToStateNamed:(hexagonEnabled ? @"textOnState" : @"textOffState")];
 }
 
 - (void)sdlex_updateScreen {
@@ -351,12 +355,12 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogD(@"Star icon soft button press fired");
     }];
 
-    SDLSoftButtonState *hexOnState = [[SDLSoftButtonState alloc] initWithStateName:@"onState" text:@"➖Hex" image:[UIImage imageNamed:@"hexagon_on_softbutton_icon"]];
-    SDLSoftButtonState *hexOffState = [[SDLSoftButtonState alloc] initWithStateName:@"offState" text:@"➕Hex" image:[UIImage imageNamed:@"hexagon_off_softbutton_icon"]];
-    SDLSoftButtonObject *hexButton = [[SDLSoftButtonObject alloc] initWithName:@"HexagonButton" states:@[hexOnState, hexOffState] initialStateName:@"onState" handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
-        if (buttonPress == nil) {
-            return;
-        }
+    SDLSoftButtonState *hexImageOnState = [[SDLSoftButtonState alloc] initWithStateName:@"imageOnState" text:nil image:[UIImage imageNamed:@"hexagon_on_softbutton_icon"]];
+    SDLSoftButtonState *hexImageOffState = [[SDLSoftButtonState alloc] initWithStateName:@"imageOffState" text:nil image:[UIImage imageNamed:@"hexagon_off_softbutton_icon"]];
+    SDLSoftButtonState *hexTextOnState = [[SDLSoftButtonState alloc] initWithStateName:@"textOnState" text:@"➖Hex" image:nil];
+    SDLSoftButtonState *hexTextOffState = [[SDLSoftButtonState alloc] initWithStateName:@"textOffState" text:@"➕Hex" image:nil];
+    SDLSoftButtonObject *hexButton = [[SDLSoftButtonObject alloc] initWithName:@"HexagonButton" states:@[hexImageOnState, hexImageOffState, hexTextOnState, hexTextOffState] initialStateName:hexImageOnState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+        if (buttonPress == nil) { return; }
 
         weakself.hexagonEnabled = !weakself.hexagonEnabled;
         SDLLogD(@"Hexagon icon button press fired %d", self.hexagonEnabled);
