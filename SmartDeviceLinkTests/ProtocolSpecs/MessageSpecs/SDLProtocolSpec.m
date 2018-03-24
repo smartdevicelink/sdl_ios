@@ -10,6 +10,7 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLTransportType.h"
+#import "SDLGlobals.h"
 #import "SDLProtocolHeader.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolMessage.h"
@@ -35,6 +36,10 @@ NSDictionary* dictionaryV2 = @{SDLNameCommandId:@55};
 describe(@"Send StartService Tests", ^ {
     context(@"Unsecure", ^{
         it(@"Should send the correct data", ^ {
+            // Reset max protocol version before test. (This test case expects V1 header. If other test ran
+            // prior to this one, SDLGlobals would keep the max protocol version and this test case would fail.)
+            [[SDLGlobals sharedGlobals] setMaxHeadUnitVersion:@"1.0.0"];
+
             SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
             
             __block BOOL verified = NO;
