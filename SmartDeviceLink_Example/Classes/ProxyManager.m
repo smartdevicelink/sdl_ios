@@ -3,20 +3,12 @@
 //  SmartDeviceLink-iOS
 
 #import "SmartDeviceLink.h"
-
 #import "ProxyManager.h"
-
 #import "Preferences.h"
-
 
 NSString *const SDLAppName = @"SDL Example App";
 NSString *const SDLAppId = @"9999";
 
-NSString *const HexagonOffSoftButtonArtworkName = @"HexagonOffSoftButtonIcon";
-NSString *const HexagonOnSoftButtonArtworkName = @"HexagonOnSoftButtonIcon";
-NSString *const MainGraphicArtworkName = @"MainArtwork";
-NSString *const MainGraphicBlankArtworkName = @"MainBlankArtwork";
-NSString *const StarSoftButtonArtworkName = @"StarSoftButtonIcon";
 
 BOOL const ShouldRestartOnDisconnect = NO;
 
@@ -76,11 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
     // Check for previous instance of sdlManager
     if (self.sdlManager) { return; }
     SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId]];
-    
-    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration debugConfiguration]];
-    self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
-
-    [self startManager];
+    [self sdlex_setupConfigurationWithLifecycleConfiguration:lifecycleConfig];
 }
 
 - (void)startTCP {
@@ -88,7 +76,11 @@ NS_ASSUME_NONNULL_BEGIN
     // Check for previous instance of sdlManager
     if (self.sdlManager) { return; }
     SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
-    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration debugConfiguration]];
+    [self sdlex_setupConfigurationWithLifecycleConfiguration:lifecycleConfig];
+}
+
+- (void)sdlex_setupConfigurationWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
+    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfigurationWithAppIcon:[UIImage imageNamed:@"AppIcon60x60@2x"] backgroundColor:nil] logging:[self.class sdlex_logConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
 
     [self startManager];
@@ -144,13 +136,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setImagesEnabled:(BOOL)imagesEnabled {
     _imagesEnabled = imagesEnabled;
     [self sdlex_updateScreen];
+    [self setHexagonButtonIconEnabled:self.isHexagonEnabled imagesEnabled:imagesEnabled];
 }
 
 - (void)setHexagonEnabled:(BOOL)hexagonEnabled {
     _hexagonEnabled = hexagonEnabled;
+    [self setHexagonButtonIconEnabled:hexagonEnabled imagesEnabled:self.areImagesEnabled];
+}
 
+- (void)setHexagonButtonIconEnabled:(BOOL)hexagonEnabled imagesEnabled:(BOOL)imagesEnabled {
     SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:@"HexagonButton"];
-    [object transitionToStateNamed:(hexagonEnabled ? @"onState" : @"offState")];
+    imagesEnabled ? [object transitionToStateNamed:(hexagonEnabled ? @"imageOnState" : @"imageOffState")] : [object transitionToStateNamed:(hexagonEnabled ? @"textOnState" : @"textOffState")];
 }
 
 - (void)sdlex_updateScreen {
@@ -159,7 +155,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.sdlManager.screenManager.textField1 = self.isTextEnabled ? @"SmartDeviceLink" : nil;
     self.sdlManager.screenManager.textField2 = self.isTextEnabled ? @"Example App" : nil;
 
-    self.sdlManager.screenManager.primaryGraphic = self.areImagesEnabled ? [SDLArtwork artworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] name:@"PrimaryArt" asImageFormat:SDLArtworkImageFormatPNG] : nil;
+    self.sdlManager.screenManager.primaryGraphic = self.areImagesEnabled ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] asImageFormat:SDLArtworkImageFormatPNG] : nil;
 
     [self.sdlManager.screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
         NSLog(@"Updated text and graphics, error? %@", error);
@@ -191,12 +187,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
-    SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"AppIcon60x60@2x"] name:@"AppIcon" asImageFormat:SDLArtworkImageFormatPNG];
-    
+    SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"AppIcon60x60@2x"] asImageFormat:SDLArtworkImageFormatPNG];
+
     config.shortAppName = @"SDL Example";
     config.appIcon = appIconArt;
     config.voiceRecognitionCommandNames = @[@"S D L Example"];
     config.ttsName = [SDLTTSChunk textChunksFromString:config.shortAppName];
+    config.language = SDLLanguageEnUs;
+    config.languagesSupported = @[SDLLanguageEnUs, SDLLanguageFrCa, SDLLanguageEsMx];
 
     return config;
 }
@@ -206,7 +204,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Example" files:[NSSet setWithArray:@[@"ProxyManager"]]];
     logConfig.modules = [logConfig.modules setByAddingObject:sdlExampleModule];
     logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
-//    logConfig.filters = [logConfig.filters setByAddingObject:[SDLLogFilter filterByAllowingModules:[NSSet setWithObject:@"Transport"]]];
+    // logConfig.filters = [logConfig.filters setByAddingObject:[SDLLogFilter filterByAllowingModules:[NSSet setWithObject:@"Transport"]]];
 
     return logConfig;
 }
@@ -353,12 +351,12 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogD(@"Star icon soft button press fired");
     }];
 
-    SDLSoftButtonState *hexOnState = [[SDLSoftButtonState alloc] initWithStateName:@"onState" text:@"➖Hex" image:[UIImage imageNamed:@"hexagon_on_softbutton_icon"]];
-    SDLSoftButtonState *hexOffState = [[SDLSoftButtonState alloc] initWithStateName:@"offState" text:@"➕Hex" image:[UIImage imageNamed:@"hexagon_off_softbutton_icon"]];
-    SDLSoftButtonObject *hexButton = [[SDLSoftButtonObject alloc] initWithName:@"HexagonButton" states:@[hexOnState, hexOffState] initialStateName:@"onState" handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
-        if (buttonPress == nil) {
-            return;
-        }
+    SDLSoftButtonState *hexImageOnState = [[SDLSoftButtonState alloc] initWithStateName:@"imageOnState" text:nil image:[UIImage imageNamed:@"hexagon_on_softbutton_icon"]];
+    SDLSoftButtonState *hexImageOffState = [[SDLSoftButtonState alloc] initWithStateName:@"imageOffState" text:nil image:[UIImage imageNamed:@"hexagon_off_softbutton_icon"]];
+    SDLSoftButtonState *hexTextOnState = [[SDLSoftButtonState alloc] initWithStateName:@"textOnState" text:@"➖Hex" image:nil];
+    SDLSoftButtonState *hexTextOffState = [[SDLSoftButtonState alloc] initWithStateName:@"textOffState" text:@"➕Hex" image:nil];
+    SDLSoftButtonObject *hexButton = [[SDLSoftButtonObject alloc] initWithName:@"HexagonButton" states:@[hexImageOnState, hexImageOffState, hexTextOnState, hexTextOffState] initialStateName:hexImageOnState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+        if (buttonPress == nil) { return; }
 
         weakself.hexagonEnabled = !weakself.hexagonEnabled;
         SDLLogD(@"Hexagon icon button press fired %d", self.hexagonEnabled);
@@ -404,51 +402,6 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-#pragma mark - Files / Artwork
-
-- (void)sdlex_uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(void (^)(BOOL success))completionHandler {
-    [self.sdlManager.fileManager uploadFiles:files completionHandler:^(NSError * _Nullable error) {
-        if(!error) {
-            return completionHandler(true);
-        } else {
-            SDLLogD(@"Failed file uploads: %@", error.userInfo);
-            return completionHandler(false);
-        }
-    }];
-}
-
-- (void)sdlex_uploadFilesWithProgressHandler:(NSArray<SDLFile *> *)files completionHandler:(void (^)(BOOL success))completionHandler {
-    [self.sdlManager.fileManager uploadFiles:files progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
-        if (error) {
-            SDLLogD(@"The file did not upload: %@", error);
-            // You may want to cancel all future file uploads if the last file failed during the upload process
-            return NO;
-        }
-
-        // The file was sent successfully
-        // Keep uploading the rest of the files
-        return YES;
-    } completionHandler:^(NSError * _Nullable error) {
-        if(!error) {
-            return completionHandler(true);
-        } else {
-            SDLLogD(@"Failed file uploads: %@", error.userInfo);
-            return completionHandler(false);
-        }
-    }];
-}
-
-- (void)sdlex_deleteFiles:(NSArray<NSString *> *)fileNames completionHandler:(void (^)(BOOL success))completionHandler {
-    [self.sdlManager.fileManager deleteRemoteFilesWithNames:fileNames completionHandler:^(NSError * _Nullable error) {
-        if(!error) {
-            return completionHandler(true);
-        } else {
-            SDLLogD(@"Failed file deletes: %@", error.userInfo);
-            return completionHandler(false);
-        }
-    }];
-}
-
 - (void)sdlex_prepareRemoteSystem {
     [self.sdlManager sendRequests:@[[self.class sdlex_speakNameCommandWithManager:self.sdlManager], [self.class sdlex_interactionSetCommandWithManager:self.sdlManager], [self.class sdlex_vehicleDataCommandWithManager:self.sdlManager], [self.class sdlex_createOnlyChoiceInteractionSet]]
                   progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
@@ -487,6 +440,25 @@ NS_ASSUME_NONNULL_BEGIN
         // We're always going to try to show the initial state, because if we've already shown it, it won't be shown, and we need to guard against some possible weird states
         [self sdlex_showInitialData];
     }
+}
+
+- (nullable SDLLifecycleConfigurationUpdate *)managerShouldUpdateLifecycleToLanguage:(SDLLanguage)language {
+    SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] init];
+
+    if ([language isEqualToEnum:SDLLanguageEnUs]) {
+        update.appName = SDLAppName;
+    } else if ([language isEqualToString:SDLLanguageEsMx]) {
+        NSString *SDLAppNameSpanish = @"SDL Aplicación de ejemplo";
+        update.appName = SDLAppNameSpanish;
+    } else if ([language isEqualToString:SDLLanguageFrCa]) {
+        NSString *SDLAppNameFrench = @"SDL Exemple App";
+        update.appName = SDLAppNameFrench;
+    } else {
+        return nil;
+    }
+
+    update.ttsName = [SDLTTSChunk textChunksFromString:update.appName];
+    return update;
 }
 
 @end
