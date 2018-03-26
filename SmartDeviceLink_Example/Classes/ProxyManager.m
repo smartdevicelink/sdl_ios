@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdlex_setupConfigurationWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
-    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[self.class sdlex_lockConfiguration] logging:[self.class sdlex_logConfiguration]];
+    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfigurationWithAppIcon:[UIImage imageNamed:@"AppIcon60x60@2x"] backgroundColor:nil] logging:[self.class sdlex_logConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
 
     [self startManager];
@@ -207,10 +207,6 @@ NS_ASSUME_NONNULL_BEGIN
     // logConfig.filters = [logConfig.filters setByAddingObject:[SDLLogFilter filterByAllowingModules:[NSSet setWithObject:@"Transport"]]];
 
     return logConfig;
-}
-
-+ (SDLLockScreenConfiguration *)sdlex_lockConfiguration {
-    return [SDLLockScreenConfiguration enabledConfigurationWithAppIcon:[UIImage imageNamed:@"AppIcon60x60@2x"] backgroundColor:nil];
 }
 
 - (void)sdlex_updateProxyState:(ProxyState)newState {
