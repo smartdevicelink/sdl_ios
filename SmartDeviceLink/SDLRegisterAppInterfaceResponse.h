@@ -114,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Array of length 1 - 100, of SDLVRCapabilities
  */
-@property (nullable, strong, nonatomic) NSArray<SDLVRCapabilities> *vrCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLVrCapabilities> *vrCapabilities;
 
 /**
  * @see SDLAudioPassThruCapabilities
