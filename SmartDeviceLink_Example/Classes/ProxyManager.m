@@ -136,15 +136,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setImagesEnabled:(BOOL)imagesEnabled {
     _imagesEnabled = imagesEnabled;
     [self sdlex_updateScreen];
-    [self setHexagonButtonIcon:self.isHexagonEnabled imagesEnabled:imagesEnabled];
+    [self setHexagonButtonIconEnabled:self.isHexagonEnabled imagesEnabled:imagesEnabled];
 }
 
 - (void)setHexagonEnabled:(BOOL)hexagonEnabled {
     _hexagonEnabled = hexagonEnabled;
-    [self setHexagonButtonIcon:hexagonEnabled imagesEnabled:self.areImagesEnabled];
+    [self setHexagonButtonIconEnabled:hexagonEnabled imagesEnabled:self.areImagesEnabled];
 }
 
-- (void)setHexagonButtonIcon:(BOOL)hexagonEnabled imagesEnabled:(BOOL)imagesEnabled {
+- (void)setHexagonButtonIconEnabled:(BOOL)hexagonEnabled imagesEnabled:(BOOL)imagesEnabled {
     SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:@"HexagonButton"];
     imagesEnabled ? [object transitionToStateNamed:(hexagonEnabled ? @"imageOnState" : @"imageOffState")] : [object transitionToStateNamed:(hexagonEnabled ? @"textOnState" : @"textOffState")];
 }
