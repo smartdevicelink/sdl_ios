@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.prerecordedSpeech = response.prerecordedSpeech;
     self.vrCapabilities = response.vrCapabilities;
     self.audioPassThruCapabilities = response.audioPassThruCapabilities;
-    self.pcmStreamCapabilities = @[response.pcmStreamCapabilities];
+    self.pcmStreamCapabilities = response.pcmStreamCapabilities != nil ? @[response.pcmStreamCapabilities] : nil;
 }
 
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
