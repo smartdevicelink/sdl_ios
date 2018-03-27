@@ -112,6 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLScrollableMessage *scrollableMessage = (SDLScrollableMessage *)request;
         [self sdl_addToCustomButtonHandlerMap:scrollableMessage.softButtons];
     } else if ([request isKindOfClass:[SDLShow class]]) {
+        [self sdl_removeOldButtonHandlers];
         SDLShow *show = (SDLShow *)request;
         [self sdl_addToCustomButtonHandlerMap:show.softButtons];
     } else if ([request isKindOfClass:[SDLPerformAudioPassThru class]]) {
@@ -138,6 +139,19 @@ NS_ASSUME_NONNULL_BEGIN
     [self.buttonHandlerMap removeAllObjects];
     [self.customButtonHandlerMap removeAllObjects];
     _audioPassThruHandler = nil;
+}
+
+- (void)sdl_removeOldButtonHandlers {
+    for(SDLRPCCorrelationId *key in self.rpcRequestDictionary.allKeys)
+    {
+        if ([self.rpcRequestDictionary[key] isKindOfClass:[SDLShow class]])
+        {
+            SDLShow *oldShow = (SDLShow *)self.rpcRequestDictionary[key];
+            for (SDLSoftButton *softButton in oldShow.softButtons) {
+                [self.customButtonHandlerMap removeObjectForKey:softButton.softButtonID];
+            }
+        }
+    }
 }
 
 - (void)sdl_addToCustomButtonHandlerMap:(NSArray<SDLSoftButton *> *)softButtons {
