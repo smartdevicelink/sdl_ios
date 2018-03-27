@@ -315,6 +315,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 // Configurations
 #import "SDLConfiguration.h"
 #import "SDLLifecycleConfiguration.h"
+#import "SDLLifecycleConfigurationUpdate.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLStreamingMediaConfiguration.h"
 
@@ -344,6 +345,11 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 // Permissions
 #import "SDLPermissionConstants.h"
 #import "SDLPermissionManager.h"
+
+// Show
+#import "SDLScreenManager.h"
+#import "SDLSoftButtonObject.h"
+#import "SDLSoftButtonState.h"
 
 // Touches
 #import "SDLPinchGesture.h"

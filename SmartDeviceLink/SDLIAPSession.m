@@ -125,6 +125,10 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
 
 - (void)sdl_dequeueAndWriteToOutputStream {
     NSOutputStream *ostream = self.easession.outputStream;
+    if (!ostream.hasSpaceAvailable) {
+        return;
+    }
+    
     NSMutableData *remainder = [self.sendDataQueue frontBuffer];
 
     if (remainder != nil && ostream.streamStatus == NSStreamStatusOpen) {

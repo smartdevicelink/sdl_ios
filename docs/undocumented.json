@@ -1198,6 +1198,48 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
+      "line": 91,
+      "symbol": "SDLTextAndGraphicManagerError",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
+      "line": 91,
+      "symbol": "SDLTextAndGraphicManagerError",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
+      "line": 92,
+      "symbol": "SDLTextAndGraphicManagerError.SDLTextAndGraphicManagerErrorPendingUpdateSuperseded",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
+      "line": 95,
+      "symbol": "SDLSoftButtonManagerError",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
+      "line": 95,
+      "symbol": "SDLSoftButtonManagerError",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLErrorConstants.h",
+      "line": 96,
+      "symbol": "SDLSoftButtonManagerError.SDLSoftButtonManagerErrorPendingUpdateSuperseded",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLFile.h",
       "line": 16,
       "symbol": "SDLFile",
@@ -1213,14 +1255,14 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLFileManager.h",
-      "line": 19,
+      "line": 20,
       "symbol": "SDLFileName",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLFileManager.h",
-      "line": 21,
+      "line": 22,
       "symbol": "SDLFileManagerStartupCompletionHandler",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
@@ -1537,6 +1579,20 @@
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLImage.h",
       "line": 18,
       "symbol": "SDLImage.-initWithName:ofType:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLImage.h",
+      "line": 20,
+      "symbol": "SDLImage.-initWithName:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLImage.h",
+      "line": 22,
+      "symbol": "SDLImage.-initWithStaticImageValue:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
@@ -2053,28 +2109,35 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLManager.h",
-      "line": 28,
+      "line": 58,
       "symbol": "SDLManagerReadyBlock",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLManager.h",
-      "line": 31,
+      "line": 61,
       "symbol": "SDLManager",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLManager.h",
-      "line": 84,
+      "line": 98,
+      "symbol": "SDLManager.screenManager",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLManager.h",
+      "line": 121,
       "symbol": "SDLManager.proxy",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLManagerDelegate.h",
-      "line": 18,
+      "line": 19,
       "symbol": "SDLManagerDelegate",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.protocol",
       "warning": "undocumented"
@@ -4994,7 +5057,21 @@
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRegisterAppInterface.h",
       "line": 97,
+      "symbol": "SDLRegisterAppInterface.-initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRegisterAppInterface.h",
+      "line": 99,
       "symbol": "SDLRegisterAppInterface.-initWithAppName:appId:languageDesired:isMediaApp:appType:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLRegisterAppInterface.h",
+      "line": 101,
+      "symbol": "SDLRegisterAppInterface.-initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
@@ -5171,6 +5248,118 @@
       "line": 32,
       "symbol": "SDLResultCharacterLimitExceeded",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
+      "line": 29,
+      "symbol": "SDLScreenManager",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
+      "line": 31,
+      "symbol": "SDLScreenManager.textField1",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
+      "line": 32,
+      "symbol": "SDLScreenManager.textField2",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
+      "line": 33,
+      "symbol": "SDLScreenManager.textField3",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
+      "line": 34,
+      "symbol": "SDLScreenManager.textField4",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
+      "line": 35,
+      "symbol": "SDLScreenManager.mediaTrackTextField",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
+      "line": 36,
+      "symbol": "SDLScreenManager.primaryGraphic",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
+      "line": 37,
+      "symbol": "SDLScreenManager.secondaryGraphic",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
+      "line": 39,
+      "symbol": "SDLScreenManager.textAlignment",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
+      "line": 40,
+      "symbol": "SDLScreenManager.textField1Type",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
+      "line": 41,
+      "symbol": "SDLScreenManager.textField2Type",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
+      "line": 42,
+      "symbol": "SDLScreenManager.textField3Type",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
+      "line": 43,
+      "symbol": "SDLScreenManager.textField4Type",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
+      "line": 45,
+      "symbol": "SDLScreenManager.softButtonObjects",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
+      "line": 47,
+      "symbol": "SDLScreenManager.-initWithConnectionManager:fileManager:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLScreenManager.h",
+      "line": 73,
+      "symbol": "SDLScreenManager.-softButtonObjectNamed:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
@@ -5598,6 +5787,41 @@
       "line": 27,
       "symbol": "SDLSoftButton.systemAction",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSoftButtonObject.h",
+      "line": 20,
+      "symbol": "SDLSoftButtonObject",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSoftButtonObject.h",
+      "line": 37,
+      "symbol": "SDLSoftButtonObject.currentStateSoftButton",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSoftButtonObject.h",
+      "line": 73,
+      "symbol": "SDLSoftButtonObject.-transitionToNextState",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSoftButtonState.h",
+      "line": 18,
+      "symbol": "SDLSoftButtonState",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLSoftButtonState.h",
+      "line": 50,
+      "symbol": "SDLSoftButtonState.-init",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
@@ -6393,7 +6617,7 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLTouchManager.h",
-      "line": 82,
+      "line": 89,
       "symbol": "SDLTouchManager.-init",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"

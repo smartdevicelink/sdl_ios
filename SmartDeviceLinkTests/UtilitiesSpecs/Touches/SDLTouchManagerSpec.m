@@ -257,7 +257,54 @@ describe(@"SDLTouchManager Tests", ^{
                     expectedNumTimesHandlerCalled = 2;
                 });
             });
+            
+            describe(@"when receiving a single tap with small movement", ^{
+                
+                __block CGPoint movePoint;
+                __block SDLOnTouchEvent* firstOnTouchEventMove;
+                
+                beforeEach(^{
+                    const CGFloat moveDistance = touchManager.panDistanceThreshold;
+                    movePoint = CGPointMake(controlPoint.x + moveDistance, controlPoint.y + moveDistance);
+                    
+                    SDLTouchCoord* firstTouchCoordMove = [[SDLTouchCoord alloc] init];
+                    firstTouchCoordMove.x = @(movePoint.x);
+                    firstTouchCoordMove.y = @(movePoint.y);
+                    
+                    SDLTouchEvent* touchEventMove = [[SDLTouchEvent alloc] init];
+                    touchEventMove.touchEventId = @0;
+                    touchEventMove.coord = [NSArray arrayWithObject:firstTouchCoordMove];
+                    touchEventMove.timeStamp = [NSArray arrayWithObject:@(firstTouchTimeStamp)];
+                    
+                    firstOnTouchEventMove = [[SDLOnTouchEvent alloc] init];
+                    firstOnTouchEventMove.type = SDLTouchTypeMove;
+                    firstOnTouchEventMove.event = [NSArray arrayWithObject:touchEventMove];
+                    
+                    firstOnTouchEventEnd = [[SDLOnTouchEvent alloc] init];
+                    firstOnTouchEventEnd.type = SDLTouchTypeEnd;
+                    firstOnTouchEventEnd.event = [NSArray arrayWithObject:touchEventMove];
+                });
+                
+                it(@"should correctly handle a single tap", ^{
+                    singleTapTests = ^(NSInvocation* invocation) {
+                        __unsafe_unretained SDLTouchManager* touchManagerCallback;
+                        CGPoint point;
+                        [invocation getArgument:&touchManagerCallback atIndex:2];
+                        [invocation getArgument:&point atIndex:4];
+                        
+                        expect(touchManagerCallback).to(equal(touchManager));
+                        expect(@(CGPointEqualToPoint(point, movePoint))).to(beTruthy());
+                    };
 
+                    performTouchEvent(touchManager, firstOnTouchEventStart);
+                    performTouchEvent(touchManager, firstOnTouchEventMove);
+                    performTouchEvent(touchManager, firstOnTouchEventEnd);
+
+                    expectedDidCallSingleTap = YES;
+                    expectedNumTimesHandlerCalled = 3;
+                });
+            });
+            
             describe(@"when receiving a double tap", ^{
                 __block CGPoint averagePoint;
                 __block SDLTouchEvent* secondTouchEvent;

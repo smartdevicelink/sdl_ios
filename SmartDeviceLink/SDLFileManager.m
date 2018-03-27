@@ -40,12 +40,13 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 
 // Remote state
-@property (strong, nonatomic, readwrite) NSMutableSet<SDLFileName *> *mutableRemoteFileNames;
+@property (strong, nonatomic) NSMutableSet<SDLFileName *> *mutableRemoteFileNames;
 @property (assign, nonatomic, readwrite) NSUInteger bytesAvailable;
 
 // Local state
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 @property (strong, nonatomic) NSMutableDictionary<SDLFileName *, NSOperation *> *uploadsInProgress;
+@property (strong, nonatomic) NSMutableSet<SDLFileName *> *uploadedEphemeralFileNames;
 @property (strong, nonatomic) SDLStateMachine *stateMachine;
 @property (copy, nonatomic, nullable) SDLFileManagerStartupCompletionHandler startupCompletionHandler;
 
@@ -71,6 +72,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     _transactionQueue.name = @"SDLFileManager Transaction Queue";
     _transactionQueue.maxConcurrentOperationCount = 1;
     _uploadsInProgress = [[NSMutableDictionary alloc] init];
+    _uploadedEphemeralFileNames = [[NSMutableSet<SDLFileName *> alloc] init];
 
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLFileManagerStateShutdown states:[self.class sdl_stateTransitionDictionary]];
 
@@ -253,6 +255,20 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 }
 
 #pragma mark - Uploading
+#pragma mark Files
+
+- (BOOL)hasUploadedFile:(SDLFile *)file {
+    // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly.
+    if (file.persistent && [self.remoteFileNames containsObject:file.name]) {
+        // If it's a persistant file, the bug won't present itself; just check if it's on the remote system
+        return true;
+    } else if (!file.persistent && [self.remoteFileNames containsObject:file.name] && [self.uploadedEphemeralFileNames containsObject:file.name]) {
+        // If it's an ephemeral file, the bug will present itself; check that it's a remote file AND that we've uploaded it this session
+        return true;
+    }
+
+    return false;
+}
 
 - (void)uploadFiles:(NSArray<SDLFile *> *)files completionHandler:(nullable SDLFileManagerMultiUploadCompletionHandler)completionHandler {
     [self uploadFiles:files progressHandler:nil completionHandler:completionHandler];
@@ -340,9 +356,9 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 }
 
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)handler {
-    if (file == nil) {
+    if (file == nil || file.data.length == 0) {
         if (handler != nil) {
-            handler(NO, self.bytesAvailable, [NSError sdl_fileManager_unableToUploadError]);
+            handler(NO, self.bytesAvailable, [NSError sdl_fileManager_dataMissingError]);
         }
         return;
     }
@@ -355,12 +371,16 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         return;
     }
 
+    // HAX: [#827](https://github.com/smartdevicelink/sdl_ios/issues/827) Older versions of Core had a bug where list files would cache incorrectly. This led to attempted uploads failing due to the system thinking they were already there when they were not.
+    if (!file.persistent && ![self hasUploadedFile:file]) {
+        file.overwrite = true;
+    }
+
     // Check our overwrite settings and error out if it would overwrite
     if (file.overwrite == NO && [self.remoteFileNames containsObject:file.name]) {
         if (handler != nil) {
             handler(NO, self.bytesAvailable, [NSError sdl_fileManager_cannotOverwriteError]);
         }
-
         return;
     }
 
@@ -383,6 +403,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         }
         if (success) {
             [weakSelf.mutableRemoteFileNames addObject:fileName];
+            [weakSelf.uploadedEphemeralFileNames addObject:fileName];
         }
         if (uploadCompletion != nil) {
             uploadCompletion(success, bytesAvailable, error);
@@ -395,6 +416,64 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     [self.transactionQueue addOperation:uploadOperation];
 }
 
+#pragma mark Artworks
+
+- (void)uploadArtwork:(SDLArtwork *)artwork completionHandler:(nullable SDLFileManagerUploadArtworkCompletionHandler)completion {
+    [self uploadFile:artwork completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+        if (completion == nil) { return; }
+        if ([self isErrorACannotOverwriteError:error]) {
+            // Artwork with same name already uploaded to remote
+            return completion(true, artwork.name, bytesAvailable, nil);
+        }
+        completion(success, artwork.name, bytesAvailable, error);
+    }];
+}
+
+- (void)uploadArtworks:(NSArray<SDLArtwork *> *)artworks completionHandler:(nullable SDLFileManagerMultiUploadArtworkCompletionHandler)completion {
+    [self uploadArtworks:artworks progressHandler:nil completionHandler:completion];
+}
+
+- (void)uploadArtworks:(NSArray<SDLArtwork *> *)artworks progressHandler:(nullable SDLFileManagerMultiUploadArtworkProgressHandler)progressHandler completionHandler:(nullable SDLFileManagerMultiUploadArtworkCompletionHandler)completion {
+    if (artworks.count == 0) {
+        @throw [NSException sdl_missingFilesException];
+    }
+
+    [self uploadFiles:artworks progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
+        if (progressHandler == nil) { return YES; }
+        if ([self isErrorACannotOverwriteError:error]) {
+            return progressHandler(fileName, uploadPercentage, nil);
+        }
+        return progressHandler(fileName, uploadPercentage, error);
+    } completionHandler:^(NSError * _Nullable error) {
+        if (completion == nil) { return; }
+
+        NSMutableSet<NSString *> *successfulArtworkUploadNames = [NSMutableSet set];
+        for (SDLArtwork *artwork in artworks) {
+            [successfulArtworkUploadNames addObject:artwork.name];
+        }
+        NSMutableDictionary *unsuccessfulArtworkUploadErrorUserInfo = [[NSMutableDictionary alloc] initWithDictionary:error.userInfo];
+
+        if (error != nil) {
+            for (NSString *erroredArtworkName in error.userInfo) {
+                if (![self isErrorACannotOverwriteError:[error.userInfo objectForKey:erroredArtworkName]]) {
+                    [successfulArtworkUploadNames removeObject:erroredArtworkName];
+                } else {
+                    // An overwrite error means that an artwork with the same name is already uploaded to the remote
+                    [unsuccessfulArtworkUploadErrorUserInfo removeObjectForKey:erroredArtworkName];
+                }
+            }
+        }
+
+        return completion([NSArray arrayWithArray:[successfulArtworkUploadNames allObjects]], unsuccessfulArtworkUploadErrorUserInfo.count == 0 ? nil : [[NSError alloc] initWithDomain:error.domain code:error.code userInfo:unsuccessfulArtworkUploadErrorUserInfo]);
+    }];
+}
+
+- (BOOL)isErrorACannotOverwriteError:(NSError * _Nullable)error {
+    if (error != nil && error.code == SDLFileManagerErrorCannotOverwrite) {
+        return YES;
+    }
+    return NO;
+}
 
 #pragma mark - Temporary Files
 

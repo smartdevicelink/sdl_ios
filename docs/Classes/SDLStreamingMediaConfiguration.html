@@ -11,6 +11,7 @@
   <li><a href="#section-rootViewController">rootViewController</a></li>
   <li><a href="#section-carWindowRenderingType">carWindowRenderingType</a></li>
   <li><a href="#section-enableForcedFramerateSync">enableForcedFramerateSync</a></li>
+  <li><a href="#section-allowMultipleViewControllerOrientations">allowMultipleViewControllerOrientations</a></li>
   <li><a href="#section--init">-init</a></li>
   <li><a href="#section--initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:window:">-initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:window:</a></li>
   <li><a href="#section--initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:rootViewController:">-initWithSecurityManagers:encryptionFlag:videoSettings:dataSource:rootViewController:</a></li>
@@ -208,6 +209,25 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">enableForcedFramerateSync</span><span class="p">:</span> <span class="nf">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-allowMultipleViewControllerOrientations">
+      allowMultipleViewControllerOrientations
+  </h3>
+  
+  <p>When YES, the StreamingMediaManager will disable its internal checks that the <code><a href="../Classes/SDLStreamingMediaConfiguration.html#/c:objc(cs)SDLStreamingMediaConfiguration(py)rootViewController">rootViewController</a></code> only has one <code>supportedOrientation</code>. Having multiple orientations can cause streaming issues. If you wish to disable this check, set it to YES. Defaults to NO.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">BOOL</span> <span class="n">allowMultipleViewControllerOrientations</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">allowMultipleViewControllerOrientations</span><span class="p">:</span> <span class="nf">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

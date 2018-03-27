@@ -10,6 +10,7 @@
 #import <Foundation/Foundation.h>
 
 @class SDLRPCRequest;
+@class SDLRegisterAppInterfaceResponse;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -22,7 +23,15 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request The RPC request to be sent to the remote head unit.
  *  @param handler A completion block called when the response is received.
  */
-- (void)sendManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler;
+- (void)sendConnectionManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler;
+
+/**
+ Send an RPC without bypassing the block on RPC sends before managers complete setup.
+
+ @param request The RPC request to be sent to the remote head unit.
+ @param handler A completion block called when the response is received.
+ */
+- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler;
 
 @end
 

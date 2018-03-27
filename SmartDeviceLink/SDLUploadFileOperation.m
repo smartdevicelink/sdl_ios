@@ -70,10 +70,12 @@ NS_ASSUME_NONNULL_BEGIN
     __block NSInteger highestCorrelationIDReceived = -1;
 
     if (self.isCancelled) {
+        [self finishOperation];
         return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileUploadCanceled]);
     }
 
     if (file == nil) {
+        [self finishOperation];
         return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
     }
 
@@ -81,6 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.inputStream == nil || ![self.inputStream hasBytesAvailable]) {
         // If the file does not exist or the passed data is nil, return an error
         [self sdl_closeInputStream];
+        [self finishOperation];
         return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
     }
 
@@ -118,7 +121,7 @@ NS_ASSUME_NONNULL_BEGIN
         currentOffset += dataSize;
 
         __weak typeof(self) weakself = self;
-        [self.connectionManager sendManagerRequest:putFile withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
+        [self.connectionManager sendConnectionManagerRequest:putFile withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             typeof(weakself) strongself = weakself;
 
             // Check if the upload process has been cancelled by another packet. If so, stop the upload process.

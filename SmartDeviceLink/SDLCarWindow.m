@@ -16,6 +16,7 @@
 #import "SDLImageResolution.h"
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
+#import "SDLError.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaLifecycleManager.h"
@@ -29,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) SDLCarWindowRenderingType renderingType;
 @property (assign, nonatomic) BOOL drawsAfterScreenUpdates;
+@property (assign, nonatomic) BOOL allowMultipleOrientations;
 
 @property (assign, nonatomic, getter=isLockScreenPresenting) BOOL lockScreenPresenting;
 @property (assign, nonatomic, getter=isLockScreenDismissing) BOOL lockScreenBeingDismissed;
@@ -45,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _streamManager = streamManager;
     _renderingType = configuration.carWindowRenderingType;
+    _allowMultipleOrientations = configuration.allowMultipleViewControllerOrientations;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveVideoStreamStarted:) name:SDLVideoStreamDidStartNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveVideoStreamStopped:) name:SDLVideoStreamDidStopNotification object:nil];
@@ -141,9 +144,12 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    NSAssert((rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskPortrait ||
-              rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskLandscapeLeft ||
-              rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskLandscapeRight), @"SDLCarWindow rootViewController must support only a single interface orientation");
+    if (!self.allowMultipleOrientations
+        && !(rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskPortrait ||
+             rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskLandscapeLeft ||
+             rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskLandscapeRight)) {
+        @throw [NSException sdl_carWindowOrientationException];
+    }
 
     if (self.streamManager.screenSize.width != 0) {
         rootViewController.view.frame = CGRectMake(0, 0, self.streamManager.screenSize.width, self.streamManager.screenSize.height);

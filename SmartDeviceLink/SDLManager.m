@@ -16,7 +16,9 @@
 #import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
 #import "SDLResponseDispatcher.h"
+#import "SDLSoftButtonManager.h"
 #import "SDLStateMachine.h"
+#import "SDLTextAndGraphicManager.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -82,6 +84,10 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.streamManager;
 }
 
+- (SDLScreenManager *)screenManager {
+    return self.lifecycleManager.screenManager;
+}
+
 - (nullable SDLRegisterAppInterfaceResponse *)registerResponse {
     return self.lifecycleManager.registerResponse;
 }
@@ -92,6 +98,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setDelegate:(nullable id<SDLManagerDelegate>)delegate {
     self.lifecycleManager.delegate = delegate;
+}
+
+- (NSArray<__kindof NSOperation *> *)pendingRPCTransactions {
+    return self.lifecycleManager.rpcOperationQueue.operations;
 }
 
 #pragma clang diagnostic push
@@ -110,6 +120,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sendRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     [self.lifecycleManager sendRequest:request withResponseHandler:handler];
+}
+
+- (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+    [self.lifecycleManager sendRequests:requests progressHandler:progressHandler completionHandler:completionHandler];
+}
+
+- (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+    [self.lifecycleManager sendSequentialRequests:requests progressHandler:progressHandler completionHandler:completionHandler];
 }
 
 @end

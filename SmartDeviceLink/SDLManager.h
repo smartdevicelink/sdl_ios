@@ -18,12 +18,42 @@
 @class SDLRPCNotification;
 @class SDLRPCRequest;
 @class SDLRPCResponse;
+@class SDLScreenManager;
 @class SDLStreamingMediaManager;
 
 @protocol SDLManagerDelegate;
 
 
 NS_ASSUME_NONNULL_BEGIN
+
+/**
+ A completion handler called after a sequential or simultaneous set of requests have completed sending.
+
+ @param success True if every request succeeded, false if any failed. See the progress handler for more details on failures.
+ */
+typedef void (^SDLMultipleRequestCompletionHandler)(BOOL success);
+
+/**
+ A handler called after each response to a request comes in in a multiple request send.
+
+ @param request The request that received a response
+ @param response The response received
+ @param error The error that occurred during the request if any occurred.
+ @param percentComplete The percentage of requests that have received a response
+ @return continueSendingRequests NO to cancel any requests that have not yet been sent. This is really only useful for a sequential send (sendSequentialRequests:progressHandler:completionHandler:). Return YES to continue sending requests.
+ */
+typedef BOOL (^SDLMultipleSequentialRequestProgressHandler)(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *__nullable response, NSError *__nullable error, float percentComplete);
+
+/**
+ A handler called after each response to a request comes in in a multiple request send.
+
+ @param request The request that received a response
+ @param response The response received
+ @param error The error that occurred during the request if any occurred.
+ @param percentComplete The percentage of requests that have received a response
+ */
+typedef void (^SDLMultipleAsyncRequestProgressHandler)(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *__nullable response, NSError *__nullable error, float percentComplete);
+
 
 typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
@@ -65,6 +95,8 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  */
 @property (strong, nonatomic, readonly, nullable) SDLStreamingMediaManager *streamManager;
 
+@property (strong, nonatomic, readonly) SDLScreenManager *screenManager;
+
 /**
  *  The response of a register call after it has been received.
  */
@@ -74,6 +106,11 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *  The manager's delegate.
  */
 @property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
+
+/**
+ The currently pending RPC request send transactions
+ */
+@property (copy, nonatomic, readonly) NSArray<__kindof NSOperation *> *pendingRPCTransactions;
 
 /**
  * Deprecated internal proxy object. This should only be accessed when the Manager is READY. This property may go to nil at any time.
@@ -128,6 +165,24 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *  @param handler The handler that will be called when the response returns
  */
 - (void)sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler NS_SWIFT_NAME(send(request:responseHandler:));
+
+/**
+ Send all of the requests given as quickly as possible, but in order. Call the completionHandler after all requests have either failed or given a response.
+
+ @param requests The requests to be sent
+ @param progressHandler A handler called every time a response is received
+ @param completionHandler A handler to call when all requests have been responded to
+ */
+- (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler;
+
+/**
+ Send all of the requests one at a time, with the next one going out only after the previous one has received a response. Call the completionHandler after all requests have either failed or given a response.
+
+ @param requests The requests to be sent
+ @param progressHandler A handler called every time a response is received. Return NO to cancel any requests that have not yet been sent, YES to continue sending requests.
+ @param completionHandler A handler to call when all requests have been responded to
+ */
+- (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler NS_SWIFT_NAME(sendSequential(requests:progressHandler:completionHandler:));
 
 @end
 

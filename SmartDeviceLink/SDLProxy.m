@@ -41,7 +41,7 @@ typedef NSString SDLVehicleMake;
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
-NSString *const SDLProxyVersion = @"5.1.1";
+NSString *const SDLProxyVersion = @"5.2.0";
 const float StartSessionTime = 10.0;
 const float NotifyProxyClosedDelay = (float)0.1;
 const int PoliciesCorrelationId = 65535;
@@ -100,6 +100,10 @@ static float DefaultConnectionTimeout = 45.0;
     if (self.protocol.securityManager != nil) {
         [self.protocol.securityManager stop];
     }
+
+    if (self.transport != nil) {
+        [self.transport disconnect];
+    }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[EAAccessoryManager sharedAccessoryManager] unregisterForLocalNotifications];
@@ -119,6 +123,12 @@ static float DefaultConnectionTimeout = 45.0;
 #pragma mark - Application Lifecycle
 
 - (void)sendMobileHMIState {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self sdl_sendMobileHMIState];
+    });
+}
+
+- (void)sdl_sendMobileHMIState {
     UIApplicationState appState = [UIApplication sharedApplication].applicationState;
     SDLOnHMIStatus *HMIStatusRPC = [[SDLOnHMIStatus alloc] init];
 
@@ -133,8 +143,7 @@ static float DefaultConnectionTimeout = 45.0;
         case UIApplicationStateInactive: {
             HMIStatusRPC.hmiLevel = SDLHMILevelBackground;
         } break;
-        default:
-            break;
+        default: break;
     }
 
     SDLLogD(@"Mobile UIApplication state changed, sending to remote system: %@", HMIStatusRPC.hmiLevel);
@@ -196,7 +205,7 @@ static float DefaultConnectionTimeout = 45.0;
 - (void)onProtocolOpened {
     _isConnected = YES;
     SDLLogV(@"Proxy RPC protocol opened");
-    // THe RPC payload will be created by the protocol object...it's weird and confusing, I know.
+    // The RPC payload will be created by the protocol object...it's weird and confusing, I know.
     [self.protocol startServiceWithType:SDLServiceTypeRPC payload:nil];
 
     if (self.startSessionTimer == nil) {

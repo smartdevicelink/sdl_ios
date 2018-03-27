@@ -43,7 +43,13 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
 /*!
  *  @abstract
- *      First Touch received from onOnTouchEvent.
+ *      First touch received from onOnTouchEvent.
+ */
+@property (nonatomic, strong, nullable) SDLTouch *firstTouch;
+
+/*!
+ *  @abstract
+ *      Previous touch received from onOnTouchEvent.
  */
 @property (nonatomic, strong, nullable) SDLTouch *previousTouch;
 
@@ -106,6 +112,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     _movementTimeThreshold = 0.05f;
     _tapTimeThreshold = 0.4f;
     _tapDistanceThreshold = 50.0f;
+    _panDistanceThreshold = 8.0f;
     _touchEnabled = YES;
     _enableSyncedPanning = YES;
 
@@ -124,38 +131,39 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         return;
     }
 
-    if (self.performingTouchType == SDLPerformingTouchTypePanningTouch) {
-        CGPoint storedTouchLocation = self.lastStoredTouchLocation;
-        CGPoint notifiedTouchLocation = self.lastNotifiedTouchLocation;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.performingTouchType == SDLPerformingTouchTypePanningTouch) {
+            CGPoint storedTouchLocation = self.lastStoredTouchLocation;
+            CGPoint notifiedTouchLocation = self.lastNotifiedTouchLocation;
 
-        if (CGPointEqualToPoint(storedTouchLocation, CGPointZero) ||
-            CGPointEqualToPoint(notifiedTouchLocation, CGPointZero) ||
-            CGPointEqualToPoint(storedTouchLocation, notifiedTouchLocation)) {
-            return;
+            if (CGPointEqualToPoint(storedTouchLocation, CGPointZero) ||
+                CGPointEqualToPoint(notifiedTouchLocation, CGPointZero) ||
+                CGPointEqualToPoint(storedTouchLocation, notifiedTouchLocation)) {
+                return;
+            }
+
+            if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceivePanningFromPoint:toPoint:)]) {
+                [self.touchEventDelegate touchManager:self
+                           didReceivePanningFromPoint:notifiedTouchLocation
+                                              toPoint:storedTouchLocation];
+
+                self.lastNotifiedTouchLocation = storedTouchLocation;
+            }
+        } else if (self.performingTouchType == SDLPerformingTouchTypeMultiTouch) {
+            if (self.previousPinchDistance == self.currentPinchGesture.distance) {
+                return;
+            }
+
+            if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceivePinchAtCenterPoint:withScale:)]) {
+                CGFloat scale = self.currentPinchGesture.distance / self.previousPinchDistance;
+                [self.touchEventDelegate touchManager:self
+                         didReceivePinchAtCenterPoint:self.currentPinchGesture.center
+                                            withScale:scale];
+            }
+
+            self.previousPinchDistance = self.currentPinchGesture.distance;
         }
-
-        if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceivePanningFromPoint:toPoint:)]) {
-            [self.touchEventDelegate touchManager:self
-                       didReceivePanningFromPoint:notifiedTouchLocation
-                                          toPoint:storedTouchLocation];
-
-            self.lastNotifiedTouchLocation = storedTouchLocation;
-        }
-    } else if (self.performingTouchType == SDLPerformingTouchTypeMultiTouch) {
-        if (self.previousPinchDistance == self.currentPinchGesture.distance) {
-            return;
-        }
-
-        if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceivePinchAtCenterPoint:withScale:)]) {
-            CGFloat scale = self.currentPinchGesture.distance / self.previousPinchDistance;
-            [self.touchEventDelegate touchManager:self
-                     didReceivePinchAtCenterPoint:self.currentPinchGesture.center
-                                        withScale:scale];
-        }
-
-        self.previousPinchDistance = self.currentPinchGesture.distance;
-
-    }
+    });
 }
 
 #pragma mark - SDLDidReceiveTouchEventNotification
@@ -186,15 +194,17 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         return;
     }
 
-    if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeBegin]) {
-        [self sdl_handleTouchBegan:touch];
-    } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeMove]) {
-        [self sdl_handleTouchMoved:touch];
-    } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeEnd]) {
-        [self sdl_handleTouchEnded:touch];
-    } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeCancel]) {
-        [self sdl_handleTouchCanceled:touch];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeBegin]) {
+            [self sdl_handleTouchBegan:touch];
+        } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeMove]) {
+            [self sdl_handleTouchMoved:touch];
+        } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeEnd]) {
+            [self sdl_handleTouchEnded:touch];
+        } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeCancel]) {
+            [self sdl_handleTouchCanceled:touch];
+        }
+    });
 }
 
 #pragma mark - Private
@@ -208,6 +218,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
     switch (touch.identifier) {
         case SDLTouchIdentifierFirstFinger: {
+            self.firstTouch = touch;
             self.previousTouch = touch;
         } break;
         case SDLTouchIdentifierSecondFinger: {
@@ -215,8 +226,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             self.currentPinchGesture = [[SDLPinchGesture alloc] initWithFirstTouch:self.previousTouch secondTouch:touch];
             self.previousPinchDistance = self.currentPinchGesture.distance;
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchDidStartInView:atCenterPoint:)]) {
-                UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:self.currentPinchGesture.center] : nil;
-                [self.touchEventDelegate touchManager:self pinchDidStartInView:hitView atCenterPoint:self.currentPinchGesture.center];
+                    UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:self.currentPinchGesture.center] : nil;
+                    [self.touchEventDelegate touchManager:self pinchDidStartInView:hitView atCenterPoint:self.currentPinchGesture.center];
             }
         } break;
     }
@@ -235,6 +246,12 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         return; // no-op
     }
 #pragma clang diagnostic pop
+    
+    CGFloat xDelta = fabs(touch.location.x - self.firstTouch.location.x);
+    CGFloat yDelta = fabs(touch.location.y - self.firstTouch.location.y);
+    if (xDelta <= self.panDistanceThreshold && yDelta <= self.panDistanceThreshold) {
+        return;
+    }
 
     switch (self.performingTouchType) {
         case SDLPerformingTouchTypeMultiTouch: {
@@ -257,8 +274,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
             _performingTouchType = SDLPerformingTouchTypePanningTouch;
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:panningDidStartInView:atPoint:)]) {
-                UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:touch.location] : nil;
-                [self.touchEventDelegate touchManager:self panningDidStartInView:hitView atPoint:touch.location];
+                    UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:touch.location] : nil;
+                    [self.touchEventDelegate touchManager:self panningDidStartInView:hitView atPoint:touch.location];
             }
         } break;
         case SDLPerformingTouchTypePanningTouch: {
@@ -284,16 +301,18 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             [self sdl_setMultiTouchFingerTouchForTouch:touch];
             if (self.currentPinchGesture.isValid) {
                 if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchDidEndInView:atCenterPoint:)]) {
-                    UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:self.currentPinchGesture.center] : nil;
-                    [self.touchEventDelegate touchManager:self pinchDidEndInView:hitView atCenterPoint:self.currentPinchGesture.center];
+                        UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:self.currentPinchGesture.center] : nil;
+                        [self.touchEventDelegate touchManager:self pinchDidEndInView:hitView atCenterPoint:self.currentPinchGesture.center];
+                        self.currentPinchGesture = nil;
+                } else {
+                    self.currentPinchGesture = nil;
                 }
-                self.currentPinchGesture = nil;
             }
         } break;
         case SDLPerformingTouchTypePanningTouch: {
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:panningDidEndInView:atPoint:)]) {
-                UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:touch.location] : nil;
-                [self.touchEventDelegate touchManager:self panningDidEndInView:hitView atPoint:touch.location];
+                    UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:touch.location] : nil;
+                    [self.touchEventDelegate touchManager:self panningDidEndInView:hitView atPoint:touch.location];
             }
         } break;
         case SDLPerformingTouchTypeSingleTouch: {
@@ -313,8 +332,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
                     CGPoint centerPoint = CGPointCenterOfPoints(touch.location,
                                                                 self.singleTapTouch.location);
                     if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceiveDoubleTapForView:atPoint:)]) {
-                        UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:centerPoint] : nil;
-                        [self.touchEventDelegate touchManager:self didReceiveDoubleTapForView:hitView atPoint:centerPoint];
+                            UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:centerPoint] : nil;
+                            [self.touchEventDelegate touchManager:self didReceiveDoubleTapForView:hitView atPoint:centerPoint];
                     }
                 }
 
@@ -324,6 +343,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         case SDLPerformingTouchTypeNone: break;
     }
 
+    self.firstTouch = nil;
     self.previousTouch = nil;
     _performingTouchType = SDLPerformingTouchTypeNone;
 }
@@ -363,6 +383,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         case SDLPerformingTouchTypeNone: break;
     }
 
+    self.firstTouch = nil;
     self.previousTouch = nil;
     _performingTouchType = SDLPerformingTouchTypeNone;
 }
@@ -398,8 +419,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         strongSelf.singleTapTouch = nil;
         [strongSelf sdl_cancelSingleTapTimer];
         if ([strongSelf.touchEventDelegate respondsToSelector:@selector(touchManager:didReceiveSingleTapForView:atPoint:)]) {
-            UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:point] : nil;
-            [strongSelf.touchEventDelegate touchManager:strongSelf didReceiveSingleTapForView:hitView atPoint:point];
+                UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:point] : nil;
+                [strongSelf.touchEventDelegate touchManager:strongSelf didReceiveSingleTapForView:hitView atPoint:point];
         }
     });
 }

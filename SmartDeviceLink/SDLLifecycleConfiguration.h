@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The full name of the app
  */
-@property (copy, nonatomic, readonly) NSString *appName;
+@property (copy, nonatomic) NSString *appName;
 
 /**
  *  The app id. This must be the same as the app id received from the SDL developer portal or OEM.
@@ -85,6 +85,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  The application type
  */
 @property (strong, nonatomic, null_resettable) SDLAppHMIType appType;
+
+/**
+ Additional application types beyond `appType`
+ */
+@property (copy, nonatomic, nullable) NSArray<SDLAppHMIType> *additionalAppTypes;
 
 /**
  *  The default language to use

@@ -49,7 +49,7 @@ describe(@"the haptic manager", ^{
 
         uiWindow.rootViewController = uiViewController;
         
-        OCMExpect([[sdlLifecycleManager stub] sendManagerRequest:[OCMArg checkWithBlock:^BOOL(id value){
+        OCMExpect([[sdlLifecycleManager stub] sendConnectionManagerRequest:[OCMArg checkWithBlock:^BOOL(id value){
             BOOL isFirstArg = [value isKindOfClass:[SDLSendHapticData class]];
             if(isFirstArg) {
                 sentHapticRequest = value;

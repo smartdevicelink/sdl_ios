@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "SmartDeviceLink"
-s.version      = "5.1.1"
+s.version      = "5.2.0"
 s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
 s.license      = { :type => "New BSD", :file => "LICENSE" }
@@ -138,6 +138,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLLanguage.h',
 'SmartDeviceLink/SDLLayoutMode.h',
 'SmartDeviceLink/SDLLifecycleConfiguration.h',
+'SmartDeviceLink/SDLLifecycleConfigurationUpdate.h',
 'SmartDeviceLink/SDLListFiles.h',
 'SmartDeviceLink/SDLListFilesResponse.h',
 'SmartDeviceLink/SDLLocationCoordinate.h',
@@ -242,6 +243,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLRPCStruct.h',
 'SmartDeviceLink/SDLSamplingRate.h',
 'SmartDeviceLink/SDLScreenParams.h',
+'SmartDeviceLink/SDLScreenManager.h',
 'SmartDeviceLink/SDLScrollableMessage.h',
 'SmartDeviceLink/SDLScrollableMessageResponse.h',
 'SmartDeviceLink/SDLSecurityType.h',
@@ -268,6 +270,8 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLSliderResponse.h',
 'SmartDeviceLink/SDLSoftButton.h',
 'SmartDeviceLink/SDLSoftButtonCapabilities.h',
+'SmartDeviceLink/SDLSoftButtonObject.h',
+'SmartDeviceLink/SDLSoftButtonState.h',
 'SmartDeviceLink/SDLSoftButtonType.h',
 'SmartDeviceLink/SDLSpeak.h',
 'SmartDeviceLink/SDLSpeakResponse.h',

@@ -39,7 +39,11 @@ typedef NS_ENUM(NSInteger, SDLManagerError) {
     /**
      *  Registering with the remote system was successful, but had a warning.
      */
-    SDLManagerErrorRegistrationSuccessWithWarning = -7
+    SDLManagerErrorRegistrationSuccessWithWarning = -7,
+    /**
+     *  Request operations were cancelled before they could be sent
+     */
+    SDLManagerErrorCancelled = -8
 };
 
 /**
@@ -78,4 +82,16 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
      *  One or more of multiple files being uploaded or deleted failed.
      */
     SDLFileManagerMultipleFileDeleteTasksFailed = -8,
+    /*
+     *  The file data is nil or empty.
+     */
+    SDLFileManagerErrorFileDataMissing = -9,
+};
+
+typedef NS_ENUM(NSInteger, SDLTextAndGraphicManagerError) {
+    SDLTextAndGraphicManagerErrorPendingUpdateSuperseded = -1
+};
+
+typedef NS_ENUM(NSInteger, SDLSoftButtonManagerError) {
+    SDLSoftButtonManagerErrorPendingUpdateSuperseded = -1
 };

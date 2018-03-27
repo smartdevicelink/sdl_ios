@@ -1,0 +1,256 @@
+<h1>SDLSoftButtonObject Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-name">name</a></li>
+  <li><a href="#section-states">states</a></li>
+  <li><a href="#section-currentState">currentState</a></li>
+  <li><a href="#section-currentStateSoftButton">currentStateSoftButton</a></li>
+  <li><a href="#section-eventHandler">eventHandler</a></li>
+  <li><a href="#section--initWithName:states:initialStateName:handler:">-initWithName:states:initialStateName:handler:</a></li>
+  <li><a href="#section--initWithName:state:handler:">-initWithName:state:handler:</a></li>
+  <li><a href="#section--transitionToStateNamed:">-transitionToStateNamed:</a></li>
+  <li><a href="#section--transitionToNextState">-transitionToNextState</a></li>
+  <li><a href="#section--stateWithName:">-stateWithName:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-name">
+      name
+  </h3>
+  
+  <p>The name of this button</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">name</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="nf">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-states">
+      states
+  </h3>
+  
+  <p>All states available to this button</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButtonState.html">SDLSoftButtonState</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">states</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">states</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButtonState.html">SDLSoftButtonState</a></span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-currentState">
+      currentState
+  </h3>
+  
+  <p>The name of the current state of this soft button</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSoftButtonState.html">SDLSoftButtonState</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">currentState</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">currentState</span><span class="p">:</span> <span class="nf">SDLSoftButtonState</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-currentStateSoftButton">
+      currentStateSoftButton
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*</span><span class="n">currentStateSoftButton</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">currentStateSoftButton</span><span class="p">:</span> <span class="nf">SDLSoftButton</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-eventHandler">
+      eventHandler
+  </h3>
+  
+  <p>The handler to be called when the button is in the current state and is pressed</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCButtonNotificationHandler">SDLRPCButtonNotificationHandler</a></span> <span class="n">_Nonnull</span> <span class="n">eventHandler</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">eventHandler</span><span class="p">:</span> <span class="nf">SDLRPCButtonNotificationHandler</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithName:states:initialStateName:handler:">
+      -initWithName:states:initialStateName:handler:
+  </h3>
+  
+  <p>Create a multi-state (or single-state, but you should use initWithName:state: instead for that case) soft button. For example, a button that changes its image or text, such as a repeat or shuffle button.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
+          <span class="nf">states</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButtonState.html">SDLSoftButtonState</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">states</span>
+<span class="nf">initialStateName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialStateName</span>
+         <span class="nf">handler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCButtonNotificationHandler">SDLRPCButtonNotificationHandler</a></span><span class="p">)</span><span class="nv">eventHandler</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">states</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButtonState.html">SDLSoftButtonState</a></span><span class="p">],</span> <span class="nv">initialStateName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">handler</span> <span class="nv">eventHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCButtonNotificationHandler">SDLRPCButtonNotificationHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>name</dt>
+      <dd><p>The name of the button</p></dd>
+      <dt>states</dt>
+      <dd><p>The states available to the button</p></dd>
+      <dt>eventHandler</dt>
+      <dd><p>The handler to be called when the button is in the current state and is pressed</p></dd>
+      <dt>initialStateName</dt>
+      <dd><p>The first state to use</p></dd>
+  </dl>
+  
+  <h3 id="section--initWithName:state:handler:">
+      -initWithName:state:handler:
+  </h3>
+  
+  <p>Create a single-state soft button. For example, a button that brings up a Perform Interaction menu.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
+                               <span class="nf">state</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLSoftButtonState.html">SDLSoftButtonState</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">state</span>
+                             <span class="nf">handler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCButtonNotificationHandler">SDLRPCButtonNotificationHandler</a></span><span class="p">)</span>
+                                         <span class="n"><a href="../Classes/SDLSoftButtonObject.html#/c:objc(cs)SDLSoftButtonObject(py)eventHandler">eventHandler</a></span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">state</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSoftButtonState.html">SDLSoftButtonState</a></span><span class="p">,</span> <span class="n">handler</span> <span class="nv">eventHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCButtonNotificationHandler">SDLRPCButtonNotificationHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>name</dt>
+      <dd><p>The name of the button</p></dd>
+      <dt>eventHandler</dt>
+      <dd><p>The handler to be called when the button is in the current state and is pressed</p></dd>
+      <dt>state</dt>
+      <dd><p>The single state of the button</p></dd>
+  </dl>
+  
+  <h3 id="section--transitionToStateNamed:">
+      -transitionToStateNamed:
+  </h3>
+  
+  <p>Transition the soft button to another state in the <code><a href="../Classes/SDLSoftButtonObject.html#/c:objc(cs)SDLSoftButtonObject(py)states">states</a></code> property. The wrapper considers all transitions valid (assuming a state with that name exists).</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>This method will throw an exception and crash your app (on purpose) if you attempt an invalid transition. So&hellip;don&rsquo;t do that.</p>
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">transitionToStateNamed</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">stateName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">transition</span><span class="p">(</span><span class="n">toState</span> <span class="nv">stateName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>stateName</dt>
+      <dd><p>The next state.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>YES if a state was found with that name, NO otherwise.</p>
+  </div>
+  
+  <h3 id="section--transitionToNextState">
+      -transitionToNextState
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">transitionToNextState</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">transitionToNextState</span><span class="p">()</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--stateWithName:">
+      -stateWithName:
+  </h3>
+  
+  <p>Return a state from the state array with a specific name.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLSoftButtonState.html">SDLSoftButtonState</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">stateWithName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">stateName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">state</span><span class="p">(</span><span class="n">withName</span> <span class="nv">stateName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SDLSoftButtonState.html">SDLSoftButtonState</a></span><span class="p">?</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>stateName</dt>
+      <dd><p>The name of the state to return</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The state, or nil if no state with that name exists</p>
+  </div>
+  
+</section>

@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 SDLErrorDomain *const SDLErrorDomainLifecycleManager = @"com.sdl.lifecyclemanager.error";
 SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
+SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager = @"com.sdl.textandgraphicmanager.error";
+SDLErrorDomain *const SDLErrorDomainSoftButtonManager = @"com.sdl.softbuttonmanager.error";
 
 @implementation NSError (SDLErrors)
 
@@ -101,6 +103,12 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
                            userInfo:userInfo];
 }
 
++ (NSError *)sdl_lifecycle_multipleRequestsCancelled {
+    return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
+                               code:SDLManagerErrorCancelled
+                           userInfo:nil];
+}
+
 
 #pragma mark SDLFileManager
 
@@ -157,6 +165,15 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerUploadCanceled userInfo:userInfo];
 }
 
++ (NSError *)sdl_fileManager_dataMissingError {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"The file upload was canceled", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The data for the file is missing", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure the data used to create the file is valid", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorFileDataMissing userInfo:userInfo];
+}
+
 #pragma mark SDLUploadFileOperation
 
 + (NSError *)sdl_fileManager_fileDoesNotExistError {
@@ -168,6 +185,15 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorFileDoesNotExist userInfo:userInfo];
 }
 
+#pragma mark Show Managers
+
++ (NSError *)sdl_textAndGraphicManager_pendingUpdateSuperseded {
+    return [NSError errorWithDomain:SDLErrorDomainTextAndGraphicManager code:SDLTextAndGraphicManagerErrorPendingUpdateSuperseded userInfo:nil];
+}
+
++ (NSError *)sdl_softButtonManager_pendingUpdateSuperseded {
+    return [NSError errorWithDomain:SDLErrorDomainSoftButtonManager code:SDLSoftButtonManagerErrorPendingUpdateSuperseded userInfo:nil];
+}
 
 @end
 
@@ -193,6 +219,16 @@ SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
             exceptionWithName:@"MissingFilesNames"
             reason:@"This request requires that the array of files not be empty"
             userInfo:nil];
+}
+
++ (NSException *)sdl_invalidSoftButtonStateException {
+    return [NSException exceptionWithName:@"InvalidSoftButtonState" reason:@"Attempting to transition to a state that does not exist" userInfo:nil];
+}
+
++ (NSException *)sdl_carWindowOrientationException {
+    return [NSException exceptionWithName:@"com.sdl.carwindow.orientationException"
+                                   reason:@"SDLCarWindow rootViewController must support only a single interface orientation"
+                                 userInfo:nil];
 }
 
 @end
