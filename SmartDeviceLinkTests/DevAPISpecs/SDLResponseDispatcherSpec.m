@@ -118,12 +118,16 @@ describe(@"a response dispatcher", ^{
     
     context(@"storing a show request", ^{
         __block SDLShow *testShow = nil;
+        __block SDLShow *testShow2 = nil;
         __block SDLSoftButton *testSoftButton1 = nil;
+        __block SDLSoftButton *testSoftButton2 = nil;
         __block NSUInteger numTimesHandlerCalled = 0;
         
         beforeEach(^{
             testShow = [[SDLShow alloc] initWithMainField1:@"Test Show" mainField2:nil alignment:SDLTextAlignmentCenter];
             testShow.correlationID = @1;
+            testShow2 = [[SDLShow alloc] initWithMainField1:@"Test Show2" mainField2:nil alignment:SDLTextAlignmentCenter];
+            testShow2.correlationID = @2;
         });
         
         context(@"with a correct soft button and handler", ^{
@@ -198,6 +202,31 @@ describe(@"a response dispatcher", ^{
             
             it(@"should not add the soft button", ^{
                 expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
+            });
+        });
+        
+        context(@"with an old show request", ^{
+            beforeEach(^{
+                numTimesHandlerCalled = 0;
+                
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
+                    numTimesHandlerCalled++;
+                }];
+                testShow.softButtons = [@[testSoftButton1] mutableCopy];
+                testShow.correlationID = @1;
+                [testDispatcher storeRequest:testShow handler:nil];
+                
+                testSoftButton2 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test2" image:nil highlighted:NO buttonId:2 systemAction:SDLSystemActionDefaultAction handler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
+                    numTimesHandlerCalled++;
+                }];
+                testShow2.softButtons = [@[testSoftButton2] mutableCopy];
+                testShow2.correlationID = @2;
+                [testDispatcher storeRequest:testShow handler:nil];
+            });
+            
+            it(@"should remvoe the old soft button handler", ^{
+                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).to(beNil());
+                expect(testDispatcher.customButtonHandlerMap[testSoftButton2.softButtonID]).toNot(beNil());
             });
         });
         
