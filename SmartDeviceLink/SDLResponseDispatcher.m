@@ -142,10 +142,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_removeOldButtonHandlers {
-    for(SDLRPCCorrelationId *key in self.rpcRequestDictionary.allKeys)
-    {
-        if ([self.rpcRequestDictionary[key] isKindOfClass:[SDLShow class]])
-        {
+    for(SDLRPCCorrelationId *key in self.rpcRequestDictionary.allKeys) {
+        if ([self.rpcRequestDictionary[key] isKindOfClass:[SDLShow class]]) {
             SDLShow *oldShow = (SDLShow *)self.rpcRequestDictionary[key];
             for (SDLSoftButton *softButton in oldShow.softButtons) {
                 [self.customButtonHandlerMap removeObjectForKey:softButton.softButtonID];
