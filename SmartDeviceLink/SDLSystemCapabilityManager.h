@@ -38,9 +38,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) NSArray<SDLHMIZoneCapabilities> *hmiZoneCapabilities;
 @property (copy, nonatomic, readonly) NSArray<SDLSpeechCapabilities> *speechCapabilities;
 @property (copy, nonatomic, readonly) NSArray<SDLPrerecordedSpeech> *prerecordedSpeech;
-@property (copy, nonatomic, readonly, nullable) NSArray<SDLVrCapabilities> *vrCapabilities;
+@property (copy, nonatomic, readonly, nullable) NSArray<SDLVRCapabilities> *vrCapabilities;
 @property (copy, nonatomic, readonly) NSArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
-@property (copy, nonatomic, readonly, nullable) NSArray<SDLAudioPassThruCapabilities *> *pcmStreamCapabilities;
+@property (copy, nonatomic, readonly) NSArray<SDLAudioPassThruCapabilities *> *pcmStreamCapabilities;
 @property (strong, nonatomic, readonly) SDLNavigationCapability *navigationCapability;
 @property (strong, nonatomic, readonly) SDLPhoneCapability *phoneCapability;
 @property (strong, nonatomic, readonly) SDLVideoStreamingCapability *videoStreamingCapability;

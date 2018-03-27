@@ -106,11 +106,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNamePrerecordedSpeech];
 }
 
-- (void)setVrCapabilities:(nullable NSArray<SDLVrCapabilities> *)vrCapabilities {
+- (void)setVrCapabilities:(nullable NSArray<SDLVRCapabilities> *)vrCapabilities {
     [parameters sdl_setObject:vrCapabilities forName:SDLNameVRCapabilities];
 }
 
-- (nullable NSArray<SDLVrCapabilities> *)vrCapabilities {
+- (nullable NSArray<SDLVRCapabilities> *)vrCapabilities {
     return [parameters sdl_objectForName:SDLNameVRCapabilities];
 }
 

@@ -4,4 +4,4 @@
 
 #import "SDLVrCapabilities.h"
 
-SDLVrCapabilities const SDLVrCapabilitiesText = @"TEXT";
+SDLVRCapabilities const SDLVRCapabilitiesText = @"TEXT";

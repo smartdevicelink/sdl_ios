@@ -110,11 +110,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<SDLPrerecordedSpeech> *prerecordedSpeech;
 
 /**
- * @see SDLVRCapabilities
+ * @see SDLVrCapabilities
  *
- * Optional, Array of length 1 - 100, of SDLVRCapabilities
+ * Optional, Array of length 1 - 100, of SDLVrCapabilities
  */
-@property (nullable, strong, nonatomic) NSArray<SDLVrCapabilities> *vrCapabilities;
+@property (nullable, strong, nonatomic) NSArray<SDLVRCapabilities> *vrCapabilities;
 
 /**
  * @see SDLAudioPassThruCapabilities

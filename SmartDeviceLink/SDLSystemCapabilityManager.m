@@ -24,9 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readwrite) NSArray<SDLHMIZoneCapabilities> *hmiZoneCapabilities;
 @property (copy, nonatomic, readwrite) NSArray<SDLSpeechCapabilities> *speechCapabilities;
 @property (copy, nonatomic, readwrite) NSArray<SDLPrerecordedSpeech> *prerecordedSpeech;
-@property (copy, nonatomic, readwrite, nullable) NSArray<SDLVrCapabilities> *vrCapabilities;
+@property (copy, nonatomic, readwrite, nullable) NSArray<SDLVRCapabilities> *vrCapabilities;
 @property (copy, nonatomic, readwrite) NSArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
-@property (copy, nonatomic, readwrite, nullable) NSArray<SDLAudioPassThruCapabilities *> *pcmStreamCapabilities;
+@property (copy, nonatomic, readwrite) NSArray<SDLAudioPassThruCapabilities *> *pcmStreamCapabilities;
 @property (strong, nonatomic, readwrite) SDLNavigationCapability *navigationCapability;
 @property (strong, nonatomic, readwrite) SDLPhoneCapability *phoneCapability;
 @property (strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.prerecordedSpeech = response.prerecordedSpeech;
     self.vrCapabilities = response.vrCapabilities;
     self.audioPassThruCapabilities = response.audioPassThruCapabilities;
-    self.pcmStreamCapabilities = response.pcmStreamCapabilities;
+    self.pcmStreamCapabilities = @[response.pcmStreamCapabilities];
 }
 
 
