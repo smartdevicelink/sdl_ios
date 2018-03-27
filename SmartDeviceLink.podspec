@@ -291,6 +291,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLSyncPDataResponse.h',
 'SmartDeviceLink/SDLSystemAction.h',
 'SmartDeviceLink/SDLSystemCapability.h',
+'SmartDeviceLink/SDLSystemCapabilityManager.h',
 'SmartDeviceLink/SDLSystemCapabilityType.h',
 'SmartDeviceLink/SDLSystemContext.h',
 'SmartDeviceLink/SDLTBTState.h',
