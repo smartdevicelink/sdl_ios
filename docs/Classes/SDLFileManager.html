@@ -12,11 +12,15 @@
   <li><a href="#section--initWithConnectionManager:">-initWithConnectionManager:</a></li>
   <li><a href="#section--startWithCompletionHandler:">-startWithCompletionHandler:</a></li>
   <li><a href="#section--stop">-stop</a></li>
+  <li><a href="#section--hasUploadedFile:">-hasUploadedFile:</a></li>
   <li><a href="#section--deleteRemoteFileWithName:completionHandler:">-deleteRemoteFileWithName:completionHandler:</a></li>
   <li><a href="#section--deleteRemoteFilesWithNames:completionHandler:">-deleteRemoteFilesWithNames:completionHandler:</a></li>
   <li><a href="#section--uploadFile:completionHandler:">-uploadFile:completionHandler:</a></li>
   <li><a href="#section--uploadFiles:progressHandler:completionHandler:">-uploadFiles:progressHandler:completionHandler:</a></li>
   <li><a href="#section--uploadFiles:completionHandler:">-uploadFiles:completionHandler:</a></li>
+  <li><a href="#section--uploadArtwork:completionHandler:">-uploadArtwork:completionHandler:</a></li>
+  <li><a href="#section--uploadArtworks:completionHandler:">-uploadArtworks:completionHandler:</a></li>
+  <li><a href="#section--uploadArtworks:progressHandler:completionHandler:">-uploadArtworks:progressHandler:completionHandler:</a></li>
   <li><a href="#section-+temporaryFileDirectory">+temporaryFileDirectory</a></li>
 </ul>
 
@@ -204,6 +208,33 @@
   
   
   
+  <h3 id="section--hasUploadedFile:">
+      -hasUploadedFile:
+  </h3>
+  
+  <p>Check if the remote system contains a file</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">hasUploadedFile</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLFile.html">SDLFile</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">file</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">hasUploadedFile</span><span class="p">(</span><span class="n">_</span> <span class="nv">file</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLFile.html">SDLFile</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>file</dt>
+      <dd><p>The file to check</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>Whether or not the remote system has the file</p>
+  </div>
+  
   <h3 id="section--deleteRemoteFileWithName:completionHandler:">
       -deleteRemoteFileWithName:completionHandler:
   </h3>
@@ -343,7 +374,95 @@
       <dt>files</dt>
       <dd><p>An array of SDLFiles to be sent</p></dd>
       <dt>completionHandler</dt>
-      <dd><p>an optional SDLFileManagerMultiUploadCompletionHandler</p></dd>
+      <dd><p>An optional SDLFileManagerMultiUploadCompletionHandler</p></dd>
+  </dl>
+  
+  <h3 id="section--uploadArtwork:completionHandler:">
+      -uploadArtwork:completionHandler:
+  </h3>
+  
+  <p>Uploads an artwork file to the remote file system and returns the name of the uploaded artwork once completed. If an artwork with the same name is already on the remote system, the artwork is not uploaded and the artwork name is simply returned.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">uploadArtwork</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">artwork</span>
+    <span class="nf">completionHandler</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerUploadArtworkCompletionHandler">SDLFileManagerUploadArtworkCompletionHandler</a></span><span class="p">)</span><span class="nv">completion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">upload</span><span class="p">(</span><span class="nv">artwork</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span><span class="p">,</span> <span class="n">completionHandler</span> <span class="nv">completion</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerUploadArtworkCompletionHandler">SDLFileManagerUploadArtworkCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>artwork</dt>
+      <dd><p>A SDLArwork containing an image to be sent</p></dd>
+      <dt>completion</dt>
+      <dd><p>An optional completion handler that returns the name of the uploaded artwork. It also returns an error if the upload fails.</p></dd>
+  </dl>
+  
+  <h3 id="section--uploadArtworks:completionHandler:">
+      -uploadArtworks:completionHandler:
+  </h3>
+  
+  <p>Uploads an array of artworks to the remote file system. The artworks will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once a upload request is sent to Core, the queue waits until a response is received from Core before the next the next upload request is sent.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">uploadArtworks</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">artworks</span>
+     <span class="nf">completionHandler</span><span class="p">:</span>
+         <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerMultiUploadArtworkCompletionHandler">SDLFileManagerMultiUploadArtworkCompletionHandler</a></span><span class="p">)</span><span class="nv">completion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">upload</span><span class="p">(</span><span class="nv">artworks</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span><span class="p">],</span> <span class="n">completionHandler</span> <span class="nv">completion</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerMultiUploadArtworkCompletionHandler">SDLFileManagerMultiUploadArtworkCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>artworks</dt>
+      <dd><p>An array of SDLArtworks to be sent</p></dd>
+      <dt>completion</dt>
+      <dd><p>An optional SDLFileManagerMultiUploadArtworkCompletionHandler</p></dd>
+  </dl>
+  
+  <h3 id="section--uploadArtworks:progressHandler:completionHandler:">
+      -uploadArtworks:progressHandler:completionHandler:
+  </h3>
+  
+  <p>Uploads an array of artworks to the remote file system. The artworks will be uploaded in the order in which they are added to the array, with the first file to be uploaded at index 0. The upload queue is sequential, meaning that once a upload request is sent to Core, the queue waits until a response is received from Core before the next the next upload request is sent.</p>
+
+<p>The optional progress handler can be used to keep track of the upload progress. After each artwork upload, the progress handler returns the artwork name, the upload percentage and an error, if one occured during the upload process. The progress handler also includes an option to cancel the upload of all remaining files in queue.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">uploadArtworks</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">artworks</span>
+       <span class="nf">progressHandler</span><span class="p">:</span>
+           <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerMultiUploadArtworkProgressHandler">SDLFileManagerMultiUploadArtworkProgressHandler</a></span><span class="p">)</span>
+               <span class="n">progressHandler</span>
+     <span class="n">completionHandler</span><span class="o">:</span>
+         <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerMultiUploadArtworkCompletionHandler">SDLFileManagerMultiUploadArtworkCompletionHandler</a></span><span class="p">)</span><span class="n">completion</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">upload</span><span class="p">(</span><span class="nv">artworks</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span><span class="p">],</span> <span class="nv">progressHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerMultiUploadArtworkProgressHandler">SDLFileManagerMultiUploadArtworkProgressHandler</a></span><span class="p">?,</span> <span class="n">completionHandler</span> <span class="nv">completion</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLFileManagerConstants.h@T@SDLFileManagerMultiUploadArtworkCompletionHandler">SDLFileManagerMultiUploadArtworkCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>artworks</dt>
+      <dd><p>An array of SDLArtworks to be sent</p></dd>
+      <dt>progressHandler</dt>
+      <dd><p>An optional SDLFileManagerMultiUploadArtworkProgressHandler</p></dd>
+      <dt>completion</dt>
+      <dd><p>An optional SDLFileManagerMultiUploadArtworkCompletionHandler</p></dd>
   </dl>
   
   <h3 id="section-+temporaryFileDirectory">

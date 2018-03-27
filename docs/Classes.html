@@ -80,6 +80,7 @@
   <li><a href="#section-SDLImageResolution">SDLImageResolution</a></li>
   <li><a href="#section-SDLKeyboardProperties">SDLKeyboardProperties</a></li>
   <li><a href="#section-SDLLifecycleConfiguration">SDLLifecycleConfiguration</a></li>
+  <li><a href="#section-SDLLifecycleConfigurationUpdate">SDLLifecycleConfigurationUpdate</a></li>
   <li><a href="#section-SDLListFiles">SDLListFiles</a></li>
   <li><a href="#section-SDLListFilesResponse">SDLListFilesResponse</a></li>
   <li><a href="#section-SDLLocationCoordinate">SDLLocationCoordinate</a></li>
@@ -156,6 +157,7 @@
   <li><a href="#section-SDLRemoteControlCapabilities">SDLRemoteControlCapabilities</a></li>
   <li><a href="#section-SDLResetGlobalProperties">SDLResetGlobalProperties</a></li>
   <li><a href="#section-SDLResetGlobalPropertiesResponse">SDLResetGlobalPropertiesResponse</a></li>
+  <li><a href="#section-SDLScreenManager">SDLScreenManager</a></li>
   <li><a href="#section-SDLScreenParams">SDLScreenParams</a></li>
   <li><a href="#section-SDLScrollableMessage">SDLScrollableMessage</a></li>
   <li><a href="#section-SDLScrollableMessageResponse">SDLScrollableMessageResponse</a></li>
@@ -182,6 +184,8 @@
   <li><a href="#section-SDLSliderResponse">SDLSliderResponse</a></li>
   <li><a href="#section-SDLSoftButton">SDLSoftButton</a></li>
   <li><a href="#section-SDLSoftButtonCapabilities">SDLSoftButtonCapabilities</a></li>
+  <li><a href="#section-SDLSoftButtonObject">SDLSoftButtonObject</a></li>
+  <li><a href="#section-SDLSoftButtonState">SDLSoftButtonState</a></li>
   <li><a href="#section-SDLSpeak">SDLSpeak</a></li>
   <li><a href="#section-SDLSpeakResponse">SDLSpeakResponse</a></li>
   <li><a href="#section-SDLStartTime">SDLStartTime</a></li>
@@ -604,6 +608,22 @@ Since <b>SmartDeviceLink 1.0</b></p>
 <span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">artworkWithImage</span><span class="p">:(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">name</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="nf">asImageFormat</span><span class="p">:(</span><span class="n"><a href="Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span><span class="nv">imageFormat</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use the standard initializer and set persistant to false"</span><span class="p">);</span>
 
 <span class="cm">/**
+ *  Convenience Helper to create an ephemeral artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image's data which is created by hashing the data using the MD5 algorithm.
+ *
+ *  This is an ephemeral file, it will not be persisted through sessions / ignition cycles. Any files that you do not *know* you will use in future sessions should be created through this method. For example, album / artist artwork should be ephemeral.
+ *
+ *  Persistent files should be created using `persistentArtworkWithImage:name:asImageFormat:`
+ *
+ *  @warning It is strongly recommended to pass the file url using an SDLFile initializer instead of the image. If you pass the UIImage, it is loaded into memory, and will be dumped to a temporary file. This will create a duplicate file. *Only pass a UIImage if the image is not stored on disk*.
+ *
+ *  @param image       The UIImage to be sent to the remote head unit
+ *  @param imageFormat Whether the image should be converted to a PNG or JPG before transmission. Images with transparency or few colors should be PNGs. Images with many colors should be JPGs.
+ *
+ *  @return An instance of this class to be passed to the file manager.
+ */</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">artworkWithImage</span><span class="p">:(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">asImageFormat</span><span class="p">:(</span><span class="n"><a href="Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span><span class="nv">imageFormat</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use the standard initializer and set persistant to false"</span><span class="p">);</span>
+
+<span class="cm">/**
  *  Convenience Helper to create a persistent artwork from an image.
  *
  *  This is a persistent file, it will be persisted through sessions / ignition cycles. You will only have a limited space for all files, so be sure to only persist files that are required for all or most sessions. For example, menu artwork should be persistent.
@@ -621,6 +641,22 @@ Since <b>SmartDeviceLink 1.0</b></p>
 <span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">persistentArtworkWithImage</span><span class="p">:(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">name</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="nf">asImageFormat</span><span class="p">:(</span><span class="n"><a href="Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span><span class="nv">imageFormat</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use the standard initializer and set persistant to true"</span><span class="p">);</span>
 
 <span class="cm">/**
+ *  Convenience Helper to create a persistent artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image's data which is created by hashing the data using the MD5 algorithm.
+ *
+ *  This is a persistent file, it will be persisted through sessions / ignition cycles. You will only have a limited space for all files, so be sure to only persist files that are required for all or most sessions. For example, menu artwork should be persistent.
+ *
+ *  Ephemeral files should be created using `ephemeralArtworkWithImage:name:asImageFormat:`
+ *
+ *  @warning It is strongly recommended to pass the file url using an SDLFile initializer instead of the image. If you pass the UIImage, it is loaded into memory, and will be dumped to a temporary file. This will create a duplicate file. *Only pass a UIImage if the image is not stored on disk*.
+ *
+ *  @param image       The UIImage to be sent to the remote head unit
+ *  @param imageFormat Whether the image should be converted to a PNG or JPG before transmission. Images with transparency or few colors should be PNGs. Images with many colors should be JPGs.
+ *
+ *  @return An instance of this class to be passed to the file manager.
+ */</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">persistentArtworkWithImage</span><span class="p">:(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">asImageFormat</span><span class="p">:(</span><span class="n"><a href="Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span><span class="nv">imageFormat</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use the standard initializer and set persistant to true"</span><span class="p">);</span>
+
+<span class="cm">/**
  *  Create a file for transmission to the remote system from a UIImage.
  *
  *  @param image       The UIImage to be sent to the remote head unit
@@ -631,6 +667,17 @@ Since <b>SmartDeviceLink 1.0</b></p>
  *  @return An instance of this class to be passed to the file manager.
  */</span>
 <span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithImage</span><span class="p">:(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">name</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="nf">persistent</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">persistent</span> <span class="nf">asImageFormat</span><span class="p">:(</span><span class="n"><a href="Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span><span class="nv">imageFormat</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Create a file for transmission to the remote system from a UIImage. A unique name will be assigned to the image. This name is a string representation of the image's data which is created by hashing the data using the MD5 algorithm.
+
+ *  @param image       The UIImage to be sent to the remote head unit
+ *  @param persistent  Whether or not the artwork should be persistent.
+ *  @param imageFormat Whether the image should be converted to a PNG or JPG before transmission. Images with transparency or few colors should be PNGs. Images with many colors should be JPGs.
+ *
+ *  @return An instance of this class to be passed to the file manager.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithImage</span><span class="p">:(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">persistent</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">persistent</span> <span class="nf">asImageFormat</span><span class="p">:(</span><span class="n"><a href="Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span><span class="nv">imageFormat</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -2663,6 +2710,26 @@ whenever new data is available for the module.</p>
   
   
   
+  <h3 id="section-SDLLifecycleConfigurationUpdate">
+      SDLLifecycleConfigurationUpdate
+  </h3>
+  
+  <p>Configuration update options for SDLManager. This class can be used to update the lifecycle configuration in
+cases the language of the head unit changes or does not match the app language.</p>
+
+  <a href="Classes/SDLLifecycleConfigurationUpdate.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLLifecycleConfigurationUpdate</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLLifecycleConfigurationUpdate</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLListFiles">
       SDLListFiles
   </h3>
@@ -3309,6 +3376,8 @@ whenever new data is available for the module.</p>
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Classes/SDLStreamingMediaManager.html">SDLStreamingMediaManager</a></span> <span class="o">*</span><span class="n">streamManager</span><span class="p">;</span>
 
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLScreenManager.html">SDLScreenManager</a></span> <span class="o">*</span><span class="n">screenManager</span><span class="p">;</span>
+
 <span class="cm">/**
  *  The response of a register call after it has been received.
  */</span>
@@ -3318,6 +3387,11 @@ whenever new data is available for the module.</p>
  *  The manager's delegate.
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/SDLManagerDelegate.html">SDLManagerDelegate</a></span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span>
+
+<span class="cm">/**
+ The currently pending RPC request send transactions
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">__kindof</span> <span class="n">NSOperation</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">pendingRPCTransactions</span><span class="p">;</span>
 
 <span class="cm">/**
  * Deprecated internal proxy object. This should only be accessed when the Manager is READY. This property may go to nil at any time.
@@ -3372,6 +3446,24 @@ whenever new data is available for the module.</p>
  *  @param handler The handler that will be called when the response returns
  */</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendRequest</span><span class="p">:(</span><span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">request</span> <span class="nf">withResponseHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLResponseHandler">SDLResponseHandler</a></span><span class="p">)</span><span class="nv">handler</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">send</span><span class="p">(</span><span class="n">request</span><span class="o">:</span><span class="n">responseHandler</span><span class="o">:</span><span class="p">));</span>
+
+<span class="cm">/**
+ Send all of the requests given as quickly as possible, but in order. Call the completionHandler after all requests have either failed or given a response.
+
+ @param requests The requests to be sent
+ @param progressHandler A handler called every time a response is received
+ @param completionHandler A handler to call when all requests have been responded to
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendRequests</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">requests</span> <span class="nf">progressHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLManager.h@T@SDLMultipleAsyncRequestProgressHandler">SDLMultipleAsyncRequestProgressHandler</a></span><span class="p">)</span><span class="nv">progressHandler</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLManager.h@T@SDLMultipleRequestCompletionHandler">SDLMultipleRequestCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span><span class="p">;</span>
+
+<span class="cm">/**
+ Send all of the requests one at a time, with the next one going out only after the previous one has received a response. Call the completionHandler after all requests have either failed or given a response.
+
+ @param requests The requests to be sent
+ @param progressHandler A handler called every time a response is received. Return NO to cancel any requests that have not yet been sent, YES to continue sending requests.
+ @param completionHandler A handler to call when all requests have been responded to
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendSequentialRequests</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">requests</span> <span class="nf">progressHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLManager.h@T@SDLMultipleSequentialRequestProgressHandler">SDLMultipleSequentialRequestProgressHandler</a></span><span class="p">)</span><span class="nv">progressHandler</span> <span class="nf">completionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLManager.h@T@SDLMultipleRequestCompletionHandler">SDLMultipleRequestCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">sendSequential</span><span class="p">(</span><span class="n">requests</span><span class="o">:</span><span class="n">progressHandler</span><span class="o">:</span><span class="n">completionHandler</span><span class="o">:</span><span class="p">));</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -5440,6 +5532,71 @@ in conventional FM radio broadcasts.</p>
   
   
   
+  <h3 id="section-SDLScreenManager">
+      SDLScreenManager
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLScreenManager.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLScreenManager</span> <span class="p">:</span> <span class="nc">NSObject</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">textField1</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">textField2</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">textField3</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">textField4</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">mediaTrackTextField</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="n">primaryGraphic</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="n">secondaryGraphic</span><span class="p">;</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span> <span class="n">textAlignment</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField1Type</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField2Type</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField3Type</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField4Type</span><span class="p">;</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">softButtonObjects</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithConnectionManager</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">SDLConnectionManagerType</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">connectionManager</span> <span class="nf">fileManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLFileManager.html">SDLFileManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManager</span><span class="p">;</span>
+
+<span class="cm">/**
+ Delays all screen updates until endUpdatesWithCompletionHandler: is called.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">beginUpdates</span><span class="p">;</span>
+
+<span class="cm">/**
+ Update text fields with new text set into the text field properties. Pass an empty string `\@""` to clear the text field.
+
+ If the system does not support a full 4 fields, this will automatically be concatenated and properly send the field available.
+
+ If 3 lines are available: [field1, field2, field3 - field 4]
+
+ If 2 lines are available: [field1 - field2, field3 - field4]
+
+ If 1 line is available: [field1 - field2 - field3 - field4]
+
+ Also updates the primary and secondary images with new image(s) if new one(s) been set. This method will take care of naming the files (based on a hash). This is assumed to be a non-persistant image.
+
+ If it needs to be uploaded, it will be. Once the upload is complete, the on-screen graphic will be updated.
+
+ @param handler A handler run when the fields have finished updating, with an error if the update failed. This handler may be called multiple times when the text update is sent and the image update is sent.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">endUpdatesWithCompletionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLScreenManager.h@T@SDLScreenManagerUpdateCompletionHandler">SDLScreenManagerUpdateCompletionHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">softButtonObjectNamed</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLScreenManager</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLScreenParams">
       SDLScreenParams
   </h3>
@@ -6106,6 +6263,161 @@ change the settings of a specific remote control module.</p>
   
   
   
+  <h3 id="section-SDLSoftButtonObject">
+      SDLSoftButtonObject
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLSoftButtonObject.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSoftButtonObject</span> <span class="p">:</span> <span class="nc">NSObject</span>
+
+<span class="cm">/**
+ The name of this button
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span>
+
+<span class="cm">/**
+ All states available to this button
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLSoftButtonState.html">SDLSoftButtonState</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">states</span><span class="p">;</span>
+
+<span class="cm">/**
+ The name of the current state of this soft button
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLSoftButtonState.html">SDLSoftButtonState</a></span> <span class="o">*</span><span class="n">currentState</span><span class="p">;</span>
+
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*</span><span class="n">currentStateSoftButton</span><span class="p">;</span>
+
+<span class="cm">/**
+ The handler to be called when the button is in the current state and is pressed
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCButtonNotificationHandler">SDLRPCButtonNotificationHandler</a></span> <span class="n">eventHandler</span><span class="p">;</span>
+
+<span class="cm">/**
+ Create a multi-state (or single-state, but you should use initWithName:state: instead for that case) soft button. For example, a button that changes its image or text, such as a repeat or shuffle button.
+
+ @param name The name of the button
+ @param states The states available to the button
+ @param eventHandler The handler to be called when the button is in the current state and is pressed
+ @param initialStateName The first state to use
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="nf">states</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLSoftButtonState.html">SDLSoftButtonState</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">states</span> <span class="nf">initialStateName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialStateName</span> <span class="nf">handler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCButtonNotificationHandler">SDLRPCButtonNotificationHandler</a></span><span class="p">)</span><span class="nv">eventHandler</span><span class="p">;</span>
+
+<span class="cm">/**
+ Create a single-state soft button. For example, a button that brings up a Perform Interaction menu.
+
+ @param name The name of the button
+ @param eventHandler The handler to be called when the button is in the current state and is pressed
+ @param state The single state of the button
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="nf">state</span><span class="p">:(</span><span class="n"><a href="Classes/SDLSoftButtonState.html">SDLSoftButtonState</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">state</span> <span class="nf">handler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLRPCButtonNotificationHandler">SDLRPCButtonNotificationHandler</a></span><span class="p">)</span><span class="nv">eventHandler</span><span class="p">;</span>
+
+<span class="cm">/**
+ Transition the soft button to another state in the `states` property. The wrapper considers all transitions valid (assuming a state with that name exists).
+
+ @warning This method will throw an exception and crash your app (on purpose) if you attempt an invalid transition. So...don't do that.
+
+ @param stateName The next state.
+ @return YES if a state was found with that name, NO otherwise.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">transitionToStateNamed</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">stateName</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">transition</span><span class="p">(</span><span class="n">toState</span><span class="o">:</span><span class="p">));</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">transitionToNextState</span><span class="p">;</span>
+
+<span class="cm">/**
+ Return a state from the state array with a specific name.
+
+ @param stateName The name of the state to return
+ @return The state, or nil if no state with that name exists
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLSoftButtonState.html">SDLSoftButtonState</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">stateWithName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">stateName</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSoftButtonObject</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSoftButtonState">
+      SDLSoftButtonState
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLSoftButtonState.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSoftButtonState</span> <span class="p">:</span> <span class="nc">NSObject</span>
+
+<span class="cm">/**
+ The name of this soft button state
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span>
+
+<span class="cm">/**
+ The artwork to be used with this button or nil if it is text-only
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="n">artwork</span><span class="p">;</span>
+
+<span class="cm">/**
+ The text to be used with this button or nil if it is image-only
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">text</span><span class="p">;</span>
+
+<span class="cm">/**
+ Whether or not the button should be highlighted on the UI
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">isHighlighted</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">highlighted</span><span class="p">;</span>
+
+<span class="cm">/**
+ A special system action
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLSystemAction.h@T@SDLSystemAction">SDLSystemAction</a></span> <span class="n">systemAction</span><span class="p">;</span>
+
+<span class="cm">/**
+ An SDLSoftButton describing this state
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*</span><span class="n">softButton</span><span class="p">;</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_UNAVAILABLE</span><span class="p">;</span>
+
+<span class="cm">/**
+ Create the soft button state. Either the text or artwork or both may be set.
+
+ @param stateName The name of this state for the button
+ @param text The text to be displayed on the button
+ @param image The image to be displayed on the button. This is assumed to be a PNG, non-persistant. The name will be the same as the state name.
+ @return A new soft button state
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithStateName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">stateName</span> <span class="nf">text</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span> <span class="nf">image</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span><span class="p">;</span>
+
+<span class="cm">/**
+ Create the soft button state. Either the text or artwork or both may be set.
+
+ @param stateName The name of this state for the button
+ @param text The text to be displayed on the button
+ @param artwork The artwork to be displayed on the button
+ @return A new soft button state
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithStateName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">stateName</span> <span class="nf">text</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span> <span class="nf">artwork</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">artwork</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSoftButtonState</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLSpeak">
       SDLSpeak
   </h3>
@@ -6271,6 +6583,11 @@ change the settings of a specific remote control module.</p>
  When YES, the StreamingMediaManager will run a CADisplayLink with the framerate set to the video encoder settings kVTCompressionPropertyKey_ExpectedFrameRate. This then forces TouchManager (and CarWindow, if used) to sync their callbacks to the framerate. If using CarWindow, this *must* be YES. If NO, `enableSyncedPanning` on SDLTouchManager will be set to NO. Defaults to YES.
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">enableForcedFramerateSync</span><span class="p">;</span>
+
+<span class="cm">/**
+ When YES, the StreamingMediaManager will disable its internal checks that the `rootViewController` only has one `supportedOrientation`. Having multiple orientations can cause streaming issues. If you wish to disable this check, set it to YES. Defaults to NO.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">allowMultipleViewControllerOrientations</span><span class="p">;</span>
 
 <span class="cm">/**
  Create an insecure video streaming configuration. No security managers will be provided and the encryption flag will be set to None. If you'd like custom video encoder settings, you can set the property manually.
@@ -7157,6 +7474,13 @@ change the settings of a specific remote control module.</p>
  @note Defaults to 50 px.
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">tapDistanceThreshold</span><span class="p">;</span>
+
+<span class="cm">/**
+ Minimum distance for a pan gesture in the head unit's coordinate system, used for registering pan callbacks.
+ 
+ @note Defaults to 8 px.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">CGFloat</span> <span class="n">panDistanceThreshold</span><span class="p">;</span>
 
 <span class="cm">/**
  *  @abstract

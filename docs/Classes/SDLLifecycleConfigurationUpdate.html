@@ -1,0 +1,128 @@
+<h1>SDLLifecycleConfigurationUpdate Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-appName">appName</a></li>
+  <li><a href="#section-shortAppName">shortAppName</a></li>
+  <li><a href="#section-ttsName">ttsName</a></li>
+  <li><a href="#section-voiceRecognitionCommandNames">voiceRecognitionCommandNames</a></li>
+  <li><a href="#section--initWithAppName:shortAppName:ttsName:voiceRecognitionCommandNames:">-initWithAppName:shortAppName:ttsName:voiceRecognitionCommandNames:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Configuration update options for SDLManager. This class can be used to update the lifecycle configuration in
+cases the language of the head unit changes or does not match the app language.</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-appName">
+      appName
+  </h3>
+  
+  <p>The full name of the app to that the configuration should be updated to.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">appName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">appName</span><span class="p">:</span> <span class="nf">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-shortAppName">
+      shortAppName
+  </h3>
+  
+  <p>An abbrevited application name that will be used on the app launching screen if the full one would be truncated.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">shortAppName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">shortAppName</span><span class="p">:</span> <span class="nf">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-ttsName">
+      ttsName
+  </h3>
+  
+  <p>A Text to Speech String for voice recognition of the mobile application name.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">ttsName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">ttsName</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-voiceRecognitionCommandNames">
+      voiceRecognitionCommandNames
+  </h3>
+  
+  <p>Additional voice recognition commands. May not interfere with any other app name or global commands.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">voiceRecognitionCommandNames</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">voiceRecognitionCommandNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithAppName:shortAppName:ttsName:voiceRecognitionCommandNames:">
+      -initWithAppName:shortAppName:ttsName:voiceRecognitionCommandNames:
+  </h3>
+  
+  <p>Initializes and returns a newly allocated lifecycle configuration update object with the specified app data.
+This is a convenience initializer for -init.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span>
+                           <span class="nf">shortAppName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">shortAppName</span>
+                                <span class="nf">ttsName</span><span class="p">:</span>
+                                    <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsName</span>
+           <span class="nf">voiceRecognitionCommandNames</span><span class="p">:</span>
+               <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">voiceRecognitionCommandNames</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">shortAppName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">ttsName</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?,</span> <span class="nv">voiceRecognitionCommandNames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>appName</dt>
+      <dd><p>The full name of the app to that the configuration should be updated to.</p></dd>
+      <dt>shortAppName</dt>
+      <dd><p>An abbrevited application name that will be used on the app launching screen if the full one would be truncated.</p></dd>
+      <dt>ttsName</dt>
+      <dd><p>A Text to Speech String for voice recognition of the mobile application name.</p></dd>
+      <dt>voiceRecognitionCommandNames</dt>
+      <dd><p>Additional voice recognition commands. May not interfere with any other app name or global commands.</p></dd>
+  </dl>
+  
+</section>

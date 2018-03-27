@@ -4,8 +4,11 @@
 
 <ul>
   <li><a href="#section-+artworkWithImage:name:asImageFormat:">+artworkWithImage:name:asImageFormat:</a></li>
+  <li><a href="#section-+artworkWithImage:asImageFormat:">+artworkWithImage:asImageFormat:</a></li>
   <li><a href="#section-+persistentArtworkWithImage:name:asImageFormat:">+persistentArtworkWithImage:name:asImageFormat:</a></li>
+  <li><a href="#section-+persistentArtworkWithImage:asImageFormat:">+persistentArtworkWithImage:asImageFormat:</a></li>
   <li><a href="#section--initWithImage:name:persistent:asImageFormat:">-initWithImage:name:persistent:asImageFormat:</a></li>
+  <li><a href="#section--initWithImage:persistent:asImageFormat:">-initWithImage:persistent:asImageFormat:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -45,6 +48,42 @@
       <dd><p>The UIImage to be sent to the remote head unit</p></dd>
       <dt>name</dt>
       <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system). The max file name length may vary based on remote file system limitations.</p></dd>
+      <dt>imageFormat</dt>
+      <dd><p>Whether the image should be converted to a PNG or JPG before transmission. Images with transparency or few colors should be PNGs. Images with many colors should be JPGs.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of this class to be passed to the file manager.</p>
+  </div>
+  
+  <h3 id="section-+artworkWithImage:asImageFormat:">
+      +artworkWithImage:asImageFormat:
+  </h3>
+  
+  <p>Convenience Helper to create an ephemeral artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image&rsquo;s data which is created by hashing the data using the MD5 algorithm.</p>
+
+<p>This is an ephemeral file, it will not be persisted through sessions / ignition cycles. Any files that you do not <em>know</em> you will use in future sessions should be created through this method. For example, album / artist artwork should be ephemeral.</p>
+
+<p>Persistent files should be created using <code>persistentArtworkWithImage:name:asImageFormat:</code></p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>It is strongly recommended to pass the file url using an SDLFile initializer instead of the image. If you pass the UIImage, it is loaded into memory, and will be dumped to a temporary file. This will create a duplicate file. <em>Only pass a UIImage if the image is not stored on disk</em>.</p>
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">artworkWithImage</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span>
+                           <span class="nf">asImageFormat</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span><span class="nv">imageFormat</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>image</dt>
+      <dd><p>The UIImage to be sent to the remote head unit</p></dd>
       <dt>imageFormat</dt>
       <dd><p>Whether the image should be converted to a PNG or JPG before transmission. Images with transparency or few colors should be PNGs. Images with many colors should be JPGs.</p></dd>
   </dl>
@@ -93,6 +132,43 @@
     <p>An instance of this class to be passed to the file manager.</p>
   </div>
   
+  <h3 id="section-+persistentArtworkWithImage:asImageFormat:">
+      +persistentArtworkWithImage:asImageFormat:
+  </h3>
+  
+  <p>Convenience Helper to create a persistent artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image&rsquo;s data which is created by hashing the data using the MD5 algorithm.</p>
+
+<p>This is a persistent file, it will be persisted through sessions / ignition cycles. You will only have a limited space for all files, so be sure to only persist files that are required for all or most sessions. For example, menu artwork should be persistent.</p>
+
+<p>Ephemeral files should be created using <code>ephemeralArtworkWithImage:name:asImageFormat:</code></p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>It is strongly recommended to pass the file url using an SDLFile initializer instead of the image. If you pass the UIImage, it is loaded into memory, and will be dumped to a temporary file. This will create a duplicate file. <em>Only pass a UIImage if the image is not stored on disk</em>.</p>
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">persistentArtworkWithImage</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span>
+                                     <span class="nf">asImageFormat</span><span class="p">:</span>
+                                         <span class="p">(</span><span class="n"><a href="../Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span><span class="nv">imageFormat</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>image</dt>
+      <dd><p>The UIImage to be sent to the remote head unit</p></dd>
+      <dt>imageFormat</dt>
+      <dd><p>Whether the image should be converted to a PNG or JPG before transmission. Images with transparency or few colors should be PNGs. Images with many colors should be JPGs.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of this class to be passed to the file manager.</p>
+  </div>
+  
   <h3 id="section--initWithImage:name:persistent:asImageFormat:">
       -initWithImage:name:persistent:asImageFormat:
   </h3>
@@ -119,6 +195,39 @@
       <dd><p>The UIImage to be sent to the remote head unit</p></dd>
       <dt>name</dt>
       <dd><p>The name of the file that will be used to reference the file in the future (for example on the remote file system). The max file name length may vary based on remote file system limitations.</p></dd>
+      <dt>persistent</dt>
+      <dd><p>Whether or not the artwork should be persistent.</p></dd>
+      <dt>imageFormat</dt>
+      <dd><p>Whether the image should be converted to a PNG or JPG before transmission. Images with transparency or few colors should be PNGs. Images with many colors should be JPGs.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of this class to be passed to the file manager.</p>
+  </div>
+  
+  <h3 id="section--initWithImage:persistent:asImageFormat:">
+      -initWithImage:persistent:asImageFormat:
+  </h3>
+  
+  <p>Create a file for transmission to the remote system from a UIImage. A unique name will be assigned to the image. This name is a string representation of the image&rsquo;s data which is created by hashing the data using the MD5 algorithm.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithImage</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span>
+                           <span class="nf">persistent</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">persistent</span>
+                        <span class="nf">asImageFormat</span><span class="p">:(</span><span class="n"><a href="../Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span><span class="nv">imageFormat</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">,</span> <span class="nv">persistent</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="k">as</span> <span class="nv">imageFormat</span><span class="p">:</span> <span class="kt"><a href="../Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>image</dt>
+      <dd><p>The UIImage to be sent to the remote head unit</p></dd>
       <dt>persistent</dt>
       <dd><p>Whether or not the artwork should be persistent.</p></dd>
       <dt>imageFormat</dt>

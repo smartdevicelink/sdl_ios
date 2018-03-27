@@ -10,14 +10,18 @@
   <li><a href="#section-fileManager">fileManager</a></li>
   <li><a href="#section-permissionManager">permissionManager</a></li>
   <li><a href="#section-streamManager">streamManager</a></li>
+  <li><a href="#section-screenManager">screenManager</a></li>
   <li><a href="#section-registerResponse">registerResponse</a></li>
   <li><a href="#section-delegate">delegate</a></li>
+  <li><a href="#section-pendingRPCTransactions">pendingRPCTransactions</a></li>
   <li><a href="#section-proxy">proxy</a></li>
   <li><a href="#section--initWithConfiguration:delegate:">-initWithConfiguration:delegate:</a></li>
   <li><a href="#section--startWithReadyHandler:">-startWithReadyHandler:</a></li>
   <li><a href="#section--stop">-stop</a></li>
   <li><a href="#section--sendRequest:">-sendRequest:</a></li>
   <li><a href="#section--sendRequest:withResponseHandler:">-sendRequest:withResponseHandler:</a></li>
+  <li><a href="#section--sendRequests:progressHandler:completionHandler:">-sendRequests:progressHandler:completionHandler:</a></li>
+  <li><a href="#section--sendSequentialRequests:progressHandler:completionHandler:">-sendSequentialRequests:progressHandler:completionHandler:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -155,6 +159,24 @@
   
   
   
+  <h3 id="section-screenManager">
+      screenManager
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLScreenManager.html">SDLScreenManager</a></span> <span class="o">*</span><span class="n">screenManager</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">screenManager</span><span class="p">:</span> <span class="nf">SDLScreenManager</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section-registerResponse">
       registerResponse
   </h3>
@@ -186,6 +208,25 @@
   <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLManagerDelegate.html">SDLManagerDelegate</a></span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span></code></pre>
 
   
+  
+  
+  
+  <h3 id="section-pendingRPCTransactions">
+      pendingRPCTransactions
+  </h3>
+  
+  <p>The currently pending RPC request send transactions</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">__kindof</span> <span class="n">NSOperation</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">pendingRPCTransactions</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">pendingRPCTransactions</span><span class="p">:</span> <span class="p">[</span><span class="kt">Operation</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -325,6 +366,69 @@
       <dd><p>The RPC request to send</p></dd>
       <dt>handler</dt>
       <dd><p>The handler that will be called when the response returns</p></dd>
+  </dl>
+  
+  <h3 id="section--sendRequests:progressHandler:completionHandler:">
+      -sendRequests:progressHandler:completionHandler:
+  </h3>
+  
+  <p>Send all of the requests given as quickly as possible, but in order. Call the completionHandler after all requests have either failed or given a response.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">sendRequests</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">requests</span>
+      <span class="nf">progressHandler</span><span class="p">:</span>
+          <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLManager.h@T@SDLMultipleAsyncRequestProgressHandler">SDLMultipleAsyncRequestProgressHandler</a></span><span class="p">)</span><span class="nv">progressHandler</span>
+    <span class="nf">completionHandler</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLManager.h@T@SDLMultipleRequestCompletionHandler">SDLMultipleRequestCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">send</span><span class="p">(</span><span class="n">_</span> <span class="nv">requests</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">],</span> <span class="nv">progressHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLManager.h@T@SDLMultipleAsyncRequestProgressHandler">SDLMultipleAsyncRequestProgressHandler</a></span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLManager.h@T@SDLMultipleRequestCompletionHandler">SDLMultipleRequestCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>requests</dt>
+      <dd><p>The requests to be sent</p></dd>
+      <dt>progressHandler</dt>
+      <dd><p>A handler called every time a response is received</p></dd>
+      <dt>completionHandler</dt>
+      <dd><p>A handler to call when all requests have been responded to</p></dd>
+  </dl>
+  
+  <h3 id="section--sendSequentialRequests:progressHandler:completionHandler:">
+      -sendSequentialRequests:progressHandler:completionHandler:
+  </h3>
+  
+  <p>Send all of the requests one at a time, with the next one going out only after the previous one has received a response. Call the completionHandler after all requests have either failed or given a response.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="nf">sendSequentialRequests</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">requests</span>
+       <span class="nf">progressHandler</span><span class="p">:</span>
+           <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLManager.h@T@SDLMultipleSequentialRequestProgressHandler">SDLMultipleSequentialRequestProgressHandler</a></span><span class="p">)</span><span class="nv">progressHandler</span>
+     <span class="nf">completionHandler</span><span class="p">:</span>
+         <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLManager.h@T@SDLMultipleRequestCompletionHandler">SDLMultipleRequestCompletionHandler</a></span><span class="p">)</span><span class="nv">completionHandler</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">sendSequential</span><span class="p">(</span><span class="nv">requests</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">],</span> <span class="nv">progressHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLManager.h@T@SDLMultipleSequentialRequestProgressHandler">SDLMultipleSequentialRequestProgressHandler</a></span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLManager.h@T@SDLMultipleRequestCompletionHandler">SDLMultipleRequestCompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>requests</dt>
+      <dd><p>The requests to be sent</p></dd>
+      <dt>progressHandler</dt>
+      <dd><p>A handler called every time a response is received. Return NO to cancel any requests that have not yet been sent, YES to continue sending requests.</p></dd>
+      <dt>completionHandler</dt>
+      <dd><p>A handler to call when all requests have been responded to</p></dd>
   </dl>
   
 </section>
