@@ -48,6 +48,7 @@
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManager.h"
+#import "SDLSystemCapabilityManager.h"
 #import "SDLUnregisterAppInterface.h"
 
 
@@ -122,6 +123,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
     _screenManager = [[SDLScreenManager alloc] initWithConnectionManager:self fileManager:_fileManager];
+    _systemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:self];
     
     if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] ||
         [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] ||

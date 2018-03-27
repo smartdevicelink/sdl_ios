@@ -8,51 +8,68 @@
 
 #import "SDLSystemCapabilityManager.h"
 
+#import "SDLConnectionManagerType.h"
+#import "SDLGenericResponse.h"
+#import "SDLGetSystemCapability.h"
+#import "SDLGetSystemCapabilityResponse.h"
+#import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCResponseNotification.h"
+#import "SDLSetDisplayLayoutResponse.h"
+#import "SDLSystemCapability.h"
+#import "SDLVideoStreamingCapability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSystemCapabilityManager ()
 
-@property (strong, nonatomic, readwrite, nullable) SDLDisplayCapabilities *displayCapabilities;
-@property (strong, nonatomic, readwrite) SDLHMICapabilities *hmiCapabilities;
-@property (copy, nonatomic, readwrite, nullable) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
-@property (copy, nonatomic, readwrite) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
-@property (strong, nonatomic, readwrite) SDLPresetBankCapabilities *presetBankCapabilities;
-@property (copy, nonatomic, readwrite) NSArray<SDLHMIZoneCapabilities> *hmiZoneCapabilities;
-@property (copy, nonatomic, readwrite) NSArray<SDLSpeechCapabilities> *speechCapabilities;
-@property (copy, nonatomic, readwrite) NSArray<SDLPrerecordedSpeech> *prerecordedSpeech;
-@property (copy, nonatomic, readwrite, nullable) NSArray<SDLVRCapabilities> *vrCapabilities;
-@property (copy, nonatomic, readwrite) NSArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
-@property (copy, nonatomic, readwrite) NSArray<SDLAudioPassThruCapabilities *> *pcmStreamCapabilities;
-@property (strong, nonatomic, readwrite) SDLNavigationCapability *navigationCapability;
-@property (strong, nonatomic, readwrite) SDLPhoneCapability *phoneCapability;
-@property (strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
-@property (strong, nonatomic, readwrite) SDLRemoteControlCapabilities *remoteControlCapability;
+@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+
+@property (nullable, strong, nonatomic, readwrite) SDLDisplayCapabilities *displayCapabilities;
+@property (nullable, strong, nonatomic, readwrite) SDLHMICapabilities *hmiCapabilities;
+@property (nullable, copy, nonatomic, readwrite) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
+@property (nullable, copy, nonatomic, readwrite) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
+@property (nullable, strong, nonatomic, readwrite) SDLPresetBankCapabilities *presetBankCapabilities;
+@property (nullable, copy, nonatomic, readwrite) NSArray<SDLHMIZoneCapabilities> *hmiZoneCapabilities;
+@property (nullable, copy, nonatomic, readwrite) NSArray<SDLSpeechCapabilities> *speechCapabilities;
+@property (nullable, copy, nonatomic, readwrite) NSArray<SDLPrerecordedSpeech> *prerecordedSpeech;
+@property (nullable, copy, nonatomic, readwrite) NSArray<SDLVRCapabilities> *vrCapabilities;
+@property (nullable, copy, nonatomic, readwrite) NSArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
+@property (nullable, copy, nonatomic, readwrite) NSArray<SDLAudioPassThruCapabilities *> *pcmStreamCapabilities;
+@property (nullable, strong, nonatomic, readwrite) SDLNavigationCapability *navigationCapability;
+@property (nullable, strong, nonatomic, readwrite) SDLPhoneCapability *phoneCapability;
+@property (nullable, strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
+@property (nullable, strong, nonatomic, readwrite) SDLRemoteControlCapabilities *remoteControlCapability;
 
 @end
 
 @implementation SDLSystemCapabilityManager
 
-- (instancetype)init {
+#pragma mark - Lifecycle
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager {
     self = [super init];
     if (!self) {
         return nil;
     }
 
+    _connectionManager = manager;
     [self sdl_registerForNotifications];
 
     return self;
 }
 
+#pragma mark - Notifications
+
 -(void)sdl_registerForNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
 }
 
 - (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
+
     self.displayCapabilities = response.displayCapabilities;
     self.hmiCapabilities = response.hmiCapabilities;
     self.softButtonCapabilities = response.softButtonCapabilities;
@@ -66,11 +83,42 @@ NS_ASSUME_NONNULL_BEGIN
     self.pcmStreamCapabilities = @[response.pcmStreamCapabilities];
 }
 
+- (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
+    SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
 
-#pragma mark - Capability Type
+    self.displayCapabilities = response.displayCapabilities;
+    self.buttonCapabilities = response.buttonCapabilities;
+    self.softButtonCapabilities = response.softButtonCapabilities;
+    self.presetBankCapabilities = response.presetBankCapabilities;
+}
+
+
+#pragma mark - Get Capabilities
 
 - (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler {
+    SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type];
+    [self.connectionManager sendConnectionManagerRequest:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+        if (!response.success || [response isMemberOfClass:SDLGenericResponse.class]) {
+            SDLLogW(@"%@ system capability response failed: %@", type, error);
+            return handler(error);
+        }
 
+        SDLSystemCapability *systemCapabilityResponse = ((SDLGetSystemCapabilityResponse *)response).systemCapability;
+
+        if ([type isEqualToEnum:SDLSystemCapabilityTypePhoneCall]) {
+            self.phoneCapability = systemCapabilityResponse.phoneCapability;
+        } else if ([type isEqualToEnum:SDLSystemCapabilityTypeNavigation]) {
+            self.navigationCapability = systemCapabilityResponse.navigationCapability;
+        } else if ([type isEqualToEnum:SDLSystemCapabilityTypeRemoteControl]) {
+            self.remoteControlCapability = systemCapabilityResponse.remoteControlCapability;
+        } else if ([type isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
+            self.videoStreamingCapability = systemCapabilityResponse.videoStreamingCapability;
+        } else {
+            NSAssert(NO, @"Received response for unknown SDLSystemCapabilityType: %@", type);
+        }
+
+        handler(nil);
+    }];
 }
 
 @end
