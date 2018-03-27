@@ -33,6 +33,9 @@
   <li><a href="#section-SDLFileManagerDeleteCompletionHandler">SDLFileManagerDeleteCompletionHandler</a></li>
   <li><a href="#section-SDLFileManagerMultiDeleteCompletionHandler">SDLFileManagerMultiDeleteCompletionHandler</a></li>
   <li><a href="#section-SDLFileManagerListFilesCompletionHandler">SDLFileManagerListFilesCompletionHandler</a></li>
+  <li><a href="#section-SDLFileManagerUploadArtworkCompletionHandler">SDLFileManagerUploadArtworkCompletionHandler</a></li>
+  <li><a href="#section-SDLFileManagerMultiUploadArtworkCompletionHandler">SDLFileManagerMultiUploadArtworkCompletionHandler</a></li>
+  <li><a href="#section-SDLFileManagerMultiUploadArtworkProgressHandler">SDLFileManagerMultiUploadArtworkProgressHandler</a></li>
   <li><a href="#section-SDLFileType">SDLFileType</a></li>
   <li><a href="#section-SDLFuelCutoffStatus">SDLFuelCutoffStatus</a></li>
   <li><a href="#section-SDLGlobalProperty">SDLGlobalProperty</a></li>
@@ -51,6 +54,9 @@
   <li><a href="#section-SDLLockScreenStatus">SDLLockScreenStatus</a></li>
   <li><a href="#section-SDLLogFilterBlock">SDLLogFilterBlock</a></li>
   <li><a href="#section-SDLMaintenanceModeStatus">SDLMaintenanceModeStatus</a></li>
+  <li><a href="#section-SDLMultipleRequestCompletionHandler">SDLMultipleRequestCompletionHandler</a></li>
+  <li><a href="#section-SDLMultipleSequentialRequestProgressHandler">SDLMultipleSequentialRequestProgressHandler</a></li>
+  <li><a href="#section-SDLMultipleAsyncRequestProgressHandler">SDLMultipleAsyncRequestProgressHandler</a></li>
   <li><a href="#section-SDLManagerReadyBlock">SDLManagerReadyBlock</a></li>
   <li><a href="#section-SDLMediaClockFormat">SDLMediaClockFormat</a></li>
   <li><a href="#section-SDLMetadataType">SDLMetadataType</a></li>
@@ -76,6 +82,7 @@
   <li><a href="#section-SDLRequestType">SDLRequestType</a></li>
   <li><a href="#section-SDLResult">SDLResult</a></li>
   <li><a href="#section-SDLSamplingRate">SDLSamplingRate</a></li>
+  <li><a href="#section-SDLScreenManagerUpdateCompletionHandler">SDLScreenManagerUpdateCompletionHandler</a></li>
   <li><a href="#section-SDLSoftButtonType">SDLSoftButtonType</a></li>
   <li><a href="#section-SDLSpeechCapabilities">SDLSpeechCapabilities</a></li>
   <li><a href="#section-SDLSystemAction">SDLSystemAction</a></li>
@@ -757,6 +764,96 @@
       <dd><p>The error that occurred during the request if one occurred, nil if no error occured</p></dd>
   </dl>
   
+  <h3 id="section-SDLFileManagerUploadArtworkCompletionHandler">
+      SDLFileManagerUploadArtworkCompletionHandler
+  </h3>
+  
+  <p>A completion handler called after a response from Core to a artwork upload request.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLFileManagerUploadArtworkCompletionHandler</span><span class="p">)(</span><span class="n">BOOL</span><span class="p">,</span>
+                                                             <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">,</span>
+                                                             <span class="n">NSUInteger</span><span class="p">,</span>
+                                                             <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLFileManagerUploadArtworkCompletionHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="kt">String</span><span class="p">,</span> <span class="kt">UInt</span><span class="p">,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>success</dt>
+      <dd><p>Whether or not the upload was successful</p></dd>
+      <dt>artworkName</dt>
+      <dd><p>The unique identifier for the uploaded file.</p></dd>
+      <dt>bytesAvailable</dt>
+      <dd><p>The amount of space left for files on Core</p></dd>
+      <dt>error</dt>
+      <dd><p>The error that occurred during the request if one occurred, nil if not</p></dd>
+  </dl>
+  
+  <h3 id="section-SDLFileManagerMultiUploadArtworkCompletionHandler">
+      SDLFileManagerMultiUploadArtworkCompletionHandler
+  </h3>
+  
+  <p>A completion handler called after a set of upload artwork requests has completed.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLFileManagerMultiUploadArtworkCompletionHandler</span><span class="p">)(</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLFileManagerMultiUploadArtworkCompletionHandler</span> <span class="o">=</span> <span class="p">([</span><span class="kt">String</span><span class="p">],</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>artworkNames</dt>
+      <dd><p>The names of the artwork files successfully uploaded to the remote</p></dd>
+      <dt>error</dt>
+      <dd><p>The userInfo dictionary property, of type <NSString: NSError>, contains information on all failed uploads. The key is the name of the artwork that did not upload properly, the value is an error describing what went wrong on that particular upload attempt. If all artworks are uploaded successfully, nil is returned</p></dd>
+  </dl>
+  
+  <h3 id="section-SDLFileManagerMultiUploadArtworkProgressHandler">
+      SDLFileManagerMultiUploadArtworkProgressHandler
+  </h3>
+  
+  <p>In a multiple request send, a handler called after each response from Core to an artwork upload request.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n">BOOL</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLFileManagerMultiUploadArtworkProgressHandler</span><span class="p">)(</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">,</span> <span class="kt">float</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLFileManagerMultiUploadArtworkProgressHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Float</span><span class="p">,</span> <span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>artworkName</dt>
+      <dd><p>The unique identifier for the uploaded file</p></dd>
+      <dt>uploadPercentage</dt>
+      <dd><p>The percentage of uploaded data. The upload percentage is calculated as the total file size of all attempted artwork uploads (regardless of the successfulness of the upload) divided by the sum of the data in all the files</p></dd>
+      <dt>error</dt>
+      <dd><p>The error that occurred during the upload request if one occurred, nil if no error occured</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>Return NO to cancel any artworks that have not yet been sent. Return YES to continue sending artworks</p>
+  </div>
+  
   <h3 id="section-SDLFileType">
       SDLFileType
   </h3>
@@ -1136,6 +1233,95 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  
+  <h3 id="section-SDLMultipleRequestCompletionHandler">
+      SDLMultipleRequestCompletionHandler
+  </h3>
+  
+  <p>A completion handler called after a sequential or simultaneous set of requests have completed sending.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLMultipleRequestCompletionHandler</span><span class="p">)(</span><span class="n">BOOL</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLMultipleRequestCompletionHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>success</dt>
+      <dd><p>True if every request succeeded, false if any failed. See the progress handler for more details on failures.</p></dd>
+  </dl>
+  
+  <h3 id="section-SDLMultipleSequentialRequestProgressHandler">
+      SDLMultipleSequentialRequestProgressHandler
+  </h3>
+  
+  <p>A handler called after each response to a request comes in in a multiple request send.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n">BOOL</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLMultipleSequentialRequestProgressHandler</span><span class="p">)(</span>
+    <span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">,</span> <span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+    <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span> <span class="kt">float</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLMultipleSequentialRequestProgressHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">,</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?,</span> <span class="kt">Float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>request</dt>
+      <dd><p>The request that received a response</p></dd>
+      <dt>response</dt>
+      <dd><p>The response received</p></dd>
+      <dt>error</dt>
+      <dd><p>The error that occurred during the request if any occurred.</p></dd>
+      <dt>percentComplete</dt>
+      <dd><p>The percentage of requests that have received a response</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>continueSendingRequests NO to cancel any requests that have not yet been sent. This is really only useful for a sequential send (sendSequentialRequests:progressHandler:completionHandler:). Return YES to continue sending requests.</p>
+  </div>
+  
+  <h3 id="section-SDLMultipleAsyncRequestProgressHandler">
+      SDLMultipleAsyncRequestProgressHandler
+  </h3>
+  
+  <p>A handler called after each response to a request comes in in a multiple request send.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLMultipleAsyncRequestProgressHandler</span><span class="p">)(</span>
+    <span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">,</span> <span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+    <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span> <span class="kt">float</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLMultipleAsyncRequestProgressHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">,</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?,</span> <span class="kt">Float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>request</dt>
+      <dd><p>The request that received a response</p></dd>
+      <dt>response</dt>
+      <dd><p>The response received</p></dd>
+      <dt>error</dt>
+      <dd><p>The error that occurred during the request if any occurred.</p></dd>
+      <dt>percentComplete</dt>
+      <dd><p>The percentage of requests that have received a response</p></dd>
+  </dl>
   
   <h3 id="section-SDLManagerReadyBlock">
       SDLManagerReadyBlock
@@ -1656,6 +1842,29 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   
+  
+  <h3 id="section-SDLScreenManagerUpdateCompletionHandler">
+      SDLScreenManagerUpdateCompletionHandler
+  </h3>
+  
+  <p>The handler run when the update has completed</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLScreenManagerUpdateCompletionHandler</span><span class="p">)(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLScreenManagerUpdateCompletionHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>error</dt>
+      <dd><p>An error if the update failed and an error occurred</p></dd>
+  </dl>
   
   <h3 id="section-SDLSoftButtonType">
       SDLSoftButtonType
