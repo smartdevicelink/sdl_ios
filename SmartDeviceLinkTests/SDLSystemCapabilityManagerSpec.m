@@ -4,22 +4,29 @@
 #import "SDLAudioPassThruCapabilities.h"
 #import "SDLButtonCapabilities.h"
 #import "SDLDisplayCapabilities.h"
+#import "SDLGetSystemCapability.h"
+#import "SDLGetSystemCapabilityResponse.h"
 #import "SDLHMICapabilities.h"
+#import "SDLNavigationCapability.h"
 #import "SDLNotificationConstants.h"
+#import "SDLPhoneCapability.h"
 #import "SDLPresetBankCapabilities.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRegisterAppInterfaceResponse.h"
+#import "SDLRemoteControlCapabilities.h"
 #import "SDLRPCResponseNotification.h"
 #import "SDLScreenParams.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLSoftButtonCapabilities.h"
+#import "SDLSystemCapability.h"
 #import "SDLSystemCapabilityManager.h"
+#import "SDLVideoStreamingCapability.h"
 #import "TestConnectionManager.h"
 
 QuickSpecBegin(SDLSystemCapabilityManagerSpec)
 
 describe(@"System capability manager", ^{
-    __block TestConnectionManager *mockConnectionManager = nil;
+    __block TestConnectionManager *testConnectionManager = nil;
     __block SDLSystemCapabilityManager *testSystemCapabilityManager = nil;
 
     __block SDLDisplayCapabilities *testDisplayCapabilities;
@@ -39,8 +46,8 @@ describe(@"System capability manager", ^{
     __block SDLRemoteControlCapabilities *testRemoteControlCapability;
 
     beforeEach(^{
-        mockConnectionManager = [[TestConnectionManager alloc] init];
-        testSystemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:mockConnectionManager];
+        testConnectionManager = [[TestConnectionManager alloc] init];
+        testSystemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:testConnectionManager];
 
         testDisplayCapabilities = nil;
         testHMICapabilities = nil;
@@ -172,6 +179,80 @@ describe(@"System capability manager", ^{
         });
     });
 
+    context(@"When requesting the SDLSystemCapabilityType", ^{
+        __block NSError *testError = nil;
+        __block SDLSystemCapabilityType systemCapabilityType;
+        __block SDLGetSystemCapabilityResponse *testGetSystemCapabilityResponse;
+
+        beforeEach(^{
+            testGetSystemCapabilityResponse = [[SDLGetSystemCapabilityResponse alloc] init];
+        });
+
+        it(@"should save the phone call capabilities", ^{
+            systemCapabilityType = SDLSystemCapabilityTypePhoneCall;
+            testPhoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
+
+            testGetSystemCapabilityResponse.success = @YES;
+            testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
+            testGetSystemCapabilityResponse.systemCapability.phoneCapability = testPhoneCapability;
+            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypePhoneCall;
+        });
+
+        it(@"should save the navigation capabilities", ^{
+            systemCapabilityType = SDLSystemCapabilityTypeNavigation;
+            testNavigationCapability = [[SDLNavigationCapability alloc] initWithSendLocation:YES waypoints:YES];
+
+            testGetSystemCapabilityResponse.success = @YES;
+            testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
+            testGetSystemCapabilityResponse.systemCapability.navigationCapability = testNavigationCapability;
+            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeNavigation;
+        });
+
+        it(@"should save the remote control capabilities", ^{
+            systemCapabilityType = SDLSystemCapabilityTypeRemoteControl;
+            testRemoteControlCapability = [[SDLRemoteControlCapabilities alloc] initWithClimateControlCapabilities:@[] radioControlCapabilities:@[] buttonCapabilities:@[]];
+
+            testGetSystemCapabilityResponse.success = @YES;
+            testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
+            testGetSystemCapabilityResponse.systemCapability.remoteControlCapability = testRemoteControlCapability;
+            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeRemoteControl;
+        });
+
+        it(@"should save the video streaming capabilities", ^{
+            systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
+            testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:nil maxBitrate:8 supportedFormats:nil hapticDataSupported:YES];
+
+            testGetSystemCapabilityResponse.success = @YES;
+            testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
+            testGetSystemCapabilityResponse.systemCapability.videoStreamingCapability = testVideoStreamingCapability;
+            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
+        });
+
+        it(@"should return the error if the request is not successful", ^{
+            systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
+            testVideoStreamingCapability = nil;
+            testError = [NSError errorWithDomain:NSCocoaErrorDomain code:23 userInfo:nil];
+
+            testGetSystemCapabilityResponse.success = @NO;
+            testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
+            testGetSystemCapabilityResponse.systemCapability.videoStreamingCapability = nil;
+            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
+        });
+
+        afterEach(^{
+            waitUntilTimeout(1, ^(void (^done)(void)){
+                [testSystemCapabilityManager updateCapabilityType:systemCapabilityType completionHandler:^(NSError * _Nullable error) {
+                    expect(error).to(testError != nil ? equal(testError) : beNil());
+                    done();
+                }];
+
+                [NSThread sleepForTimeInterval:0.1];
+
+                [testConnectionManager respondToLastRequestWithResponse: testGetSystemCapabilityResponse error:testError];
+            });
+        });
+    });
+
     afterEach(^{
         expect(testSystemCapabilityManager.displayCapabilities).to(testDisplayCapabilities != nil ? equal(testDisplayCapabilities) : beNil());
         expect(testSystemCapabilityManager.hmiCapabilities).to(testHMICapabilities != nil ? equal(testHMICapabilities) : beNil());
@@ -185,7 +266,7 @@ describe(@"System capability manager", ^{
         expect(testSystemCapabilityManager.audioPassThruCapabilities).to(testAudioPassThruCapabilities != nil ? equal(testAudioPassThruCapabilities) : beNil());
         expect(testSystemCapabilityManager.pcmStreamCapabilities).to(testPCMStreamCapabilities != nil ? equal(@[testPCMStreamCapabilities]) : beNil());
 
-        expect(testSystemCapabilityManager.phoneCapability).to(testPhoneCapability != nil ? equal(testNavigationCapability) : beNil());
+        expect(testSystemCapabilityManager.phoneCapability).to(testPhoneCapability != nil ? equal(testPhoneCapability) : beNil());
         expect(testSystemCapabilityManager.navigationCapability).to(testNavigationCapability != nil ? equal(testNavigationCapability) : beNil());
         expect(testSystemCapabilityManager.videoStreamingCapability).to(testVideoStreamingCapability != nil ? equal(testVideoStreamingCapability) : beNil());
         expect(testSystemCapabilityManager.remoteControlCapability).to(testRemoteControlCapability != nil ? equal(testRemoteControlCapability) : beNil());

@@ -98,23 +98,24 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler {
     SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type];
     [self.connectionManager sendConnectionManagerRequest:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
-        if (!response.success || [response isMemberOfClass:SDLGenericResponse.class]) {
+        if (!response.success.boolValue || [response isMemberOfClass:SDLGenericResponse.class]) {
             SDLLogW(@"%@ system capability response failed: %@", type, error);
             return handler(error);
         }
 
         SDLSystemCapability *systemCapabilityResponse = ((SDLGetSystemCapabilityResponse *)response).systemCapability;
+        SDLSystemCapabilityType systemCapabilityType = systemCapabilityResponse.systemCapabilityType;
 
-        if ([type isEqualToEnum:SDLSystemCapabilityTypePhoneCall]) {
+        if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypePhoneCall]) {
             self.phoneCapability = systemCapabilityResponse.phoneCapability;
-        } else if ([type isEqualToEnum:SDLSystemCapabilityTypeNavigation]) {
+        } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeNavigation]) {
             self.navigationCapability = systemCapabilityResponse.navigationCapability;
-        } else if ([type isEqualToEnum:SDLSystemCapabilityTypeRemoteControl]) {
+        } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeRemoteControl]) {
             self.remoteControlCapability = systemCapabilityResponse.remoteControlCapability;
-        } else if ([type isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
+        } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
             self.videoStreamingCapability = systemCapabilityResponse.videoStreamingCapability;
         } else {
-            NSAssert(NO, @"Received response for unknown SDLSystemCapabilityType: %@", type);
+            NSAssert(NO, @"Received response for unknown SDLSystemCapabilityType: %@", systemCapabilityType);
         }
 
         handler(nil);
