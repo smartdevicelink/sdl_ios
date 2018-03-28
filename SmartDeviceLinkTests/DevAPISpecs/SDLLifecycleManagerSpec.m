@@ -28,6 +28,7 @@
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManager.h"
+#import "SDLSystemCapabilityManager.h"
 #import "SDLTextAlignment.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnregisterAppInterfaceResponse.h"
@@ -69,6 +70,7 @@ describe(@"a lifecycle manager", ^{
     __block id fileManagerMock = OCMClassMock([SDLFileManager class]);
     __block id permissionManagerMock = OCMClassMock([SDLPermissionManager class]);
     __block id streamingManagerMock = OCMClassMock([SDLStreamingMediaManager class]);
+    __block id systemCapabilityMock = OCMClassMock([SDLSystemCapabilityManager class]);
     
     beforeEach(^{
         OCMStub([proxyBuilderClassMock buildSDLProxyWithListener:[OCMArg any]]).andReturn(proxyMock);
@@ -86,9 +88,10 @@ describe(@"a lifecycle manager", ^{
         testManager.fileManager = fileManagerMock;
         testManager.permissionManager = permissionManagerMock;
         testManager.streamManager = streamingManagerMock;
+        testManager.systemCapabilityManager = systemCapabilityMock;
     });
     
-    xit(@"should initialize properties", ^{
+    it(@"should initialize properties", ^{
         expect(testManager.configuration).toNot(equal(testConfig)); // This is copied
         expect(testManager.delegate).to(equal(managerDelegateMock)); // TODO: Broken on OCMock 3.3.1 & Swift 3 Quick / Nimble
         expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
@@ -102,6 +105,7 @@ describe(@"a lifecycle manager", ^{
         expect(testManager.notificationDispatcher).toNot(beNil());
         expect(testManager.responseDispatcher).toNot(beNil());
         expect(testManager.streamManager).toNot(beNil());
+        expect(testManager.systemCapabilityManager).toNot(beNil());
         expect(@([testManager conformsToProtocol:@protocol(SDLConnectionManagerType)])).to(equal(@YES));
     });
     
@@ -459,7 +463,7 @@ describe(@"a lifecycle manager", ^{
                 });
             });
             
-            describe(@"receiving an audio state change", ^{
+            xdescribe(@"receiving an audio state change", ^{
                 __block SDLOnHMIStatus *testHMIStatus = nil;
                 __block SDLAudioStreamingState testAudioStreamingState = nil;
                 __block SDLAudioStreamingState oldAudioStreamingState = nil;
