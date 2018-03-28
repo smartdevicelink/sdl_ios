@@ -186,6 +186,7 @@ describe(@"System capability manager", ^{
 
         beforeEach(^{
             testGetSystemCapabilityResponse = [[SDLGetSystemCapabilityResponse alloc] init];
+            testError = nil;
         });
 
         it(@"should save the phone call capabilities", ^{
@@ -242,7 +243,7 @@ describe(@"System capability manager", ^{
         afterEach(^{
             waitUntilTimeout(1, ^(void (^done)(void)){
                 [testSystemCapabilityManager updateCapabilityType:systemCapabilityType completionHandler:^(NSError * _Nullable error) {
-                    expect(error).to(testError != nil ? equal(testError) : beNil());
+                    expect(error).to(testError == nil ? beNil() : equal(testError));
                     done();
                 }];
 
