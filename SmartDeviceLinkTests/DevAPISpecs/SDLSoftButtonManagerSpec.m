@@ -42,7 +42,7 @@
 
 QuickSpecBegin(SDLSoftButtonManagerSpec)
 
-fdescribe(@"a soft button manager", ^{
+describe(@"a soft button manager", ^{
     __block SDLSoftButtonManager *testManager = nil;
 
     __block SDLFileManager *testFileManager = nil;
