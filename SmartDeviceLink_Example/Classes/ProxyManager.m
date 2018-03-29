@@ -155,10 +155,12 @@ NS_ASSUME_NONNULL_BEGIN
     self.sdlManager.screenManager.textField1 = self.isTextEnabled ? @"SmartDeviceLink" : nil;
     self.sdlManager.screenManager.textField2 = self.isTextEnabled ? @"Example App" : nil;
 
-    self.sdlManager.screenManager.primaryGraphic = self.areImagesEnabled ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+    if (self.sdlManager.systemCapabilityManager.displayCapabilities.graphicSupported) {
+        self.sdlManager.screenManager.primaryGraphic = self.areImagesEnabled ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+    }
 
     [self.sdlManager.screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
-        NSLog(@"Updated text and graphics, error? %@", error);
+        SDLLogD(@"Updated text and graphics, error? %@", error);
     }];
 }
 
@@ -271,6 +273,49 @@ NS_ASSUME_NONNULL_BEGIN
     };
 
     return getVehicleDataCommand;
+}
+
++ (void)sdlex_dialNumberCommandWithManager:(SDLManager *)manager {
+    [manager.systemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error) {
+        SDLAddCommand *dialNumberAddCommand = (error == nil) ? [self.class sdlex_sendDialNumberAvailableAddCommandWithManager:manager] : [self.class sdlex_sendDialNumberUnavailableAddCommandWithManager:manager];
+
+        [manager sendRequest:dialNumberAddCommand withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+            SDLLogD(@"Dial number add command sent: %@", response.resultCode);
+        }];
+    }];
+}
+
++ (SDLAddCommand *)sdlex_sendDialNumberAvailableAddCommandWithManager:(SDLManager *)manager {
+    NSString *menuName = @"Dial Number";
+    SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] initWithMenuName:menuName];
+
+    SDLAddCommand *dialNumberCommand = [[SDLAddCommand alloc] init];
+    dialNumberCommand.vrCommands = [NSMutableArray arrayWithObject:menuName];
+    dialNumberCommand.menuParams = commandMenuParams;
+    dialNumberCommand.cmdID = @3;
+    dialNumberCommand.handler = ^(SDLOnCommand * _Nonnull command) {
+        SDLLogD(@"Dialing number");
+        [self.class sdlex_sendDialNumberWithManager:manager];
+    };
+
+    return dialNumberCommand;
+}
+
++ (SDLAddCommand *)sdlex_sendDialNumberUnavailableAddCommandWithManager:(SDLManager *)manager {
+    NSString *menuName = @"Dial Number feature unavailable";
+    SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] initWithMenuName:menuName];
+
+    SDLAddCommand *dialNumberUnavailableCommand = [[SDLAddCommand alloc] init];
+    dialNumberUnavailableCommand.vrCommands = [NSMutableArray arrayWithObject:menuName];
+    dialNumberUnavailableCommand.menuParams = commandMenuParams;
+    dialNumberUnavailableCommand.cmdID = @3;
+    dialNumberUnavailableCommand.handler = ^(SDLOnCommand * _Nonnull command) {
+        SDLAlert* alert = [[SDLAlert alloc] init];
+        alert.alertText1 = @"The dial number feature is unavailable for this head unit";
+        [manager sendRequest:alert];
+    };
+
+    return dialNumberUnavailableCommand;
 }
 
 + (SDLSpeak *)sdlex_appNameSpeak {
@@ -398,16 +443,25 @@ NS_ASSUME_NONNULL_BEGIN
     SDLGetVehicleData *getVehicleData = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES emergencyEvent:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES vin:YES wiperStatus:YES];
 
     [manager sendRequest:getVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        NSLog(@"vehicle data response: %@", response);
+        SDLLogD(@"vehicle data response: %@", response);
+    }];
+}
+
++ (void)sdlex_sendDialNumberWithManager:(SDLManager *)manager {
+    SDLDialNumber *dialNumber = [[SDLDialNumber alloc] initWithNumber:@"5555555555"];
+    [manager sendRequest:dialNumber withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        SDLLogD(@"Dial number response: %@", response);
     }];
 }
 
 - (void)sdlex_prepareRemoteSystem {
     [self.sdlManager sendRequests:@[[self.class sdlex_speakNameCommandWithManager:self.sdlManager], [self.class sdlex_interactionSetCommandWithManager:self.sdlManager], [self.class sdlex_vehicleDataCommandWithManager:self.sdlManager], [self.class sdlex_createOnlyChoiceInteractionSet]]
                   progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
-                      NSLog(@"Commands sent updated, percent complete %f%%", percentComplete * 100);
+                      SDLLogD(@"Commands sent updated, percent complete %f%%", percentComplete * 100);
     }
                 completionHandler:nil];
+
+    [self.class sdlex_dialNumberCommandWithManager:self.sdlManager];
 }
 
 
