@@ -275,17 +275,7 @@ NS_ASSUME_NONNULL_BEGIN
     return getVehicleDataCommand;
 }
 
-+ (void)sdlex_dialNumberCommandWithManager:(SDLManager *)manager {
-    [manager.systemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error) {
-        SDLAddCommand *dialNumberAddCommand = (error == nil) ? [self.class sdlex_sendDialNumberAvailableAddCommandWithManager:manager] : [self.class sdlex_sendDialNumberUnavailableAddCommandWithManager:manager];
-
-        [manager sendRequest:dialNumberAddCommand withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-            SDLLogD(@"Dial number add command sent: %@", response.resultCode);
-        }];
-    }];
-}
-
-+ (SDLAddCommand *)sdlex_sendDialNumberAvailableAddCommandWithManager:(SDLManager *)manager {
++ (SDLAddCommand *)sdlex_dialNumberCommandWithManager:(SDLManager *)manager {
     NSString *menuName = @"Dial Number";
     SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] initWithMenuName:menuName];
 
@@ -294,28 +284,20 @@ NS_ASSUME_NONNULL_BEGIN
     dialNumberCommand.menuParams = commandMenuParams;
     dialNumberCommand.cmdID = @3;
     dialNumberCommand.handler = ^(SDLOnCommand * _Nonnull command) {
-        SDLLogD(@"Dialing number");
-        [self.class sdlex_sendDialNumberWithManager:manager];
+        SDLLogD(@"Checking phone call capability");
+        [manager.systemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error) {
+            if (error == nil) {
+                SDLLogD(@"Dialing number");
+                [self.class sdlex_sendDialNumberWithManager:manager];
+            } else {
+                SDLAlert* alert = [[SDLAlert alloc] init];
+                alert.alertText1 = @"The dial number feature is unavailable for this head unit";
+                [manager sendRequest:alert];
+            }
+        }];
     };
 
     return dialNumberCommand;
-}
-
-+ (SDLAddCommand *)sdlex_sendDialNumberUnavailableAddCommandWithManager:(SDLManager *)manager {
-    NSString *menuName = @"Dial Number feature unavailable";
-    SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] initWithMenuName:menuName];
-
-    SDLAddCommand *dialNumberUnavailableCommand = [[SDLAddCommand alloc] init];
-    dialNumberUnavailableCommand.vrCommands = [NSMutableArray arrayWithObject:menuName];
-    dialNumberUnavailableCommand.menuParams = commandMenuParams;
-    dialNumberUnavailableCommand.cmdID = @3;
-    dialNumberUnavailableCommand.handler = ^(SDLOnCommand * _Nonnull command) {
-        SDLAlert* alert = [[SDLAlert alloc] init];
-        alert.alertText1 = @"The dial number feature is unavailable for this head unit";
-        [manager sendRequest:alert];
-    };
-
-    return dialNumberUnavailableCommand;
 }
 
 + (SDLSpeak *)sdlex_appNameSpeak {
@@ -455,13 +437,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdlex_prepareRemoteSystem {
-    [self.sdlManager sendRequests:@[[self.class sdlex_speakNameCommandWithManager:self.sdlManager], [self.class sdlex_interactionSetCommandWithManager:self.sdlManager], [self.class sdlex_vehicleDataCommandWithManager:self.sdlManager], [self.class sdlex_createOnlyChoiceInteractionSet]]
+    [self.sdlManager sendRequests:@[[self.class sdlex_speakNameCommandWithManager:self.sdlManager], [self.class sdlex_interactionSetCommandWithManager:self.sdlManager], [self.class sdlex_vehicleDataCommandWithManager:self.sdlManager], [self.class sdlex_dialNumberCommandWithManager:self.sdlManager], [self.class sdlex_createOnlyChoiceInteractionSet]]
                   progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
                       SDLLogD(@"Commands sent updated, percent complete %f%%", percentComplete * 100);
-    }
-                completionHandler:nil];
-
-    [self.class sdlex_dialNumberCommandWithManager:self.sdlManager];
+                  } completionHandler:nil];
 }
 
 
