@@ -369,7 +369,7 @@ describe(@"a lifecycle manager", ^{
                     OCMStub([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any]]).andReturn(update);
 
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateUpdatingConfiguration fromOldState:SDLLifecycleStateRegistered callEnterTransition:YES];
-                    // Transition to setting up managers to prevent assert error from the lifecycle machine
+                    // Transition to StateSettingUpManagers to prevent assert error from the lifecycle machine
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpManagers fromOldState:SDLLifecycleStateUpdatingConfiguration callEnterTransition:NO];
 
                     expect(testManager.configuration.lifecycleConfig.language).to(equal(SDLLanguageEnGb));
@@ -391,7 +391,7 @@ describe(@"a lifecycle manager", ^{
                     OCMStub([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any]]).andReturn(nil);
 
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateUpdatingConfiguration fromOldState:SDLLifecycleStateRegistered callEnterTransition:YES];
-                    // Transition to setting up managers to prevent assert error from the lifecycle machine
+                    // Transition to StateSettingUpManagers to prevent assert error from the lifecycle machine
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpManagers fromOldState:SDLLifecycleStateUpdatingConfiguration callEnterTransition:NO];
 
                     expect(testManager.configuration.lifecycleConfig.language).to(equal(SDLLanguageEnUs));
@@ -409,8 +409,7 @@ describe(@"a lifecycle manager", ^{
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:NO];
             });
 
-            // `respondsToSelector:` is not supported by OCMock
-            xit(@"can send an RPC", ^{
+            it(@"can send an RPC", ^{
                 SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil alignment:nil];
                 [testManager sendRequest:testShow];
 
@@ -466,8 +465,9 @@ describe(@"a lifecycle manager", ^{
                         expect(testManager.hmiLevel).toEventually(equal(testHMILevel));
                     });
                     
-                    xit(@"should call the delegate", ^{
-                        // // `respondsToSelector:` is not supported by OCMock
+                    it(@"should call the delegate", ^{
+                        // Since notifications are sent to SDLManagerDelegate observers on the main thread, force the block to execute manually on the main thread. If this is not done, the test case may fail.
+                        [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
                         OCMVerify([testManager.delegate hmiLevel:[OCMArg any] didChangeToLevel:[OCMArg any]]);
                     });
                 });
@@ -495,8 +495,10 @@ describe(@"a lifecycle manager", ^{
                         expect(testManager.audioStreamingState).toEventually(equal(testAudioStreamingState));
                     });
                     
-                    xit(@"should call the delegate", ^{
-                        // `respondsToSelector:` is not supported by OCMock
+                    it(@"should call the delegate", ^{
+                        // Since notifications are sent to SDLManagerDelegate observers on the main thread, force the block to execute manually on the main thread. If this is not done, the test case may fail.
+                        [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
+
                         OCMVerify([testManager.delegate audioStreamingState:oldAudioStreamingState didChangeToState:testAudioStreamingState]);
                     });
                 });
@@ -527,9 +529,14 @@ describe(@"a lifecycle manager", ^{
                         expect(testManager.systemContext).toEventually(equal(testSystemContext));
                     });
                     
-                    xit(@"should call the delegate", ^{
-                        // `respondsToSelector:` is not supported by OCMock
+                    it(@"should call the delegate", ^{
+                        // Since notifications are sent to SDLManagerDelegate observers on the main thread, force the block to execute manually on the main thread. If this is not done, the test case may fail.
+                        [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
                         OCMVerify([testManager.delegate systemContext:[OCMArg any] didChangeToContext:[OCMArg any]]);
+                    });
+
+                    afterEach(^{
+                        expect(testManager.delegate).toNot(beNil());
                     });
                 });
             });
