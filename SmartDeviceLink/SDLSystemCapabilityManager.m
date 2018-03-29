@@ -60,6 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+
 #pragma mark - Notifications
 
 -(void)sdl_registerForNotifications {
@@ -93,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-#pragma mark - Get Capabilities
+#pragma mark - Capability Request
 
 - (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler {
     SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type];
