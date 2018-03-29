@@ -347,14 +347,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         SDLLogV(@"Capability: %@", capability);
 
         if (capability != nil) {
-            // If we got a response, get our preferred formats and resolutions
+            // If we got a response, get the head unit's preferred formats and resolutions
             weakSelf.preferredFormats = capability.supportedFormats;
             weakSelf.preferredResolutions = @[capability.preferredResolution];
 
             if (weakSelf.dataSource != nil) {
-                SDLLogV(@"Calling data source for modified preferred formats and resolutions");
+                SDLLogV(@"Calling data source for modified preferred formats");
                 weakSelf.preferredFormats = [weakSelf.dataSource preferredVideoFormatOrderFromHeadUnitPreferredOrder:weakSelf.preferredFormats];
-                weakSelf.preferredResolutions = [weakSelf.dataSource resolutionFromHeadUnitPreferredResolution:weakSelf.preferredResolutions.firstObject];
             }
 
             if (weakSelf.focusableItemManager != nil) {
@@ -363,7 +362,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
             SDLLogD(@"Got specialized video capabilites, preferred formats: %@, resolutions: %@ haptics enabled %@", weakSelf.preferredFormats, weakSelf.preferredResolutions, (capability.hapticSpatialDataSupported.boolValue ? @"YES" : @"NO"));
         } else {
-            // If we can't get capabilities, we're assuming it's H264 RAW at whatever the display capabilities said in the RAIR. We also aren't going to call the data source because they have no options.
+            // If no response, assume that the format is H264 RAW and get the screen resolution from the RAI response's display capabilities.
             SDLVideoStreamingFormat *format = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
             SDLImageResolution *resolution = [[SDLImageResolution alloc] initWithWidth:(uint16_t)weakSelf.screenSize.width height:(uint16_t)weakSelf.screenSize.height];
             weakSelf.preferredFormats = @[format];
@@ -374,6 +373,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             }
 
             SDLLogD(@"Using generic video capabilites, preferred formats: %@, resolutions: %@, haptics disabled", weakSelf.preferredFormats, weakSelf.preferredResolutions);
+        }
+
+        if (weakSelf.dataSource != nil) {
+            SDLLogV(@"Calling data source for modified preferred resolutions");
+            weakSelf.preferredResolutions = [weakSelf.dataSource resolutionFromHeadUnitPreferredResolution:weakSelf.preferredResolutions.firstObject];
         }
 
         [self sdl_sendVideoStartService];
