@@ -11,9 +11,9 @@
 #import "SDLNotificationConstants.h"
 #import "SDLPhoneCapability.h"
 #import "SDLPresetBankCapabilities.h"
-#import "SDLRPCNotificationNotification.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRemoteControlCapabilities.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
 #import "SDLScreenParams.h"
 #import "SDLSetDisplayLayoutResponse.h"
@@ -22,6 +22,7 @@
 #import "SDLSystemCapabilityManager.h"
 #import "SDLVideoStreamingCapability.h"
 #import "TestConnectionManager.h"
+
 
 QuickSpecBegin(SDLSystemCapabilityManagerSpec)
 
