@@ -93,7 +93,7 @@ describe(@"a lifecycle manager", ^{
     
     it(@"should initialize properties", ^{
         expect(testManager.configuration).toNot(equal(testConfig)); // This is copied
-        expect(testManager.delegate).toNot(beNil()); // TODO: Broken on OCMock 3.3.1 & Swift 3 Quick / Nimble
+        expect(testManager.delegate).toNot(beNil());
         expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
         expect(@(testManager.lastCorrelationId)).to(equal(@0));
         expect(testManager.fileManager).toNot(beNil());
