@@ -176,6 +176,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     self.hmiLevel = SDLHMILevelNone;
 
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
+
+    self.protocol = nil;
 }
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
@@ -569,6 +571,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus*)notification.notification;
     SDLLogD(@"HMI level changed from level %@ to level %@", self.hmiLevel, hmiStatus.hmiLevel);
     self.hmiLevel = hmiStatus.hmiLevel;
+
+    // if startWithProtocol has not been called yet, abort here
+    if (!self.protocol) { return; }
 
     if (self.isHmiStateVideoStreamCapable) {
         [self sdl_startVideoSession];

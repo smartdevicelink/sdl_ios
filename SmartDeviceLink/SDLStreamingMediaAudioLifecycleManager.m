@@ -128,6 +128,8 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
     self.hmiLevel = SDLHMILevelNone;
 
     [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateStopped];
+
+    self.protocol = nil;
 }
 
 - (BOOL)sendAudioData:(NSData*)audioData {
@@ -320,6 +322,9 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus*)notification.notification;
     SDLLogD(@"HMI level changed from level %@ to level %@", self.hmiLevel, hmiStatus.hmiLevel);
     self.hmiLevel = hmiStatus.hmiLevel;
+
+    // if startWithProtocol has not been called yet, abort here
+    if (!self.protocol) { return; }
 
     if (self.isHmiStateAudioStreamCapable) {
         [self sdl_startAudioSession];
