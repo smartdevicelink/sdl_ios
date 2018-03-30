@@ -146,7 +146,8 @@ int const ProtocolIndexTimeoutSeconds = 10;
         SDLLogD(@"Accessory connected while app is in background. Starting background task.");
         [self sdl_backgroundTaskStart];
     }
-    
+
+    self.retryCounter = 0;
     [self performSelector:@selector(sdl_connect:) withObject:nil afterDelay:retryDelay];
 }
 
