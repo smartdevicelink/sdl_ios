@@ -116,6 +116,9 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
             [self.protocol.protocolDelegateTable addObject:self];
         }
     }
+
+    // attempt to start streaming since we may already have necessary conditions met
+    [self sdl_startAudioSession];
 }
 
 - (void)stop {

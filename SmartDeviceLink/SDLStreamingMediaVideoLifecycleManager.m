@@ -164,6 +164,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             [self.protocol.protocolDelegateTable addObject:self];
         }
     }
+
+    // attempt to start streaming since we may already have necessary conditions met
+    [self sdl_startVideoSession];
 }
 
 - (void)stop {
