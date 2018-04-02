@@ -173,8 +173,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogD(@"Stopping StreamingMediaVideoLifecycleManager");
     [self sdl_stopVideoSession];
 
-    self.hmiLevel = SDLHMILevelNone;
-
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
 
     self.protocol = nil;
