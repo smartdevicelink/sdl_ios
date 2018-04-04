@@ -89,14 +89,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Array of length 1 - 100, of SDLPrerecordedSpeech
  */
-@property (nullable, copy, nonatomic, readonly) NSArray<SDLPrerecordedSpeech> *prerecordedSpeech;
+@property (nullable, copy, nonatomic, readonly) NSArray<SDLPrerecordedSpeech> *prerecordedSpeechCapabilities;
 
 /**
  * @see SDLVRCapabilities
  *
- * Optional, Array of length 1 - 100, of SDLVRCapabilities
+ * True if the head unit supports voice recognition; false if not.
  */
-@property (nullable, copy, nonatomic, readonly) NSArray<SDLVRCapabilities> *vrCapabilities;
+@property (nonatomic, readonly) BOOL vrCapability;
 
 /**
  * @see SDLAudioPassThruCapabilities

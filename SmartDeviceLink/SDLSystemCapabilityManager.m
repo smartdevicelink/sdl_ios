@@ -33,8 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic, readwrite) SDLPresetBankCapabilities *presetBankCapabilities;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLHMIZoneCapabilities> *hmiZoneCapabilities;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLSpeechCapabilities> *speechCapabilities;
-@property (nullable, copy, nonatomic, readwrite) NSArray<SDLPrerecordedSpeech> *prerecordedSpeech;
-@property (nullable, copy, nonatomic, readwrite) NSArray<SDLVRCapabilities> *vrCapabilities;
+@property (nullable, copy, nonatomic, readwrite) NSArray<SDLPrerecordedSpeech> *prerecordedSpeechCapabilities;
+@property (nonatomic, readwrite) BOOL vrCapability;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLAudioPassThruCapabilities *> *pcmStreamCapabilities;
 @property (nullable, strong, nonatomic, readwrite) SDLNavigationCapability *navigationCapability;
@@ -78,8 +78,8 @@ NS_ASSUME_NONNULL_BEGIN
     self.presetBankCapabilities = response.presetBankCapabilities;
     self.hmiZoneCapabilities = response.hmiZoneCapabilities;
     self.speechCapabilities = response.speechCapabilities;
-    self.prerecordedSpeech = response.prerecordedSpeech;
-    self.vrCapabilities = response.vrCapabilities;
+    self.prerecordedSpeechCapabilities = response.prerecordedSpeech;
+    self.vrCapability = (response.vrCapabilities.count > 1 && response.vrCapabilities.firstObject == SDLVRCapabilitiesText) ? YES : NO;
     self.audioPassThruCapabilities = response.audioPassThruCapabilities;
     self.pcmStreamCapabilities = response.pcmStreamCapabilities != nil ? @[response.pcmStreamCapabilities] : nil;
 }
