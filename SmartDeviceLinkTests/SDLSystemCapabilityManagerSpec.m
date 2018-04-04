@@ -264,7 +264,7 @@ describe(@"System capability manager", ^{
         expect(testSystemCapabilityManager.hmiZoneCapabilities).to(testHMIZoneCapabilities != nil ? equal(testHMIZoneCapabilities) : beNil());
         expect(testSystemCapabilityManager.speechCapabilities).to(testSpeechCapabilities != nil ? equal(testSpeechCapabilities) : beNil());
         expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(testPrerecordedSpeechCapabilities != nil ? equal(testPrerecordedSpeechCapabilities) : beNil());
-        expect(testSystemCapabilityManager.vrCapability).to(testVRCapabilities != nil ? equal(testVRCapabilities) : beNil());
+        expect(testSystemCapabilityManager.vrCapability).to(testVRCapabilities != nil ? equal(testVRCapabilities.firstObject == SDLVRCapabilitiesText ? YES : NO) : equal(NO));
         expect(testSystemCapabilityManager.audioPassThruCapabilities).to(testAudioPassThruCapabilities != nil ? equal(testAudioPassThruCapabilities) : beNil());
         expect(testSystemCapabilityManager.pcmStreamCapabilities).to(testPCMStreamCapabilities != nil ? equal(@[testPCMStreamCapabilities]) : beNil());
 

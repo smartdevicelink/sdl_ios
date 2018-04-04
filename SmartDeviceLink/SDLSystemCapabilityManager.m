@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.hmiZoneCapabilities = response.hmiZoneCapabilities;
     self.speechCapabilities = response.speechCapabilities;
     self.prerecordedSpeechCapabilities = response.prerecordedSpeech;
-    self.vrCapability = (response.vrCapabilities.count > 1 && response.vrCapabilities.firstObject == SDLVRCapabilitiesText) ? YES : NO;
+    self.vrCapability = (response.vrCapabilities.count > 0 && response.vrCapabilities.firstObject == SDLVRCapabilitiesText) ? YES : NO;
     self.audioPassThruCapabilities = response.audioPassThruCapabilities;
     self.pcmStreamCapabilities = response.pcmStreamCapabilities != nil ? @[response.pcmStreamCapabilities] : nil;
 }
@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler {
     SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type];
-    [self.connectionManager sendConnectionManagerRequest:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+    [self.connectionManager sendConnectionRequest:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
         if (!response.success.boolValue || [response isMemberOfClass:SDLGenericResponse.class]) {
             SDLLogW(@"%@ system capability response failed: %@", type, error);
             return handler(error);
@@ -116,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
         } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
             self.videoStreamingCapability = systemCapabilityResponse.videoStreamingCapability;
         } else {
-            SDLLogE(@"Received response for unknown SystemCapabilityType: %@", systemCapabilityType);
+            SDLLogW(@"Received response for unknown SystemCapabilityType: %@", systemCapabilityType);
         }
 
         handler(nil);
