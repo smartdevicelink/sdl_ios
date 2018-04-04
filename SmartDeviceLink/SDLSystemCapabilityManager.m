@@ -116,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
         } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
             self.videoStreamingCapability = systemCapabilityResponse.videoStreamingCapability;
         } else {
-            NSAssert(NO, @"Received response for unknown SDLSystemCapabilityType: %@", systemCapabilityType);
+            SDLLogE(@"Received response for unknown SystemCapabilityType: %@", systemCapabilityType);
         }
 
         handler(nil);
