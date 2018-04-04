@@ -360,7 +360,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
                 weakSelf.focusableItemManager.enableHapticDataRequests = capability.hapticSpatialDataSupported.boolValue;
             }
 
-            SDLLogD(@"Got specialized video capabilites, preferred formats: %@, resolutions: %@ haptics enabled %@", weakSelf.preferredFormats, weakSelf.preferredResolutions, (capability.hapticSpatialDataSupported.boolValue ? @"YES" : @"NO"));
+            SDLLogD(@"Got specialized video capabilites, preferred formats: %@, haptics enabled %@", weakSelf.preferredFormats, (capability.hapticSpatialDataSupported.boolValue ? @"YES" : @"NO"));
         } else {
             // If no response, assume that the format is H264 RAW and get the screen resolution from the RAI response's display capabilities.
             SDLVideoStreamingFormat *format = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
@@ -378,6 +378,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         if (weakSelf.dataSource != nil) {
             SDLLogV(@"Calling data source for modified preferred resolutions");
             weakSelf.preferredResolutions = [weakSelf.dataSource resolutionFromHeadUnitPreferredResolution:weakSelf.preferredResolutions.firstObject];
+            SDLLogD(@"Got specialized video resolutions: %@", weakSelf.preferredResolutions);
         }
 
         [self sdl_sendVideoStartService];
@@ -519,10 +520,22 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)videoAckPayload.mtu forServiceType:SDLServiceTypeVideo];
     }
 
-    // This is the definitive screen size that will be used
+    // This is the definitive Oscreen size that will be used
     if (videoAckPayload.height != SDLControlFrameInt32NotFound && videoAckPayload.width != SDLControlFrameInt32NotFound) {
         _screenSize = CGSizeMake(videoAckPayload.width, videoAckPayload.height);
-    } // else we are using the screen size we got from the RAIR earlier
+    } else {
+        // If a preferred resolution was set, use the first option to set the screen size
+        if (self.preferredResolutions.count > 0) {
+            SDLImageResolution *preferredResolution = self.preferredResolutions[0];
+            CGSize newScreenSize = CGSizeMake(preferredResolution.resolutionWidth.floatValue, preferredResolution.resolutionHeight.floatValue);
+            if (!CGSizeEqualToSize(self.screenSize, newScreenSize)) {
+                SDLLogW(@"The preferred resolution does not match the screen dimensions returned by the Register App Interface Response. Video may look distorted or video may not show up on the head unit");
+                _screenSize = CGSizeMake(preferredResolution.resolutionWidth.floatValue, preferredResolution.resolutionHeight.floatValue);
+            }
+        } else {
+            // else we are using the screen size we got from the RAIR earlier
+        }
+    }
 
     // Figure out the definitive format that will be used. If the protocol / codec weren't passed in the payload, it's probably a system that doesn't support those properties, which also means it's a system that requires H.264 RAW encoding
     self.videoFormat = [[SDLVideoStreamingFormat alloc] init];

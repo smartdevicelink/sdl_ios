@@ -908,7 +908,7 @@
 		5D8204311BD001C700D0A41B /* SDLArtwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D82042F1BD001C700D0A41B /* SDLArtwork.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D8204321BD001C700D0A41B /* SDLArtwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8204301BD001C700D0A41B /* SDLArtwork.m */; };
 		5D850AB01D4907C500E6E7EE /* TestLockScreenAppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D850AAF1D4907C500E6E7EE /* TestLockScreenAppIcon.png */; };
-		5D8A09811F54B4E5002502A2 /* SDLStreamingMediaManagerDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8A09801F54B4E5002502A2 /* SDLStreamingMediaManagerDataSource.h */; };
+		5D8A09811F54B4E5002502A2 /* SDLStreamingMediaManagerDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8A09801F54B4E5002502A2 /* SDLStreamingMediaManagerDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D8B174F1AC9D266006A6E1C /* SDLDialNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8B174D1AC9D266006A6E1C /* SDLDialNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D8B17501AC9D266006A6E1C /* SDLDialNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8B174E1AC9D266006A6E1C /* SDLDialNumber.m */; };
 		5D8B17531AC9E11B006A6E1C /* SDLDialNumberResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8B17511AC9E11B006A6E1C /* SDLDialNumberResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2287,7 +2287,7 @@
 		5DBF0D5F1F3B3DB4008AF2C9 /* SDLControlFrameVideoStartServiceAckSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLControlFrameVideoStartServiceAckSpec.m; path = ControlFramePayloadSpecs/SDLControlFrameVideoStartServiceAckSpec.m; sourceTree = "<group>"; };
 		5DC09ED91F2F7FEC00F4AB1D /* SDLControlFramePayloadNakSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLControlFramePayloadNakSpec.m; path = ControlFramePayloadSpecs/SDLControlFramePayloadNakSpec.m; sourceTree = "<group>"; };
 		5DC978251B7A38640012C2F1 /* SDLGlobalsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLGlobalsSpec.m; path = UtilitiesSpecs/SDLGlobalsSpec.m; sourceTree = "<group>"; };
-		5DCA93821EE0844D0015768E /* SmartDeviceLink.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = SmartDeviceLink.podspec; sourceTree = SOURCE_ROOT; };
+		5DCA93821EE0844D0015768E /* SmartDeviceLink.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = SmartDeviceLink.podspec; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		5DCD7ADC1FCCA8D100A0FC7F /* SDLCarWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLCarWindow.h; sourceTree = "<group>"; };
 		5DCD7ADD1FCCA8D200A0FC7F /* SDLCarWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLCarWindow.m; sourceTree = "<group>"; };
 		5DCD7AE61FCCA8E400A0FC7F /* SDLScreenshotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLScreenshotViewController.h; sourceTree = "<group>"; };
