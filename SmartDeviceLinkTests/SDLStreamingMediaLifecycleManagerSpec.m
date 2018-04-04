@@ -502,6 +502,50 @@ describe(@"the streaming media manager", ^{
                         expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
                     });
                 });
+
+                context(@"with missing screen height and screen width values", ^{
+                    __block SDLImageResolution *preferredResolutionSquare = nil;
+                    __block SDLImageResolution *preferredResolutionRectangle = nil;
+
+
+                    beforeEach(^{
+                        preferredResolutionSquare = [[SDLImageResolution alloc] initWithWidth:56 height:56];
+                        preferredResolutionRectangle = [[SDLImageResolution alloc] initWithWidth:100 height:61];
+                        streamingLifecycleManager.preferredResolutions = @[preferredResolutionSquare, preferredResolutionRectangle];
+                    });
+
+                    context(@"If the data source is nil", ^{
+                        beforeEach(^{
+                            expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero));
+                            streamingLifecycleManager.dataSource = nil;
+
+                            testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:-1 width:-1 protocol:nil codec:nil];
+                            testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
+                            [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
+                        });
+
+                        it(@"should not replace the existing screen resolution", ^{
+                            expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero));
+                            expect(streamingLifecycleManager.dataSource).to(beNil());
+                        });
+                    });
+
+                    context(@"If the preferred resolution was set in the data source", ^{
+                        beforeEach(^{
+                            streamingLifecycleManager.dataSource = testDataSource;
+
+                            testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:-1 width:-1 protocol:nil codec:nil];
+                            testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
+                            [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
+                        });
+
+                        it(@"should set the screen size using the preferred resolution", ^{
+                            CGSize preferredFormat = CGSizeMake(preferredResolutionSquare.resolutionWidth.floatValue, preferredResolutionSquare.resolutionHeight.floatValue);
+                            expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, preferredFormat));
+                            expect(streamingLifecycleManager.dataSource).toNot(beNil());
+                        });
+                    });
+                });
             });
 
             describe(@"after receiving a Video Start NAK", ^{
