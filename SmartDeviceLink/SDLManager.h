@@ -97,7 +97,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 @property (strong, nonatomic, readonly, nullable) SDLStreamingMediaManager *streamManager;
 
 /**
- *  The screen manager for sending SDLShow RPCs.
+ *  The screen manager for sending UI related RPCs.
  */
 @property (strong, nonatomic, readonly) SDLScreenManager *screenManager;
 
