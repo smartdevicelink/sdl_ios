@@ -112,8 +112,10 @@ NS_ASSUME_NONNULL_BEGIN
         SDLScrollableMessage *scrollableMessage = (SDLScrollableMessage *)request;
         [self sdl_addToCustomButtonHandlerMap:scrollableMessage.softButtons];
     } else if ([request isKindOfClass:[SDLShow class]]) {
-        [self sdl_removeOldButtonHandlers];
         SDLShow *show = (SDLShow *)request;
+        if (show.softButtons.count != 0) {
+            [self sdl_removeOldButtonHandlers];
+        }
         [self sdl_addToCustomButtonHandlerMap:show.softButtons];
     } else if ([request isKindOfClass:[SDLPerformAudioPassThru class]]) {
         SDLPerformAudioPassThru *performAudioPassThru = (SDLPerformAudioPassThru *)request;
