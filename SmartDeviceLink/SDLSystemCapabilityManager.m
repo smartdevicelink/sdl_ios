@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLSystemCapabilityManager ()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (copy, nonatomic, nullable) SDLUpdateCapabilityHandler systemCapabilityHandler;
 
 @property (nullable, strong, nonatomic, readwrite) SDLDisplayCapabilities *displayCapabilities;
 @property (nullable, strong, nonatomic, readwrite) SDLHMICapabilities *hmiCapabilities;
@@ -71,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
-    if (!response.success) { return; }
+    if (!response.success.boolValue) { return; }
 
     self.displayCapabilities = response.displayCapabilities;
     self.hmiCapabilities = response.hmiCapabilities;
@@ -88,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
-    if (!response.success) { return; }
+    if (!response.success.boolValue) { return; }
 
     self.displayCapabilities = response.displayCapabilities;
     self.buttonCapabilities = response.buttonCapabilities;
@@ -98,29 +99,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_systemCapabilityResponse:(SDLRPCResponseNotification *)notification {
     SDLGetSystemCapabilityResponse *response = (SDLGetSystemCapabilityResponse *)notification.response;
-    if (!response.success) { return; }
+    if (!response.success.boolValue) { return; }
 
     SDLSystemCapability *systemCapabilityResponse = ((SDLGetSystemCapabilityResponse *)response).systemCapability;
-    [self sdl_saveSystemCapabilityResponse:systemCapabilityResponse];
-}
-
-#pragma mark - Capability Request
-
-- (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler {
-    SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type];
-    [self.connectionManager sendConnectionRequest:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
-        if (!response.success.boolValue || [response isMemberOfClass:SDLGenericResponse.class]) {
-            SDLLogW(@"Get System Capability request for %@ failed: %@", type, error);
-            return handler(error, self);
-        }
-
-        SDLSystemCapability *systemCapabilityResponse = ((SDLGetSystemCapabilityResponse *)response).systemCapability;
-        [self sdl_saveSystemCapabilityResponse:systemCapabilityResponse];
-        handler(nil, self);
-    }];
-}
-
-- (void)sdl_saveSystemCapabilityResponse:(SDLSystemCapability *)systemCapabilityResponse {
     SDLSystemCapabilityType systemCapabilityType = systemCapabilityResponse.systemCapabilityType;
 
     if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypePhoneCall]) {
@@ -134,6 +115,21 @@ NS_ASSUME_NONNULL_BEGIN
     } else {
         SDLLogW(@"Received response for unknown System Capability Type: %@", systemCapabilityType);
     }
+
+    if (self.systemCapabilityHandler == nil) { return; }
+    self.systemCapabilityHandler(nil, self);
+}
+
+#pragma mark - Capability Request
+
+- (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler {
+    self.systemCapabilityHandler = handler;
+    SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type];
+    [self.connectionManager sendConnectionRequest:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error == nil) { return; }
+        // An error is returned if the request was unsuccessful or a Generic Response is returned
+        handler(error, self);
+    }];
 }
 
 @end

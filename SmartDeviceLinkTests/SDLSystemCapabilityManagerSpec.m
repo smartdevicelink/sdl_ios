@@ -27,7 +27,6 @@
 QuickSpecBegin(SDLSystemCapabilityManagerSpec)
 
 describe(@"System capability manager", ^{
-    __block TestConnectionManager *testConnectionManager = nil;
     __block SDLSystemCapabilityManager *testSystemCapabilityManager = nil;
 
     __block SDLDisplayCapabilities *testDisplayCapabilities;
@@ -47,8 +46,7 @@ describe(@"System capability manager", ^{
     __block SDLRemoteControlCapabilities *testRemoteControlCapability;
 
     beforeEach(^{
-        testConnectionManager = [[TestConnectionManager alloc] init];
-        testSystemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:testConnectionManager];
+        testSystemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:[[TestConnectionManager alloc] init]];
 
         testDisplayCapabilities = nil;
         testHMICapabilities = nil;
@@ -187,7 +185,6 @@ describe(@"System capability manager", ^{
 
     context(@"When requesting the SDLSystemCapabilityType", ^{
         __block NSError *testError = nil;
-        __block SDLSystemCapabilityType systemCapabilityType;
         __block SDLGetSystemCapabilityResponse *testGetSystemCapabilityResponse;
 
         beforeEach(^{
@@ -196,89 +193,49 @@ describe(@"System capability manager", ^{
         });
 
         it(@"should save the phone call capabilities", ^{
-            systemCapabilityType = SDLSystemCapabilityTypePhoneCall;
             testPhoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
 
             testGetSystemCapabilityResponse.success = @YES;
             testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
             testGetSystemCapabilityResponse.systemCapability.phoneCapability = testPhoneCapability;
-            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = systemCapabilityType;
+            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypePhoneCall;
         });
 
         it(@"should save the navigation capabilities", ^{
-            systemCapabilityType = SDLSystemCapabilityTypeNavigation;
             testNavigationCapability = [[SDLNavigationCapability alloc] initWithSendLocation:YES waypoints:YES];
 
-            testGetSystemCapabilityResponse.success = @YES;
-            testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
-            testGetSystemCapabilityResponse.systemCapability.navigationCapability = testNavigationCapability;
-            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = systemCapabilityType;
-        });
-
-        it(@"should save the remote control capabilities", ^{
-            systemCapabilityType = SDLSystemCapabilityTypeRemoteControl;
-            testRemoteControlCapability = [[SDLRemoteControlCapabilities alloc] initWithClimateControlCapabilities:@[] radioControlCapabilities:@[] buttonCapabilities:@[]];
-
-            testGetSystemCapabilityResponse.success = @YES;
-            testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
-            testGetSystemCapabilityResponse.systemCapability.remoteControlCapability = testRemoteControlCapability;
-            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = systemCapabilityType;
-        });
-
-        it(@"should save the video streaming capabilities", ^{
-            systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
-            testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:nil maxBitrate:8 supportedFormats:nil hapticDataSupported:YES];
-
-            testGetSystemCapabilityResponse.success = @YES;
-            testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
-            testGetSystemCapabilityResponse.systemCapability.videoStreamingCapability = testVideoStreamingCapability;
-            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = systemCapabilityType;
-        });
-
-        it(@"should return the error if the request is not successful", ^{
-            systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
-            testVideoStreamingCapability = nil;
-            testError = [NSError errorWithDomain:NSCocoaErrorDomain code:23 userInfo:nil];
-
-            testGetSystemCapabilityResponse.success = @NO;
-            testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
-            testGetSystemCapabilityResponse.systemCapability.videoStreamingCapability = nil;
-            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = systemCapabilityType;
-        });
-
-        afterEach(^{
-            waitUntilTimeout(1, ^(void (^done)(void)){
-                [testSystemCapabilityManager updateCapabilityType:systemCapabilityType completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager *systemCapabilityManager) {
-                    expect(error).to(testError == nil ? beNil() : equal(testError));
-                    expect(systemCapabilityManager).toNot(beNil());
-                    done();
-                }];
-
-                [NSThread sleepForTimeInterval:0.1];
-
-                [testConnectionManager respondToLastRequestWithResponse: testGetSystemCapabilityResponse error:testError];
-            });
-        });
-    });
-
-    context(@"If a Get System Capability request is sent outside of this manager", ^{
-        __block SDLGetSystemCapabilityResponse *testGetSystemCapabilityResponse = nil;
-
-        beforeEach(^{
-            testGetSystemCapabilityResponse = [[SDLGetSystemCapabilityResponse alloc] init];
-        });
-
-        it(@"should capture and save the capability type in the manager", ^{
-            testNavigationCapability = [[SDLNavigationCapability alloc] initWithSendLocation:YES waypoints:YES];
-            
             testGetSystemCapabilityResponse.success = @YES;
             testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
             testGetSystemCapabilityResponse.systemCapability.navigationCapability = testNavigationCapability;
             testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeNavigation;
         });
 
-        it(@"should not save any capabilities if the request failed", ^{
+        it(@"should save the remote control capabilities", ^{
+            testRemoteControlCapability = [[SDLRemoteControlCapabilities alloc] initWithClimateControlCapabilities:@[] radioControlCapabilities:@[] buttonCapabilities:@[]];
+
+            testGetSystemCapabilityResponse.success = @YES;
+            testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
+            testGetSystemCapabilityResponse.systemCapability.remoteControlCapability = testRemoteControlCapability;
+            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeRemoteControl;
+        });
+
+        it(@"should save the video streaming capabilities", ^{
+            testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:nil maxBitrate:8 supportedFormats:nil hapticDataSupported:YES];
+
+            testGetSystemCapabilityResponse.success = @YES;
+            testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
+            testGetSystemCapabilityResponse.systemCapability.videoStreamingCapability = testVideoStreamingCapability;
+            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
+        });
+
+        it(@"should return the error if the request is not successful", ^{
+            testVideoStreamingCapability = nil;
+            testError = [NSError errorWithDomain:NSCocoaErrorDomain code:23 userInfo:nil];
+
             testGetSystemCapabilityResponse.success = @NO;
+            testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
+            testGetSystemCapabilityResponse.systemCapability.videoStreamingCapability = nil;
+            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
         });
 
         afterEach(^{
