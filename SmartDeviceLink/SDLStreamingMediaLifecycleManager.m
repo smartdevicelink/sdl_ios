@@ -532,9 +532,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
                 SDLLogW(@"The preferred resolution does not match the screen dimensions returned by the Register App Interface Response. Video may look distorted or video may not show up on the head unit");
                 _screenSize = CGSizeMake(preferredResolution.resolutionWidth.floatValue, preferredResolution.resolutionHeight.floatValue);
             }
-        } else {
-            // else we are using the screen size we got from the RAIR earlier
-        }
+        } // else we are using the screen size we got from the RAIR earlier
     }
 
     // Figure out the definitive format that will be used. If the protocol / codec weren't passed in the payload, it's probably a system that doesn't support those properties, which also means it's a system that requires H.264 RAW encoding
