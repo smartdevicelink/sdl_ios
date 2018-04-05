@@ -284,6 +284,14 @@ NS_ASSUME_NONNULL_BEGIN
     dialNumberCommand.menuParams = commandMenuParams;
     dialNumberCommand.cmdID = @3;
     dialNumberCommand.handler = ^(SDLOnCommand * _Nonnull command) {
+        SDLLogD(@"Checking if app has permission to dial a number");
+        if (![manager.permissionManager isRPCAllowed:@"DialNumber"]) {
+            SDLAlert* alert = [[SDLAlert alloc] init];
+            alert.alertText1 = @"This app does not have the required permissions to dial a number";
+            [manager sendRequest:alert];
+            return;
+        }
+
         SDLLogD(@"Checking phone call capability");
         [manager.systemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error) {
             if (error == nil) {
