@@ -361,7 +361,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     // When done, we want to transition, even if there were errors. They may be expected, e.g. on head units that do not support files.
     dispatch_group_notify(managerGroup, self.lifecycleQueue, ^{
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpAppIcon];
+        // We could have been shut down while waiting for the completion of starting file manager and permission manager.
+        if (self.lifecycleState == SDLLifecycleStateSettingUpManagers) {
+            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpAppIcon];
+        }
     });
 }
 

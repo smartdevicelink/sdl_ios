@@ -147,7 +147,10 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     [self.class sdl_clearTemporaryFileDirectory];
     self.bytesAvailable = 0;
 
-    self.startupCompletionHandler = nil;
+    if (self.startupCompletionHandler != nil) {
+        self.startupCompletionHandler(NO, [NSError sdl_fileManager_unableToStartError]);
+        self.startupCompletionHandler = nil;
+    }
 }
 
 - (void)didEnterStateFetchingInitialList {
