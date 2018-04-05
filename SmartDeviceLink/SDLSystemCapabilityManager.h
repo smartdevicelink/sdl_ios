@@ -152,8 +152,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  A completion handler called after a request for the capability type is returned from the remote system.
  *
  *  @param error The error returned if the request for a capability type failed. The error is nil if the request was successful.
+ *  @param systemCapabilityManager The system capability manager
  */
-typedef void (^SDLUpdateCapabilityHandler)(NSError * _Nullable error);
+typedef void (^SDLUpdateCapabilityHandler)(NSError * _Nullable error, SDLSystemCapabilityManager *systemCapabilityManager);
 
 /**
  *  Init is unavailable. Dependencies must be injected using initWithConnectionManager:

@@ -101,7 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.connectionManager sendConnectionRequest:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
         if (!response.success.boolValue || [response isMemberOfClass:SDLGenericResponse.class]) {
             SDLLogW(@"%@ system capability response failed: %@", type, error);
-            return handler(error);
+            return handler(error, self);
         }
 
         SDLSystemCapability *systemCapabilityResponse = ((SDLGetSystemCapabilityResponse *)response).systemCapability;
@@ -116,10 +116,10 @@ NS_ASSUME_NONNULL_BEGIN
         } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
             self.videoStreamingCapability = systemCapabilityResponse.videoStreamingCapability;
         } else {
-            SDLLogW(@"Received response for unknown SystemCapabilityType: %@", systemCapabilityType);
+            SDLLogW(@"Received response for unknown System Capability Type: %@", systemCapabilityType);
         }
 
-        handler(nil);
+        handler(nil, self);
     }];
 }
 

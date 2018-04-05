@@ -293,8 +293,9 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         SDLLogD(@"Checking phone call capability");
-        [manager.systemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error) {
-            if (error == nil) {
+        [manager.systemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager *systemCapabilityManager) {
+            SDLPhoneCapability *phoneCapability = systemCapabilityManager.phoneCapability;
+            if (phoneCapability.dialNumberEnabled) {
                 SDLLogD(@"Dialing number");
                 [self.class sdlex_sendDialNumberWithManager:manager];
             } else {

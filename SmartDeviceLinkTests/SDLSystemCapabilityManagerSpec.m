@@ -243,8 +243,9 @@ describe(@"System capability manager", ^{
 
         afterEach(^{
             waitUntilTimeout(1, ^(void (^done)(void)){
-                [testSystemCapabilityManager updateCapabilityType:systemCapabilityType completionHandler:^(NSError * _Nullable error) {
+                [testSystemCapabilityManager updateCapabilityType:systemCapabilityType completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager *systemCapabilityManager) {
                     expect(error).to(testError == nil ? beNil() : equal(testError));
+                    expect(systemCapabilityManager).toNot(beNil());
                     done();
                 }];
 
