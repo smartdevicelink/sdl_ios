@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _connectionManager = manager;
-    [self sdl_registerForNotifications];
+    [self sdl_registerForNotifications];    
 
     return self;
 }
@@ -66,10 +66,12 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)sdl_registerForNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_systemCapabilityResponse:) name:SDLDidReceiveGetSystemCapabilitiesResponse object:nil];
 }
 
 - (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
+    if (!response.success) { return; }
 
     self.displayCapabilities = response.displayCapabilities;
     self.hmiCapabilities = response.hmiCapabilities;
@@ -86,6 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
+    if (!response.success) { return; }
 
     self.displayCapabilities = response.displayCapabilities;
     self.buttonCapabilities = response.buttonCapabilities;
@@ -93,6 +96,13 @@ NS_ASSUME_NONNULL_BEGIN
     self.presetBankCapabilities = response.presetBankCapabilities;
 }
 
+- (void)sdl_systemCapabilityResponse:(SDLRPCResponseNotification *)notification {
+    SDLGetSystemCapabilityResponse *response = (SDLGetSystemCapabilityResponse *)notification.response;
+    if (!response.success) { return; }
+
+    SDLSystemCapability *systemCapabilityResponse = ((SDLGetSystemCapabilityResponse *)response).systemCapability;
+    [self sdl_saveSystemCapabilityResponse:systemCapabilityResponse];
+}
 
 #pragma mark - Capability Request
 
@@ -100,27 +110,30 @@ NS_ASSUME_NONNULL_BEGIN
     SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type];
     [self.connectionManager sendConnectionRequest:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
         if (!response.success.boolValue || [response isMemberOfClass:SDLGenericResponse.class]) {
-            SDLLogW(@"%@ system capability response failed: %@", type, error);
+            SDLLogW(@"Get System Capability request for %@ failed: %@", type, error);
             return handler(error, self);
         }
 
         SDLSystemCapability *systemCapabilityResponse = ((SDLGetSystemCapabilityResponse *)response).systemCapability;
-        SDLSystemCapabilityType systemCapabilityType = systemCapabilityResponse.systemCapabilityType;
-
-        if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypePhoneCall]) {
-            self.phoneCapability = systemCapabilityResponse.phoneCapability;
-        } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeNavigation]) {
-            self.navigationCapability = systemCapabilityResponse.navigationCapability;
-        } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeRemoteControl]) {
-            self.remoteControlCapability = systemCapabilityResponse.remoteControlCapability;
-        } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
-            self.videoStreamingCapability = systemCapabilityResponse.videoStreamingCapability;
-        } else {
-            SDLLogW(@"Received response for unknown System Capability Type: %@", systemCapabilityType);
-        }
-
+        [self sdl_saveSystemCapabilityResponse:systemCapabilityResponse];
         handler(nil, self);
     }];
+}
+
+- (void)sdl_saveSystemCapabilityResponse:(SDLSystemCapability *)systemCapabilityResponse {
+    SDLSystemCapabilityType systemCapabilityType = systemCapabilityResponse.systemCapabilityType;
+
+    if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypePhoneCall]) {
+        self.phoneCapability = systemCapabilityResponse.phoneCapability;
+    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeNavigation]) {
+        self.navigationCapability = systemCapabilityResponse.navigationCapability;
+    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeRemoteControl]) {
+        self.remoteControlCapability = systemCapabilityResponse.remoteControlCapability;
+    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
+        self.videoStreamingCapability = systemCapabilityResponse.videoStreamingCapability;
+    } else {
+        SDLLogW(@"Received response for unknown System Capability Type: %@", systemCapabilityType);
+    }
 }
 
 @end

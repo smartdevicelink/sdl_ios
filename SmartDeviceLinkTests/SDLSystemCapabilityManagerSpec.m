@@ -69,8 +69,13 @@ describe(@"System capability manager", ^{
 
     context(@"When notified of a register app interface response", ^{
         __block SDLRegisterAppInterfaceResponse *testRegisterAppInterfaceResponse = nil;
-        it(@"should not save any capabilities if all the capabilities in the RAI response are nil", ^{
+
+        beforeEach(^{
             testRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+        });
+
+        it(@"should not save any capabilities the request fails", ^{
+            testRegisterAppInterfaceResponse.success = @NO;
         });
 
         it(@"should should save the correct capabilities if all capabilities in the RAI response are valid", ^{
@@ -111,7 +116,7 @@ describe(@"System capability manager", ^{
             testAudioPassThruCapabilities = @[audioPassThruCapability];
             testPCMStreamCapabilities = audioPassThruCapability;
 
-            testRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+            testRegisterAppInterfaceResponse.success = @YES;
             testRegisterAppInterfaceResponse.displayCapabilities = testDisplayCapabilities;
             testRegisterAppInterfaceResponse.hmiCapabilities = testHMICapabilities;
             testRegisterAppInterfaceResponse.softButtonCapabilities = testSoftButtonCapabilities;
@@ -136,12 +141,12 @@ describe(@"System capability manager", ^{
     context(@"When notified of a set display layout response", ^ {
        __block SDLSetDisplayLayoutResponse *testSetDisplayLayoutResponse = nil;
 
-        it(@"should not save any capabilities if all the capabilities in the set display layout response are nil", ^{
+        beforeEach(^{
             testSetDisplayLayoutResponse = [[SDLSetDisplayLayoutResponse alloc] init];
-            testSetDisplayLayoutResponse.displayCapabilities = nil;
-            testSetDisplayLayoutResponse.buttonCapabilities = nil;
-            testSetDisplayLayoutResponse.softButtonCapabilities = nil;
-            testSetDisplayLayoutResponse.presetBankCapabilities = nil;
+        });
+
+        it(@"should not save any capabilities if all the capabilities in the set display layout response are nil", ^{
+            testSetDisplayLayoutResponse.success = @NO;
         });
 
         it(@"should should save the correct capabilities if all capabilities in the set display layout response are valid", ^{
@@ -165,7 +170,7 @@ describe(@"System capability manager", ^{
             testPresetBankCapabilities = [[SDLPresetBankCapabilities alloc] init];
             testPresetBankCapabilities.onScreenPresetsAvailable = @NO;
 
-            testSetDisplayLayoutResponse = [[SDLSetDisplayLayoutResponse alloc] init];
+            testSetDisplayLayoutResponse.success = @YES;
             testSetDisplayLayoutResponse.displayCapabilities = testDisplayCapabilities;
             testSetDisplayLayoutResponse.buttonCapabilities = testButtonCapabilities;
             testSetDisplayLayoutResponse.softButtonCapabilities = testSoftButtonCapabilities;
@@ -197,7 +202,7 @@ describe(@"System capability manager", ^{
             testGetSystemCapabilityResponse.success = @YES;
             testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
             testGetSystemCapabilityResponse.systemCapability.phoneCapability = testPhoneCapability;
-            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypePhoneCall;
+            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = systemCapabilityType;
         });
 
         it(@"should save the navigation capabilities", ^{
@@ -207,7 +212,7 @@ describe(@"System capability manager", ^{
             testGetSystemCapabilityResponse.success = @YES;
             testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
             testGetSystemCapabilityResponse.systemCapability.navigationCapability = testNavigationCapability;
-            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeNavigation;
+            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = systemCapabilityType;
         });
 
         it(@"should save the remote control capabilities", ^{
@@ -217,7 +222,7 @@ describe(@"System capability manager", ^{
             testGetSystemCapabilityResponse.success = @YES;
             testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
             testGetSystemCapabilityResponse.systemCapability.remoteControlCapability = testRemoteControlCapability;
-            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeRemoteControl;
+            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = systemCapabilityType;
         });
 
         it(@"should save the video streaming capabilities", ^{
@@ -227,7 +232,7 @@ describe(@"System capability manager", ^{
             testGetSystemCapabilityResponse.success = @YES;
             testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
             testGetSystemCapabilityResponse.systemCapability.videoStreamingCapability = testVideoStreamingCapability;
-            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
+            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = systemCapabilityType;
         });
 
         it(@"should return the error if the request is not successful", ^{
@@ -238,7 +243,7 @@ describe(@"System capability manager", ^{
             testGetSystemCapabilityResponse.success = @NO;
             testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
             testGetSystemCapabilityResponse.systemCapability.videoStreamingCapability = nil;
-            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
+            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = systemCapabilityType;
         });
 
         afterEach(^{
@@ -253,6 +258,34 @@ describe(@"System capability manager", ^{
 
                 [testConnectionManager respondToLastRequestWithResponse: testGetSystemCapabilityResponse error:testError];
             });
+        });
+    });
+
+    context(@"If a Get System Capability request is sent outside of this manager", ^{
+        __block SDLGetSystemCapabilityResponse *testGetSystemCapabilityResponse = nil;
+
+        beforeEach(^{
+            testGetSystemCapabilityResponse = [[SDLGetSystemCapabilityResponse alloc] init];
+        });
+
+        it(@"should capture and save the capability type in the manager", ^{
+            testNavigationCapability = [[SDLNavigationCapability alloc] initWithSendLocation:YES waypoints:YES];
+            
+            testGetSystemCapabilityResponse.success = @YES;
+            testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
+            testGetSystemCapabilityResponse.systemCapability.navigationCapability = testNavigationCapability;
+            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeNavigation;
+        });
+
+        it(@"should not save any capabilities if the request failed", ^{
+            testGetSystemCapabilityResponse.success = @NO;
+        });
+
+        afterEach(^{
+            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testGetSystemCapabilityResponse];
+
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+            [NSThread sleepForTimeInterval:0.1];
         });
     });
 
