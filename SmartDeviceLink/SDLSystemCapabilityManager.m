@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLPrerecordedSpeech> *prerecordedSpeechCapabilities;
 @property (nonatomic, readwrite) BOOL vrCapability;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
-@property (nullable, copy, nonatomic, readwrite) NSArray<SDLAudioPassThruCapabilities *> *pcmStreamCapabilities;
+@property (nullable, copy, nonatomic, readwrite) SDLAudioPassThruCapabilities *pcmStreamCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLNavigationCapability *navigationCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLPhoneCapability *phoneCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.prerecordedSpeechCapabilities = response.prerecordedSpeech;
     self.vrCapability = (response.vrCapabilities.count > 0 && response.vrCapabilities.firstObject == SDLVRCapabilitiesText) ? YES : NO;
     self.audioPassThruCapabilities = response.audioPassThruCapabilities;
-    self.pcmStreamCapabilities = response.pcmStreamCapabilities != nil ? @[response.pcmStreamCapabilities] : nil;
+    self.pcmStreamCapability = response.pcmStreamCapabilities;
 }
 
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
