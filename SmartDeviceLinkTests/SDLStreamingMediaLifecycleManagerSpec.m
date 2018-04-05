@@ -504,14 +504,14 @@ describe(@"the streaming media manager", ^{
                 });
 
                 context(@"with missing screen height and screen width values", ^{
-                    __block SDLImageResolution *preferredResolutionSquare = nil;
-                    __block SDLImageResolution *preferredResolutionRectangle = nil;
+                    __block SDLImageResolution *preferredResolutionLow = nil;
+                    __block SDLImageResolution *preferredResolutionHigh = nil;
 
 
                     beforeEach(^{
-                        preferredResolutionSquare = [[SDLImageResolution alloc] initWithWidth:56 height:56];
-                        preferredResolutionRectangle = [[SDLImageResolution alloc] initWithWidth:100 height:61];
-                        streamingLifecycleManager.preferredResolutions = @[preferredResolutionSquare, preferredResolutionRectangle];
+                        preferredResolutionLow = [[SDLImageResolution alloc] initWithWidth:10 height:10];
+                        preferredResolutionHigh = [[SDLImageResolution alloc] initWithWidth:100 height:100];
+                        streamingLifecycleManager.preferredResolutions = @[preferredResolutionLow, preferredResolutionHigh];
                     });
 
                     context(@"If the data source is nil", ^{
@@ -540,7 +540,7 @@ describe(@"the streaming media manager", ^{
                         });
 
                         it(@"should set the screen size using the preferred resolution", ^{
-                            CGSize preferredFormat = CGSizeMake(preferredResolutionSquare.resolutionWidth.floatValue, preferredResolutionSquare.resolutionHeight.floatValue);
+                            CGSize preferredFormat = CGSizeMake(preferredResolutionLow.resolutionWidth.floatValue, preferredResolutionLow.resolutionHeight.floatValue);
                             expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, preferredFormat));
                             expect(streamingLifecycleManager.dataSource).toNot(beNil());
                         });
