@@ -512,15 +512,16 @@ describe(@"the streaming media manager", ^{
                         preferredResolutionLow = [[SDLImageResolution alloc] initWithWidth:10 height:10];
                         preferredResolutionHigh = [[SDLImageResolution alloc] initWithWidth:100 height:100];
                         streamingLifecycleManager.preferredResolutions = @[preferredResolutionLow, preferredResolutionHigh];
+
+                        testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:SDLControlFrameInt32NotFound width:SDLControlFrameInt32NotFound protocol:nil codec:nil];
+                        testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
+
+                        expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero));
                     });
 
                     context(@"If the data source is nil", ^{
                         beforeEach(^{
-                            expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, CGSizeZero));
                             streamingLifecycleManager.dataSource = nil;
-
-                            testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:-1 width:-1 protocol:nil codec:nil];
-                            testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
                             [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
                         });
 
@@ -533,13 +534,10 @@ describe(@"the streaming media manager", ^{
                     context(@"If the preferred resolution was set in the data source", ^{
                         beforeEach(^{
                             streamingLifecycleManager.dataSource = testDataSource;
-
-                            testVideoStartServicePayload = [[SDLControlFramePayloadVideoStartServiceAck alloc] initWithMTU:testMTU height:-1 width:-1 protocol:nil codec:nil];
-                            testVideoMessage = [[SDLV2ProtocolMessage alloc] initWithHeader:testVideoHeader andPayload:testVideoStartServicePayload.data];
                             [streamingLifecycleManager handleProtocolStartServiceACKMessage:testVideoMessage];
                         });
 
-                        it(@"should set the screen size using the preferred resolution", ^{
+                        it(@"should set the screen size using the first provided preferred resolution", ^{
                             CGSize preferredFormat = CGSizeMake(preferredResolutionLow.resolutionWidth.floatValue, preferredResolutionLow.resolutionHeight.floatValue);
                             expect(CGSizeEqualToSize(streamingLifecycleManager.screenSize, preferredFormat));
                             expect(streamingLifecycleManager.dataSource).toNot(beNil());
