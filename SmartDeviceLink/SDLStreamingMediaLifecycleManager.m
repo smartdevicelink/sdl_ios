@@ -523,17 +523,15 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     // This is the definitive screen size that will be used
     if (videoAckPayload.height != SDLControlFrameInt32NotFound && videoAckPayload.width != SDLControlFrameInt32NotFound) {
         _screenSize = CGSizeMake(videoAckPayload.width, videoAckPayload.height);
-    } else {
+    } else if (self.preferredResolutions.count > 0) {
         // If a preferred resolution was set, use the first option to set the screen size
-        if (self.preferredResolutions.count > 0) {
-            SDLImageResolution *preferredResolution = self.preferredResolutions[0];
-            CGSize newScreenSize = CGSizeMake(preferredResolution.resolutionWidth.floatValue, preferredResolution.resolutionHeight.floatValue);
-            if (!CGSizeEqualToSize(self.screenSize, newScreenSize)) {
-                SDLLogW(@"The preferred resolution does not match the screen dimensions returned by the Register App Interface Response. Video may look distorted or video may not show up on the head unit");
-                _screenSize = CGSizeMake(preferredResolution.resolutionWidth.floatValue, preferredResolution.resolutionHeight.floatValue);
-            }
-        } // else we are using the screen size we got from the RAIR earlier
-    }
+        SDLImageResolution *preferredResolution = self.preferredResolutions.firstObject;
+        CGSize newScreenSize = CGSizeMake(preferredResolution.resolutionWidth.floatValue, preferredResolution.resolutionHeight.floatValue);
+        if (!CGSizeEqualToSize(self.screenSize, newScreenSize)) {
+            SDLLogW(@"The preferred resolution does not match the screen dimensions returned by the Register App Interface Response. Video may look distorted or video may not show up on the head unit");
+            _screenSize = CGSizeMake(preferredResolution.resolutionWidth.floatValue, preferredResolution.resolutionHeight.floatValue);
+        }
+    } // else we are using the screen size we got from the RAIR earlier
 
     // Figure out the definitive format that will be used. If the protocol / codec weren't passed in the payload, it's probably a system that doesn't support those properties, which also means it's a system that requires H.264 RAW encoding
     self.videoFormat = [[SDLVideoStreamingFormat alloc] init];
