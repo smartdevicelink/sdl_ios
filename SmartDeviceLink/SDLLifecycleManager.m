@@ -617,16 +617,19 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (![oldHMILevel isEqualToEnum:self.hmiLevel]) {
+        if (![oldHMILevel isEqualToEnum:self.hmiLevel]
+            && !(oldHMILevel == nil && self.hmiLevel == nil)) {
             [self.delegate hmiLevel:oldHMILevel didChangeToLevel:self.hmiLevel];
         }
 
         if (![oldStreamingState isEqualToEnum:self.audioStreamingState]
+            && !(oldStreamingState == nil && self.audioStreamingState == nil)
             && [self.delegate respondsToSelector:@selector(audioStreamingState:didChangeToState:)]) {
             [self.delegate audioStreamingState:oldStreamingState didChangeToState:self.audioStreamingState];
         }
 
         if (![oldSystemContext isEqualToEnum:self.systemContext]
+            && !(oldSystemContext == nil && self.systemContext == nil)
             && [self.delegate respondsToSelector:@selector(systemContext:didChangeToContext:)]) {
             [self.delegate systemContext:oldSystemContext didChangeToContext:self.systemContext];
         }
