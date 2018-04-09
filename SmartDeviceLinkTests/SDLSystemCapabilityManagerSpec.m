@@ -28,55 +28,46 @@ QuickSpecBegin(SDLSystemCapabilityManagerSpec)
 
 describe(@"System capability manager", ^{
     __block SDLSystemCapabilityManager *testSystemCapabilityManager = nil;
-
-    __block SDLDisplayCapabilities *testDisplayCapabilities;
-    __block SDLHMICapabilities *testHMICapabilities;
-    __block NSArray<SDLSoftButtonCapabilities *> *testSoftButtonCapabilities;
-    __block NSArray<SDLButtonCapabilities *> *testButtonCapabilities;
-    __block SDLPresetBankCapabilities *testPresetBankCapabilities;
-    __block NSArray<SDLHMIZoneCapabilities> *testHMIZoneCapabilities;
-    __block NSArray<SDLSpeechCapabilities> *testSpeechCapabilities;
-    __block NSArray<SDLPrerecordedSpeech> *testPrerecordedSpeechCapabilities;
-    __block NSArray<SDLVRCapabilities> *testVRCapabilities;
-    __block NSArray<SDLAudioPassThruCapabilities *> *testAudioPassThruCapabilities;
-    __block SDLAudioPassThruCapabilities *testPCMStreamCapabilities;
-    __block SDLNavigationCapability *testNavigationCapability;
-    __block SDLPhoneCapability *testPhoneCapability;
-    __block SDLVideoStreamingCapability *testVideoStreamingCapability;
-    __block SDLRemoteControlCapabilities *testRemoteControlCapability;
+    __block TestConnectionManager *testConnectionManager = nil;
 
     beforeEach(^{
-        testSystemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:[[TestConnectionManager alloc] init]];
+        testConnectionManager = [[TestConnectionManager alloc] init];
+        testSystemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:testConnectionManager];
+    });
 
-        testDisplayCapabilities = nil;
-        testHMICapabilities = nil;
-        testSoftButtonCapabilities = nil;
-        testButtonCapabilities = nil;
-        testPresetBankCapabilities = nil;
-        testHMIZoneCapabilities = nil;
-        testSpeechCapabilities = nil;
-        testPrerecordedSpeechCapabilities = nil;
-        testVRCapabilities = nil;
-        testAudioPassThruCapabilities = nil;
-        testPCMStreamCapabilities = nil;
-        testNavigationCapability = nil;
-        testPhoneCapability = nil;
-        testVideoStreamingCapability = nil;
-        testRemoteControlCapability = nil;
+    it(@"should initialize the system capability manager properties correctly", ^{
+        expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
+        expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+        expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
+        expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
+        expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
+        expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
+        expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
+        expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
+        expect(testSystemCapabilityManager.vrCapability).to(beFalse());
+        expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
+        expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
+        expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+        expect(testSystemCapabilityManager.navigationCapability).to(beNil());
+        expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
+        expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
     });
 
     context(@"When notified of a register app interface response", ^{
         __block SDLRegisterAppInterfaceResponse *testRegisterAppInterfaceResponse = nil;
+        __block SDLDisplayCapabilities *testDisplayCapabilities = nil;
+        __block SDLHMICapabilities *testHMICapabilities = nil;
+        __block NSArray<SDLSoftButtonCapabilities *> *testSoftButtonCapabilities = nil;
+        __block NSArray<SDLButtonCapabilities *> *testButtonCapabilities = nil;
+        __block SDLPresetBankCapabilities *testPresetBankCapabilities = nil;
+        __block NSArray<SDLHMIZoneCapabilities> *testHMIZoneCapabilities = nil;
+        __block NSArray<SDLSpeechCapabilities> *testSpeechCapabilities = nil;
+        __block NSArray<SDLPrerecordedSpeech> *testPrerecordedSpeechCapabilities = nil;
+        __block NSArray<SDLVRCapabilities> *testVRCapabilities = nil;
+        __block NSArray<SDLAudioPassThruCapabilities *> *testAudioPassThruCapabilities = nil;
+        __block SDLAudioPassThruCapabilities *testPCMStreamCapability = nil;
 
         beforeEach(^{
-            testRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-        });
-
-        it(@"should not save any capabilities the request fails", ^{
-            testRegisterAppInterfaceResponse.success = @NO;
-        });
-
-        it(@"should should save the correct capabilities if all capabilities in the RAI response are valid", ^{
             testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
             testDisplayCapabilities.graphicSupported = @NO;
 
@@ -112,9 +103,9 @@ describe(@"System capability manager", ^{
             audioPassThruCapability.bitsPerSample = SDLBitsPerSample8Bit;
             audioPassThruCapability.audioType = SDLAudioTypePCM;
             testAudioPassThruCapabilities = @[audioPassThruCapability];
-            testPCMStreamCapabilities = audioPassThruCapability;
+            testPCMStreamCapability = audioPassThruCapability;
 
-            testRegisterAppInterfaceResponse.success = @YES;
+            testRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
             testRegisterAppInterfaceResponse.displayCapabilities = testDisplayCapabilities;
             testRegisterAppInterfaceResponse.hmiCapabilities = testHMICapabilities;
             testRegisterAppInterfaceResponse.softButtonCapabilities = testSoftButtonCapabilities;
@@ -125,29 +116,70 @@ describe(@"System capability manager", ^{
             testRegisterAppInterfaceResponse.prerecordedSpeech = testPrerecordedSpeechCapabilities;
             testRegisterAppInterfaceResponse.vrCapabilities = testVRCapabilities;
             testRegisterAppInterfaceResponse.audioPassThruCapabilities = testAudioPassThruCapabilities;
-            testRegisterAppInterfaceResponse.pcmStreamCapabilities = testPCMStreamCapabilities;
+            testRegisterAppInterfaceResponse.pcmStreamCapabilities = testPCMStreamCapability;
+        });
+
+        describe(@"If the Register App Interface request fails", ^{
+            beforeEach(^{
+                testRegisterAppInterfaceResponse.success = @NO;
+                SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+            });
+
+            it(@"should not save any of the RAIR capabilities", ^{
+                expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.vrCapability).to(beFalse());
+                expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
+            });
+        });
+
+        describe(@"If the Register App Interface request succeeds", ^{
+            beforeEach(^{
+                testRegisterAppInterfaceResponse.success = @YES;
+                SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+            });
+
+            it(@"should should save the RAIR capabilities", ^{
+                expect(testSystemCapabilityManager.displayCapabilities).to(equal(testDisplayCapabilities));
+                expect(testSystemCapabilityManager.hmiCapabilities).to(equal(testHMICapabilities));
+                expect(testSystemCapabilityManager.softButtonCapabilities).to(equal(testSoftButtonCapabilities));
+                expect(testSystemCapabilityManager.buttonCapabilities).to(equal(testButtonCapabilities));
+                expect(testSystemCapabilityManager.presetBankCapabilities).to(equal(testPresetBankCapabilities));
+                expect(testSystemCapabilityManager.hmiZoneCapabilities).to(equal(testHMIZoneCapabilities));
+                expect(testSystemCapabilityManager.speechCapabilities).to(equal(testSpeechCapabilities));
+                expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(equal(testPrerecordedSpeechCapabilities));
+                expect(testSystemCapabilityManager.vrCapability).to(beTrue());
+                expect(testSystemCapabilityManager.audioPassThruCapabilities).to(equal(testAudioPassThruCapabilities));
+                expect(testSystemCapabilityManager.pcmStreamCapability).to(equal(testPCMStreamCapability));
+            });
         });
 
         afterEach(^{
-            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
-
-            [[NSNotificationCenter defaultCenter] postNotification:notification];
-            [NSThread sleepForTimeInterval:0.1];
+            // Make sure the system capabilities properties were not inadverdently set
+            expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+            expect(testSystemCapabilityManager.navigationCapability).to(beNil());
+            expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
+            expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
         });
     });
 
-    context(@"When notified of a set display layout response", ^ {
-       __block SDLSetDisplayLayoutResponse *testSetDisplayLayoutResponse = nil;
+    context(@"When notified of a Set Display Layout Response", ^ {
+        __block SDLSetDisplayLayoutResponse *testSetDisplayLayoutResponse = nil;
+        __block SDLDisplayCapabilities *testDisplayCapabilities = nil;
+        __block NSArray<SDLSoftButtonCapabilities *> *testSoftButtonCapabilities = nil;
+        __block NSArray<SDLButtonCapabilities *> *testButtonCapabilities = nil;
+        __block SDLPresetBankCapabilities *testPresetBankCapabilities = nil;
 
         beforeEach(^{
-            testSetDisplayLayoutResponse = [[SDLSetDisplayLayoutResponse alloc] init];
-        });
-
-        it(@"should not save any capabilities if all the capabilities in the set display layout response are nil", ^{
-            testSetDisplayLayoutResponse.success = @NO;
-        });
-
-        it(@"should should save the correct capabilities if all capabilities in the set display layout response are valid", ^{
             testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
             testDisplayCapabilities.graphicSupported = @NO;
 
@@ -168,101 +200,156 @@ describe(@"System capability manager", ^{
             testPresetBankCapabilities = [[SDLPresetBankCapabilities alloc] init];
             testPresetBankCapabilities.onScreenPresetsAvailable = @NO;
 
-            testSetDisplayLayoutResponse.success = @YES;
+            testSetDisplayLayoutResponse = [[SDLSetDisplayLayoutResponse alloc] init];
             testSetDisplayLayoutResponse.displayCapabilities = testDisplayCapabilities;
             testSetDisplayLayoutResponse.buttonCapabilities = testButtonCapabilities;
             testSetDisplayLayoutResponse.softButtonCapabilities = testSoftButtonCapabilities;
             testSetDisplayLayoutResponse.presetBankCapabilities = testPresetBankCapabilities;
         });
 
-        afterEach(^{
-            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testSetDisplayLayoutResponse];
+        describe(@"If the Set Display Layout request fails", ^{
+            beforeEach(^{
+                testSetDisplayLayoutResponse.success = @NO;
+                SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testSetDisplayLayoutResponse];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+            });
 
-            [[NSNotificationCenter defaultCenter] postNotification:notification];
-            [NSThread sleepForTimeInterval:0.1];
+            it(@"should not save any capabilities", ^{
+                expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
+            });
+        });
+
+        describe(@"If the Set Display Layout request succeeds", ^{
+            beforeEach(^{
+                testSetDisplayLayoutResponse.success = @YES;
+                SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveSetDisplayLayoutResponse object:self rpcResponse:testSetDisplayLayoutResponse];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+            });
+
+            it(@"should should save the capabilities", ^{
+                expect(testSystemCapabilityManager.displayCapabilities).to(equal(testDisplayCapabilities));
+                expect(testSystemCapabilityManager.softButtonCapabilities).to(equal(testSoftButtonCapabilities));
+                expect(testSystemCapabilityManager.buttonCapabilities).to(equal(testButtonCapabilities));
+                expect(testSystemCapabilityManager.presetBankCapabilities).to(equal(testPresetBankCapabilities));
+            });
+        });
+
+        afterEach(^{
+            // Make sure the other RAIR properties and system capabilities were not inadverdently set
+            expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.vrCapability).to(beFalse());
+            expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
+            expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+            expect(testSystemCapabilityManager.navigationCapability).to(beNil());
+            expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
+            expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
         });
     });
 
-    context(@"When requesting the SDLSystemCapabilityType", ^{
-        __block NSError *testError = nil;
+    context(@"When notified of a Get System Capability Response ", ^{
         __block SDLGetSystemCapabilityResponse *testGetSystemCapabilityResponse;
+        __block SDLPhoneCapability *testPhoneCapability = nil;
 
         beforeEach(^{
+             testPhoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
+
             testGetSystemCapabilityResponse = [[SDLGetSystemCapabilityResponse alloc] init];
-            testError = nil;
-        });
-
-        it(@"should save the phone call capabilities", ^{
-            testPhoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
-
-            testGetSystemCapabilityResponse.success = @YES;
             testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
             testGetSystemCapabilityResponse.systemCapability.phoneCapability = testPhoneCapability;
             testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypePhoneCall;
         });
 
-        it(@"should save the navigation capabilities", ^{
-            testNavigationCapability = [[SDLNavigationCapability alloc] initWithSendLocation:YES waypoints:YES];
+        describe(@"If a Get System Capability Response notification is received", ^{
+            context(@"If the request failed", ^{
+                beforeEach(^{
+                    testGetSystemCapabilityResponse.success = @NO;
+                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testGetSystemCapabilityResponse];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
 
-            testGetSystemCapabilityResponse.success = @YES;
-            testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
-            testGetSystemCapabilityResponse.systemCapability.navigationCapability = testNavigationCapability;
-            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeNavigation;
+                it(@"should should not save the capabilities", ^{
+                    expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+                });
+            });
+
+            context(@"If the request succeeded", ^{
+                beforeEach(^{
+                    testGetSystemCapabilityResponse.success = @YES;
+                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testGetSystemCapabilityResponse];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                });
+
+                it(@"should should save the capabilities", ^{
+                    expect(testSystemCapabilityManager.phoneCapability).to(equal(testPhoneCapability));
+                });
+            });
         });
 
-        it(@"should save the remote control capabilities", ^{
-            testRemoteControlCapability = [[SDLRemoteControlCapabilities alloc] initWithClimateControlCapabilities:@[] radioControlCapabilities:@[] buttonCapabilities:@[]];
+        describe(@"If a response is received for a sent Get System Capability request", ^{
+            context(@"If the request failed with an error", ^{
+                __block NSError *testError = nil;
 
-            testGetSystemCapabilityResponse.success = @YES;
-            testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
-            testGetSystemCapabilityResponse.systemCapability.remoteControlCapability = testRemoteControlCapability;
-            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeRemoteControl;
-        });
+                beforeEach(^{
+                    testGetSystemCapabilityResponse.success = @NO;
+                    testError = [NSError errorWithDomain:NSCocoaErrorDomain code:-234 userInfo:nil];
 
-        it(@"should save the video streaming capabilities", ^{
-            testVideoStreamingCapability = [[SDLVideoStreamingCapability alloc] initWithPreferredResolution:nil maxBitrate:8 supportedFormats:nil hapticDataSupported:YES];
+                    waitUntilTimeout(1.0, ^(void (^done)(void)) {
+                        [testSystemCapabilityManager updateCapabilityType:testGetSystemCapabilityResponse.systemCapability.systemCapabilityType completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
+                            expect(error).to(equal(testError));
+                            expect(systemCapabilityManager.phoneCapability).to(beNil());
+                            done();
+                        }];
 
-            testGetSystemCapabilityResponse.success = @YES;
-            testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
-            testGetSystemCapabilityResponse.systemCapability.videoStreamingCapability = testVideoStreamingCapability;
-            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
-        });
+                        [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse error:testError];
+                    });
+                });
 
-        it(@"should return the error if the request is not successful", ^{
-            testVideoStreamingCapability = nil;
-            testError = [NSError errorWithDomain:NSCocoaErrorDomain code:23 userInfo:nil];
+                it(@"should should not save the capabilities", ^{
+                    expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+                });
+            });
 
-            testGetSystemCapabilityResponse.success = @NO;
-            testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
-            testGetSystemCapabilityResponse.systemCapability.videoStreamingCapability = nil;
-            testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypeVideoStreaming;
+            context(@"If the request succeeded", ^{
+                beforeEach(^{
+                    testGetSystemCapabilityResponse.success = @YES;
+
+                    [testSystemCapabilityManager updateCapabilityType:testGetSystemCapabilityResponse.systemCapability.systemCapabilityType completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
+                        // The handler will not be notifified
+                    }];
+
+                    [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse error:nil];
+                });
+
+                it(@"should not save the capabilities because a successful Get System Capability Response notification will be intercepted by the manager and be handled there", ^{
+                    expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+                });
+            });
         });
 
         afterEach(^{
-            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testGetSystemCapabilityResponse];
-
-            [[NSNotificationCenter defaultCenter] postNotification:notification];
-            [NSThread sleepForTimeInterval:0.1];
+            // Make sure the RAIR properties and other system capabilities were not inadverdently set
+            expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.vrCapability).to(beFalse());
+            expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
+            expect(testSystemCapabilityManager.navigationCapability).to(beNil());
+            expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
+            expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
         });
-    });
-
-    afterEach(^{
-        expect(testSystemCapabilityManager.displayCapabilities).to(testDisplayCapabilities != nil ? equal(testDisplayCapabilities) : beNil());
-        expect(testSystemCapabilityManager.hmiCapabilities).to(testHMICapabilities != nil ? equal(testHMICapabilities) : beNil());
-        expect(testSystemCapabilityManager.softButtonCapabilities).to(testSoftButtonCapabilities != nil ? equal(testSoftButtonCapabilities) : beNil());
-        expect(testSystemCapabilityManager.buttonCapabilities).to(testButtonCapabilities != nil ? equal(testButtonCapabilities) : beNil());
-        expect(testSystemCapabilityManager.presetBankCapabilities).to(testPresetBankCapabilities != nil ? equal(testPresetBankCapabilities) : beNil());
-        expect(testSystemCapabilityManager.hmiZoneCapabilities).to(testHMIZoneCapabilities != nil ? equal(testHMIZoneCapabilities) : beNil());
-        expect(testSystemCapabilityManager.speechCapabilities).to(testSpeechCapabilities != nil ? equal(testSpeechCapabilities) : beNil());
-        expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(testPrerecordedSpeechCapabilities != nil ? equal(testPrerecordedSpeechCapabilities) : beNil());
-        expect(testSystemCapabilityManager.vrCapability).to(testVRCapabilities != nil ? equal(testVRCapabilities.firstObject == SDLVRCapabilitiesText ? YES : NO) : equal(NO));
-        expect(testSystemCapabilityManager.audioPassThruCapabilities).to(testAudioPassThruCapabilities != nil ? equal(testAudioPassThruCapabilities) : beNil());
-        expect(testSystemCapabilityManager.pcmStreamCapability).to(testPCMStreamCapabilities != nil ? equal(testPCMStreamCapabilities) : beNil());
-
-        expect(testSystemCapabilityManager.phoneCapability).to(testPhoneCapability != nil ? equal(testPhoneCapability) : beNil());
-        expect(testSystemCapabilityManager.navigationCapability).to(testNavigationCapability != nil ? equal(testNavigationCapability) : beNil());
-        expect(testSystemCapabilityManager.videoStreamingCapability).to(testVideoStreamingCapability != nil ? equal(testVideoStreamingCapability) : beNil());
-        expect(testSystemCapabilityManager.remoteControlCapability).to(testRemoteControlCapability != nil ? equal(testRemoteControlCapability) : beNil());
     });
 });
 
