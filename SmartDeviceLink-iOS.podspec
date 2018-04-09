@@ -280,6 +280,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLStreamingMediaConfiguration.h',
 'SmartDeviceLink/SDLStreamingMediaManager.h',
 'SmartDeviceLink/SDLStreamingMediaManagerConstants.h',
+'SmartDeviceLink/SDLStreamingMediaManagerDataSource.h',
 'SmartDeviceLink/SDLSubscribeButton.h',
 'SmartDeviceLink/SDLSubscribeButtonResponse.h',
 'SmartDeviceLink/SDLSubscribeVehicleData.h',
