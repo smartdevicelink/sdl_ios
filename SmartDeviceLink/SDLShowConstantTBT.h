@@ -28,28 +28,28 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The second line of text in a multi-line overlay screen.
  *
- *  Optional, Max length 500 chars
+ *  Optional, 1 - 500 chars
  */
 @property (strong, nonatomic, nullable) NSString *navigationText2;
 
 /**
  *  Estimated Time of Arrival time at final destination
  *
- *  Optional, Max length 500 chars
+ *  Optional, 1 - 500 chars
  */
 @property (strong, nonatomic, nullable) NSString *eta;
 
 /**
  *  The amount of time needed to reach the final destination
  *
- *  Optional, Max length 500 chars
+ *  Optional, 1 - 500 chars
  */
 @property (strong, nonatomic, nullable) NSString *timeToDestination;
 
 /**
  *  The distance to the final destination
  *
- *  Optional, Max length 500 chars
+ *  Optional, 1 - 500 chars
  */
 @property (strong, nonatomic, nullable) NSString *totalDistance;
 
@@ -74,14 +74,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Fraction of distance till next maneuver (starting from when AlertManeuver is triggered). Used to calculate progress bar.
  *
- *  Optional, Float between 0 - 1,000,000,000
+ *  Optional, Float, 0 - 1,000,000,000
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLFloat> *distanceToManeuver;
 
 /**
  *  Distance till next maneuver (starting from) from previous maneuver. Used to calculate progress bar.
  *
- *  Optional, Float between 0 - 1,000,000,000
+ *  Optional, Float, 0 - 1,000,000,000
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLFloat> *distanceToManeuverScale;
 
