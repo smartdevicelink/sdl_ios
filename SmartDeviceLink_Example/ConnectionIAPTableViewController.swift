@@ -36,7 +36,7 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
 
         switch state {
         case .stopped:
-            ProxyManager.sharedManager.startIAPConnection()
+            ProxyManager.sharedManager.start(with: .iAP)
         case .searching:
             ProxyManager.sharedManager.resetConnection()
         case .connected:

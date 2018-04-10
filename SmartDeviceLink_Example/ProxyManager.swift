@@ -5,8 +5,8 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-import SmartDeviceLink
 import UIKit
+import SmartDeviceLink
 
 protocol ProxyManagerDelegate: class {
     func didChangeProxyState(_ newState: SDLProxyState)
@@ -29,20 +29,18 @@ class ProxyManager: NSObject {
 // MARK: - SDL Connection
 
 extension ProxyManager {
-    func startIAPConnection() {
+    func start(with connectionType: SDLConnectionType) {
         delegate?.didChangeProxyState(SDLProxyState.searching)
-        let lifecycleConfiguration = setLifecycleConfiguration(SDLLifecycleConfiguration(appName: AppConstants.sdlAppName, appId: AppConstants.sdlAppID))
-        setupManagerConfiguration(lifecycleConfiguration: lifecycleConfiguration)
-    }
+        sdlManager = SDLManager(configuration: connectionType == .iAP ? ProxyManager.connectIAP() : ProxyManager.connectTCP(), delegate: self)
 
-    func startTCPConnection() {
-        delegate?.didChangeProxyState(SDLProxyState.searching)
-        let lifecycleConfiguration = setLifecycleConfiguration(SDLLifecycleConfiguration(appName: AppConstants.sdlAppID, appId: AppConstants.sdlAppID, ipAddress: AppUserDefaults.shared.ipAddress!, port: UInt16(AppUserDefaults.shared.port!)!))
-        setupManagerConfiguration(lifecycleConfiguration: lifecycleConfiguration)
+        guard let sdlManager = sdlManager else {
+            resetConnection()
+            return
+        }
+        startManager(sdlManager)
     }
 
     func resetConnection() {
-
         delegate?.didChangeProxyState(SDLProxyState.stopped)
 
         guard sdlManager != nil else { return }
@@ -54,28 +52,31 @@ extension ProxyManager {
 // MARK: - SDL Setup
 
 private extension ProxyManager {
-    /// TODO
-    ///
-    /// - Parameter configuration: TODO
-    /// - Returns: TODO
-    func setLifecycleConfiguration(_ configuration: SDLLifecycleConfiguration) -> SDLLifecycleConfiguration {
-        configuration.shortAppName = AppConstants.sdlShortAppName
-        configuration.appType = .media
-        configuration.appIcon = SDLArtwork(image: AppConstants.sdlAppLogo!, persistent: true, as: .PNG)
-        return configuration
+    class func connectIAP() -> SDLConfiguration {
+        let lifecycleConfiguration = SDLLifecycleConfiguration(appName: ExampleAppName, appId: ExampleAppId)
+        return setupManagerConfiguration(with: lifecycleConfiguration)
     }
 
-    /// Create the SDL manager
-    ///
-    /// - Parameter lifecycleConfiguration: The type of transport layer to use between the app and head unit
-    func setupManagerConfiguration(lifecycleConfiguration: SDLLifecycleConfiguration) {
-        let configuration = SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: .enabled(), logging: .debug())
-        sdlManager = SDLManager(configuration: configuration, delegate: self)
-        guard let sdlManager = sdlManager else {
-            resetConnection()
-            return
-        }
-        startManager(sdlManager)
+    class func connectTCP() -> SDLConfiguration {
+        let lifecycleConfiguration = SDLLifecycleConfiguration(appName: ExampleAppName, appId: ExampleAppId, ipAddress: AppUserDefaults.shared.ipAddress!, port: UInt16(AppUserDefaults.shared.port!)!)
+        return setupManagerConfiguration(with: lifecycleConfiguration)
+    }
+
+    class func setupManagerConfiguration(with lifecycleConfiguration: SDLLifecycleConfiguration) -> SDLConfiguration {
+        let appIcon = UIImage(named: ExampleAppLogoName)
+
+        lifecycleConfiguration.shortAppName = ExampleAppNameShort
+        lifecycleConfiguration.appIcon = appIcon != nil ? SDLArtwork(image: appIcon!, persistent: true, as: .PNG) : nil
+        lifecycleConfiguration.appType = .media
+
+        let lockScreenConfiguration = appIcon != nil ? SDLLockScreenConfiguration.enabledConfiguration(withAppIcon: appIcon!, backgroundColor: nil) : SDLLockScreenConfiguration.enabled()
+        return SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: lockScreenConfiguration, logging: logConfiguration())
+    }
+
+    class func logConfiguration() -> SDLLogConfiguration {
+        let logConfig = SDLLogConfiguration.debug()
+        logConfig.globalLogLevel = .verbose
+        return logConfig
     }
 
     /// Start searching for a connection with SDL Core
@@ -84,30 +85,23 @@ private extension ProxyManager {
     func startManager(_ manager: SDLManager) {
         manager.start(readyHandler: { [unowned self] (success, error) in
             guard success else {
+                print("There was an error while starting up: \(String(describing: error))")
                 self.resetConnection()
                 return
             }
 
+            // A connection has been established between the app and a SDL enabled accessory
             self.delegate?.didChangeProxyState(SDLProxyState.connected)
-//                self.addRPCObservers()
-//                self.addPermissionManagerObservers()
-            print("SDL start file manager storage: \(self.sdlManager!.fileManager.bytesAvailable / 1024 / 1024) mb")
 
-            if let error = error {
-                // An error may be returned even if the connection is successful
-                print("Error starting SDL: \(error)")
+            // Do some setup
+            // self.sdlex_setupPermissionsCallbacks()
+            print("SDL file manager storage: \(self.sdlManager!.fileManager.bytesAvailable / 1024 / 1024) mb")
+
+            if manager.hmiLevel == .full {
+                // TODO: showInitialData
             }
         })
     }
-
-
-//    func send(request: SDLRPCRequest, responseHandler: SDLResponseHandler? = nil) {
-//        guard sdlManager.hmiLevel != .none else {
-//            return
-//        }
-//        sdlManager.send(request, withResponseHandler: responseHandler)
-//    }
-
 }
 
 // MARK: - SDLManagerDelegate
@@ -118,7 +112,7 @@ extension ProxyManager: SDLManagerDelegate {
     }
 
     func hmiLevel(_ oldLevel: SDLHMILevel, didChangeToLevel newLevel: SDLHMILevel) {
-        if !(newLevel == .none && firstHMILevelState == .none) {
+        if newLevel != .none && firstHMILevelState == .none {
             // This is our first time in a non-NONE state
             firstHMILevelState = .nonNone
 
@@ -129,6 +123,16 @@ extension ProxyManager: SDLManagerDelegate {
         if newLevel == .full && firstHMILevelState != .full {
             // This is our first time in a FULL state
             firstHMILevelState = .full
+
+            print("Waiting 20 seconds to send the CICS")
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 20.0) {
+                print("Sending the CICS")
+                self.sdlManager?.send(self.createChoiceSets(), progressHandler: { (request, response, error, progress) in
+                    print("Create Interaction Choice Set RPC sent, Response: \(response?.resultCode == .success ? "successful" : "not successful"), Percent Complete: \(progress), Error: \(String(describing: error?.localizedDescription))")
+                }, completionHandler: { (success) in
+                    print("All Create Interaction Choice Set RPCs send successfully: \(success ? "YES" : "NO")")
+                })
+            }
         }
 
         if newLevel == .full {
@@ -155,13 +159,99 @@ extension ProxyManager: SDLManagerDelegate {
     }
 
     func audioStreamingState(_ oldState: SDLAudioStreamingState?, didChangeToState newState: SDLAudioStreamingState) {
-        // The following states only apply if the app is streaming audio
+        // The audio state only needs to be monitored if the app is streaming audio
         switch newState {
         case .audible: break        // The SDL app's audio can be heard
         case .notAudible: break     // The SDL app's audio cannot be heard
         case .attenuated: break     // The SDL app's audio volume has been lowered to let the system speak over the audio. This usually happens with voice recognition commands.
         default: break
         }
+    }
+
+    func managerShouldUpdateLifecycle(toLanguage language: SDLLanguage) -> SDLLifecycleConfigurationUpdate? {
+        var appName = ""
+
+        switch language {
+        case .enUs:
+            appName = ExampleAppName
+        case .esMx:
+            appName = ExampleAppName
+        case .frCa:
+            appName = ExampleAppName
+        default:
+            return nil
+        }
+
+        return SDLLifecycleConfigurationUpdate(appName: appName, shortAppName: nil, ttsName: [SDLTTSChunk(text: appName, type: .text)], voiceRecognitionCommandNames: nil)
+    }
+}
+
+// Mark - CICS
+private extension ProxyManager {
+    func createChoiceSets() -> [SDLCreateInteractionChoiceSet] {
+        var interactionChoiceSet = [SDLCreateInteractionChoiceSet]()
+
+        var choiceId = 1
+        for _ in 0..<20 {
+            var choiceSet = [SDLChoice]()
+            for j in 0..<5 {
+                let menuName = "Choice \(choiceId)"
+                choiceSet.append(SDLChoice(id: UInt16(choiceId), menuName: menuName, vrCommands: [menuName], image: nil, secondaryText: nil, secondaryImage: nil, tertiaryText: nil))
+                choiceId += 1
+            }
+            interactionChoiceSet.append(SDLCreateInteractionChoiceSet(id: UInt32(choiceId), choiceSet: choiceSet))
+            choiceId += 1
+        }
+
+        return interactionChoiceSet
+    }
+}
+
+// MARK: - Helpers
+
+private extension ProxyManager {
+    func sdlex_setupPermissionsCallbacks() {
+        // Gets the current permissions for a single RPC
+        let isShowRPCAvailable = sdlManager?.permissionManager.isRPCAllowed("Show")
+        print("Show RPC allowed? \(String(describing: isShowRPCAvailable))")
+
+        // Get the current permissions of a group of RPCs
+        let rpcGroup = ["AddCommand", "PerformInteraction"]
+        let commandPICSStatus = sdlManager?.permissionManager.groupStatus(ofRPCs: rpcGroup)
+        let commandPICSStatusDict = sdlManager?.permissionManager.status(ofRPCs: rpcGroup)
+        print("The group status for \(rpcGroup) is: \(String(describing: commandPICSStatus)). The status for each RPC in the group is: \(String(describing: commandPICSStatusDict))")
+
+        // Sets up a block for observing permission changes for a group of RPCs. Since the `groupType` is set to `SDLPermissionGroupTypeAllAllowed`, this block is called when the group permissions changes from all allowed to all not allowed. This block is called immediately when created.
+        let observedRPCGroup = ["Show", "Alert"]
+        let permissionAllAllowedObserverId = self.sdlManager?.permissionManager.addObserver(forRPCs: observedRPCGroup, groupType: .allAllowed, withHandler: { (individualStatuses, groupStatus) in
+            print("The group status for \(observedRPCGroup) has changed to: \(groupStatus)")
+            for (rpcName, rpcAllowed) in individualStatuses {
+                print("\(rpcName as String) allowed? \(rpcAllowed.boolValue ? "yes" : "no")")
+            }
+        })
+
+        // To stop observing permissions changes for a group of RPCs, remove the observer.
+        sdlManager?.permissionManager.removeObserver(forIdentifier: permissionAllAllowedObserverId!)
+
+        // Sets up a block for observing permission changes for a group of RPCs. Since the `groupType` is set to `SDLPermissionGroupTypeAllAny`, this block is called when the permission status changes for any of the RPCs being observed. This block is called immediately when created.
+        let _ = sdlManager?.permissionManager.addObserver(forRPCs: observedRPCGroup, groupType: .any, withHandler: { (individualStatuses, groupStatus) in
+            print("The group status for \(observedRPCGroup) has changed to: \(groupStatus)")
+            for (rpcName, rpcAllowed) in individualStatuses {
+                print("\(rpcName as String) allowed? \(rpcAllowed.boolValue ? "yes" : "no")")
+            }
+        })
+
+        // To stop observing permissions changes for a group of RPCs, remove the observer.
+        // sdlManager?.permissionManager.removeObserver(forIdentifier: permissionAnyObserverId!)
+    }
+
+    func sdlex_showInitialData() {
+        guard sdlManager?.hmiLevel == .full else { return }
+
+//        let template = SDLSetDisplayLayout(predefinedLayout: .nonMedia)
+//        self.sdlManager?.send(request: template, responseHandler: { (_, response, error) in
+//            <#code#>
+//        })
     }
 }
 

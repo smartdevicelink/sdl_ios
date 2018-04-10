@@ -2,12 +2,10 @@
 //  ProxyManager.m
 //  SmartDeviceLink-iOS
 
+#import "AppConstants.h"
 #import "SmartDeviceLink.h"
 #import "ProxyManager.h"
 #import "Preferences.h"
-
-NSString *const SDLAppName = @"SDL Example Obj-C";
-NSString *const SDLAppId = @"9999";
 
 
 BOOL const ShouldRestartOnDisconnect = NO;
@@ -67,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
     // Check for previous instance of sdlManager
     if (self.sdlManager) { return; }
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:SDLAppName appId:SDLAppId]];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:ExampleAppName appId:AppId]];
     [self sdlex_setupConfigurationWithLifecycleConfiguration:lifecycleConfig];
 }
 
@@ -75,12 +73,12 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
     // Check for previous instance of sdlManager
     if (self.sdlManager) { return; }
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:SDLAppName appId:SDLAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:ExampleAppName appId:AppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
     [self sdlex_setupConfigurationWithLifecycleConfiguration:lifecycleConfig];
 }
 
 - (void)sdlex_setupConfigurationWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
-    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfigurationWithAppIcon:[UIImage imageNamed:@"AppIcon60x60@2x"] backgroundColor:nil] logging:[self.class sdlex_logConfiguration]];
+    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfigurationWithAppIcon:[UIImage imageNamed:AppLogoName] backgroundColor:nil] logging:[self.class sdlex_logConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
 
     [self startManager];
@@ -97,10 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
         
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
         [weakSelf sdlex_setupPermissionsCallbacks];
-        
-        if ([weakSelf.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
-            [weakSelf sdlex_showInitialData];
-        }
+        [weakSelf sdlex_showInitialData];
     }];
 }
 
@@ -445,7 +440,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] init];
 
     if ([language isEqualToEnum:SDLLanguageEnUs]) {
-        update.appName = SDLAppName;
+        update.appName = ExampleAppName;
     } else if ([language isEqualToString:SDLLanguageEsMx]) {
         NSString *SDLAppNameSpanish = @"SDL Aplicación de ejemplo";
         update.appName = SDLAppNameSpanish;

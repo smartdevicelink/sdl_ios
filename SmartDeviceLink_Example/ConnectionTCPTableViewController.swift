@@ -47,7 +47,7 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
 
             switch state {
             case .stopped:
-                ProxyManager.sharedManager.startTCPConnection()
+                ProxyManager.sharedManager.start(with: .TCP)
             case .searching:
                 ProxyManager.sharedManager.resetConnection()
             case .connected:
