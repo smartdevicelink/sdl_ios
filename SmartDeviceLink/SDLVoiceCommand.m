@@ -10,6 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface SDLVoiceCommand()
+
+@property (assign, nonatomic) UInt32 commandId;
+
+@end
+
 @implementation SDLVoiceCommand
 
 - (instancetype)initWithVoiceCommands:(NSArray<NSString *> *)voiceCommands handler:(SDLVoiceCommandSelectionHandler)handler {

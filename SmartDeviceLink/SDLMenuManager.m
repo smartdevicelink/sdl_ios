@@ -12,6 +12,7 @@
 #import "SDLAddSubMenu.h"
 #import "SDLArtwork.h"
 #import "SDLDeleteCommand.h"
+#import "SDLDeleteSubMenu.h"
 #import "SDLImage.h"
 #import "SDLMenuCell.h"
 #import "SDLMenuParams.h"
@@ -24,6 +25,18 @@
 
 
 NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLMenuCell()
+
+@property (assign, nonatomic) UInt32 cellId;
+
+@end
+
+@interface SDLVoiceCommand()
+
+@property (assign, nonatomic) UInt32 commandId;
+
+@end
 
 @interface SDLMenuManager()
 
@@ -48,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)sdl_updateWithCompletionHandler:(SDLMenuUpdateCompletionHandler)completionHandler {
+- (void)sdl_updateWithCompletionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
     // Upload images that need it
 
     // Delete old commands, keep voice commands
@@ -60,27 +73,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
     _menuCells = menuCells;
+
+    [self sdl_updateWithCompletionHandler:nil];
 }
 
 - (void)setVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
     _voiceCommands = voiceCommands;
+
+    [self sdl_updateWithCompletionHandler:nil];
 }
 
 #pragma mark - Helpers
 
-- (NSArray<SDLDeleteCommand *> *)deleteCommandsForCurrentCells {
-    NSMutableArray<SDLDeleteCommand *> *mutableDeletes = [NSMutableArray array];
-    for (SDLRPCRequest *request in self.voiceCommandCommands) {
-        if ([request isKindOfClass:[SDLAddCommand class]]) {
-            SDLAddCommand *command = (SDLAddCommand *)request;
-            SDLDeleteCommand *delete = [[SDLDeleteCommand alloc] initWithId:command.cmdID.unsignedIntValue];
-            [mutableDeletes addObject:delete];
-        } else if ([request isKindOfClass:[SDLAddSubMenu class]]) {
-            SDLAddSubMenu *subMenu = (SDLAddSubMenu *)request;
-            SDLDeleteCommand *delete = [[SDLDeleteCommand alloc] initWithId:subMenu.menuID.unsignedIntValue];
+- (NSArray<SDLRPCRequest *> *)deleteCommandsForCurrentCells {
+    NSMutableArray<SDLRPCRequest *> *mutableDeletes = [NSMutableArray array];
+    for (SDLMenuCell *cell in self.menuCells) {
+        if (cell.subCells == nil) {
+            SDLDeleteCommand *delete = [[SDLDeleteCommand alloc] initWithId:cell.cellId];
             [mutableDeletes addObject:delete];
         } else {
-            NSAssert(NO, @"Menu manager only handles AddSubMenu and AddCommand, not %@", [request class]);
+            SDLDeleteSubMenu *delete = [[SDLDeleteSubMenu alloc] initWithId:cell.cellId];
+            [mutableDeletes addObject:delete];
         }
     }
 
@@ -89,8 +102,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<SDLDeleteCommand *> *)deleteCommandsForCurrentVoiceCommands {
     NSMutableArray<SDLDeleteCommand *> *mutableDeletes = [NSMutableArray array];
-    for (SDLAddCommand *command in self.voiceCommandCommands) {
-        SDLDeleteCommand *delete = [[SDLDeleteCommand alloc] initWithId:command.cmdID.unsignedIntValue];
+    for (SDLVoiceCommand *command in self.voiceCommands) {
+        SDLDeleteCommand *delete = [[SDLDeleteCommand alloc] initWithId:command.commandId];
         [mutableDeletes addObject:delete];
     }
 
@@ -126,6 +139,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_commandNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnCommand *onCommand = (SDLOnCommand *)notification.notification;
+
+    NSArray<id> *allCommands = [self.menuCells arrayByAddingObjectsFromArray:self.voiceCommands];
+    for (id object in allCommands) {
+        if ([object isKindOfClass:[SDLMenuCell class]]) {
+            SDLMenuCell *cell = (SDLMenuCell *)object;
+            if (onCommand.cmdID.unsignedIntegerValue != cell.cellId) { continue; }
+
+            cell.handler();
+            break;
+        } else if ([object isKindOfClass:[SDLVoiceCommand class]]) {
+            SDLVoiceCommand *voiceCommand = (SDLVoiceCommand *)object;
+            if (onCommand.cmdID.unsignedIntegerValue != voiceCommand.commandId) { continue; }
+
+            voiceCommand.handler();
+            break;
+        }
+    }
+
 }
 
 - (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {

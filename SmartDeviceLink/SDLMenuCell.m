@@ -10,6 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface SDLMenuCell()
+
+@property (assign, nonatomic) UInt32 cellId;
+
+@end
+
 @implementation SDLMenuCell
 
 - (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon voiceCommands:(nullable NSArray<NSString *> *)voiceCommands handler:(SDLMenuCellSelectionHandler)handler {
