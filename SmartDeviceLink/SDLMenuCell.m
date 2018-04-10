@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLMenuCell()
 
+@property (assign, nonatomic) UInt32 parentCellId;
 @property (assign, nonatomic) UInt32 cellId;
 
 @end
@@ -26,6 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
     _icon = icon;
     _voiceCommands = voiceCommands;
     _handler = handler;
+
+    _cellId = UINT32_MAX;
+    _parentCellId = UINT32_MAX;
 
     return self;
 }

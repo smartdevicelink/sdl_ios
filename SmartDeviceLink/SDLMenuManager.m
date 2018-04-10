@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLMenuCell()
 
+@property (assign, nonatomic) UInt32 parentCellId;
 @property (assign, nonatomic) UInt32 cellId;
 
 @end
@@ -55,13 +56,21 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) SDLMenuUpdateCompletionHandler queuedUpdateHandler;
 @property (assign, nonatomic) BOOL waitingOnHMILevelUpdate;
 
+@property (assign, nonatomic) UInt32 lastMenuId;
+
 @end
+
+UInt32 const ParentIdNotFound = UINT32_MAX;
 
 @implementation SDLMenuManager
 
 - (instancetype)init {
     self = [super init];
     if (!self) { return nil; }
+
+    _lastMenuId = 0;
+    _menuCells = @[];
+    _voiceCommands = @[];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
@@ -77,9 +86,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     _connectionManager = connectionManager;
     _fileManager = fileManager;
-
-    _menuCells = @[];
-    _voiceCommands = @[];
 
     return self;
 }
@@ -102,6 +108,11 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Set the ids
+    self.lastMenuId = 0;
+    [self sdl_updateIdsOnMenuCells:menuCells parentId:ParentIdNotFound];
+
+    // Upload the artworks
+
 
     _menuCells = menuCells;
 
@@ -116,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Set the ids
-    
+
     _voiceCommands = voiceCommands;
 
     [self sdl_updateWithCompletionHandler:nil];
@@ -124,7 +135,34 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Helpers
 
-- (NSArray<SDLRPCRequest *> *)deleteCommandsForCurrentCells {
+#pragma mark Artworks
+
+- (NSArray<SDLArtwork *> *)initialArtworksToBeUploadedFromCells:(NSArray<SDLMenuCell *> *)cells {
+    NSMutableArray<SDLArtwork *> *mutableInitialArtworks = [NSMutableArray array];
+    for (SDLMenuCell *cell in cells) {
+        if (cell.icon != nil && ![self.fileManager hasUploadedFile:cell.icon]) {
+            [mutableInitialArtworks addObject:cell.icon];
+        }
+    }
+
+    return [mutableInitialArtworks copy];
+}
+
+#pragma mark IDs
+
+- (void)sdl_updateIdsOnMenuCells:(NSArray<SDLMenuCell *> *)menuCells parentId:(UInt32)parentId {
+    for (SDLMenuCell *cell in menuCells) {
+        cell.cellId = self.lastMenuId++;
+        cell.parentCellId = parentId;
+        if (cell.subCells.count > 0) {
+            [self sdl_updateIdsOnMenuCells:cell.subCells parentId:cell.cellId];
+        }
+    }
+}
+
+#pragma mark Deletes
+
+- (NSArray<SDLRPCRequest *> *)sdl_deleteCommandsForCurrentCells {
     NSMutableArray<SDLRPCRequest *> *mutableDeletes = [NSMutableArray array];
     for (SDLMenuCell *cell in self.menuCells) {
         if (cell.subCells == nil) {
@@ -139,7 +177,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [mutableDeletes copy];
 }
 
-- (NSArray<SDLDeleteCommand *> *)deleteCommandsForCurrentVoiceCommands {
+- (NSArray<SDLDeleteCommand *> *)sdl_deleteCommandsForCurrentVoiceCommands {
     NSMutableArray<SDLDeleteCommand *> *mutableDeletes = [NSMutableArray array];
     for (SDLVoiceCommand *command in self.voiceCommands) {
         SDLDeleteCommand *delete = [[SDLDeleteCommand alloc] initWithId:command.commandId];
@@ -148,6 +186,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     return [mutableDeletes copy];
 }
+
+#pragma mark Commands / SubMenu RPCs
 
 - (SDLAddCommand *)sdl_commandForMenuCell:(SDLMenuCell *)cell withParentCellId:(nullable NSNumber<SDLInt> *)parentId {
     SDLAddCommand *command = [[SDLAddCommand alloc] init];
