@@ -8,68 +8,98 @@
 import SmartDeviceLink
 import UIKit
 
-enum ProxyState {
-    case stopped
-    case searching
-    case connected
-}
-
-let appIcon = UIImage(named: "AppIcon60x60")
-
 protocol ProxyManagerDelegate: class {
-    func didChangeProxyState(_ newState: ProxyState)
+    func didChangeProxyState(_ newState: SDLProxyState)
 }
 
 class ProxyManager: NSObject {
-    fileprivate var sdlManager: SDLManager!
+    fileprivate var sdlManager: SDLManager?
     weak var delegate: ProxyManagerDelegate?
-    fileprivate var firstHMIFull = true
+    fileprivate var firstHMILevelState = SDLHMILevelFirstState.none
     fileprivate var isVehicleDataSubscribed = false
 
     // Singleton
     static let sharedManager = ProxyManager()
     private override init() {
         super.init()
+        firstHMILevelState = .none
+    }
+}
+
+// MARK: - SDL Connection
+
+extension ProxyManager {
+    func startIAPConnection() {
+        delegate?.didChangeProxyState(SDLProxyState.searching)
+        let lifecycleConfiguration = setLifecycleConfiguration(SDLLifecycleConfiguration(appName: AppConstants.sdlAppName, appId: AppConstants.sdlAppID))
+        setupManagerConfiguration(lifecycleConfiguration: lifecycleConfiguration)
     }
 
-    // MARK: - SDL Setup
-    func startIAP() {
-        delegate?.didChangeProxyState(ProxyState.searching)
-        let lifecycleConfiguration = setLifecycleConfigurationPropertiesOnConfiguration(SDLLifecycleConfiguration(appName: AppConstants.sdlAppName, appId: AppConstants.sdlAppID))
-        startSDLManager(lifecycleConfiguration)
+    func startTCPConnection() {
+        delegate?.didChangeProxyState(SDLProxyState.searching)
+        let lifecycleConfiguration = setLifecycleConfiguration(SDLLifecycleConfiguration(appName: AppConstants.sdlAppID, appId: AppConstants.sdlAppID, ipAddress: AppUserDefaults.shared.ipAddress!, port: UInt16(AppUserDefaults.shared.port!)!))
+        setupManagerConfiguration(lifecycleConfiguration: lifecycleConfiguration)
     }
 
-    func startTCP() {
-        delegate?.didChangeProxyState(ProxyState.searching)
-        let lifecycleConfiguration = setLifecycleConfigurationPropertiesOnConfiguration(SDLLifecycleConfiguration(appName: AppConstants.sdlAppID, appId: AppConstants.sdlAppID, ipAddress: AppUserDefaults.shared.ipAddress!, port: UInt16(AppUserDefaults.shared.port!)!))
-        startSDLManager(lifecycleConfiguration)
+    func resetConnection() {
+
+        delegate?.didChangeProxyState(SDLProxyState.stopped)
+
+        guard sdlManager != nil else { return }
+        sdlManager?.stop()
+        sdlManager = nil
+    }
+}
+
+// MARK: - SDL Setup
+
+private extension ProxyManager {
+    /// TODO
+    ///
+    /// - Parameter configuration: TODO
+    /// - Returns: TODO
+    func setLifecycleConfiguration(_ configuration: SDLLifecycleConfiguration) -> SDLLifecycleConfiguration {
+        configuration.shortAppName = AppConstants.sdlShortAppName
+        configuration.appType = .media
+        configuration.appIcon = SDLArtwork(image: AppConstants.sdlAppLogo!, persistent: true, as: .PNG)
+        return configuration
     }
 
-    private func startSDLManager(_ lifecycleConfiguration: SDLLifecycleConfiguration) {
-        // Configure the proxy handling RPC calls between the SDL Core and the app
-        let configuration: SDLConfiguration = SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: .enabled(), logging: .debug())
-        self.sdlManager = SDLManager(configuration: configuration, delegate: self)
+    /// Create the SDL manager
+    ///
+    /// - Parameter lifecycleConfiguration: The type of transport layer to use between the app and head unit
+    func setupManagerConfiguration(lifecycleConfiguration: SDLLifecycleConfiguration) {
+        let configuration = SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: .enabled(), logging: .debug())
+        sdlManager = SDLManager(configuration: configuration, delegate: self)
+        guard let sdlManager = sdlManager else {
+            resetConnection()
+            return
+        }
+        startManager(sdlManager)
+    }
 
-        // Start watching for a connection with a SDL Core
-        self.sdlManager?.start(readyHandler: { [unowned self] (success, error) in
-            if success {
-                self.delegate?.didChangeProxyState(ProxyState.connected)
+    /// Start searching for a connection with SDL Core
+    ///
+    /// - Parameter manager: The SDL Manager
+    func startManager(_ manager: SDLManager) {
+        manager.start(readyHandler: { [unowned self] (success, error) in
+            guard success else {
+                self.resetConnection()
+                return
+            }
+
+            self.delegate?.didChangeProxyState(SDLProxyState.connected)
 //                self.addRPCObservers()
 //                self.addPermissionManagerObservers()
-                print("SDL start file manager storage: \(self.sdlManager!.fileManager.bytesAvailable / 1024 / 1024) mb")
-            }
+            print("SDL start file manager storage: \(self.sdlManager!.fileManager.bytesAvailable / 1024 / 1024) mb")
+
             if let error = error {
+                // An error may be returned even if the connection is successful
                 print("Error starting SDL: \(error)")
             }
         })
     }
 
-    private func setLifecycleConfigurationPropertiesOnConfiguration(_ configuration: SDLLifecycleConfiguration) -> SDLLifecycleConfiguration {
-        configuration.shortAppName = AppConstants.sdlShortAppName
-        configuration.appType = .media
-        configuration.appIcon = SDLArtwork(image: appIcon!, persistent: true, as: .PNG)
-        return configuration
-    }
 
 //    func send(request: SDLRPCRequest, responseHandler: SDLResponseHandler? = nil) {
 //        guard sdlManager.hmiLevel != .none else {
@@ -78,34 +108,59 @@ class ProxyManager: NSObject {
 //        sdlManager.send(request, withResponseHandler: responseHandler)
 //    }
 
-    func reset() {
-        sdlManager?.stop()
-        delegate?.didChangeProxyState(ProxyState.stopped)
-    }
 }
 
-// MARK: SDLManagerDelegate
+// MARK: - SDLManagerDelegate
+
 extension ProxyManager: SDLManagerDelegate {
     func managerDidDisconnect() {
-        delegate?.didChangeProxyState(ProxyState.stopped)
+        delegate?.didChangeProxyState(SDLProxyState.stopped)
     }
 
     func hmiLevel(_ oldLevel: SDLHMILevel, didChangeToLevel newLevel: SDLHMILevel) {
-        // On our first HMI level that isn't none, do some setup
-        if newLevel != .none && firstHMIFull == true {
-            firstHMIFull = false
+        if !(newLevel == .none && firstHMILevelState == .none) {
+            // This is our first time in a non-NONE state
+            firstHMILevelState = .nonNone
+
+            // Send AddCommands
+            // TODO
         }
-        // HMI state is changing from NONE or BACKGROUND to FULL or LIMITED
-        if (oldLevel == .none || oldLevel == .background) && (newLevel == .full || newLevel == .limited) {
-//            prepareRemoteSystem(overwrite: true) { [unowned self] in
-//                self.showMainImage()
-//                self.prepareButtons()
-//                self.addSpeakMenuCommand()
-//                self.addperformInteractionMenuCommand()
-//                self.setText()
-//                self.setDisplayLayout()
-//                self.subscribeVehicleData()
-//            }
+
+        if newLevel == .full && firstHMILevelState != .full {
+            // This is our first time in a FULL state
+            firstHMILevelState = .full
+        }
+
+        if newLevel == .full {
+            // We're always going to try to show the initial state, because if we've already shown it, it won't be shown, and we need to guard against some possible weird states
+            // TODO: show initial data
+        }
+
+//        // On our first HMI level that isn't none, do some setup
+//        if newLevel != .none && firstHMIFull == true {
+//            firstHMIFull = false
+//        }
+//        // HMI state is changing from NONE or BACKGROUND to FULL or LIMITED
+//        if (oldLevel == .none || oldLevel == .background) && (newLevel == .full || newLevel == .limited) {
+////            prepareRemoteSystem(overwrite: true) { [unowned self] in
+////                self.showMainImage()
+////                self.prepareButtons()
+////                self.addSpeakMenuCommand()
+////                self.addperformInteractionMenuCommand()
+////                self.setText()
+////                self.setDisplayLayout()
+////                self.subscribeVehicleData()
+////            }
+//        }
+    }
+
+    func audioStreamingState(_ oldState: SDLAudioStreamingState?, didChangeToState newState: SDLAudioStreamingState) {
+        // The following states only apply if the app is streaming audio
+        switch newState {
+        case .audible: break        // The SDL app's audio can be heard
+        case .notAudible: break     // The SDL app's audio cannot be heard
+        case .attenuated: break     // The SDL app's audio volume has been lowered to let the system speak over the audio. This usually happens with voice recognition commands.
+        default: break
         }
     }
 }

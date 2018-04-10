@@ -5,11 +5,13 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct AppConstants {
     static let sdlAppName = "SDL Example Swift"
     static let sdlShortAppName = "SDL Swift"
+    static let sdlAppLogo = UIImage(named: "AppIcon")
+
     static let sdl = "SDL"
     static let testApp = "Test App"
     static let appIconName = "AppIcon"

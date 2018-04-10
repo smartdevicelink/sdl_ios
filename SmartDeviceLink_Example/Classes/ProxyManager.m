@@ -6,7 +6,7 @@
 #import "ProxyManager.h"
 #import "Preferences.h"
 
-NSString *const SDLAppName = @"SDL Example App";
+NSString *const SDLAppName = @"SDL Example Obj-C";
 NSString *const SDLAppId = @"9999";
 
 
@@ -96,7 +96,6 @@ NS_ASSUME_NONNULL_BEGIN
         }
         
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
-
         [weakSelf sdlex_setupPermissionsCallbacks];
         
         if ([weakSelf.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) {

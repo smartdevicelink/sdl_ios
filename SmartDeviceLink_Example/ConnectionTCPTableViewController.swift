@@ -14,7 +14,7 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
     @IBOutlet weak var connectButton: UIButton!
     @IBOutlet weak var table: UITableView!
 
-    var state: ProxyState = .stopped
+    var state: SDLProxyState = .stopped
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,11 +47,11 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
 
             switch state {
             case .stopped:
-                ProxyManager.sharedManager.startTCP()
+                ProxyManager.sharedManager.startTCPConnection()
             case .searching:
-                ProxyManager.sharedManager.reset()
+                ProxyManager.sharedManager.resetConnection()
             case .connected:
-                ProxyManager.sharedManager.reset()
+                ProxyManager.sharedManager.resetConnection()
             }
         } else {
             let alertMessage = UIAlertController(title: "Missing Info!", message: "Make sure to set your IP Address and Port", preferredStyle: .alert)
@@ -60,7 +60,7 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
         }
     }
     // MARK: - Delegate Functions
-    func didChangeProxyState(_ newState: ProxyState) {
+    func didChangeProxyState(_ newState: SDLProxyState) {
         state = newState
         var newColor: UIColor? = nil
         var newTitle: String? = nil

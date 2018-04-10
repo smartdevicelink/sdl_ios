@@ -1056,6 +1056,8 @@
 		8829569E207CFD0E00EF056C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8829569D207CFD0E00EF056C /* AppDelegate.swift */; };
 		882956A0207CFD5800EF056C /* AppProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8829569F207CFD5800EF056C /* AppProperties.swift */; };
 		8850DB601F4475D30053A48D /* TestMultipleFilesConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */; };
+		885D259C207D111200BD6EE7 /* Enum+SDLProxyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885D259A207D107A00BD6EE7 /* Enum+SDLProxyState.swift */; };
+		885D259F207D158300BD6EE7 /* Enum+SDLHMILevelFirstState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885D259D207D144E00BD6EE7 /* Enum+SDLHMILevelFirstState.swift */; };
 		8877F5EB1F34A3BE00DC128A /* SDLSendHapticDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */; };
 		8877F5EE1F34A72200DC128A /* SDLSendHapticDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8877F5EF1F34A72200DC128A /* SDLSendHapticDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */; };
@@ -2347,6 +2349,8 @@
 		8829569F207CFD5800EF056C /* AppProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppProperties.swift; sourceTree = "<group>"; };
 		8850DB5E1F4475D30053A48D /* TestMultipleFilesConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestMultipleFilesConnectionManager.h; sourceTree = "<group>"; };
 		8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestMultipleFilesConnectionManager.m; sourceTree = "<group>"; };
+		885D259A207D107A00BD6EE7 /* Enum+SDLProxyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enum+SDLProxyState.swift"; sourceTree = "<group>"; };
+		885D259D207D144E00BD6EE7 /* Enum+SDLHMILevelFirstState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enum+SDLHMILevelFirstState.swift"; sourceTree = "<group>"; };
 		8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataSpec.m; sourceTree = "<group>"; };
 		8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSendHapticDataResponse.h; sourceTree = "<group>"; };
 		8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponse.m; sourceTree = "<group>"; };
@@ -4757,6 +4761,8 @@
 			children = (
 				8829569F207CFD5800EF056C /* AppProperties.swift */,
 				88A0AA55207CFE5C0075132C /* AppUserDefaults.swift */,
+				885D259A207D107A00BD6EE7 /* Enum+SDLProxyState.swift */,
+				885D259D207D144E00BD6EE7 /* Enum+SDLHMILevelFirstState.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -6272,7 +6278,9 @@
 				88A0AA5C207CFE740075132C /* ConnectionContainerViewController.swift in Sources */,
 				882956A0207CFD5800EF056C /* AppProperties.swift in Sources */,
 				88A0AA5E207CFE740075132C /* ConnectionTCPTableViewController.swift in Sources */,
+				885D259C207D111200BD6EE7 /* Enum+SDLProxyState.swift in Sources */,
 				8829569E207CFD0E00EF056C /* AppDelegate.swift in Sources */,
+				885D259F207D158300BD6EE7 /* Enum+SDLHMILevelFirstState.swift in Sources */,
 				88A0AA58207CFE650075132C /* ProxyManager.swift in Sources */,
 				88A0AA5D207CFE740075132C /* ConnectionIAPTableViewController.swift in Sources */,
 				88A0AA56207CFE5D0075132C /* AppUserDefaults.swift in Sources */,
