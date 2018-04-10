@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+@class SDLFileManager;
 @class SDLMenuCell;
 @class SDLVoiceCommand;
+
+@protocol SDLConnectionManagerType;
 
 /**
  The handler run when the update has completed
@@ -19,6 +22,8 @@
 typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 @interface SDLMenuManager : NSObject
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
 
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *menuCells;
 @property (copy, nonatomic) NSArray<SDLVoiceCommand *> *voiceCommands;

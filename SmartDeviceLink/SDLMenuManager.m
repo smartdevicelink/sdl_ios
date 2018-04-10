@@ -11,12 +11,15 @@
 #import "SDLAddCommand.h"
 #import "SDLAddSubMenu.h"
 #import "SDLArtwork.h"
+#import "SDLConnectionManagerType.h"
 #import "SDLDeleteCommand.h"
 #import "SDLDeleteSubMenu.h"
+#import "SDLFileManager.h"
 #import "SDLImage.h"
 #import "SDLMenuCell.h"
 #import "SDLMenuParams.h"
 #import "SDLOnCommand.h"
+#import "SDLOnHMIStatus.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
@@ -40,11 +43,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLMenuManager()
 
+@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic) SDLFileManager *fileManager;
+
+@property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 
-// The top level of AddCommands & AddSubMenus
-@property (copy, nonatomic) NSArray<SDLRPCRequest *> *cellCommands;
-@property (copy, nonatomic) NSArray<SDLAddCommand *> *voiceCommandCommands;
+@property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
+@property (copy, nonatomic, nullable) SDLMenuUpdateCompletionHandler inProgressHandler;
+@property (assign, nonatomic) BOOL hasQueuedUpdate;
+@property (copy, nonatomic, nullable) SDLMenuUpdateCompletionHandler queuedUpdateHandler;
+@property (assign, nonatomic) BOOL waitingOnHMILevelUpdate;
 
 @end
 
@@ -56,7 +65,21 @@ NS_ASSUME_NONNULL_BEGIN
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_commandNotification:) name:SDLDidReceiveCommandNotification object:nil];
+
+    return self;
+}
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager {
+    self = [self init];
+    if (!self) { return nil; }
+
+    _connectionManager = connectionManager;
+    _fileManager = fileManager;
+
+    _menuCells = @[];
+    _voiceCommands = @[];
 
     return self;
 }
@@ -72,12 +95,28 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Setters
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
+    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
+        _waitingOnHMILevelUpdate = YES;
+        _menuCells = menuCells;
+        return;
+    }
+
+    // Set the ids
+
     _menuCells = menuCells;
 
     [self sdl_updateWithCompletionHandler:nil];
 }
 
 - (void)setVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
+    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
+        _waitingOnHMILevelUpdate = YES;
+        _voiceCommands = voiceCommands;
+        return;
+    }
+
+    // Set the ids
+    
     _voiceCommands = voiceCommands;
 
     [self sdl_updateWithCompletionHandler:nil];
@@ -170,6 +209,23 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Auto-send an updated show
     [self sdl_updateWithCompletionHandler:nil];
+}
+
+- (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
+    SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
+
+    SDLHMILevel oldHMILevel = self.currentLevel;
+    self.currentLevel = hmiStatus.hmiLevel;
+
+    // Auto-send an updated show if we were in NONE and now we are not
+    if ([oldHMILevel isEqualToString:SDLHMILevelNone] && ![self.currentLevel isEqualToString:SDLHMILevelNone]) {
+        if (self.waitingOnHMILevelUpdate) {
+            [self setMenuCells:_menuCells];
+            [self setVoiceCommands:_voiceCommands];
+        } else {
+            [self sdl_updateWithCompletionHandler:nil];
+        }
+    }
 }
 
 @end
