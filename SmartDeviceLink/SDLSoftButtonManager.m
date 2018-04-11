@@ -93,11 +93,16 @@ NS_ASSUME_NONNULL_BEGIN
         self.queuedUpdateHandler = nil;
     }
 
+    for (SDLSoftButtonObject *button in softButtonObjects) {
+        NSLog(@"Soft Button Object: %@", button.name);
+    }
+    
     // Set the soft button ids. Check to make sure no two soft buttons have the same name, there aren't many soft buttons, so n^2 isn't going to be bad
     for (NSUInteger i = 0; i < softButtonObjects.count; i++) {
         NSString *buttonName = softButtonObjects[i].name;
         softButtonObjects[i].buttonId = i * 100;
         for (NSUInteger j = (i + 1); j < softButtonObjects.count; j++) {
+            NSLog(@"i is: %lu, j is: %lu, softButtonObjects count is: %lu", (unsigned long)i, j, softButtonObjects.count);
             if ([softButtonObjects[j].name isEqualToString:buttonName]) {
                 _softButtonObjects = @[];
                 SDLLogE(@"Attempted to set soft button objects, but two buttons had the same name: %@", softButtonObjects);
