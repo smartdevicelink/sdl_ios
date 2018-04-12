@@ -60,6 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
+@property (assign, nonatomic) BOOL needsUpdate;
 
 @end
 
@@ -75,6 +76,7 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     _menuCells = @[];
     _voiceCommands = @[];
     _oldMenuCells = @[];
+    _needsUpdate = NO;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
@@ -97,7 +99,7 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
 #pragma mark - Updating System
 
 - (void)sdl_updateWithCompletionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
-    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
+    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone] || !self.needsUpdate) {
         return;
     }
 
@@ -203,6 +205,7 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     self.lastMenuId = 0;
     [self sdl_updateIdsOnMenuCells:menuCells parentId:ParentIdNotFound];
 
+    _needsUpdate = YES;
     _oldMenuCells = _menuCells;
     _menuCells = menuCells;
 
@@ -243,6 +246,7 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
 
     // Set the ids
 
+    _needsUpdate = YES;
     _voiceCommands = voiceCommands;
 
     [self sdl_updateWithCompletionHandler:nil];
@@ -416,9 +420,6 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
     self.displayCapabilities = response.displayCapabilities;
-
-    // Auto-send an updated show
-    [self sdl_updateWithCompletionHandler:nil];
 }
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
