@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Describes the first time the HMI state goes non-none and full.
 @property (assign, nonatomic) SDLHMIFirstState firstTimeState;
 @property (assign, nonatomic, getter=isTextEnabled) BOOL textEnabled;
-@property (assign, nonatomic, getter=isHexagonEnabled) BOOL hexagonEnabled;
+@property (assign, nonatomic, getter=isHexagonEnabled) BOOL toggleEnabled;
 @property (assign, nonatomic, getter=areImagesEnabled) BOOL imagesEnabled;
 
 @end
@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
     _firstTimeState = SDLHMIFirstStateNone;
 
     _textEnabled = YES;
-    _hexagonEnabled = YES;
+    _toggleEnabled = YES;
     _imagesEnabled = YES;
     
     return self;
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
     // Check for previous instance of sdlManager
     if (self.sdlManager) { return; }
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:ExampleAppName appId:AppId]];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:ExampleAppName appId:ExampleAppId]];
     [self sdlex_setupConfigurationWithLifecycleConfiguration:lifecycleConfig];
 }
 
@@ -70,12 +70,12 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
     // Check for previous instance of sdlManager
     if (self.sdlManager) { return; }
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:ExampleAppName appId:AppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
+    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:ExampleAppName appId:ExampleAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
     [self sdlex_setupConfigurationWithLifecycleConfiguration:lifecycleConfig];
 }
 
 - (void)sdlex_setupConfigurationWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
-    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfigurationWithAppIcon:[UIImage imageNamed:AppLogoName] backgroundColor:nil] logging:[self.class sdlex_logConfiguration]];
+    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfigurationWithAppIcon:[UIImage imageNamed:ExampleAppLogoName] backgroundColor:nil] logging:[self.class sdlex_logConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
 
     [self startManager];
@@ -97,12 +97,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)reset {
-    [self sdlex_updateProxyState:ProxyStateStopped];
     [self.sdlManager stop];
-    // Remove reference
-    self.sdlManager = nil;
 }
-
 
 #pragma mark - Helpers
 
@@ -111,11 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    SDLSetDisplayLayout *displayLayout = [[SDLSetDisplayLayout alloc] initWithLayout:SDLPredefinedLayoutNonMedia];
-    [self.sdlManager sendRequest:displayLayout];
-
     [self sdlex_updateScreen];
-
     self.sdlManager.screenManager.softButtonObjects = [self sdlex_softButtons];
 }
 
@@ -127,26 +119,32 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setImagesEnabled:(BOOL)imagesEnabled {
     _imagesEnabled = imagesEnabled;
     [self sdlex_updateScreen];
-    [self setHexagonButtonIconEnabled:self.isHexagonEnabled imagesEnabled:imagesEnabled];
+    [self setToggleSoftButtonIcon:self.isHexagonEnabled imagesEnabled:imagesEnabled];
+    [self setAlertSoftButtonIcon];
 }
 
-- (void)setHexagonEnabled:(BOOL)hexagonEnabled {
-    _hexagonEnabled = hexagonEnabled;
-    [self setHexagonButtonIconEnabled:hexagonEnabled imagesEnabled:self.areImagesEnabled];
+- (void)setToggleEnabled:(BOOL)hexagonEnabled {
+    _toggleEnabled = hexagonEnabled;
+    [self setToggleSoftButtonIcon:hexagonEnabled imagesEnabled:self.areImagesEnabled];
 }
 
-- (void)setHexagonButtonIconEnabled:(BOOL)hexagonEnabled imagesEnabled:(BOOL)imagesEnabled {
-    SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:HexagonSoftButton];
-    imagesEnabled ? [object transitionToStateNamed:(hexagonEnabled ? HexagonSoftButtonImageOnState : HexagonSoftButtonImageOffState)] : [object transitionToStateNamed:(hexagonEnabled ? HexagonSoftButtonTextOnState : HexagonSoftButtonTextOffState)];
+- (void)setToggleSoftButtonIcon:(BOOL)toggleEnabled imagesEnabled:(BOOL)imagesEnabled {
+    SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:ToggleSoftButton];
+    imagesEnabled ? [object transitionToStateNamed:(toggleEnabled ? ToggleSoftButtonImageOnState : ToggleSoftButtonImageOffState)] : [object transitionToStateNamed:(toggleEnabled ? ToggleSoftButtonTextOnState : ToggleSoftButtonTextOffState)];
+}
+
+- (void)setAlertSoftButtonIcon {
+    SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:AlertSoftButton];
+    [object transitionToNextState];
 }
 
 - (void)sdlex_updateScreen {
     [self.sdlManager.screenManager beginUpdates];
     self.sdlManager.screenManager.textAlignment = SDLTextAlignmentLeft;
-    self.sdlManager.screenManager.textField1 = self.isTextEnabled ? @"SmartDeviceLink" : nil;
-    self.sdlManager.screenManager.textField2 = self.isTextEnabled ? @"Example App" : nil;
+    self.sdlManager.screenManager.textField1 = self.isTextEnabled ? SmartDeviceLinkText : nil;
+    self.sdlManager.screenManager.textField2 = self.isTextEnabled ? [NSString stringWithFormat:@"Obj-C %@", ExampleAppText] : nil;
 
-    self.sdlManager.screenManager.primaryGraphic = self.areImagesEnabled ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+    self.sdlManager.screenManager.primaryGraphic = self.areImagesEnabled ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:ExampleAppLogoName] asImageFormat:SDLArtworkImageFormatPNG] : nil;
 
     [self.sdlManager.screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
         NSLog(@"Updated text and graphics, error? %@", error);
@@ -178,12 +176,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
-    SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"AppIcon60x60@2x"] asImageFormat:SDLArtworkImageFormatPNG];
+    SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:ExampleAppLogoName] asImageFormat:SDLArtworkImageFormatPNG];
 
-    config.shortAppName = @"SDL Example";
+    config.shortAppName = ExampleAppNameShort;
     config.appIcon = appIconArt;
-    config.voiceRecognitionCommandNames = @[@"S D L Example"];
-    config.ttsName = [SDLTTSChunk textChunksFromString:config.shortAppName];
+    config.voiceRecognitionCommandNames = @[ExampleAppNameTTS];
+    config.ttsName = [SDLTTSChunk textChunksFromString:ExampleAppName];
     config.language = SDLLanguageEnUs;
     config.languagesSupported = @[SDLLanguageEnUs, SDLLanguageFrCa, SDLLanguageEsMx];
 
@@ -211,13 +209,11 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - RPC builders
 
 + (SDLAddCommand *)sdlex_speakNameCommandWithManager:(SDLManager *)manager {
-    NSString *commandName = @"Speak App Name";
-    
     SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] init];
-    commandMenuParams.menuName = commandName;
+    commandMenuParams.menuName = ACSpeakAppNameMenuName;
     
     SDLAddCommand *speakNameCommand = [[SDLAddCommand alloc] init];
-    speakNameCommand.vrCommands = @[commandName];
+    speakNameCommand.vrCommands = @[ACSpeakAppNameMenuName];
     speakNameCommand.menuParams = commandMenuParams;
     speakNameCommand.cmdID = @0;
     
@@ -229,13 +225,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLAddCommand *)sdlex_interactionSetCommandWithManager:(SDLManager *)manager {
-    NSString *commandName = @"Perform Interaction";
-    
     SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] init];
-    commandMenuParams.menuName = commandName;
+    commandMenuParams.menuName = ACShowChoiceSetMenuName;
     
     SDLAddCommand *performInteractionCommand = [[SDLAddCommand alloc] init];
-    performInteractionCommand.vrCommands = @[commandName];
+    performInteractionCommand.vrCommands = @[ACShowChoiceSetMenuName];
     performInteractionCommand.menuParams = commandMenuParams;
     performInteractionCommand.cmdID = @1;
     
@@ -250,10 +244,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SDLAddCommand *)sdlex_vehicleDataCommandWithManager:(SDLManager *)manager {
     SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] init];
-    commandMenuParams.menuName = @"Get Vehicle Data";
+    commandMenuParams.menuName = ACGetVehicleDataMenuName;
 
     SDLAddCommand *getVehicleDataCommand = [[SDLAddCommand alloc] init];
-    getVehicleDataCommand.vrCommands = [NSMutableArray arrayWithObject:@"Get Vehicle Data"];
+    getVehicleDataCommand.vrCommands = [NSMutableArray arrayWithObject:ACGetVehicleDataMenuName];
     getVehicleDataCommand.menuParams = commandMenuParams;
     getVehicleDataCommand.cmdID = @2;
 
@@ -266,21 +260,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SDLSpeak *)sdlex_appNameSpeak {
     SDLSpeak *speak = [[SDLSpeak alloc] init];
-    speak.ttsChunks = [SDLTTSChunk textChunksFromString:@"S D L Example App"];
+    speak.ttsChunks = [SDLTTSChunk textChunksFromString:ExampleAppNameTTS];
 
     return speak;
 }
 
 + (SDLSpeak *)sdlex_goodJobSpeak {
     SDLSpeak *speak = [[SDLSpeak alloc] init];
-    speak.ttsChunks = [SDLTTSChunk textChunksFromString:@"Good Job"];
+    speak.ttsChunks = [SDLTTSChunk textChunksFromString:TTSGoodJob];
     
     return speak;
 }
 
 + (SDLSpeak *)sdlex_youMissedItSpeak {
     SDLSpeak *speak = [[SDLSpeak alloc] init];
-    speak.ttsChunks = [SDLTTSChunk textChunksFromString:@"You missed it"];
+    speak.ttsChunks = [SDLTTSChunk textChunksFromString:TTSYouMissed];
 
     return speak;
 }
@@ -326,14 +320,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLSoftButtonObject *> *)sdlex_softButtons {
-    SDLSoftButtonState *starImageState = [[SDLSoftButtonState alloc] initWithStateName:StarSoftButtonImageState text:StarSoftButtonText image:[UIImage imageNamed:@"star_softbutton_icon"]];
-    SDLSoftButtonState *starTextState = [[SDLSoftButtonState alloc] initWithStateName:StarSoftButtonTextState text:StarSoftButtonText image:nil];
+    SDLSoftButtonState *alertImageAndTextState = [[SDLSoftButtonState alloc] initWithStateName:AlertSoftButtonImageState text:AlertSoftButtonText image:[UIImage imageNamed:CarIconImageName]];
+    SDLSoftButtonState *alertTextState = [[SDLSoftButtonState alloc] initWithStateName:AlertSoftButtonTextState text:AlertSoftButtonText image:nil];
 
     __weak typeof(self) weakself = self;
-    SDLSoftButtonObject *starButton = [[SDLSoftButtonObject alloc] initWithName:StarSoftButton states:@[starImageState, starTextState] initialStateName:starImageState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
-        if (buttonPress == nil) {
-            return;
-        }
+    SDLSoftButtonObject *alertSoftButton = [[SDLSoftButtonObject alloc] initWithName:AlertSoftButton states:@[alertImageAndTextState, alertTextState] initialStateName:alertImageAndTextState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+        if (buttonPress == nil) { return; }
 
         SDLAlert* alert = [[SDLAlert alloc] init];
         alert.alertText1 = @"You pushed the soft button!";
@@ -342,26 +334,24 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogD(@"Star icon soft button press fired");
     }];
 
-    SDLSoftButtonState *hexImageOnState = [[SDLSoftButtonState alloc] initWithStateName:HexagonSoftButtonImageOnState text:nil image:[UIImage imageNamed:HexagonOnImageName]];
-    SDLSoftButtonState *hexImageOffState = [[SDLSoftButtonState alloc] initWithStateName:HexagonSoftButtonImageOffState text:nil image:[UIImage imageNamed:HexagonOffImageName]];
-    SDLSoftButtonState *hexTextOnState = [[SDLSoftButtonState alloc] initWithStateName:HexagonSoftButtonTextOnState text:HexagonSoftButtonTextTextOnText image:nil];
-    SDLSoftButtonState *hexTextOffState = [[SDLSoftButtonState alloc] initWithStateName:HexagonSoftButtonTextOffState text:HexagonSoftButtonTextTextOffText image:nil];
-    SDLSoftButtonObject *hexButton = [[SDLSoftButtonObject alloc] initWithName:HexagonSoftButton states:@[hexImageOnState, hexImageOffState, hexTextOnState, hexTextOffState] initialStateName:hexImageOnState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    SDLSoftButtonState *toggleImageOnState = [[SDLSoftButtonState alloc] initWithStateName:ToggleSoftButtonImageOnState text:nil image:[UIImage imageNamed:WheelIconImageName]];
+    SDLSoftButtonState *toggleImageOffState = [[SDLSoftButtonState alloc] initWithStateName:ToggleSoftButtonImageOffState text:nil image:[UIImage imageNamed:LaptopIconImageName]];
+    SDLSoftButtonState *toggleTextOnState = [[SDLSoftButtonState alloc] initWithStateName:ToggleSoftButtonTextOnState text:ToggleSoftButtonTextTextOnText image:nil];
+    SDLSoftButtonState *toggleTextOffState = [[SDLSoftButtonState alloc] initWithStateName:ToggleSoftButtonTextOffState text:ToggleSoftButtonTextTextOffText image:nil];
+    SDLSoftButtonObject *toggleButton = [[SDLSoftButtonObject alloc] initWithName:ToggleSoftButton states:@[toggleImageOnState, toggleImageOffState, toggleTextOnState, toggleTextOffState] initialStateName:toggleImageOnState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
 
-        weakself.hexagonEnabled = !weakself.hexagonEnabled;
-        SDLLogD(@"Hexagon icon button press fired %d", self.hexagonEnabled);
+        weakself.toggleEnabled = !weakself.toggleEnabled;
+        SDLLogD(@"Toggle icon button press fired %d", self.toggleEnabled);
     }];
 
     SDLSoftButtonState *textOnState = [[SDLSoftButtonState alloc] initWithStateName:TextVisibleSoftButtonTextOnState text:TextVisibleSoftButtonTextOnText image:nil];
     SDLSoftButtonState *textOffState = [[SDLSoftButtonState alloc] initWithStateName:TextVisibleSoftButtonTextOffState text:TextVisibleSoftButtonTextOffText image:nil];
     SDLSoftButtonObject *textButton = [[SDLSoftButtonObject alloc] initWithName:TextVisibleSoftButton states:@[textOnState, textOffState] initialStateName:textOnState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
-        if (buttonPress == nil) {
-            return;
-        }
+        if (buttonPress == nil) { return; }
 
         weakself.textEnabled = !weakself.textEnabled;
-        SDLSoftButtonObject *object = [weakself.sdlManager.screenManager softButtonObjectNamed:@"TextButton"];
+        SDLSoftButtonObject *object = [weakself.sdlManager.screenManager softButtonObjectNamed:TextVisibleSoftButton];
         [object transitionToNextState];
 
         SDLLogD(@"Text visibility soft button press fired %d", weakself.textEnabled);
@@ -382,7 +372,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogD(@"Image visibility soft button press fired %d", weakself.imagesEnabled);
     }];
 
-    return @[starButton, hexButton, textButton, imagesButton];
+    return @[alertSoftButton, toggleButton, textButton, imagesButton];
 }
 
 + (void)sdlex_sendGetVehicleDataWithManager:(SDLManager *)manager {
@@ -405,8 +395,9 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - SDLManagerDelegate
 
 - (void)managerDidDisconnect {
-    // Reset our state
     [self sdlex_updateProxyState:ProxyStateStopped];
+
+    // Reset our state
     self.firstTimeState = SDLHMIFirstStateNone;
 
     if (ExampleAppShouldRestartSDLManagerOnDisconnect) {

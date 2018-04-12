@@ -13,14 +13,12 @@ class ProxyManager: NSObject {
     fileprivate var sdlManager: SDLManager!
     fileprivate var buttonManager: ButtonManager!
     fileprivate var firstHMILevelState: SDLHMILevelFirstState
-    fileprivate var isVehicleDataSubscribed: Bool
     weak var delegate: ProxyManagerDelegate?
 
     // Singleton
     static let sharedManager = ProxyManager()
     private override init() {
         firstHMILevelState = .none
-        isVehicleDataSubscribed = false
         super.init()
     }
 }
@@ -29,7 +27,6 @@ class ProxyManager: NSObject {
 
 extension ProxyManager {
     func start(with connectionType: SDLConnectionType) {
-        guard sdlManager == nil else { return }
         delegate?.didChangeProxyState(SDLProxyState.searching)
         sdlManager = SDLManager(configuration: connectionType == .iAP ? ProxyManager.connectIAP() : ProxyManager.connectTCP(), delegate: self)
         startManager()
@@ -40,7 +37,7 @@ extension ProxyManager {
     }
 }
 
-// MARK: - SDL Init
+// MARK: - SDL Configuration Helpers
 
 private extension ProxyManager {
     class func connectIAP() -> SDLConfiguration {
@@ -96,7 +93,6 @@ extension ProxyManager: SDLManagerDelegate {
     func managerDidDisconnect() {
         delegate?.didChangeProxyState(SDLProxyState.stopped)
         self.firstHMILevelState = .none
-        resetConnection()
 
         // Automatically start searching for a new connection to Core
         if ExampleAppShouldRestartSDLManagerOnDisconnect.boolValue {
@@ -203,7 +199,7 @@ private extension ProxyManager {
     }
 }
 
-// MARK: - SDL Remote Setup
+// MARK: - SDL Remote Initial Setup
 
 private extension ProxyManager {
     func setupPermissionsCallbacks(with manager: SDLManager) {

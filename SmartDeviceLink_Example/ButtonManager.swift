@@ -26,13 +26,14 @@ class ButtonManager: NSObject {
         didSet {
             guard let handler = updateScreenHandler else { return }
             handler()
-            updateSoftButtonHexagonIcon(isEnabled: hexagonEnabled, isImageEnabled: imagesEnabled, manager: sdlManager)
+            updateToggleSoftButtonIcon(isEnabled: toggleEnabled, isImageEnabled: imagesEnabled)
+            updateAlertSoftButtonIcon()
         }
     }
 
-    public fileprivate(set) var hexagonEnabled: Bool {
+    public fileprivate(set) var toggleEnabled: Bool {
         didSet {
-            updateSoftButtonHexagonIcon(isEnabled: hexagonEnabled, isImageEnabled: imagesEnabled, manager: sdlManager)
+            updateToggleSoftButtonIcon(isEnabled: toggleEnabled, isImageEnabled: imagesEnabled)
         }
     }
 
@@ -41,36 +42,36 @@ class ButtonManager: NSObject {
         self.updateScreenHandler = updateScreenHandler
         textEnabled = true
         imagesEnabled = true
-        hexagonEnabled = true
+        toggleEnabled = true
         super.init()
     }
 
     func screenSoftButtons(with manager: SDLManager) -> [SDLSoftButtonObject] {
-        return [softButtonStar(with: manager), softButtonHexagon(), softButtonTextVisible(), softButtonImagesVisible()]
+        return [softButtonAlert(with: manager), softButtonToggle(), softButtonTextVisible(), softButtonImagesVisible()]
     }
 }
 
 private extension ButtonManager {
-    func softButtonStar(with manager: SDLManager) -> SDLSoftButtonObject {
-        let imageSoftButtonState = SDLSoftButtonState(stateName: StarSoftButtonImageState, text: nil, image: UIImage(named: StarImageName))
-        let textSoftButtonState = SDLSoftButtonState(stateName: StarSoftButtonTextState, text: StarSoftButtonText, image: nil)
-        let softButton = SDLSoftButtonObject(name: StarSoftButton, states: [imageSoftButtonState, textSoftButtonState], initialStateName: imageSoftButtonState.name) { (buttonPress, buttonEvent) in
+    func softButtonAlert(with manager: SDLManager) -> SDLSoftButtonObject {
+        let imageSoftButtonState = SDLSoftButtonState(stateName: AlertSoftButtonImageState, text: nil, image: UIImage(named: CarIconImageName))
+        let textSoftButtonState = SDLSoftButtonState(stateName: AlertSoftButtonTextState, text: AlertSoftButtonText, image: nil)
+        let softButton = SDLSoftButtonObject(name: AlertSoftButton, states: [imageSoftButtonState, textSoftButtonState], initialStateName: imageSoftButtonState.name) { (buttonPress, buttonEvent) in
             guard buttonPress != nil else { return }
-            let alert = SDLAlert(alertText1: "You pressed the button", alertText2: nil, alertText3: nil)
+            let alert = AlertManager.alertWithMessageAndCloseButton("You pressed the button!")
             manager.send(alert)
         }
 
         return softButton
     }
 
-    func softButtonHexagon() -> SDLSoftButtonObject {
-        let imageOnState = SDLSoftButtonState(stateName: HexagonSoftButtonImageOnState, text: nil, image: UIImage(named: HexagonOnImageName))
-        let imageOffState = SDLSoftButtonState(stateName: HexagonSoftButtonImageOffState, text: nil, image: UIImage(named: HexagonOffImageName))
-        let textOnState = SDLSoftButtonState(stateName: HexagonSoftButtonTextOnState, text: HexagonSoftButtonTextTextOnText, image: nil)
-        let textOffState = SDLSoftButtonState(stateName: HexagonSoftButtonTextOffState, text: HexagonSoftButtonTextTextOffText, image: nil)
-        let softButton = SDLSoftButtonObject(name: HexagonSoftButton, states: [imageOnState, imageOffState, textOnState, textOffState], initialStateName: imageOnState.name) { [unowned self] (buttonPress, buttonEvent) in
+    func softButtonToggle() -> SDLSoftButtonObject {
+        let imageOnState = SDLSoftButtonState(stateName: ToggleSoftButtonImageOnState, text: nil, image: UIImage(named: WheelIconImageName))
+        let imageOffState = SDLSoftButtonState(stateName: ToggleSoftButtonImageOffState, text: nil, image: UIImage(named: LaptopIconImageName))
+        let textOnState = SDLSoftButtonState(stateName: ToggleSoftButtonTextOnState, text: ToggleSoftButtonTextTextOnText, image: nil)
+        let textOffState = SDLSoftButtonState(stateName: ToggleSoftButtonTextOffState, text: ToggleSoftButtonTextTextOffText, image: nil)
+        let softButton = SDLSoftButtonObject(name: ToggleSoftButton, states: [imageOnState, imageOffState, textOnState, textOffState], initialStateName: imageOnState.name) { [unowned self] (buttonPress, buttonEvent) in
             guard buttonPress != nil else { return }
-            self.hexagonEnabled = !self.hexagonEnabled
+            self.toggleEnabled = !self.toggleEnabled
         }
 
         return softButton
@@ -108,11 +109,16 @@ private extension ButtonManager {
         return softButton!
     }
 
-    func updateSoftButtonHexagonIcon(isEnabled: Bool, isImageEnabled: Bool, manager: SDLManager) {
-        let hexagonSoftButton = manager.screenManager.softButtonObjectNamed(HexagonSoftButton)
-        guard (isImageEnabled ? hexagonSoftButton?.transition(toState: isEnabled ? HexagonSoftButtonImageOnState : HexagonSoftButtonImageOffState) : hexagonSoftButton?.transition(toState: isEnabled ? HexagonSoftButtonTextOnState : HexagonSoftButtonTextOffState)) != nil else {
+    func updateToggleSoftButtonIcon(isEnabled: Bool, isImageEnabled: Bool) {
+        let hexagonSoftButton = sdlManager.screenManager.softButtonObjectNamed(ToggleSoftButton)
+        guard (isImageEnabled ? hexagonSoftButton?.transition(toState: isEnabled ? ToggleSoftButtonImageOnState : ToggleSoftButtonImageOffState) : hexagonSoftButton?.transition(toState: isEnabled ? ToggleSoftButtonTextOnState : ToggleSoftButtonTextOffState)) != nil else {
             print("The state for the hexagon soft button was not found")
             return
         }
+    }
+
+    func updateAlertSoftButtonIcon() {
+        let softButton = sdlManager.screenManager.softButtonObjectNamed(AlertSoftButton)
+        softButton?.transitionToNextState()
     }
 }

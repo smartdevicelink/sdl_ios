@@ -20,18 +20,18 @@ NSString * const SmartDeviceLinkText = @"SmartDeviceLink (SDL)";
 NSString * const ExampleAppText = @"Example App";
 
 #pragma mark - SDL Soft Buttons
-NSString * const HexagonSoftButton = @"HexagonSoftButton";
-NSString * const HexagonSoftButtonImageOnState = @"HexagonSoftButtonImageOnState";
-NSString * const HexagonSoftButtonImageOffState = @"HexagonSoftButtonImageOffState";
-NSString * const HexagonSoftButtonTextOnState = @"HexagonSoftButtonTextOnState";
-NSString * const HexagonSoftButtonTextOffState = @"HexagonSoftButtonTextOffState";
-NSString * const HexagonSoftButtonTextTextOnText = @"➖Hex";
-NSString * const HexagonSoftButtonTextTextOffText = @"➕Hex";
+NSString * const ToggleSoftButton = @"ToggleSoftButton";
+NSString * const ToggleSoftButtonImageOnState = @"ToggleSoftButtonImageOnState";
+NSString * const ToggleSoftButtonImageOffState = @"ToggleSoftButtonImageOffState";
+NSString * const ToggleSoftButtonTextOnState = @"ToggleSoftButtonTextOnState";
+NSString * const ToggleSoftButtonTextOffState = @"ToggleSoftButtonTextOffState";
+NSString * const ToggleSoftButtonTextTextOnText = @"➖";
+NSString * const ToggleSoftButtonTextTextOffText = @"➕";
 
-NSString * const StarSoftButton = @"StarSoftButton";
-NSString * const StarSoftButtonImageState = @"StarSoftButtonImageState";
-NSString * const StarSoftButtonTextState = @"StarSoftButtonTextState";
-NSString * const StarSoftButtonText = @"Press";
+NSString * const AlertSoftButton = @"AlertSoftButton";
+NSString * const AlertSoftButtonImageState = @"AlertSoftButtonImageState";
+NSString * const AlertSoftButtonTextState = @"AlertSoftButtonTextState";
+NSString * const AlertSoftButtonText = @"Tap Me";
 
 NSString * const TextVisibleSoftButton = @"TextVisibleSoftButton";
 NSString * const TextVisibleSoftButtonTextOnState = @"TextVisibleSoftButtonTextOnState";
@@ -65,9 +65,9 @@ NSString * const ACGetVehicleDataMenuName = @"Get Vehicle Data";
 
 #pragma mark - SDL Image Names
 NSString * const ExampleAppLogoName = @"sdl_logo_green";
-NSString * const StarImageName = @"star_softbutton_icon";
-NSString * const HexagonOffImageName = @"hexagon_off_softbutton_icon";
-NSString * const HexagonOnImageName = @"hexagon_on_softbutton_icon";
+NSString * const CarIconImageName = @"car_icon";
+NSString * const LaptopIconImageName = @"laptop_icon";
+NSString * const WheelIconImageName = @"wheel_icon";
 
 #pragma mark - SDL App Name in Different Languages
 NSString * const ExampleAppNameSpanish = @"SDL Aplicación de ejemplo";

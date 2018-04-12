@@ -22,18 +22,18 @@ extern NSString * const SmartDeviceLinkText;
 extern NSString * const ExampleAppText;
 
 #pragma mark - SDL Soft Buttons
-extern NSString * const HexagonSoftButton;
-extern NSString * const HexagonSoftButtonImageOnState;
-extern NSString * const HexagonSoftButtonImageOffState;
-extern NSString * const HexagonSoftButtonTextOnState;
-extern NSString * const HexagonSoftButtonTextOffState;
-extern NSString * const HexagonSoftButtonTextTextOnText;
-extern NSString * const HexagonSoftButtonTextTextOffText;
+extern NSString * const ToggleSoftButton;
+extern NSString * const ToggleSoftButtonImageOnState;
+extern NSString * const ToggleSoftButtonImageOffState;
+extern NSString * const ToggleSoftButtonTextOnState;
+extern NSString * const ToggleSoftButtonTextOffState;
+extern NSString * const ToggleSoftButtonTextTextOnText;
+extern NSString * const ToggleSoftButtonTextTextOffText;
 
-extern NSString * const StarSoftButton;
-extern NSString * const StarSoftButtonImageState;
-extern NSString * const StarSoftButtonTextState;
-extern NSString * const StarSoftButtonText;
+extern NSString * const AlertSoftButton;
+extern NSString * const AlertSoftButtonImageState;
+extern NSString * const AlertSoftButtonTextState;
+extern NSString * const AlertSoftButtonText;
 
 extern NSString * const TextVisibleSoftButton;
 extern NSString * const TextVisibleSoftButtonTextOnState;
@@ -67,9 +67,9 @@ extern NSString * const ACGetVehicleDataMenuName;
 
 #pragma mark - SDL Image Names
 extern NSString * const ExampleAppLogoName;
-extern NSString * const StarImageName;
-extern NSString * const HexagonOffImageName;
-extern NSString * const HexagonOnImageName;
+extern NSString * const CarIconImageName;
+extern NSString * const LaptopIconImageName;
+extern NSString * const WheelIconImageName;
 
 #pragma mark - SDL App Name in Different Languages
 extern NSString * const ExampleAppNameSpanish;
