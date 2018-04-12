@@ -8,6 +8,8 @@
 
 #import "SDLMenuCell.h"
 
+#import "SDLArtwork.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLMenuCell()
@@ -42,6 +44,10 @@ NS_ASSUME_NONNULL_BEGIN
     _subCells = subCells;
 
     return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"SDLMenuCell: %u-\"%@\", artworkName: %@, voice commands: %lu, isSubcell: %@, hasSubcells: %@", (unsigned int)_cellId, _title, _icon.name, _voiceCommands.count, (_parentCellId != UINT32_MAX ? @"YES" : @"NO"), (_subCells.count > 0 ? @"YES" : @"NO")];
 }
 
 @end

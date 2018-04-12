@@ -219,60 +219,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - RPC builders
 
-+ (SDLAddCommand *)sdlex_speakNameCommandWithManager:(SDLManager *)manager {
-    NSString *commandName = @"Speak App Name";
-    
-    SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] init];
-    commandMenuParams.menuName = commandName;
-    
-    SDLAddCommand *speakNameCommand = [[SDLAddCommand alloc] init];
-    speakNameCommand.vrCommands = @[commandName];
-    speakNameCommand.menuParams = commandMenuParams;
-    speakNameCommand.cmdID = @0;
-    
-    speakNameCommand.handler = ^void(SDLOnCommand *notification) {
-        [manager sendRequest:[self.class sdlex_appNameSpeak]];
-    };
-    
-    return speakNameCommand;
-}
-
-+ (SDLAddCommand *)sdlex_interactionSetCommandWithManager:(SDLManager *)manager {
-    NSString *commandName = @"Perform Interaction";
-    
-    SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] init];
-    commandMenuParams.menuName = commandName;
-    
-    SDLAddCommand *performInteractionCommand = [[SDLAddCommand alloc] init];
-    performInteractionCommand.vrCommands = @[commandName];
-    performInteractionCommand.menuParams = commandMenuParams;
-    performInteractionCommand.cmdID = @1;
-    
-    // NOTE: You may want to preload your interaction sets, because they can take a while for the remote system to process. We're going to ignore our own advice here.
-    __weak typeof(self) weakSelf = self;
-    performInteractionCommand.handler = ^void(SDLOnCommand *notification) {
-        [weakSelf sdlex_sendPerformOnlyChoiceInteractionWithManager:manager];
-    };
-    
-    return performInteractionCommand;
-}
-
-+ (SDLAddCommand *)sdlex_vehicleDataCommandWithManager:(SDLManager *)manager {
-    SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] init];
-    commandMenuParams.menuName = @"Get Vehicle Data";
-
-    SDLAddCommand *getVehicleDataCommand = [[SDLAddCommand alloc] init];
-    getVehicleDataCommand.vrCommands = [NSMutableArray arrayWithObject:@"Get Vehicle Data"];
-    getVehicleDataCommand.menuParams = commandMenuParams;
-    getVehicleDataCommand.cmdID = @2;
-
-    getVehicleDataCommand.handler = ^void(SDLOnCommand *notification) {
-        [ProxyManager sdlex_sendGetVehicleDataWithManager:manager];
-    };
-
-    return getVehicleDataCommand;
-}
-
 + (SDLSpeak *)sdlex_appNameSpeak {
     SDLSpeak *speak = [[SDLSpeak alloc] init];
     speak.ttsChunks = [SDLTTSChunk textChunksFromString:@"S D L Example App"];
@@ -403,11 +349,20 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdlex_prepareRemoteSystem {
-    [self.sdlManager sendRequests:@[[self.class sdlex_speakNameCommandWithManager:self.sdlManager], [self.class sdlex_interactionSetCommandWithManager:self.sdlManager], [self.class sdlex_vehicleDataCommandWithManager:self.sdlManager], [self.class sdlex_createOnlyChoiceInteractionSet]]
-                  progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
-                      NSLog(@"Commands sent updated, percent complete %f%%", percentComplete * 100);
-    }
-                completionHandler:nil];
+    __weak typeof(self) weakself = self;
+    SDLMenuCell *speakCell = [[SDLMenuCell alloc] initWithTitle:@"Speak" icon:nil voiceCommands:@[@"Speak"] handler:^{
+        [weakself.sdlManager sendRequest:[ProxyManager sdlex_appNameSpeak]];
+    }];
+
+    SDLMenuCell *interactionSetCell = [[SDLMenuCell alloc] initWithTitle:@"Perform Interaction" icon:nil voiceCommands:@[@"Perform Interaction"] handler:^{
+        [ProxyManager sdlex_sendPerformOnlyChoiceInteractionWithManager:weakself.sdlManager];
+    }];
+
+    SDLMenuCell *getVehicleDataCell = [[SDLMenuCell alloc] initWithTitle:@"Get Vehicle Data" icon:nil voiceCommands:@[@"Get Vehicle Data"] handler:^{
+        [ProxyManager sdlex_sendGetVehicleDataWithManager:weakself.sdlManager];
+    }];
+
+    self.sdlManager.screenManager.menu = @[speakCell, interactionSetCell, getVehicleDataCell];
 }
 
 

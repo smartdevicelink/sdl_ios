@@ -362,7 +362,7 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
 
     SDLMenuParams *params = [[SDLMenuParams alloc] init];
     params.menuName = cell.title;
-    params.parentID = @(cell.parentCellId);
+    params.parentID = cell.parentCellId != UINT32_MAX ? @(cell.parentCellId) : nil;
 
     command.menuParams = params;
     command.vrCommands = cell.voiceCommands;

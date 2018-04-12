@@ -28,6 +28,10 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"SDLVoiceCommand: %u-\"%@\", voice commands: %lu", (unsigned int)_commandId, _voiceCommands.firstObject, _voiceCommands.count];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
