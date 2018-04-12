@@ -46,7 +46,6 @@ class ButtonManager: NSObject {
     }
 
     func screenSoftButtons(with manager: SDLManager) -> [SDLSoftButtonObject] {
-//        return [softButtonStar(with: manager), softButtonHexagon()]
         return [softButtonStar(with: manager), softButtonHexagon(), softButtonTextVisible(), softButtonImagesVisible()]
     }
 }

@@ -10,13 +10,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#pragma mark - SDL Setup
+#pragma mark - SDL Configuration
 extern NSString * const ExampleAppName;
 extern NSString * const ExampleAppNameShort;
 extern NSString * const ExampleAppNameTTS;
 extern NSString * const ExampleAppId;
+extern BOOL const ExampleAppShouldRestartSDLManagerOnDisconnect;
 
-#pragma mark - Text
+#pragma mark - SDL Textfields
 extern NSString * const SmartDeviceLinkText;
 extern NSString * const ExampleAppText;
 
@@ -69,6 +70,10 @@ extern NSString * const ExampleAppLogoName;
 extern NSString * const StarImageName;
 extern NSString * const HexagonOffImageName;
 extern NSString * const HexagonOnImageName;
+
+#pragma mark - SDL App Name in Different Languages
+extern NSString * const ExampleAppNameSpanish;
+extern NSString * const ExampleAppNameFrench;
 
 @interface AppConstants : NSObject
 

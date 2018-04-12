@@ -8,13 +8,14 @@
 
 #import "AppConstants.h"
 
-#pragma mark - SDL Setup
+#pragma mark - SDL Configuration
 NSString * const ExampleAppName = @"SDL Example App";
 NSString * const ExampleAppNameShort = @"SDL";
 NSString * const ExampleAppNameTTS = @"S D L Example App";
 NSString * const ExampleAppId = @"9c21";
+BOOL const ExampleAppShouldRestartSDLManagerOnDisconnect = YES;
 
-#pragma mark - Text
+#pragma mark - SDL Textfields
 NSString * const SmartDeviceLinkText = @"SmartDeviceLink (SDL)";
 NSString * const ExampleAppText = @"Example App";
 
@@ -67,6 +68,10 @@ NSString * const ExampleAppLogoName = @"sdl_logo_green";
 NSString * const StarImageName = @"star_softbutton_icon";
 NSString * const HexagonOffImageName = @"hexagon_off_softbutton_icon";
 NSString * const HexagonOnImageName = @"hexagon_on_softbutton_icon";
+
+#pragma mark - SDL App Name in Different Languages
+NSString * const ExampleAppNameSpanish = @"SDL Aplicación de ejemplo";
+NSString * const ExampleAppNameFrench = @"SDL Exemple App";
 
 @implementation AppConstants
 

@@ -88,8 +88,7 @@ private extension MenuManager {
 
     class func addCommandGetVehicleData(with manager: SDLManager) -> SDLAddCommand {
         return SDLAddCommand(id: 201, vrCommands: [ACGetVehicleDataMenuName], menuName: ACGetVehicleDataMenuName, handler: { (onCommand) in
-            // TODO
-            print("Get us some vehicle data someday")
+            ProxyManager.sendGetVehicleData(with: manager)
         })
     }
 

@@ -8,13 +8,10 @@
 import UIKit
 import SmartDeviceLink
 
-protocol ProxyManagerDelegate: class {
-    func didChangeProxyState(_ newState: SDLProxyState)
-}
 
 class ProxyManager: NSObject {
-    fileprivate var sdlManager: SDLManager?
-    fileprivate var buttonManager: ButtonManager?
+    fileprivate var sdlManager: SDLManager!
+    fileprivate var buttonManager: ButtonManager!
     fileprivate var firstHMILevelState: SDLHMILevelFirstState
     fileprivate var isVehicleDataSubscribed: Bool
     weak var delegate: ProxyManagerDelegate?
@@ -28,27 +25,17 @@ class ProxyManager: NSObject {
     }
 }
 
-// MARK: - SDL Connection
+// MARK: - SDL Configuration
 
 extension ProxyManager {
     func start(with connectionType: SDLConnectionType) {
         delegate?.didChangeProxyState(SDLProxyState.searching)
         sdlManager = SDLManager(configuration: connectionType == .iAP ? ProxyManager.connectIAP() : ProxyManager.connectTCP(), delegate: self)
-
-        guard let sdlManager = sdlManager else {
-            resetConnection()
-            return
-        }
-        startManager(sdlManager)
+        startManager()
     }
 
     func resetConnection() {
-        delegate?.didChangeProxyState(SDLProxyState.stopped)
-
-        guard sdlManager != nil else { return }
-        sdlManager?.stop()
-        sdlManager = nil
-        buttonManager = nil
+        sdlManager.stop()
     }
 }
 
@@ -82,8 +69,8 @@ private extension ProxyManager {
         return logConfig
     }
 
-    func startManager(_ manager: SDLManager) {
-        manager.start(readyHandler: { [unowned self] (success, error) in
+    func startManager() {
+        sdlManager.start(readyHandler: { [unowned self] (success, error) in
             guard success else {
                 print("There was an error while starting up: \(String(describing: error))")
                 self.resetConnection()
@@ -94,10 +81,10 @@ private extension ProxyManager {
             self.delegate?.didChangeProxyState(SDLProxyState.connected)
 
             // Do some setup
-            self.buttonManager = ButtonManager(sdlManager: manager, updateScreenHandler: self.updateScreenHandler)
-            self.setupPermissionsCallbacks()
+            self.buttonManager = ButtonManager(sdlManager: self.sdlManager, updateScreenHandler: self.updateScreenHandler)
+            self.setupPermissionsCallbacks(with: self.sdlManager)
 
-            print("SDL file manager storage: \(self.sdlManager!.fileManager.bytesAvailable / 1024 / 1024) mb")
+            print("SDL file manager storage: \(self.sdlManager.fileManager.bytesAvailable / 1024 / 1024) mb")
         })
     }
 }
@@ -107,6 +94,13 @@ private extension ProxyManager {
 extension ProxyManager: SDLManagerDelegate {
     func managerDidDisconnect() {
         delegate?.didChangeProxyState(SDLProxyState.stopped)
+        self.firstHMILevelState = .none
+        resetConnection()
+
+        // Automatically start searching for a new connection to Core
+        if ExampleAppShouldRestartSDLManagerOnDisconnect.boolValue {
+            startManager()
+        }
     }
 
     func hmiLevel(_ oldLevel: SDLHMILevel, didChangeToLevel newLevel: SDLHMILevel) {
@@ -115,7 +109,7 @@ extension ProxyManager: SDLManagerDelegate {
             firstHMILevelState = .nonNone
 
             // Send AddCommands
-            prepareRemoteSystem(sdlManager!)
+            prepareRemoteSystem()
         }
 
         if newLevel == .full && firstHMILevelState != .full {
@@ -135,7 +129,7 @@ extension ProxyManager: SDLManagerDelegate {
         print("Waiting 10 seconds to send the CICS")
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 10.0) {
             print("Sending the CICS")
-            self.sdlManager?.send(MenuManager.createChoiceSets(), progressHandler: { (request, response, error, progress) in
+            self.sdlManager.send(MenuManager.createChoiceSets(), progressHandler: { (request, response, error, progress) in
                 print("Create Interaction Choice Set RPC sent, Response: \(response?.resultCode == .success ? "successful" : "not successful"), Percent Complete: \(progress), Error: \(String(describing: error?.localizedDescription))")
             }, completionHandler: { (success) in
                 print("All Create Interaction Choice Set RPCs send successfully: \(success ? "YES" : "NO")")
@@ -160,10 +154,11 @@ extension ProxyManager: SDLManagerDelegate {
         case .enUs:
             appName = ExampleAppName
         case .esMx:
-            appName = ExampleAppName
+            appName = ExampleAppNameSpanish
         case .frCa:
-            appName = ExampleAppName
+            appName = ExampleAppNameFrench
         default:
+            // App does not support the head-unit's language
             return nil
         }
 
@@ -181,22 +176,26 @@ private extension ProxyManager {
     }
 
     func showInitialData() {
-        let template = SDLSetDisplayLayout(predefinedLayout: .nonMedia)
-        sdlManager?.send(request: template, responseHandler: { [weak self] (_, response, _) in
-            guard response?.resultCode == .success else { return }
-        })
+        let nonMediaTemplate = SDLSetDisplayLayout(predefinedLayout: .nonMedia)
+        if sdlManager.registerResponse?.displayCapabilities?.templatesAvailable?.contains(nonMediaTemplate.displayLayout) ?? false {
+            sdlManager.send(request: nonMediaTemplate, responseHandler: nil)
+        }
 
         updateScreen()
-        sdlManager?.screenManager.softButtonObjects = buttonManager!.screenSoftButtons(with: sdlManager!)
+        sdlManager.screenManager.softButtonObjects = buttonManager.screenSoftButtons(with: sdlManager)
     }
 
     func updateScreen() {
-        guard let screenManager = sdlManager?.screenManager, sdlManager?.hmiLevel == .full, let textEnabled = buttonManager?.textEnabled, let imagesEnabled = buttonManager?.imagesEnabled else { return }
+        guard sdlManager.hmiLevel == .full else { return }
+        let screenManager = sdlManager.screenManager
+        let isTextVisible = buttonManager.textEnabled
+        let areImagesVisible = buttonManager.imagesEnabled
+
         screenManager.beginUpdates()
         screenManager.textAlignment = .left
-        screenManager.textField1 = textEnabled ? SmartDeviceLinkText : nil
-        screenManager.textField2 = textEnabled ? "Swift \(ExampleAppText)" : nil
-        screenManager.primaryGraphic = imagesEnabled ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!, persistent: false, as: .PNG) : nil
+        screenManager.textField1 = isTextVisible ? SmartDeviceLinkText : nil
+        screenManager.textField2 = isTextVisible ? "Swift \(ExampleAppText)" : nil
+        screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!, persistent: false, as: .PNG) : nil
         screenManager.endUpdates(completionHandler: { (error) in
             print("Updated text and graphics. Error? \(String(describing: error))")
         })
@@ -206,20 +205,20 @@ private extension ProxyManager {
 // MARK: - SDL Remote Setup
 
 private extension ProxyManager {
-    func setupPermissionsCallbacks() {
+    func setupPermissionsCallbacks(with manager: SDLManager) {
         // Gets the current permissions for a single RPC
-        let isShowRPCAvailable = sdlManager?.permissionManager.isRPCAllowed("Show")
+        let isShowRPCAvailable = manager.permissionManager.isRPCAllowed("Show")
         print("Show RPC allowed? \(String(describing: isShowRPCAvailable))")
 
         // Get the current permissions of a group of RPCs
         let rpcGroup = ["AddCommand", "PerformInteraction"]
-        let commandPICSStatus = sdlManager?.permissionManager.groupStatus(ofRPCs: rpcGroup)
-        let commandPICSStatusDict = sdlManager?.permissionManager.status(ofRPCs: rpcGroup)
+        let commandPICSStatus = manager.permissionManager.groupStatus(ofRPCs: rpcGroup)
+        let commandPICSStatusDict = manager.permissionManager.status(ofRPCs: rpcGroup)
         print("The group status for \(rpcGroup) is: \(String(describing: commandPICSStatus)). The status for each RPC in the group is: \(String(describing: commandPICSStatusDict))")
 
         // Sets up a block for observing permission changes for a group of RPCs. Since the `groupType` is set to `SDLPermissionGroupTypeAllAllowed`, this block is called when the group permissions changes from all allowed to all not allowed. This block is called immediately when created.
         let observedRPCGroup = ["Show", "Alert"]
-        let permissionAllAllowedObserverId = self.sdlManager?.permissionManager.addObserver(forRPCs: observedRPCGroup, groupType: .allAllowed, withHandler: { (individualStatuses, groupStatus) in
+        let permissionAllAllowedObserverId = manager.permissionManager.addObserver(forRPCs: observedRPCGroup, groupType: .allAllowed, withHandler: { (individualStatuses, groupStatus) in
             print("The group status for \(observedRPCGroup) has changed to: \(groupStatus)")
             for (rpcName, rpcAllowed) in individualStatuses {
                 print("\(rpcName as String) allowed? \(rpcAllowed.boolValue ? "yes" : "no")")
@@ -227,10 +226,10 @@ private extension ProxyManager {
         })
 
         // To stop observing permissions changes for a group of RPCs, remove the observer.
-        sdlManager?.permissionManager.removeObserver(forIdentifier: permissionAllAllowedObserverId!)
+        manager.permissionManager.removeObserver(forIdentifier: permissionAllAllowedObserverId)
 
         // Sets up a block for observing permission changes for a group of RPCs. Since the `groupType` is set to `SDLPermissionGroupTypeAllAny`, this block is called when the permission status changes for any of the RPCs being observed. This block is called immediately when created.
-        let _ = sdlManager?.permissionManager.addObserver(forRPCs: observedRPCGroup, groupType: .any, withHandler: { (individualStatuses, groupStatus) in
+        let _ = manager.permissionManager.addObserver(forRPCs: observedRPCGroup, groupType: .any, withHandler: { (individualStatuses, groupStatus) in
             print("The group status for \(observedRPCGroup) has changed to: \(groupStatus)")
             for (rpcName, rpcAllowed) in individualStatuses {
                 print("\(rpcName as String) allowed? \(rpcAllowed.boolValue ? "yes" : "no")")
@@ -238,14 +237,56 @@ private extension ProxyManager {
         })
 
         // To stop observing permissions changes for a group of RPCs, remove the observer.
-        // sdlManager?.permissionManager.removeObserver(forIdentifier: permissionAnyObserverId!)
+        // manager.permissionManager.removeObserver(forIdentifier: permissionAnyObserverId!)
     }
 
-    func prepareRemoteSystem(_ manager: SDLManager) {
-        sdlManager?.send(MenuManager.allAddCommands(with: manager) + [MenuManager.createInteractionChoiceSet()], progressHandler: { (request, response, error, percentComplete) in
+    func printRPCPermissions(rpcs: [String], groupPermissionStatus: SDLPermissionGroupType, individualPermissionStatuses: [String:Bool]) {
+        print("The group status for \(rpcs) has changed to: \(groupPermissionStatus)")
+        for (rpcName, rpcAllowed) in individualPermissionStatuses {
+            print("\(rpcName as String) allowed? \(rpcAllowed ? "yes" : "no")")
+        }
+    }
+
+    func prepareRemoteSystem() {
+        sdlManager.send(MenuManager.allAddCommands(with: sdlManager) + [MenuManager.createInteractionChoiceSet()], progressHandler: { (request, response, error, percentComplete) in
             print("\(request), was sent \(response?.resultCode == .success ? "successfully" : "unsuccessfully"), error: \(error != nil ? error!.localizedDescription : "no error")")
         }, completionHandler: { (success) in
             print("All prepare remote system requests sent \(success ? "successfully" : "unsuccessfully")")
         })
+    }
+}
+
+extension ProxyManager {
+    class func sendGetVehicleData(with manager: SDLManager) {
+        guard manager.permissionManager.isRPCAllowed("GetVehicleData") else {
+            let warningAlert = AlertManager.alertWithMessageAndCloseButton("This app does not have the required permissions to access vehicle data")
+            manager.send(request: warningAlert)
+            return
+        }
+
+        let getVehicleData = SDLGetVehicleData(accelerationPedalPosition: true, airbagStatus: true, beltStatus: true, bodyInformation: true, clusterModeStatus: true, deviceStatus: true, driverBraking: true, eCallInfo: true, emergencyEvent: true, engineTorque: true, externalTemperature: true, fuelLevel: true, fuelLevelState: true, gps: true, headLampStatus: true, instantFuelConsumption: true, myKey: true, odometer: true, prndl: true, rpm: true, speed: true, steeringWheelAngle: true, tirePressure: true, vin: true, wiperStatus: true)
+
+        manager.send(request: getVehicleData) { (request, response, error) in
+            guard let response = response, error == nil else { return }
+
+            var alertMessage = ""
+            switch response.resultCode {
+            case .rejected:
+                alertMessage = "The request for vehicle data was rejected by Core."
+            case .disallowed:
+                alertMessage = "The app is not allowed to access vehicle data"
+            case .success:
+                alertMessage = "Vehicle data returned successfully"
+            default: break
+            }
+
+            let alert = AlertManager.alertWithMessageAndCloseButton(alertMessage)
+            manager.send(request: alert)
+
+            // TODO create a PICS
+            guard let getVehicleDataResponse = response as? SDLGetVehicleDataResponse else { return }
+            let prndl = getVehicleDataResponse.prndl
+            print("prndl: \(String(describing: prndl))")
+        }
     }
 }

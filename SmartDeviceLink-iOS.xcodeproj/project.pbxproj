@@ -1079,6 +1079,8 @@
 		88B848C31F45E1A600DED768 /* TestResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B848C21F45E1A600DED768 /* TestResponse.m */; };
 		88B848C91F462E3600DED768 /* TestFileProgressResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B848C81F462E3600DED768 /* TestFileProgressResponse.m */; };
 		88D2AAE41F682BB20078D5B2 /* SDLLogConstantsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */; };
+		88DFB053207F8E100079D19D /* Protocol+ProxyManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DFB051207F8DF50079D19D /* Protocol+ProxyManagerDelegate.swift */; };
+		88DFB055207F96EE0079D19D /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DFB054207F96EE0079D19D /* AlertManager.swift */; };
 		88EED8381F33AE1700E6C42E /* SDLHapticRect.h in Headers */ = {isa = PBXBuildFile; fileRef = 88EED8361F33AE1700E6C42E /* SDLHapticRect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88EED8391F33AE1700E6C42E /* SDLHapticRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EED8371F33AE1700E6C42E /* SDLHapticRect.m */; };
 		88EED83B1F33BECB00E6C42E /* SDLHapticRectSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EED83A1F33BECB00E6C42E /* SDLHapticRectSpec.m */; };
@@ -2379,6 +2381,8 @@
 		88B848C71F462E3600DED768 /* TestFileProgressResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFileProgressResponse.h; sourceTree = "<group>"; };
 		88B848C81F462E3600DED768 /* TestFileProgressResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestFileProgressResponse.m; sourceTree = "<group>"; };
 		88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLogConstantsSpec.m; sourceTree = "<group>"; };
+		88DFB051207F8DF50079D19D /* Protocol+ProxyManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Protocol+ProxyManagerDelegate.swift"; sourceTree = "<group>"; };
+		88DFB054207F96EE0079D19D /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		88EED8361F33AE1700E6C42E /* SDLHapticRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLHapticRect.h; sourceTree = "<group>"; };
 		88EED8371F33AE1700E6C42E /* SDLHapticRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHapticRect.m; sourceTree = "<group>"; };
 		88EED83A1F33BECB00E6C42E /* SDLHapticRectSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHapticRectSpec.m; sourceTree = "<group>"; };
@@ -4743,6 +4747,7 @@
 				88166AFF207E41E900076236 /* MenuManager.swift */,
 				888D178D207E7F0E008E9F8F /* ButtonManager.swift */,
 				88166AFD207E3D0E00076236 /* AudioManager.swift */,
+				88DFB054207F96EE0079D19D /* AlertManager.swift */,
 			);
 			name = SDL;
 			sourceTree = "<group>";
@@ -4776,6 +4781,7 @@
 				885D259A207D107A00BD6EE7 /* Enum+SDLProxyState.swift */,
 				885D259D207D144E00BD6EE7 /* Enum+SDLHMILevelFirstState.swift */,
 				8863B59E207D4308002D6459 /* Enum+SDLConnectionType.swift */,
+				88DFB051207F8DF50079D19D /* Protocol+ProxyManagerDelegate.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -6293,9 +6299,11 @@
 			files = (
 				88A0AA5C207CFE740075132C /* ConnectionContainerViewController.swift in Sources */,
 				8863B59F207D4308002D6459 /* Enum+SDLConnectionType.swift in Sources */,
+				88DFB055207F96EE0079D19D /* AlertManager.swift in Sources */,
 				888D178F207E7F42008E9F8F /* ButtonManager.swift in Sources */,
 				88A0AA5E207CFE740075132C /* ConnectionTCPTableViewController.swift in Sources */,
 				885D259C207D111200BD6EE7 /* Enum+SDLProxyState.swift in Sources */,
+				88DFB053207F8E100079D19D /* Protocol+ProxyManagerDelegate.swift in Sources */,
 				8829569E207CFD0E00EF056C /* AppDelegate.swift in Sources */,
 				885D259F207D158300BD6EE7 /* Enum+SDLHMILevelFirstState.swift in Sources */,
 				88A0AA58207CFE650075132C /* ProxyManager.swift in Sources */,
