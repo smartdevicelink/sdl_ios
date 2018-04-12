@@ -348,11 +348,11 @@
 		5D293AFE1FE078A9000CBD7E /* SDLCarWindowViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D293AFC1FE078A9000CBD7E /* SDLCarWindowViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D293AFF1FE078A9000CBD7E /* SDLCarWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D293AFD1FE078A9000CBD7E /* SDLCarWindowViewController.m */; };
 		5D2F58081D0717D5001085CE /* SDLManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D339CEA207C066E000CC364 /* SDLMenuCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D339CE8207C066E000CC364 /* SDLMenuCell.h */; };
+		5D339CEA207C066E000CC364 /* SDLMenuCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D339CE8207C066E000CC364 /* SDLMenuCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D339CEB207C066E000CC364 /* SDLMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D339CE9207C066E000CC364 /* SDLMenuCell.m */; };
-		5D339CEF207C08BA000CC364 /* SDLVoiceCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D339CED207C08BA000CC364 /* SDLVoiceCommand.h */; };
+		5D339CEF207C08BA000CC364 /* SDLVoiceCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D339CED207C08BA000CC364 /* SDLVoiceCommand.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D339CF0207C08BA000CC364 /* SDLVoiceCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D339CEE207C08BA000CC364 /* SDLVoiceCommand.m */; };
-		5D339CF3207C0ACE000CC364 /* SDLMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D339CF1207C0ACE000CC364 /* SDLMenuManager.h */; };
+		5D339CF3207C0ACE000CC364 /* SDLMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D339CF1207C0ACE000CC364 /* SDLMenuManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D339CF4207C0ACE000CC364 /* SDLMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D339CF2207C0ACE000CC364 /* SDLMenuManager.m */; };
 		5D3E48751D6F3B330000BFEF /* SDLAsynchronousOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E48731D6F3B330000BFEF /* SDLAsynchronousOperation.h */; };
 		5D3E48761D6F3B330000BFEF /* SDLAsynchronousOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E48741D6F3B330000BFEF /* SDLAsynchronousOperation.m */; };

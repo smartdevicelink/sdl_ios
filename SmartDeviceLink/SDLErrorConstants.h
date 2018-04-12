@@ -95,3 +95,7 @@ typedef NS_ENUM(NSInteger, SDLTextAndGraphicManagerError) {
 typedef NS_ENUM(NSInteger, SDLSoftButtonManagerError) {
     SDLSoftButtonManagerErrorPendingUpdateSuperseded = -1
 };
+
+typedef NS_ENUM(NSInteger, SDLMenuManagerError) {
+    SDLMenuManagerErrorRPCsFailed = -1
+};
