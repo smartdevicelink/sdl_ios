@@ -62,7 +62,10 @@ private extension ProxyManager {
     }
 
     class func logConfiguration() -> SDLLogConfiguration {
-        let logConfig = SDLLogConfiguration.debug()
+        let logConfig = SDLLogConfiguration.default()
+        let exampleLogFileModule = SDLLogFileModule(name: "SDL Example", files: ["ProxyManager"])
+        logConfig.modules = logConfig.modules.union([exampleLogFileModule])
+        logConfig.targets = NSSet(array: [SDLLogTargetFile.logger()]) as! Set<AnyHashable>
         logConfig.globalLogLevel = .debug
         return logConfig
     }
@@ -113,7 +116,7 @@ extension ProxyManager: SDLManagerDelegate {
             // This is our first time in a FULL state
             firstHMILevelState = .full
 
-            // manticoreTest()
+             manticoreTest()
         }
 
         if newLevel == .full {
