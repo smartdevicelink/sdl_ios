@@ -29,6 +29,7 @@ class ProxyManager: NSObject {
 
 extension ProxyManager {
     func start(with connectionType: SDLConnectionType) {
+        guard sdlManager == nil else { return }
         delegate?.didChangeProxyState(SDLProxyState.searching)
         sdlManager = SDLManager(configuration: connectionType == .iAP ? ProxyManager.connectIAP() : ProxyManager.connectTCP(), delegate: self)
         startManager()

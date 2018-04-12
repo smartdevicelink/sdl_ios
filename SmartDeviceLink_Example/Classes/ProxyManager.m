@@ -8,8 +8,6 @@
 #import "Preferences.h"
 
 
-BOOL const ShouldRestartOnDisconnect = NO;
-
 typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
     SDLHMIFirstStateNone,
     SDLHMIFirstStateNonNone,
@@ -23,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Describes the first time the HMI state goes non-none and full.
 @property (assign, nonatomic) SDLHMIFirstState firstTimeState;
-
 @property (assign, nonatomic, getter=isTextEnabled) BOOL textEnabled;
 @property (assign, nonatomic, getter=isHexagonEnabled) BOOL hexagonEnabled;
 @property (assign, nonatomic, getter=areImagesEnabled) BOOL imagesEnabled;
@@ -139,8 +136,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setHexagonButtonIconEnabled:(BOOL)hexagonEnabled imagesEnabled:(BOOL)imagesEnabled {
-    SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:@"HexagonButton"];
-    imagesEnabled ? [object transitionToStateNamed:(hexagonEnabled ? @"imageOnState" : @"imageOffState")] : [object transitionToStateNamed:(hexagonEnabled ? @"textOnState" : @"textOffState")];
+    SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:HexagonSoftButton];
+    imagesEnabled ? [object transitionToStateNamed:(hexagonEnabled ? HexagonSoftButtonImageOnState : HexagonSoftButtonImageOffState)] : [object transitionToStateNamed:(hexagonEnabled ? HexagonSoftButtonTextOnState : HexagonSoftButtonTextOffState)];
 }
 
 - (void)sdlex_updateScreen {
@@ -329,11 +326,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLSoftButtonObject *> *)sdlex_softButtons {
-    SDLSoftButtonState *starImageState = [[SDLSoftButtonState alloc] initWithStateName:@"imageState" text:@"Press" image:[UIImage imageNamed:@"star_softbutton_icon"]];
-    SDLSoftButtonState *starTextState = [[SDLSoftButtonState alloc] initWithStateName:@"textState" text:@"Press" image:nil];
+    SDLSoftButtonState *starImageState = [[SDLSoftButtonState alloc] initWithStateName:StarSoftButtonImageState text:StarSoftButtonText image:[UIImage imageNamed:@"star_softbutton_icon"]];
+    SDLSoftButtonState *starTextState = [[SDLSoftButtonState alloc] initWithStateName:StarSoftButtonTextState text:StarSoftButtonText image:nil];
 
     __weak typeof(self) weakself = self;
-    SDLSoftButtonObject *starButton = [[SDLSoftButtonObject alloc] initWithName:@"StarButton" states:@[starImageState, starTextState] initialStateName:@"imageState" handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    SDLSoftButtonObject *starButton = [[SDLSoftButtonObject alloc] initWithName:StarSoftButton states:@[starImageState, starTextState] initialStateName:starImageState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) {
             return;
         }
@@ -345,20 +342,20 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogD(@"Star icon soft button press fired");
     }];
 
-    SDLSoftButtonState *hexImageOnState = [[SDLSoftButtonState alloc] initWithStateName:@"imageOnState" text:nil image:[UIImage imageNamed:@"hexagon_on_softbutton_icon"]];
-    SDLSoftButtonState *hexImageOffState = [[SDLSoftButtonState alloc] initWithStateName:@"imageOffState" text:nil image:[UIImage imageNamed:@"hexagon_off_softbutton_icon"]];
-    SDLSoftButtonState *hexTextOnState = [[SDLSoftButtonState alloc] initWithStateName:@"textOnState" text:@"➖Hex" image:nil];
-    SDLSoftButtonState *hexTextOffState = [[SDLSoftButtonState alloc] initWithStateName:@"textOffState" text:@"➕Hex" image:nil];
-    SDLSoftButtonObject *hexButton = [[SDLSoftButtonObject alloc] initWithName:@"HexagonButton" states:@[hexImageOnState, hexImageOffState, hexTextOnState, hexTextOffState] initialStateName:hexImageOnState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    SDLSoftButtonState *hexImageOnState = [[SDLSoftButtonState alloc] initWithStateName:HexagonSoftButtonImageOnState text:nil image:[UIImage imageNamed:HexagonOnImageName]];
+    SDLSoftButtonState *hexImageOffState = [[SDLSoftButtonState alloc] initWithStateName:HexagonSoftButtonImageOffState text:nil image:[UIImage imageNamed:HexagonOffImageName]];
+    SDLSoftButtonState *hexTextOnState = [[SDLSoftButtonState alloc] initWithStateName:HexagonSoftButtonTextOnState text:HexagonSoftButtonTextTextOnText image:nil];
+    SDLSoftButtonState *hexTextOffState = [[SDLSoftButtonState alloc] initWithStateName:HexagonSoftButtonTextOffState text:HexagonSoftButtonTextTextOffText image:nil];
+    SDLSoftButtonObject *hexButton = [[SDLSoftButtonObject alloc] initWithName:HexagonSoftButton states:@[hexImageOnState, hexImageOffState, hexTextOnState, hexTextOffState] initialStateName:hexImageOnState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
 
         weakself.hexagonEnabled = !weakself.hexagonEnabled;
         SDLLogD(@"Hexagon icon button press fired %d", self.hexagonEnabled);
     }];
 
-    SDLSoftButtonState *textOnState = [[SDLSoftButtonState alloc] initWithStateName:@"onState" text:@"➖Text" image:nil];
-    SDLSoftButtonState *textOffState = [[SDLSoftButtonState alloc] initWithStateName:@"offState" text:@"➕Text" image:nil];
-    SDLSoftButtonObject *textButton = [[SDLSoftButtonObject alloc] initWithName:@"TextButton" states:@[textOnState, textOffState] initialStateName:@"onState" handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    SDLSoftButtonState *textOnState = [[SDLSoftButtonState alloc] initWithStateName:TextVisibleSoftButtonTextOnState text:TextVisibleSoftButtonTextOnText image:nil];
+    SDLSoftButtonState *textOffState = [[SDLSoftButtonState alloc] initWithStateName:TextVisibleSoftButtonTextOffState text:TextVisibleSoftButtonTextOffText image:nil];
+    SDLSoftButtonObject *textButton = [[SDLSoftButtonObject alloc] initWithName:TextVisibleSoftButton states:@[textOnState, textOffState] initialStateName:textOnState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) {
             return;
         }
@@ -370,16 +367,16 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogD(@"Text visibility soft button press fired %d", weakself.textEnabled);
     }];
 
-    SDLSoftButtonState *imagesOnState = [[SDLSoftButtonState alloc] initWithStateName:@"onState" text:@"➖Icons" image:nil];
-    SDLSoftButtonState *imagesOffState = [[SDLSoftButtonState alloc] initWithStateName:@"offState" text:@"➕Icons" image:nil];
-    SDLSoftButtonObject *imagesButton = [[SDLSoftButtonObject alloc] initWithName:@"ImagesButton" states:@[imagesOnState, imagesOffState] initialStateName:@"onState" handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    SDLSoftButtonState *imagesOnState = [[SDLSoftButtonState alloc] initWithStateName:ImagesVisibleSoftButtonImageOnState text:ImagesVisibleSoftButtonImageOnText image:nil];
+    SDLSoftButtonState *imagesOffState = [[SDLSoftButtonState alloc] initWithStateName:ImagesVisibleSoftButtonImageOffState text:ImagesVisibleSoftButtonImageOffText image:nil];
+    SDLSoftButtonObject *imagesButton = [[SDLSoftButtonObject alloc] initWithName:ImagesVisibleSoftButton states:@[imagesOnState, imagesOffState] initialStateName:imagesOnState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) {
             return;
         }
 
         weakself.imagesEnabled = !weakself.imagesEnabled;
 
-        SDLSoftButtonObject *object = [weakself.sdlManager.screenManager softButtonObjectNamed:@"ImagesButton"];
+        SDLSoftButtonObject *object = [weakself.sdlManager.screenManager softButtonObjectNamed:ImagesVisibleSoftButton];
         [object transitionToNextState];
 
         SDLLogD(@"Image visibility soft button press fired %d", weakself.imagesEnabled);
@@ -409,9 +406,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)managerDidDisconnect {
     // Reset our state
-    self.firstTimeState = SDLHMIFirstStateNone;
     [self sdlex_updateProxyState:ProxyStateStopped];
-    if (ShouldRestartOnDisconnect) {
+    self.firstTimeState = SDLHMIFirstStateNone;
+
+    if (ExampleAppShouldRestartSDLManagerOnDisconnect) {
         [self startManager];
     }
 }
@@ -442,11 +440,9 @@ NS_ASSUME_NONNULL_BEGIN
     if ([language isEqualToEnum:SDLLanguageEnUs]) {
         update.appName = ExampleAppName;
     } else if ([language isEqualToString:SDLLanguageEsMx]) {
-        NSString *SDLAppNameSpanish = @"SDL Aplicación de ejemplo";
-        update.appName = SDLAppNameSpanish;
+        update.appName = ExampleAppNameSpanish;
     } else if ([language isEqualToString:SDLLanguageFrCa]) {
-        NSString *SDLAppNameFrench = @"SDL Exemple App";
-        update.appName = SDLAppNameFrench;
+        update.appName = ExampleAppNameFrench;
     } else {
         return nil;
     }
