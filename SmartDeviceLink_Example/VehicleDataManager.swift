@@ -29,7 +29,7 @@ class VehicleDataManager: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(vehicleDataNotification(_:)), name: .SDLDidReceiveVehicleData, object: nil)
     }
 
-    func connectionClosed() {
+    func reset() {
         vehicleOdometerData = "Odometer: Unsubscribed"
     }
 

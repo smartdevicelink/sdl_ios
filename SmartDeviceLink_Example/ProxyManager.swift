@@ -117,6 +117,8 @@ extension ProxyManager: SDLManagerDelegate {
     func managerDidDisconnect() {
         delegate?.didChangeProxyState(SDLProxyState.stopped)
         firstHMILevelState = .none
+        buttonManager.reset()
+        vehicleDataManager.reset()
 
         // If desired, automatically start searching for a new connection to Core
         if ExampleAppShouldRestartSDLManagerOnDisconnect.boolValue {
