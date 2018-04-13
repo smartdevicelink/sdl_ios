@@ -9,11 +9,11 @@
 import Foundation
 import SmartDeviceLink
 
-typealias updateScreenHandler = (() -> Void)
+typealias refreshUIHandler = (() -> Void)
 
 class ButtonManager: NSObject {
     fileprivate let sdlManager: SDLManager!
-    var updateScreenHandler: updateScreenHandler?
+    var updateScreenHandler: refreshUIHandler?
     
     public fileprivate(set) var textEnabled: Bool {
         didSet {
@@ -37,7 +37,7 @@ class ButtonManager: NSObject {
         }
     }
 
-    init(sdlManager: SDLManager, updateScreenHandler: updateScreenHandler? = nil) {
+    init(sdlManager: SDLManager, updateScreenHandler: refreshUIHandler? = nil) {
         self.sdlManager = sdlManager
         self.updateScreenHandler = updateScreenHandler
         textEnabled = true
