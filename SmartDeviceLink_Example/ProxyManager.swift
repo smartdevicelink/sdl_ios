@@ -11,6 +11,7 @@ import SmartDeviceLink
 class ProxyManager: NSObject {
     fileprivate var sdlManager: SDLManager!
     fileprivate var buttonManager: ButtonManager!
+    fileprivate var vehicleDataManager: VehicleDataManager!
     fileprivate var firstHMILevelState: SDLHMILevelFirstState
     weak var delegate: ProxyManagerDelegate?
     fileprivate var vehicleOdometerData: String
@@ -103,6 +104,7 @@ private extension ProxyManager {
 
             // Do some setup
             self.buttonManager = ButtonManager(sdlManager: self.sdlManager, updateScreenHandler: self.refreshUIHandler)
+            self.vehicleDataManager = VehicleDataManager(sdlManager: self.sdlManager, refreshOdometerHandler: self.refreshOdometerHandler)
             RPCPermissionsManager.setupPermissionsCallbacks(with: self.sdlManager)
 
             print("SDL file manager storage: \(self.sdlManager.fileManager.bytesAvailable / 1024 / 1024) mb")
@@ -137,7 +139,7 @@ extension ProxyManager: SDLManagerDelegate {
 
             // Send static menu items. Menu related RPCs can be sent at all `hmiLevel`s except `NONE`
             createStaticMenus()
-            VehicleDataManager.subscribeToVehicleOdometer(with: sdlManager, refreshOdometerHandler: refreshOdometerHandler)
+            vehicleDataManager.subscribeToVehicleOdometer()
         }
 
         if newLevel == .full && firstHMILevelState != .full {
