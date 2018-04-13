@@ -51,7 +51,6 @@ private extension ProxyManager {
         return setupManagerConfiguration(with: lifecycleConfiguration)
     }
 
-
     /// Configures a TCP transport layer with the IP address and port of the remote SDL Core instance.
     ///
     /// - Returns: A SDLConfiguration object
@@ -69,6 +68,8 @@ private extension ProxyManager {
         let appIcon = UIImage(named: ExampleAppLogoName)
         lifecycleConfiguration.appIcon = appIcon != nil ? SDLArtwork(image: appIcon!, persistent: true, as: .PNG) : nil
         lifecycleConfiguration.appType = .media
+        lifecycleConfiguration.language = .enUs
+        lifecycleConfiguration.languagesSupported = [.enUs, .esMx, .frCa]
 
         let lockScreenConfiguration = appIcon != nil ? SDLLockScreenConfiguration.enabledConfiguration(withAppIcon: appIcon!, backgroundColor: nil) : SDLLockScreenConfiguration.enabled()
         return SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: lockScreenConfiguration, logging: logConfiguration())
@@ -86,7 +87,7 @@ private extension ProxyManager {
         return logConfig
     }
 
-    /// Searches for a connection to a SDL enabled accessory. When a connection has been established, the ready handler is called. Even though a connection has been established, it does not mean that RPCs can be immediately sent to the accessory as there is no guarentee that Core is ready to receive RPCs for this app.
+    /// Searches for a connection to a SDL enabled accessory. When a connection has been established, the ready handler is called. Even though the app is connected to SDL Core, it does not mean that RPCs can be immediately sent to the accessory as there is no guarentee that SDL Core is ready to receive RPCs. Monitor the `SDLManagerDelegate`'s `hmiLevel(_:didChangeToLevel:)` to determine when to send RPCs.
     func startManager() {
         sdlManager.start(readyHandler: { [unowned self] (success, error) in
             guard success else {
@@ -99,8 +100,8 @@ private extension ProxyManager {
             self.delegate?.didChangeProxyState(SDLProxyState.connected)
 
             // Do some setup
-            self.buttonManager = ButtonManager(sdlManager: self.sdlManager, updateScreenHandler: self.updateScreenHandler)
-            self.setupPermissionsCallbacks(with: self.sdlManager)
+            self.buttonManager = ButtonManager(sdlManager: self.sdlManager, updateScreenHandler: self.refreshUIHandler)
+            RPCPermissionsManager.setupPermissionsCallbacks(with: self.sdlManager)
 
             print("SDL file manager storage: \(self.sdlManager.fileManager.bytesAvailable / 1024 / 1024) mb")
         })
@@ -132,7 +133,7 @@ extension ProxyManager: SDLManagerDelegate {
             firstHMILevelState = .nonNone
 
             // Send static menu items. Menu related RPCs can be sent at all `hmiLevel`s except `NONE`
-            prepareRemoteSystem()
+            createStaticMenus()
         }
 
         if newLevel == .full && firstHMILevelState != .full {
@@ -151,20 +152,12 @@ extension ProxyManager: SDLManagerDelegate {
         }
     }
 
-    func manticoreTest() {
-        print("Waiting 10 seconds to send the CICS")
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 10.0) {
-            print("Sending the CICS")
-            self.sdlManager.send(MenuManager.createChoiceSets(), progressHandler: { (request, response, error, progress) in
-                print("Create Interaction Choice Set RPC sent, Response: \(response?.resultCode == .success ? "successful" : "not successful"), Percent Complete: \(progress), Error: \(String(describing: error?.localizedDescription))")
-            }, completionHandler: { (success) in
-                print("All Create Interaction Choice Set RPCs send successfully: \(success ? "YES" : "NO")")
-            })
-        }
-    }
-
+    /// Called when the audio state of the SDL app has changed. The audio state only needs to be monitored if the app is streaming audio.
+    ///
+    /// - Parameters:
+    ///   - oldState: The old SDL audio streaming state
+    ///   - newState: The new SDL audio streaming state
     func audioStreamingState(_ oldState: SDLAudioStreamingState?, didChangeToState newState: SDLAudioStreamingState) {
-        // The audio state only needs to be monitored if the app is streaming audio
         switch newState {
         case .audible: break        // The SDL app's audio can be heard
         case .notAudible: break     // The SDL app's audio cannot be heard
@@ -173,6 +166,10 @@ extension ProxyManager: SDLManagerDelegate {
         }
     }
 
+    /// Called when the car's head unit language is different from the default langage set in the SDLConfiguration AND the head unit language is supported by the app (as set in `languagesSupported` of SDLConfiguration). This method is only called when a connection to Core is first established. If desired, you can update the app's name and text-to-speech name to reflect the head unit's language.
+    ///
+    /// - Parameter language: The head unit's current language
+    /// - Returns: A SDLLifecycleConfigurationUpdate object
     func managerShouldUpdateLifecycle(toLanguage language: SDLLanguage) -> SDLLifecycleConfigurationUpdate? {
         var appName = ""
         switch language {
@@ -193,12 +190,14 @@ extension ProxyManager: SDLManagerDelegate {
 // MARK: - SDL UI
 
 private extension ProxyManager {
-    var updateScreenHandler: updateScreenHandler? {
+    /// Handler for refreshing the UI
+    var refreshUIHandler: refreshUIHandler? {
         return { [weak self] () in
             self?.updateScreen()
         }
     }
 
+    /// Set the template and create the UI
     func showInitialData() {
         let nonMediaTemplate = SDLSetDisplayLayout(predefinedLayout: .nonMedia)
         if sdlManager.registerResponse?.displayCapabilities?.templatesAvailable?.contains(nonMediaTemplate.displayLayout) ?? false {
@@ -209,6 +208,7 @@ private extension ProxyManager {
         sdlManager.screenManager.softButtonObjects = buttonManager.screenSoftButtons(with: sdlManager)
     }
 
+    /// Update the UI's textfields, images and soft buttons
     func updateScreen() {
         guard sdlManager.hmiLevel == .full else { return }
         let screenManager = sdlManager.screenManager
@@ -224,54 +224,9 @@ private extension ProxyManager {
             print("Updated text and graphics. Error? \(String(describing: error))")
         })
     }
-}
 
-// MARK: - SDL Remote Initial Setup
-
-private extension ProxyManager {
-    func setupPermissionsCallbacks(with manager: SDLManager) {
-        // Gets the current permissions for a single RPC
-        let isShowRPCAvailable = manager.permissionManager.isRPCAllowed("Show")
-        print("Show RPC allowed? \(String(describing: isShowRPCAvailable))")
-
-        // Get the current permissions of a group of RPCs
-        let rpcGroup = ["AddCommand", "PerformInteraction"]
-        let commandPICSStatus = manager.permissionManager.groupStatus(ofRPCs: rpcGroup)
-        let commandPICSStatusDict = manager.permissionManager.status(ofRPCs: rpcGroup)
-        print("The group status for \(rpcGroup) is: \(String(describing: commandPICSStatus)). The status for each RPC in the group is: \(String(describing: commandPICSStatusDict))")
-
-        // Sets up a block for observing permission changes for a group of RPCs. Since the `groupType` is set to `SDLPermissionGroupTypeAllAllowed`, this block is called when the group permissions changes from all allowed to all not allowed. This block is called immediately when created.
-        let observedRPCGroup = ["Show", "Alert"]
-        let permissionAllAllowedObserverId = manager.permissionManager.addObserver(forRPCs: observedRPCGroup, groupType: .allAllowed, withHandler: { (individualStatuses, groupStatus) in
-            print("The group status for \(observedRPCGroup) has changed to: \(groupStatus)")
-            for (rpcName, rpcAllowed) in individualStatuses {
-                print("\(rpcName as String) allowed? \(rpcAllowed.boolValue ? "yes" : "no")")
-            }
-        })
-
-        // To stop observing permissions changes for a group of RPCs, remove the observer.
-        manager.permissionManager.removeObserver(forIdentifier: permissionAllAllowedObserverId)
-
-        // Sets up a block for observing permission changes for a group of RPCs. Since the `groupType` is set to `SDLPermissionGroupTypeAllAny`, this block is called when the permission status changes for any of the RPCs being observed. This block is called immediately when created.
-        let _ = manager.permissionManager.addObserver(forRPCs: observedRPCGroup, groupType: .any, withHandler: { (individualStatuses, groupStatus) in
-            print("The group status for \(observedRPCGroup) has changed to: \(groupStatus)")
-            for (rpcName, rpcAllowed) in individualStatuses {
-                print("\(rpcName as String) allowed? \(rpcAllowed.boolValue ? "yes" : "no")")
-            }
-        })
-
-        // To stop observing permissions changes for a group of RPCs, remove the observer.
-        // manager.permissionManager.removeObserver(forIdentifier: permissionAnyObserverId!)
-    }
-
-    func printRPCPermissions(rpcs: [String], groupPermissionStatus: SDLPermissionGroupType, individualPermissionStatuses: [String:Bool]) {
-        print("The group status for \(rpcs) has changed to: \(groupPermissionStatus)")
-        for (rpcName, rpcAllowed) in individualPermissionStatuses {
-            print("\(rpcName as String) allowed? \(rpcAllowed ? "yes" : "no")")
-        }
-    }
-
-    func prepareRemoteSystem() {
+    /// Send static menu data
+    func createStaticMenus() {
         sdlManager.send(MenuManager.allAddCommands(with: sdlManager) + [MenuManager.createInteractionChoiceSet()], progressHandler: { (request, response, error, percentComplete) in
             print("\(request), was sent \(response?.resultCode == .success ? "successfully" : "unsuccessfully"), error: \(error != nil ? error!.localizedDescription : "no error")")
         }, completionHandler: { (success) in
