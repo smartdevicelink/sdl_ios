@@ -61,7 +61,7 @@ NSString * const PICSThirdChoice = @"Third Choice";
 #pragma mark - SDL Add Command Menu
 NSString * const ACSpeakAppNameMenuName = @"Speak App Name";
 NSString * const ACShowChoiceSetMenuName = @"Show Perform Interaction Choice Set";
-NSString * const ACGetVehicleDataMenuName = @"Get Vehicle Data";
+NSString * const ACGetVehicleDataMenuName = @"Get Vehicle Speed";
 
 #pragma mark - SDL Image Names
 NSString * const ExampleAppLogoName = @"sdl_logo_green";

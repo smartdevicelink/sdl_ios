@@ -9,22 +9,33 @@
 import Foundation
 import SmartDeviceLink
 
-typealias refreshOdometerHandler = ((String) -> Void)
 
 class VehicleDataManager: NSObject {
     fileprivate let sdlManager: SDLManager!
-    var refreshOdometerHandler: refreshOdometerHandler?
+    fileprivate var refreshUIHandler: refreshUIHandler?
+    public private(set) var vehicleOdometerData: String
 
-    init(sdlManager: SDLManager, refreshOdometerHandler: refreshOdometerHandler? = nil) {
+    /// Custom init
+    ///
+    /// - Parameters:
+    ///   - sdlManager: The SDL Manager
+    ///   - refreshOdometerHandler: handler for refreshing the UI with new odometer data
+    init(sdlManager: SDLManager, refreshUIHandler: refreshUIHandler? = nil) {
         self.sdlManager = sdlManager
-        self.refreshOdometerHandler = refreshOdometerHandler
+        self.refreshUIHandler = refreshUIHandler
+        vehicleOdometerData = "Odometer: Unsubscribed"
         super.init()
 
         NotificationCenter.default.addObserver(self, selector: #selector(vehicleDataNotification(_:)), name: .SDLDidReceiveVehicleData, object: nil)
     }
 
+    func connectionClosed() {
+        vehicleOdometerData = "Odometer: Unsubscribed"
+    }
+
     // MARK: Subscribe to odometer data
 
+    /// Subscribes to odometer data. You must subscribe to notification with name `SDLDidReceiveVehicleData` to get the new data when the odometer data changes.
     func subscribeToVehicleOdometer() {
         let subscribeToVehicleOdometer = SDLSubscribeVehicleData()
         subscribeToVehicleOdometer.odometer = true
@@ -47,27 +58,35 @@ class VehicleDataManager: NSObject {
                 message = "Unknown reason for failure to get vehicle data: \(error != nil ? error!.localizedDescription : "no error message") "
             }
 
-            guard let handler = self.refreshOdometerHandler else { return }
-            handler(message)
+            guard let handler = self.refreshUIHandler else { return }
+            handler()
         }
     }
 
+    /// Unsubscribes to odometer data.
     func unsubscribeToVehicleOdometer() {
         let unsubscribeToVehicleOdometer = SDLUnsubscribeVehicleData()
         unsubscribeToVehicleOdometer.odometer = true
         sdlManager.send(unsubscribeToVehicleOdometer)
     }
 
+    /// Notification with the updated vehicle data
+    ///
+    /// - Parameter notification: SDLOnVehicleData notification
     func vehicleDataNotification(_ notification: SDLRPCNotificationNotification) {
-        guard let handler = refreshOdometerHandler, let onVehicleData = notification.notification as? SDLOnVehicleData, let odometer = onVehicleData.odometer else {
+        guard let handler = refreshUIHandler, let onVehicleData = notification.notification as? SDLOnVehicleData, let odometer = onVehicleData.odometer else {
             return
         }
 
-        handler("Odometer: \(odometer)km")
+        vehicleOdometerData = "Odometer: \(odometer)km"
+        handler()
     }
 
-    // MARK: - Get Odometer Data
+    // MARK: - Get Vehicle Speed
 
+    /// Retreives the current vehicle speed
+    ///
+    /// - Parameter manager: The SDL manager
     class func getVehicleSpeed(with manager: SDLManager) {
         guard manager.permissionManager.isRPCAllowed("GetVehicleData") else {
             let warningAlert = AlertManager.alertWithMessageAndCloseButton("This app does not have the required permissions to access vehicle data")

@@ -13,7 +13,7 @@ typealias refreshUIHandler = (() -> Void)
 
 class ButtonManager: NSObject {
     fileprivate let sdlManager: SDLManager!
-    var refreshUIHandler: refreshUIHandler?
+    fileprivate var refreshUIHandler: refreshUIHandler?
     
     /// SDL UI textfields are visible if true; hidden if false
     public fileprivate(set) var textEnabled: Bool {

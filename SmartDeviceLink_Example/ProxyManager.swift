@@ -14,13 +14,11 @@ class ProxyManager: NSObject {
     fileprivate var vehicleDataManager: VehicleDataManager!
     fileprivate var firstHMILevelState: SDLHMILevelFirstState
     weak var delegate: ProxyManagerDelegate?
-    fileprivate var vehicleOdometerData: String
 
     // Singleton
     static let sharedManager = ProxyManager()
     private override init() {
         firstHMILevelState = .none
-        vehicleOdometerData = "Odometer: Unsubscribed"
         super.init()
     }
 }
@@ -104,7 +102,7 @@ private extension ProxyManager {
 
             // Do some setup
             self.buttonManager = ButtonManager(sdlManager: self.sdlManager, updateScreenHandler: self.refreshUIHandler)
-            self.vehicleDataManager = VehicleDataManager(sdlManager: self.sdlManager, refreshOdometerHandler: self.refreshOdometerHandler)
+            self.vehicleDataManager = VehicleDataManager(sdlManager: self.sdlManager, refreshUIHandler: self.refreshUIHandler)
             RPCPermissionsManager.setupPermissionsCallbacks(with: self.sdlManager)
 
             print("SDL file manager storage: \(self.sdlManager.fileManager.bytesAvailable / 1024 / 1024) mb")
@@ -119,7 +117,6 @@ extension ProxyManager: SDLManagerDelegate {
     func managerDidDisconnect() {
         delegate?.didChangeProxyState(SDLProxyState.stopped)
         firstHMILevelState = .none
-        vehicleOdometerData = "Odometer: Unsubscribed"
 
         // If desired, automatically start searching for a new connection to Core
         if ExampleAppShouldRestartSDLManagerOnDisconnect.boolValue {
@@ -203,13 +200,6 @@ private extension ProxyManager {
         }
     }
 
-    var refreshOdometerHandler: refreshOdometerHandler? {
-        return { [unowned self] odometer in
-            self.vehicleOdometerData = odometer
-            self.updateScreen()
-        }
-    }
-
     /// Set the template and create the UI
     func showInitialData() {
         let mediaTemplate = SDLSetDisplayLayout(predefinedLayout: .media)
@@ -232,7 +222,7 @@ private extension ProxyManager {
         screenManager.textAlignment = .left
         screenManager.textField1 = isTextVisible ? SmartDeviceLinkText : nil
         screenManager.textField2 = isTextVisible ? "Swift \(ExampleAppText)" : nil
-        screenManager.textField3 = isTextVisible ? vehicleOdometerData : nil
+        screenManager.textField3 = isTextVisible ? vehicleDataManager.vehicleOdometerData : nil
         screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!, persistent: false, as: .PNG) : nil
         screenManager.endUpdates(completionHandler: { (error) in
             print("Updated text and graphics. Error? \(String(describing: error))")

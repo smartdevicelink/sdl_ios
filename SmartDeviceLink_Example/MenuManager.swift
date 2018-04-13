@@ -86,6 +86,7 @@ private extension MenuManager {
             })
         })
     }
+    
     /// Menu item that requests vehicle data when selected
     ///
     /// - Parameter manager: The SDL Manager
