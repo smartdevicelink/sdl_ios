@@ -13,11 +13,13 @@ class ProxyManager: NSObject {
     fileprivate var buttonManager: ButtonManager!
     fileprivate var firstHMILevelState: SDLHMILevelFirstState
     weak var delegate: ProxyManagerDelegate?
+    fileprivate var vehicleOdometerData: String
 
     // Singleton
     static let sharedManager = ProxyManager()
     private override init() {
         firstHMILevelState = .none
+        vehicleOdometerData = "Odometer: Unsubscribed"
         super.init()
     }
 }
@@ -114,7 +116,8 @@ extension ProxyManager: SDLManagerDelegate {
     /// Called when the connection beween this app and SDL Core has closed.
     func managerDidDisconnect() {
         delegate?.didChangeProxyState(SDLProxyState.stopped)
-        self.firstHMILevelState = .none
+        firstHMILevelState = .none
+        vehicleOdometerData = "Odometer: Unsubscribed"
 
         // If desired, automatically start searching for a new connection to Core
         if ExampleAppShouldRestartSDLManagerOnDisconnect.boolValue {
@@ -134,6 +137,7 @@ extension ProxyManager: SDLManagerDelegate {
 
             // Send static menu items. Menu related RPCs can be sent at all `hmiLevel`s except `NONE`
             createStaticMenus()
+            VehicleDataManager.subscribeToVehicleOdometer(with: sdlManager, refreshOdometerHandler: refreshOdometerHandler)
         }
 
         if newLevel == .full && firstHMILevelState != .full {
@@ -192,20 +196,27 @@ extension ProxyManager: SDLManagerDelegate {
 private extension ProxyManager {
     /// Handler for refreshing the UI
     var refreshUIHandler: refreshUIHandler? {
-        return { [weak self] () in
-            self?.updateScreen()
+        return { [unowned self] () in
+            self.updateScreen()
+        }
+    }
+
+    var refreshOdometerHandler: refreshOdometerHandler? {
+        return { [unowned self] odometer in
+            self.vehicleOdometerData = odometer
+            self.updateScreen()
         }
     }
 
     /// Set the template and create the UI
     func showInitialData() {
-        let nonMediaTemplate = SDLSetDisplayLayout(predefinedLayout: .nonMedia)
-        if sdlManager.registerResponse?.displayCapabilities?.templatesAvailable?.contains(nonMediaTemplate.displayLayout) ?? false {
-            sdlManager.send(request: nonMediaTemplate, responseHandler: nil)
+        let mediaTemplate = SDLSetDisplayLayout(predefinedLayout: .media)
+        if sdlManager.registerResponse?.displayCapabilities?.templatesAvailable?.contains(mediaTemplate.displayLayout) ?? false {
+            sdlManager.send(request: mediaTemplate, responseHandler: nil)
         }
 
         updateScreen()
-        sdlManager.screenManager.softButtonObjects = buttonManager.screenSoftButtons(with: sdlManager)
+        sdlManager.screenManager.softButtonObjects = buttonManager.allScreenSoftButtons(with: sdlManager)
     }
 
     /// Update the UI's textfields, images and soft buttons
@@ -219,6 +230,7 @@ private extension ProxyManager {
         screenManager.textAlignment = .left
         screenManager.textField1 = isTextVisible ? SmartDeviceLinkText : nil
         screenManager.textField2 = isTextVisible ? "Swift \(ExampleAppText)" : nil
+        screenManager.textField3 = isTextVisible ? vehicleOdometerData : nil
         screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!, persistent: false, as: .PNG) : nil
         screenManager.endUpdates(completionHandler: { (error) in
             print("Updated text and graphics. Error? \(String(describing: error))")
@@ -232,40 +244,5 @@ private extension ProxyManager {
         }, completionHandler: { (success) in
             print("All prepare remote system requests sent \(success ? "successfully" : "unsuccessfully")")
         })
-    }
-}
-
-extension ProxyManager {
-    class func sendGetVehicleData(with manager: SDLManager) {
-        guard manager.permissionManager.isRPCAllowed("GetVehicleData") else {
-            let warningAlert = AlertManager.alertWithMessageAndCloseButton("This app does not have the required permissions to access vehicle data")
-            manager.send(request: warningAlert)
-            return
-        }
-
-        let getVehicleData = SDLGetVehicleData(accelerationPedalPosition: true, airbagStatus: true, beltStatus: true, bodyInformation: true, clusterModeStatus: true, deviceStatus: true, driverBraking: true, eCallInfo: true, emergencyEvent: true, engineTorque: true, externalTemperature: true, fuelLevel: true, fuelLevelState: true, gps: true, headLampStatus: true, instantFuelConsumption: true, myKey: true, odometer: true, prndl: true, rpm: true, speed: true, steeringWheelAngle: true, tirePressure: true, vin: true, wiperStatus: true)
-
-        manager.send(request: getVehicleData) { (request, response, error) in
-            guard let response = response, error == nil else { return }
-
-            var alertMessage = ""
-            switch response.resultCode {
-            case .rejected:
-                alertMessage = "The request for vehicle data was rejected by Core."
-            case .disallowed:
-                alertMessage = "The app is not allowed to access vehicle data"
-            case .success:
-                alertMessage = "Vehicle data returned successfully"
-            default: break
-            }
-
-            let alert = AlertManager.alertWithMessageAndCloseButton(alertMessage)
-            manager.send(request: alert)
-
-            // TODO create a PICS
-            guard let getVehicleDataResponse = response as? SDLGetVehicleDataResponse else { return }
-            let prndl = getVehicleDataResponse.prndl
-            print("prndl: \(String(describing: prndl))")
-        }
     }
 }
