@@ -8,7 +8,6 @@
 import UIKit
 import SmartDeviceLink
 
-
 class ProxyManager: NSObject {
     fileprivate var sdlManager: SDLManager!
     fileprivate var buttonManager: ButtonManager!
@@ -26,12 +25,16 @@ class ProxyManager: NSObject {
 // MARK: - SDL Configuration
 
 extension ProxyManager {
+    /// Configures the SDL Manager that handles data transfer beween this app and the car's head unit and starts searching for a connection to a head unit. There are two possible types of transport layers to use: TCP is used to connect wirelessly to SDL Core and is only available for debugging; iAP is used to connect to MFi (Made for iPhone) hardware and is must be used for production builds.
+    ///
+    /// - Parameter connectionType: The type of transport layer to use.
     func start(with connectionType: SDLConnectionType) {
         delegate?.didChangeProxyState(SDLProxyState.searching)
         sdlManager = SDLManager(configuration: connectionType == .iAP ? ProxyManager.connectIAP() : ProxyManager.connectTCP(), delegate: self)
         startManager()
     }
 
+    /// Attempts to close the connection between the this app and the car's head unit. The `SDLManagerDelegate`'s `managerDidDisconnect()` is called when connection is actually closed.
     func resetConnection() {
         sdlManager.stop()
     }
@@ -40,20 +43,30 @@ extension ProxyManager {
 // MARK: - SDL Configuration Helpers
 
 private extension ProxyManager {
+    /// Configures an iAP transport layer.
+    ///
+    /// - Returns: A SDLConfiguration object
     class func connectIAP() -> SDLConfiguration {
         let lifecycleConfiguration = SDLLifecycleConfiguration(appName: ExampleAppName, appId: ExampleAppId)
         return setupManagerConfiguration(with: lifecycleConfiguration)
     }
 
+
+    /// Configures a TCP transport layer with the IP address and port of the remote SDL Core instance.
+    ///
+    /// - Returns: A SDLConfiguration object
     class func connectTCP() -> SDLConfiguration {
         let lifecycleConfiguration = SDLLifecycleConfiguration(appName: ExampleAppName, appId: ExampleAppId, ipAddress: AppUserDefaults.shared.ipAddress!, port: UInt16(AppUserDefaults.shared.port!)!)
         return setupManagerConfiguration(with: lifecycleConfiguration)
     }
 
+    /// Helper method for setting additional configuration parameters for both TCP and iAP transport layers.
+    ///
+    /// - Parameter lifecycleConfiguration: The transport layer configuration
+    /// - Returns: A SDLConfiguration object
     class func setupManagerConfiguration(with lifecycleConfiguration: SDLLifecycleConfiguration) -> SDLConfiguration {
-        let appIcon = UIImage(named: ExampleAppLogoName)
-
         lifecycleConfiguration.shortAppName = ExampleAppNameShort
+        let appIcon = UIImage(named: ExampleAppLogoName)
         lifecycleConfiguration.appIcon = appIcon != nil ? SDLArtwork(image: appIcon!, persistent: true, as: .PNG) : nil
         lifecycleConfiguration.appType = .media
 
@@ -61,15 +74,19 @@ private extension ProxyManager {
         return SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: lockScreenConfiguration, logging: logConfiguration())
     }
 
+    /// Sets the type of SDL debug logs that are visible and where to port the logs. There are 4 levels of logs, verbose, debug, warning and error, which verbose printing all SDL logs and error printing only the error logs. Adding SDLLogTargetFile to the targest will log to a text file on the iOS device. This file can be accessed via: iTunes > Your Device Name > File Sharing > Your App Name. Make sure `UIFileSharingEnabled` has been added to the application's info.plist and is set to `true`.
+    ///
+    /// - Returns: A SDLLogConfiguration object
     class func logConfiguration() -> SDLLogConfiguration {
         let logConfig = SDLLogConfiguration.default()
         let exampleLogFileModule = SDLLogFileModule(name: "SDL Example", files: ["ProxyManager"])
         logConfig.modules = logConfig.modules.union([exampleLogFileModule])
-        logConfig.targets = NSSet(array: [SDLLogTargetFile.logger()]) as! Set<AnyHashable>
-        logConfig.globalLogLevel = .debug
+        logConfig.targets = NSSet(array: [SDLLogTargetFile.logger()]) as! Set<AnyHashable> // Logs to file
+        logConfig.globalLogLevel = .verbose // Filters the logs
         return logConfig
     }
 
+    /// Searches for a connection to a SDL enabled accessory. When a connection has been established, the ready handler is called. Even though a connection has been established, it does not mean that RPCs can be immediately sent to the accessory as there is no guarentee that Core is ready to receive RPCs for this app.
     func startManager() {
         sdlManager.start(readyHandler: { [unowned self] (success, error) in
             guard success else {
@@ -93,35 +110,44 @@ private extension ProxyManager {
 // MARK: - SDLManagerDelegate
 
 extension ProxyManager: SDLManagerDelegate {
+    /// Called when the connection beween this app and SDL Core has closed.
     func managerDidDisconnect() {
         delegate?.didChangeProxyState(SDLProxyState.stopped)
         self.firstHMILevelState = .none
 
-        // Automatically start searching for a new connection to Core
+        // If desired, automatically start searching for a new connection to Core
         if ExampleAppShouldRestartSDLManagerOnDisconnect.boolValue {
             startManager()
         }
     }
 
+    /// Called when the state of the SDL app has changed. The state limits the type of RPC that can be sent. Refer to the class documentation for each RPC to determine what state(s) the RPC can be sent.
+    ///
+    /// - Parameters:
+    ///   - oldLevel: The old SDL HMI Level
+    ///   - newLevel: The new SDL HMI Level
     func hmiLevel(_ oldLevel: SDLHMILevel, didChangeToLevel newLevel: SDLHMILevel) {
         if newLevel != .none && firstHMILevelState == .none {
             // This is our first time in a non-NONE state
             firstHMILevelState = .nonNone
 
-            // Send AddCommands
+            // Send static menu items. Menu related RPCs can be sent at all `hmiLevel`s except `NONE`
             prepareRemoteSystem()
         }
 
         if newLevel == .full && firstHMILevelState != .full {
-            // This is our first time in a FULL state
+            // This is our first time in a `FULL` state.
             firstHMILevelState = .full
-
-             manticoreTest()
         }
 
-        if newLevel == .full {
-            // We're always going to try to show the initial state to guard against some possible weird states
+        switch newLevel {
+        case .full:                // The SDL app is in the foreground
+            // Always try to show the initial state to guard against some possible weird states. Duplicates will be ignored by Core.
             showInitialData()
+        case .limited: break        // The SDL app's menu is open
+        case .background: break     // The SDL app is not in the foreground
+        case .none: break           // The SDL app is not yet running
+        default: break
         }
     }
 
@@ -149,7 +175,6 @@ extension ProxyManager: SDLManagerDelegate {
 
     func managerShouldUpdateLifecycle(toLanguage language: SDLLanguage) -> SDLLifecycleConfigurationUpdate? {
         var appName = ""
-
         switch language {
         case .enUs:
             appName = ExampleAppName
@@ -158,7 +183,6 @@ extension ProxyManager: SDLManagerDelegate {
         case .frCa:
             appName = ExampleAppNameFrench
         default:
-            // App does not support the head-unit's language
             return nil
         }
 
