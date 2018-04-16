@@ -83,8 +83,8 @@ private extension ProxyManager {
     class func logConfiguration() -> SDLLogConfiguration {
         let logConfig = SDLLogConfiguration.default()
         let exampleLogFileModule = SDLLogFileModule(name: "SDL Example", files: ["ProxyManager"])
-        logConfig.modules = logConfig.modules.union([exampleLogFileModule])
-        logConfig.targets = NSSet(array: [SDLLogTargetFile.logger()]) as! Set<AnyHashable> // Logs to file
+        logConfig.modules.insert(exampleLogFileModule)
+        logConfig.targets.insert(SDLLogTargetFile()) // Logs to file
         logConfig.globalLogLevel = .verbose // Filters the logs
         return logConfig
     }
