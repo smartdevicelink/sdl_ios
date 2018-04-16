@@ -350,19 +350,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdlex_prepareRemoteSystem {
     __weak typeof(self) weakself = self;
-    SDLMenuCell *speakCell = [[SDLMenuCell alloc] initWithTitle:@"Speak" icon:nil voiceCommands:@[@"Speak"] handler:^{
+    SDLMenuCell *speakCell = [[SDLMenuCell alloc] initWithTitle:@"Speak" icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"speak"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[@"Speak"] handler:^{
         [weakself.sdlManager sendRequest:[ProxyManager sdlex_appNameSpeak]];
     }];
 
-    SDLMenuCell *interactionSetCell = [[SDLMenuCell alloc] initWithTitle:@"Perform Interaction" icon:nil voiceCommands:@[@"Perform Interaction"] handler:^{
+    SDLMenuCell *interactionSetCell = [[SDLMenuCell alloc] initWithTitle:@"Perform Interaction" icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"choice_set"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[@"Perform Interaction"] handler:^{
         [ProxyManager sdlex_sendPerformOnlyChoiceInteractionWithManager:weakself.sdlManager];
     }];
 
-    SDLMenuCell *getVehicleDataCell = [[SDLMenuCell alloc] initWithTitle:@"Get Vehicle Data" icon:nil voiceCommands:@[@"Get Vehicle Data"] handler:^{
+    SDLMenuCell *getVehicleDataCell = [[SDLMenuCell alloc] initWithTitle:@"Get Vehicle Data" icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"car"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[@"Get Vehicle Data"] handler:^{
         [ProxyManager sdlex_sendGetVehicleDataWithManager:weakself.sdlManager];
     }];
 
-    self.sdlManager.screenManager.menu = @[speakCell, interactionSetCell, getVehicleDataCell];
+    NSMutableArray *menuArray = [NSMutableArray arrayWithArray:@[speakCell, interactionSetCell, getVehicleDataCell]];
+    for (int i = 0; i < 75; i++) {
+        SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:[NSString stringWithFormat:@"%i", i] icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"hexagon_on_softbutton_icon"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:nil handler:^{}];
+        [menuArray addObject:cell];
+    }
+
+    self.sdlManager.screenManager.menu = [menuArray copy];
 }
 
 
