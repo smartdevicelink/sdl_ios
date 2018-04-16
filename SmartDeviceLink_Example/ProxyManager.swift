@@ -93,8 +93,7 @@ private extension ProxyManager {
     func startManager() {
         sdlManager.start(readyHandler: { [unowned self] (success, error) in
             guard success else {
-                SDLLog.d("something")
-                print("There was an error while starting up: \(String(describing: error))")
+                SDLLog.e("There was an error while starting up: \(String(describing: error))")
                 self.resetConnection()
                 return
             }
@@ -107,7 +106,7 @@ private extension ProxyManager {
             self.vehicleDataManager = VehicleDataManager(sdlManager: self.sdlManager, refreshUIHandler: self.refreshUIHandler)
             RPCPermissionsManager.setupPermissionsCallbacks(with: self.sdlManager)
 
-            print("SDL file manager storage: \(self.sdlManager.fileManager.bytesAvailable / 1024 / 1024) mb")
+            SDLLog.d("SDL file manager storage: \(self.sdlManager.fileManager.bytesAvailable / 1024 / 1024) mb")
         })
     }
 }
@@ -229,16 +228,16 @@ private extension ProxyManager {
         screenManager.textField3 = isTextVisible ? vehicleDataManager.vehicleOdometerData : nil
         screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!, persistent: false, as: .PNG) : nil
         screenManager.endUpdates(completionHandler: { (error) in
-            print("Updated text and graphics. Error? \(String(describing: error))")
+            SDLLog.e("Textfields, graphics and soft buttons updated. Error? \(String(describing: error))")
         })
     }
 
     /// Send static menu data
     func createStaticMenus() {
         sdlManager.send(MenuManager.allAddCommands(with: sdlManager) + [MenuManager.createInteractionChoiceSet()], progressHandler: { (request, response, error, percentComplete) in
-            print("\(request), was sent \(response?.resultCode == .success ? "successfully" : "unsuccessfully"), error: \(error != nil ? error!.localizedDescription : "no error")")
+            SDLLog.d("\(request), was sent \(response?.resultCode == .success ? "successfully" : "unsuccessfully"), error: \(error != nil ? error!.localizedDescription : "no error")")
         }, completionHandler: { (success) in
-            print("All prepare remote system requests sent \(success ? "successfully" : "unsuccessfully")")
+            SDLLog.d("All prepare remote system requests sent \(success ? "successfully" : "unsuccessfully")")
         })
     }
 }

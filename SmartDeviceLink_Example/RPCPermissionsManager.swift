@@ -8,6 +8,7 @@
 
 import Foundation
 import SmartDeviceLink
+import SmartDeviceLinkSwift
 
 class RPCPermissionsManager {
     /// Checks if an RPC has the required permission to be sent to SDL Core and gets notifications if those permissions change.
@@ -82,7 +83,7 @@ private extension RPCPermissionsManager {
     ///   - rpcName: The name of the RPC
     ///   - isRPCAllowed: The permission status for the RPC
     class func logRPCPermission(rpcName: String, isRPCAllowed: Bool) {
-        print("\(rpcName) RPC can be sent to SDL Core? \(isRPCAllowed ? "yes" : "no")")
+        SDLLog.d("\(rpcName) RPC can be sent to SDL Core? \(isRPCAllowed ? "yes" : "no")")
     }
 
     /// Logs permissions for a group of RPCs
@@ -92,7 +93,7 @@ private extension RPCPermissionsManager {
     ///   - groupPermissionStatus: The permission status for all RPCs in the group
     ///   - individualPermissionStatuses: The permission status for each of the RPCs in the group
     class func logRPCGroupPermissions(rpcNames: [String], groupPermissionStatus: SDLPermissionGroupStatus, individualPermissionStatuses: [String:NSNumber]) {
-        print("The group status for \(rpcNames) has changed to: \(groupPermissionStatus)")
+        SDLLog.d("The group status for \(rpcNames) has changed to: \(groupPermissionStatus)")
         for (rpcName, rpcAllowed) in individualPermissionStatuses {
             logRPCPermission(rpcName: rpcName as String, isRPCAllowed: rpcAllowed.boolValue)
         }

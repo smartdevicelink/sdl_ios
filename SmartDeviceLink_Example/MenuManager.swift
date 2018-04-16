@@ -8,6 +8,7 @@
 
 import Foundation
 import SmartDeviceLink
+import SmartDeviceLinkSwift
 
 class MenuManager: NSObject {
     /// Creates a choice set to be used in a PerformInteraction. The choice set must be sent to SDL Core and a response received before it can be used in a PerformInteraction request.
@@ -55,7 +56,7 @@ private extension MenuManager {
     class func showPerformInteractionChoiceSet(with manager: SDLManager) {
         manager.send(request: createPerformInteraction()) { (_, response, error) in
             guard response?.resultCode == .success else {
-                print("The show interaction choice set request failed: \(String(describing: error?.localizedDescription))")
+                SDLLog.e("The Show Perform Interaction Choice Set request failed: \(String(describing: error?.localizedDescription))")
                 return
             }
 
@@ -81,12 +82,14 @@ private extension MenuManager {
         let speakCommand = SDLAddCommand(id: 200, vrCommands: [ACSpeakAppNameMenuName], menuName: ACSpeakAppNameMenuName, handler: { (onCommand) in
             manager.send(request: SDLSpeak(tts: ExampleAppNameTTS), responseHandler: { (_, response, error) in
                 if response?.resultCode != .success {
-                    print("Error sending the speak app name request: \(error != nil ? error!.localizedDescription : "no error message")")
+                    SDLLog.e("Error sending the Speak App name request: \(error != nil ? error!.localizedDescription : "no error message")")
                 }
             })
         })
 
         speakCommand.cmdIcon = SDLImage(name: "0x11", ofType: .static)
+            // SDLImage(staticImageValue: 0x11)
+            // SDLImage(name: "0x11", ofType: .static)
         return speakCommand
     }
     

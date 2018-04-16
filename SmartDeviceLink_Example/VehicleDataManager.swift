@@ -8,12 +8,12 @@
 
 import Foundation
 import SmartDeviceLink
-
+import SmartDeviceLinkSwift
 
 class VehicleDataManager: NSObject {
     fileprivate let sdlManager: SDLManager!
     fileprivate var refreshUIHandler: refreshUIHandler?
-    public private(set) var vehicleOdometerData: String
+    public fileprivate(set) var vehicleOdometerData: String
 
     /// Custom init
     ///
@@ -23,18 +23,21 @@ class VehicleDataManager: NSObject {
     init(sdlManager: SDLManager, refreshUIHandler: refreshUIHandler? = nil) {
         self.sdlManager = sdlManager
         self.refreshUIHandler = refreshUIHandler
-        vehicleOdometerData = "Odometer: Unsubscribed"
+        self.vehicleOdometerData = "Odometer: "
         super.init()
 
+        reset()
         NotificationCenter.default.addObserver(self, selector: #selector(vehicleDataNotification(_:)), name: .SDLDidReceiveVehicleData, object: nil)
     }
 
     func reset() {
-        vehicleOdometerData = "Odometer: Unsubscribed"
+        vehicleOdometerData += "Unsubscribed"
     }
+}
 
-    // MARK: Subscribe to odometer data
+// MARK: - Subscribe Vehicle Data
 
+extension VehicleDataManager {
     /// Subscribes to odometer data. You must subscribe to notification with name `SDLDidReceiveVehicleData` to get the new data when the odometer data changes.
     func subscribeToVehicleOdometer() {
         let subscribeToVehicleOdometer = SDLSubscribeVehicleData()
@@ -42,20 +45,26 @@ class VehicleDataManager: NSObject {
         sdlManager.send(request: subscribeToVehicleOdometer) { [unowned self] (request, response, error) in
             guard let result = response?.resultCode else { return }
 
-            var message = ""
             switch result {
             case .success:
-                message = "Subscribed to vehicle odometer data"
+                SDLLog.d("Subscribed to vehicle odometer data")
+                self.vehicleOdometerData += "Subscribed"
             case .disallowed:
-                message = "Access to vehicle data disallowed."
+                SDLLog.d("SubAccess to vehicle data disallowed")
+                self.vehicleOdometerData += "Disallowed"
             case .userDisallowed:
-                message = "Vehicle user disabled access to vehicle data"
+                SDLLog.d("Vehicle user disabled access to vehicle data")
+                self.vehicleOdometerData += "Disabled"
             case .ignored:
-                message = "Already subscribed to odometer data"
+                SDLLog.d("Already subscribed to odometer data")
+                self.vehicleOdometerData += "Subscribed"
             case .dataNotAvailable:
-                message = "You have permission to access to vehicle data, but the vehicle you are connected to did not provide anything"
+                SDLLog.d("You have permission to access to vehicle data, but the vehicle you are connected to did not provide any data")
+                self.vehicleOdometerData += "Unknown"
             default:
-                message = "Unknown reason for failure to get vehicle data: \(error != nil ? error!.localizedDescription : "no error message") "
+                SDLLog.d("Unknown reason for failure to get vehicle data: \(error != nil ? error!.localizedDescription : "no error message")")
+                self.vehicleOdometerData += "Unsubscribed"
+                return
             }
 
             guard let handler = self.refreshUIHandler else { return }
@@ -78,12 +87,15 @@ class VehicleDataManager: NSObject {
             return
         }
 
-        vehicleOdometerData = "Odometer: \(odometer)km"
+        vehicleOdometerData = "Odometer: \(odometer) km"
         handler()
     }
+}
 
-    // MARK: - Get Vehicle Speed
 
+// MARK: - Get Vehicle Data
+
+extension VehicleDataManager {
     /// Retreives the current vehicle speed
     ///
     /// - Parameter manager: The SDL manager
@@ -104,17 +116,21 @@ class VehicleDataManager: NSObject {
                 return
             }
 
-            var alertMessage = ""
+            var alertMessage = "Speed: "
             switch response.resultCode {
             case .rejected:
-                alertMessage = "The request for vehicle speed was rejected by SDL Core."
+                SDLLog.d("The request for vehicle speed was rejected")
+                alertMessage += "Rejected"
             case .disallowed:
-                alertMessage = "This app does not have the required permissions to access vehicle data."
+                SDLLog.d("This app does not have the required permissions to access vehicle data.")
+                alertMessage += "Denied"
             case .success:
                 if let vehicleData = response as? SDLGetVehicleDataResponse, let speed = vehicleData.speed {
-                    alertMessage = "Speed: \(speed)kph"
+                    SDLLog.d("Request for vehicle speed successful: \(speed)")
+                    alertMessage += "\(speed) kph"
                 } else {
-                    alertMessage = "Speed: unkown"
+                    SDLLog.e("Request for vehicle speed successful but no data returned")
+                    alertMessage += "Unkown"
                 }
             default: break
             }
@@ -124,4 +140,3 @@ class VehicleDataManager: NSObject {
         }
     }
 }
-

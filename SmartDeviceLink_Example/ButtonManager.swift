@@ -8,6 +8,7 @@
 
 import Foundation
 import SmartDeviceLink
+import SmartDeviceLinkSwift
 
 typealias refreshUIHandler = (() -> Void)
 
@@ -18,18 +19,18 @@ class ButtonManager: NSObject {
     /// SDL UI textfields are visible if true; hidden if false
     public fileprivate(set) var textEnabled: Bool {
         didSet {
-            guard let handler = refreshUIHandler else { return }
-            handler()
+            guard let refreshUIHandler = refreshUIHandler else { return }
+            refreshUIHandler()
         }
     }
 
     /// SDL UI images are visible if true; hidden if false
     public fileprivate(set) var imagesEnabled: Bool {
         didSet {
-            guard let handler = refreshUIHandler else { return }
-            handler()
+            guard let refreshUIHandler = refreshUIHandler else { return }
             updateToggleSoftButtonIcon(isEnabled: toggleEnabled, isImageEnabled: imagesEnabled)
             updateAlertSoftButtonIcon()
+            refreshUIHandler()
         }
     }
 
@@ -156,7 +157,7 @@ private extension ButtonManager {
     func updateToggleSoftButtonIcon(isEnabled: Bool, isImageEnabled: Bool) {
         let hexagonSoftButton = sdlManager.screenManager.softButtonObjectNamed(ToggleSoftButton)
         guard (isImageEnabled ? hexagonSoftButton?.transition(toState: isEnabled ? ToggleSoftButtonImageOnState : ToggleSoftButtonImageOffState) : hexagonSoftButton?.transition(toState: isEnabled ? ToggleSoftButtonTextOnState : ToggleSoftButtonTextOffState)) != nil else {
-            print("The state for the soft button was not found")
+            SDLLog.e("The state for the soft button was not found")
             return
         }
     }
