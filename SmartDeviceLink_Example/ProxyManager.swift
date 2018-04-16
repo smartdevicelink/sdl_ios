@@ -7,7 +7,7 @@
 
 import UIKit
 import SmartDeviceLink
-//import SmartDeviceLinkSwift
+import SmartDeviceLinkSwift
 
 class ProxyManager: NSObject {
     fileprivate var sdlManager: SDLManager!
@@ -93,7 +93,7 @@ private extension ProxyManager {
     func startManager() {
         sdlManager.start(readyHandler: { [unowned self] (success, error) in
             guard success else {
-//                SDLLog.d("something")
+                SDLLog.d("something")
                 print("There was an error while starting up: \(String(describing: error))")
                 self.resetConnection()
                 return
