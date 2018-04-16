@@ -7,7 +7,7 @@
 
 import UIKit
 import SmartDeviceLink
-import SmartDeviceLinkSwift
+//import SmartDeviceLinkSwift
 
 class ProxyManager: NSObject {
     fileprivate var sdlManager: SDLManager!
@@ -84,7 +84,7 @@ private extension ProxyManager {
         let logConfig = SDLLogConfiguration.default()
         let exampleLogFileModule = SDLLogFileModule(name: "SDL Example", files: ["ProxyManager"])
         logConfig.modules.insert(exampleLogFileModule)
-        logConfig.targets.insert(SDLLogTargetFile()) // Logs to file
+        _ = logConfig.targets.insert(SDLLogTargetFile()) // Logs to file
         logConfig.globalLogLevel = .verbose // Filters the logs
         return logConfig
     }
@@ -93,7 +93,7 @@ private extension ProxyManager {
     func startManager() {
         sdlManager.start(readyHandler: { [unowned self] (success, error) in
             guard success else {
-                SDLLogD("")
+//                SDLLog.d("something")
                 print("There was an error while starting up: \(String(describing: error))")
                 self.resetConnection()
                 return

@@ -78,23 +78,30 @@ private extension MenuManager {
     /// - Parameter manager: The SDL Manager
     /// - Returns: An SDLAddCommand request
     class func addCommandSpeakName(with manager: SDLManager) -> SDLAddCommand {
-        return SDLAddCommand(id: 200, vrCommands: [ACSpeakAppNameMenuName], menuName: ACSpeakAppNameMenuName, handler: { (onCommand) in
+        let speakCommand = SDLAddCommand(id: 200, vrCommands: [ACSpeakAppNameMenuName], menuName: ACSpeakAppNameMenuName, handler: { (onCommand) in
             manager.send(request: SDLSpeak(tts: ExampleAppNameTTS), responseHandler: { (_, response, error) in
                 if response?.resultCode != .success {
                     print("Error sending the speak app name request: \(error != nil ? error!.localizedDescription : "no error message")")
                 }
             })
         })
+
+        speakCommand.cmdIcon = SDLImage(name: "0x11", ofType: .static)
+        return speakCommand
     }
     
     /// Menu item that requests vehicle data when selected
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: An SDLAddCommand request
-    class func addCommandGetVehicleSpeed(with manager: SDLManager) -> SDLAddCommand {
-        return SDLAddCommand(id: 201, vrCommands: [ACGetVehicleDataMenuName], menuName: ACGetVehicleDataMenuName, handler: { (onCommand) in
-            VehicleDataManager.getVehicleSpeed(with: manager)
+    class func addCommandGetVehicleSpeed(with manager: SDLManager) ->
+        SDLAddCommand {
+        let vehicleSpeedAddCommand = SDLAddCommand(id: 201, vrCommands: [ACGetVehicleDataMenuName], menuName: ACGetVehicleDataMenuName, handler: { (onCommand) in
+        VehicleDataManager.getVehicleSpeed(with: manager)
         })
+        vehicleSpeedAddCommand.cmdIcon = SDLImage(name: "0x2A", ofType: .static)
+
+        return vehicleSpeedAddCommand
     }
 
     /// Menu item that shows a custom menu (i.e. a Perform Interaction Choice Set) when selected
