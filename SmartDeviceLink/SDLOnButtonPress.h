@@ -7,46 +7,27 @@
 #import "SDLButtonPressMode.h"
 
 /**
- * Notifies application of button press events for buttons to which the
- * application is subscribed. SDL supports two button press events defined as
- * follows:
- *
- * <ul>
- * <li>SHORT - Occurs when a button is depressed, then released within two
- * seconds. The event is considered to occur immediately after the button is
- * released.</li>
- * <li>LONG - Occurs when a button is depressed and held for two seconds or
- * more. The event is considered to occur immediately after the two second
- * threshold has been crossed, before the button is released</li>
- * </ul>
- * <b>HMI Status Requirements:</b>
- * <ul>
- * HMILevel:
- * <ul>
- * <li>The application will receive OnButtonPress notifications for all
- * subscribed buttons when HMILevel is FULL.</li>
- * <li>The application will receive OnButtonPress notifications for subscribed
- * media buttons when HMILevel is LIMITED.</li>
- * <li>Media buttons include SEEKLEFT, SEEKRIGHT, TUNEUP, TUNEDOWN, and
- * PRESET_0-PRESET_9.</li>
- * <li>The application will not receive OnButtonPress notification when HMILevel
- * is BACKGROUND or NONE.</li>
- * </ul>
- * AudioStreamingState:
- * <ul>
- * <li> Any </li>
- * </ul>
- * SystemContext:
- * <ul>
- * <li>MAIN, VR. In MENU, only PRESET buttons. In VR, pressing any subscribable
- * button will cancel VR.</li>
- * </ul>
- * </ul>
- *
- * @see SDLSubscribeButton
- * @see SDLUnsubscribeButton
- *
- * @since SDL 1.0
+ Notifies application of button press events for buttons to which the application is subscribed. SDL supports two button press events defined as follows:
+
+ SHORT - Occurs when a button is depressed, then released within two seconds. The event is considered to occur immediately after the button is released.
+
+ LONG - Occurs when a button is depressed and held for two seconds or more. The event is considered to occur immediately after the two second threshold has been crossed, before the button is released.
+
+ HMI Status Requirements:
+
+ HMILevel:
+
+ The application will receive OnButtonPress notifications for all subscribed buttons when HMILevel is FULL.
+
+ The application will receive OnButtonPress notifications for subscribed media buttons when HMILevel is LIMITED. Media buttons include SEEKLEFT, SEEKRIGHT, TUNEUP, TUNEDOWN, and PRESET_0-PRESET_9.
+
+ The application will not receive OnButtonPress notification when HMILevel is BACKGROUND or NONE.
+
+ AudioStreamingState: Any
+
+ SystemContext: MAIN, VR. In MENU, only PRESET buttons. In VR, pressing any subscribable button will cancel VR.
+
+ @since SDL 1.0
  */
 
 NS_ASSUME_NONNULL_BEGIN
@@ -54,25 +35,21 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLOnButtonPress : SDLRPCNotification
 
 /**
- * @abstract the button's name
- *
- * @see SDLButtonName
+ * The button's name
  *
  * Required
  */
 @property (strong, nonatomic) SDLButtonName buttonName;
 
 /**
- * @abstract Indicates whether this is a LONG or SHORT button press event
- *
- * @see SDLButtonPressMode
+ * Indicates whether this is a LONG or SHORT button press event
  *
  * Required
  */
 @property (strong, nonatomic) SDLButtonPressMode buttonPressMode;
 
 /**
- * @abstract If ButtonName is "CUSTOM_BUTTON", this references the integer ID passed by a custom button. (e.g. softButton ID)
+ * If ButtonName is "CUSTOM_BUTTON", this references the integer ID passed by a custom button. (e.g. softButton ID)
  *
  * @since SDL 2.0
  *

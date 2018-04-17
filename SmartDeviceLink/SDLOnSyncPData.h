@@ -6,6 +6,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ DEPRECATED
+ */
 @interface SDLOnSyncPData : SDLRPCNotification
 
 @property (nullable, strong, nonatomic) NSString *URL;
