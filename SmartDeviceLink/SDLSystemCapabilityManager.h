@@ -23,11 +23,22 @@
 @class SDLPresetBankCapabilities;
 @class SDLRemoteControlCapabilities;
 @class SDLSoftButtonCapabilities;
+@class SDLSystemCapabilityManager;
 @class SDLVideoStreamingCapability;
 
 @protocol SDLConnectionManagerType;
 
 NS_ASSUME_NONNULL_BEGIN
+
+
+/**
+ *  A completion handler called after a request for the capability type is returned from the remote system.
+ *
+ *  @param error The error returned if the request for a capability type failed. The error is nil if the request was successful.
+ *  @param systemCapabilityManager The system capability manager
+ */
+typedef void (^SDLUpdateCapabilityHandler)(NSError * _Nullable error, SDLSystemCapabilityManager *systemCapabilityManager);
+
 
 @interface SDLSystemCapabilityManager : NSObject
 
@@ -149,14 +160,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic, readonly) SDLRemoteControlCapabilities *remoteControlCapability;
 
 /**
- *  A completion handler called after a request for the capability type is returned from the remote system.
- *
- *  @param error The error returned if the request for a capability type failed. The error is nil if the request was successful.
- *  @param systemCapabilityManager The system capability manager
- */
-typedef void (^SDLUpdateCapabilityHandler)(NSError * _Nullable error, SDLSystemCapabilityManager *systemCapabilityManager);
-
-/**
  *  Init is unavailable. Dependencies must be injected using initWithConnectionManager:
  *
  *  @return nil
@@ -171,6 +174,11 @@ typedef void (^SDLUpdateCapabilityHandler)(NSError * _Nullable error, SDLSystemC
  *  @return An instance of SDLSystemCapabilityManager
  */
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager NS_DESIGNATED_INITIALIZER;
+
+/**
+ *  Stops the manager. This method is used internally.
+ */
+- (void)stop;
 
 /**
  *  Retrieves a capability type from the remote system. This function must be called in order to retrieve the values of `navigationCapability`, `phoneCapability`, `videoStreamingCapability` and `remoteControlCapability`. If you do not call this method first, those values will be nil. After calling this method, assuming there is no error in the handler, you may retrieve the capability you requested from the manager within the handler.

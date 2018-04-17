@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLPrerecordedSpeech> *prerecordedSpeechCapabilities;
 @property (nonatomic, readwrite) BOOL vrCapability;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
-@property (nullable, copy, nonatomic, readwrite) SDLAudioPassThruCapabilities *pcmStreamCapability;
+@property (nullable, strong, nonatomic, readwrite) SDLAudioPassThruCapabilities *pcmStreamCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLNavigationCapability *navigationCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLPhoneCapability *phoneCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
@@ -59,6 +59,11 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdl_registerForNotifications];    
 
     return self;
+}
+
+- (void)stop {
+    SDLLogD(@"System Capability manager stopped");
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 

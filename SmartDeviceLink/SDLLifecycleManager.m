@@ -229,6 +229,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.permissionManager stop];
     [self.lockScreenManager stop];
     [self.streamManager stop];
+    [self.systemCapabilityManager stop];
     [self.responseDispatcher clear];
 
     [self.rpcOperationQueue cancelAllOperations];
