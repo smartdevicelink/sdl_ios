@@ -200,7 +200,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLLogConfiguration *)sdlex_logConfiguration {
-    SDLLogConfiguration *logConfig = [SDLLogConfiguration defaultConfiguration];
+    SDLLogConfiguration *logConfig = [SDLLogConfiguration debugConfiguration];
     SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Example" files:[NSSet setWithArray:@[@"ProxyManager"]]];
     logConfig.modules = [logConfig.modules setByAddingObject:sdlExampleModule];
     logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
@@ -362,13 +362,15 @@ NS_ASSUME_NONNULL_BEGIN
         [ProxyManager sdlex_sendGetVehicleDataWithManager:weakself.sdlManager];
     }];
 
-    NSMutableArray *menuArray = [NSMutableArray arrayWithArray:@[speakCell, interactionSetCell, getVehicleDataCell]];
+    NSMutableArray *menuArray = [NSMutableArray array];
     for (int i = 0; i < 75; i++) {
         SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:[NSString stringWithFormat:@"%i", i] icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"hexagon_on_softbutton_icon"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:nil handler:^{}];
         [menuArray addObject:cell];
     }
 
-    self.sdlManager.screenManager.menu = [menuArray copy];
+    SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" subCells:[menuArray copy]];
+
+    self.sdlManager.screenManager.menu = @[speakCell, interactionSetCell, getVehicleDataCell, submenuCell];
 }
 
 

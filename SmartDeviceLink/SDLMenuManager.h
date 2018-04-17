@@ -14,6 +14,8 @@
 
 @protocol SDLConnectionManagerType;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  The handler run when the update has completed
 
@@ -29,3 +31,5 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 @property (copy, nonatomic) NSArray<SDLVoiceCommand *> *voiceCommands;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -36,12 +36,15 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithTitle:(NSString *)title voiceCommands:(nullable NSArray<NSString *> *)voiceCommands subCells:(NSArray<SDLMenuCell *> *)subCells {
+- (instancetype)initWithTitle:(NSString *)title subCells:(NSArray<SDLMenuCell *> *)subCells {
     self = [super init];
     if (!self) { return nil; }
 
-    _voiceCommands = voiceCommands;
+    _title = title;
     _subCells = subCells;
+
+    _cellId = UINT32_MAX;
+    _parentCellId = UINT32_MAX;
 
     return self;
 }

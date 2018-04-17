@@ -25,7 +25,7 @@ typedef void(^SDLMenuCellSelectionHandler)(void);
 @property (copy, nonatomic, readonly, nullable) NSArray<SDLMenuCell *> *subCells;
 
 - (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon voiceCommands:(nullable NSArray<NSString *> *)voiceCommands handler:(SDLMenuCellSelectionHandler)handler;
-- (instancetype)initWithTitle:(NSString *)title voiceCommands:(nullable NSArray<NSString *> *)voiceCommands subCells:(NSArray<SDLMenuCell *> *)subCells;
+- (instancetype)initWithTitle:(NSString *)title subCells:(NSArray<SDLMenuCell *> *)subCells;
 
 @end
 

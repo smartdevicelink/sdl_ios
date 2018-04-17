@@ -103,10 +103,23 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
         return;
     }
 
+    if (self.inProgressUpdate != nil) {
+        // There's an in progress update, we need to put this on hold
+        self.hasQueuedUpdate = YES;
+        return;
+    }
+
     [self sdl_sendDeleteCurrentMenu:^(NSError * _Nullable error) {
         [self sdl_sendCurrentMenu:^(NSError * _Nullable error) {
+            self.needsUpdate = NO;
+            self.inProgressUpdate = nil;
+
             if (completionHandler != nil) {
                 completionHandler(error);
+            }
+
+            if (self.hasQueuedUpdate) {
+                [self sdl_updateWithCompletionHandler:nil];
             }
         }];
     }];
@@ -144,10 +157,22 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
         return;
     }
 
-    NSArray<SDLRPCRequest *> *mainMenuCommands = [self sdl_mainMenuCommandsForCells:self.menuCells];
-    NSArray<SDLRPCRequest *> *subMenuCommands = [self sdl_subMenuCommandsForCells:self.menuCells];
+    NSArray<SDLRPCRequest *> *mainMenuCommands = nil;
+    NSArray<SDLRPCRequest *> *subMenuCommands = nil;
+    if ([self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells].count > 0) {
+        // Send artwork-less menu
+        mainMenuCommands = [self sdl_mainMenuCommandsForCells:self.menuCells withArtwork:NO];
+        subMenuCommands = [self sdl_subMenuCommandsForCells:self.menuCells withArtwork:NO];
+    } else {
+        // Send full artwork menu
+        mainMenuCommands = [self sdl_mainMenuCommandsForCells:self.menuCells withArtwork:YES];
+        subMenuCommands = [self sdl_subMenuCommandsForCells:self.menuCells withArtwork:YES];
+    }
+
+    self.inProgressUpdate = [mainMenuCommands arrayByAddingObjectsFromArray:subMenuCommands];
 
     __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
+    __weak typeof(self) weakSelf = self;
     [self.connectionManager sendRequests:mainMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
         if (error != nil) {
             errors[request] = error;
@@ -161,15 +186,9 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
             return;
         }
 
-        if (subMenuCommands.count == 0) {
-            SDLLogD(@"No submenu commands to send");
-            if (completionHandler != nil) {
-                completionHandler(nil);
-            }
-            return;
-        }
+        weakSelf.oldMenuCells = weakSelf.menuCells;
 
-        [self.connectionManager sendRequests:subMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+        [weakSelf.connectionManager sendRequests:subMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
             if (error != nil) {
                 errors[request] = error;
             }
@@ -210,26 +229,15 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     _menuCells = menuCells;
 
     // Upload the artworks
-    NSArray<SDLArtwork *> *initialArtworksToBeUploaded = [self sdl_findInitialArtworksFromCells:self.menuCells];
-    if (initialArtworksToBeUploaded.count > 0) {
-        [self.fileManager uploadArtworks:initialArtworksToBeUploaded completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+    NSArray<SDLArtwork *> *artworksToBeUploaded = [self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells];
+    if (artworksToBeUploaded.count > 0) {
+        [self.fileManager uploadArtworks:artworksToBeUploaded completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
             if (error != nil) {
                 SDLLogE(@"Error uploading menu artworks: %@", error);
             }
 
-            SDLLogD(@"Menu main-menu artworks uploaded");
-            [self sdl_updateWithCompletionHandler:nil];
-        }];
-    }
-
-    NSArray<SDLArtwork *> *otherArtworksToBeUploaded = [self sdl_findAdditionalArtworksToBeUploadedFromCells:self.menuCells];
-    if (otherArtworksToBeUploaded.count > 0) {
-        [self.fileManager uploadArtworks:otherArtworksToBeUploaded completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
-            if (error != nil) {
-                SDLLogE(@"Error uploading menu artworks: %@", error);
-            }
-
-            SDLLogD(@"Menu non-main-menu artworks uploaded");
+            SDLLogD(@"Menu artworks uploaded");
+            self.needsUpdate = YES;
             [self sdl_updateWithCompletionHandler:nil];
         }];
     }
@@ -256,18 +264,7 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
 
 #pragma mark Artworks
 
-- (NSArray<SDLArtwork *> *)sdl_findInitialArtworksFromCells:(NSArray<SDLMenuCell *> *)cells {
-    NSMutableArray<SDLArtwork *> *mutableInitialArtworks = [NSMutableArray array];
-    for (SDLMenuCell *cell in cells) {
-        if (cell.icon != nil && ![self.fileManager hasUploadedFile:cell.icon]) {
-            [mutableInitialArtworks addObject:cell.icon];
-        }
-    }
-
-    return [mutableInitialArtworks copy];
-}
-
-- (NSArray<SDLArtwork *> *)sdl_findAdditionalArtworksToBeUploadedFromCells:(NSArray<SDLMenuCell *> *)cells {
+- (NSArray<SDLArtwork *> *)sdl_findAllArtworksToBeUploadedFromCells:(NSArray<SDLMenuCell *> *)cells {
     NSMutableArray<SDLArtwork *> *mutableArtworks = [NSMutableArray array];
     for (SDLMenuCell *cell in cells) {
         if (cell.icon != nil && ![self.fileManager hasUploadedFile:cell.icon]) {
@@ -275,7 +272,7 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
         }
 
         if (cell.subCells.count > 0) {
-            [mutableArtworks addObjectsFromArray:[self sdl_findAdditionalArtworksToBeUploadedFromCells:cell.subCells]];
+            [mutableArtworks addObjectsFromArray:[self sdl_findAllArtworksToBeUploadedFromCells:cell.subCells]];
         }
     }
 
@@ -323,45 +320,45 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
 
 #pragma mark Commands / SubMenu RPCs
 
-- (NSArray<SDLRPCRequest *> *)sdl_mainMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells {
+- (NSArray<SDLRPCRequest *> *)sdl_mainMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells withArtwork:(BOOL)shouldHaveArtwork {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
     for (SDLMenuCell *cell in cells) {
         if (cell.subCells.count > 0) {
             [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell]];
         } else {
-            [mutableCommands addObject:[self sdl_commandForMenuCell:cell]];
+            [mutableCommands addObject:[self sdl_commandForMenuCell:cell withArtwork:shouldHaveArtwork]];
         }
     }
 
     return [mutableCommands copy];
 }
 
-- (NSArray<SDLRPCRequest *> *)sdl_subMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells {
+- (NSArray<SDLRPCRequest *> *)sdl_subMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells withArtwork:(BOOL)shouldHaveArtwork {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
     for (SDLMenuCell *cell in cells) {
         if (cell.subCells.count > 0) {
-            [mutableCommands addObjectsFromArray:[self sdl_allCommandsForCells:cell.subCells]];
+            [mutableCommands addObjectsFromArray:[self sdl_allCommandsForCells:cell.subCells withArtwork:shouldHaveArtwork]];
         }
     }
 
     return [mutableCommands copy];
 }
 
-- (NSArray<SDLRPCRequest *> *)sdl_allCommandsForCells:(NSArray<SDLMenuCell *> *)cells {
+- (NSArray<SDLRPCRequest *> *)sdl_allCommandsForCells:(NSArray<SDLMenuCell *> *)cells withArtwork:(BOOL)shouldHaveArtwork {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
     for (SDLMenuCell *cell in cells) {
         if (cell.subCells.count > 0) {
             [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell]];
-            [mutableCommands addObjectsFromArray:[self sdl_allCommandsForCells:cell.subCells]];
+            [mutableCommands addObjectsFromArray:[self sdl_allCommandsForCells:cell.subCells withArtwork:shouldHaveArtwork]];
         } else {
-            [mutableCommands addObject:[self sdl_commandForMenuCell:cell]];
+            [mutableCommands addObject:[self sdl_commandForMenuCell:cell withArtwork:shouldHaveArtwork]];
         }
     }
 
     return [mutableCommands copy];
 }
 
-- (SDLAddCommand *)sdl_commandForMenuCell:(SDLMenuCell *)cell {
+- (SDLAddCommand *)sdl_commandForMenuCell:(SDLMenuCell *)cell withArtwork:(BOOL)shouldHaveArtwork {
     SDLAddCommand *command = [[SDLAddCommand alloc] init];
 
     SDLMenuParams *params = [[SDLMenuParams alloc] init];
@@ -370,7 +367,7 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
 
     command.menuParams = params;
     command.vrCommands = cell.voiceCommands;
-    command.cmdIcon = cell.icon ? [[SDLImage alloc] initWithName:cell.icon.name] : nil;
+    command.cmdIcon = (cell.icon && shouldHaveArtwork) ? [[SDLImage alloc] initWithName:cell.icon.name] : nil;
     command.cmdID = @(cell.cellId);
 
     return command;
