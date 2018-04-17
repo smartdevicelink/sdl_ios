@@ -110,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Array of length 1 - 100, of SDLAudioPassThruCapabilities
  */
-@property (nullable, copy, nonatomic, readonly) SDLAudioPassThruCapabilities *pcmStreamCapability;
+@property (nullable, strong, nonatomic, readonly) SDLAudioPassThruCapabilities *pcmStreamCapability;
 
 /**
  * If returned, the platform supports navigation
