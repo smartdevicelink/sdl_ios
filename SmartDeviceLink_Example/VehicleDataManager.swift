@@ -23,15 +23,15 @@ class VehicleDataManager: NSObject {
     init(sdlManager: SDLManager, refreshUIHandler: refreshUIHandler? = nil) {
         self.sdlManager = sdlManager
         self.refreshUIHandler = refreshUIHandler
-        self.vehicleOdometerData = "Odometer: "
+        self.vehicleOdometerData = ""
         super.init()
 
-        reset()
+        resetOdometer()
         NotificationCenter.default.addObserver(self, selector: #selector(vehicleDataNotification(_:)), name: .SDLDidReceiveVehicleData, object: nil)
     }
 
-    func reset() {
-        vehicleOdometerData += "Unsubscribed"
+    func stop() {
+        resetOdometer()
     }
 }
 
@@ -89,6 +89,10 @@ extension VehicleDataManager {
 
         vehicleOdometerData = "Odometer: \(odometer) km"
         handler()
+    }
+
+    fileprivate func resetOdometer() {
+        vehicleOdometerData = "Odometer: Unsubscribed"
     }
 }
 

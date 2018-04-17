@@ -55,7 +55,7 @@ class ButtonManager: NSObject {
         super.init()
     }
 
-    func reset() {
+    func stop() {
         textEnabled = true
         imagesEnabled = true
         toggleEnabled = true

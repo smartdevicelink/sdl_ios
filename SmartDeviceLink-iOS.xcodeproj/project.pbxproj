@@ -1060,6 +1060,7 @@
 		885D259F207D158300BD6EE7 /* Enum+SDLHMILevelFirstState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885D259D207D144E00BD6EE7 /* Enum+SDLHMILevelFirstState.swift */; };
 		8863B59D207D3849002D6459 /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 8863B597207D2388002D6459 /* AppConstants.m */; };
 		8863B59F207D4308002D6459 /* Enum+SDLConnectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8863B59E207D4308002D6459 /* Enum+SDLConnectionType.swift */; };
+		8870C3EA208662540070E018 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8870C3E82086623F0070E018 /* AudioManager.swift */; };
 		8877F5EB1F34A3BE00DC128A /* SDLSendHapticDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */; };
 		8877F5EE1F34A72200DC128A /* SDLSendHapticDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8877F5EF1F34A72200DC128A /* SDLSendHapticDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */; };
@@ -2384,6 +2385,7 @@
 		8863B596207D2388002D6459 /* AppConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConstants.h; sourceTree = "<group>"; };
 		8863B597207D2388002D6459 /* AppConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppConstants.m; sourceTree = "<group>"; };
 		8863B59E207D4308002D6459 /* Enum+SDLConnectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enum+SDLConnectionType.swift"; sourceTree = "<group>"; };
+		8870C3E82086623F0070E018 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataSpec.m; sourceTree = "<group>"; };
 		8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSendHapticDataResponse.h; sourceTree = "<group>"; };
 		8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponse.m; sourceTree = "<group>"; };
@@ -4783,6 +4785,7 @@
 				88DFB054207F96EE0079D19D /* AlertManager.swift */,
 				88B849C32080F4AF002A034D /* RPCPermissionsManager.swift */,
 				88B849C620812412002A034D /* VehicleDataManager.swift */,
+				8870C3E82086623F0070E018 /* AudioManager.swift */,
 			);
 			name = SDL;
 			sourceTree = "<group>";
@@ -6374,6 +6377,7 @@
 				88A0AA5C207CFE740075132C /* ConnectionContainerViewController.swift in Sources */,
 				8863B59F207D4308002D6459 /* Enum+SDLConnectionType.swift in Sources */,
 				88B849C52080F4B3002A034D /* RPCPermissionsManager.swift in Sources */,
+				8870C3EA208662540070E018 /* AudioManager.swift in Sources */,
 				88DFB055207F96EE0079D19D /* AlertManager.swift in Sources */,
 				888D178F207E7F42008E9F8F /* ButtonManager.swift in Sources */,
 				88A0AA5E207CFE740075132C /* ConnectionTCPTableViewController.swift in Sources */,

@@ -69,7 +69,7 @@ private extension ProxyManager {
         lifecycleConfiguration.shortAppName = ExampleAppNameShort
         let appIcon = UIImage(named: ExampleAppLogoName)
         lifecycleConfiguration.appIcon = appIcon != nil ? SDLArtwork(image: appIcon!, persistent: true, as: .PNG) : nil
-        lifecycleConfiguration.appType = .media
+        lifecycleConfiguration.appType = .default
         lifecycleConfiguration.language = .enUs
         lifecycleConfiguration.languagesSupported = [.enUs, .esMx, .frCa]
 
@@ -118,8 +118,8 @@ extension ProxyManager: SDLManagerDelegate {
     func managerDidDisconnect() {
         delegate?.didChangeProxyState(SDLProxyState.stopped)
         firstHMILevelState = .none
-        buttonManager.reset()
-        vehicleDataManager.reset()
+        buttonManager.stop()
+        vehicleDataManager.stop()
 
         // If desired, automatically start searching for a new connection to Core
         if ExampleAppShouldRestartSDLManagerOnDisconnect.boolValue {
