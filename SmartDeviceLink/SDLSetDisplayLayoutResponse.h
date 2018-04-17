@@ -8,14 +8,14 @@
 @class SDLPresetBankCapabilities;
 @class SDLSoftButtonCapabilities;
 
-/**
- * Set Display Layout Response is sent, when SetDisplayLayout has been called
- *
- * Since SmartDeviceLink 2.0
- */
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Response to SDLSetDisplayLayout
+
+ Since SmartDeviceLink 2.0
+ */
 @interface SDLSetDisplayLayoutResponse : SDLRPCResponse
 
 @property (nullable, strong, nonatomic) SDLDisplayCapabilities *displayCapabilities;

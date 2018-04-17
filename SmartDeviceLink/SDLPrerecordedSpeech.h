@@ -4,6 +4,9 @@
 
 #import "SDLEnum.h"
 
+/**
+ Contains information about the speech capabilities on the SDL platform
+ */
 typedef SDLEnum SDLPrerecordedSpeech SDL_SWIFT_ENUM;
 
 extern SDLPrerecordedSpeech const SDLPrerecordedSpeechHelp;

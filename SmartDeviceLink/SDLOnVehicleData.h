@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLBeltStatus *beltStatus;
 
 /**
- he body information including power modes
+ The body information including power modes
  */
 @property (nullable, strong, nonatomic) SDLBodyInformation *bodyInformation;
 

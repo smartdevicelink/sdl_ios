@@ -4,8 +4,10 @@
 
 #import "SDLRPCResponse.h"
 
-/** SDLDiagnosticMessageResponse is sent, when SDLDiagnosticMessage has been called.
- * Since<b>SmartDeviceLink 3.0</b>
+/**
+ Response to SDLDiagnosticMessage
+
+ Since SmartDeviceLink 3.0
  */
 
 NS_ASSUME_NONNULL_BEGIN
