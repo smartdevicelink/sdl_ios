@@ -20,6 +20,10 @@ class AudioManager: NSObject {
     fileprivate var audioData = Data()
     fileprivate var audioRecordingState: SearchManagerState
 
+    fileprivate var floorAudioDb: Float?
+    fileprivate var numberOfSilentPasses = 0;
+
+
     init(sdlManager: SDLManager) {
         self.sdlManager = sdlManager
         audioRecordingState = .notListening
@@ -40,27 +44,21 @@ class AudioManager: NSObject {
 
 extension AudioManager {
     @objc func audioPassThruDataReceived(notification: SDLRPCNotificationNotification) {
-        if audioRecordingState == .notListening {
-            audioRecordingState = .listening
-        }
-
         // This audio data is only the current chunk of audio data
         guard let data = notification.notification.bulkData else {
             return
         }
 
-        let currentData = Data(data)
-        let av = AVAudioRecorder()
-        av.updateMeters()
-        av.averagePower(forChannel: 0)
+        // Check Db level for the current audio chunk
+        AudioManager.convertDataToPCMFormattedAudio(data)
 
-
+        // Save the audio chunk
         audioData.append(data)
     }
 
+    // Can be triggered by an SDLEndAudioPassThru request or when a `SDLPerformAudioPassThru` requst times out
     @objc func audioPassThruEnded(response: SDLRPCResponseNotification) {
-        guard audioRecordingState == .listening, response.response.success.boolValue == true else {
-            stopRecording()
+        guard response.response.success.boolValue == true else {
             return
         }
 
@@ -86,6 +84,9 @@ private extension AudioManager {
     func stopRecording() {
         guard audioRecordingState == .listening else { return }
         audioRecordingState = .notListening
+
+        let endAudioPassThruRequest = SDLEndAudioPassThru()
+        sdlManager.send(endAudioPassThruRequest)
     }
 
     func playRecording(_ data: Data) {
@@ -111,7 +112,31 @@ private extension AudioManager {
         return buffer
     }
 
-    class func computeVolumeRMS() {
+    func computeSilentPasses(_ currentDataChunk: Data) {
+        let currentDb: Float = 0 // db
+        guard let floorAudioDb = floorAudioDb else {
+            self.floorAudioDb = floorf(currentDb) + 5;
+            return
+        }
+
+        if currentDb > floorAudioDb {
+            audioRecordingState = .listening
+            numberOfSilentPasses = 0
+        } else {
+            numberOfSilentPasses += 1
+        }
+
+        if audioRecordingState == .listening && numberOfSilentPasses == 30 {
+            audioRecordingState = .notListening
+            numberOfSilentPasses = 0
+            stopRecording()
+        }
+    }
+
+    // https://stackoverflow.com/questions/2445756/how-can-i-calculate-audio-db-level
+    class func computeVolumeRMS(_ currentDataChunk: Data) {
+        let amplitude = 0 / 32767.0
+        let dB = 20 * log10(amplitude)
         // https://stackoverflow.com/questions/5800649/detect-silence-when-recording/5800854#5800854
     }
 }
