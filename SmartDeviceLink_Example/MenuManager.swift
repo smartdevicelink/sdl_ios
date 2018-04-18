@@ -23,7 +23,7 @@ class MenuManager: NSObject {
     /// - Parameter manager: The SDL Manager
     /// - Returns: An array of SDLAddCommand requests
     class func allAddCommands(with manager: SDLManager) -> [SDLAddCommand] {
-        return [addCommandSpeakName(with: manager), addCommandGetVehicleSpeed(with: manager), addCommandShowPerformInteraction(with: manager)]
+        return [addCommandSpeakName(with: manager), addCommandGetVehicleSpeed(with: manager), addCommandShowPerformInteraction(with: manager), addCommandRecordInCarMicrophoneAudio(with: manager)]
     }
 }
 
@@ -79,7 +79,7 @@ private extension MenuManager {
     /// - Parameter manager: The SDL Manager
     /// - Returns: An SDLAddCommand request
     class func addCommandSpeakName(with manager: SDLManager) -> SDLAddCommand {
-        let speakCommand = SDLAddCommand(id: 200, vrCommands: [ACSpeakAppNameMenuName], menuName: ACSpeakAppNameMenuName, handler: { (onCommand) in
+        let speakAddCommand = SDLAddCommand(id: 200, vrCommands: [ACSpeakAppNameMenuName], menuName: ACSpeakAppNameMenuName, handler: { (onCommand) in
             manager.send(request: SDLSpeak(tts: ExampleAppNameTTS), responseHandler: { (_, response, error) in
                 if response?.resultCode != .success {
                     SDLLog.e("Error sending the Speak App name request: \(error != nil ? error!.localizedDescription : "no error message")")
@@ -87,10 +87,10 @@ private extension MenuManager {
             })
         })
 
-        speakCommand.cmdIcon = SDLImage(name: "0x11", ofType: .static)
+        speakAddCommand.cmdIcon = SDLImage(name: "0x11", ofType: .static)
             // SDLImage(staticImageValue: 0x11)
             // SDLImage(name: "0x11", ofType: .static)
-        return speakCommand
+        return speakAddCommand
     }
     
     /// Menu item that requests vehicle data when selected
@@ -115,5 +115,15 @@ private extension MenuManager {
         return SDLAddCommand(id: 202, vrCommands: [ACShowChoiceSetMenuName], menuName: ACShowChoiceSetMenuName, handler: { (onCommand) in
             showPerformInteractionChoiceSet(with: manager)
         })
+    }
+
+    class func addCommandRecordInCarMicrophoneAudio(with manager: SDLManager) -> SDLAddCommand {
+        let audioManager = AudioManager(sdlManager: manager)
+        let recordAddCommand = SDLAddCommand(id: 203, vrCommands: [ACRecordInCarMicrophoneAudioMenuName], menuName: ACRecordInCarMicrophoneAudioMenuName, handler: { (onCommand) in
+            audioManager.startRecording()
+        })
+        recordAddCommand.cmdIcon = SDLImage(name: "0x91", ofType: .static)
+
+        return recordAddCommand
     }
 }

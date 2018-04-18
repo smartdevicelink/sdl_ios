@@ -13,6 +13,7 @@ class ProxyManager: NSObject {
     fileprivate var sdlManager: SDLManager!
     fileprivate var buttonManager: ButtonManager!
     fileprivate var vehicleDataManager: VehicleDataManager!
+    fileprivate var audioManager: AudioManager!
     fileprivate var firstHMILevelState: SDLHMILevelFirstState
     weak var delegate: ProxyManagerDelegate?
 
@@ -85,7 +86,7 @@ private extension ProxyManager {
         let exampleLogFileModule = SDLLogFileModule(name: "SDL Example", files: ["ProxyManager"])
         logConfig.modules.insert(exampleLogFileModule)
         _ = logConfig.targets.insert(SDLLogTargetFile()) // Logs to file
-        logConfig.globalLogLevel = .verbose // Filters the logs
+        logConfig.globalLogLevel = .off // Filters the logs
         return logConfig
     }
 
@@ -104,6 +105,8 @@ private extension ProxyManager {
             // Do some setup
             self.buttonManager = ButtonManager(sdlManager: self.sdlManager, updateScreenHandler: self.refreshUIHandler)
             self.vehicleDataManager = VehicleDataManager(sdlManager: self.sdlManager, refreshUIHandler: self.refreshUIHandler)
+            self.audioManager = AudioManager(sdlManager: self.sdlManager)
+
             RPCPermissionsManager.setupPermissionsCallbacks(with: self.sdlManager)
 
             SDLLog.d("SDL file manager storage: \(self.sdlManager.fileManager.bytesAvailable / 1024 / 1024) mb")
@@ -120,6 +123,7 @@ extension ProxyManager: SDLManagerDelegate {
         firstHMILevelState = .none
         buttonManager.stop()
         vehicleDataManager.stop()
+        audioManager.stop()
 
         // If desired, automatically start searching for a new connection to Core
         if ExampleAppShouldRestartSDLManagerOnDisconnect.boolValue {
