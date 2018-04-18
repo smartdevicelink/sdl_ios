@@ -253,7 +253,7 @@ describe(@"System capability manager", ^{
         });
     });
 
-    context(@"When notified of a Get System Capability Response ", ^{
+    context(@"When notified of a Get System Capability Response", ^{
         __block SDLGetSystemCapabilityResponse *testGetSystemCapabilityResponse;
         __block SDLPhoneCapability *testPhoneCapability = nil;
 
@@ -349,6 +349,46 @@ describe(@"System capability manager", ^{
             expect(testSystemCapabilityManager.navigationCapability).to(beNil());
             expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
             expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+        });
+    });
+
+    context(@"When the system capability manager is stopped after being started", ^{
+        beforeEach(^{
+            SDLDisplayCapabilities *testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
+            testDisplayCapabilities.graphicSupported = @NO;
+
+            SDLRegisterAppInterfaceResponse *testRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
+            testRegisterAppInterfaceResponse.displayCapabilities = testDisplayCapabilities;
+            testRegisterAppInterfaceResponse.success = @YES;
+
+            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+            expect(testSystemCapabilityManager.displayCapabilities).to(equal(testDisplayCapabilities));
+        });
+
+        describe(@"When stopped", ^{
+            beforeEach(^{
+                [testSystemCapabilityManager stop];
+            });
+
+            it(@"It should reset the system capability manager properties correctly", ^{
+                expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.vrCapability).to(beFalse());
+                expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
+                expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
+                expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+                expect(testSystemCapabilityManager.navigationCapability).to(beNil());
+                expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
+                expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+            });
         });
     });
 });

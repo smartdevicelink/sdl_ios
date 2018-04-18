@@ -107,7 +107,7 @@ typedef void (^SDLUpdateCapabilityHandler)(NSError * _Nullable error, SDLSystemC
  *
  * True if the head unit supports voice recognition; false if not.
  */
-@property (nonatomic, readonly) BOOL vrCapability;
+@property (nonatomic, assign, readonly) BOOL vrCapability;
 
 /**
  * @see SDLAudioPassThruCapabilities

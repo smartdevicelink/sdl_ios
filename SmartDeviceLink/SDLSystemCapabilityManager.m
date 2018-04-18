@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLHMIZoneCapabilities> *hmiZoneCapabilities;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLSpeechCapabilities> *speechCapabilities;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLPrerecordedSpeech> *prerecordedSpeechCapabilities;
-@property (nonatomic, readwrite) BOOL vrCapability;
+@property (nonatomic, assign, readwrite) BOOL vrCapability;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
 @property (nullable, strong, nonatomic, readwrite) SDLAudioPassThruCapabilities *pcmStreamCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLNavigationCapability *navigationCapability;
@@ -63,7 +63,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)stop {
     SDLLogD(@"System Capability manager stopped");
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    _displayCapabilities = nil;
+    _hmiCapabilities = nil;
+    _softButtonCapabilities = nil;
+    _buttonCapabilities = nil;
+    _presetBankCapabilities = nil;
+    _hmiZoneCapabilities = nil;
+    _speechCapabilities = nil;
+    _prerecordedSpeechCapabilities = nil;
+    _vrCapability = NO;
+    _audioPassThruCapabilities = nil;
+    _pcmStreamCapability = nil;
+    _navigationCapability = nil;
+    _phoneCapability = nil;
+    _videoStreamingCapability = nil;
+    _remoteControlCapability = nil;
 }
 
 
