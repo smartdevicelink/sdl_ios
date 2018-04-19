@@ -221,10 +221,10 @@ describe(@"a response dispatcher", ^{
                 }];
                 testShow2.softButtons = [@[testSoftButton2] mutableCopy];
                 testShow2.correlationID = @2;
-                [testDispatcher storeRequest:testShow handler:nil];
+                [testDispatcher storeRequest:testShow2 handler:nil];
             });
             
-            it(@"should remvoe the old soft button handler", ^{
+            it(@"should remove the old soft button handler", ^{
                 expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).to(beNil());
                 expect(testDispatcher.customButtonHandlerMap[testSoftButton2.softButtonID]).toNot(beNil());
             });
