@@ -330,9 +330,9 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
     [cells enumerateObjectsUsingBlock:^(SDLMenuCell * _Nonnull cell, NSUInteger index, BOOL * _Nonnull stop) {
         if (cell.subCells.count > 0) {
-            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell position:(UInt8)index]];
+            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell position:(UInt16)index]];
         } else {
-            [mutableCommands addObject:[self sdl_commandForMenuCell:cell withArtwork:shouldHaveArtwork position:(UInt8)index]];
+            [mutableCommands addObject:[self sdl_commandForMenuCell:cell withArtwork:shouldHaveArtwork position:(UInt16)index]];
         }
     }];
 
@@ -354,10 +354,10 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
     [cells enumerateObjectsUsingBlock:^(SDLMenuCell * _Nonnull cell, NSUInteger index, BOOL * _Nonnull stop) {
         if (cell.subCells.count > 0) {
-            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell position:(UInt8)index]];
+            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell position:(UInt16)index]];
             [mutableCommands addObjectsFromArray:[self sdl_allCommandsForCells:cell.subCells withArtwork:shouldHaveArtwork]];
         } else {
-            [mutableCommands addObject:[self sdl_commandForMenuCell:cell withArtwork:shouldHaveArtwork position:(UInt8)index]];
+            [mutableCommands addObject:[self sdl_commandForMenuCell:cell withArtwork:shouldHaveArtwork position:(UInt16)index]];
         }
     }];
 
@@ -384,7 +384,7 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     SDLAddSubMenu *submenu = [[SDLAddSubMenu alloc] initWithId:cell.cellId menuName:cell.title];
     submenu.position = @(position);
 
-    return position;
+    return submenu;
 }
 
 - (SDLAddCommand *)sdl_commandForVoiceCommand:(SDLVoiceCommand *)voiceCommand {
