@@ -45,27 +45,29 @@ extension VehicleDataManager {
         sdlManager.send(request: subscribeToVehicleOdometer) { [unowned self] (request, response, error) in
             guard let result = response?.resultCode else { return }
 
+            var message = "\(VehicleDataOdometerName): "
             switch result {
             case .success:
                 SDLLog.d("Subscribed to vehicle odometer data")
-                self.vehicleOdometerData += "Subscribed"
+                message += "Subscribed"
             case .disallowed:
                 SDLLog.d("SubAccess to vehicle data disallowed")
-                self.vehicleOdometerData += "Disallowed"
+                message += "Disallowed"
             case .userDisallowed:
                 SDLLog.d("Vehicle user disabled access to vehicle data")
-                self.vehicleOdometerData += "Disabled"
+                message += "Disabled"
             case .ignored:
                 SDLLog.d("Already subscribed to odometer data")
-                self.vehicleOdometerData += "Subscribed"
+                message += "Subscribed"
             case .dataNotAvailable:
                 SDLLog.d("You have permission to access to vehicle data, but the vehicle you are connected to did not provide any data")
-                self.vehicleOdometerData += "Unknown"
+                message += "Unknown"
             default:
                 SDLLog.d("Unknown reason for failure to get vehicle data: \(error != nil ? error!.localizedDescription : "no error message")")
-                self.vehicleOdometerData += "Unsubscribed"
+                message += "Unsubscribed"
                 return
             }
+            self.vehicleOdometerData = message
 
             guard let handler = self.refreshUIHandler else { return }
             handler()
@@ -87,12 +89,12 @@ extension VehicleDataManager {
             return
         }
 
-        vehicleOdometerData = "Odometer: \(odometer) km"
+        vehicleOdometerData = "\(VehicleDataOdometerName): \(odometer) km"
         handler()
     }
 
     fileprivate func resetOdometer() {
-        vehicleOdometerData = "Odometer: Unsubscribed"
+        vehicleOdometerData = "\(VehicleDataOdometerName): Unsubscribed"
     }
 }
 
@@ -120,7 +122,7 @@ extension VehicleDataManager {
                 return
             }
 
-            var alertMessage = "Speed: "
+            var alertMessage = "\(VehicleDataSpeedName): "
             switch response.resultCode {
             case .rejected:
                 SDLLog.d("The request for vehicle speed was rejected")

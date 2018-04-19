@@ -20,6 +20,7 @@
 @class SDLRPCResponse;
 @class SDLScreenManager;
 @class SDLStreamingMediaManager;
+@class SDLSystemCapabilityManager;
 
 @protocol SDLManagerDelegate;
 
@@ -95,7 +96,15 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  */
 @property (strong, nonatomic, readonly, nullable) SDLStreamingMediaManager *streamManager;
 
+/**
+ *  The screen manager for sending UI related RPCs.
+ */
 @property (strong, nonatomic, readonly) SDLScreenManager *screenManager;
+
+/**
+ *  Centralized manager for retrieving all system capabilities.
+ */
+@property (strong, nonatomic, readonly) SDLSystemCapabilityManager *systemCapabilityManager;
 
 /**
  *  The response of a register call after it has been received.

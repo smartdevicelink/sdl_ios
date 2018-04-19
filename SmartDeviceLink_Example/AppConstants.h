@@ -76,6 +76,10 @@ extern NSString * const WheelIconImageName;
 extern NSString * const ExampleAppNameSpanish;
 extern NSString * const ExampleAppNameFrench;
 
+#pragma mark - SDL Vehicle Data
+extern NSString * const VehicleDataOdometerName;
+extern NSString * const VehicleDataSpeedName;
+
 @interface AppConstants : NSObject
 
 @end

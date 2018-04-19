@@ -74,6 +74,10 @@ NSString * const WheelIconImageName = @"wheel_icon";
 NSString * const ExampleAppNameSpanish = @"SDL Aplicación de ejemplo";
 NSString * const ExampleAppNameFrench = @"SDL Exemple App";
 
+#pragma mark - SDL Vehicle Data
+NSString * const VehicleDataOdometerName = @"Odometer";
+NSString * const VehicleDataSpeedName = @"Speed";
+
 @implementation AppConstants
 
 @end
