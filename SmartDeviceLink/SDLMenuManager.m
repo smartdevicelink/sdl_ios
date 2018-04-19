@@ -55,14 +55,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 
 @property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
-@property (copy, nonatomic, nullable) SDLMenuUpdateCompletionHandler inProgressHandler;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
-@property (copy, nonatomic, nullable) SDLMenuUpdateCompletionHandler queuedUpdateHandler;
 @property (assign, nonatomic) BOOL waitingOnHMILevelUpdate;
 
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
-@property (assign, nonatomic) BOOL needsUpdate;
 
 @end
 
@@ -78,7 +75,6 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     _menuCells = @[];
     _voiceCommands = @[];
     _oldMenuCells = @[];
-    _needsUpdate = NO;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
@@ -101,7 +97,7 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
 #pragma mark - Updating System
 
 - (void)sdl_updateWithCompletionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
-    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone] || !self.needsUpdate) {
+    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
         return;
     }
 
@@ -111,17 +107,18 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
         return;
     }
 
+    __weak typeof(self) weakself = self;
     [self sdl_sendDeleteCurrentMenu:^(NSError * _Nullable error) {
-        [self sdl_sendCurrentMenu:^(NSError * _Nullable error) {
-            self.needsUpdate = NO;
-            self.inProgressUpdate = nil;
+        [weakself sdl_sendCurrentMenu:^(NSError * _Nullable error) {
+            weakself.inProgressUpdate = nil;
 
             if (completionHandler != nil) {
                 completionHandler(error);
             }
 
-            if (self.hasQueuedUpdate) {
-                [self sdl_updateWithCompletionHandler:nil];
+            if (weakself.hasQueuedUpdate) {
+                [weakself sdl_updateWithCompletionHandler:nil];
+                weakself.hasQueuedUpdate = NO;
             }
         }];
     }];
@@ -226,7 +223,6 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     self.lastMenuId = 0;
     [self sdl_updateIdsOnMenuCells:menuCells parentId:ParentIdNotFound];
 
-    _needsUpdate = YES;
     _oldMenuCells = _menuCells;
     _menuCells = menuCells;
 
@@ -239,7 +235,6 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
             }
 
             SDLLogD(@"Menu artworks uploaded");
-            self.needsUpdate = YES;
             [self sdl_updateWithCompletionHandler:nil];
         }];
     }
@@ -255,8 +250,6 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     }
 
     // Set the ids
-
-    _needsUpdate = YES;
     _voiceCommands = voiceCommands;
 
     [self sdl_updateWithCompletionHandler:nil];
