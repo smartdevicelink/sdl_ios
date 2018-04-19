@@ -14,6 +14,8 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLDeleteCommand.h"
 #import "SDLDeleteSubMenu.h"
+#import "SDLDisplayCapabilities.h"
+#import "SDLDisplayCapabilities+ShowManagerExtensions.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLImage.h"
@@ -125,11 +127,10 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     }];
 }
 
-- (void)sdl_sendDeleteCurrentMenu:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
+- (void)sdl_sendDeleteCurrentMenu:(SDLMenuUpdateCompletionHandler)completionHandler {
     if (self.oldMenuCells.count == 0) {
-        if (completionHandler != nil) {
-            completionHandler(nil);
-        }
+        completionHandler(nil);
+
         return;
     }
 
@@ -139,21 +140,19 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     [self.connectionManager sendRequests:deleteMenuCommands progressHandler:nil completionHandler:^(BOOL success) {
         if (!success) {
             SDLLogE(@"Error deleting old menu commands");
+        } else {
+            SDLLogD(@"Finished deleting old menu");
         }
 
-        SDLLogD(@"Finished deleting old menu");
-        if (completionHandler != nil) {
-            completionHandler(nil);
-        }
+        completionHandler(nil);
     }];
 }
 
-- (void)sdl_sendCurrentMenu:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
+- (void)sdl_sendCurrentMenu:(SDLMenuUpdateCompletionHandler)completionHandler {
     if (self.menuCells.count == 0) {
         SDLLogD(@"No main menu to send");
-        if (completionHandler != nil) {
-            completionHandler(nil);
-        }
+        completionHandler(nil);
+
         return;
     }
 
@@ -180,9 +179,8 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     } completionHandler:^(BOOL success) {
         if (!success) {
             SDLLogE(@"Failed to send main menu commands: %@", errors);
-            if (completionHandler != nil) {
-                completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
-            }
+            completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
+
             return;
         }
 
@@ -195,16 +193,13 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
         } completionHandler:^(BOOL success) {
             if (!success) {
                 SDLLogE(@"Failed to send sub menu commands: %@", errors);
-                if (completionHandler != nil) {
-                    completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
-                }
+                completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
+
                 return;
             }
 
             SDLLogD(@"Finished updating menu");
-            if (completionHandler != nil) {
-                completionHandler(nil);
-            }
+            completionHandler(nil);
         }];
     }];
 }
@@ -265,6 +260,10 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
 #pragma mark Artworks
 
 - (NSArray<SDLArtwork *> *)sdl_findAllArtworksToBeUploadedFromCells:(NSArray<SDLMenuCell *> *)cells {
+    if (![self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
+        return @[];
+    }
+
     NSMutableArray<SDLArtwork *> *mutableArtworks = [NSMutableArray array];
     for (SDLMenuCell *cell in cells) {
         if (cell.icon != nil && ![self.fileManager hasUploadedFile:cell.icon]) {
