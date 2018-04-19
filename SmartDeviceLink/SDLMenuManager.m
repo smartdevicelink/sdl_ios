@@ -213,7 +213,14 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
         return;
     }
 
-    // TODO: Check for duplicates / duplicate titles? What will fail here?
+    // Check for duplicates / duplicate titles? What will fail here?
+    NSMutableSet *titleCheckSet = [NSMutableSet set];
+    for (SDLMenuCell *cell in menuCells) {
+        [titleCheckSet addObject:cell.title];
+    }
+    if (titleCheckSet.count != menuCells.count) {
+        SDLLogE(@"Not all cell titles are unique. The menu will not be set.");
+    }
 
     // Set the ids
     self.lastMenuId = 0;
@@ -321,13 +328,13 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
 
 - (NSArray<SDLRPCRequest *> *)sdl_mainMenuCommandsForCells:(NSArray<SDLMenuCell *> *)cells withArtwork:(BOOL)shouldHaveArtwork {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
-    for (SDLMenuCell *cell in cells) {
+    [cells enumerateObjectsUsingBlock:^(SDLMenuCell * _Nonnull cell, NSUInteger index, BOOL * _Nonnull stop) {
         if (cell.subCells.count > 0) {
-            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell]];
+            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell position:(UInt8)index]];
         } else {
-            [mutableCommands addObject:[self sdl_commandForMenuCell:cell withArtwork:shouldHaveArtwork]];
+            [mutableCommands addObject:[self sdl_commandForMenuCell:cell withArtwork:shouldHaveArtwork position:(UInt8)index]];
         }
-    }
+    }];
 
     return [mutableCommands copy];
 }
@@ -345,24 +352,25 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
 
 - (NSArray<SDLRPCRequest *> *)sdl_allCommandsForCells:(NSArray<SDLMenuCell *> *)cells withArtwork:(BOOL)shouldHaveArtwork {
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
-    for (SDLMenuCell *cell in cells) {
+    [cells enumerateObjectsUsingBlock:^(SDLMenuCell * _Nonnull cell, NSUInteger index, BOOL * _Nonnull stop) {
         if (cell.subCells.count > 0) {
-            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell]];
+            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell position:(UInt8)index]];
             [mutableCommands addObjectsFromArray:[self sdl_allCommandsForCells:cell.subCells withArtwork:shouldHaveArtwork]];
         } else {
-            [mutableCommands addObject:[self sdl_commandForMenuCell:cell withArtwork:shouldHaveArtwork]];
+            [mutableCommands addObject:[self sdl_commandForMenuCell:cell withArtwork:shouldHaveArtwork position:(UInt8)index]];
         }
-    }
+    }];
 
     return [mutableCommands copy];
 }
 
-- (SDLAddCommand *)sdl_commandForMenuCell:(SDLMenuCell *)cell withArtwork:(BOOL)shouldHaveArtwork {
+- (SDLAddCommand *)sdl_commandForMenuCell:(SDLMenuCell *)cell withArtwork:(BOOL)shouldHaveArtwork position:(UInt16)position {
     SDLAddCommand *command = [[SDLAddCommand alloc] init];
 
     SDLMenuParams *params = [[SDLMenuParams alloc] init];
     params.menuName = cell.title;
     params.parentID = cell.parentCellId != UINT32_MAX ? @(cell.parentCellId) : nil;
+    params.position = @(position);
 
     command.menuParams = params;
     command.vrCommands = cell.voiceCommands;
@@ -372,8 +380,11 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     return command;
 }
 
-- (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell {
-    return [[SDLAddSubMenu alloc] initWithId:cell.cellId menuName:cell.title];
+- (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell position:(UInt16)position {
+    SDLAddSubMenu *submenu = [[SDLAddSubMenu alloc] initWithId:cell.cellId menuName:cell.title];
+    submenu.position = @(position);
+
+    return position;
 }
 
 - (SDLAddCommand *)sdl_commandForVoiceCommand:(SDLVoiceCommand *)voiceCommand {
