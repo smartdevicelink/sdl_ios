@@ -213,7 +213,7 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
         return;
     }
 
-    // Check for duplicates / duplicate titles? What will fail here?
+    // Check for duplicate titles
     NSMutableSet *titleCheckSet = [NSMutableSet set];
     for (SDLMenuCell *cell in menuCells) {
         [titleCheckSet addObject:cell.title];
