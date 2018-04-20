@@ -500,6 +500,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 - (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     if (requests.count == 0) {
         completionHandler(YES);
+        return;
     }
 
     SDLSequentialRPCRequestOperation *op = [[SDLSequentialRPCRequestOperation alloc] initWithConnectionManager:self requests:requests progressHandler:progressHandler completionHandler:completionHandler];
