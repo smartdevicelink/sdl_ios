@@ -41,11 +41,6 @@ class ButtonManager: NSObject {
         }
     }
 
-    /// Custom init
-    ///
-    /// - Parameters:
-    ///   - sdlManager: The SDL Manager
-    ///   - updateScreenHandler: handler for refreshing the current SDL UI
     init(sdlManager: SDLManager, updateScreenHandler: refreshUIHandler? = nil) {
         self.sdlManager = sdlManager
         self.refreshUIHandler = updateScreenHandler
@@ -55,7 +50,7 @@ class ButtonManager: NSObject {
         super.init()
     }
 
-    func stop() {
+    func stopManager() {
         textEnabled = true
         imagesEnabled = true
         toggleEnabled = true

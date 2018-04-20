@@ -11,42 +11,42 @@ import AVFoundation
 import SmartDeviceLink
 import SmartDeviceLinkSwift
 
-private enum SearchManagerState {
+typealias audioRecordingHandler = ((AudioRecordingState) -> Void)
+
+enum AudioRecordingState {
     case listening, notListening
 }
 
 class AudioManager: NSObject {
     fileprivate let sdlManager: SDLManager!
-    fileprivate var audioData = Data()
-    fileprivate var audioRecordingState: SearchManagerState
-
-    fileprivate var floorAudioDb: Float?
-    fileprivate var numberOfSilentPasses = 0;
+    fileprivate var audioData: Data?
+    fileprivate var audioRecordingState: AudioRecordingState
 
     init(sdlManager: SDLManager) {
         self.sdlManager = sdlManager
+        audioData = Data()
         audioRecordingState = .notListening
         super.init()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(audioPassThruDataReceived(notification:)), name: .SDLDidReceiveAudioPassThru, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(audioPassThruEnded(response:)), name: SDLDidReceivePerformAudioPassThruResponse, object: nil)
     }
 
-    func stop() {
-        stopRecording()
+    func stopManager() {
+        audioRecordingState = .notListening
+        audioData = Data()
     }
 
+    /// Starts an audio recording using the in-car microphone. During the recording, a pop-up will let the user know that they are being recorded. The pop-up is only dismissed when the recording stops.
     func startRecording() {
         guard audioRecordingState == .notListening else { return }
-        audioData = Data()
 
-        let audioPassThruRequest = SDLPerformAudioPassThru(initialPrompt: nil, audioPassThruDisplayText1: "Listening", audioPassThruDisplayText2: "Say something...", samplingRate: .rate16KHZ, bitsPerSample: .sample16Bit, audioType: .PCM, maxDuration: 5000, muteAudio: true)
+        let recordingDurationMilliseconds: UInt32 = 5000
+        let audioPassThruRequest = SDLPerformAudioPassThru(initialPrompt: "Starting sound recording", audioPassThruDisplayText1: "Say Something", audioPassThruDisplayText2: "Recording for \(recordingDurationMilliseconds / 1000) seconds", samplingRate: .rate16KHZ, bitsPerSample: .sample16Bit, audioType: .PCM, maxDuration: recordingDurationMilliseconds, muteAudio: true, audioDataHandler: audioDataHandler)
 
-        sdlManager.send(request: audioPassThruRequest) { (_, response, error) in
-            SDLLog.d("Audio Pass Thru request sent \(response?.resultCode == .success ? "successfully" : "unsuccessfully"). Error: \(error != nil ? error!.localizedDescription : "no error")")
-        }
+        sdlManager.send(request: audioPassThruRequest)
     }
 
+    /// Manually stops an on-going audio recording.
     func stopRecording() {
         guard audioRecordingState == .listening else { return }
         audioRecordingState = .notListening
@@ -60,51 +60,53 @@ class AudioManager: NSObject {
 // MARK: - Audio Pass Thru Notifications
 
 extension AudioManager {
-    /// Called when an audio chunk is recorded.
-    ///
-    /// - Parameter notification: A SDLRPCNotificationNotification notification
-    @objc func audioPassThruDataReceived(notification: SDLRPCNotificationNotification) {
-        guard let data = notification.notification.bulkData else {
-            return
+    /// SDL streams the audio data as it is collected.
+    fileprivate var audioDataHandler: SDLAudioPassThruHandler? {
+        return { [unowned self] data in
+            guard data != nil else { return }
+            if self.audioRecordingState == .notListening {
+                self.audioData = Data()
+                self.audioRecordingState = .listening
+            }
+            self.audioData!.append(data!)
         }
-
-        // Current audio chunk
-        // let _ = AudioManager.convertDataToPCMFormattedAudio(data)
-        convertDataToPCMFormattedAudio(data)
-
-        // Save the sound chunk
-        audioData.append(data)
     }
 
-    /// Called after a `SDLEndAudioPassThru` request is sent or when a `SDLPerformAudioPassThru` request times out
+    /// Called when `PerformAudioPassThru` request times out or when a `EndAudioPassThru` request is sent
     ///
     /// - Parameter response: A SDLRPCNotificationNotification notification
     @objc func audioPassThruEnded(response: SDLRPCResponseNotification) {
-        guard response.response.success.boolValue == true else {
-            return
-        }
+        guard audioRecordingState == .listening else { return }
+        audioRecordingState = .notListening
 
-        // `audioData` contains the complete audio recording for the pass thru. SDL does not provide speech recognition, however the iOS Speech API or another third party library can be used for speech reconition.
-        playRecording(audioData)
+        switch response.response.resultCode {
+        case .success: // The `PerformAudioPassThru` timed out or the "Done" button was pressed in the pop-up.
+            if audioData == nil {
+                 sdlManager.send(AlertManager.alertWithMessageAndCloseButton("No audio recorded"))
+            } else {
+                // `audioData` contains the complete audio recording for the pass thru. SDL does not provide speech recognition, however the iOS Speech API or another third party library can be used for speech reconition.
+                let pcmBuffer = convertDataToPCMFormattedAudio(audioData!)
+                sdlManager.send(AlertManager.alertWithMessageAndCloseButton("Audio recorded!", textField2: "\(pcmBuffer)"))
+            }
+        case .aborted: // The "Cancel" button was pressed in the pop-up. Ignore this audio pass thru.
+            audioData = Data()
+            sdlManager.send(AlertManager.alertWithMessageAndCloseButton("Recording cancelled"))
+        default:
+            sdlManager.send(AlertManager.alertWithMessageAndCloseButton("Recording unsuccessful", textField2: "\(response.response.resultCode.rawValue.rawValue)"))
+        }
     }
 }
 
 
-// MARK: - Audio Pass Thru
+// MARK: - Audio Data Conversion
 
 private extension AudioManager {
-    func playRecording(_ data: Data) {
-        var recording: AVAudioPlayer?
-        do {
-            recording = try AVAudioPlayer(data: data)
-            recording?.play()
-        } catch {
-            SDLLog.e("Failed to play recording")
-        }
-    }
-
-    func convertDataToPCMFormattedAudio(_ data: Data) {
-        // Currently, SDL only supports Sampling Rates of 16 khz and Bit Rates of 16 bit.
+    /// Converts the audio data to PCM formatted audio that can be passed to iOS SFSpeech Framework, if desired. When doing the converstion, the audio format and sample rate should match those set in the `SDLPerformAudioPassThru`.
+    ///
+    /// - Parameter data: The audio data
+    /// - Returns: A AVAudioPCMBuffer object
+    func convertDataToPCMFormattedAudio(_ data: Data) -> AVAudioPCMBuffer {
+        //
         let audioFormat = AVAudioFormat(commonFormat: .pcmFormatInt16, sampleRate: 16000, channels: 1, interleaved: false)
         let numFrames = UInt32(data.count) / (audioFormat.streamDescription.pointee.mBytesPerFrame)
         let buffer = AVAudioPCMBuffer(pcmFormat: audioFormat, frameCapacity: numFrames)
@@ -112,92 +114,9 @@ private extension AudioManager {
         let bufferChannels = buffer.int16ChannelData!
         let bufferDataCount = data.copyBytes(to: UnsafeMutableBufferPointer(start: bufferChannels[0], count: data.count))
 
-        // print("Sound chunk has \(bufferDataCount) bytes in \(buffer)")
-        //        print("PCM: frame capacity: \(buffer.frameCapacity)")
-        //        print("PCM: frame length: \(buffer.frameLength)")
-        //
-        let elements16 = UnsafeBufferPointer(start: buffer.int16ChannelData?[0], count:data.count)
-        var samples = [Int16]()
-        for i in stride(from: 0, to: buffer.frameLength, by: 1) {
-            samples.append(elements16[Int(i)])
-            let decibles = Float(AudioManager.computeDecibels(samples[Int(i)]))
-            print("decibles: \(decibles)")
+        SDLLog.d("Audio data has \(bufferDataCount) bytes in \(buffer)")
 
-            guard let floorAudioDb = floorAudioDb, decibles != 0 else {
-                self.floorAudioDb = floorf(decibles) + 5
-                return
-            }
-
-            if decibles > floorAudioDb {
-                audioRecordingState = .listening
-                numberOfSilentPasses = 0
-                print("not silent")
-            } else {
-                numberOfSilentPasses += 1
-                print("silent")
-            }
-
-            if numberOfSilentPasses == 30 {
-                print("silent chunk")
-            }
-        }
-    }
-
-    //    class func checkAmplitude(_ data: Data) {
-    //        let pcmAudio = convertDataToPCMFormattedAudio(data)
-    //
-    //        let elements16 = UnsafeBufferPointer(start: pcmAudio.int16ChannelData?[0], count:data.count)
-    //        var samples = [Int16]()
-    //        for i in stride(from: 0, to: pcmAudio.frameLength, by: 1) {
-    //            samples.append(elements16[Int(i)])
-    //            let decibles = computeDecibels(samples[Int(i)])
-    //            print("sample: \(samples[Int(i)]), decibles: \(decibles)")
-    //        }
-    //    }
-
-    func computeSilentPasses(_ silentPassesCount: Int) {
-        if audioRecordingState == .listening && numberOfSilentPasses == 30 {
-            audioRecordingState = .notListening
-            numberOfSilentPasses = 0
-            stopRecording()
-        }
-    }
-
-    func computeSilentPasses(_ currentDb: Float) -> Int {
-        guard let floorAudioDb = floorAudioDb else {
-            self.floorAudioDb = floorf(currentDb) + 5;
-            return 0
-        }
-
-        if currentDb > floorAudioDb {
-            audioRecordingState = .listening
-            numberOfSilentPasses = 0
-        } else {
-            numberOfSilentPasses += 1
-        }
-
-        return numberOfSilentPasses
-    }
-
-    //    class func computeAmplitude(_ data: Data) {
-    //        let pcmBuffer = convertDataToPCMFormattedAudio(data)
-    //
-    //        let channelData = UnsafeBufferPointer(start: pcmBuffer.int16ChannelData?[0], count:data.count)
-    //        var samples = [Int16]()
-    //        for i in stride(from: 0, to: pcmBuffer.frameLength, by: 1) {
-    //            samples.append(channelData[Int(i)])
-    //            // let decibels = computeDecibels(samples[Int(i)])
-    //            print("sample: \(samples[Int(i)])")
-    //        }
-    //    }
-
-    // https://stackoverflow.com/questions/2445756/how-can-i-calculate-audio-db-level
-    class func computeDecibels(_ sample: Int16) -> Double {
-        let amplitude = Double(sample) / Double(Int16.max)
-        guard amplitude > 0 else { return 0 }
-
-        let decibels = 20 * log10(amplitude)
-        return decibels
+        return buffer
     }
 }
 

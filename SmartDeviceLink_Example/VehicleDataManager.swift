@@ -15,11 +15,6 @@ class VehicleDataManager: NSObject {
     fileprivate var refreshUIHandler: refreshUIHandler?
     public fileprivate(set) var vehicleOdometerData: String
 
-    /// Custom init
-    ///
-    /// - Parameters:
-    ///   - sdlManager: The SDL Manager
-    ///   - refreshOdometerHandler: handler for refreshing the UI with new odometer data
     init(sdlManager: SDLManager, refreshUIHandler: refreshUIHandler? = nil) {
         self.sdlManager = sdlManager
         self.refreshUIHandler = refreshUIHandler
@@ -30,7 +25,7 @@ class VehicleDataManager: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(vehicleDataNotification(_:)), name: .SDLDidReceiveVehicleData, object: nil)
     }
 
-    func stop() {
+    func stopManager() {
         resetOdometer()
     }
 }

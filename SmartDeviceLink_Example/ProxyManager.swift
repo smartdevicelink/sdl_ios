@@ -13,7 +13,6 @@ class ProxyManager: NSObject {
     fileprivate var sdlManager: SDLManager!
     fileprivate var buttonManager: ButtonManager!
     fileprivate var vehicleDataManager: VehicleDataManager!
-    fileprivate var audioManager: AudioManager!
     fileprivate var firstHMILevelState: SDLHMILevelFirstState
     weak var delegate: ProxyManagerDelegate?
 
@@ -78,7 +77,7 @@ private extension ProxyManager {
         return SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: lockScreenConfiguration, logging: logConfiguration())
     }
 
-    /// Sets the type of SDL debug logs that are visible and where to port the logs. There are 4 levels of logs, verbose, debug, warning and error, which verbose printing all SDL logs and error printing only the error logs. Adding SDLLogTargetFile to the targest will log to a text file on the iOS device. This file can be accessed via: iTunes > Your Device Name > File Sharing > Your App Name. Make sure `UIFileSharingEnabled` has been added to the application's info.plist and is set to `true`.
+    /// Sets the type of SDL debug logs that are visible and where to port the logs. There are 4 levels of log filtering, verbose, debug, warning and error. Verbose prints all SDL logs; error prints only the error logs. Adding SDLLogTargetFile to the targest will log to a text file on the iOS device. This file can be accessed via: iTunes > Your Device Name > File Sharing > Your App Name. Make sure `UIFileSharingEnabled` has been added to the application's info.plist and is set to `true`.
     ///
     /// - Returns: A SDLLogConfiguration object
     class func logConfiguration() -> SDLLogConfiguration {
@@ -86,11 +85,11 @@ private extension ProxyManager {
         let exampleLogFileModule = SDLLogFileModule(name: "SDL Example", files: ["ProxyManager"])
         logConfig.modules.insert(exampleLogFileModule)
         _ = logConfig.targets.insert(SDLLogTargetFile()) // Logs to file
-        logConfig.globalLogLevel = .off // Filters the logs
+        logConfig.globalLogLevel = .debug // Filters the logs
         return logConfig
     }
 
-    /// Searches for a connection to a SDL enabled accessory. When a connection has been established, the ready handler is called. Even though the app is connected to SDL Core, it does not mean that RPCs can be immediately sent to the accessory as there is no guarentee that SDL Core is ready to receive RPCs. Monitor the `SDLManagerDelegate`'s `hmiLevel(_:didChangeToLevel:)` to determine when to send RPCs.
+    /// Searches for a connection to a SDL enabled accessory. When a connection has been established, the ready handler is called. Even though the app is connected to SDL Core, it does not mean that RPCs can be immediately sent to the accessory as there is no guarentee that SDL Core is ready to receive RPCs. Monitor the `SDLManagerDelegate`'s `hmiLevel:didChangeToLevel:` to determine when to send RPCs.
     func startManager() {
         sdlManager.start(readyHandler: { [unowned self] (success, error) in
             guard success else {
@@ -99,13 +98,10 @@ private extension ProxyManager {
                 return
             }
 
-            // A connection has been established between the app and a SDL enabled accessory
             self.delegate?.didChangeProxyState(SDLProxyState.connected)
 
-            // Do some setup
             self.buttonManager = ButtonManager(sdlManager: self.sdlManager, updateScreenHandler: self.refreshUIHandler)
             self.vehicleDataManager = VehicleDataManager(sdlManager: self.sdlManager, refreshUIHandler: self.refreshUIHandler)
-            self.audioManager = AudioManager(sdlManager: self.sdlManager)
 
             RPCPermissionsManager.setupPermissionsCallbacks(with: self.sdlManager)
 
@@ -121,9 +117,8 @@ extension ProxyManager: SDLManagerDelegate {
     func managerDidDisconnect() {
         delegate?.didChangeProxyState(SDLProxyState.stopped)
         firstHMILevelState = .none
-        buttonManager.stop()
-        vehicleDataManager.stop()
-        audioManager.stop()
+        buttonManager.stopManager()
+        vehicleDataManager.stopManager()
 
         // If desired, automatically start searching for a new connection to Core
         if ExampleAppShouldRestartSDLManagerOnDisconnect.boolValue {
@@ -203,6 +198,7 @@ private extension ProxyManager {
     /// Handler for refreshing the UI
     var refreshUIHandler: refreshUIHandler? {
         return { [unowned self] () in
+            // self.audioManager.startRecording()
             self.updateScreen()
         }
     }
@@ -221,6 +217,7 @@ private extension ProxyManager {
     /// Update the UI's textfields, images and soft buttons
     func updateScreen() {
         guard sdlManager.hmiLevel == .full else { return }
+
         let screenManager = sdlManager.screenManager
         let isTextVisible = buttonManager.textEnabled
         let areImagesVisible = buttonManager.imagesEnabled
