@@ -227,7 +227,11 @@ private extension ProxyManager {
         screenManager.textField1 = isTextVisible ? SmartDeviceLinkText : nil
         screenManager.textField2 = isTextVisible ? "Swift \(ExampleAppText)" : nil
         screenManager.textField3 = isTextVisible ? vehicleDataManager.vehicleOdometerData : nil
-        screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!, persistent: false, as: .PNG) : nil
+
+        if sdlManager.systemCapabilityManager.displayCapabilities?.graphicSupported.boolValue ?? false {
+            screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!, persistent: false, as: .PNG) : nil
+        }
+        
         screenManager.endUpdates(completionHandler: { (error) in
             SDLLog.e("Textfields, graphics and soft buttons updated. Error? \(String(describing: error))")
         })

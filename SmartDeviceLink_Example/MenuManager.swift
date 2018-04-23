@@ -23,7 +23,7 @@ class MenuManager: NSObject {
     /// - Parameter manager: The SDL Manager
     /// - Returns: An array of SDLAddCommand requests
     class func allAddCommands(with manager: SDLManager) -> [SDLAddCommand] {
-        return [addCommandSpeakName(with: manager), addCommandGetVehicleSpeed(with: manager), addCommandShowPerformInteraction(with: manager), addCommandRecordInCarMicrophoneAudio(with: manager)]
+        return [addCommandSpeakName(with: manager), addCommandGetVehicleSpeed(with: manager), addCommandShowPerformInteraction(with: manager), addCommandRecordInCarMicrophoneAudio(with: manager), addCommandDialNumber(with: manager)]
     }
 }
 
@@ -103,7 +103,6 @@ private extension MenuManager {
         VehicleDataManager.getVehicleSpeed(with: manager)
         })
         vehicleSpeedAddCommand.cmdIcon = SDLImage(name: "0x2A", ofType: .static)
-
         return vehicleSpeedAddCommand
     }
 
@@ -112,18 +111,40 @@ private extension MenuManager {
     /// - Parameter manager: The SDL Manager
     /// - Returns: An SDLAddCommand request
     class func addCommandShowPerformInteraction(with manager: SDLManager) -> SDLAddCommand {
-        return SDLAddCommand(id: 202, vrCommands: [ACShowChoiceSetMenuName], menuName: ACShowChoiceSetMenuName, handler: { (onCommand) in
+        let showPerformInteractionAddCommand = SDLAddCommand(id: 202, vrCommands: [ACShowChoiceSetMenuName], menuName: ACShowChoiceSetMenuName, handler: { (onCommand) in
             showPerformInteractionChoiceSet(with: manager)
         })
+        showPerformInteractionAddCommand.cmdIcon = SDLImage(name: "0x4F", ofType: .static)
+        return showPerformInteractionAddCommand
     }
 
+    /// Menu item that starts recording sounds via the in-car microphone when selected.
+    ///
+    /// - Parameter manager: The SDL Manager
+    /// - Returns: An SDLAddCommand request
     class func addCommandRecordInCarMicrophoneAudio(with manager: SDLManager) -> SDLAddCommand {
         let audioManager = AudioManager(sdlManager: manager)
         let recordAddCommand = SDLAddCommand(id: 203, vrCommands: [ACRecordInCarMicrophoneAudioMenuName], menuName: ACRecordInCarMicrophoneAudioMenuName, handler: { (onCommand) in
             audioManager.startRecording()
         })
-        recordAddCommand.cmdIcon = SDLImage(name: "0x91", ofType: .static)
-
+        recordAddCommand.cmdIcon = SDLImage(name: "0x5A", ofType: .static)
         return recordAddCommand
+    }
+
+    /// Menu item that dials a phone number when selected.
+    ///
+    /// - Parameter manager: The SDL Manager
+    /// - Returns: An SDLAddCommand request
+    class func addCommandDialNumber(with manager: SDLManager) -> SDLAddCommand {
+        let dialNumberAddCommand = SDLAddCommand(id: 204, vrCommands: [ACDialPhoneNumberMenuName], menuName: ACDialPhoneNumberMenuName) { (onCommand) in
+            SDLLog.d("Checking if app has permission to dial a number")
+            if !manager.permissionManager.isRPCAllowed("DialNumber") {
+                manager.send(AlertManager.alertWithMessageAndCloseButton("This app does not have the required permissions to dial a number"))
+                return
+            }
+            VehicleDataManager.checkPhoneCallCapability(manager: manager, phoneNumber:"555-555-5555")
+        }
+        dialNumberAddCommand.cmdIcon = SDLImage(name: "0x29", ofType: .static)
+        return dialNumberAddCommand
     }
 }

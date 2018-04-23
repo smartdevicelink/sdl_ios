@@ -141,3 +141,39 @@ extension VehicleDataManager {
         }
     }
 }
+
+// MARK: - Phone Calls
+
+extension VehicleDataManager {
+    /// Checks if the head unit has the ability and/or permissions to make a phone call. If it does, the phone number is dialed.
+    ///
+    /// - Parameter manager: The SDL manager
+    class func checkPhoneCallCapability(manager: SDLManager, phoneNumber: String) {
+        SDLLog.d("Checking phone call capability")
+        manager.systemCapabilityManager.updateCapabilityType(.phoneCall, completionHandler: { (error, systemCapabilityManager) in
+            guard let phoneCapability = systemCapabilityManager.phoneCapability else {
+                manager.send(AlertManager.alertWithMessageAndCloseButton("The head unit does not support the phone call capability"))
+                return
+            }
+            if phoneCapability.dialNumberEnabled?.boolValue ?? false {
+                SDLLog.d("Dialing phone number \(phoneNumber)...")
+                dialPhoneNumber(phoneNumber, manager: manager)
+            } else {
+                manager.send(AlertManager.alertWithMessageAndCloseButton("The dial number feature is unavailable for this head unit"))
+            }
+        })
+    }
+
+    /// Dials a phone number.
+    ///
+    /// - Parameters:
+    ///   - phoneNumber: A phone number
+    ///   - manager: The SDL manager
+    private class func dialPhoneNumber(_ phoneNumber: String, manager: SDLManager) {
+        let dialNumber = SDLDialNumber(number: phoneNumber)
+        manager.send(request: dialNumber) { (requst, response, error) in
+            guard let success = response?.resultCode else { return }
+            SDLLog.d("Sent dial number request: \(success == .success ? "successfully" : "unsuccessfully").")
+        }
+    }
+}
