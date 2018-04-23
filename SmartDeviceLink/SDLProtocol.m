@@ -106,6 +106,14 @@ NS_ASSUME_NONNULL_BEGIN
     [self handleBytesFromTransport:receivedData];
 }
 
+- (void)onError:(NSError *)error {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(onTransportError:)]) {
+            [listener onTransportError:error];
+        }
+    }
+}
+
 #pragma mark - Start Service
 
 - (void)startServiceWithType:(SDLServiceType)serviceType payload:(nullable NSData *)payload {

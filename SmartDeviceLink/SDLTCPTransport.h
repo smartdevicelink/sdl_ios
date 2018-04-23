@@ -5,9 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLTCPTransport : NSObject <SDLTransportType> {
-    _Nullable CFSocketRef socket;
-}
+@interface SDLTCPTransport : NSObject <SDLTransportType, NSStreamDelegate>
 
 /**
  *  Convenience init
@@ -27,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  The port number of Core
  */
 @property (strong, nonatomic) NSString *portNumber;
+@property (nonatomic, assign) NSUInteger receiveBufferSize;
 
 /**
  *  The subscribed listener
