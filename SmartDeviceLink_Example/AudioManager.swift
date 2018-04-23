@@ -11,24 +11,18 @@ import AVFoundation
 import SmartDeviceLink
 import SmartDeviceLinkSwift
 
-typealias audioRecordingHandler = ((AudioRecordingState) -> Void)
-
-enum AudioRecordingState {
-    case listening, notListening
-}
+typealias audioRecordingHandler = ((SDLAudioRecordingState) -> Void)
 
 class AudioManager: NSObject {
     fileprivate let sdlManager: SDLManager!
     fileprivate var audioData: Data?
-    fileprivate var audioRecordingState: AudioRecordingState
+    fileprivate var audioRecordingState: SDLAudioRecordingState
 
     init(sdlManager: SDLManager) {
         self.sdlManager = sdlManager
         audioData = Data()
         audioRecordingState = .notListening
         super.init()
-
-        NotificationCenter.default.addObserver(self, selector: #selector(audioPassThruEnded(response:)), name: SDLDidReceivePerformAudioPassThruResponse, object: nil)
     }
 
     func stopManager() {
@@ -41,9 +35,9 @@ class AudioManager: NSObject {
         guard audioRecordingState == .notListening else { return }
 
         let recordingDurationMilliseconds: UInt32 = 5000
-        let audioPassThruRequest = SDLPerformAudioPassThru(initialPrompt: "Starting sound recording", audioPassThruDisplayText1: "Say Something", audioPassThruDisplayText2: "Recording for \(recordingDurationMilliseconds / 1000) seconds", samplingRate: .rate16KHZ, bitsPerSample: .sample16Bit, audioType: .PCM, maxDuration: recordingDurationMilliseconds, muteAudio: true, audioDataHandler: audioDataHandler)
+        let performAudioPassThru = SDLPerformAudioPassThru(initialPrompt: "Starting sound recording", audioPassThruDisplayText1: "Say Something", audioPassThruDisplayText2: "Recording for \(recordingDurationMilliseconds / 1000) seconds", samplingRate: .rate16KHZ, bitsPerSample: .sample16Bit, audioType: .PCM, maxDuration: recordingDurationMilliseconds, muteAudio: true, audioDataHandler: audioDataReceivedHandler)
 
-        sdlManager.send(request: audioPassThruRequest)
+        sdlManager.send(request: performAudioPassThru, responseHandler: audioPassThruEndedHandler)
     }
 
     /// Manually stops an on-going audio recording.
@@ -59,9 +53,9 @@ class AudioManager: NSObject {
 
 // MARK: - Audio Pass Thru Notifications
 
-extension AudioManager {
+private extension AudioManager {
     /// SDL streams the audio data as it is collected.
-    fileprivate var audioDataHandler: SDLAudioPassThruHandler? {
+    var audioDataReceivedHandler: SDLAudioPassThruHandler? {
         return { [unowned self] data in
             guard data != nil else { return }
             if self.audioRecordingState == .notListening {
@@ -75,24 +69,26 @@ extension AudioManager {
     /// Called when `PerformAudioPassThru` request times out or when a `EndAudioPassThru` request is sent
     ///
     /// - Parameter response: A SDLRPCNotificationNotification notification
-    @objc func audioPassThruEnded(response: SDLRPCResponseNotification) {
-        guard audioRecordingState == .listening else { return }
-        audioRecordingState = .notListening
+    var audioPassThruEndedHandler: SDLResponseHandler? {
+        return { [unowned self] (request, response, error) in
+            guard let response = response else { return }
+            self.audioRecordingState = .notListening
 
-        switch response.response.resultCode {
-        case .success: // The `PerformAudioPassThru` timed out or the "Done" button was pressed in the pop-up.
-            if audioData == nil {
-                 sdlManager.send(AlertManager.alertWithMessageAndCloseButton("No audio recorded"))
-            } else {
-                // `audioData` contains the complete audio recording for the pass thru. SDL does not provide speech recognition, however the iOS Speech API or another third party library can be used for speech reconition.
-                let pcmBuffer = convertDataToPCMFormattedAudio(audioData!)
-                sdlManager.send(AlertManager.alertWithMessageAndCloseButton("Audio recorded!", textField2: "\(pcmBuffer)"))
+            switch response.resultCode {
+            case .success: // The `PerformAudioPassThru` timed out or the "Done" button was pressed in the pop-up.
+                if let audioData = self.audioData, audioData.count == 0 {
+                     self.sdlManager.send(AlertManager.alertWithMessageAndCloseButton("No audio recorded"))
+                } else {
+                    let pcmBuffer = self.convertDataToPCMFormattedAudio(self.audioData!)
+                    self.sdlManager.send(AlertManager.alertWithMessageAndCloseButton("Audio recorded!", textField2: "\(pcmBuffer)"))
+                }
+            case .aborted: // The "Cancel" button was pressed in the pop-up. Ignore this audio pass thru.
+                self.audioData = Data()
+                self.sdlManager.send(AlertManager.alertWithMessageAndCloseButton("Recording canceled"))
+            default:
+                self.audioData = Data()
+                self.sdlManager.send(AlertManager.alertWithMessageAndCloseButton("Recording unsuccessful", textField2: "\(response.resultCode.rawValue.rawValue)"))
             }
-        case .aborted: // The "Cancel" button was pressed in the pop-up. Ignore this audio pass thru.
-            audioData = Data()
-            sdlManager.send(AlertManager.alertWithMessageAndCloseButton("Recording cancelled"))
-        default:
-            sdlManager.send(AlertManager.alertWithMessageAndCloseButton("Recording unsuccessful", textField2: "\(response.response.resultCode.rawValue.rawValue)"))
         }
     }
 }
@@ -101,12 +97,11 @@ extension AudioManager {
 // MARK: - Audio Data Conversion
 
 private extension AudioManager {
-    /// Converts the audio data to PCM formatted audio that can be passed to iOS SFSpeech Framework, if desired. When doing the converstion, the audio format and sample rate should match those set in the `SDLPerformAudioPassThru`.
+    /// Converts the audio data to PCM formatted audio that can be passed, if desired, to the iOS SFSpeech framework (SDL does not provide speech recognition, however the SFSpeech framework or another third party library can be used for speech recognition). The audio format and sample rate should match those set in the `SDLPerformAudioPassThru`.
     ///
     /// - Parameter data: The audio data
-    /// - Returns: A AVAudioPCMBuffer object
+    /// - Returns: An AVAudioPCMBuffer object
     func convertDataToPCMFormattedAudio(_ data: Data) -> AVAudioPCMBuffer {
-        //
         let audioFormat = AVAudioFormat(commonFormat: .pcmFormatInt16, sampleRate: 16000, channels: 1, interleaved: false)
         let numFrames = UInt32(data.count) / (audioFormat.streamDescription.pointee.mBytesPerFrame)
         let buffer = AVAudioPCMBuffer(pcmFormat: audioFormat, frameCapacity: numFrames)

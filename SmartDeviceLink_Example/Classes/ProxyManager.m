@@ -2,6 +2,7 @@
 //  ProxyManager.m
 //  SmartDeviceLink-iOS
 
+#import "AudioManager.h"
 #import "AppConstants.h"
 #import "SmartDeviceLink.h"
 #import "ProxyManager.h"
@@ -21,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Describes the first time the HMI state goes non-none and full.
 @property (assign, nonatomic) SDLHMIFirstState firstTimeState;
+
 @property (assign, nonatomic, getter=isTextEnabled) BOOL textEnabled;
 @property (assign, nonatomic, getter=isHexagonEnabled) BOOL toggleEnabled;
 @property (assign, nonatomic, getter=areImagesEnabled) BOOL imagesEnabled;
@@ -44,10 +46,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init {
     self = [super init];
-    if (self == nil) {
+    if (!self) {
         return nil;
     }
-    
+
     _state = ProxyStateStopped;
     _firstTimeState = SDLHMIFirstStateNone;
 
@@ -89,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
             [weakSelf sdlex_updateProxyState:ProxyStateStopped];
             return;
         }
-        
+
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
         [weakSelf sdlex_setupPermissionsCallbacks];
         [weakSelf sdlex_showInitialData];
@@ -99,6 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)reset {
     [self.sdlManager stop];
 }
+
 
 #pragma mark - Helpers
 
@@ -196,6 +199,7 @@ NS_ASSUME_NONNULL_BEGIN
     logConfig.modules = [logConfig.modules setByAddingObject:sdlExampleModule];
     logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
     // logConfig.filters = [logConfig.filters setByAddingObject:[SDLLogFilter filterByAllowingModules:[NSSet setWithObject:@"Transport"]]];
+    logConfig.globalLogLevel = SDLLogLevelDebug;
 
     return logConfig;
 }
@@ -261,11 +265,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLAddCommand *)sdlex_dialNumberCommandWithManager:(SDLManager *)manager {
-    NSString *menuName = @"Dial Number";
-    SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] initWithMenuName:menuName];
-
+    SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] initWithMenuName:ACDialPhoneNumberMenuName];
     SDLAddCommand *dialNumberCommand = [[SDLAddCommand alloc] init];
-    dialNumberCommand.vrCommands = [NSMutableArray arrayWithObject:menuName];
+    dialNumberCommand.vrCommands = [NSMutableArray arrayWithObject:ACDialPhoneNumberMenuName];
     dialNumberCommand.menuParams = commandMenuParams;
     dialNumberCommand.cmdID = @3;
     dialNumberCommand.handler = ^(SDLOnCommand * _Nonnull command) {
@@ -292,6 +294,20 @@ NS_ASSUME_NONNULL_BEGIN
     };
 
     return dialNumberCommand;
+}
+
++ (SDLAddCommand *)sdlex_recordAudioCommandWithManager:(SDLManager *)manager {
+    SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] initWithMenuName:ACRecordInCarMicrophoneAudioMenuName];
+    SDLAddCommand *recordAddCommand = [[SDLAddCommand alloc] init];
+    recordAddCommand.vrCommands = [NSMutableArray arrayWithObject:ACRecordInCarMicrophoneAudioMenuName];
+    recordAddCommand.menuParams = commandMenuParams;
+    recordAddCommand.cmdID = @4;
+    AudioManager *audioManager = [[AudioManager alloc] initWithManager:manager];
+    recordAddCommand.handler = ^(SDLOnCommand * _Nonnull command) {
+        [audioManager startRecording];
+    };
+
+    return recordAddCommand;
 }
 
 + (SDLSpeak *)sdlex_appNameSpeak {
@@ -427,7 +443,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdlex_prepareRemoteSystem {
-    [self.sdlManager sendRequests:@[[self.class sdlex_speakNameCommandWithManager:self.sdlManager], [self.class sdlex_interactionSetCommandWithManager:self.sdlManager], [self.class sdlex_vehicleDataCommandWithManager:self.sdlManager], [self.class sdlex_dialNumberCommandWithManager:self.sdlManager], [self.class sdlex_createOnlyChoiceInteractionSet]]
+    [self.sdlManager sendRequests:@[[self.class sdlex_speakNameCommandWithManager:self.sdlManager], [self.class sdlex_interactionSetCommandWithManager:self.sdlManager], [self.class sdlex_vehicleDataCommandWithManager:self.sdlManager], [self.class sdlex_dialNumberCommandWithManager:self.sdlManager], [self.class sdlex_createOnlyChoiceInteractionSet], [self.class sdlex_recordAudioCommandWithManager:self.sdlManager]]
                   progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
                       SDLLogD(@"Commands sent updated, percent complete %f%%", percentComplete * 100);
                   } completionHandler:nil];

@@ -5,8 +5,6 @@
 #import <Foundation/Foundation.h>
 
 @class SDLManager;
-@class SDLStreamingMediaManager;
-
 
 typedef NS_ENUM(NSUInteger, ProxyTransportType) {
     ProxyTransportTypeUnknown,
