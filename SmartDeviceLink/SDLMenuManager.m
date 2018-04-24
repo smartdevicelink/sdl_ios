@@ -40,12 +40,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface SDLVoiceCommand()
-
-@property (assign, nonatomic) UInt32 commandId;
-
-@end
-
 @interface SDLMenuManager()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
@@ -64,6 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 UInt32 const ParentIdNotFound = UINT32_MAX;
+UInt32 const MenuCellIdMin = 0;
 
 @implementation SDLMenuManager
 
@@ -71,9 +66,8 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     self = [super init];
     if (!self) { return nil; }
 
-    _lastMenuId = 0;
+    _lastMenuId = MenuCellIdMin;
     _menuCells = @[];
-    _voiceCommands = @[];
     _oldMenuCells = @[];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
@@ -124,6 +118,8 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     }];
 }
 
+#pragma mark Delete Old Menu Items
+
 - (void)sdl_sendDeleteCurrentMenu:(SDLMenuUpdateCompletionHandler)completionHandler {
     if (self.oldMenuCells.count == 0) {
         completionHandler(nil);
@@ -144,6 +140,8 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
         completionHandler(nil);
     }];
 }
+
+#pragma mark Send New Menu Items
 
 - (void)sdl_sendCurrentMenu:(SDLMenuUpdateCompletionHandler)completionHandler {
     if (self.menuCells.count == 0) {
@@ -242,19 +240,6 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     [self sdl_updateWithCompletionHandler:nil];
 }
 
-- (void)setVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
-    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
-        _waitingOnHMILevelUpdate = YES;
-        _voiceCommands = voiceCommands;
-        return;
-    }
-
-    // Set the ids
-    _voiceCommands = voiceCommands;
-
-    [self sdl_updateWithCompletionHandler:nil];
-}
-
 #pragma mark - Helpers
 
 #pragma mark Artworks
@@ -302,16 +287,6 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
             SDLDeleteSubMenu *delete = [[SDLDeleteSubMenu alloc] initWithId:cell.cellId];
             [mutableDeletes addObject:delete];
         }
-    }
-
-    return [mutableDeletes copy];
-}
-
-- (NSArray<SDLDeleteCommand *> *)sdl_deleteCommandsForVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
-    NSMutableArray<SDLDeleteCommand *> *mutableDeletes = [NSMutableArray array];
-    for (SDLVoiceCommand *command in self.voiceCommands) {
-        SDLDeleteCommand *delete = [[SDLDeleteCommand alloc] initWithId:command.commandId];
-        [mutableDeletes addObject:delete];
     }
 
     return [mutableDeletes copy];
@@ -380,36 +355,17 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     return submenu;
 }
 
-- (SDLAddCommand *)sdl_commandForVoiceCommand:(SDLVoiceCommand *)voiceCommand {
-    SDLAddCommand *command = [[SDLAddCommand alloc] init];
-    command.vrCommands = voiceCommand.voiceCommands;
-    command.cmdID = @(voiceCommand.commandId);
-
-    return command;
-}
-
 #pragma mark - Observers
 
 - (void)sdl_commandNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnCommand *onCommand = (SDLOnCommand *)notification.notification;
 
-    NSArray<id> *allCommands = [self.menuCells arrayByAddingObjectsFromArray:self.voiceCommands];
-    for (id object in allCommands) {
-        if ([object isKindOfClass:[SDLMenuCell class]]) {
-            SDLMenuCell *cell = (SDLMenuCell *)object;
-            if (onCommand.cmdID.unsignedIntegerValue != cell.cellId) { continue; }
+    for (SDLMenuCell *cell in self.menuCells) {
+        if (onCommand.cmdID.unsignedIntegerValue != cell.cellId) { continue; }
 
-            cell.handler();
-            break;
-        } else if ([object isKindOfClass:[SDLVoiceCommand class]]) {
-            SDLVoiceCommand *voiceCommand = (SDLVoiceCommand *)object;
-            if (onCommand.cmdID.unsignedIntegerValue != voiceCommand.commandId) { continue; }
-
-            voiceCommand.handler();
-            break;
-        }
+        cell.handler();
+        break;
     }
-
 }
 
 - (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
@@ -432,7 +388,6 @@ UInt32 const ParentIdNotFound = UINT32_MAX;
     if ([oldHMILevel isEqualToString:SDLHMILevelNone] && ![self.currentLevel isEqualToString:SDLHMILevelNone]) {
         if (self.waitingOnHMILevelUpdate) {
             [self setMenuCells:_menuCells];
-            [self setVoiceCommands:_voiceCommands];
         } else {
             [self sdl_updateWithCompletionHandler:nil];
         }

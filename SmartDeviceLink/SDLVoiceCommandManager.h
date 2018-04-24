@@ -1,15 +1,14 @@
 //
-//  SDLMenuManager.h
+//  SDLVoiceCommandManager.h
 //  SmartDeviceLink
 //
-//  Created by Joel Fischer on 4/9/18.
+//  Created by Joel Fischer on 4/23/18.
 //  Copyright © 2018 smartdevicelink. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 @class SDLFileManager;
-@class SDLMenuCell;
 @class SDLVoiceCommand;
 
 @protocol SDLConnectionManagerType;
@@ -23,11 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
-@interface SDLMenuManager : NSObject
+@interface SDLVoiceCommandManager : NSObject
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
 
-@property (copy, nonatomic) NSArray<SDLMenuCell *> *menuCells;
+@property (copy, nonatomic) NSArray<SDLVoiceCommand *> *voiceCommands;
 
 @end
 

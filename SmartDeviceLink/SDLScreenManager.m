@@ -12,6 +12,7 @@
 #import "SDLMenuManager.h"
 #import "SDLSoftButtonManager.h"
 #import "SDLTextAndGraphicManager.h"
+#import "SDLVoiceCommandManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLTextAndGraphicManager *textAndGraphicManager;
 @property (strong, nonatomic) SDLSoftButtonManager *softButtonManager;
 @property (strong, nonatomic) SDLMenuManager *menuManager;
+@property (strong, nonatomic) SDLVoiceCommandManager *voiceCommandMenuManager;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
@@ -38,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
     _textAndGraphicManager = [[SDLTextAndGraphicManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
     _softButtonManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
     _menuManager = [[SDLMenuManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
+    _voiceCommandMenuManager = [[SDLVoiceCommandManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
 
     return self;
 }
@@ -116,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
-    self.menuManager.voiceCommands = voiceCommands;
+    self.voiceCommandMenuManager.voiceCommands = voiceCommands;
 }
 
 #pragma mark - Getters
@@ -186,7 +189,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLVoiceCommand *> *)voiceCommands {
-    return _menuManager.voiceCommands;
+    return _voiceCommandMenuManager.voiceCommands;
 }
 
 #pragma mark - Begin / End Updates

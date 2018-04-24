@@ -21,7 +21,8 @@
                                  [self sdl_fileManagerModule],
                                  [self sdl_lifecycleManagerModule],
                                  [self sdl_lockscreenManagerModule],
-                                 [self sdl_streamingMediaManagerModule]]];
+                                 [self sdl_streamingMediaManagerModule],
+                                 [self sdl_screenManagerModule]]];
 }
 
 + (SDLLogFileModule *)sdl_transportModule {
@@ -64,7 +65,7 @@
 }
 
 + (SDLLogFileModule *)sdl_screenManagerModule {
-    return [SDLLogFileModule moduleWithName:@"Screen" files:[NSSet setWithArray:@[@"SDLTextAndGraphicManager", @"SDLSoftButtonManager", @"SDLScreenManager", @"SDLSoftButtonObject", @"SDLSoftButtonState"]]];
+    return [SDLLogFileModule moduleWithName:@"Screen" files:[NSSet setWithArray:@[@"SDLTextAndGraphicManager", @"SDLSoftButtonManager", @"SDLScreenManager", @"SDLSoftButtonObject", @"SDLSoftButtonState", @"SDLMenuManager", @"SDLVoiceCommandManager"]]];
 }
 
 

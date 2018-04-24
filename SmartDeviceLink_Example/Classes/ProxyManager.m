@@ -446,6 +446,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdlex_prepareRemoteSystem {
+    SDLCreateInteractionChoiceSet *choiceSet = [self.class sdlex_createOnlyChoiceInteractionSet];
+    [self.sdlManager sendRequest:choiceSet];
+
     __weak typeof(self) weakself = self;
     SDLMenuCell *speakCell = [[SDLMenuCell alloc] initWithTitle:@"Speak" icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"speak"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[@"Speak"] handler:^{
         [weakself.sdlManager sendRequest:[ProxyManager sdlex_appNameSpeak]];
@@ -467,7 +470,12 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" subCells:[menuArray copy]];
 
+    SDLVoiceCommand *voiceCommand = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"Test"] handler:^{
+        [ProxyManager sdlex_sendPerformOnlyChoiceInteractionWithManager:weakself.sdlManager];
+    }];
+
     self.sdlManager.screenManager.menu = @[speakCell, interactionSetCell, getVehicleDataCell, submenuCell];
+    self.sdlManager.screenManager.voiceCommands = @[voiceCommand];
 }
 
 
