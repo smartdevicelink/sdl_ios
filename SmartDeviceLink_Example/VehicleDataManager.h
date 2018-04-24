@@ -8,6 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+@class SDLManager;
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface VehicleDataManager : NSObject
 
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithManager:(SDLManager *)manager;
+
+- (void)subscribeToVehicleOdometer;
+- (void)unsubscribeToVehicleOdometer;
++ (void)getVehicleSpeed;
++ (void)checkPhoneCallCapability;
+
 @end
+
+NS_ASSUME_NONNULL_END

@@ -46,7 +46,7 @@ extension VehicleDataManager {
                 SDLLog.d("Subscribed to vehicle odometer data")
                 message += "Subscribed"
             case .disallowed:
-                SDLLog.d("SubAccess to vehicle data disallowed")
+                SDLLog.d("Access to vehicle data disallowed")
                 message += "Disallowed"
             case .userDisallowed:
                 SDLLog.d("Vehicle user disabled access to vehicle data")
@@ -73,7 +73,10 @@ extension VehicleDataManager {
     func unsubscribeToVehicleOdometer() {
         let unsubscribeToVehicleOdometer = SDLUnsubscribeVehicleData()
         unsubscribeToVehicleOdometer.odometer = true
-        sdlManager.send(unsubscribeToVehicleOdometer)
+        sdlManager.send(request: unsubscribeToVehicleOdometer) { (request, response, error) in
+            guard let response = response, response.resultCode == .success else { return }
+            self.resetOdometer()
+        }
     }
 
     /// Notification with the updated vehicle data

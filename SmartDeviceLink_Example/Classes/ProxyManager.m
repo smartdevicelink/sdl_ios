@@ -2,11 +2,11 @@
 //  ProxyManager.m
 //  SmartDeviceLink-iOS
 
-#import "AudioManager.h"
 #import "AppConstants.h"
-#import "SmartDeviceLink.h"
-#import "ProxyManager.h"
+#import "AudioManager.h"
 #import "Preferences.h"
+#import "ProxyManager.h"
+#import "SmartDeviceLink.h"
 
 
 typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
@@ -56,7 +56,12 @@ NS_ASSUME_NONNULL_BEGIN
     _textEnabled = YES;
     _toggleEnabled = YES;
     _imagesEnabled = YES;
-    
+
+    SDLLogV(@"This is a verbose log");
+    SDLLogD(@"This is a debug log");
+    SDLLogW(@"This is a warning log");
+    SDLLogE(@"This is an error log");
+
     return self;
 }
 

@@ -1052,6 +1052,7 @@
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
 		8803A0AA208E281E009FDC02 /* Enum+SDLAudioRecordingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8803A0A7208E27E6009FDC02 /* Enum+SDLAudioRecordingState.swift */; };
 		8803A0AF208E2A3A009FDC02 /* AudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8803A0AC208E2907009FDC02 /* AudioManager.m */; };
+		8803A0B2208E7CA4009FDC02 /* VehicleDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8803A0B1208E7CA4009FDC02 /* VehicleDataManager.m */; };
 		880E35B42088F75A00181259 /* SDLSystemCapabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 880E35B22088F75A00181259 /* SDLSystemCapabilityManager.m */; };
 		880E35B52088F75A00181259 /* SDLSystemCapabilityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 880E35B32088F75A00181259 /* SDLSystemCapabilityManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		880E35B82088F78E00181259 /* SDLSystemCapabilityManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 880E35B72088F78E00181259 /* SDLSystemCapabilityManagerSpec.m */; };
@@ -2381,6 +2382,8 @@
 		8803A0A7208E27E6009FDC02 /* Enum+SDLAudioRecordingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enum+SDLAudioRecordingState.swift"; sourceTree = "<group>"; };
 		8803A0AB208E2907009FDC02 /* AudioManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioManager.h; sourceTree = "<group>"; };
 		8803A0AC208E2907009FDC02 /* AudioManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioManager.m; sourceTree = "<group>"; };
+		8803A0B0208E7CA4009FDC02 /* VehicleDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VehicleDataManager.h; sourceTree = "<group>"; };
+		8803A0B1208E7CA4009FDC02 /* VehicleDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VehicleDataManager.m; sourceTree = "<group>"; };
 		880E35B22088F75A00181259 /* SDLSystemCapabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSystemCapabilityManager.m; sourceTree = "<group>"; };
 		880E35B32088F75A00181259 /* SDLSystemCapabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSystemCapabilityManager.h; sourceTree = "<group>"; };
 		880E35B72088F78E00181259 /* SDLSystemCapabilityManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSystemCapabilityManagerSpec.m; sourceTree = "<group>"; };
@@ -3290,6 +3293,8 @@
 				5D4832A01A92868E00252386 /* ProxyManager.m */,
 				8803A0AB208E2907009FDC02 /* AudioManager.h */,
 				8803A0AC208E2907009FDC02 /* AudioManager.m */,
+				8803A0B0208E7CA4009FDC02 /* VehicleDataManager.h */,
+				8803A0B1208E7CA4009FDC02 /* VehicleDataManager.m */,
 			);
 			name = SDL;
 			sourceTree = "<group>";
@@ -5658,6 +5663,7 @@
 				5D0218FC1A8E7E1700D1BF62 /* ConnectionContainerViewController.m in Sources */,
 				8803A0AF208E2A3A009FDC02 /* AudioManager.m in Sources */,
 				5D0218FF1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m in Sources */,
+				8803A0B2208E7CA4009FDC02 /* VehicleDataManager.m in Sources */,
 				5D48329D1A8EA33D00252386 /* Preferences.m in Sources */,
 				5D59350F1A855EB300687FB9 /* AppDelegate.m in Sources */,
 				5D5935121A855EBE00687FB9 /* main.m in Sources */,
