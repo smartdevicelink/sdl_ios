@@ -153,7 +153,7 @@ UInt32 const MenuCellIdMin = 0;
 
     NSArray<SDLRPCRequest *> *mainMenuCommands = nil;
     NSArray<SDLRPCRequest *> *subMenuCommands = nil;
-    if ([self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells].count > 0) {
+    if ([self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells].count > 0 || ![self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
         // Send artwork-less menu
         mainMenuCommands = [self sdl_mainMenuCommandsForCells:self.menuCells withArtwork:NO];
         subMenuCommands = [self sdl_subMenuCommandsForCells:self.menuCells withArtwork:NO];
@@ -215,6 +215,7 @@ UInt32 const MenuCellIdMin = 0;
     }
     if (titleCheckSet.count != menuCells.count) {
         SDLLogE(@"Not all cell titles are unique. The menu will not be set.");
+        return;
     }
 
     // Set the ids

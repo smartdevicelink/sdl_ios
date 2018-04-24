@@ -1059,6 +1059,8 @@
 		5DEF69661FD6FEF7004B8C2F /* SDLStreamingAudioManagerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEF69651FD6FEF7004B8C2F /* SDLStreamingAudioManagerMock.m */; };
 		5DF40B22208E761A00DD6FDA /* SDLVoiceCommandManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DF40B20208E761A00DD6FDA /* SDLVoiceCommandManager.h */; };
 		5DF40B23208E761A00DD6FDA /* SDLVoiceCommandManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B21208E761A00DD6FDA /* SDLVoiceCommandManager.m */; };
+		5DF40B26208FA7DE00DD6FDA /* SDLMenuManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B25208FA7DE00DD6FDA /* SDLMenuManagerSpec.m */; };
+		5DF40B28208FDA9700DD6FDA /* SDLVoiceCommandSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandSpec.m */; };
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
 		880E8C2920697FEE00CF86C2 /* SDLSystemCapabilityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 880E8C2720697FEE00CF86C2 /* SDLSystemCapabilityManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		880E8C2A20697FEE00CF86C2 /* SDLSystemCapabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 880E8C2820697FEE00CF86C2 /* SDLSystemCapabilityManager.m */; };
@@ -2336,6 +2338,8 @@
 		5DF2BB9C1B94E38A00CE5994 /* SDLURLSessionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLURLSessionSpec.m; path = "UtilitiesSpecs/HTTP Connection/SDLURLSessionSpec.m"; sourceTree = "<group>"; };
 		5DF40B20208E761A00DD6FDA /* SDLVoiceCommandManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLVoiceCommandManager.h; sourceTree = "<group>"; };
 		5DF40B21208E761A00DD6FDA /* SDLVoiceCommandManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLVoiceCommandManager.m; sourceTree = "<group>"; };
+		5DF40B25208FA7DE00DD6FDA /* SDLMenuManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuManagerSpec.m; path = DevAPISpecs/SDLMenuManagerSpec.m; sourceTree = "<group>"; };
+		5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLVoiceCommandSpec.m; path = DevAPISpecs/SDLVoiceCommandSpec.m; sourceTree = "<group>"; };
 		5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionManagerType.h; sourceTree = "<group>"; };
 		880E8C2720697FEE00CF86C2 /* SDLSystemCapabilityManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSystemCapabilityManager.h; sourceTree = "<group>"; };
 		880E8C2820697FEE00CF86C2 /* SDLSystemCapabilityManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSystemCapabilityManager.m; sourceTree = "<group>"; };
@@ -4396,14 +4400,15 @@
 			name = "Focus / Haptic";
 			sourceTree = "<group>";
 		};
-		5DAD5F8120507DE40025624C /* Show */ = {
+		5DAD5F8120507DE40025624C /* Screen */ = {
 			isa = PBXGroup;
 			children = (
+				5DF40B24208FA7C500DD6FDA /* Menu */,
 				5DAD5F8220507DED0025624C /* Soft Button */,
 				5DAD5F8320507DF30025624C /* Text and Graphic */,
 				5DAD5F8420507E1F0025624C /* SDLScreenManagerSpec.m */,
 			);
-			name = Show;
+			name = Screen;
 			sourceTree = "<group>";
 		};
 		5DAD5F8220507DED0025624C /* Soft Button */ = {
@@ -4571,7 +4576,7 @@
 		5DBAE0A81D35886E00CE00BF /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				5DAD5F8120507DE40025624C /* Show */,
+				5DAD5F8120507DE40025624C /* Screen */,
 				DA8966ED1E5693D100413EAB /* Streaming */,
 				5D1654541D3E753100554D93 /* Lifecycle */,
 				5D76E31A1D3805E600647CFA /* LockScreen */,
@@ -4719,6 +4724,15 @@
 				5DEF69651FD6FEF7004B8C2F /* SDLStreamingAudioManagerMock.m */,
 			);
 			name = Mocks;
+			sourceTree = "<group>";
+		};
+		5DF40B24208FA7C500DD6FDA /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				5DF40B25208FA7DE00DD6FDA /* SDLMenuManagerSpec.m */,
+				5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandSpec.m */,
+			);
+			name = Menu;
 			sourceTree = "<group>";
 		};
 		886D313C206A94BA001185B4 /* System Capabilities */ = {
@@ -6179,6 +6193,7 @@
 				162E83971A9BDE8B00906325 /* SDLVehicleTypeSpec.m in Sources */,
 				1680B1131A9CD7AD00DBD79E /* SDLProtocolHeaderSpec.m in Sources */,
 				162E82D01A9BDE8A00906325 /* SDLButtonEventModeSpec.m in Sources */,
+				5DF40B26208FA7DE00DD6FDA /* SDLMenuManagerSpec.m in Sources */,
 				162E83781A9BDE8B00906325 /* SDLDeviceInfoSpec.m in Sources */,
 				162E83391A9BDE8B00906325 /* SDLSetAppIconSpec.m in Sources */,
 				162E83011A9BDE8B00906325 /* SDLTimerModeSpec.m in Sources */,
@@ -6217,6 +6232,7 @@
 				162E82CF1A9BDE8A00906325 /* SDLBitsPerSampleSpec.m in Sources */,
 				162E831E1A9BDE8B00906325 /* SDLOnTBTClientStateSpec.m in Sources */,
 				162E83351A9BDE8B00906325 /* SDLReadDIDSpec.m in Sources */,
+				5DF40B28208FDA9700DD6FDA /* SDLVoiceCommandSpec.m in Sources */,
 				162E836F1A9BDE8B00906325 /* SDLUnsubscribeVehicleDataResponseSpec.m in Sources */,
 				162E82DB1A9BDE8B00906325 /* SDLECallConfirmationStatusSpec.m in Sources */,
 				162E82D81A9BDE8A00906325 /* SDLDimensionSpec.m in Sources */,

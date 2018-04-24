@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
     _textAndGraphicManager = [[SDLTextAndGraphicManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
     _softButtonManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
     _menuManager = [[SDLMenuManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
-    _voiceCommandMenuManager = [[SDLVoiceCommandManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
+    _voiceCommandMenuManager = [[SDLVoiceCommandManager alloc] initWithConnectionManager:connectionManager];
 
     return self;
 }

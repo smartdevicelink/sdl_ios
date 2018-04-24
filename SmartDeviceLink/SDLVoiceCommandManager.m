@@ -32,7 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLVoiceCommandManager()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (weak, nonatomic) SDLFileManager *fileManager;
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
 
@@ -63,12 +62,11 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     return self;
 }
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager {
     self = [self init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
-    _fileManager = fileManager;
 
     return self;
 }

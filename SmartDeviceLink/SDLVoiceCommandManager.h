@@ -24,7 +24,7 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 @interface SDLVoiceCommandManager : NSObject
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager;
 
 @property (copy, nonatomic) NSArray<SDLVoiceCommand *> *voiceCommands;
 
