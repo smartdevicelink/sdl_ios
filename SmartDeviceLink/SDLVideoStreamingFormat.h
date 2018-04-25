@@ -9,15 +9,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ An available format for video streaming in projection applications
+ */
 @interface SDLVideoStreamingFormat : SDLRPCStruct
 
 /**
- * @abstract Protocol type, see VideoStreamingProtocol, mandatory
+ Protocol type, see VideoStreamingProtocol
+
+ Required
  */
 @property (strong, nonatomic) SDLVideoStreamingProtocol protocol;
 
 /**
- * @abstract Codec type, see VideoStreamingCodec, mandatory
+ Codec type, see VideoStreamingCodec
+
+ Required
  */
 @property (strong, nonatomic) SDLVideoStreamingCodec codec;
 

@@ -7,20 +7,24 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Struct using in Remote Control representing a temperature.
+ */
 @interface SDLTemperature : SDLRPCStruct
 
 - (instancetype)initWithUnit:(SDLTemperatureUnit)unit value:(float)value;
 
 /**
- * @abstract Temperature Unit
- *
+ Temperature Unit
+
+ Required, float
  */
 @property (strong, nonatomic) SDLTemperatureUnit unit;
 
 /**
- * @abstract Temperature Value in TemperatureUnit specified unit. Range depends on OEM and is not checked by SDL
- *
- * FLoat value
+ Temperature Value in TemperatureUnit specified unit. Range depends on OEM and is not checked by SDL.
+
+ Required, float
  */
 @property (strong, nonatomic) NSNumber<SDLFloat> *value;
 

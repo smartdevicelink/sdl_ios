@@ -9,6 +9,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Describes a location, including its coordinate, name, etc. Used in WayPoints.
+ */
 @interface SDLLocationDetails : SDLRPCStruct
 
 /**
