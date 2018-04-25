@@ -9,7 +9,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-__deprecated_msg("Use SDLManager instead")
 @interface SDLProxyFactory : NSObject {
 }
 

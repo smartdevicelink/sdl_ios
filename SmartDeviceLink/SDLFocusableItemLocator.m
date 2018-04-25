@@ -33,10 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLFocusableItemLocator
 
-- (instancetype)initWithWindow:(UIWindow *)window connectionManager:(id<SDLConnectionManagerType>)connectionManager{
-    return [self initWithViewController:window.rootViewController connectionManager:connectionManager];
-}
-
 - (instancetype)initWithViewController:(UIViewController *)viewController connectionManager:(id<SDLConnectionManagerType>)connectionManager {
     self = [super init];
     if(!self) {
