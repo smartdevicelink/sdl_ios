@@ -106,16 +106,16 @@ NS_ASSUME_NONNULL_BEGIN
             self.buttonHandlerMap[buttonName] = subscribeButton.handler;
         }
     } else if ([request isKindOfClass:[SDLAlert class]]) {
+        [self sdl_removeOldButtonHandlersForAlerts];
         SDLAlert *alert = (SDLAlert *)request;
-        [self sdl_removeOldButtonHandlersFor:alert];
         [self sdl_addToCustomButtonHandlerMap:alert.softButtons];
     } else if ([request isKindOfClass:[SDLScrollableMessage class]]) {
+        [self sdl_removeOldButtonHandlersForScrollableMessages];
         SDLScrollableMessage *scrollableMessage = (SDLScrollableMessage *)request;
-        [self sdl_removeOldButtonHandlersFor:scrollableMessage];
         [self sdl_addToCustomButtonHandlerMap:scrollableMessage.softButtons];
     } else if ([request isKindOfClass:[SDLShow class]]) {
         SDLShow *show = (SDLShow *)request;
-        [self sdl_removeOldButtonHandlersFor:show];
+        [self sdl_removeOldButtonHandlersForShow:show];
         [self sdl_addToCustomButtonHandlerMap:show.softButtons];
     } else if ([request isKindOfClass:[SDLPerformAudioPassThru class]]) {
         SDLPerformAudioPassThru *performAudioPassThru = (SDLPerformAudioPassThru *)request;
@@ -143,38 +143,36 @@ NS_ASSUME_NONNULL_BEGIN
     _audioPassThruHandler = nil;
 }
 
-- (void)sdl_removeOldButtonHandlersFor:(SDLRPCRequest *)request {
-    for(SDLRPCCorrelationId *key in self.rpcRequestDictionary.allKeys) {
-        if ([self.rpcRequestDictionary[key] isKindOfClass:[SDLAlert class]] && [request isKindOfClass:[SDLAlert class]]) {
-            SDLAlert *oldAlert = (SDLAlert *)self.rpcRequestDictionary[key];
-            SDLAlert *newAlert = (SDLAlert *)request;
-            if(newAlert.softButtons.count != 0) {
-                for (SDLSoftButton *softButton in oldAlert.softButtons) {
-                    if (![[newAlert.softButtons valueForKey:@"softButtonID"] containsObject:softButton.softButtonID]) {
-                        [self.customButtonHandlerMap removeObjectForKey:softButton.softButtonID];
-                    }
-                }
-            }
-        } else if([self.rpcRequestDictionary[key] isKindOfClass:[SDLScrollableMessage class]] && [request isKindOfClass:[SDLScrollableMessage class]]) {
-            SDLScrollableMessage *oldMessage = (SDLScrollableMessage *)self.rpcRequestDictionary[key];
-            SDLScrollableMessage *newMessage = (SDLScrollableMessage *)request;
-            if(newMessage.softButtons.count != 0) {
-                for (SDLSoftButton *softButton in oldMessage.softButtons) {
-                    if (![[newMessage.softButtons valueForKey:@"softButtonID"] containsObject:softButton.softButtonID]) {
-                        [self.customButtonHandlerMap removeObjectForKey:softButton.softButtonID];
-                    }
-                }
-            }
-        } else if([self.rpcRequestDictionary[key] isKindOfClass:[SDLShow class]] && [request isKindOfClass:[SDLShow class]]) {
-            SDLShow *oldShow = (SDLShow *)self.rpcRequestDictionary[key];
-            SDLShow *newShow = (SDLShow *)request;
-            if(newShow.softButtons.count != 0) {
-                for (SDLSoftButton *softButton in oldShow.softButtons) {
-                    // Check if new show's softButton array contains ID of old soft button. (This means button is being updated).
-                    if (![[newShow.softButtons valueForKey:@"softButtonID"] containsObject:softButton.softButtonID]) {
-                        [self.customButtonHandlerMap removeObjectForKey:softButton.softButtonID];
-                    }
-                }
+- (void)sdl_removeOldButtonHandlersForAlerts {
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
+        return [object isKindOfClass:[SDLAlert class]];
+    }];
+    for (SDLAlert *oldAlert in [self.rpcRequestDictionary.allValues filteredArrayUsingPredicate:predicate]) {
+        for (SDLSoftButton *softButton in oldAlert.softButtons) {
+            [self.customButtonHandlerMap removeObjectForKey:softButton.softButtonID];
+        }
+    }
+}
+
+- (void)sdl_removeOldButtonHandlersForScrollableMessages {
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
+        return [object isKindOfClass:[SDLScrollableMessage class]];
+    }];
+    for (SDLScrollableMessage *oldMessage in [self.rpcRequestDictionary.allValues filteredArrayUsingPredicate:predicate]) {
+        for (SDLSoftButton *softButton in oldMessage.softButtons) {
+            [self.customButtonHandlerMap removeObjectForKey:softButton.softButtonID];
+        }
+    }
+}
+
+- (void)sdl_removeOldButtonHandlersForShow:(SDLShow *)newShow {
+    if (newShow.softButtons.count != 0) {
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
+            return [object isKindOfClass:[SDLShow class]];
+        }];
+        for (SDLShow *oldShow in [self.rpcRequestDictionary.allValues filteredArrayUsingPredicate:predicate]) {
+            for (SDLSoftButton *softButton in oldShow.softButtons) {
+                [self.customButtonHandlerMap removeObjectForKey:softButton.softButtonID];
             }
         }
     }

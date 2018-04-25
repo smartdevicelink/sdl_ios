@@ -506,10 +506,14 @@ describe(@"a response dispatcher", ^{
     context(@"storing an alert request", ^{
         __block SDLAlert *testAlert = nil;
         __block SDLSoftButton *testSoftButton1 = nil;
+        __block SDLAlert *testAlert2 = nil;
+        __block SDLSoftButton *testSoftButton2 = nil;
         
         beforeEach(^{
             testAlert = [[SDLAlert alloc] initWithAlertText1:@"test 1" alertText2:@"test 1" alertText3:nil duration:1 softButtons:nil];
             testAlert.correlationID = @1;
+            testAlert2 = [[SDLAlert alloc] initWithAlertText1:@"test 2" alertText2:@"test 2" alertText3:nil duration:1 softButtons:nil];
+            testAlert2.correlationID = @2;
         });
         
         context(@"with a correct soft button and handler", ^{
@@ -612,15 +616,44 @@ describe(@"a response dispatcher", ^{
                 expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
             });
         });
+        
+        context(@"with an old alert", ^{
+            beforeEach(^{
+                __block NSUInteger numTimesHandlerCalled = 0;
+                
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
+                    numTimesHandlerCalled++;
+                }];
+                
+                testAlert.softButtons = [@[testSoftButton1] mutableCopy];
+                [testDispatcher storeRequest:testAlert handler:nil];
+                
+                testSoftButton2 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test2" image:nil highlighted:NO buttonId:2 systemAction:SDLSystemActionDefaultAction handler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
+                    numTimesHandlerCalled++;
+                }];
+                
+                testAlert2.softButtons = [@[testSoftButton2] mutableCopy];
+                [testDispatcher storeRequest:testAlert2 handler:nil];
+            });
+            
+            it(@"should remove the old alert's soft button handler", ^{
+                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).to(beNil());
+                expect(testDispatcher.customButtonHandlerMap[testSoftButton2.softButtonID]).toNot(beNil());
+            });
+        });
     });
     
     context(@"storing a scrollable message request", ^{
         __block SDLScrollableMessage *testScrollableMessage = nil;
         __block SDLSoftButton *testSoftButton1 = nil;
+        __block SDLScrollableMessage *testScrollableMessage2 = nil;
+        __block SDLSoftButton *testSoftButton2 = nil;
         
         beforeEach(^{
             testScrollableMessage = [[SDLScrollableMessage alloc] initWithMessage:@"test" timeout:1 softButtons:nil];
             testScrollableMessage.correlationID = @1;
+            testScrollableMessage2 = [[SDLScrollableMessage alloc] initWithMessage:@"test2" timeout:1 softButtons:nil];
+            testScrollableMessage2.correlationID = @2;
         });
         
         context(@"with a correct soft button and handler", ^{
@@ -721,6 +754,31 @@ describe(@"a response dispatcher", ^{
                 [testDispatcher storeRequest:testScrollableMessage handler:nil];
                 
                 expect(testDispatcher.customButtonHandlerMap).to(haveCount(@0));
+            });
+        });
+        
+        context(@"with an old scrollable message", ^{
+            beforeEach(^{
+                __block NSUInteger numTimesHandlerCalled = 0;
+
+                testSoftButton1 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test" image:nil highlighted:NO buttonId:1 systemAction:SDLSystemActionDefaultAction handler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
+                    numTimesHandlerCalled++;
+                }];
+                
+                testScrollableMessage.softButtons = [@[testSoftButton1] mutableCopy];
+                [testDispatcher storeRequest:testScrollableMessage handler:nil];
+                
+                testSoftButton2 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"test2" image:nil highlighted:NO buttonId:2 systemAction:SDLSystemActionDefaultAction handler:^(SDLOnButtonPress * _Nullable buttonPressNotification, SDLOnButtonEvent * _Nullable buttonEventNotification) {
+                    numTimesHandlerCalled++;
+                }];
+                
+                testScrollableMessage2.softButtons = [@[testSoftButton2] mutableCopy];
+                [testDispatcher storeRequest:testScrollableMessage2 handler:nil];
+            });
+            
+            it(@"should remove the old scrollable message's soft button handler", ^{
+                expect(testDispatcher.customButtonHandlerMap[testSoftButton1.softButtonID]).to(beNil());
+                expect(testDispatcher.customButtonHandlerMap[testSoftButton2.softButtonID]).toNot(beNil());
             });
         });
     });
