@@ -106,6 +106,7 @@ extern SDLNotificationUserInfoKey const SDLNotificationUserInfoObject;
 #pragma mark - General notifications
 extern SDLNotificationName const SDLTransportDidDisconnect;
 extern SDLNotificationName const SDLTransportDidConnect;
+extern SDLNotificationName const SDLTransportConnectError;
 extern SDLNotificationName const SDLDidReceiveError;
 extern SDLNotificationName const SDLDidReceiveLockScreenIcon;
 extern SDLNotificationName const SDLDidBecomeReady;

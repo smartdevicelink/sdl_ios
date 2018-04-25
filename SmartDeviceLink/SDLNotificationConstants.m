@@ -16,6 +16,7 @@ SDLNotificationUserInfoKey const SDLNotificationUserInfoObject = @"SDLNotificati
 #pragma mark - General notifications
 SDLNotificationName const SDLTransportDidDisconnect = @"com.sdl.transport.disconnect";
 SDLNotificationName const SDLTransportDidConnect = @"com.sdl.transport.connect";
+SDLNotificationName const SDLTransportConnectError = @"com.sdl.transport.connectError";
 SDLNotificationName const SDLDidReceiveError = @"com.sdl.general.error";
 SDLNotificationName const SDLDidReceiveLockScreenIcon = @"com.sdl.general.lockscreenIconReceived";
 SDLNotificationName const SDLDidBecomeReady = @"com.sdl.notification.managerReady";

@@ -8,7 +8,9 @@
 
 #import "SDLTCPTransport.h"
 #import "SDLMutableDataQueue.h"
+#import "SDLError.h"
 #import "SDLLogMacros.h"
+#import <errno.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,6 +28,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 @property (nullable, nonatomic, strong) NSOutputStream *outputStream;
 @property (nonatomic, assign) BOOL outputStreamHasSpace;
 @property (nullable, nonatomic, strong) NSTimer *connectionTimer;
+@property (nonatomic, assign) BOOL transportConnected;
 @property (nonatomic, assign) BOOL transportErrorNotified;
 @end
 
@@ -57,7 +60,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 #pragma mark - SDLAbstractTransport methods
 
 // Note: When a connection is refused (e.g. TCP port number is not correct) or timed out (e.g. invalid IP address),
-//       then onTransportDisconnected will be notified *without* onTransportConnected event in advance.
+//       then onError will be notified.
 - (void)connect {
     if (self.ioThread != nil) {
         SDLLogW(@"TCP transport is already connected");
@@ -117,6 +120,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
     [self.sendDataQueue removeAllObjects];
     self.transportErrorNotified = NO;
+    self.transportConnected = NO;
 }
 
 - (void)sendData:(NSData *)msgBytes {
@@ -192,6 +196,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
             if (aStream == self.outputStream) {
                 SDLLogD(@"TCP transport connected");
                 [self.connectionTimer invalidate];
+                self.transportConnected = YES;
                 [self.delegate onTransportConnected];
             }
             break;
@@ -276,7 +281,12 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     [self sdl_cancelIOThread];
 
     if (!self.transportErrorNotified) {
-        [self.delegate onTransportDisconnected];
+        if (!self.transportConnected) { // this condition should be always true
+            SDLLogD(@"Notifying connection timed out error");
+            [self.delegate onError:[NSError sdl_transport_connectionTimedOutError]];
+        } else {
+            [self.delegate onTransportDisconnected];
+        }
         self.transportErrorNotified = YES;
     }
 }
@@ -287,8 +297,44 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
     // avoid notifying multiple error events
     if (!self.transportErrorNotified) {
-        [self.delegate onTransportDisconnected];
-        self.transportErrorNotified = YES;
+        if (self.transportConnected) {
+            // transport is disconnected while running
+            [self.delegate onTransportDisconnected];
+            self.transportErrorNotified = YES;
+        } else if ([stream.streamError.domain isEqualToString:NSPOSIXErrorDomain]) {
+            // connection error
+
+            // According to Apple's document "Error Objects, Domains, and Codes", the 'code' values
+            // of NSPOSIXErrorDomain are actually errno values.
+            NSError *error;
+            switch (stream.streamError.code) {
+                case ECONNREFUSED:
+                    SDLLogD(@"TCP connection error: ECONNREFUSED");
+                    error = [NSError sdl_transport_connectionRefusedError];
+                    break;
+                case ETIMEDOUT:
+                    SDLLogD(@"TCP connection error: ETIMEDOUT");
+                    error = [NSError sdl_transport_connectionTimedOutError];
+                    break;
+                case ENETDOWN:
+                    SDLLogD(@"TCP connection error: ENETDOWN");
+                    error = [NSError sdl_transport_networkDownError];
+                    break;
+                case ENETUNREACH:
+                    // This is just for safe. I did not observe ENETUNREACH error on iPhone.
+                    SDLLogD(@"TCP connection error: ENETUNREACH");
+                    error = [NSError sdl_transport_networkDownError];
+                    break;
+                default:
+                    SDLLogD(@"TCP connection error: unknown error %ld", (long)stream.streamError.code);
+                    error = [NSError sdl_transport_OthersError];
+                    break;
+            }
+            [self.delegate onError:error];
+            self.transportErrorNotified = YES;
+        } else {
+            SDLLogW(@"Unhandled stream error! %@", stream.streamError);
+        }
     }
 }
 

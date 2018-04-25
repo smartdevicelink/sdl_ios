@@ -12,6 +12,7 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLTCPTransport.h"
+#import "SDLError.h"
 
 #import <sys/types.h>
 #import <sys/socket.h>
@@ -444,7 +445,7 @@ describe(@"SDLTCPTransport", ^ {
         expect(transport.outputStream == nil);
     });
 
-    it(@"Should generate a disconnect event when connection is refused", ^ {
+    it(@"Should invoke onError delegate when connection is refused", ^ {
         // Start the server without SO_REUSEADDR then close it. Then the port will not be owned by anybody for a while.
         server.enableSOReuseAddr = NO;
         BOOL ret = [server setup:@"localhost" port:@"12346"];
@@ -452,7 +453,13 @@ describe(@"SDLTCPTransport", ^ {
         [server teardown];
         server = nil;
 
-        OCMExpect([transportDelegateMock onTransportDisconnected]);
+        OCMExpect([transportDelegateMock onError:[OCMArg checkWithBlock:^BOOL(NSError *error) {
+            if (error.domain == SDLErrorDomainTransport && error.code == SDLTransportErrorConnectionRefused) {
+                return YES;
+            } else {
+                return NO;
+            }
+        }]]);
 
         transport.portNumber = @"12346";
         [transport connect];
@@ -466,8 +473,14 @@ describe(@"SDLTCPTransport", ^ {
         expect(transport.outputStream == nil);
     });
 
-    it(@"Should generate a disconnect event when connection is timed out", ^ {
-        OCMExpect([transportDelegateMock onTransportDisconnected]);
+    it(@"Should invoke onError delegate when connection is timed out", ^ {
+        OCMExpect([transportDelegateMock onError:[OCMArg checkWithBlock:^BOOL(NSError *error) {
+            if (error.domain == SDLErrorDomainTransport && error.code == SDLTransportErrorConnectionTimedOut) {
+                return YES;
+            } else {
+                return NO;
+            }
+        }]]);
 
         transport.hostName = @"127.0.0.2";
         [transport connect];
@@ -482,8 +495,14 @@ describe(@"SDLTCPTransport", ^ {
         expect(transport.outputStream == nil);
     });
 
-    it(@"Should generate a disconnect event when input parameter is invalid", ^ {
-        OCMExpect([transportDelegateMock onTransportDisconnected]);
+    it(@"Should invoke onError delegate when input parameter is invalid", ^ {
+        OCMExpect([transportDelegateMock onError:[OCMArg checkWithBlock:^BOOL(NSError *error) {
+            if (error.domain == SDLErrorDomainTransport && error.code == SDLTransportErrorOthers) {
+                return YES;
+            } else {
+                return NO;
+            }
+        }]]);
 
         transport.portNumber = @"abcde";
         [transport connect];
