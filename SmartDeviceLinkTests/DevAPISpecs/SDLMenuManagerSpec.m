@@ -190,7 +190,7 @@ describe(@"menu manager", ^{
                 NSArray *adds = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
 
                 expect(deletes).to(haveCount(1));
-                expect(adds).to(haveCount(1));
+                expect(adds).to(haveCount(2));
             });
         });
     });
