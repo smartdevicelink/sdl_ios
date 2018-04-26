@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 UInt32 const ParentIdNotFound = UINT32_MAX;
-UInt32 const MenuCellIdMin = 0;
+UInt32 const MenuCellIdMin = 1;
 
 @implementation SDLMenuManager
 
@@ -219,7 +219,7 @@ UInt32 const MenuCellIdMin = 0;
     }
 
     // Set the ids
-    self.lastMenuId = 0;
+    self.lastMenuId = MenuCellIdMin;
     [self sdl_updateIdsOnMenuCells:menuCells parentId:ParentIdNotFound];
 
     _oldMenuCells = _menuCells;
