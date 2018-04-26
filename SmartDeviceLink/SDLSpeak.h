@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks;
 
 /**
- * @abstract An array of TTSChunk structs which, taken together, specify the phrase to be spoken
+ * An array of TTSChunk structs which, taken together, specify the phrase to be spoken
  *
  * @discussion The total length of the phrase composed from the ttsChunks provided must be less than 500 characters or the request will be rejected
  * 

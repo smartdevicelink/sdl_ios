@@ -5,28 +5,28 @@
 #import "SDLEnum.h"
 
 /**
- * Enumeration that describes possible permission states of a policy table entry.
+ * Enumeration that describes possible permission states of a policy table entry. Used in nothing.
  *
  * @since SDL 2.0
  */
 typedef SDLEnum SDLPermissionStatus SDL_SWIFT_ENUM;
 
 /**
- * @abstract permission: allowed
+ * permission: allowed
  */
 extern SDLPermissionStatus const SDLPermissionStatusAllowed;
 
 /**
- * @abstract permission: disallowed
+ * permission: disallowed
  */
 extern SDLPermissionStatus const SDLPermissionStatusDisallowed;
 
 /**
- * @abstract permission: user disallowed
+ * permission: user disallowed
  */
 extern SDLPermissionStatus const SDLPermissionStatusUserDisallowed;
 
 /**
- * @abstract permission: user consent pending
+ * permission: user consent pending
  */
 extern SDLPermissionStatus const SDLPermissionStatusUserConsentPending;

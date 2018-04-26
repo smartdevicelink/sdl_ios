@@ -12,11 +12,11 @@
 typedef SDLEnum SDLBitsPerSample SDL_SWIFT_ENUM;
 
 /**
- * @abstract 8 bits per sample
+ * 8 bits per sample
  */
 extern SDLBitsPerSample const SDLBitsPerSample8Bit;
 
 /**
- * @abstract 16 bits per sample
+ * 16 bits per sample
  */
 extern SDLBitsPerSample const SDLBitsPerSample16Bit;

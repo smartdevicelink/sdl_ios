@@ -26,14 +26,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithId:(UInt32)choiceId choiceSet:(NSArray<SDLChoice *> *)choiceSet;
 
 /**
- * @abstract A unique ID that identifies the Choice Set
+ * A unique ID that identifies the Choice Set
  *
  * Required, Integer, 0 - 2,000,000,000
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *interactionChoiceSetID;
 
 /**
- * @abstract Array of choices, which the user can select by menu or voice recognition
+ * Array of choices, which the user can select by menu or voice recognition
  *
  * Required, SDLChoice, Array size 1 - 100
  */

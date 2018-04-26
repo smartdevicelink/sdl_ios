@@ -5,26 +5,26 @@
 #import "SDLEnum.h"
 
 /**
- * The SDLMaintenanceModeStatus class.
+ * Describes the maintenence mode. Used in nothing.
  */
 typedef SDLEnum SDLMaintenanceModeStatus SDL_SWIFT_ENUM;
 
 /**
- * @abstract Maintenance Mode Status : Normal
+ * Maintenance Mode Status : Normal
  */
 extern SDLMaintenanceModeStatus const SDLMaintenanceModeStatusNormal;
 
 /**
- * @abstract Maintenance Mode Status : Near
+ * Maintenance Mode Status : Near
  */
 extern SDLMaintenanceModeStatus const SDLMaintenanceModeStatusNear;
 
 /**
- * @abstract Maintenance Mode Status : Active
+ * Maintenance Mode Status : Active
  */
 extern SDLMaintenanceModeStatus const SDLMaintenanceModeStatusActive;
 
 /**
- * @abstract Maintenance Mode Status : Feature not present
+ * Maintenance Mode Status : Feature not present
  */
 extern SDLMaintenanceModeStatus const SDLMaintenanceModeStatusFeatureNotPresent;

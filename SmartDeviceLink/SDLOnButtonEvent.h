@@ -43,17 +43,17 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLOnButtonEvent : SDLRPCNotification
 
 /**
- * @abstract The name of the button
+ * The name of the button
  */
 @property (strong, nonatomic) SDLButtonName buttonName;
 
 /**
- * @abstract Indicates whether this is an UP or DOWN event
+ * Indicates whether this is an UP or DOWN event
  */
 @property (strong, nonatomic) SDLButtonEventMode buttonEventMode;
 
 /**
- * @abstract If ButtonName is "CUSTOM_BUTTON", this references the integer ID passed by a custom button. (e.g. softButton ID)
+ * If ButtonName is "CUSTOM_BUTTON", this references the integer ID passed by a custom button. (e.g. softButton ID)
  *
  * @since SDL 2.0
  *

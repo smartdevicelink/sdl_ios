@@ -5,48 +5,48 @@
 #import "SDLEnum.h"
 
 /**
- * The list of potential compass directions.
+ * The list of potential compass directions. Used in GPS data
  *
  * @since SDL 2.0
  */
 typedef SDLEnum SDLCompassDirection SDL_SWIFT_ENUM;
 
 /**
- * @abstract Direction North
+ * Direction North
  */
 extern SDLCompassDirection const SDLCompassDirectionNorth;
 
 /**
- * @abstract Direction Northwest
+ * Direction Northwest
  */
 extern SDLCompassDirection const SDLCompassDirectionNorthwest;
 
 /**
- * @abstract Direction West
+ * Direction West
  */
 extern SDLCompassDirection const SDLCompassDirectionWest;
 
 /**
- * @abstract Direction Southwest
+ * Direction Southwest
  */
 extern SDLCompassDirection const SDLCompassDirectionSouthwest;
 
 /**
- * @abstract Direction South
+ * Direction South
  */
 extern SDLCompassDirection const SDLCompassDirectionSouth;
 
 /**
- * @abstract Direction Southeast
+ * Direction Southeast
  */
 extern SDLCompassDirection const SDLCompassDirectionSoutheast;
 
 /**
- * @abstract Direction East
+ * Direction East
  */
 extern SDLCompassDirection const SDLCompassDirectionEast;
 
 /**
- * @abstract Direction Northeast
+ * Direction Northeast
  */
 extern SDLCompassDirection const SDLCompassDirectionNortheast;

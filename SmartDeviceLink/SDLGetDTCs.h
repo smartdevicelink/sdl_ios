@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithECUName:(UInt16)name mask:(UInt8)mask;
 
 /**
- * @abstract a name of the module to receive the DTC form
+ * a name of the module to receive the DTC form
  * @discussion an NSNumber value representing a name of the module to receive
  *            the DTC form
  *            <p>
@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *ecuName;
 /**
- * @abstract  DTC Mask Byte to be sent in diagnostic request to module. NSNumber* dtcMask Minvalue:0; Maxvalue:255
+ *  DTC Mask Byte to be sent in diagnostic request to module. NSNumber* dtcMask Minvalue:0; Maxvalue:255
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *dtcMask;
 @end

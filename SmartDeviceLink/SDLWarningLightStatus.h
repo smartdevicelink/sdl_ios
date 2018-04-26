@@ -5,28 +5,28 @@
 #import "SDLEnum.h"
 
 /**
- * Reflects the status of a cluster instrument warning light.
+ * Reflects the status of a cluster instrument warning light. Used in TireStatus
  *
  * @since SDL 2.0
  */
 typedef SDLEnum SDLWarningLightStatus SDL_SWIFT_ENUM;
 
 /**
- * @abstract Warninglight Off
+ * The warning light is off
  */
 extern SDLWarningLightStatus const SDLWarningLightStatusOff;
 
 /**
- * @abstract Warninglight On
+ * The warning light is off
  */
 extern SDLWarningLightStatus const SDLWarningLightStatusOn;
 
 /**
- * @abstract Warninglight is flashing
+ * The warning light is flashing
  */
 extern SDLWarningLightStatus const SDLWarningLightStatusFlash;
 
 /**
- * @abstract Not used
+ * The warning light is unused
  */
 extern SDLWarningLightStatus const SDLWarningLightStatusNotUsed;

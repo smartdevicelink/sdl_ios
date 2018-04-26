@@ -5,23 +5,23 @@
 #import "SDLEnum.h"
 
 /**
- * Reflects the status of a binary vehicle data item.
+ * Reflects the status of a binary vehicle data item. Used in MyKey.
  *
  * @since SDL 2.0
  */
 typedef SDLEnum SDLVehicleDataStatus SDL_SWIFT_ENUM;
 
 /**
- * @abstract No data avaliable
+ No data avaliable
  */
 extern SDLVehicleDataStatus const SDLVehicleDataStatusNoDataExists;
 
 /**
- * @abstract return SDLVehicleDataStatus: *OFF*
+ The status is Off
  */
 extern SDLVehicleDataStatus const SDLVehicleDataStatusOff;
 
 /**
- * @abstract return SDLVehicleDataStatus: *ON*
+ The status is On
  */
 extern SDLVehicleDataStatus const SDLVehicleDataStatusOn;

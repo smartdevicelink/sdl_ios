@@ -12,11 +12,11 @@
 typedef SDLEnum SDLButtonEventMode SDL_SWIFT_ENUM;
 
 /**
- * @abstract The button was released
+ * The button was released
  */
 extern SDLButtonEventMode const SDLButtonEventModeButtonUp;
 
 /**
- * @abstract The button was depressed
+ * The button was depressed
  */
 extern SDLButtonEventMode const SDLButtonEventModeButtonDown;

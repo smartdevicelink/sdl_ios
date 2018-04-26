@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLOnAppInterfaceUnregistered : SDLRPCNotification
 
 /**
- * @abstract The reason application's interface was terminated
+ * The reason application's interface was terminated
  */
 @property (strong, nonatomic) SDLAppInterfaceUnregisteredReason reason;
 

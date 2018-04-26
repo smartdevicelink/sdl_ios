@@ -47,45 +47,45 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithInitialChunks:(nullable NSArray<SDLTTSChunk *> *)initialChunks initialText:(NSString *)initialText interactionChoiceSetIDList:(NSArray<NSNumber<SDLUInt> *> *)interactionChoiceSetIDList helpChunks:(nullable NSArray<SDLTTSChunk *> *)helpChunks timeoutChunks:(nullable NSArray<SDLTTSChunk *> *)timeoutChunks interactionMode:(SDLInteractionMode)interactionMode timeout:(UInt32)timeout vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp interactionLayout:(nullable SDLLayoutMode)layout;
 
 /**
- * @abstract The Text that Displayed when the interaction begins. This text may
+ * The Text that Displayed when the interaction begins. This text may
  * be overlaid by the "Listening" prompt during the interaction. Text is
  * displayed on first line of multiline display, and is centered. If text
  * does not fit on line, it will be truncated
  */
 @property (strong, nonatomic) NSString *initialText;
 /**
- * @abstract An array of one or more TTSChunks that, taken together, specify
+ * An array of one or more TTSChunks that, taken together, specify
  * what is to be spoken to the user at the start of an interaction
  */
 @property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *initialPrompt;
 /**
- * @abstract The Indicates mode that indicate how user selects interaction
+ * The Indicates mode that indicate how user selects interaction
  * choice. User can choose either by voice (VR_ONLY), by visual selection
  * from the menu (MANUAL_ONLY), or by either mode (BOTH)
  */
 @property (strong, nonatomic) SDLInteractionMode interactionMode;
 /**
- * @abstract A Vector<Integer> value representing an Array of one or more Choice
+ * A Vector<Integer> value representing an Array of one or more Choice
  * Set IDs
  */
 @property (strong, nonatomic) NSArray<NSNumber<SDLInt> *> *interactionChoiceSetIDList;
 /**
- * @abstract A Vector<TTSChunk> which taken together, specify the help phrase to
+ * A Vector<TTSChunk> which taken together, specify the help phrase to
  * be spoken when the user says "help" during the VR session
  */
 @property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *helpPrompt;
 /**
- * @abstract An array of TTSChunks which, taken together, specify the phrase to
+ * An array of TTSChunks which, taken together, specify the phrase to
  * be spoken when the listen times out during the VR session
  */
 @property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *timeoutPrompt;
 /**
- * @abstract An Integer value representing the amount of time, in milliseconds,
+ * An Integer value representing the amount of time, in milliseconds,
  * SDL will wait for the user to make a choice (VR or Menu)
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *timeout;
 /**
- * @abstract A Voice recognition Help, which is a suggested VR Help Items to
+ * A Voice recognition Help, which is a suggested VR Help Items to
  * display on-screen during Perform Interaction
  * @since SmartDeviceLink 2.0
  */

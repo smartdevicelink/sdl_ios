@@ -101,14 +101,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash;
 
 /**
- * @abstract The version of the SDL interface
+ * The version of the SDL interface
  *
  * Required
  */
 @property (strong, nonatomic) SDLSyncMsgVersion *syncMsgVersion;
 
 /**
- * @abstract The Mobile Application's Name, This name is displayed in the SDL Mobile Applications menu. It also serves as the unique identifier of the application for SmartDeviceLink
+ * The Mobile Application's Name, This name is displayed in the SDL Mobile Applications menu. It also serves as the unique identifier of the application for SmartDeviceLink
  *
  * @discussion 
  * <li>Needs to be unique over all applications.</li>
@@ -122,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *appName;
 
 /**
- * @abstract TTS string for VR recognition of the mobile application name.
+ * TTS string for VR recognition of the mobile application name.
  *
  * @discussion Meant to overcome any failing on speech engine in properly pronouncing / understanding app name.
  * <li>Needs to be unique over all applications.</li>
@@ -137,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *ttsName;
 
 /**
- * @abstract A String representing an abbreviated version of the mobile application's name (if necessary) that will be displayed on the media screen
+ * A String representing an abbreviated version of the mobile application's name (if necessary) that will be displayed on the media screen
  *
  * @discussion If not provided, the appName is used instead (and will be truncated if too long)
  *
@@ -146,7 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSString *ngnMediaScreenAppName;
 
 /**
- * @abstract Defines a additional voice recognition commands
+ * Defines a additional voice recognition commands
  *
  * @discussion May not interfere with any app name of previously registered applications and any predefined blacklist of words (global commands)
  *
@@ -155,7 +155,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<NSString *> *vrSynonyms;
 
 /**
- * @abstract Indicates if the application is a media or a non-media application.
+ * Indicates if the application is a media or a non-media application.
  *
  * @discussion Only media applications will be able to stream audio to head units that is audible outside of the BT media source.
  *
@@ -164,7 +164,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSNumber<SDLBool> *isMediaApplication;
 
 /**
- * @abstract A Language enumeration indicating what language the application intends to use for user interaction (TTS and VR).
+ * A Language enumeration indicating what language the application intends to use for user interaction (TTS and VR).
  *
  * @discussion If there is a mismatch with the head unit, the app will be able to change this registration with changeRegistration prior to app being brought into focus.
  *
@@ -173,7 +173,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLLanguage languageDesired;
 
 /**
- * @abstract An enumeration indicating what language the application intends to use for user interaction (Display).
+ * An enumeration indicating what language the application intends to use for user interaction (Display).
  *
  * @discussion If there is a mismatch with the head unit, the app will be able to change this registration with changeRegistration prior to app being brought into focus.
  *
@@ -184,7 +184,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLLanguage hmiDisplayLanguageDesired;
 
 /**
- * @abstract A list of all applicable app types stating which classifications to be given to the app.
+ * A list of all applicable app types stating which classifications to be given to the app.
  *
  * Optional, Array of SDLAppHMIType, Array size 1 - 100
  *
@@ -194,7 +194,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<SDLAppHMIType> *appHMIType;
 
 /**
- * @abstract ID used to uniquely identify current state of all app data that can persist through connection cycles (e.g. ignition cycles).
+ * ID used to uniquely identify current state of all app data that can persist through connection cycles (e.g. ignition cycles).
  *
  * @discussion This registered data (commands, submenus, choice sets, etc.) can be reestablished without needing to explicitly reregister each piece. If omitted, then the previous state of an app's commands, etc. will not be restored. 
  *
@@ -205,14 +205,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSString *hashID;
 
 /**
- * @abstract Information about the connecting device
+ * Information about the connecting device
  *
  * Optional
  */
 @property (nullable, strong, nonatomic) SDLDeviceInfo *deviceInfo;
 
 /**
- * @abstract ID used to validate app with policy table entries
+ * ID used to validate app with policy table entries
  *
  * Required, max length 100
  *
@@ -221,7 +221,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *appID;
 
 /**
- * @abstract Information about the application running
+ * Information about the application running
  *
  * Optional
  */

@@ -5,38 +5,38 @@
 #import "SDLEnum.h"
 
 /**
- * The volume status of a vehicle component.
+ * The volume status of a vehicle component. Used in SingleTireStatus and VehicleData Fuel Level
  *
  * @since SDL 2.0
  */
 typedef SDLEnum SDLComponentVolumeStatus SDL_SWIFT_ENUM;
 
 /**
- * @abstract Unknown SDLComponentVolumeStatus
+ * Unknown SDLComponentVolumeStatus
  */
 extern SDLComponentVolumeStatus const SDLComponentVolumeStatusUnknown;
 
 /**
- * @abstract Normal SDLComponentVolumeStatus
+ * Normal SDLComponentVolumeStatus
  */
 extern SDLComponentVolumeStatus const SDLComponentVolumeStatusNormal;
 
 /**
- * @abstract Low SDLComponentVolumeStatus
+ * Low SDLComponentVolumeStatus
  */
 extern SDLComponentVolumeStatus const SDLComponentVolumeStatusLow;
 
 /**
- * @abstract Fault SDLComponentVolumeStatus
+ * Fault SDLComponentVolumeStatus
  */
 extern SDLComponentVolumeStatus const SDLComponentVolumeStatusFault;
 
 /**
- * @abstract Alert SDLComponentVolumeStatus
+ * Alert SDLComponentVolumeStatus
  */
 extern SDLComponentVolumeStatus const SDLComponentVolumeStatusAlert;
 
 /**
- * @abstract Not supported SDLComponentVolumeStatus
+ * Not supported SDLComponentVolumeStatus
  */
 extern SDLComponentVolumeStatus const SDLComponentVolumeStatusNotSupported;

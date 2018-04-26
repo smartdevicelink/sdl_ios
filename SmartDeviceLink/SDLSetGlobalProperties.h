@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithHelpText:(nullable NSString *)helpText timeoutText:(nullable NSString *)timeoutText vrHelpTitle:(nullable NSString *)vrHelpTitle vrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp menuTitle:(nullable NSString *)menuTitle menuIcon:(nullable SDLImage *)menuIcon keyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties;
 
 /**
- * @abstract Sets a Vector<TTSChunk> for Help Prompt that Array of one or more
+ * Sets a Vector<TTSChunk> for Help Prompt that Array of one or more
  * TTSChunk elements specifying the help prompt used in an interaction
  * started by PTT
  * @discussion helpPrompt
@@ -44,14 +44,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) NSArray<SDLTTSChunk *> *helpPrompt;
 /**
- * @abstract A Vector<TTSChunk> for Timeout Prompt representing Array of one or
+ * A Vector<TTSChunk> for Timeout Prompt representing Array of one or
  * more TTSChunk elements specifying the help prompt used in an interaction
  * started by PTT
  *
  */
 @property (strong, nonatomic, nullable) NSArray<SDLTTSChunk *> *timeoutPrompt;
 /**
- * @abstract Sets a voice recognition Help Title
+ * Sets a voice recognition Help Title
  *
  * @discussion A String value representing a voice recognition Help Title
  *            <p>
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) NSString *vrHelpTitle;
 /**
- * @abstract Sets the items listed in the VR help screen used in an interaction
+ * Sets the items listed in the VR help screen used in an interaction
  * started by PTT
  *
  * @discussion A Vector value representing items listed in the VR help screen
