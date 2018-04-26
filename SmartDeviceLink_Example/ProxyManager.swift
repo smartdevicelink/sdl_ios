@@ -13,7 +13,7 @@ class ProxyManager: NSObject {
     fileprivate var sdlManager: SDLManager!
     fileprivate var buttonManager: ButtonManager!
     fileprivate var vehicleDataManager: VehicleDataManager!
-    fileprivate var firstHMILevelState: SDLHMILevelFirstState
+    fileprivate var firstHMILevelState: SDLHMILevel
     weak var delegate: ProxyManagerDelegate?
 
     // Singleton
@@ -134,7 +134,7 @@ extension ProxyManager: SDLManagerDelegate {
     func hmiLevel(_ oldLevel: SDLHMILevel, didChangeToLevel newLevel: SDLHMILevel) {
         if newLevel != .none && firstHMILevelState == .none {
             // This is our first time in a non-NONE state
-            firstHMILevelState = .nonNone
+            firstHMILevelState = newLevel
 
             // Send static menu items. Menu related RPCs can be sent at all `hmiLevel`s except `NONE`
             createStaticMenus()
@@ -143,7 +143,7 @@ extension ProxyManager: SDLManagerDelegate {
 
         if newLevel == .full && firstHMILevelState != .full {
             // This is our first time in a `FULL` state.
-            firstHMILevelState = .full
+            firstHMILevelState = newLevel
         }
 
         switch newLevel {

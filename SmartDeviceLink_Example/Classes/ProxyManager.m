@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ProxyManager () <SDLManagerDelegate>
 
 // Describes the first time the HMI state goes non-none and full.
-@property (assign, nonatomic) SDLHMIFirstState firstTimeState;
+@property (assign, nonatomic) SDLHMILevel firstHMILevel;
 
 @property (assign, nonatomic, getter=isTextEnabled) BOOL textEnabled;
 @property (assign, nonatomic, getter=isHexagonEnabled) BOOL toggleEnabled;
@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _state = ProxyStateStopped;
-    _firstTimeState = SDLHMIFirstStateNone;
+    _firstHMILevel = SDLHMILevelNone;
 
     _textEnabled = YES;
     _toggleEnabled = YES;
@@ -461,7 +461,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self sdlex_updateProxyState:ProxyStateStopped];
 
     // Reset our state
-    self.firstTimeState = SDLHMIFirstStateNone;
+    self.firstHMILevel = SDLHMILevelNone;
 
     if (ExampleAppShouldRestartSDLManagerOnDisconnect) {
         [self startManager];
@@ -469,17 +469,22 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel {
-    if (![newLevel isEqualToEnum:SDLHMILevelNone] && (self.firstTimeState == SDLHMIFirstStateNone)) {
+    if (![newLevel isEqualToEnum:SDLHMILevelNone] && (self.firstHMILevel == SDLHMIFirstStateNone)) {
         // This is our first time in a non-NONE state
-        self.firstTimeState = SDLHMIFirstStateNonNone;
+        self.firstHMILevel = newLevel;
         
         // Send AddCommands
         [self sdlex_prepareRemoteSystem];
     }
-    
-    if ([newLevel isEqualToEnum:SDLHMILevelFull] && (self.firstTimeState != SDLHMIFirstStateFull)) {
-        // This is our first time in a FULL state
-        self.firstTimeState = SDLHMIFirstStateFull;
+
+    if ([newLevel isEqualToEnum:SDLHMILevelFull]) {
+
+    } else if ([newLevel isEqualToEnum:SDLHMILevelLimited]) {
+
+    } else if ([newLevel isEqualToEnum:SDLHMILevelBackground]) {
+
+    } else if ([newLevel isEqualToEnum:SDLHMILevelNone]) {
+
     }
     
     if ([newLevel isEqualToEnum:SDLHMILevelFull]) {
