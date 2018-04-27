@@ -367,7 +367,7 @@ UInt32 const MenuCellIdMin = 1;
     for (SDLMenuCell *cell in self.menuCells) {
         if (onCommand.cmdID.unsignedIntegerValue != cell.cellId) { continue; }
 
-        cell.handler();
+        cell.handler(onCommand.triggerSource);
         break;
     }
 }

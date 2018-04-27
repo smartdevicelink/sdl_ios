@@ -8,11 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLTriggerSource.h"
+
 @class SDLArtwork;
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^SDLMenuCellSelectionHandler)(void);
+typedef void(^SDLMenuCellSelectionHandler)(SDLTriggerSource triggerSource);
 
 @interface SDLMenuCell : NSObject
 

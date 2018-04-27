@@ -362,21 +362,21 @@ NS_ASSUME_NONNULL_BEGIN
     [self.sdlManager sendRequest:choiceSet];
 
     __weak typeof(self) weakself = self;
-    SDLMenuCell *speakCell = [[SDLMenuCell alloc] initWithTitle:@"Speak" icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"speak"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[@"Speak"] handler:^{
+    SDLMenuCell *speakCell = [[SDLMenuCell alloc] initWithTitle:@"Speak" icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"speak"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[@"Speak"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         [weakself.sdlManager sendRequest:[ProxyManager sdlex_appNameSpeak]];
     }];
 
-    SDLMenuCell *interactionSetCell = [[SDLMenuCell alloc] initWithTitle:@"Perform Interaction" icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"choice_set"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[@"Perform Interaction"] handler:^{
+    SDLMenuCell *interactionSetCell = [[SDLMenuCell alloc] initWithTitle:@"Perform Interaction" icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"choice_set"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[@"Perform Interaction"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         [ProxyManager sdlex_sendPerformOnlyChoiceInteractionWithManager:weakself.sdlManager];
     }];
 
-    SDLMenuCell *getVehicleDataCell = [[SDLMenuCell alloc] initWithTitle:@"Get Vehicle Data" icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"car"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[@"Get Vehicle Data"] handler:^{
+    SDLMenuCell *getVehicleDataCell = [[SDLMenuCell alloc] initWithTitle:@"Get Vehicle Data" icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"car"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[@"Get Vehicle Data"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         [ProxyManager sdlex_sendGetVehicleDataWithManager:weakself.sdlManager];
     }];
 
     NSMutableArray *menuArray = [NSMutableArray array];
     for (int i = 0; i < 75; i++) {
-        SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:[NSString stringWithFormat:@"%i", i] icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"hexagon_on_softbutton_icon"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:nil handler:^{}];
+        SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:[NSString stringWithFormat:@"%i", i] icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"hexagon_on_softbutton_icon"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource){}];
         [menuArray addObject:cell];
     }
 
