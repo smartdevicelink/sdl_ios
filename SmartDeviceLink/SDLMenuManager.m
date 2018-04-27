@@ -250,7 +250,7 @@ UInt32 const MenuCellIdMin = 1;
         return @[];
     }
 
-    NSMutableArray<SDLArtwork *> *mutableArtworks = [NSMutableArray array];
+    NSMutableSet<SDLArtwork *> *mutableArtworks = [NSMutableSet set];
     for (SDLMenuCell *cell in cells) {
         if (cell.icon != nil && ![self.fileManager hasUploadedFile:cell.icon]) {
             [mutableArtworks addObject:cell.icon];
@@ -261,7 +261,7 @@ UInt32 const MenuCellIdMin = 1;
         }
     }
 
-    return [mutableArtworks copy];
+    return [mutableArtworks allObjects];
 }
 
 #pragma mark IDs
