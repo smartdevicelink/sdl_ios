@@ -27,12 +27,12 @@
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
 
-@property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
+@property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 
 @property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
-@property (assign, nonatomic) BOOL waitingOnHMILevelUpdate;
+@property (assign, nonatomic) BOOL waitingOnHMIUpdate;
 
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
@@ -62,11 +62,11 @@ describe(@"menu manager", ^{
         expect(testManager.menuCells).to(beEmpty());
         expect(testManager.connectionManager).to(equal(mockConnectionManager));
         expect(testManager.fileManager).to(equal(mockFileManager));
-        expect(testManager.currentLevel).to(beNil());
+        expect(testManager.currentHMILevel).to(beNil());
         expect(testManager.displayCapabilities).to(beNil());
         expect(testManager.inProgressUpdate).to(beNil());
         expect(testManager.hasQueuedUpdate).to(beFalse());
-        expect(testManager.waitingOnHMILevelUpdate).to(beFalse());
+        expect(testManager.waitingOnHMIUpdate).to(beFalse());
         expect(testManager.lastMenuId).to(equal(0));
         expect(testManager.oldMenuCells).to(beEmpty());
     });
@@ -74,7 +74,7 @@ describe(@"menu manager", ^{
     describe(@"updating menu cells before HMI is ready", ^{
         context(@"when in HMI NONE", ^{
             beforeEach(^{
-                testManager.currentLevel = SDLHMILevelNone;
+                testManager.currentHMILevel = SDLHMILevelNone;
             });
 
             it(@"should not update", ^{
@@ -86,7 +86,7 @@ describe(@"menu manager", ^{
 
         context(@"when no HMI level has been received", ^{
             beforeEach(^{
-                testManager.currentLevel = nil;
+                testManager.currentHMILevel = nil;
             });
 
             it(@"should not update", ^{
@@ -99,7 +99,7 @@ describe(@"menu manager", ^{
 
     describe(@"updating menu cell", ^{
         beforeEach(^{
-            testManager.currentLevel = SDLHMILevelFull;
+            testManager.currentHMILevel = SDLHMILevelFull;
 
             testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
             SDLImageField *commandIconField = [[SDLImageField alloc] init];

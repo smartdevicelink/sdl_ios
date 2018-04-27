@@ -45,12 +45,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
 
-@property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
+@property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
+@property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 
 @property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
-@property (assign, nonatomic) BOOL waitingOnHMILevelUpdate;
+@property (assign, nonatomic) BOOL waitingOnHMIUpdate;
 
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
@@ -91,7 +92,7 @@ UInt32 const MenuCellIdMin = 1;
 #pragma mark - Updating System
 
 - (void)sdl_updateWithCompletionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
-    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
+    if (self.currentHMILevel == nil || [self.currentHMILevel isEqualToString:SDLHMILevelNone]) {
         return;
     }
 
@@ -132,7 +133,7 @@ UInt32 const MenuCellIdMin = 1;
 
     [self.connectionManager sendRequests:deleteMenuCommands progressHandler:nil completionHandler:^(BOOL success) {
         if (!success) {
-            SDLLogE(@"Error deleting old menu commands");
+            SDLLogW(@"Unable to delete all old menu commands");
         } else {
             SDLLogD(@"Finished deleting old menu");
         }
@@ -202,8 +203,10 @@ UInt32 const MenuCellIdMin = 1;
 #pragma mark - Setters
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {
-    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
-        _waitingOnHMILevelUpdate = YES;
+    if (self.currentHMILevel == nil
+        || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
+        || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
+        _waitingOnHMIUpdate = YES;
         _menuCells = menuCells;
         return;
     }
@@ -382,15 +385,24 @@ UInt32 const MenuCellIdMin = 1;
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
 
-    SDLHMILevel oldHMILevel = self.currentLevel;
-    self.currentLevel = hmiStatus.hmiLevel;
+    SDLHMILevel oldHMILevel = self.currentHMILevel;
+    self.currentHMILevel = hmiStatus.hmiLevel;
 
-    // Auto-send an updated show if we were in NONE and now we are not
-    if ([oldHMILevel isEqualToString:SDLHMILevelNone] && ![self.currentLevel isEqualToString:SDLHMILevelNone]) {
-        if (self.waitingOnHMILevelUpdate) {
+    // Auto-send an updated menu if we were in NONE and now we are not, and we need an update
+    if ([oldHMILevel isEqualToString:SDLHMILevelNone] && ![self.currentHMILevel isEqualToString:SDLHMILevelNone]) {
+        if (self.waitingOnHMIUpdate) {
             [self setMenuCells:_menuCells];
         } else {
             [self sdl_updateWithCompletionHandler:nil];
+        }
+    }
+
+    SDLSystemContext oldSystemContext = self.currentSystemContext;
+    self.currentSystemContext = hmiStatus.systemContext;
+
+    if ([oldSystemContext isEqualToEnum:SDLSystemContextMenu] && ![self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
+        if (self.waitingOnHMIUpdate) {
+            [self setMenuCells:_menuCells];
         }
     }
 }
