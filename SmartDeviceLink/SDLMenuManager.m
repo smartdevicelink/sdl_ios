@@ -92,7 +92,7 @@ UInt32 const MenuCellIdMin = 1;
 #pragma mark - Updating System
 
 - (void)sdl_updateWithCompletionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
-    if (self.currentHMILevel == nil || [self.currentHMILevel isEqualToString:SDLHMILevelNone]) {
+    if (self.currentHMILevel == nil || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone] || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
         return;
     }
 
