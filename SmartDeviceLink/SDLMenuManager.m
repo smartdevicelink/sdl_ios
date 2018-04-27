@@ -206,10 +206,12 @@ UInt32 const MenuCellIdMin = 1;
     if (self.currentHMILevel == nil
         || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
         || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
-        _waitingOnHMIUpdate = YES;
+        self.waitingOnHMIUpdate = YES;
         _menuCells = menuCells;
         return;
     }
+
+    self.waitingOnHMIUpdate = NO;
 
     // Check for duplicate titles
     NSMutableSet *titleCheckSet = [NSMutableSet set];
