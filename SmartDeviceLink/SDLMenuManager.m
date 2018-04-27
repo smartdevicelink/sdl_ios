@@ -397,6 +397,7 @@ UInt32 const MenuCellIdMin = 1;
         }
     }
 
+    // If we don't check for this and only update when not in the menu, there can be IN_USE errors, especially with submenus. We also don't want to encourage changing out the menu while the user is using it for usability reasons.
     SDLSystemContext oldSystemContext = self.currentSystemContext;
     self.currentSystemContext = hmiStatus.systemContext;
 
