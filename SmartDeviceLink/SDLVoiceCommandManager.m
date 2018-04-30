@@ -33,11 +33,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 
-@property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
+@property (assign, nonatomic) BOOL waitingOnHMIUpdate;
+@property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 
 @property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
-@property (assign, nonatomic) BOOL waitingOnHMILevelUpdate;
 
 @property (assign, nonatomic) UInt32 lastVoiceCommandId;
 @property (copy, nonatomic) NSArray<SDLVoiceCommand *> *oldVoiceCommands;
@@ -74,11 +74,12 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 #pragma mark - Setters
 
 - (void)setVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
-    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
-        _waitingOnHMILevelUpdate = YES;
-        _voiceCommands = voiceCommands;
+    if (self.currentHMILevel == nil || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
+        self.waitingOnHMIUpdate = YES;
         return;
     }
+
+    self.waitingOnHMIUpdate = NO;
 
     // Set the ids
     self.lastVoiceCommandId = VoiceCommandIdMin;
@@ -93,7 +94,8 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 #pragma mark - Updating System
 
 - (void)sdl_updateWithCompletionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
-    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
+    if (self.currentHMILevel == nil || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
+        self.waitingOnHMIUpdate = YES;
         return;
     }
 
@@ -130,7 +132,7 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     }
 
     NSArray<SDLRPCRequest *> *deleteVoiceCommands = [self sdl_deleteCommandsForVoiceCommands:self.oldVoiceCommands];
-
+    self.oldVoiceCommands = @[];
     [self.connectionManager sendRequests:deleteVoiceCommands progressHandler:nil completionHandler:^(BOOL success) {
         if (!success) {
             SDLLogE(@"Error deleting old voice commands");
@@ -164,7 +166,6 @@ UInt32 const VoiceCommandIdMin = 1900000000;
         if (!success) {
             SDLLogE(@"Failed to send main menu commands: %@", errors);
             completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
-
             return;
         }
 
@@ -230,13 +231,12 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
-
-    SDLHMILevel oldHMILevel = self.currentLevel;
-    self.currentLevel = hmiStatus.hmiLevel;
+    SDLHMILevel oldHMILevel = self.currentHMILevel;
+    self.currentHMILevel = hmiStatus.hmiLevel;
 
     // Auto-send an updated show if we were in NONE and now we are not
-    if ([oldHMILevel isEqualToString:SDLHMILevelNone] && ![self.currentLevel isEqualToString:SDLHMILevelNone]) {
-        if (self.waitingOnHMILevelUpdate) {
+    if ([oldHMILevel isEqualToEnum:SDLHMILevelNone] && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
+        if (self.waitingOnHMIUpdate) {
             [self setVoiceCommands:_voiceCommands];
         } else {
             [self sdl_updateWithCompletionHandler:nil];
