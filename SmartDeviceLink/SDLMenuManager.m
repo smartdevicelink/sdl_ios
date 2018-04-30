@@ -52,10 +52,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (assign, nonatomic) BOOL waitingOnHMIUpdate;
+@property (copy, nonatomic) NSArray<SDLMenuCell *> *waitingUpdateMenuCells;
 
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
-@property (copy, nonatomic) NSArray<SDLMenuCell *> *waitingUpdateMenuCells;
 
 @end
 
@@ -88,118 +88,6 @@ UInt32 const MenuCellIdMin = 1;
     _fileManager = fileManager;
 
     return self;
-}
-
-#pragma mark - Updating System
-
-- (void)sdl_updateWithCompletionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
-    if (self.currentHMILevel == nil || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone] || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
-        self.waitingOnHMIUpdate = YES;
-        self.waitingUpdateMenuCells = self.menuCells;
-        return;
-    }
-
-    if (self.inProgressUpdate != nil) {
-        // There's an in progress update, we need to put this on hold
-        self.hasQueuedUpdate = YES;
-        return;
-    }
-
-    __weak typeof(self) weakself = self;
-    [self sdl_sendDeleteCurrentMenu:^(NSError * _Nullable error) {
-        [weakself sdl_sendCurrentMenu:^(NSError * _Nullable error) {
-            weakself.inProgressUpdate = nil;
-
-            if (completionHandler != nil) {
-                completionHandler(error);
-            }
-
-            if (weakself.hasQueuedUpdate) {
-                [weakself sdl_updateWithCompletionHandler:nil];
-                weakself.hasQueuedUpdate = NO;
-            }
-        }];
-    }];
-}
-
-#pragma mark Delete Old Menu Items
-
-- (void)sdl_sendDeleteCurrentMenu:(SDLMenuUpdateCompletionHandler)completionHandler {
-    if (self.oldMenuCells.count == 0) {
-        completionHandler(nil);
-        return;
-    }
-
-    NSArray<SDLRPCRequest *> *deleteMenuCommands = [self sdl_deleteCommandsForCells:self.oldMenuCells];
-    self.oldMenuCells = @[];
-
-    [self.connectionManager sendRequests:deleteMenuCommands progressHandler:nil completionHandler:^(BOOL success) {
-        if (!success) {
-            SDLLogW(@"Unable to delete all old menu commands");
-        } else {
-            SDLLogD(@"Finished deleting old menu");
-        }
-
-        completionHandler(nil);
-    }];
-}
-
-#pragma mark Send New Menu Items
-
-- (void)sdl_sendCurrentMenu:(SDLMenuUpdateCompletionHandler)completionHandler {
-    if (self.menuCells.count == 0) {
-        SDLLogD(@"No main menu to send");
-        completionHandler(nil);
-
-        return;
-    }
-
-    NSArray<SDLRPCRequest *> *mainMenuCommands = nil;
-    NSArray<SDLRPCRequest *> *subMenuCommands = nil;
-    if ([self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells].count > 0 || ![self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
-        // Send artwork-less menu
-        mainMenuCommands = [self sdl_mainMenuCommandsForCells:self.menuCells withArtwork:NO];
-        subMenuCommands = [self sdl_subMenuCommandsForCells:self.menuCells withArtwork:NO];
-    } else {
-        // Send full artwork menu
-        mainMenuCommands = [self sdl_mainMenuCommandsForCells:self.menuCells withArtwork:YES];
-        subMenuCommands = [self sdl_subMenuCommandsForCells:self.menuCells withArtwork:YES];
-    }
-
-    self.inProgressUpdate = [mainMenuCommands arrayByAddingObjectsFromArray:subMenuCommands];
-
-    __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
-    __weak typeof(self) weakSelf = self;
-    [self.connectionManager sendRequests:mainMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
-        if (error != nil) {
-            errors[request] = error;
-        }
-    } completionHandler:^(BOOL success) {
-        if (!success) {
-            SDLLogE(@"Failed to send main menu commands: %@", errors);
-            completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
-
-            return;
-        }
-
-        weakSelf.oldMenuCells = weakSelf.menuCells;
-
-        [weakSelf.connectionManager sendRequests:subMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
-            if (error != nil) {
-                errors[request] = error;
-            }
-        } completionHandler:^(BOOL success) {
-            if (!success) {
-                SDLLogE(@"Failed to send sub menu commands: %@", errors);
-                completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
-
-                return;
-            }
-
-            SDLLogD(@"Finished updating menu");
-            completionHandler(nil);
-        }];
-    }];
 }
 
 #pragma mark - Setters
@@ -246,6 +134,116 @@ UInt32 const MenuCellIdMin = 1;
     }
 
     [self sdl_updateWithCompletionHandler:nil];
+}
+
+#pragma mark - Updating System
+
+- (void)sdl_updateWithCompletionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
+    if (self.currentHMILevel == nil
+        || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
+        || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
+        self.waitingOnHMIUpdate = YES;
+        self.waitingUpdateMenuCells = self.menuCells;
+        return;
+    }
+
+    if (self.inProgressUpdate != nil) {
+        // There's an in progress update, we need to put this on hold
+        self.hasQueuedUpdate = YES;
+        return;
+    }
+
+    __weak typeof(self) weakself = self;
+    [self sdl_sendDeleteCurrentMenu:^(NSError * _Nullable error) {
+        [weakself sdl_sendCurrentMenu:^(NSError * _Nullable error) {
+            weakself.inProgressUpdate = nil;
+
+            if (completionHandler != nil) {
+                completionHandler(error);
+            }
+
+            if (weakself.hasQueuedUpdate) {
+                [weakself sdl_updateWithCompletionHandler:nil];
+                weakself.hasQueuedUpdate = NO;
+            }
+        }];
+    }];
+}
+
+#pragma mark Delete Old Menu Items
+
+- (void)sdl_sendDeleteCurrentMenu:(SDLMenuUpdateCompletionHandler)completionHandler {
+    if (self.oldMenuCells.count == 0) {
+        completionHandler(nil);
+        return;
+    }
+
+    NSArray<SDLRPCRequest *> *deleteMenuCommands = [self sdl_deleteCommandsForCells:self.oldMenuCells];
+    self.oldMenuCells = @[];
+    [self.connectionManager sendRequests:deleteMenuCommands progressHandler:nil completionHandler:^(BOOL success) {
+        if (!success) {
+            SDLLogW(@"Unable to delete all old menu commands");
+        } else {
+            SDLLogD(@"Finished deleting old menu");
+        }
+
+        completionHandler(nil);
+    }];
+}
+
+#pragma mark Send New Menu Items
+
+- (void)sdl_sendCurrentMenu:(SDLMenuUpdateCompletionHandler)completionHandler {
+    if (self.menuCells.count == 0) {
+        SDLLogD(@"No main menu to send");
+        completionHandler(nil);
+
+        return;
+    }
+
+    NSArray<SDLRPCRequest *> *mainMenuCommands = nil;
+    NSArray<SDLRPCRequest *> *subMenuCommands = nil;
+    if ([self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells].count > 0 || ![self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameCommandIcon]) {
+        // Send artwork-less menu
+        mainMenuCommands = [self sdl_mainMenuCommandsForCells:self.menuCells withArtwork:NO];
+        subMenuCommands = [self sdl_subMenuCommandsForCells:self.menuCells withArtwork:NO];
+    } else {
+        // Send full artwork menu
+        mainMenuCommands = [self sdl_mainMenuCommandsForCells:self.menuCells withArtwork:YES];
+        subMenuCommands = [self sdl_subMenuCommandsForCells:self.menuCells withArtwork:YES];
+    }
+
+    self.inProgressUpdate = [mainMenuCommands arrayByAddingObjectsFromArray:subMenuCommands];
+
+    __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
+    __weak typeof(self) weakSelf = self;
+    [self.connectionManager sendRequests:mainMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+        if (error != nil) {
+            errors[request] = error;
+        }
+    } completionHandler:^(BOOL success) {
+        if (!success) {
+            SDLLogE(@"Failed to send main menu commands: %@", errors);
+            completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
+            return;
+        }
+
+        weakSelf.oldMenuCells = weakSelf.menuCells;
+        [weakSelf.connectionManager sendRequests:subMenuCommands progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+            if (error != nil) {
+                errors[request] = error;
+            }
+        } completionHandler:^(BOOL success) {
+            if (!success) {
+                SDLLogE(@"Failed to send sub menu commands: %@", errors);
+                completionHandler([NSError sdl_menuManager_failedToUpdateWithDictionary:errors]);
+                return;
+            }
+
+            SDLLogD(@"Finished updating menu");
+            completionHandler(nil);
+        }];
+    }];
 }
 
 #pragma mark - Helpers
@@ -388,7 +386,6 @@ UInt32 const MenuCellIdMin = 1;
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
-
     SDLHMILevel oldHMILevel = self.currentHMILevel;
     self.currentHMILevel = hmiStatus.hmiLevel;
 
@@ -408,6 +405,7 @@ UInt32 const MenuCellIdMin = 1;
     if ([oldSystemContext isEqualToEnum:SDLSystemContextMenu] && ![self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
         if (self.waitingOnHMIUpdate) {
             [self setMenuCells:self.waitingUpdateMenuCells];
+            self.waitingUpdateMenuCells = @[];
         }
     }
 }
