@@ -95,6 +95,7 @@ UInt32 const MenuCellIdMin = 1;
 - (void)sdl_updateWithCompletionHandler:(nullable SDLMenuUpdateCompletionHandler)completionHandler {
     if (self.currentHMILevel == nil || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone] || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
         self.waitingOnHMIUpdate = YES;
+        self.waitingUpdateMenuCells = self.menuCells;
         return;
     }
 
