@@ -1093,6 +1093,7 @@
 		88B849C52080F4B3002A034D /* RPCPermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B849C32080F4AF002A034D /* RPCPermissionsManager.swift */; };
 		88B849C820812442002A034D /* VehicleDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B849C620812412002A034D /* VehicleDataManager.swift */; };
 		88D2AAE41F682BB20078D5B2 /* SDLLogConstantsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */; };
+		88DA6D10209794A400AD8297 /* AlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DA6D0F209794A400AD8297 /* AlertManager.m */; };
 		88DFB053207F8E100079D19D /* Protocol+ProxyManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DFB051207F8DF50079D19D /* Protocol+ProxyManagerDelegate.swift */; };
 		88DFB055207F96EE0079D19D /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DFB054207F96EE0079D19D /* AlertManager.swift */; };
 		88EED8381F33AE1700E6C42E /* SDLHapticRect.h in Headers */ = {isa = PBXBuildFile; fileRef = 88EED8361F33AE1700E6C42E /* SDLHapticRect.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2420,6 +2421,8 @@
 		88B849C32080F4AF002A034D /* RPCPermissionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPCPermissionsManager.swift; sourceTree = "<group>"; };
 		88B849C620812412002A034D /* VehicleDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDataManager.swift; sourceTree = "<group>"; };
 		88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLogConstantsSpec.m; sourceTree = "<group>"; };
+		88DA6D0E209794A400AD8297 /* AlertManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlertManager.h; sourceTree = "<group>"; };
+		88DA6D0F209794A400AD8297 /* AlertManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AlertManager.m; sourceTree = "<group>"; };
 		88DFB051207F8DF50079D19D /* Protocol+ProxyManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Protocol+ProxyManagerDelegate.swift"; sourceTree = "<group>"; };
 		88DFB054207F96EE0079D19D /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		88EED8361F33AE1700E6C42E /* SDLHapticRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLHapticRect.h; sourceTree = "<group>"; };
@@ -3293,6 +3296,8 @@
 				8803A0AC208E2907009FDC02 /* AudioManager.m */,
 				8803A0B0208E7CA4009FDC02 /* VehicleDataManager.h */,
 				8803A0B1208E7CA4009FDC02 /* VehicleDataManager.m */,
+				88DA6D0E209794A400AD8297 /* AlertManager.h */,
+				88DA6D0F209794A400AD8297 /* AlertManager.m */,
 			);
 			name = SDL;
 			sourceTree = "<group>";
@@ -5658,6 +5663,7 @@
 			files = (
 				5D4832A51A94F90D00252386 /* ConnectionTransitionContext.m in Sources */,
 				5D0218FC1A8E7E1700D1BF62 /* ConnectionContainerViewController.m in Sources */,
+				88DA6D10209794A400AD8297 /* AlertManager.m in Sources */,
 				8803A0AF208E2A3A009FDC02 /* AudioManager.m in Sources */,
 				5D0218FF1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m in Sources */,
 				8803A0B2208E7CA4009FDC02 /* VehicleDataManager.m in Sources */,
