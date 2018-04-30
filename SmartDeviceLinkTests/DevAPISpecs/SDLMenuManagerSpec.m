@@ -48,8 +48,8 @@ describe(@"menu manager", ^{
 
     __block SDLArtwork *testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name" fileExtension:@"png" persistent:NO];
 
-    __block SDLMenuCell *textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil handler:^{}];
-    __block SDLMenuCell *textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork voiceCommands:nil handler:^{}];
+    __block SDLMenuCell *textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+    __block SDLMenuCell *textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
     __block SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" subCells:@[textOnlyCell, textAndImageCell]];
 
     beforeEach(^{
@@ -67,7 +67,7 @@ describe(@"menu manager", ^{
         expect(testManager.inProgressUpdate).to(beNil());
         expect(testManager.hasQueuedUpdate).to(beFalse());
         expect(testManager.waitingOnHMIUpdate).to(beFalse());
-        expect(testManager.lastMenuId).to(equal(0));
+        expect(testManager.lastMenuId).to(equal(1));
         expect(testManager.oldMenuCells).to(beEmpty());
     });
 

@@ -19,13 +19,12 @@
 @interface SDLVoiceCommandManager()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (weak, nonatomic) SDLFileManager *fileManager;
 
-@property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
+@property (assign, nonatomic) BOOL waitingOnHMIUpdate;
+@property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 
 @property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
-@property (assign, nonatomic) BOOL waitingOnHMILevelUpdate;
 
 @property (assign, nonatomic) UInt32 lastVoiceCommandId;
 @property (copy, nonatomic) NSArray<SDLVoiceCommand *> *oldVoiceCommands;
@@ -51,10 +50,10 @@ describe(@"voice command manager", ^{
     it(@"should instantiate correctly", ^{
         expect(testManager.voiceCommands).to(beEmpty());
         expect(testManager.connectionManager).to(equal(mockConnectionManager));
-        expect(testManager.currentLevel).to(beNil());
+        expect(testManager.currentHMILevel).to(beNil());
         expect(testManager.inProgressUpdate).to(beNil());
         expect(testManager.hasQueuedUpdate).to(beFalse());
-        expect(testManager.waitingOnHMILevelUpdate).to(beFalse());
+        expect(testManager.waitingOnHMIUpdate).to(beFalse());
         expect(testManager.lastVoiceCommandId).to(equal(VoiceCommandIdMin));
         expect(testManager.oldVoiceCommands).to(beEmpty());
     });
@@ -62,7 +61,7 @@ describe(@"voice command manager", ^{
     describe(@"updating voice commands before HMI is ready", ^{
         context(@"when in HMI NONE", ^{
             beforeEach(^{
-                testManager.currentLevel = SDLHMILevelNone;
+                testManager.currentHMILevel = SDLHMILevelNone;
             });
 
             it(@"should not update", ^{
@@ -73,7 +72,7 @@ describe(@"voice command manager", ^{
 
         context(@"when no HMI level has been received", ^{
             beforeEach(^{
-                testManager.currentLevel = nil;
+                testManager.currentHMILevel = nil;
             });
 
             it(@"should not update", ^{
@@ -85,7 +84,7 @@ describe(@"voice command manager", ^{
 
     describe(@"updating voice commands", ^{
         beforeEach(^{
-            testManager.currentLevel = SDLHMILevelFull;
+            testManager.currentHMILevel = SDLHMILevelFull;
         });
 
         it(@"should properly update a command", ^{
