@@ -7,11 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SmartDeviceLink.h"
+
+@class SDLAlert;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface AlertManager : NSObject
 
-+ (SDLAlert *)alertWithMessage:(NSString *)message;
-+ (SDLAlert *)alertWithMessageAndCloseButton:(NSString *)message;
++ (SDLAlert *)alertWithMessage:(NSString *)textField1 textField2:(NSString *)textField2;
++ (SDLAlert *)alertWithMessageAndCloseButton:(NSString *)textField1 textField2:(NSString *)textField2;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -18,6 +18,7 @@ typedef NS_ENUM(NSUInteger, ProxyState) {
     ProxyStateConnected
 };
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface ProxyManager : NSObject
 
@@ -30,3 +31,5 @@ typedef NS_ENUM(NSUInteger, ProxyState) {
 - (void)reset;
 
 @end
+
+NS_ASSUME_NONNULL_END
