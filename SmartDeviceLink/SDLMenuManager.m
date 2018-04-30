@@ -55,6 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
+@property (copy, nonatomic) NSArray<SDLMenuCell *> *waitingUpdateMenuCells;
 
 @end
 
@@ -125,7 +126,6 @@ UInt32 const MenuCellIdMin = 1;
 - (void)sdl_sendDeleteCurrentMenu:(SDLMenuUpdateCompletionHandler)completionHandler {
     if (self.oldMenuCells.count == 0) {
         completionHandler(nil);
-
         return;
     }
 
@@ -208,7 +208,7 @@ UInt32 const MenuCellIdMin = 1;
         || [self.currentHMILevel isEqualToEnum:SDLHMILevelNone]
         || [self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
         self.waitingOnHMIUpdate = YES;
-        _menuCells = menuCells;
+        self.waitingUpdateMenuCells = menuCells;
         return;
     }
 
@@ -406,7 +406,7 @@ UInt32 const MenuCellIdMin = 1;
 
     if ([oldSystemContext isEqualToEnum:SDLSystemContextMenu] && ![self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
         if (self.waitingOnHMIUpdate) {
-            [self setMenuCells:_menuCells];
+            [self setMenuCells:self.waitingUpdateMenuCells];
         }
     }
 }
