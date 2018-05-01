@@ -35,6 +35,32 @@ NS_ASSUME_NONNULL_BEGIN
     [self sendConnectionRequest:request withResponseHandler:handler];
 }
 
+- (void)sendRequests:(nonnull NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+    [requests enumerateObjectsUsingBlock:^(SDLRPCRequest * _Nonnull request, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self sendConnectionRequest:request withResponseHandler:nil];
+
+        if (progressHandler != nil) {
+            progressHandler(request, nil, nil, (double)idx / (double)requests.count);
+        }
+    }];
+
+    if (completionHandler != nil) {
+        completionHandler(YES);
+    }
+}
+
+- (void)sendSequentialRequests:(nonnull NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+    [requests enumerateObjectsUsingBlock:^(SDLRPCRequest * _Nonnull request, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self sendConnectionRequest:request withResponseHandler:nil];
+        progressHandler(request, nil, nil, (double)idx / (double)requests.count);
+    }];
+
+    if (completionHandler != nil) {
+        completionHandler(YES);
+    }
+}
+
+
 - (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *)response {
     [self respondToLastRequestWithResponse:response error:nil];
 }

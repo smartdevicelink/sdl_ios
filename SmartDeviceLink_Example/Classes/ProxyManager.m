@@ -202,7 +202,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLLogConfiguration *)sdlex_logConfiguration {
-    SDLLogConfiguration *logConfig = [SDLLogConfiguration defaultConfiguration];
+    SDLLogConfiguration *logConfig = [SDLLogConfiguration debugConfiguration];
     SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Example" files:[NSSet setWithArray:@[@"ProxyManager"]]];
     logConfig.modules = [logConfig.modules setByAddingObject:sdlExampleModule];
     logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
@@ -220,94 +220,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - RPC builders
-
-+ (SDLAddCommand *)sdlex_speakNameCommandWithManager:(SDLManager *)manager {
-    NSString *commandName = @"Speak App Name";
-    
-    SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] init];
-    commandMenuParams.menuName = commandName;
-    
-    SDLAddCommand *speakNameCommand = [[SDLAddCommand alloc] init];
-    speakNameCommand.vrCommands = @[commandName];
-    speakNameCommand.menuParams = commandMenuParams;
-    speakNameCommand.cmdID = @0;
-    
-    speakNameCommand.handler = ^void(SDLOnCommand *notification) {
-        [manager sendRequest:[self.class sdlex_appNameSpeak]];
-    };
-    
-    return speakNameCommand;
-}
-
-+ (SDLAddCommand *)sdlex_interactionSetCommandWithManager:(SDLManager *)manager {
-    NSString *commandName = @"Perform Interaction";
-    
-    SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] init];
-    commandMenuParams.menuName = commandName;
-    
-    SDLAddCommand *performInteractionCommand = [[SDLAddCommand alloc] init];
-    performInteractionCommand.vrCommands = @[commandName];
-    performInteractionCommand.menuParams = commandMenuParams;
-    performInteractionCommand.cmdID = @1;
-    
-    // NOTE: You may want to preload your interaction sets, because they can take a while for the remote system to process. We're going to ignore our own advice here.
-    __weak typeof(self) weakSelf = self;
-    performInteractionCommand.handler = ^void(SDLOnCommand *notification) {
-        [weakSelf sdlex_sendPerformOnlyChoiceInteractionWithManager:manager];
-    };
-    
-    return performInteractionCommand;
-}
-
-+ (SDLAddCommand *)sdlex_vehicleDataCommandWithManager:(SDLManager *)manager {
-    SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] init];
-    commandMenuParams.menuName = @"Get Vehicle Data";
-
-    SDLAddCommand *getVehicleDataCommand = [[SDLAddCommand alloc] init];
-    getVehicleDataCommand.vrCommands = [NSMutableArray arrayWithObject:@"Get Vehicle Data"];
-    getVehicleDataCommand.menuParams = commandMenuParams;
-    getVehicleDataCommand.cmdID = @2;
-
-    getVehicleDataCommand.handler = ^void(SDLOnCommand *notification) {
-        [ProxyManager sdlex_sendGetVehicleDataWithManager:manager];
-    };
-
-    return getVehicleDataCommand;
-}
-
-+ (SDLAddCommand *)sdlex_dialNumberCommandWithManager:(SDLManager *)manager {
-    NSString *menuName = @"Dial Number";
-    SDLMenuParams *commandMenuParams = [[SDLMenuParams alloc] initWithMenuName:menuName];
-
-    SDLAddCommand *dialNumberCommand = [[SDLAddCommand alloc] init];
-    dialNumberCommand.vrCommands = [NSMutableArray arrayWithObject:menuName];
-    dialNumberCommand.menuParams = commandMenuParams;
-    dialNumberCommand.cmdID = @3;
-    dialNumberCommand.handler = ^(SDLOnCommand * _Nonnull command) {
-        SDLLogD(@"Checking if app has permission to dial a number");
-        if (![manager.permissionManager isRPCAllowed:@"DialNumber"]) {
-            SDLAlert* alert = [[SDLAlert alloc] init];
-            alert.alertText1 = @"This app does not have the required permissions to dial a number";
-            [manager sendRequest:alert];
-            return;
-        }
-
-        SDLLogD(@"Checking phone call capability");
-        [manager.systemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager *systemCapabilityManager) {
-            SDLPhoneCapability *phoneCapability = systemCapabilityManager.phoneCapability;
-            if (phoneCapability.dialNumberEnabled) {
-                SDLLogD(@"Dialing number");
-                [self.class sdlex_sendDialNumberWithManager:manager];
-            } else {
-                SDLAlert* alert = [[SDLAlert alloc] init];
-                alert.alertText1 = @"The dial number feature is unavailable for this head unit";
-                [manager sendRequest:alert];
-            }
-        }];
-    };
-
-    return dialNumberCommand;
-}
 
 + (SDLSpeak *)sdlex_appNameSpeak {
     SDLSpeak *speak = [[SDLSpeak alloc] init];
@@ -446,10 +358,36 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdlex_prepareRemoteSystem {
-    [self.sdlManager sendRequests:@[[self.class sdlex_speakNameCommandWithManager:self.sdlManager], [self.class sdlex_interactionSetCommandWithManager:self.sdlManager], [self.class sdlex_vehicleDataCommandWithManager:self.sdlManager], [self.class sdlex_dialNumberCommandWithManager:self.sdlManager], [self.class sdlex_createOnlyChoiceInteractionSet]]
-                  progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
-                      SDLLogD(@"Commands sent updated, percent complete %f%%", percentComplete * 100);
-                  } completionHandler:nil];
+    SDLCreateInteractionChoiceSet *choiceSet = [self.class sdlex_createOnlyChoiceInteractionSet];
+    [self.sdlManager sendRequest:choiceSet];
+
+    __weak typeof(self) weakself = self;
+    SDLMenuCell *speakCell = [[SDLMenuCell alloc] initWithTitle:@"Speak" icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"speak"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[@"Speak"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        [weakself.sdlManager sendRequest:[ProxyManager sdlex_appNameSpeak]];
+    }];
+
+    SDLMenuCell *interactionSetCell = [[SDLMenuCell alloc] initWithTitle:@"Perform Interaction" icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"choice_set"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[@"Perform Interaction"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        [ProxyManager sdlex_sendPerformOnlyChoiceInteractionWithManager:weakself.sdlManager];
+    }];
+
+    SDLMenuCell *getVehicleDataCell = [[SDLMenuCell alloc] initWithTitle:@"Get Vehicle Data" icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"car"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[@"Get Vehicle Data"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        [ProxyManager sdlex_sendGetVehicleDataWithManager:weakself.sdlManager];
+    }];
+
+    NSMutableArray *menuArray = [NSMutableArray array];
+    for (int i = 0; i < 75; i++) {
+        SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:[NSString stringWithFormat:@"%i", i] icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"hexagon_on_softbutton_icon"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource){}];
+        [menuArray addObject:cell];
+    }
+
+    SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" subCells:[menuArray copy]];
+
+    SDLVoiceCommand *voiceCommand = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"Test"] handler:^{
+        [ProxyManager sdlex_sendPerformOnlyChoiceInteractionWithManager:weakself.sdlManager];
+    }];
+
+    self.sdlManager.screenManager.menu = @[speakCell, interactionSetCell, getVehicleDataCell, submenuCell];
+    self.sdlManager.screenManager.voiceCommands = @[voiceCommand];
 }
 
 

@@ -47,6 +47,33 @@ typedef void (^SDLAudioPassThruHandler)(NSData *__nullable audioData);
  */
 typedef void (^SDLResponseHandler)(__kindof SDLRPCRequest *__nullable request, __kindof SDLRPCResponse *__nullable response, NSError *__nullable error);
 
+/**
+ A completion handler called after a sequential or simultaneous set of requests have completed sending.
+
+ @param success True if every request succeeded, false if any failed. See the progress handler for more details on failures.
+ */
+typedef void (^SDLMultipleRequestCompletionHandler)(BOOL success);
+
+/**
+ A handler called after each response to a request comes in in a multiple request send.
+
+ @param request The request that received a response
+ @param response The response received
+ @param error The error that occurred during the request if any occurred.
+ @param percentComplete The percentage of requests that have received a response
+ @return continueSendingRequests NO to cancel any requests that have not yet been sent. This is really only useful for a sequential send (sendSequentialRequests:progressHandler:completionHandler:). Return YES to continue sending requests.
+ */
+typedef BOOL (^SDLMultipleSequentialRequestProgressHandler)(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *__nullable response, NSError *__nullable error, float percentComplete);
+
+/**
+ A handler called after each response to a request comes in in a multiple request send.
+
+ @param request The request that received a response
+ @param response The response received
+ @param error The error that occurred during the request if any occurred.
+ @param percentComplete The percentage of requests that have received a response
+ */
+typedef void (^SDLMultipleAsyncRequestProgressHandler)(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *__nullable response, NSError *__nullable error, float percentComplete);
 
 /**
  A handler that may optionally be run when an SDLSubscribeButton or SDLSoftButton has a corresponding notification occur.

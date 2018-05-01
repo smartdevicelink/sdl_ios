@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLAsynchronousRPCRequestOperation ()
 
-@property (copy, nonatomic) NSArray<SDLRPCRequest *> *requests;
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (copy, nonatomic, nullable) SDLMultipleAsyncRequestProgressHandler progressHandler;
 @property (copy, nonatomic, nullable) SDLMultipleRequestCompletionHandler completionHandler;
@@ -158,6 +157,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSOperationQueuePriority)queuePriority {
     return NSOperationQueuePriorityNormal;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@, request count=%lu, requests started=%lu, finished=%lu, failed=%@", self.name, self.requests.count, self.requestsStarted, self.requestsComplete, (self.requestFailed ? @"YES": @"NO")];
+}
+
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"%@, request count=%lu, requests started=%lu, finished=%lu, failed=%@, requests=%@", self.name, self.requests.count, self.requestsStarted, self.requestsComplete, (self.requestFailed ? @"YES": @"NO"), self.requests];
 }
 
 @end
