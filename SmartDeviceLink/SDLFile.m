@@ -161,6 +161,30 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self.class allocWithZone:zone] initWithFileURL:_fileURL name:_name persistent:_persistent];
 }
 
+#pragma mark - NSObject overrides
+
+- (NSUInteger)hash {
+    return self.name.hash ^ self.data.hash;
+}
+
+- (BOOL)isEqual:(id)object {
+    if (self == object) { return YES; }
+
+    if (![object isKindOfClass:[SDLFile class]]) { return NO; }
+
+    return [self isEqualToFile:(SDLFile *)object];
+}
+
+- (BOOL)isEqualToFile:(SDLFile *)file {
+    if (!file) { return NO; }
+
+    BOOL haveEqualNames = [self.name isEqualToString:file.name];
+    BOOL haveEqualData = [self.data isEqualToData:file.data];
+    BOOL haveEqualFormats = [self.fileType isEqualToEnum:file.fileType];
+
+    return haveEqualNames && haveEqualData && haveEqualFormats;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

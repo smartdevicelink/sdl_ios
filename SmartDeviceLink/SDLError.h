@@ -19,6 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NSString SDLErrorDomain;
 extern SDLErrorDomain *const SDLErrorDomainLifecycleManager;
 extern SDLErrorDomain *const SDLErrorDomainFileManager;
+extern SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager;
+extern SDLErrorDomain *const SDLErrorDomainSoftButtonManager;
+extern SDLErrorDomain *const SDLErrorDomainMenuManager;
 
 @interface NSError (SDLErrors)
 
@@ -47,8 +50,13 @@ extern SDLErrorDomain *const SDLErrorDomainFileManager;
 + (NSError *)sdl_fileManager_dataMissingError;
 
 #pragma mark Show Managers
+
 + (NSError *)sdl_softButtonManager_pendingUpdateSuperseded;
 + (NSError *)sdl_textAndGraphicManager_pendingUpdateSuperseded;
+
+#pragma mark Menu Manager
+
++ (NSError *)sdl_menuManager_failedToUpdateWithDictionary:(NSDictionary *)userInfo;
 
 @end
 

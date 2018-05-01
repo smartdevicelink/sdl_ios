@@ -43,7 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLShow *inProgressUpdate;
 @property (copy, nonatomic, nullable) SDLSoftButtonUpdateCompletionHandler inProgressHandler;
 
-@property (strong, nonatomic, nullable) SDLShow *queuedImageUpdate;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (copy, nonatomic, nullable) SDLSoftButtonUpdateCompletionHandler queuedUpdateHandler;
 

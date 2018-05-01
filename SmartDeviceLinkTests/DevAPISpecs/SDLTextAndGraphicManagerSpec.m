@@ -66,37 +66,37 @@ describe(@"text and graphic manager", ^{
         expect(testManager.textField4Type).to(beNil());
     });
 
-    context(@"when in HMI NONE", ^{
-        beforeEach(^{
-            testManager.currentLevel = SDLHMILevelNone;
-        });
-
-        it(@"should not set text field 1", ^{
-            testManager.textField1 = testString;
-
-            expect(testManager.textField1).to(equal(testString));
-            expect(testManager.inProgressUpdate).to(beNil());
-            expect(testManager.isDirty).to(beFalse());
-        });
-    });
-
-    context(@"when no HMI level has been received", ^{
-        beforeEach(^{
-            testManager.currentLevel = nil;
-        });
-
-        it(@"should not set text field 1", ^{
-            testManager.textField1 = testString;
-
-            expect(testManager.textField1).to(equal(testString));
-            expect(testManager.inProgressUpdate).to(beNil());
-            expect(testManager.isDirty).to(beFalse());
-        });
-    });
-
     describe(@"setting setters", ^{
         beforeEach(^{
             testManager.currentLevel = SDLHMILevelFull;
+        });
+
+        context(@"when in HMI NONE", ^{
+            beforeEach(^{
+                testManager.currentLevel = SDLHMILevelNone;
+            });
+
+            it(@"should not set text field 1", ^{
+                testManager.textField1 = testString;
+
+                expect(testManager.textField1).to(equal(testString));
+                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.isDirty).to(beFalse());
+            });
+        });
+
+        context(@"when no HMI level has been received", ^{
+            beforeEach(^{
+                testManager.currentLevel = nil;
+            });
+
+            it(@"should not set text field 1", ^{
+                testManager.textField1 = testString;
+
+                expect(testManager.textField1).to(equal(testString));
+                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.isDirty).to(beFalse());
+            });
         });
 
         context(@"while batching", ^{
