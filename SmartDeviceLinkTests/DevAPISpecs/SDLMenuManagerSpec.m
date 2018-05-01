@@ -13,6 +13,10 @@
 #import "SDLImageFieldName.h"
 #import "SDLMenuCell.h"
 #import "SDLMenuManager.h"
+#import "SDLOnCommand.h"
+#import "SDLOnHMIStatus.h"
+#import "SDLRPCNotificationNotification.h"
+#import "SDLSystemContext.h"
 #import "TestConnectionManager.h"
 
 @interface SDLMenuCell()
@@ -28,11 +32,13 @@
 @property (weak, nonatomic) SDLFileManager *fileManager;
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
+@property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 
 @property (strong, nonatomic, nullable) NSArray<SDLRPCRequest *> *inProgressUpdate;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (assign, nonatomic) BOOL waitingOnHMIUpdate;
+@property (copy, nonatomic) NSArray<SDLMenuCell *> *waitingUpdateMenuCells;
 
 @property (assign, nonatomic) UInt32 lastMenuId;
 @property (copy, nonatomic) NSArray<SDLMenuCell *> *oldMenuCells;
@@ -75,31 +81,72 @@ describe(@"menu manager", ^{
         context(@"when in HMI NONE", ^{
             beforeEach(^{
                 testManager.currentHMILevel = SDLHMILevelNone;
+                testManager.menuCells = @[textOnlyCell];
             });
 
             it(@"should not update", ^{
-                testManager.menuCells = @[textOnlyCell];
+                expect(mockConnectionManager.receivedRequests).to(beEmpty());
+            });
 
-                expect(testManager.inProgressUpdate).to(beNil());
+            describe(@"when entering the foreground", ^{
+                beforeEach(^{
+                    SDLOnHMIStatus *onHMIStatus = [[SDLOnHMIStatus alloc] init];
+                    onHMIStatus.hmiLevel = SDLHMILevelFull;
+                    onHMIStatus.systemContext = SDLSystemContextMain;
+
+                    SDLRPCNotificationNotification *testSystemContextNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:onHMIStatus];
+                    [[NSNotificationCenter defaultCenter] postNotification:testSystemContextNotification];
+                });
+
+                it(@"should update", ^{
+                    expect(mockConnectionManager.receivedRequests).toNot(beEmpty());
+                });
             });
         });
 
         context(@"when no HMI level has been received", ^{
             beforeEach(^{
                 testManager.currentHMILevel = nil;
+                testManager.menuCells = @[textOnlyCell];
             });
 
             it(@"should not update", ^{
-                testManager.menuCells = @[textOnlyCell];
+                expect(mockConnectionManager.receivedRequests).to(beEmpty());
+            });
+        });
 
-                expect(testManager.inProgressUpdate).to(beNil());
+        context(@"when in the menu", ^{
+            beforeEach(^{
+                testManager.currentHMILevel = SDLHMILevelFull;
+                testManager.currentSystemContext = SDLSystemContextMenu;
+                testManager.menuCells = @[textOnlyCell];
+            });
+
+            it(@"should not update", ^{
+                expect(mockConnectionManager.receivedRequests).to(beEmpty());
+            });
+
+            describe(@"when exiting the menu", ^{
+                beforeEach(^{
+                    SDLOnHMIStatus *onHMIStatus = [[SDLOnHMIStatus alloc] init];
+                    onHMIStatus.hmiLevel = SDLHMILevelFull;
+                    onHMIStatus.systemContext = SDLSystemContextMain;
+
+                    SDLRPCNotificationNotification *testSystemContextNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:onHMIStatus];
+                    [[NSNotificationCenter defaultCenter] postNotification:testSystemContextNotification];
+                });
+
+                it(@"should update", ^{
+                    expect(mockConnectionManager.receivedRequests).toNot(beEmpty());
+                });
             });
         });
     });
 
-    describe(@"updating menu cell", ^{
+    describe(@"updating menu cells", ^{
         beforeEach(^{
             testManager.currentHMILevel = SDLHMILevelFull;
+            testManager.currentSystemContext = SDLSystemContextMain;
 
             testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
             SDLImageField *commandIconField = [[SDLImageField alloc] init];
@@ -191,6 +238,74 @@ describe(@"menu manager", ^{
 
                 expect(deletes).to(haveCount(1));
                 expect(adds).to(haveCount(2));
+            });
+        });
+    });
+
+    describe(@"running menu cell handlers", ^{
+        __block SDLMenuCell *cellWithHandler = nil;
+        __block BOOL cellCalled = NO;
+        __block SDLTriggerSource testTriggerSource = nil;
+
+        beforeEach(^{
+            testManager.currentHMILevel = SDLHMILevelFull;
+            testManager.currentSystemContext = SDLSystemContextMain;
+
+            testManager.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
+            SDLImageField *commandIconField = [[SDLImageField alloc] init];
+            commandIconField.name = SDLImageFieldNameCommandIcon;
+            testManager.displayCapabilities.imageFields = @[commandIconField];
+            testManager.displayCapabilities.graphicSupported = @YES;
+
+            cellCalled = NO;
+            testTriggerSource = nil;
+        });
+
+        context(@"on a main menu cell", ^{
+            beforeEach(^{
+                cellWithHandler = [[SDLMenuCell alloc] initWithTitle:@"Hello" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+                    cellCalled = YES;
+                    testTriggerSource = triggerSource;
+                }];
+
+                testManager.menuCells = @[cellWithHandler];
+            });
+
+            it(@"should call the cell handler", ^{
+                SDLOnCommand *onCommand = [[SDLOnCommand alloc] init];
+                onCommand.cmdID = @1;
+                onCommand.triggerSource = SDLTriggerSourceMenu;
+
+                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveCommandNotification object:nil rpcNotification:onCommand];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+                expect(cellCalled).to(beTrue());
+                expect(testTriggerSource).to(equal(SDLTriggerSourceMenu));
+            });
+        });
+
+        context(@"on a submenu menu cell", ^{
+            beforeEach(^{
+                cellWithHandler = [[SDLMenuCell alloc] initWithTitle:@"Hello" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+                    cellCalled = YES;
+                    testTriggerSource = triggerSource;
+                }];
+
+                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" subCells:@[cellWithHandler]];
+
+                testManager.menuCells = @[submenuCell];
+            });
+
+            it(@"should call the cell handler", ^{
+                SDLOnCommand *onCommand = [[SDLOnCommand alloc] init];
+                onCommand.cmdID = @2;
+                onCommand.triggerSource = SDLTriggerSourceMenu;
+
+                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveCommandNotification object:nil rpcNotification:onCommand];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+                expect(cellCalled).to(beTrue());
+                expect(testTriggerSource).to(equal(SDLTriggerSourceMenu));
             });
         });
     });

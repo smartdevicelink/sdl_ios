@@ -974,6 +974,8 @@
 		5DA49CE61F1EA83300E65FC5 /* SDLControlFramePayloadRPCStartService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA49CE41F1EA83300E65FC5 /* SDLControlFramePayloadRPCStartService.m */; };
 		5DA8A0E91E955F710039C50D /* SDLStreamingMediaManagerConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8966F31E56977C00413EAB /* SDLStreamingMediaManagerConstants.m */; };
 		5DA8A0EA1E955FE00039C50D /* SDLLogModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DBF06301E64A9C600A5CF03 /* SDLLogModel.m */; };
+		5DAB5F512098994C00A020C8 /* SDLMenuCellSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAB5F502098994C00A020C8 /* SDLMenuCellSpec.m */; };
+		5DAB5F5320989A8300A020C8 /* SDLVoiceCommandSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAB5F5220989A8300A020C8 /* SDLVoiceCommandSpec.m */; };
 		5DAD5F7F204DEDEB0025624C /* SDLScreenManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DAD5F7D204DEDEB0025624C /* SDLScreenManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DAD5F80204DEDEB0025624C /* SDLScreenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAD5F7E204DEDEB0025624C /* SDLScreenManager.m */; };
 		5DAD5F8520507E1F0025624C /* SDLScreenManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DAD5F8420507E1F0025624C /* SDLScreenManagerSpec.m */; };
@@ -1060,7 +1062,7 @@
 		5DF40B22208E761A00DD6FDA /* SDLVoiceCommandManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DF40B20208E761A00DD6FDA /* SDLVoiceCommandManager.h */; };
 		5DF40B23208E761A00DD6FDA /* SDLVoiceCommandManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B21208E761A00DD6FDA /* SDLVoiceCommandManager.m */; };
 		5DF40B26208FA7DE00DD6FDA /* SDLMenuManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B25208FA7DE00DD6FDA /* SDLMenuManagerSpec.m */; };
-		5DF40B28208FDA9700DD6FDA /* SDLVoiceCommandSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandSpec.m */; };
+		5DF40B28208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m */; };
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
 		880E8C2920697FEE00CF86C2 /* SDLSystemCapabilityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 880E8C2720697FEE00CF86C2 /* SDLSystemCapabilityManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		880E8C2A20697FEE00CF86C2 /* SDLSystemCapabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 880E8C2820697FEE00CF86C2 /* SDLSystemCapabilityManager.m */; };
@@ -2243,6 +2245,8 @@
 		5DA3F36F1BC4489A0026F2D0 /* SDLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLManager.m; sourceTree = "<group>"; };
 		5DA49CE31F1EA83300E65FC5 /* SDLControlFramePayloadRPCStartService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLControlFramePayloadRPCStartService.h; sourceTree = "<group>"; };
 		5DA49CE41F1EA83300E65FC5 /* SDLControlFramePayloadRPCStartService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLControlFramePayloadRPCStartService.m; sourceTree = "<group>"; };
+		5DAB5F502098994C00A020C8 /* SDLMenuCellSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuCellSpec.m; path = DevAPISpecs/SDLMenuCellSpec.m; sourceTree = "<group>"; };
+		5DAB5F5220989A8300A020C8 /* SDLVoiceCommandSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLVoiceCommandSpec.m; path = DevAPISpecs/SDLVoiceCommandSpec.m; sourceTree = "<group>"; };
 		5DAD5F7D204DEDEB0025624C /* SDLScreenManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLScreenManager.h; sourceTree = "<group>"; };
 		5DAD5F7E204DEDEB0025624C /* SDLScreenManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLScreenManager.m; sourceTree = "<group>"; };
 		5DAD5F8420507E1F0025624C /* SDLScreenManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLScreenManagerSpec.m; sourceTree = "<group>"; };
@@ -2339,7 +2343,7 @@
 		5DF40B20208E761A00DD6FDA /* SDLVoiceCommandManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLVoiceCommandManager.h; sourceTree = "<group>"; };
 		5DF40B21208E761A00DD6FDA /* SDLVoiceCommandManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLVoiceCommandManager.m; sourceTree = "<group>"; };
 		5DF40B25208FA7DE00DD6FDA /* SDLMenuManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuManagerSpec.m; path = DevAPISpecs/SDLMenuManagerSpec.m; sourceTree = "<group>"; };
-		5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLVoiceCommandSpec.m; path = DevAPISpecs/SDLVoiceCommandSpec.m; sourceTree = "<group>"; };
+		5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLVoiceCommandManagerSpec.m; path = DevAPISpecs/SDLVoiceCommandManagerSpec.m; sourceTree = "<group>"; };
 		5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionManagerType.h; sourceTree = "<group>"; };
 		880E8C2720697FEE00CF86C2 /* SDLSystemCapabilityManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSystemCapabilityManager.h; sourceTree = "<group>"; };
 		880E8C2820697FEE00CF86C2 /* SDLSystemCapabilityManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSystemCapabilityManager.m; sourceTree = "<group>"; };
@@ -4730,7 +4734,9 @@
 			isa = PBXGroup;
 			children = (
 				5DF40B25208FA7DE00DD6FDA /* SDLMenuManagerSpec.m */,
-				5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandSpec.m */,
+				5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m */,
+				5DAB5F502098994C00A020C8 /* SDLMenuCellSpec.m */,
+				5DAB5F5220989A8300A020C8 /* SDLVoiceCommandSpec.m */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -5945,6 +5951,7 @@
 				5DBEFA581F436132009EE295 /* SDLFakeSecurityManager.m in Sources */,
 				162E82D91A9BDE8A00906325 /* SDLDisplayTypeSpec.m in Sources */,
 				162E83871A9BDE8B00906325 /* SDLPermissionItemSpec.m in Sources */,
+				5DAB5F5320989A8300A020C8 /* SDLVoiceCommandSpec.m in Sources */,
 				162E82E31A9BDE8B00906325 /* SDLIgnitionStatusSpec.m in Sources */,
 				162E83511A9BDE8B00906325 /* SDLDeleteInteractionChoiceSetResponseSpec.m in Sources */,
 				DA9F7EB41DCC086400ACAE48 /* SDLDateTimeSpec.m in Sources */,
@@ -5969,6 +5976,7 @@
 				162E83681A9BDE8B00906325 /* SDLSpeakResponseSpec.m in Sources */,
 				162E83661A9BDE8B00906325 /* SDLShowResponseSpec.m in Sources */,
 				5D9F50831BEA5C6100FEF399 /* SDLFileManagerSpec.m in Sources */,
+				5DAB5F512098994C00A020C8 /* SDLMenuCellSpec.m in Sources */,
 				1EE8C4481F38430900FDC2CF /* SDLRadioControlCapabilitiesSpec.m in Sources */,
 				162E83221A9BDE8B00906325 /* SDLAddCommandSpec.m in Sources */,
 				162E83121A9BDE8B00906325 /* SDLOnButtonPressSpec.m in Sources */,
@@ -6232,7 +6240,7 @@
 				162E82CF1A9BDE8A00906325 /* SDLBitsPerSampleSpec.m in Sources */,
 				162E831E1A9BDE8B00906325 /* SDLOnTBTClientStateSpec.m in Sources */,
 				162E83351A9BDE8B00906325 /* SDLReadDIDSpec.m in Sources */,
-				5DF40B28208FDA9700DD6FDA /* SDLVoiceCommandSpec.m in Sources */,
+				5DF40B28208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m in Sources */,
 				162E836F1A9BDE8B00906325 /* SDLUnsubscribeVehicleDataResponseSpec.m in Sources */,
 				162E82DB1A9BDE8B00906325 /* SDLECallConfirmationStatusSpec.m in Sources */,
 				162E82D81A9BDE8A00906325 /* SDLDimensionSpec.m in Sources */,

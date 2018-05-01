@@ -361,17 +361,30 @@ UInt32 const MenuCellIdMin = 1;
     return submenu;
 }
 
+#pragma mark - Calling handlers
+
+- (BOOL)sdl_callHandlerForCells:(NSArray<SDLMenuCell *> *)cells command:(SDLOnCommand *)onCommand {
+    for (SDLMenuCell *cell in cells) {
+        if (cell.cellId == onCommand.cmdID.unsignedIntegerValue) {
+            cell.handler(onCommand.triggerSource);
+            return YES;
+        }
+
+        if (cell.subCells.count > 0) {
+            BOOL succeeded = [self sdl_callHandlerForCells:cell.subCells command:onCommand];
+            if (succeeded) { return YES; }
+        }
+    }
+
+    return NO;
+}
+
 #pragma mark - Observers
 
 - (void)sdl_commandNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnCommand *onCommand = (SDLOnCommand *)notification.notification;
 
-    for (SDLMenuCell *cell in self.menuCells) {
-        if (onCommand.cmdID.unsignedIntegerValue != cell.cellId) { continue; }
-
-        cell.handler(onCommand.triggerSource);
-        break;
-    }
+    [self sdl_callHandlerForCells:self.menuCells command:onCommand];
 }
 
 - (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
@@ -390,11 +403,12 @@ UInt32 const MenuCellIdMin = 1;
     self.currentHMILevel = hmiStatus.hmiLevel;
 
     // Auto-send an updated menu if we were in NONE and now we are not, and we need an update
-    if ([oldHMILevel isEqualToString:SDLHMILevelNone] && ![self.currentHMILevel isEqualToString:SDLHMILevelNone]) {
+    if ([oldHMILevel isEqualToString:SDLHMILevelNone] && ![self.currentHMILevel isEqualToString:SDLHMILevelNone] &&
+        ![self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
         if (self.waitingOnHMIUpdate) {
-            [self setMenuCells:_menuCells];
-        } else {
-            [self sdl_updateWithCompletionHandler:nil];
+            [self setMenuCells:self.waitingUpdateMenuCells];
+            self.waitingUpdateMenuCells = @[];
+            return;
         }
     }
 
@@ -402,7 +416,7 @@ UInt32 const MenuCellIdMin = 1;
     SDLSystemContext oldSystemContext = self.currentSystemContext;
     self.currentSystemContext = hmiStatus.systemContext;
 
-    if ([oldSystemContext isEqualToEnum:SDLSystemContextMenu] && ![self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]) {
+    if ([oldSystemContext isEqualToEnum:SDLSystemContextMenu] && ![self.currentSystemContext isEqualToEnum:SDLSystemContextMenu] && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
         if (self.waitingOnHMIUpdate) {
             [self setMenuCells:self.waitingUpdateMenuCells];
             self.waitingUpdateMenuCells = @[];
