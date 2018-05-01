@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
-#import "SDLAbstractTransport.h"
+#import "SDLTransportType.h"
 #import "SDLProtocolHeader.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolMessage.h"

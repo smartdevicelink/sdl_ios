@@ -41,6 +41,16 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
     return self;
 }
 
+- (instancetype)initWithHostName:(NSString *)hostName portNumber:(NSString *)portNumber {
+    self = [self init];
+    if (!self) { return nil; }
+
+    _hostName = hostName;
+    _portNumber = portNumber;
+
+    return self;
+}
+
 - (void)dealloc {
     [self disconnect];
 }

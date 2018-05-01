@@ -11,7 +11,6 @@
 #import "SDLLifecycleManager.h"
 
 #import "NSMapTable+Subscripting.h"
-#import "SDLAbstractProtocol.h"
 #import "SDLAsynchronousRPCRequestOperation.h"
 #import "SDLChangeRegistration.h"
 #import "SDLConfiguration.h"
@@ -35,8 +34,8 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLOnHashChange.h"
 #import "SDLPermissionManager.h"
+#import "SDLProtocol.h"
 #import "SDLProxy.h"
-#import "SDLProxyFactory.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -203,9 +202,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (self.configuration.lifecycleConfig.tcpDebugMode) {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self.notificationDispatcher tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress tcpPort:[@(self.configuration.lifecycleConfig.tcpDebugPort) stringValue]];
+        self.proxy = [SDLProxy tcpProxyWithListener:self.notificationDispatcher
+                                       tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress
+                                            tcpPort:@(self.configuration.lifecycleConfig.tcpDebugPort).stringValue];
     } else {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self.notificationDispatcher];
+        self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher];
     }
 #pragma clang diagnostic pop
 

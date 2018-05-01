@@ -4,7 +4,7 @@
 
 #import "SDLFunctionID.h"
 
-#import "SDLAbstractTransport.h"
+#import "SDLTransportType.h"
 #import "SDLControlFramePayloadConstants.h"
 #import "SDLControlFramePayloadEndService.h"
 #import "SDLControlFramePayloadNak.h"
@@ -63,6 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
         _receiveQueue = dispatch_queue_create("com.sdl.protocol.receive", DISPATCH_QUEUE_SERIAL);
         _sendQueue = dispatch_queue_create("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL);
         _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
+        _protocolDelegateTable = [NSHashTable weakObjectsHashTable];
         _serviceHeaders = [[NSMutableDictionary alloc] init];
         _messageRouter = [[SDLProtocolReceivedMessageRouter alloc] init];
         _messageRouter.delegate = self;
@@ -73,6 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 #pragma mark - Service metadata
+
 - (UInt8)sdl_retrieveSessionIDforServiceType:(SDLServiceType)serviceType {
     SDLProtocolHeader *header = self.serviceHeaders[@(serviceType)];
     if (header == nil) {
@@ -82,6 +84,27 @@ NS_ASSUME_NONNULL_BEGIN
     return header.sessionID;
 }
 
+#pragma mark - SDLTransportDelegate
+
+- (void)onTransportConnected {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(onProtocolOpened)]) {
+            [listener onProtocolOpened];
+        }
+    }
+}
+
+- (void)onTransportDisconnected {
+    for (id<SDLProtocolListener> listener in self.protocolDelegateTable.allObjects) {
+        if ([listener respondsToSelector:@selector(onProtocolClosed)]) {
+            [listener onProtocolClosed];
+        }
+    }
+}
+
+- (void)onDataReceived:(NSData *)receivedData {
+    [self handleBytesFromTransport:receivedData];
+}
 
 #pragma mark - Start Service
 

@@ -63,7 +63,7 @@ describe(@"a lifecycle manager", ^{
     __block SDLLifecycleManager *testManager = nil;
     __block SDLConfiguration *testConfig = nil;
     
-    __block id protocolMock = OCMClassMock([SDLAbstractProtocol class]);
+    __block id protocolMock = OCMClassMock([SDLProtocol class]);
     __block id proxyBuilderClassMock = OCMStrictClassMock([SDLProxyFactory class]);
     __block id proxyMock = OCMClassMock([SDLProxy class]);
     __block id lockScreenManagerMock = OCMClassMock([SDLLockScreenManager class]);
