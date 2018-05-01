@@ -6,6 +6,7 @@
 //  Copyright © 2018 smartdevicelink. All rights reserved.
 //
 
+#import "AlertManager.h"
 #import "VehicleDataManager.h"
 #import "AppConstants.h"
 #import "SmartDeviceLink.h"
@@ -93,7 +94,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLOnVehicleData *onVehicleData = (SDLOnVehicleData *)notification.notification;
     self.vehicleOdometerData = [NSString stringWithFormat:@"%@ = %@ kph", VehicleDataOdometerName, onVehicleData.odometer];
-
 }
 
 - (void)sdlex_resetOdometer {
@@ -103,13 +103,60 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Get Vehicle Data
 
 + (void)getVehicleSpeedWithSDLManager:(SDLManager *)manager {
+    SDLLogD(@"Checking if app has permission to access vehicle data...");
     if (![manager.permissionManager isRPCAllowed:@"GetVehicleData"]) {
+        SDLAlert *warningAlert = [AlertManager alertWithMessageAndCloseButton:@"This app does not have the required permissions to access vehicle data" textField2:nil];
+        [manager sendRequest:warningAlert];
         return;
     }
+
+    SDLLogD(@"App has permission to access vehicle data. Requesting vehicle speed data...");
+    SDLGetVehicleData *getVehicleSpeed = [[SDLGetVehicleData alloc] init];
+    getVehicleSpeed.speed = @YES;
+    [manager sendRequest:getVehicleSpeed withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error || ![response isKindOfClass:SDLGetVehicleDataResponse.class]) {
+            SDLAlert *alert = [AlertManager alertWithMessageAndCloseButton:@"Something went wrong while getting vehicle speed" textField2:nil];
+            [manager sendRequest:alert];
+            return;
+        }
+
+        SDLGetVehicleDataResponse* getVehicleDataResponse = (SDLGetVehicleDataResponse *)response;
+        SDLResult resultCode = getVehicleDataResponse.resultCode;
+
+        NSMutableString *alertMessage = [NSMutableString stringWithFormat:@"%@: ", VehicleDataSpeedName];
+        if ([resultCode isEqualToEnum:SDLResultRejected]) {
+            SDLLogD(@"The request for vehicle speed was rejected");
+            [alertMessage appendString:@"Rejected"];
+        } else if ([resultCode isEqualToEnum:SDLResultDisallowed]) {
+            SDLLogD(@"This app does not have the required permissions to access vehicle data.");
+            [alertMessage appendString:@"Disallowed"];
+        } else if ([resultCode isEqualToEnum:SDLResultSuccess]) {
+            NSNumber *speed = getVehicleDataResponse.speed;
+            if (speed) {
+                SDLLogD(@"Request for vehicle speed successful: %f", speed.floatValue);
+                [alertMessage appendString:[NSString stringWithFormat:@"%f kph", speed.floatValue]];
+            } else {
+                SDLLogD(@"Request for vehicle speed successful but no data returned.");
+                [alertMessage appendString:@"Unknown"];
+            }
+        }
+
+        SDLAlert *alert = [AlertManager alertWithMessageAndCloseButton:alertMessage textField2:nil];
+        [manager sendRequest:alert];
+    }];
 }
 
-+ (void)checkPhoneCallCapability {
+#pragma mark - Get Phone Calls
 
++ (void)checkPhoneCallCapabilityWithManager:(SDLManager *)manager {
+
+}
+
++ (void)sdlex_dialPhoneNumberWithManager:(SDLManager *)manager phoneNumber:(NSString *)phoneNumber {
+    SDLDialNumber *dialNumber = [[SDLDialNumber alloc] initWithNumber:phoneNumber];
+    [manager sendRequest:dialNumber withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        
+    }];
 }
 
 @end

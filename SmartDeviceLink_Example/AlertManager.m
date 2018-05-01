@@ -9,18 +9,14 @@
 #import "AlertManager.h"
 #import "SmartDeviceLink.h"
 
-@interface AlertManager ()
-
-
-@end
 
 @implementation AlertManager
 
-+ (SDLAlert *)alertWithMessage:(NSString *)textField1 textField2:(NSString *)textField2 {
++ (SDLAlert *)alertWithMessage:(NSString *)textField1 textField2:(nullable NSString *)textField2 {
     return [[SDLAlert alloc] initWithAlertText1:textField1 alertText2:textField2 duration:5000];
 }
 
-+ (SDLAlert *)alertWithMessageAndCloseButton:(NSString *)textField1 textField2:(NSString *)textField2 {
++ (SDLAlert *)alertWithMessageAndCloseButton:(NSString *)textField1 textField2:(nullable NSString *)textField2 {
     return [[SDLAlert alloc] initWithAlertText1:textField1 alertText2:textField2 alertText3:nil duration:5000 softButtons:@[[self sdlex_okSoftButton]]];
 }
 

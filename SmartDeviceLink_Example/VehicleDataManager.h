@@ -19,8 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)subscribeToVehicleOdometer;
 - (void)unsubscribeToVehicleOdometer;
-+ (void)getVehicleSpeed;
-+ (void)checkPhoneCallCapability;
+
++ (void)getVehicleSpeedWithManager:(SDLManager *)manager;
++ (void)checkPhoneCallCapabilityWithManager:(SDLManager *)manager;
 
 @end
 

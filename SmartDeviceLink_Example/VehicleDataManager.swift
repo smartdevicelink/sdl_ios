@@ -104,15 +104,16 @@ extension VehicleDataManager {
     ///
     /// - Parameter manager: The SDL manager
     class func getVehicleSpeed(with manager: SDLManager) {
+        SDLLog.d("Checking if app has permission to access vehicle data...")
         guard manager.permissionManager.isRPCAllowed("GetVehicleData") else {
-            let warningAlert = AlertManager.alertWithMessageAndCloseButton("This app does not have the required permissions to access vehicle data")
-            manager.send(request: warningAlert)
+            let alert = AlertManager.alertWithMessageAndCloseButton("This app does not have the required permissions to access vehicle data")
+            manager.send(request: alert)
             return
         }
 
+        SDLLog.d("App has permission to access vehicle data. Requesting vehicle speed data...")
         let getVehicleSpeed = SDLGetVehicleData()
         getVehicleSpeed.speed = true
-
         manager.send(request: getVehicleSpeed) { (request, response, error) in
             guard let response = response, error == nil else {
                 let alert = AlertManager.alertWithMessageAndCloseButton("Something went wrong while getting vehicle speed")
@@ -126,15 +127,15 @@ extension VehicleDataManager {
                 SDLLog.d("The request for vehicle speed was rejected")
                 alertMessage += "Rejected"
             case .disallowed:
-                SDLLog.d("This app does not have the required permissions to access vehicle data.")
-                alertMessage += "Denied"
+                SDLLog.d("This app does not have the required permissions to access vehicle data")
+                alertMessage += "Disallowed"
             case .success:
                 if let vehicleData = response as? SDLGetVehicleDataResponse, let speed = vehicleData.speed {
                     SDLLog.d("Request for vehicle speed successful: \(speed)")
                     alertMessage += "\(speed) kph"
                 } else {
                     SDLLog.e("Request for vehicle speed successful but no data returned")
-                    alertMessage += "Unkown"
+                    alertMessage += "Unknown"
                 }
             default: break
             }
