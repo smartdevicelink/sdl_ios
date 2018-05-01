@@ -16,6 +16,8 @@ typedef void(^RefreshUIHandler)(void);
 
 @interface VehicleDataManager : NSObject
 
+@property (copy, nonatomic, readonly) NSString *vehicleOdometerData;
+
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithManager:(SDLManager *)manager refreshUIHandler:(RefreshUIHandler)refreshUIHandler;
 - (void)stopManager;

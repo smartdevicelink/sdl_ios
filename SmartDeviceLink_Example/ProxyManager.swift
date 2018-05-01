@@ -198,7 +198,6 @@ private extension ProxyManager {
     /// Handler for refreshing the UI
     var refreshUIHandler: refreshUIHandler? {
         return { [unowned self] () in
-            // self.audioManager.startRecording()
             self.updateScreen()
         }
     }

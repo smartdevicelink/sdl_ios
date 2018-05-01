@@ -7,6 +7,7 @@
 #import "Preferences.h"
 #import "ProxyManager.h"
 #import "SmartDeviceLink.h"
+#import "VehicleDataManager.h"
 
 
 typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
@@ -27,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, getter=isHexagonEnabled) BOOL toggleEnabled;
 @property (assign, nonatomic, getter=areImagesEnabled) BOOL imagesEnabled;
 
+@property (strong, nonatomic) VehicleDataManager *vehicleDataManager;
+@property (nonatomic, copy, nullable) RefreshUIHandler refreshUIHandler;
 @end
 
 
@@ -56,11 +59,6 @@ NS_ASSUME_NONNULL_BEGIN
     _textEnabled = YES;
     _toggleEnabled = YES;
     _imagesEnabled = YES;
-
-    SDLLogV(@"This is a verbose log");
-    SDLLogD(@"This is a debug log");
-    SDLLogW(@"This is a warning log");
-    SDLLogE(@"This is an error log");
 
     return self;
 }
@@ -96,6 +94,8 @@ NS_ASSUME_NONNULL_BEGIN
             [weakSelf sdlex_updateProxyState:ProxyStateStopped];
             return;
         }
+
+        self.vehicleDataManager = [[VehicleDataManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
 
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
         [weakSelf sdlex_setupPermissionsCallbacks];
@@ -146,17 +146,31 @@ NS_ASSUME_NONNULL_BEGIN
     [object transitionToNextState];
 }
 
-- (void)sdlex_updateScreen {
-    [self.sdlManager.screenManager beginUpdates];
-    self.sdlManager.screenManager.textAlignment = SDLTextAlignmentLeft;
-    self.sdlManager.screenManager.textField1 = self.isTextEnabled ? SmartDeviceLinkText : nil;
-    self.sdlManager.screenManager.textField2 = self.isTextEnabled ? [NSString stringWithFormat:@"Obj-C %@", ExampleAppText] : nil;
-
-    if (self.sdlManager.systemCapabilityManager.displayCapabilities.graphicSupported) {
-        self.sdlManager.screenManager.primaryGraphic = self.areImagesEnabled ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+- (nullable RefreshUIHandler)refreshUIHandler {
+    if(!_refreshUIHandler) {
+        __weak typeof(self) weakSelf = self;
+        weakSelf.refreshUIHandler = ^{
+            [weakSelf sdlex_updateScreen];
+        };
     }
 
-    [self.sdlManager.screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
+    return _refreshUIHandler;
+}
+
+- (void)sdlex_updateScreen {
+    SDLScreenManager *screenManager = self.sdlManager.screenManager;
+
+    [screenManager beginUpdates];
+    screenManager.textAlignment = SDLTextAlignmentLeft;
+    screenManager.textField1 = self.isTextEnabled ? SmartDeviceLinkText : nil;
+    screenManager.textField2 = self.isTextEnabled ? [NSString stringWithFormat:@"Obj-C %@", ExampleAppText] : nil;
+    screenManager.textField3 = self.isTextEnabled ? self.vehicleDataManager.vehicleOdometerData : nil;
+
+    if (self.sdlManager.systemCapabilityManager.displayCapabilities.graphicSupported) {
+        screenManager.primaryGraphic = self.areImagesEnabled ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+    }
+
+    [screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
         SDLLogD(@"Updated text and graphics, error? %@", error);
     }];
 }
@@ -462,19 +476,22 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Reset our state
     self.firstHMILevel = SDLHMILevelNone;
+    [self.vehicleDataManager stopManager];
 
+    // If desired, automatically start searching for a new connection to Core
     if (ExampleAppShouldRestartSDLManagerOnDisconnect) {
         [self startManager];
     }
 }
 
 - (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel {
-    if (![newLevel isEqualToEnum:SDLHMILevelNone] && (self.firstHMILevel == SDLHMIFirstStateNone)) {
+    if (![newLevel isEqualToEnum:SDLHMILevelNone] && ([self.firstHMILevel isEqualToEnum:SDLHMILevelNone])) {
         // This is our first time in a non-NONE state
         self.firstHMILevel = newLevel;
         
         // Send AddCommands
         [self sdlex_prepareRemoteSystem];
+        [self.vehicleDataManager subscribeToVehicleOdometer];
     }
 
     if ([newLevel isEqualToEnum:SDLHMILevelFull]) {

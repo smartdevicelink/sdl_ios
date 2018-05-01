@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Audio Pass Thru Notifications
 
 - (nullable void (^)(NSData * _Nullable))audioDataReceivedHandler {
-    if (!_audioPassThruEndedHandler) {
+    if (!_audioDataReceivedHandler) {
         __weak typeof(self) weakSelf = self;
         self.audioDataReceivedHandler = ^(NSData * _Nullable audioData) {
             if (audioData.length == 0) { return; }

@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface VehicleDataManager ()
 
 @property (strong, nonatomic) SDLManager *sdlManager;
-@property (copy, nonatomic) NSString *vehicleOdometerData;
+@property (copy, nonatomic, readwrite) NSString *vehicleOdometerData;
 @property (copy, nonatomic, nullable) RefreshUIHandler refreshUIHandler;
 
 @end
@@ -53,8 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
     SDLSubscribeVehicleData *subscribeToVehicleOdometer = [[SDLSubscribeVehicleData alloc] init];
     subscribeToVehicleOdometer.odometer = @YES;
     [self.sdlManager sendRequest:subscribeToVehicleOdometer withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (error || ![response isKindOfClass:SDLGetVehicleDataResponse.class]) {
-            SDLLogD(@"Error sending Get Vehicle Data RPC: %@", error);
+        if (error || ![response isKindOfClass:SDLSubscribeVehicleDataResponse.class]) {
+            SDLLogE(@"Error sending Get Vehicle Data RPC: %@", error);
             return;
         }
 
@@ -105,14 +105,14 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLOnVehicleData *onVehicleData = (SDLOnVehicleData *)notification.notification;
-    self.vehicleOdometerData = [NSString stringWithFormat:@"%@ = %@ kph", VehicleDataOdometerName, onVehicleData.odometer];
+    self.vehicleOdometerData = [NSString stringWithFormat:@"%@: %@ kph", VehicleDataOdometerName, onVehicleData.odometer];
 
     if (!self.refreshUIHandler) { return; }
     self.refreshUIHandler();
 }
 
 - (void)sdlex_resetOdometer {
-    self.vehicleOdometerData = [NSString stringWithFormat:@"%@ = %@ kph", VehicleDataOdometerName, self.vehicleOdometerData];
+    self.vehicleOdometerData = [NSString stringWithFormat:@"%@: Unsubscribed", VehicleDataOdometerName];
 }
 
 #pragma mark - Get Vehicle Data
