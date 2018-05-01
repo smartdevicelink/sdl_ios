@@ -163,7 +163,7 @@ extension VehicleDataManager {
                 SDLLog.d("Dialing phone number \(phoneNumber)...")
                 dialPhoneNumber(phoneNumber, manager: manager)
             } else {
-                manager.send(AlertManager.alertWithMessageAndCloseButton("The dial number feature is unavailable for this head unit"))
+                manager.send(AlertManager.alertWithMessageAndCloseButton("f"))
             }
         })
     }

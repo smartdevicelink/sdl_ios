@@ -13,28 +13,37 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
 @interface VehicleDataManager ()
 
 @property (strong, nonatomic) SDLManager *sdlManager;
 @property (copy, nonatomic) NSString *vehicleOdometerData;
+@property (copy, nonatomic, nullable) RefreshUIHandler refreshUIHandler;
 
 @end
 
 @implementation VehicleDataManager
 
-- (instancetype)initWithManager:(SDLManager *)manager {
+#pragma mark - Lifecycle
+
+- (instancetype)initWithManager:(SDLManager *)manager refreshUIHandler:(RefreshUIHandler)refreshUIHandler {
     self = [super init];
     if (!self) {
         return nil;
     }
 
     _sdlManager = manager;
+    _refreshUIHandler = refreshUIHandler;
     _vehicleOdometerData = @"";
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vehicleDataNotification:) name:SDLDidReceiveVehicleDataNotification object:nil];
     [self sdlex_resetOdometer];
 
     return self;
+}
+
+- (void)stopManager {
+    [self sdlex_resetOdometer];
 }
 
 #pragma mark - Subscribe Vehicle Data
@@ -74,6 +83,9 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         self.vehicleOdometerData = message;
+
+        if (!self.refreshUIHandler) { return; }
+        self.refreshUIHandler();
     }];
 }
 
@@ -94,6 +106,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLOnVehicleData *onVehicleData = (SDLOnVehicleData *)notification.notification;
     self.vehicleOdometerData = [NSString stringWithFormat:@"%@ = %@ kph", VehicleDataOdometerName, onVehicleData.odometer];
+
+    if (!self.refreshUIHandler) { return; }
+    self.refreshUIHandler();
 }
 
 - (void)sdlex_resetOdometer {
@@ -102,11 +117,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Get Vehicle Data
 
-+ (void)getVehicleSpeedWithSDLManager:(SDLManager *)manager {
++ (void)getVehicleSpeedWithManager:(SDLManager *)manager {
     SDLLogD(@"Checking if app has permission to access vehicle data...");
     if (![manager.permissionManager isRPCAllowed:@"GetVehicleData"]) {
-        SDLAlert *warningAlert = [AlertManager alertWithMessageAndCloseButton:@"This app does not have the required permissions to access vehicle data" textField2:nil];
-        [manager sendRequest:warningAlert];
+        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"This app does not have the required permissions to access vehicle data" textField2:nil]];
         return;
     }
 
@@ -115,8 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
     getVehicleSpeed.speed = @YES;
     [manager sendRequest:getVehicleSpeed withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error || ![response isKindOfClass:SDLGetVehicleDataResponse.class]) {
-            SDLAlert *alert = [AlertManager alertWithMessageAndCloseButton:@"Something went wrong while getting vehicle speed" textField2:nil];
-            [manager sendRequest:alert];
+            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Something went wrong while getting vehicle speed" textField2:nil]];
             return;
         }
 
@@ -141,21 +154,34 @@ NS_ASSUME_NONNULL_BEGIN
             }
         }
 
-        SDLAlert *alert = [AlertManager alertWithMessageAndCloseButton:alertMessage textField2:nil];
-        [manager sendRequest:alert];
+        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:alertMessage textField2:nil]];
     }];
 }
 
-#pragma mark - Get Phone Calls
+#pragma mark - Phone Calls
 
-+ (void)checkPhoneCallCapabilityWithManager:(SDLManager *)manager {
++ (void)checkPhoneCallCapabilityWithManager:(SDLManager *)manager phoneNumber:(NSString *)phoneNumber {
+    SDLLogD(@"Checking phone call capability");
+    [manager.systemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
+        if (!systemCapabilityManager.phoneCapability) {
+            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"The head unit does not support the phone call  capability" textField2:nil]];
+            return;
+        }
 
+        if (systemCapabilityManager.phoneCapability.dialNumberEnabled.boolValue) {
+            SDLLogD(@"Dialing phone number %@", phoneNumber);
+            [self sdlex_dialPhoneNumberWithManager:manager phoneNumber:phoneNumber];
+        } else {
+            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"The dial number feature is unavailable for this head unit" textField2:nil]];
+        }
+    }];
 }
 
 + (void)sdlex_dialPhoneNumberWithManager:(SDLManager *)manager phoneNumber:(NSString *)phoneNumber {
     SDLDialNumber *dialNumber = [[SDLDialNumber alloc] initWithNumber:phoneNumber];
     [manager sendRequest:dialNumber withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        
+        if (!response.resultCode) { return; }
+        SDLLogD(@"Sent dial number request: %@", response.resultCode == SDLResultSuccess ? @"successfully" : @"unsuccessfully");
     }];
 }
 
