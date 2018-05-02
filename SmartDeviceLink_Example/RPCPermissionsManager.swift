@@ -32,6 +32,11 @@ class RPCPermissionsManager {
         // Sets up a block for observing permission changes for a group of RPCs. Since the `groupType` is set to any, this block is called when the permission status changes for any of the RPCs being observed. This block is called immediately when created.
         let _ = checkMediaTemplateRPCsPermissions(with: manager, groupType: .any)
     }
+
+    class func isDialNumberRPCAllowed(with manager: SDLManager) -> Bool {
+        SDLLog.d("Checking if app has permission to dial a number")
+        return manager.permissionManager.isRPCAllowed("DialNumber")
+    }
 }
 
 // MARK: - Check Permissions

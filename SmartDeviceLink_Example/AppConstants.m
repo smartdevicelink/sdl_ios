@@ -70,6 +70,9 @@ NSString * const ExampleAppLogoName = @"sdl_logo_green";
 NSString * const CarIconImageName = @"car_icon";
 NSString * const LaptopIconImageName = @"laptop_icon";
 NSString * const WheelIconImageName = @"wheel_icon";
+NSString * const SpeakBWIconImageName = @"speak";
+NSString * const CarBWIconImageName = @"car";
+NSString * const MenuBWIconImageName = @"choice_set";
 
 #pragma mark - SDL App Name in Different Languages
 NSString * const ExampleAppNameSpanish = @"SDL Aplicación de ejemplo";

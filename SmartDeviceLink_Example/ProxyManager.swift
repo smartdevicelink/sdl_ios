@@ -85,7 +85,7 @@ private extension ProxyManager {
         let exampleLogFileModule = SDLLogFileModule(name: "SDL Example", files: ["ProxyManager"])
         logConfig.modules.insert(exampleLogFileModule)
         _ = logConfig.targets.insert(SDLLogTargetFile()) // Logs to file
-        logConfig.globalLogLevel = .debug // Filters the logs
+        logConfig.globalLogLevel = .verbose // Filters the logs
         return logConfig
     }
 
@@ -117,8 +117,11 @@ extension ProxyManager: SDLManagerDelegate {
     func managerDidDisconnect() {
         delegate?.didChangeProxyState(SDLProxyState.stopped)
         firstHMILevelState = .none
-        buttonManager.stopManager()
-        vehicleDataManager.stopManager()
+
+        if buttonManager != nil && vehicleDataManager != nil {
+            buttonManager.stopManager()
+            vehicleDataManager.stopManager()
+        }
 
         // If desired, automatically start searching for a new connection to Core
         if ExampleAppShouldRestartSDLManagerOnDisconnect.boolValue {
@@ -232,14 +235,29 @@ private extension ProxyManager {
         }
         
         screenManager.endUpdates(completionHandler: { (error) in
-            SDLLog.e("Textfields, graphics and soft buttons updated. Error? \(String(describing: error))")
+            guard error != nil else { return }
+            SDLLog.e("Textfields, graphics and soft buttons failed to update: \(error!.localizedDescription)")
         })
     }
 
     /// Send static menu data
     func createStaticMenus() {
-        sdlManager.send(MenuManager.allAddCommands(with: sdlManager) + [MenuManager.createInteractionChoiceSet()], progressHandler: { (request, response, error, percentComplete) in
-            SDLLog.d("\(request), was sent \(response?.resultCode == .success ? "successfully" : "unsuccessfully"), error: \(error != nil ? error!.localizedDescription : "no error")")
+        // Send the root menu items
+        let screenManager = sdlManager.screenManager
+        let menuItems = MenuManager.allMenuItems(with: sdlManager)
+        let voiceMenuItems = MenuManager.allVoiceMenuItems(with: sdlManager)
+
+        screenManager.beginUpdates()
+        if !menuItems.isEmpty { screenManager.menu = menuItems }
+        if !voiceMenuItems.isEmpty { screenManager.voiceCommands = voiceMenuItems }
+        screenManager.endUpdates { (error) in
+            guard error != nil else { return }
+            SDLLog.e("Menu items and voice commands failed to update: \(error!.localizedDescription)")
+        }
+
+        // Send the choice sets
+        sdlManager.send([MenuManager.createInteractionChoiceSet()], progressHandler: { (request, response, error, percentComplete) in
+            SDLLog.d("\(request), was sent \(response?.resultCode == .success ? "successfully" : "unsuccessfully"), error: \(error?.localizedDescription ?? "no error message")")
         }, completionHandler: { (success) in
             SDLLog.d("All prepare remote system requests sent \(success ? "successfully" : "unsuccessfully")")
         })

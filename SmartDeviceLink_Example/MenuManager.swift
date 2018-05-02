@@ -21,9 +21,21 @@ class MenuManager: NSObject {
     /// Creates and returns the root menu items.
     ///
     /// - Parameter manager: The SDL Manager
-    /// - Returns: An array of SDLAddCommand requests
-    class func allAddCommands(with manager: SDLManager) -> [SDLAddCommand] {
-        return [addCommandSpeakName(with: manager), addCommandGetVehicleSpeed(with: manager), addCommandShowPerformInteraction(with: manager), addCommandRecordInCarMicrophoneAudio(with: manager), addCommandDialNumber(with: manager)]
+    /// - Returns: An array of SDLAddCommand objects
+    class func allMenuItems(with manager: SDLManager) -> [SDLMenuCell] {
+        return [menuCellSpeakName(with: manager), menuCellGetVehicleSpeed(with: manager), menuCellShowPerformInteraction(with: manager), menuCellRecordInCarMicrophoneAudio(with: manager), menuCellDialNumber(with: manager), menuCellWithSubmenu(with: manager)]
+    }
+
+    /// Creates and returns voice commands. The voice commands are menu items that are selected using the voice recognition system.
+    ///
+    /// - Parameter manager: The SDL Manager
+    /// - Returns: An array of SDLVoiceCommand objects
+    class func allVoiceMenuItems(with manager: SDLManager) -> [SDLVoiceCommand] {
+        guard manager.systemCapabilityManager.vrCapability else {
+            SDLLog.e("The head unit does not support voice recognition")
+            return []
+        }
+        return [voiceCommandStart(with: manager), voiceCommandStop(with: manager)]
     }
 }
 
@@ -71,80 +83,98 @@ private extension MenuManager {
     }
 }
 
-// MARK: - Add Commands for Root Menu
+// MARK: - Root Menu
 
 private extension MenuManager {
     /// Menu item that speaks the app name when selected
     ///
     /// - Parameter manager: The SDL Manager
-    /// - Returns: An SDLAddCommand request
-    class func addCommandSpeakName(with manager: SDLManager) -> SDLAddCommand {
-        let speakAddCommand = SDLAddCommand(id: 200, vrCommands: [ACSpeakAppNameMenuName], menuName: ACSpeakAppNameMenuName, handler: { (onCommand) in
+    /// - Returns: A SDLMenuCell object
+    class func menuCellSpeakName(with manager: SDLManager) -> SDLMenuCell {
+        return SDLMenuCell(title: ACSpeakAppNameMenuName, icon: SDLArtwork(image: UIImage(named: SpeakBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACSpeakAppNameMenuName], handler: { (triggerSource) in
             manager.send(request: SDLSpeak(tts: ExampleAppNameTTS), responseHandler: { (_, response, error) in
-                if response?.resultCode != .success {
-                    SDLLog.e("Error sending the Speak App name request: \(error != nil ? error!.localizedDescription : "no error message")")
-                }
+                guard response?.resultCode == .success else { return }
+                SDLLog.e("Error sending the Speak RPC: \(error?.localizedDescription ?? "no error message")")
             })
         })
-
-        speakAddCommand.cmdIcon = SDLImage(name: "0x11", ofType: .static)
-            // SDLImage(staticImageValue: 0x11)
-            // SDLImage(name: "0x11", ofType: .static)
-        return speakAddCommand
     }
-    
+
     /// Menu item that requests vehicle data when selected
     ///
     /// - Parameter manager: The SDL Manager
-    /// - Returns: An SDLAddCommand request
-    class func addCommandGetVehicleSpeed(with manager: SDLManager) ->
-        SDLAddCommand {
-        let vehicleSpeedAddCommand = SDLAddCommand(id: 201, vrCommands: [ACGetVehicleDataMenuName], menuName: ACGetVehicleDataMenuName, handler: { (onCommand) in
-        VehicleDataManager.getVehicleSpeed(with: manager)
+    /// - Returns: A SDLMenuCell object
+    class func menuCellGetVehicleSpeed(with manager: SDLManager) -> SDLMenuCell {
+        return SDLMenuCell(title: ACGetVehicleDataMenuName, icon: SDLArtwork(image: UIImage(named: CarBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACGetVehicleDataMenuName], handler: { (triggerSource) in
+            VehicleDataManager.getVehicleSpeed(with: manager)
         })
-        vehicleSpeedAddCommand.cmdIcon = SDLImage(name: "0x2A", ofType: .static)
-        return vehicleSpeedAddCommand
     }
 
     /// Menu item that shows a custom menu (i.e. a Perform Interaction Choice Set) when selected
     ///
     /// - Parameter manager: The SDL Manager
-    /// - Returns: An SDLAddCommand request
-    class func addCommandShowPerformInteraction(with manager: SDLManager) -> SDLAddCommand {
-        let showPerformInteractionAddCommand = SDLAddCommand(id: 202, vrCommands: [ACShowChoiceSetMenuName], menuName: ACShowChoiceSetMenuName, handler: { (onCommand) in
+    /// - Returns: A SDLMenuCell object
+    class func menuCellShowPerformInteraction(with manager: SDLManager) -> SDLMenuCell {
+        return SDLMenuCell(title: ACShowChoiceSetMenuName, icon: SDLArtwork(image: UIImage(named: MenuBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACShowChoiceSetMenuName], handler: { (triggerSource) in
             showPerformInteractionChoiceSet(with: manager)
         })
-        showPerformInteractionAddCommand.cmdIcon = SDLImage(name: "0x4F", ofType: .static)
-        return showPerformInteractionAddCommand
     }
 
     /// Menu item that starts recording sounds via the in-car microphone when selected.
     ///
     /// - Parameter manager: The SDL Manager
-    /// - Returns: An SDLAddCommand request
-    class func addCommandRecordInCarMicrophoneAudio(with manager: SDLManager) -> SDLAddCommand {
+    /// - Returns: A SDLMenuCell object
+    class func menuCellRecordInCarMicrophoneAudio(with manager: SDLManager) -> SDLMenuCell {
         let audioManager = AudioManager(sdlManager: manager)
-        let recordAddCommand = SDLAddCommand(id: 203, vrCommands: [ACRecordInCarMicrophoneAudioMenuName], menuName: ACRecordInCarMicrophoneAudioMenuName, handler: { (onCommand) in
+        return SDLMenuCell(title: ACRecordInCarMicrophoneAudioMenuName, icon: SDLArtwork(image: UIImage(named: SpeakBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACRecordInCarMicrophoneAudioMenuName], handler: { (triggerSource) in
             audioManager.startRecording()
         })
-        recordAddCommand.cmdIcon = SDLImage(name: "0x5A", ofType: .static)
-        return recordAddCommand
     }
 
     /// Menu item that dials a phone number when selected.
     ///
     /// - Parameter manager: The SDL Manager
-    /// - Returns: An SDLAddCommand request
-    class func addCommandDialNumber(with manager: SDLManager) -> SDLAddCommand {
-        let dialNumberAddCommand = SDLAddCommand(id: 204, vrCommands: [ACDialPhoneNumberMenuName], menuName: ACDialPhoneNumberMenuName) { (onCommand) in
-            SDLLog.d("Checking if app has permission to dial a number")
-            if !manager.permissionManager.isRPCAllowed("DialNumber") {
+    /// - Returns: A SDLMenuCell object
+    class func menuCellDialNumber(with manager: SDLManager) -> SDLMenuCell {
+        return SDLMenuCell(title: ACDialPhoneNumberMenuName, icon: nil, voiceCommands: [ACDialPhoneNumberMenuName], handler: { (triggerSource) in
+            guard RPCPermissionsManager.isDialNumberRPCAllowed(with: manager) else {
                 manager.send(AlertManager.alertWithMessageAndCloseButton("This app does not have the required permissions to dial a number"))
                 return
             }
+
             VehicleDataManager.checkPhoneCallCapability(manager: manager, phoneNumber:"555-555-5555")
+        })
+    }
+
+    /// Menu item that opens a submenu when selected.
+    ///
+    /// - Parameter manager: The SDL Manager
+    /// - Returns: A SDLMenuCell object
+    class func menuCellWithSubmenu(with manager: SDLManager) -> SDLMenuCell {
+        var submenuItems = [SDLMenuCell]()
+        for i in 0..<75 {
+            let submenuTitle = "Submenu Item \(i)"
+            submenuItems.append(SDLMenuCell(title: submenuTitle, icon: SDLArtwork(image: UIImage(named: MenuBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [submenuTitle, "Item \(i)", "\(i)"], handler: { (triggerSource) in
+                manager.send(AlertManager.alertWithMessageAndCloseButton("Submenu item \(i) selected!"))
+            }))
         }
-        dialNumberAddCommand.cmdIcon = SDLImage(name: "0x29", ofType: .static)
-        return dialNumberAddCommand
+
+        return SDLMenuCell(title: "Submenu", subCells: submenuItems)
+    }
+}
+
+
+// MARK: - Menu Voice Commands
+
+private extension MenuManager {
+    class func voiceCommandStart(with manager: SDLManager) -> SDLVoiceCommand {
+        return SDLVoiceCommand(voiceCommands: ["Start"], handler: {
+            manager.send(AlertManager.alertWithMessageAndCloseButton("Start voice command selected!"))
+        })
+    }
+
+    class func voiceCommandStop(with manager: SDLManager) -> SDLVoiceCommand {
+        return SDLVoiceCommand(voiceCommands: ["Stop"], handler: {
+            manager.send(AlertManager.alertWithMessageAndCloseButton("Stop voice command selected!"))
+        })
     }
 }
