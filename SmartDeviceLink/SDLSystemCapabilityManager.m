@@ -101,7 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.hmiZoneCapabilities = response.hmiZoneCapabilities;
     self.speechCapabilities = response.speechCapabilities;
     self.prerecordedSpeechCapabilities = response.prerecordedSpeech;
-    self.vrCapability = (response.vrCapabilities.count > 0 && [response.vrCapabilities.firstObject isEqualToEnum: SDLVRCapabilitiesText]) ? YES : NO;
+    self.vrCapability = (response.vrCapabilities.count > 0 && [response.vrCapabilities.firstObject isEqualToEnum:SDLVRCapabilitiesText]) ? YES : NO;
     self.audioPassThruCapabilities = response.audioPassThruCapabilities;
     self.pcmStreamCapability = response.pcmStreamCapabilities;
 }
