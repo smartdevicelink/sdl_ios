@@ -15,7 +15,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-__deprecated_msg("Use SDLManager instead")
     @interface SDLProxy : NSObject<SDLProtocolListener, NSStreamDelegate> {
     Byte _version;
     Byte _bulkSessionID;

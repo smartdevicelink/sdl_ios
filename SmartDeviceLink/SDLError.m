@@ -16,6 +16,7 @@ SDLErrorDomain *const SDLErrorDomainLifecycleManager = @"com.sdl.lifecyclemanage
 SDLErrorDomain *const SDLErrorDomainFileManager = @"com.sdl.filemanager.error";
 SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager = @"com.sdl.textandgraphicmanager.error";
 SDLErrorDomain *const SDLErrorDomainSoftButtonManager = @"com.sdl.softbuttonmanager.error";
+SDLErrorDomain *const SDLErrorDomainMenuManager = @"com.sdl.menumanager.error";
 
 @implementation NSError (SDLErrors)
 
@@ -185,7 +186,7 @@ SDLErrorDomain *const SDLErrorDomainSoftButtonManager = @"com.sdl.softbuttonmana
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorFileDoesNotExist userInfo:userInfo];
 }
 
-#pragma mark Show Managers
+#pragma mark Screen Managers
 
 + (NSError *)sdl_textAndGraphicManager_pendingUpdateSuperseded {
     return [NSError errorWithDomain:SDLErrorDomainTextAndGraphicManager code:SDLTextAndGraphicManagerErrorPendingUpdateSuperseded userInfo:nil];
@@ -193,6 +194,12 @@ SDLErrorDomain *const SDLErrorDomainSoftButtonManager = @"com.sdl.softbuttonmana
 
 + (NSError *)sdl_softButtonManager_pendingUpdateSuperseded {
     return [NSError errorWithDomain:SDLErrorDomainSoftButtonManager code:SDLSoftButtonManagerErrorPendingUpdateSuperseded userInfo:nil];
+}
+
+#pragma mark Menu Manager
+
++ (NSError *)sdl_menuManager_failedToUpdateWithDictionary:(NSDictionary *)userInfo {
+    return [NSError errorWithDomain:SDLErrorDomainMenuManager code:SDLMenuManagerErrorRPCsFailed userInfo:userInfo];
 }
 
 @end

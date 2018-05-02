@@ -13,6 +13,8 @@
 
 @class SDLArtwork;
 @class SDLFileManager;
+@class SDLMenuCell;
+@class SDLVoiceCommand;
 @class SDLSoftButtonObject;
 
 @protocol SDLConnectionManagerType;
@@ -43,6 +45,9 @@ typedef void(^SDLScreenManagerUpdateCompletionHandler)(NSError *__nullable error
 @property (copy, nonatomic, nullable) SDLMetadataType textField4Type;
 
 @property (copy, nonatomic) NSArray<SDLSoftButtonObject *> *softButtonObjects;
+
+@property (copy, nonatomic) NSArray<SDLMenuCell *> *menu;
+@property (copy, nonatomic) NSArray<SDLVoiceCommand *> *voiceCommands;
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
 

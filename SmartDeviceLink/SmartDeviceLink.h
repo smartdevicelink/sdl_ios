@@ -9,29 +9,6 @@ FOUNDATION_EXPORT double SmartDeviceLinkVersionNumber;
 //! Project version string for SmartDeviceLink.
 FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 
-/***** Proxy *****/
-#import "SDLProxy.h"
-#import "SDLProxyFactory.h"
-#import "SDLProxyListener.h"
-
-/***** Transport *****/
-#import "SDLAbstractTransport.h"
-#import "SDLIAPSessionDelegate.h"
-#import "SDLIAPTransport.h"
-#import "SDLTCPTransport.h"
-#import "SDLTransportDelegate.h"
-
-/***** Protocol *****/
-#import "SDLAbstractProtocol.h"
-#import "SDLProtocol.h"
-#import "SDLProtocolListener.h"
-
-// Header
-#import "SDLProtocolHeader.h"
-
-// Message
-#import "SDLProtocolMessage.h"
-
 /***** RPCs *****/
 // Superclasses
 #import "SDLEnum.h"
@@ -350,10 +327,14 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLPermissionConstants.h"
 #import "SDLPermissionManager.h"
 
-// Show
+// Screen
 #import "SDLScreenManager.h"
 #import "SDLSoftButtonObject.h"
 #import "SDLSoftButtonState.h"
+
+#import "SDLMenuManager.h"
+#import "SDLMenuCell.h"
+#import "SDLVoiceCommand.h"
 
 // Touches
 #import "SDLPinchGesture.h"
