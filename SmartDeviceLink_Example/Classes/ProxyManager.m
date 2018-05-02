@@ -104,6 +104,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)reset {
+    if (self.sdlManager == nil) {
+        [self sdlex_updateProxyState:ProxyStateStopped];
+        return;
+    }
+
     [self.sdlManager stop];
 }
 

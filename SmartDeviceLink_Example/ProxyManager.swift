@@ -38,6 +38,11 @@ extension ProxyManager {
 
     /// Attempts to close the connection between the this app and the car's head unit. The `SDLManagerDelegate`'s `managerDidDisconnect()` is called when connection is actually closed.
     func resetConnection() {
+        guard sdlManager != nil else {
+            delegate?.didChangeProxyState(SDLProxyState.stopped)
+            return
+        }
+
         sdlManager.stop()
     }
 }
