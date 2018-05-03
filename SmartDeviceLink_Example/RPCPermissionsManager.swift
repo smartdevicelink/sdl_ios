@@ -33,6 +33,10 @@ class RPCPermissionsManager {
         let _ = checkMediaTemplateRPCsPermissions(with: manager, groupType: .any)
     }
 
+    /// Checks if the `DialNumber` RPC is allowed
+    ///
+    /// - Parameter manager: The SDL Manager
+    /// - Returns: true if allowed, false if not
     class func isDialNumberRPCAllowed(with manager: SDLManager) -> Bool {
         SDLLog.d("Checking if app has permission to dial a number")
         return manager.permissionManager.isRPCAllowed("DialNumber")

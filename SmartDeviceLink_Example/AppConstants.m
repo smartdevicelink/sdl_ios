@@ -13,7 +13,7 @@ NSString * const ExampleAppName = @"SDL Example App";
 NSString * const ExampleAppNameShort = @"SDL";
 NSString * const ExampleAppNameTTS = @"S D L Example App";
 NSString * const ExampleAppId = @"9c21";
-BOOL const ExampleAppShouldRestartSDLManagerOnDisconnect = YES;
+BOOL const ExampleAppShouldRestartSDLManagerOnDisconnect = NO;
 
 #pragma mark - SDL Textfields
 NSString * const SmartDeviceLinkText = @"SmartDeviceLink (SDL)";

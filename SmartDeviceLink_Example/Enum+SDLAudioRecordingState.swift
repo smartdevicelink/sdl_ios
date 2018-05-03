@@ -11,4 +11,5 @@ import Foundation
 enum SDLAudioRecordingState {
     case listening
     case notListening
+    case notAuthorized
 }

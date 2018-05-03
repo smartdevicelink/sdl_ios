@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        ProxyManager.sharedManager.start(with: .iAP)
+//        ProxyManager.sharedManager.start(with: .iAP)
         AppUserDefaults.setDefaults()
 
         return true

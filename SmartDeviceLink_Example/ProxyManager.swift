@@ -77,6 +77,7 @@ private extension ProxyManager {
         lifecycleConfiguration.appType = .default
         lifecycleConfiguration.language = .enUs
         lifecycleConfiguration.languagesSupported = [.enUs, .esMx, .frCa]
+        lifecycleConfiguration.ttsName = [SDLTTSChunk(text: "S D L", type: .text)]
 
         let lockScreenConfiguration = appIcon != nil ? SDLLockScreenConfiguration.enabledConfiguration(withAppIcon: appIcon!, backgroundColor: nil) : SDLLockScreenConfiguration.enabled()
         return SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: lockScreenConfiguration, logging: logConfiguration())
@@ -87,10 +88,10 @@ private extension ProxyManager {
     /// - Returns: A SDLLogConfiguration object
     class func logConfiguration() -> SDLLogConfiguration {
         let logConfig = SDLLogConfiguration.default()
-        let exampleLogFileModule = SDLLogFileModule(name: "SDL Example", files: ["ProxyManager"])
+        let exampleLogFileModule = SDLLogFileModule(name: "SDL Example App", files: ["ProxyManager.swift", "MenuManager.swift", "ButtonManager.swift"])
         logConfig.modules.insert(exampleLogFileModule)
         _ = logConfig.targets.insert(SDLLogTargetFile()) // Logs to file
-        logConfig.globalLogLevel = .verbose // Filters the logs
+        logConfig.globalLogLevel = .debug // Filters the logs
         return logConfig
     }
 
@@ -212,7 +213,7 @@ private extension ProxyManager {
 
     /// Set the template and create the UI
     func showInitialData() {
-        let mediaTemplate = SDLSetDisplayLayout(predefinedLayout: .media)
+        let mediaTemplate = SDLSetDisplayLayout(predefinedLayout: .nonMedia)
         if sdlManager.registerResponse?.displayCapabilities?.templatesAvailable?.contains(mediaTemplate.displayLayout) ?? false {
             sdlManager.send(request: mediaTemplate, responseHandler: nil)
         }
