@@ -79,6 +79,31 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (void)stop {
+    _textField1 = nil;
+    _textField2 = nil;
+    _textField3 = nil;
+    _textField4 = nil;
+    _mediaTrackTextField = nil;
+    _primaryGraphic = nil;
+    _secondaryGraphic = nil;
+    _alignment = SDLTextAlignmentCenter;
+    _textField1Type = nil;
+    _textField2Type = nil;
+    _textField3Type = nil;
+    _textField4Type = nil;
+
+    _inProgressUpdate = nil;
+    _inProgressHandler = nil;
+    _queuedImageUpdate = nil;
+    _hasQueuedUpdate = NO;
+    _queuedUpdateHandler = nil;
+    _displayCapabilities = nil;
+    _currentLevel = SDLHMILevelNone;
+    _blankArtwork = nil;
+    _isDirty = NO;
+}
+
 #pragma mark - Upload / Send
 
 - (void)updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {

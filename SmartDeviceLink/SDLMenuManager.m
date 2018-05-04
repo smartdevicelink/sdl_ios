@@ -90,6 +90,20 @@ UInt32 const MenuCellIdMin = 1;
     return self;
 }
 
+- (void)stop {
+    _lastMenuId = MenuCellIdMin;
+    _menuCells = @[];
+    _oldMenuCells = @[];
+
+    _currentHMILevel = SDLHMILevelNone;
+    _currentSystemContext = SDLSystemContextMain;
+    _displayCapabilities = nil;
+    _inProgressUpdate = nil;
+    _hasQueuedUpdate = NO;
+    _waitingOnHMIUpdate = NO;
+    _waitingUpdateMenuCells = NO;
+}
+
 #pragma mark - Setters
 
 - (void)setMenuCells:(NSArray<SDLMenuCell *> *)menuCells {

@@ -62,6 +62,11 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
 
 /**
+ *  Stops the manager. This method is used internally.
+ */
+- (void)stop;
+
+/**
  Update text fields with new text set into the text field properties. Pass an empty string `\@""` to clear the text field.
 
  If the system does not support a full 4 fields, this will automatically be concatenated and properly send the field available.

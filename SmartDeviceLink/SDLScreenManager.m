@@ -45,6 +45,13 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (void)stop {
+    [self.textAndGraphicManager stop];
+    [self.softButtonManager stop];
+    [self.menuManager stop];
+    [self.voiceCommandMenuManager stop];
+}
+
 - (nullable SDLSoftButtonObject *)softButtonObjectNamed:(NSString *)name {
     return [self.softButtonManager softButtonObjectNamed:name];
 }
