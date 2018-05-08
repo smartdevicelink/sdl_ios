@@ -48,7 +48,7 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
 /**
  If you want to make a graphic blank, set it to this artwork
  */
-@property (strong, nonatomic, readonly) SDLArtwork *blankArtwork;
+@property (strong, nonatomic, readonly, nullable) SDLArtwork *blankArtwork;
 
 @property (assign, nonatomic, getter=isBatchingUpdates) BOOL batchUpdates;
 

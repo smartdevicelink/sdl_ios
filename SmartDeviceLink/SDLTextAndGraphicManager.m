@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 @property (strong, nonatomic, nullable) SDLHMILevel currentLevel;
 
-@property (strong, nonatomic) SDLArtwork *blankArtwork;
+@property (strong, nonatomic, nullable) SDLArtwork *blankArtwork;
 
 @property (assign, nonatomic) BOOL isDirty;
 
@@ -614,7 +614,7 @@ NS_ASSUME_NONNULL_BEGIN
     return (_hasQueuedUpdate || _queuedUpdateHandler != nil);
 }
 
-- (SDLArtwork *)blankArtwork {
+- (nullable SDLArtwork *)blankArtwork {
     if (_blankArtwork != nil) {
         return _blankArtwork;
     }

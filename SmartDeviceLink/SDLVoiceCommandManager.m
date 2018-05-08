@@ -201,7 +201,8 @@ UInt32 const VoiceCommandIdMin = 1900000000;
 - (NSArray<SDLDeleteCommand *> *)sdl_deleteCommandsForVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
     NSMutableArray<SDLDeleteCommand *> *mutableDeletes = [NSMutableArray array];
     for (SDLVoiceCommand *command in voiceCommands) {
-        SDLDeleteCommand *delete = [[SDLDeleteCommand alloc] initWithId:command.commandId];
+        SDLDeleteCommand *delete = [[SDLDeleteCommand alloc] init];
+        delete.cmdID = @(command.commandId);
         [mutableDeletes addObject:delete];
     }
 
