@@ -101,7 +101,7 @@ UInt32 const MenuCellIdMin = 1;
     _inProgressUpdate = nil;
     _hasQueuedUpdate = NO;
     _waitingOnHMIUpdate = NO;
-    _waitingUpdateMenuCells = NO;
+    _waitingUpdateMenuCells = nil;
 }
 
 #pragma mark - Setters
