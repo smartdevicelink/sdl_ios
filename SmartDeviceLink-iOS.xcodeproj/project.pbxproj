@@ -974,6 +974,7 @@
 		E9C32B9D1AB20C5900F283AF /* EAAccessory+SDLProtocols.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B991AB20C5900F283AF /* EAAccessory+SDLProtocols.m */; };
 		E9C32B9E1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B9A1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h */; };
 		E9C32B9F1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B9B1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m */; };
+		EC38FD6120A3EC5F00176874 /* LogManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EC38FD5F20A3EC5F00176874 /* LogManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2016,6 +2017,8 @@
 		E9C32B991AB20C5900F283AF /* EAAccessory+SDLProtocols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EAAccessory+SDLProtocols.m"; sourceTree = "<group>"; };
 		E9C32B9A1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EAAccessoryManager+SDLProtocols.h"; sourceTree = "<group>"; };
 		E9C32B9B1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EAAccessoryManager+SDLProtocols.m"; sourceTree = "<group>"; };
+		EC38FD5F20A3EC5F00176874 /* LogManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogManager.m; sourceTree = "<group>"; };
+		EC38FD6020A3EC5F00176874 /* LogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2501,6 +2504,7 @@
 		5D4019B11A76EC350006B0C2 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				EC38FD5E20A3EC5F00176874 /* Utils */,
 				5D48329E1A92865900252386 /* SDL */,
 				5D48329A1A8EA31500252386 /* Utilities */,
 				5D0218EB1A8E795700D1BF62 /* UI */,
@@ -3894,6 +3898,15 @@
 			name = "@categories";
 			sourceTree = "<group>";
 		};
+		EC38FD5E20A3EC5F00176874 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				EC38FD5F20A3EC5F00176874 /* LogManager.m */,
+				EC38FD6020A3EC5F00176874 /* LogManager.h */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -4410,6 +4423,7 @@
 				5D5935121A855EBE00687FB9 /* main.m in Sources */,
 				5D4832A81A95191B00252386 /* ConnectionAnimatedTransition.m in Sources */,
 				5D4832A11A92868E00252386 /* ProxyManager.m in Sources */,
+				EC38FD6120A3EC5F00176874 /* LogManager.m in Sources */,
 				5D0218F61A8E79C400D1BF62 /* ConnectionTCPTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

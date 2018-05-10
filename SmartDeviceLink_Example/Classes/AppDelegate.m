@@ -6,7 +6,7 @@
 
 #import "ProxyManager.h"
 #import "SDLManager.h"
-
+#import "LogManager.h"
 
 @interface AppDelegate ()
 
@@ -18,6 +18,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    [[LogManager shareInstance] redirectNSlogToDocumentFolder];
     return YES;
 }
 
