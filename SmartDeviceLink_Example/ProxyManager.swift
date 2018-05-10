@@ -166,6 +166,18 @@ extension ProxyManager: SDLManagerDelegate {
         }
     }
 
+    func systemContext(_ oldContext: SDLSystemContext?, didChangeToContext newContext: SDLSystemContext) {
+        switch newContext {
+        case SDLSystemContext.alert: break
+        case SDLSystemContext.hmiObscured: break
+        case SDLSystemContext.main: break
+        case SDLSystemContext.menu: break
+        case SDLSystemContext.voiceRecognitionSession: break
+        case SDLSystemContext.hmiObscured: break
+        default: break
+        }
+    }
+
     /// Called when the audio state of the SDL app has changed. The audio state only needs to be monitored if the app is streaming audio.
     ///
     /// - Parameters:

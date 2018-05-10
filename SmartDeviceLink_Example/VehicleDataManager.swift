@@ -33,7 +33,7 @@ class VehicleDataManager: NSObject {
 // MARK: - Subscribe Vehicle Data
 
 extension VehicleDataManager {
-    /// Subscribes to odometer data. You must subscribe to notification with name `SDLDidReceiveVehicleData` to get the new data when the odometer data changes.
+    /// Subscribes to odometer data. You must subscribe to a notification with name `SDLDidReceiveVehicleData` to get the new data when the odometer data changes.
     func subscribeToVehicleOdometer() {
         let subscribeToVehicleOdometer = SDLSubscribeVehicleData()
         subscribeToVehicleOdometer.odometer = true
@@ -69,7 +69,7 @@ extension VehicleDataManager {
         }
     }
 
-    /// Unsubscribes to odometer data.
+    /// Unsubscribes to vehicle odometer data.
     func unsubscribeToVehicleOdometer() {
         let unsubscribeToVehicleOdometer = SDLUnsubscribeVehicleData()
         unsubscribeToVehicleOdometer.odometer = true
@@ -79,9 +79,9 @@ extension VehicleDataManager {
         }
     }
 
-    /// Notification with the updated vehicle data
+    /// Notification containing the updated vehicle data.
     ///
-    /// - Parameter notification: SDLOnVehicleData notification
+    /// - Parameter notification: A SDLOnVehicleData notification
     func vehicleDataNotification(_ notification: SDLRPCNotificationNotification) {
         guard let handler = refreshUIHandler, let onVehicleData = notification.notification as? SDLOnVehicleData, let odometer = onVehicleData.odometer else {
             return
@@ -91,11 +91,11 @@ extension VehicleDataManager {
         handler()
     }
 
+    /// Resets the odometer data
     fileprivate func resetOdometer() {
         vehicleOdometerData = "\(VehicleDataOdometerName): Unsubscribed"
     }
 }
-
 
 // MARK: - Get Vehicle Data
 
@@ -152,6 +152,7 @@ extension VehicleDataManager {
     /// Checks if the head unit has the ability and/or permissions to make a phone call. If it does, the phone number is dialed.
     ///
     /// - Parameter manager: The SDL manager
+    /// - phoneNumber: A phone number to dial
     class func checkPhoneCallCapability(manager: SDLManager, phoneNumber: String) {
         SDLLog.d("Checking phone call capability")
         manager.systemCapabilityManager.updateCapabilityType(.phoneCall, completionHandler: { (error, systemCapabilityManager) in
@@ -171,7 +172,7 @@ extension VehicleDataManager {
     /// Dials a phone number.
     ///
     /// - Parameters:
-    ///   - phoneNumber: A phone number
+    ///   - phoneNumber: A phone number to dial
     ///   - manager: The SDL manager
     private class func dialPhoneNumber(_ phoneNumber: String, manager: SDLManager) {
         let dialNumber = SDLDialNumber(number: phoneNumber)

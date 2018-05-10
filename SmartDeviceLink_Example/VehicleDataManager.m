@@ -42,12 +42,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+/**
+ *  Resets the manager to its default values
+ */
 - (void)stopManager {
     [self sdlex_resetOdometer];
 }
 
 #pragma mark - Subscribe Vehicle Data
 
+/**
+ *  Subscribes to odometer data. You must subscribe to a notification with name `SDLDidReceiveVehicleData` to get the new data when the odometer data changes.
+ */
 - (void)subscribeToVehicleOdometer {
     SDLLogD(@"Subscribing to odometer vehicle data");
     SDLSubscribeVehicleData *subscribeToVehicleOdometer = [[SDLSubscribeVehicleData alloc] init];
@@ -89,6 +95,9 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+/**
+ *  Unsubscribes to vehicle odometer data.
+ */
 - (void)unsubscribeToVehicleOdometer {
     SDLUnsubscribeVehicleData *unsubscribeToVehicleOdometer = [[SDLUnsubscribeVehicleData alloc] init];
     unsubscribeToVehicleOdometer.odometer = @YES;
@@ -98,7 +107,11 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-
+/**
+ *  Notification containing the updated vehicle data.
+ *
+ *  @param notification A SDLOnVehicleData notification
+ */
 - (void)vehicleDataNotification:(SDLRPCNotificationNotification *)notification {
     if (![notification.notification isKindOfClass:SDLOnVehicleData.class]) {
         return;
@@ -111,12 +124,20 @@ NS_ASSUME_NONNULL_BEGIN
     self.refreshUIHandler();
 }
 
+/**
+ *  Resets the odometer data
+ */
 - (void)sdlex_resetOdometer {
     self.vehicleOdometerData = [NSString stringWithFormat:@"%@: Unsubscribed", VehicleDataOdometerName];
 }
 
 #pragma mark - Get Vehicle Data
 
+/**
+ *  Retreives the current vehicle speed
+ *
+ *  @param manager The SDL manager
+ */
 + (void)getVehicleSpeedWithManager:(SDLManager *)manager {
     SDLLogD(@"Checking if app has permission to access vehicle data...");
     if (![manager.permissionManager isRPCAllowed:@"GetVehicleData"]) {
@@ -160,6 +181,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Phone Calls
 
+/**
+ *  Checks if the head unit has the ability and/or permissions to make a phone call. If it does, the phone number is dialed.
+ *
+ *  @param manager      The SDL manager
+ *  @param phoneNumber  A phone number to dial
+ */
 + (void)checkPhoneCallCapabilityWithManager:(SDLManager *)manager phoneNumber:(NSString *)phoneNumber {
     SDLLogD(@"Checking phone call capability");
     [manager.systemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypePhoneCall completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
@@ -170,14 +197,20 @@ NS_ASSUME_NONNULL_BEGIN
 
         if (systemCapabilityManager.phoneCapability.dialNumberEnabled.boolValue) {
             SDLLogD(@"Dialing phone number %@", phoneNumber);
-            [self sdlex_dialPhoneNumberWithManager:manager phoneNumber:phoneNumber];
+            [self sdlex_dialPhoneNumber:phoneNumber manager:manager];
         } else {
             [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"The dial number feature is unavailable for this head unit" textField2:nil]];
         }
     }];
 }
 
-+ (void)sdlex_dialPhoneNumberWithManager:(SDLManager *)manager phoneNumber:(NSString *)phoneNumber {
+/**
+ *  Dials a phone number.
+ *
+ *  @param phoneNumber  A phone number to dial
+ *  @param manager      The SDL manager
+ */
++ (void)sdlex_dialPhoneNumber:(NSString *)phoneNumber manager:(SDLManager *)manager {
     SDLDialNumber *dialNumber = [[SDLDialNumber alloc] initWithNumber:phoneNumber];
     [manager sendRequest:dialNumber withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (!response.resultCode) { return; }

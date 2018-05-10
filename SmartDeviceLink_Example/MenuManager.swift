@@ -153,7 +153,7 @@ private extension MenuManager {
     class func showPerformInteractionChoiceSet(with manager: SDLManager) {
         manager.send(request: createPerformInteraction()) { (_, response, error) in
             guard response?.resultCode == .success else {
-                SDLLog.e("The Show Perform Interaction Choice Set request failed: \(String(describing: error?.localizedDescription))")
+                SDLLog.e("The Show Perform Interaction Choice Set request failed: \(error?.localizedDescription ?? "no error")")
                 return
             }
 

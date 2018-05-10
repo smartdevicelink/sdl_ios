@@ -49,6 +49,7 @@ class AudioManager: NSObject {
         }
     }
 
+    /// Resets the manager to its default values
     func stopManager() {
         audioRecordingState = .notListening
         audioData = Data()
@@ -75,7 +76,7 @@ class AudioManager: NSObject {
         sdlManager.send(request: performAudioPassThru, responseHandler: audioPassThruEndedHandler)
     }
 
-    /// Manually stop an on-going audio recording.
+    /// Manually stop an ongoing audio recording.
     func stopRecording() {
         guard audioRecordingState == .listening else { return }
         audioRecordingState = .notListening
@@ -103,8 +104,6 @@ private extension AudioManager {
     }
 
     /// Called when `PerformAudioPassThru` request times out or when a `EndAudioPassThru` request is sent
-    ///
-    /// - Parameter response: A SDLRPCNotificationNotification notification
     var audioPassThruEndedHandler: SDLResponseHandler? {
         return { [weak self] (request, response, error) in
             guard let response = response else { return }
@@ -148,6 +147,7 @@ private extension AudioManager {
 
 @available(iOS 10.0, *)
 private extension AudioManager {
+    /// Configures speech recognition
     func startSpeechRecognitionTask() {
         speechRecognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         guard let speechRecognitionRequest = speechRecognitionRequest, let speechRecognizer = speechRecognizer else {

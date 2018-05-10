@@ -3,6 +3,7 @@
 //  SmartDeviceLink-iOS
 
 #import "AppConstants.h"
+#import "AlertManager.h"
 #import "AudioManager.h"
 #import "Preferences.h"
 #import "ProxyManager.h"
@@ -240,66 +241,44 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - RPC builders
 
-+ (SDLSpeak *)sdlex_appNameSpeak {
-    SDLSpeak *speak = [[SDLSpeak alloc] init];
-    speak.ttsChunks = [SDLTTSChunk textChunksFromString:ExampleAppNameTTS];
+#pragma mark Perform Interaction Choice Sets
+static UInt32 choiceSetId = 100;
 
-    return speak;
++ (NSArray<SDLChoice *> *)sdlex_createChoiceSet {
+    SDLChoice *firstChoice = [[SDLChoice alloc] initWithId:1 menuName:PICSFirstChoice vrCommands:@[PICSFirstChoice]];
+    SDLChoice *secondChoice = [[SDLChoice alloc] initWithId:2 menuName:PICSSecondChoice vrCommands:@[PICSSecondChoice]];
+    SDLChoice *thirdChoice = [[SDLChoice alloc] initWithId:3 menuName:PICSThirdChoice vrCommands:@[PICSThirdChoice]];
+    return @[firstChoice, secondChoice, thirdChoice];
 }
 
-+ (SDLSpeak *)sdlex_goodJobSpeak {
-    SDLSpeak *speak = [[SDLSpeak alloc] init];
-    speak.ttsChunks = [SDLTTSChunk textChunksFromString:TTSGoodJob];
-    
-    return speak;
++ (SDLPerformInteraction *)sdlex_createPerformInteraction {
+    SDLPerformInteraction *performInteraction = [[SDLPerformInteraction alloc] initWithInitialPrompt:PICSInitialPrompt initialText:PICSInitialText interactionChoiceSetIDList:@[@(choiceSetId)] helpPrompt:PICSHelpPrompt timeoutPrompt:PICSTimeoutPrompt interactionMode:SDLInteractionModeBoth timeout:10000];
+    performInteraction.interactionLayout = SDLLayoutModeListOnly;
+    return performInteraction;
 }
 
-+ (SDLSpeak *)sdlex_youMissedItSpeak {
-    SDLSpeak *speak = [[SDLSpeak alloc] init];
-    speak.ttsChunks = [SDLTTSChunk textChunksFromString:TTSYouMissed];
-
-    return speak;
-}
-
-+ (SDLCreateInteractionChoiceSet *)sdlex_createOnlyChoiceInteractionSet {
-    SDLCreateInteractionChoiceSet *createInteractionSet = [[SDLCreateInteractionChoiceSet alloc] init];
-    createInteractionSet.interactionChoiceSetID = @0;
-    
-    NSString *theOnlyChoiceName = @"The Only Choice";
-    SDLChoice *theOnlyChoice = [[SDLChoice alloc] init];
-    theOnlyChoice.choiceID = @0;
-    theOnlyChoice.menuName = theOnlyChoiceName;
-    theOnlyChoice.vrCommands = @[theOnlyChoiceName];
-    
-    createInteractionSet.choiceSet = @[theOnlyChoice];
-    
-    return createInteractionSet;
-}
-
-+ (void)sdlex_sendPerformOnlyChoiceInteractionWithManager:(SDLManager *)manager {
-    SDLPerformInteraction *performOnlyChoiceInteraction = [[SDLPerformInteraction alloc] init];
-    performOnlyChoiceInteraction.initialText = @"Choose the only one! You have 5 seconds...";
-    performOnlyChoiceInteraction.initialPrompt = [SDLTTSChunk textChunksFromString:@"Choose it"];
-    performOnlyChoiceInteraction.interactionMode = SDLInteractionModeBoth;
-    performOnlyChoiceInteraction.interactionChoiceSetIDList = @[@0];
-    performOnlyChoiceInteraction.helpPrompt = [SDLTTSChunk textChunksFromString:@"Do it"];
-    performOnlyChoiceInteraction.timeoutPrompt = [SDLTTSChunk textChunksFromString:@"Too late"];
-    performOnlyChoiceInteraction.timeout = @5000;
-    performOnlyChoiceInteraction.interactionLayout = SDLLayoutModeListOnly;
-    
-    [manager sendRequest:performOnlyChoiceInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLPerformInteractionResponse * _Nullable response, NSError * _Nullable error) {
-        SDLLogD(@"Perform Interaction fired");
-        if ((response == nil) || (error != nil)) {
-            SDLLogE(@"Something went wrong, no perform interaction response: %@", error);
++ (void)sdlex_showPerformInteractionChoiceSetWithManager:(SDLManager *)manager {
+    [manager sendRequest:[self sdlex_createPerformInteraction] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (response.resultCode != SDLResultSuccess) {
+            SDLLogE(@"The Show Perform Interaction Choice Set request failed: %@", error.localizedDescription);
+            return;
         }
-        
-        if ([response.choiceID isEqualToNumber:@0]) {
-            [manager sendRequest:[self sdlex_goodJobSpeak]];
-        } else {
-            [manager sendRequest:[self sdlex_youMissedItSpeak]];
+
+        if ([response.resultCode isEqualToEnum:SDLResultTimedOut]) {
+            // The menu timed out before the user could select an item
+            [manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSGoodJob]];
+        } else if ([response.resultCode isEqualToEnum:SDLResultSuccess]) {
+            // The user selected an item in the menu
+            [manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSYouMissed]];
         }
     }];
 }
+
++ (SDLCreateInteractionChoiceSet *)sdlex_createOnlyChoiceInteractionSet {
+    return [[SDLCreateInteractionChoiceSet alloc] initWithId:choiceSetId choiceSet:[self sdlex_createChoiceSet]];
+}
+
+# pragma mark Soft buttons
 
 - (NSArray<SDLSoftButtonObject *> *)sdlex_softButtons {
     SDLSoftButtonState *alertImageAndTextState = [[SDLSoftButtonState alloc] initWithStateName:AlertSoftButtonImageState text:AlertSoftButtonText image:[UIImage imageNamed:CarIconImageName]];
@@ -309,9 +288,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLSoftButtonObject *alertSoftButton = [[SDLSoftButtonObject alloc] initWithName:AlertSoftButton states:@[alertImageAndTextState, alertTextState] initialStateName:alertImageAndTextState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
 
-        SDLAlert* alert = [[SDLAlert alloc] init];
-        alert.alertText1 = @"You pushed the soft button!";
-        [weakself.sdlManager sendRequest:alert];
+        [weakself.sdlManager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"You pushed the soft button!" textField2:nil]];
 
         SDLLogD(@"Star icon soft button press fired");
     }];
@@ -357,36 +334,21 @@ NS_ASSUME_NONNULL_BEGIN
     return @[alertSoftButton, toggleButton, textButton, imagesButton];
 }
 
-+ (void)sdlex_sendGetVehicleDataWithManager:(SDLManager *)manager {
-    SDLGetVehicleData *getVehicleData = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES emergencyEvent:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES vin:YES wiperStatus:YES];
-
-    [manager sendRequest:getVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        SDLLogD(@"vehicle data response: %@", response);
-    }];
-}
-
-+ (void)sdlex_sendDialNumberWithManager:(SDLManager *)manager {
-    SDLDialNumber *dialNumber = [[SDLDialNumber alloc] initWithNumber:@"5555555555"];
-    [manager sendRequest:dialNumber withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        SDLLogD(@"Dial number response: %@", response);
-    }];
-}
-
 - (void)sdlex_prepareRemoteSystem {
     SDLCreateInteractionChoiceSet *choiceSet = [self.class sdlex_createOnlyChoiceInteractionSet];
     [self.sdlManager sendRequest:choiceSet];
 
     __weak typeof(self) weakself = self;
     SDLMenuCell *speakCell = [[SDLMenuCell alloc] initWithTitle:ACSpeakAppNameMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:SpeakBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACSpeakAppNameMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [weakself.sdlManager sendRequest:[ProxyManager sdlex_appNameSpeak]];
+        [weakself.sdlManager sendRequest:[[SDLSpeak alloc] initWithTTS:ExampleAppNameTTS]];
     }];
 
     SDLMenuCell *interactionSetCell = [[SDLMenuCell alloc] initWithTitle:ACShowChoiceSetMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:MenuBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACShowChoiceSetMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [ProxyManager sdlex_sendPerformOnlyChoiceInteractionWithManager:weakself.sdlManager];
+        [ProxyManager sdlex_showPerformInteractionChoiceSetWithManager:weakself.sdlManager];
     }];
 
     SDLMenuCell *getVehicleDataCell = [[SDLMenuCell alloc] initWithTitle:ACGetVehicleDataMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:CarBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACGetVehicleDataMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [ProxyManager sdlex_sendGetVehicleDataWithManager:weakself.sdlManager];
+        [VehicleDataManager getVehicleSpeedWithManager:weakself.sdlManager];
     }];
 
     SDLMenuCell *recordInCarMicrophoneAudio = [[SDLMenuCell alloc] initWithTitle:ACRecordInCarMicrophoneAudioMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:SpeakBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG]  voiceCommands:@[ACRecordInCarMicrophoneAudioMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
@@ -434,17 +396,17 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     if ([newLevel isEqualToEnum:SDLHMILevelFull]) {
-
+        SDLLogD(@"The HMI level is full");
     } else if ([newLevel isEqualToEnum:SDLHMILevelLimited]) {
-
+        SDLLogD(@"The HMI level is limited");
     } else if ([newLevel isEqualToEnum:SDLHMILevelBackground]) {
-
+        SDLLogD(@"The HMI level is background");
     } else if ([newLevel isEqualToEnum:SDLHMILevelNone]) {
-
+        SDLLogD(@"The HMI level is none");
     }
     
     if ([newLevel isEqualToEnum:SDLHMILevelFull]) {
-        // We're always going to try to show the initial state, because if we've already shown it, it won't be shown, and we need to guard against some possible weird states
+        // We're always going to try to show the initial state. because if we've already shown it, it won't be shown, and we need to guard against some possible weird states
         [self sdlex_showInitialData];
     }
 }

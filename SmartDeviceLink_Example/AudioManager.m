@@ -71,12 +71,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+/**
+ *  Resets the manager
+ */
 - (void)stopManager {
     self.audioRecordingState = AudioRecordingStateNotListening;
     self.audioData = [NSMutableData data];
     self.speechTranscription = @"";
 }
 
+/**
+ *  Starts an audio recording using the in-car microphone. During the recording, a pop-up will let the user know that they are being recorded. The pop-up is only dismissed when the recording stops.
+ */
 - (void)startRecording {
     if (self.speechRecognitionAuthState != SpeechRecognitionAuthStateAuthorized) {
         SDLLogW(@"This app does not have permission to access the Speech Recognition API");
@@ -97,6 +103,9 @@ NS_ASSUME_NONNULL_BEGIN
     [self.sdlManager sendRequest:performAudioPassThru withResponseHandler:self.audioPassThruEndedHandler];
 }
 
+/**
+ *  Manually stop an ongoing audio recording.
+ */
 - (void)stopRecording {
     if (self.audioRecordingState != AudioRecordingStateListening) { return; }
     self.audioRecordingState = AudioRecordingStateNotListening;
@@ -107,6 +116,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Audio Pass Thru Notifications
 
+/**
+ * SDL streams the audio data as it is collected.
+ */
 - (nullable void (^)(NSData * _Nullable))audioDataReceivedHandler {
     if (!_audioDataReceivedHandler) {
         __weak typeof(self) weakSelf = self;
@@ -117,7 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
                 weakSelf.audioRecordingState = AudioRecordingStateListening;
             }
 
-            AVAudioPCMBuffer *buffer = [weakSelf sdlex_convertDataToPCMFormattedAudio:[NSMutableData dataWithData:audioData]];
+            AVAudioPCMBuffer *buffer = [weakSelf sdlex_createPCMBufferWithData:[NSMutableData dataWithData:audioData]];
             if (buffer == nil) { return; }
             [weakSelf.speechRecognitionRequest appendAudioPCMBuffer:buffer];
         };
@@ -126,6 +138,11 @@ NS_ASSUME_NONNULL_BEGIN
     return _audioDataReceivedHandler;
 }
 
+/**
+ *  Called when `PerformAudioPassThru` request times out or when a `EndAudioPassThru` request is sent
+ *
+ *  @return    A SDLResponseHandler
+ */
 - (nullable SDLResponseHandler)audioPassThruEndedHandler {
     if (!_audioPassThruEndedHandler) {
         __weak typeof(self) weakSelf = self;
@@ -155,7 +172,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Audio Data Conversion
 
-- (AVAudioPCMBuffer *)sdlex_convertDataToPCMFormattedAudio:(NSMutableData *)data {
+/**
+ *  Converts the audio data to PCM formatted audio that can be passed, if desired, to the iOS SFSpeech framework (SDL does not provide speech recognition, however the SFSpeech framework or another third party library can be used for speech recognition). The audio format and sample rate should match those set in the `SDLPerformAudioPassThru`.
+ *
+ *  @param data The audio data
+ *  @return     An AVAudioPCMBuffer object
+ */
+- (AVAudioPCMBuffer *)sdlex_createPCMBufferWithData:(NSMutableData *)data {
     [self.audioData appendData:data];
 
     AVAudioFormat *audioFormat = [[AVAudioFormat alloc] initWithCommonFormat:AVAudioPCMFormatInt16 sampleRate:16000 channels:1 interleaved:NO];
@@ -169,6 +192,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Speech Recognition
+
+/**
+ *  Configures speech recognition
+ */
 - (void)sdlex_startSpeechRecognitionTask {
     self.speechRecognitionRequest = [[SFSpeechAudioBufferRecognitionRequest alloc] init];
 
@@ -193,6 +220,9 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+/**
+ *  Cleans up a speech detection session that has ended
+ */
 - (void)sdlex_stopSpeechRecognitionTask {
     self.audioRecordingState = AudioRecordingStateNotListening;
     self.audioData = [NSMutableData data];
@@ -209,6 +239,12 @@ NS_ASSUME_NONNULL_BEGIN
     self.speechRecognitionAuthState = [AudioManager sdlex_checkSpeechRecognizerAuth:speechRecognizer];
 }
 
+/**
+ *  Checks the current authorization status of the Speech Recognition API. The user can change this status via the native Settings app.
+ *
+ *  @param speechRecognizer     The SFSpeechRecognizer
+ *  @return                     The current authorization status
+ */
 + (SpeechRecognitionAuthState)sdlex_checkSpeechRecognizerAuth:(SFSpeechRecognizer *)speechRecognizer {
     if (speechRecognizer == nil) {
         return SpeechRecognitionAuthStateBadRegion;
@@ -221,6 +257,9 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
+/**
+ *  Asks the user via an alert if they want to authorize this app to access the Speech Recognition API.
+ */
 - (void)sdlex_requestSFSpeechRecognizerAuthorization {
     [SFSpeechRecognizer requestAuthorization:^(SFSpeechRecognizerAuthorizationStatus status) {
         dispatch_async(dispatch_get_main_queue(), ^{
