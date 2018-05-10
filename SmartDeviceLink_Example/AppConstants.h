@@ -66,6 +66,9 @@ extern NSString * const ACShowChoiceSetMenuName;
 extern NSString * const ACGetVehicleDataMenuName;
 extern NSString * const ACRecordInCarMicrophoneAudioMenuName;
 extern NSString * const ACDialPhoneNumberMenuName;
+extern NSString * const ACSubmenuMenuName;
+extern NSString * const ACSubmenuItemMenuName;
+
 
 #pragma mark - SDL Image Names
 extern NSString * const ExampleAppLogoName;

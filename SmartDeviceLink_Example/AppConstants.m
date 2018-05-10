@@ -64,6 +64,8 @@ NSString * const ACShowChoiceSetMenuName = @"Show Perform Interaction Choice Set
 NSString * const ACGetVehicleDataMenuName = @"Get Vehicle Speed";
 NSString * const ACRecordInCarMicrophoneAudioMenuName = @"Record In-Car Microphone Audio";
 NSString * const ACDialPhoneNumberMenuName = @"Dial Phone Number";
+NSString * const ACSubmenuMenuName = @"Submenu";
+NSString * const ACSubmenuItemMenuName = @"Item";
 
 #pragma mark - SDL Image Names
 NSString * const ExampleAppLogoName = @"sdl_logo_green";

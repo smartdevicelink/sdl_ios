@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import AVFoundation
 import SmartDeviceLink
 import SmartDeviceLinkSwift
 import Speech
@@ -26,7 +25,6 @@ class AudioManager: NSObject {
     fileprivate var audioData: Data?
     fileprivate var audioRecordingState: AudioRecordingState
 
-    // Speech recognition
     fileprivate var speechRecognitionAuthState: SpeechRecognitionAuthState
     fileprivate var speechRecognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     fileprivate var speechRecognizer: SFSpeechRecognizer?
@@ -46,8 +44,9 @@ class AudioManager: NSObject {
         speechRecognizer?.delegate = self
         speechRecognitionAuthState = AudioManager.checkAuthorization(speechRecognizer: speechRecognizer)
 
-        guard AudioManager.checkAuthorization(speechRecognizer: speechRecognizer) != .authorized else { return }
-        requestSFSpeechRecognizerAuthorization()
+        if speechRecognitionAuthState != .authorized {
+            requestSFSpeechRecognizerAuthorization()
+        }
     }
 
     func stopManager() {
@@ -60,7 +59,7 @@ class AudioManager: NSObject {
     func startRecording() {
         guard speechRecognitionAuthState == .authorized else {
             SDLLog.w("This app does not have permission to access the Speech Recognition API")
-            sdlManager.send(AlertManager.alertWithMessageAndCloseButton("You must give this app permission to access Speech Recognition."))
+            sdlManager.send(AlertManager.alertWithMessageAndCloseButton("You must give this app permission to access Speech Recognition"))
             return
         }
 
@@ -70,13 +69,13 @@ class AudioManager: NSObject {
         }
 
         startSpeechRecognitionTask()
-        let recordingDurationMilliseconds: UInt32 = 20000
+        let recordingDurationMilliseconds: UInt32 = 10000
         let performAudioPassThru = SDLPerformAudioPassThru(initialPrompt: "Starting sound recording", audioPassThruDisplayText1: "Say Something", audioPassThruDisplayText2: "Recording for \(recordingDurationMilliseconds / 1000) seconds", samplingRate: .rate16KHZ, bitsPerSample: .sample16Bit, audioType: .PCM, maxDuration: recordingDurationMilliseconds, muteAudio: true, audioDataHandler: audioDataReceivedHandler)
 
         sdlManager.send(request: performAudioPassThru, responseHandler: audioPassThruEndedHandler)
     }
 
-    /// Manually stops an on-going audio recording.
+    /// Manually stop an on-going audio recording.
     func stopRecording() {
         guard audioRecordingState == .listening else { return }
         audioRecordingState = .notListening
@@ -85,7 +84,6 @@ class AudioManager: NSObject {
         sdlManager.send(endAudioPassThruRequest)
     }
 }
-
 
 // MARK: - Audio Pass Thru Notifications
 
@@ -125,12 +123,7 @@ private extension AudioManager {
             self?.stopSpeechRecognitionTask()
         }
     }
-}
 
-// MARK: - Audio Data Conversion
-
-@available(iOS 10.0, *)
-private extension AudioManager {
     /// Converts the audio data to PCM formatted audio that can be passed, if desired, to the iOS SFSpeech framework (SDL does not provide speech recognition, however the SFSpeech framework or another third party library can be used for speech recognition). The audio format and sample rate should match those set in the `SDLPerformAudioPassThru`.
     ///
     /// - Parameter data: The audio data
@@ -145,11 +138,13 @@ private extension AudioManager {
         let bufferChannels = buffer.int16ChannelData!
         let bufferDataCount = data.copyBytes(to: UnsafeMutableBufferPointer(start: bufferChannels[0], count: data.count))
 
-        SDLLog.d("Audio data has \(bufferDataCount) bytes in \(buffer)")
+        SDLLog.v("Audio data has \(bufferDataCount) bytes in \(buffer)")
 
         return buffer
     }
 }
+
+// MARK: - Speech Recognition
 
 @available(iOS 10.0, *)
 private extension AudioManager {
@@ -164,10 +159,7 @@ private extension AudioManager {
         speechRecognitionRequest.taskHint = .search
 
         speechRecognitionTask = speechRecognizer.recognitionTask(with: speechRecognitionRequest) { [weak self] result, error in
-            guard let result = result else {
-                SDLLog.e("No result")
-                return
-            }
+            guard let result = result else { return }
 
             if error != nil {
                 SDLLog.e("Speech recognition error: \(error!.localizedDescription)")
@@ -193,7 +185,7 @@ private extension AudioManager {
     }
 }
 
-// MARK: - SFSpeechRecognizerDelegate
+// MARK: - Speech Recognition Authorization
 
 @available(iOS 10.0, *)
 extension AudioManager: SFSpeechRecognizerDelegate {

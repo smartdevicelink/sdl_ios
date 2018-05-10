@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithManager:(SDLManager *)manager;
+- (void)stopManager;
 
 - (void)startRecording;
 - (void)stopRecording;

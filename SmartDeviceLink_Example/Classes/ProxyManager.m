@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, getter=areImagesEnabled) BOOL imagesEnabled;
 
 @property (strong, nonatomic) VehicleDataManager *vehicleDataManager;
+@property (strong, nonatomic) AudioManager *audioManager;
 @property (nonatomic, copy, nullable) RefreshUIHandler refreshUIHandler;
 @end
 
@@ -96,6 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         self.vehicleDataManager = [[VehicleDataManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
+        self.audioManager = [[AudioManager alloc] initWithManager:self.sdlManager];
 
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
         [weakSelf sdlex_setupPermissionsCallbacks];
@@ -223,7 +225,7 @@ NS_ASSUME_NONNULL_BEGIN
     logConfig.modules = [logConfig.modules setByAddingObject:sdlExampleModule];
     logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
     // logConfig.filters = [logConfig.filters setByAddingObject:[SDLLogFilter filterByAllowingModules:[NSSet setWithObject:@"Transport"]]];
-    logConfig.globalLogLevel = SDLLogLevelDebug;
+    logConfig.globalLogLevel = SDLLogLevelVerbose;
 
     return logConfig;
 }
@@ -375,32 +377,34 @@ NS_ASSUME_NONNULL_BEGIN
     [self.sdlManager sendRequest:choiceSet];
 
     __weak typeof(self) weakself = self;
-    SDLMenuCell *speakCell = [[SDLMenuCell alloc] initWithTitle:@"Speak" icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"speak"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[@"Speak"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+    SDLMenuCell *speakCell = [[SDLMenuCell alloc] initWithTitle:ACSpeakAppNameMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:SpeakBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACSpeakAppNameMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         [weakself.sdlManager sendRequest:[ProxyManager sdlex_appNameSpeak]];
     }];
 
-    SDLMenuCell *interactionSetCell = [[SDLMenuCell alloc] initWithTitle:@"Perform Interaction" icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"choice_set"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[@"Perform Interaction"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+    SDLMenuCell *interactionSetCell = [[SDLMenuCell alloc] initWithTitle:ACShowChoiceSetMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:MenuBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACShowChoiceSetMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         [ProxyManager sdlex_sendPerformOnlyChoiceInteractionWithManager:weakself.sdlManager];
     }];
 
-    SDLMenuCell *getVehicleDataCell = [[SDLMenuCell alloc] initWithTitle:@"Get Vehicle Data" icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"car"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[@"Get Vehicle Data"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+    SDLMenuCell *getVehicleDataCell = [[SDLMenuCell alloc] initWithTitle:ACGetVehicleDataMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:CarBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACGetVehicleDataMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         [ProxyManager sdlex_sendGetVehicleDataWithManager:weakself.sdlManager];
     }];
 
-    NSMutableArray *menuArray = [NSMutableArray array];
-    for (int i = 0; i < 75; i++) {
-        SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:[NSString stringWithFormat:@"%i", i] icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:@"hexagon_on_softbutton_icon"] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource){}];
-        [menuArray addObject:cell];
-    }
-
-    SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" subCells:[menuArray copy]];
-
-    SDLVoiceCommand *voiceCommand = [[SDLVoiceCommand alloc] initWithVoiceCommands:@[@"Test"] handler:^{
-        [ProxyManager sdlex_sendPerformOnlyChoiceInteractionWithManager:weakself.sdlManager];
+    SDLMenuCell *recordInCarMicrophoneAudio = [[SDLMenuCell alloc] initWithTitle:ACRecordInCarMicrophoneAudioMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:SpeakBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG]  voiceCommands:@[ACRecordInCarMicrophoneAudioMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        [self.audioManager startRecording];
     }];
 
-    self.sdlManager.screenManager.menu = @[speakCell, interactionSetCell, getVehicleDataCell, submenuCell];
-    self.sdlManager.screenManager.voiceCommands = @[voiceCommand];
+    SDLMenuCell *dialPhoneNumber = [[SDLMenuCell alloc] initWithTitle:ACDialPhoneNumberMenuName icon:nil voiceCommands:@[ACDialPhoneNumberMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        [VehicleDataManager checkPhoneCallCapabilityWithManager:self.sdlManager phoneNumber:@"555-555-5555"];
+    }];
+
+    NSMutableArray *submenuItems = [NSMutableArray array];
+    for (int i = 0; i < 75; i++) {
+        SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:[NSString stringWithFormat:@"%@ %i", ACSubmenuItemMenuName, i] icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:MenuBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource){}];
+        [submenuItems addObject:cell];
+    }
+    SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:ACSubmenuMenuName subCells:[submenuItems copy]];
+
+    self.sdlManager.screenManager.menu = @[speakCell, getVehicleDataCell, interactionSetCell, recordInCarMicrophoneAudio, dialPhoneNumber, submenuCell];
 }
 
 
