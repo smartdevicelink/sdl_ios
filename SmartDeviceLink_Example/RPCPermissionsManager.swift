@@ -23,7 +23,7 @@ class RPCPermissionsManager {
         let menuRPCPermissions = checkMenuRPCsPermissions(with: manager)
         logRPCGroupPermissions(rpcNames: menuRPCPermissions.rpcs, groupPermissionStatus: menuRPCPermissions.groupPermissionStatus, individualPermissionStatuses: menuRPCPermissions.individualPermissionStatuses)
 
-        // Sets up a block for observing permission changes for a group of RPCs. Since the `groupType` is set to all allowed, this block is called when the group permissions changes from all allowed to some not allowed. This block is called immediately when created.
+        // Sets up a block for observing permission changes for a group of RPCs. Since the `groupType` is set to all allowed, this block is called when the group permissions changes from all allowed. This block is called immediately when created.
         let permissionAllAllowedObserverId = checkMediaTemplateRPCsPermissions(with: manager, groupType: .allAllowed)
 
         // To stop observing permissions changes for a group of RPCs, remove the observer.
@@ -36,7 +36,7 @@ class RPCPermissionsManager {
     /// Checks if the `DialNumber` RPC is allowed
     ///
     /// - Parameter manager: The SDL Manager
-    /// - Returns: true if allowed, false if not
+    /// - Returns: True if allowed, false if not
     class func isDialNumberRPCAllowed(with manager: SDLManager) -> Bool {
         SDLLog.d("Checking if app has permission to dial a number")
         return manager.permissionManager.isRPCAllowed("DialNumber")
@@ -61,7 +61,7 @@ private extension RPCPermissionsManager {
     /// - Parameter manager: The SDL Manager
     /// - Returns: The rpc names, the group permission status and the permission status for each rpc in the group
     class func checkMenuRPCsPermissions(with manager: SDLManager) -> (rpcs: [String], groupPermissionStatus: SDLPermissionGroupStatus, individualPermissionStatuses: [String:NSNumber]) {
-        let rpcNames = ["AddCommand", "SDLCreateInteractionChoiceSet", "PerformInteraction"]
+        let rpcNames = ["AddCommand", "CreateInteractionChoiceSet", "PerformInteraction"]
         let groupPermissionStatus = manager.permissionManager.groupStatus(ofRPCs: rpcNames)
         let individualPermissionStatuses = manager.permissionManager.status(ofRPCs: rpcNames)
         return (rpcNames, groupPermissionStatus, individualPermissionStatuses)
@@ -72,7 +72,7 @@ private extension RPCPermissionsManager {
     /// - Parameters:
     ///   - manager: The SDL Manager
     ///   - groupType: The type of changes to get notified about
-    /// - Returns: A unique id assigned to observer. Use the id to unsubsribe to notifications
+    /// - Returns: A unique id assigned to observer. Use the id to unsubscribe to notifications
     class func checkMediaTemplateRPCsPermissions(with manager: SDLManager, groupType: SDLPermissionGroupType) -> UUID {
         let observedRPCGroup = ["SetMediaClockTimer", "SubscribeButton"]
         let permissionAllAllowedObserverId = manager.permissionManager.addObserver(forRPCs: observedRPCGroup, groupType: groupType, withHandler: { (individualStatuses, groupStatus) in

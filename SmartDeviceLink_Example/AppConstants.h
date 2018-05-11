@@ -47,9 +47,13 @@ extern NSString * const ImagesVisibleSoftButtonImageOffState;
 extern NSString * const ImagesVisibleSoftButtonImageOnText;
 extern NSString * const ImagesVisibleSoftButtonImageOffText;
 
-#pragma mart - SDL Text-To-Speech
+#pragma martk - SDL Text-To-Speech
 extern NSString * const TTSGoodJob;
 extern NSString * const TTSYouMissed;
+
+#pragma martk - SDL Voice Commands
+extern NSString * const VCStart;
+extern NSString * const VCStop;
 
 #pragma mark - SDL Perform Interaction Choice Set Menu
 extern NSString * const PICSInitialText;

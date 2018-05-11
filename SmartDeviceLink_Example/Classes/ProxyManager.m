@@ -7,6 +7,7 @@
 #import "AudioManager.h"
 #import "Preferences.h"
 #import "ProxyManager.h"
+#import "RPCPermissionsManager.h"
 #import "SmartDeviceLink.h"
 #import "VehicleDataManager.h"
 
@@ -65,6 +66,43 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (void)startManager {
+    __weak typeof (self) weakSelf = self;
+    [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
+        if (!success) {
+            SDLLogE(@"SDL errored starting up: %@", error);
+            [weakSelf sdlex_updateProxyState:ProxyStateStopped];
+            return;
+        }
+
+        self.vehicleDataManager = [[VehicleDataManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
+        self.audioManager = [[AudioManager alloc] initWithManager:self.sdlManager];
+
+        [weakSelf sdlex_updateProxyState:ProxyStateConnected];
+        [RPCPermissionsManager setupPermissionsCallbacksWithManager:weakSelf.sdlManager];
+        [weakSelf sdlex_showInitialData];
+    }];
+}
+
+- (void)reset {
+    if (self.sdlManager == nil) {
+        [self sdlex_updateProxyState:ProxyStateStopped];
+        return;
+    }
+
+    [self.sdlManager stop];
+}
+
+- (void)sdlex_updateProxyState:(ProxyState)newState {
+    if (self.state != newState) {
+        [self willChangeValueForKey:@"state"];
+        _state = newState;
+        [self didChangeValueForKey:@"state"];
+    }
+}
+
+#pragma mark - SDL Configuration
+
 - (void)startIAP {
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
     // Check for previous instance of sdlManager
@@ -88,35 +126,37 @@ NS_ASSUME_NONNULL_BEGIN
     [self startManager];
 }
 
-- (void)startManager {
-    __weak typeof (self) weakSelf = self;
-    [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
-        if (!success) {
-            SDLLogE(@"SDL errored starting up: %@", error);
-            [weakSelf sdlex_updateProxyState:ProxyStateStopped];
-            return;
-        }
++ (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
+    SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:ExampleAppLogoName] asImageFormat:SDLArtworkImageFormatPNG];
 
-        self.vehicleDataManager = [[VehicleDataManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
-        self.audioManager = [[AudioManager alloc] initWithManager:self.sdlManager];
+    config.shortAppName = ExampleAppNameShort;
+    config.appIcon = appIconArt;
+    config.voiceRecognitionCommandNames = @[ExampleAppNameTTS];
+    config.ttsName = [SDLTTSChunk textChunksFromString:ExampleAppName];
+    config.language = SDLLanguageEnUs;
+    config.languagesSupported = @[SDLLanguageEnUs, SDLLanguageFrCa, SDLLanguageEsMx];
 
-        [weakSelf sdlex_updateProxyState:ProxyStateConnected];
-        [weakSelf sdlex_setupPermissionsCallbacks];
-        [weakSelf sdlex_showInitialData];
-    }];
+    return config;
 }
 
-- (void)reset {
-    if (self.sdlManager == nil) {
-        [self sdlex_updateProxyState:ProxyStateStopped];
-        return;
-    }
++ (SDLLogConfiguration *)sdlex_logConfiguration {
+    SDLLogConfiguration *logConfig = [SDLLogConfiguration debugConfiguration];
+    SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Example" files:[NSSet setWithArray:@[@"ProxyManager"]]];
+    logConfig.modules = [logConfig.modules setByAddingObject:sdlExampleModule];
+    logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
+    // logConfig.filters = [logConfig.filters setByAddingObject:[SDLLogFilter filterByAllowingModules:[NSSet setWithObject:@"Transport"]]];
+    logConfig.globalLogLevel = SDLLogLevelVerbose;
 
-    [self.sdlManager stop];
+    return logConfig;
 }
 
+#pragma mark - Screen UI Helpers
 
-#pragma mark - Helpers
+- (void)sdlex_createMenus {
+    [self.sdlManager sendRequest:[self.class sdlex_createChoiceInteractionSet]];
+    [self sdlex_createMenu];
+    [self sdlex_createVoiceCommands];
+}
 
 - (void)sdlex_showInitialData {
     if (![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
@@ -183,62 +223,6 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)sdlex_setupPermissionsCallbacks {
-    // This will tell you whether or not you can use the Show RPC right at this moment
-    BOOL isAvailable = [self.sdlManager.permissionManager isRPCAllowed:@"Show"];
-    SDLLogD(@"Show is allowed? %@", @(isAvailable));
-
-    // This will set up a block that will tell you whether or not you can use none, all, or some of the RPCs specified, and notifies you when those permissions change
-    SDLPermissionObserverIdentifier observerId = [self.sdlManager.permissionManager addObserverForRPCs:@[@"Show", @"Alert"] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
-        SDLLogD(@"Show changed permission to status: %@, dict: %@", @(status), change);
-    }];
-    // The above block will be called immediately, this will then remove the block from being called any more
-    [self.sdlManager.permissionManager removeObserverForIdentifier:observerId];
-
-    // This will give us the current status of the group of RPCs, as if we had set up an observer, except these are one-shot calls
-    NSArray *rpcGroup =@[@"AddCommand", @"PerformInteraction"];
-    SDLPermissionGroupStatus commandPICSStatus = [self.sdlManager.permissionManager groupStatusOfRPCs:rpcGroup];
-    NSDictionary *commandPICSStatusDict = [self.sdlManager.permissionManager statusOfRPCs:rpcGroup];
-    SDLLogD(@"Command / PICS status: %@, dict: %@", @(commandPICSStatus), commandPICSStatusDict);
-
-    // This will set up a long-term observer for the RPC group and will tell us when the status of any specified RPC changes (due to the `SDLPermissionGroupTypeAny`) option.
-    [self.sdlManager.permissionManager addObserverForRPCs:rpcGroup groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
-        SDLLogD(@"Command / PICS changed permission to status: %@, dict: %@", @(status), change);
-    }];
-}
-
-+ (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
-    SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:ExampleAppLogoName] asImageFormat:SDLArtworkImageFormatPNG];
-
-    config.shortAppName = ExampleAppNameShort;
-    config.appIcon = appIconArt;
-    config.voiceRecognitionCommandNames = @[ExampleAppNameTTS];
-    config.ttsName = [SDLTTSChunk textChunksFromString:ExampleAppName];
-    config.language = SDLLanguageEnUs;
-    config.languagesSupported = @[SDLLanguageEnUs, SDLLanguageFrCa, SDLLanguageEsMx];
-
-    return config;
-}
-
-+ (SDLLogConfiguration *)sdlex_logConfiguration {
-    SDLLogConfiguration *logConfig = [SDLLogConfiguration debugConfiguration];
-    SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Example" files:[NSSet setWithArray:@[@"ProxyManager"]]];
-    logConfig.modules = [logConfig.modules setByAddingObject:sdlExampleModule];
-    logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
-    // logConfig.filters = [logConfig.filters setByAddingObject:[SDLLogFilter filterByAllowingModules:[NSSet setWithObject:@"Transport"]]];
-    logConfig.globalLogLevel = SDLLogLevelVerbose;
-
-    return logConfig;
-}
-
-- (void)sdlex_updateProxyState:(ProxyState)newState {
-    if (self.state != newState) {
-        [self willChangeValueForKey:@"state"];
-        _state = newState;
-        [self didChangeValueForKey:@"state"];
-    }
-}
-
 #pragma mark - RPC builders
 
 #pragma mark Perform Interaction Choice Sets
@@ -265,17 +249,80 @@ static UInt32 choiceSetId = 100;
         }
 
         if ([response.resultCode isEqualToEnum:SDLResultTimedOut]) {
-            // The menu timed out before the user could select an item
-            [manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSGoodJob]];
-        } else if ([response.resultCode isEqualToEnum:SDLResultSuccess]) {
-            // The user selected an item in the menu
+            SDLLogD(@"The perform interaction choice set menu timed out before the user could select an item");
             [manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSYouMissed]];
+        } else if ([response.resultCode isEqualToEnum:SDLResultSuccess]) {
+            SDLLogD(@"The user selected an item in the perform interaction choice set menu");
+            [manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSGoodJob]];
         }
     }];
 }
 
-+ (SDLCreateInteractionChoiceSet *)sdlex_createOnlyChoiceInteractionSet {
++ (SDLCreateInteractionChoiceSet *)sdlex_createChoiceInteractionSet {
     return [[SDLCreateInteractionChoiceSet alloc] initWithId:choiceSetId choiceSet:[self sdlex_createChoiceSet]];
+}
+
+#pragma mark Menu
+
+- (void)sdlex_createMenu {
+    __weak typeof(self) weakself = self;
+    SDLMenuCell *speakCell = [[SDLMenuCell alloc] initWithTitle:ACSpeakAppNameMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:SpeakBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACSpeakAppNameMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        [weakself.sdlManager sendRequest:[[SDLSpeak alloc] initWithTTS:ExampleAppNameTTS]];
+    }];
+
+    SDLMenuCell *interactionSetCell = [[SDLMenuCell alloc] initWithTitle:ACShowChoiceSetMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:MenuBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACShowChoiceSetMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        [ProxyManager sdlex_showPerformInteractionChoiceSetWithManager:weakself.sdlManager];
+    }];
+
+    SDLMenuCell *getVehicleDataCell = [[SDLMenuCell alloc] initWithTitle:ACGetVehicleDataMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:CarBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACGetVehicleDataMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        [VehicleDataManager getVehicleSpeedWithManager:weakself.sdlManager];
+    }];
+
+    SDLMenuCell *recordInCarMicrophoneAudio = [[SDLMenuCell alloc] initWithTitle:ACRecordInCarMicrophoneAudioMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:SpeakBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG]  voiceCommands:@[ACRecordInCarMicrophoneAudioMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        [self.audioManager startRecording];
+    }];
+
+    SDLMenuCell *dialPhoneNumber = [[SDLMenuCell alloc] initWithTitle:ACDialPhoneNumberMenuName icon:nil voiceCommands:@[ACDialPhoneNumberMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        if (![RPCPermissionsManager isDialNumberRPCAllowedWithManager:self.sdlManager]) {
+            [self.sdlManager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"This app does not have the required permissions to dial a number" textField2:nil]];
+            return;
+        }
+
+        [VehicleDataManager checkPhoneCallCapabilityWithManager:self.sdlManager phoneNumber:@"555-555-5555"];
+    }];
+
+    NSMutableArray *submenuItems = [NSMutableArray array];
+    for (int i = 0; i < 75; i++) {
+        SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:[NSString stringWithFormat:@"%@ %i", ACSubmenuItemMenuName, i] icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:MenuBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+            [self.sdlManager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"You selected %@ %i", ACSubmenuItemMenuName, i] textField2:nil]];
+        }];
+        [submenuItems addObject:cell];
+    }
+    SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:ACSubmenuMenuName subCells:[submenuItems copy]];
+
+    self.sdlManager.screenManager.menu = @[speakCell, getVehicleDataCell, interactionSetCell, recordInCarMicrophoneAudio, dialPhoneNumber, submenuCell];
+}
+
+#pragma mark Voice Commands
+
+- (void)sdlex_createVoiceCommands {
+//    if (!self.sdlManager.systemCapabilityManager.vrCapability) {
+//        SDLLogE(@"The head unit does not support voice recognition");
+//        return;
+//    }
+    self.sdlManager.screenManager.voiceCommands = @[[self.class sdlex_voiceCommandStartWithManager:self.sdlManager], [self.class sdlex_voiceCommandStopWithManager:self.sdlManager]];
+}
+
++ (SDLVoiceCommand *)sdlex_voiceCommandStartWithManager:(SDLManager *)manager {
+    return [[SDLVoiceCommand alloc] initWithVoiceCommands:@[VCStop] handler:^{
+        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"%@ voice command selected!", VCStop] textField2:nil]];
+    }];
+}
+
++ (SDLVoiceCommand *)sdlex_voiceCommandStopWithManager:(SDLManager *)manager {
+    return [[SDLVoiceCommand alloc] initWithVoiceCommands:@[VCStart] handler:^{
+        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"%@ voice command selected!", VCStart] textField2:nil]];
+    }];
 }
 
 # pragma mark Soft buttons
@@ -334,42 +381,6 @@ static UInt32 choiceSetId = 100;
     return @[alertSoftButton, toggleButton, textButton, imagesButton];
 }
 
-- (void)sdlex_prepareRemoteSystem {
-    SDLCreateInteractionChoiceSet *choiceSet = [self.class sdlex_createOnlyChoiceInteractionSet];
-    [self.sdlManager sendRequest:choiceSet];
-
-    __weak typeof(self) weakself = self;
-    SDLMenuCell *speakCell = [[SDLMenuCell alloc] initWithTitle:ACSpeakAppNameMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:SpeakBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACSpeakAppNameMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [weakself.sdlManager sendRequest:[[SDLSpeak alloc] initWithTTS:ExampleAppNameTTS]];
-    }];
-
-    SDLMenuCell *interactionSetCell = [[SDLMenuCell alloc] initWithTitle:ACShowChoiceSetMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:MenuBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACShowChoiceSetMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [ProxyManager sdlex_showPerformInteractionChoiceSetWithManager:weakself.sdlManager];
-    }];
-
-    SDLMenuCell *getVehicleDataCell = [[SDLMenuCell alloc] initWithTitle:ACGetVehicleDataMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:CarBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACGetVehicleDataMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [VehicleDataManager getVehicleSpeedWithManager:weakself.sdlManager];
-    }];
-
-    SDLMenuCell *recordInCarMicrophoneAudio = [[SDLMenuCell alloc] initWithTitle:ACRecordInCarMicrophoneAudioMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:SpeakBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG]  voiceCommands:@[ACRecordInCarMicrophoneAudioMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [self.audioManager startRecording];
-    }];
-
-    SDLMenuCell *dialPhoneNumber = [[SDLMenuCell alloc] initWithTitle:ACDialPhoneNumberMenuName icon:nil voiceCommands:@[ACDialPhoneNumberMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [VehicleDataManager checkPhoneCallCapabilityWithManager:self.sdlManager phoneNumber:@"555-555-5555"];
-    }];
-
-    NSMutableArray *submenuItems = [NSMutableArray array];
-    for (int i = 0; i < 75; i++) {
-        SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:[NSString stringWithFormat:@"%@ %i", ACSubmenuItemMenuName, i] icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:MenuBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource){}];
-        [submenuItems addObject:cell];
-    }
-    SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:ACSubmenuMenuName subCells:[submenuItems copy]];
-
-    self.sdlManager.screenManager.menu = @[speakCell, getVehicleDataCell, interactionSetCell, recordInCarMicrophoneAudio, dialPhoneNumber, submenuCell];
-}
-
-
 #pragma mark - SDLManagerDelegate
 
 - (void)managerDidDisconnect {
@@ -391,7 +402,7 @@ static UInt32 choiceSetId = 100;
         self.firstHMILevel = newLevel;
         
         // Send AddCommands
-        [self sdlex_prepareRemoteSystem];
+        [self sdlex_createMenus];
         [self.vehicleDataManager subscribeToVehicleOdometer];
     }
 

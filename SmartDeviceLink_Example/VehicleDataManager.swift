@@ -164,7 +164,7 @@ extension VehicleDataManager {
                 SDLLog.d("Dialing phone number \(phoneNumber)...")
                 dialPhoneNumber(phoneNumber, manager: manager)
             } else {
-                manager.send(AlertManager.alertWithMessageAndCloseButton("f"))
+                manager.send(AlertManager.alertWithMessageAndCloseButton("A phone call can not be made"))
             }
         })
     }

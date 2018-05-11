@@ -49,6 +49,10 @@ NSString * const ImagesVisibleSoftButtonImageOffText = @"➕Icons";
 NSString * const TTSGoodJob = @"Good Job";
 NSString * const TTSYouMissed = @"You Missed";
 
+#pragma martk - SDL Voice Commands
+NSString * const VCStart = @"Start";
+NSString * const VCStop = @"Stop";
+
 #pragma mark - SDL Perform Interaction Choice Set Menu
 NSString * const PICSInitialText = @"Perform Interaction Choice Set Menu Example";
 NSString * const PICSInitialPrompt = @"Select an item from the menu";

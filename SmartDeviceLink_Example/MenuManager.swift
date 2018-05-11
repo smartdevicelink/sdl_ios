@@ -176,8 +176,8 @@ private extension MenuManager {
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLVoiceCommand object
     class func voiceCommandStart(with manager: SDLManager) -> SDLVoiceCommand {
-        return SDLVoiceCommand(voiceCommands: ["Start"], handler: {
-            manager.send(AlertManager.alertWithMessageAndCloseButton("Start voice command selected!"))
+        return SDLVoiceCommand(voiceCommands: [VCStart], handler: {
+            manager.send(AlertManager.alertWithMessageAndCloseButton("\(VCStart) voice command selected!"))
         })
     }
 
@@ -186,8 +186,8 @@ private extension MenuManager {
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLVoiceCommand object
     class func voiceCommandStop(with manager: SDLManager) -> SDLVoiceCommand {
-        return SDLVoiceCommand(voiceCommands: ["Stop"], handler: {
-            manager.send(AlertManager.alertWithMessageAndCloseButton("Stop voice command selected!"))
+        return SDLVoiceCommand(voiceCommands: [VCStop], handler: {
+            manager.send(AlertManager.alertWithMessageAndCloseButton("\(VCStop) voice command selected!"))
         })
     }
 }
