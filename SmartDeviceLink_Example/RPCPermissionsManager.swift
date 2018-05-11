@@ -15,22 +15,23 @@ class RPCPermissionsManager {
     ///
     /// - Parameter manager: The SDL Manager
     class func setupPermissionsCallbacks(with manager: SDLManager) {
-        // Check the current permissions for a single RPC
-        let showRPCPermission = checkShowRPCCurrentPermission(with: manager)
-        logRPCPermission(rpcName: showRPCPermission.rpcName, isRPCAllowed: showRPCPermission.isAllowed)
+        // Checks if the `SDLShow` RPC is allowed right at this moment
+        let showRPCName = "Show"
+        let showRPCPermission = checkShowRPCCurrentPermission(with: manager, rpcName: showRPCName)
 
-        // Check the current permissions of a group of RPCs
-        let menuRPCPermissions = checkMenuRPCsPermissions(with: manager)
-        logRPCGroupPermissions(rpcNames: menuRPCPermissions.rpcs, groupPermissionStatus: menuRPCPermissions.groupPermissionStatus, individualPermissionStatuses: menuRPCPermissions.individualPermissionStatuses)
+        // Checks if all the RPCs need to create menus are allowed right at this moment
+        let menuRPCNames = ["AddCommand", "CreateInteractionChoiceSet", "PerformInteraction"]
+        let menuRPCPermissions = checkCurrentGroupPermissions(with: manager, rpcNames: menuRPCNames)
 
-        // Sets up a block for observing permission changes for a group of RPCs. Since the `groupType` is set to all allowed, this block is called when the group permissions changes from all allowed. This block is called immediately when created.
-        let permissionAllAllowedObserverId = checkMediaTemplateRPCsPermissions(with: manager, groupType: .allAllowed)
+        // Set up an observer for permissions changes to media template releated RPCs. Since the `groupType` is set to all allowed, this block is called when the group permissions changes from all allowed. This block is called immediately when created.
+        let mediaTemplateRPCs = ["SetMediaClockTimer", "SubscribeButton"]
+        let allAllowedObserverId = subscribeGroupPermissions(with: manager, rpcNames: mediaTemplateRPCs, groupType: .allAllowed)
 
-        // To stop observing permissions changes for a group of RPCs, remove the observer.
-        manager.permissionManager.removeObserver(forIdentifier: permissionAllAllowedObserverId)
+        // Stop observing permissions changes for the media template releated RPCs
+        unsubscribeGroupPermissions(with: manager, observerId: allAllowedObserverId)
 
         // Sets up a block for observing permission changes for a group of RPCs. Since the `groupType` is set to any, this block is called when the permission status changes for any of the RPCs being observed. This block is called immediately when created.
-        let _ = checkMediaTemplateRPCsPermissions(with: manager, groupType: .any)
+       subscribeGroupPermissions(with: manager, rpcNames: mediaTemplateRPCs, groupType: .any)
     }
 
     /// Checks if the `DialNumber` RPC is allowed
@@ -39,7 +40,7 @@ class RPCPermissionsManager {
     /// - Returns: True if allowed, false if not
     class func isDialNumberRPCAllowed(with manager: SDLManager) -> Bool {
         SDLLog.d("Checking if app has permission to dial a number")
-        return manager.permissionManager.isRPCAllowed("DialNumber")
+        return checkCurrentPermission(with: manager, rpcName: "DialNumber")
     }
 }
 
@@ -50,21 +51,21 @@ private extension RPCPermissionsManager {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: true if allowed, false if not
-    class func checkShowRPCCurrentPermission(with manager: SDLManager) -> (rpcName: String, isAllowed: Bool) {
-        let rpcName = "Show"
-        let isShowRPCAllowed = manager.permissionManager.isRPCAllowed(rpcName)
-        return (rpcName, isShowRPCAllowed)
+    class func checkCurrentPermission(with manager: SDLManager, rpcName: String) -> Bool {
+        let isRPCAllowed = manager.permissionManager.isRPCAllowed(rpcName)
+        logRPCPermission(rpcName: rpcName, isRPCAllowed: isRPCAllowed)
+        return isRPCAllowed
     }
 
     /// Checks if all the RPCs need to create menus are allowed right at this moment
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: The rpc names, the group permission status and the permission status for each rpc in the group
-    class func checkMenuRPCsPermissions(with manager: SDLManager) -> (rpcs: [String], groupPermissionStatus: SDLPermissionGroupStatus, individualPermissionStatuses: [String:NSNumber]) {
-        let rpcNames = ["AddCommand", "CreateInteractionChoiceSet", "PerformInteraction"]
+    class func checkCurrentGroupPermissions(with manager: SDLManager, rpcNames: [String]) -> SDLPermissionGroupStatus {
         let groupPermissionStatus = manager.permissionManager.groupStatus(ofRPCs: rpcNames)
         let individualPermissionStatuses = manager.permissionManager.status(ofRPCs: rpcNames)
-        return (rpcNames, groupPermissionStatus, individualPermissionStatuses)
+        logRPCGroupPermissions(rpcNames: rpcNames, groupPermissionStatus: groupPermissionStatus, individualPermissionStatuses: individualPermissionStatuses)
+        return groupPermissionStatus
     }
 
     /// Sets up an observer for permissions changes to media template releated RPCs.
@@ -73,13 +74,21 @@ private extension RPCPermissionsManager {
     ///   - manager: The SDL Manager
     ///   - groupType: The type of changes to get notified about
     /// - Returns: A unique id assigned to observer. Use the id to unsubscribe to notifications
-    class func checkMediaTemplateRPCsPermissions(with manager: SDLManager, groupType: SDLPermissionGroupType) -> UUID {
-        let observedRPCGroup = ["SetMediaClockTimer", "SubscribeButton"]
+    class func subscribeGroupPermissions(with manager: SDLManager, rpcNames: [String], groupType: SDLPermissionGroupType) -> SDLPermissionObserverIdentifier {
         let permissionAllAllowedObserverId = manager.permissionManager.addObserver(forRPCs: observedRPCGroup, groupType: groupType, withHandler: { (individualStatuses, groupStatus) in
             self.logRPCGroupPermissions(rpcNames: observedRPCGroup, groupPermissionStatus: groupStatus, individualPermissionStatuses: individualStatuses)
         })
 
         return permissionAllAllowedObserverId
+    }
+
+    /// Unsubscribe to notifications about permissions changes for a group of RPCs
+    ///
+    /// - Parameters:
+    ///   - manager: The SDL Manager
+    ///   - observerId: The unique identifier for a group of RPCs
+    class func unsubscribeGroupPermissions(with manager: SDLManager, observerId: SDLPermissionObserverIdentifier) {
+        manager.permissionManager.removeObserver(forIdentifier: observerId)
     }
 }
 

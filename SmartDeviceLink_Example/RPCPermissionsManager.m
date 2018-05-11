@@ -20,8 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)setupPermissionsCallbacksWithManager:(SDLManager *)manager {
     // Checks if the `SDLShow` RPC is allowed right at this moment
-    NSString *showRRCName = @"Show";
-    [self sdlex_checkCurrentPermissionWithManager:manager rpcName:showRRCName];
+    NSString *showRPCName = @"Show";
+    [self sdlex_checkCurrentPermissionWithManager:manager rpcName:showRPCName];
 
     // Checks if all the RPCs need to create menus are allowed right at this moment
     NSArray<NSString *> *menuRPCNames = @[@"AddCommand", @"CreateInteractionChoiceSet", @"PerformInteraction"];
