@@ -379,7 +379,7 @@ UInt32 const MenuCellIdMin = 1;
 
 - (BOOL)sdl_callHandlerForCells:(NSArray<SDLMenuCell *> *)cells command:(SDLOnCommand *)onCommand {
     for (SDLMenuCell *cell in cells) {
-        if (cell.cellId == onCommand.cmdID.unsignedIntegerValue) {
+        if (cell.cellId == onCommand.cmdID.unsignedIntegerValue && cell.handler != nil) {
             cell.handler(onCommand.triggerSource);
             return YES;
         }
