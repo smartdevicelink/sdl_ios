@@ -278,10 +278,10 @@ static UInt32 choiceSetId = 100;
 #pragma mark Voice Commands
 
 - (void)sdlex_createVoiceCommands {
-//    if (!self.sdlManager.systemCapabilityManager.vrCapability) {
-//        SDLLogE(@"The head unit does not support voice recognition");
-//        return;
-//    }
+    if (!self.sdlManager.systemCapabilityManager.vrCapability) {
+        SDLLogE(@"The head unit does not support voice recognition");
+        return;
+    }
     self.sdlManager.screenManager.voiceCommands = @[[self.class sdlex_voiceCommandStartWithManager:self.sdlManager], [self.class sdlex_voiceCommandStopWithManager:self.sdlManager]];
 }
 

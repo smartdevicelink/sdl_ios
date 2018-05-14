@@ -31,10 +31,10 @@ class MenuManager: NSObject {
     /// - Parameter manager: The SDL Manager
     /// - Returns: An array of SDLVoiceCommand objects
     class func allVoiceMenuItems(with manager: SDLManager) -> [SDLVoiceCommand] {
-//        guard manager.systemCapabilityManager.vrCapability else {
-//            SDLLog.e("The head unit does not support voice recognition")
-//            return []
-//        }
+        guard manager.systemCapabilityManager.vrCapability else {
+            SDLLog.e("The head unit does not support voice recognition")
+            return []
+        }
         return [voiceCommandStart(with: manager), voiceCommandStop(with: manager)]
     }
 }
