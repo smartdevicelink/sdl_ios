@@ -19,7 +19,6 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLPermissionManager.h"
 #import "SDLProxy.h"
-#import "SDLProxyFactory.h"
 #import "SDLProtocol.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -63,8 +62,7 @@ describe(@"a lifecycle manager", ^{
     __block SDLLifecycleManager *testManager = nil;
     __block SDLConfiguration *testConfig = nil;
     
-    __block id protocolMock = OCMClassMock([SDLAbstractProtocol class]);
-    __block id proxyBuilderClassMock = OCMStrictClassMock([SDLProxyFactory class]);
+    __block id protocolMock = OCMClassMock([SDLProtocol class]);
     __block id proxyMock = OCMClassMock([SDLProxy class]);
     __block id lockScreenManagerMock = OCMClassMock([SDLLockScreenManager class]);
     __block id fileManagerMock = OCMClassMock([SDLFileManager class]);
@@ -73,7 +71,7 @@ describe(@"a lifecycle manager", ^{
     __block id systemCapabilityMock = OCMClassMock([SDLSystemCapabilityManager class]);
     
     beforeEach(^{
-        OCMStub([proxyBuilderClassMock buildSDLProxyWithListener:[OCMArg any]]).andReturn(proxyMock);
+        OCMStub([proxyMock iapProxyWithListener:[OCMArg any]]).andReturn(proxyMock);
         OCMStub([(SDLProxy*)proxyMock protocol]).andReturn(protocolMock);
         
         SDLLifecycleConfiguration *testLifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"Test App" appId:@"Test Id"];

@@ -1,4 +1,4 @@
-//  SDLAbstractTransport.h
+//  SDLTransportType.h
 
 #import <Foundation/Foundation.h>
 
@@ -6,15 +6,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLAbstractTransport : NSObject
+@protocol SDLTransportType <NSObject>
 
 @property (nullable, weak, nonatomic) id<SDLTransportDelegate> delegate;
-@property (strong, nonatomic) NSString *debugConsoleGroupName;
 
 - (void)connect;
 - (void)disconnect;
 - (void)sendData:(NSData *)dataToSend;
-- (double)retryDelay;
 
 @end
 
