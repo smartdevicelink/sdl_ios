@@ -309,6 +309,10 @@ describe(@"menu manager", ^{
             });
         });
     });
+
+    afterEach(^{
+        testManager = nil;
+    });
 });
 
 QuickSpecEnd

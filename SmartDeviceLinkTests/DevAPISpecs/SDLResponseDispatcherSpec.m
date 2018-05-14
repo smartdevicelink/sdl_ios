@@ -273,6 +273,7 @@ describe(@"a response dispatcher", ^{
                     beforeEach(^{
                         testOnCommand = [[SDLOnCommand alloc] init];
                         testOnCommand.cmdID = @(testCommandId);
+                        testOnCommand.triggerSource = SDLTriggerSourceMenu;
                         
                         SDLRPCNotificationNotification *commandNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveCommandNotification object:nil rpcNotification:testOnCommand];
                         
