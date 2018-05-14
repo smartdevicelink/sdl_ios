@@ -1062,6 +1062,7 @@
 		5DF40B26208FA7DE00DD6FDA /* SDLMenuManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B25208FA7DE00DD6FDA /* SDLMenuManagerSpec.m */; };
 		5DF40B28208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m */; };
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
+		8800871E20A6356D008E1EA0 /* ButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8800871B20A6338C008E1EA0 /* ButtonManager.m */; };
 		8803A0AA208E281E009FDC02 /* Enum+SDLAudioRecordingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8803A0A7208E27E6009FDC02 /* Enum+SDLAudioRecordingState.swift */; };
 		8803A0AF208E2A3A009FDC02 /* AudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8803A0AC208E2907009FDC02 /* AudioManager.m */; };
 		8803A0B2208E7CA4009FDC02 /* VehicleDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8803A0B1208E7CA4009FDC02 /* VehicleDataManager.m */; };
@@ -2404,6 +2405,8 @@
 		5DF40B25208FA7DE00DD6FDA /* SDLMenuManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuManagerSpec.m; path = DevAPISpecs/SDLMenuManagerSpec.m; sourceTree = "<group>"; };
 		5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLVoiceCommandManagerSpec.m; path = DevAPISpecs/SDLVoiceCommandManagerSpec.m; sourceTree = "<group>"; };
 		5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionManagerType.h; sourceTree = "<group>"; };
+		8800871A20A6338C008E1EA0 /* ButtonManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ButtonManager.h; sourceTree = "<group>"; };
+		8800871B20A6338C008E1EA0 /* ButtonManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ButtonManager.m; sourceTree = "<group>"; };
 		8803A0A7208E27E6009FDC02 /* Enum+SDLAudioRecordingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enum+SDLAudioRecordingState.swift"; sourceTree = "<group>"; };
 		8803A0AB208E2907009FDC02 /* AudioManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioManager.h; sourceTree = "<group>"; };
 		8803A0AC208E2907009FDC02 /* AudioManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioManager.m; sourceTree = "<group>"; };
@@ -3351,6 +3354,8 @@
 				88DA6D0F209794A400AD8297 /* AlertManager.m */,
 				88DE80B520A5C8DD00BA9CF0 /* RPCPermissionsManager.h */,
 				88DE80B620A5C8DD00BA9CF0 /* RPCPermissionsManager.m */,
+				8800871A20A6338C008E1EA0 /* ButtonManager.h */,
+				8800871B20A6338C008E1EA0 /* ButtonManager.m */,
 			);
 			name = SDL;
 			sourceTree = "<group>";
@@ -5731,6 +5736,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D4832A51A94F90D00252386 /* ConnectionTransitionContext.m in Sources */,
+				8800871E20A6356D008E1EA0 /* ButtonManager.m in Sources */,
 				5D0218FC1A8E7E1700D1BF62 /* ConnectionContainerViewController.m in Sources */,
 				88DA6D10209794A400AD8297 /* AlertManager.m in Sources */,
 				8803A0AF208E2A3A009FDC02 /* AudioManager.m in Sources */,

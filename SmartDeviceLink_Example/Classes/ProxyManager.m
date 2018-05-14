@@ -5,6 +5,7 @@
 #import "AppConstants.h"
 #import "AlertManager.h"
 #import "AudioManager.h"
+#import "ButtonManager.h"
 #import "Preferences.h"
 #import "ProxyManager.h"
 #import "RPCPermissionsManager.h"
@@ -26,11 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 // Describes the first time the HMI state goes non-none and full.
 @property (assign, nonatomic) SDLHMILevel firstHMILevel;
 
-@property (assign, nonatomic, getter=isTextEnabled) BOOL textEnabled;
-@property (assign, nonatomic, getter=isHexagonEnabled) BOOL toggleEnabled;
-@property (assign, nonatomic, getter=areImagesEnabled) BOOL imagesEnabled;
-
 @property (strong, nonatomic) VehicleDataManager *vehicleDataManager;
+@property (strong, nonatomic) ButtonManager *buttonManager;
 @property (strong, nonatomic) AudioManager *audioManager;
 @property (nonatomic, copy, nullable) RefreshUIHandler refreshUIHandler;
 @end
@@ -59,10 +57,6 @@ NS_ASSUME_NONNULL_BEGIN
     _state = ProxyStateStopped;
     _firstHMILevel = SDLHMILevelNone;
 
-    _textEnabled = YES;
-    _toggleEnabled = YES;
-    _imagesEnabled = YES;
-
     return self;
 }
 
@@ -76,6 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         self.vehicleDataManager = [[VehicleDataManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
+        self.buttonManager = [[ButtonManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
         self.audioManager = [[AudioManager alloc] initWithManager:self.sdlManager];
 
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
@@ -164,34 +159,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     [self sdlex_updateScreen];
-    self.sdlManager.screenManager.softButtonObjects = [self sdlex_softButtons];
-}
-
-- (void)setTextEnabled:(BOOL)textEnabled {
-    _textEnabled = textEnabled;
-    [self sdlex_updateScreen];
-}
-
-- (void)setImagesEnabled:(BOOL)imagesEnabled {
-    _imagesEnabled = imagesEnabled;
-    [self sdlex_updateScreen];
-    [self setToggleSoftButtonIcon:self.isHexagonEnabled imagesEnabled:imagesEnabled];
-    [self setAlertSoftButtonIcon];
-}
-
-- (void)setToggleEnabled:(BOOL)hexagonEnabled {
-    _toggleEnabled = hexagonEnabled;
-    [self setToggleSoftButtonIcon:hexagonEnabled imagesEnabled:self.areImagesEnabled];
-}
-
-- (void)setToggleSoftButtonIcon:(BOOL)toggleEnabled imagesEnabled:(BOOL)imagesEnabled {
-    SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:ToggleSoftButton];
-    imagesEnabled ? [object transitionToStateNamed:(toggleEnabled ? ToggleSoftButtonImageOnState : ToggleSoftButtonImageOffState)] : [object transitionToStateNamed:(toggleEnabled ? ToggleSoftButtonTextOnState : ToggleSoftButtonTextOffState)];
-}
-
-- (void)setAlertSoftButtonIcon {
-    SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:AlertSoftButton];
-    [object transitionToNextState];
+    self.sdlManager.screenManager.softButtonObjects = [self.buttonManager allScreenSoftButtons];
 }
 
 - (nullable RefreshUIHandler)refreshUIHandler {
@@ -206,16 +174,20 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdlex_updateScreen {
+    if (![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) { return; }
+
     SDLScreenManager *screenManager = self.sdlManager.screenManager;
+    BOOL isTextEnabled = self.buttonManager.isTextEnabled;
+    BOOL areImagesVisible = self.buttonManager.areImagesEnabled;
 
     [screenManager beginUpdates];
     screenManager.textAlignment = SDLTextAlignmentLeft;
-    screenManager.textField1 = self.isTextEnabled ? SmartDeviceLinkText : nil;
-    screenManager.textField2 = self.isTextEnabled ? [NSString stringWithFormat:@"Obj-C %@", ExampleAppText] : nil;
-    screenManager.textField3 = self.isTextEnabled ? self.vehicleDataManager.vehicleOdometerData : nil;
+    screenManager.textField1 = isTextEnabled ? SmartDeviceLinkText : nil;
+    screenManager.textField2 = isTextEnabled ? [NSString stringWithFormat:@"Obj-C %@", ExampleAppText] : nil;
+    screenManager.textField3 = isTextEnabled ? self.vehicleDataManager.vehicleOdometerData : nil;
 
     if (self.sdlManager.systemCapabilityManager.displayCapabilities.graphicSupported) {
-        screenManager.primaryGraphic = self.areImagesEnabled ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+        screenManager.primaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] asImageFormat:SDLArtworkImageFormatPNG] : nil;
     }
 
     [screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
@@ -325,70 +297,16 @@ static UInt32 choiceSetId = 100;
     }];
 }
 
-# pragma mark Soft buttons
-
-- (NSArray<SDLSoftButtonObject *> *)sdlex_softButtons {
-    SDLSoftButtonState *alertImageAndTextState = [[SDLSoftButtonState alloc] initWithStateName:AlertSoftButtonImageState text:AlertSoftButtonText image:[UIImage imageNamed:CarIconImageName]];
-    SDLSoftButtonState *alertTextState = [[SDLSoftButtonState alloc] initWithStateName:AlertSoftButtonTextState text:AlertSoftButtonText image:nil];
-
-    __weak typeof(self) weakself = self;
-    SDLSoftButtonObject *alertSoftButton = [[SDLSoftButtonObject alloc] initWithName:AlertSoftButton states:@[alertImageAndTextState, alertTextState] initialStateName:alertImageAndTextState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
-        if (buttonPress == nil) { return; }
-
-        [weakself.sdlManager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"You pushed the soft button!" textField2:nil]];
-
-        SDLLogD(@"Star icon soft button press fired");
-    }];
-
-    SDLSoftButtonState *toggleImageOnState = [[SDLSoftButtonState alloc] initWithStateName:ToggleSoftButtonImageOnState text:nil image:[UIImage imageNamed:WheelIconImageName]];
-    SDLSoftButtonState *toggleImageOffState = [[SDLSoftButtonState alloc] initWithStateName:ToggleSoftButtonImageOffState text:nil image:[UIImage imageNamed:LaptopIconImageName]];
-    SDLSoftButtonState *toggleTextOnState = [[SDLSoftButtonState alloc] initWithStateName:ToggleSoftButtonTextOnState text:ToggleSoftButtonTextTextOnText image:nil];
-    SDLSoftButtonState *toggleTextOffState = [[SDLSoftButtonState alloc] initWithStateName:ToggleSoftButtonTextOffState text:ToggleSoftButtonTextTextOffText image:nil];
-    SDLSoftButtonObject *toggleButton = [[SDLSoftButtonObject alloc] initWithName:ToggleSoftButton states:@[toggleImageOnState, toggleImageOffState, toggleTextOnState, toggleTextOffState] initialStateName:toggleImageOnState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
-        if (buttonPress == nil) { return; }
-
-        weakself.toggleEnabled = !weakself.toggleEnabled;
-        SDLLogD(@"Toggle icon button press fired %d", self.toggleEnabled);
-    }];
-
-    SDLSoftButtonState *textOnState = [[SDLSoftButtonState alloc] initWithStateName:TextVisibleSoftButtonTextOnState text:TextVisibleSoftButtonTextOnText image:nil];
-    SDLSoftButtonState *textOffState = [[SDLSoftButtonState alloc] initWithStateName:TextVisibleSoftButtonTextOffState text:TextVisibleSoftButtonTextOffText image:nil];
-    SDLSoftButtonObject *textButton = [[SDLSoftButtonObject alloc] initWithName:TextVisibleSoftButton states:@[textOnState, textOffState] initialStateName:textOnState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
-        if (buttonPress == nil) { return; }
-
-        weakself.textEnabled = !weakself.textEnabled;
-        SDLSoftButtonObject *object = [weakself.sdlManager.screenManager softButtonObjectNamed:TextVisibleSoftButton];
-        [object transitionToNextState];
-
-        SDLLogD(@"Text visibility soft button press fired %d", weakself.textEnabled);
-    }];
-
-    SDLSoftButtonState *imagesOnState = [[SDLSoftButtonState alloc] initWithStateName:ImagesVisibleSoftButtonImageOnState text:ImagesVisibleSoftButtonImageOnText image:nil];
-    SDLSoftButtonState *imagesOffState = [[SDLSoftButtonState alloc] initWithStateName:ImagesVisibleSoftButtonImageOffState text:ImagesVisibleSoftButtonImageOffText image:nil];
-    SDLSoftButtonObject *imagesButton = [[SDLSoftButtonObject alloc] initWithName:ImagesVisibleSoftButton states:@[imagesOnState, imagesOffState] initialStateName:imagesOnState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
-        if (buttonPress == nil) {
-            return;
-        }
-
-        weakself.imagesEnabled = !weakself.imagesEnabled;
-
-        SDLSoftButtonObject *object = [weakself.sdlManager.screenManager softButtonObjectNamed:ImagesVisibleSoftButton];
-        [object transitionToNextState];
-
-        SDLLogD(@"Image visibility soft button press fired %d", weakself.imagesEnabled);
-    }];
-
-    return @[alertSoftButton, toggleButton, textButton, imagesButton];
-}
-
 #pragma mark - SDLManagerDelegate
 
 - (void)managerDidDisconnect {
     [self sdlex_updateProxyState:ProxyStateStopped];
-
-    // Reset our state
     self.firstHMILevel = SDLHMILevelNone;
-    [self.vehicleDataManager stopManager];
+
+    if (self.vehicleDataManager != nil && self.buttonManager != nil) {
+        [self.vehicleDataManager stopManager];
+        [self.buttonManager stopManager];
+    }
 
     // If desired, automatically start searching for a new connection to Core
     if (ExampleAppShouldRestartSDLManagerOnDisconnect) {
