@@ -46,7 +46,9 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
 @property (copy, nonatomic, nullable) SDLMetadataType textField4Type;
 
 /**
- If you want to make a graphic blank, set it to this artwork
+ *  If you want to remove the current artwork, set it to this blank artwork.
+ *
+ *  This artwork is set to null on disconnects to prevent a `sdl_fileManager_fileDoesNotExistError` error when the artwork is sent again on reconnects.
  */
 @property (strong, nonatomic, readonly, nullable) SDLArtwork *blankArtwork;
 
