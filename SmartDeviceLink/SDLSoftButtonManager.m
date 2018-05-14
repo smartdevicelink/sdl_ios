@@ -203,14 +203,12 @@ NS_ASSUME_NONNULL_BEGIN
     self.inProgressUpdate = [[SDLShow alloc] init];
     self.inProgressUpdate.mainField1 = self.currentMainField1 ?: @"";
 
-    BOOL buttonHasImages = [self sdl_currentStateHasImages];
-    BOOL allButtonImagesAreUploaded = [self sdl_allCurrentStateImagesAreUploaded];
     BOOL headUnitSupportsImages = self.softButtonCapabilities ? self.softButtonCapabilities.imageSupported.boolValue : NO;
 
     if (self.softButtonObjects == nil) {
         SDLLogV(@"Soft button objects are nil, sending an empty array");
         self.inProgressUpdate.softButtons = @[];
-    } else if ((buttonHasImages && !allButtonImagesAreUploaded)
+    } else if (([self sdl_currentStateHasImages] && ![self sdl_allCurrentStateImagesAreUploaded])
                || !headUnitSupportsImages) {
         // The images don't yet exist on the head unit, or we cannot use images, send a text update, if possible. Otherwise, don't send anything yet.
         NSArray<SDLSoftButton *> *textOnlyButtons = [self sdl_textButtonsForCurrentState];
