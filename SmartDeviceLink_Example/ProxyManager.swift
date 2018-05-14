@@ -88,7 +88,7 @@ private extension ProxyManager {
     /// - Returns: A SDLLogConfiguration object
     class func logConfiguration() -> SDLLogConfiguration {
         let logConfig = SDLLogConfiguration.default()
-        let exampleLogFileModule = SDLLogFileModule(name: "SDL Example App", files: ["ProxyManager.swift", "MenuManager.swift", "ButtonManager.swift"])
+        let exampleLogFileModule = SDLLogFileModule(name: "SDL_Swift", files: ["ProxyManager", "MenuManager", "ButtonManager", "AlertManager", "RPCPermissionsManager", "VehicleDataManager", "AudioManager"])
         logConfig.modules.insert(exampleLogFileModule)
         _ = logConfig.targets.insert(SDLLogTargetFile()) // Logs to file
         logConfig.globalLogLevel = .debug // Filters the logs

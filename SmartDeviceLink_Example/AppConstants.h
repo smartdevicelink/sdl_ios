@@ -82,6 +82,8 @@ extern NSString * const WheelIconImageName;
 extern NSString * const SpeakBWIconImageName;
 extern NSString * const CarBWIconImageName;
 extern NSString * const MenuBWIconImageName;
+extern NSString * const PhoneBWIconImageName;
+extern NSString * const MicrophoneBWIconImageName;
 
 #pragma mark - SDL App Name in Different Languages
 extern NSString * const ExampleAppNameSpanish;

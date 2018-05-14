@@ -76,6 +76,8 @@ NS_ASSUME_NONNULL_BEGIN
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
         [RPCPermissionsManager setupPermissionsCallbacksWithManager:weakSelf.sdlManager];
         [weakSelf sdlex_showInitialData];
+
+        SDLLogD(@"SDL file manager storage: %lu mb", self.sdlManager.fileManager.bytesAvailable / 1024 / 1024);
     }];
 }
 
@@ -250,11 +252,11 @@ static UInt32 choiceSetId = 100;
         [VehicleDataManager getVehicleSpeedWithManager:weakself.sdlManager];
     }];
 
-    SDLMenuCell *recordInCarMicrophoneAudio = [[SDLMenuCell alloc] initWithTitle:ACRecordInCarMicrophoneAudioMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:SpeakBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG]  voiceCommands:@[ACRecordInCarMicrophoneAudioMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+    SDLMenuCell *recordInCarMicrophoneAudio = [[SDLMenuCell alloc] initWithTitle:ACRecordInCarMicrophoneAudioMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:MicrophoneBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACRecordInCarMicrophoneAudioMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         [self.audioManager startRecording];
     }];
 
-    SDLMenuCell *dialPhoneNumber = [[SDLMenuCell alloc] initWithTitle:ACDialPhoneNumberMenuName icon:nil voiceCommands:@[ACDialPhoneNumberMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+    SDLMenuCell *dialPhoneNumber = [[SDLMenuCell alloc] initWithTitle:ACDialPhoneNumberMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:PhoneBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACDialPhoneNumberMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         if (![RPCPermissionsManager isDialNumberRPCAllowedWithManager:self.sdlManager]) {
             [self.sdlManager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"This app does not have the required permissions to dial a number" textField2:nil]];
             return;

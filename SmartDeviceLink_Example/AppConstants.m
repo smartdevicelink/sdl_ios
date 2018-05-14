@@ -79,6 +79,8 @@ NSString * const WheelIconImageName = @"wheel_icon";
 NSString * const SpeakBWIconImageName = @"speak";
 NSString * const CarBWIconImageName = @"car";
 NSString * const MenuBWIconImageName = @"choice_set";
+NSString * const PhoneBWIconImageName = @"phone";
+NSString * const MicrophoneBWIconImageName = @"microphone";
 
 #pragma mark - SDL App Name in Different Languages
 NSString * const ExampleAppNameSpanish = @"SDL Aplicación de ejemplo";

@@ -82,7 +82,7 @@ private extension MenuManager {
     class func menuCellRecordInCarMicrophoneAudio(with manager: SDLManager) -> SDLMenuCell {
         if #available(iOS 10.0, *) {
             let audioManager = AudioManager(sdlManager: manager)
-            return SDLMenuCell(title: ACRecordInCarMicrophoneAudioMenuName, icon: SDLArtwork(image: UIImage(named: SpeakBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACRecordInCarMicrophoneAudioMenuName], handler: { (triggerSource) in
+            return SDLMenuCell(title: ACRecordInCarMicrophoneAudioMenuName, icon: SDLArtwork(image: UIImage(named: MicrophoneBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACRecordInCarMicrophoneAudioMenuName], handler: { (triggerSource) in
                 audioManager.startRecording()
             })
         }
@@ -97,7 +97,7 @@ private extension MenuManager {
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
     class func menuCellDialNumber(with manager: SDLManager) -> SDLMenuCell {
-        return SDLMenuCell(title: ACDialPhoneNumberMenuName, icon: nil, voiceCommands: [ACDialPhoneNumberMenuName], handler: { (triggerSource) in
+        return SDLMenuCell(title: ACDialPhoneNumberMenuName, icon: SDLArtwork(image: UIImage(named: PhoneBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACDialPhoneNumberMenuName], handler: { (triggerSource) in
             guard RPCPermissionsManager.isDialNumberRPCAllowed(with: manager) else {
                 manager.send(AlertManager.alertWithMessageAndCloseButton("This app does not have the required permissions to dial a number"))
                 return
