@@ -1,0 +1,25 @@
+//  SDLLightControlData.h
+//
+
+#import "SDLRPCMessage.h"
+
+@class SDLLightState;
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLLightControlData : SDLRPCStruct
+
+- (instancetype)initWithLightStateArray:(NSArray<SDLLightState *> *)lightState;
+
+/**
+ * @abstract An array of LightNames and their current or desired status.
+ * Status of the LightNames that are not listed in the array shall remain unchanged.
+ *
+ * Required, NSArray of type SDLLightState minsize="1" maxsize="100"
+ */
+@property (strong, nonatomic) NSArray<SDLLightState *> *lightState;
+
+
+@end
+
+NS_ASSUME_NONNULL_END

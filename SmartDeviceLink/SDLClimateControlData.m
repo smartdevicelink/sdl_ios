@@ -30,6 +30,29 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithFanSpeed:(nullable NSNumber<SDLInt> *)fanSpeed desiredTemperature:(nullable SDLTemperature *)desiredTemperature acEnable:(nullable NSNumber<SDLBool> *)acEnable circulateAirEnable:(nullable NSNumber<SDLBool> *)circulateAirEnable autoModeEnable:(nullable NSNumber<SDLBool> *)autoModeEnable defrostZone:(nullable SDLDefrostZone)defrostZone dualModeEnable:(nullable NSNumber<SDLBool> *)dualModeEnable acMaxEnable:(nullable NSNumber<SDLBool> *)acMaxEnable ventilationMode:(nullable SDLVentilationMode)ventilationMode heatedSteeringWheelEnable:(nullable NSNumber<SDLBool> *)steeringWheelEnable heatedWindshieldEnable:(nullable NSNumber<SDLBool> *)windshieldEnable heatedRearWindowEnable:(nullable NSNumber<SDLBool> *)rearWindowEnable heatedMirrorsEnable:(nullable NSNumber<SDLBool> *)mirrorsEnable {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.fanSpeed = fanSpeed;
+    self.desiredTemperature = desiredTemperature;
+    self.acEnable = acEnable;
+    self.circulateAirEnable = circulateAirEnable;
+    self.autoModeEnable = autoModeEnable;
+    self.defrostZone = defrostZone;
+    self.dualModeEnable = dualModeEnable;
+    self.acMaxEnable = acMaxEnable;
+    self.ventilationMode = ventilationMode;
+    self.heatedSteeringWheelEnable = steeringWheelEnable;
+    self.heatedWindshieldEnable = windshieldEnable;
+    self.heatedRearWindowEnable = rearWindowEnable;
+    self.heatedMirrorsEnable = mirrorsEnable;
+
+    return self;
+}
+
 - (void)setFanSpeed:(nullable NSNumber<SDLInt> *)fanSpeed {
     [store sdl_setObject:fanSpeed forName:SDLNameFanSpeed];
 }
@@ -108,6 +131,38 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLVentilationMode)ventilationMode {
     return [store sdl_objectForName:SDLNameVentilationMode];
+}
+
+- (void)setHeatedSteeringWheelEnable:(nullable NSNumber<SDLBool> *)heatedSteeringWheelEnable {
+    [store sdl_setObject:heatedSteeringWheelEnable forName:SDLNameHeatedSteeringWheelEnable];
+}
+
+- (nullable NSNumber<SDLBool> *)heatedSteeringWheelEnable {
+    return [store sdl_objectForName:SDLNameHeatedSteeringWheelEnable];
+}
+
+- (void)setHeatedWindshieldEnable:(nullable NSNumber<SDLBool> *)heatedWindshieldEnable {
+    [store sdl_setObject:heatedWindshieldEnable forName:SDLNameHeatedWindshieldEnable];
+}
+
+- (nullable NSNumber<SDLBool> *)heatedWindshieldEnable {
+    return [store sdl_objectForName:SDLNameHeatedWindshieldEnable];
+}
+
+- (void)setHeatedRearWindowEnable:(nullable NSNumber<SDLBool> *)heatedRearWindowEnable {
+    [store sdl_setObject:heatedRearWindowEnable forName:SDLNameHeatedRearWindowEnable];
+}
+
+- (nullable NSNumber<SDLBool> *)heatedRearWindowEnable {
+    return [store sdl_objectForName:SDLNameHeatedRearWindowEnable];
+}
+
+- (void)setHeatedMirrorsEnable:(nullable NSNumber<SDLBool> *)heatedMirrorsEnable {
+    [store sdl_setObject:heatedMirrorsEnable forName:SDLNameHeatedMirrorsEnable];
+}
+
+- (nullable NSNumber<SDLBool> *)heatedMirrorsEnable {
+    return [store sdl_objectForName:SDLNameHeatedMirrorsEnable];
 }
 
 @end

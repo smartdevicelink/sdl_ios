@@ -138,7 +138,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *signalChangeThresholdAvailable;
 
 /**
- * @abstract Availability of the control of enable/disable HD radio.
+ * Availability of the control of enable/disable HD radio.
  * True: Available, False: Not Available, Not present: Not Available.
  *
  * Optional, Boolean
@@ -146,12 +146,20 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *hdRadioEnableAvailable;
 
 /**
- * @abstract Availability of sirius XM radio.
+ * Availability of sirius XM radio.
  * True: Available, False: Not Available, Not present: Not Available.
  *
  * Optional, Boolean
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *siriusXMRadioAvailable;
+
+/**
+ * Availability of the getting HD radio Station Information Service (SIS) data.
+ * True: Available, False: Not Available, Not present: Not Available.
+ *
+ * Optional, Boolean
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *sisDataAvailable;
 
 @end
 
