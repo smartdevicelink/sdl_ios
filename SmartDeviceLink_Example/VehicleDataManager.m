@@ -55,7 +55,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self.sdlManager sendRequest:subscribeToVehicleOdometer withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error || ![response isKindOfClass:SDLSubscribeVehicleDataResponse.class]) {
             SDLLogE(@"Error sending Get Vehicle Data RPC: %@", error);
-            return;
         }
 
         SDLGetVehicleDataResponse* getVehicleDataResponse = (SDLGetVehicleDataResponse *)response;
@@ -78,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogD(@"You have permission to access to vehicle data, but the vehicle you are connected to did not provide any data");
             [message appendString:@"Unknown"];
         } else {
-            SDLLogD(@"Unknown reason for failure to get vehicle data: %@", error != nil ? error.localizedDescription : @"no error message");
+            SDLLogE(@"Unknown reason for failure to get vehicle data: %@", error != nil ? error.localizedDescription : @"no error message");
             [message appendString:@"Unsubscribed"];
         }
 

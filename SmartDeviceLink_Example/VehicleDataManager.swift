@@ -36,6 +36,10 @@ extension VehicleDataManager {
         sdlManager.send(request: subscribeToVehicleOdometer) { [unowned self] (request, response, error) in
             guard let result = response?.resultCode else { return }
 
+            if error != nil {
+                SDLLog.e("Error sending Get Vehicle Data RPC: \(error!.localizedDescription)")
+            }
+
             var message = "\(VehicleDataOdometerName): "
             switch result {
             case .success:
@@ -54,7 +58,7 @@ extension VehicleDataManager {
                 SDLLog.d("You have permission to access to vehicle data, but the vehicle you are connected to did not provide any data")
                 message += "Unknown"
             default:
-                SDLLog.d("Unknown reason for failure to get vehicle data: \(error != nil ? error!.localizedDescription : "no error message")")
+                SDLLog.e("Unknown reason for failure to get vehicle data: \(error != nil ? error!.localizedDescription : "no error message")")
                 message += "Unsubscribed"
                 return
             }
