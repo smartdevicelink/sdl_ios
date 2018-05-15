@@ -138,10 +138,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SDLLogConfiguration *)sdlex_logConfiguration {
     SDLLogConfiguration *logConfig = [SDLLogConfiguration debugConfiguration];
-    SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Example" files:[NSSet setWithArray:@[@"ProxyManager"]]];
+    SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Obj-C Example App" files:[NSSet setWithArray:@[@"ProxyManager", @"AudioManager", @"VehicleDataManager", @"AlertManager", @"RPCPermissionsManager", @"ButtonManager"]]];
     logConfig.modules = [logConfig.modules setByAddingObject:sdlExampleModule];
     logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
-    // logConfig.filters = [logConfig.filters setByAddingObject:[SDLLogFilter filterByAllowingModules:[NSSet setWithObject:@"Transport"]]];
     logConfig.globalLogLevel = SDLLogLevelVerbose;
 
     return logConfig;
@@ -304,11 +303,6 @@ static UInt32 choiceSetId = 100;
 - (void)managerDidDisconnect {
     [self sdlex_updateProxyState:ProxyStateStopped];
     self.firstHMILevel = SDLHMILevelNone;
-
-    if (self.vehicleDataManager != nil && self.buttonManager != nil) {
-        [self.vehicleDataManager stopManager];
-        [self.buttonManager stopManager];
-    }
 
     // If desired, automatically start searching for a new connection to Core
     if (ExampleAppShouldRestartSDLManagerOnDisconnect) {

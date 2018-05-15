@@ -23,7 +23,6 @@ typedef void(^RefreshUIHandler)(void);
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithManager:(SDLManager *)manager refreshUIHandler:(RefreshUIHandler)refreshUIHandler;
-- (void)stopManager;
 
 - (NSArray<SDLSoftButtonObject *> *)allScreenSoftButtons;
 

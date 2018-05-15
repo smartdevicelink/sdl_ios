@@ -42,12 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-/**
- *  Resets the manager to its default values
- */
-- (void)stopManager {
-    [self sdlex_resetOdometer];
-}
 
 #pragma mark - Subscribe Vehicle Data
 

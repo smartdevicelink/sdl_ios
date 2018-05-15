@@ -88,7 +88,7 @@ private extension ProxyManager {
     /// - Returns: A SDLLogConfiguration object
     class func logConfiguration() -> SDLLogConfiguration {
         let logConfig = SDLLogConfiguration.default()
-        let exampleLogFileModule = SDLLogFileModule(name: "SDL_Swift", files: ["ProxyManager", "MenuManager", "ButtonManager", "AlertManager", "RPCPermissionsManager", "VehicleDataManager", "AudioManager"])
+        let exampleLogFileModule = SDLLogFileModule(name: "SDL Swift Example App", files: ["ProxyManager", "MenuManager", "ButtonManager", "AlertManager", "RPCPermissionsManager", "VehicleDataManager", "AudioManager"])
         logConfig.modules.insert(exampleLogFileModule)
         _ = logConfig.targets.insert(SDLLogTargetFile()) // Logs to file
         logConfig.globalLogLevel = .debug // Filters the logs
@@ -123,11 +123,6 @@ extension ProxyManager: SDLManagerDelegate {
     func managerDidDisconnect() {
         delegate?.didChangeProxyState(SDLProxyState.stopped)
         firstHMILevelState = .none
-
-        if buttonManager != nil && vehicleDataManager != nil {
-            buttonManager.stopManager()
-            vehicleDataManager.stopManager()
-        }
 
         // If desired, automatically start searching for a new connection to Core
         if ExampleAppShouldRestartSDLManagerOnDisconnect.boolValue {

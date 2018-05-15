@@ -50,12 +50,6 @@ class ButtonManager: NSObject {
         super.init()
     }
 
-    func stopManager() {
-        textEnabled = true
-        imagesEnabled = true
-        toggleEnabled = true
-    }
-
     /// Creates and returns an array of all soft buttons for the UI
     ///
     /// - Parameter manager: The SDL Manager

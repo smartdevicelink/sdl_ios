@@ -24,10 +24,6 @@ class VehicleDataManager: NSObject {
         resetOdometer()
         NotificationCenter.default.addObserver(self, selector: #selector(vehicleDataNotification(_:)), name: .SDLDidReceiveVehicleData, object: nil)
     }
-
-    func stopManager() {
-        resetOdometer()
-    }
 }
 
 // MARK: - Subscribe Vehicle Data

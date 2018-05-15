@@ -42,12 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)stopManager {
-    _textEnabled = YES;
-    _imagesEnabled = YES;
-    _toggleEnabled = YES;
-}
-
 #pragma mark - Setters
 
 - (void)setTextEnabled:(BOOL)textEnabled {
