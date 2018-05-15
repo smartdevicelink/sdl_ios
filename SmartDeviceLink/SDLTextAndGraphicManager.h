@@ -46,9 +46,11 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
 @property (copy, nonatomic, nullable) SDLMetadataType textField4Type;
 
 /**
- If you want to make a graphic blank, set it to this artwork
+ *  If you want to remove the current artwork, set it to this blank artwork.
+ *
+ *  This artwork is set to null on disconnects to prevent a `sdl_fileManager_fileDoesNotExistError` error when the artwork is sent again on reconnects.
  */
-@property (strong, nonatomic, readonly) SDLArtwork *blankArtwork;
+@property (strong, nonatomic, readonly, nullable) SDLArtwork *blankArtwork;
 
 @property (assign, nonatomic, getter=isBatchingUpdates) BOOL batchUpdates;
 
@@ -60,6 +62,11 @@ typedef void(^SDLTextAndGraphicUpdateCompletionHandler)(NSError *__nullable erro
  @return A new SDLTextAndImageManager
  */
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
+
+/**
+ *  Stops the manager. This method is used internally.
+ */
+- (void)stop;
 
 /**
  Update text fields with new text set into the text field properties. Pass an empty string `\@""` to clear the text field.

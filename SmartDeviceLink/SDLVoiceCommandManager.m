@@ -71,6 +71,17 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     return self;
 }
 
+- (void)stop {
+    _lastVoiceCommandId = VoiceCommandIdMin;
+    _voiceCommands = @[];
+    _oldVoiceCommands = @[];
+
+    _waitingOnHMIUpdate = NO;
+    _currentHMILevel = SDLHMILevelNone;
+    _inProgressUpdate = nil;
+    _hasQueuedUpdate = NO;
+}
+
 #pragma mark - Setters
 
 - (void)setVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
