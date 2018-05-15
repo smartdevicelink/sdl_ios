@@ -74,6 +74,20 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (void)stop {
+    _softButtonObjects = @[];
+    _currentMainField1 = nil;
+
+    _inProgressUpdate = nil;
+    _inProgressHandler = nil;
+    _hasQueuedUpdate = NO;
+    _queuedUpdateHandler = nil;
+    _currentLevel = SDLHMILevelNone;
+    _displayCapabilities = nil;
+    _softButtonCapabilities = nil;
+    _waitingOnHMILevelUpdateToSetButtons = NO;
+}
+
 - (void)setSoftButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects {
     if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
         _waitingOnHMILevelUpdateToSetButtons = YES;

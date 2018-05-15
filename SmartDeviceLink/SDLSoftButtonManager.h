@@ -49,6 +49,11 @@ typedef void(^SDLSoftButtonUpdateCompletionHandler)(NSError *__nullable error);
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
 
 /**
+ *  Stops the manager. This method is used internally.
+ */
+- (void)stop;
+
+/**
  Cause all transitions in between `beginUpdates` and this method call to occur in one RPC update.
 
  @param handler The handler called once the update is completed.

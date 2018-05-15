@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 @property (strong, nonatomic, nullable) SDLHMILevel currentLevel;
 
-@property (strong, nonatomic) SDLArtwork *blankArtwork;
+@property (strong, nonatomic, nullable) SDLArtwork *blankArtwork;
 
 @property (assign, nonatomic) BOOL isDirty;
 
@@ -77,6 +77,31 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
 
     return self;
+}
+
+- (void)stop {
+    _textField1 = nil;
+    _textField2 = nil;
+    _textField3 = nil;
+    _textField4 = nil;
+    _mediaTrackTextField = nil;
+    _primaryGraphic = nil;
+    _secondaryGraphic = nil;
+    _alignment = SDLTextAlignmentCenter;
+    _textField1Type = nil;
+    _textField2Type = nil;
+    _textField3Type = nil;
+    _textField4Type = nil;
+
+    _inProgressUpdate = nil;
+    _inProgressHandler = nil;
+    _queuedImageUpdate = nil;
+    _hasQueuedUpdate = NO;
+    _queuedUpdateHandler = nil;
+    _displayCapabilities = nil;
+    _currentLevel = SDLHMILevelNone;
+    _blankArtwork = nil;
+    _isDirty = NO;
 }
 
 #pragma mark - Upload / Send
@@ -589,7 +614,7 @@ NS_ASSUME_NONNULL_BEGIN
     return (_hasQueuedUpdate || _queuedUpdateHandler != nil);
 }
 
-- (SDLArtwork *)blankArtwork {
+- (nullable SDLArtwork *)blankArtwork {
     if (_blankArtwork != nil) {
         return _blankArtwork;
     }

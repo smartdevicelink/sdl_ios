@@ -26,6 +26,11 @@ typedef void(^SDLMenuUpdateCompletionHandler)(NSError *__nullable error);
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager;
 
+/**
+ *  Stops the manager. This method is used internally.
+ */
+- (void)stop;
+
 @property (copy, nonatomic) NSArray<SDLVoiceCommand *> *voiceCommands;
 
 @end

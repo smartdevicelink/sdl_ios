@@ -52,6 +52,11 @@ typedef void(^SDLScreenManagerUpdateCompletionHandler)(NSError *__nullable error
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
 
 /**
+ *  Stops the manager. This method is used internally.
+ */
+- (void)stop;
+
+/**
  Delays all screen updates until endUpdatesWithCompletionHandler: is called.
  */
 - (void)beginUpdates;
