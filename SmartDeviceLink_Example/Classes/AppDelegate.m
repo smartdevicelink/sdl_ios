@@ -18,7 +18,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    [[LogManager shareInstance] redirectNSlogToDocumentFolder];
+    UIDevice *device = [UIDevice currentDevice];
+    if (![[device model] isEqualToString:@"iPhone Simulator"]) {
+        [[LogManager shareInstance] redirectNSlogToDocumentFolder];
+    }
     return YES;
 }
 

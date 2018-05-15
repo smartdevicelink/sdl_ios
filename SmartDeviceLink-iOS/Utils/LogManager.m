@@ -46,16 +46,4 @@ static LogManager *instance = nil;
 - (id)copyWithZone:(NSZone *)zone{
     return instance;
 }
-////此函数要在
-//- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-//中调用，这个函数在AppDelegate.m中实现的。
-///*******************************************************************************/
-////当真机连接Mac调试的时候把这些注释掉，否则log只会输入到文件中，而不能从xcode的监视器中看到。
-//// 如果是真机就保存到Document目录下的dr.log文件中
-//UIDevice *device = [UIDevicecurrentDevice];
-//if (![[device model]isEqualToString:@"iPad Simulator"]) {
-//    // 开始保存日志文件
-//    [self redirectNSlogToDocumentFolder];
-//}
-/*******************************************************************************/
 @end

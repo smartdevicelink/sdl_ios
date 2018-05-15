@@ -39,12 +39,20 @@ static UInt16 const SDLDefaultDuration = 5000;
     return [self initWithTTSChunks:nil alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:NO duration:duration softButtons:softButtons];
 }
 
+- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 icon:(NSString *)icon duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons {
+    return [self initWithTTSChunks:nil alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 icon:icon playTone:NO duration:duration softButtons:softButtons];
+}
+
 - (instancetype)initWithTTS:(NSString *)ttsText playTone:(BOOL)playTone {
     return [self initWithTTS:ttsText alertText1:nil alertText2:nil playTone:playTone duration:SDLDefaultDuration];
 }
 
 - (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 playTone:(BOOL)playTone duration:(UInt16)duration {
     return [self initWithTTS:ttsText alertText1:alertText1 alertText2:alertText2 alertText3:nil playTone:playTone duration:duration];
+}
+
+- (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 icon:(NSString *)icon playTone:(BOOL)playTone duration:(UInt16)duration {
+    return [self initWithTTS:ttsText alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 icon:icon playTone:playTone duration:duration];
 }
 
 - (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration {
@@ -75,6 +83,10 @@ static UInt16 const SDLDefaultDuration = 5000;
     self.softButtons = [softButtons mutableCopy];
 
     return self;
+}
+
+- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 icon:(NSString *)icon playTone:(BOOL)playTone duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons {
+    return [self initWithTTSChunks:ttsChunks alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 icon:icon playTone:playTone duration:duration softButtons:softButtons];
 }
 
 - (void)setAlertText1:(NSString *)alertText1 {
@@ -111,6 +123,18 @@ static UInt16 const SDLDefaultDuration = 5000;
 
 - (NSString *)alertText3 {
     return [parameters objectForKey:NAMES_alertText3];
+}
+
+- (void)setIcon:(NSString *)icon {
+    if (icon != nil) {
+        [parameters setObject:icon forKey:NAMES_alertIcon];
+    } else {
+        [parameters removeObjectForKey:NAMES_alertIcon];
+    }
+}
+
+- (NSString *)icon {
+    return [parameters objectForKey:NAMES_alertIcon];
 }
 
 - (void)setTtsChunks:(NSMutableArray *)ttsChunks {

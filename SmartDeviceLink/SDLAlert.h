@@ -58,11 +58,15 @@
 
 - (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons;
 
+- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 icon:(NSString *)icon duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons;
+
 - (instancetype)initWithTTS:(NSString *)ttsText playTone:(BOOL)playTone;
 
 - (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 playTone:(BOOL)playTone duration:(UInt16)duration;
 
 - (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration;
+
+- (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 icon:(NSString *)icon playTone:(BOOL)playTone duration:(UInt16)duration;
 
 - (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone;
 
@@ -70,6 +74,7 @@
 
 - (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons;
 
+- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 icon:(NSString *)icon playTone:(BOOL)playTone duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons;
 
 /**
  * @abstract The String to be displayed in the first field of the display during the Alert
@@ -113,6 +118,7 @@
  */
 @property (strong) NSString *alertText3;
 
+@property (strong) NSString *icon;
 /**
  * @abstract An array which, taken together, specify what is to be spoken to the user
  *

@@ -15,6 +15,7 @@
 #define NAMES_alertText1 @"alertText1"
 #define NAMES_alertText2 @"alertText2"
 #define NAMES_alertText3 @"alertText3"
+#define NAMES_alertIcon @"alertIcon"
 #define NAMES_alignment @"alignment"
 #define NAMES_allowed @"allowed"
 #define NAMES_altitude @"altitude"
