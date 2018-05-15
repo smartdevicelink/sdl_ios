@@ -12,10 +12,10 @@ import SmartDeviceLinkSwift
 
 class VehicleDataManager: NSObject {
     fileprivate let sdlManager: SDLManager!
-    fileprivate var refreshUIHandler: refreshUIHandler?
+    fileprivate var refreshUIHandler: RefreshUIHandler?
     public fileprivate(set) var vehicleOdometerData: String
 
-    init(sdlManager: SDLManager, refreshUIHandler: refreshUIHandler? = nil) {
+    init(sdlManager: SDLManager, refreshUIHandler: RefreshUIHandler? = nil) {
         self.sdlManager = sdlManager
         self.refreshUIHandler = refreshUIHandler
         self.vehicleOdometerData = ""

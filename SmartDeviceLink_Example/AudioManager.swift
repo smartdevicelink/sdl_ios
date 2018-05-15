@@ -21,7 +21,7 @@ fileprivate enum SpeechRecognitionAuthState {
 
 @available(iOS 10.0, *)
 class AudioManager: NSObject {
-    fileprivate let sdlManager: SDLManager!
+    fileprivate let sdlManager: SDLManager
     fileprivate var audioData: Data?
     fileprivate var audioRecordingState: AudioRecordingState
 

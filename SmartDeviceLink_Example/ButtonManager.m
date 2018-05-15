@@ -52,15 +52,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setImagesEnabled:(BOOL)imagesEnabled {
     _imagesEnabled = imagesEnabled;
-    [self sdlex_setToggleSoftButtonIcon:self.isHexagonEnabled imagesEnabled:imagesEnabled];
-    [self sdlex_setAlertSoftButtonIcon];
+
+    SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:AlertSoftButton];
+    [object transitionToNextState];
+
     if (self.refreshUIHandler == nil) { return; }
     self.refreshUIHandler();
 }
 
-- (void)setToggleEnabled:(BOOL)hexagonEnabled {
-    _toggleEnabled = hexagonEnabled;
-    [self sdlex_setToggleSoftButtonIcon:hexagonEnabled imagesEnabled:self.areImagesEnabled];
+- (void)setToggleEnabled:(BOOL)toggleEnabled {
+    _toggleEnabled = toggleEnabled;
+    SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:ToggleSoftButton];
+    [object transitionToStateNamed:(toggleEnabled ? ToggleSoftButtonImageOnState : ToggleSoftButtonImageOffState)];
 }
 
 #pragma mark - Custom Soft Buttons
@@ -88,11 +91,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (SDLSoftButtonObject *)sdlex_softButtonToggleWithManager:(SDLManager *)manager {
     SDLSoftButtonState *toggleImageOnState = [[SDLSoftButtonState alloc] initWithStateName:ToggleSoftButtonImageOnState text:nil image:[UIImage imageNamed:WheelIconImageName]];
     SDLSoftButtonState *toggleImageOffState = [[SDLSoftButtonState alloc] initWithStateName:ToggleSoftButtonImageOffState text:nil image:[UIImage imageNamed:LaptopIconImageName]];
-    SDLSoftButtonState *toggleTextOnState = [[SDLSoftButtonState alloc] initWithStateName:ToggleSoftButtonTextOnState text:ToggleSoftButtonTextTextOnText image:nil];
-    SDLSoftButtonState *toggleTextOffState = [[SDLSoftButtonState alloc] initWithStateName:ToggleSoftButtonTextOffState text:ToggleSoftButtonTextTextOffText image:nil];
 
     __weak typeof(self) weakself = self;
-    SDLSoftButtonObject *toggleButton = [[SDLSoftButtonObject alloc] initWithName:ToggleSoftButton states:@[toggleImageOnState, toggleImageOffState, toggleTextOnState, toggleTextOffState] initialStateName:toggleImageOnState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    SDLSoftButtonObject *toggleButton = [[SDLSoftButtonObject alloc] initWithName:ToggleSoftButton states:@[toggleImageOnState, toggleImageOffState] initialStateName:toggleImageOnState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
         if (buttonPress == nil) { return; }
         weakself.toggleEnabled = !weakself.toggleEnabled;
         SDLLogD(@"Toggle icon button press fired %d", self.toggleEnabled);
@@ -138,18 +139,6 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 
     return imagesButton;
-}
-
-#pragma mark - Button State Helpers
-
-- (void)sdlex_setToggleSoftButtonIcon:(BOOL)toggleEnabled imagesEnabled:(BOOL)imagesEnabled {
-    SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:ToggleSoftButton];
-    imagesEnabled ? [object transitionToStateNamed:(toggleEnabled ? ToggleSoftButtonImageOnState : ToggleSoftButtonImageOffState)] : [object transitionToStateNamed:(toggleEnabled ? ToggleSoftButtonTextOnState : ToggleSoftButtonTextOffState)];
-}
-
-- (void)sdlex_setAlertSoftButtonIcon {
-    SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:AlertSoftButton];
-    [object transitionToNextState];
 }
 
 @end

@@ -88,7 +88,7 @@ private extension ProxyManager {
     /// - Returns: A SDLLogConfiguration object
     class func logConfiguration() -> SDLLogConfiguration {
         let logConfig = SDLLogConfiguration.default()
-        let exampleLogFileModule = SDLLogFileModule(name: "SDL Swift Example App", files: ["ProxyManager", "MenuManager", "ButtonManager", "AlertManager", "RPCPermissionsManager", "VehicleDataManager", "AudioManager"])
+        let exampleLogFileModule = SDLLogFileModule(name: "SDL Swift Example App", files: ["ProxyManager", "AlertManager", "AudioManager", "ButtonManager", "MenuManager", "PerformInteractionManager", "RPCPermissionsManager", "VehicleDataManager"])
         logConfig.modules.insert(exampleLogFileModule)
         _ = logConfig.targets.insert(SDLLogTargetFile()) // Logs to file
         logConfig.globalLogLevel = .debug // Filters the logs
@@ -154,7 +154,7 @@ extension ProxyManager: SDLManagerDelegate {
         case .full:                // The SDL app is in the foreground
             // Always try to show the initial state to guard against some possible weird states. Duplicates will be ignored by Core.
             showInitialData()
-        case .limited: break        // The SDL app's menu is open
+        case .limited: break        // An active NAV or MEDIA SDL app is in the background
         case .background: break     // The SDL app is not in the foreground
         case .none: break           // The SDL app is not yet running
         default: break
@@ -168,7 +168,6 @@ extension ProxyManager: SDLManagerDelegate {
         case SDLSystemContext.main: break
         case SDLSystemContext.menu: break
         case SDLSystemContext.voiceRecognitionSession: break
-        case SDLSystemContext.hmiObscured: break
         default: break
         }
     }
@@ -212,7 +211,7 @@ extension ProxyManager: SDLManagerDelegate {
 
 private extension ProxyManager {
     /// Handler for refreshing the UI
-    var refreshUIHandler: refreshUIHandler? {
+    var refreshUIHandler: RefreshUIHandler? {
         return { [unowned self] () in
             self.updateScreen()
         }
@@ -269,7 +268,7 @@ private extension ProxyManager {
         }
 
         // Send the choice sets
-        sdlManager.send([MenuManager.createInteractionChoiceSet()], progressHandler: { (request, response, error, percentComplete) in
+        sdlManager.send([PerformInteractionManager.createInteractionChoiceSet()], progressHandler: { (request, response, error, percentComplete) in
             SDLLog.d("\(request), was sent \(response?.resultCode == .success ? "successfully" : "unsuccessfully"), error: \(error?.localizedDescription ?? "no error message")")
         }, completionHandler: { (success) in
             SDLLog.d("All prepare remote system requests sent \(success ? "successfully" : "unsuccessfully")")

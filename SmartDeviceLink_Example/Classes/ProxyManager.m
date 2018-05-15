@@ -4,23 +4,17 @@
 
 #import "AppConstants.h"
 #import "AlertManager.h"
-#import "AudioManager.h"
 #import "ButtonManager.h"
+#import "MenuManager.h"
+#import "PerformInteractionManager.h"
 #import "Preferences.h"
 #import "ProxyManager.h"
 #import "RPCPermissionsManager.h"
 #import "SmartDeviceLink.h"
 #import "VehicleDataManager.h"
 
-
-typedef NS_ENUM(NSUInteger, SDLHMIFirstState) {
-    SDLHMIFirstStateNone,
-    SDLHMIFirstStateNonNone,
-    SDLHMIFirstStateFull
-};
-
-
 NS_ASSUME_NONNULL_BEGIN
+
 
 @interface ProxyManager () <SDLManagerDelegate>
 
@@ -29,7 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) VehicleDataManager *vehicleDataManager;
 @property (strong, nonatomic) ButtonManager *buttonManager;
-@property (strong, nonatomic) AudioManager *audioManager;
 @property (nonatomic, copy, nullable) RefreshUIHandler refreshUIHandler;
 @end
 
@@ -71,7 +64,6 @@ NS_ASSUME_NONNULL_BEGIN
 
         self.vehicleDataManager = [[VehicleDataManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
         self.buttonManager = [[ButtonManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
-        self.audioManager = [[AudioManager alloc] initWithManager:self.sdlManager];
 
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
         [RPCPermissionsManager setupPermissionsCallbacksWithManager:weakSelf.sdlManager];
@@ -138,7 +130,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (SDLLogConfiguration *)sdlex_logConfiguration {
     SDLLogConfiguration *logConfig = [SDLLogConfiguration debugConfiguration];
-    SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Obj-C Example App" files:[NSSet setWithArray:@[@"ProxyManager", @"AudioManager", @"VehicleDataManager", @"AlertManager", @"RPCPermissionsManager", @"ButtonManager"]]];
+    SDLLogFileModule *sdlExampleModule = [SDLLogFileModule moduleWithName:@"SDL Obj-C Example App" files:[NSSet setWithArray:@[@"ProxyManager", @"AlertManager", @"AudioManager", @"ButtonManager", @"MenuManager", @"PerformInteractionManager", @"RPCPermissionsManager", @"VehicleDataManager"]]];
     logConfig.modules = [logConfig.modules setByAddingObject:sdlExampleModule];
     logConfig.targets = [logConfig.targets setByAddingObject:[SDLLogTargetFile logger]];
     logConfig.globalLogLevel = SDLLogLevelVerbose;
@@ -149,9 +141,9 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Screen UI Helpers
 
 - (void)sdlex_createMenus {
-    [self.sdlManager sendRequest:[self.class sdlex_createChoiceInteractionSet]];
-    [self sdlex_createMenu];
-    [self sdlex_createVoiceCommands];
+    [self.sdlManager sendRequest:[PerformInteractionManager createInteractionChoiceSet]];
+    self.sdlManager.screenManager.menu = [MenuManager allMenuItemsWithManager:self.sdlManager];
+    self.sdlManager.screenManager.voiceCommands = [MenuManager allVoiceMenuItemsWithManager:self.sdlManager];
 }
 
 - (void)sdlex_showInitialData {
@@ -196,107 +188,6 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-#pragma mark - RPC builders
-
-#pragma mark Perform Interaction Choice Sets
-static UInt32 choiceSetId = 100;
-
-+ (NSArray<SDLChoice *> *)sdlex_createChoiceSet {
-    SDLChoice *firstChoice = [[SDLChoice alloc] initWithId:1 menuName:PICSFirstChoice vrCommands:@[PICSFirstChoice]];
-    SDLChoice *secondChoice = [[SDLChoice alloc] initWithId:2 menuName:PICSSecondChoice vrCommands:@[PICSSecondChoice]];
-    SDLChoice *thirdChoice = [[SDLChoice alloc] initWithId:3 menuName:PICSThirdChoice vrCommands:@[PICSThirdChoice]];
-    return @[firstChoice, secondChoice, thirdChoice];
-}
-
-+ (SDLPerformInteraction *)sdlex_createPerformInteraction {
-    SDLPerformInteraction *performInteraction = [[SDLPerformInteraction alloc] initWithInitialPrompt:PICSInitialPrompt initialText:PICSInitialText interactionChoiceSetIDList:@[@(choiceSetId)] helpPrompt:PICSHelpPrompt timeoutPrompt:PICSTimeoutPrompt interactionMode:SDLInteractionModeBoth timeout:10000];
-    performInteraction.interactionLayout = SDLLayoutModeListOnly;
-    return performInteraction;
-}
-
-+ (void)sdlex_showPerformInteractionChoiceSetWithManager:(SDLManager *)manager {
-    [manager sendRequest:[self sdlex_createPerformInteraction] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (response.resultCode != SDLResultSuccess) {
-            SDLLogE(@"The Show Perform Interaction Choice Set request failed: %@", error.localizedDescription);
-            return;
-        }
-
-        if ([response.resultCode isEqualToEnum:SDLResultTimedOut]) {
-            SDLLogD(@"The perform interaction choice set menu timed out before the user could select an item");
-            [manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSYouMissed]];
-        } else if ([response.resultCode isEqualToEnum:SDLResultSuccess]) {
-            SDLLogD(@"The user selected an item in the perform interaction choice set menu");
-            [manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSGoodJob]];
-        }
-    }];
-}
-
-+ (SDLCreateInteractionChoiceSet *)sdlex_createChoiceInteractionSet {
-    return [[SDLCreateInteractionChoiceSet alloc] initWithId:choiceSetId choiceSet:[self sdlex_createChoiceSet]];
-}
-
-#pragma mark Menu
-
-- (void)sdlex_createMenu {
-    __weak typeof(self) weakself = self;
-    SDLMenuCell *speakCell = [[SDLMenuCell alloc] initWithTitle:ACSpeakAppNameMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:SpeakBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACSpeakAppNameMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [weakself.sdlManager sendRequest:[[SDLSpeak alloc] initWithTTS:ExampleAppNameTTS]];
-    }];
-
-    SDLMenuCell *interactionSetCell = [[SDLMenuCell alloc] initWithTitle:ACShowChoiceSetMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:MenuBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACShowChoiceSetMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [ProxyManager sdlex_showPerformInteractionChoiceSetWithManager:weakself.sdlManager];
-    }];
-
-    SDLMenuCell *getVehicleDataCell = [[SDLMenuCell alloc] initWithTitle:ACGetVehicleDataMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:CarBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACGetVehicleDataMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [VehicleDataManager getVehicleSpeedWithManager:weakself.sdlManager];
-    }];
-
-    SDLMenuCell *recordInCarMicrophoneAudio = [[SDLMenuCell alloc] initWithTitle:ACRecordInCarMicrophoneAudioMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:MicrophoneBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACRecordInCarMicrophoneAudioMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [self.audioManager startRecording];
-    }];
-
-    SDLMenuCell *dialPhoneNumber = [[SDLMenuCell alloc] initWithTitle:ACDialPhoneNumberMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:PhoneBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACDialPhoneNumberMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        if (![RPCPermissionsManager isDialNumberRPCAllowedWithManager:self.sdlManager]) {
-            [self.sdlManager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"This app does not have the required permissions to dial a number" textField2:nil]];
-            return;
-        }
-
-        [VehicleDataManager checkPhoneCallCapabilityWithManager:self.sdlManager phoneNumber:@"555-555-5555"];
-    }];
-
-    NSMutableArray *submenuItems = [NSMutableArray array];
-    for (int i = 0; i < 75; i++) {
-        SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:[NSString stringWithFormat:@"%@ %i", ACSubmenuItemMenuName, i] icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:MenuBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-            [self.sdlManager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"You selected %@ %i", ACSubmenuItemMenuName, i] textField2:nil]];
-        }];
-        [submenuItems addObject:cell];
-    }
-    SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:ACSubmenuMenuName subCells:[submenuItems copy]];
-
-    self.sdlManager.screenManager.menu = @[speakCell, getVehicleDataCell, interactionSetCell, recordInCarMicrophoneAudio, dialPhoneNumber, submenuCell];
-}
-
-#pragma mark Voice Commands
-
-- (void)sdlex_createVoiceCommands {
-    if (!self.sdlManager.systemCapabilityManager.vrCapability) {
-        SDLLogE(@"The head unit does not support voice recognition");
-        return;
-    }
-    self.sdlManager.screenManager.voiceCommands = @[[self.class sdlex_voiceCommandStartWithManager:self.sdlManager], [self.class sdlex_voiceCommandStopWithManager:self.sdlManager]];
-}
-
-+ (SDLVoiceCommand *)sdlex_voiceCommandStartWithManager:(SDLManager *)manager {
-    return [[SDLVoiceCommand alloc] initWithVoiceCommands:@[VCStop] handler:^{
-        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"%@ voice command selected!", VCStop] textField2:nil]];
-    }];
-}
-
-+ (SDLVoiceCommand *)sdlex_voiceCommandStopWithManager:(SDLManager *)manager {
-    return [[SDLVoiceCommand alloc] initWithVoiceCommands:@[VCStart] handler:^{
-        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"%@ voice command selected!", VCStart] textField2:nil]];
-    }];
-}
 
 #pragma mark - SDLManagerDelegate
 
@@ -321,18 +212,49 @@ static UInt32 choiceSetId = 100;
     }
 
     if ([newLevel isEqualToEnum:SDLHMILevelFull]) {
+        // The SDL app is in the foreground
         SDLLogD(@"The HMI level is full");
     } else if ([newLevel isEqualToEnum:SDLHMILevelLimited]) {
+        // An active NAV or MEDIA SDL app is in the background
         SDLLogD(@"The HMI level is limited");
     } else if ([newLevel isEqualToEnum:SDLHMILevelBackground]) {
+        // The SDL app is not in the foreground
         SDLLogD(@"The HMI level is background");
     } else if ([newLevel isEqualToEnum:SDLHMILevelNone]) {
+        // The SDL app is not yet running
         SDLLogD(@"The HMI level is none");
     }
     
     if ([newLevel isEqualToEnum:SDLHMILevelFull]) {
         // We're always going to try to show the initial state. because if we've already shown it, it won't be shown, and we need to guard against some possible weird states
         [self sdlex_showInitialData];
+    }
+}
+
+- (void)systemContext:(nullable SDLSystemContext)oldContext didChangeToContext:(SDLSystemContext)newContext {
+    if ([newContext isEqualToEnum:SDLSystemContextAlert]) {
+        SDLLogD(@"The System Context is Alert");
+    } else if ([newContext isEqualToEnum:SDLSystemContextHMIObscured]) {
+        SDLLogD(@"The System Context is HMI Obscured");
+    } else if ([newContext isEqualToEnum:SDLSystemContextMain]) {
+        SDLLogD(@"The System Context is Main");
+    } else if ([newContext isEqualToEnum:SDLSystemContextMenu]) {
+        SDLLogD(@"The System Context is Menu");
+    } else if ([newContext isEqualToEnum:SDLSystemContextVoiceRecognitionSession]) {
+        SDLLogD(@"The System Context is Voice Recognition Session");
+    }
+}
+
+- (void)audioStreamingState:(nullable SDLAudioStreamingState)oldState didChangeToState:(SDLAudioStreamingState)newState {
+    if ([newState isEqualToEnum:SDLAudioStreamingStateAudible]) {
+        // The SDL app's audio can be heard
+        SDLLogD(@"The Audio Streaming State is Audible");
+    } else if ([newState isEqualToEnum:SDLAudioStreamingStateNotAudible]) {
+        // The SDL app's audio cannot be heard
+        SDLLogD(@"The Audio Streaming State is Not Audible");
+    } else if ([newState isEqualToEnum:SDLAudioStreamingStateAttenuated]) {
+        // The SDL app's audio volume has been lowered to let the system speak over the audio. This usually happens with voice recognition commands.
+        SDLLogD(@"The Audio Streaming State is Not Attenuated");
     }
 }
 

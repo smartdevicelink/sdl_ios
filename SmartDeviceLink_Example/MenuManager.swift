@@ -11,19 +11,17 @@ import SmartDeviceLink
 import SmartDeviceLinkSwift
 
 class MenuManager: NSObject {
-    /// Creates a choice set to be used in a PerformInteraction. The choice set must be sent to SDL Core and a response received before it can be used in a PerformInteraction request.
-    ///
-    /// - Returns: A SDLCreateInteractionChoiceSet request
-    class func createInteractionChoiceSet() -> SDLCreateInteractionChoiceSet {
-        return SDLCreateInteractionChoiceSet(id: UInt32(choiceSetId), choiceSet: createChoiceSet())
-    }
-
     /// Creates and returns the menu items
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: An array of SDLAddCommand objects
     class func allMenuItems(with manager: SDLManager) -> [SDLMenuCell] {
-        return [menuCellSpeakName(with: manager), menuCellGetVehicleSpeed(with: manager), menuCellShowPerformInteraction(with: manager), menuCellRecordInCarMicrophoneAudio(with: manager), menuCellDialNumber(with: manager), menuCellWithSubmenu(with: manager)]
+        return [menuCellSpeakName(with: manager),
+                menuCellGetVehicleSpeed(with: manager),
+                menuCellShowPerformInteraction(with: manager),
+                menuCellRecordInCarMicrophoneAudio(with: manager),
+                menuCellDialNumber(with: manager),
+                menuCellWithSubmenu(with: manager)]
     }
 
     /// Creates and returns the voice commands. The voice commands are menu items that are selected using the voice recognition system.
@@ -47,7 +45,7 @@ private extension MenuManager {
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
     class func menuCellSpeakName(with manager: SDLManager) -> SDLMenuCell {
-        return SDLMenuCell(title: ACSpeakAppNameMenuName, icon: SDLArtwork(image: UIImage(named: SpeakBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACSpeakAppNameMenuName], handler: { (triggerSource) in
+        return SDLMenuCell(title: ACSpeakAppNameMenuName, icon: SDLArtwork(image: UIImage(named: SpeakBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACSpeakAppNameMenuName], handler: { _ in
             manager.send(request: SDLSpeak(tts: ExampleAppNameTTS), responseHandler: { (_, response, error) in
                 guard response?.resultCode == .success else { return }
                 SDLLog.e("Error sending the Speak RPC: \(error?.localizedDescription ?? "no error message")")
@@ -60,7 +58,7 @@ private extension MenuManager {
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
     class func menuCellGetVehicleSpeed(with manager: SDLManager) -> SDLMenuCell {
-        return SDLMenuCell(title: ACGetVehicleDataMenuName, icon: SDLArtwork(image: UIImage(named: CarBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACGetVehicleDataMenuName], handler: { (triggerSource) in
+        return SDLMenuCell(title: ACGetVehicleDataMenuName, icon: SDLArtwork(image: UIImage(named: CarBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACGetVehicleDataMenuName], handler: { _ in
             VehicleDataManager.getVehicleSpeed(with: manager)
         })
     }
@@ -70,8 +68,8 @@ private extension MenuManager {
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
     class func menuCellShowPerformInteraction(with manager: SDLManager) -> SDLMenuCell {
-        return SDLMenuCell(title: ACShowChoiceSetMenuName, icon: SDLArtwork(image: UIImage(named: MenuBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACShowChoiceSetMenuName], handler: { (triggerSource) in
-            showPerformInteractionChoiceSet(with: manager)
+        return SDLMenuCell(title: ACShowChoiceSetMenuName, icon: SDLArtwork(image: UIImage(named: MenuBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACShowChoiceSetMenuName], handler: { triggerSource in
+            PerformInteractionManager.showPerformInteractionChoiceSet(with: manager, triggerSource: triggerSource)
         })
     }
 
@@ -82,12 +80,12 @@ private extension MenuManager {
     class func menuCellRecordInCarMicrophoneAudio(with manager: SDLManager) -> SDLMenuCell {
         if #available(iOS 10.0, *) {
             let audioManager = AudioManager(sdlManager: manager)
-            return SDLMenuCell(title: ACRecordInCarMicrophoneAudioMenuName, icon: SDLArtwork(image: UIImage(named: MicrophoneBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACRecordInCarMicrophoneAudioMenuName], handler: { (triggerSource) in
+            return SDLMenuCell(title: ACRecordInCarMicrophoneAudioMenuName, icon: SDLArtwork(image: UIImage(named: MicrophoneBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACRecordInCarMicrophoneAudioMenuName], handler: { _ in
                 audioManager.startRecording()
             })
         }
 
-        return SDLMenuCell(title: ACRecordInCarMicrophoneAudioMenuName, icon: SDLArtwork(image: UIImage(named: SpeakBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACRecordInCarMicrophoneAudioMenuName], handler: { (triggerSource) in
+        return SDLMenuCell(title: ACRecordInCarMicrophoneAudioMenuName, icon: SDLArtwork(image: UIImage(named: SpeakBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACRecordInCarMicrophoneAudioMenuName], handler: { _ in
             manager.send(AlertManager.alertWithMessageAndCloseButton("Speech recognition feature only available on iOS 10+"))
         })
     }
@@ -97,7 +95,7 @@ private extension MenuManager {
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
     class func menuCellDialNumber(with manager: SDLManager) -> SDLMenuCell {
-        return SDLMenuCell(title: ACDialPhoneNumberMenuName, icon: SDLArtwork(image: UIImage(named: PhoneBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACDialPhoneNumberMenuName], handler: { (triggerSource) in
+        return SDLMenuCell(title: ACDialPhoneNumberMenuName, icon: SDLArtwork(image: UIImage(named: PhoneBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACDialPhoneNumberMenuName], handler: { _ in
             guard RPCPermissionsManager.isDialNumberRPCAllowed(with: manager) else {
                 manager.send(AlertManager.alertWithMessageAndCloseButton("This app does not have the required permissions to dial a number"))
                 return
@@ -116,55 +114,18 @@ private extension MenuManager {
         for i in 0..<75 {
             let submenuTitle = "Submenu Item \(i)"
             submenuItems.append(SDLMenuCell(title: submenuTitle, icon: SDLArtwork(image: UIImage(named: MenuBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [submenuTitle, "Item \(i)", "\(i)"], handler: { (triggerSource) in
-                manager.send(AlertManager.alertWithMessageAndCloseButton("Submenu item \(i) selected!"))
+                let message = "\(submenuTitle) selected!"
+                switch triggerSource {
+                case .menu:
+                    manager.send(AlertManager.alertWithMessageAndCloseButton(message))
+                case .voiceRecognition:
+                    manager.send(SDLSpeak(tts: message))
+                default: break
+                }
             }))
         }
 
         return SDLMenuCell(title: "Submenu", subCells: submenuItems)
-    }
-}
-
-// MARK: - Perform Interaction Choice Set Menu
-
-private extension MenuManager {
-    static let choiceSetId = 100
-    /// The PICS menu items
-    ///
-    /// - Returns: An array of SDLChoice items
-    class func createChoiceSet() -> [SDLChoice] {
-        let firstChoice = SDLChoice(id: 1, menuName: PICSFirstChoice, vrCommands: [PICSFirstChoice])
-        let secondChoice = SDLChoice(id: 2, menuName: PICSSecondChoice, vrCommands: [PICSSecondChoice])
-        let thirdChoice = SDLChoice(id: 3, menuName: PICSThirdChoice, vrCommands: [PICSThirdChoice])
-        return [firstChoice, secondChoice, thirdChoice]
-    }
-
-    /// Creates a PICS with three menu items and customized voice commands
-    ///
-    /// - Returns: A SDLPerformInteraction request
-    class func createPerformInteraction() -> SDLPerformInteraction {
-        let performInteraction = SDLPerformInteraction(initialPrompt: PICSInitialPrompt, initialText: PICSInitialText, interactionChoiceSetIDList: [choiceSetId as NSNumber], helpPrompt: PICSHelpPrompt, timeoutPrompt: PICSTimeoutPrompt, interactionMode: .both, timeout: 10000)
-        performInteraction.interactionLayout = .listOnly
-        return performInteraction
-    }
-
-    /// Shows a PICS. The handler is called when the user selects a menu item or when the menu times out after a set amount of time. A custom text-to-speech phrase is spoken when the menu is closed.
-    ///
-    /// - Parameter manager: The SDL Manager
-    class func showPerformInteractionChoiceSet(with manager: SDLManager) {
-        manager.send(request: createPerformInteraction()) { (_, response, error) in
-            guard response?.resultCode == .success else {
-                SDLLog.e("The Show Perform Interaction Choice Set request failed: \(error?.localizedDescription ?? "no error")")
-                return
-            }
-
-            if response?.resultCode == .timedOut {
-                // The menu timed out before the user could select an item
-                manager.send(SDLSpeak(tts: TTSYouMissed))
-            } else if response?.resultCode == .success {
-                // The user selected an item in the menu
-                manager.send(SDLSpeak(tts: TTSGoodJob))
-            }
-        }
     }
 }
 
