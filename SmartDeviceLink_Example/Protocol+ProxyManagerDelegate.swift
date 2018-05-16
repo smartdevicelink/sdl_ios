@@ -9,5 +9,5 @@
 import Foundation
 
 protocol ProxyManagerDelegate: class {
-    func didChangeProxyState(_ newState: SDLProxyState)
+    func didChangeProxyState(_ newState: ProxyState)
 }

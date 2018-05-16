@@ -14,7 +14,7 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
     @IBOutlet weak var connectButton: UIButton!
     @IBOutlet weak var table: UITableView!
 
-    var state: SDLProxyState = .stopped
+    var state: ProxyState = .stopped
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +47,7 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
 
             switch state {
             case .stopped:
-                ProxyManager.sharedManager.start(with: .TCP)
+                ProxyManager.sharedManager.start(with: .tcp)
             case .searching:
                 ProxyManager.sharedManager.resetConnection()
             case .connected:
@@ -60,7 +60,7 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
         }
     }
     // MARK: - Delegate Functions
-    func didChangeProxyState(_ newState: SDLProxyState) {
+    func didChangeProxyState(_ newState: ProxyState) {
         state = newState
         var newColor: UIColor? = nil
         var newTitle: String? = nil

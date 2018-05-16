@@ -1073,9 +1073,7 @@
 		88295693207CF68800EF056C /* SmartDeviceLink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8829569E207CFD0E00EF056C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8829569D207CFD0E00EF056C /* AppDelegate.swift */; };
 		8850DB601F4475D30053A48D /* TestMultipleFilesConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */; };
-		885D259C207D111200BD6EE7 /* Enum+SDLProxyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885D259A207D107A00BD6EE7 /* Enum+SDLProxyState.swift */; };
 		8863B59D207D3849002D6459 /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 8863B597207D2388002D6459 /* AppConstants.m */; };
-		8863B59F207D4308002D6459 /* Enum+SDLConnectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8863B59E207D4308002D6459 /* Enum+SDLConnectionType.swift */; };
 		8870C3EA208662540070E018 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8870C3E82086623F0070E018 /* AudioManager.swift */; };
 		8877F5EB1F34A3BE00DC128A /* SDLSendHapticDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */; };
 		8877F5EE1F34A72200DC128A /* SDLSendHapticDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2420,10 +2418,8 @@
 		8829569D207CFD0E00EF056C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8850DB5E1F4475D30053A48D /* TestMultipleFilesConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestMultipleFilesConnectionManager.h; sourceTree = "<group>"; };
 		8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestMultipleFilesConnectionManager.m; sourceTree = "<group>"; };
-		885D259A207D107A00BD6EE7 /* Enum+SDLProxyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enum+SDLProxyState.swift"; sourceTree = "<group>"; };
 		8863B596207D2388002D6459 /* AppConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConstants.h; sourceTree = "<group>"; };
 		8863B597207D2388002D6459 /* AppConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppConstants.m; sourceTree = "<group>"; };
-		8863B59E207D4308002D6459 /* Enum+SDLConnectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enum+SDLConnectionType.swift"; sourceTree = "<group>"; };
 		8870C3E82086623F0070E018 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataSpec.m; sourceTree = "<group>"; };
 		8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSendHapticDataResponse.h; sourceTree = "<group>"; };
@@ -4941,8 +4937,6 @@
 			isa = PBXGroup;
 			children = (
 				88A0AA55207CFE5C0075132C /* AppUserDefaults.swift */,
-				885D259A207D107A00BD6EE7 /* Enum+SDLProxyState.swift */,
-				8863B59E207D4308002D6459 /* Enum+SDLConnectionType.swift */,
 				88DFB051207F8DF50079D19D /* Protocol+ProxyManagerDelegate.swift */,
 			);
 			name = Utilities;
@@ -6517,13 +6511,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				88A0AA5C207CFE740075132C /* ConnectionContainerViewController.swift in Sources */,
-				8863B59F207D4308002D6459 /* Enum+SDLConnectionType.swift in Sources */,
 				88B849C52080F4B3002A034D /* RPCPermissionsManager.swift in Sources */,
 				8870C3EA208662540070E018 /* AudioManager.swift in Sources */,
 				88DFB055207F96EE0079D19D /* AlertManager.swift in Sources */,
 				888D178F207E7F42008E9F8F /* ButtonManager.swift in Sources */,
 				88A0AA5E207CFE740075132C /* ConnectionTCPTableViewController.swift in Sources */,
-				885D259C207D111200BD6EE7 /* Enum+SDLProxyState.swift in Sources */,
 				88DFB053207F8E100079D19D /* Protocol+ProxyManagerDelegate.swift in Sources */,
 				88B849C820812442002A034D /* VehicleDataManager.swift in Sources */,
 				8829569E207CFD0E00EF056C /* AppDelegate.swift in Sources */,

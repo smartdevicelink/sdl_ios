@@ -92,20 +92,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDL Configuration
 
-- (void)startIAP {
+- (void)startWithProxyTransportType:(ProxyTransportType)proxyTransportType {
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
+
     // Check for previous instance of sdlManager
     if (self.sdlManager) { return; }
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:ExampleAppName appId:ExampleAppId]];
+
+    SDLLifecycleConfiguration *lifecycleConfig = proxyTransportType == ProxyTransportTypeIAP ? [self.class sdlex_iapLifecycleConfiguration] : [self.class sdlex_tcpLifecycleConfiguration];
     [self sdlex_setupConfigurationWithLifecycleConfiguration:lifecycleConfig];
 }
 
-- (void)startTCP {
-    [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
-    // Check for previous instance of sdlManager
-    if (self.sdlManager) { return; }
-    SDLLifecycleConfiguration *lifecycleConfig = [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:ExampleAppName appId:ExampleAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
-    [self sdlex_setupConfigurationWithLifecycleConfiguration:lifecycleConfig];
++ (SDLLifecycleConfiguration *)sdlex_iapLifecycleConfiguration {
+    return [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:ExampleAppName appId:ExampleAppId]];
+}
+
++ (SDLLifecycleConfiguration *)sdlex_tcpLifecycleConfiguration {
+    return [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:ExampleAppName appId:ExampleAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
 }
 
 - (void)sdlex_setupConfigurationWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
@@ -147,9 +149,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdlex_showInitialData {
-    if (![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) {
-        return;
-    }
+    if (![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) { return; }
 
     [self sdlex_updateScreen];
     self.sdlManager.screenManager.softButtonObjects = [self.buttonManager allScreenSoftButtons];

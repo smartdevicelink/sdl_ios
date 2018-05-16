@@ -9,6 +9,17 @@ import UIKit
 import SmartDeviceLink
 import SmartDeviceLinkSwift
 
+enum ProxyTransportType {
+    case tcp
+    case iap
+}
+
+enum ProxyState {
+    case stopped
+    case searching
+    case connected
+}
+
 class ProxyManager: NSObject {
     fileprivate var sdlManager: SDLManager!
     fileprivate var buttonManager: ButtonManager!
@@ -30,16 +41,16 @@ extension ProxyManager {
     /// Configures the SDL Manager that handles data transfer beween this app and the car's head unit and starts searching for a connection to a head unit. There are two possible types of transport layers to use: TCP is used to connect wirelessly to SDL Core and is only available for debugging; iAP is used to connect to MFi (Made for iPhone) hardware and is must be used for production builds.
     ///
     /// - Parameter connectionType: The type of transport layer to use.
-    func start(with connectionType: SDLConnectionType) {
-        delegate?.didChangeProxyState(SDLProxyState.searching)
-        sdlManager = SDLManager(configuration: connectionType == .iAP ? ProxyManager.connectIAP() : ProxyManager.connectTCP(), delegate: self)
+    func start(with proxyTransportType: ProxyTransportType) {
+        delegate?.didChangeProxyState(ProxyState.searching)
+        sdlManager = SDLManager(configuration: proxyTransportType == .iap ? ProxyManager.connectIAP() : ProxyManager.connectTCP(), delegate: self)
         startManager()
     }
 
     /// Attempts to close the connection between the this app and the car's head unit. The `SDLManagerDelegate`'s `managerDidDisconnect()` is called when connection is actually closed.
     func resetConnection() {
         guard sdlManager != nil else {
-            delegate?.didChangeProxyState(SDLProxyState.stopped)
+            delegate?.didChangeProxyState(ProxyState.stopped)
             return
         }
 
@@ -104,7 +115,7 @@ private extension ProxyManager {
                 return
             }
 
-            self.delegate?.didChangeProxyState(SDLProxyState.connected)
+            self.delegate?.didChangeProxyState(ProxyState.connected)
 
             self.buttonManager = ButtonManager(sdlManager: self.sdlManager, updateScreenHandler: self.refreshUIHandler)
             self.vehicleDataManager = VehicleDataManager(sdlManager: self.sdlManager, refreshUIHandler: self.refreshUIHandler)
@@ -121,7 +132,7 @@ private extension ProxyManager {
 extension ProxyManager: SDLManagerDelegate {
     /// Called when the connection beween this app and SDL Core has closed.
     func managerDidDisconnect() {
-        delegate?.didChangeProxyState(SDLProxyState.stopped)
+        delegate?.didChangeProxyState(ProxyState.stopped)
         firstHMILevelState = .none
 
         // If desired, automatically start searching for a new connection to Core
@@ -219,10 +230,7 @@ private extension ProxyManager {
 
     /// Set the template and create the UI
     func showInitialData() {
-        let mediaTemplate = SDLSetDisplayLayout(predefinedLayout: .nonMedia)
-        if sdlManager.registerResponse?.displayCapabilities?.templatesAvailable?.contains(mediaTemplate.displayLayout) ?? false {
-            sdlManager.send(request: mediaTemplate, responseHandler: nil)
-        }
+        guard sdlManager.hmiLevel == .full else { return }
 
         updateScreen()
         sdlManager.screenManager.softButtonObjects = buttonManager.allScreenSoftButtons(with: sdlManager)

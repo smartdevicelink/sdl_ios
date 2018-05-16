@@ -7,7 +7,6 @@
 @class SDLManager;
 
 typedef NS_ENUM(NSUInteger, ProxyTransportType) {
-    ProxyTransportTypeUnknown,
     ProxyTransportTypeTCP,
     ProxyTransportTypeIAP
 };
@@ -26,8 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLManager *sdlManager;
 
 + (instancetype)sharedManager;
-- (void)startIAP;
-- (void)startTCP;
+- (void)startWithProxyTransportType:(ProxyTransportType)proxyTransportType;
 - (void)reset;
 
 @end
