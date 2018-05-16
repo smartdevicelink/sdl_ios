@@ -77,7 +77,7 @@ UInt32 const VoiceCommandIdMin = 1900000000;
     _oldVoiceCommands = @[];
 
     _waitingOnHMIUpdate = NO;
-    _currentHMILevel = SDLHMILevelNone;
+    _currentHMILevel = nil;
     _inProgressUpdate = nil;
     _hasQueuedUpdate = NO;
 }

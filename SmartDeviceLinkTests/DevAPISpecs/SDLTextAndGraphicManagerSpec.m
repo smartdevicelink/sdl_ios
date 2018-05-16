@@ -53,10 +53,14 @@ describe(@"text and graphic manager", ^{
     });
 
     it(@"should instantiate correctly", ^{
+        expect(testManager.connectionManager).to(equal(mockConnectionManager));
+        expect(testManager.fileManager).to(equal(mockFileManager));
+
         expect(testManager.textField1).to(beNil());
         expect(testManager.textField2).to(beNil());
         expect(testManager.textField3).to(beNil());
         expect(testManager.textField4).to(beNil());
+        expect(testManager.mediaTrackTextField).to(beNil());
         expect(testManager.primaryGraphic).to(beNil());
         expect(testManager.secondaryGraphic).to(beNil());
         expect(testManager.alignment).to(equal(SDLTextAlignmentCenter));
@@ -64,6 +68,15 @@ describe(@"text and graphic manager", ^{
         expect(testManager.textField2Type).to(beNil());
         expect(testManager.textField3Type).to(beNil());
         expect(testManager.textField4Type).to(beNil());
+
+        expect(testManager.currentScreenData).to(equal([[SDLShow alloc] init]));
+        expect(testManager.inProgressUpdate).to(beNil());
+        expect(testManager.queuedImageUpdate).to(beNil());
+        expect(testManager.hasQueuedUpdate).to(beFalse());
+        expect(testManager.displayCapabilities).to(beNil());
+        expect(testManager.currentLevel).to(equal(SDLHMILevelNone));
+        expect(testManager.blankArtwork).toNot(beNil());
+        expect(testManager.isDirty).to(beFalse());
     });
 
     describe(@"setting setters", ^{
@@ -704,6 +717,39 @@ describe(@"text and graphic manager", ^{
                     expect(testManager.queuedImageUpdate.secondaryGraphic.value).to(equal(testArtworkName));
                 });
             });
+        });
+    });
+
+    context(@"On disconnects", ^{
+        beforeEach(^{
+            [testManager stop];
+        });
+
+        it(@"should reset correctly", ^{
+            expect(testManager.connectionManager).to(equal(mockConnectionManager));
+            expect(testManager.fileManager).to(equal(mockFileManager));
+
+            expect(testManager.textField1).to(beNil());
+            expect(testManager.textField2).to(beNil());
+            expect(testManager.textField3).to(beNil());
+            expect(testManager.textField4).to(beNil());
+            expect(testManager.mediaTrackTextField).to(beNil());
+            expect(testManager.primaryGraphic).to(beNil());
+            expect(testManager.secondaryGraphic).to(beNil());
+            expect(testManager.alignment).to(equal(SDLTextAlignmentCenter));
+            expect(testManager.textField1Type).to(beNil());
+            expect(testManager.textField2Type).to(beNil());
+            expect(testManager.textField3Type).to(beNil());
+            expect(testManager.textField4Type).to(beNil());
+
+            expect(testManager.currentScreenData).to(equal([[SDLShow alloc] init]));
+            expect(testManager.inProgressUpdate).to(beNil());
+            expect(testManager.queuedImageUpdate).to(beNil());
+            expect(testManager.hasQueuedUpdate).to(beFalse());
+            expect(testManager.displayCapabilities).to(beNil());
+            expect(testManager.currentLevel).to(equal(SDLHMILevelNone));
+            expect(testManager.blankArtwork).toNot(beNil());
+            expect(testManager.isDirty).to(beFalse());
         });
     });
 });

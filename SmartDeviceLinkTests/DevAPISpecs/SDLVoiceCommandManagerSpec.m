@@ -48,6 +48,8 @@ describe(@"voice command manager", ^{
     });
 
     it(@"should instantiate correctly", ^{
+        expect(testManager.connectionManager).to(equal(mockConnectionManager));
+
         expect(testManager.voiceCommands).to(beEmpty());
         expect(testManager.connectionManager).to(equal(mockConnectionManager));
         expect(testManager.currentHMILevel).to(beNil());
@@ -116,6 +118,25 @@ describe(@"voice command manager", ^{
                 expect(deletes).to(haveCount(1));
                 expect(adds).to(haveCount(2));
             });
+        });
+    });
+
+    context(@"On disconnects", ^{
+        beforeEach(^{
+            [testManager stop];
+        });
+
+        it(@"should reset correctly", ^{
+            expect(testManager.connectionManager).to(equal(mockConnectionManager));
+
+            expect(testManager.voiceCommands).to(beEmpty());
+            expect(testManager.connectionManager).to(equal(mockConnectionManager));
+            expect(testManager.currentHMILevel).to(beNil());
+            expect(testManager.inProgressUpdate).to(beNil());
+            expect(testManager.hasQueuedUpdate).to(beFalse());
+            expect(testManager.waitingOnHMIUpdate).to(beFalse());
+            expect(testManager.lastVoiceCommandId).to(equal(VoiceCommandIdMin));
+            expect(testManager.oldVoiceCommands).to(beEmpty());
         });
     });
 });

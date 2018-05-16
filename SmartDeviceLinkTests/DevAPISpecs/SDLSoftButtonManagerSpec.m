@@ -77,6 +77,10 @@ describe(@"a soft button manager", ^{
         testManager.currentLevel = SDLHMILevelFull;
     });
 
+    it(@"should instantiate correctly", ^{
+        // expect(testManager.)
+    });
+
     context(@"when in HMI NONE", ^{
         beforeEach(^{
             testManager.currentLevel = SDLHMILevelNone;
@@ -323,6 +327,16 @@ describe(@"a soft button manager", ^{
             expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
             expect(testManager.inProgressUpdate.softButtons[0].text).to(equal(object1State2Text));
             expect(testManager.inProgressUpdate.softButtons[1].text).to(equal(object2State1Text));
+        });
+    });
+
+    context(@"On disconnects", ^{
+        beforeEach(^{
+            [testManager stop];
+        });
+
+        it(@"should reset correctly", ^{
+
         });
     });
 });
