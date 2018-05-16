@@ -93,6 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
     _textField3Type = nil;
     _textField4Type = nil;
 
+    _currentScreenData = [[SDLShow alloc] init];
     _inProgressUpdate = nil;
     _inProgressHandler = nil;
     _queuedImageUpdate = nil;

@@ -75,6 +75,7 @@ describe(@"menu manager", ^{
         expect(testManager.waitingOnHMIUpdate).to(beFalse());
         expect(testManager.lastMenuId).to(equal(1));
         expect(testManager.oldMenuCells).to(beEmpty());
+        expect(testManager.waitingUpdateMenuCells).to(beNil());
     });
 
     describe(@"updating menu cells before HMI is ready", ^{
@@ -307,6 +308,27 @@ describe(@"menu manager", ^{
                 expect(cellCalled).to(beTrue());
                 expect(testTriggerSource).to(equal(SDLTriggerSourceMenu));
             });
+        });
+    });
+
+    context(@"On disconnects", ^{
+        beforeEach(^{
+            [testManager stop];
+        });
+
+        it(@"should reset correctly", ^{
+            expect(testManager.connectionManager).to(equal(mockConnectionManager));
+            expect(testManager.fileManager).to(equal(mockFileManager));
+
+            expect(testManager.menuCells).to(beEmpty());
+            expect(testManager.currentHMILevel).to(beNil());
+            expect(testManager.displayCapabilities).to(beNil());
+            expect(testManager.inProgressUpdate).to(beNil());
+            expect(testManager.hasQueuedUpdate).to(beFalse());
+            expect(testManager.waitingOnHMIUpdate).to(beFalse());
+            expect(testManager.lastMenuId).to(equal(1));
+            expect(testManager.oldMenuCells).to(beEmpty());
+            expect(testManager.waitingUpdateMenuCells).to(beEmpty());
         });
     });
 

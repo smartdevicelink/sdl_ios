@@ -95,7 +95,7 @@ UInt32 const MenuCellIdMin = 1;
     _menuCells = @[];
     _oldMenuCells = @[];
 
-    _currentHMILevel = SDLHMILevelNone;
+    _currentHMILevel = nil;
     _currentSystemContext = SDLSystemContextMain;
     _displayCapabilities = nil;
     _inProgressUpdate = nil;
