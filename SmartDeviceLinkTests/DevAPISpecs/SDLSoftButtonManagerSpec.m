@@ -24,6 +24,9 @@
 
 @interface SDLSoftButtonManager()
 
+@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic) SDLFileManager *fileManager;
+
 @property (strong, nonatomic) NSArray<SDLSoftButton *> *currentSoftButtons;
 
 @property (strong, nonatomic, nullable) SDLShow *inProgressUpdate;
@@ -74,11 +77,21 @@ describe(@"a soft button manager", ^{
 
         testManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager];
 
+        expect(testManager.currentLevel).to(beNil());
         testManager.currentLevel = SDLHMILevelFull;
     });
 
     it(@"should instantiate correctly", ^{
-        // expect(testManager.)
+        expect(testManager.connectionManager).to(equal(testConnectionManager));
+        expect(testManager.fileManager).to(equal(testFileManager));
+
+        expect(testManager.softButtonObjects).to(beEmpty());
+        expect(testManager.currentMainField1).to(beNil());
+        expect(testManager.inProgressUpdate).to(beNil());
+        expect(testManager.hasQueuedUpdate).to(beFalse());
+        expect(testManager.displayCapabilities).to(beNil());
+        expect(testManager.softButtonCapabilities).to(beNil());
+        expect(testManager.waitingOnHMILevelUpdateToSetButtons).to(beFalse());
     });
 
     context(@"when in HMI NONE", ^{
@@ -336,7 +349,17 @@ describe(@"a soft button manager", ^{
         });
 
         it(@"should reset correctly", ^{
+            expect(testManager.connectionManager).to(equal(testConnectionManager));
+            expect(testManager.fileManager).to(equal(testFileManager));
 
+            expect(testManager.softButtonObjects).to(beEmpty());
+            expect(testManager.currentMainField1).to(beNil());
+            expect(testManager.inProgressUpdate).to(beNil());
+            expect(testManager.hasQueuedUpdate).to(beFalse());
+            expect(testManager.currentLevel).to(beNil());
+            expect(testManager.displayCapabilities).to(beNil());
+            expect(testManager.softButtonCapabilities).to(beNil());
+            expect(testManager.waitingOnHMILevelUpdateToSetButtons).to(beFalse());
         });
     });
 });

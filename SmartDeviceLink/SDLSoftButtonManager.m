@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
     _fileManager = fileManager;
     _softButtonObjects = @[];
 
-    _currentLevel = SDLHMILevelNone; // Assume NONE until we get something else
+    _currentLevel = nil;
     _waitingOnHMILevelUpdateToSetButtons = NO;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
     _inProgressHandler = nil;
     _hasQueuedUpdate = NO;
     _queuedUpdateHandler = nil;
-    _currentLevel = SDLHMILevelNone;
+    _currentLevel = nil;
     _displayCapabilities = nil;
     _softButtonCapabilities = nil;
     _waitingOnHMILevelUpdateToSetButtons = NO;
