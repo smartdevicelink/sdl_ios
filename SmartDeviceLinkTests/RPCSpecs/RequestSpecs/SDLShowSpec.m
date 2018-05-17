@@ -77,7 +77,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.metadataTags).to(beNil());
     });
 
-    fdescribe(@"initializing", ^{
+    describe(@"initializing", ^{
         __block NSString *testString1 = @"Test 1";
         __block NSString *testString2 = @"Test 2";
         __block SDLMetadataType testType1 = SDLMetadataTypeHumidity;
@@ -130,8 +130,8 @@ describe(@"Getter/Setter Tests", ^ {
             expect(testShow.secondaryGraphic).to(beNil());
             expect(testShow.softButtons).to(beNil());
             expect(testShow.customPresets).to(beNil());
-            expect(testShow.metadataTags.mainField1).to(equal(testType1));
-            expect(testShow.metadataTags.mainField2).to(equal(testType2));
+            expect(testShow.metadataTags.mainField1).to(contain(testType1));
+            expect(testShow.metadataTags.mainField2).to(contain(testType2));
             expect(testShow.metadataTags.mainField3).to(beNil());
             expect(testShow.metadataTags.mainField4).to(beNil());
 
