@@ -226,8 +226,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * @abstract The Custom Presets defined by the App
  *
- * @discussion A Vector value representing the Custom Presets defined by the
- *            App
+ * @discussion A Vector value representing the Custom Presets defined by the App
  *            <p>
  *            <ul>
  *            <li>If omitted on supported displays, the presets will be shown as not defined</li>
@@ -239,15 +238,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSArray<NSString *> *customPresets;
 
 /**
- * @abstract Text Field Metadata
- *
- * @discussion A Vector value representing the Custom Presets defined by the
- *            App
- *            <p>
- *            App defined metadata information. See MetadataStruct. Uses mainField1, mainField2, mainField3, mainField4.
- *            If omitted on supported displays, the currently set metadata tags will not change.
- *            If any text field contains no tags or the none tag, the metadata tag for that textfield should be removed.
- * @since SmartDeviceLink 2.0
+ Text Field Metadata
+
+ App defined metadata information. See MetadataStruct. Uses mainField1, mainField2, mainField3, mainField4. If omitted on supported displays, the currently set metadata tags will not change. If any text field contains no tags or the none tag, the metadata tag for that textfield should be removed.
+
+ @since SmartDeviceLink 2.0
  */
 @property (strong, nonatomic, nullable) SDLMetadataTags *metadataTags;
 

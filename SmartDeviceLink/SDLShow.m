@@ -31,9 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    NSArray<SDLMetadataType> *field1Array = @[mainField1Type];
-    NSArray<SDLMetadataType> *field2Array = @[mainField2Type];
-    SDLMetadataTags* metadataTags = [[SDLMetadataTags alloc] initWithTextFieldTypes:field1Array mainField2:field2Array];
+    NSArray<SDLMetadataType> *field1Array = mainField1Type ? @[mainField1Type] : nil;
+    NSArray<SDLMetadataType> *field2Array = mainField2Type ? @[mainField2Type] : nil;
+    SDLMetadataTags* metadataTags = (field1Array != nil || field2Array != nil) ? [[SDLMetadataTags alloc] initWithTextFieldTypes:field1Array mainField2:field2Array] : nil;
 
     self.mainField1 = mainField1;
     self.mainField2 = mainField2;
