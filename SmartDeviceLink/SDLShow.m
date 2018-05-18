@@ -31,9 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    NSArray<SDLMetadataType> *field1Array = @[mainField1Type];
-    NSArray<SDLMetadataType> *field2Array = @[mainField2Type];
-    SDLMetadataTags* metadataTags = [[SDLMetadataTags alloc] initWithTextFieldTypes:field1Array mainField2:field2Array];
+    NSArray<SDLMetadataType> *field1Array = mainField1Type ? @[mainField1Type] : nil;
+    NSArray<SDLMetadataType> *field2Array = mainField2Type ? @[mainField2Type] : nil;
+    SDLMetadataTags* metadataTags = (field1Array != nil || field2Array != nil) ? [[SDLMetadataTags alloc] initWithTextFieldTypes:field1Array mainField2:field2Array] : nil;
 
     self.mainField1 = mainField1;
     self.mainField2 = mainField2;
@@ -47,17 +47,17 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithMainField1:mainField1 mainField2:mainField2 mainField3:mainField3 mainField4:mainField4 alignment:alignment statusBar:nil mediaClock:nil mediaTrack:nil graphic:nil softButtons:nil customPresets:nil textFieldMetadata:nil];
 }
 
-- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type mainField3:(nullable NSString *)mainField3 mainField3Type:(nullable SDLMetadataType)mainField3Type mainField4:(nullable NSString *)mainField4 mainField4Type:(nullable SDLMetadataType)mainField4Type alignment:(nullable SDLTextAlignment)alignment{
+- (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField1Type:(nullable SDLMetadataType)mainField1Type mainField2:(nullable NSString *)mainField2 mainField2Type:(nullable SDLMetadataType)mainField2Type mainField3:(nullable NSString *)mainField3 mainField3Type:(nullable SDLMetadataType)mainField3Type mainField4:(nullable NSString *)mainField4 mainField4Type:(nullable SDLMetadataType)mainField4Type alignment:(nullable SDLTextAlignment)alignment {
     self = [self init];
     if (!self) {
         return nil;
     }
 
-    NSArray<SDLMetadataType> *field1Array = @[mainField1Type];
-    NSArray<SDLMetadataType> *field2Array = @[mainField2Type];
-    NSArray<SDLMetadataType> *field3Array = @[mainField3Type];
-    NSArray<SDLMetadataType> *field4Array = @[mainField4Type];
-    SDLMetadataTags* metadataTags = [[SDLMetadataTags alloc] initWithTextFieldTypes:field1Array mainField2:field2Array mainField3:field3Array mainField4:field4Array];
+    NSArray<SDLMetadataType> *field1Array = mainField1Type ? @[mainField1Type] : nil;
+    NSArray<SDLMetadataType> *field2Array = mainField2Type ? @[mainField2Type] : nil;
+    NSArray<SDLMetadataType> *field3Array = mainField3Type ? @[mainField3Type] : nil;
+    NSArray<SDLMetadataType> *field4Array = mainField4Type ? @[mainField4Type] : nil;
+    SDLMetadataTags* metadataTags = (field1Array != nil || field2Array != nil || field3Array != nil || field4Array != nil) ? [[SDLMetadataTags alloc] initWithTextFieldTypes:field1Array mainField2:field2Array mainField3:field3Array mainField4:field4Array] : nil;
 
     self.mainField1 = mainField1;
     self.mainField2 = mainField2;
