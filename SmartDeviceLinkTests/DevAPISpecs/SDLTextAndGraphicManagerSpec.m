@@ -149,6 +149,14 @@ describe(@"text and graphic manager", ^{
                 expect(testManager.isDirty).to(beTrue());
             });
 
+            it(@"should set media track text field", ^{
+                testManager.mediaTrackTextField = testString;
+
+                expect(testManager.mediaTrackTextField).to(equal(testString));
+                expect(testManager.inProgressUpdate).to(beNil());
+                expect(testManager.isDirty).to(beTrue());
+            });
+
             it(@"should set primary graphic", ^{
                 testManager.primaryGraphic = testArtwork;
 
@@ -243,6 +251,14 @@ describe(@"text and graphic manager", ^{
                 expect(testManager.isDirty).to(beFalse());
             });
 
+            it(@"should set media track text field", ^{
+                testManager.mediaTrackTextField = testString;
+
+                expect(testManager.mediaTrackTextField).to(equal(testString));
+                expect(testManager.inProgressUpdate).toNot(beNil());
+                expect(testManager.isDirty).to(beFalse());
+            });
+
             it(@"should set primary graphic", ^{
                 testManager.primaryGraphic = testArtwork;
 
@@ -306,6 +322,7 @@ describe(@"text and graphic manager", ^{
         NSString *textLine2 = @"line2";
         NSString *textLine3 = @"line3";
         NSString *textLine4 = @"line4";
+        NSString *textMediaTrack = @"line5";
 
         SDLMetadataType line1Type = SDLMetadataTypeMediaTitle;
         SDLMetadataType line2Type = SDLMetadataTypeMediaAlbum;
@@ -320,6 +337,7 @@ describe(@"text and graphic manager", ^{
             testManager.textField2 = nil;
             testManager.textField3 = nil;
             testManager.textField4 = nil;
+            testManager.mediaTrackTextField = nil;
             testManager.textField1Type = nil;
             testManager.textField2Type = nil;
             testManager.textField3Type = nil;
@@ -332,6 +350,17 @@ describe(@"text and graphic manager", ^{
                 SDLTextField *lineOneField = [[SDLTextField alloc] init];
                 lineOneField.name = SDLTextFieldNameMainField1;
                 testManager.displayCapabilities.textFields = @[lineOneField];
+            });
+
+            it(@"should set mediatrack properly", ^{
+                testManager.mediaTrackTextField = textMediaTrack;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.mediaTrack).to(equal(textMediaTrack));
+                expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
             });
 
             it(@"should format a one line text and metadata update properly", ^{
@@ -411,6 +440,17 @@ describe(@"text and graphic manager", ^{
                 SDLTextField *lineTwoField = [[SDLTextField alloc] init];
                 lineTwoField.name = SDLTextFieldNameMainField2;
                 testManager.displayCapabilities.textFields = @[lineTwoField];
+            });
+
+            it(@"should set mediatrack properly", ^{
+                testManager.mediaTrackTextField = textMediaTrack;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.mediaTrack).to(equal(textMediaTrack));
+                expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
             });
 
             it(@"should format a one line text and metadata update properly", ^{
@@ -499,6 +539,17 @@ describe(@"text and graphic manager", ^{
                 SDLTextField *lineThreeField = [[SDLTextField alloc] init];
                 lineThreeField.name = SDLTextFieldNameMainField3;
                 testManager.displayCapabilities.textFields = @[lineThreeField];
+            });
+
+            it(@"should set mediatrack properly", ^{
+                testManager.mediaTrackTextField = textMediaTrack;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.mediaTrack).to(equal(textMediaTrack));
+                expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
             });
 
             it(@"should format a one line text and metadata update properly", ^{
@@ -591,6 +642,17 @@ describe(@"text and graphic manager", ^{
                 SDLTextField *lineFourField = [[SDLTextField alloc] init];
                 lineFourField.name = SDLTextFieldNameMainField4;
                 testManager.displayCapabilities.textFields = @[lineFourField];
+            });
+
+            it(@"should set mediatrack properly", ^{
+                testManager.mediaTrackTextField = textMediaTrack;
+
+                testManager.batchUpdates = NO;
+                [testManager updateWithCompletionHandler:nil];
+
+                expect(testManager.inProgressUpdate.mediaTrack).to(equal(textMediaTrack));
+                expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
+                expect(testManager.inProgressUpdate.metadataTags.mainField1).to(beNil());
             });
 
             it(@"should format a one line text and metadata update properly", ^{
