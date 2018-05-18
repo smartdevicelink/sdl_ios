@@ -41,6 +41,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.emergencyEvent = @YES;
         testRequest.clusterModeStatus = @NO;
         testRequest.myKey = @YES;
+        testRequest.fuelRange = @YES;
         
         expect(testRequest.gps).to(equal(@YES));
         expect(testRequest.speed).to(equal(@NO));
@@ -66,6 +67,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.emergencyEvent).to(equal(@YES));
         expect(testRequest.clusterModeStatus).to(equal(@NO));
         expect(testRequest.myKey).to(equal(@YES));
+        expect(testRequest.fuelRange).to(equal(@YES));
+
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -94,7 +97,8 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameAirbagStatus:@NO,
                                                                    SDLNameEmergencyEvent:@YES,
                                                                    SDLNameClusterModeStatus:@NO,
-                                                                   SDLNameMyKey:@YES},
+                                                                   SDLNameMyKey:@YES,
+                                                                   SDLNameFuelRange:@YES},
                                                              SDLNameOperationName:SDLNameSubscribeVehicleData}} mutableCopy];
         SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] initWithDictionary:dict];
         
@@ -122,6 +126,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.emergencyEvent).to(equal(@YES));
         expect(testRequest.clusterModeStatus).to(equal(@NO));
         expect(testRequest.myKey).to(equal(@YES));
+        expect(testRequest.fuelRange).to(equal(@YES));
+
     });
     
     it(@"Should return nil if not set", ^ {
@@ -151,6 +157,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.emergencyEvent).to(beNil());
         expect(testRequest.clusterModeStatus).to(beNil());
         expect(testRequest.myKey).to(beNil());
+        expect(testRequest.fuelRange).to(beNil());
+
     });
 });
 
