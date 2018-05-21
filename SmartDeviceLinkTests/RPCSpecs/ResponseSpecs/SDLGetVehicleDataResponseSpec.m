@@ -47,6 +47,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.driverBraking = SDLVehicleDataEventStatusNoEvent;
         testResponse.wiperStatus = SDLWiperStatusAutomaticHigh;
         testResponse.headLampStatus = headLamp;
+        testResponse.engineOilLife = @56.3;
         testResponse.engineTorque = @630.4;
         testResponse.accPedalPosition = @0;
         testResponse.steeringWheelAngle = @-1500;
@@ -73,6 +74,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.driverBraking).to(equal(SDLVehicleDataEventStatusNoEvent));
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
         expect(testResponse.headLampStatus).to(equal(headLamp));
+        expect(testResponse.engineOilLife).to(equal(@56.3));
         expect(testResponse.engineTorque).to(equal(@630.4));
         expect(testResponse.accPedalPosition).to(equal(@0));
         expect(testResponse.steeringWheelAngle).to(equal(@-1500));
@@ -103,6 +105,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameDriverBraking:SDLVehicleDataEventStatusNoEvent,
                                                    SDLNameWiperStatus:SDLWiperStatusAutomaticHigh,
                                                    SDLNameHeadLampStatus:headLamp,
+                                                   SDLNameEngineOilLife:@23.22,
                                                    SDLNameEngineTorque:@630.4,
                                                    SDLNameAccelerationPedalPosition:@0,
                                                    SDLNameSteeringWheelAngle:@-1500,
@@ -131,6 +134,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.driverBraking).to(equal(SDLVehicleDataEventStatusNoEvent));
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
         expect(testResponse.headLampStatus).to(equal(headLamp));
+        expect(testResponse.engineOilLife).to(equal(@23.22));
         expect(testResponse.engineTorque).to(equal(@630.4));
         expect(testResponse.accPedalPosition).to(equal(@0));
         expect(testResponse.steeringWheelAngle).to(equal(@-1500));
@@ -161,6 +165,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.driverBraking).to(beNil());
         expect(testResponse.wiperStatus).to(beNil());
         expect(testResponse.headLampStatus).to(beNil());
+        expect(testResponse.engineOilLife).to(beNil());
         expect(testResponse.engineTorque).to(beNil());
         expect(testResponse.accPedalPosition).to(beNil());
         expect(testResponse.steeringWheelAngle).to(beNil());

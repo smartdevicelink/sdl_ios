@@ -125,6 +125,11 @@ extern SDLVehicleDataType const SDLVehicleDataTypeHeadlampStatus;
 extern SDLVehicleDataType const SDLVehicleDataTypeBatteryVoltage;
 
 /**
+ * @abstract SDLVehicleDataType: *VEHICLEDATA_ENGINEOILLIFE*
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeEngineOilLife;
+
+/**
  * @abstract SDLVehicleDataType: *VEHICLEDATA_ENGINETORQUE*
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeEngineTorque;

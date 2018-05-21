@@ -97,6 +97,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *headLampStatus;
 
 /**
+ * A SDLVehicleDataResult* value. The estimated percentage of remaining oil life of the engine.
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *engineOilLife;
+
+/**
  * @abstract A SDLVehicleDataResult* value. Torque value for engine (in Nm) on non-diesel variants.
  */
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *engineTorque;

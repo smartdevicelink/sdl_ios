@@ -34,6 +34,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.driverBraking = @NO;
         testRequest.wiperStatus = @YES;
         testRequest.headLampStatus = @NO;
+        testRequest.engineOilLife = @YES;
         testRequest.engineTorque = @YES;
         testRequest.accPedalPosition = @NO;
         testRequest.steeringWheelAngle = @YES;
@@ -60,6 +61,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.driverBraking).to(equal(@NO));
         expect(testRequest.wiperStatus).to(equal(@YES));
         expect(testRequest.headLampStatus).to(equal(@NO));
+        expect(testRequest.engineOilLife).to(equal(@YES));
         expect(testRequest.engineTorque).to(equal(@YES));
         expect(testRequest.accPedalPosition).to(equal(@NO));
         expect(testRequest.steeringWheelAngle).to(equal(@YES));
@@ -70,7 +72,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.myKey).to(equal(@NO));
     });
     
-    it(@"Should get correctly when initialized", ^ {
+    it(@"Should get correctly when initialized with a dictionary", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameGPS:@NO,
@@ -90,6 +92,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameDriverBraking:@NO,
                                                                    SDLNameWiperStatus:@YES,
                                                                    SDLNameHeadLampStatus:@NO,
+                                                                   SDLNameEngineOilLife:@YES,
                                                                    SDLNameEngineTorque:@YES,
                                                                    SDLNameAccelerationPedalPosition:@NO,
                                                                    SDLNameSteeringWheelAngle:@YES,
@@ -118,6 +121,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.driverBraking).to(equal(@NO));
         expect(testRequest.wiperStatus).to(equal(@YES));
         expect(testRequest.headLampStatus).to(equal(@NO));
+        expect(testRequest.engineOilLife).to(equal(@YES));
         expect(testRequest.engineTorque).to(equal(@YES));
         expect(testRequest.accPedalPosition).to(equal(@NO));
         expect(testRequest.steeringWheelAngle).to(equal(@YES));
@@ -126,6 +130,36 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.emergencyEvent).to(equal(@NO));
         expect(testRequest.clusterModeStatus).to(equal(@YES));
         expect(testRequest.myKey).to(equal(@NO));
+    });
+
+    it(@"Should set correctly when initialized with the convenience init", ^ {
+        SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES vin:YES wiperStatus:YES];
+
+        expect(testRequest.accPedalPosition).to(equal(@YES));
+        expect(testRequest.airbagStatus).to(equal(@YES));
+        expect(testRequest.beltStatus).to(equal(@YES));
+        expect(testRequest.bodyInformation).to(equal(@YES));
+        expect(testRequest.clusterModeStatus).to(equal(@YES));
+        expect(testRequest.deviceStatus).to(equal(@YES));
+        expect(testRequest.driverBraking).to(equal(@YES));
+        expect(testRequest.eCallInfo).to(equal(@YES));
+        expect(testRequest.emergencyEvent).to(equal(@YES));
+        expect(testRequest.engineOilLife).to(equal(@YES));
+        expect(testRequest.engineTorque).to(equal(@YES));
+        expect(testRequest.externalTemperature).to(equal(@YES));
+        expect(testRequest.fuelLevel).to(equal(@YES));
+        expect(testRequest.fuelLevel_State).to(equal(@YES));
+        expect(testRequest.gps).to(equal(@YES));
+        expect(testRequest.headLampStatus).to(equal(@YES));
+        expect(testRequest.instantFuelConsumption).to(equal(@YES));
+        expect(testRequest.myKey).to(equal(@YES));
+        expect(testRequest.odometer).to(equal(@YES));
+        expect(testRequest.prndl).to(equal(@YES));
+        expect(testRequest.rpm).to(equal(@YES));
+        expect(testRequest.speed).to(equal(@YES));
+        expect(testRequest.steeringWheelAngle).to(equal(@YES));
+        expect(testRequest.tirePressure).to(equal(@YES));
+        expect(testRequest.wiperStatus).to(equal(@YES));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -148,6 +182,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.driverBraking).to(beNil());
         expect(testRequest.wiperStatus).to(beNil());
         expect(testRequest.headLampStatus).to(beNil());
+        expect(testRequest.engineOilLife).to(beNil());
         expect(testRequest.engineTorque).to(beNil());
         expect(testRequest.accPedalPosition).to(beNil());
         expect(testRequest.steeringWheelAngle).to(beNil());
