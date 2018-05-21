@@ -216,7 +216,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Choice Sets
 
-- (void)deleteChoices:(NSArray<SDLChoiceCell *> *)preloadedChoices {
+- (void)deleteChoices:(NSArray<SDLChoiceCell *> *)choices andAttachedImages:(BOOL)deleteImages {
 
 }
 

@@ -131,9 +131,10 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
 /**
  Delete loaded cells from the head unit. If the cells don't exist on the head unit they will be ignored.
 
- @param preloadedChoices The choices to be deleted. These will be matched via a hash of the text, image name(s), and VR commands.
+ @param choices The choices to be deleted. These will be matched via a hash of the text, image name(s), and VR commands.
+ @param deleteImages If YES, all images attached to the deleted choices will also be deleted.
  */
-- (void)deleteChoices:(NSArray<SDLChoiceCell *> *)preloadedChoices;
+- (void)deleteChoices:(NSArray<SDLChoiceCell *> *)choices andAttachedImages:(BOOL)deleteImages;
 
 /**
  Present a choice set on the head unit with a certain interaction mode. You should present in VR only if the user reached this choice set by using their voice, in Manual only if the user used touch to reach this choice set. Use Both if you're lazy...for real though, it's kind of confusing to the user and isn't recommended.
