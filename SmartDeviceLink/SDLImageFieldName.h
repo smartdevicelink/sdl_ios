@@ -52,10 +52,15 @@ extern SDLImageFieldName const SDLImageFieldNameCommandIcon;
  */
 extern SDLImageFieldName const SDLImageFieldNameAppIcon;
 
-/** The image filed for Show.
+/** The primary image field for Show.
  *
  */
 extern SDLImageFieldName const SDLImageFieldNameGraphic;
+
+/** The secondary image field for Show.
+ *
+ */
+extern SDLImageFieldName const SDLImageFieldNameSecondaryGraphic;
 
 /** The primary image field for ShowConstant TBT.
  *
