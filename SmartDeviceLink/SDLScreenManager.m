@@ -214,6 +214,28 @@ NS_ASSUME_NONNULL_BEGIN
     [self.softButtonManager updateWithCompletionHandler:handler];
 }
 
+#pragma mark - Choice Sets
+
+- (void)deleteChoices:(NSArray<SDLChoiceCell *> *)preloadedChoices {
+
+}
+
+- (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler {
+
+}
+
+- (void)presentChoiceSet:(SDLChoiceSet *)set mode:(SDLInteractionMode)mode {
+
+}
+
+- (void)presentSearchableChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(id<SDLKeyboardDelegate>)delegate {
+
+}
+
+- (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
+
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
