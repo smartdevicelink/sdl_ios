@@ -12,6 +12,7 @@
 #import "SDLLanguage.h"
 
 @class SDLFile;
+@class SDLTemplateColorScheme;
 @class SDLTTSChunk;
 
 
@@ -120,6 +121,16 @@ NS_ASSUME_NONNULL_BEGIN
  *  Additional voice recognition commands. May not interfere with any other app name or global commands.
  */
 @property (copy, nonatomic, nullable) NSArray<NSString *> *voiceRecognitionCommandNames;
+
+/**
+ The color scheme to use when the head unit is in a light / day situation.
+ */
+@property (copy, nonatomic, nullable) SDLTemplateColorScheme *dayColorScheme;
+
+/**
+ The color scheme to use when the head unit is in a dark / night situation.
+ */
+@property (copy, nonatomic, nullable) SDLTemplateColorScheme *nightColorScheme;
 
 @end
 
