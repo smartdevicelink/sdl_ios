@@ -57,6 +57,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *instantFuelConsumption;
 
 /**
+ * A boolean value. The estimated percentage of remaining oil life of the engine.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *engineOilLife;
+
+/**
  * @abstract A boolean value. If true, subscribes externalTemperature data
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *externalTemperature;

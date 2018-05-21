@@ -139,6 +139,7 @@ extern SDLName const SDLNameEmergencyEventType;
 extern SDLName const SDLNameEncodedSyncPData;
 extern SDLName const SDLNameEndAudioPassThru;
 extern SDLName const SDLNameEndTime;
+extern SDLName const SDLNameEngineOilLife;
 extern SDLName const SDLNameEngineTorque;
 extern SDLName const SDLNameETA;
 extern SDLName const SDLNameEvent;

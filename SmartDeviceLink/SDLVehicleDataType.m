@@ -27,6 +27,7 @@ SDLVehicleDataType const SDLVehicleDataTypeBraking = @"VEHICLEDATA_BRAKING";
 SDLVehicleDataType const SDLVehicleDataTypeWiperStatus = @"VEHICLEDATA_WIPERSTATUS";
 SDLVehicleDataType const SDLVehicleDataTypeHeadlampStatus = @"VEHICLEDATA_HEADLAMPSTATUS";
 SDLVehicleDataType const SDLVehicleDataTypeBatteryVoltage = @"VEHICLEDATA_BATTVOLTAGE";
+SDLVehicleDataType const SDLVehicleDataTypeEngineOilLife = @"VEHICLEDATA_ENGINEOILLIFE";
 SDLVehicleDataType const SDLVehicleDataTypeEngineTorque = @"VEHICLEDATA_ENGINETORQUE";
 SDLVehicleDataType const SDLVehicleDataTypeAccelerationPedal = @"VEHICLEDATA_ACCPEDAL";
 SDLVehicleDataType const SDLVehicleDataTypeSteeringWheel = @"VEHICLEDATA_STEERINGWHEEL";
