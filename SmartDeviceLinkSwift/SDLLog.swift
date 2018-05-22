@@ -27,7 +27,7 @@ public class SDLLog {
     ///   - function: The function the log is coming from, you should probably leave this as the default.
     ///   - line: The line the log is coming from, you should probably leave this as the default.
     public class func v(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-        SDLLogManager.log(with: .verbose, timestamp: Date(), file: file, functionName: function, line: line, queue: logQueue(), message: "\(message())")
+        SDLLogManager.log(with: .verbose, timestamp: Date(), file: stripFileName(file), functionName: function, line: line, queue: logQueue(), message: "\(message())")
     }
 
     /// Log a debug message through SDL's custom logging framework.
@@ -38,7 +38,7 @@ public class SDLLog {
     ///   - function: The function the log is coming from, you should probably leave this as the default.
     ///   - line: The line the log is coming from, you should probably leave this as the default.
     public class func d(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-        SDLLogManager.log(with: .debug, timestamp: Date(), file: file, functionName: function, line: line, queue: logQueue(), message: "\(message())")
+        SDLLogManager.log(with: .debug, timestamp: Date(), file: stripFileName(file), functionName: function, line: line, queue: logQueue(), message: "\(message())")
     }
 
     /// Log a warning message through SDL's custom logging framework.
@@ -49,7 +49,7 @@ public class SDLLog {
     ///   - function: The function the log is coming from, you should probably leave this as the default.
     ///   - line: The line the log is coming from, you should probably leave this as the default.
     public class func w(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-        SDLLogManager.log(with: .warning, timestamp: Date(), file: file, functionName: function, line: line, queue: logQueue(), message: "\(message())")
+        SDLLogManager.log(with: .warning, timestamp: Date(), file: stripFileName(file), functionName: function, line: line, queue: logQueue(), message: "\(message())")
     }
 
     /// Log an error message through SDL's custom logging framework.
@@ -60,7 +60,12 @@ public class SDLLog {
     ///   - function: The function the log is coming from, you should probably leave this as the default.
     ///   - line: The line the log is coming from, you should probably leave this as the default.
     public class func e(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-        SDLLogManager.log(with: .error, timestamp: Date(), file: file, functionName: function, line: line, queue: logQueue(), message: "\(message())")
+        SDLLogManager.log(with: .error, timestamp: Date(), file: stripFileName(file), functionName: function, line: line, queue: logQueue(), message: "\(message())")
+    }
+
+    class func stripFileName(_ file: String) -> String {
+        let url = URL(fileURLWithPath: file)
+        return url.deletingPathExtension().lastPathComponent
     }
 }
 
@@ -72,7 +77,7 @@ public class SDLLog {
 ///   - function: The function the log is coming from, you should probably leave this as the default.
 ///   - line: The line the log is coming from, you should probably leave this as the default.
 public func SDLV(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-    SDLLogManager.log(with: .verbose, timestamp: Date(), file: file, functionName: function, line: line, queue: logQueue(), message: "\(message())")
+    SDLLogManager.log(with: .verbose, timestamp: Date(), file: SDLLog.stripFileName(file), functionName: function, line: line, queue: logQueue(), message: "\(message())")
 }
 
 /// Log a debug message through SDL's custom logging framework.
@@ -83,7 +88,7 @@ public func SDLV(_ message: @autoclosure () -> Any, _ file: String = #file, _ fu
 ///   - function: The function the log is coming from, you should probably leave this as the default.
 ///   - line: The line the log is coming from, you should probably leave this as the default.
 public func SDLD(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-    SDLLogManager.log(with: .debug, timestamp: Date(), file: file, functionName: function, line: line, queue: logQueue(), message: "\(message())")
+    SDLLogManager.log(with: .debug, timestamp: Date(), file: SDLLog.stripFileName(file), functionName: function, line: line, queue: logQueue(), message: "\(message())")
 }
 
 /// Log a warning message through SDL's custom logging framework.
@@ -94,7 +99,7 @@ public func SDLD(_ message: @autoclosure () -> Any, _ file: String = #file, _ fu
 ///   - function: The function the log is coming from, you should probably leave this as the default.
 ///   - line: The line the log is coming from, you should probably leave this as the default.
 public func SDLW(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-    SDLLogManager.log(with: .warning, timestamp: Date(), file: file, functionName: function, line: line, queue: logQueue(), message: "\(message())")
+    SDLLogManager.log(with: .warning, timestamp: Date(), file: SDLLog.stripFileName(file), functionName: function, line: line, queue: logQueue(), message: "\(message())")
 }
 
 /// Log an error message through SDL's custom logging framework.
@@ -105,7 +110,7 @@ public func SDLW(_ message: @autoclosure () -> Any, _ file: String = #file, _ fu
 ///   - function: The function the log is coming from, you should probably leave this as the default.
 ///   - line: The line the log is coming from, you should probably leave this as the default.
 public func SDLE(_ message: @autoclosure () -> Any, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
-    SDLLogManager.log(with: .error, timestamp: Date(), file: file, functionName: function, line: line, queue: logQueue(), message: "\(message())")
+    SDLLogManager.log(with: .error, timestamp: Date(), file: SDLLog.stripFileName(file), functionName: function, line: line, queue: logQueue(), message: "\(message())")
 }
 
 private func logQueue() -> String {

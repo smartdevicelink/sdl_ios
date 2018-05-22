@@ -3,6 +3,7 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLFileManager.h"
+#import "SDLHMILevel.h"
 #import "SDLScreenManager.h"
 #import "SDLShow.h"
 #import "SDLSoftButtonManager.h"
@@ -17,6 +18,7 @@
 @property (weak, nonatomic) SDLFileManager *fileManager;
 
 @property (strong, nonatomic, nullable) SDLShow *inProgressUpdate;
+@property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @end
 
@@ -26,6 +28,7 @@
 @property (weak, nonatomic) SDLFileManager *fileManager;
 
 @property (strong, nonatomic, nullable) SDLShow *inProgressUpdate;
+@property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @end
 
@@ -77,6 +80,9 @@ describe(@"screen manager", ^{
 
     describe(@"batching updates", ^{
         beforeEach(^{
+            SDLHMILevel hmiLevelFull = SDLHMILevelFull;
+            testScreenManager.softButtonManager.currentLevel = hmiLevelFull;
+            testScreenManager.textAndGraphicManager.currentLevel = hmiLevelFull;
             [testScreenManager beginUpdates];
         });
 

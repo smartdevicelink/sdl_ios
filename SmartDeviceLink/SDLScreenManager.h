@@ -13,6 +13,8 @@
 
 @class SDLArtwork;
 @class SDLFileManager;
+@class SDLMenuCell;
+@class SDLVoiceCommand;
 @class SDLSoftButtonObject;
 
 @protocol SDLConnectionManagerType;
@@ -44,7 +46,15 @@ typedef void(^SDLScreenManagerUpdateCompletionHandler)(NSError *__nullable error
 
 @property (copy, nonatomic) NSArray<SDLSoftButtonObject *> *softButtonObjects;
 
+@property (copy, nonatomic) NSArray<SDLMenuCell *> *menu;
+@property (copy, nonatomic) NSArray<SDLVoiceCommand *> *voiceCommands;
+
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
+
+/**
+ *  Stops the manager. This method is used internally.
+ */
+- (void)stop;
 
 /**
  Delays all screen updates until endUpdatesWithCompletionHandler: is called.

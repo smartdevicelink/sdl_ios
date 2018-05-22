@@ -43,7 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLShow *inProgressUpdate;
 @property (copy, nonatomic, nullable) SDLSoftButtonUpdateCompletionHandler inProgressHandler;
 
-@property (strong, nonatomic, nullable) SDLShow *queuedImageUpdate;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (copy, nonatomic, nullable) SDLSoftButtonUpdateCompletionHandler queuedUpdateHandler;
 
@@ -65,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
     _fileManager = fileManager;
     _softButtonObjects = @[];
 
-    _currentLevel = SDLHMILevelNone; // Assume NONE until we get something else
+    _currentLevel = nil;
     _waitingOnHMILevelUpdateToSetButtons = NO;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
@@ -73,6 +72,20 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
 
     return self;
+}
+
+- (void)stop {
+    _softButtonObjects = @[];
+    _currentMainField1 = nil;
+
+    _inProgressUpdate = nil;
+    _inProgressHandler = nil;
+    _hasQueuedUpdate = NO;
+    _queuedUpdateHandler = nil;
+    _currentLevel = nil;
+    _displayCapabilities = nil;
+    _softButtonCapabilities = nil;
+    _waitingOnHMILevelUpdateToSetButtons = NO;
 }
 
 - (void)setSoftButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects {
@@ -203,12 +216,15 @@ NS_ASSUME_NONNULL_BEGIN
     self.inProgressHandler = [handler copy];
     self.inProgressUpdate = [[SDLShow alloc] init];
     self.inProgressUpdate.mainField1 = self.currentMainField1 ?: @"";
+
+    BOOL headUnitSupportsImages = self.softButtonCapabilities ? self.softButtonCapabilities.imageSupported.boolValue : NO;
+
     if (self.softButtonObjects == nil) {
         SDLLogV(@"Soft button objects are nil, sending an empty array");
         self.inProgressUpdate.softButtons = @[];
     } else if (([self sdl_currentStateHasImages] && ![self sdl_allCurrentStateImagesAreUploaded])
-               && (self.softButtonCapabilities ? !self.softButtonCapabilities.imageSupported : YES)) {
-        // The images don't yet exist on the head unit, or we cannot use images, send a text update if possible, otherwise, don't send anything yet
+               || !headUnitSupportsImages) {
+        // The images don't yet exist on the head unit, or we cannot use images, send a text update, if possible. Otherwise, don't send anything yet.
         NSArray<SDLSoftButton *> *textOnlyButtons = [self sdl_textButtonsForCurrentState];
         if (textOnlyButtons != nil) {
             SDLLogV(@"Soft button images unavailable, sending text buttons");

@@ -8,7 +8,6 @@
 
 #import "SDLStreamingMediaLifecycleManager.h"
 
-#import "SDLAbstractProtocol.h"
 #import "SDLAudioStreamManager.h"
 #import "SDLCarWindow.h"
 #import "SDLControlFramePayloadAudioStartServiceAck.h"
@@ -28,6 +27,7 @@
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnHMIStatus.h"
+#import "SDLProtocol.h"
 #import "SDLProtocolMessage.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCNotificationNotification.h"
@@ -70,7 +70,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @interface SDLStreamingMediaLifecycleManager () <SDLVideoEncoderDelegate>
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (weak, nonatomic) SDLAbstractProtocol *protocol;
+@property (weak, nonatomic) SDLProtocol *protocol;
 
 @property (assign, nonatomic, readonly, getter=isAppStateVideoStreamCapable) BOOL appStateVideoStreamCapable;
 @property (assign, nonatomic, readonly, getter=isHmiStateAudioStreamCapable) BOOL hmiStateAudioStreamCapable;
@@ -170,7 +170,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     return self;
 }
 
-- (void)startWithProtocol:(SDLAbstractProtocol *)protocol {
+- (void)startWithProtocol:(SDLProtocol *)protocol {
     _protocol = protocol;
 
     if (![self.protocol.protocolDelegateTable containsObject:self]) {
@@ -422,7 +422,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             NSInteger targetFramerate = ((NSNumber *)self.videoEncoderSettings[(__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate]).integerValue;
             SDLLogD(@"Initializing CADisplayLink with framerate: %ld", (long)targetFramerate);
             self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(sdl_displayLinkFired:)];
-            if (SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"10")) {
+            if (@available(iOS 10, *)) {
                 self.displayLink.preferredFramesPerSecond = targetFramerate;
             } else {
                 self.displayLink.frameInterval = (60 / targetFramerate);

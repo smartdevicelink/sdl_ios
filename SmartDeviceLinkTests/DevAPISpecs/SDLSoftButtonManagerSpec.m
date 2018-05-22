@@ -24,6 +24,9 @@
 
 @interface SDLSoftButtonManager()
 
+@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic) SDLFileManager *fileManager;
+
 @property (strong, nonatomic) NSArray<SDLSoftButton *> *currentSoftButtons;
 
 @property (strong, nonatomic, nullable) SDLShow *inProgressUpdate;
@@ -60,10 +63,13 @@ describe(@"a soft button manager", ^{
     __block SDLSoftButtonObject *testObject2 = nil;
     __block NSString *object2Name = @"O2 Name";
     __block NSString *object2State1Name = @"O2S1 Name";
+    __block NSString *object2State2Name = @"O2S2 Name";
     __block NSString *object2State1Text = @"O2S1 Text";
+    __block NSString *object2State2Text = @"O2S2 Text";
     __block NSString *object2State1ArtworkName = @"O2S1 Artwork";
     __block SDLArtwork *object2State1Art = [[SDLArtwork alloc] initWithData:[@"TestData" dataUsingEncoding:NSUTF8StringEncoding] name:object2State1ArtworkName fileExtension:@"png" persistent:YES];
     __block SDLSoftButtonState *object2State1 = [[SDLSoftButtonState alloc] initWithStateName:object2State1Name text:object2State1Text artwork:object2State1Art];
+    __block SDLSoftButtonState *object2State2 = [[SDLSoftButtonState alloc] initWithStateName:object2State2Name text:object2State2Text image:nil];
 
     beforeEach(^{
         testFileManager = OCMClassMock([SDLFileManager class]);
@@ -71,7 +77,21 @@ describe(@"a soft button manager", ^{
 
         testManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager];
 
+        expect(testManager.currentLevel).to(beNil());
         testManager.currentLevel = SDLHMILevelFull;
+    });
+
+    it(@"should instantiate correctly", ^{
+        expect(testManager.connectionManager).to(equal(testConnectionManager));
+        expect(testManager.fileManager).to(equal(testFileManager));
+
+        expect(testManager.softButtonObjects).to(beEmpty());
+        expect(testManager.currentMainField1).to(beNil());
+        expect(testManager.inProgressUpdate).to(beNil());
+        expect(testManager.hasQueuedUpdate).to(beFalse());
+        expect(testManager.displayCapabilities).to(beNil());
+        expect(testManager.softButtonCapabilities).to(beNil());
+        expect(testManager.waitingOnHMILevelUpdateToSetButtons).to(beFalse());
     });
 
     context(@"when in HMI NONE", ^{
@@ -156,8 +176,14 @@ describe(@"a soft button manager", ^{
         });
     });
 
-    describe(@"uploading the images", ^{
-        context(@"when files are already on the file system", ^{
+    describe(@"uploading soft buttons to a head unit that supports images", ^{
+        beforeEach(^{
+            SDLSoftButtonCapabilities *softButtonImagesSupported = [[SDLSoftButtonCapabilities alloc] init];
+            softButtonImagesSupported.imageSupported = @YES;
+            testManager.softButtonCapabilities = softButtonImagesSupported;
+        });
+
+        context(@"when button artworks are already on the file system", ^{
             beforeEach(^{
                 OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
 
@@ -184,7 +210,7 @@ describe(@"a soft button manager", ^{
             });
         });
 
-        context(@"when files are not already on the file system, before upload finishes", ^{
+        context(@"when button artworks are not already on the file system, before upload finishes", ^{
             beforeEach(^{
                 OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
 
@@ -211,7 +237,7 @@ describe(@"a soft button manager", ^{
             });
         });
 
-        context(@"when files are not already on the file system, after upload finishes", ^{
+        context(@"when button artworks are not already on the file system, after upload finishes", ^{
             beforeEach(^{
                 OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
                 OCMStub([testFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg invokeBlock]]);
@@ -240,6 +266,62 @@ describe(@"a soft button manager", ^{
         });
     });
 
+    describe(@"uploading soft buttons to a head unit that does not support images", ^{
+        beforeEach(^{
+            SDLSoftButtonCapabilities *softButtonImagesSupported = [[SDLSoftButtonCapabilities alloc] init];
+            softButtonImagesSupported.imageSupported = @NO;
+            testManager.softButtonCapabilities = softButtonImagesSupported;
+        });
+
+        context(@"when the button contains images", ^{
+            beforeEach(^{
+                testObject1 = [[SDLSoftButtonObject alloc] initWithName:object1Name states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
+                testObject2 = [[SDLSoftButtonObject alloc] initWithName:object2Name state:object2State2 handler:nil];
+                testManager.softButtonObjects = @[testObject1, testObject2];
+            });
+
+            it(@"should not have attempted to upload any artworks", ^{
+                OCMReject([testFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
+            });
+
+            it(@"should set the in progress update to be text buttons", ^{
+                NSArray<SDLSoftButton *> *inProgressSoftButtons = testManager.inProgressUpdate.softButtons;
+
+                expect(testManager.hasQueuedUpdate).to(beFalse());
+                expect(testManager.inProgressUpdate.mainField1).to(equal(@""));
+                expect(inProgressSoftButtons).to(haveCount(2));
+                expect(inProgressSoftButtons[0].text).to(equal(object1State1Text));
+                expect(inProgressSoftButtons[1].text).to(equal(object2State2Text));
+                expect(inProgressSoftButtons[0].image).to(beNil());
+                expect(inProgressSoftButtons[1].image.value).to(beNil());
+            });
+        });
+
+        context(@"when the button does not contain images", ^{
+            beforeEach(^{
+                testObject1 = [[SDLSoftButtonObject alloc] initWithName:object1Name states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
+                testObject2 = [[SDLSoftButtonObject alloc] initWithName:object2Name state:object2State2 handler:nil];
+                testManager.softButtonObjects = @[testObject1, testObject2];
+            });
+
+            it(@"should not have attempted to upload any artworks", ^{
+                OCMReject([testFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg any]]);
+            });
+
+            it(@"should set the in progress update to be text buttons", ^{
+                NSArray<SDLSoftButton *> *inProgressSoftButtons = testManager.inProgressUpdate.softButtons;
+
+                expect(testManager.hasQueuedUpdate).to(beFalse());
+                expect(testManager.inProgressUpdate.mainField1).to(equal(@""));
+                expect(inProgressSoftButtons).to(haveCount(2));
+                expect(inProgressSoftButtons[0].text).to(equal(object1State1Text));
+                expect(inProgressSoftButtons[1].text).to(equal(object2State2Text));
+                expect(inProgressSoftButtons[0].image).to(beNil());
+                expect(inProgressSoftButtons[1].image.value).to(beNil());
+            });
+        });
+    });
+
     describe(@"transitioning soft button states", ^{
         beforeEach(^{
             OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
@@ -258,6 +340,26 @@ describe(@"a soft button manager", ^{
             expect(testManager.inProgressUpdate.mainField1).to(beEmpty());
             expect(testManager.inProgressUpdate.softButtons[0].text).to(equal(object1State2Text));
             expect(testManager.inProgressUpdate.softButtons[1].text).to(equal(object2State1Text));
+        });
+    });
+
+    context(@"On disconnects", ^{
+        beforeEach(^{
+            [testManager stop];
+        });
+
+        it(@"should reset correctly", ^{
+            expect(testManager.connectionManager).to(equal(testConnectionManager));
+            expect(testManager.fileManager).to(equal(testFileManager));
+
+            expect(testManager.softButtonObjects).to(beEmpty());
+            expect(testManager.currentMainField1).to(beNil());
+            expect(testManager.inProgressUpdate).to(beNil());
+            expect(testManager.hasQueuedUpdate).to(beFalse());
+            expect(testManager.currentLevel).to(beNil());
+            expect(testManager.displayCapabilities).to(beNil());
+            expect(testManager.softButtonCapabilities).to(beNil());
+            expect(testManager.waitingOnHMILevelUpdateToSetButtons).to(beFalse());
         });
     });
 });

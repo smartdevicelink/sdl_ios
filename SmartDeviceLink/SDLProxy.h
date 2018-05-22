@@ -1,8 +1,6 @@
 //  SDLProxy.h
 //
 
-@class SDLAbstractProtocol;
-@class SDLAbstractTransport;
 @class SDLProtocol;
 @class SDLPutFile;
 @class SDLRPCMessage;
@@ -12,26 +10,26 @@
 #import "SDLProtocolListener.h"
 #import "SDLProxyListener.h"
 #import "SDLSecurityType.h"
+#import "SDLTransportType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-__deprecated_msg("Use SDLManager instead")
-    @interface SDLProxy : NSObject<SDLProtocolListener, NSStreamDelegate> {
+@interface SDLProxy : NSObject <SDLProtocolListener, NSStreamDelegate> {
     Byte _version;
     Byte _bulkSessionID;
     BOOL _isConnected;
 }
 
-@property (nullable, strong, nonatomic) SDLAbstractProtocol *protocol;
-@property (nullable, strong, nonatomic) SDLAbstractTransport *transport;
+@property (nullable, strong, nonatomic) SDLProtocol *protocol;
+@property (nullable, strong, nonatomic) id<SDLTransportType> transport;
 @property (readonly, copy, nonatomic) NSSet<NSObject<SDLProxyListener> *> *proxyListeners;
 @property (strong, nonatomic) SDLTimer *startSessionTimer;
-@property (copy, nonatomic) NSString *debugConsoleGroupName;
 @property (readonly, copy, nonatomic) NSString *proxyVersion;
 
-- (id)initWithTransport:(SDLAbstractTransport *)transport
-               protocol:(SDLAbstractProtocol *)protocol
-               delegate:(NSObject<SDLProxyListener> *)delegate;
+- (id)initWithTransport:(id<SDLTransportType>)transport delegate:(id<SDLProxyListener>)delegate;
+
++ (SDLProxy *)iapProxyWithListener:(id<SDLProxyListener>)delegate;
++ (SDLProxy *)tcpProxyWithListener:(id<SDLProxyListener>)delegate tcpIPAddress:(NSString *)ipaddress tcpPort:(NSString *)port;
 
 - (void)addDelegate:(NSObject<SDLProxyListener> *)delegate;
 - (void)removeDelegate:(NSObject<SDLProxyListener> *)delegate;

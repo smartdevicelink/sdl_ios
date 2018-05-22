@@ -12,8 +12,8 @@
 #import "SDLStreamingAudioManagerType.h"
 #import "SDLStreamingMediaManagerConstants.h"
 
-@class SDLAbstractProtocol;
 @class SDLAudioStreamManager;
+@class SDLProtocol;
 @class SDLStreamingMediaConfiguration;
 @class SDLTouchManager;
 @class SDLVideoStreamingFormat;
@@ -120,7 +120,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
  */
-- (void)startWithProtocol:(SDLAbstractProtocol *)protocol;
+- (void)startWithProtocol:(SDLProtocol *)protocol;
 
 /**
  *  Stop the manager. This method is used internally.

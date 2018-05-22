@@ -101,7 +101,7 @@ describe(@"the streaming media manager", ^{
         __block BOOL readyHandlerSuccess = NO;
         __block NSError *readyHandlerError = nil;
 
-        __block id protocolMock = OCMClassMock([SDLAbstractProtocol class]);
+        __block id protocolMock = OCMClassMock([SDLProtocol class]);
 
         beforeEach(^{
             readyHandlerSuccess = NO;

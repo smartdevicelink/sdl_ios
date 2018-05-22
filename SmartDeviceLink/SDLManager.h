@@ -20,39 +20,12 @@
 @class SDLRPCResponse;
 @class SDLScreenManager;
 @class SDLStreamingMediaManager;
+@class SDLSystemCapabilityManager;
 
 @protocol SDLManagerDelegate;
 
 
 NS_ASSUME_NONNULL_BEGIN
-
-/**
- A completion handler called after a sequential or simultaneous set of requests have completed sending.
-
- @param success True if every request succeeded, false if any failed. See the progress handler for more details on failures.
- */
-typedef void (^SDLMultipleRequestCompletionHandler)(BOOL success);
-
-/**
- A handler called after each response to a request comes in in a multiple request send.
-
- @param request The request that received a response
- @param response The response received
- @param error The error that occurred during the request if any occurred.
- @param percentComplete The percentage of requests that have received a response
- @return continueSendingRequests NO to cancel any requests that have not yet been sent. This is really only useful for a sequential send (sendSequentialRequests:progressHandler:completionHandler:). Return YES to continue sending requests.
- */
-typedef BOOL (^SDLMultipleSequentialRequestProgressHandler)(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *__nullable response, NSError *__nullable error, float percentComplete);
-
-/**
- A handler called after each response to a request comes in in a multiple request send.
-
- @param request The request that received a response
- @param response The response received
- @param error The error that occurred during the request if any occurred.
- @param percentComplete The percentage of requests that have received a response
- */
-typedef void (^SDLMultipleAsyncRequestProgressHandler)(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *__nullable response, NSError *__nullable error, float percentComplete);
 
 
 typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
@@ -95,7 +68,15 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  */
 @property (strong, nonatomic, readonly, nullable) SDLStreamingMediaManager *streamManager;
 
+/**
+ *  The screen manager for sending UI related RPCs.
+ */
 @property (strong, nonatomic, readonly) SDLScreenManager *screenManager;
+
+/**
+ *  Centralized manager for retrieving all system capabilities.
+ */
+@property (strong, nonatomic, readonly) SDLSystemCapabilityManager *systemCapabilityManager;
 
 /**
  *  The response of a register call after it has been received.

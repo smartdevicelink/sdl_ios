@@ -11,7 +11,6 @@
 #import "SDLLifecycleManager.h"
 
 #import "NSMapTable+Subscripting.h"
-#import "SDLAbstractProtocol.h"
 #import "SDLAsynchronousRPCRequestOperation.h"
 #import "SDLChangeRegistration.h"
 #import "SDLConfiguration.h"
@@ -35,8 +34,8 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLOnHashChange.h"
 #import "SDLPermissionManager.h"
+#import "SDLProtocol.h"
 #import "SDLProxy.h"
-#import "SDLProxyFactory.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -48,6 +47,7 @@
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManager.h"
+#import "SDLSystemCapabilityManager.h"
 #import "SDLUnregisterAppInterface.h"
 
 
@@ -122,6 +122,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
     _screenManager = [[SDLScreenManager alloc] initWithConnectionManager:self fileManager:_fileManager];
+    _systemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:self];
     
     if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] ||
         [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] ||
@@ -201,9 +202,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (self.configuration.lifecycleConfig.tcpDebugMode) {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self.notificationDispatcher tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress tcpPort:[@(self.configuration.lifecycleConfig.tcpDebugPort) stringValue]];
+        self.proxy = [SDLProxy tcpProxyWithListener:self.notificationDispatcher
+                                       tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress
+                                            tcpPort:@(self.configuration.lifecycleConfig.tcpDebugPort).stringValue];
     } else {
-        self.proxy = [SDLProxyFactory buildSDLProxyWithListener:self.notificationDispatcher];
+        self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher];
     }
 #pragma clang diagnostic pop
 
@@ -226,7 +229,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.fileManager stop];
     [self.permissionManager stop];
     [self.lockScreenManager stop];
+    [self.screenManager stop];
     [self.streamManager stop];
+    [self.systemCapabilityManager stop];
     [self.responseDispatcher clear];
 
     [self.rpcOperationQueue cancelAllOperations];
@@ -485,11 +490,21 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+    if (requests.count == 0) {
+        completionHandler(YES);
+        return;
+    }
+
     SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self requests:requests progressHandler:progressHandler completionHandler:completionHandler];
     [self.rpcOperationQueue addOperation:op];
 }
 
 - (void)sendSequentialRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+    if (requests.count == 0) {
+        completionHandler(YES);
+        return;
+    }
+
     SDLSequentialRPCRequestOperation *op = [[SDLSequentialRPCRequestOperation alloc] initWithConnectionManager:self requests:requests progressHandler:progressHandler completionHandler:completionHandler];
     [self.rpcOperationQueue addOperation:op];
 }

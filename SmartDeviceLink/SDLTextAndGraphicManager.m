@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 @property (strong, nonatomic, nullable) SDLHMILevel currentLevel;
 
-@property (strong, nonatomic) SDLArtwork *blankArtwork;
+@property (strong, nonatomic, nullable) SDLArtwork *blankArtwork;
 
 @property (assign, nonatomic) BOOL isDirty;
 
@@ -77,6 +77,32 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
 
     return self;
+}
+
+- (void)stop {
+    _textField1 = nil;
+    _textField2 = nil;
+    _textField3 = nil;
+    _textField4 = nil;
+    _mediaTrackTextField = nil;
+    _primaryGraphic = nil;
+    _secondaryGraphic = nil;
+    _alignment = SDLTextAlignmentCenter;
+    _textField1Type = nil;
+    _textField2Type = nil;
+    _textField3Type = nil;
+    _textField4Type = nil;
+
+    _currentScreenData = [[SDLShow alloc] init];
+    _inProgressUpdate = nil;
+    _inProgressHandler = nil;
+    _queuedImageUpdate = nil;
+    _hasQueuedUpdate = NO;
+    _queuedUpdateHandler = nil;
+    _displayCapabilities = nil;
+    _currentLevel = SDLHMILevelNone;
+    _blankArtwork = nil;
+    _isDirty = NO;
 }
 
 #pragma mark - Upload / Send
@@ -378,6 +404,7 @@ NS_ASSUME_NONNULL_BEGIN
     show.mainField2 = @"";
     show.mainField3 = @"";
     show.mainField4 = @"";
+    show.mediaTrack = @"";
 
     return show;
 }
@@ -390,6 +417,7 @@ NS_ASSUME_NONNULL_BEGIN
     newShow.mainField2 = show.mainField2;
     newShow.mainField3 = show.mainField3;
     newShow.mainField4 = show.mainField4;
+    newShow.mediaTrack = show.mediaTrack;
     newShow.metadataTags = show.metadataTags;
 
     return newShow;
@@ -409,6 +437,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.currentScreenData.mainField2 = show.mainField2 ?: self.currentScreenData.mainField2;
     self.currentScreenData.mainField3 = show.mainField3 ?: self.currentScreenData.mainField3;
     self.currentScreenData.mainField4 = show.mainField4 ?: self.currentScreenData.mainField4;
+    self.currentScreenData.mediaTrack = show.mediaTrack ?: self.currentScreenData.mediaTrack;
     self.currentScreenData.metadataTags = show.metadataTags ?: self.currentScreenData.metadataTags;
     self.currentScreenData.alignment = show.alignment ?: self.currentScreenData.alignment;
     self.currentScreenData.graphic = show.graphic ?: self.currentScreenData.graphic;
@@ -589,7 +618,7 @@ NS_ASSUME_NONNULL_BEGIN
     return (_hasQueuedUpdate || _queuedUpdateHandler != nil);
 }
 
-- (SDLArtwork *)blankArtwork {
+- (nullable SDLArtwork *)blankArtwork {
     if (_blankArtwork != nil) {
         return _blankArtwork;
     }
