@@ -89,8 +89,13 @@ private extension ProxyManager {
         lifecycleConfiguration.language = .enUs
         lifecycleConfiguration.languagesSupported = [.enUs, .esMx, .frCa]
         lifecycleConfiguration.ttsName = [SDLTTSChunk(text: "S D L", type: .text)]
-        lifecycleConfiguration.dayColorScheme = SDLTemplateColorScheme(primaryRGBColor: SDLRGBColor(red: 126, green: 188, blue: 121), secondaryRGBColor: SDLRGBColor(red: 186, green: 198, blue: 210), backgroundRGBColor: SDLRGBColor(red: 249, green: 251, blue: 254))
-        lifecycleConfiguration.nightColorScheme = SDLTemplateColorScheme(primaryRGBColor: SDLRGBColor(red: 126, green: 188, blue: 121), secondaryRGBColor: SDLRGBColor(red: 186, green: 198, blue: 210), backgroundRGBColor: SDLRGBColor(red: 57, green: 78, blue: 96))
+
+        let green = SDLRGBColor(red: 126, green: 188, blue: 121)
+        let white = SDLRGBColor(red: 249, green: 251, blue: 254)
+        let grey = SDLRGBColor(red: 186, green: 198, blue: 210)
+        let darkGrey = SDLRGBColor(red: 57, green: 78, blue: 96)
+        lifecycleConfiguration.dayColorScheme = SDLTemplateColorScheme(primaryRGBColor: green, secondaryRGBColor: grey, backgroundRGBColor: white)
+        lifecycleConfiguration.nightColorScheme = SDLTemplateColorScheme(primaryRGBColor: green, secondaryRGBColor: grey, backgroundRGBColor: darkGrey)
 
         let lockScreenConfiguration = appIcon != nil ? SDLLockScreenConfiguration.enabledConfiguration(withAppIcon: appIcon!, backgroundColor: nil) : SDLLockScreenConfiguration.enabled()
         return SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: lockScreenConfiguration, logging: logConfiguration())
@@ -233,6 +238,9 @@ private extension ProxyManager {
     /// Set the template and create the UI
     func showInitialData() {
         guard sdlManager.hmiLevel == .full else { return }
+        
+        let setDisplayLayout = SDLSetDisplayLayout(predefinedLayout: .nonMedia)
+        sdlManager.send(setDisplayLayout)
 
         updateScreen()
         sdlManager.screenManager.softButtonObjects = buttonManager.allScreenSoftButtons(with: sdlManager)
