@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLChoiceCell
 
+#pragma mark - Object Lifecycle
+
 - (instancetype)initWithText:(NSString *)text {
     return [self initWithText:text secondaryText:nil tertiaryText:nil voiceCommands:nil artwork:nil secondaryArtwork:nil];
 }
@@ -34,6 +36,26 @@ NS_ASSUME_NONNULL_BEGIN
     _secondaryArtwork = secondaryArtwork;
 
     return self;
+}
+
+
+#pragma mark - Object Equality
+
+- (NSUInteger)hash {
+    return self.text.hash ^ self.secondaryText.hash ^ self.tertiaryText.hash ^ self.artwork.name.hash ^ self.secondaryArtwork.name.hash ^ self.voiceCommands.hash;
+}
+
+- (BOOL)isEqual:(id)object {
+    if (self == object) { return YES; }
+    if (![object isMemberOfClass:[self class]]) { return NO; }
+
+    return [self isEqualToChoice:(SDLChoiceCell *)object];
+}
+
+- (BOOL)isEqualToChoice:(SDLChoiceCell *)choice {
+    if (choice == nil) { return NO; }
+
+    return (self.hash == choice.hash);
 }
 
 @end

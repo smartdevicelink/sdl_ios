@@ -12,7 +12,9 @@
 
 @class SDLChoiceCell;
 @class SDLChoiceSet;
+@class SDLFileManager;
 
+@protocol SDLConnectionManagerType;
 @protocol SDLKeyboardDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -20,6 +22,10 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
 
 @interface SDLChoiceSetManager : NSObject
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
+
+- (void)stop;
 
 /**
  Preload cells to the head unit. This will *greatly* reduce the time taken to present a choice set. Any already matching a choice already on the head unit will be ignored. You *do not* need to wait until the completion handler is called to present a choice set containing choices being loaded. The choice set will wait until the preload completes and then immediately present.
