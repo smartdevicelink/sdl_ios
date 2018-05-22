@@ -15,6 +15,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  A protocol error type
+ *
+ *  - SDLProtocolErrorNoSecurityManager: No security manager was provided
+ */
 typedef NS_ENUM(NSUInteger, SDLProtocolError) {
     SDLProtocolErrorNoSecurityManager,
 };
