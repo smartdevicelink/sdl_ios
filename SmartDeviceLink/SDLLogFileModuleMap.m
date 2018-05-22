@@ -65,7 +65,7 @@
 }
 
 + (SDLLogFileModule *)sdl_screenManagerModule {
-    return [SDLLogFileModule moduleWithName:@"Screen" files:[NSSet setWithArray:@[@"SDLTextAndGraphicManager", @"SDLSoftButtonManager", @"SDLScreenManager", @"SDLSoftButtonObject", @"SDLSoftButtonState", @"SDLMenuManager", @"SDLVoiceCommandManager"]]];
+    return [SDLLogFileModule moduleWithName:@"Screen" files:[NSSet setWithArray:@[@"SDLTextAndGraphicManager", @"SDLSoftButtonManager", @"SDLScreenManager", @"SDLSoftButtonObject", @"SDLSoftButtonState", @"SDLMenuManager", @"SDLVoiceCommandManager", @"SDLChoiceSetManager"]]];
 }
 
 

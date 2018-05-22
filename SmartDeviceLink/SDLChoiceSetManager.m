@@ -20,6 +20,7 @@
 #import "SDLHMILevel.h"
 #import "SDLLogMacros.h"
 #import "SDLOnHMIStatus.h"
+#import "SDLPerformInteraction.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
@@ -131,6 +132,7 @@ UInt16 const ChoiceCellIdMin = 1;
             return;
         }
 
+        // Check for choice sets with VR
         [self.connectionManager sendConnectionRequest:[self.class sdl_testCellWithVR:YES] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
             if (error == nil) {
                 SDLLogW(@"Connected head unit does not support choice cells without voice commands. Cells without voice will be sent with placeholder voices from now on.");
@@ -149,7 +151,10 @@ UInt16 const ChoiceCellIdMin = 1;
 
 #pragma mark - Choice Management
 
+#pragma mark Upload / Delete
+
 - (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler {
+    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
     NSSet<SDLChoiceCell *> *choicesToUpload = [self sdl_choicesToBeUploadedFromChoiceArray:choices];
 
     // Add the preload cells to the pending updates (this will automatically remove any in the process of being uploaded)
@@ -157,20 +162,33 @@ UInt16 const ChoiceCellIdMin = 1;
 }
 
 - (void)deleteChoices:(NSArray<SDLChoiceCell *> *)choices andAttachedImages:(BOOL)deleteImages {
+    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
     // Find these choices in either the already uploaded set or pending queue set
     // TODO: If choices are deleted from a pending queue,
 }
 
+#pragma mark Present
+
 - (void)presentChoiceSet:(SDLChoiceSet *)set mode:(SDLInteractionMode)mode {
+    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
     // Check which, if any, choices need to be uploaded to the head unit
 }
 
 - (void)presentSearchableChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(id<SDLKeyboardDelegate>)delegate {
-
+    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
 }
 
 - (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
+    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
 
+    // Present a keyboard with the choice set that we tested option VRs with
+    SDLPerformInteraction *performInteraction = [[SDLPerformInteraction alloc] init];
+    performInteraction.initialText = initialText;
+    performInteraction.interactionMode = SDLInteractionModeManualOnly;
+    performInteraction.interactionChoiceSetIDList = @[@0];
+    performInteraction.interactionLayout = SDLLayoutModeKeyboard;
+
+    // TODO: Present
 }
 
 #pragma mark - Helpers
