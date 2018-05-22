@@ -36,21 +36,21 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Returns the total size of the message.
  *
- *  @return     The size of the message
+ *  @return The size of the message
  */
 - (NSUInteger)size;
 
 /**
  *  Prints a description of the SDLProtocolMessage object.
  *
- *  @return     A string description of the SDLProtocolMessage
+ *  @return A string description of the SDLProtocolMessage
  */
 - (NSString *)description;
 
 /**
  * Used for RPC type messages to obtain the data in a dictionary.
  *
- *  @return     The data in a dictionary
+ *  @return The data in a dictionary
  */
 - (nullable NSDictionary<NSString *, id> *)rpcDictionary;
 

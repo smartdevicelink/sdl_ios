@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) BOOL encrypted;
 
 /**
- *  The data packet's header and payload combination
+ *  The data packet's header and payload combination.
  */
 @property (assign, nonatomic) SDLFrameType frameType;
 
@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) SDLFrameInfo frameData;
 
 /**
- *  The session identifier
+ *  The session identifier.
  */
 @property (assign, nonatomic) UInt8 sessionID;
 
@@ -56,11 +56,48 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic) UInt32 bytesInPayload;
 
+/**
+ *  The initializer for the class.
+ *
+ *  @return A SDLProtocolHeader object
+ */
 - (instancetype)init;
+
+/**
+ *  Not implemented
+ *
+ *  @return Unused
+ */
 - (nullable NSData *)data;
+
+/**
+ *  Not implemented
+ *
+ *  @param data Unused
+ */
 - (void)parse:(NSData *)data;
+
+/**
+ *  Prints a description of the SDLProtocolHeader object.
+ *
+ *  @return A string description of the SDLProtocolHeader object
+ */
 - (NSString *)description;
+
+/**
+ *  Returns the correct header for the protocol version.
+ *
+ *  @param version  The protocol version
+ *  @return         A SDLProtocolHeader object
+ */
 + (__kindof SDLProtocolHeader *)headerForVersion:(UInt8)version;
+
+/**
+ *  For use in decoding a stream of bytes.
+ *
+ *  @param data     Bytes representing message (or beginning of message)
+ *  @return         The version number
+ */
 + (UInt8)determineVersion:(NSData *)data;
 
 @end
