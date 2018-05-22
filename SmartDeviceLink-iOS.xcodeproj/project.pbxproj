@@ -912,10 +912,10 @@
 		5D8B17531AC9E11B006A6E1C /* SDLDialNumberResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8B17511AC9E11B006A6E1C /* SDLDialNumberResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D8B17541AC9E11B006A6E1C /* SDLDialNumberResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8B17521AC9E11B006A6E1C /* SDLDialNumberResponse.m */; };
 		5D8B17561AC9E399006A6E1C /* SDLDialNumberSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8B17551AC9E399006A6E1C /* SDLDialNumberSpec.m */; };
-		5D92934D20AF4BEF00FCC775 /* SDLRGBColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92934B20AF4BEF00FCC775 /* SDLRGBColor.h */; };
+		5D92934D20AF4BEF00FCC775 /* SDLRGBColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92934B20AF4BEF00FCC775 /* SDLRGBColor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D92934E20AF4BEF00FCC775 /* SDLRGBColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92934C20AF4BEF00FCC775 /* SDLRGBColor.m */; };
 		5D92935020AF526200FCC775 /* SDLRGBColorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92934F20AF526200FCC775 /* SDLRGBColorSpec.m */; };
-		5D92935320B2F76500FCC775 /* SDLTemplateColorScheme.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92935120B2F76500FCC775 /* SDLTemplateColorScheme.h */; };
+		5D92935320B2F76500FCC775 /* SDLTemplateColorScheme.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92935120B2F76500FCC775 /* SDLTemplateColorScheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D92935420B2F76500FCC775 /* SDLTemplateColorScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92935220B2F76500FCC775 /* SDLTemplateColorScheme.m */; };
 		5D92935620B2FD7300FCC775 /* SDLTemplateColorSchemeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92935520B2FD7300FCC775 /* SDLTemplateColorSchemeSpec.m */; };
 		5D9F50781BE7DD4C00FEF399 /* testFileJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50721BE7DD4C00FEF399 /* testFileJSON.json */; };
