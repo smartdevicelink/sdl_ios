@@ -206,6 +206,10 @@ NS_ASSUME_NONNULL_BEGIN
     self.textAndGraphicManager.batchUpdates = YES;
 }
 
+- (void)endUpdates {
+    [self endUpdatesWithCompletionHandler:nil];
+}
+
 - (void)endUpdatesWithCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)handler {
     self.softButtonManager.batchUpdates = NO;
     self.textAndGraphicManager.batchUpdates = NO;

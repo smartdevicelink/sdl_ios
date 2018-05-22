@@ -109,6 +109,23 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
  Also updates the primary and secondary images with new image(s) if new one(s) been set. This method will take care of naming the files (based on a hash). This is assumed to be a non-persistant image.
 
  If it needs to be uploaded, it will be. Once the upload is complete, the on-screen graphic will be updated.
+ */
+- (void)endUpdates;
+
+/**
+ Update text fields with new text set into the text field properties. Pass an empty string `\@""` to clear the text field.
+
+ If the system does not support a full 4 fields, this will automatically be concatenated and properly send the field available.
+
+ If 3 lines are available: [field1, field2, field3 - field 4]
+
+ If 2 lines are available: [field1 - field2, field3 - field4]
+
+ If 1 line is available: [field1 - field2 - field3 - field4]
+
+ Also updates the primary and secondary images with new image(s) if new one(s) been set. This method will take care of naming the files (based on a hash). This is assumed to be a non-persistant image.
+
+ If it needs to be uploaded, it will be. Once the upload is complete, the on-screen graphic will be updated.
 
  @param handler A handler run when the fields have finished updating, with an error if the update failed. This handler may be called multiple times when the text update is sent and the image update is sent.
  */
