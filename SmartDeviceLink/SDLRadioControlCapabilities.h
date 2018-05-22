@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLRadioControlCapabilities : SDLRPCStruct
 
-- (instancetype)initWithModuleName:(NSString *)moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDsAvailable:(BOOL)availableHDsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable;
+- (instancetype)initWithModuleName:(NSString *)moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDsAvailable:(BOOL)availableHDsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable hdRadioEnableAvailable:(BOOL)hdRadioEnableAvailable siriusxmRadioAvailable:(BOOL)siriusxmRadioAvailable;
 
 /**
  * The short friendly name of the climate control module.
@@ -102,6 +102,22 @@ NS_ASSUME_NONNULL_BEGIN
  * Optional, Boolean
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *signalChangeThresholdAvailable;
+
+/**
+ * @abstract Availability of the control of enable/disable HD radio.
+ * True: Available, False: Not Available, Not present: Not Available.
+ *
+ * Optional, Boolean
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *hdRadioEnableAvailable;
+
+/**
+ * @abstract Availability of sirius XM radio.
+ * True: Available, False: Not Available, Not present: Not Available.
+ *
+ * Optional, Boolean
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *siriusxmRadioAvailable;
 
 @end
 
