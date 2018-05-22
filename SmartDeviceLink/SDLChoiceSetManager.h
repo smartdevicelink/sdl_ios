@@ -23,7 +23,14 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
 
 @interface SDLChoiceSetManager : NSObject
 
+/**
+ *  The state of the choice set manager.
+ */
+@property (copy, nonatomic, readonly) NSString *currentState;
+
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
+
+- (void)start;
 
 - (void)stop;
 

@@ -12,6 +12,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface SDLChoiceCell()
+
+@property (assign, nonatomic) NSUInteger choiceId;
+
+@end
+
 @implementation SDLChoiceCell
 
 #pragma mark - Object Lifecycle
@@ -34,6 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
     _voiceCommands = voiceCommands;
     _artwork = artwork;
     _secondaryArtwork = secondaryArtwork;
+    
+    _choiceId = NSNotFound;
 
     return self;
 }
