@@ -32,6 +32,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong, readonly) SDLTouchManager *touchManager;
 
+/**
+ *  Audio Manager responsible for managing streaming audio.
+ */
 @property (nonatomic, strong, readonly) SDLAudioStreamManager *audioManager;
 
 /**
