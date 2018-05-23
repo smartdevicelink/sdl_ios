@@ -180,7 +180,13 @@ NS_ASSUME_NONNULL_BEGIN
     screenManager.textField3 = isTextEnabled ? self.vehicleDataManager.vehicleOdometerData : nil;
 
     if (self.sdlManager.systemCapabilityManager.displayCapabilities.graphicSupported) {
-        screenManager.primaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+        if ([self sdlex_imageFieldSupported:SDLImageFieldNameGraphic]) {
+            screenManager.primaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:ExampleAppLogoName] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+        }
+
+        if ([self sdlex_imageFieldSupported:SDLImageFieldNameSecondaryGraphic]) {
+            screenManager.secondaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:CarIconImageName] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+        }
     }
 
     [screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
@@ -188,6 +194,20 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+- (BOOL)sdlex_imageFieldSupported:(SDLImageFieldName)imageFieldName {
+    for (SDLImageField *imageField in self.sdlManager.systemCapabilityManager.displayCapabilities.imageFields) {
+        if ([imageField.name isEqualToString:imageFieldName]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+/*
+ func imageFieldSupported(imageFieldName: SDLImageFieldName) -> Bool {
+ return sdlManager.systemCapabilityManager.displayCapabilities?.imageFields?.first { $0.name == imageFieldName } != nil ? true : false
+ }
+ */
 
 #pragma mark - SDLManagerDelegate
 

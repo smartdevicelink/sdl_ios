@@ -251,7 +251,15 @@ private extension ProxyManager {
         screenManager.textField3 = isTextVisible ? vehicleDataManager.vehicleOdometerData : nil
 
         if sdlManager.systemCapabilityManager.displayCapabilities?.graphicSupported.boolValue ?? false {
-            screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!, persistent: false, as: .PNG) : nil
+            // Primary graphic
+            if imageFieldSupported(imageFieldName: .graphic) {
+                screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!, persistent: false, as: .PNG) : nil
+            }
+
+            // Secondary graphic
+            if imageFieldSupported(imageFieldName: .secondaryGraphic) {
+                screenManager.secondaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: CarIconImageName)!, persistent: false, as: .PNG) : nil
+            }
         }
         
         screenManager.endUpdates(completionHandler: { (error) in
@@ -281,5 +289,9 @@ private extension ProxyManager {
         }, completionHandler: { (success) in
             SDLLog.d("All prepare remote system requests sent \(success ? "successfully" : "unsuccessfully")")
         })
+    }
+
+    func imageFieldSupported(imageFieldName: SDLImageFieldName) -> Bool {
+        return sdlManager.systemCapabilityManager.displayCapabilities?.imageFields?.first { $0.name == imageFieldName } != nil ? true : false
     }
 }
