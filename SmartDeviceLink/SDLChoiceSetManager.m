@@ -15,13 +15,13 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLCreateInteractionChoiceSet.h"
 #import "SDLCreateInteractionChoiceSetResponse.h"
-#import "SDLDeleteInteractionChoiceSet.h"
-#import "SDLDeleteInteractionChoiceSetResponse.h"
+#import "SDLDeleteChoicesOperation.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLDisplayCapabilities+ShowManagerExtensions.h"
 #import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLHMILevel.h"
+#import "SDLImage.h"
 #import "SDLLogMacros.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLPerformInteraction.h"
@@ -39,13 +39,16 @@ typedef NSString SDLChoiceManagerState;
 SDLChoiceManagerState *const SDLChoiceManagerStateShutdown = @"Shutdown";
 SDLChoiceManagerState *const SDLChoiceManagerStateCheckingVoiceOptional = @"CheckingVoiceOptional";
 SDLChoiceManagerState *const SDLChoiceManagerStateReady = @"Ready";
+//SDLChoiceManagerState *const SDLChoiceManagerStatePreloading = @"Preloading";
+//SDLChoiceManagerState *const SDLChoiceManagerStateDeleting = @"Deleting";
+//SDLChoiceManagerState *const SDLChoiceManagerStatePresenting = @"Presenting";
 SDLChoiceManagerState *const SDLChoiceManagerStateStartupError = @"StartupError";
 
 typedef NSNumber * SDLChoiceId;
 
 @interface SDLChoiceCell()
 
-@property (assign, nonatomic) UInt32 choiceId;
+@property (assign, nonatomic) UInt16 choiceId;
 
 @end
 
@@ -53,7 +56,9 @@ typedef NSNumber * SDLChoiceId;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
+
 @property (strong, nonatomic, readonly) SDLStateMachine *stateMachine;
+@property (strong, nonatomic) NSOperationQueue *transactionQueue;
 
 @property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
 @property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
@@ -82,6 +87,9 @@ UInt16 const ChoiceCellIdMin = 1;
     _connectionManager = connectionManager;
     _fileManager = fileManager;
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLChoiceManagerStateShutdown states:[self.class sdl_stateTransitionDictionary]];
+    _transactionQueue = [[NSOperationQueue alloc] init];
+    _transactionQueue.name = @"SDLFileManager Transaction Queue";
+    _transactionQueue.maxConcurrentOperationCount = 1;
 
     _preloadedMutableChoices = [NSMutableSet set];
     _pendingMutablePreloadChoices = [NSMutableSet set];
@@ -124,6 +132,7 @@ UInt16 const ChoiceCellIdMin = 1;
     _currentSystemContext = nil;
     _displayCapabilities = nil;
 
+    [self.transactionQueue cancelAllOperations];
     _preloadedMutableChoices = [NSMutableSet set];
     _pendingMutablePreloadChoices = [NSMutableSet set];
     _pendingPresentationSet = nil;
@@ -175,7 +184,7 @@ UInt16 const ChoiceCellIdMin = 1;
     // TODO: Upload pending preloads
 }
 
-- (void)deleteChoices:(NSArray<SDLChoiceCell *> *)choices andAttachedImages:(BOOL)deleteImages {
+- (void)deleteChoices:(NSArray<SDLChoiceCell *> *)choices {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
 
     // Find cells to be deleted that are already uploaded or are pending upload
@@ -193,27 +202,14 @@ UInt16 const ChoiceCellIdMin = 1;
     }
 
     // Remove the cells from pending and delete choices
+    // TODO: Delete artworks
     [self.pendingMutablePreloadChoices minusSet:cellsToBeRemovedFromPending];
-
-    // TODO: Delete choices, AND attached images
-    NSMutableArray<SDLDeleteInteractionChoiceSet *> *deleteChoices = [NSMutableArray arrayWithCapacity:cellsToBeDeleted.count];
-    for (SDLChoiceCell *cell in cellsToBeDeleted) {
-        [deleteChoices addObject:[[SDLDeleteInteractionChoiceSet alloc] initWithId:cell.choiceId]];
-    }
-
-    __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
-    [self.connectionManager sendRequests:deleteChoices progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+    SDLDeleteChoicesOperation *deleteOperation = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:self.connectionManager cellsToDelete:cellsToBeDeleted completionHandler:^(NSError * _Nullable error) {
         if (error != nil) {
-            errors[request] = error;
-        }
-    } completionHandler:^(BOOL success) {
-        if (!success) {
-            SDLLogE(@"Failed to delete choices: %@", errors);
-            // TODO: Tell the developer about the failure (delegate?)
-//            completionHandler([NSError sdl_choiceSetManager_choiceDeletionFailed:errors]);
-            return;
+            SDLLogE(@"Failed to delete choices: %@", error);
         }
     }];
+    [self.transactionQueue addOperation:deleteOperation];
 }
 
 #pragma mark Present

@@ -921,6 +921,10 @@
 		5D92936820B3601700FCC775 /* SDLChoiceSetManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92936620B3601700FCC775 /* SDLChoiceSetManager.h */; };
 		5D92936920B3601700FCC775 /* SDLChoiceSetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92936720B3601700FCC775 /* SDLChoiceSetManager.m */; };
 		5D92936C20B4705F00FCC775 /* SDLScreenManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92936B20B4705F00FCC775 /* SDLScreenManagerDelegate.h */; };
+		5D92937020B5E0E500FCC775 /* SDLDeleteChoicesOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92936E20B5E0E500FCC775 /* SDLDeleteChoicesOperation.h */; };
+		5D92937120B5E0E500FCC775 /* SDLDeleteChoicesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92936F20B5E0E500FCC775 /* SDLDeleteChoicesOperation.m */; };
+		5D92937420B5EEA200FCC775 /* SDLPreloadChoicesOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92937220B5EEA200FCC775 /* SDLPreloadChoicesOperation.h */; };
+		5D92937520B5EEA200FCC775 /* SDLPreloadChoicesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92937320B5EEA200FCC775 /* SDLPreloadChoicesOperation.m */; };
 		5D9F50781BE7DD4C00FEF399 /* testFileJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50721BE7DD4C00FEF399 /* testFileJSON.json */; };
 		5D9F50791BE7DD4C00FEF399 /* testImageBMP.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50731BE7DD4C00FEF399 /* testImageBMP.bmp */; };
 		5D9F507A1BE7DD4C00FEF399 /* testImageJPEG.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50741BE7DD4C00FEF399 /* testImageJPEG.jpeg */; };
@@ -2264,6 +2268,10 @@
 		5D92936620B3601700FCC775 /* SDLChoiceSetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLChoiceSetManager.h; sourceTree = "<group>"; };
 		5D92936720B3601700FCC775 /* SDLChoiceSetManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLChoiceSetManager.m; sourceTree = "<group>"; };
 		5D92936B20B4705F00FCC775 /* SDLScreenManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLScreenManagerDelegate.h; sourceTree = "<group>"; };
+		5D92936E20B5E0E500FCC775 /* SDLDeleteChoicesOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLDeleteChoicesOperation.h; sourceTree = "<group>"; };
+		5D92936F20B5E0E500FCC775 /* SDLDeleteChoicesOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLDeleteChoicesOperation.m; sourceTree = "<group>"; };
+		5D92937220B5EEA200FCC775 /* SDLPreloadChoicesOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPreloadChoicesOperation.h; sourceTree = "<group>"; };
+		5D92937320B5EEA200FCC775 /* SDLPreloadChoicesOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPreloadChoicesOperation.m; sourceTree = "<group>"; };
 		5D9F50721BE7DD4C00FEF399 /* testFileJSON.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testFileJSON.json; sourceTree = "<group>"; };
 		5D9F50731BE7DD4C00FEF399 /* testImageBMP.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = testImageBMP.bmp; sourceTree = "<group>"; };
 		5D9F50741BE7DD4C00FEF399 /* testImageJPEG.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = testImageJPEG.jpeg; sourceTree = "<group>"; };
@@ -4365,6 +4373,7 @@
 		5D92935720B33D3C00FCC775 /* Choice Set */ = {
 			isa = PBXGroup;
 			children = (
+				5D92936D20B5E07000FCC775 /* Operations */,
 				5D92936520B3600900FCC775 /* Delegates */,
 				5D92935820B33D4F00FCC775 /* SDLChoiceCell.h */,
 				5D92935920B33D4F00FCC775 /* SDLChoiceCell.m */,
@@ -4391,6 +4400,17 @@
 				5D92936B20B4705F00FCC775 /* SDLScreenManagerDelegate.h */,
 			);
 			name = Delegates;
+			sourceTree = "<group>";
+		};
+		5D92936D20B5E07000FCC775 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				5D92936E20B5E0E500FCC775 /* SDLDeleteChoicesOperation.h */,
+				5D92936F20B5E0E500FCC775 /* SDLDeleteChoicesOperation.m */,
+				5D92937220B5EEA200FCC775 /* SDLPreloadChoicesOperation.h */,
+				5D92937320B5EEA200FCC775 /* SDLPreloadChoicesOperation.m */,
+			);
+			name = Operations;
 			sourceTree = "<group>";
 		};
 		5D9F50711BE7DD4C00FEF399 /* Assets */ = {
@@ -5415,6 +5435,7 @@
 				880E35B52088F75A00181259 /* SDLSystemCapabilityManager.h in Headers */,
 				5D61FC611A84238C00846EE7 /* SDLChoice.h in Headers */,
 				5D1BF6AF204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.h in Headers */,
+				5D92937420B5EEA200FCC775 /* SDLPreloadChoicesOperation.h in Headers */,
 				5D7F87F31CE3C29E002DD7C4 /* SDLFileWrapper.h in Headers */,
 				5D61FC7C1A84238C00846EE7 /* SDLDeleteInteractionChoiceSetResponse.h in Headers */,
 				5D61FDB91A84238C00846EE7 /* SDLSyncPDataResponse.h in Headers */,
@@ -5429,6 +5450,7 @@
 				5D61FD371A84238C00846EE7 /* SDLPredefinedLayout.h in Headers */,
 				5D61FDE31A84238C00846EE7 /* SDLUnregisterAppInterface.h in Headers */,
 				5D61FD331A84238C00846EE7 /* SDLPowerModeQualificationStatus.h in Headers */,
+				5D92937020B5E0E500FCC775 /* SDLDeleteChoicesOperation.h in Headers */,
 				5D61FE011A84238C00846EE7 /* SDLVehicleDataNotificationStatus.h in Headers */,
 				5D61FDC91A84238C00846EE7 /* SDLTextField.h in Headers */,
 				5D6F7A351BC5B9B60070BF37 /* SDLLockScreenViewController.h in Headers */,
@@ -5914,6 +5936,7 @@
 				5D61FE141A84238C00846EE7 /* SDLWiperStatus.m in Sources */,
 				5D61FC8B1A84238C00846EE7 /* SDLDiagnosticMessageResponse.m in Sources */,
 				5DBF063A1E64ABBE00A5CF03 /* SDLLogConfiguration.m in Sources */,
+				5D92937120B5E0E500FCC775 /* SDLDeleteChoicesOperation.m in Sources */,
 				5D61FD2E1A84238C00846EE7 /* SDLPermissionItem.m in Sources */,
 				5D61FD041A84238C00846EE7 /* SDLOnButtonEvent.m in Sources */,
 				5D61FD201A84238C00846EE7 /* SDLOnTouchEvent.m in Sources */,
@@ -6111,6 +6134,7 @@
 				5D61FD321A84238C00846EE7 /* SDLPolicyDataParser.m in Sources */,
 				5D61FC621A84238C00846EE7 /* SDLChoice.m in Sources */,
 				1E5AD0811F20B73E0029B8AF /* SDLButtonPress.m in Sources */,
+				5D92937520B5EEA200FCC775 /* SDLPreloadChoicesOperation.m in Sources */,
 				DAC5725B1D10B81E0004288B /* SDLTouch.m in Sources */,
 				5D61FCEB1A84238C00846EE7 /* SDLLayoutMode.m in Sources */,
 				5D61FC2E1A84238C00846EE7 /* SDLAddCommand.m in Sources */,

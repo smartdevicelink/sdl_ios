@@ -1,0 +1,117 @@
+//
+//  SDLPreloadChoicesOperation.m
+//  SmartDeviceLink
+//
+//  Created by Joel Fischer on 5/23/18.
+//  Copyright © 2018 smartdevicelink. All rights reserved.
+//
+
+#import "SDLPreloadChoicesOperation.h"
+
+#import "SDLChoice.h"
+#import "SDLChoiceCell.h"
+#import "SDLConnectionManagerType.h"
+#import "SDLCreateInteractionChoiceSet.h"
+#import "SDLCreateInteractionChoiceSetResponse.h"
+#import "SDLDisplayCapabilities.h"
+#import "SDLDisplayCapabilities+ShowManagerExtensions.h"
+#import "SDLError.h"
+#import "SDLFileManager.h"
+#import "SDLImage.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLChoiceCell()
+
+@property (assign, nonatomic) UInt16 choiceId;
+
+@end
+
+@interface SDLPreloadChoicesOperation()
+
+@property (strong, nonatomic) NSSet<SDLChoiceCell *> *cellsToUpload;
+@property (strong, nonatomic) SDLDisplayCapabilities *displayCapabilities;
+@property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
+
+@property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
+@property (weak, nonatomic) SDLFileManager *fileManager;
+@property (copy, nonatomic, nullable) SDLChoiceSetManagerPreloadCompletionHandler completionHandler;
+
+@end
+
+@implementation SDLPreloadChoicesOperation
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayCapabilities:(SDLDisplayCapabilities *)displayCapabilities isVROptional:(BOOL)isVROptional cellsToPreload:(NSSet<SDLChoiceCell *> *)cells completionHandler:(nullable SDLChoiceSetManagerPreloadCompletionHandler)completionHandler {
+    self = [super init];
+    if (!self) { return nil; }
+
+    _connectionManager = connectionManager;
+    _fileManager = fileManager;
+    _displayCapabilities = displayCapabilities;
+    _vrOptional = isVROptional;
+    _cellsToUpload = cells;
+    _completionHandler = completionHandler;
+
+    return self;
+}
+
+- (void)start {
+    [super start];
+
+    [self sdl_preloadCellArtworksWithCompletionHandler:^(NSError * _Nullable error) {
+        [self sdl_preloadCells];
+    }];
+}
+
+#pragma mark - Sending Choice Data
+
+- (void)sdl_preloadCellArtworksWithCompletionHandler:(SDLChoiceSetManagerPreloadCompletionHandler)completionHandler {
+    NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
+    for (SDLChoiceCell *cell in self.cellsToUpload) {
+        if ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage]) {
+            cell.artwork != nil ? [artworksToUpload addObject:cell.artwork] : nil;
+        }
+        if ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage]) {
+            cell.secondaryArtwork != nil ? [artworksToUpload addObject:cell.secondaryArtwork] : nil;
+        }
+    }
+
+    [self.fileManager uploadArtworks:[artworksToUpload copy] completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+        completionHandler(error);
+    }];
+}
+
+- (void)sdl_preloadCells {
+    NSMutableArray<SDLCreateInteractionChoiceSet *> *choiceRPCs = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
+    for (SDLChoiceCell *cell in self.cellsToUpload) {
+        [choiceRPCs addObject:[self sdl_choiceFromCell:cell]];
+    }
+
+    
+}
+
+#pragma mark - Assembling Choice Data
+
+- (SDLCreateInteractionChoiceSet *)sdl_choiceFromCell:(SDLChoiceCell *)cell {
+    NSArray<NSString *> *vrCommands = nil;
+    if (cell.voiceCommands == nil) {
+        vrCommands = self.isVROptional ? nil : @[[NSString stringWithFormat:@"%hu", cell.choiceId]];
+    } else {
+        vrCommands = cell.voiceCommands;
+    }
+
+    NSString *menuName = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameMenuName] ? cell.text : nil;
+    NSString *secondaryText = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameSecondaryText] ? cell.secondaryText : nil;
+    NSString *tertiaryText = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameTertiaryText] ? cell.tertiaryText : nil;
+
+    SDLImage *image = [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage] ? [[SDLImage alloc] initWithName:cell.artwork.name] : nil;
+    SDLImage *secondaryImage = [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] ? [[SDLImage alloc] initWithName:cell.secondaryArtwork.name] : nil;
+
+    SDLChoice *choice = [[SDLChoice alloc] initWithId:cell.choiceId menuName:menuName vrCommands:(NSArray<NSString *> * _Nonnull)vrCommands image:image secondaryText:secondaryText secondaryImage:secondaryImage tertiaryText:tertiaryText];
+
+    return [[SDLCreateInteractionChoiceSet alloc] initWithId:(UInt32)choice.choiceID choiceSet:@[choice]];
+}
+
+@end
+
+NS_ASSUME_NONNULL_END

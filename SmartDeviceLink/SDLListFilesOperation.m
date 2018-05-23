@@ -48,18 +48,18 @@ NS_ASSUME_NONNULL_BEGIN
 
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendConnectionManagerRequest:listFiles
-                           withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
-                               SDLListFilesResponse *listFilesResponse = (SDLListFilesResponse *)response;
-                               BOOL success = [listFilesResponse.success boolValue];
-                               NSUInteger bytesAvailable = [listFilesResponse.spaceAvailable unsignedIntegerValue];
-                               NSArray<NSString *> *fileNames = [NSArray arrayWithArray:listFilesResponse.filenames];
+                                     withResponseHandler:^(__kindof SDLRPCRequest *request, __kindof SDLRPCResponse *response, NSError *error) {
+                                         SDLListFilesResponse *listFilesResponse = (SDLListFilesResponse *)response;
+                                         BOOL success = [listFilesResponse.success boolValue];
+                                         NSUInteger bytesAvailable = [listFilesResponse.spaceAvailable unsignedIntegerValue];
+                                         NSArray<NSString *> *fileNames = [NSArray arrayWithArray:listFilesResponse.filenames];
 
-                               if (weakSelf.completionHandler != nil) {
-                                   weakSelf.completionHandler(success, bytesAvailable, fileNames, error);
-                               }
+                                         if (weakSelf.completionHandler != nil) {
+                                             weakSelf.completionHandler(success, bytesAvailable, fileNames, error);
+                                         }
 
-                               [weakSelf finishOperation];
-                           }];
+                                         [weakSelf finishOperation];
+                                     }];
 }
 
 

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLChoiceCell()
 
-@property (assign, nonatomic) NSUInteger choiceId;
+@property (assign, nonatomic) UInt16 choiceId;
 
 @end
 
@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
     _artwork = artwork;
     _secondaryArtwork = secondaryArtwork;
     
-    _choiceId = NSNotFound;
+    _choiceId = UINT16_MAX;
 
     return self;
 }
