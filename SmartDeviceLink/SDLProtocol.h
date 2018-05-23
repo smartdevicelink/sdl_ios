@@ -40,7 +40,7 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
 @property (nullable, weak, nonatomic) id<SDLTransportType> transport;
 
 /**
- *  A table for tracking all subscribed listeners
+ *  A table for tracking all subscribers
  */
 @property (nullable, strong, nonatomic) NSHashTable<id<SDLProtocolListener>> *protocolDelegateTable;
 
