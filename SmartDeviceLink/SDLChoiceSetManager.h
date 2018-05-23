@@ -13,6 +13,7 @@
 @class SDLChoiceCell;
 @class SDLChoiceSet;
 @class SDLFileManager;
+@class SDLKeyboardProperties;
 
 @protocol SDLConnectionManagerType;
 @protocol SDLKeyboardDelegate;
@@ -27,6 +28,16 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
  *  The state of the choice set manager.
  */
 @property (copy, nonatomic, readonly) NSString *currentState;
+
+/**
+ The default keyboard configuration, this can be additionally customized by each SDLKeyboardDelegate.
+ */
+@property (strong, nonatomic) SDLKeyboardProperties *keyboardConfiguration;
+
+/**
+ Cells will be hashed by their text, image names, and VR command text. When assembling an SDLChoiceSet, you can pull objects from here, or recreate them. The preloaded versions will be used so long as their text, image names, and VR commands are the same.
+ */
+@property (copy, nonatomic, readonly) NSSet<SDLChoiceCell *> *preloadedChoices;
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
 
@@ -57,10 +68,10 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
 
  If the cells have voice commands and images attached, this could take upwards of 10 seconds. If there are no cells on the set, this will fail, calling `choiceSet:didReceiveError:` on the choice set delegate.
 
- @param set The set to be displayed
+ @param choiceSet The set to be displayed
  @param mode If the set should be presented for the user to interact via voice, touch, or both
  */
-- (void)presentChoiceSet:(SDLChoiceSet *)set mode:(SDLInteractionMode)mode;
+- (void)presentChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode;
 
 /**
  Present a choice set on the head unit with a certain interaction mode. You should present in VR only if the user reached this choice set by using their voice, in Manual only if the user used touch to reach this choice set. Use Both if you're lazy...for real though, it's kind of confusing to the user and isn't recommended.

@@ -11,16 +11,21 @@
 #import "SDLChoice.h"
 #import "SDLChoiceCell.h"
 #import "SDLChoiceSet.h"
+#import "SDLChoiceSetDelegate.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLCreateInteractionChoiceSet.h"
 #import "SDLCreateInteractionChoiceSetResponse.h"
+#import "SDLDeleteInteractionChoiceSet.h"
+#import "SDLDeleteInteractionChoiceSetResponse.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLDisplayCapabilities+ShowManagerExtensions.h"
+#import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLHMILevel.h"
 #import "SDLLogMacros.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLPerformInteraction.h"
+#import "SDLPerformInteractionResponse.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
@@ -36,6 +41,14 @@ SDLChoiceManagerState *const SDLChoiceManagerStateCheckingVoiceOptional = @"Chec
 SDLChoiceManagerState *const SDLChoiceManagerStateReady = @"Ready";
 SDLChoiceManagerState *const SDLChoiceManagerStateStartupError = @"StartupError";
 
+typedef NSNumber * SDLChoiceId;
+
+@interface SDLChoiceCell()
+
+@property (assign, nonatomic) UInt32 choiceId;
+
+@end
+
 @interface SDLChoiceSetManager()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
@@ -46,11 +59,10 @@ SDLChoiceManagerState *const SDLChoiceManagerStateStartupError = @"StartupError"
 @property (copy, nonatomic, nullable) SDLSystemContext currentSystemContext;
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 
-@property (strong, nonatomic, readonly) NSSet<SDLChoiceCell *> *preloadedCells;
-@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *preloadedMutableCells;
-@property (strong, nonatomic, readonly) NSSet<SDLChoiceCell *> *pendingPreloadCells;
-@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *pendingMutablePreloadCells;
-@property (strong, nonatomic) SDLChoiceSet *pendingPresentationSet;
+@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *preloadedMutableChoices;
+@property (strong, nonatomic, readonly) NSSet<SDLChoiceCell *> *pendingPreloadChoices;
+@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *pendingMutablePreloadChoices;
+@property (strong, nonatomic, nullable) SDLChoiceSet *pendingPresentationSet;
 
 @property (assign, nonatomic, readonly) NSUInteger nextChoiceId;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
@@ -71,8 +83,8 @@ UInt16 const ChoiceCellIdMin = 1;
     _fileManager = fileManager;
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLChoiceManagerStateShutdown states:[self.class sdl_stateTransitionDictionary]];
 
-    _preloadedMutableCells = [NSMutableSet set];
-    _pendingMutablePreloadCells = [NSMutableSet set];
+    _preloadedMutableChoices = [NSMutableSet set];
+    _pendingMutablePreloadChoices = [NSMutableSet set];
 
     _nextChoiceId = ChoiceCellIdMin;
     _vrOptional = YES;
@@ -112,8 +124,8 @@ UInt16 const ChoiceCellIdMin = 1;
     _currentSystemContext = nil;
     _displayCapabilities = nil;
 
-    _preloadedMutableCells = [NSMutableSet set];
-    _pendingMutablePreloadCells = [NSMutableSet set];
+    _preloadedMutableChoices = [NSMutableSet set];
+    _pendingMutablePreloadChoices = [NSMutableSet set];
     _pendingPresentationSet = nil;
 
     _vrOptional = YES;
@@ -155,27 +167,75 @@ UInt16 const ChoiceCellIdMin = 1;
 
 - (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
-    NSSet<SDLChoiceCell *> *choicesToUpload = [self sdl_choicesToBeUploadedFromChoiceArray:choices];
+    NSSet<SDLChoiceCell *> *choicesToUpload = [self sdl_choicesToBeUploadedWithArray:choices];
 
-    // Add the preload cells to the pending updates (this will automatically remove any in the process of being uploaded)
-    [self.pendingMutablePreloadCells unionSet:choicesToUpload];
+    // Add the preload cells to the pending preloads
+    [self.pendingMutablePreloadChoices unionSet:choicesToUpload];
+
+    // TODO: Upload pending preloads
 }
 
 - (void)deleteChoices:(NSArray<SDLChoiceCell *> *)choices andAttachedImages:(BOOL)deleteImages {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
-    // Find these choices in either the already uploaded set or pending queue set
-    // TODO: If choices are deleted from a pending queue,
+
+    // Find cells to be deleted that are already uploaded or are pending upload
+    NSSet<SDLChoiceCell *> *cellsToBeDeleted = [self sdl_choicesToBeDeletedWithArray:choices];
+    NSSet<SDLChoiceCell *> *cellsToBeRemovedFromPending = [self sdl_choicesToBeRemovedFromPendingWithArray:choices];
+
+    // If choices are deleted that are already uploaded or pending and are used by a pending presentation, cancel it and send an error
+    NSSet<SDLChoiceCell *> *pendingPresentationSet = [NSSet setWithArray:self.pendingPresentationSet.choices];
+    if ([cellsToBeDeleted intersectsSet:pendingPresentationSet] || [cellsToBeRemovedFromPending intersectsSet:pendingPresentationSet]) {
+        if (self.pendingPresentationSet.delegate != nil) {
+            [self.pendingPresentationSet.delegate choiceSet:self.pendingPresentationSet didReceiveError:[NSError sdl_choiceSetManager_choicesDeletedBeforePresentation:@{@"deletedChoices": choices}]];
+        }
+
+        self.pendingPresentationSet = nil;
+    }
+
+    // Remove the cells from pending and delete choices
+    [self.pendingMutablePreloadChoices minusSet:cellsToBeRemovedFromPending];
+
+    // TODO: Delete choices, AND attached images
+    NSMutableArray<SDLDeleteInteractionChoiceSet *> *deleteChoices = [NSMutableArray arrayWithCapacity:cellsToBeDeleted.count];
+    for (SDLChoiceCell *cell in cellsToBeDeleted) {
+        [deleteChoices addObject:[[SDLDeleteInteractionChoiceSet alloc] initWithId:cell.choiceId]];
+    }
+
+    __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
+    [self.connectionManager sendRequests:deleteChoices progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+        if (error != nil) {
+            errors[request] = error;
+        }
+    } completionHandler:^(BOOL success) {
+        if (!success) {
+            SDLLogE(@"Failed to delete choices: %@", errors);
+            // TODO: Tell the developer about the failure (delegate?)
+//            completionHandler([NSError sdl_choiceSetManager_choiceDeletionFailed:errors]);
+            return;
+        }
+    }];
 }
 
 #pragma mark Present
 
-- (void)presentChoiceSet:(SDLChoiceSet *)set mode:(SDLInteractionMode)mode {
+- (void)presentChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
-    // Check which, if any, choices need to be uploaded to the head unit
+
+    if (self.pendingPresentationSet != nil) {
+        // TODO: Cancel
+    }
+    self.pendingPresentationSet = choiceSet;
+    // TODO: Check which, if any, choices need to be uploaded to the head unit, and preload them
 }
 
 - (void)presentSearchableChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(id<SDLKeyboardDelegate>)delegate {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
+
+    if (self.pendingPresentationSet != nil) {
+        // TODO: Cancel
+    }
+    self.pendingPresentationSet = choiceSet;
+    // TODO: Check which, if any, choices need to be uploaded to the head unit, and preload them
 }
 
 - (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
@@ -191,28 +251,38 @@ UInt16 const ChoiceCellIdMin = 1;
     // TODO: Present
 }
 
-#pragma mark - Helpers
+#pragma mark - Choice Management Helpers
 
-- (NSSet<SDLChoiceCell *> *)sdl_choicesToBeUploadedFromChoiceArray:(NSArray<SDLChoiceCell *> *)choices {
+- (NSSet<SDLChoiceCell *> *)sdl_choicesToBeUploadedWithArray:(NSArray<SDLChoiceCell *> *)choices {
     // Check if any of the choices already exist on the head unit and remove them from being preloaded
-    NSMutableSet<SDLChoiceCell *> *choicesToUpload = [NSMutableSet set];
-    [choices enumerateObjectsUsingBlock:^(SDLChoiceCell * _Nonnull choice, NSUInteger i, BOOL * _Nonnull stop) {
-        if (![self.preloadedCells containsObject:choice]) {
-            [choicesToUpload addObject:choice];
-        }
-    }];
+    NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
+    [choicesSet minusSet:self.preloadedChoices];
 
-    return [choicesToUpload copy];
+    return [choicesSet copy];
+}
+
+- (NSSet<SDLChoiceCell *> *)sdl_choicesToBeDeletedWithArray:(NSArray<SDLChoiceCell *> *)choices {
+    NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
+    [choicesSet intersectSet:self.preloadedChoices];
+
+    return [choicesSet copy];
+}
+
+- (NSSet<SDLChoiceCell *> *)sdl_choicesToBeRemovedFromPendingWithArray:(NSArray<SDLChoiceCell *> *)choices {
+    NSMutableSet<SDLChoiceCell *> *choicesSet = [NSMutableSet setWithArray:choices];
+    [choicesSet intersectSet:self.pendingPreloadChoices];
+
+    return [choicesSet copy];
 }
 
 #pragma mark - Getters
 
-- (NSSet<SDLChoiceCell *> *)preloadedCells {
-    return [_preloadedMutableCells copy];
+- (NSSet<SDLChoiceCell *> *)preloadedChoices {
+    return [_preloadedMutableChoices copy];
 }
 
-- (NSSet<SDLChoiceCell *> *)pendingPreloadCells {
-    return [_pendingMutablePreloadCells copy];
+- (NSSet<SDLChoiceCell *> *)pendingPreloadChoices {
+    return [_pendingMutablePreloadChoices copy];
 }
 
 - (NSString *)currentState {

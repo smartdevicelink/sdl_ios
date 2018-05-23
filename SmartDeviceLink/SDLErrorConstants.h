@@ -99,3 +99,8 @@ typedef NS_ENUM(NSInteger, SDLSoftButtonManagerError) {
 typedef NS_ENUM(NSInteger, SDLMenuManagerError) {
     SDLMenuManagerErrorRPCsFailed = -1
 };
+
+typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
+    SDLChoiceSetManagerErrorPendingPresentationDeleted = -1,
+    SDLChoiceSetManagerErrorDeletionFailed = -2,
+};

@@ -9,6 +9,7 @@
 #import "SDLScreenManager.h"
 
 #import "SDLArtwork.h"
+#import "SDLChoiceSetManager.h"
 #import "SDLMenuManager.h"
 #import "SDLSoftButtonManager.h"
 #import "SDLTextAndGraphicManager.h"
@@ -22,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLSoftButtonManager *softButtonManager;
 @property (strong, nonatomic) SDLMenuManager *menuManager;
 @property (strong, nonatomic) SDLVoiceCommandManager *voiceCommandMenuManager;
+@property (strong, nonatomic) SDLChoiceSetManager *choiceSetManager;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
@@ -41,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
     _softButtonManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
     _menuManager = [[SDLMenuManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
     _voiceCommandMenuManager = [[SDLVoiceCommandManager alloc] initWithConnectionManager:connectionManager];
+    _choiceSetManager = [[SDLChoiceSetManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
 
     return self;
 }
@@ -50,6 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self.softButtonManager stop];
     [self.menuManager stop];
     [self.voiceCommandMenuManager stop];
+    [self.choiceSetManager stop];
 }
 
 - (nullable SDLSoftButtonObject *)softButtonObjectNamed:(NSString *)name {
@@ -199,6 +203,14 @@ NS_ASSUME_NONNULL_BEGIN
     return _voiceCommandMenuManager.voiceCommands;
 }
 
+- (NSSet<SDLChoiceCell *> *)preloadedChoices {
+    return _choiceSetManager.preloadedChoices;
+}
+
+- (SDLKeyboardProperties *)keyboardConfiguration {
+    return _choiceSetManager.keyboardConfiguration;
+}
+
 #pragma mark - Begin / End Updates
 
 - (void)beginUpdates {
@@ -221,23 +233,23 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Choice Sets
 
 - (void)deleteChoices:(NSArray<SDLChoiceCell *> *)choices andAttachedImages:(BOOL)deleteImages {
-
+    [self.choiceSetManager deleteChoices:choices andAttachedImages:deleteImages];
 }
 
 - (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler {
-
+    [self.choiceSetManager preloadChoices:choices withCompletionHandler:handler];
 }
 
-- (void)presentChoiceSet:(SDLChoiceSet *)set mode:(SDLInteractionMode)mode {
-
+- (void)presentChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode {
+    [self.choiceSetManager presentChoiceSet:choiceSet mode:mode];
 }
 
 - (void)presentSearchableChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(id<SDLKeyboardDelegate>)delegate {
-
+    [self.choiceSetManager presentSearchableChoiceSet:choiceSet mode:mode withKeyboardDelegate:delegate];
 }
 
 - (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
-
+    [self.choiceSetManager presentKeyboardWithInitialText:initialText delegate:delegate];
 }
 
 @end

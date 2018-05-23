@@ -160,10 +160,10 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
 
  If the cells have voice commands and images attached, this could take upwards of 10 seconds. If there are no cells on the set, this will fail, calling `choiceSet:didReceiveError:` on the choice set delegate.
 
- @param set The set to be displayed
+ @param choiceSet The set to be displayed
  @param mode If the set should be presented for the user to interact via voice, touch, or both
  */
-- (void)presentChoiceSet:(SDLChoiceSet *)set mode:(SDLInteractionMode)mode;
+- (void)presentChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode;
 
 /**
  Present a choice set on the head unit with a certain interaction mode. You should present in VR only if the user reached this choice set by using their voice, in Manual only if the user used touch to reach this choice set. Use Both if you're lazy...for real though, it's kind of confusing to the user and isn't recommended.
