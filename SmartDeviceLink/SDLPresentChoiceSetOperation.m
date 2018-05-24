@@ -93,6 +93,16 @@ NS_ASSUME_NONNULL_BEGIN
     return [choiceIds copy];
 }
 
+#pragma mark - Property Overrides
+
+- (nullable NSString *)name {
+    return @"com.sdl.choicesetmanager.presentChoiceSet";
+}
+
+- (NSOperationQueuePriority)queuePriority {
+    return NSOperationQueuePriorityNormal;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

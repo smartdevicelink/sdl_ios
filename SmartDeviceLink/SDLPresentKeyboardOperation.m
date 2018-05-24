@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<SDLKeyboardDelegate> keyboardDelegate;
 @property (copy, nonatomic) NSString *initialText;
 
-@property (strong, nonatomic) SDLPerformInteraction *performInteraction;
+@property (strong, nonatomic, readonly) SDLPerformInteraction *performInteraction;
 
 @end
 
@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_presentKeyboard {
     [self.connectionManager sendConnectionRequest:self.performInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        // TODO
+        // TODO: Error handling
         [self finishOperation];
     }];
 }
@@ -60,6 +60,16 @@ NS_ASSUME_NONNULL_BEGIN
     performInteraction.interactionLayout = SDLLayoutModeKeyboard;
 
     return performInteraction;
+}
+
+#pragma mark - Property Overrides
+
+- (nullable NSString *)name {
+    return @"com.sdl.choicesetmanager.presentKeyboard";
+}
+
+- (NSOperationQueuePriority)queuePriority {
+    return NSOperationQueuePriorityNormal;
 }
 
 @end

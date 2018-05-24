@@ -72,6 +72,16 @@ NS_ASSUME_NONNULL_BEGIN
     return choiceSet;
 }
 
+#pragma mark - Property Overrides
+
+- (nullable NSString *)name {
+    return @"com.sdl.choicesetmanager.checkVROptional";
+}
+
+- (NSOperationQueuePriority)queuePriority {
+    return NSOperationQueuePriorityVeryHigh;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

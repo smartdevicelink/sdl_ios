@@ -138,6 +138,16 @@ NS_ASSUME_NONNULL_BEGIN
     return [[SDLCreateInteractionChoiceSet alloc] initWithId:(UInt32)choice.choiceID choiceSet:@[choice]];
 }
 
+#pragma mark - Property Overrides
+
+- (nullable NSString *)name {
+    return @"com.sdl.choicesetmanager.preloadChoices";
+}
+
+- (NSOperationQueuePriority)queuePriority {
+    return NSOperationQueuePriorityNormal;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
