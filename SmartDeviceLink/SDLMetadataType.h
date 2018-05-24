@@ -1,3 +1,4 @@
+
 //
 //  SDLMetadataType.h
 //  SmartDeviceLink-iOS
