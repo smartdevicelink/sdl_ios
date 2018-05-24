@@ -63,6 +63,7 @@ extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
 
 + (NSError *)sdl_choiceSetManager_choicesDeletedBeforePresentation:(NSDictionary *)userInfo;
 + (NSError *)sdl_choiceSetManager_choiceDeletionFailed:(NSDictionary *)userInfo;
++ (NSError *)sdl_choiceSetManager_choiceUploadFailed:(NSDictionary *)userInfo;
 
 @end
 

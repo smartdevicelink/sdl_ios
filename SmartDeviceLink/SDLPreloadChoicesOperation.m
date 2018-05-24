@@ -18,6 +18,7 @@
 #import "SDLError.h"
 #import "SDLFileManager.h"
 #import "SDLImage.h"
+#import "SDLLogMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -77,6 +78,13 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     [self.fileManager uploadArtworks:[artworksToUpload copy] completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogE(@"Error uploading choice artworks: %@", error);
+        } else {
+            SDLLogD(@"Finished uploading choice artworks");
+            SDLLogV(@"%@", artworkNames);
+        }
+
         completionHandler(error);
     }];
 }
@@ -87,7 +95,25 @@ NS_ASSUME_NONNULL_BEGIN
         [choiceRPCs addObject:[self sdl_choiceFromCell:cell]];
     }
 
-    
+    __weak typeof(self) weakSelf = self;
+    __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
+    [self.connectionManager sendRequests:[choiceRPCs copy] progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+        if (error != nil) {
+            errors[request] = error;
+        }
+    } completionHandler:^(BOOL success) {
+        if (!success) {
+            if (weakSelf.completionHandler != nil) {
+                weakSelf.completionHandler([NSError sdl_choiceSetManager_choiceUploadFailed:errors]);
+            }
+        } else {
+            if (weakSelf.completionHandler != nil) {
+                weakSelf.completionHandler(nil);
+            }
+        }
+
+        [weakSelf finishOperation];
+    }];
 }
 
 #pragma mark - Assembling Choice Data
@@ -107,7 +133,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLImage *image = [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage] ? [[SDLImage alloc] initWithName:cell.artwork.name] : nil;
     SDLImage *secondaryImage = [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] ? [[SDLImage alloc] initWithName:cell.secondaryArtwork.name] : nil;
 
-    SDLChoice *choice = [[SDLChoice alloc] initWithId:cell.choiceId menuName:menuName vrCommands:(NSArray<NSString *> * _Nonnull)vrCommands image:image secondaryText:secondaryText secondaryImage:secondaryImage tertiaryText:tertiaryText];
+    SDLChoice *choice = [[SDLChoice alloc] initWithId:cell.choiceId menuName:(NSString *_Nonnull)menuName vrCommands:(NSArray<NSString *> * _Nonnull)vrCommands image:image secondaryText:secondaryText secondaryImage:secondaryImage tertiaryText:tertiaryText];
 
     return [[SDLCreateInteractionChoiceSet alloc] initWithId:(UInt32)choice.choiceID choiceSet:@[choice]];
 }

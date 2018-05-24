@@ -8,6 +8,7 @@
 
 #import "SDLChoiceSetManager.h"
 
+#import "SDLCheckChoiceVROptionalOperation.h"
 #import "SDLChoice.h"
 #import "SDLChoiceCell.h"
 #import "SDLChoiceSet.h"
@@ -26,6 +27,9 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLPerformInteraction.h"
 #import "SDLPerformInteractionResponse.h"
+#import "SDLPreloadChoicesOperation.h"
+#import "SDLPresentChoiceSetOperation.h"
+#import "SDLPresentKeyboardOperation.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
@@ -39,9 +43,6 @@ typedef NSString SDLChoiceManagerState;
 SDLChoiceManagerState *const SDLChoiceManagerStateShutdown = @"Shutdown";
 SDLChoiceManagerState *const SDLChoiceManagerStateCheckingVoiceOptional = @"CheckingVoiceOptional";
 SDLChoiceManagerState *const SDLChoiceManagerStateReady = @"Ready";
-//SDLChoiceManagerState *const SDLChoiceManagerStatePreloading = @"Preloading";
-//SDLChoiceManagerState *const SDLChoiceManagerStateDeleting = @"Deleting";
-//SDLChoiceManagerState *const SDLChoiceManagerStatePresenting = @"Presenting";
 SDLChoiceManagerState *const SDLChoiceManagerStateStartupError = @"StartupError";
 
 typedef NSNumber * SDLChoiceId;
@@ -143,31 +144,18 @@ UInt16 const ChoiceCellIdMin = 1;
 
 - (void)didEnterStateCheckingVoiceOptional {
     // Setup by sending a Choice Set without VR, seeing if there's an error. If there is, send one with VR. This choice set will be used for `presentKeyboard` interactions.
-    [self.connectionManager sendConnectionRequest:[self.class sdl_testCellWithVR:NO] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (error == nil) {
-            SDLLogD(@"Connected head unit supports choice cells without voice commands. Cells without voice will be sent without voice from now on (no placeholder voice).");
+    __weak typeof(self) weakSelf = self;
+    SDLCheckChoiceVROptionalOperation *checkOp = [[SDLCheckChoiceVROptionalOperation alloc] initWithConnectionManager:self.connectionManager completionHandler:^(BOOL isVROptional, NSError * _Nullable error) {
+        weakSelf.vrOptional = isVROptional;
 
-            self.vrOptional = YES;
-            [self.stateMachine transitionToState:SDLChoiceManagerStateReady];
-
-            return;
+        if (error != nil) {
+            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateReady];
+        } else {
+            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateStartupError];
         }
-
-        // Check for choice sets with VR
-        [self.connectionManager sendConnectionRequest:[self.class sdl_testCellWithVR:YES] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-            if (error == nil) {
-                SDLLogW(@"Connected head unit does not support choice cells without voice commands. Cells without voice will be sent with placeholder voices from now on.");
-
-                self.vrOptional = NO;
-                [self.stateMachine transitionToState:SDLChoiceManagerStateReady];
-
-                return;
-            }
-
-            SDLLogE(@"Connected head unit has rejected all choice cells, choice manager disabled. Error: %@, Response: %@", error, response);
-            [self.stateMachine transitionToState:SDLChoiceManagerStateShutdown];
-        }];
     }];
+    
+    [self.transactionQueue addOperation:checkOp];
 }
 
 #pragma mark - Choice Management
@@ -181,7 +169,11 @@ UInt16 const ChoiceCellIdMin = 1;
     // Add the preload cells to the pending preloads
     [self.pendingMutablePreloadChoices unionSet:choicesToUpload];
 
-    // TODO: Upload pending preloads
+    // Upload pending preloads
+    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayCapabilities:self.displayCapabilities isVROptional:self.isVROptional cellsToPreload:self.pendingPreloadChoices completionHandler:^(NSError * _Nullable error) {
+        // TODO
+    }];
+    [self.transactionQueue addOperation:preloadOp];
 }
 
 - (void)deleteChoices:(NSArray<SDLChoiceCell *> *)choices {
@@ -222,6 +214,11 @@ UInt16 const ChoiceCellIdMin = 1;
     }
     self.pendingPresentationSet = choiceSet;
     // TODO: Check which, if any, choices need to be uploaded to the head unit, and preload them
+    [self preloadChoices:self.pendingPresentationSet.choices withCompletionHandler:nil];
+
+    // TODO: Present the set
+    SDLPresentChoiceSetOperation *presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardDelegate:nil];
+    [self.transactionQueue addOperation:presentOp];
 }
 
 - (void)presentSearchableChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(id<SDLKeyboardDelegate>)delegate {
@@ -232,19 +229,19 @@ UInt16 const ChoiceCellIdMin = 1;
     }
     self.pendingPresentationSet = choiceSet;
     // TODO: Check which, if any, choices need to be uploaded to the head unit, and preload them
+    [self preloadChoices:self.pendingPresentationSet.choices withCompletionHandler:nil];
+
+    // TODO: Present the set
+    SDLPresentChoiceSetOperation *presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardDelegate:delegate];
+    [self.transactionQueue addOperation:presentOp];
 }
 
 - (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
 
-    // Present a keyboard with the choice set that we tested option VRs with
-    SDLPerformInteraction *performInteraction = [[SDLPerformInteraction alloc] init];
-    performInteraction.initialText = initialText;
-    performInteraction.interactionMode = SDLInteractionModeManualOnly;
-    performInteraction.interactionChoiceSetIDList = @[@0];
-    performInteraction.interactionLayout = SDLLayoutModeKeyboard;
-
-    // TODO: Present
+    // Present a keyboard with the choice set that we used to test VR's optional state
+    SDLPresentKeyboardOperation *presentOp = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager initialText:initialText keyboardDelegate:delegate];
+    [self.transactionQueue addOperation:presentOp];
 }
 
 #pragma mark - Choice Management Helpers

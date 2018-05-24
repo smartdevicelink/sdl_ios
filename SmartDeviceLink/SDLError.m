@@ -213,6 +213,10 @@ SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanage
     return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorDeletionFailed userInfo:userInfo];
 }
 
++ (NSError *)sdl_choiceSetManager_choiceUploadFailed:(NSDictionary *)userInfo {
+    return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorUploadFailed userInfo:userInfo];
+}
+
 @end
 
 

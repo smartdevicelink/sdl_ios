@@ -925,6 +925,12 @@
 		5D92937120B5E0E500FCC775 /* SDLDeleteChoicesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92936F20B5E0E500FCC775 /* SDLDeleteChoicesOperation.m */; };
 		5D92937420B5EEA200FCC775 /* SDLPreloadChoicesOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92937220B5EEA200FCC775 /* SDLPreloadChoicesOperation.h */; };
 		5D92937520B5EEA200FCC775 /* SDLPreloadChoicesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92937320B5EEA200FCC775 /* SDLPreloadChoicesOperation.m */; };
+		5D92937820B6FB6200FCC775 /* SDLPresentChoiceSetOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92937620B6FB6200FCC775 /* SDLPresentChoiceSetOperation.h */; };
+		5D92937920B6FB6200FCC775 /* SDLPresentChoiceSetOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92937720B6FB6200FCC775 /* SDLPresentChoiceSetOperation.m */; };
+		5D92937C20B70A3E00FCC775 /* SDLPresentKeyboardOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92937A20B70A3E00FCC775 /* SDLPresentKeyboardOperation.h */; };
+		5D92937D20B70A3E00FCC775 /* SDLPresentKeyboardOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92937B20B70A3E00FCC775 /* SDLPresentKeyboardOperation.m */; };
+		5D92938020B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92937E20B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.h */; };
+		5D92938120B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92937F20B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.m */; };
 		5D9F50781BE7DD4C00FEF399 /* testFileJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50721BE7DD4C00FEF399 /* testFileJSON.json */; };
 		5D9F50791BE7DD4C00FEF399 /* testImageBMP.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50731BE7DD4C00FEF399 /* testImageBMP.bmp */; };
 		5D9F507A1BE7DD4C00FEF399 /* testImageJPEG.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50741BE7DD4C00FEF399 /* testImageJPEG.jpeg */; };
@@ -2272,6 +2278,12 @@
 		5D92936F20B5E0E500FCC775 /* SDLDeleteChoicesOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLDeleteChoicesOperation.m; sourceTree = "<group>"; };
 		5D92937220B5EEA200FCC775 /* SDLPreloadChoicesOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPreloadChoicesOperation.h; sourceTree = "<group>"; };
 		5D92937320B5EEA200FCC775 /* SDLPreloadChoicesOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPreloadChoicesOperation.m; sourceTree = "<group>"; };
+		5D92937620B6FB6200FCC775 /* SDLPresentChoiceSetOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPresentChoiceSetOperation.h; sourceTree = "<group>"; };
+		5D92937720B6FB6200FCC775 /* SDLPresentChoiceSetOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPresentChoiceSetOperation.m; sourceTree = "<group>"; };
+		5D92937A20B70A3E00FCC775 /* SDLPresentKeyboardOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPresentKeyboardOperation.h; sourceTree = "<group>"; };
+		5D92937B20B70A3E00FCC775 /* SDLPresentKeyboardOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPresentKeyboardOperation.m; sourceTree = "<group>"; };
+		5D92937E20B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCheckChoiceVROptionalOperation.h; sourceTree = "<group>"; };
+		5D92937F20B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCheckChoiceVROptionalOperation.m; sourceTree = "<group>"; };
 		5D9F50721BE7DD4C00FEF399 /* testFileJSON.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testFileJSON.json; sourceTree = "<group>"; };
 		5D9F50731BE7DD4C00FEF399 /* testImageBMP.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = testImageBMP.bmp; sourceTree = "<group>"; };
 		5D9F50741BE7DD4C00FEF399 /* testImageJPEG.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = testImageJPEG.jpeg; sourceTree = "<group>"; };
@@ -4405,10 +4417,16 @@
 		5D92936D20B5E07000FCC775 /* Operations */ = {
 			isa = PBXGroup;
 			children = (
+				5D92937E20B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.h */,
+				5D92937F20B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.m */,
 				5D92936E20B5E0E500FCC775 /* SDLDeleteChoicesOperation.h */,
 				5D92936F20B5E0E500FCC775 /* SDLDeleteChoicesOperation.m */,
 				5D92937220B5EEA200FCC775 /* SDLPreloadChoicesOperation.h */,
 				5D92937320B5EEA200FCC775 /* SDLPreloadChoicesOperation.m */,
+				5D92937620B6FB6200FCC775 /* SDLPresentChoiceSetOperation.h */,
+				5D92937720B6FB6200FCC775 /* SDLPresentChoiceSetOperation.m */,
+				5D92937A20B70A3E00FCC775 /* SDLPresentKeyboardOperation.h */,
+				5D92937B20B70A3E00FCC775 /* SDLPresentKeyboardOperation.m */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -5202,6 +5220,7 @@
 				5D61FDC51A84238C00846EE7 /* SDLTCPTransport.h in Headers */,
 				5D6CC8EF1C610E660027F60A /* SDLSecurityType.h in Headers */,
 				5D61FCF61A84238C00846EE7 /* SDLMediaClockFormat.h in Headers */,
+				5D92937820B6FB6200FCC775 /* SDLPresentChoiceSetOperation.h in Headers */,
 				5D61FD831A84238C00846EE7 /* SDLSetDisplayLayout.h in Headers */,
 				5D61FCC91A84238C00846EE7 /* SDLIgnitionStableStatus.h in Headers */,
 				DA9F7E6B1DCBFB0700ACAE48 /* SDLDeliveryMode.h in Headers */,
@@ -5258,6 +5277,7 @@
 				5D61FD091A84238C00846EE7 /* SDLOnDriverDistraction.h in Headers */,
 				E9C32B9E1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h in Headers */,
 				5DAD5F7F204DEDEB0025624C /* SDLScreenManager.h in Headers */,
+				5D92938020B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.h in Headers */,
 				5D339CEF207C08BA000CC364 /* SDLVoiceCommand.h in Headers */,
 				5D61FC4B1A84238C00846EE7 /* SDLBeltStatus.h in Headers */,
 				DAC5726B1D10D5FC0004288B /* dispatch_timer.h in Headers */,
@@ -5494,6 +5514,7 @@
 				5DA49CE51F1EA83300E65FC5 /* SDLControlFramePayloadRPCStartService.h in Headers */,
 				5D61FE031A84238C00846EE7 /* SDLVehicleDataResult.h in Headers */,
 				5D61FD911A84238C00846EE7 /* SDLShowConstantTBT.h in Headers */,
+				5D92937C20B70A3E00FCC775 /* SDLPresentKeyboardOperation.h in Headers */,
 				5D61FC331A84238C00846EE7 /* SDLAddSubMenuResponse.h in Headers */,
 				5D61FD5D1A84238C00846EE7 /* SDLRegisterAppInterface.h in Headers */,
 				5D61FC9A1A84238C00846EE7 /* SDLEmergencyEvent.h in Headers */,
@@ -5940,6 +5961,7 @@
 				5D61FD2E1A84238C00846EE7 /* SDLPermissionItem.m in Sources */,
 				5D61FD041A84238C00846EE7 /* SDLOnButtonEvent.m in Sources */,
 				5D61FD201A84238C00846EE7 /* SDLOnTouchEvent.m in Sources */,
+				5D92937920B6FB6200FCC775 /* SDLPresentChoiceSetOperation.m in Sources */,
 				8B7B31A71F2F875200BDC38D /* SDLVideoStreamingCapability.m in Sources */,
 				5DA3F35B1BC448480026F2D0 /* SDLError.m in Sources */,
 				5D61FD781A84238C00846EE7 /* SDLSamplingRate.m in Sources */,
@@ -6017,6 +6039,7 @@
 				5D9FDA8F1F2A7D3400A495C8 /* bson_array.c in Sources */,
 				5D61FD661A84238C00846EE7 /* SDLResetGlobalPropertiesResponse.m in Sources */,
 				5D61FCFE1A84238C00846EE7 /* SDLObjectWithPriority.m in Sources */,
+				5D92937D20B70A3E00FCC775 /* SDLPresentKeyboardOperation.m in Sources */,
 				5DBF06241E64A83F00A5CF03 /* SDLLogManager.m in Sources */,
 				5D61FC401A84238C00846EE7 /* SDLAmbientLightStatus.m in Sources */,
 				5D61FC951A84238C00846EE7 /* SDLDriverDistractionState.m in Sources */,
@@ -6056,6 +6079,7 @@
 				DA9F7E681DCBFAD400ACAE48 /* SDLOasisAddress.m in Sources */,
 				5D61FC7B1A84238C00846EE7 /* SDLDeleteInteractionChoiceSet.m in Sources */,
 				5D61FDC01A84238C00846EE7 /* SDLSystemRequest.m in Sources */,
+				5D92938120B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.m in Sources */,
 				5D61FD021A84238C00846EE7 /* SDLOnAudioPassThru.m in Sources */,
 				5D61FCE51A84238C00846EE7 /* SDLKeyboardProperties.m in Sources */,
 				5DBF062E1E64A93A00A5CF03 /* SDLLogFilter.m in Sources */,

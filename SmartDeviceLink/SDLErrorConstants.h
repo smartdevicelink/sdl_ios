@@ -103,4 +103,5 @@ typedef NS_ENUM(NSInteger, SDLMenuManagerError) {
 typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
     SDLChoiceSetManagerErrorPendingPresentationDeleted = -1,
     SDLChoiceSetManagerErrorDeletionFailed = -2,
+    SDLChoiceSetManagerErrorUploadFailed = -3,
 };
