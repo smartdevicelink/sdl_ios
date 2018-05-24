@@ -55,6 +55,7 @@ SDLAppState *const SDLAppStateActive = @"AppActive";
 SDLVideoStreamState *const SDLVideoStreamStateStopped = @"VideoStreamStopped";
 SDLVideoStreamState *const SDLVideoStreamStateStarting = @"VideoStreamStarting";
 SDLVideoStreamState *const SDLVideoStreamStateReady = @"VideoStreamReady";
+SDLVideoStreamState *const SDLVideoStreamStateSuspended = @"VideoStreamSuspended";
 SDLVideoStreamState *const SDLVideoStreamStateShuttingDown = @"VideoStreamShuttingDown";
 
 SDLAudioStreamState *const SDLAudioStreamStateStopped = @"AudioStreamStopped";
@@ -76,7 +77,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (assign, nonatomic, readonly, getter=isHmiStateAudioStreamCapable) BOOL hmiStateAudioStreamCapable;
 @property (assign, nonatomic, readonly, getter=isHmiStateVideoStreamCapable) BOOL hmiStateVideoStreamCapable;
 
-@property (assign, nonatomic, readwrite) BOOL restartVideoStream;
 @property (strong, nonatomic, readwrite, nullable) SDLVideoStreamingFormat *videoFormat;
 
 @property (strong, nonatomic, nullable) SDLH264VideoEncoder *videoEncoder;
@@ -182,8 +182,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogD(@"Stopping manager");
     [self sdl_stopAudioSession];
     [self sdl_stopVideoSession];
-
-    self.restartVideoStream = NO;
 
     self.hmiLevel = SDLHMILevelNone;
 
@@ -292,8 +290,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self sdl_sendBackgroundFrames];
     [self.touchManager cancelPendingTouches];
 
+    if ([self.videoStreamStateMachine.currentState isEqualToString:SDLVideoStreamStateReady]) {
+        [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateSuspended];
+    } else {
+        [self sdl_stopVideoSession];
+    }
+    
     [self sdl_stopAudioSession];
-    [self sdl_stopVideoSession];
 }
 
 // Per Apple's guidelines: https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/StrategiesforHandlingAppStateTransitions/StrategiesforHandlingAppStateTransitions.html
@@ -302,7 +305,12 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogD(@"App became active");
     if (!self.protocol) { return; }
 
-    [self sdl_startVideoSession];
+    if ([self.videoStreamStateMachine.currentState isEqualToString:SDLVideoStreamStateSuspended]) {
+        [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateReady];
+    } else {
+        [self sdl_startVideoSession];
+    }
+    
     [self sdl_startAudioSession];
 }
 
@@ -311,7 +319,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     return @{
              SDLVideoStreamStateStopped : @[SDLVideoStreamStateStarting],
              SDLVideoStreamStateStarting : @[SDLVideoStreamStateStopped, SDLVideoStreamStateReady],
-             SDLVideoStreamStateReady : @[SDLVideoStreamStateShuttingDown, SDLVideoStreamStateStopped],
+             SDLVideoStreamStateReady : @[SDLVideoStreamStateSuspended, SDLVideoStreamStateShuttingDown, SDLVideoStreamStateStopped],
+             SDLVideoStreamStateSuspended : @[SDLVideoStreamStateReady, SDLVideoStreamStateShuttingDown, SDLVideoStreamStateStopped],
              SDLVideoStreamStateShuttingDown : @[SDLVideoStreamStateStopped]
              };
 }
@@ -330,16 +339,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self.displayLink invalidate];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamDidStopNotification object:nil];
-
-    if (self.shouldRestartVideoStream) {
-        self.restartVideoStream = NO;
-        [self sdl_startVideoSession];
-    }
 }
 
 - (void)didEnterStateVideoStreamStarting {
     SDLLogD(@"Video stream starting");
-    self.restartVideoStream = NO;
 
     __weak typeof(self) weakSelf = self;
     [self sdl_requestVideoCapabilities:^(SDLVideoStreamingCapability * _Nullable capability) {
@@ -387,7 +390,12 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)didEnterStateVideoStreamReady {
     SDLLogD(@"Video stream ready");
-    // TODO: What if it isn't nil, is it even possible for it to not be nil?
+
+    if (self.videoEncoder != nil) {
+        [self.videoEncoder stop];
+        self.videoEncoder = nil;
+    }
+    
     if (self.videoEncoder == nil) {
         NSError* error = nil;
         NSAssert(self.videoFormat != nil, @"No video format is known, but it must be if we got a protocol start service response");
@@ -432,6 +440,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     } else {
         self.touchManager.enableSyncedPanning = NO;
     }
+}
+
+- (void)didEnterStateVideoStreamSuspended {
+    
 }
 
 - (void)didEnterStateVideoStreamShuttingDown {
@@ -681,12 +693,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     if (!self.isStreamingSupported) {
         SDLLogV(@"Streaming is not supported. Video start service request will not be sent.");
-        return;
-    }
-
-    if (self.shouldRestartVideoStream && [self.videoStreamStateMachine isCurrentState:SDLVideoStreamStateReady]) {
-        SDLLogV(@"Video needs to be restarted. Stopping video stream.");
-        [self sdl_stopVideoSession];
         return;
     }
 
