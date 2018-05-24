@@ -15,7 +15,6 @@ typedef SDLEnum SDLTemperatureUnit SDL_SWIFT_ENUM;
  */
 extern SDLTemperatureUnit const SDLTemperatureUnitCelsius;
 
-
 /**
  Reflects the current HMI setting for temperature unit in Fahrenheit
  */
