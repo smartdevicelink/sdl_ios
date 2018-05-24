@@ -154,8 +154,12 @@ UInt16 const ChoiceCellIdMin = 1;
             [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateStartupError];
         }
     }];
-    
+
     [self.transactionQueue addOperation:checkOp];
+}
+
+- (void)didEnterStateStartupError {
+    // TODO
 }
 
 #pragma mark - Choice Management
@@ -280,17 +284,6 @@ UInt16 const ChoiceCellIdMin = 1;
 
 - (NSString *)currentState {
     return self.stateMachine.currentState;
-}
-
-+ (SDLCreateInteractionChoiceSet *)sdl_testCellWithVR:(BOOL)hasVR {
-    SDLChoice *choice = [[SDLChoice alloc] init];
-    choice.choiceID = @0;
-    choice.menuName = @"Test Cell";
-    choice.vrCommands = hasVR ? @[@"Test VR"] : nil;
-
-    SDLCreateInteractionChoiceSet *choiceSet = [[SDLCreateInteractionChoiceSet alloc] initWithId:0 choiceSet:@[choice]];
-
-    return choiceSet;
 }
 
 #pragma mark - RPC Responses / Notifications
