@@ -122,10 +122,30 @@ NS_ASSUME_NONNULL_BEGIN
  * subscribed.
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *steeringWheelAngle;
+
+/**
+ If true, the Emergency Call notification and confirmation data has been subscribed
+ */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *eCallInfo;
+
+/**
+ If true, the status of the air bags has been subscribed
+ */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *airbagStatus;
+
+/**
+ If true, information related to an emergency event (and if it occurred) has been subscribed
+ */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *emergencyEvent;
+
+/**
+ If true, the status modes of the cluster have been subscribed
+ */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *clusterModeStatus;
+
+/**
+ If true, information related to the MyKey feature has been subscribed
+ */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *myKey;
 
 @end

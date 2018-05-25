@@ -23,20 +23,60 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLLogManager : NSObject
 
+/**
+ Active log modules
+ */
 @property (copy, nonatomic, readonly) NSSet<SDLLogFileModule *> *modules;
+
+/**
+ Active log targets
+ */
 @property (copy, nonatomic, readonly) NSSet<id<SDLLogTarget>> *targets;
+
+/**
+ Active log filters
+ */
 @property (copy, nonatomic, readonly) NSSet<SDLLogFilter *> *filters;
 
-/// Any modules that do not have an explicitly specified level will by default use this log level
+/**
+ Any modules that do not have an explicitly specified level will by default use this log level
+ */
 @property (assign, nonatomic, readonly) SDLLogLevel globalLogLevel;
+
+/**
+ Active log format
+ */
 @property (assign, nonatomic, readonly) SDLLogFormatType formatType;
 
+/**
+ Whether or not verbose, debug, and warning logs are logged asynchronously. If logs are performed async, then some may be missed in the event of a terminating signal such as an exception, but performance is improved and your code will not be slowed by logging.
+
+ Defaults to TRUE
+ */
 @property (assign, nonatomic, readonly, getter=isAsynchronous) BOOL asynchronous;
+
+/**
+ Whether or not error logs are logged asynchronously. If logs are performed async, then some may be missed in the event of a terminating signal such as an exception, but performance is improved and your code will not be slowed by logging.
+
+ Defaults to FALSE
+ */
 @property (assign, nonatomic, readonly, getter=areErrorsAsynchronous) BOOL errorsAsynchronous;
 
+/**
+ Active date formatter
+ */
 @property (class, strong, nonatomic, readonly) NSDateFormatter *dateFormatter;
+
+/**
+ The queue asynchronously logged logs are logged on. Say that 10 times fast.
+ */
 @property (class, assign, nonatomic, readonly) dispatch_queue_t logQueue;
 
+/**
+ The singleton object
+
+ @return The singleton object
+ */
 + (SDLLogManager *)sharedManager;
 
 // These are automatically sent to the sharedManager
