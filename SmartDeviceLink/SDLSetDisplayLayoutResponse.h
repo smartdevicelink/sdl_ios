@@ -18,9 +18,24 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLSetDisplayLayoutResponse : SDLRPCResponse
 
+/**
+ The display capabilities of the new template layout
+ */
 @property (nullable, strong, nonatomic) SDLDisplayCapabilities *displayCapabilities;
+
+/**
+ The button capabilities of the new template layout
+ */
 @property (nullable, strong, nonatomic) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
+
+/**
+ The soft button capabilities of the new template layout
+ */
 @property (nullable, strong, nonatomic) NSArray<SDLSoftButtonCapabilities *> *softButtonCapabilities;
+
+/**
+ The preset bank capabilities of the new template layout
+ */
 @property (nullable, strong, nonatomic) SDLPresetBankCapabilities *presetBankCapabilities;
 
 @end

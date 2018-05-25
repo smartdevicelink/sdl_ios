@@ -18,16 +18,52 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLTTSChunk : SDLRPCStruct
 
+/**
+ Initialize with text and a type
+
+ @param text The string to be spoken
+ @param type The type of text the string is
+ @return The RPC
+ */
 - (instancetype)initWithText:(NSString *)text type:(SDLSpeechCapabilities)type;
 
+/**
+ Create TTS using text
+
+ @param string The text chunk
+ @return The RPC
+ */
 + (NSArray<SDLTTSChunk *> *)textChunksFromString:(NSString *)string;
 
+/**
+ Create TTS using SAPI
+
+ @param string The SAPI chunk
+ @return The RPC
+ */
 + (NSArray<SDLTTSChunk *> *)sapiChunksFromString:(NSString *)string;
 
+/**
+ Create TTS using LH Plus
+
+ @param string The LH Plus chunk
+ @return The RPC
+ */
 + (NSArray<SDLTTSChunk *> *)lhPlusChunksFromString:(NSString *)string;
 
+/**
+ Create TTS using prerecorded chunks
+
+ @param string The prerecorded chunk
+ @return The RPC
+ */
 + (NSArray<SDLTTSChunk *> *)prerecordedChunksFromString:(NSString *)string;
 
+/**
+ Create TTS using silence
+
+ @return The RPC
+ */
 + (NSArray<SDLTTSChunk *> *)silenceChunks;
 
 

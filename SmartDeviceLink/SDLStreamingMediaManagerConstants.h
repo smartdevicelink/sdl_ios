@@ -10,6 +10,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ A flag determining how video and audio streaming should be encrypted
+
+ - SDLStreamingEncryptionFlagNone: It should not be encrypted at all
+ - SDLStreamingEncryptionFlagAuthenticateOnly: It should use SSL/TLS only to authenticate
+ - SDLStreamingEncryptionFlagAuthenticateAndEncrypt: All data on these services should be encrypted using SSL/TLS
+ */
 typedef NS_ENUM(NSInteger, SDLStreamingEncryptionFlag) {
     SDLStreamingEncryptionFlagNone,
     SDLStreamingEncryptionFlagAuthenticateOnly,

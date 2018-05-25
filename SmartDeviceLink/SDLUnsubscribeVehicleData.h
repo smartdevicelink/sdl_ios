@@ -112,11 +112,35 @@ NS_ASSUME_NONNULL_BEGIN
  * A boolean value. If true, unsubscribes accPedalPosition data
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *accPedalPosition;
+
+/**
+ If true, unsubscribes from steeringWheelAngle
+ */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *steeringWheelAngle;
+
+/**
+ If true, unsubscribes from eCallInfo
+ */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *eCallInfo;
+
+/**
+ If true, unsubscribes from airbagStatus
+ */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *airbagStatus;
+
+/**
+ If true, unsubscribes from emergencyEvent
+ */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *emergencyEvent;
+
+/**
+ If true, unsubscribes from clusterModeStatus
+ */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *clusterModeStatus;
+
+/**
+ If true, unsubscribes from myKey
+ */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *myKey;
 
 @end

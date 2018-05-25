@@ -24,6 +24,35 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSubscribeVehicleData : SDLRPCRequest
 
+/**
+ Initialize a subscribe RPC with various possible to describe to
+
+ @param accelerationPedalPosition Subcribe to accelerationPedalPosition
+ @param airbagStatus Subcribe to airbagStatus
+ @param beltStatus Subcribe to beltStatus
+ @param bodyInformation Subcribe to bodyInformation
+ @param clusterModeStatus Subcribe to clusterModeStatus
+ @param deviceStatus Subcribe to deviceStatus
+ @param driverBraking Subcribe to driverBraking
+ @param eCallInfo Subcribe to eCallInfo
+ @param emergencyEvent Subcribe to v
+ @param engineTorque Subcribe to engineTorque
+ @param externalTemperature Subcribe to externalTemperature
+ @param fuelLevel Subcribe to fuelLevel
+ @param fuelLevelState Subcribe to fuelLevelState
+ @param gps Subcribe to gps
+ @param headLampStatus Subcribe to headLampStatus
+ @param instantFuelConsumption Subcribe to instantFuelConsumption
+ @param myKey Subcribe to myKey
+ @param odometer Subcribe to odometer
+ @param prndl Subcribe to prndl
+ @param rpm Subcribe to rpm
+ @param speed Subcribe to speed
+ @param steeringWheelAngle Subcribe to steeringWheelAngle
+ @param tirePressure Subcribe to tirePressure
+ @param wiperStatus Subcribe to wiperStatus
+ @return The RPC
+ */
 - (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo emergencyEvent:(BOOL)emergencyEvent engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure wiperStatus:(BOOL)wiperStatus;
 
 /**
@@ -122,10 +151,30 @@ NS_ASSUME_NONNULL_BEGIN
  * subscribed.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *steeringWheelAngle;
+
+/**
+ Subscribe to eCallInfo
+ */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *eCallInfo;
+
+/**
+ Subscribe to airbagStatus
+ */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *airbagStatus;
+
+/**
+ Subscribe to emergencyEvent
+ */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *emergencyEvent;
+
+/**
+ Subscribe to clusterModeStatus
+ */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *clusterModeStatus;
+
+/**
+ Subscribe to myKey
+ */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *myKey;
 
 @end

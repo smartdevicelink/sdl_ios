@@ -14,6 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLOnInteriorVehicleData : SDLRPCNotification
 
+/**
+ The subscribed module data that changed
+ */
 @property (strong, nonatomic) SDLModuleData *moduleData;
 
 @end
