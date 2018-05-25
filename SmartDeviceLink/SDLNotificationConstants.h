@@ -192,7 +192,18 @@ extern SDLNotificationName const SDLDidReceiveWaypointNotification;
 
 @interface SDLNotificationConstants : NSObject
 
+/**
+ All of the possible SDL RPC Response notification names
+
+ @return The names
+ */
 + (NSArray<SDLNotificationName> *)allResponseNames;
+
+/**
+ All of the possible SDL Button event notification names
+
+ @return The names
+ */
 + (NSArray<SDLNotificationName> *)allButtonEventNotifications;
 
 @end

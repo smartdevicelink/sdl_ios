@@ -4,8 +4,10 @@
 
 #import "SDLRPCResponse.h"
 
-/** SDLAlertManeuverResponse is sent, when SDLAlertManeuver has been called.
- * @since SmartDeviceLink 1.0
+/**
+ Response to SDLAlertManeuver
+
+ @since SmartDeviceLink 1.0
  */
 
 NS_ASSUME_NONNULL_BEGIN

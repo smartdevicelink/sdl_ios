@@ -5,31 +5,31 @@
 #import "SDLEnum.h"
 
 /**
- Vehicle Data Activity Status
+ Vehicle Data Activity Status. Used in nothing.
  */
 typedef SDLEnum SDLVehicleDataActiveStatus SDL_SWIFT_ENUM;
 
 /**
- @abstract SDLVehicleDataActiveStatus : Inactive not confirmed
+ Inactive not confirmed
  */
 extern SDLVehicleDataActiveStatus const SDLVehicleDataActiveStatusInactiveNotConfirmed;
 
 /**
- @abstract SDLVehicleDataActiveStatus : Inactive confirmed
+ Inactive confirmed
  */
 extern SDLVehicleDataActiveStatus const SDLVehicleDataActiveStatusInactiveConfirmed;
 
 /**
- @abstract SDLVehicleDataActiveStatus : Active not confirmed
+ Active not confirmed
  */
 extern SDLVehicleDataActiveStatus const SDLVehicleDataActiveStatusActiveNotConfirmed;
 
 /**
- @abstract SDLVehicleDataActiveStatus : Active confirmed
+ Active confirmed
  */
 extern SDLVehicleDataActiveStatus const SDLVehicleDataActiveStatusActiveConfirmed;
 
 /**
- @abstract SDLVehicleDataActiveStatus : Fault
+ Fault
  */
 extern SDLVehicleDataActiveStatus const SDLVehicleDataActiveStatusFault;

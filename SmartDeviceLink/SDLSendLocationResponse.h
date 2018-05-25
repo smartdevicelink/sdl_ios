@@ -6,6 +6,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Response to SDLSendLocation
+ */
 @interface SDLSendLocationResponse : SDLRPCResponse
 
 @end

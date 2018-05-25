@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithId:(UInt32)choiceId;
 
 /**
- * @abstract a unique ID that identifies the Choice Set
+ * a unique ID that identifies the Choice Set
  * @discussion a unique ID that identifies the Choice Set
  * <p>
  * <b>Notes: </b>Min Value: 0; Max Value: 2000000000

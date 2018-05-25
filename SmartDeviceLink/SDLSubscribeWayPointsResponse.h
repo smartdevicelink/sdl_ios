@@ -5,6 +5,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Response to SubscribeWayPoints
+ */
 @interface SDLSubscribeWayPointsResponse : SDLRPCResponse
 
 @end

@@ -26,14 +26,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName position:(UInt8)position;
 
 /**
- * @abstract a Menu ID that identifies a sub menu
+ * a Menu ID that identifies a sub menu
  * @discussion This value is used in
  * <i>SDLAddCommand</i> to which SDLSubMenu is the parent of the command being added
  * <p>
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *menuID;
 /**
- * @abstract a position of menu
+ * a position of menu
  * @discussion An NSNumber pointer representing the position within the items
  *            of the top level Command Menu. 0 will insert at the front, 1
  *            will insert after the first existing element, etc. Position of
@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *position;
 /**
- * @abstract a menuName which is displayed representing this submenu item
+ * a menuName which is displayed representing this submenu item
  * @discussion NSString which will be displayed representing this submenu item
  */
 @property (strong, nonatomic) NSString *menuName;

@@ -7,15 +7,18 @@
 @class SDLDIDResult;
 
 /**
- * Read DID Response is sent, when ReadDID has been called
- *
- * Since SmartDeviceLink 2.0
+ A response to ReadDID
+ 
+ Since SmartDeviceLink 2.0
  */
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLReadDIDResponse : SDLRPCResponse
 
+/**
+ Array of requested DID results (with data if available).
+ */
 @property (nullable, strong, nonatomic) NSArray<SDLDIDResult *> *didResult;
 
 @end

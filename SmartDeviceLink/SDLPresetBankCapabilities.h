@@ -4,18 +4,17 @@
 
 #import "SDLRPCMessage.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * Contains information about on-screen preset capabilities.
  *
  * @since SDL 2.0
  */
-
-NS_ASSUME_NONNULL_BEGIN
-
 @interface SDLPresetBankCapabilities : SDLRPCStruct
 
 /**
- * @abstract If Onscreen custom presets are available.
+ * If Onscreen custom presets are available.
  *
  * Required, Boolean
  */
