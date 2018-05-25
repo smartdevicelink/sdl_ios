@@ -158,7 +158,6 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLManagerDelegate.h',
 'SmartDeviceLink/SDLMediaClockFormat.h',
 'SmartDeviceLink/SDLMenuCell.h',
-'SmartDeviceLink/SDLMenuManager.h',
 'SmartDeviceLink/SDLMenuParams.h',
 'SmartDeviceLink/SDLMetadataTags.h',
 'SmartDeviceLink/SDLMetadataType.h',
