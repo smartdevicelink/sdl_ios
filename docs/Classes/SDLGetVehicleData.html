@@ -67,7 +67,7 @@
       gps
   </h3>
   
-  <p>@abstract A boolean value. If true, requests Gps data</p>
+  <p>A boolean value. If true, requests Gps data</p>
 
   
   
@@ -85,7 +85,7 @@
       speed
   </h3>
   
-  <p>@abstract A boolean value. If true, requests speed data</p>
+  <p>A boolean value. If true, requests speed data</p>
 
   
   
@@ -103,7 +103,7 @@
       rpm
   </h3>
   
-  <p>@abstract A boolean value. If true, requests rpm data</p>
+  <p>A boolean value. If true, requests rpm data</p>
 
   
   
@@ -121,7 +121,7 @@
       fuelLevel
   </h3>
   
-  <p>@abstract A boolean value. If true, requests FuelLevel data</p>
+  <p>A boolean value. If true, requests FuelLevel data</p>
 
   
   
@@ -139,7 +139,7 @@
       fuelLevel_State
   </h3>
   
-  <p>@abstract A boolean value. If true, requests fuelLevel_State data</p>
+  <p>A boolean value. If true, requests fuelLevel_State data</p>
 
   
   
@@ -158,7 +158,7 @@
       instantFuelConsumption
   </h3>
   
-  <p>@abstract A boolean value. If true, requests instantFuelConsumption data</p>
+  <p>A boolean value. If true, requests instantFuelConsumption data</p>
 
   
   
@@ -177,7 +177,7 @@
       externalTemperature
   </h3>
   
-  <p>@abstract A boolean value. If true, requests externalTemperature data</p>
+  <p>A boolean value. If true, requests externalTemperature data</p>
 
   
   
@@ -196,7 +196,7 @@
       vin
   </h3>
   
-  <p>@abstract A boolean value. If true, requests Vehicle Identification Number</p>
+  <p>A boolean value. If true, requests Vehicle Identification Number</p>
 
   
   
@@ -214,7 +214,7 @@
       prndl
   </h3>
   
-  <p>@abstract A boolean value. If true, requests Currently selected gear data</p>
+  <p>A boolean value. If true, requests Currently selected gear data</p>
 
   
   
@@ -232,7 +232,7 @@
       tirePressure
   </h3>
   
-  <p>@abstract A boolean value. If true, requests tire pressure status data</p>
+  <p>A boolean value. If true, requests tire pressure status data</p>
 
   
   
@@ -251,7 +251,7 @@
       odometer
   </h3>
   
-  <p>@abstract A boolean value. If true, requests odometer data</p>
+  <p>A boolean value. If true, requests odometer data</p>
 
   
   
@@ -269,7 +269,7 @@
       beltStatus
   </h3>
   
-  <p>@abstract A boolean value. If true, requests belt Status data</p>
+  <p>A boolean value. If true, requests belt Status data</p>
 
   
   
@@ -287,7 +287,7 @@
       bodyInformation
   </h3>
   
-  <p>@abstract A boolean value. If true, requests body Information data</p>
+  <p>A boolean value. If true, requests body Information data</p>
 
   
   
@@ -306,7 +306,7 @@
       deviceStatus
   </h3>
   
-  <p>@abstract A boolean value. If true, requests device Status data</p>
+  <p>A boolean value. If true, requests device Status data</p>
 
   
   
@@ -325,7 +325,7 @@
       driverBraking
   </h3>
   
-  <p>@abstract A boolean value. If true, requests driver Braking data</p>
+  <p>A boolean value. If true, requests driver Braking data</p>
 
   
   
@@ -344,7 +344,7 @@
       wiperStatus
   </h3>
   
-  <p>@abstract A boolean value. If true, requests wiper Status data</p>
+  <p>A boolean value. If true, requests wiper Status data</p>
 
   
   
@@ -363,7 +363,7 @@
       headLampStatus
   </h3>
   
-  <p>@abstract A boolean value. If true, requests Head Lamp Status data</p>
+  <p>A boolean value. If true, requests Head Lamp Status data</p>
 
   
   
@@ -382,7 +382,7 @@
       engineTorque
   </h3>
   
-  <p>@abstract A boolean value. If true, requests Engine Torque data</p>
+  <p>A boolean value. If true, requests Engine Torque data</p>
 
   
   
@@ -401,7 +401,7 @@
       accPedalPosition
   </h3>
   
-  <p>@abstract A boolean value. If true, means the accPedalPosition data has been
+  <p>A boolean value. If true, means the accPedalPosition data has been
 subscribed.</p>
 
   
@@ -421,7 +421,7 @@ subscribed.</p>
       steeringWheelAngle
   </h3>
   
-  <p>@abstract A boolean value. If true, means the steeringWheelAngle data has been
+  <p>A boolean value. If true, means the steeringWheelAngle data has been
 subscribed.</p>
 
   
@@ -441,12 +441,12 @@ subscribed.</p>
       eCallInfo
   </h3>
   
-  <p>Undocumented</p>
+  <p>If true, the Emergency Call notification and confirmation data has been subscribed</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">eCallInfo</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">eCallInfo</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -459,12 +459,13 @@ subscribed.</p>
       airbagStatus
   </h3>
   
-  <p>Undocumented</p>
+  <p>If true, the status of the air bags has been subscribed</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">airbagStatus</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">airbagStatus</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -477,12 +478,13 @@ subscribed.</p>
       emergencyEvent
   </h3>
   
-  <p>Undocumented</p>
+  <p>If true, information related to an emergency event (and if it occurred) has been subscribed</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">emergencyEvent</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">emergencyEvent</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -495,12 +497,13 @@ subscribed.</p>
       clusterModeStatus
   </h3>
   
-  <p>Undocumented</p>
+  <p>If true, the status modes of the cluster have been subscribed</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">clusterModeStatus</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">clusterModeStatus</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -513,12 +516,12 @@ subscribed.</p>
       myKey
   </h3>
   
-  <p>Undocumented</p>
+  <p>If true, information related to the MyKey feature has been subscribed</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">myKey</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">myKey</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

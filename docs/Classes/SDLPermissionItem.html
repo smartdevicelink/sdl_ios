@@ -18,12 +18,14 @@
       rpcName
   </h3>
   
-  <p>Undocumented</p>
+  <p>Name of the individual RPC in the policy table.</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">rpcName</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">rpcName</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -36,12 +38,15 @@
       hmiPermissions
   </h3>
   
-  <p>Undocumented</p>
+  <p>HMI Permissions for the individual RPC; i.e. which HMI levels may it be used in</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLHMIPermissions.html">SDLHMIPermissions</a></span> <span class="o">*</span><span class="n">hmiPermissions</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLHMIPermissions.html">SDLHMIPermissions</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">hmiPermissions</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -54,12 +59,15 @@
       parameterPermissions
   </h3>
   
-  <p>Undocumented</p>
+  <p>RPC parameters for the individual RPC</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLParameterPermissions.html">SDLParameterPermissions</a></span> <span class="o">*</span><span class="n">parameterPermissions</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLParameterPermissions.html">SDLParameterPermissions</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">parameterPermissions</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

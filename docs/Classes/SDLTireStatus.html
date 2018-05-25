@@ -14,7 +14,7 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>Struct used in Vehicle Data; the status and pressure of the tires.</p>
 
 
 <section class="section task-group-section">
@@ -22,12 +22,15 @@
       pressureTelltale
   </h3>
   
-  <p>Undocumented</p>
+  <p>Status of the Tire Pressure Telltale. See WarningLightStatus.</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLWarningLightStatus.h@T@SDLWarningLightStatus">SDLWarningLightStatus</a></span> <span class="n">pressureTelltale</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLWarningLightStatus.h@T@SDLWarningLightStatus">SDLWarningLightStatus</a></span> <span class="n">_Nonnull</span> <span class="n">pressureTelltale</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -40,12 +43,14 @@
       leftFront
   </h3>
   
-  <p>Undocumented</p>
+  <p>The status of the left front tire.</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSingleTireStatus.html">SDLSingleTireStatus</a></span> <span class="o">*</span><span class="n">leftFront</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSingleTireStatus.html">SDLSingleTireStatus</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">leftFront</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -58,12 +63,15 @@
       rightFront
   </h3>
   
-  <p>Undocumented</p>
+  <p>The status of the right front tire.</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSingleTireStatus.html">SDLSingleTireStatus</a></span> <span class="o">*</span><span class="n">rightFront</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLSingleTireStatus.html">SDLSingleTireStatus</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">rightFront</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -76,12 +84,14 @@
       leftRear
   </h3>
   
-  <p>Undocumented</p>
+  <p>The status of the left rear tire.</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSingleTireStatus.html">SDLSingleTireStatus</a></span> <span class="o">*</span><span class="n">leftRear</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSingleTireStatus.html">SDLSingleTireStatus</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">leftRear</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -94,12 +104,14 @@
       rightRear
   </h3>
   
-  <p>Undocumented</p>
+  <p>The status of the right rear tire.</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSingleTireStatus.html">SDLSingleTireStatus</a></span> <span class="o">*</span><span class="n">rightRear</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSingleTireStatus.html">SDLSingleTireStatus</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">rightRear</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -112,12 +124,15 @@
       innerLeftRear
   </h3>
   
-  <p>Undocumented</p>
+  <p>The status of the inner left rear tire.</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSingleTireStatus.html">SDLSingleTireStatus</a></span> <span class="o">*</span><span class="n">innerLeftRear</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLSingleTireStatus.html">SDLSingleTireStatus</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">innerLeftRear</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -130,12 +145,15 @@
       innerRightRear
   </h3>
   
-  <p>Undocumented</p>
+  <p>The status of the innter right rear tire.</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSingleTireStatus.html">SDLSingleTireStatus</a></span> <span class="o">*</span><span class="n">innerRightRear</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLSingleTireStatus.html">SDLSingleTireStatus</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">innerRightRear</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

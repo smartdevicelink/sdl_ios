@@ -32,7 +32,7 @@
 
 <h3>Overview</h3>
 
-<p>Get Vehicle Data Response is sent, when SDLGetVehicleData has been called</p>
+<p>Response to SDLGetVehicleData</p>
 
 <p>Since SmartDeviceLink 2.0</p>
 
@@ -42,7 +42,7 @@
       gps
   </h3>
   
-  <p>@abstract A SDLGPSData* value. See GPSData.</p>
+  <p>The car current GPS coordinates</p>
 
   
   
@@ -60,7 +60,7 @@
       speed
   </h3>
   
-  <p>@abstract The vehicle speed in kilometers per hour.</p>
+  <p>The vehicle speed in kilometers per hour</p>
 
   
   
@@ -78,7 +78,7 @@
       rpm
   </h3>
   
-  <p>@abstract The number of revolutions per minute of the engine.</p>
+  <p>The number of revolutions per minute of the engine.</p>
 
   
   
@@ -96,7 +96,7 @@
       fuelLevel
   </h3>
   
-  <p>@abstract The fuel level in the tank (percentage)</p>
+  <p>The fuel level in the tank (percentage)</p>
 
   
   
@@ -114,7 +114,7 @@
       fuelLevel_State
   </h3>
   
-  <p>@abstract A SDLComponentVolumeStatus* value. The fuel level state.</p>
+  <p>The fuel level state</p>
 
   
   
@@ -133,7 +133,7 @@
       instantFuelConsumption
   </h3>
   
-  <p>@abstract The instantaneous fuel consumption in microlitres.</p>
+  <p>The instantaneous fuel consumption in microlitres</p>
 
   
   
@@ -152,7 +152,7 @@
       externalTemperature
   </h3>
   
-  <p>@abstract The external temperature in degrees celsius.</p>
+  <p>The external temperature in degrees celsius.</p>
 
   
   
@@ -171,7 +171,7 @@
       vin
   </h3>
   
-  <p>@abstract The Vehicle Identification Number</p>
+  <p>The Vehicle Identification Number</p>
 
   
   
@@ -189,7 +189,7 @@
       prndl
   </h3>
   
-  <p>@abstract See PRNDL.</p>
+  <p>The current gear shift state of the user&rsquo;s vehicle</p>
 
   
   
@@ -207,7 +207,7 @@
       tirePressure
   </h3>
   
-  <p>@abstract A SDLTireStatus* value. See TireStatus.</p>
+  <p>The current pressure warnings for the user&rsquo;s vehicle</p>
 
   
   
@@ -225,7 +225,7 @@
       odometer
   </h3>
   
-  <p>@abstract Odometer reading in km.</p>
+  <p>Odometer reading in km</p>
 
   
   
@@ -243,7 +243,7 @@
       beltStatus
   </h3>
   
-  <p>@abstract A SDLBeltStatus* value. The status of the seat belts.</p>
+  <p>The status of the seat belts</p>
 
   
   
@@ -261,7 +261,7 @@
       bodyInformation
   </h3>
   
-  <p>@abstract A SDLBodyInformation* value. The body information including power modes.</p>
+  <p>The body information including power modes</p>
 
   
   
@@ -280,7 +280,7 @@
       deviceStatus
   </h3>
   
-  <p>@abstract A SDLDeviceStatus* value. The device status including signal and battery strength.</p>
+  <p>The IVI system status including signal and battery strength</p>
 
   
   
@@ -298,7 +298,7 @@
       driverBraking
   </h3>
   
-  <p>@abstract A SDLVehicleDataResult* value. The status of the brake pedal.</p>
+  <p>The status of the brake pedal</p>
 
   
   
@@ -317,7 +317,7 @@
       wiperStatus
   </h3>
   
-  <p>@abstract A SDLWiperStatus* value. The status of the wipers.</p>
+  <p>The status of the wipers</p>
 
   
   
@@ -335,7 +335,7 @@
       headLampStatus
   </h3>
   
-  <p>@abstract A SDLHeadLampStatus* value. Status of the head lamps.</p>
+  <p>Status of the head lamps</p>
 
   
   
@@ -354,7 +354,7 @@
       engineTorque
   </h3>
   
-  <p>@abstract Torque value for engine (in Nm) on non-diesel variants.</p>
+  <p>Torque value for engine (in Nm) on non-diesel variants</p>
 
   
   
@@ -373,7 +373,7 @@
       accPedalPosition
   </h3>
   
-  <p>@abstract Accelerator pedal position (percentage depressed)</p>
+  <p>Accelerator pedal position (percentage depressed)</p>
 
   
   
@@ -392,7 +392,7 @@
       steeringWheelAngle
   </h3>
   
-  <p>@abstract Current angle of the steering wheel (in deg)</p>
+  <p>Current angle of the steering wheel (in deg)</p>
 
   
   
@@ -411,12 +411,12 @@
       eCallInfo
   </h3>
   
-  <p>Undocumented</p>
+  <p>Emergency Call notification and confirmation data</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLECallInfo.html">SDLECallInfo</a></span> <span class="o">*</span><span class="n">eCallInfo</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLECallInfo.html">SDLECallInfo</a></span> <span class="o">*</span><span class="n">eCallInfo</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -429,12 +429,12 @@
       airbagStatus
   </h3>
   
-  <p>Undocumented</p>
+  <p>The status of the air bags</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLAirbagStatus.html">SDLAirbagStatus</a></span> <span class="o">*</span><span class="n">airbagStatus</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLAirbagStatus.html">SDLAirbagStatus</a></span> <span class="o">*</span><span class="n">airbagStatus</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -447,12 +447,13 @@
       emergencyEvent
   </h3>
   
-  <p>Undocumented</p>
+  <p>Information related to an emergency event (and if it occurred)</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLEmergencyEvent.html">SDLEmergencyEvent</a></span> <span class="o">*</span><span class="n">emergencyEvent</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLEmergencyEvent.html">SDLEmergencyEvent</a></span> <span class="o">*</span><span class="n">emergencyEvent</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -465,12 +466,13 @@
       clusterModeStatus
   </h3>
   
-  <p>Undocumented</p>
+  <p>The status modes of the cluster</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLClusterModeStatus.html">SDLClusterModeStatus</a></span> <span class="o">*</span><span class="n">clusterModeStatus</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLClusterModeStatus.html">SDLClusterModeStatus</a></span> <span class="o">*</span><span class="n">clusterModeStatus</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -483,12 +485,12 @@
       myKey
   </h3>
   
-  <p>Undocumented</p>
+  <p>Information related to the MyKey feature</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLMyKey.html">SDLMyKey</a></span> <span class="o">*</span><span class="n">myKey</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLMyKey.html">SDLMyKey</a></span> <span class="o">*</span><span class="n">myKey</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

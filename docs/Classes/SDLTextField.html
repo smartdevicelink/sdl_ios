@@ -13,50 +13,6 @@
 
 <p>Struct defining the characteristics of a displayed field on the HMI.</p>
 
-<p>Parameter List
- <table border="1" rules="all">
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Description</th>
-            <th>SmartDeviceLink Ver. Available</th>
-        </tr>
-        <tr>
-            <td>name</td>
-            <td>TextFieldName</td>
-            <td>Enumeration identifying the field.  </td>
-            <td>SDL 1.0</td>
-        </tr>
-        <tr>
-            <td>characterSet</td>
-            <td>CharacterSet</td>
-            <td>The character set that is supported in this field.  </td>
-            <td>SDL 1.0</td>
-        </tr>
-        <tr>
-            <td>width</td>
-            <td>Int16</td>
-            <td>The number of characters in one row of this field.
-                    <ul>
-                    <li>Minvalue=<q>1</q></li>
-                    <li>maxvalue=<q>500</q></li>
-                    </ul>
-            </td>
-            <td>SDL 1.0</td>
-        </tr>
-        <tr>
-            <td>rows</td>
-            <td>Int16</td>
-            <td>The number of rows for this text field.
-                    <ul>
-                    <li>Minvalue=<q>1</q></li>
-                    <li>maxvalue=<q>3</q></li>
-                    </ul>
-            </td>
-            <td>SDL 1.0</td>
-        </tr>
- </table></p>
-
 <p>@since SDL 1.0</p>
 
 
@@ -65,7 +21,7 @@
       name
   </h3>
   
-  <p>@abstract The enumeration identifying the field.</p>
+  <p>The enumeration identifying the field.</p>
 <div class="aside aside-see">
     <p class="aside-title">See</p>
     SDLTextFieldName
@@ -90,7 +46,7 @@
       characterSet
   </h3>
   
-  <p>@abstract The character set that is supported in this field.</p>
+  <p>The character set that is supported in this field.</p>
 <div class="aside aside-see">
     <p class="aside-title">See</p>
     SDLCharacterSet
@@ -115,7 +71,7 @@
       width
   </h3>
   
-  <p>@abstract The number of characters in one row of this field.</p>
+  <p>The number of characters in one row of this field.</p>
 
 <p>Required, Integer 1 - 500</p>
 
@@ -135,7 +91,7 @@
       rows
   </h3>
   
-  <p>@abstract The number of rows for this text field.</p>
+  <p>The number of rows for this text field.</p>
 
 <p>Required, Integer 1 - 8</p>
 

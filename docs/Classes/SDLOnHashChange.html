@@ -8,7 +8,7 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>Notification containing an updated hashID which can be used over connection cycles (i.e. loss of connection, ignition cycles, etc.). Sent after initial registration and subsequently after any change in the calculated hash of all persisted app data.</p>
 
 
 <section class="section task-group-section">
@@ -16,12 +16,12 @@
       hashID
   </h3>
   
-  <p>Undocumented</p>
+  <p>Calculated hash ID to be referenced during RegisterAppInterface request.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">hashID</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">hashID</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
