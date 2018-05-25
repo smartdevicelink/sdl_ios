@@ -50,12 +50,12 @@
                                 <segment title="iAP"/>
                             </segments>
                             <connections>
-                                <action selector="connectionTypeSegmentedControlSelectedIndexDidChange:" destination="cXb-Co-0MA" eventType="valueChanged" id="fz7-Gt-LEm"/>
+                                <action selector="connectionTypeSegmentedControlSelectedIndexDidChange:" destination="cXb-Co-0MA" eventType="valueChanged" id="i3j-Ux-1be"/>
                             </connections>
                         </segmentedControl>
                     </navigationItem>
                     <connections>
-                        <outlet property="connectionTypeSegmentedControl" destination="RYa-fE-Qek" id="hrn-uk-yhG"/>
+                        <outlet property="connectionTypeSegmentedControl" destination="RYa-fE-Qek" id="uda-9c-u0v"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ETn-uq-A6g" userLabel="First Responder" sceneMemberID="firstResponder"/>
