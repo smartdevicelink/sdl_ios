@@ -32,6 +32,8 @@ extern SDLTextFieldName const SDLTextFieldNameMainField3;
 
 /**
  * The second line of the second set of main fields of the persistent display. Applies to SDLShow.
+
+ @since SDL 2.0
  */
 extern SDLTextFieldName const SDLTextFieldNameMainField4;
 

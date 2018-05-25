@@ -51,6 +51,9 @@ extern SDLAppHMIType const SDLAppHMITypeSocial;
  */
 extern SDLAppHMIType const SDLAppHMITypeProjection;
 
+/**
+ * App designed for use in the background
+ */
 extern SDLAppHMIType const SDLAppHMITypeBackgroundProcess;
 
 /**
