@@ -12,11 +12,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^SDLChoiceSetManagerCheckVRCompletionHandler)(BOOL isVROptional, NSError *__nullable error);
 
 @interface SDLCheckChoiceVROptionalOperation : SDLAsynchronousOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(SDLChoiceSetManagerCheckVRCompletionHandler)completionManager;
+@property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager;
 
 @end
 

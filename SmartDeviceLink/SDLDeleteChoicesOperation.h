@@ -16,11 +16,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^SDLChoiceSetManagerDeleteCompletionHandler)(NSError *__nullable error);
-
 @interface SDLDeleteChoicesOperation : SDLAsynchronousOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager cellsToDelete:(NSSet<SDLChoiceCell *> *)cells completionHandler:(nullable SDLChoiceSetManagerDeleteCompletionHandler)completionHandler;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager cellsToDelete:(NSSet<SDLChoiceCell *> *)cells;
 
 @end
 

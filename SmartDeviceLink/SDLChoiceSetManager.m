@@ -91,6 +91,7 @@ UInt16 const ChoiceCellIdMin = 1;
     _transactionQueue = [[NSOperationQueue alloc] init];
     _transactionQueue.name = @"SDLFileManager Transaction Queue";
     _transactionQueue.maxConcurrentOperationCount = 1;
+    _transactionQueue.qualityOfService = NSQualityOfServiceUserInitiated;
 
     _preloadedMutableChoices = [NSMutableSet set];
     _pendingMutablePreloadChoices = [NSMutableSet set];
@@ -144,16 +145,19 @@ UInt16 const ChoiceCellIdMin = 1;
 
 - (void)didEnterStateCheckingVoiceOptional {
     // Setup by sending a Choice Set without VR, seeing if there's an error. If there is, send one with VR. This choice set will be used for `presentKeyboard` interactions.
-    __weak typeof(self) weakSelf = self;
-    SDLCheckChoiceVROptionalOperation *checkOp = [[SDLCheckChoiceVROptionalOperation alloc] initWithConnectionManager:self.connectionManager completionHandler:^(BOOL isVROptional, NSError * _Nullable error) {
-        weakSelf.vrOptional = isVROptional;
+    SDLCheckChoiceVROptionalOperation *checkOp = [[SDLCheckChoiceVROptionalOperation alloc] initWithConnectionManager:self.connectionManager];
 
-        if (error != nil) {
+    __weak typeof(self) weakSelf = self;
+    __weak typeof(checkOp) weakOp = checkOp;
+    checkOp.completionBlock = ^{
+        weakSelf.vrOptional = weakOp.isVROptional;
+
+        if (weakOp.error != nil) {
             [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateReady];
         } else {
             [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateStartupError];
         }
-    }];
+    };
 
     [self.transactionQueue addOperation:checkOp];
 }
@@ -174,9 +178,10 @@ UInt16 const ChoiceCellIdMin = 1;
     [self.pendingMutablePreloadChoices unionSet:choicesToUpload];
 
     // Upload pending preloads
-    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayCapabilities:self.displayCapabilities isVROptional:self.isVROptional cellsToPreload:self.pendingPreloadChoices completionHandler:^(NSError * _Nullable error) {
+    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayCapabilities:self.displayCapabilities isVROptional:self.isVROptional cellsToPreload:self.pendingPreloadChoices];
+    preloadOp.completionBlock = ^{
         // TODO
-    }];
+    };
     [self.transactionQueue addOperation:preloadOp];
 }
 
@@ -200,12 +205,18 @@ UInt16 const ChoiceCellIdMin = 1;
     // Remove the cells from pending and delete choices
     // TODO: Delete artworks
     [self.pendingMutablePreloadChoices minusSet:cellsToBeRemovedFromPending];
-    SDLDeleteChoicesOperation *deleteOperation = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:self.connectionManager cellsToDelete:cellsToBeDeleted completionHandler:^(NSError * _Nullable error) {
-        if (error != nil) {
-            SDLLogE(@"Failed to delete choices: %@", error);
+    SDLDeleteChoicesOperation *deleteOp = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:self.connectionManager cellsToDelete:cellsToBeDeleted];
+
+//    __weak typeof(self) weakSelf = self;
+    __weak typeof(deleteOp) weakOp = deleteOp;
+    deleteOp.completionBlock = ^{
+        if (weakOp.error != nil) {
+            SDLLogE(@"Failed to delete choices: %@", weakOp.error);
         }
-    }];
-    [self.transactionQueue addOperation:deleteOperation];
+
+        // TODO: Remove from cellsToBeDeleted
+    };
+    [self.transactionQueue addOperation:deleteOp];
 }
 
 #pragma mark Present

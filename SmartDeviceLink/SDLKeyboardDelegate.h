@@ -14,8 +14,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^SDLKeyboardAutocompleteCompletionHandler)(NSString *updatedAutocompleteText);
-typedef void(^SDLKeyboardCharacterSetCompletionHandler)(NSArray<NSString *> *updatedCharacterSet);
+typedef void(^SDLKeyboardAutocompleteCompletionHandler)(NSString  *_Nullable updatedAutocompleteText);
+typedef void(^SDLKeyboardCharacterSetCompletionHandler)(NSArray<NSString *> *_Nullable updatedCharacterSet);
 
 @protocol SDLKeyboardDelegate <NSObject>
 

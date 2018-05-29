@@ -36,13 +36,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
-@property (copy, nonatomic, nullable) SDLChoiceSetManagerPreloadCompletionHandler completionHandler;
+@property (copy, nonatomic, nullable) NSError *internalError;
 
 @end
 
 @implementation SDLPreloadChoicesOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayCapabilities:(SDLDisplayCapabilities *)displayCapabilities isVROptional:(BOOL)isVROptional cellsToPreload:(NSSet<SDLChoiceCell *> *)cells completionHandler:(nullable SDLChoiceSetManagerPreloadCompletionHandler)completionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayCapabilities:(SDLDisplayCapabilities *)displayCapabilities isVROptional:(BOOL)isVROptional cellsToPreload:(NSSet<SDLChoiceCell *> *)cells {
     self = [super init];
     if (!self) { return nil; }
 
@@ -51,7 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
     _displayCapabilities = displayCapabilities;
     _vrOptional = isVROptional;
     _cellsToUpload = cells;
-    _completionHandler = completionHandler;
 
     return self;
 }
@@ -66,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Sending Choice Data
 
-- (void)sdl_preloadCellArtworksWithCompletionHandler:(SDLChoiceSetManagerPreloadCompletionHandler)completionHandler {
+- (void)sdl_preloadCellArtworksWithCompletionHandler:(void(^)(NSError *))completionHandler {
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
         if ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage]) {
@@ -103,13 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
-            if (weakSelf.completionHandler != nil) {
-                weakSelf.completionHandler([NSError sdl_choiceSetManager_choiceUploadFailed:errors]);
-            }
-        } else {
-            if (weakSelf.completionHandler != nil) {
-                weakSelf.completionHandler(nil);
-            }
+            weakSelf.internalError = [NSError sdl_choiceSetManager_choiceUploadFailed:errors];
         }
 
         [weakSelf finishOperation];
@@ -146,6 +139,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSOperationQueuePriority)queuePriority {
     return NSOperationQueuePriorityNormal;
+}
+
+- (nullable NSError *)error {
+    return self.internalError;
 }
 
 @end

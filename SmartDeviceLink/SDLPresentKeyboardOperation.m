@@ -9,7 +9,15 @@
 #import "SDLPresentKeyboardOperation.h"
 
 #import "SDLConnectionManagerType.h"
+#import "SDLKeyboardDelegate.h"
+#import "SDLKeyboardProperties.h"
+#import "SDLLogMacros.h"
+#import "SDLNotificationConstants.h"
+#import "SDLOnKeyboardInput.h"
 #import "SDLPerformInteraction.h"
+#import "SDLPerformInteractionResponse.h"
+#import "SDLRPCNotificationNotification.h"
+#import "SDLSetGlobalProperties.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,20 +26,26 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) id<SDLKeyboardDelegate> keyboardDelegate;
 @property (copy, nonatomic) NSString *initialText;
+@property (strong, nonatomic) SDLKeyboardProperties *originalKeyboardProperties;
+@property (strong, nonatomic) SDLKeyboardProperties *keyboardProperties;
 
 @property (strong, nonatomic, readonly) SDLPerformInteraction *performInteraction;
+
+@property (copy, nonatomic, nullable) NSError *internalError;
 
 @end
 
 @implementation SDLPresentKeyboardOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager initialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)keyboardDelegate {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager keyboardProperties:(SDLKeyboardProperties *)originalKeyboardProperties initialText:(NSString *)initialText keyboardDelegate:(id<SDLKeyboardDelegate>)keyboardDelegate {
     self = [super init];
     if (!self) { return self; }
 
     _connectionManager = connectionManager;
     _initialText = initialText;
     _keyboardDelegate = keyboardDelegate;
+    _originalKeyboardProperties = originalKeyboardProperties;
+    _keyboardProperties = originalKeyboardProperties;
 
     return self;
 }
@@ -39,16 +53,53 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)start {
     [super start];
 
-    [self sdl_presentKeyboard];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_keyboardInputNotification:) name:SDLDidReceiveKeyboardInputNotification object:nil];
+
+
+    if (self.keyboardDelegate != nil) {
+        SDLKeyboardProperties *customProperties = self.keyboardDelegate.customKeyboardConfiguration;
+        if (customProperties != nil) {
+            self.keyboardProperties = customProperties;
+        }
+
+        [self sdl_updateKeyboardPropertiesWithCompletionHandler:^{
+            if (self.isCancelled) {
+                [self finishOperation];
+                return;
+            }
+
+            [self sdl_presentKeyboard];
+        }];
+    }
 }
 
 - (void)sdl_presentKeyboard {
     [self.connectionManager sendConnectionRequest:self.performInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        // TODO: Error handling
+        if (self.isCancelled) {
+            [self finishOperation];
+            return;
+        }
+
+        if (error != nil) {
+            self.internalError = error;
+        }
+
         [self finishOperation];
     }];
 }
 
+- (void)sdl_updateKeyboardPropertiesWithCompletionHandler:(nullable void(^)(void))completionHandler {
+    SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
+    setProperties.keyboardProperties = self.keyboardProperties;
+
+    [self.connectionManager sendConnectionRequest:setProperties withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogE(@"Error setting keyboard properties to new value: %@, with error: %@", request, error);
+        }
+
+        completionHandler();
+    }];
+}
 
 #pragma mark - Private Getters / Setters
 
@@ -62,6 +113,40 @@ NS_ASSUME_NONNULL_BEGIN
     return performInteraction;
 }
 
+#pragma mark - Notification Observers
+
+- (void)sdl_keyboardInputNotification:(SDLRPCNotificationNotification *)notification {
+    if (self.isCancelled) {
+        [self finishOperation];
+        return;
+    }
+    
+    if (self.keyboardDelegate == nil) { return; }
+    SDLOnKeyboardInput *onKeyboard = notification.notification;
+
+    [self.keyboardDelegate keyboardDidSendEvent:onKeyboard.event text:onKeyboard.data];
+
+    __weak typeof(self) weakself = self;
+    if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventVoice] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventSubmitted]) {
+        // Submit voice or text
+        [self.keyboardDelegate userDidSubmitInput:onKeyboard.data withEvent:onKeyboard.event];
+    } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventKeypress]) {
+        // Notify of keypress
+        [self.keyboardDelegate updateAutocompleteWithInput:onKeyboard.data completionHandler:^(NSString *updatedAutocompleteText) {
+            weakself.keyboardProperties.autoCompleteText = updatedAutocompleteText;
+            [self sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
+        }];
+
+        [self.keyboardDelegate updateCharacterSetWithInput:onKeyboard.data completionHandler:^(NSArray<NSString *> *updatedCharacterSet) {
+            weakself.keyboardProperties.limitedCharacterList = updatedCharacterSet;
+            [self sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
+        }];
+    } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventAborted] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventCancelled]) {
+        // Notify of abort / cancellation
+        [self.keyboardDelegate userDidCancelInputWithReason:onKeyboard.event];
+    }
+}
+
 #pragma mark - Property Overrides
 
 - (nullable NSString *)name {
@@ -70,6 +155,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSOperationQueuePriority)queuePriority {
     return NSOperationQueuePriorityNormal;
+}
+
+- (void)finishOperation {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
+    SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
+    setProperties.keyboardProperties = self.originalKeyboardProperties;
+
+    [self.connectionManager sendConnectionRequest:setProperties withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogE(@"Error resetting keyboard properties to values: %@, with error: %@", request, error);
+        }
+
+        [super finishOperation];
+    }];
+}
+
+- (nullable NSError *)error {
+    return self.internalError;
 }
 
 @end

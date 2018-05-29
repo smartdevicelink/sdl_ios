@@ -18,13 +18,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLCheckChoiceVROptionalOperation()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (copy, nonatomic) SDLChoiceSetManagerCheckVRCompletionHandler completionHandler;
+@property (copy, nonatomic, nullable) NSError *internalError;
 
 @end
 
 @implementation SDLCheckChoiceVROptionalOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager completionHandler:(SDLChoiceSetManagerCheckVRCompletionHandler)completionManager {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager {
     self = [super init];
     if (!self) { return nil; }
 
@@ -38,11 +38,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_sendTestChoices {
+    __weak typeof(self) weakself = self;
     [self.connectionManager sendConnectionRequest:[self.class sdl_testCellWithVR:NO] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error == nil) {
             SDLLogD(@"Connected head unit supports choice cells without voice commands. Cells without voice will be sent without voice from now on (no placeholder voice).");
 
-            self.completionHandler(YES, nil);
+            weakself.vrOptional = YES;
+            weakself.internalError = nil;
+            [weakself finishOperation];
             return;
         }
 
@@ -51,12 +54,16 @@ NS_ASSUME_NONNULL_BEGIN
             if (error == nil) {
                 SDLLogW(@"Connected head unit does not support choice cells without voice commands. Cells without voice will be sent with placeholder voices from now on.");
 
-                self.completionHandler(NO, nil);
+                weakself.vrOptional = NO;
+                weakself.internalError = nil;
+                [weakself finishOperation];
                 return;
             }
 
             SDLLogE(@"Connected head unit has rejected all choice cells, choice manager disabled. Error: %@, Response: %@", error, response);
-            self.completionHandler(NO, error);
+            weakself.vrOptional = YES;
+            weakself.internalError = error;
+            [weakself finishOperation];
         }];
     }];
 }
@@ -80,6 +87,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSOperationQueuePriority)queuePriority {
     return NSOperationQueuePriorityVeryHigh;
+}
+
+- (nullable NSError *)error {
+    return self.internalError;
 }
 
 @end

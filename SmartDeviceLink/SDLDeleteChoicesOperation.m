@@ -24,21 +24,19 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLDeleteChoicesOperation()
 
 @property (strong, nonatomic) NSSet<SDLChoiceCell *> *cellsToDelete;
-
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (copy, nonatomic, nullable) SDLChoiceSetManagerDeleteCompletionHandler completionHandler;
+@property (copy, nonatomic, nullable) NSError *internalError;
 
 @end
 
 @implementation SDLDeleteChoicesOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager cellsToDelete:(NSSet<SDLChoiceCell *> *)cells completionHandler:(nullable SDLChoiceSetManagerDeleteCompletionHandler)completionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager cellsToDelete:(NSSet<SDLChoiceCell *> *)cells {
     self = [super init];
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
     _cellsToDelete = cells;
-    _completionHandler = completionHandler;
 
     return self;
 }
@@ -63,13 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
-            if (weakSelf.completionHandler != nil) {
-                weakSelf.completionHandler([NSError sdl_choiceSetManager_choiceDeletionFailed:errors]);
-            }
-        } else {
-            if (weakSelf.completionHandler != nil) {
-                weakSelf.completionHandler(nil);
-            }
+            weakSelf.internalError = [NSError sdl_choiceSetManager_choiceDeletionFailed:errors];
         }
 
         [weakSelf finishOperation];
@@ -84,6 +76,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSOperationQueuePriority)queuePriority {
     return NSOperationQueuePriorityNormal;
+}
+
+- (nullable NSError *)error {
+    return self.internalError;
 }
 
 @end

@@ -32,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) SDLLayoutMode layoutMode;
 @property (strong, nonatomic, readonly) NSArray<NSNumber<SDLInt> *> *choiceIds;
 
+@property (copy, nonatomic, nullable) NSError *internalError;
+
 @end
 
 @implementation SDLPresentChoiceSetOperation
@@ -55,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_presentChoiceSet {
     [self.connectionManager sendConnectionRequest:self.performInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        // TODO: Error handling
+        self.internalError = error;
         [self finishOperation];
     }];
 }
@@ -101,6 +103,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSOperationQueuePriority)queuePriority {
     return NSOperationQueuePriorityNormal;
+}
+
+- (nullable NSError *)error {
+    return self.internalError;
 }
 
 @end

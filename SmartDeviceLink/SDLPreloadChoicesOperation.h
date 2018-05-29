@@ -18,11 +18,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^SDLChoiceSetManagerPreloadCompletionHandler)(NSError *__nullable error);
-
 @interface SDLPreloadChoicesOperation : SDLAsynchronousOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayCapabilities:(SDLDisplayCapabilities *)displayCapabilities isVROptional:(BOOL)isVROptional cellsToPreload:(NSSet<SDLChoiceCell *> *)cells completionHandler:(nullable SDLChoiceSetManagerPreloadCompletionHandler)completionHandler;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayCapabilities:(SDLDisplayCapabilities *)displayCapabilities isVROptional:(BOOL)isVROptional cellsToPreload:(NSSet<SDLChoiceCell *> *)cells;
 
 @end
 
