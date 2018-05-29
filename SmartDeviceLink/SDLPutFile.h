@@ -18,11 +18,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPutFile : SDLRPCRequest
 
-- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType;
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType __deprecated_msg("Use initWithFileName:fileType:crc: instead");
 
-- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile;
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType crc:(UInt64)crc;
 
-- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length;
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile __deprecated_msg("Use initWithFileName:fileType:persistentFile:crc: instead");
+
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile crc:(UInt64)crc;
+
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length __deprecated_msg("Use initWithFileName:fileType:persistentFile:systemFile:offset:length:crc: instead");
+
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length crc:(UInt64)crc;
+
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length bulkData:(NSData *)bulkData;
 
 /**
  * A file reference name

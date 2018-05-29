@@ -110,14 +110,10 @@ NS_ASSUME_NONNULL_BEGIN
     for (int i = 0; i < (((file.fileSize - 1) / mtuSize) + 1); i++) {
         dispatch_group_enter(putFileGroup);
 
-        // The putfile's length parameter is based on the current offset
-        SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.isPersistent];
-        putFile.offset = @(currentOffset);
-        putFile.length = @([self.class sdl_getPutFileLengthForOffset:currentOffset fileSize:(NSUInteger)file.fileSize mtuSize:mtuSize]);
-
         // Get a chunk of data from the input stream
         NSUInteger dataSize = [self.class sdl_getDataSizeForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize];
-        putFile.bulkData = [self.class sdl_getDataChunkWithSize:dataSize inputStream:self.inputStream];
+        SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.isPersistent systemFile:NO offset:(UInt32)currentOffset length:(UInt32)[self.class sdl_getPutFileLengthForOffset:currentOffset fileSize:(NSUInteger)file.fileSize mtuSize:mtuSize] bulkData:[self.class sdl_getDataChunkWithSize:dataSize inputStream:self.inputStream]];
+
         currentOffset += dataSize;
 
         __weak typeof(self) weakself = self;

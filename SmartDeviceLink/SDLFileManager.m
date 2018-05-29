@@ -19,7 +19,6 @@
 #import "SDLManager.h"
 #import "SDLNotificationConstants.h"
 #import "SDLPutFile.h"
-#import "SDLPutFileResponse.h"
 #import "SDLStateMachine.h"
 #import "SDLUploadFileOperation.h"
 
