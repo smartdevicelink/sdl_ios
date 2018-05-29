@@ -10,7 +10,7 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>A touch which occurred on the IVI system during projection</p>
 
 
 <section class="section task-group-section">
@@ -18,11 +18,13 @@
       touchEventId
   </h3>
   
-  <p>A touch&rsquo;s unique identifier.  The application can track the current touch events by id.
-If a touch event has type begin, the id should be added to the set of touches.
-If a touch event has type end, the id should be removed from the set of touches.</p>
+  <p>A touch&rsquo;s unique identifier.  The application can track the current touch events by id.</p>
 
-<p>Mandatory, 0-9</p>
+<p>If a touch event has type begin, the id should be added to the set of touches.</p>
+
+<p>If a touch event has type end, the id should be removed from the set of touches.</p>
+
+<p>Required, 0-9</p>
 
   
   
@@ -40,7 +42,7 @@ If a touch event has type end, the id should be removed from the set of touches.
       timeStamp
   </h3>
   
-  <p>The time that the touch was recorded.  This number can the time since the beginning of the session or something else as long as the units are in milliseconds.</p>
+  <p>The time that the touch was recorded. This number can the time since the beginning of the session or something else as long as the units are in milliseconds.</p>
 
 <p>The timestamp is used to determined the rate of change of position of a touch.</p>
 
@@ -48,7 +50,7 @@ If a touch event has type end, the id should be removed from the set of touches.
 
 <p>If there is only a single timestamp in this array, it is the same for every coordinate in the coordinates array.</p>
 
-<p>Mandatory, array size 1-1000, contains <NSNumber> size 0-5000000000</p>
+<p>Required, array size 1-1000, contains integer value 0-2000000000</p>
 
   
   
@@ -67,7 +69,9 @@ If a touch event has type end, the id should be removed from the set of touches.
       coord
   </h3>
   
-  <p>Mandatory, array size 1-1000, contains SDLTouchCoord</p>
+  <p>The touch&rsquo;s coordinate</p>
+
+<p>Required, array size 1-1000</p>
 
   
   

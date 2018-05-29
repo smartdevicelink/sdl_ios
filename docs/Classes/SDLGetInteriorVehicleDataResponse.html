@@ -9,7 +9,7 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>A response to SDLGetInteriorVehicleData</p>
 
 
 <section class="section task-group-section">
@@ -17,12 +17,12 @@
       moduleData
   </h3>
   
-  <p>Undocumented</p>
+  <p>The requested data</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLModuleData.html">SDLModuleData</a></span> <span class="o">*</span><span class="n">moduleData</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLModuleData.html">SDLModuleData</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">moduleData</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -35,9 +35,11 @@
       isSubscribed
   </h3>
   
-  <p>@abstract It is a conditional-mandatory parameter: must be returned in case <q>subscribe</q> parameter was present in the related request.
- if <q>true</q> - the <q>moduleType</q> from request is successfully subscribed and the head unit will send onInteriorVehicleData notifications for the moduleType.
- if <q>false</q> - the <q>moduleType</q> from request is either unsubscribed or failed to subscribe.</p>
+  <p>It is a conditional-mandatory parameter: must be returned in case <q>subscribe</q> parameter was present in the related request.</p>
+
+<p>If <q>true</q> - the <q>moduleType</q> from request is successfully subscribed and the head unit will send onInteriorVehicleData notifications for the moduleType.</p>
+
+<p>If <q>false</q> - the <q>moduleType</q> from request is either unsubscribed or failed to subscribe.</p>
 
 <p>Optional, Boolean</p>
 

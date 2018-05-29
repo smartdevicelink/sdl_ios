@@ -9,9 +9,9 @@
 
 <h3>Overview</h3>
 
-<p>SDLListFilesResponse is sent, when SDLListFiles has been called</p>
+<p>Response to SDLListFiles</p>
 
-<p>Since <b>SmartDeviceLink 2.0</b></p>
+<p>Since SmartDeviceLink 2.0</p>
 
 
 <section class="section task-group-section">
@@ -19,12 +19,13 @@
       filenames
   </h3>
   
-  <p>Undocumented</p>
+  <p>An array of all filenames resident on the module for the given registered app. If omitted, then no files currently reside on the system.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">filenames</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">filenames</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -37,12 +38,13 @@
       spaceAvailable
   </h3>
   
-  <p>Undocumented</p>
+  <p>Provides the total local space available on the module for the registered app.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">spaceAvailable</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">spaceAvailable</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

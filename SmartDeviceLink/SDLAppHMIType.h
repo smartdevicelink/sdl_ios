@@ -12,57 +12,60 @@
 typedef SDLEnum SDLAppHMIType SDL_SWIFT_ENUM;
 
 /**
- * @abstract The App will have default rights.
+ * The App will have default rights.
  */
 extern SDLAppHMIType const SDLAppHMITypeDefault;
 
 /**
- * @abstract Communication type of App
+ * Communication type of App
  */
 extern SDLAppHMIType const SDLAppHMITypeCommunication;
 
 /**
- * @abstract App dealing with Media
+ * App dealing with Media
  */
 extern SDLAppHMIType const SDLAppHMITypeMedia;
 
 /**
- * @abstract Messaging App
+ * Messaging App
  */
 extern SDLAppHMIType const SDLAppHMITypeMessaging;
 
 /**
- * @abstract Navigation App
+ * Navigation App
  */
 extern SDLAppHMIType const SDLAppHMITypeNavigation;
 
 /**
- * @abstract Information App
+ * Information App
  */
 extern SDLAppHMIType const SDLAppHMITypeInformation;
 
 /**
- * @abstract App dealing with social media
+ * App dealing with social media
  */
 extern SDLAppHMIType const SDLAppHMITypeSocial;
 
 /**
- * @abstract App dealing with Mobile Projection applications
+ * App dealing with Mobile Projection applications
  */
 extern SDLAppHMIType const SDLAppHMITypeProjection;
 
+/**
+ * App designed for use in the background
+ */
 extern SDLAppHMIType const SDLAppHMITypeBackgroundProcess;
 
 /**
- * @abstract App only for Testing purposes
+ * App only for Testing purposes
  */
 extern SDLAppHMIType const SDLAppHMITypeTesting;
 
 /**
- * @abstract System App
+ * System App
  */
 extern SDLAppHMIType const SDLAppHMITypeSystem;
 
 /**
- * @abstract Remote control */
+ * Remote control */
 extern SDLAppHMIType const SDLAppHMITypeRemoteControl;

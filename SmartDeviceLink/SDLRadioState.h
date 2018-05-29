@@ -5,31 +5,26 @@
 #import "SDLEnum.h"
 
 /**
- * List possible states of a remote control radio module.
+ * List possible states of a remote control radio module. Used in RadioControlData.
  */
-
 typedef SDLEnum SDLRadioState SDL_SWIFT_ENUM;
 
 /**
- *  @abstract Represents Radio state as ACQUIRING
- *
+ * Represents Radio state as ACQUIRING
  */
 extern SDLRadioState const SDLRadioStateAcquiring;
 
 /**
- *  @abstract Represents Radio state as ACQUIRED
- *
+ * Represents Radio state as ACQUIRED
  */
 extern SDLRadioState const SDLRadioStateAcquired;
 
 /**
- *  @abstract Represents Radio state as MULTICAST
- *
+ * Represents Radio state as MULTICAST
  */
 extern SDLRadioState const SDLRadioStateMulticast;
 
 /**
- *  @abstract Represents Radio state as NOT_FOUND
- *
+ * Represents Radio state as NOT_FOUND
  */
 extern SDLRadioState const SDLRadioStateNotFound;

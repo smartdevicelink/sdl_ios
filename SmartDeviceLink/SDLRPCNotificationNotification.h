@@ -13,10 +13,24 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ An NSNotification object that makes retrieving internal SDLRPCNotification data easier
+ */
 @interface SDLRPCNotificationNotification : NSNotification
 
+/**
+ The notification within the userinfo dictionary
+ */
 @property (copy, nonatomic, readonly) __kindof SDLRPCNotification *notification;
 
+/**
+ Create an NSNotification object caontaining an SDLRPCNotification
+
+ @param name The NSNotification name
+ @param object The NSNotification object
+ @param notification The SDLRPCNotification payload
+ @return The NSNotification
+ */
 - (instancetype)initWithName:(NSString *)name object:(nullable id)object rpcNotification:(__kindof SDLRPCNotification *)notification;
 
 /**

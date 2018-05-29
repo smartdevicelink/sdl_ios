@@ -10,51 +10,25 @@
 
 <h3>Overview</h3>
 
-<p>Notifies application of button press events for buttons to which the
- application is subscribed. SDL supports two button press events defined as
- follows:</p>
+<p>Notifies application of button press events for buttons to which the application is subscribed. SDL supports two button press events defined as follows:</p>
 
-<p><ul>
- <li>SHORT - Occurs when a button is depressed, then released within two
- seconds. The event is considered to occur immediately after the button is
- released.</li>
- <li>LONG - Occurs when a button is depressed and held for two seconds or
- more. The event is considered to occur immediately after the two second
- threshold has been crossed, before the button is released</li>
- </ul>
- <b>HMI Status Requirements:</b>
- <ul>
- HMILevel:
- <ul>
- <li>The application will receive OnButtonPress notifications for all
- subscribed buttons when HMILevel is FULL.</li>
- <li>The application will receive OnButtonPress notifications for subscribed
- media buttons when HMILevel is LIMITED.</li>
- <li>Media buttons include SEEKLEFT, SEEKRIGHT, TUNEUP, TUNEDOWN, and
- PRESET_0-PRESET_9.</li>
- <li>The application will not receive OnButtonPress notification when HMILevel
- is BACKGROUND or NONE.</li>
- </ul>
- AudioStreamingState:
- <ul>
- <li> Any </li>
- </ul>
- SystemContext:
- <ul>
- <li>MAIN, VR. In MENU, only PRESET buttons. In VR, pressing any subscribable
- button will cancel VR.</li>
- </ul>
- </ul></p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLSubscribeButton
+<p>SHORT - Occurs when a button is depressed, then released within two seconds. The event is considered to occur immediately after the button is released.</p>
 
-</div>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLUnsubscribeButton
+<p>LONG - Occurs when a button is depressed and held for two seconds or more. The event is considered to occur immediately after the two second threshold has been crossed, before the button is released.</p>
 
-</div>
+<p>HMI Status Requirements:</p>
+
+<p>HMILevel:</p>
+
+<p>The application will receive OnButtonPress notifications for all subscribed buttons when HMILevel is FULL.</p>
+
+<p>The application will receive OnButtonPress notifications for subscribed media buttons when HMILevel is LIMITED. Media buttons include SEEKLEFT, SEEKRIGHT, TUNEUP, TUNEDOWN, and PRESET_0-PRESET_9.</p>
+
+<p>The application will not receive OnButtonPress notification when HMILevel is BACKGROUND or NONE.</p>
+
+<p>AudioStreamingState: Any</p>
+
+<p>SystemContext: MAIN, VR. In MENU, only PRESET buttons. In VR, pressing any subscribable button will cancel VR.</p>
 
 <p>@since SDL 1.0</p>
 
@@ -64,12 +38,7 @@
       buttonName
   </h3>
   
-  <p>@abstract the button&rsquo;s name</p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLButtonName
-
-</div>
+  <p>The button&rsquo;s name</p>
 
 <p>Required</p>
 
@@ -89,12 +58,7 @@
       buttonPressMode
   </h3>
   
-  <p>@abstract Indicates whether this is a LONG or SHORT button press event</p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLButtonPressMode
-
-</div>
+  <p>Indicates whether this is a LONG or SHORT button press event</p>
 
 <p>Required</p>
 
@@ -115,7 +79,7 @@
       customButtonID
   </h3>
   
-  <p>@abstract If ButtonName is <q>CUSTOM_BUTTON</q>, this references the integer ID passed by a custom button. (e.g. softButton ID)</p>
+  <p>If ButtonName is <q>CUSTOM_BUTTON</q>, this references the integer ID passed by a custom button. (e.g. softButton ID)</p>
 
 <p>@since SDL 2.0</p>
 

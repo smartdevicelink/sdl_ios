@@ -36,8 +36,9 @@
       id
   </h3>
   
-  <p>A user control spatial identifier
-Required, Integer, 0 - 2,000,000,000</p>
+  <p>A user control spatial identifier</p>
+
+<p>Required, Integer, 0 - 2,000,000,000</p>
 
   
   
@@ -55,12 +56,14 @@ Required, Integer, 0 - 2,000,000,000</p>
       rect
   </h3>
   
-  <p>Undocumented</p>
+  <p>The position of the haptic rectangle to be highlighted. The center of this rectangle will be <q>touched</q> when a press occurs.</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLRectangle.html">SDLRectangle</a></span> <span class="o">*</span><span class="n">rect</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLRectangle.html">SDLRectangle</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">rect</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

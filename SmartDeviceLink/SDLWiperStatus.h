@@ -5,81 +5,81 @@
 #import "SDLEnum.h"
 
 /**
- * Wiper Status
+ * The status of the windshield wipers. Used in retrieving vehicle data.
  */
 typedef SDLEnum SDLWiperStatus SDL_SWIFT_ENUM;
 
 /**
- * @abstract SDLWiperStatus: *OFF*
+ * Wiper is off
  */
 extern SDLWiperStatus const SDLWiperStatusOff;
 
 /**
- * @abstract SDLWiperStatus: *AUTO_OFF*
+ * Wiper is off automatically
  */
 extern SDLWiperStatus const SDLWiperStatusAutomaticOff;
 
 /**
- * @abstract SDLWiperStatus: *OFF_MOVING*
+ * Wiper is moving but off
  */
 extern SDLWiperStatus const SDLWiperStatusOffMoving;
 
 /**
- * @abstract SDLWiperStatus: *MAN_INT_OFF*
+ * Wiper is off due to a manual interval
  */
 extern SDLWiperStatus const SDLWiperStatusManualIntervalOff;
 
 /**
- * @abstract SDLWiperStatus: *MAN_INT_ON*
+ * Wiper is on due to a manual interval
  */
 extern SDLWiperStatus const SDLWiperStatusManualIntervalOn;
 
 /**
- * @abstract SDLWiperStatus: *MAN_LOW*
+ * Wiper is on low manually
  */
 extern SDLWiperStatus const SDLWiperStatusManualLow;
 
 /**
- * @abstract SDLWiperStatus: *MAN_HIGH*
+ * Wiper is on high manually
  */
 extern SDLWiperStatus const SDLWiperStatusManualHigh;
 
 /**
- * @abstract SDLWiperStatus: *MAN_FLICK*
+ * Wiper is on for a single wipe manually
  */
 extern SDLWiperStatus const SDLWiperStatusManualFlick;
 
 /**
- * @abstract SDLWiperStatus: *WASH*
+ * Wiper is in wash mode
  */
 extern SDLWiperStatus const SDLWiperStatusWash;
 
 /**
- * @abstract SDLWiperStatus: *AUTO_LOW*
+ * Wiper is on low automatically
  */
 extern SDLWiperStatus const SDLWiperStatusAutomaticLow;
 
 /**
- * @abstract SDLWiperStatus: *AUTO_HIGH*
+ * Wiper is on high automatically
  */
 extern SDLWiperStatus const SDLWiperStatusAutomaticHigh;
 
 /**
- * @abstract SDLWiperStatus: *COURTESYWIPE*
+ * Wiper is performing a courtesy wipe
  */
 extern SDLWiperStatus const SDLWiperStatusCourtesyWipe;
 
 /**
- * @abstract SDLWiperStatus: *AUTO_ADJUST*
+ * Wiper is on automatic adjust
  */
 extern SDLWiperStatus const SDLWiperStatusAutomaticAdjust;
 
 /**
- * @abstract SDLWiperStatus: *STALLED*
+ * Wiper is stalled
  */
 extern SDLWiperStatus const SDLWiperStatusStalled;
 
 /**
- * @abstract SDLWiperStatus: *NO_DATA_EXISTS*
+ * Wiper data is not available
  */
 extern SDLWiperStatus const SDLWiperStatusNoDataExists;

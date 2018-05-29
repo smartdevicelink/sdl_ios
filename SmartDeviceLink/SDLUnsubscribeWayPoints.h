@@ -5,6 +5,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Request to unsubscribe from navigation WayPoints and Destination
+ */
 @interface SDLUnsubscribeWayPoints : SDLRPCRequest
 
 @end

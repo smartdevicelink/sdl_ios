@@ -5,9 +5,9 @@
 #import "SDLRPCResponse.h"
 
 /**
- * SDLDeleteInteractionChoiceSetResponse is sent, when SDLDeleteInteractionChoiceSet has been called
- *
- * Since <b>SmartDeviceLink 1.0</b>
+ SDLDeleteInteractionChoiceSetResponse is sent, when SDLDeleteInteractionChoiceSet has been called
+ 
+ Since SmartDeviceLink 1.0
  */
 
 NS_ASSUME_NONNULL_BEGIN

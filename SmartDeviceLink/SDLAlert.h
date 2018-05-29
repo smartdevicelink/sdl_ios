@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- * @abstract The String to be displayed in the first field of the display during the Alert
+ * The String to be displayed in the first field of the display during the Alert
  *
  * @discussion Length is limited to what is indicated in *SDLRegisterAppInterface* response
  *
@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSString *alertText1;
 
 /**
- * @abstract The String to be displayed in the second field of the display during the Alert
+ * The String to be displayed in the second field of the display during the Alert
  *
  * @discussion Only permitted if HMI supports a second display line
  * 
@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSString *alertText2;
 
 /**
- * @abstract the String to be displayed in the third field of the display during the Alert
+ * the String to be displayed in the third field of the display during the Alert
  * @discussion Only permitted if HMI supports a third display line
  * 
  * Length is limited to what is indicated in *SDLRegisterAppInterface* response
@@ -105,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSString *alertText3;
 
 /**
- * @abstract An array which, taken together, specify what is to be spoken to the user
+ * An array which, taken together, specify what is to be spoken to the user
  *
  * Optional, Array of SDLTTSChunk, Array length 1 - 100
  *
@@ -114,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<SDLTTSChunk *> *ttsChunks;
 
 /**
- * @abstract The duration of the displayed portion of the alert, in milliseconds.
+ * The duration of the displayed portion of the alert, in milliseconds.
  * 
  * @discussion After this amount of time has passed, the display fields alertText1 and alertText2 will revert to what was displayed in those fields before the alert began.
  *
@@ -127,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *duration;
 
 /**
- * @abstract Whether the alert tone should be played before the TTS (if any) is spoken.
+ * Whether the alert tone should be played before the TTS (if any) is spoken.
  *
  * @discussion If ommitted, no tone is played
  * 
@@ -136,7 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *playTone;
 
 /**
- * @abstract If supported on the given platform, the alert GUI will include some sort of animation indicating that loading of a feature is progressing.  e.g. a spinning wheel or hourglass, etc.
+ * If supported on the given platform, the alert GUI will include some sort of animation indicating that loading of a feature is progressing.  e.g. a spinning wheel or hourglass, etc.
  * 
  * Optional, Boolean
  *
@@ -145,7 +145,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *progressIndicator;
 
 /**
- * @abstract App defined SoftButtons.
+ * App defined SoftButtons.
  *
  * @discussion If omitted on supported displays, the displayed alert shall not have any SoftButtons
  *

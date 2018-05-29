@@ -5,7 +5,7 @@
 #import "SDLEnum.h"
 
 /** 
- * For touchscreen interactions, the mode of how the choices are presented.
+ * For touchscreen interactions, the mode of how the choices are presented. Used in PerformInteraction.
  *
  * @since SDL 3.0
  */

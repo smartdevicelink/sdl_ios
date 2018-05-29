@@ -6,6 +6,11 @@
 
 #import "SDLEnum.h"
 
+/**
+ Describes what the status of the lock screen should be
+
+ Used in OnLockScreenStatus
+ */
 typedef SDLEnum SDLLockScreenStatus SDL_SWIFT_ENUM;
 
 /**

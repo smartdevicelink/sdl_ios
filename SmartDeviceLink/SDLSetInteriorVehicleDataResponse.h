@@ -8,14 +8,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Used to set the values of one remote control module
- *
+ Response to SDLSetInteriorVehicleData
  */
 @interface SDLSetInteriorVehicleDataResponse : SDLRPCResponse
 
 /**
- * The module data to set for the requested remote control module.
- *
+ The new module data for the requested module
  */
 @property (strong, nonatomic) SDLModuleData *moduleData;
 

@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithProperties:(NSArray<SDLGlobalProperty> *)properties;
 
 /**
- * @abstract An array of one or more GlobalProperty enumeration elements
+ * An array of one or more GlobalProperty enumeration elements
  * indicating which global properties to reset to their default value
  */
 @property (strong, nonatomic) NSArray<SDLGlobalProperty> *properties;

@@ -13,6 +13,9 @@
  */
 @interface SDLCarWindowViewController : UIViewController
 
+/**
+ The supported interface orientation you wish to use. Defaults to MaskPortrait.
+ */
 @property (nonatomic, assign) UIInterfaceOrientation supportedOrientation;
 
 @end

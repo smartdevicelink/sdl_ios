@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLHMIPermissions : SDLRPCStruct
 
 /**
- * @abstract a set of all HMI levels that are permitted for this given RPC
+ * A set of all HMI levels that are permitted for this given RPC
  *
  * @see SDLHMILevel
  *
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSArray<SDLHMILevel> *allowed;
 
 /**
- * @abstract a set of all HMI levels that are prohibited for this given RPC
+ * A set of all HMI levels that are prohibited for this given RPC
  * 
  * @see SDLHMILevel
  *

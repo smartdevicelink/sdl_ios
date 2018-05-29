@@ -5,9 +5,9 @@
 #import "SDLRPCResponse.h"
 
 /**
- * SDLDeleteSubMenuResponse is sent, when SDLDeleteSubMenu has been called
- *
- * Since <b>SmartDeviceLink 1.0</b>
+ Response to SDLDeleteSubMenu
+
+ Since SmartDeviceLink 1.0
  */
 
 NS_ASSUME_NONNULL_BEGIN

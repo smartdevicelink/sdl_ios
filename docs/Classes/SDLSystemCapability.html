@@ -18,9 +18,7 @@
 
 <p>The systemCapabilityType indicates which type of data should be changed and identifies which data object exists in this struct. For example, if the SystemCapability Type is NAVIGATION then a <q>navigationCapability</q> should exist.</p>
 
-<ul>
-<li>First implemented in SDL Core v4.4</li>
-</ul>
+<p>First implemented in SDL Core v4.4</p>
 
 
 <section class="section task-group-section">
@@ -100,12 +98,13 @@
       systemCapabilityType
   </h3>
   
-  <p>Undocumented</p>
+  <p>Used as a descriptor of what data to expect in this struct. The corresponding param to this enum should be included and the only other parameter included.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span> <span class="n">systemCapabilityType</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span> <span class="n">_Nonnull</span> <span class="n">systemCapabilityType</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -118,12 +117,13 @@
       navigationCapability
   </h3>
   
-  <p>Undocumented</p>
+  <p>Describes extended capabilities for onboard navigation system</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLNavigationCapability.html">SDLNavigationCapability</a></span> <span class="o">*</span><span class="n">navigationCapability</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLNavigationCapability.html">SDLNavigationCapability</a></span> <span class="o">*</span><span class="n">navigationCapability</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -136,12 +136,13 @@
       phoneCapability
   </h3>
   
-  <p>Undocumented</p>
+  <p>Describes extended capabilities of the module&rsquo;s phone feature</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLPhoneCapability.html">SDLPhoneCapability</a></span> <span class="o">*</span><span class="n">phoneCapability</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLPhoneCapability.html">SDLPhoneCapability</a></span> <span class="o">*</span><span class="n">phoneCapability</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -154,12 +155,13 @@
       videoStreamingCapability
   </h3>
   
-  <p>Undocumented</p>
+  <p>Describes extended capabilities of the module&rsquo;s phone feature</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVideoStreamingCapability.html">SDLVideoStreamingCapability</a></span> <span class="o">*</span><span class="n">videoStreamingCapability</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVideoStreamingCapability.html">SDLVideoStreamingCapability</a></span> <span class="o">*</span><span class="n">videoStreamingCapability</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -172,12 +174,13 @@
       remoteControlCapability
   </h3>
   
-  <p>Undocumented</p>
+  <p>Describes extended capabilities of the module&rsquo;s phone feature</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html">SDLRemoteControlCapabilities</a></span> <span class="o">*</span><span class="n">remoteControlCapability</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html">SDLRemoteControlCapabilities</a></span> <span class="o">*</span><span class="n">remoteControlCapability</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

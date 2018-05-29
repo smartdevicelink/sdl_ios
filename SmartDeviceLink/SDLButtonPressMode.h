@@ -12,11 +12,11 @@
 typedef SDLEnum SDLButtonPressMode SDL_SWIFT_ENUM;
 
 /**
- * @abstract A button was released, after it was pressed for a long time. Actual timing is defined by the head unit and may vary.
+ * A button was released, after it was pressed for a long time. Actual timing is defined by the head unit and may vary.
  */
 extern SDLButtonPressMode const SDLButtonPressModeLong;
 
 /**
- * @abstract A button was released, after it was pressed for a short time. Actual timing is defined by the head unit and may vary.
+ * A button was released, after it was pressed for a short time. Actual timing is defined by the head unit and may vary.
  */
 extern SDLButtonPressMode const SDLButtonPressModeShort;

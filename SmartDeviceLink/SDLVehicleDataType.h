@@ -5,136 +5,136 @@
 #import "SDLEnum.h"
 
 /**
- * Defines the vehicle data types that can be published and/or subscribed to using SDLSubscribeVehicleData
+ * Defines the vehicle data types that can be published and/or subscribed to using SDLSubscribeVehicleData. Used in VehicleDataResult
  */
 typedef SDLEnum SDLVehicleDataType SDL_SWIFT_ENUM;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_GPS*
+ GPS vehicle data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeGPS;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_SPEED*
+ Vehicle speed data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeSpeed;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_RPM*
+ Vehicle RPM data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeRPM;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_FUELLEVEL*
+ Vehicle fuel level data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevel;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_FUELLEVEL_STATE*
+ Vehicle fuel level state data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevelState;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_FUELCONSUMPTION*
+ Vehicle fuel consumption data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeFuelConsumption;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_EXTERNTEMP*
+ Vehicle external temperature data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeExternalTemperature;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_VIN*
+ Vehicle VIN data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeVIN;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_PRNDL*
+ Vehicle PRNDL data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypePRNDL;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_TIREPRESSURE*
+ Vehicle tire pressure data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeTirePressure;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_ODOMETER*
+ Vehicle odometer data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeOdometer;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_BELTSTATUS*
+ Vehicle belt status data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeBeltStatus;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_BODYINFO*
+ Vehicle body info data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeBodyInfo;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_DEVICESTATUS*
+ Vehicle device status data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeDeviceStatus;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_ECALLINFO*
+ Vehicle emergency call info data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeECallInfo;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_AIRBAGSTATUS*
+ Vehicle airbag status data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeAirbagStatus;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_EMERGENCYEVENT*
+ Vehicle emergency event info
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeEmergencyEvent;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_CLUSTERMODESTATUS*
+ Vehicle cluster mode status data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeClusterModeStatus;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_MYKEY*
+ Vehicle MyKey data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeMyKey;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_BRAKING*
+ Vehicle braking data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeBraking;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_WIPERSTATUS*
+ Vehicle wiper status data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeWiperStatus;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_HEADLAMPSTATUS*
+ Vehicle headlamp status
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeHeadlampStatus;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_BATTVOLTAGE*
+ Vehicle battery voltage data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeBatteryVoltage;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_ENGINETORQUE*
+ Vehicle engine torque data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeEngineTorque;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_ACCPEDAL*
+ Vehicle accleration pedal data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeAccelerationPedal;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_STEERINGWHEEL*
+ Vehicle steering wheel data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeSteeringWheel;

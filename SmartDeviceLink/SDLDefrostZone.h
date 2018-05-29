@@ -5,28 +5,28 @@
 #import "SDLEnum.h"
 
 /**
- * Enumeration listing possible defrost zones.
+ * Enumeration listing possible defrost zones. Used in ClimateControlCapabilities and Data.
  *
  * @since SDL 2.0
  */
 typedef SDLEnum SDLDefrostZone SDL_SWIFT_ENUM;
 
 /**
- * @abstract A SDLDefrostZone with the value of *FRONT*
+ * A SDLDefrostZone with the value of *FRONT*
  */
 extern SDLDefrostZone const SDLDefrostZoneFront;
 
 /**
- * @abstract A SDLDefrostZone with the value of *REAR*
+ * A SDLDefrostZone with the value of *REAR*
  */
 extern SDLDefrostZone const SDLDefrostZoneRear;
 
 /**
- * @abstract A SDLDefrostZone with the value of *All*
+ * A SDLDefrostZone with the value of *All*
  */
 extern SDLDefrostZone const SDLDefrostZoneAll;
 
 /**
- * @abstract A SDLDefrostZone with the value of *None*
+ * A SDLDefrostZone with the value of *None*
  */
 extern SDLDefrostZone const SDLDefrostZoneNone;
