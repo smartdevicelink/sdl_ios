@@ -17,6 +17,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ A soft button wrapper object that is capable of storing and switching between states
+ */
 @interface SDLSoftButtonObject : NSObject
 
 /**
@@ -70,6 +73,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)transitionToStateNamed:(NSString *)stateName NS_SWIFT_NAME(transition(toState:));
 
+/**
+ Transition the soft button to the next state of the array set when in the `states` property
+ */
 - (void)transitionToNextState;
 
 /**

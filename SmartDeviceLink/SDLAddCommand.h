@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, copy, nonatomic) SDLRPCCommandNotificationHandler handler;
 
 /**
- * @abstract A Unique Command ID that identifies the command
+ * A Unique Command ID that identifies the command
  *
  * @discussion Is returned in an *SDLOnCommand* notification to identify the command selected by the user
  *
@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSNumber<SDLInt> *cmdID;
 
 /**
- * @abstract a *SDLMenuParams* pointer which will defined the command and how it is added to the Command Menu
+ * a *SDLMenuParams* pointer which will defined the command and how it is added to the Command Menu
  *
  * @discussion  If provided, this will define the command and how it is added to the
  * Command Menu
@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLMenuParams *menuParams;
 
 /**
- * @abstract An array of strings to be used as VR synonyms for this command.
+ * An array of strings to be used as VR synonyms for this command.
  *
  * @discussion If provided, defines one or more VR phrases the recognition of any of which triggers the *SDLOnCommand* notification with this cmdID
  *
@@ -93,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<NSString *> *vrCommands;
 
 /**
- * @abstract Image struct containing a static or dynamic icon
+ * Image struct containing a static or dynamic icon
  *
  * @discussion If provided, defines the image to be be shown along with a command
  * 

@@ -17,26 +17,28 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLButtonCapabilities : SDLRPCStruct
 
 /**
- * @abstract The name of the SDL HMI button.
+ * The name of the SDL HMI button.
+
+ Required
  */
 @property (strong, nonatomic) SDLButtonName name;
 
 /**
- * @abstract A NSNumber value indicates whether the button supports a SHORT press
+ * A NSNumber value indicates whether the button supports a SHORT press
  *
  * Required, Boolean
  */
 @property (strong, nonatomic) NSNumber<SDLBool> *shortPressAvailable;
 
 /**
- * @abstract A NSNumber value indicates whether the button supports a LONG press
+ * A NSNumber value indicates whether the button supports a LONG press
  *
  * Required, Boolean
  */
 @property (strong, nonatomic) NSNumber<SDLBool> *longPressAvailable;
 
 /**
- * @abstract A NSNumber value indicates whether the button supports "button down" and "button up"
+ * A NSNumber value indicates whether the button supports "button down" and "button up"
  *
  * Required, Boolean
  */

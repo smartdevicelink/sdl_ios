@@ -24,13 +24,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithECUName:(UInt16)ecuNumber didLocation:(NSArray<NSNumber<SDLUInt> *> *)didLocation;
 
 /**
- * @abstract An ID of the vehicle module
+ * An ID of the vehicle module
  *            <br/><b>Notes: </b>Minvalue:0; Maxvalue:65535
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *ecuName;
 
 /**
- * @abstract Raw data from vehicle data DID location(s)
+ * Raw data from vehicle data DID location(s)
  *            <br/>a Vector<Integer> value representing raw data from vehicle
  *            data DID location(s)
  *            <p>

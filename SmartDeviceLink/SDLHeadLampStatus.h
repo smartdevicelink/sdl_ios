@@ -6,23 +6,31 @@
 #import "SDLAmbientLightStatus.h"
 
 
-/**
- * Status of the head lamps
- */
-
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Vehicle data struct for status of head lamps
+ */
 @interface SDLHeadLampStatus : SDLRPCStruct
 
 /**
- * @abstract A boolean value. Status of the low beam lamps.
+ Low beams are on or off.
+
+ Required, boolean
  */
 @property (strong, nonatomic) NSNumber<SDLBool> *lowBeamsOn;
 /**
- * @abstract A boolean value. Status of the high beam lamps.
+ High beams are on or off
+
+ Required, boolean
  */
 @property (strong, nonatomic) NSNumber<SDLBool> *highBeamsOn;
 
+/**
+ Status of the ambient light senser
+
+ Optional
+ */
 @property (nullable, strong, nonatomic) SDLAmbientLightStatus ambientLightSensorStatus;
 
 @end

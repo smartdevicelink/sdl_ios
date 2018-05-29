@@ -11,13 +11,15 @@
 
 <h3>Overview</h3>
 
-<pre class="highlight objective_c"><code><span class="n">To</span> <span class="n">help</span> <span class="n">prevent</span> <span class="n">driver</span> <span class="n">distraction</span><span class="p">,</span> <span class="n">any</span> <span class="n">SmartDeviceLink</span> <span class="n">application</span> <span class="n">is</span> <span class="n">required</span> <span class="n">to</span> <span class="n">implement</span> <span class="n">a</span> <span class="n">lockscreen</span> <span class="n">that</span> <span class="n">must</span> <span class="n">be</span> <span class="n">enforced</span> <span class="k">while</span> <span class="n">the</span> <span class="n">application</span> <span class="n">is</span> <span class="n">active</span> <span class="n">on</span> <span class="n">the</span> <span class="n">system</span> <span class="k">while</span> <span class="n">the</span> <span class="n">vehicle</span> <span class="n">is</span> <span class="k">in</span> <span class="n">motion</span><span class="p">.</span>
+<p>To help prevent driver distraction, any SmartDeviceLink application is required to implement a lockscreen that must be enforced while the application is active on the system while the vehicle is in motion.</p>
 
-<span class="n">This</span> <span class="n">lockscreen</span> <span class="n">must</span> <span class="n">perform</span> <span class="n">the</span> <span class="n">following</span><span class="o">:</span>
-<span class="n">Limit</span> <span class="n">all</span> <span class="n">application</span> <span class="n">control</span> <span class="n">usability</span> <span class="n">from</span> <span class="n">the</span> <span class="n">mobile</span> <span class="n">device</span> <span class="n">with</span> <span class="n">a</span> <span class="n">full</span><span class="o">-</span><span class="n">screen</span> <span class="k">static</span> <span class="n">image</span> <span class="n">overlay</span> <span class="n">or</span> <span class="n">separate</span> <span class="n">view</span><span class="p">.</span>
-<span class="n">For</span> <span class="n">simplicity</span><span class="p">,</span> <span class="n">the</span> <span class="n">OnLockScreenStatus</span> <span class="n">RPC</span> <span class="n">will</span> <span class="n">be</span> <span class="n">provided</span> <span class="n">via</span> <span class="n">the</span> <span class="n">onOnLockScreenNotification</span> <span class="n">call</span> <span class="n">back</span><span class="p">.</span> <span class="n">The</span> <span class="n">call</span> <span class="n">back</span> <span class="n">will</span> <span class="n">include</span> <span class="n">the</span> <span class="n">LockScreenStatus</span> <span class="k">enum</span> <span class="n">which</span> <span class="n">indicates</span> <span class="k">if</span> <span class="n">the</span> <span class="n">lockscreen</span> <span class="n">is</span> <span class="n">required</span><span class="p">,</span> <span class="n">optional</span> <span class="n">or</span> <span class="n">not</span> <span class="n">required</span><span class="p">.</span>
-<span class="n">The</span> <span class="n">call</span> <span class="n">back</span> <span class="n">also</span> <span class="n">includes</span> <span class="n">details</span> <span class="n">regarding</span> <span class="n">the</span> <span class="n">current</span> <span class="n">HMI_Status</span> <span class="n">level</span><span class="p">,</span> <span class="n">driver</span> <span class="n">distraction</span> <span class="n">status</span> <span class="n">and</span> <span class="n">user</span> <span class="n">selection</span> <span class="n">status</span> <span class="n">of</span> <span class="n">the</span> <span class="n">application</span><span class="p">.</span>
-</code></pre>
+<p>This lockscreen must perform the following:</p>
+
+<p>Limit all application control usability from the mobile device with a full-screen static image overlay or separate view.</p>
+
+<p>For simplicity, the <code>OnLockScreenStatus</code> RPC will be provided via the <code>onOnLockScreenNotification</code> call back. The call back will include the LockScreenStatus enum which indicates if the lockscreen is required, optional or not required.</p>
+
+<p>The call back also includes details regarding the current HMI_Status level, driver distraction status and user selection status of the application.</p>
 
 
 <section class="section task-group-section">
@@ -39,10 +41,6 @@
 
   
   
-  <div>
-    <h4>Return Value</h4>
-    <p>String</p>
-  </div>
   
   <h3 id="section-userSelected">
       userSelected
@@ -62,16 +60,12 @@
 
   
   
-  <div>
-    <h4>Return Value</h4>
-    <p>Boolean the current user selection status</p>
-  </div>
   
   <h3 id="section-lockScreenStatus">
       lockScreenStatus
   </h3>
   
-  <p>Get the {@linkplain LockScreenStatus} enumeration, indicating if the lockscreen should be required, optional or off </p>
+  <p>Indicates if the lockscreen should be required, optional or off</p>
 
   
   
@@ -85,10 +79,6 @@
 
   
   
-  <div>
-    <h4>Return Value</h4>
-    <p>{@linkplain LockScreenStatus}</p>
-  </div>
   
   <h3 id="section-hmiLevel">
       hmiLevel
@@ -107,9 +97,5 @@
 
   
   
-  <div>
-    <h4>Return Value</h4>
-    <p>{@linkplain HMILevel} the current HMI Level in effect for the application</p>
-  </div>
   
 </section>

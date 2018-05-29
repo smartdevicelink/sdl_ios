@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithId:(UInt32)commandId;
 
 /**
- * @abstract the Command ID that identifies the Command to be deleted from Command Menu
+ * the Command ID that identifies the Command to be deleted from Command Menu
  * @discussion an NSNumber value representing Command ID
  *            <p>
  *            <b>Notes: </b>Min Value: 0; Max Value: 2000000000

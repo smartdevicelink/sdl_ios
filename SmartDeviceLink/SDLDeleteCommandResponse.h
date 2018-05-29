@@ -5,9 +5,9 @@
 #import "SDLRPCResponse.h"
 
 /**
- * SDLDeleteCommandResponse is sent, when SDLDeleteCommand has been called
- *
- * Since <b>SmartDeviceLink 1.0</b><br>
+ Response to SDLDeleteCommand
+ 
+ Since SmartDeviceLink 1.0
  */
 
 NS_ASSUME_NONNULL_BEGIN

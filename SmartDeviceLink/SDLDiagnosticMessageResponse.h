@@ -4,14 +4,20 @@
 
 #import "SDLRPCResponse.h"
 
-/** SDLDiagnosticMessageResponse is sent, when SDLDiagnosticMessage has been called.
- * Since<b>SmartDeviceLink 3.0</b>
- */
-
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Response to SDLDiagnosticMessage
+
+ Since SmartDeviceLink 3.0
+ */
 @interface SDLDiagnosticMessageResponse : SDLRPCResponse
 
+/**
+ Array of bytes comprising CAN message result.
+
+ Required
+ */
 @property (strong, nonatomic) NSArray<NSNumber<SDLInt> *> *messageDataResult;
 
 @end

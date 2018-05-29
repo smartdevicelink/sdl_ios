@@ -16,7 +16,10 @@
   <li><a href="#section-textField3Type">textField3Type</a></li>
   <li><a href="#section-textField4Type">textField4Type</a></li>
   <li><a href="#section-softButtonObjects">softButtonObjects</a></li>
+  <li><a href="#section-menu">menu</a></li>
+  <li><a href="#section-voiceCommands">voiceCommands</a></li>
   <li><a href="#section--initWithConnectionManager:fileManager:">-initWithConnectionManager:fileManager:</a></li>
+  <li><a href="#section--stop">-stop</a></li>
   <li><a href="#section--beginUpdates">-beginUpdates</a></li>
   <li><a href="#section--endUpdatesWithCompletionHandler:">-endUpdatesWithCompletionHandler:</a></li>
   <li><a href="#section--softButtonObjectNamed:">-softButtonObjectNamed:</a></li>
@@ -32,12 +35,12 @@
       textField1
   </h3>
   
-  <p>Undocumented</p>
+  <p>The top text field within a template layout</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">textField1</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">textField1</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -50,12 +53,12 @@
       textField2
   </h3>
   
-  <p>Undocumented</p>
+  <p>The second text field within a template layout</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">textField2</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">textField2</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -68,12 +71,12 @@
       textField3
   </h3>
   
-  <p>Undocumented</p>
+  <p>The third text field within a template layout</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">textField3</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">textField3</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -86,12 +89,12 @@
       textField4
   </h3>
   
-  <p>Undocumented</p>
+  <p>The fourth text field within a template layout</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">textField4</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">textField4</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -104,12 +107,12 @@
       mediaTrackTextField
   </h3>
   
-  <p>Undocumented</p>
+  <p>The media text field available within the media layout. Often less emphasized than textField(1-4)</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">mediaTrackTextField</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">mediaTrackTextField</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -122,12 +125,12 @@
       primaryGraphic
   </h3>
   
-  <p>Undocumented</p>
+  <p>The primary graphic within a template layout</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="n">primaryGraphic</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="n">primaryGraphic</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -140,12 +143,12 @@
       secondaryGraphic
   </h3>
   
-  <p>Undocumented</p>
+  <p>A secondary graphic used in some template layouts</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="n">secondaryGraphic</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="n">secondaryGraphic</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -158,12 +161,12 @@
       textAlignment
   </h3>
   
-  <p>Undocumented</p>
+  <p>What alignment textField(1-4) should use</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span> <span class="n">textAlignment</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLTextAlignment.h@T@SDLTextAlignment">SDLTextAlignment</a></span> <span class="n">_Nonnull</span> <span class="n">textAlignment</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -176,12 +179,12 @@
       textField1Type
   </h3>
   
-  <p>Undocumented</p>
+  <p>The type of data textField1 describes</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField1Type</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField1Type</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -194,12 +197,12 @@
       textField2Type
   </h3>
   
-  <p>Undocumented</p>
+  <p>The type of data textField2 describes</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField2Type</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField2Type</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -212,12 +215,12 @@
       textField3Type
   </h3>
   
-  <p>Undocumented</p>
+  <p>The type of data textField3 describes</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField3Type</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField3Type</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -230,12 +233,12 @@
       textField4Type
   </h3>
   
-  <p>Undocumented</p>
+  <p>The type of data textField4 describes</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField4Type</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField4Type</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -248,12 +251,13 @@
       softButtonObjects
   </h3>
   
-  <p>Undocumented</p>
+  <p>The current list of soft buttons within a template layout. Set this array to change the displayed soft buttons.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">softButtonObjects</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">softButtonObjects</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -262,18 +266,97 @@
   
   
   
-  <h3 id="section--initWithConnectionManager:fileManager:">
-      -initWithConnectionManager:fileManager:
+  <h3 id="section-menu">
+      menu
   </h3>
   
-  <p>Undocumented</p>
+  <p>The current list of menu cells displayed in the app&rsquo;s menu.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithConnectionManager</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">SDLConnectionManagerType</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">connectionManager</span> <span class="nf">fileManager</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLFileManager.html">SDLFileManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManager</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLMenuCell.html">SDLMenuCell</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">menu</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">menu</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLMenuCell.html">SDLMenuCell</a></span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-voiceCommands">
+      voiceCommands
+  </h3>
+  
+  <p>The current list of voice commands available for the user to speak and be recognized by the IVI&rsquo;s voice recognition engine.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLVoiceCommand.html">SDLVoiceCommand</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">voiceCommands</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">voiceCommands</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLVoiceCommand.html">SDLVoiceCommand</a></span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithConnectionManager:fileManager:">
+      -initWithConnectionManager:fileManager:
+  </h3>
+  
+  <p>Initialize a screen manager</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>For internal use</p>
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+<span class="nf">initWithConnectionManager</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n">SDLConnectionManagerType</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">connectionManager</span>
+              <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLFileManager.html">SDLFileManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManager</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>connectionManager</dt>
+      <dd><p>The connection manager used to send RPCs</p></dd>
+      <dt>fileManager</dt>
+      <dd><p>The file manager used to upload files</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The screen manager</p>
+  </div>
+  
+  <h3 id="section--stop">
+      -stop
+  </h3>
+  
+  <p>Stops the manager.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    For internal use
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stop</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span></code></pre>
+
   
   
   
@@ -335,12 +418,13 @@
       -softButtonObjectNamed:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Find a current soft button object with a specific name</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">softButtonObjectNamed</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">softButtonObjectNamed</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -348,5 +432,14 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>name</dt>
+      <dd><p>The name of the soft button object to find</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The soft button object or nil if there isn&rsquo;t one with that name</p>
+  </div>
   
 </section>

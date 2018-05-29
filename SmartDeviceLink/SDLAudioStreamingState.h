@@ -12,18 +12,18 @@
 typedef SDLEnum SDLAudioStreamingState SDL_SWIFT_ENUM;
 
 /**
- * @abstract Currently streaming audio, if any, is audible to user.
+ * Currently streaming audio, if any, is audible to user.
  */
 extern SDLAudioStreamingState const SDLAudioStreamingStateAudible;
 
 /**
- * @abstract Some kind of audio mixing is taking place. Currently streaming audio, if any, is audible to the user at a lowered volume.
+ * Some kind of audio mixing is taking place. Currently streaming audio, if any, is audible to the user at a lowered volume.
  *
  * @since SDL 2.0
  */
 extern SDLAudioStreamingState const SDLAudioStreamingStateAttenuated;
 
 /**
- * @abstract Currently streaming audio, if any, is not audible to user. made via VR session.
+ * Currently streaming audio, if any, is not audible to user. made via VR session.
  */
 extern SDLAudioStreamingState const SDLAudioStreamingStateNotAudible;

@@ -8,19 +8,24 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ A touch which occurred on the IVI system during projection
+ */
 @interface SDLTouchEvent : SDLRPCStruct
 
 /**
  A touch's unique identifier.  The application can track the current touch events by id.
+
  If a touch event has type begin, the id should be added to the set of touches.
+
  If a touch event has type end, the id should be removed from the set of touches.
  
- Mandatory, 0-9
+ Required, 0-9
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *touchEventId;
 
 /**
- The time that the touch was recorded.  This number can the time since the beginning of the session or something else as long as the units are in milliseconds.
+ The time that the touch was recorded. This number can the time since the beginning of the session or something else as long as the units are in milliseconds.
  
  The timestamp is used to determined the rate of change of position of a touch.
  
@@ -28,12 +33,14 @@ NS_ASSUME_NONNULL_BEGIN
  
  If there is only a single timestamp in this array, it is the same for every coordinate in the coordinates array.
  
- Mandatory, array size 1-1000, contains <NSNumber> size 0-5000000000
+ Required, array size 1-1000, contains integer value 0-2000000000
  */
 @property (strong, nonatomic) NSArray<NSNumber<SDLInt> *> *timeStamp;
 
 /**
- *  Mandatory, array size 1-1000, contains SDLTouchCoord
+ The touch's coordinate
+
+ Required, array size 1-1000
  */
 @property (strong, nonatomic) NSArray<SDLTouchCoord *> *coord;
 

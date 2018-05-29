@@ -9,16 +9,13 @@
   <li><a href="#section-SDLFileManagerError">SDLFileManagerError</a></li>
   <li><a href="#section-SDLTextAndGraphicManagerError">SDLTextAndGraphicManagerError</a></li>
   <li><a href="#section-SDLSoftButtonManagerError">SDLSoftButtonManagerError</a></li>
+  <li><a href="#section-SDLMenuManagerError">SDLMenuManagerError</a></li>
   <li><a href="#section-SDLLogBytesDirection">SDLLogBytesDirection</a></li>
   <li><a href="#section-SDLLogFlag">SDLLogFlag</a></li>
   <li><a href="#section-SDLLogLevel">SDLLogLevel</a></li>
   <li><a href="#section-SDLLogFormatType">SDLLogFormatType</a></li>
   <li><a href="#section-SDLPermissionGroupType">SDLPermissionGroupType</a></li>
   <li><a href="#section-SDLPermissionGroupStatus">SDLPermissionGroupStatus</a></li>
-  <li><a href="#section-SDLProtocolError">SDLProtocolError</a></li>
-  <li><a href="#section-SDLFrameType">SDLFrameType</a></li>
-  <li><a href="#section-SDLServiceType">SDLServiceType</a></li>
-  <li><a href="#section-SDLFrameInfo">SDLFrameInfo</a></li>
   <li><a href="#section-SDLRPCMessageType">SDLRPCMessageType</a></li>
   <li><a href="#section-SDLCarWindowRenderingType">SDLCarWindowRenderingType</a></li>
   <li><a href="#section-SDLStreamingEncryptionFlag">SDLStreamingEncryptionFlag</a></li>
@@ -116,15 +113,17 @@
       SDLTextAndGraphicManagerError
   </h3>
   
-  <p>Undocumented</p>
+  <p>Errors associated with the ScreenManager class</p>
+
+<ul>
+<li>SDLTextAndGraphicManagerErrorPendingUpdateSuperseded: A pending update was superseded by a newer requested update. The old update will not be sent</li>
+</ul>
 
   <a href="Enums/SDLTextAndGraphicManagerError.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">,</span> <span class="n">SDLTextAndGraphicManagerError</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">SDLTextAndGraphicManagerErrorPendingUpdateSuperseded</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<span class="p">}</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLTextAndGraphicManagerError</span> <span class="p">{}</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -137,19 +136,44 @@
       SDLSoftButtonManagerError
   </h3>
   
-  <p>Undocumented</p>
+  <p>Errors associated with the ScreenManager class</p>
+
+<ul>
+<li>SDLSoftButtonManagerErrorPendingUpdateSuperseded: A pending update was superseded by a newer requested update. The old update will not be sent</li>
+</ul>
 
   <a href="Enums/SDLSoftButtonManagerError.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">,</span> <span class="n">SDLSoftButtonManagerError</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">SDLSoftButtonManagerErrorPendingUpdateSuperseded</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<span class="p">}</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLSoftButtonManagerError</span> <span class="p">{}</span></code></pre>
 
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLSoftButtonManagerError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLMenuManagerError">
+      SDLMenuManagerError
+  </h3>
+  
+  <p>Errors associated with the ScreenManager class</p>
+
+<ul>
+<li>SDLMenuManagerErrorRPCsFailed: Sending menu-related RPCs returned an error from the remote system</li>
+</ul>
+
+  <a href="Enums/SDLMenuManagerError.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLMenuManagerError</span> <span class="p">{}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLMenuManagerError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
 
   
   
@@ -293,126 +317,23 @@
   
   
   
-  <h3 id="section-SDLProtocolError">
-      SDLProtocolError
-  </h3>
-  
-  <p>Undocumented</p>
-
-  <a href="Enums/SDLProtocolError.html" class="slightly-smaller">See more</a>
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">,</span> <span class="n">SDLProtocolError</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">SDLProtocolErrorNoSecurityManager</span><span class="p">,</span>
-<span class="p">}</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLProtocolError</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
-
-  
-  
-  
-  <h3 id="section-SDLFrameType">
-      SDLFrameType
-  </h3>
-  
-  <p>Undocumented</p>
-
-  <a href="Enums/SDLFrameType.html" class="slightly-smaller">See more</a>
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">UInt8</span><span class="p">,</span> <span class="n">SDLFrameType</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">SDLFrameTypeControl</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">,</span>
-    <span class="n">SDLFrameTypeSingle</span> <span class="o">=</span> <span class="mh">0x01</span><span class="p">,</span>
-    <span class="n">SDLFrameTypeFirst</span> <span class="o">=</span> <span class="mh">0x02</span><span class="p">,</span>
-    <span class="n">SDLFrameTypeConsecutive</span> <span class="o">=</span> <span class="mh">0x03</span>
-<span class="p">}</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLFrameType</span> <span class="p">:</span> <span class="kt">UInt8</span></code></pre>
-
-  
-  
-  
-  <h3 id="section-SDLServiceType">
-      SDLServiceType
-  </h3>
-  
-  <p>Undocumented</p>
-
-  <a href="Enums/SDLServiceType.html" class="slightly-smaller">See more</a>
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">UInt8</span><span class="p">,</span> <span class="n">SDLServiceType</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">SDLServiceTypeControl</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">,</span>
-    <span class="n">SDLServiceTypeRPC</span> <span class="n">NS_SWIFT_NAME</span><span class="p">(</span><span class="n">rpc</span><span class="p">)</span> <span class="o">=</span> <span class="mh">0x07</span><span class="p">,</span>
-    <span class="n">SDLServiceTypeAudio</span> <span class="o">=</span> <span class="mh">0x0A</span><span class="p">,</span>
-    <span class="n">SDLServiceTypeVideo</span> <span class="o">=</span> <span class="mh">0x0B</span><span class="p">,</span>
-    <span class="n">SDLServiceTypeBulkData</span> <span class="o">=</span> <span class="mh">0x0F</span>
-<span class="p">}</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLServiceType</span> <span class="p">:</span> <span class="kt">UInt8</span></code></pre>
-
-  
-  
-  
-  <h3 id="section-SDLFrameInfo">
-      SDLFrameInfo
-  </h3>
-  
-  <p>Undocumented</p>
-
-  <a href="Enums/SDLFrameInfo.html" class="slightly-smaller">See more</a>
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">UInt8</span><span class="p">,</span> <span class="n">SDLFrameInfo</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">SDLFrameInfoHeartbeat</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">,</span>
-    <span class="n">SDLFrameInfoStartService</span> <span class="o">=</span> <span class="mh">0x01</span><span class="p">,</span>
-    <span class="n">SDLFrameInfoStartServiceACK</span> <span class="o">=</span> <span class="mh">0x02</span><span class="p">,</span>
-    <span class="n">SDLFrameInfoStartServiceNACK</span> <span class="o">=</span> <span class="mh">0x03</span><span class="p">,</span>
-    <span class="n">SDLFrameInfoEndService</span> <span class="o">=</span> <span class="mh">0x04</span><span class="p">,</span>
-    <span class="n">SDLFrameInfoEndServiceACK</span> <span class="o">=</span> <span class="mh">0x05</span><span class="p">,</span>
-    <span class="n">SDLFrameInfoEndServiceNACK</span> <span class="o">=</span> <span class="mh">0x06</span><span class="p">,</span>
-    <span class="n">SDLFrameInfoServiceDataAck</span> <span class="o">=</span> <span class="mh">0xFE</span><span class="p">,</span>
-    <span class="n">SDLFrameInfoHeartbeatACK</span> <span class="o">=</span> <span class="mh">0xFF</span><span class="p">,</span>
-    <span class="c1">// If frameType == Single (0x01)</span>
-    <span class="n">SDLFrameInfoSingleFrame</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">,</span>
-    <span class="c1">// If frameType == First (0x02)</span>
-    <span class="n">SDLFrameInfoFirstFrame</span> <span class="o">=</span> <span class="mh">0x00</span><span class="p">,</span>
-    <span class="c1">// If frametype == Consecutive (0x03)</span>
-    <span class="n">SDLFrameInfoConsecutiveLastFrame</span> <span class="o">=</span> <span class="mh">0x00</span>
-<span class="p">}</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLFrameInfo</span> <span class="p">:</span> <span class="kt">UInt8</span></code></pre>
-
-  
-  
-  
   <h3 id="section-SDLRPCMessageType">
       SDLRPCMessageType
   </h3>
   
-  <p>Undocumented</p>
+  <p>The type of RPC message</p>
+
+<ul>
+<li>SDLRPCMessageTypeRequest: A request from the app to the IVI system</li>
+<li>SDLRPCMessageTypeResponse: A response from the IVI system to the app</li>
+<li>SDLRPCMessageTypeNotification: A notification from the IVI system to the app</li>
+</ul>
 
   <a href="Enums/SDLRPCMessageType.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">Byte</span><span class="p">,</span> <span class="n">SDLRPCMessageType</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">SDLRPCMessageTypeRequest</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">SDLRPCMessageTypeResponse</span><span class="p">,</span>
-    <span class="n">SDLRPCMessageTypeNotification</span>
-<span class="p">}</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLRPCMessageType</span> <span class="p">{}</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -425,17 +346,19 @@
       SDLCarWindowRenderingType
   </h3>
   
-  <p>Undocumented</p>
+  <p>The type of rendering that CarWindow will perform. Depending on your app, you may need to try different ones for best performance</p>
+
+<ul>
+<li>SDLCarWindowRenderingTypeLayer: Instead of rendering your UIViewController&rsquo;s view, this will render the layer using <code>renderInContext</code></li>
+<li>SDLCarWindowRenderingTypeViewAfterScreenUpdates: Renders your UIViewController&rsquo;s view using <code>drawViewHierarchyInRect:bounds afterScreenUpdates:YES</code></li>
+<li>SDLCarWindowRenderingTypeViewBeforeScreenUpdates: Renders your UIViewController&rsquo;s view using <code>drawViewHierarchyInRect:bounds afterScreenUpdates:NO</code></li>
+</ul>
 
   <a href="Enums/SDLCarWindowRenderingType.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">,</span> <span class="n">SDLCarWindowRenderingType</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">SDLCarWindowRenderingTypeLayer</span><span class="p">,</span>
-    <span class="n">SDLCarWindowRenderingTypeViewAfterScreenUpdates</span><span class="p">,</span>
-    <span class="n">SDLCarWindowRenderingTypeViewBeforeScreenUpdates</span>
-<span class="p">}</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLCarWindowRenderingType</span> <span class="p">{}</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -448,17 +371,19 @@
       SDLStreamingEncryptionFlag
   </h3>
   
-  <p>Undocumented</p>
+  <p>A flag determining how video and audio streaming should be encrypted</p>
+
+<ul>
+<li>SDLStreamingEncryptionFlagNone: It should not be encrypted at all</li>
+<li>SDLStreamingEncryptionFlagAuthenticateOnly: It should use SSL/TLS only to authenticate</li>
+<li>SDLStreamingEncryptionFlagAuthenticateAndEncrypt: All data on these services should be encrypted using SSL/TLS</li>
+</ul>
 
   <a href="Enums/SDLStreamingEncryptionFlag.html" class="slightly-smaller">See more</a>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">,</span> <span class="n">SDLStreamingEncryptionFlag</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">SDLStreamingEncryptionFlagNone</span><span class="p">,</span>
-    <span class="n">SDLStreamingEncryptionFlagAuthenticateOnly</span><span class="p">,</span>
-    <span class="n">SDLStreamingEncryptionFlagAuthenticateAndEncrypt</span>
-<span class="p">}</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLStreamingEncryptionFlag</span> <span class="p">{}</span></code></pre>
 
   
   <h4>Swift</h4>

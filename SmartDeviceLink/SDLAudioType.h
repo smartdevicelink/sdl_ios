@@ -10,7 +10,7 @@
 typedef SDLEnum SDLAudioType SDL_SWIFT_ENUM;
 
 /**
- * @abstract PCM raw audio
+ * PCM raw audio
  *
  * @since SDL 2.0
  */

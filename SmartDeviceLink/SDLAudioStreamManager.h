@@ -25,13 +25,36 @@ typedef NS_ENUM(NSInteger, SDLAudioStreamManagerError) {
 
 @interface SDLAudioStreamManager : NSObject
 
+/**
+ The delegate describing when files are done playing or any errors that occur
+ */
 @property (weak, nonatomic) id<SDLAudioStreamManagerDelegate> delegate;
 
+/**
+ Whether or not we are currently playing audio
+ */
 @property (assign, nonatomic, readonly, getter=isPlaying) BOOL playing;
+
+/**
+ The queue of audio files that will be played in sequence
+ */
 @property (copy, nonatomic, readonly) NSArray<SDLAudioFile *> *queue;
 
+/**
+ Init should only occur with dependencies. use `initWithManager:`
+
+ @return A failure
+ */
 - (instancetype)init NS_UNAVAILABLE;
 
+/**
+ Create an audio stream manager with a reference to the parent stream manager.
+
+ @warning For internal use
+
+ @param streamManager The parent stream manager
+ @return The audio stream manager
+ */
 - (instancetype)initWithManager:(id<SDLStreamingAudioManagerType>)streamManager NS_DESIGNATED_INITIALIZER;
 
 /**

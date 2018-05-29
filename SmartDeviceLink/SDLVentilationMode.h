@@ -4,25 +4,28 @@
 
 #import "SDLEnum.h"
 
+/**
+ The ventilation mode. Used in ClimateControlCapabilities
+ */
 typedef SDLEnum SDLVentilationMode SDL_SWIFT_ENUM;
 
 /**
- * @abstract A SDLDefrostZone with the value of *UPPER*
+ The upper ventilation mode
  */
 extern SDLVentilationMode const SDLVentilationModeUpper;
 
 /**
- * @abstract A SDLDefrostZone with the value of *LOWER*
+ The lower ventilation mode
  */
 extern SDLVentilationMode const SDLVentilationModeLower;
 
 /**
- * @abstract A SDLDefrostZone with the value of *BOTH*
+ The both ventilation mode
  */
 extern SDLVentilationMode const SDLVentilationModeBoth;
 
 /**
- * @abstract A SDLDefrostZone with the value of *NONE*
+ No ventilation mode
  */
 extern SDLVentilationMode const SDLVentilationModeNone;
 

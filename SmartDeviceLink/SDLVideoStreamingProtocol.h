@@ -6,31 +6,31 @@
 #import "SDLEnum.h"
 
 /**
- * Enum for each type of video streaming protocol
+ * Enum for each type of video streaming protocol, used in VideoStreamingFormat
  */
 typedef SDLEnum SDLVideoStreamingProtocol SDL_SWIFT_ENUM;
 
 /**
- * @abstract SDLVideoStreamingProtocol : RAW
+ * RAW
  */
 extern SDLVideoStreamingProtocol const SDLVideoStreamingProtocolRAW;
 
 /**
- * @abstract SDLVideoStreamingProtocol : RTP
+ * RTP
  */
 extern SDLVideoStreamingProtocol const SDLVideoStreamingProtocolRTP;
 
 /**
- * @abstract SDLVideoStreamingProtocol : RTSP
+ * RTSP
  */
 extern SDLVideoStreamingProtocol const SDLVideoStreamingProtocolRTSP;
 
 /**
- * @abstract SDLVideoStreamingProtocol : RTMP
+ * RTMP
  */
 extern SDLVideoStreamingProtocol const SDLVideoStreamingProtocolRTMP;
 
 /**
- * @abstract SDLVideoStreamingProtocol : WebM
+ * WebM
  */
 extern SDLVideoStreamingProtocol const SDLVideoStreamingProtocolWebM;

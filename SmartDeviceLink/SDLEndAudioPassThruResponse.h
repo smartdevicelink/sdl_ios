@@ -5,9 +5,9 @@
 #import "SDLRPCResponse.h"
 
 /**
- * SDLEndAudioPassThruResponse is sent, when SDLEndAudioPassThru has been called
- *
- * Since <b>SmartDeviceLink 2.0</b>
+ Response to SDLEndAudioPassThru
+
+ Since SmartDeviceLink 2.0
  */
 
 NS_ASSUME_NONNULL_BEGIN

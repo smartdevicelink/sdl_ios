@@ -54,17 +54,18 @@
   <li><a href="#section-SDLLockScreenStatus">SDLLockScreenStatus</a></li>
   <li><a href="#section-SDLLogFilterBlock">SDLLogFilterBlock</a></li>
   <li><a href="#section-SDLMaintenanceModeStatus">SDLMaintenanceModeStatus</a></li>
-  <li><a href="#section-SDLMultipleRequestCompletionHandler">SDLMultipleRequestCompletionHandler</a></li>
-  <li><a href="#section-SDLMultipleSequentialRequestProgressHandler">SDLMultipleSequentialRequestProgressHandler</a></li>
-  <li><a href="#section-SDLMultipleAsyncRequestProgressHandler">SDLMultipleAsyncRequestProgressHandler</a></li>
   <li><a href="#section-SDLManagerReadyBlock">SDLManagerReadyBlock</a></li>
   <li><a href="#section-SDLMediaClockFormat">SDLMediaClockFormat</a></li>
+  <li><a href="#section-SDLMenuCellSelectionHandler">SDLMenuCellSelectionHandler</a></li>
   <li><a href="#section-SDLMetadataType">SDLMetadataType</a></li>
   <li><a href="#section-SDLModuleType">SDLModuleType</a></li>
   <li><a href="#section-SDLNotificationName">SDLNotificationName</a></li>
   <li><a href="#section-SDLNotificationUserInfoKey">SDLNotificationUserInfoKey</a></li>
   <li><a href="#section-SDLAudioPassThruHandler">SDLAudioPassThruHandler</a></li>
   <li><a href="#section-SDLResponseHandler">SDLResponseHandler</a></li>
+  <li><a href="#section-SDLMultipleRequestCompletionHandler">SDLMultipleRequestCompletionHandler</a></li>
+  <li><a href="#section-SDLMultipleSequentialRequestProgressHandler">SDLMultipleSequentialRequestProgressHandler</a></li>
+  <li><a href="#section-SDLMultipleAsyncRequestProgressHandler">SDLMultipleAsyncRequestProgressHandler</a></li>
   <li><a href="#section-SDLRPCButtonNotificationHandler">SDLRPCButtonNotificationHandler</a></li>
   <li><a href="#section-SDLRPCCommandNotificationHandler">SDLRPCCommandNotificationHandler</a></li>
   <li><a href="#section-SDLPRNDL">SDLPRNDL</a></li>
@@ -86,6 +87,7 @@
   <li><a href="#section-SDLSoftButtonType">SDLSoftButtonType</a></li>
   <li><a href="#section-SDLSpeechCapabilities">SDLSpeechCapabilities</a></li>
   <li><a href="#section-SDLSystemAction">SDLSystemAction</a></li>
+  <li><a href="#section-SDLUpdateCapabilityHandler">SDLUpdateCapabilityHandler</a></li>
   <li><a href="#section-SDLSystemCapabilityType">SDLSystemCapabilityType</a></li>
   <li><a href="#section-SDLSystemContext">SDLSystemContext</a></li>
   <li><a href="#section-SDLTBTState">SDLTBTState</a></li>
@@ -107,6 +109,7 @@
   <li><a href="#section-SDLVentilationMode">SDLVentilationMode</a></li>
   <li><a href="#section-SDLVideoStreamingCodec">SDLVideoStreamingCodec</a></li>
   <li><a href="#section-SDLVideoStreamingProtocol">SDLVideoStreamingProtocol</a></li>
+  <li><a href="#section-SDLVoiceCommandSelectionHandler">SDLVoiceCommandSelectionHandler</a></li>
   <li><a href="#section-SDLVRCapabilities">SDLVRCapabilities</a></li>
   <li><a href="#section-SDLWarningLightStatus">SDLWarningLightStatus</a></li>
   <li><a href="#section-SDLWayPointType">SDLWayPointType</a></li>
@@ -123,8 +126,9 @@
       SDLAmbientLightStatus
   </h3>
   
-  <p>Reflects the status of the ambient light sensor
-@since SDL 3.0</p>
+  <p>Reflects the status of the ambient light sensor for headlamps</p>
+
+<p>@since SDL 3.0</p>
 
   
   
@@ -133,7 +137,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLAmbientLightStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLAmbientLightStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -153,7 +157,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLAppHMIType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLAppHMIType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -173,7 +177,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLAppInterfaceUnregisteredReason</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLAppInterfaceUnregisteredReason</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -193,7 +197,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLAudioStreamingState</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLAudioStreamingState</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -211,7 +215,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLAudioType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLAudioType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -231,7 +235,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLBitsPerSample</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLBitsPerSample</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -251,7 +255,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLButtonEventMode</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLButtonEventMode</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -260,19 +264,11 @@
       SDLButtonName
   </h3>
   
-  <p>Defines logical buttons which, on a given SDL unit, would correspond to
- either physical or soft (touchscreen) buttons. These logical buttons present
- a standard functional abstraction which the developer can rely upon,
- independent of the SDL unit. For example, the developer can rely upon the OK
- button having the same meaning to the user across SDL platforms.</p>
+  <p>Defines logical buttons which, on a given SDL unit, would correspond to either physical or soft (touchscreen) buttons. These logical buttons present a standard functional abstraction which the developer can rely upon, independent of the SDL unit. For example, the developer can rely upon the OK button having the same meaning to the user across SDL platforms.</p>
 
-<p>The preset buttons (0-9) can typically be interpreted by the application as
- corresponding to some user-configured choices, though the application is free
- to interpret these button presses as it sees fit.</p>
+<p>The preset buttons (0-9) can typically be interpreted by the application as corresponding to some user-configured choices, though the application is free to interpret these button presses as it sees fit.</p>
 
-<p>The application can discover which buttons a given SDL unit implements by
- interrogating the ButtonCapabilities parameter of the
- RegisterAppInterface response.</p>
+<p>The application can discover which buttons a given SDL unit implements by interrogating the ButtonCapabilities parameter of the RegisterAppInterface response.</p>
 
 <p>@since SDL 1.0</p>
 
@@ -283,7 +279,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLButtonName</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLButtonName</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -303,7 +299,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLButtonPressMode</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLButtonPressMode</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -312,11 +308,12 @@
       SDLCarModeStatus
   </h3>
   
-  <p>Describes the carmode the vehicle is in.</p>
+  <p>Describes the carmode the vehicle is in. Used in ClusterModeStatus</p>
+<div class="aside aside-since">
+    <p class="aside-title">Since</p>
+    Since SmartDeviceLink 2.0
 
-<ul>
-<li><b>Since</b> SmartDeviceLink 2.0</li>
-</ul>
+</div>
 
   
   
@@ -325,7 +322,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLCarModeStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLCarModeStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -334,7 +331,7 @@
       SDLCharacterSet
   </h3>
   
-  <p>Character sets supported by SDL.</p>
+  <p>Character sets supported by SDL. Used to describe text field capabilities.</p>
 
 <p>@since SDL 1.0</p>
 
@@ -345,7 +342,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLCharacterSet</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLCharacterSet</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -354,7 +351,7 @@
       SDLCompassDirection
   </h3>
   
-  <p>The list of potential compass directions.</p>
+  <p>The list of potential compass directions. Used in GPS data</p>
 
 <p>@since SDL 2.0</p>
 
@@ -365,7 +362,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLCompassDirection</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLCompassDirection</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -374,7 +371,7 @@
       SDLComponentVolumeStatus
   </h3>
   
-  <p>The volume status of a vehicle component.</p>
+  <p>The volume status of a vehicle component. Used in SingleTireStatus and VehicleData Fuel Level</p>
 
 <p>@since SDL 2.0</p>
 
@@ -385,7 +382,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLComponentVolumeStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLComponentVolumeStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -394,7 +391,7 @@
       SDLDefrostZone
   </h3>
   
-  <p>Enumeration listing possible defrost zones.</p>
+  <p>Enumeration listing possible defrost zones. Used in ClimateControlCapabilities and Data.</p>
 
 <p>@since SDL 2.0</p>
 
@@ -405,7 +402,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLDefrostZone</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLDefrostZone</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -414,7 +411,7 @@
       SDLDeliveryMode
   </h3>
   
-  <p>Specifies the mode in which the sendLocation request is sent.</p>
+  <p>Specifies the mode in which the sendLocation request is sent. Used in SendLocation.</p>
 
   
   
@@ -423,7 +420,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLDeliveryMode</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLDeliveryMode</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -432,7 +429,7 @@
       SDLDeviceLevelStatus
   </h3>
   
-  <p>Reflects the reported battery status of the connected device, if reported.</p>
+  <p>Reflects the reported battery status of the connected device, if reported. Used in DeviceStatus.</p>
 
 <p>@since SDL 2.0</p>
 
@@ -443,7 +440,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLDeviceLevelStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLDeviceLevelStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -452,7 +449,7 @@
       SDLDimension
   </h3>
   
-  <p>The supported dimensions of the GPS.</p>
+  <p>The supported dimensions of the GPS. Used in GPSData</p>
 
 <p>@since SDL 2.0</p>
 
@@ -463,7 +460,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLDimension</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLDimension</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -472,7 +469,12 @@
       SDLDisplayType
   </h3>
   
-  <p>Identifies the various display types used by SDL.</p>
+  <p>Identifies the various display types used by SDL. Used in DisplayCapabilities.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    This should not be used to identify features of a display, this is a deprecated parameter.
+
+</div>
 
 <p>@since SDL 1.0</p>
 
@@ -483,7 +485,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLDisplayType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLDisplayType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -492,7 +494,7 @@
       SDLDriverDistractionState
   </h3>
   
-  <p>Enumeration that describes possible states of driver distraction.</p>
+  <p>Enumeration that describes possible states of driver distraction. Used in OnDriverDistraction.</p>
 
 <p>@since SDL 1.0</p>
 
@@ -503,7 +505,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLDriverDistractionState</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLDriverDistractionState</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -512,9 +514,9 @@
       SDLECallConfirmationStatus
   </h3>
   
-  <p>Reflects the status of the eCall Notification.
- *<b>Since</b> SmartDeviceLink 2.0
- <p></p>
+  <p>Reflects the status of the eCall Notification. Used in ECallInfo</p>
+
+<p>Since SmartDeviceLink 2.0</p>
 
   
   
@@ -523,7 +525,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLECallConfirmationStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLECallConfirmationStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -532,9 +534,9 @@
       SDLEmergencyEventType
   </h3>
   
-  <p>Reflects the emergency event status of the vehicle.
- *<b> Since:</b> SmartDeviceLink 2.0
- *<p></p>
+  <p>Reflects the emergency event status of the vehicle. Used in EmergencyEvent</p>
+
+<p>Since SmartDeviceLink 2.0</p>
 
   
   
@@ -543,7 +545,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLEmergencyEventType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLEmergencyEventType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -561,7 +563,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLEnum</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLEnum</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -858,7 +860,7 @@
       SDLFileType
   </h3>
   
-  <p>Enumeration listing possible file types.</p>
+  <p>Enumeration listing possible file types. Used in SDLFile, PutFile, ImageField, OnSystemRequest</p>
 
 <p>@since SDL 2.0</p>
 
@@ -869,7 +871,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLFileType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLFileType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -878,8 +880,7 @@
       SDLFuelCutoffStatus
   </h3>
   
-  <p>Reflects the status of the Restraints Control Module fuel pump cutoff.
- The fuel pump is cut off typically after the vehicle has had a collision.</p>
+  <p>Reflects the status of the Restraints Control Module fuel pump cutoff. The fuel pump is cut off typically after the vehicle has had a collision. Used in EmergencyEvent.</p>
 
 <p>@since SDL 2.0</p>
 
@@ -890,7 +891,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLFuelCutoffStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLFuelCutoffStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -899,7 +900,7 @@
       SDLGlobalProperty
   </h3>
   
-  <p>Properties of a user-initiated VR interaction (i.e. interactions started by the user pressing the PTT button).</p>
+  <p>Properties of a user-initiated VR interaction (i.e. interactions started by the user pressing the PTT button). Used in RPCs related to ResetGlobalProperties</p>
 
 <p>@since SDL 1.0</p>
 
@@ -910,7 +911,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLGlobalProperty</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLGlobalProperty</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -919,7 +920,7 @@
       SDLHMILevel
   </h3>
   
-  <p>Specifies current level of the HMI. An HMI level indicates the degree of user interaction possible through the HMI (e.g. TTS only, display only, VR, etc.). The HMI level varies for an application based on the type of display (i.e. Nav or non-Nav) and the user directing <q>focus</q> to other applications (e.g. phone, other mobile applications, etc.)</p>
+  <p>Specifies current level of the HMI. An HMI level indicates the degree of user interaction possible through the HMI (e.g. TTS only, display only, VR, etc.). The HMI level varies for an application based on the type of display (i.e. Nav or non-Nav) and the user directing <q>focus</q> to other applications (e.g. phone, other mobile applications, etc.). Used in OnHMIStatus</p>
 
 <p>@since SDL 1.0</p>
 
@@ -930,7 +931,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLHMILevel</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLHMILevel</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -939,7 +940,7 @@
       SDLHMIZoneCapabilities
   </h3>
   
-  <p>Specifies HMI Zones in the vehicle.</p>
+  <p>Specifies HMI Zones in the vehicle. Used in RegisterAppInterfaceResponse</p>
 
 <p>@since SDL 1.0</p>
 
@@ -950,7 +951,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLHMIZoneCapabilities</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLHMIZoneCapabilities</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -959,7 +960,7 @@
       SDLIgnitionStableStatus
   </h3>
   
-  <p>Reflects the ignition switch stability.</p>
+  <p>Reflects the ignition switch stability. Used in BodyInformation</p>
 
 <p>@since SDL 2.0</p>
 
@@ -970,7 +971,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLIgnitionStableStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLIgnitionStableStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -979,7 +980,7 @@
       SDLIgnitionStatus
   </h3>
   
-  <p>Reflects the status of ignition..</p>
+  <p>Reflects the status of ignition. Used in BodyInformation.</p>
 
 <p>@since SDL 2.0</p>
 
@@ -990,7 +991,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLIgnitionStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLIgnitionStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -999,14 +1000,9 @@
       SDLImageFieldName
   </h3>
   
-  <p>The name that identifies the filed.
- *
- *</p>
+  <p>The name that identifies the filed. Used in DisplayCapabilities.</p>
 
-<ul>
-<li>@since SmartDeviceLink 3.0
-*</li>
-</ul>
+<p>@since SmartDeviceLink 3.0</p>
 
   
   
@@ -1015,7 +1011,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLImageFieldName</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLImageFieldName</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1024,7 +1020,7 @@
       SDLImageType
   </h3>
   
-  <p>Contains information about the type of image.</p>
+  <p>Contains information about the type of image. Used in Image.</p>
 
 <p>@since SDL 2.0</p>
 
@@ -1035,7 +1031,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLImageType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLImageType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1044,7 +1040,7 @@
       SDLInteractionMode
   </h3>
   
-  <p>For application-initiated interactions (SDLPerformInteraction), this specifies the mode by which the user is prompted and by which the user&rsquo;s selection is indicated</p>
+  <p>For application-initiated interactions (SDLPerformInteraction), this specifies the mode by which the user is prompted and by which the user&rsquo;s selection is indicated. Used in PerformInteraction.</p>
 
 <p>@since SDL 1.0</p>
 
@@ -1055,7 +1051,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLInteractionMode</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLInteractionMode</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1064,13 +1060,9 @@
       SDLKeyboardEvent
   </h3>
   
-  <p>Enumeration listing possible keyboard events.
- *</p>
+  <p>Enumeration listing possible keyboard events. Used in OnKeyboardInput.</p>
 
-<ul>
-<li>@since SmartDeviceLink 3.0
-*</li>
-</ul>
+<p>@since SmartDeviceLink 3.0</p>
 
   
   
@@ -1079,7 +1071,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLKeyboardEvent</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLKeyboardEvent</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1088,10 +1080,9 @@
       SDLKeyboardLayout
   </h3>
   
-  <p>Enumeration listing possible keyboard layouts
- *
- *<b>Since</b> SmartDeviceLink 3.0
- *</p>
+  <p>Enumeration listing possible keyboard layouts. Used in KeyboardProperties.</p>
+
+<p>Since SmartDeviceLink 3.0</p>
 
   
   
@@ -1100,7 +1091,7 @@
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLKeyboardLayout</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLKeyboardLayout</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1111,13 +1102,11 @@
   
   <p>Enumeration listing possible keyboard events.</p>
 
-<ul>
-<li><p></li>
-<li><b>Note:</b> Depending on keypressMode value (from keyboardProperties structure of UI.SetGlobalProperties),<br>HMI must send the onKeyboardInput notification with the following data:<br>
-SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
-<li>@since SmartDeviceLink 3.0
-*</li>
-</ul>
+<p>Note: Depending on keypressMode value (from keyboardProperties structure of UI.SetGlobalProperties), HMI must send the onKeyboardInput notification with the following data:</p>
+
+<p>SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</p>
+
+<p>@since SmartDeviceLink 3.0</p>
 
   
   
@@ -1126,7 +1115,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLKeypressMode</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLKeypressMode</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1135,7 +1124,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLLanguage
   </h3>
   
-  <p>Specifies the language to be used for TTS, VR, displayed messages/menus</p>
+  <p>Specifies the language to be used for TTS, VR, displayed messages/menus. Used in ChangeRegistration and RegisterAppInterface.</p>
 
 <p>@since SDL 1.0</p>
 
@@ -1146,7 +1135,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLLanguage</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLLanguage</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1155,7 +1144,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLLayoutMode
   </h3>
   
-  <p>For touchscreen interactions, the mode of how the choices are presented.</p>
+  <p>For touchscreen interactions, the mode of how the choices are presented. Used in PerformInteraction.</p>
 
 <p>@since SDL 3.0</p>
 
@@ -1166,7 +1155,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLLayoutMode</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLLayoutMode</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1175,7 +1164,9 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLLockScreenStatus
   </h3>
   
-  <p>Undocumented</p>
+  <p>Describes what the status of the lock screen should be</p>
+
+<p>Used in OnLockScreenStatus</p>
 
   
   
@@ -1184,7 +1175,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLLockScreenStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLLockScreenStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1220,7 +1211,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLMaintenanceModeStatus
   </h3>
   
-  <p>The SDLMaintenanceModeStatus class.</p>
+  <p>Describes the maintenence mode. Used in nothing.</p>
 
   
   
@@ -1229,99 +1220,10 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLMaintenanceModeStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLMaintenanceModeStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
-  
-  <h3 id="section-SDLMultipleRequestCompletionHandler">
-      SDLMultipleRequestCompletionHandler
-  </h3>
-  
-  <p>A completion handler called after a sequential or simultaneous set of requests have completed sending.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLMultipleRequestCompletionHandler</span><span class="p">)(</span><span class="n">BOOL</span><span class="p">)</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLMultipleRequestCompletionHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>success</dt>
-      <dd><p>True if every request succeeded, false if any failed. See the progress handler for more details on failures.</p></dd>
-  </dl>
-  
-  <h3 id="section-SDLMultipleSequentialRequestProgressHandler">
-      SDLMultipleSequentialRequestProgressHandler
-  </h3>
-  
-  <p>A handler called after each response to a request comes in in a multiple request send.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n">BOOL</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLMultipleSequentialRequestProgressHandler</span><span class="p">)(</span>
-    <span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">,</span> <span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
-    <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span> <span class="kt">float</span><span class="p">)</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLMultipleSequentialRequestProgressHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">,</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?,</span> <span class="kt">Float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>request</dt>
-      <dd><p>The request that received a response</p></dd>
-      <dt>response</dt>
-      <dd><p>The response received</p></dd>
-      <dt>error</dt>
-      <dd><p>The error that occurred during the request if any occurred.</p></dd>
-      <dt>percentComplete</dt>
-      <dd><p>The percentage of requests that have received a response</p></dd>
-  </dl>
-  <div>
-    <h4>Return Value</h4>
-    <p>continueSendingRequests NO to cancel any requests that have not yet been sent. This is really only useful for a sequential send (sendSequentialRequests:progressHandler:completionHandler:). Return YES to continue sending requests.</p>
-  </div>
-  
-  <h3 id="section-SDLMultipleAsyncRequestProgressHandler">
-      SDLMultipleAsyncRequestProgressHandler
-  </h3>
-  
-  <p>A handler called after each response to a request comes in in a multiple request send.</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLMultipleAsyncRequestProgressHandler</span><span class="p">)(</span>
-    <span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">,</span> <span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
-    <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span> <span class="kt">float</span><span class="p">)</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLMultipleAsyncRequestProgressHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">,</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?,</span> <span class="kt">Float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>request</dt>
-      <dd><p>The request that received a response</p></dd>
-      <dt>response</dt>
-      <dd><p>The response received</p></dd>
-      <dt>error</dt>
-      <dd><p>The error that occurred during the request if any occurred.</p></dd>
-      <dt>percentComplete</dt>
-      <dd><p>The percentage of requests that have received a response</p></dd>
-  </dl>
   
   <h3 id="section-SDLManagerReadyBlock">
       SDLManagerReadyBlock
@@ -1348,9 +1250,11 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
   <p>Indicates the format of the time displayed on the connected SDL unit.</p>
 
 <p>Format description follows the following nomenclature: <br>
- Sp = Space <br>
- | = or <br>
- c = character <br></p>
+Sp = Space <br>
+| = or <br>
+c = character <br></p>
+
+<p>Used in DisplayCapabilities</p>
 
 <p>@since SDL 1.0</p>
 
@@ -1361,7 +1265,25 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLMediaClockFormat</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLMediaClockFormat</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLMenuCellSelectionHandler">
+      SDLMenuCellSelectionHandler
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span><span class="p">(</span><span class="o">^</span><span class="n">SDLMenuCellSelectionHandler</span><span class="p">)(</span><span class="n"><a href="Type Definitions.html#/c:SDLTriggerSource.h@T@SDLTriggerSource">SDLTriggerSource</a></span> <span class="n">triggerSource</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLMenuCellSelectionHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Type Definitions.html#/c:SDLTriggerSource.h@T@SDLTriggerSource">SDLTriggerSource</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
 
   
   
@@ -1370,7 +1292,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLMetadataType
   </h3>
   
-  <p>Text Field Types</p>
+  <p>Text Field metadata types. Used in Show.</p>
 
   
   
@@ -1379,7 +1301,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLMetadataType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLMetadataType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1388,7 +1310,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLModuleType
   </h3>
   
-  <p>Undocumented</p>
+  <p>The type of remote control data. Used in ButtonPress, GetInteriorVehicleData, and ModuleData</p>
 
   
   
@@ -1397,7 +1319,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLModuleType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLModuleType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1490,6 +1412,95 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       <dd><p>If sending the request encountered an error, this parameter will not be nil.</p></dd>
   </dl>
   
+  <h3 id="section-SDLMultipleRequestCompletionHandler">
+      SDLMultipleRequestCompletionHandler
+  </h3>
+  
+  <p>A completion handler called after a sequential or simultaneous set of requests have completed sending.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLMultipleRequestCompletionHandler</span><span class="p">)(</span><span class="n">BOOL</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLMultipleRequestCompletionHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>success</dt>
+      <dd><p>True if every request succeeded, false if any failed. See the progress handler for more details on failures.</p></dd>
+  </dl>
+  
+  <h3 id="section-SDLMultipleSequentialRequestProgressHandler">
+      SDLMultipleSequentialRequestProgressHandler
+  </h3>
+  
+  <p>A handler called after each response to a request comes in in a multiple request send.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n">BOOL</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLMultipleSequentialRequestProgressHandler</span><span class="p">)(</span>
+    <span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">,</span> <span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+    <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span> <span class="kt">float</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLMultipleSequentialRequestProgressHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">,</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?,</span> <span class="kt">Float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>request</dt>
+      <dd><p>The request that received a response</p></dd>
+      <dt>response</dt>
+      <dd><p>The response received</p></dd>
+      <dt>error</dt>
+      <dd><p>The error that occurred during the request if any occurred.</p></dd>
+      <dt>percentComplete</dt>
+      <dd><p>The percentage of requests that have received a response</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>continueSendingRequests NO to cancel any requests that have not yet been sent. This is really only useful for a sequential send (sendSequentialRequests:progressHandler:completionHandler:). Return YES to continue sending requests.</p>
+  </div>
+  
+  <h3 id="section-SDLMultipleAsyncRequestProgressHandler">
+      SDLMultipleAsyncRequestProgressHandler
+  </h3>
+  
+  <p>A handler called after each response to a request comes in in a multiple request send.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLMultipleAsyncRequestProgressHandler</span><span class="p">)(</span>
+    <span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">,</span> <span class="n">__kindof</span> <span class="n"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+    <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span> <span class="kt">float</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLMultipleAsyncRequestProgressHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt"><a href="Classes/SDLRPCRequest.html">SDLRPCRequest</a></span><span class="p">,</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span><span class="p">?,</span> <span class="kt">Error</span><span class="p">?,</span> <span class="kt">Float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>request</dt>
+      <dd><p>The request that received a response</p></dd>
+      <dt>response</dt>
+      <dd><p>The response received</p></dd>
+      <dt>error</dt>
+      <dd><p>The error that occurred during the request if any occurred.</p></dd>
+      <dt>percentComplete</dt>
+      <dd><p>The percentage of requests that have received a response</p></dd>
+  </dl>
+  
   <h3 id="section-SDLRPCButtonNotificationHandler">
       SDLRPCButtonNotificationHandler
   </h3>
@@ -1558,7 +1569,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLPRNDL
   </h3>
   
-  <p>The selected gear the car is in.</p>
+  <p>The selected gear the car is in. Used in retrieving vehicle data.</p>
 
 <p>@since SDL 2.0</p>
 
@@ -1569,7 +1580,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLPRNDL</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLPRNDL</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1641,7 +1652,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLPermissionStatus
   </h3>
   
-  <p>Enumeration that describes possible permission states of a policy table entry.</p>
+  <p>Enumeration that describes possible permission states of a policy table entry. Used in nothing.</p>
 
 <p>@since SDL 2.0</p>
 
@@ -1652,7 +1663,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLPermissionStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLPermissionStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1661,7 +1672,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLPowerModeQualificationStatus
   </h3>
   
-  <p>Undocumented</p>
+  <p>Describes the power mode qualification status. Used in ClusterModeStatus.</p>
 
   
   
@@ -1670,7 +1681,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLPowerModeQualificationStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLPowerModeQualificationStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1679,7 +1690,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLPowerModeStatus
   </h3>
   
-  <p>Undocumented</p>
+  <p>The status of the car&rsquo;s power. Used in ClusterModeStatus.</p>
 
   
   
@@ -1688,7 +1699,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLPowerModeStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLPowerModeStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1697,7 +1708,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLPredefinedLayout
   </h3>
   
-  <p>Undocumented</p>
+  <p>A template layout an app uses to display information. The broad details of the layout are defined, but the details depend on the IVI system. Used in SetDisplayLayout.</p>
 
   
   
@@ -1706,7 +1717,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLPredefinedLayout</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLPredefinedLayout</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1715,7 +1726,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLPrerecordedSpeech
   </h3>
   
-  <p>Undocumented</p>
+  <p>Contains information about the speech capabilities on the SDL platform. Used in RegisterAppInterfaceResponse to indicate capability.</p>
 
   
   
@@ -1724,7 +1735,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLPrerecordedSpeech</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLPrerecordedSpeech</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1733,7 +1744,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLPrimaryAudioSource
   </h3>
   
-  <p>Reflects the current primary audio source of SDL (if selected).</p>
+  <p>Reflects the current primary audio source of SDL (if selected). Used in DeviceStatus.</p>
 
 <p>@since SDL 2.0</p>
 
@@ -1744,7 +1755,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLPrimaryAudioSource</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLPrimaryAudioSource</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1753,7 +1764,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLRadioBand
   </h3>
   
-  <p>Undocumented</p>
+  <p>Radio bands, such as AM and FM, used in RadioControlData</p>
 
   
   
@@ -1762,7 +1773,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLRadioBand</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLRadioBand</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1771,7 +1782,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLRadioState
   </h3>
   
-  <p>List possible states of a remote control radio module.</p>
+  <p>List possible states of a remote control radio module. Used in RadioControlData.</p>
 
   
   
@@ -1780,7 +1791,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLRadioState</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLRadioState</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1789,7 +1800,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLRequestType
   </h3>
   
-  <p>Undocumented</p>
+  <p>A type of system request. Used in SystemRequest.</p>
 
   
   
@@ -1798,7 +1809,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLRequestType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLRequestType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1807,7 +1818,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLResult
   </h3>
   
-  <p>Defines the possible result codes returned by SDL to the application in a response to a requested operation</p>
+  <p>Defines the possible result codes returned by SDL to the application in a response to a requested operation. Used in RPC responses</p>
 
 <p>@since SDL 1.0</p>
 
@@ -1818,7 +1829,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLResult</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLResult</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1827,7 +1838,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLSamplingRate
   </h3>
   
-  <p>Describes different sampling rates for PerformAudioPassThru</p>
+  <p>Describes different sampling rates for PerformAudioPassThru and AudioPassThruCapabilities</p>
 
 <p>@since SDL 2.0</p>
 
@@ -1838,7 +1849,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLSamplingRate</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLSamplingRate</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1870,7 +1881,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLSoftButtonType
   </h3>
   
-  <p>SoftButtonType (TEXT / IMAGE / BOTH)</p>
+  <p>SoftButtonType (TEXT / IMAGE / BOTH). Used by SoftButton.</p>
 
   
   
@@ -1879,7 +1890,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLSoftButtonType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLSoftButtonType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1897,7 +1908,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLSpeechCapabilities</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLSpeechCapabilities</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1906,7 +1917,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLSystemAction
   </h3>
   
-  <p>Enumeration that describes system actions that can be triggered.</p>
+  <p>Enumeration that describes system actions that can be triggered. Used in SoftButton.</p>
 
   
   
@@ -1915,16 +1926,42 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLSystemAction</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLSystemAction</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
+  
+  <h3 id="section-SDLUpdateCapabilityHandler">
+      SDLUpdateCapabilityHandler
+  </h3>
+  
+  <p>A completion handler called after a request for the capability type is returned from the remote system.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLUpdateCapabilityHandler</span><span class="p">)(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                           <span class="n"><a href="Classes/SDLSystemCapabilityManager.html">SDLSystemCapabilityManager</a></span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLUpdateCapabilityHandler</span> <span class="o">=</span> <span class="p">(</span><span class="kt">Error</span><span class="p">?,</span> <span class="kt"><a href="Classes/SDLSystemCapabilityManager.html">SDLSystemCapabilityManager</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>error</dt>
+      <dd><p>The error returned if the request for a capability type failed. The error is nil if the request was successful.</p></dd>
+      <dt>systemCapabilityManager</dt>
+      <dd><p>The system capability manager</p></dd>
+  </dl>
   
   <h3 id="section-SDLSystemCapabilityType">
       SDLSystemCapabilityType
   </h3>
   
-  <p>The type of system capability to get more information on</p>
+  <p>The type of system capability to get more information on. Used in GetSystemCapability.</p>
 
   
   
@@ -1933,7 +1970,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLSystemCapabilityType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLSystemCapabilityType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1942,7 +1979,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLSystemContext
   </h3>
   
-  <p>Indicates whether or not a user-initiated interaction is in progress, and if so, in what mode (i.e. MENU or VR).</p>
+  <p>Indicates whether or not a user-initiated interaction is in progress, and if so, in what mode (i.e. MENU or VR). Used in OnHMIStatus</p>
 
 <p>@since SDL 1.0</p>
 
@@ -1953,7 +1990,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLSystemContext</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLSystemContext</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1962,7 +1999,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLTBTState
   </h3>
   
-  <p>Undocumented</p>
+  <p>The turn-by-turn state, used in OnTBTClientState.</p>
 
   
   
@@ -1971,7 +2008,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLTBTState</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLTBTState</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1980,7 +2017,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLTemperatureUnit
   </h3>
   
-  <p>Undocumented</p>
+  <p>The unit of temperature to display. Used in Temperature.</p>
 
   
   
@@ -1989,7 +2026,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLTemperatureUnit</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLTemperatureUnit</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1998,7 +2035,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLTextAlignment
   </h3>
   
-  <p>The list of possible alignments of text in a field. May only work on some display types.</p>
+  <p>The list of possible alignments of text in a field. May only work on some display types. used in Show.</p>
 
 <p>@since SDL 1.0</p>
 
@@ -2009,7 +2046,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLTextAlignment</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLTextAlignment</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2018,7 +2055,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLTextFieldName
   </h3>
   
-  <p>Names of the text fields that can appear on a SDL display.</p>
+  <p>Names of the text fields that can appear on a SDL display. Used in TextFieldName.</p>
 
 <p>@since SDL 1.0</p>
 
@@ -2029,7 +2066,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLTextFieldName</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLTextFieldName</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2038,7 +2075,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLTimerMode
   </h3>
   
-  <p>Undocumented</p>
+  <p>The direction of a timer. Used in nothing.</p>
 
   
   
@@ -2047,7 +2084,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLTimerMode</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLTimerMode</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2093,7 +2130,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLTouchType
   </h3>
   
-  <p>Undocumented</p>
+  <p>The type of a touch in a projection application. Used in OnTouchEvent.</p>
 
   
   
@@ -2102,7 +2139,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLTouchType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLTouchType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2111,7 +2148,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLTriggerSource
   </h3>
   
-  <p>Indicates whether choice/command was selected via VR or via a menu selection (using SEEKRIGHT/SEEKLEFT, TUNEUP, TUNEDOWN, OK buttons)</p>
+  <p>Indicates whether choice/command was selected via VR or via a menu selection (using SEEKRIGHT/SEEKLEFT, TUNEUP, TUNEDOWN, OK buttons). Used in PerformInteractionResponse and OnCommand.</p>
 
 <p>@since SDL 1.0</p>
 
@@ -2122,7 +2159,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLTriggerSource</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLTriggerSource</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2131,7 +2168,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLUpdateMode
   </h3>
   
-  <p>Specifies what function should be performed on the media clock/counter</p>
+  <p>Specifies what function should be performed on the media clock/counter. Used in SetMediaClockTimer.</p>
 
 <p>@since SDL 1.0</p>
 
@@ -2142,7 +2179,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLUpdateMode</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLUpdateMode</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2151,7 +2188,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLVehicleDataActiveStatus
   </h3>
   
-  <p>Vehicle Data Activity Status</p>
+  <p>Vehicle Data Activity Status. Used in nothing.</p>
 
   
   
@@ -2160,7 +2197,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVehicleDataActiveStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVehicleDataActiveStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2169,7 +2206,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLVehicleDataEventStatus
   </h3>
   
-  <p>Reflects the status of a vehicle data event; e.g. a seat belt event status.</p>
+  <p>Reflects the status of a vehicle data event; e.g. a seat belt event status. Used in retrieving vehicle data.</p>
 
 <p>@since SDL 2.0</p>
 
@@ -2180,7 +2217,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVehicleDataEventStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVehicleDataEventStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2189,7 +2226,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLVehicleDataNotificationStatus
   </h3>
   
-  <p>Reflects the status of a vehicle data notification.</p>
+  <p>Reflects the status of a vehicle data notification. Used in ECallInfo</p>
 
 <p>@since SDL 2.0</p>
 
@@ -2200,7 +2237,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVehicleDataNotificationStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVehicleDataNotificationStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2209,7 +2246,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLVehicleDataResultCode
   </h3>
   
-  <p>Vehicle Data Result Code</p>
+  <p>Vehicle Data Result Code. Used in DIDResult.</p>
 
   
   
@@ -2218,7 +2255,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVehicleDataResultCode</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVehicleDataResultCode</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2227,7 +2264,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLVehicleDataStatus
   </h3>
   
-  <p>Reflects the status of a binary vehicle data item.</p>
+  <p>Reflects the status of a binary vehicle data item. Used in MyKey.</p>
 
 <p>@since SDL 2.0</p>
 
@@ -2238,7 +2275,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVehicleDataStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVehicleDataStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2247,7 +2284,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLVehicleDataType
   </h3>
   
-  <p>Defines the vehicle data types that can be published and/or subscribed to using SDLSubscribeVehicleData</p>
+  <p>Defines the vehicle data types that can be published and/or subscribed to using SDLSubscribeVehicleData. Used in VehicleDataResult</p>
 
   
   
@@ -2256,7 +2293,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVehicleDataType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVehicleDataType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2265,7 +2302,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLVentilationMode
   </h3>
   
-  <p>Undocumented</p>
+  <p>The ventilation mode. Used in ClimateControlCapabilities</p>
 
   
   
@@ -2274,7 +2311,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVentilationMode</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVentilationMode</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2283,7 +2320,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLVideoStreamingCodec
   </h3>
   
-  <p>Enum for each type of video streaming codec</p>
+  <p>Enum for each type of video streaming codec. Used in VideoStreamingFormat.</p>
 
   
   
@@ -2292,7 +2329,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVideoStreamingCodec</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVideoStreamingCodec</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2301,7 +2338,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLVideoStreamingProtocol
   </h3>
   
-  <p>Enum for each type of video streaming protocol</p>
+  <p>Enum for each type of video streaming protocol, used in VideoStreamingFormat</p>
 
   
   
@@ -2310,7 +2347,25 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVideoStreamingProtocol</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVideoStreamingProtocol</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLVoiceCommandSelectionHandler">
+      SDLVoiceCommandSelectionHandler
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span><span class="p">(</span><span class="o">^</span><span class="n">SDLVoiceCommandSelectionHandler</span><span class="p">)(</span><span class="kt">void</span><span class="p">)</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLVoiceCommandSelectionHandler</span> <span class="o">=</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
 
   
   
@@ -2319,7 +2374,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLVRCapabilities
   </h3>
   
-  <p>The VR capabilities of the connected SDL platform.</p>
+  <p>The VR capabilities of the connected SDL platform. Used in RegisterAppInterfaceResponse.</p>
 
 <p>@since SDL 1.0</p>
 
@@ -2330,7 +2385,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVRCapabilities</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLVRCapabilities</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2339,7 +2394,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLWarningLightStatus
   </h3>
   
-  <p>Reflects the status of a cluster instrument warning light.</p>
+  <p>Reflects the status of a cluster instrument warning light. Used in TireStatus</p>
 
 <p>@since SDL 2.0</p>
 
@@ -2350,7 +2405,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLWarningLightStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLWarningLightStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2359,7 +2414,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLWayPointType
   </h3>
   
-  <p>Undocumented</p>
+  <p>The type of a navigation waypoint. Used in GetWayPoints.</p>
 
   
   
@@ -2368,7 +2423,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLWayPointType</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLWayPointType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2377,7 +2432,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
       SDLWiperStatus
   </h3>
   
-  <p>Wiper Status</p>
+  <p>The status of the windshield wipers. Used in retrieving vehicle data.</p>
 
   
   
@@ -2386,7 +2441,7 @@ SINGLE_KEYPRESS,QUEUE_KEYPRESSES,RESEND_CURRENT_ENTRY.</li>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLWiperStatus</span> <span class="p">:</span> <span class="kt">RawRepresentable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="n">_ObjectiveCBridgeable</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLWiperStatus</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   

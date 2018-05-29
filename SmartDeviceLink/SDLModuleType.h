@@ -4,14 +4,17 @@
 
 #import "SDLEnum.h"
 
+/**
+ * The type of remote control data. Used in ButtonPress, GetInteriorVehicleData, and ModuleData
+ */
 typedef SDLEnum SDLModuleType SDL_SWIFT_ENUM;
 
 /**
- * @abstract A SDLModuleType with the value of *CLIMATE*
+ * A SDLModuleType with the value of *CLIMATE*
  */
 extern SDLModuleType const SDLModuleTypeClimate;
 
 /**
- * @abstract A SDLModuleType with the value of *RADIO*
+ * A SDLModuleType with the value of *RADIO*
  */
 extern SDLModuleType const SDLModuleTypeRadio;

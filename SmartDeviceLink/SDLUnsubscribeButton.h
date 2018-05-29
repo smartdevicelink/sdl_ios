@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithButtonName:(SDLButtonName)buttonName;
 
 /**
- * @abstract A name of the button to unsubscribe from
+ * A name of the button to unsubscribe from
  * @discussion An Enumeration value, see <i>
  *         SDLButtonName</i>
  */

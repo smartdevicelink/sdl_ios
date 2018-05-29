@@ -12,7 +12,7 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>A help item for voice commands, used locally in interaction lists and globally</p>
 
 
 <section class="section task-group-section">
@@ -56,12 +56,14 @@
       text
   </h3>
   
-  <p>Undocumented</p>
+  <p>Text to display for VR Help item</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">text</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">text</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -74,12 +76,14 @@
       image
   </h3>
   
-  <p>Undocumented</p>
+  <p>Image for VR Help item</p>
+
+<p>Optional</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="n">image</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="n">image</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -92,12 +96,14 @@
       position
   </h3>
   
-  <p>Undocumented</p>
+  <p>Position to display item in VR Help list</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">position</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">position</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

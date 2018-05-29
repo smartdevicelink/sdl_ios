@@ -88,14 +88,29 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
     SDLFileManagerErrorFileDataMissing = -9,
 };
 
+/**
+ Errors associated with the ScreenManager class
+
+ - SDLTextAndGraphicManagerErrorPendingUpdateSuperseded: A pending update was superseded by a newer requested update. The old update will not be sent
+ */
 typedef NS_ENUM(NSInteger, SDLTextAndGraphicManagerError) {
     SDLTextAndGraphicManagerErrorPendingUpdateSuperseded = -1
 };
 
+/**
+ Errors associated with the ScreenManager class
+
+ - SDLSoftButtonManagerErrorPendingUpdateSuperseded: A pending update was superseded by a newer requested update. The old update will not be sent
+ */
 typedef NS_ENUM(NSInteger, SDLSoftButtonManagerError) {
     SDLSoftButtonManagerErrorPendingUpdateSuperseded = -1
 };
 
+/**
+ Errors associated with the ScreenManager class
+
+ - SDLMenuManagerErrorRPCsFailed: Sending menu-related RPCs returned an error from the remote system
+ */
 typedef NS_ENUM(NSInteger, SDLMenuManagerError) {
     SDLMenuManagerErrorRPCsFailed = -1
 };
