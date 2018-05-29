@@ -175,6 +175,15 @@ SDLErrorDomain *const SDLErrorDomainMenuManager = @"com.sdl.menumanager.error";
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorFileDataMissing userInfo:userInfo];
 }
 
++ (NSError *)sdl_fileManager_fileTransferCorruptedError {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"The file transfer failed", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The data was corrupted during transfer", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Please try to send the data again", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorFileDataCorrupted userInfo:userInfo];
+}
+
 #pragma mark SDLUploadFileOperation
 
 + (NSError *)sdl_fileManager_fileDoesNotExistError {

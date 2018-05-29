@@ -68,6 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
     __block NSError *streamError = nil;
     __block NSUInteger bytesAvailable = 0;
     __block NSInteger highestCorrelationIDReceived = -1;
+    __block BOOL isDataCorrupted = NO;
 
     if (self.isCancelled) {
         [self finishOperation];
@@ -96,8 +97,10 @@ NS_ASSUME_NONNULL_BEGIN
         typeof(weakself) strongself = weakself;
 
         [weakself sdl_closeInputStream];
-        
-        if (streamError != nil || strongself.isCancelled) {
+
+        if (isDataCorrupted) {
+            completion(NO, bytesAvailable, [NSError sdl_fileManager_fileTransferCorruptedError]);
+        } else if (streamError != nil || strongself.isCancelled) {
             completion(NO, bytesAvailable, streamError);
         } else {
             completion(YES, bytesAvailable, nil);
@@ -123,6 +126,13 @@ NS_ASSUME_NONNULL_BEGIN
             // Check if the upload process has been cancelled by another packet. If so, stop the upload process.
             // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?
             if (strongself.isCancelled) {
+                dispatch_group_leave(putFileGroup);
+                BLOCK_RETURN;
+            }
+
+            if ([response.resultCode isEqualToEnum:SDLResultCorruptedData]) {
+                [strongself cancel];
+                isDataCorrupted = YES;
                 dispatch_group_leave(putFileGroup);
                 BLOCK_RETURN;
             }
