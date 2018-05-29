@@ -4,7 +4,7 @@
 
 #import "SDLEnum.h"
 
-/** The name that identifies the filed.
+/** The name that identifies the field.
  *
  *
  * @since SmartDeviceLink 3.0
@@ -42,7 +42,7 @@ extern SDLImageFieldName const SDLImageFieldNameTurnIcon;
  */
 extern SDLImageFieldName const SDLImageFieldNameMenuIcon;
 
-/** The image filed for AddCommand.
+/** The image field for AddCommand.
  *
  */
 extern SDLImageFieldName const SDLImageFieldNameCommandIcon;

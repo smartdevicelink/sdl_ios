@@ -291,6 +291,10 @@ private extension ProxyManager {
         })
     }
 
+    /// Checks if SDL Core's HMI current template supports the template image field (i.e. primary graphic, secondary graphic, etc.)
+    ///
+    /// - Parameter imageFieldName: The name for the image field
+    /// - Returns:                  True if the image field is supported, false if not
     func imageFieldSupported(imageFieldName: SDLImageFieldName) -> Bool {
         return sdlManager.systemCapabilityManager.displayCapabilities?.imageFields?.first { $0.name == imageFieldName } != nil ? true : false
     }

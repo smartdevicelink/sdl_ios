@@ -194,6 +194,12 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+/**
+ *  Checks if SDL Core's HMI current template supports the template image field (i.e. primary graphic, secondary graphic, etc.)
+ *
+ *  @param imageFieldName   The name for the image field
+ *  @return                 True if the image field is supported, false if not
+ */
 - (BOOL)sdlex_imageFieldSupported:(SDLImageFieldName)imageFieldName {
     for (SDLImageField *imageField in self.sdlManager.systemCapabilityManager.displayCapabilities.imageFields) {
         if ([imageField.name isEqualToString:imageFieldName]) {
@@ -202,12 +208,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
     return NO;
 }
-
-/*
- func imageFieldSupported(imageFieldName: SDLImageFieldName) -> Bool {
- return sdlManager.systemCapabilityManager.displayCapabilities?.imageFields?.first { $0.name == imageFieldName } != nil ? true : false
- }
- */
 
 #pragma mark - SDLManagerDelegate
 
