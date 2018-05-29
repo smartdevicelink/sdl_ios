@@ -40,6 +40,10 @@
 }
 
 - (BOOL)hasImageFieldOfName:(SDLImageFieldName)name {
+    if (!self.graphicSupported.boolValue) {
+        return NO;
+    }
+
     for (SDLImageField *imageField in self.imageFields) {
         if ([imageField.name isEqualToString:name]) {
             return YES;

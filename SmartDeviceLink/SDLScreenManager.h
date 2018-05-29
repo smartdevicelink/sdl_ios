@@ -13,6 +13,8 @@
 
 @class SDLArtwork;
 @class SDLFileManager;
+@class SDLMenuCell;
+@class SDLVoiceCommand;
 @class SDLSoftButtonObject;
 
 @protocol SDLConnectionManagerType;
@@ -28,23 +30,98 @@ typedef void(^SDLScreenManagerUpdateCompletionHandler)(NSError *__nullable error
 
 @interface SDLScreenManager : NSObject
 
+/**
+ The top text field within a template layout
+ */
 @property (copy, nonatomic, nullable) NSString *textField1;
+
+/**
+ The second text field within a template layout
+ */
 @property (copy, nonatomic, nullable) NSString *textField2;
+
+/**
+ The third text field within a template layout
+ */
 @property (copy, nonatomic, nullable) NSString *textField3;
+
+/**
+ The fourth text field within a template layout
+ */
 @property (copy, nonatomic, nullable) NSString *textField4;
+
+/**
+ The media text field available within the media layout. Often less emphasized than textField(1-4)
+ */
 @property (copy, nonatomic, nullable) NSString *mediaTrackTextField;
+
+/**
+ The primary graphic within a template layout
+ */
 @property (strong, nonatomic, nullable) SDLArtwork *primaryGraphic;
+
+/**
+ A secondary graphic used in some template layouts
+ */
 @property (strong, nonatomic, nullable) SDLArtwork *secondaryGraphic;
 
+/**
+ What alignment textField(1-4) should use
+ */
 @property (copy, nonatomic) SDLTextAlignment textAlignment;
+
+/**
+ The type of data textField1 describes
+ */
 @property (copy, nonatomic, nullable) SDLMetadataType textField1Type;
+
+/**
+ The type of data textField2 describes
+ */
 @property (copy, nonatomic, nullable) SDLMetadataType textField2Type;
+
+/**
+ The type of data textField3 describes
+ */
 @property (copy, nonatomic, nullable) SDLMetadataType textField3Type;
+
+/**
+ The type of data textField4 describes
+ */
 @property (copy, nonatomic, nullable) SDLMetadataType textField4Type;
 
+/**
+ The current list of soft buttons within a template layout. Set this array to change the displayed soft buttons.
+ */
 @property (copy, nonatomic) NSArray<SDLSoftButtonObject *> *softButtonObjects;
 
+/**
+ The current list of menu cells displayed in the app's menu.
+ */
+@property (copy, nonatomic) NSArray<SDLMenuCell *> *menu;
+
+/**
+ The current list of voice commands available for the user to speak and be recognized by the IVI's voice recognition engine.
+ */
+@property (copy, nonatomic) NSArray<SDLVoiceCommand *> *voiceCommands;
+
+/**
+ Initialize a screen manager
+
+ @warning For internal use
+
+ @param connectionManager The connection manager used to send RPCs
+ @param fileManager The file manager used to upload files
+ @return The screen manager
+ */
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
+
+/**
+ Stops the manager.
+
+ @warning For internal use
+ */
+- (void)stop;
 
 /**
  Delays all screen updates until endUpdatesWithCompletionHandler: is called.
@@ -70,6 +147,12 @@ typedef void(^SDLScreenManagerUpdateCompletionHandler)(NSError *__nullable error
  */
 - (void)endUpdatesWithCompletionHandler:(nullable SDLScreenManagerUpdateCompletionHandler)handler;
 
+/**
+ Find a current soft button object with a specific name
+
+ @param name The name of the soft button object to find
+ @return The soft button object or nil if there isn't one with that name
+ */
 - (nullable SDLSoftButtonObject *)softButtonObjectNamed:(NSString *)name;
 
 @end

@@ -6,6 +6,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Response to SyncPData
+
+ DEPRECATED
+ */
 @interface SDLSyncPDataResponse : SDLRPCResponse
 
 @end

@@ -5,9 +5,9 @@
 #import "SDLRPCResponse.h"
 
 /**
- * Scrollable Message Response is sent, when SDLScrollableMessage has been called
- *
- * Since SmartDeviceLink 2.0
+ Response to SDLScrollableMessage
+
+ Since SmartDeviceLink 2.0
  */
 
 NS_ASSUME_NONNULL_BEGIN

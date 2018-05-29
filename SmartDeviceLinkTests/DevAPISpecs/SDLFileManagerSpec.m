@@ -62,11 +62,14 @@ describe(@"SDLFileManager", ^{
     describe(@"after receiving a start message", ^{
         __block BOOL startupSuccess = NO;
         __block NSError *startupError = nil;
+        __block BOOL completionHandlerCalled = NO;
 
         beforeEach(^{
+            completionHandlerCalled = NO;
             [testFileManager startWithCompletionHandler:^(BOOL success, NSError * _Nullable error) {
                 startupSuccess = success;
                 startupError = error;
+                completionHandlerCalled = YES;
             }];
 
             testFileManager.suspended = NO;
@@ -101,6 +104,7 @@ describe(@"SDLFileManager", ^{
 
             it(@"should remain in the stopped state after receiving the response if disconnected", ^{
                 expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateShutdown));
+                expect(@(completionHandlerCalled)).toEventually(equal(@YES));
             });
         });
 

@@ -10,7 +10,7 @@
 
 <h3>Overview</h3>
 
-<p>Status of the head lamps</p>
+<p>Vehicle data struct for status of head lamps</p>
 
 
 <section class="section task-group-section">
@@ -18,7 +18,9 @@
       lowBeamsOn
   </h3>
   
-  <p>@abstract A boolean value. Status of the low beam lamps.</p>
+  <p>Low beams are on or off.</p>
+
+<p>Required, boolean</p>
 
   
   
@@ -36,7 +38,9 @@
       highBeamsOn
   </h3>
   
-  <p>@abstract A boolean value. Status of the high beam lamps.</p>
+  <p>High beams are on or off</p>
+
+<p>Required, boolean</p>
 
   
   
@@ -54,12 +58,15 @@
       ambientLightSensorStatus
   </h3>
   
-  <p>Undocumented</p>
+  <p>Status of the ambient light senser</p>
+
+<p>Optional</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLAmbientLightStatus.h@T@SDLAmbientLightStatus">SDLAmbientLightStatus</a></span> <span class="n">ambientLightSensorStatus</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLAmbientLightStatus.h@T@SDLAmbientLightStatus">SDLAmbientLightStatus</a></span> <span class="n">ambientLightSensorStatus</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

@@ -30,7 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic) SDLLogLevel logLevel;
 
-
 /**
  This method is unavailable and may not be used.
 
@@ -65,7 +64,6 @@ NS_ASSUME_NONNULL_BEGIN
  @return An initialized `SDLLogFileModule`
  */
 + (instancetype)moduleWithName:(NSString *)name files:(NSSet<NSString *> *)files;
-
 
 /**
  Returns whether or not this module contains a given file.

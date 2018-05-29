@@ -55,7 +55,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)stop {
-    // Nothing to do here right now
+    _permissions = [NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> dictionary];
+    _filters = [NSMutableArray<SDLPermissionFilter *> array];
+    _currentHMILevel = nil;
 }
 
 

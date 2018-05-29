@@ -4,12 +4,13 @@
 
 #import "SDLRPCResponse.h"
 
-/** SDLShowConstantTBTResponse is sent, when SDLShowConstantTBT has been called.
- * Since<b>SmartDeviceLink 2.0</b>
- */
-
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Response to SDLShowConstantTBT
+
+ Since SmartDeviceLink 2.0
+ */
 @interface SDLShowConstantTBTResponse : SDLRPCResponse
 
 @end

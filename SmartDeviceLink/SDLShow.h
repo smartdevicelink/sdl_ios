@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithMainField1:(nullable NSString *)mainField1 mainField2:(nullable NSString *)mainField2 mainField3:(nullable NSString *)mainField3 mainField4:(nullable NSString *)mainField4 alignment:(nullable SDLTextAlignment)alignment statusBar:(nullable NSString *)statusBar mediaClock:(nullable NSString *)mediaClock mediaTrack:(nullable NSString *)mediaTrack graphic:(nullable SDLImage *)graphic softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons customPresets:(nullable NSArray<NSString *> *)customPresets textFieldMetadata:(nullable SDLMetadataTags *)metadata;
 
 /**
- * @abstract The text displayed in a single-line display, or in the upper display
+ * The text displayed in a single-line display, or in the upper display
  * line in a two-line display
  * @discussion The String value representing the text displayed in a
  *            single-line display, or in the upper display line in a
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) NSString *mainField1;
 /**
- * @abstract The text displayed on the second display line of a two-line display
+ * The text displayed on the second display line of a two-line display
  *
  * @discussion The String value representing the text displayed on the second
  *            display line of a two-line display
@@ -85,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) NSString *mainField2;
 /**
- * @abstract The text displayed on the first display line of the second page
+ * The text displayed on the first display line of the second page
  *
  * @discussion The String value representing the text displayed on the first
  *            display line of the second page
@@ -104,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) NSString *mainField3;
 /**
- * @abstract The text displayed on the second display line of the second page
+ * The text displayed on the second display line of the second page
  *
  * @discussion The String value representing the text displayed on the second
  *            display line of the second page
@@ -123,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) NSString *mainField4;
 /**
- * @abstract The alignment that Specifies how mainField1 and mainField2 text
+ * The alignment that Specifies how mainField1 and mainField2 text
  * should be aligned on display
  *
  * @discussion An Enumeration value
@@ -139,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) SDLTextAlignment alignment;
 /**
- * @abstract Text in the Status Bar
+ * Text in the Status Bar
  *
  * @discussion A String representing the text you want to add in the Status
  *            Bar
@@ -157,7 +157,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) NSString *statusBar;
 /**
- * @abstract This property is deprecated use SetMediaClockTimer instead.
+ * This property is deprecated use SetMediaClockTimer instead.
  * <p> The value for the MediaClock field using a format described in the
  * MediaClockFormat enumeration
  *
@@ -174,7 +174,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) NSString *mediaClock;
 /**
- * @abstract The text in the track field
+ * The text in the track field
  *
  * @discussion A String value disaplayed in the track field
  *            <p>
@@ -187,7 +187,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) NSString *mediaTrack;
 /**
- * @abstract An image to be shown on supported displays
+ * An image to be shown on supported displays
  *
  * @discussion The value representing the image shown on supported displays
  *            <p>
@@ -197,7 +197,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) SDLImage *graphic;
 /**
- * @abstract An image to be shown on supported displays
+ * An image to be shown on supported displays
  *
  * @discussion The value representing the image shown on supported displays
  *            <p>
@@ -207,7 +207,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) SDLImage *secondaryGraphic;
 /**
- * @abstract The the Soft buttons defined by the App
+ * The the Soft buttons defined by the App
  *
  * @discussion A Vector value represemting the Soft buttons defined by the
  *            App
@@ -224,10 +224,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) NSArray<SDLSoftButton *> *softButtons;
 /**
- * @abstract The Custom Presets defined by the App
+ * The Custom Presets defined by the App
  *
- * @discussion A Vector value representing the Custom Presets defined by the
- *            App
+ * @discussion A Vector value representing the Custom Presets defined by the App
  *            <p>
  *            <ul>
  *            <li>If omitted on supported displays, the presets will be shown as not defined</li>
@@ -239,15 +238,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSArray<NSString *> *customPresets;
 
 /**
- * @abstract Text Field Metadata
- *
- * @discussion A Vector value representing the Custom Presets defined by the
- *            App
- *            <p>
- *            App defined metadata information. See MetadataStruct. Uses mainField1, mainField2, mainField3, mainField4.
- *            If omitted on supported displays, the currently set metadata tags will not change.
- *            If any text field contains no tags or the none tag, the metadata tag for that textfield should be removed.
- * @since SmartDeviceLink 2.0
+ Text Field Metadata
+
+ App defined metadata information. See MetadataStruct. Uses mainField1, mainField2, mainField3, mainField4. If omitted on supported displays, the currently set metadata tags will not change. If any text field contains no tags or the none tag, the metadata tag for that textfield should be removed.
+
+ @since SmartDeviceLink 2.0
  */
 @property (strong, nonatomic, nullable) SDLMetadataTags *metadataTags;
 

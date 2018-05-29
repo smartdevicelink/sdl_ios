@@ -10,18 +10,23 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Extended capabilities for an onboard navigation system
+ */
 @interface SDLNavigationCapability : SDLRPCStruct
 
 - (instancetype)initWithSendLocation:(BOOL)sendLocationEnabled waypoints:(BOOL)waypointsEnabled;
 
 /**
  Whether or not the SendLocation RPC is enabled.
+
  Boolean, optional
  */
 @property (nullable, copy, nonatomic) NSNumber *sendLocationEnabled;
 
 /**
  Whether or not Waypoint related RPCs are enabled.
+
  Boolean, optional
  */
 @property (nullable, copy, nonatomic) NSNumber *getWayPointsEnabled;

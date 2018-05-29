@@ -9,8 +9,9 @@
 #import "SDLRPCResponse.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
 /**
- * SDLSendHapticDataResponse is sent when SDLSendHapticData has been called
+ Response to SDLSendHapticData
  */
 @interface SDLSendHapticDataResponse : SDLRPCResponse
 

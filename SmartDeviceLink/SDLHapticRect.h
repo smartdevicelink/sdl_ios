@@ -15,18 +15,24 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Defines spatial for each user control object for video streaming application
+ Defines spatial for each user control object for video streaming application
  */
 @interface SDLHapticRect : SDLRPCStruct
 
 - (instancetype)initWithId:(UInt32)id rect:(SDLRectangle *)rect;
 
 /**
- *  A user control spatial identifier
- *  Required, Integer, 0 - 2,000,000,000
+ A user control spatial identifier
+
+ Required, Integer, 0 - 2,000,000,000
  */
 @property (strong, nonatomic) NSNumber<SDLUInt> *id;
 
+/**
+ The position of the haptic rectangle to be highlighted. The center of this rectangle will be "touched" when a press occurs.
+
+ Required
+ */
 @property (strong, nonatomic) SDLRectangle *rect;
 
 @end

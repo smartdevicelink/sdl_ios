@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- * @abstract A display layout. Predefined or dynamically created screen layout.
+ * A display layout. Predefined or dynamically created screen layout.
  * Currently only predefined screen layouts are defined. Predefined layouts
  * include: "ONSCREEN_PRESETS" Custom screen containing app-defined onscreen
  * presets. Currently defined for GEN2

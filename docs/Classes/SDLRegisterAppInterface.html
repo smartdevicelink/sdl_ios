@@ -5,9 +5,7 @@
 <ul>
   <li><a href="#section--initWithLifecycleConfiguration:">-initWithLifecycleConfiguration:</a></li>
   <li><a href="#section--initWithAppName:appId:languageDesired:">-initWithAppName:appId:languageDesired:</a></li>
-  <li><a href="#section--initWithAppName:appId:languageDesired:isMediaApp:appType:shortAppName:">-initWithAppName:appId:languageDesired:isMediaApp:appType:shortAppName:</a></li>
   <li><a href="#section--initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:">-initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:</a></li>
-  <li><a href="#section--initWithAppName:appId:languageDesired:isMediaApp:appType:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:">-initWithAppName:appId:languageDesired:isMediaApp:appType:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:</a></li>
   <li><a href="#section--initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:">-initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:</a></li>
   <li><a href="#section-syncMsgVersion">syncMsgVersion</a></li>
   <li><a href="#section-appName">appName</a></li>
@@ -137,24 +135,6 @@
   
   
   
-  <h3 id="section--initWithAppName:appId:languageDesired:isMediaApp:appType:shortAppName:">
-      -initWithAppName:appId:languageDesired:isMediaApp:appType:shortAppName:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span> <span class="nf">appId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span> <span class="nf">languageDesired</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">languageDesired</span> <span class="nf">isMediaApp</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">isMediaApp</span> <span class="nf">appType</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="p">)</span><span class="nv">appType</span> <span class="nf">shortAppName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">shortAppName</span> <span class="n">__deprecated_msg</span><span class="p">((</span><span class="s">"use initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:"</span><span class="p">));</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">languageDesired</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">,</span> <span class="nv">isMediaApp</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">appType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="p">,</span> <span class="nv">shortAppName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
-
-  
-  
-  
   <h3 id="section--initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:">
       -initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:
   </h3>
@@ -169,24 +149,6 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">languageDesired</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">,</span> <span class="nv">isMediaApp</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">appTypes</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Type Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="p">],</span> <span class="nv">shortAppName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
-
-  
-  
-  
-  <h3 id="section--initWithAppName:appId:languageDesired:isMediaApp:appType:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:">
-      -initWithAppName:appId:languageDesired:isMediaApp:appType:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appName</span> <span class="nf">appId</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span> <span class="nf">languageDesired</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">languageDesired</span> <span class="nf">isMediaApp</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">isMediaApp</span> <span class="nf">appType</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="p">)</span><span class="nv">appType</span> <span class="nf">shortAppName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">shortAppName</span> <span class="nf">ttsName</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsName</span> <span class="nf">vrSynonyms</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">vrSynonyms</span> <span class="nf">hmiDisplayLanguageDesired</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">hmiDisplayLanguageDesired</span> <span class="nf">resumeHash</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">resumeHash</span> <span class="n">__deprecated_msg</span><span class="p">((</span><span class="s">"use initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:"</span><span class="p">));</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">appName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">languageDesired</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">,</span> <span class="nv">isMediaApp</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">appType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAppHMIType.h@T@SDLAppHMIType">SDLAppHMIType</a></span><span class="p">,</span> <span class="nv">shortAppName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">ttsName</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?,</span> <span class="nv">vrSynonyms</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">hmiDisplayLanguageDesired</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">,</span> <span class="nv">resumeHash</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
 
   
   
@@ -213,7 +175,7 @@
       syncMsgVersion
   </h3>
   
-  <p>@abstract The version of the SDL interface</p>
+  <p>The version of the SDL interface</p>
 
 <p>Required</p>
 
@@ -234,7 +196,7 @@
       appName
   </h3>
   
-  <p>@abstract The Mobile Application&rsquo;s Name, This name is displayed in the SDL Mobile Applications menu. It also serves as the unique identifier of the application for SmartDeviceLink</p>
+  <p>The Mobile Application&rsquo;s Name, This name is displayed in the SDL Mobile Applications menu. It also serves as the unique identifier of the application for SmartDeviceLink</p>
 
 <p>@discussion 
  <li>Needs to be unique over all applications.</li>
@@ -261,7 +223,7 @@
       ttsName
   </h3>
   
-  <p>@abstract TTS string for VR recognition of the mobile application name.</p>
+  <p>TTS string for VR recognition of the mobile application name.</p>
 
 <p>@discussion Meant to overcome any failing on speech engine in properly pronouncing / understanding app name.
  <li>Needs to be unique over all applications.</li>
@@ -294,7 +256,7 @@
       ngnMediaScreenAppName
   </h3>
   
-  <p>@abstract A String representing an abbreviated version of the mobile application&rsquo;s name (if necessary) that will be displayed on the media screen</p>
+  <p>A String representing an abbreviated version of the mobile application&rsquo;s name (if necessary) that will be displayed on the media screen</p>
 
 <p>@discussion If not provided, the appName is used instead (and will be truncated if too long)</p>
 
@@ -317,7 +279,7 @@
       vrSynonyms
   </h3>
   
-  <p>@abstract Defines a additional voice recognition commands</p>
+  <p>Defines a additional voice recognition commands</p>
 
 <p>@discussion May not interfere with any app name of previously registered applications and any predefined blacklist of words (global commands)</p>
 
@@ -340,7 +302,7 @@
       isMediaApplication
   </h3>
   
-  <p>@abstract Indicates if the application is a media or a non-media application.</p>
+  <p>Indicates if the application is a media or a non-media application.</p>
 
 <p>@discussion Only media applications will be able to stream audio to head units that is audible outside of the BT media source.</p>
 
@@ -363,7 +325,7 @@
       languageDesired
   </h3>
   
-  <p>@abstract A Language enumeration indicating what language the application intends to use for user interaction (TTS and VR).</p>
+  <p>A Language enumeration indicating what language the application intends to use for user interaction (TTS and VR).</p>
 
 <p>@discussion If there is a mismatch with the head unit, the app will be able to change this registration with changeRegistration prior to app being brought into focus.</p>
 
@@ -385,7 +347,7 @@
       hmiDisplayLanguageDesired
   </h3>
   
-  <p>@abstract An enumeration indicating what language the application intends to use for user interaction (Display).</p>
+  <p>An enumeration indicating what language the application intends to use for user interaction (Display).</p>
 
 <p>@discussion If there is a mismatch with the head unit, the app will be able to change this registration with changeRegistration prior to app being brought into focus.</p>
 
@@ -410,7 +372,7 @@
       appHMIType
   </h3>
   
-  <p>@abstract A list of all applicable app types stating which classifications to be given to the app.</p>
+  <p>A list of all applicable app types stating which classifications to be given to the app.</p>
 
 <p>Optional, Array of SDLAppHMIType, Array size 1 - 100</p>
 
@@ -438,7 +400,7 @@
       hashID
   </h3>
   
-  <p>@abstract ID used to uniquely identify current state of all app data that can persist through connection cycles (e.g. ignition cycles).</p>
+  <p>ID used to uniquely identify current state of all app data that can persist through connection cycles (e.g. ignition cycles).</p>
 
 <p>@discussion This registered data (commands, submenus, choice sets, etc.) can be reestablished without needing to explicitly reregister each piece. If omitted, then the previous state of an app&rsquo;s commands, etc. will not be restored. </p>
 
@@ -462,7 +424,7 @@
       deviceInfo
   </h3>
   
-  <p>@abstract Information about the connecting device</p>
+  <p>Information about the connecting device</p>
 
 <p>Optional</p>
 
@@ -482,7 +444,7 @@
       appID
   </h3>
   
-  <p>@abstract ID used to validate app with policy table entries</p>
+  <p>ID used to validate app with policy table entries</p>
 
 <p>Required, max length 100</p>
 
@@ -504,7 +466,7 @@
       appInfo
   </h3>
   
-  <p>@abstract Information about the application running</p>
+  <p>Information about the application running</p>
 
 <p>Optional</p>
 

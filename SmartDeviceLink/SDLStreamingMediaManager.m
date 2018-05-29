@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)startWithProtocol:(SDLAbstractProtocol *)protocol {
+- (void)startWithProtocol:(SDLProtocol *)protocol {
     [self.lifecycleManager startWithProtocol:protocol];
 }
 

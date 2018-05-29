@@ -25,7 +25,7 @@
 
 <h3>Overview</h3>
 
-<p>@abstract Register AppInterface Response is sent, when SDLRegisterAppInterface has been called</p>
+<p>Response to SDLRegisterAppInterface</p>
 
 <p>Since SmartDeviceLink 1.0</p>
 
@@ -35,11 +35,7 @@
       syncMsgVersion
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLSyncMsgVersion
-
-</div>
+  <p>The RPC spec version supported by the connected IVI system.</p>
 
 <p>Optional</p>
 
@@ -60,12 +56,7 @@
       language
   </h3>
   
-  <p>The currently active VR+TTS language on Sync.</p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLLanguage
-
-</div>
+  <p>The currently active VR+TTS language on the module. See <q>Language</q> for options.</p>
 
 <p>Optional</p>
 
@@ -85,13 +76,9 @@
       hmiDisplayLanguage
   </h3>
   
-  <p>The currently active display language on Sync</p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLLanguage
-@since SmartDeviceLink 2.0
+  <p>The currently active display language on the module. See <q>Language</q> for options.</p>
 
-</div>
+<p>Since SmartDeviceLink 2.0</p>
 
 <p>Optional</p>
 
@@ -112,11 +99,7 @@
       displayCapabilities
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLDisplayCapabilities
-
-</div>
+  <p>Contains information about the display for the SDL system to which the application is currently connected.</p>
 
 <p>Optional</p>
 
@@ -137,11 +120,7 @@
       buttonCapabilities
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLButtonCapabilities
-
-</div>
+  <p>Provides information about the capabilities of a SDL HMI button.</p>
 
 <p>Optional, Array of length 1 - 100, of SDLButtonCapabilities</p>
 
@@ -162,12 +141,7 @@
       softButtonCapabilities
   </h3>
   
-  <p>If returned, the platform supports on-screen SoftButtons</p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLSoftButtonCapabilities
-
-</div>
+  <p>Contains information about a SoftButton&rsquo;s capabilities.</p>
 
 <p>Optional, Array of length 1 - 100, of SDLSoftButtonCapabilities</p>
 
@@ -189,11 +163,6 @@
   </h3>
   
   <p>If returned, the platform supports custom on-screen Presets</p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLPresetBankCapabilities
-
-</div>
 
 <p>Optional</p>
 
@@ -214,11 +183,7 @@
       hmiZoneCapabilities
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLHMIZoneCapabilities
-
-</div>
+  <p>Specifies HMI Zones in the vehicle.</p>
 
 <p>Optional, Array of length 1 - 100, of SDLHMIZoneCapabilities</p>
 
@@ -239,11 +204,7 @@
       speechCapabilities
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLSpeechCapabilities
-
-</div>
+  <p>Contains information about TTS capabilities on the SDL platform.</p>
 
 <p>Optional, Array of length 1 - 100, of SDLSpeechCapabilities</p>
 
@@ -264,13 +225,12 @@
       prerecordedSpeech
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLPrerecordedSpeech
+  <p>Contains information about the speech capabilities on the SDL platform
+*</p>
 
-</div>
-
-<p>Optional, Array of length 1 - 100, of SDLPrerecordedSpeech</p>
+<ul>
+<li>Optional, Array of length 1 - 100, of SDLPrerecordedSpeech</li>
+</ul>
 
   
   
@@ -289,11 +249,7 @@
       vrCapabilities
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLVRCapabilities
-
-</div>
+  <p>The VR capabilities of the connected SDL platform.</p>
 
 <p>Optional, Array of length 1 - 100, of SDLVRCapabilities</p>
 
@@ -314,11 +270,7 @@
       audioPassThruCapabilities
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLAudioPassThruCapabilities
-
-</div>
+  <p>Describes different audio type configurations for SDLPerformAudioPassThru, e.g. {8kHz,8-bit,PCM}</p>
 
 <p>Optional, Array of length 1 - 100, of SDLAudioPassThruCapabilities</p>
 
@@ -339,11 +291,7 @@
       pcmStreamCapabilities
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLAudioPassThruCapabilities
-
-</div>
+  <p>Describes different audio type configurations for the audio PCM stream service, e.g. {8kHz,8-bit,PCM}</p>
 
   
   
@@ -362,14 +310,7 @@
       vehicleType
   </h3>
   
-  <p>Specifies the vehicle&rsquo;s type</p>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLVehicleType
-
-</div>
-
-<p>Optional, Array of length 1 - 100, of SDLVehicleType</p>
+  <p>Specifies the connected vehicle&rsquo;s type</p>
 
   
   
@@ -408,11 +349,7 @@
       hmiCapabilities
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLHMICapabilities
-
-</div>
+  <p>Specifies the availability of various SDL features.</p>
 
 <p>Optional</p>
 
@@ -433,7 +370,7 @@
       sdlVersion
   </h3>
   
-  <p>The SmartDeviceLink version</p>
+  <p>The SmartDeviceLink Core version</p>
 
 <p>Optional, String max length 100</p>
 
@@ -453,7 +390,7 @@
       systemSoftwareVersion
   </h3>
   
-  <p>The software version of the system that implements the SmartDeviceLink core</p>
+  <p>The software version of the system that implements SmartDeviceLink Core</p>
 
 <p>Optional, String max length 100</p>
 

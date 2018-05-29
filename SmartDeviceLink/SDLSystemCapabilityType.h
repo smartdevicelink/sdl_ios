@@ -9,27 +9,26 @@
 #import "SDLEnum.h"
 
 /**
- The type of system capability to get more information on
+ The type of system capability to get more information on. Used in GetSystemCapability.
  */
 typedef SDLEnum SDLSystemCapabilityType SDL_SWIFT_ENUM;
 
 /**
- @abstract NAVIGATION
+ The navigation capability
  */
 extern SDLSystemCapabilityType const SDLSystemCapabilityTypeNavigation;
 
 /**
- @abstract PHONE_CALL
+ The phone call capability
  */
 extern SDLSystemCapabilityType const SDLSystemCapabilityTypePhoneCall;
 
 /**
- @abstract VIDEO_STREAMING
- 
+ The video streaming capability
  */
 extern SDLSystemCapabilityType const SDLSystemCapabilityTypeVideoStreaming;
 
 /**
- @abstract REMOTE_CONTROL
+ The remote control capability
  */
 extern SDLSystemCapabilityType const SDLSystemCapabilityTypeRemoteControl;

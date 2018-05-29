@@ -88,6 +88,10 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.screenManager;
 }
 
+- (SDLSystemCapabilityManager *)systemCapabilityManager {
+    return self.lifecycleManager.systemCapabilityManager;
+}
+
 - (nullable SDLRegisterAppInterfaceResponse *)registerResponse {
     return self.lifecycleManager.registerResponse;
 }

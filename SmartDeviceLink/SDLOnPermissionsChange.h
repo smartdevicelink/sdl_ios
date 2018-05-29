@@ -16,11 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLOnPermissionsChange : SDLRPCNotification
 
 /**
- * @abstract Describes change in permissions for a given set of RPCs
- *
- * Required, Array of SDLPermissionItem, Array size 0 - 500
- *
- * @see SDLPermissionItem
+ Describes change in permissions for a given set of RPCs
+
+ Required, Array of SDLPermissionItem, Array size 0 - 500
  */
 @property (strong, nonatomic) NSArray<SDLPermissionItem *> *permissionItem;
 

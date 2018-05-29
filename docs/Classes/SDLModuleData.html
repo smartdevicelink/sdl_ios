@@ -12,7 +12,7 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>Describes a remote control module&rsquo;s data</p>
 
 
 <section class="section task-group-section">
@@ -56,9 +56,11 @@
       moduleType
   </h3>
   
-  <p>The moduleType indicates which type of data should be changed
-and identifies which data object exists in this struct.
-For example, if the moduleType is CLIMATE then a <q>climateControlData</q> should exist</p>
+  <p>The moduleType indicates which type of data should be changed and identifies which data object exists in this struct.</p>
+
+<p>For example, if the moduleType is CLIMATE then a <q>climateControlData</q> should exist</p>
+
+<p>Required</p>
 
   
   
@@ -76,12 +78,15 @@ For example, if the moduleType is CLIMATE then a <q>climateControlData</q> shoul
       radioControlData
   </h3>
   
-  <p>Undocumented</p>
+  <p>The radio control data</p>
+
+<p>Optional</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLRadioControlData.html">SDLRadioControlData</a></span> <span class="o">*</span><span class="n">radioControlData</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLRadioControlData.html">SDLRadioControlData</a></span> <span class="o">*</span><span class="n">radioControlData</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -94,12 +99,15 @@ For example, if the moduleType is CLIMATE then a <q>climateControlData</q> shoul
       climateControlData
   </h3>
   
-  <p>Undocumented</p>
+  <p>The climate control data</p>
+
+<p>Optional</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLClimateControlData.html">SDLClimateControlData</a></span> <span class="o">*</span><span class="n">climateControlData</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLClimateControlData.html">SDLClimateControlData</a></span> <span class="o">*</span><span class="n">climateControlData</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

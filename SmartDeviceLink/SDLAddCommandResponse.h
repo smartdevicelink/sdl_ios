@@ -5,9 +5,9 @@
 
 
 /**
- * SDLAddCommandResponse is sent, when SDLAddCommand has been called
- *
- * Since <b>SmartDeviceLink 1.0</b>
+ Response to `SDLAddCommand`
+
+ Since SmartDeviceLink 1.0
  */
 
 NS_ASSUME_NONNULL_BEGIN

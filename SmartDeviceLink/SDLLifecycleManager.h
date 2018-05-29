@@ -32,6 +32,7 @@
 @class SDLScreenManager;
 @class SDLStateMachine;
 @class SDLStreamingMediaManager;
+@class SDLSystemCapabilityManager;
 
 @protocol SDLManagerDelegate;
 
@@ -67,6 +68,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 @property (strong, nonatomic, nullable) SDLStreamingMediaManager *streamManager;
 @property (strong, nonatomic) SDLLockScreenManager *lockScreenManager;
 @property (strong, nonatomic, readonly) SDLScreenManager *screenManager;
+@property (strong, nonatomic) SDLSystemCapabilityManager *systemCapabilityManager;
 
 @property (strong, nonatomic, readonly) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readonly) SDLResponseDispatcher *responseDispatcher;

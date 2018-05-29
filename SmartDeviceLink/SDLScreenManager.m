@@ -9,8 +9,10 @@
 #import "SDLScreenManager.h"
 
 #import "SDLArtwork.h"
+#import "SDLMenuManager.h"
 #import "SDLSoftButtonManager.h"
 #import "SDLTextAndGraphicManager.h"
+#import "SDLVoiceCommandManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) SDLTextAndGraphicManager *textAndGraphicManager;
 @property (strong, nonatomic) SDLSoftButtonManager *softButtonManager;
+@property (strong, nonatomic) SDLMenuManager *menuManager;
+@property (strong, nonatomic) SDLVoiceCommandManager *voiceCommandMenuManager;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
@@ -35,8 +39,17 @@ NS_ASSUME_NONNULL_BEGIN
 
     _textAndGraphicManager = [[SDLTextAndGraphicManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
     _softButtonManager = [[SDLSoftButtonManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
+    _menuManager = [[SDLMenuManager alloc] initWithConnectionManager:connectionManager fileManager:fileManager];
+    _voiceCommandMenuManager = [[SDLVoiceCommandManager alloc] initWithConnectionManager:connectionManager];
 
     return self;
+}
+
+- (void)stop {
+    [self.textAndGraphicManager stop];
+    [self.softButtonManager stop];
+    [self.menuManager stop];
+    [self.voiceCommandMenuManager stop];
 }
 
 - (nullable SDLSoftButtonObject *)softButtonObjectNamed:(NSString *)name {
@@ -108,6 +121,14 @@ NS_ASSUME_NONNULL_BEGIN
     self.softButtonManager.softButtonObjects = softButtonObjects;
 }
 
+- (void)setMenu:(NSArray<SDLMenuCell *> *)menu {
+    self.menuManager.menuCells = menu;
+}
+
+- (void)setVoiceCommands:(NSArray<SDLVoiceCommand *> *)voiceCommands {
+    self.voiceCommandMenuManager.voiceCommands = voiceCommands;
+}
+
 #pragma mark - Getters
 
 - (nullable NSString *)textField1 {
@@ -168,6 +189,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<SDLSoftButtonObject *> *)softButtonObjects {
     return _softButtonManager.softButtonObjects;
+}
+
+- (NSArray<SDLMenuCell *> *)menu {
+    return _menuManager.menuCells;
+}
+
+- (NSArray<SDLVoiceCommand *> *)voiceCommands {
+    return _voiceCommandMenuManager.voiceCommands;
 }
 
 #pragma mark - Begin / End Updates

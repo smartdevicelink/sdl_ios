@@ -50,28 +50,28 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(nullable NSArray<NSString *> *)sliderFooters timeout:(UInt16)timeout;
 
 /**
- * @abstract Represents a number of selectable items on a horizontal axis
+ * Represents a number of selectable items on a horizontal axis
  *
  * Required, Integer, 2 - 26
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *numTicks;
 
 /**
- * @abstract An Initial position of slider control
+ * An Initial position of slider control
  *
  * Required, Integer, 1 - 26
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *position;
 
 /**
- * @abstract A text header to display
+ * A text header to display
  *
  * Required, Max length 500 chars
  */
 @property (strong, nonatomic) NSString *sliderHeader;
 
 /**
- * @abstract A text footer to display
+ * A text footer to display
  *
  * @discussion For a static text footer, only one footer string shall be provided in the array.
  * 
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSArray<NSString *> *sliderFooter;
 
 /**
- * @abstract An App defined timeout in milliseconds
+ * An App defined timeout in milliseconds
  *
  * @discussion Indicates how long of a timeout from the last action (i.e. sliding control resets timeout).
  *

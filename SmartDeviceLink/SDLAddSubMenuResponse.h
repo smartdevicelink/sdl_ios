@@ -4,8 +4,9 @@
 #import "SDLRPCResponse.h"
 
 /**
- * SDLAddSubMenuResponse is sent, when SDLAddSubMenu has been called
- * Since <b>SmartDeviceLink 1.0</b>
+ Response to `SDLAddSubMenu`
+
+ Since SmartDeviceLink 1.0
  */
 
 NS_ASSUME_NONNULL_BEGIN

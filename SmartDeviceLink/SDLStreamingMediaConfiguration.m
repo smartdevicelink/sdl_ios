@@ -23,10 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] init];
 }
 
-- (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers encryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *,id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource window:(nullable UIWindow *)window {
-    return [self initWithSecurityManagers:securityManagers encryptionFlag:encryptionFlag videoSettings:videoSettings dataSource:dataSource rootViewController:window.rootViewController];
-}
-
 - (instancetype)initWithSecurityManagers:(nullable NSArray<Class<SDLSecurityType>> *)securityManagers encryptionFlag:(SDLStreamingEncryptionFlag)encryptionFlag videoSettings:(nullable NSDictionary<NSString *,id> *)videoSettings dataSource:(nullable id<SDLStreamingMediaManagerDataSource>)dataSource rootViewController:(nullable UIViewController *)rootViewController {
     self = [super init];
     if (!self) {
@@ -62,14 +58,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)autostreamingSecureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers initialViewController:(UIViewController *)initialViewController {
     return [[self alloc] initWithSecurityManagers:securityManagers encryptionFlag:SDLStreamingEncryptionFlagAuthenticateAndEncrypt videoSettings:nil dataSource:nil rootViewController:initialViewController];
-}
-
-#pragma mark - Getters / Setters
-- (void)setWindow:(nullable UIWindow *)window {
-    _window = window;
-    if (window != nil) {
-        _rootViewController = window.rootViewController;
-    }
 }
 
 #pragma mark NSCopying

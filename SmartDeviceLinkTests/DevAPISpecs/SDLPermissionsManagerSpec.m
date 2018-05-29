@@ -8,10 +8,19 @@
 #import "SDLOnHMIStatus.h"
 #import "SDLOnPermissionsChange.h"
 #import "SDLParameterPermissions.h"
+#import "SDLPermissionFilter.h"
 #import "SDLPermissionItem.h"
 #import "SDLPermissionManager.h"
 #import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
+
+@interface SDLPermissionManager ()
+
+@property (strong, nonatomic) NSMutableDictionary<SDLPermissionRPCName, SDLPermissionItem *> *permissions;
+@property (strong, nonatomic) NSMutableArray<SDLPermissionFilter *> *filters;
+@property (copy, nonatomic, nullable) SDLHMILevel currentHMILevel;
+
+@end
 
 QuickSpecBegin(SDLPermissionsManagerSpec)
 
@@ -110,6 +119,14 @@ describe(@"SDLPermissionsManager", ^{
         limitedHMINotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testLimitedHMIStatus];
         backgroundHMINotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testBackgroundHMIStatus];
         noneHMINotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:testNoneHMIStatus];
+    });
+
+    it(@"should clear when stopped", ^{
+        [testPermissionsManager stop];
+
+        expect(testPermissionsManager.filters).to(beEmpty());
+        expect(testPermissionsManager.permissions).to(beEmpty());
+        expect(testPermissionsManager.currentHMILevel).to(beNil());
     });
     
     describe(@"checking if a permission is allowed", ^{

@@ -11,39 +11,33 @@
 <h3>Overview</h3>
 
 <p>Notifies application that user has depressed or released a button to which
- the application has subscribed.</p>
+the application has subscribed.</p>
 
-<p>Further information about button events
- and button-presses can be found at SDLSubscribeButton.
- <p>
- </p>
- <b>HMI Status Requirements:</b>
- <ul>
- HMILevel:
- <ul>
- <li>The application will receive <i>SDLOnButtonEvent</i> notifications for all
- subscribed buttons when HMILevel is FULL.</li>
- <li>The application will receive <i>SDLOnButtonEvent</i> notifications for subscribed
- media buttons when HMILevel is LIMITED.</li>
- <li>Media buttons include SEEKLEFT, SEEKRIGHT, TUNEUP, TUNEDOWN, and
- PRESET_0-PRESET_9.</li>
- <li>The application will not receive <i>SDLOnButtonEvent</i> notification when HMILevel
- is BACKGROUND.</li>
- </ul>
- AudioStreamingState:
- <ul>
- <li> Any </li>
- </ul>
- SystemContext:
- <ul>
- <li>MAIN, VR. In MENU, only PRESET buttons. In VR, pressing any subscribable
- button will cancel VR.</li>
- </ul>
- </ul>
- <p></p>
+<p>Further information about button events and button-presses can be found at SDLSubscribeButton.</p>
+
+<p>HMI Status Requirements:</p>
+
+<p>HMILevel:</p>
+
+<ul>
+<li><p>The application will receive <i>SDLOnButtonEvent</i> notifications for all subscribed buttons when HMILevel is FULL.</p></li>
+<li><p>The application will receive <i>SDLOnButtonEvent</i> notifications for subscribed media buttons when HMILevel is LIMITED.</p></li>
+<li><p>Media buttons include SEEKLEFT, SEEKRIGHT, TUNEUP, TUNEDOWN, and PRESET_0-PRESET_9.</p></li>
+<li><p>The application will not receive <i>SDLOnButtonEvent</i> notification when HMILevel is BACKGROUND.</p></li>
+</ul>
+
+<p>AudioStreamingState:</p>
+
+<ul>
+<li>Any</li>
+</ul>
+
+<p>SystemContext:</p>
+<li><p>MAIN, VR. In MENU, only PRESET buttons.</p></li>
+<li><p>In VR, pressing any subscribable button will cancel VR.</p></li>
 <div class="aside aside-see">
     <p class="aside-title">See</p>
-    SDLSubscribeButton
+    <p>SDLSubscribeButton</p>
 
 </div>
 
@@ -55,7 +49,7 @@
       buttonName
   </h3>
   
-  <p>@abstract The name of the button</p>
+  <p>The name of the button</p>
 
   
   
@@ -73,7 +67,7 @@
       buttonEventMode
   </h3>
   
-  <p>@abstract Indicates whether this is an UP or DOWN event</p>
+  <p>Indicates whether this is an UP or DOWN event</p>
 
   
   
@@ -92,7 +86,7 @@
       customButtonID
   </h3>
   
-  <p>@abstract If ButtonName is <q>CUSTOM_BUTTON</q>, this references the integer ID passed by a custom button. (e.g. softButton ID)</p>
+  <p>If ButtonName is <q>CUSTOM_BUTTON</q>, this references the integer ID passed by a custom button. (e.g. softButton ID)</p>
 
 <p>@since SDL 2.0</p>
 

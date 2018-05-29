@@ -5,38 +5,38 @@
 #import "SDLEnum.h"
 
 /**
- * Reflects the status of ignition..
+ * Reflects the status of ignition. Used in BodyInformation.
  *
  * @since SDL 2.0
  */
 typedef SDLEnum SDLIgnitionStatus SDL_SWIFT_ENUM;
 
 /**
- * @abstract Ignition status currently unknown
+ * Ignition status currently unknown
  */
 extern SDLIgnitionStatus const SDLIgnitionStatusUnknown;
 
 /**
- * @abstract Ignition is off
+ * Ignition is off
  */
 extern SDLIgnitionStatus const SDLIgnitionStatusOff;
 
 /**
- * @abstract Ignition is in mode accessory
+ * Ignition is in mode accessory
  */
 extern SDLIgnitionStatus const SDLIgnitionStatusAccessory;
 
 /**
- * @abstract Ignition is in mode run
+ * Ignition is in mode run
  */
 extern SDLIgnitionStatus const SDLIgnitionStatusRun;
 
 /**
- * @abstract Ignition is in mode start
+ * Ignition is in mode start
  */
 extern SDLIgnitionStatus const SDLIgnitionStatusStart;
 
 /**
- * @abstract Signal is invalid
+ * Signal is invalid
  */
 extern SDLIgnitionStatus const SDLIgnitionStatusInvalid;

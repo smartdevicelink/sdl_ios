@@ -5,7 +5,7 @@
 #import "SDLRPCResponse.h"
 
 /**
- Indicates the result, success, or failure of the SDLDialNumber request.
+ The response to SDLDialNumber
  
  @since SDL 4.0
  */

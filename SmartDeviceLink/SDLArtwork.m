@@ -111,6 +111,30 @@ NS_ASSUME_NONNULL_BEGIN
     return formattedHash;
 }
 
+#pragma mark - NSObject overrides
+
+- (NSUInteger)hash {
+    return self.name.hash ^ self.data.hash;
+}
+
+- (BOOL)isEqual:(id)object {
+    if (self == object) { return YES; }
+
+    if (![object isKindOfClass:[SDLArtwork class]]) { return NO; }
+
+    return [self isEqualToArtwork:(SDLArtwork *)object];
+}
+
+- (BOOL)isEqualToArtwork:(SDLArtwork *)artwork {
+    if (!artwork) { return NO; }
+
+    BOOL haveEqualNames = [self.name isEqualToString:artwork.name];
+    BOOL haveEqualData = [self.data isEqualToData:artwork.data];
+    BOOL haveEqualFormats = [self.fileType isEqualToEnum:artwork.fileType];
+
+    return haveEqualNames && haveEqualData && haveEqualFormats;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

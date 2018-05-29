@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/cocoapods/l/SmartDeviceLink-iOS.svg?style=flat)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
 [![Build Status](https://img.shields.io/travis/smartdevicelink/sdl_ios/master.svg?style=flat)](https://travis-ci.org/smartdevicelink/sdl_ios)
 [![codecov](https://codecov.io/gh/smartdevicelink/sdl_ios/branch/master/graph/badge.svg)](https://codecov.io/gh/smartdevicelink/sdl_ios)
-[![Documentation](https://img.shields.io/cocoapods/metrics/doc-percent/SmartDeviceLink-iOS.svg)](http://cocoadocs.org/docsets/SmartDeviceLink-iOS/)
+[![Documentation](docs/badge.svg)](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/)
 [![CocoaPods Downloads](https://img.shields.io/cocoapods/dt/SmartDeviceLink-iOS.svg?maxAge=172800)](https://cocoapods.org/pods/SmartDeviceLink-iOS)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Slack Status](http://sdlslack.herokuapp.com/badge.svg)](http://slack.smartdevicelink.com)
@@ -41,10 +41,10 @@ See the [roadmap](https://github.com/smartdevicelink/sdl_ios/wiki/Roadmap) to se
 
 You can install this library using [Cocoapods](https://cocoapods.org/pods/SmartDeviceLink-iOS). You can get started with Cocoapods by [following their install guide](https://guides.cocoapods.org/using/getting-started.html#getting-started), and learn how to use Cocoapods to install dependencies [by following this guide](https://guides.cocoapods.org/using/using-cocoapods.html).
 
-In your podfile, you want to add `pod 'SmartDeviceLink', '~> 5.2'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 8.0+.
+In your podfile, you want to add `pod 'SmartDeviceLink', '~> 6.0'`. Then run `pod install` inside your terminal. With Cocoapods, we support iOS 8.0+.
 
 ###### Swift
-If you are building a Swift app, then add this instead `pod 'SmartDeviceLink/Swift', '~> 5.0'`. Then run `pod install` in your terminal.
+If you are building a Swift app, then add this instead `pod 'SmartDeviceLink/Swift', '~> 6.0'`. Then run `pod install` in your terminal.
 
 ##### Carthage
 
