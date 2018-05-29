@@ -30,7 +30,7 @@
         <!--Connection Container View Controller-->
         <scene sceneID="vG9-Hv-OW2">
             <objects>
-                <viewController id="cXb-Co-0MA" customClass="ConnectionContainerViewController" customModule="SmartDeviceLink_Example_Swift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="cXb-Co-0MA" customClass="ConnectionContainerViewController" customModule="SDL_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bfp-O0-sxl"/>
                         <viewControllerLayoutGuide type="bottom" id="fet-m3-F1O"/>
@@ -50,12 +50,12 @@
                                 <segment title="iAP"/>
                             </segments>
                             <connections>
-                                <action selector="indexChanged:" destination="cXb-Co-0MA" eventType="valueChanged" id="mRP-MF-F8c"/>
+                                <action selector="indexChanged:" destination="cXb-Co-0MA" eventType="valueChanged" id="VKA-yi-yYw"/>
                             </connections>
                         </segmentedControl>
                     </navigationItem>
                     <connections>
-                        <outlet property="segmentedControl" destination="RYa-fE-Qek" id="Ude-uG-TAL"/>
+                        <outlet property="segmentedControl" destination="RYa-fE-Qek" id="w1s-Cm-qxn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ETn-uq-A6g" userLabel="First Responder" sceneMemberID="firstResponder"/>

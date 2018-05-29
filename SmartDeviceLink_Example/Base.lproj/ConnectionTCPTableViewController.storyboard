@@ -114,9 +114,6 @@
                                 <segment title="TCP Debug"/>
                                 <segment title="iAP"/>
                             </segments>
-                            <connections>
-                                <action selector="connectionTypeSegmentedControlDidChange:" destination="l5Q-ZP-1BO" eventType="valueChanged" id="uaO-bf-NQR"/>
-                            </connections>
                         </segmentedControl>
                     </navigationItem>
                     <connections>
