@@ -18,24 +18,30 @@ describe(@"Getter/Setter Tests", ^ {
         SDLPutFileResponse* testResponse = [[SDLPutFileResponse alloc] init];
         
         testResponse.spaceAvailable = @1248;
+        testResponse.resultCode = SDLResultCorruptedData;
         
         expect(testResponse.spaceAvailable).to(equal(@1248));
+        expect(testResponse.resultCode).to(equal(SDLResultCorruptedData));
     });
     
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameResponse:
                                                            @{SDLNameParameters:
-                                                                 @{SDLNameSpaceAvailable:@1248},
+                                                                 @{SDLNameSpaceAvailable:@1248,
+                                                                   SDLNameResultCode:SDLResultSuccess
+                                                                   },
                                                              SDLNameOperationName:SDLNamePutFile}} mutableCopy];
         SDLPutFileResponse* testResponse = [[SDLPutFileResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.spaceAvailable).to(equal(@1248));
+        expect(testResponse.resultCode).to(equal(SDLResultSuccess));
     });
     
     it(@"Should return nil if not set", ^ {
         SDLPutFileResponse* testResponse = [[SDLPutFileResponse alloc] init];
         
         expect(testResponse.spaceAvailable).to(beNil());
+        expect(testResponse.resultCode).to(beNil());
     });
 });
 

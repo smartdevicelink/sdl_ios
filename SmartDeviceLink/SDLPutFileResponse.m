@@ -25,6 +25,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameSpaceAvailable];
 }
 
+- (void)setResultCode:(nullable SDLResult)resultCode {
+    [parameters sdl_setObject:resultCode forName:SDLNameResultCode];
+}
+
+- (nullable SDLResult)resultCode {
+    return [parameters sdl_objectForName:SDLNameResultCode];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
