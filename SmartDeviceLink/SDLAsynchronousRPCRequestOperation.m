@@ -160,11 +160,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@, request count=%lu, requests started=%lu, finished=%lu, failed=%@", self.name, self.requests.count, self.requestsStarted, self.requestsComplete, (self.requestFailed ? @"YES": @"NO")];
+    return [NSString stringWithFormat:@"%@, request count=%lu, requests started=%lu, finished=%lu, failed=%@", self.name, (unsigned long)self.requests.count, (unsigned long)self.requestsStarted, (unsigned long)self.requestsComplete, (self.requestFailed ? @"YES": @"NO")];
 }
 
 - (NSString *)debugDescription {
-    return [NSString stringWithFormat:@"%@, request count=%lu, requests started=%lu, finished=%lu, failed=%@, requests=%@", self.name, self.requests.count, self.requestsStarted, self.requestsComplete, (self.requestFailed ? @"YES": @"NO"), self.requests];
+    return [NSString stringWithFormat:@"%@, request count=%lu, requests started=%lu, finished=%lu, failed=%@, requests=%@", self.name, (unsigned long)self.requests.count, (unsigned long)self.requestsStarted, (unsigned long)self.requestsComplete, (self.requestFailed ? @"YES": @"NO"), self.requests];
 }
 
 @end
