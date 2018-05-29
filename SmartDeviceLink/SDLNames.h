@@ -80,6 +80,7 @@ extern SDLName const SDLNameCompassDirection;
 extern SDLName const SDLNameCorrelationId;
 extern SDLName const SDLNameCountryCode;
 extern SDLName const SDLNameCountryName;
+extern SDLName const SDLNameCRC;
 extern SDLName const SDLNameCreateInteractionChoiceSet;
 extern SDLName const SDLNameClockText;
 extern SDLName const SDLNameCurrentTemperature;

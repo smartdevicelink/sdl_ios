@@ -25,6 +25,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.systemFile = @NO;
         testRequest.offset = @987654321;
         testRequest.length = @123456789;
+        testRequest.crc = @0xffffffff;
         
         expect(testRequest.syncFileName).to(equal(@"fileName"));
         expect(testRequest.fileType).to(equal(SDLFileTypeJPEG));
@@ -32,18 +33,20 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.systemFile).to(equal(@NO));
         expect(testRequest.offset).to(equal(@987654321));
         expect(testRequest.length).to(equal(@123456789));
+        expect(testRequest.crc).to(equal(@0xffffffff));
     });
     
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameRequest:
                                            @{SDLNameParameters:
-                                                 @{SDLNameSyncFileName:@"fileName",
-                                                   SDLNameFileType:SDLFileTypeJPEG,
-                                                   SDLNamePersistentFile:@YES,
-                                                   SDLNameSystemFile:@NO,
-                                                   SDLNameOffset:@987654321,
-                                                   SDLNameLength:@123456789},
-                                             SDLNameOperationName:SDLNamePutFile}} mutableCopy];
+                                                @{ SDLNameSyncFileName:@"fileName",
+                                                    SDLNameFileType:SDLFileTypeJPEG,
+                                                    SDLNamePersistentFile:@YES,
+                                                    SDLNameSystemFile:@NO,
+                                                    SDLNameOffset:@987654321,
+                                                    SDLNameLength:@123456789,
+                                                   SDLNameCRC:@0xffffffff},
+                                                    SDLNameOperationName:SDLNamePutFile}} mutableCopy];
         SDLPutFile* testRequest = [[SDLPutFile alloc] initWithDictionary:dict];
         
         expect(testRequest.syncFileName).to(equal(@"fileName"));
@@ -52,6 +55,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.systemFile).to(equal(@NO));
         expect(testRequest.offset).to(equal(@987654321));
         expect(testRequest.length).to(equal(@123456789));
+        expect(testRequest.crc).to(equal(@0xffffffff));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -63,6 +67,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.systemFile).to(beNil());
         expect(testRequest.offset).to(beNil());
         expect(testRequest.length).to(beNil());
+        expect(testRequest.crc).to(beNil());
     });
 });
 

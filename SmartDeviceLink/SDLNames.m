@@ -78,6 +78,7 @@ SDLName const SDLNameCompassDirection = @"compassDirection";
 SDLName const SDLNameCorrelationId = @"correlationID";
 SDLName const SDLNameCountryCode = @"countryCode";
 SDLName const SDLNameCountryName = @"countryName";
+SDLName const SDLNameCRC = @"crc";
 SDLName const SDLNameCreateInteractionChoiceSet = @"CreateInteractionChoiceSet";
 SDLName const SDLNameClockText = @"CT";
 SDLName const SDLNameCurrentTemperature = @"currentTemperature";

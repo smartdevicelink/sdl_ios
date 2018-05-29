@@ -72,6 +72,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLUInt> *length;
 
+/**
+ * Additional CRC32 checksum to protect data integrity up to 512 Mbits.
+ *
+ *  Integer, Optional, 0 - 4,294,967,295
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *crc;
+
 @end
 
 NS_ASSUME_NONNULL_END

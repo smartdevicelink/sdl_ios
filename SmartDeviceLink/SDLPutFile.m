@@ -100,6 +100,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameLength];
 }
 
+- (void)setCrc:(nullable NSNumber<SDLUInt> *)crc {
+    [parameters sdl_setObject:crc forName:SDLNameCRC];
+}
+
+- (nullable NSNumber<SDLUInt> *)crc {
+    return [parameters sdl_objectForName:SDLNameCRC];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
