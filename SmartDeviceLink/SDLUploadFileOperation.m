@@ -130,15 +130,11 @@ NS_ASSUME_NONNULL_BEGIN
                 BLOCK_RETURN;
             }
 
-            if ([response.resultCode isEqualToEnum:SDLResultCorruptedData]) {
-                [strongself cancel];
-                isDataCorrupted = YES;
-                dispatch_group_leave(putFileGroup);
-                BLOCK_RETURN;
-            }
-
             // If the SDL Core returned an error, cancel the upload the process in the future
             if (error != nil || response == nil || ![response.success boolValue] || strongself.isCancelled) {
+                if ([response.resultCode isEqualToEnum:SDLResultCorruptedData]) {
+                    isDataCorrupted = YES;
+                }
                 [strongself cancel];
                 streamError = error;
                 dispatch_group_leave(putFileGroup);

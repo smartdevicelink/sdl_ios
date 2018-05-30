@@ -322,6 +322,19 @@ describe(@"Streaming upload of data", ^{
             expect(@(successResult)).toEventually(equal(@NO));
         });
     });
+
+    context(@"When data is corrupted during transfer", ^{
+        beforeEach(^{
+            testFileName = @"CorruptedData";
+            testFileData = [@"FileData" dataUsingEncoding:NSUTF8StringEncoding];
+            testFile = [SDLFile fileWithData:testFileData name:testFileName fileExtension:@"bin"];
+        });
+
+        it(@"should have called the completion handler with an error", ^{
+            expect(errorResult).toEventually(equal([NSError sdl_fileManager_fileTransferCorruptedError]));
+            expect(@(successResult)).toEventually(equal(@NO));
+        });
+    });
 });
 
 QuickSpecEnd
