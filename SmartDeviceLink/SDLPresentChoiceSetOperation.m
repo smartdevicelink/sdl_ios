@@ -10,6 +10,7 @@
 
 #import "SDLChoiceCell.h"
 #import "SDLChoiceSet.h"
+#import "SDLChoiceSetDelegate.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLKeyboardDelegate.h"
 #import "SDLKeyboardProperties.h"
@@ -31,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPresentChoiceSetOperation()
 
+@property (copy, nonatomic, readwrite, nullable) NSNumber<SDLInt> *selectedChoiceId;
+
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (strong, nonatomic) SDLChoiceSet *choiceSet;
 @property (strong, nonatomic) SDLInteractionMode presentationMode;
@@ -42,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) SDLLayoutMode layoutMode;
 @property (strong, nonatomic, readonly) NSArray<NSNumber<SDLInt> *> *choiceIds;
 
+@property (assign, nonatomic) BOOL updatedKeyboardProperties;
 @property (copy, nonatomic, nullable) NSError *internalError;
 
 @end
@@ -68,26 +72,74 @@ NS_ASSUME_NONNULL_BEGIN
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_keyboardInputNotification:) name:SDLDidReceiveKeyboardInputNotification object:nil];
 
-    [self sdl_presentChoiceSet];
+    [self sdl_start];
+}
+
+- (void)sdl_start {
+    // Check if we're using a keyboard (searchable) choice set and setup keyboard properties if we need to
+    if (self.keyboardDelegate != nil) {
+        SDLKeyboardProperties *customProperties = self.keyboardDelegate.customKeyboardConfiguration;
+        if (customProperties != nil) {
+            self.keyboardProperties = customProperties;
+        }
+
+        [self sdl_updateKeyboardPropertiesWithCompletionHandler:^{
+            if (self.isCancelled) {
+                [self finishOperation];
+                return;
+            }
+
+            [self sdl_presentChoiceSet];
+        }];
+    } else {
+        [self sdl_presentChoiceSet];
+    }
 }
 
 - (void)sdl_presentChoiceSet {
+    __weak typeof(self) weakself = self;
     [self.connectionManager sendConnectionRequest:self.performInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        self.internalError = error;
-        [self finishOperation];
+        if (error != nil) {
+            SDLLogE(@"Presenting choice set failed with response: %@, error: %@", response, error);
+            weakself.internalError = error;
+            if (weakself.choiceSet.delegate != nil) {
+                [weakself.choiceSet.delegate choiceSet:weakself.choiceSet didReceiveError:error];
+            }
+        }
+
+        SDLPerformInteractionResponse *performResponse = (SDLPerformInteractionResponse *)response;
+        SDLChoiceCell *selectedCell = [weakself sdl_cellForId:performResponse.choiceID];
+        if (weakself.choiceSet.delegate != nil && selectedCell != nil) {
+            [weakself.choiceSet.delegate choiceSet:weakself.choiceSet didSelectChoice:selectedCell withSource:performResponse.triggerSource];
+        }
+
+        [weakself finishOperation];
     }];
 }
 
 - (void)sdl_updateKeyboardPropertiesWithCompletionHandler:(nullable void(^)(void))completionHandler {
+    // If these are equal, there were no updated keyboard properties, so we can skip to presenting the keyboard
+    if (self.keyboardProperties == self.originalKeyboardProperties) {
+        if (completionHandler != nil) {
+            completionHandler();
+        }
+        return;
+    }
+
     SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
     setProperties.keyboardProperties = self.keyboardProperties;
 
+    __weak typeof(self) weakself = self;
     [self.connectionManager sendConnectionRequest:setProperties withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogE(@"Error setting keyboard properties to new value: %@, with error: %@", request, error);
         }
 
-        completionHandler();
+        weakself.updatedKeyboardProperties = YES;
+
+        if (completionHandler != nil) {
+            completionHandler();
+        }
     }];
 }
 
@@ -121,6 +173,16 @@ NS_ASSUME_NONNULL_BEGIN
         // Notify of abort / cancellation
         [self.keyboardDelegate userDidCancelInputWithReason:onKeyboard.event];
     }
+}
+
+- (nullable SDLChoiceCell *)sdl_cellForId:(NSNumber<SDLInt> *)cellId {
+    for (SDLChoiceCell *cell in self.choiceSet.choices) {
+        if (cell.choiceId == cellId.unsignedIntValue) {
+            return cell;
+        }
+    }
+
+    return nil;
 }
 
 #pragma mark - Getters

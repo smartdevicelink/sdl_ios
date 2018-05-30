@@ -35,6 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)start {
     [super start];
+
+    [self sdl_sendTestChoices];
 }
 
 - (void)sdl_sendTestChoices {

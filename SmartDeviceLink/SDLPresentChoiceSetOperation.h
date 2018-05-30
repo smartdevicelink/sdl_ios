@@ -12,6 +12,7 @@
 #import "SDLInteractionMode.h"
 
 @class SDLChoiceSet;
+@class SDLKeyboardProperties;
 
 @protocol SDLConnectionManagerType;
 @protocol SDLKeyboardDelegate;

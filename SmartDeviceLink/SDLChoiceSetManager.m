@@ -69,6 +69,7 @@ typedef NSNumber * SDLChoiceId;
 @property (strong, nonatomic, readonly) NSSet<SDLChoiceCell *> *pendingPreloadChoices;
 @property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *pendingMutablePreloadChoices;
 @property (strong, nonatomic, nullable) SDLChoiceSet *pendingPresentationSet;
+@property (strong, nonatomic, nullable) SDLAsynchronousOperation *pendingPresentOperation;
 
 @property (assign, nonatomic, readonly) NSUInteger nextChoiceId;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
@@ -225,38 +226,42 @@ UInt16 const ChoiceCellIdMin = 1;
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
 
     if (self.pendingPresentationSet != nil) {
-        // TODO: Cancel
+        [self.pendingPresentOperation cancel];
     }
+
     self.pendingPresentationSet = choiceSet;
     // TODO: Check which, if any, choices need to be uploaded to the head unit, and preload them
     [self preloadChoices:self.pendingPresentationSet.choices withCompletionHandler:nil];
 
-    // TODO: Present the set
-    SDLPresentChoiceSetOperation *presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardDelegate:nil];
-    [self.transactionQueue addOperation:presentOp];
+    self.pendingPresentOperation = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:nil keyboardDelegate:nil];
+    [self.transactionQueue addOperation:self.pendingPresentOperation];
 }
 
 - (void)presentSearchableChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(id<SDLKeyboardDelegate>)delegate {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
 
     if (self.pendingPresentationSet != nil) {
-        // TODO: Cancel
+        [self.pendingPresentOperation cancel];
     }
+
     self.pendingPresentationSet = choiceSet;
     // TODO: Check which, if any, choices need to be uploaded to the head unit, and preload them
     [self preloadChoices:self.pendingPresentationSet.choices withCompletionHandler:nil];
 
-    // TODO: Present the set
-    SDLPresentChoiceSetOperation *presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardDelegate:delegate];
-    [self.transactionQueue addOperation:presentOp];
+    self.pendingPresentOperation = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate];
+    [self.transactionQueue addOperation:self.pendingPresentOperation];
 }
 
 - (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
 
+    if (self.pendingPresentationSet != nil) {
+        [self.pendingPresentOperation cancel];
+    }
+
     // Present a keyboard with the choice set that we used to test VR's optional state
-    SDLPresentKeyboardOperation *presentOp = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager keyboardProperties:self.keyboardConfiguration initialText:initialText keyboardDelegate:delegate];
-    [self.transactionQueue addOperation:presentOp];
+    self.pendingPresentOperation = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager keyboardProperties:self.keyboardConfiguration initialText:initialText keyboardDelegate:delegate];
+    [self.transactionQueue addOperation:self.pendingPresentOperation];
 }
 
 #pragma mark - Choice Management Helpers
