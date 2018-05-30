@@ -669,6 +669,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
     } else if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateStopped]) {
         return;
+    } else if ([appUnregisteredNotification.reason isEqualToEnum:SDLAppInterfaceUnregisteredReasonAppUnauthorized]) {
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
     } else {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReconnecting];
     }
