@@ -13,6 +13,7 @@
 #import "NSMapTable+Subscripting.h"
 #import "SDLAsynchronousRPCRequestOperation.h"
 #import "SDLChangeRegistration.h"
+#import "SDLChoiceSetManager.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLLogMacros.h"
@@ -356,6 +357,15 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.permissionManager startWithCompletionHandler:^(BOOL success, NSError *_Nullable error) {
         if (!success) {
             SDLLogW(@"Permission manager was unable to start; error: %@", error);
+        }
+
+        dispatch_group_leave(managerGroup);
+    }];
+
+    dispatch_group_enter(managerGroup);
+    [self.screenManager startWithCompletionHandler:^(NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogW(@"Screen Manager was unable to start; error: %@", error);
         }
 
         dispatch_group_leave(managerGroup);

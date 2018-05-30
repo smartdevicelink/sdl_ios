@@ -145,22 +145,7 @@ UInt16 const ChoiceCellIdMin = 1;
 }
 
 - (void)didEnterStateCheckingVoiceOptional {
-    // Setup by sending a Choice Set without VR, seeing if there's an error. If there is, send one with VR. This choice set will be used for `presentKeyboard` interactions.
-    SDLCheckChoiceVROptionalOperation *checkOp = [[SDLCheckChoiceVROptionalOperation alloc] initWithConnectionManager:self.connectionManager];
-
-    __weak typeof(self) weakSelf = self;
-    __weak typeof(checkOp) weakOp = checkOp;
-    checkOp.completionBlock = ^{
-        weakSelf.vrOptional = weakOp.isVROptional;
-
-        if (weakOp.error != nil) {
-            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateReady];
-        } else {
-            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateStartupError];
-        }
-    };
-
-    [self.transactionQueue addOperation:checkOp];
+    [self sdl_sendTestChoice];
 }
 
 - (void)didEnterStateStartupError {
@@ -180,8 +165,12 @@ UInt16 const ChoiceCellIdMin = 1;
 
     // Upload pending preloads
     SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayCapabilities:self.displayCapabilities isVROptional:self.isVROptional cellsToPreload:self.pendingPreloadChoices];
+
+    __weak typeof(preloadOp) weakPreloadOp = preloadOp;
     preloadOp.completionBlock = ^{
-        // TODO
+        if (handler != nil) {
+            handler(weakPreloadOp.error);
+        }
     };
     [self.transactionQueue addOperation:preloadOp];
 }
@@ -204,20 +193,39 @@ UInt16 const ChoiceCellIdMin = 1;
     }
 
     // Remove the cells from pending and delete choices
-    // TODO: Delete artworks
     [self.pendingMutablePreloadChoices minusSet:cellsToBeRemovedFromPending];
     SDLDeleteChoicesOperation *deleteOp = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:self.connectionManager cellsToDelete:cellsToBeDeleted];
 
-//    __weak typeof(self) weakSelf = self;
+    __weak typeof(self) weakself = self;
     __weak typeof(deleteOp) weakOp = deleteOp;
     deleteOp.completionBlock = ^{
         if (weakOp.error != nil) {
             SDLLogE(@"Failed to delete choices: %@", weakOp.error);
+            return;
         }
 
-        // TODO: Remove from cellsToBeDeleted
+        [weakself.preloadedMutableChoices minusSet:cellsToBeDeleted];
     };
     [self.transactionQueue addOperation:deleteOp];
+}
+
+- (void)sdl_sendTestChoice {
+    // Setup by sending a Choice Set without VR, seeing if there's an error. If there is, send one with VR. This choice set will be used for `presentKeyboard` interactions.
+    SDLCheckChoiceVROptionalOperation *checkOp = [[SDLCheckChoiceVROptionalOperation alloc] initWithConnectionManager:self.connectionManager];
+
+    __weak typeof(self) weakSelf = self;
+    __weak typeof(checkOp) weakOp = checkOp;
+    checkOp.completionBlock = ^{
+        weakSelf.vrOptional = weakOp.isVROptional;
+
+        if (weakOp.error != nil) {
+            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateReady];
+        } else {
+            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateStartupError];
+        }
+    };
+
+    [self.transactionQueue addOperation:checkOp];
 }
 
 #pragma mark Present
@@ -230,7 +238,6 @@ UInt16 const ChoiceCellIdMin = 1;
     }
 
     self.pendingPresentationSet = choiceSet;
-    // TODO: Check which, if any, choices need to be uploaded to the head unit, and preload them
     [self preloadChoices:self.pendingPresentationSet.choices withCompletionHandler:nil];
 
     self.pendingPresentOperation = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:nil keyboardDelegate:nil];
@@ -245,7 +252,6 @@ UInt16 const ChoiceCellIdMin = 1;
     }
 
     self.pendingPresentationSet = choiceSet;
-    // TODO: Check which, if any, choices need to be uploaded to the head unit, and preload them
     [self preloadChoices:self.pendingPresentationSet.choices withCompletionHandler:nil];
 
     self.pendingPresentOperation = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate];
@@ -320,9 +326,27 @@ UInt16 const ChoiceCellIdMin = 1;
     SDLHMILevel oldHMILevel = self.currentHMILevel;
     self.currentHMILevel = hmiStatus.hmiLevel;
 
+    if ([self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
+        self.transactionQueue.suspended = YES;
+    }
+
+    if ([oldHMILevel isEqualToEnum:SDLHMILevelNone] && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
+        self.transactionQueue.suspended = NO;
+    }
+
     // We need to check for this to make sure we can currently present the dialog. If the current context is HMI_OBSCURED or ALERT, we have to wait for MAIN to present
     SDLSystemContext oldSystemContext = self.currentSystemContext;
     self.currentSystemContext = hmiStatus.systemContext;
+
+    if ([self.currentSystemContext isEqualToEnum:SDLSystemContextHMIObscured] || [self.currentSystemContext isEqualToEnum:SDLSystemContextAlert]) {
+        self.transactionQueue.suspended = YES;
+    }
+
+    if (([oldSystemContext isEqualToEnum:SDLSystemContextHMIObscured] || [oldSystemContext isEqualToEnum:SDLSystemContextAlert])
+        && [self.currentSystemContext isEqualToEnum:SDLSystemContextMain]
+        && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
+        self.transactionQueue.suspended = NO;
+    }
 }
 
 @end

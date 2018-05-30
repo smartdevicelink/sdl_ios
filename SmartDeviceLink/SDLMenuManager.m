@@ -430,7 +430,9 @@ UInt32 const MenuCellIdMin = 1;
     SDLSystemContext oldSystemContext = self.currentSystemContext;
     self.currentSystemContext = hmiStatus.systemContext;
 
-    if ([oldSystemContext isEqualToEnum:SDLSystemContextMenu] && ![self.currentSystemContext isEqualToEnum:SDLSystemContextMenu] && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
+    if ([oldSystemContext isEqualToEnum:SDLSystemContextMenu]
+        && ![self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]
+        && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
         if (self.waitingOnHMIUpdate) {
             [self setMenuCells:self.waitingUpdateMenuCells];
             self.waitingUpdateMenuCells = @[];

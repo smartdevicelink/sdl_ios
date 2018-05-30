@@ -154,6 +154,13 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
 
 /**
+ Starts the manager and all sub-managers
+
+ @param handler The handler called when setup is complete
+ */
+- (void)startWithCompletionHandler:(void(^)(NSError * _Nullable error))handler;
+
+/**
  Stops the manager.
 
  @warning For internal use
