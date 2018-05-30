@@ -192,6 +192,7 @@ extern SDLName const SDLNameImage;
 extern SDLName const SDLNameImageFields;
 extern SDLName const SDLNameImageResolution;
 extern SDLName const SDLNameImageSupported;
+extern SDLName const SDLNameImageTemplate;
 extern SDLName const SDLNameImageType;
 extern SDLName const SDLNameImageTypeSupported;
 extern SDLName const SDLNameInfo;
