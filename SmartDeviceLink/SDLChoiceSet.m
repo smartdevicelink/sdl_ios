@@ -8,6 +8,8 @@
 
 #import "SDLChoiceSet.h"
 
+#import "SDLTTSChunk.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLChoiceSet
@@ -27,6 +29,14 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
 
 - (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate choices:(NSArray<SDLChoiceCell *> *)choices {
     return [self initWithTitle:title delegate:delegate layout:SDLChoiceSet.defaultLayout timeout:SDLChoiceSet.defaultTimeout initialPrompt:nil timeoutPrompt:nil helpPrompt:nil vrHelpList:nil choices:choices];
+}
+
+- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout timeout:(NSTimeInterval)timeout initialPromptString:(nullable NSString *)initialPrompt timeoutPromptString:(nullable NSString *)timeoutPrompt helpPromptString:(nullable NSString *)helpPrompt vrHelpList:(nullable NSArray<SDLVRHelpItem *> *)helpList choices:(NSArray<SDLChoiceCell *> *)choices {
+    NSArray<SDLTTSChunk *> *initialTTS = [SDLTTSChunk textChunksFromString:initialPrompt];
+    NSArray<SDLTTSChunk *> *timeoutTTS = [SDLTTSChunk textChunksFromString:timeoutPrompt];
+    NSArray<SDLTTSChunk *> *helpTTS = [SDLTTSChunk textChunksFromString:helpPrompt];
+
+    return [self initWithTitle:title delegate:delegate layout:layout timeout:timeout initialPrompt:initialTTS timeoutPrompt:timeoutTTS helpPrompt:helpTTS vrHelpList:helpList choices:choices];
 }
 
 - (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout timeout:(NSTimeInterval)timeout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt vrHelpList:(nullable NSArray<SDLVRHelpItem *> *)helpList choices:(NSArray<SDLChoiceCell *> *)choices {

@@ -912,12 +912,12 @@
 		5D8B17531AC9E11B006A6E1C /* SDLDialNumberResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8B17511AC9E11B006A6E1C /* SDLDialNumberResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D8B17541AC9E11B006A6E1C /* SDLDialNumberResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8B17521AC9E11B006A6E1C /* SDLDialNumberResponse.m */; };
 		5D8B17561AC9E399006A6E1C /* SDLDialNumberSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8B17551AC9E399006A6E1C /* SDLDialNumberSpec.m */; };
-		5D92935A20B33D4F00FCC775 /* SDLChoiceCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92935820B33D4F00FCC775 /* SDLChoiceCell.h */; };
+		5D92935A20B33D4F00FCC775 /* SDLChoiceCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92935820B33D4F00FCC775 /* SDLChoiceCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D92935B20B33D4F00FCC775 /* SDLChoiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92935920B33D4F00FCC775 /* SDLChoiceCell.m */; };
-		5D92935E20B33FF700FCC775 /* SDLChoiceSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92935C20B33FF700FCC775 /* SDLChoiceSet.h */; };
+		5D92935E20B33FF700FCC775 /* SDLChoiceSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92935C20B33FF700FCC775 /* SDLChoiceSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D92935F20B33FF700FCC775 /* SDLChoiceSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92935D20B33FF700FCC775 /* SDLChoiceSet.m */; };
-		5D92936120B354BE00FCC775 /* SDLChoiceSetDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92936020B354BE00FCC775 /* SDLChoiceSetDelegate.h */; };
-		5D92936320B3551600FCC775 /* SDLKeyboardDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92936220B3551600FCC775 /* SDLKeyboardDelegate.h */; };
+		5D92936120B354BE00FCC775 /* SDLChoiceSetDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92936020B354BE00FCC775 /* SDLChoiceSetDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D92936320B3551600FCC775 /* SDLKeyboardDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92936220B3551600FCC775 /* SDLKeyboardDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D92936820B3601700FCC775 /* SDLChoiceSetManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92936620B3601700FCC775 /* SDLChoiceSetManager.h */; };
 		5D92936920B3601700FCC775 /* SDLChoiceSetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92936720B3601700FCC775 /* SDLChoiceSetManager.m */; };
 		5D92936C20B4705F00FCC775 /* SDLScreenManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92936B20B4705F00FCC775 /* SDLScreenManagerDelegate.h */; };

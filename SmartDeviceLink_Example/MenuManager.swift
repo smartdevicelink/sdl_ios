@@ -15,10 +15,10 @@ class MenuManager: NSObject {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: An array of SDLAddCommand objects
-    class func allMenuItems(with manager: SDLManager) -> [SDLMenuCell] {
+    class func allMenuItems(with manager: SDLManager, choiceSetManager: PerformInteractionManager) -> [SDLMenuCell] {
         return [menuCellSpeakName(with: manager),
                 menuCellGetVehicleSpeed(with: manager),
-                menuCellShowPerformInteraction(with: manager),
+                menuCellShowPerformInteraction(with: manager, choiceSetManager: choiceSetManager),
                 menuCellRecordInCarMicrophoneAudio(with: manager),
                 menuCellDialNumber(with: manager),
                 menuCellWithSubmenu(with: manager)]
@@ -67,9 +67,9 @@ private extension MenuManager {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
-    class func menuCellShowPerformInteraction(with manager: SDLManager) -> SDLMenuCell {
+    class func menuCellShowPerformInteraction(with manager: SDLManager, choiceSetManager: PerformInteractionManager) -> SDLMenuCell {
         return SDLMenuCell(title: ACShowChoiceSetMenuName, icon: SDLArtwork(image: UIImage(named: MenuBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACShowChoiceSetMenuName], handler: { triggerSource in
-            PerformInteractionManager.showPerformInteractionChoiceSet(with: manager, triggerSource: triggerSource)
+            choiceSetManager.show(from: triggerSource)
         })
     }
 

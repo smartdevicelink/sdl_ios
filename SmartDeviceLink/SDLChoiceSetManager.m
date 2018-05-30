@@ -145,7 +145,22 @@ UInt16 const ChoiceCellIdMin = 1;
 }
 
 - (void)didEnterStateCheckingVoiceOptional {
-    [self sdl_sendTestChoice];
+    // Setup by sending a Choice Set without VR, seeing if there's an error. If there is, send one with VR. This choice set will be used for `presentKeyboard` interactions.
+    SDLCheckChoiceVROptionalOperation *checkOp = [[SDLCheckChoiceVROptionalOperation alloc] initWithConnectionManager:self.connectionManager];
+
+    __weak typeof(self) weakSelf = self;
+    __weak typeof(checkOp) weakOp = checkOp;
+    checkOp.completionBlock = ^{
+        weakSelf.vrOptional = weakOp.isVROptional;
+
+        if (weakOp.error != nil) {
+            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateReady];
+        } else {
+            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateStartupError];
+        }
+    };
+
+    [self.transactionQueue addOperation:checkOp];
 }
 
 - (void)didEnterStateStartupError {
@@ -207,25 +222,6 @@ UInt16 const ChoiceCellIdMin = 1;
         [weakself.preloadedMutableChoices minusSet:cellsToBeDeleted];
     };
     [self.transactionQueue addOperation:deleteOp];
-}
-
-- (void)sdl_sendTestChoice {
-    // Setup by sending a Choice Set without VR, seeing if there's an error. If there is, send one with VR. This choice set will be used for `presentKeyboard` interactions.
-    SDLCheckChoiceVROptionalOperation *checkOp = [[SDLCheckChoiceVROptionalOperation alloc] initWithConnectionManager:self.connectionManager];
-
-    __weak typeof(self) weakSelf = self;
-    __weak typeof(checkOp) weakOp = checkOp;
-    checkOp.completionBlock = ^{
-        weakSelf.vrOptional = weakOp.isVROptional;
-
-        if (weakOp.error != nil) {
-            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateReady];
-        } else {
-            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateStartupError];
-        }
-    };
-
-    [self.transactionQueue addOperation:checkOp];
 }
 
 #pragma mark Present

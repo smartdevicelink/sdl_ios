@@ -117,6 +117,22 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
  @param choices The list of choices presented to the user either as a manual/touch interaction or via the user's voice
  @return The choice set
  */
+- (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout timeout:(NSTimeInterval)timeout initialPromptString:(nullable NSString *)initialPrompt timeoutPromptString:(nullable NSString *)timeoutPrompt helpPromptString:(nullable NSString *)helpPrompt vrHelpList:(nullable NSArray<SDLVRHelpItem *> *)helpList choices:(NSArray<SDLChoiceCell *> *)choices;
+
+/**
+ Initializer with all possible properties.
+
+ @param title The choice set's title
+ @param delegate The choice set delegate called after the user has interacted with your choice set
+ @param layout The layout of choice options (Manual/touch only)
+ @param timeout The timeout of a touch interaction (Manual/touch only)
+ @param initialPrompt A voice prompt spoken to the user when this set is displayed
+ @param timeoutPrompt A voice prompt spoken to the user when the set times out (Voice only)
+ @param helpPrompt A voice prompt spoken to the user when the user asks for "help"
+ @param helpList A table list of text and images shown to the user during a voice recognition session for this choice set (Voice only)
+ @param choices The list of choices presented to the user either as a manual/touch interaction or via the user's voice
+ @return The choice set
+ */
 - (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout timeout:(NSTimeInterval)timeout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt vrHelpList:(nullable NSArray<SDLVRHelpItem *> *)helpList choices:(NSArray<SDLChoiceCell *> *)choices;
 
 @end

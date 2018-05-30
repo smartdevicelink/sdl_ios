@@ -76,6 +76,11 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
 
+    if (artworksToUpload.count == 0) {
+        SDLLogV(@"No choice artworks to be uploaded");
+        return;
+    }
+
     [self.fileManager uploadArtworks:[artworksToUpload copy] completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogE(@"Error uploading choice artworks: %@", error);
@@ -102,8 +107,11 @@ NS_ASSUME_NONNULL_BEGIN
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
+            SDLLogW(@"Error preloading choice cells: %@", errors);
             weakSelf.internalError = [NSError sdl_choiceSetManager_choiceUploadFailed:errors];
         }
+
+        SDLLogD(@"Finished preloading choice cells");
 
         [weakSelf finishOperation];
     }];

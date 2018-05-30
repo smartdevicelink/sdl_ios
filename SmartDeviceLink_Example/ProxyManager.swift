@@ -24,6 +24,7 @@ class ProxyManager: NSObject {
     fileprivate var sdlManager: SDLManager!
     fileprivate var buttonManager: ButtonManager!
     fileprivate var vehicleDataManager: VehicleDataManager!
+    fileprivate var performInteractionManager: PerformInteractionManager!
     fileprivate var firstHMILevelState: SDLHMILevel
     weak var delegate: ProxyManagerDelegate?
 
@@ -119,6 +120,7 @@ private extension ProxyManager {
 
             self.buttonManager = ButtonManager(sdlManager: self.sdlManager, updateScreenHandler: self.refreshUIHandler)
             self.vehicleDataManager = VehicleDataManager(sdlManager: self.sdlManager, refreshUIHandler: self.refreshUIHandler)
+            self.performInteractionManager = PerformInteractionManager(sdlManager: self.sdlManager)
 
             RPCPermissionsManager.setupPermissionsCallbacks(with: self.sdlManager)
 
@@ -152,7 +154,7 @@ extension ProxyManager: SDLManagerDelegate {
             firstHMILevelState = newLevel
 
             // Send static menu items. Menu related RPCs can be sent at all `hmiLevel`s except `NONE`
-            createStaticMenus()
+            createMenuAndGlobalVoiceCommands()
             vehicleDataManager.subscribeToVehicleOdometer()
         }
 
@@ -261,25 +263,13 @@ private extension ProxyManager {
     }
 
     /// Send static menu data
-    func createStaticMenus() {
+    func createMenuAndGlobalVoiceCommands() {
         // Send the root menu items
         let screenManager = sdlManager.screenManager
-        let menuItems = MenuManager.allMenuItems(with: sdlManager)
+        let menuItems = MenuManager.allMenuItems(with: sdlManager, choiceSetManager: performInteractionManager)
         let voiceMenuItems = MenuManager.allVoiceMenuItems(with: sdlManager)
 
-        screenManager.beginUpdates()
         if !menuItems.isEmpty { screenManager.menu = menuItems }
         if !voiceMenuItems.isEmpty { screenManager.voiceCommands = voiceMenuItems }
-        screenManager.endUpdates { (error) in
-            guard error != nil else { return }
-            SDLLog.e("Menu items and voice commands failed to update: \(error!.localizedDescription)")
-        }
-
-        // Send the choice sets
-        sdlManager.send([PerformInteractionManager.createInteractionChoiceSet()], progressHandler: { (request, response, error, percentComplete) in
-            SDLLog.d("\(request), was sent \(response?.resultCode == .success ? "successfully" : "unsuccessfully"), error: \(error?.localizedDescription ?? "no error message")")
-        }, completionHandler: { (success) in
-            SDLLog.d("All prepare remote system requests sent \(success ? "successfully" : "unsuccessfully")")
-        })
     }
 }
