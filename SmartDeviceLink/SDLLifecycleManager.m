@@ -663,7 +663,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     SDLOnAppInterfaceUnregistered *appUnregisteredNotification = notification.notification;
-    SDLLogW(@"Remote Device forced unregistration for reason: %@", appUnregisteredNotification.reason);
+    SDLLogE(@"Remote Device forced unregistration for reason: %@", appUnregisteredNotification.reason);
 
     if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateUnregistering]) {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
