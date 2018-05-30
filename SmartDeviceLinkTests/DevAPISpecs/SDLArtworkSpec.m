@@ -146,6 +146,19 @@ describe(@"SDLArtwork", ^{
             expect(expectedName1).toNot(equal(expectedName2));
         });
     });
+
+    context(@"If generating a name for the artwork using the md5 hash", ^{
+        __block NSString *expectedName = nil;
+
+        beforeEach(^{
+            expectedName = nil;
+        });
+
+        it(@"should be truncated to 16 characters", ^{
+            expectedName = [SDLArtwork sdl_md5HashFromNSData:UIImagePNGRepresentation(testImagePNG)];
+            expect(expectedName.length).to(equal(16));
+        });
+    });
 });
 
 QuickSpecEnd
