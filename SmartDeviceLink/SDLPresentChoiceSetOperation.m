@@ -11,7 +11,15 @@
 #import "SDLChoiceCell.h"
 #import "SDLChoiceSet.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLKeyboardDelegate.h"
+#import "SDLKeyboardProperties.h"
+#import "SDLLogMacros.h"
+#import "SDLNotificationConstants.h"
+#import "SDLOnKeyboardInput.h"
 #import "SDLPerformInteraction.h"
+#import "SDLPerformInteractionResponse.h"
+#import "SDLRPCNotificationNotification.h"
+#import "SDLSetGlobalProperties.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (strong, nonatomic) SDLChoiceSet *choiceSet;
 @property (strong, nonatomic) SDLInteractionMode presentationMode;
+@property (strong, nonatomic, nullable) SDLKeyboardProperties *originalKeyboardProperties;
+@property (strong, nonatomic, nullable) SDLKeyboardProperties *keyboardProperties;
 @property (weak, nonatomic) id<SDLKeyboardDelegate> keyboardDelegate;
 
 @property (strong, nonatomic, readonly) SDLPerformInteraction *performInteraction;
@@ -38,19 +48,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPresentChoiceSetOperation
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate {
     self = [super init];
     if (!self) { return self; }
 
     _connectionManager = connectionManager;
     _choiceSet = choiceSet;
+    _presentationMode = mode;
 
+    _originalKeyboardProperties = originalKeyboardProperties;
+    _keyboardProperties = originalKeyboardProperties;
+    _keyboardDelegate = keyboardDelegate;
 
     return self;
 }
 
 - (void)start {
     [super start];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_keyboardInputNotification:) name:SDLDidReceiveKeyboardInputNotification object:nil];
 
     [self sdl_presentChoiceSet];
 }
@@ -61,6 +77,53 @@ NS_ASSUME_NONNULL_BEGIN
         [self finishOperation];
     }];
 }
+
+- (void)sdl_updateKeyboardPropertiesWithCompletionHandler:(nullable void(^)(void))completionHandler {
+    SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
+    setProperties.keyboardProperties = self.keyboardProperties;
+
+    [self.connectionManager sendConnectionRequest:setProperties withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogE(@"Error setting keyboard properties to new value: %@, with error: %@", request, error);
+        }
+
+        completionHandler();
+    }];
+}
+
+- (void)sdl_keyboardInputNotification:(SDLRPCNotificationNotification *)notification {
+    if (self.isCancelled) {
+        [self finishOperation];
+        return;
+    }
+
+    if (self.keyboardDelegate == nil) { return; }
+    SDLOnKeyboardInput *onKeyboard = notification.notification;
+
+    [self.keyboardDelegate keyboardDidSendEvent:onKeyboard.event text:onKeyboard.data];
+
+    __weak typeof(self) weakself = self;
+    if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventVoice] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventSubmitted]) {
+        // Submit voice or text
+        [self.keyboardDelegate userDidSubmitInput:onKeyboard.data withEvent:onKeyboard.event];
+    } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventKeypress]) {
+        // Notify of keypress
+        [self.keyboardDelegate updateAutocompleteWithInput:onKeyboard.data completionHandler:^(NSString *updatedAutocompleteText) {
+            weakself.keyboardProperties.autoCompleteText = updatedAutocompleteText;
+            [self sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
+        }];
+
+        [self.keyboardDelegate updateCharacterSetWithInput:onKeyboard.data completionHandler:^(NSArray<NSString *> *updatedCharacterSet) {
+            weakself.keyboardProperties.limitedCharacterList = updatedCharacterSet;
+            [self sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
+        }];
+    } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventAborted] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventCancelled]) {
+        // Notify of abort / cancellation
+        [self.keyboardDelegate userDidCancelInputWithReason:onKeyboard.event];
+    }
+}
+
+#pragma mark - Getters
 
 - (SDLPerformInteraction *)performInteraction {
     SDLPerformInteraction *performInteraction = [[SDLPerformInteraction alloc] init];
@@ -96,6 +159,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Property Overrides
+
+- (void)finishOperation {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
+    [super finishOperation];
+}
 
 - (nullable NSString *)name {
     return @"com.sdl.choicesetmanager.presentChoiceSet";

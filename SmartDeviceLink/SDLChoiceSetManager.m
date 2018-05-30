@@ -255,7 +255,7 @@ UInt16 const ChoiceCellIdMin = 1;
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
 
     // Present a keyboard with the choice set that we used to test VR's optional state
-    SDLPresentKeyboardOperation *presentOp = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager initialText:initialText keyboardDelegate:delegate];
+    SDLPresentKeyboardOperation *presentOp = [[SDLPresentKeyboardOperation alloc] initWithConnectionManager:self.connectionManager keyboardProperties:self.keyboardConfiguration initialText:initialText keyboardDelegate:delegate];
     [self.transactionQueue addOperation:presentOp];
 }
 
