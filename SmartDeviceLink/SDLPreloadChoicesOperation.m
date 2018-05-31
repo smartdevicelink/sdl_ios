@@ -137,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLChoice *choice = [[SDLChoice alloc] initWithId:cell.choiceId menuName:(NSString *_Nonnull)menuName vrCommands:(NSArray<NSString *> * _Nonnull)vrCommands image:image secondaryText:secondaryText secondaryImage:secondaryImage tertiaryText:tertiaryText];
 
-    return [[SDLCreateInteractionChoiceSet alloc] initWithId:(UInt32)choice.choiceID choiceSet:@[choice]];
+    return [[SDLCreateInteractionChoiceSet alloc] initWithId:(UInt32)choice.choiceID.unsignedIntValue choiceSet:@[choice]];
 }
 
 #pragma mark - Property Overrides

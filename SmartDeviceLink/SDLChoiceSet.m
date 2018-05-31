@@ -74,6 +74,12 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     _defaultLayout = defaultLayout;
 }
 
+#pragma mark - Etc.
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"SDLChoiceSet: \"%@\", layout: %@", _title, (_layout == SDLChoiceSetLayoutList ? @"List" : @"Tiles")];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

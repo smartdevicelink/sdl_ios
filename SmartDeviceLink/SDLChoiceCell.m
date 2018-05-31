@@ -66,6 +66,12 @@ NS_ASSUME_NONNULL_BEGIN
     return (self.hash == choice.hash);
 }
 
+#pragma mark - Etc.
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"SDLChoiceCell: %u-\"%@ - %@ - %@\", artworkNames: %@ - %@, voice commands: %lu", _choiceId, _text, _secondaryText, _tertiaryText, _artwork.name, _secondaryArtwork.name, (unsigned long)_voiceCommands.count];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
