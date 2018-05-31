@@ -106,9 +106,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     unsigned char hash[CC_MD5_DIGEST_LENGTH];
     CC_MD5([data bytes], (CC_LONG)[data length], hash);
-    NSMutableString *formattedHash = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    NSMutableString *formattedHash = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH];
     // HAX: To shorten the string to 16 characters, the loop has been shortened to 8 fom 16.
-    for (int i = 0; i < 8; i += 1) {
+    for (int i = 0; i < CC_MD5_DIGEST_LENGTH / 2; i += 1) {
         [formattedHash appendFormat:@"%02x", hash[i]];
     }
     return formattedHash;
