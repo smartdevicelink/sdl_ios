@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Sending Choice Data
 
-- (void)sdl_preloadCellArtworksWithCompletionHandler:(void(^)(NSError *))completionHandler {
+- (void)sdl_preloadCellArtworksWithCompletionHandler:(void(^)(NSError *_Nullable))completionHandler {
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
         if ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage]) {
@@ -78,6 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     if (artworksToUpload.count == 0) {
         SDLLogV(@"No choice artworks to be uploaded");
+        completionHandler(nil);
         return;
     }
 
@@ -131,8 +132,8 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *secondaryText = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameSecondaryText] ? cell.secondaryText : nil;
     NSString *tertiaryText = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameTertiaryText] ? cell.tertiaryText : nil;
 
-    SDLImage *image = [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage] ? [[SDLImage alloc] initWithName:cell.artwork.name] : nil;
-    SDLImage *secondaryImage = [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] ? [[SDLImage alloc] initWithName:cell.secondaryArtwork.name] : nil;
+    SDLImage *image = ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage] && cell.artwork != nil) ? [[SDLImage alloc] initWithName:cell.artwork.name] : nil;
+    SDLImage *secondaryImage = ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] && cell.secondaryArtwork != nil) ? [[SDLImage alloc] initWithName:cell.secondaryArtwork.name] : nil;
 
     SDLChoice *choice = [[SDLChoice alloc] initWithId:cell.choiceId menuName:(NSString *_Nonnull)menuName vrCommands:(NSArray<NSString *> * _Nonnull)vrCommands image:image secondaryText:secondaryText secondaryImage:secondaryImage tertiaryText:tertiaryText];
 

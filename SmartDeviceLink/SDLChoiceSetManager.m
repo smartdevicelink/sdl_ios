@@ -71,7 +71,7 @@ typedef NSNumber * SDLChoiceId;
 @property (strong, nonatomic, nullable) SDLChoiceSet *pendingPresentationSet;
 @property (strong, nonatomic, nullable) SDLAsynchronousOperation *pendingPresentOperation;
 
-@property (assign, nonatomic, readonly) NSUInteger nextChoiceId;
+@property (assign, nonatomic) UInt16 nextChoiceId;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
 
 @end
@@ -93,6 +93,7 @@ UInt16 const ChoiceCellIdMin = 1;
     _transactionQueue.name = @"SDLFileManager Transaction Queue";
     _transactionQueue.maxConcurrentOperationCount = 1;
     _transactionQueue.qualityOfService = NSQualityOfServiceUserInitiated;
+    _transactionQueue.suspended = YES;
 
     _preloadedMutableChoices = [NSMutableSet set];
     _pendingMutablePreloadChoices = [NSMutableSet set];
@@ -154,9 +155,9 @@ UInt16 const ChoiceCellIdMin = 1;
         weakSelf.vrOptional = weakOp.isVROptional;
 
         if (weakOp.error != nil) {
-            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateReady];
-        } else {
             [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateStartupError];
+        } else {
+            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateReady];
         }
     };
 
@@ -174,6 +175,7 @@ UInt16 const ChoiceCellIdMin = 1;
 - (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
     NSSet<SDLChoiceCell *> *choicesToUpload = [self sdl_choicesToBeUploadedWithArray:choices];
+    [self sdl_updateIdsOnChoices:choicesToUpload];
 
     // Add the preload cells to the pending preloads
     [self.pendingMutablePreloadChoices unionSet:choicesToUpload];
@@ -288,6 +290,13 @@ UInt16 const ChoiceCellIdMin = 1;
     [choicesSet intersectSet:self.pendingPreloadChoices];
 
     return [choicesSet copy];
+}
+
+- (void)sdl_updateIdsOnChoices:(NSSet<SDLChoiceCell *> *)choices {
+    for (SDLChoiceCell *cell in choices) {
+        cell.choiceId = self.nextChoiceId;
+        self.nextChoiceId++;
+    }
 }
 
 #pragma mark - Getters

@@ -105,6 +105,9 @@ NS_ASSUME_NONNULL_BEGIN
             if (weakself.choiceSet.delegate != nil) {
                 [weakself.choiceSet.delegate choiceSet:weakself.choiceSet didReceiveError:error];
             }
+
+            [weakself finishOperation];
+            return;
         }
 
         SDLPerformInteractionResponse *performResponse = (SDLPerformInteractionResponse *)response;
