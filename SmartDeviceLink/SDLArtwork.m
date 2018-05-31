@@ -49,10 +49,12 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Private Lifecycle
 
 - (instancetype)initWithImage:(UIImage *)image name:(NSString *)name persistent:(BOOL)persistent asImageFormat:(SDLArtworkImageFormat)imageFormat {
+    self.image = image;
     return [super initWithData:[self.class sdl_dataForUIImage:image imageFormat:imageFormat] name:name fileExtension:[self.class sdl_fileExtensionForImageFormat:imageFormat] persistent:persistent];
 }
 
 - (instancetype)initWithImage:(UIImage *)image persistent:(BOOL)persistent asImageFormat:(SDLArtworkImageFormat)imageFormat {
+    self.image = image;
     NSData *imageData = [self.class sdl_dataForUIImage:image imageFormat:imageFormat];
     NSString *imageName = [self.class sdl_md5HashFromNSData:imageData];
     return [super initWithData:[self.class sdl_dataForUIImage:image imageFormat:imageFormat] name:(imageName != nil ? imageName : @"") fileExtension:[self.class sdl_fileExtensionForImageFormat:imageFormat] persistent:persistent];

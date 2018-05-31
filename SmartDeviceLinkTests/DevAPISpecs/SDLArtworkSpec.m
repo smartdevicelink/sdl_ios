@@ -27,41 +27,43 @@ describe(@"SDLArtwork", ^{
     context(@"On creation", ^{
         describe(@"When setting the image", ^{
             __block NSData *expectedImageData = nil;
-            __block BOOL expectedIsTemplate = NO;
 
-            xit(@"should set the image data successfully for an image with a name", ^ {
+            it(@"should set the image data successfully for an image with a name", ^ {
                 expectedImageData = UIImagePNGRepresentation(testImagePNG);
-                expectedIsTemplate = NO;
                 expectedArtwork = [[SDLArtwork alloc] initWithImage:testImagePNG name:@"testImage" persistent:true asImageFormat:SDLArtworkImageFormatPNG];
+
+                expect(expectedImageData).to(equal(expectedArtwork.data));
             });
 
-            xit(@"should set the image data successfully for an image without a name", ^ {
+            it(@"should set the image data successfully for an image without a name", ^ {
                 expectedImageData = UIImagePNGRepresentation(testImagePNG);
-                expectedIsTemplate = NO;
                 expectedArtwork = [[SDLArtwork alloc] initWithImage:testImagePNG persistent:true asImageFormat:SDLArtworkImageFormatPNG];
+
+                expect(expectedImageData).to(equal(expectedArtwork.data));
             });
 
-            xit(@"should not set the image data if the image is nil", ^{
+            it(@"should not set the image data if the image is nil", ^{
                 UIImage *testImage = nil;
-                expectedIsTemplate = NO;
                 expectedImageData = UIImagePNGRepresentation(testImage);
                 expectedArtwork = [[SDLArtwork alloc] initWithImage:testImage persistent:true asImageFormat:SDLArtworkImageFormatPNG];
+
+                expect(expectedArtwork.data).to(beNil());
             });
 
-            it(@"should save the image template if the image is not nil", ^{
-                expectedImageData = UIImagePNGRepresentation(testImagePNGTemplate);
-                expectedIsTemplate = YES;
-                expectedArtwork = [[SDLArtwork alloc] initWithImage:testImagePNGTemplate persistent:true asImageFormat:SDLArtworkImageFormatPNG];
-            });
+            describe(@"Setting the image data should also set whether or not the image is a template", ^{
+                it(@"should be a template if the UIImage is templated", ^{
+                    expectedImageData = UIImagePNGRepresentation(testImagePNGTemplate);
+                    expectedArtwork = [[SDLArtwork alloc] initWithImage:testImagePNGTemplate persistent:true asImageFormat:SDLArtworkImageFormatPNG];
 
-            afterEach(^{
-                if (expectedImageData == nil) {
-                    expect(expectedArtwork.data).to(beNil());
+                    expect(expectedArtwork.isTemplate).to(beTrue());
+                });
+
+                it(@"should not be a template if the UIImage is not templated", ^{
+                    expectedImageData = UIImagePNGRepresentation(testImagePNG);
+                    expectedArtwork = [[SDLArtwork alloc] initWithImage:testImagePNG persistent:true asImageFormat:SDLArtworkImageFormatPNG];
+
                     expect(expectedArtwork.isTemplate).to(beFalse());
-                } else {
-                    expect(expectedImageData).to(equal(expectedArtwork.data));
-                    expect(expectedIsTemplate).to(equal(expectedArtwork.isTemplate));
-                }
+                });
             });
         });
 
