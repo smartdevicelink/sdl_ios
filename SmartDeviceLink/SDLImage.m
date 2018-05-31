@@ -46,7 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithStaticImageValue:(UInt16)staticImageValue {
     NSString *value = [NSString stringWithFormat:@"%hu", staticImageValue];
-    return [self initWithName:value ofType:SDLImageTypeStatic];
+    // All static images are templated by default
+    return [self initWithName:value ofType:SDLImageTypeStatic isTemplate:YES];
 }
 
 #pragma mark - Getters / Setters

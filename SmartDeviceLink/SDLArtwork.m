@@ -15,11 +15,17 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLArtwork ()
 
 @property (strong, nonatomic) UIImage *image;
+@property (assign, nonatomic, readwrite) BOOL isTemplate;
 
 @end
 
 
 @implementation SDLArtwork
+
+-(void)setImage:(UIImage *)image {
+    _image = image;
+    self.isTemplate = image.renderingMode == UIImageRenderingModeAlwaysTemplate ? true : false;
+}
 
 #pragma mark - Lifecycle
 

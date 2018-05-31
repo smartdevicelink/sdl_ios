@@ -57,9 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param image The image to be displayed on the button. This is assumed to be a PNG, non-persistant. The name will be the same as the state name.
  @return A new soft button state
  */
-- (instancetype)initWithStateName:(NSString *)stateName text:(nullable NSString *)text image:(nullable UIImage *)image __deprecated_msg("Use initWithStateName:text:image:imageIsTemplate: instead");
-
-- (instancetype)initWithStateName:(NSString *)stateName text:(nullable NSString *)text image:(nullable UIImage *)image imageIsTemplate:(BOOL)imageIsTemplate;
+- (instancetype)initWithStateName:(NSString *)stateName text:(nullable NSString *)text image:(nullable UIImage *)image;
 
 /**
  Create the soft button state. Either the text or artwork or both may be set.
@@ -70,8 +68,6 @@ NS_ASSUME_NONNULL_BEGIN
  @return A new soft button state
  */
 - (instancetype)initWithStateName:(NSString *)stateName text:(nullable NSString *)text artwork:(nullable SDLArtwork *)artwork;
-
-- (instancetype)initWithStateName:(NSString *)stateName text:(nullable NSString *)text artwork:(nullable SDLArtwork *)artwork imageIsTemplate:(BOOL)imageIsTemplate;
 
 @end
 

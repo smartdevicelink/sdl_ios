@@ -53,23 +53,6 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithStateName:(NSString *)stateName text:(nullable NSString *)text artwork:(nullable SDLArtwork *)artwork imageIsTemplate:(BOOL)imageIsTemplate {
-    self = [super init];
-    if (!self) { return nil; }
-
-    if (artwork == nil && text == nil) {
-        SDLLogE(@"Attempted to create an invalid soft button state: text and artwork are both nil");
-        return nil;
-    }
-
-    _name = stateName;
-    _text = text;
-    _artwork = artwork;
-    _systemAction = SDLSystemActionDefaultAction;
-
-    return self;
-}
-
 - (SDLSoftButton *)softButton {
     SDLSystemAction action = self.systemAction ?: SDLSystemActionDefaultAction;
     return [[SDLSoftButton alloc] initWithType:self.type text:self.text image:self.image highlighted:self.highlighted buttonId:0 systemAction:action handler:nil];
@@ -88,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable SDLImage *)image {
     if (self.artwork == nil) { return nil; }
 
-    return [[SDLImage alloc] initWithName:self.artwork.name ofType:SDLImageTypeDynamic];
+    return [[SDLImage alloc] initWithName:self.artwork.name ofType:SDLImageTypeDynamic isTemplate:self.artwork.isTemplate];
 }
 
 - (NSString *)description {

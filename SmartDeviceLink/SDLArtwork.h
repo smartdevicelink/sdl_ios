@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLArtwork : SDLFile
 
+@property (assign, nonatomic, readonly) BOOL isTemplate;
+
 /**
  *  Convenience Helper to create an ephemeral artwork from an image.
  *
