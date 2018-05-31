@@ -43,7 +43,7 @@ describe(@"Getter/Setter Tests", ^{
             expectedIsTemplate = @YES;
         });
 
-        it(@"Should get correctly when initialized as a dictionary", ^{
+        it(@"Should set and get correctly when initialized", ^{
             NSString *value = @"value";
             SDLImageType imageType = SDLImageTypeStatic;
 
@@ -58,33 +58,6 @@ describe(@"Getter/Setter Tests", ^{
             expectedIsTemplate = @YES;
         });
 
-        it(@"Should get correctly when initialized with a name only", ^{
-            NSString *name = @"name";
-            testSDLImage = [[SDLImage alloc] initWithName:name isTemplate:YES];
-
-            expectedValue = name;
-            expectedImageType = SDLImageTypeDynamic;
-            expectedIsTemplate = @YES;
-        });
-
-        it(@"Should get correctly when initialized with a name and image type", ^{
-            NSString *name = @"name";
-            testSDLImage = [[SDLImage alloc] initWithName:name ofType:SDLImageTypeDynamic isTemplate:NO];
-
-            expectedValue = name;
-            expectedImageType = SDLImageTypeDynamic;
-            expectedIsTemplate = @NO;
-        });
-
-        it(@"Should get correctly when initialized with static image value", ^{
-            UInt16 staticImageValue = 2568;
-            testSDLImage = [[SDLImage alloc] initWithStaticImageValue:staticImageValue isTemplate:NO];
-
-            expectedValue = @"2568";
-            expectedImageType = SDLImageTypeStatic;
-            expectedIsTemplate = @NO;
-        });
-
         afterEach(^{
             expect(testSDLImage.value).to(equal(expectedValue));
             expect(testSDLImage.imageType).to(equal(expectedImageType));
@@ -97,6 +70,72 @@ describe(@"Getter/Setter Tests", ^{
         expect(testSDLImage.value).to(beNil());
         expect(testSDLImage.imageType).to(beNil());
         expect(testSDLImage.isTemplate).to(beNil());
+    });
+});
+
+describe(@"initializers", ^{
+    __block SDLImage *testImage = nil;
+    __block NSString *testValue = @"testImage";
+    __block SDLImageType testImageType = SDLImageTypeDynamic;
+    __block BOOL testIsTemplate = YES;
+
+    beforeEach(^{
+        testImage = nil;
+    });
+
+    context(@"init", ^{
+        testImage = [[SDLImage alloc] init];
+
+        expect(testImage).toNot(beNil());
+        expect(testImage.value).to(beNil());
+        expect(testImage.imageType).to(beNil());
+        expect(testImage.isTemplate).to(beNil());
+    });
+
+    context(@"initWithName:ofType:", ^{
+        testImage = [[SDLImage alloc] initWithName:testValue ofType:testImageType];
+
+        expect(testImage).toNot(beNil());
+        expect(testImage.value).to(equal(testValue));
+        expect(testImage.imageType).to(equal(testImageType));
+        expect(testImage.isTemplate).to(beFalse());
+    });
+
+    context(@"initWithName:ofType:isTemplate", ^{
+        testImage = [[SDLImage alloc] initWithName:testValue ofType:testImageType isTemplate:testIsTemplate];
+
+        expect(testImage).toNot(beNil());
+        expect(testImage.value).to(equal(testValue));
+        expect(testImage.imageType).to(equal(testImageType));
+        expect(testImage.isTemplate).to(equal(testIsTemplate));
+    });
+
+    context(@"initWithName:", ^{
+        testImage = [[SDLImage alloc] initWithName:testValue];
+
+        expect(testImage).toNot(beNil());
+        expect(testImage.value).to(equal(testValue));
+        expect(testImage.imageType).to(equal(SDLImageTypeDynamic));
+        expect(testImage.isTemplate).to(beFalse());
+    });
+
+    context(@"initWithName:isTemplate", ^{
+        testImage = [[SDLImage alloc] initWithName:testValue isTemplate:testIsTemplate];
+
+        expect(testImage).toNot(beNil());
+        expect(testImage.value).to(equal(testValue));
+        expect(testImage.imageType).to(equal(SDLImageTypeDynamic));
+        expect(testImage.isTemplate).to(equal(testIsTemplate));
+    });
+
+    context(@"initWithStaticImageValue:", ^{
+        UInt16 staticImageValue = 12;
+        testImage = [[SDLImage alloc] initWithStaticImageValue:staticImageValue];
+
+        expect(testImage).toNot(beNil());
+        expect(testImage.value).to(equal([NSString stringWithFormat:@"%hu", staticImageValue]));
+        expect(testImage.imageType).to(equal(SDLImageTypeStatic));
+        expect(testImage.isTemplate).to(beFalse());
     });
 });
 

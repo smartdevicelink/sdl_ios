@@ -23,9 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithName:(NSString *)name isTemplate:(BOOL)isTemplate;
 
-- (instancetype)initWithStaticImageValue:(UInt16)staticImageValue __deprecated_msg("Use initWithStaticImageValue:isTemplate: instead");
-
-- (instancetype)initWithStaticImageValue:(UInt16)staticImageValue isTemplate:(BOOL)isTemplate;
+- (instancetype)initWithStaticImageValue:(UInt16)staticImageValue;
 
 /**
  * The static hex icon value or the binary image file name identifier (sent by SDLPutFile)
