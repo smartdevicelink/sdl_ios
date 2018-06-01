@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_start {
     // Check if we're using a keyboard (searchable) choice set and setup keyboard properties if we need to
-    if (self.keyboardDelegate != nil) {
+    if (self.keyboardDelegate != nil && [self.keyboardDelegate respondsToSelector:@selector(customKeyboardConfiguration)]) {
         SDLKeyboardProperties *customProperties = self.keyboardDelegate.customKeyboardConfiguration;
         if (customProperties != nil) {
             self.keyboardProperties = customProperties;
@@ -155,7 +155,9 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.keyboardDelegate == nil) { return; }
     SDLOnKeyboardInput *onKeyboard = notification.notification;
 
-    [self.keyboardDelegate keyboardDidSendEvent:onKeyboard.event text:onKeyboard.data];
+    if ([self.keyboardDelegate respondsToSelector:@selector(keyboardDidSendEvent:text:)]) {
+        [self.keyboardDelegate keyboardDidSendEvent:onKeyboard.event text:onKeyboard.data];
+    }
 
     __weak typeof(self) weakself = self;
     if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventVoice] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventSubmitted]) {
@@ -163,18 +165,22 @@ NS_ASSUME_NONNULL_BEGIN
         [self.keyboardDelegate userDidSubmitInput:onKeyboard.data withEvent:onKeyboard.event];
     } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventKeypress]) {
         // Notify of keypress
-        [self.keyboardDelegate updateAutocompleteWithInput:onKeyboard.data completionHandler:^(NSString *updatedAutocompleteText) {
-            weakself.keyboardProperties.autoCompleteText = updatedAutocompleteText;
-            [self sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
-        }];
+        if ([self.keyboardDelegate respondsToSelector:@selector(updateAutocompleteWithInput:completionHandler:)]) {
+            [self.keyboardDelegate updateAutocompleteWithInput:onKeyboard.data completionHandler:^(NSString *updatedAutocompleteText) {
+                weakself.keyboardProperties.autoCompleteText = updatedAutocompleteText;
+                [weakself sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
+            }];
+        }
 
-        [self.keyboardDelegate updateCharacterSetWithInput:onKeyboard.data completionHandler:^(NSArray<NSString *> *updatedCharacterSet) {
-            weakself.keyboardProperties.limitedCharacterList = updatedCharacterSet;
-            [self sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
-        }];
+        if ([self.keyboardDelegate respondsToSelector:@selector(updateCharacterSetWithInput:completionHandler:)]) {
+            [self.keyboardDelegate updateCharacterSetWithInput:onKeyboard.data completionHandler:^(NSArray<NSString *> *updatedCharacterSet) {
+                weakself.keyboardProperties.limitedCharacterList = updatedCharacterSet;
+                [self sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
+            }];
+        }
     } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventAborted] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventCancelled]) {
         // Notify of abort / cancellation
-        [self.keyboardDelegate userDidCancelInputWithReason:onKeyboard.event];
+        [self.keyboardDelegate keyboardDidAbortWithReason:onKeyboard.event];
     }
 }
 

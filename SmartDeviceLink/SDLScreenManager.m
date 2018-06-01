@@ -139,6 +139,10 @@ NS_ASSUME_NONNULL_BEGIN
     self.voiceCommandMenuManager.voiceCommands = voiceCommands;
 }
 
+- (void)setKeyboardConfiguration:(SDLKeyboardProperties *)keyboardConfiguration {
+    self.choiceSetManager.keyboardConfiguration = keyboardConfiguration;
+}
+
 #pragma mark - Getters
 
 - (nullable NSString *)textField1 {
