@@ -91,7 +91,7 @@ UInt16 const ChoiceCellIdMin = 1;
     _fileManager = fileManager;
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLChoiceManagerStateShutdown states:[self.class sdl_stateTransitionDictionary]];
     _transactionQueue = [[NSOperationQueue alloc] init];
-    _transactionQueue.name = @"SDLFileManager Transaction Queue";
+    _transactionQueue.name = @"SDLChoiceSetManager Transaction Queue";
     _transactionQueue.maxConcurrentOperationCount = 1;
     _transactionQueue.qualityOfService = NSQualityOfServiceUserInitiated;
     _transactionQueue.suspended = YES;
@@ -175,17 +175,32 @@ UInt16 const ChoiceCellIdMin = 1;
 
 - (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
-    NSSet<SDLChoiceCell *> *choicesToUpload = [self sdl_choicesToBeUploadedWithArray:choices];
+    NSMutableSet<SDLChoiceCell *> *choicesToUpload = [[self sdl_choicesToBeUploadedWithArray:choices] mutableCopy];
+    [choicesToUpload minusSet:self.preloadedMutableChoices];
+    [choicesToUpload minusSet:self.pendingMutablePreloadChoices];
+
+    if (choicesToUpload.count == 0) {
+        if (handler != nil) {
+            handler(nil);
+        }
+
+        return;
+    }
+
     [self sdl_updateIdsOnChoices:choicesToUpload];
 
     // Add the preload cells to the pending preloads
     [self.pendingMutablePreloadChoices unionSet:choicesToUpload];
 
     // Upload pending preloads
-    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayCapabilities:self.displayCapabilities isVROptional:self.isVROptional cellsToPreload:self.pendingPreloadChoices];
+    SDLPreloadChoicesOperation *preloadOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:self.connectionManager fileManager:self.fileManager displayCapabilities:self.displayCapabilities isVROptional:self.isVROptional cellsToPreload:choicesToUpload];
 
+    __weak typeof(self) weakSelf = self;
     __weak typeof(preloadOp) weakPreloadOp = preloadOp;
     preloadOp.completionBlock = ^{
+        [weakSelf.preloadedMutableChoices unionSet:choicesToUpload];
+        [weakSelf.pendingMutablePreloadChoices minusSet:choicesToUpload];
+
         if (handler != nil) {
             handler(weakPreloadOp.error);
         }
@@ -239,6 +254,8 @@ UInt16 const ChoiceCellIdMin = 1;
     self.pendingPresentationSet = choiceSet;
     [self preloadChoices:self.pendingPresentationSet.choices withCompletionHandler:nil];
 
+    [self sdl_findIdsOnChoiceSet:self.pendingPresentationSet];
+
     self.pendingPresentOperation = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:nil keyboardDelegate:nil];
     [self.transactionQueue addOperation:self.pendingPresentOperation];
 }
@@ -252,6 +269,8 @@ UInt16 const ChoiceCellIdMin = 1;
 
     self.pendingPresentationSet = choiceSet;
     [self preloadChoices:self.pendingPresentationSet.choices withCompletionHandler:nil];
+
+    [self sdl_findIdsOnChoiceSet:self.pendingPresentationSet];
 
     self.pendingPresentOperation = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate];
     [self.transactionQueue addOperation:self.pendingPresentOperation];
@@ -297,6 +316,15 @@ UInt16 const ChoiceCellIdMin = 1;
     for (SDLChoiceCell *cell in choices) {
         cell.choiceId = self.nextChoiceId;
         self.nextChoiceId++;
+    }
+}
+
+- (void)sdl_findIdsOnChoiceSet:(SDLChoiceSet *)choiceSet {
+    for (SDLChoiceCell *cell in choiceSet.choices) {
+        SDLChoiceCell *uploadCell = [self.pendingPreloadChoices member:cell] ?: [self.preloadedChoices member:cell];
+        if (uploadCell != nil) {
+            cell.choiceId = uploadCell.choiceId;
+        }
     }
 }
 
