@@ -21,7 +21,7 @@ class PerformInteractionManager: NSObject {
     ///
     /// - Parameter manager: The SDL Manager
     func show(from triggerSource: SDLTriggerSource) {
-        manager.screenManager.present(choiceSet, mode: self.interactionMode(for: triggerSource))
+        manager.screenManager.presentSearchableChoiceSet(choiceSet, mode: interactionMode(for: triggerSource), with: self)
     }
 }
 
@@ -30,9 +30,9 @@ class PerformInteractionManager: NSObject {
 private extension PerformInteractionManager {
     /// The PICS menu items
     var choiceCells: [SDLChoiceCell] {
-        let firstChoice = SDLChoiceCell(text: PICSFirstChoice, artwork: nil, voiceCommands: [PICSFirstChoice])
-        let secondChoice = SDLChoiceCell(text: PICSSecondChoice, artwork: nil, voiceCommands: [PICSSecondChoice])
-        let thirdChoice = SDLChoiceCell(text: PICSThirdChoice, artwork: nil, voiceCommands: [PICSThirdChoice])
+        let firstChoice = SDLChoiceCell(text: PICSFirstChoice, artwork: nil, voiceCommands: nil)
+        let secondChoice = SDLChoiceCell(text: PICSSecondChoice, artwork: nil, voiceCommands: nil)
+        let thirdChoice = SDLChoiceCell(text: PICSThirdChoice, artwork: nil, voiceCommands: nil)
         return [firstChoice, secondChoice, thirdChoice]
     }
 
@@ -53,5 +53,37 @@ extension PerformInteractionManager: SDLChoiceSetDelegate {
 
     func choiceSet(_ choiceSet: SDLChoiceSet, didReceiveError error: Error) {
         manager.send(SDLSpeak(tts: TTSYouMissed))
+    }
+}
+
+extension PerformInteractionManager: SDLKeyboardDelegate {
+    func keyboardDidAbort(withReason event: SDLKeyboardEvent) {
+        switch event {
+        case SDLKeyboardEvent.cancelled:
+            manager.send(SDLSpeak(tts: TTSYouMissed))
+        case SDLKeyboardEvent.aborted:
+            manager.send(SDLSpeak(tts: TTSYouMissed))
+        default: break
+        }
+    }
+
+    func userDidSubmitInput(_ inputText: String, withEvent source: SDLKeyboardEvent) {
+        switch source {
+        case SDLKeyboardEvent.voice: break
+            // Start Voice search
+        case SDLKeyboardEvent.submitted:
+            manager.send(SDLSpeak(tts: TTSGoodJob))
+        default: break
+        }
+    }
+
+    func updateAutocomplete(withInput currentInputText: String, completionHandler: @escaping SDLKeyboardAutocompleteCompletionHandler) {
+        if currentInputText.lowercased().hasPrefix("f") {
+            completionHandler(PICSFirstChoice)
+        } else if currentInputText.lowercased().hasPrefix("s") {
+            completionHandler(PICSSecondChoice)
+        } else if currentInputText.lowercased().hasPrefix("t") {
+            completionHandler(PICSThirdChoice)
+        }
     }
 }
