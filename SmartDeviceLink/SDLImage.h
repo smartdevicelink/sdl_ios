@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithName:(NSString *)name ofType:(SDLImageType)imageType __deprecated_msg("Use initWithName:ofType:isTemplate: instead");
 
 /**
- * Convenience init for displaying a dynamic image. The image must be uploaded to SDL Core before being displayed.
+ *  Convenience init for displaying a dynamic image. The image must be uploaded to SDL Core before being displayed.
  *
  *  @param name        The unique name used to upload the image to SDL Core
  *  @param imageType   Describes whether the image is static or dynamic
