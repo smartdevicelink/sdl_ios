@@ -27,30 +27,30 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Initialize a subscribe RPC with various possible to describe to
 
- @param accelerationPedalPosition Subcribe to accelerationPedalPosition
- @param airbagStatus Subcribe to airbagStatus
- @param beltStatus Subcribe to beltStatus
- @param bodyInformation Subcribe to bodyInformation
- @param clusterModeStatus Subcribe to clusterModeStatus
- @param deviceStatus Subcribe to deviceStatus
- @param driverBraking Subcribe to driverBraking
- @param eCallInfo Subcribe to eCallInfo
- @param emergencyEvent Subcribe to v
- @param engineTorque Subcribe to engineTorque
- @param externalTemperature Subcribe to externalTemperature
- @param fuelLevel Subcribe to fuelLevel
- @param fuelLevelState Subcribe to fuelLevelState
- @param gps Subcribe to gps
- @param headLampStatus Subcribe to headLampStatus
- @param instantFuelConsumption Subcribe to instantFuelConsumption
- @param myKey Subcribe to myKey
- @param odometer Subcribe to odometer
- @param prndl Subcribe to prndl
- @param rpm Subcribe to rpm
- @param speed Subcribe to speed
- @param steeringWheelAngle Subcribe to steeringWheelAngle
- @param tirePressure Subcribe to tirePressure
- @param wiperStatus Subcribe to wiperStatus
+ @param accelerationPedalPosition Subscribe to accelerationPedalPosition
+ @param airbagStatus Subscribe to airbagStatus
+ @param beltStatus Subscribe to beltStatus
+ @param bodyInformation Subscribe to bodyInformation
+ @param clusterModeStatus Subscribe to clusterModeStatus
+ @param deviceStatus Subscribe to deviceStatus
+ @param driverBraking Subscribe to driverBraking
+ @param eCallInfo Subscribe to eCallInfo
+ @param emergencyEvent Subscribe to v
+ @param engineTorque Subscribe to engineTorque
+ @param externalTemperature Subscribe to externalTemperature
+ @param fuelLevel Subscribe to fuelLevel
+ @param fuelLevelState Subscribe to fuelLevelState
+ @param gps Subscribe to gps
+ @param headLampStatus Subscribe to headLampStatus
+ @param instantFuelConsumption Subscribe to instantFuelConsumption
+ @param myKey Subscribe to myKey
+ @param odometer Subscribe to odometer
+ @param prndl Subscribe to prndl
+ @param rpm Subscribe to rpm
+ @param speed Subscribe to speed
+ @param steeringWheelAngle Subscribe to steeringWheelAngle
+ @param tirePressure Subscribe to tirePressure
+ @param wiperStatus Subscribe to wiperStatus
  @return The RPC
  */
 - (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo emergencyEvent:(BOOL)emergencyEvent engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure wiperStatus:(BOOL)wiperStatus __deprecated_msg("Use initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus: instead");
