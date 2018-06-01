@@ -9,7 +9,7 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>A struct in DisplayCapabilities describing parameters related to a video / touch input area</p>
 
 
 <section class="section task-group-section">
@@ -17,12 +17,14 @@
       resolution
   </h3>
   
-  <p>Undocumented</p>
+  <p>The resolution of the prescribed screen area</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="n">resolution</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">resolution</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -35,12 +37,15 @@
       touchEventAvailable
   </h3>
   
-  <p>Undocumented</p>
+  <p>Types of screen touch events available in screen area</p>
+
+<p>Optional</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLTouchEventCapabilities.html">SDLTouchEventCapabilities</a></span> <span class="o">*</span><span class="n">touchEventAvailable</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTouchEventCapabilities.html">SDLTouchEventCapabilities</a></span> <span class="o">*</span><span class="n">touchEventAvailable</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

@@ -4,36 +4,44 @@
 
 #import "SDLEnum.h"
 
-/** Reflects the status of the eCall Notification.
- *<b>Since</b> SmartDeviceLink 2.0
- <p>
+/**
+ Reflects the status of the eCall Notification. Used in ECallInfo
+
+ Since SmartDeviceLink 2.0
  */
 typedef SDLEnum SDLECallConfirmationStatus SDL_SWIFT_ENUM;
 
-/** No E-Call signal triggered.
+/**
+ No E-Call signal triggered.
  */
 extern SDLECallConfirmationStatus const SDLECallConfirmationStatusNormal;
 
-/** An E-Call is being in progress.
+/**
+ An E-Call is being in progress.
  */
 extern SDLECallConfirmationStatus const SDLECallConfirmationStatusInProgress;
 
-/** CALL_CANCELLED	An E-Call was cancelled by the user.
+/**
+ An E-Call was cancelled by the user.
  */
 extern SDLECallConfirmationStatus const SDLECallConfirmationStatusCancelled;
 
-/** The E-Call sequence is completed.
+/**
+ The E-Call sequence is completed.
  */
 extern SDLECallConfirmationStatus const SDLECallConfirmationStatusCompleted;
 
-/** An E-Call could not be connected.
+/**
+ An E-Call could not be connected.
  */
 extern SDLECallConfirmationStatus const SDLECallConfirmationStatusUnsuccessful;
 
-/** E-Call is not configured on this vehicle.
+/**
+ E-Call is not configured on this vehicle.
  */
 extern SDLECallConfirmationStatus const SDLECallConfirmationStatusConfiguredOff;
 
-/** E-Call is considered to be complete without Emergency Operator contact.
+/**
+ E-Call is considered to be complete without Emergency Operator contact.
  */
 extern SDLECallConfirmationStatus const SDLECallConfirmationStatusCompleteDTMFTimeout;

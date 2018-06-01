@@ -11,6 +11,8 @@
 
 <h3>Overview</h3>
 
+<p>Shows a SDLShowConstantTBT message with an optional voice command. This message is shown as an overlay over the display&rsquo;s base screen.</p>
+
 <p>@since SmartDeviceLink 1.0</p>
 
 
@@ -55,12 +57,20 @@
       ttsChunks
   </h3>
   
-  <p>Undocumented</p>
+  <p>An array of text chunks.</p>
+
+<p>Optional, Array of SDLTTSChunk, Array length 1 - 100</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLTTSChunk
+
+</div>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">ttsChunks</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">ttsChunks</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -73,12 +83,20 @@
       softButtons
   </h3>
   
-  <p>Undocumented</p>
+  <p>An arry of soft buttons. If omitted on supported displays, only the system defined <q>Close</q> SoftButton shall be displayed.</p>
+
+<p>Optional, Array of SDLSoftButton, Array length 0 - 3</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLSoftButton
+
+</div>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">softButtons</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">softButtons</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

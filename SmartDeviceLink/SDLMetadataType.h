@@ -1,3 +1,4 @@
+
 //
 //  SDLMetadataType.h
 //  SmartDeviceLink-iOS
@@ -9,67 +10,67 @@
 #import "SDLEnum.h"
 
 /**
- * Text Field Types
+ * Text Field metadata types. Used in Show.
  */
 typedef SDLEnum SDLMetadataType SDL_SWIFT_ENUM;
 
 /**
- * @abstract SDLMetadataType: *mediaTitle*
+ * The song / media title name
  */
 extern SDLMetadataType const SDLMetadataTypeMediaTitle;
 
 /**
- * @abstract SDLMetadataType: *mediaArtist*
+ * The "artist" of the media
  */
 extern SDLMetadataType const SDLMetadataTypeMediaArtist;
 
 /**
- * @abstract SDLMetadataType: *mediaAlbum*
+ * The "album" of the media"
  */
 extern SDLMetadataType const SDLMetadataTypeMediaAlbum;
 
 /**
- * @abstract SDLMetadataType: *mediaYear*
+ * The "year" that the media was created
  */
 extern SDLMetadataType const SDLMetadataTypeMediaYear;
 
 /**
- * @abstract SDLMetadataType: *mediaGenre*
+ * The "genre" of the media
  */
 extern SDLMetadataType const SDLMetadataTypeMediaGenre;
 
 /**
- * @abstract SDLMetadataType: *mediaStation*
+ * The "station" that the media is playing on
  */
 extern SDLMetadataType const SDLMetadataTypeMediaStation;
 
 /**
- * @abstract SDLMetadataType: *rating*
+ * The "rating" given to the media
  */
 extern SDLMetadataType const SDLMetadataTypeRating;
 
 /**
- * @abstract SDLMetadataType: *currentTemperature*
+ * The current temperature of the weather information
  */
 extern SDLMetadataType const SDLMetadataTypeCurrentTemperature;
 
 /**
- * @abstract SDLMetadataType: *maximumTemperature*
+ * The high / maximum temperature of the weather information for the current period
  */
 extern SDLMetadataType const SDLMetadataTypeMaximumTemperature;
 
 /**
- * @abstract SDLMetadataType: *minimumTemperature*
+ * The low / minimum temperature of the weather information for the current period
  */
 extern SDLMetadataType const SDLMetadataTypeMinimumTemperature;
 
 /**
- * @abstract SDLMetadataType: *weatherTerm*
+ * A description of the weather for the current period
  */
 extern SDLMetadataType const SDLMetadataTypeWeatherTerm;
 
 /**
- * @abstract SDLMetadataType: *humidity*
+ * The humidity of the weather information for the current period
  */
 extern SDLMetadataType const SDLMetadataTypeHumidity;
 

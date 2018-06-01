@@ -9,10 +9,9 @@
 
 <h3>Overview</h3>
 
-<p>This is called when a command was selected via VR after pressing the PTT button, or selected from the menu after
- pressing the MENU button.</p>
+<p>This is called when a command was selected via VR after pressing the PTT button, or selected from the menu after pressing the MENU button.</p>
 
-<p><b>Note:</b> The sequence of <em>SDLOnHMIStatus</em> and <em>SDLOnCommand</em> notifications for user-initiated interactions is indeterminate.</p>
+<p>Note: The sequence of <em>SDLOnHMIStatus</em> and <em>SDLOnCommand</em> notifications for user-initiated interactions is indeterminate.</p>
 
 <p>@since SDL 1.0</p>
 <div class="aside aside-see">
@@ -27,7 +26,7 @@
       cmdID
   </h3>
   
-  <p>@abstract The command ID of the command the user selected. This is the command ID value provided by the application in the <i>SDLAddCommand</i> operation that created the command.</p>
+  <p>The command ID of the command the user selected. This is the command ID value provided by the application in the SDLAddCommand operation that created the command.</p>
 
   
   
@@ -45,7 +44,7 @@
       triggerSource
   </h3>
   
-  <p>@abstract Indicates whether command was selected via voice or via a menu selection (using the OK button).</p>
+  <p>Indicates whether command was selected via voice or via a menu selection (using the OK button).</p>
 
   
   

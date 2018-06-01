@@ -12,6 +12,9 @@
 #import "NSNumber+NumberType.h"
 #import "SDLRPCStruct.h"
 
+/**
+ A struct describing a rectangle
+ */
 @interface SDLRectangle : SDLRPCStruct
 
 /**
@@ -35,24 +38,28 @@
 
 /**
  *  The X-coordinate of the user control
+
  *  Required, Float
  */
 @property (strong, nonatomic) NSNumber<SDLFloat> *x;
 
 /**
  *  The Y-coordinate of the user control
+
  *  Required, Float
  */
 @property (strong, nonatomic) NSNumber<SDLFloat> *y;
 
 /**
  *  The width of the user control's bounding rectangle
+
  *  Required, Float
  */
 @property (strong, nonatomic) NSNumber<SDLFloat> *width;
 
 /**
  *  The height of the user control's bounding rectangle
+ 
  *  Required, Float
  */
 @property (strong, nonatomic) NSNumber<SDLFloat> *height;

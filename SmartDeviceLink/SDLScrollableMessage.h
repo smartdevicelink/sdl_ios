@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithMessage:(NSString *)message timeout:(UInt16)timeout softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
 
 /**
- * @abstract A Body of text that can include newlines and tabs
+ * A Body of text that can include newlines and tabs
  * @discussion A String value representing the Body of text that can include
  *            newlines and tabs
  *            <p>
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) NSString *scrollableMessageBody;
 /**
- * @abstract Gets/Sets an App defined timeout. Indicates how long of a timeout in milliseconds from the
+ * Gets/Sets an App defined timeout. Indicates how long of a timeout in milliseconds from the
  * last action
  * @discussion An Integer value representing an App defined timeout in milliseconds
  *            <p>
@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *timeout;
 /**
- * @abstract Gets/Sets App defined SoftButtons.If omitted on supported displays, only the
+ * Gets/Sets App defined SoftButtons.If omitted on supported displays, only the
  * system defined "Close" SoftButton will be displayed
  * @discussion A Vector<SoftButton> value representing App defined
  *            SoftButtons

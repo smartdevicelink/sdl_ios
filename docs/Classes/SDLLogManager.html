@@ -33,12 +33,13 @@
       modules
   </h3>
   
-  <p>Undocumented</p>
+  <p>Active log modules</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLLogFileModule.html">SDLLogFileModule</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">modules</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSSet</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLLogFileModule.html">SDLLogFileModule</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">modules</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -51,12 +52,12 @@
       targets
   </h3>
   
-  <p>Undocumented</p>
+  <p>Active log targets</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLLogTarget.html">SDLLogTarget</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="n">targets</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/SDLLogTarget.html">SDLLogTarget</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">targets</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -69,12 +70,12 @@
       filters
   </h3>
   
-  <p>Undocumented</p>
+  <p>Active log filters</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLLogFilter.html">SDLLogFilter</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">filters</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLLogFilter.html">SDLLogFilter</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">filters</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -105,12 +106,12 @@
       formatType
   </h3>
   
-  <p>Undocumented</p>
+  <p>Active log format</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="../Enums/SDLLogFormatType.html">SDLLogFormatType</a></span> <span class="n">formatType</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Enums/SDLLogFormatType.html">SDLLogFormatType</a></span> <span class="n">formatType</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -123,12 +124,14 @@
       asynchronous
   </h3>
   
-  <p>Undocumented</p>
+  <p>Whether or not verbose, debug, and warning logs are logged asynchronously. If logs are performed async, then some may be missed in the event of a terminating signal such as an exception, but performance is improved and your code will not be slowed by logging.</p>
+
+<p>Defaults to TRUE</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">isAsynchronous</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">asynchronous</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">isAsynchronous</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">asynchronous</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -141,12 +144,15 @@
       errorsAsynchronous
   </h3>
   
-  <p>Undocumented</p>
+  <p>Whether or not error logs are logged asynchronously. If logs are performed async, then some may be missed in the event of a terminating signal such as an exception, but performance is improved and your code will not be slowed by logging.</p>
+
+<p>Defaults to FALSE</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">areErrorsAsynchronous</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">errorsAsynchronous</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">areErrorsAsynchronous</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">BOOL</span> <span class="n">errorsAsynchronous</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -159,12 +165,13 @@
       dateFormatter
   </h3>
   
-  <p>Undocumented</p>
+  <p>Active date formatter</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">class</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSDateFormatter</span> <span class="o">*</span><span class="n">dateFormatter</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">class</span><span class="p">)</span>
+    <span class="n">NSDateFormatter</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">dateFormatter</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -177,12 +184,13 @@
       logQueue
   </h3>
   
-  <p>Undocumented</p>
+  <p>The queue asynchronously logged logs are logged on. Say that 10 times fast.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">class</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">dispatch_queue_t</span> <span class="n">logQueue</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">class</span><span class="p">)</span>
+    <span class="n">dispatch_queue_t</span> <span class="n">_Nonnull</span> <span class="n">logQueue</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -195,12 +203,12 @@
       +sharedManager
   </h3>
   
-  <p>Undocumented</p>
+  <p>The singleton object</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">SDLLogManager</span> <span class="o">*</span><span class="p">)</span><span class="n">sharedManager</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">SDLLogManager</span> <span class="o">*</span><span class="p">)</span><span class="n">sharedManager</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -208,6 +216,10 @@
 
   
   
+  <div>
+    <h4>Return Value</h4>
+    <p>The singleton object</p>
+  </div>
   
   <h3 id="section-+setConfiguration:">
       +setConfiguration:

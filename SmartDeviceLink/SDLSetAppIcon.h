@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- * @abstract A file reference name
+ * A file reference name
  * @discussion A String value representing a file reference name
  *            <p>
  *            <b>Notes: </b>Maxlength=500

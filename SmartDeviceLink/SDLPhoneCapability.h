@@ -10,12 +10,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Extended capabilities of the module's phone feature
+ */
 @interface SDLPhoneCapability : SDLRPCStruct
 
 - (instancetype)initWithDialNumber:(BOOL)dialNumberEnabled;
 
 /**
  Whether or not the DialNumber RPC is enabled.
+ 
  Boolean, optional
  */
 @property (nullable, strong, nonatomic) NSNumber *dialNumberEnabled;

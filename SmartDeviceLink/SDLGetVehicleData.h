@@ -25,115 +25,133 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo emergencyEvent:(BOOL)emergencyEvent engineOilLife:(BOOL)engineOilLife engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure vin:(BOOL)vin wiperStatus:(BOOL)wiperStatus;
 
 /**
- * @abstract A boolean value. If true, requests Gps data
+ * A boolean value. If true, requests Gps data
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *gps;
 
 /**
- * @abstract A boolean value. If true, requests speed data
+ * A boolean value. If true, requests speed data
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *speed;
 
 /**
- * @abstract A boolean value. If true, requests rpm data
+ * A boolean value. If true, requests rpm data
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *rpm;
 
 /**
- * @abstract A boolean value. If true, requests FuelLevel data
+ * A boolean value. If true, requests FuelLevel data
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *fuelLevel;
 
 /**
- * @abstract A boolean value. If true, requests fuelLevel_State data
+ * A boolean value. If true, requests fuelLevel_State data
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *fuelLevel_State;
 
 /**
- * @abstract A boolean value. If true, requests instantFuelConsumption data
+ * A boolean value. If true, requests instantFuelConsumption data
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *instantFuelConsumption;
 
 /**
- * @abstract A boolean value. If true, requests externalTemperature data
+ * A boolean value. If true, requests externalTemperature data
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *externalTemperature;
 
 /**
- * @abstract A boolean value. If true, requests Vehicle Identification Number
+ * A boolean value. If true, requests Vehicle Identification Number
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *vin;
 
 /**
- * @abstract A boolean value. If true, requests Currently selected gear data
+ * A boolean value. If true, requests Currently selected gear data
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *prndl;
 
 /**
- * @abstract A boolean value. If true, requests tire pressure status data
+ * A boolean value. If true, requests tire pressure status data
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *tirePressure;
 
 /**
- * @abstract A boolean value. If true, requests odometer data
+ * A boolean value. If true, requests odometer data
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *odometer;
 
 /**
- * @abstract A boolean value. If true, requests belt Status data
+ * A boolean value. If true, requests belt Status data
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *beltStatus;
 
 /**
- * @abstract A boolean value. If true, requests body Information data
+ * A boolean value. If true, requests body Information data
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *bodyInformation;
 
 /**
- * @abstract A boolean value. If true, requests device Status data
+ * A boolean value. If true, requests device Status data
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *deviceStatus;
 
 /**
- * @abstract A boolean value. If true, requests driver Braking data
+ * A boolean value. If true, requests driver Braking data
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *driverBraking;
 
 /**
- * @abstract A boolean value. If true, requests wiper Status data
+ * A boolean value. If true, requests wiper Status data
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *wiperStatus;
 
 /**
- * @abstract A boolean value. If true, requests Head Lamp Status data
+ * A boolean value. If true, requests Head Lamp Status data
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *headLampStatus;
 
 /**
- * A boolean value. If true, requests Engine Oil Life data
+ * A boolean value. If true, means the Engine Oil Life data has been subscribed.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *engineOilLife;
 
 /**
- * @abstract A boolean value. If true, requests Engine Torque data
+ * A boolean value. If true, means the engineTorque data has been subscribed.
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *engineTorque;
 
 /**
- * @abstract A boolean value. If true, means the accPedalPosition data has been
- * subscribed.
+ * A boolean value. If true, means the accPedalPosition data has been subscribed.
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *accPedalPosition;
 
 /**
- * @abstract A boolean value. If true, means the steeringWheelAngle data has been
- * subscribed.
+ * A boolean value. If true, means the steeringWheelAngle data has been subscribed.
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *steeringWheelAngle;
+
+/**
+ If true, the Emergency Call notification and confirmation data has been subscribed
+ */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *eCallInfo;
+
+/**
+ If true, the status of the air bags has been subscribed
+ */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *airbagStatus;
+
+/**
+ If true, information related to an emergency event (and if it occurred) has been subscribed
+ */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *emergencyEvent;
+
+/**
+ If true, the status modes of the cluster have been subscribed
+ */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *clusterModeStatus;
+
+/**
+ If true, information related to the MyKey feature has been subscribed
+ */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *myKey;
 
 @end

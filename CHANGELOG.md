@@ -1,3 +1,29 @@
+# 6.0.0 Release Candidate 1
+### Breaking Changes
+* Remove `SDLProxy`, `SDLProtocol`, `SDLTransport` and related classes and protocols. [SDL-0016] [#454](https://github.com/smartdevicelink/sdl_ios/issues/454) [SDL-0017] [#525](https://github.com/smartdevicelink/sdl_ios/issues/525) [SDL-0019] [#603](https://github.com/smartdevicelink/sdl_ios/issues/603)
+
+### Enhancements
+* Add API documentation [#97](https://github.com/smartdevicelink/sdl_ios/issues/97)
+* Added a Swift example app and expanded the Obj-C example app. [#620](https://github.com/smartdevicelink/sdl_ios/issues/620)
+* Add System Capability Manager, allowing easier observance of capability changes. [SDL-0088] [#916](https://github.com/smartdevicelink/sdl_ios/issues/916)
+* Add Menu Manager, making setting a menu (AddCommand / AddSubmenu) much simpler. [SDL-0155] [#927](https://github.com/smartdevicelink/sdl_ios/issues/927)
+
+### Bug Fixes
+* Fix CarWindow api should allow app to manually set screen resolution by exposing protocol that should have been exposed. [#908](https://github.com/smartdevicelink/sdl_ios/issues/908)
+* Fix notification of `hmiLevel` change when it has not changed. [#918](https://github.com/smartdevicelink/sdl_ios/issues/918)
+* Fix SDLFileManager not calling completion handler when it is shut down before transition to Ready state, causing a memory leak. [#919](https://github.com/smartdevicelink/sdl_ios/issues/919)
+* Fix connection retry counter not reset when the accessory is connected. [#921](https://github.com/smartdevicelink/sdl_ios/issues/921)
+* Fix SDLTouchManager to handle all touch events in SDLOnTouchEvent. [#935](https://github.com/smartdevicelink/sdl_ios/issues/935)
+* Fix SDLCarWindow does not send video after reconnection when lock screen is disabled. [#937](https://github.com/smartdevicelink/sdl_ios/issues/937)
+* Simplified Proxy, Protocol, and Transport internals. [#948](https://github.com/smartdevicelink/sdl_ios/issues/948)
+* Fix Screen Manager images not sent on reconnection. [#953](https://github.com/smartdevicelink/sdl_ios/issues/953)
+* Fix image soft buttons being sent too early. [#955](https://github.com/smartdevicelink/sdl_ios/issues/955)
+* Fix custom log modules in Swift. [#962](https://github.com/smartdevicelink/sdl_ios/issues/962)
+* Fix graphics not being set after reconnects. [#963](https://github.com/smartdevicelink/sdl_ios/issues/963)
+* Fix permission manager not resetting correctly on reconnection. [#964](https://github.com/smartdevicelink/sdl_ios/issues/964)
+* Fix SDLShow initializer crashes. [#966](https://github.com/smartdevicelink/sdl_ios/issues/966)
+* Fix mediaTrack field on ScreenManager. [#968](https://github.com/smartdevicelink/sdl_ios/issues/968)
+
 # 5.2.0
 ### Enhancements
 * Add a screen manager which currently handles text, graphics, and soft buttons [SDL-0134] [#862](https://github.com/smartdevicelink/sdl_ios/issues/862)

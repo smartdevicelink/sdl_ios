@@ -5,28 +5,43 @@
 #import "SDLEnum.h"
 
 /**
- * Properties of a user-initiated VR interaction (i.e. interactions started by the user pressing the PTT button).
+ * Properties of a user-initiated VR interaction (i.e. interactions started by the user pressing the PTT button). Used in RPCs related to ResetGlobalProperties
  *
  * @since SDL 1.0
  */
 typedef SDLEnum SDLGlobalProperty SDL_SWIFT_ENUM;
 
 /**
- * @abstract The help prompt to be spoken if the user needs assistance during a user-initiated interaction.
+ * The help prompt to be spoken if the user needs assistance during a user-initiated interaction.
  */
 extern SDLGlobalProperty const SDLGlobalPropertyHelpPrompt;
 
 /**
- * @abstract The prompt to be spoken if the user-initiated interaction times out waiting for the user's verbal input.
+ * The prompt to be spoken if the user-initiated interaction times out waiting for the user's verbal input.
  */
 extern SDLGlobalProperty const SDLGlobalPropertyTimeoutPrompt;
 
+/**
+ * The title of the menu displayed when the user requests help via voice recognition.
+ */
 extern SDLGlobalProperty const SDLGlobalPropertyVoiceRecognitionHelpTitle;
 
+/**
+ * Items of the menu displayed when the user requests help via voice recognition.
+ */
 extern SDLGlobalProperty const SDLGlobalPropertyVoiceRecognitionHelpItems;
 
+/**
+ * The name of the menu button displayed in templates
+ */
 extern SDLGlobalProperty const SDLGlobalPropertyMenuName;
 
+/**
+ * An icon on the menu button displayed in templates
+ */
 extern SDLGlobalProperty const SDLGlobalPropertyMenuIcon;
 
+/**
+ * Property related to the keyboard
+ */
 extern SDLGlobalProperty const SDLGlobalPropertyKeyboard;

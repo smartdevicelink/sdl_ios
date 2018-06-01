@@ -10,7 +10,7 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>A struct used in UpdateTurnList for Turn-by-Turn navigation applications</p>
 
 
 <section class="section task-group-section">
@@ -36,12 +36,12 @@
       navigationText
   </h3>
   
-  <p>Undocumented</p>
+  <p>Individual turn text. Must provide at least text or icon for a given turn</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">navigationText</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">navigationText</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -54,12 +54,12 @@
       turnIcon
   </h3>
   
-  <p>Undocumented</p>
+  <p>Individual turn icon. Must provide at least text or icon for a given turn</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="n">turnIcon</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="n">turnIcon</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

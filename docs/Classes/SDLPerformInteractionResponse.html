@@ -20,9 +20,7 @@
       choiceID
   </h3>
   
-  <p>@abstract ID of the choice that was selected in response to PerformInteraction. </p>
-
-<p>@discussion Only is valid if general result is <q>success:true</q>.</p>
+  <p>ID of the choice that was selected in response to PerformInteraction. Only is valid if general result is <q>success:true</q>.</p>
 
 <p>Optional, Integer, 0 - 2,000,000,000</p>
 
@@ -42,9 +40,7 @@
       manualTextEntry
   </h3>
   
-  <p>@abstract Manually entered text selection, e.g. through keyboard</p>
-
-<p>@discussion Can be returned in lieu of choiceID, depending on trigger source</p>
+  <p>Manually entered text selection, e.g. through keyboard. Can be returned in lieu of choiceID, depending on the trigger source.</p>
 
 <p>Optional, Max length 500 chars</p>
 
@@ -64,9 +60,7 @@
       triggerSource
   </h3>
   
-  <p>@abstract A <em>SDLTriggerSource</em> object which will be shown in the HMI</p>
-
-<p>@discussion Only is valid if resultCode is SUCCESS.</p>
+  <p>A <em>SDLTriggerSource</em> object which will be shown in the HMI. Only is valid if resultCode is SUCCESS.</p>
 
   
   

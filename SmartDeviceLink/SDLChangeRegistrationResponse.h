@@ -5,9 +5,9 @@
 #import "SDLRPCResponse.h"
 
 /**
- * SDLChangeRegistrationResponse is sent, when SDLChangeRegistration has been called
- *
- * @since SDL 2.0
+ Response to SDLChangeRegistrations
+
+ @since SDL 2.0
  */
 
 NS_ASSUME_NONNULL_BEGIN

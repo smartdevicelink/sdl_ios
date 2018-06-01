@@ -11,7 +11,7 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>A struct used in register app interface. Contains detailed information about the registered application.</p>
 
 
 <section class="section task-group-section">
@@ -37,12 +37,14 @@
       appDisplayName
   </h3>
   
-  <p>Undocumented</p>
+  <p>The name displayed for the mobile application on the mobile device (can differ from the app name set in the initial RAI request).</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">appDisplayName</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">appDisplayName</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -55,12 +57,14 @@
       appBundleID
   </h3>
   
-  <p>Undocumented</p>
+  <p>The AppBundleID of an iOS application or package name of the Android application. This supports App Launch strategies for each platform.</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">appBundleID</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">appBundleID</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -73,12 +77,14 @@
       appVersion
   </h3>
   
-  <p>Undocumented</p>
+  <p>Represents the build version number of this particular mobile app.</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">appVersion</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">appVersion</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) SDLRPCButtonNotificationHandler handler;
 
 /**
- * @abstract The name of the button to subscribe to
+ * The name of the button to subscribe to
  * @discussion An enum value, see <i>SDLButtonName</i>
  */
 @property (strong, nonatomic) SDLButtonName buttonName;

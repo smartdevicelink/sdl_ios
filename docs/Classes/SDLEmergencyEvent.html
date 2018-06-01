@@ -12,7 +12,7 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>A vehicle data struct for an emergency event</p>
 
 
 <section class="section task-group-section">
@@ -20,12 +20,15 @@
       emergencyEventType
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsEvntType_D_Ltchd</q>. See EmergencyEventType.</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLEmergencyEventType.h@T@SDLEmergencyEventType">SDLEmergencyEventType</a></span> <span class="n">emergencyEventType</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLEmergencyEventType.h@T@SDLEmergencyEventType">SDLEmergencyEventType</a></span> <span class="n">_Nonnull</span> <span class="n">emergencyEventType</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -38,12 +41,15 @@
       fuelCutoffStatus
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>RCM_FuelCutoff</q>. See FuelCutoffStatus.</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLFuelCutoffStatus.h@T@SDLFuelCutoffStatus">SDLFuelCutoffStatus</a></span> <span class="n">fuelCutoffStatus</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLFuelCutoffStatus.h@T@SDLFuelCutoffStatus">SDLFuelCutoffStatus</a></span> <span class="n">_Nonnull</span> <span class="n">fuelCutoffStatus</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -56,12 +62,15 @@
       rolloverEvent
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsEvntRoll_D_Ltchd</q>. See VehicleDataEventStatus.</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">rolloverEvent</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">_Nonnull</span> <span class="n">rolloverEvent</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -74,12 +83,20 @@
       maximumChangeVelocity
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsMaxDeltaV_D_Ltchd</q>. Change in velocity in KPH.</p>
+
+<p>Additional reserved values:
+0x00 No event,
+0xFE Not supported,
+0xFF Fault</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">maximumChangeVelocity</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">maximumChangeVelocity</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -92,12 +109,15 @@
       multipleEvents
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsMultiEvnt_D_Ltchd</q>. See VehicleDataEventStatus.</p>
+
+<p>Required</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">multipleEvents</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">_Nonnull</span> <span class="n">multipleEvents</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>

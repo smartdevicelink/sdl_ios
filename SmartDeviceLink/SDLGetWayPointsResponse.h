@@ -7,14 +7,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Response to SDLGetWayPoints
+ */
 @interface SDLGetWayPointsResponse : SDLRPCResponse
 
 /**
- * @abstract Array of waypoints
- *
- * @see SDLLocationDetails
- *
- * Optional, Array size 1 - 10
+ Provides additional human readable info regarding the result.
+ 
+ Optional, Array size 1 - 10
  */
 @property (nullable, strong, nonatomic) NSArray<SDLLocationDetails *> *waypoints;
 

@@ -55,12 +55,13 @@
       audioManager
   </h3>
   
-  <p>Undocumented</p>
+  <p>Audio Manager responsible for managing streaming audio.</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="n">audioManager</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">audioManager</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -379,11 +380,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startWithProtocol</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLAbstractProtocol.html">SDLAbstractProtocol</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">protocol</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startWithProtocol</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">SDLProtocol</span> <span class="o">*</span><span class="p">)</span><span class="nv">protocol</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">(</span><span class="n">with</span> <span class="nv">protocol</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAbstractProtocol.html">SDLAbstractProtocol</a></span><span class="p">)</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">(</span><span class="n">with</span> <span class="nv">protocol</span><span class="p">:</span> <span class="kt">SDLProtocol</span><span class="p">)</span></code></pre>
 
   
   

@@ -13,6 +13,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ A protocol describing a place logs from SDLLogManager are logged to
+ */
 @protocol SDLLogTarget <NSObject>
 
 /**
@@ -36,6 +39,10 @@ NS_ASSUME_NONNULL_BEGIN
  @param stringLog The formatted message
  */
 - (void)logWithLog:(SDLLogModel *)log formattedLog:(NSString *)stringLog;
+
+/**
+ The log target should be torn down. e.g. file handles should be closed
+ */
 - (void)teardownLogger;
 
 @end

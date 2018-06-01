@@ -24,12 +24,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithLanguage:(SDLLanguage)language hmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage appName:(nullable NSString *)appName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName ngnMediaScreenAppName:(nullable NSString *)ngnMediaScreenAppName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms;
 
 /**
- * @abstract The language the app wants to change to
+ * The language the app wants to change to
  */
 @property (strong, nonatomic) SDLLanguage language;
 
 /**
- * @abstract HMI display language
+ * HMI display language
  */
 @property (strong, nonatomic) SDLLanguage hmiDisplayLanguage;
 
