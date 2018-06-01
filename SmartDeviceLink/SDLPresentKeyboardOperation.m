@@ -76,34 +76,14 @@ NS_ASSUME_NONNULL_BEGIN
         }];
     } else {
         // We cannot NOT have a keyboard delegate for this operation
+        [self cancel];
         [self finishOperation];
     }
 }
 
-- (void)sdl_presentKeyboard {
-    [self.connectionManager sendConnectionRequest:self.performInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (self.isCancelled) {
-            [self finishOperation];
-            return;
-        }
-
-        if (error != nil) {
-            self.internalError = error;
-        }
-
-        [self finishOperation];
-    }];
-}
+#pragma mark - Sending Requests
 
 - (void)sdl_updateKeyboardPropertiesWithCompletionHandler:(nullable void(^)(void))completionHandler {
-    // If these are equal, there were no updated keyboard properties, so we can skip to presenting the keyboard
-    if (self.keyboardProperties == self.originalKeyboardProperties) {
-        if (completionHandler != nil) {
-            completionHandler();
-        }
-        return;
-    }
-
     SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
     setProperties.keyboardProperties = self.keyboardProperties;
 
@@ -118,6 +98,21 @@ NS_ASSUME_NONNULL_BEGIN
         if (completionHandler != nil) {
             completionHandler();
         }
+    }];
+}
+
+- (void)sdl_presentKeyboard {
+    [self.connectionManager sendConnectionRequest:self.performInteraction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (self.isCancelled) {
+            [self finishOperation];
+            return;
+        }
+
+        if (error != nil) {
+            self.internalError = error;
+        }
+
+        [self finishOperation];
     }];
 }
 

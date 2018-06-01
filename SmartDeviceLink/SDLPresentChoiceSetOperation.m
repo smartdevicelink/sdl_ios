@@ -82,18 +82,36 @@ NS_ASSUME_NONNULL_BEGIN
         if (customProperties != nil) {
             self.keyboardProperties = customProperties;
         }
-
-        [self sdl_updateKeyboardPropertiesWithCompletionHandler:^{
-            if (self.isCancelled) {
-                [self finishOperation];
-                return;
-            }
-
-            [self sdl_presentChoiceSet];
-        }];
-    } else {
-        [self sdl_presentChoiceSet];
     }
+
+    [self sdl_updateKeyboardPropertiesWithCompletionHandler:^{
+        if (self.isCancelled) {
+            [self finishOperation];
+            return;
+        }
+
+        [self sdl_presentChoiceSet];
+    }];
+}
+
+#pragma mark - Sending Requests
+
+- (void)sdl_updateKeyboardPropertiesWithCompletionHandler:(nullable void(^)(void))completionHandler {
+    SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
+    setProperties.keyboardProperties = self.keyboardProperties;
+
+    __weak typeof(self) weakself = self;
+    [self.connectionManager sendConnectionRequest:setProperties withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogE(@"Error setting keyboard properties to new value: %@, with error: %@", request, error);
+        }
+
+        weakself.updatedKeyboardProperties = YES;
+
+        if (completionHandler != nil) {
+            completionHandler();
+        }
+    }];
 }
 
 - (void)sdl_presentChoiceSet {
@@ -120,69 +138,7 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)sdl_updateKeyboardPropertiesWithCompletionHandler:(nullable void(^)(void))completionHandler {
-    // If these are equal, there were no updated keyboard properties, so we can skip to presenting the keyboard
-    if (self.keyboardProperties == self.originalKeyboardProperties) {
-        if (completionHandler != nil) {
-            completionHandler();
-        }
-        return;
-    }
-
-    SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
-    setProperties.keyboardProperties = self.keyboardProperties;
-
-    __weak typeof(self) weakself = self;
-    [self.connectionManager sendConnectionRequest:setProperties withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (error != nil) {
-            SDLLogE(@"Error setting keyboard properties to new value: %@, with error: %@", request, error);
-        }
-
-        weakself.updatedKeyboardProperties = YES;
-
-        if (completionHandler != nil) {
-            completionHandler();
-        }
-    }];
-}
-
-- (void)sdl_keyboardInputNotification:(SDLRPCNotificationNotification *)notification {
-    if (self.isCancelled) {
-        [self finishOperation];
-        return;
-    }
-
-    if (self.keyboardDelegate == nil) { return; }
-    SDLOnKeyboardInput *onKeyboard = notification.notification;
-
-    if ([self.keyboardDelegate respondsToSelector:@selector(keyboardDidSendEvent:text:)]) {
-        [self.keyboardDelegate keyboardDidSendEvent:onKeyboard.event text:onKeyboard.data];
-    }
-
-    __weak typeof(self) weakself = self;
-    if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventVoice] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventSubmitted]) {
-        // Submit voice or text
-        [self.keyboardDelegate userDidSubmitInput:onKeyboard.data withEvent:onKeyboard.event];
-    } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventKeypress]) {
-        // Notify of keypress
-        if ([self.keyboardDelegate respondsToSelector:@selector(updateAutocompleteWithInput:completionHandler:)]) {
-            [self.keyboardDelegate updateAutocompleteWithInput:onKeyboard.data completionHandler:^(NSString *updatedAutocompleteText) {
-                weakself.keyboardProperties.autoCompleteText = updatedAutocompleteText;
-                [weakself sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
-            }];
-        }
-
-        if ([self.keyboardDelegate respondsToSelector:@selector(updateCharacterSetWithInput:completionHandler:)]) {
-            [self.keyboardDelegate updateCharacterSetWithInput:onKeyboard.data completionHandler:^(NSArray<NSString *> *updatedCharacterSet) {
-                weakself.keyboardProperties.limitedCharacterList = updatedCharacterSet;
-                [self sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
-            }];
-        }
-    } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventAborted] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventCancelled]) {
-        // Notify of abort / cancellation
-        [self.keyboardDelegate keyboardDidAbortWithReason:onKeyboard.event];
-    }
-}
+#pragma mark - Helpers
 
 - (nullable SDLChoiceCell *)sdl_cellForId:(NSNumber<SDLInt> *)cellId {
     for (SDLChoiceCell *cell in self.choiceSet.choices) {
@@ -227,6 +183,46 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return [choiceIds copy];
+}
+
+#pragma mark - SDL Notifications
+
+- (void)sdl_keyboardInputNotification:(SDLRPCNotificationNotification *)notification {
+    if (self.isCancelled) {
+        [self finishOperation];
+        return;
+    }
+
+    if (self.keyboardDelegate == nil) { return; }
+    SDLOnKeyboardInput *onKeyboard = notification.notification;
+
+    if ([self.keyboardDelegate respondsToSelector:@selector(keyboardDidSendEvent:text:)]) {
+        [self.keyboardDelegate keyboardDidSendEvent:onKeyboard.event text:onKeyboard.data];
+    }
+
+    __weak typeof(self) weakself = self;
+    if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventVoice] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventSubmitted]) {
+        // Submit voice or text
+        [self.keyboardDelegate userDidSubmitInput:onKeyboard.data withEvent:onKeyboard.event];
+    } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventKeypress]) {
+        // Notify of keypress
+        if ([self.keyboardDelegate respondsToSelector:@selector(updateAutocompleteWithInput:completionHandler:)]) {
+            [self.keyboardDelegate updateAutocompleteWithInput:onKeyboard.data completionHandler:^(NSString *updatedAutocompleteText) {
+                weakself.keyboardProperties.autoCompleteText = updatedAutocompleteText;
+                [weakself sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
+            }];
+        }
+
+        if ([self.keyboardDelegate respondsToSelector:@selector(updateCharacterSetWithInput:completionHandler:)]) {
+            [self.keyboardDelegate updateCharacterSetWithInput:onKeyboard.data completionHandler:^(NSArray<NSString *> *updatedCharacterSet) {
+                weakself.keyboardProperties.limitedCharacterList = updatedCharacterSet;
+                [self sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
+            }];
+        }
+    } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventAborted] || [onKeyboard.event isEqualToEnum:SDLKeyboardEventCancelled]) {
+        // Notify of abort / cancellation
+        [self.keyboardDelegate keyboardDidAbortWithReason:onKeyboard.event];
+    }
 }
 
 #pragma mark - Property Overrides

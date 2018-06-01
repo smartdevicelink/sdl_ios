@@ -32,7 +32,7 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
 /**
  The default keyboard configuration, this can be additionally customized by each SDLKeyboardDelegate.
  */
-@property (strong, nonatomic) SDLKeyboardProperties *keyboardConfiguration;
+@property (strong, nonatomic, null_resettable) SDLKeyboardProperties *keyboardConfiguration;
 
 /**
  Cells will be hashed by their text, image names, and VR command text. When assembling an SDLChoiceSet, you can pull objects from here, or recreate them. The preloaded versions will be used so long as their text, image names, and VR commands are the same.

@@ -139,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.voiceCommandMenuManager.voiceCommands = voiceCommands;
 }
 
-- (void)setKeyboardConfiguration:(SDLKeyboardProperties *)keyboardConfiguration {
+- (void)setKeyboardConfiguration:(nullable SDLKeyboardProperties *)keyboardConfiguration {
     self.choiceSetManager.keyboardConfiguration = keyboardConfiguration;
 }
 

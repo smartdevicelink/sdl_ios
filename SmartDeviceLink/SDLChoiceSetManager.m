@@ -23,6 +23,7 @@
 #import "SDLFileManager.h"
 #import "SDLHMILevel.h"
 #import "SDLImage.h"
+#import "SDLKeyboardProperties.h"
 #import "SDLLogMacros.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLPerformInteraction.h"
@@ -311,6 +312,14 @@ UInt16 const ChoiceCellIdMin = 1;
 
 - (NSString *)currentState {
     return self.stateMachine.currentState;
+}
+
+- (SDLKeyboardProperties *)keyboardConfiguration {
+    if (_keyboardConfiguration == nil) {
+        return [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageEnUs layout:SDLKeyboardLayoutQWERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteText:nil];
+    } else {
+        return _keyboardConfiguration;
+    }
 }
 
 #pragma mark - RPC Responses / Notifications
