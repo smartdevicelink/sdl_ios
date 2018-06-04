@@ -20,6 +20,7 @@ extern CGSize const SDLDefaultScreenSize;
 
 extern NSString *const SDLVideoStreamDidStartNotification;
 extern NSString *const SDLVideoStreamDidStopNotification;
+extern NSString *const SDLVideoStreamSuspendedNotification;
 
 extern NSString *const SDLAudioStreamDidStartNotification;
 extern NSString *const SDLAudioStreamDidStopNotification;
