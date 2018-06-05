@@ -370,6 +370,7 @@ SDLName const SDLNameRegion = @"REG";
 SDLName const SDLNameRegisterAppInterface = @"RegisterAppInterface";
 SDLName const SDLNameRemoteControlCapability = @"remoteControlCapability";
 SDLName const SDLNameRequest = @"request";
+SDLName const SDLNameRequestSubType = @"requestSubType";
 SDLName const SDLNameRequestType = @"requestType";
 SDLName const SDLNameReserved = @"reserved";
 SDLName const SDLNameResetGlobalProperties = @"ResetGlobalProperties";

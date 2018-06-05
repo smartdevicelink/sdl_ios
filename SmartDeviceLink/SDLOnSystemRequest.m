@@ -24,6 +24,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameRequestType];
 }
 
+- (void)setRequestSubType:(nullable NSString *)requestSubType {
+    [parameters sdl_setObject:requestSubType forName:SDLNameRequestSubType];
+}
+
+- (nullable NSString *)requestSubType {
+    return [parameters sdl_objectForName:SDLNameRequestSubType];
+}
+
 - (void)setUrl:(nullable NSString *)url {
     [parameters sdl_setObject:url forName:SDLNameURL];
 }
