@@ -2025,42 +2025,49 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
-      "line": 31,
-      "symbol": "SDLAudioStreamDidStartNotification",
+      "line": 30,
+      "symbol": "SDLVideoStreamSuspendedNotification",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
       "line": 32,
+      "symbol": "SDLAudioStreamDidStartNotification",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
+      "line": 33,
       "symbol": "SDLAudioStreamDidStopNotification",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
-      "line": 34,
+      "line": 35,
       "symbol": "SDLLockScreenManagerWillPresentLockScreenViewController",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
-      "line": 35,
+      "line": 36,
       "symbol": "SDLLockScreenManagerDidPresentLockScreenViewController",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
-      "line": 36,
+      "line": 37,
       "symbol": "SDLLockScreenManagerWillDismissLockScreenViewController",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLStreamingMediaManagerConstants.h",
-      "line": 37,
+      "line": 38,
       "symbol": "SDLLockScreenManagerDidDismissLockScreenViewController",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
