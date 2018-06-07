@@ -1,3 +1,10 @@
+# 6.0.0 Release Candidate 2 (Changes since RC1)
+### Bug Fixes
+* Fixes generated file names being too long for some SDL implementations. [#976](https://github.com/smartdevicelink/sdl_ios/issues/976)
+* Unauthorized apps will no longer spin in a reconnection loop. [#977](https://github.com/smartdevicelink/sdl_ios/issues/977)
+* Fixes needing to clean every time one switches building the example apps. [#982](https://github.com/smartdevicelink/sdl_ios/issues/982)
+* Speeds up video streaming resets when app goes from background -> foreground on the phone. [#979](https://github.com/smartdevicelink/sdl_ios/issues/979)
+
 # 6.0.0 Release Candidate 1
 ### Breaking Changes
 * Remove `SDLProxy`, `SDLProtocol`, `SDLTransport` and related classes and protocols. [SDL-0016] [#454](https://github.com/smartdevicelink/sdl_ios/issues/454) [SDL-0017] [#525](https://github.com/smartdevicelink/sdl_ios/issues/525) [SDL-0019] [#603](https://github.com/smartdevicelink/sdl_ios/issues/603)
