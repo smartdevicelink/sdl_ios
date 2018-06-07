@@ -66,7 +66,7 @@ private extension ButtonManager {
     /// - Parameter manager: The SDL Manager for showing the alert
     /// - Returns: A soft button
     func softButtonAlert(with manager: SDLManager) -> SDLSoftButtonObject {
-        let imageSoftButtonState = SDLSoftButtonState(stateName: AlertSoftButtonImageState, text: nil, image: UIImage(named: CarIconImageName).withRenderingMode(.alwaysTemplate))
+        let imageSoftButtonState = SDLSoftButtonState(stateName: AlertSoftButtonImageState, text: nil, image: UIImage(named: AlertBWIconName)?.withRenderingMode(.alwaysTemplate))
         let textSoftButtonState = SDLSoftButtonState(stateName: AlertSoftButtonTextState, text: AlertSoftButtonText, image: nil)
         return SDLSoftButtonObject(name: AlertSoftButton, states: [imageSoftButtonState, textSoftButtonState], initialStateName: imageSoftButtonState.name) { (buttonPress, buttonEvent) in
             guard buttonPress != nil else { return }
@@ -79,8 +79,8 @@ private extension ButtonManager {
     ///
     /// - Returns: A soft button
     func softButtonToggle() -> SDLSoftButtonObject {
-        let imageOnState = SDLSoftButtonState(stateName: ToggleSoftButtonImageOnState, text: nil, image: UIImage(named: WheelIconImageName).withRenderingMode(.alwaysTemplate))
-        let imageOffState = SDLSoftButtonState(stateName: ToggleSoftButtonImageOffState, text: nil, image: UIImage(named: LaptopIconImageName).withRenderingMode(.alwaysTemplate))
+        let imageOnState = SDLSoftButtonState(stateName: ToggleSoftButtonImageOnState, text: nil, image: UIImage(named: ToggleOnBWIconName)?.withRenderingMode(.alwaysTemplate))
+        let imageOffState = SDLSoftButtonState(stateName: ToggleSoftButtonImageOffState, text: nil, image: UIImage(named: ToggleOffBWIconName)?.withRenderingMode(.alwaysTemplate))
         return SDLSoftButtonObject(name: ToggleSoftButton, states: [imageOnState, imageOffState], initialStateName: imageOnState.name) { [unowned self] (buttonPress, buttonEvent) in
             guard buttonPress != nil else { return }
             self.toggleEnabled = !self.toggleEnabled
