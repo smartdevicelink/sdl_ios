@@ -117,7 +117,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLHeadLampStatus *headLampStatus;
 
 /**
- The estimated percentage (0% - 100%) of remaining oil life of the engine.
+ The estimated percentage (0% - 100%) of remaining oil life of the engine
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *engineOilLife;
 

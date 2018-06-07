@@ -12,7 +12,7 @@
  *  Function Group: Location, VehicleInfo and DrivingChara
  *  HMILevel needs to be FULL, LIMITED or BACKGROUND
  *  Since SmartDeviceLink 2.0
- *  See SDLUnsubscribeVehicleData SDLGetVehicleData
+ *  See SDLUnsubscribeVehicleData, SDLGetVehicleData
  */
 
 NS_ASSUME_NONNULL_BEGIN
