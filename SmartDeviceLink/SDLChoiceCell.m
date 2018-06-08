@@ -49,16 +49,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Object Equality
 
-// https://www.mikeash.com/pyblog/friday-qa-2010-06-18-implementing-equality-and-hashing.html It is necessary to rotate each of our properties because a simple bitwise OR will produce equivalent results if, for example:
+// Based on preprocessor defines in https://www.mikeash.com/pyblog/friday-qa-2010-06-18-implementing-equality-and-hashing.html It is necessary to rotate each of our properties because a simple bitwise OR will produce equivalent results if, for example:
 // Object 1: self.text = "Hi", self.secondaryText = "Hello"
 // Object 2: self.text = "Hello", self.secondaryText = "Hi"
 // To avoid this, we need to rotate our hashes
 
-#define NSUINT_BIT (CHAR_BIT * sizeof(NSUInteger))
-#define NSUINTROTATE(val, howmuch) ((((NSUInteger)val) << howmuch) | (((NSUInteger)val) >> (NSUINT_BIT - howmuch)))
+NSUInteger const NSUIntBit = (CHAR_BIT * sizeof(NSUInteger));
+NSUInteger NSUIntRotate(NSUInteger val, NSUInteger howMuch) {
+    return ((((NSUInteger)val) << howMuch) | (((NSUInteger)val) >> (NSUIntBit - howMuch)));
+}
 
 - (NSUInteger)hash {
-    return NSUINTROTATE(self.text.hash, NSUINT_BIT / 2) ^ NSUINTROTATE(self.secondaryText.hash, NSUINT_BIT / 3) ^ NSUINTROTATE(self.tertiaryText.hash, NSUINT_BIT / 4) ^ NSUINTROTATE(self.artwork.name.hash, NSUINT_BIT / 5) ^ NSUINTROTATE(self.secondaryArtwork.name.hash, NSUINT_BIT / 6) ^ NSUINTROTATE(self.voiceCommands.hash, NSUINT_BIT / 7);
+    return NSUIntRotate(self.text.hash, NSUIntBit / 2)
+    ^ NSUIntRotate(self.secondaryText.hash, NSUIntBit / 3)
+    ^ NSUIntRotate(self.tertiaryText.hash, NSUIntBit / 4)
+    ^ NSUIntRotate(self.artwork.name.hash, NSUIntBit / 5)
+    ^ NSUIntRotate(self.secondaryArtwork.name.hash, NSUIntBit / 6)
+    ^ NSUIntRotate(self.voiceCommands.hash, NSUIntBit / 7);
 }
 
 - (BOOL)isEqual:(id)object {
