@@ -20,8 +20,8 @@ class MenuManager: NSObject {
                 menuCellGetVehicleSpeed(with: manager),
                 menuCellShowPerformInteraction(with: manager, choiceSetManager: choiceSetManager),
                 menuCellRecordInCarMicrophoneAudio(with: manager),
-                menuCellDialNumber(with: manager),
-                menuCellWithSubmenu(with: manager)]
+                menuCellDialNumber(with: manager)]/*,
+                menuCellWithSubmenu(with: manager)]*/
     }
 
     /// Creates and returns the voice commands. The voice commands are menu items that are selected using the voice recognition system.

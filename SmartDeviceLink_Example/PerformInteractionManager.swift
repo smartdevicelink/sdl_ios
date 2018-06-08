@@ -30,8 +30,8 @@ class PerformInteractionManager: NSObject {
 private extension PerformInteractionManager {
     /// The PICS menu items
     var choiceCells: [SDLChoiceCell] {
-        let firstChoice = SDLChoiceCell(text: PICSFirstChoice, artwork: nil, voiceCommands: nil)
-        let secondChoice = SDLChoiceCell(text: PICSSecondChoice, artwork: nil, voiceCommands: nil)
+        let firstChoice = SDLChoiceCell(text: PICSFirstChoice, artwork: nil, voiceCommands: ["Test"])
+        let secondChoice = SDLChoiceCell(text: PICSSecondChoice, artwork: nil, voiceCommands: ["Test"])
         let thirdChoice = SDLChoiceCell(text: PICSThirdChoice, artwork: nil, voiceCommands: nil)
         return [firstChoice, secondChoice, thirdChoice]
     }

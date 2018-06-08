@@ -8,6 +8,8 @@
 
 #import "SDLChoiceSet.h"
 
+#import "SDLChoiceCell.h"
+#import "SDLLogMacros.h"
 #import "SDLTTSChunk.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -42,6 +44,43 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
 - (instancetype)initWithTitle:(NSString *)title delegate:(id<SDLChoiceSetDelegate>)delegate layout:(SDLChoiceSetLayout)layout timeout:(NSTimeInterval)timeout initialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt timeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt helpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt vrHelpList:(nullable NSArray<SDLVRHelpItem *> *)helpList choices:(NSArray<SDLChoiceCell *> *)choices {
     self = [self init];
     if (!self) { return nil; }
+
+    if (choices.count == 0 || choices.count > 100) {
+        SDLLogW(@"Attempted to create a choice set with %lu choices; Only 1 - 100 choices are valid", choices.count);
+        return nil;
+    }
+
+    if (timeout < 5 || timeout > 100) {
+        SDLLogW(@"Attempted to create a choice set with a %f second timeout; Only 5 - 100 seconds is valid", timeout);
+        return nil;
+    }
+
+    if (title.length > 500) {
+        SDLLogW(@"Attempted to create a choice set with a %lu length. Only 500 characters are supported", title.length);
+        return nil;
+    }
+
+    NSMutableSet<NSString *> *choiceTextSet = [NSMutableSet setWithCapacity:choices.count];
+    for (SDLChoiceCell *cell in choices) {
+        [choiceTextSet addObject:cell.text];
+    }
+    if (choiceTextSet.count < choices.count) {
+        SDLLogW(@"Attempted to create a choice set with duplicate cell text. Cell text must be unique.");
+        return nil;
+    }
+
+    NSMutableArray<NSArray<NSString *> *> *nonNilVoiceCommands = [NSMutableArray array];
+    for (SDLChoiceCell *cell in choices) {
+        if (cell.voiceCommands != nil) {
+            [nonNilVoiceCommands addObject:cell.voiceCommands];
+        }
+    }
+
+    NSMutableSet<NSArray<NSString *> *> *choiceVoiceCommandSet = [NSMutableSet setWithArray:nonNilVoiceCommands];
+    if (choiceVoiceCommandSet.count < nonNilVoiceCommands.count) {
+        SDLLogW(@"Attempted to create a choice set with duplicate voice commands. Voice commands must be unique.");
+        return nil;
+    }
 
     _title = title;
     _delegate = delegate;

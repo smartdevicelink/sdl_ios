@@ -175,6 +175,7 @@ UInt16 const ChoiceCellIdMin = 1;
 
 - (void)preloadChoices:(NSArray<SDLChoiceCell *> *)choices withCompletionHandler:(nullable SDLPreloadChoiceCompletionHandler)handler {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
+
     NSMutableSet<SDLChoiceCell *> *choicesToUpload = [[self sdl_choicesToBeUploadedWithArray:choices] mutableCopy];
     [choicesToUpload minusSet:self.preloadedMutableChoices];
     [choicesToUpload minusSet:self.pendingMutablePreloadChoices];
@@ -249,6 +250,10 @@ UInt16 const ChoiceCellIdMin = 1;
 
 - (void)presentChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
+    if (choiceSet == nil) {
+        SDLLogW(@"Attempted to present a nil choice set, ignoring.");
+        return;
+    }
 
     if (self.pendingPresentationSet != nil) {
         [self.pendingPresentOperation cancel];
@@ -265,6 +270,10 @@ UInt16 const ChoiceCellIdMin = 1;
 
 - (void)presentSearchableChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(id<SDLKeyboardDelegate>)delegate {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
+    if (choiceSet == nil) {
+        SDLLogW(@"Attempted to present a nil choice set, ignoring.");
+        return;
+    }
 
     if (self.pendingPresentationSet != nil) {
         [self.pendingPresentOperation cancel];
