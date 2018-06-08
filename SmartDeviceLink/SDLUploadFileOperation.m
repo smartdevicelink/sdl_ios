@@ -94,7 +94,6 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakself = self;
     dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
         typeof(weakself) strongself = weakself;
-
         [weakself sdl_closeInputStream];
 
         if (streamError != nil || strongself.isCancelled) {

@@ -105,6 +105,8 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+#pragma mark - Getters and Setters
+
 - (void)setSyncFileName:(NSString *)syncFileName {
     [parameters sdl_setObject:syncFileName forName:SDLNameSyncFileName];
 }

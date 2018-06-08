@@ -109,14 +109,6 @@ describe(@"initializers", ^{
         expect(testRequest.crc).to(beNil());
     });
 
-    context(@"initWithFileName:fileType:crc:", ^{
-        SDLPutFile* testRequest = [[SDLPutFile alloc] initWithFileName:@"fileName" fileType:SDLFileTypeWAV crc:0xffffffff];
-
-        expect(testRequest.syncFileName).to(equal(@"fileName"));
-        expect(testRequest.fileType).to(equal(SDLFileTypeWAV));
-        expect(testRequest.crc).to(equal(0xffffffff));
-    });
-
     context(@"initWithFileName:fileType:persistentFile:", ^{
         SDLPutFile* testRequest = [[SDLPutFile alloc] initWithFileName:@"fileName" fileType:SDLFileTypePNG persistentFile:false];
 
@@ -124,15 +116,6 @@ describe(@"initializers", ^{
         expect(testRequest.fileType).to(equal(SDLFileTypePNG));
         expect(testRequest.persistentFile).to(beFalse());
         expect(testRequest.crc).to(beNil());
-    });
-
-    context(@"initWithFileName:fileType:persistentFile:crc:", ^{
-        SDLPutFile* testRequest = [[SDLPutFile alloc] initWithFileName:@"fileName" fileType:SDLFileTypePNG persistentFile:false crc:0xffffffff];
-
-        expect(testRequest.syncFileName).to(equal(@"fileName"));
-        expect(testRequest.fileType).to(equal(SDLFileTypePNG));
-        expect(testRequest.persistentFile).to(beFalse());
-        expect(testRequest.crc).to(equal(0xffffffff));
     });
 
     context(@"initWithFileName:fileType:persistentFile:systemFile:offset:length:", ^{
