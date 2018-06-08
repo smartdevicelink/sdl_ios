@@ -48,7 +48,6 @@ extern SDLErrorDomain *const SDLErrorDomainMenuManager;
 + (NSError *)sdl_fileManager_fileDoesNotExistError;
 + (NSError *)sdl_fileManager_fileUploadCanceled;
 + (NSError *)sdl_fileManager_dataMissingError;
-+ (NSError *)sdl_fileManager_fileTransferCorruptedError;
 
 #pragma mark Show Managers
 

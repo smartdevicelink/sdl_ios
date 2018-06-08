@@ -86,10 +86,6 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
      *  The file data is nil or empty.
      */
     SDLFileManagerErrorFileDataMissing = -9,
-    /*
-     *  The file data was corrupted during transfer.
-     */
-    SDLFileManagerErrorFileDataCorrupted = -10,
 };
 
 /**
