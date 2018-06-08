@@ -49,6 +49,7 @@ private extension PerformInteractionManager {
 extension PerformInteractionManager: SDLChoiceSetDelegate {
     func choiceSet(_ choiceSet: SDLChoiceSet, didSelectChoice choice: SDLChoiceCell, withSource source: SDLTriggerSource) {
         manager.send(SDLSpeak(tts: TTSGoodJob))
+        manager.screenManager.deleteChoices(choiceCells)
     }
 
     func choiceSet(_ choiceSet: SDLChoiceSet, didReceiveError error: Error) {

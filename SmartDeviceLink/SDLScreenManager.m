@@ -251,11 +251,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)presentChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode {
-    [self.choiceSetManager presentChoiceSet:choiceSet mode:mode];
+    [self.choiceSetManager presentChoiceSet:choiceSet mode:mode withKeyboardDelegate:nil];
 }
 
 - (void)presentSearchableChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(id<SDLKeyboardDelegate>)delegate {
-    [self.choiceSetManager presentSearchableChoiceSet:choiceSet mode:mode withKeyboardDelegate:delegate];
+    [self.choiceSetManager presentChoiceSet:choiceSet mode:mode withKeyboardDelegate:delegate];
 }
 
 - (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {

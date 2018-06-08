@@ -151,15 +151,15 @@ UInt16 const ChoiceCellIdMin = 1;
     // Setup by sending a Choice Set without VR, seeing if there's an error. If there is, send one with VR. This choice set will be used for `presentKeyboard` interactions.
     SDLCheckChoiceVROptionalOperation *checkOp = [[SDLCheckChoiceVROptionalOperation alloc] initWithConnectionManager:self.connectionManager];
 
-    __weak typeof(self) weakSelf = self;
+    __weak typeof(self) weakself = self;
     __weak typeof(checkOp) weakOp = checkOp;
     checkOp.completionBlock = ^{
-        weakSelf.vrOptional = weakOp.isVROptional;
+        weakself.vrOptional = weakOp.isVROptional;
 
         if (weakOp.error != nil) {
-            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateStartupError];
+            [weakself.stateMachine transitionToState:SDLChoiceManagerStateStartupError];
         } else {
-            [weakSelf.stateMachine transitionToState:SDLChoiceManagerStateReady];
+            [weakself.stateMachine transitionToState:SDLChoiceManagerStateReady];
         }
     };
 
@@ -249,7 +249,7 @@ UInt16 const ChoiceCellIdMin = 1;
 
 #pragma mark Present
 
-- (void)presentChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode {
+- (void)presentChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(nullable id<SDLKeyboardDelegate>)delegate {
     if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
     if (choiceSet == nil) {
         SDLLogW(@"Attempted to present a nil choice set, ignoring.");
@@ -265,28 +265,30 @@ UInt16 const ChoiceCellIdMin = 1;
 
     [self sdl_findIdsOnChoiceSet:self.pendingPresentationSet];
 
-    self.pendingPresentOperation = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:nil keyboardDelegate:nil];
-    [self.transactionQueue addOperation:self.pendingPresentOperation];
-}
-
-- (void)presentSearchableChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(id<SDLKeyboardDelegate>)delegate {
-    if (![self.currentState isEqualToString:SDLChoiceManagerStateReady]) { return; }
-    if (choiceSet == nil) {
-        SDLLogW(@"Attempted to present a nil choice set, ignoring.");
-        return;
+    SDLPresentChoiceSetOperation *presentOp = nil;
+    if (delegate == nil) {
+        // Non-searchable choice set
+        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:nil keyboardDelegate:nil];
+    } else {
+        // Searchable choice set
+        presentOp = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate];
     }
+    self.pendingPresentOperation = presentOp;
 
-    if (self.pendingPresentationSet != nil) {
-        [self.pendingPresentOperation cancel];
-    }
+    __weak typeof(self) weakself = self;
+    __weak typeof(presentOp) weakOp = presentOp;
+    self.pendingPresentOperation.completionBlock = ^{
+        __strong typeof(weakOp) strongOp = weakOp;
+        weakself.pendingPresentationSet = nil;
+        weakself.pendingPresentOperation = nil;
 
-    self.pendingPresentationSet = choiceSet;
-    [self preloadChoices:self.pendingPresentationSet.choices withCompletionHandler:nil];
-
-    [self sdl_findIdsOnChoiceSet:self.pendingPresentationSet];
-
-    self.pendingPresentOperation = [[SDLPresentChoiceSetOperation alloc] initWithConnectionManager:self.connectionManager choiceSet:self.pendingPresentationSet mode:mode keyboardProperties:self.keyboardConfiguration keyboardDelegate:delegate];
-    [self.transactionQueue addOperation:self.pendingPresentOperation];
+        if (strongOp.error != nil && strongOp.choiceSet.delegate != nil) {
+            [strongOp.choiceSet.delegate choiceSet:strongOp.choiceSet didReceiveError:strongOp.error];
+        } else if (strongOp.choiceSet.delegate != nil && strongOp.selectedCell != nil) {
+            [strongOp.choiceSet.delegate choiceSet:strongOp.choiceSet didSelectChoice:strongOp.selectedCell withSource:strongOp.selectedTriggerSource];
+        }
+    };
+    [self.transactionQueue addOperation:presentOp];
 }
 
 - (void)presentKeyboardWithInitialText:(NSString *)initialText delegate:(id<SDLKeyboardDelegate>)delegate {

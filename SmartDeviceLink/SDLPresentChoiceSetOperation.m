@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readwrite, nullable) NSNumber<SDLInt> *selectedChoiceId;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (strong, nonatomic) SDLChoiceSet *choiceSet;
+@property (strong, nonatomic, readwrite) SDLChoiceSet *choiceSet;
 @property (strong, nonatomic) SDLInteractionMode presentationMode;
 @property (strong, nonatomic, nullable) SDLKeyboardProperties *originalKeyboardProperties;
 @property (strong, nonatomic, nullable) SDLKeyboardProperties *keyboardProperties;
@@ -44,9 +44,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) SDLPerformInteraction *performInteraction;
 @property (strong, nonatomic, readonly) SDLLayoutMode layoutMode;
 @property (strong, nonatomic, readonly) NSArray<NSNumber<SDLInt> *> *choiceIds;
-
 @property (assign, nonatomic) BOOL updatedKeyboardProperties;
+
 @property (copy, nonatomic, nullable) NSError *internalError;
+@property (strong, nonatomic, readwrite, nullable) SDLChoiceCell *selectedCell;
+@property (strong, nonatomic, readwrite, nullable) SDLTriggerSource selectedTriggerSource;
 
 @end
 
@@ -120,19 +122,14 @@ NS_ASSUME_NONNULL_BEGIN
         if (error != nil) {
             SDLLogE(@"Presenting choice set failed with response: %@, error: %@", response, error);
             weakself.internalError = error;
-            if (weakself.choiceSet.delegate != nil) {
-                [weakself.choiceSet.delegate choiceSet:weakself.choiceSet didReceiveError:error];
-            }
 
             [weakself finishOperation];
             return;
         }
 
         SDLPerformInteractionResponse *performResponse = (SDLPerformInteractionResponse *)response;
-        SDLChoiceCell *selectedCell = [weakself sdl_cellForId:performResponse.choiceID];
-        if (weakself.choiceSet.delegate != nil && selectedCell != nil) {
-            [weakself.choiceSet.delegate choiceSet:weakself.choiceSet didSelectChoice:selectedCell withSource:performResponse.triggerSource];
-        }
+        weakself.selectedCell = [weakself sdl_cellForId:performResponse.choiceID];
+        weakself.selectedTriggerSource = performResponse.triggerSource;
 
         [weakself finishOperation];
     }];

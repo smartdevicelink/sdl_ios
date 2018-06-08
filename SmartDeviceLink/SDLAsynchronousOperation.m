@@ -29,11 +29,12 @@
 
 - (void)finishOperation {
     [self willChangeValueForKey:@"isExecuting"];
-    [self willChangeValueForKey:@"isFinished"];
     executing = NO;
+    [self didChangeValueForKey:@"isExecuting"];
+
+    [self willChangeValueForKey:@"isFinished"];
     finished = YES;
     [self didChangeValueForKey:@"isFinished"];
-    [self didChangeValueForKey:@"isExecuting"];
 }
 
 #pragma mark - Property Overrides

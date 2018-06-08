@@ -63,18 +63,6 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *_Nullable error);
 /**
  Present a choice set on the head unit with a certain interaction mode. You should present in VR only if the user reached this choice set by using their voice, in Manual only if the user used touch to reach this choice set. Use Both if you're lazy...for real though, it's kind of confusing to the user and isn't recommended.
 
- If the cells in the set are not already preloaded, they will be preloaded before the presentation occurs; this could take a while depending on the contents of the cells.
-
- If the cells have voice commands and images attached, this could take upwards of 10 seconds. If there are no cells on the set, this will fail, calling `choiceSet:didReceiveError:` on the choice set delegate.
-
- @param choiceSet The set to be displayed
- @param mode If the set should be presented for the user to interact via voice, touch, or both
- */
-- (void)presentChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode;
-
-/**
- Present a choice set on the head unit with a certain interaction mode. You should present in VR only if the user reached this choice set by using their voice, in Manual only if the user used touch to reach this choice set. Use Both if you're lazy...for real though, it's kind of confusing to the user and isn't recommended.
-
  This presents the choice set as searchable when in a touch interaction. The user, when not in a distracted state, will have a keyboard available for searching this set. The user's input in the keyboard will be available in the SDLKeyboardDelegate.
 
  If the cells in the set are not already preloaded, they will be preloaded before the presentation occurs; this could take a while depending on the contents of the cells.
@@ -83,9 +71,9 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *_Nullable error);
 
  @param choiceSet The set to be displayed
  @param mode If the set should be presented for the user to interact via voice, touch, or both
- @param delegate The keyboard delegate called when the user interacts with the search field of the choice set
+ @param delegate The keyboard delegate called when the user interacts with the search field of the choice set, if not set, a non-searchable choice set will be used
  */
-- (void)presentSearchableChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(id<SDLKeyboardDelegate>)delegate;
+- (void)presentChoiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode withKeyboardDelegate:(nullable id<SDLKeyboardDelegate>)delegate;
 
 /**
  Present a keyboard-only interface to the user and receive input. The user will be able to input text in the keyboard when in a non-driver distraction situation.

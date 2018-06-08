@@ -10,7 +10,9 @@
 
 #import "SDLAsynchronousOperation.h"
 #import "SDLInteractionMode.h"
+#import "SDLTriggerSource.h"
 
+@class SDLChoiceCell;
 @class SDLChoiceSet;
 @class SDLKeyboardProperties;
 
@@ -20,6 +22,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPresentChoiceSetOperation : SDLAsynchronousOperation
+
+@property (strong, nonatomic, readonly) SDLChoiceSet *choiceSet;
+@property (strong, nonatomic, readonly, nullable) SDLChoiceCell *selectedCell;
+@property (strong, nonatomic, readonly, nullable) SDLTriggerSource selectedTriggerSource;
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager choiceSet:(SDLChoiceSet *)choiceSet mode:(SDLInteractionMode)mode keyboardProperties:(nullable SDLKeyboardProperties *)originalKeyboardProperties keyboardDelegate:(nullable id<SDLKeyboardDelegate>)keyboardDelegate;
 
