@@ -135,7 +135,7 @@ describe(@"initializers", ^{
         expect(testImage).toNot(beNil());
         expect(testImage.value).to(equal([NSString stringWithFormat:@"%hu", staticImageValue]));
         expect(testImage.imageType).to(equal(SDLImageTypeStatic));
-        expect(testImage.isTemplate).to(beFalse());
+        expect(testImage.isTemplate).to(beTrue());
     });
 });
 
