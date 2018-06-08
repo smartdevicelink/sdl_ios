@@ -1063,6 +1063,7 @@
 		5DD67CC31E68AE82009CD394 /* SDLLogFileModuleMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DD67CC11E68AE82009CD394 /* SDLLogFileModuleMap.h */; };
 		5DD67CC41E68AE82009CD394 /* SDLLogFileModuleMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DD67CC21E68AE82009CD394 /* SDLLogFileModuleMap.m */; };
 		5DD67CC71E68B568009CD394 /* SDLLogMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DD67CC51E68B568009CD394 /* SDLLogMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5DE35E4520CAFC5D0034BE5A /* SDLChoiceCellSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE35E4420CAFC5D0034BE5A /* SDLChoiceCellSpec.m */; };
 		5DE372A11ACB2ED300849FAA /* SDLHMICapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DE3729F1ACB2ED300849FAA /* SDLHMICapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DE372A21ACB2ED300849FAA /* SDLHMICapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE372A01ACB2ED300849FAA /* SDLHMICapabilities.m */; };
 		5DE372A41ACB336600849FAA /* SDLHMICapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE372A31ACB336600849FAA /* SDLHMICapabilitiesSpec.m */; };
@@ -2420,6 +2421,7 @@
 		5DD67CC11E68AE82009CD394 /* SDLLogFileModuleMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLogFileModuleMap.h; sourceTree = "<group>"; };
 		5DD67CC21E68AE82009CD394 /* SDLLogFileModuleMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLogFileModuleMap.m; sourceTree = "<group>"; };
 		5DD67CC51E68B568009CD394 /* SDLLogMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLogMacros.h; sourceTree = "<group>"; };
+		5DE35E4420CAFC5D0034BE5A /* SDLChoiceCellSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLChoiceCellSpec.m; path = DevAPISpecs/SDLChoiceCellSpec.m; sourceTree = "<group>"; };
 		5DE3729F1ACB2ED300849FAA /* SDLHMICapabilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLHMICapabilities.h; sourceTree = "<group>"; };
 		5DE372A01ACB2ED300849FAA /* SDLHMICapabilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHMICapabilities.m; sourceTree = "<group>"; };
 		5DE372A31ACB336600849FAA /* SDLHMICapabilitiesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHMICapabilitiesSpec.m; sourceTree = "<group>"; };
@@ -4612,6 +4614,7 @@
 		5DAD5F8120507DE40025624C /* Screen */ = {
 			isa = PBXGroup;
 			children = (
+				5DE35E4320CAFBEA0034BE5A /* Choice Set */,
 				5DF40B24208FA7C500DD6FDA /* Menu */,
 				5DAD5F8220507DED0025624C /* Soft Button */,
 				5DAD5F8320507DF30025624C /* Text and Graphic */,
@@ -4895,6 +4898,14 @@
 				5DD67CC21E68AE82009CD394 /* SDLLogFileModuleMap.m */,
 			);
 			name = Modules;
+			sourceTree = "<group>";
+		};
+		5DE35E4320CAFBEA0034BE5A /* Choice Set */ = {
+			isa = PBXGroup;
+			children = (
+				5DE35E4420CAFC5D0034BE5A /* SDLChoiceCellSpec.m */,
+			);
+			name = "Choice Set";
 			sourceTree = "<group>";
 		};
 		5DEE55BE1B8509A5004F0D0F /* HTTP Connection */ = {
@@ -6442,6 +6453,7 @@
 				162E83371A9BDE8B00906325 /* SDLResetGlobalPropertiesSpec.m in Sources */,
 				162E82DF1A9BDE8B00906325 /* SDLGlobalProperySpec.m in Sources */,
 				162E82F61A9BDE8B00906325 /* SDLRequestTypeSpec.m in Sources */,
+				5DE35E4520CAFC5D0034BE5A /* SDLChoiceCellSpec.m in Sources */,
 				162E82FB1A9BDE8B00906325 /* SDLSpeechCapabilitiesSpec.m in Sources */,
 				5D0A9F9C1F1565EB00CC80DD /* SDLGetSystemCapabilityResponseSpec.m in Sources */,
 				162E830D1A9BDE8B00906325 /* SDLWiperStatusSpec.m in Sources */,

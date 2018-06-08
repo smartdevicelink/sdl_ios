@@ -64,6 +64,8 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
 
 /**
  Maps to PerformInteraction.vrHelp. This is a list of help text presented to the user when they are in a voice recognition interaction from your choice set of options. If this set is presented in a touch only interaction, this will be ignored.
+
+ @note that while SDLVRHelpItem's position will be automatically set based on position in the array, the image will need to uploaded by you before use using SDLFileManager.
  */
 @property (copy, nonatomic, nullable) NSArray<SDLVRHelpItem *> *helpList;
 
