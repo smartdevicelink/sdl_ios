@@ -15,17 +15,17 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLChoiceCell: NSObject
 
 /**
- Maps to Choice.menuName. The primary text of the cell.
+ Maps to Choice.menuName. The primary text of the cell. Duplicates within an `SDLChoiceSet` are not permitted and will result in the `SDLChoiceSet` failing to initialize.
  */
 @property (copy, nonatomic, readonly) NSString *text;
 
 /**
- Maps to Choice.secondaryText. Optional secondary text of the cell, if available.
+ Maps to Choice.secondaryText. Optional secondary text of the cell, if available. Duplicates within an `SDLChoiceSet` are permitted.
  */
 @property (copy, nonatomic, readonly, nullable) NSString *secondaryText;
 
 /**
- Maps to Choice.tertiaryText. Optional tertitary text of the cell, if available.
+ Maps to Choice.tertiaryText. Optional tertitary text of the cell, if available. Duplicates within an `SDLChoiceSet` are permitted.
  */
 @property (copy, nonatomic, readonly, nullable) NSString *tertiaryText;
 

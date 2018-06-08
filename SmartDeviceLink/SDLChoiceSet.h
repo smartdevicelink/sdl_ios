@@ -34,50 +34,36 @@ typedef NS_ENUM(NSUInteger, SDLChoiceSetLayout) {
 
 /**
  Maps to PerformInteraction.initialText. The title of the choice set, and/or the initial text on a keyboard prompt.
-
- Required
  */
 @property (copy, nonatomic) NSString *title;
 
 /**
  Maps to PerformInteraction.initialPrompt. The initial prompt spoken to the user at the start of an interaction.
-
- Optional
  */
 @property (copy, nonatomic, nullable) NSArray<SDLTTSChunk *> *initialPrompt;
 
 /**
  Maps to PerformInteraction.interactionLayout. Whether the presented choices are arranged as a set of tiles or a list.
-
- Required
  */
 @property (assign, nonatomic) SDLChoiceSetLayout layout;
 
 /**
- Maps to PerformInteraction.timeout. This applies only to a manual selection (not a voice selection, which has its timeout handled by the system).
-
- Required
+ Maps to PerformInteraction.timeout. This applies only to a manual selection (not a voice selection, which has its timeout handled by the system). Defaults to `defaultTimeout`.
  */
 @property (assign, nonatomic) NSTimeInterval timeout;
 
 /**
  Maps to PerformInteraction.timeoutPrompt. This text is spoken when a VR interaction times out. If this set is presented in a manual (non-voice) only interaction, this will be ignored.
-
- Optional
  */
 @property (copy, nonatomic, nullable) NSArray<SDLTTSChunk *> *timeoutPrompt;
 
 /**
  Maps to PerformInteraction.helpPrompt. This is the spoken string when a user speaks "help" when the interaction is occurring.
-
- Optional
  */
 @property (copy, nonatomic, nullable) NSArray<SDLTTSChunk *> *helpPrompt;
 
 /**
  Maps to PerformInteraction.vrHelp. This is a list of help text presented to the user when they are in a voice recognition interaction from your choice set of options. If this set is presented in a touch only interaction, this will be ignored.
-
- Optional
  */
 @property (copy, nonatomic, nullable) NSArray<SDLVRHelpItem *> *helpList;
 

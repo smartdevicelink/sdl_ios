@@ -60,25 +60,21 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_start {
-    if (self.keyboardDelegate != nil) {
+    if (self.keyboardDelegate != nil && [self.keyboardDelegate respondsToSelector:@selector(customKeyboardConfiguration)]) {
         SDLKeyboardProperties *customProperties = self.keyboardDelegate.customKeyboardConfiguration;
         if (customProperties != nil) {
             self.keyboardProperties = customProperties;
         }
-
-        [self sdl_updateKeyboardPropertiesWithCompletionHandler:^{
-            if (self.isCancelled) {
-                [self finishOperation];
-                return;
-            }
-
-            [self sdl_presentKeyboard];
-        }];
-    } else {
-        // We cannot NOT have a keyboard delegate for this operation
-        [self cancel];
-        [self finishOperation];
     }
+
+    [self sdl_updateKeyboardPropertiesWithCompletionHandler:^{
+        if (self.isCancelled) {
+            [self finishOperation];
+            return;
+        }
+
+        [self sdl_presentKeyboard];
+    }];
 }
 
 #pragma mark - Sending Requests
