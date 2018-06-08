@@ -12,7 +12,7 @@
 
 QuickSpecBegin(SDLChoiceCellSpec)
 
-fdescribe(@"an SDLChoiceCell", ^{
+describe(@"an SDLChoiceCell", ^{
     __block SDLChoiceCell *testCell = nil;
 
     __block NSString *testText = @"testText";
@@ -28,6 +28,8 @@ fdescribe(@"an SDLChoiceCell", ^{
         testArtwork = [[SDLArtwork alloc] initWithData:[@"testart" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName fileExtension:@"png" persistent:NO];
         testSecondaryArtwork = [[SDLArtwork alloc] initWithData:[@"testsecondary art" dataUsingEncoding:NSUTF8StringEncoding] name:testSecondaryArtworkName fileExtension:@"jpg" persistent:NO];
         testVRCommands = @[@"testvr"];
+
+        testCell = nil;
     });
 
     describe(@"initializing", ^{

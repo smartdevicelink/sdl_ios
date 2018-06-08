@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLChoiceSet
 
-static NSTimeInterval _defaultTimeout = 0.0;
+static NSTimeInterval _defaultTimeout = 10.0;
 static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
 
 - (instancetype)init {
@@ -56,7 +56,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
         return nil;
     }
 
-    if (title.length > 500) {
+    if (title.length == 0 || title.length > 500) {
         SDLLogW(@"Attempted to create a choice set with a %lu length. Only 500 characters are supported", title.length);
         return nil;
     }
