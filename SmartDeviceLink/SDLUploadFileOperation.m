@@ -68,7 +68,6 @@ NS_ASSUME_NONNULL_BEGIN
     __block NSError *streamError = nil;
     __block NSUInteger bytesAvailable = 0;
     __block NSInteger highestCorrelationIDReceived = -1;
-    __block BOOL isDataCorrupted = NO;
 
     if (self.isCancelled) {
         [self finishOperation];
@@ -98,9 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         [weakself sdl_closeInputStream];
 
-        if (isDataCorrupted) {
-            completion(NO, bytesAvailable, [NSError sdl_fileManager_fileTransferCorruptedError]);
-        } else if (streamError != nil || strongself.isCancelled) {
+        if (streamError != nil || strongself.isCancelled) {
             completion(NO, bytesAvailable, streamError);
         } else {
             completion(YES, bytesAvailable, nil);
@@ -132,9 +129,6 @@ NS_ASSUME_NONNULL_BEGIN
 
             // If the SDL Core returned an error, cancel the upload the process in the future
             if (error != nil || response == nil || ![response.success boolValue] || strongself.isCancelled) {
-                if ([response.resultCode isEqualToEnum:SDLResultCorruptedData]) {
-                    isDataCorrupted = YES;
-                }
                 [strongself cancel];
                 streamError = error;
                 dispatch_group_leave(putFileGroup);
