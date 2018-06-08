@@ -20,7 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLArtwork : SDLFile
 
 /**
- *  Describes whether or not the image is a template that can be (re)colored by the SDL HMI. To make the artwork a template, set the `UIImage`s rendering mode to UIImageRenderingModeAlwaysTemplate.
+ *  Describes whether or not the image is a template that can be (re)colored by the SDL HMI. To make the artwork a template, set the `UIImage`s rendering mode to `UIImageRenderingModeAlwaysTemplate`. In order for templates to work successfully, the icon must be one solid color with a clear background. The artwork should be created using the PNG image format.
+ *
+ *  @discussion An image should be templated if it is intended to be used as an icon in a button or menu.
  */
 @property (assign, nonatomic, readonly) BOOL isTemplate;
 
