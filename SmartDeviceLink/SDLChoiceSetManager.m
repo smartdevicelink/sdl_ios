@@ -217,8 +217,10 @@ UInt16 const ChoiceCellIdMin = 1;
 
     // If choices are deleted that are already uploaded or pending and are used by a pending presentation, cancel it and send an error
     NSSet<SDLChoiceCell *> *pendingPresentationSet = [NSSet setWithArray:self.pendingPresentationSet.choices];
-    if ([cellsToBeDeleted intersectsSet:pendingPresentationSet] || [cellsToBeRemovedFromPending intersectsSet:pendingPresentationSet]) {
+    if ((!self.pendingPresentOperation.isCancelled && !self.pendingPresentOperation.isFinished)
+        && ([cellsToBeDeleted intersectsSet:pendingPresentationSet] || [cellsToBeRemovedFromPending intersectsSet:pendingPresentationSet])) {
         if (self.pendingPresentationSet.delegate != nil) {
+            [self.pendingPresentOperation cancel];
             [self.pendingPresentationSet.delegate choiceSet:self.pendingPresentationSet didReceiveError:[NSError sdl_choiceSetManager_choicesDeletedBeforePresentation:@{@"deletedChoices": choices}]];
         }
 
@@ -227,6 +229,7 @@ UInt16 const ChoiceCellIdMin = 1;
 
     // Remove the cells from pending and delete choices
     [self.pendingMutablePreloadChoices minusSet:cellsToBeRemovedFromPending];
+    [self sdl_findIdsOnChoices:cellsToBeDeleted];
     SDLDeleteChoicesOperation *deleteOp = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:self.connectionManager cellsToDelete:cellsToBeDeleted];
 
     __weak typeof(self) weakself = self;
@@ -320,7 +323,11 @@ UInt16 const ChoiceCellIdMin = 1;
 }
 
 - (void)sdl_findIdsOnChoiceSet:(SDLChoiceSet *)choiceSet {
-    for (SDLChoiceCell *cell in choiceSet.choices) {
+    return [self sdl_findIdsOnChoices:choiceSet.choices];
+}
+
+- (void)sdl_findIdsOnChoices:(NSSet<SDLChoiceCell *> *)choices {
+    for (SDLChoiceCell *cell in choices) {
         SDLChoiceCell *uploadCell = [self.pendingPreloadChoices member:cell] ?: [self.preloadedChoices member:cell];
         if (uploadCell != nil) {
             cell.choiceId = uploadCell.choiceId;
