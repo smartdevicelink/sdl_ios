@@ -116,14 +116,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  A handler that will let you know when the button you created is subscribed.
  *
- *  @warning This will only work if you use SDLManager.
+ *  @warning This will only work if you use `SDLManager`.
  */
 @property (nullable, copy, nonatomic) SDLRPCCommandNotificationHandler handler;
 
 /**
- *  A unique id that identifies the command
+ *  A unique id that identifies the command.
  *
- *  @discussion Is returned in an *SDLOnCommand* notification to identify the command selected by the user
+ *  @discussion Is returned in an `SDLOnCommand` notification to identify the command selected by the user
  *
  *  Required, Integer, 0 - 2,000,000,000
  */
@@ -141,7 +141,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  An array of strings to be used as VR synonyms for this command.
  *
- *  @discussion If provided, defines one or more VR phrases the recognition of any of which triggers the *SDLOnCommand* notification with this cmdID. If null, commands will not be accessible by voice commands (when the user hits push-to-talk).
+ *  @discussion If provided, defines one or more VR phrases the recognition of any of which triggers the `SDLOnCommand` notification with this cmdID. If null, commands will not be accessible by voice commands (when the user hits push-to-talk).
  *
  *  Optional, Array of Strings, Max String length 99 chars, Array size 1 - 100
  */
