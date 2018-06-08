@@ -11,6 +11,7 @@
 #import "SDLChoiceCell.h"
 #import "SDLLogMacros.h"
 #import "SDLTTSChunk.h"
+#import "SDLVrHelpItem.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -80,6 +81,10 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     if (choiceVoiceCommandSet.count < nonNilVoiceCommands.count) {
         SDLLogW(@"Attempted to create a choice set with duplicate voice commands. Voice commands must be unique.");
         return nil;
+    }
+
+    for (NSUInteger i = 0; i < helpList.count; i++) {
+        helpList[i].position = @(i + 1);
     }
 
     _title = title;
