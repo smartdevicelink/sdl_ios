@@ -181,7 +181,7 @@ NS_ASSUME_NONNULL_BEGIN
     screenManager.textField3 = isTextEnabled ? self.vehicleDataManager.vehicleOdometerData : nil;
 
     if (self.sdlManager.systemCapabilityManager.displayCapabilities.graphicSupported) {
-        screenManager.primaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[[UIImage imageNamed:ExampleAppLogoName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+        screenManager.primaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[[UIImage imageNamed:ExampleAppLogoName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] asImageFormat:SDLArtworkImageFormatPNG] : nil;
     }
 
     [screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
