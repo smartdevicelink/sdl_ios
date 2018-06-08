@@ -101,6 +101,7 @@ UInt16 const ChoiceCellIdMin = 1;
 
     _nextChoiceId = ChoiceCellIdMin;
     _vrOptional = YES;
+    _keyboardConfiguration = [self sdl_defaultKeyboardConfiguration];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
@@ -348,7 +349,7 @@ UInt16 const ChoiceCellIdMin = 1;
 
 - (void)setKeyboardConfiguration:(nullable SDLKeyboardProperties *)keyboardConfiguration {
     if (keyboardConfiguration == nil) {
-        _keyboardConfiguration = [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageEnUs layout:SDLKeyboardLayoutQWERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteText:nil];
+        _keyboardConfiguration = [self sdl_defaultKeyboardConfiguration];
     } else {
         _keyboardConfiguration = [[SDLKeyboardProperties alloc] initWithLanguage:keyboardConfiguration.language layout:keyboardConfiguration.keyboardLayout keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:keyboardConfiguration.limitedCharacterList autoCompleteText:keyboardConfiguration.autoCompleteText];
 
@@ -356,6 +357,10 @@ UInt16 const ChoiceCellIdMin = 1;
             SDLLogW(@"Attempted to set a keyboard configuration with an invalid keypress mode; only .resentCurrentEntry is valid. This value will be ignored, the rest of the properties will be set.");
         }
     }
+}
+
+- (SDLKeyboardProperties *)sdl_defaultKeyboardConfiguration {
+    return [[SDLKeyboardProperties alloc] initWithLanguage:SDLLanguageEnUs layout:SDLKeyboardLayoutQWERTY keypressMode:SDLKeypressModeResendCurrentEntry limitedCharacterList:nil autoCompleteText:nil];
 }
 
 #pragma mark - Getters
