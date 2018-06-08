@@ -251,7 +251,7 @@ private extension ProxyManager {
         screenManager.textField3 = isTextVisible ? vehicleDataManager.vehicleOdometerData : nil
 
         if sdlManager.systemCapabilityManager.displayCapabilities?.graphicSupported.boolValue ?? false {
-            screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!.withRenderingMode(.alwaysTemplate), persistent: false, as: .PNG) : nil
+            screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!.withRenderingMode(.alwaysOriginal), persistent: false, as: .PNG) : nil
         }
         
         screenManager.endUpdates(completionHandler: { (error) in
