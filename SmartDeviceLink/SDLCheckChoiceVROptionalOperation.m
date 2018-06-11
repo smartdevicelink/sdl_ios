@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
 
             SDLLogE(@"Connected head unit has rejected all choice cells, choice manager disabled. Error: %@, Response: %@", error, response);
-            weakself.vrOptional = YES;
+            weakself.vrOptional = NO;
             weakself.internalError = error;
             [weakself finishOperation];
         }];

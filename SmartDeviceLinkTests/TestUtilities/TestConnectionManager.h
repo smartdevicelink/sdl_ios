@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TestConnectionManager : NSObject <SDLConnectionManagerType>
 
+@property (copy, nonatomic, readonly) NSError *defaultError;
+
 /**
  *  All received requests. Chronological order. The 0th element will be the first request received; the nth request will be the n+1th request received.
  */
@@ -33,21 +35,21 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *)response;
 
 /**
- *  Call the last request's block with a specific response and error.
- *
- *  @param response The response to pass into the last request's block.
- *  @param error    The error to pass into the last request's block.
- */
-- (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *_Nullable)response error:(NSError *_Nullable)error;
-
-/**
  * Call the last request's block with a specific response, request, and error.
 
  @param response    The RPC Response to pass into the last request's block.
  @param requestNumber The request to pass into the last request's block.
  @param error       The error to pass into the last request's block.
  */
-- (void)respondToRequestWithResponse:(__kindof SDLRPCResponse *)response requestNumber:(NSInteger)requestNumber error:(NSError *_Nullable)error;
+- (void)respondToRequestWithResponse:(__kindof SDLRPCResponse *)response requestNumber:(NSInteger)requestNumber error:(nullable NSError *)error;
+
+/**
+ Call the last request's block with a specific response.
+
+ @param response The RPC Response to pass into the last request's block.
+ @param error The error to pass into the last request's block.
+ */
+- (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *)response error:(nullable NSError *)error;
 
 /**
  *  Remove all received requests.

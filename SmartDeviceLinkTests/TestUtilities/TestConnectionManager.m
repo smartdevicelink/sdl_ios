@@ -7,8 +7,9 @@
 //
 
 #import "TestConnectionManager.h"
-#import "SDLRPCRequest.h"
 
+#import "SDLRPCRequest.h"
+#import "SDLRPCResponse.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -60,22 +61,35 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-
 - (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *)response {
     [self respondToLastRequestWithResponse:response error:nil];
 }
 
-- (void)respondToRequestWithResponse:(__kindof SDLRPCResponse *)response requestNumber:(NSInteger)requestNumber error:(NSError *_Nullable)error {
+- (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *)response error:(nullable NSError *)error {
+    NSError *thisError = nil;
+    if (!response.success.boolValue && error == nil) {
+        error = self.defaultError;
+    } else if (error != nil) {
+        thisError = error;
+    }
+
     if (self.lastRequestBlock != nil) {
-        self.lastRequestBlock([[self receivedRequests] objectAtIndex:requestNumber], response, error);
+        self.lastRequestBlock(self.receivedRequests.lastObject, response, thisError);
     } else {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to respond to last request, but there was no last request block" userInfo:nil];
     }
 }
 
-- (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *_Nullable)response error:(NSError *_Nullable)error {
+- (void)respondToRequestWithResponse:(__kindof SDLRPCResponse *)response requestNumber:(NSInteger)requestNumber error:(nullable NSError *)error {
+    NSError *thisError = nil;
+    if (!response.success.boolValue && error == nil) {
+        error = self.defaultError;
+    } else if (error != nil) {
+        thisError = error;
+    }
+
     if (self.lastRequestBlock != nil) {
-        self.lastRequestBlock(self.receivedRequests.lastObject, response, error);
+        self.lastRequestBlock([[self receivedRequests] objectAtIndex:requestNumber], response, thisError);
     } else {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to respond to last request, but there was no last request block" userInfo:nil];
     }
@@ -86,6 +100,12 @@ NS_ASSUME_NONNULL_BEGIN
     _lastRequestBlock = nil;
 }
 
+
+#pragma mark - Getters
+
+- (NSError *)defaultError {
+    return [NSError errorWithDomain:@"com.sdl.testConnectionManager" code:-1 userInfo:nil];
+}
 
 #pragma mark Private helpers
 

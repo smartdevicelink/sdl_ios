@@ -11,7 +11,7 @@
 
 QuickSpecBegin(SDLChoiceSetSpec)
 
-fdescribe(@"an SDLChoiceSet", ^{
+describe(@"an SDLChoiceSet", ^{
     __block SDLChoiceSet *testChoiceSet = nil;
     __block NSString *testTitle = @"title";
     __block SDLChoiceCell *testCell = nil;
