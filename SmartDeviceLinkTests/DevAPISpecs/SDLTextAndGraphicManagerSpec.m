@@ -31,6 +31,7 @@
 @property (strong, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @property (strong, nonatomic) SDLArtwork *blankArtwork;
+@property (strong, nonatomic) NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *artworkUploadRetries;
 
 @property (assign, nonatomic) BOOL isDirty;
 
@@ -76,6 +77,7 @@ describe(@"text and graphic manager", ^{
         expect(testManager.displayCapabilities).to(beNil());
         expect(testManager.currentLevel).to(equal(SDLHMILevelNone));
         expect(testManager.blankArtwork).toNot(beNil());
+        expect(testManager.artworkUploadRetries).to(beEmpty());
         expect(testManager.isDirty).to(beFalse());
     });
 
@@ -779,6 +781,125 @@ describe(@"text and graphic manager", ^{
                     expect(testManager.queuedImageUpdate.secondaryGraphic.value).to(equal(testArtworkName));
                 });
             });
+
+            describe(@"When an image fails to upload to the remote", ^{
+                __block SDLArtwork *testArtwork1 = nil;
+                __block SDLArtwork *testArtwork2 = nil;
+
+                beforeEach(^{
+                    testArtwork1 = [[SDLArtwork alloc] initWithData:[@"Test data 1" dataUsingEncoding:NSUTF8StringEncoding] name:@"Test data 1" fileExtension:@"png" persistent:NO];
+                    testArtwork2 = [[SDLArtwork alloc] initWithData:[@"Test data 2" dataUsingEncoding:NSUTF8StringEncoding] name:@"Test data 2" fileExtension:@"png" persistent:NO];
+                });
+
+                context(@"If both the primary and secondary images fail to upload", ^{
+                    it(@"Should only attempt to re-upload the image a max of 3 times", ^{
+                        testManager.primaryGraphic = testArtwork1;
+                        testManager.secondaryGraphic = testArtwork2;
+                        testManager.batchUpdates = NO;
+                        testManager.artworkUploadRetries = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                            @3, testArtwork1.name,
+                                                            @3, testArtwork2.name,
+                                                            nil];
+
+                        OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
+                        [testManager updateWithCompletionHandler:nil];
+
+                        expect(testManager.inProgressUpdate.graphic).to(beNil());
+                        expect(testManager.inProgressUpdate.secondaryGraphic).to(beNil());
+                        expect(testManager.queuedImageUpdate).to(beNil());
+                    });
+                });
+
+                context(@"If both the primary and secondary images are uploaded successfully after several failed upload attempts", ^{
+                    it(@"Should show the successfully uploaded graphics", ^{
+                        testManager.primaryGraphic = testArtwork1;
+                        testManager.secondaryGraphic = testArtwork2;
+                        testManager.batchUpdates = NO;
+                        testManager.artworkUploadRetries = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                            @1, testArtwork1.name,
+                                                            @2, testArtwork2.name,
+                                                            nil];
+
+                        OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
+                        [testManager updateWithCompletionHandler:nil];
+
+                        expect(testManager.inProgressUpdate.graphic.value).to(equal(testArtwork1.name));
+                        expect(testManager.inProgressUpdate.secondaryGraphic.value).to(equal(testArtwork2.name));
+                        expect(testManager.queuedImageUpdate).to(beNil());
+                    });
+                });
+
+                context(@"If one of the primary or secondary images fails to upload", ^{
+                    it(@"Should show the primary graphic even if the secondary graphic upload fails", ^{
+                        testManager.primaryGraphic = testArtwork1;
+                        testManager.secondaryGraphic = testArtwork2;
+                        testManager.batchUpdates = NO;
+                        testManager.artworkUploadRetries = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                            @3, testArtwork2.name,
+                                                            nil];
+
+                        OCMStub([mockFileManager hasUploadedFile:testArtwork1]).andReturn(YES);
+                        OCMStub([mockFileManager hasUploadedFile:testArtwork2]).andReturn(NO);
+                        [testManager updateWithCompletionHandler:nil];
+
+                        expect(testManager.inProgressUpdate.graphic.value).to(equal(testArtwork1.name));
+                        expect(testManager.inProgressUpdate.secondaryGraphic).to(beNil());
+                        expect(testManager.queuedImageUpdate).to(beNil());
+                    });
+
+                    it(@"Should show the secondary graphic even if the primary graphic upload fails", ^{
+                        testManager.primaryGraphic = testArtwork1;
+                        testManager.secondaryGraphic = testArtwork2;
+                        testManager.batchUpdates = NO;
+                        testManager.artworkUploadRetries = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                            @3, testArtwork1.name,
+                                                            nil];
+
+                        OCMStub([mockFileManager hasUploadedFile:testArtwork1]).andReturn(NO);
+                        OCMStub([mockFileManager hasUploadedFile:testArtwork2]).andReturn(YES);
+                        [testManager updateWithCompletionHandler:nil];
+
+                        expect(testManager.inProgressUpdate.graphic).to(beNil());
+                        expect(testManager.inProgressUpdate.secondaryGraphic.value).to(equal(testArtwork2.name));
+                        expect(testManager.queuedImageUpdate).to(beNil());
+                    });
+                });
+
+                context(@"If only one of the primary or secondary images is set", ^{
+                    it(@"Should show the uploaded primary graphic even if the secondary graphic is not set", ^{
+                        testManager.primaryGraphic = testArtwork1;
+                        testManager.secondaryGraphic = nil;
+                        testManager.batchUpdates = NO;
+                        testManager.artworkUploadRetries = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                            @1, testArtwork1.name,
+                                                            nil];
+
+                        OCMStub([mockFileManager hasUploadedFile:testArtwork1]).andReturn(YES);
+                        [testManager updateWithCompletionHandler:nil];
+
+                        expect(testManager.inProgressUpdate.graphic.value).to(equal(testArtwork1.name));
+                        expect(testManager.inProgressUpdate.secondaryGraphic).to(beNil());
+                        expect(testManager.queuedImageUpdate).to(beNil());
+                    });
+
+
+                    it(@"Should show the uploaded secondary graphic even if the primary graphic is not set", ^{
+                        testManager.primaryGraphic = nil;
+                        testManager.secondaryGraphic = testArtwork2;
+                        testManager.batchUpdates = NO;
+                        testManager.artworkUploadRetries = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                            @2, testArtwork2.name,
+                                                            nil];
+
+                        OCMStub([mockFileManager hasUploadedFile:testArtwork2]).andReturn(YES);
+                        [testManager updateWithCompletionHandler:nil];
+
+                        expect(testManager.inProgressUpdate.graphic).to(beNil());
+                        expect(testManager.inProgressUpdate.secondaryGraphic.value).to(equal(testArtwork2.name));
+                        expect(testManager.queuedImageUpdate).to(beNil());
+                    });
+                });
+            });
         });
     });
 
@@ -811,6 +932,7 @@ describe(@"text and graphic manager", ^{
             expect(testManager.displayCapabilities).to(beNil());
             expect(testManager.currentLevel).to(equal(SDLHMILevelNone));
             expect(testManager.blankArtwork).toNot(beNil());
+            expect(testManager.artworkUploadRetries).to(beEmpty());
             expect(testManager.isDirty).to(beFalse());
         });
     });

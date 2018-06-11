@@ -159,14 +159,14 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogV(@"No images to send, only sending text");
         // If there are no images to update, just send the text update
         self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
-    } else if ([self sdl_artworkUploadsFailedForShow:fullShow retryCount:MAX_ARTWORK_UPLOAD_RETRY_ATTEMPTS]) {
-        SDLLogE(@"Images failed to upload to the remote %d times", MAX_ARTWORK_UPLOAD_RETRY_ATTEMPTS);
-        // Just send the images that were uploaded successfully
-        self.inProgressUpdate = [self sdl_extractUploadedImagesFromShow:fullShow];
     } else if ([self sdl_uploadedArtworkOrDoesntExist:self.primaryGraphic] && [self sdl_uploadedArtworkOrDoesntExist:self.secondaryGraphic]) {
         SDLLogV(@"Images already uploaded, sending full update");
         // The files to be updated are already uploaded, send the full show immediately
         self.inProgressUpdate = fullShow;
+    } else if ([self sdl_artworkUploadsFailed:self.primaryGraphic secondaryGraphic:self.secondaryGraphic retryCount:MAX_ARTWORK_UPLOAD_RETRY_ATTEMPTS]) {
+        SDLLogE(@"Images failed to upload to the remote %d times", MAX_ARTWORK_UPLOAD_RETRY_ATTEMPTS);
+        // Just send the images that were uploaded successfully
+        self.inProgressUpdate = [self sdl_extractUploadedImagesFromShow:fullShow primaryGraphic:self.primaryGraphic secondaryGraphic:self.secondaryGraphic];
     } else {
         SDLLogV(@"Images need to be uploaded, sending text and uploading images");
         // We need to upload or queue the upload of the images
@@ -442,10 +442,10 @@ NS_ASSUME_NONNULL_BEGIN
     return newShow;
 }
 
-- (SDLShow *)sdl_extractUploadedImagesFromShow:(SDLShow *)show {
+- (SDLShow *)sdl_extractUploadedImagesFromShow:(SDLShow *)show primaryGraphic:(nullable SDLArtwork *)primaryGraphic secondaryGraphic:(nullable SDLArtwork *)secondaryGraphic  {
     SDLShow *newShow = [[SDLShow alloc] init];
-    newShow.graphic = [self.fileManager.remoteFileNames containsObject:show.graphic.value] ? show.graphic : nil;
-    newShow.secondaryGraphic = [self.fileManager.remoteFileNames containsObject:show.secondaryGraphic.value] ? show.secondaryGraphic : nil;
+    newShow.graphic = [self sdl_uploadedArtworkOrDoesntExist:primaryGraphic] ? show.graphic : nil;
+    newShow.secondaryGraphic = [self sdl_uploadedArtworkOrDoesntExist:secondaryGraphic] ? show.secondaryGraphic : nil;
 
     return newShow;
 }
@@ -469,14 +469,20 @@ NS_ASSUME_NONNULL_BEGIN
     return (!artwork || [self.fileManager hasUploadedFile:artwork]);
 }
 
-- (BOOL)sdl_artworkUploadsFailedForShow:(SDLShow *)show retryCount:(int)retryCount {
-    NSNumber *primaryGraphicRetryCount = self.artworkUploadRetries[show.graphic.value];
-    BOOL shouldUploadPrimaryGraphic = show.graphic == nil ? NO : (primaryGraphicRetryCount.integerValue < retryCount);
+- (BOOL)sdl_artworkUploadsFailed:(nullable SDLArtwork *)primaryGraphic secondaryGraphic:(nullable SDLArtwork *)secondaryGraphic retryCount:(int)retryCount {
+    BOOL primaryGraphicUploadFailed = [self sdl_artworkUploadsCompleted:primaryGraphic retryCount:retryCount];
+    BOOL secondaryGraphicUploadFailed = [self sdl_artworkUploadsCompleted:secondaryGraphic retryCount:retryCount];
+    return (primaryGraphicUploadFailed && secondaryGraphicUploadFailed);
+}
 
-    NSNumber *secondaryGraphicRetryCount = self.artworkUploadRetries[show.secondaryGraphic.value];
-    BOOL shouldUploadSecondaryGraphic = show.secondaryGraphic == nil ? NO : (secondaryGraphicRetryCount.integerValue < retryCount);
+- (BOOL)sdl_artworkUploadsCompleted:(nullable SDLArtwork *)artwork retryCount:(int)retryCount {
+    if (artwork == nil ||
+        [self sdl_uploadedArtworkOrDoesntExist:artwork]) {
+        return YES;
+    }
 
-    return !(shouldUploadPrimaryGraphic || shouldUploadSecondaryGraphic);
+    NSNumber *uploadRetryCount = self.artworkUploadRetries[artwork.name];
+    return (uploadRetryCount == nil) ? NO : uploadRetryCount.integerValue >= retryCount;
 }
 
 - (void)sdl_updateArtworkUploadRetryCountForShow:(SDLShow *)show {
