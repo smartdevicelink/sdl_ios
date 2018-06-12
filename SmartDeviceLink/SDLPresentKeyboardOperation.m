@@ -31,7 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, readonly) SDLPerformInteraction *performInteraction;
 
-@property (assign, nonatomic) BOOL updatedKeyboardProperties;
 @property (copy, nonatomic, nullable) NSError *internalError;
 
 @end
@@ -83,13 +82,10 @@ NS_ASSUME_NONNULL_BEGIN
     SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
     setProperties.keyboardProperties = self.keyboardProperties;
 
-    __weak typeof(self) weakself = self;
     [self.connectionManager sendConnectionRequest:setProperties withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             SDLLogE(@"Error setting keyboard properties to new value: %@, with error: %@", request, error);
         }
-
-        weakself.updatedKeyboardProperties = YES;
 
         if (completionHandler != nil) {
             completionHandler();
@@ -176,12 +172,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)finishOperation {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
-    // The keyboard properties were never updated and don't need to be reset
-    if (!self.updatedKeyboardProperties) {
-        [super finishOperation];
-        return;
-    }
 
     // We need to reset the keyboard properties
     SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
