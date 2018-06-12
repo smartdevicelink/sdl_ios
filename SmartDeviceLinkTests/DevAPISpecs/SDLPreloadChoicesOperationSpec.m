@@ -157,7 +157,7 @@ describe(@"a preload choices operation", ^{
             });
 
             describe(@"assembling choices", ^{
-                fit(@"should be correct with no text and VR required", ^{
+                it(@"should be correct with no text and VR required", ^{
                     testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithoutArtwork];
                     [testOp start];
 
@@ -212,7 +212,7 @@ describe(@"a preload choices operation", ^{
                     SDLTextField *secondaryTextField = [[SDLTextField alloc] init];
                     secondaryTextField.name = SDLTextFieldNameSecondaryText;
                     SDLTextField *tertiaryTextField = [[SDLTextField alloc] init];
-                    secondaryTextField.name = SDLTextFieldNameTertiaryText;
+                    tertiaryTextField.name = SDLTextFieldNameTertiaryText;
                     displayCapabilities.textFields = @[primaryTextField, secondaryTextField, tertiaryTextField];
 
                     testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithoutArtwork];
@@ -228,7 +228,7 @@ describe(@"a preload choices operation", ^{
                 });
 
                 it(@"should be correct with VR optional", ^{
-                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithoutArtwork];
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:YES cellsToPreload:cellsWithoutArtwork];
                     [testOp start];
 
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
