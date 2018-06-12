@@ -45,9 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }];
 
-    if (completionHandler != nil) {
-        completionHandler(YES);
-    }
+    _lastMultipleCompletionBlock = completionHandler;
 }
 
 - (void)sendSequentialRequests:(nonnull NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
@@ -56,9 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
         progressHandler(request, nil, nil, (double)idx / (double)requests.count);
     }];
 
-    if (completionHandler != nil) {
-        completionHandler(YES);
-    }
+    _lastMultipleCompletionBlock = completionHandler;
 }
 
 - (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *)response {
@@ -89,10 +85,14 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     if (self.lastRequestBlock != nil) {
-        self.lastRequestBlock([[self receivedRequests] objectAtIndex:requestNumber], response, thisError);
+        self.lastRequestBlock(self.receivedRequests[requestNumber], response, thisError);
     } else {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Attempted to respond to last request, but there was no last request block" userInfo:nil];
     }
+}
+
+- (void)respondToLastMultipleRequestsWithSuccess:(BOOL)success {
+    self.lastMultipleCompletionBlock(success);
 }
 
 - (void)reset {

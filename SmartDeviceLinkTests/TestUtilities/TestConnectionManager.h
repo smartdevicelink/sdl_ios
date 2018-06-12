@@ -27,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (copy, nonatomic, nullable) SDLResponseHandler lastRequestBlock;
 
+@property (copy, nonatomic, nullable) SDLMultipleRequestCompletionHandler lastMultipleCompletionBlock;
+
 /**
  *  Call the last request's block with a specific response.
  *
@@ -50,6 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param error The error to pass into the last request's block.
  */
 - (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *)response error:(nullable NSError *)error;
+
+- (void)respondToLastMultipleRequestsWithSuccess:(BOOL)success;
 
 /**
  *  Remove all received requests.

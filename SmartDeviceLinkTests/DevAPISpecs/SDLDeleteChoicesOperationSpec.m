@@ -10,7 +10,7 @@
 
 QuickSpecBegin(SDLDeleteChoicesOperationSpec)
 
-fdescribe(@"delete choices operation", ^{
+describe(@"delete choices operation", ^{
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLDeleteChoicesOperation *testOp = nil;
     __block NSSet<SDLChoiceCell *> *testCellsToDelete = nil;
@@ -51,18 +51,8 @@ fdescribe(@"delete choices operation", ^{
         });
 
         context(@"when good responses comes back", ^{
-            __block SDLDeleteInteractionChoiceSetResponse *response1 = nil;
-            __block SDLDeleteInteractionChoiceSetResponse *response2 = nil;
-
             beforeEach(^{
-                response1 = [[SDLDeleteInteractionChoiceSetResponse alloc] init];
-                response1.success = @YES;
-
-                response2 = [[SDLDeleteInteractionChoiceSetResponse alloc] init];
-                response2.success = @YES;
-
-                [testConnectionManager respondToRequestWithResponse:response1 requestNumber:0 error:nil];
-                [testConnectionManager respondToRequestWithResponse:response2 requestNumber:1 error:nil];
+                [testConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
             });
 
             it(@"should finish with success", ^{
@@ -72,18 +62,8 @@ fdescribe(@"delete choices operation", ^{
         });
 
         context(@"when bad responses comes back", ^{
-            __block SDLDeleteInteractionChoiceSetResponse *response1 = nil;
-            __block SDLDeleteInteractionChoiceSetResponse *response2 = nil;
-
             beforeEach(^{
-                response1 = [[SDLDeleteInteractionChoiceSetResponse alloc] init];
-                response1.success = @NO;
-
-                response2 = [[SDLDeleteInteractionChoiceSetResponse alloc] init];
-                response2.success = @NO;
-
-                [testConnectionManager respondToRequestWithResponse:response1 requestNumber:0 error:nil];
-                [testConnectionManager respondToRequestWithResponse:response2 requestNumber:1 error:nil];
+                [testConnectionManager respondToLastMultipleRequestsWithSuccess:NO];
             });
 
             it(@"should finish with success", ^{
