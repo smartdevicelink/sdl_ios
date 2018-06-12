@@ -52,6 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
     _vrOptional = isVROptional;
     _cellsToUpload = cells;
 
+    _currentState = SDLPreloadChoicesOperationStateWaitingToStart;
+
     return self;
 }
 
@@ -59,6 +61,8 @@ NS_ASSUME_NONNULL_BEGIN
     [super start];
 
     [self sdl_preloadCellArtworksWithCompletionHandler:^(NSError * _Nullable error) {
+        self.internalError = error;
+        
         [self sdl_preloadCells];
     }];
 }
@@ -66,6 +70,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Sending Choice Data
 
 - (void)sdl_preloadCellArtworksWithCompletionHandler:(void(^)(NSError *_Nullable))completionHandler {
+    _currentState = SDLPreloadChoicesOperationStateUploadingArtworks;
+
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
         if ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage]) {
@@ -77,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     if (artworksToUpload.count == 0) {
-        SDLLogV(@"No choice artworks to be uploaded");
+        SDLLogD(@"No choice artworks to be uploaded");
         completionHandler(nil);
         return;
     }
@@ -95,6 +101,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_preloadCells {
+    _currentState = SDLPreloadChoicesOperationStatePreloadingChoices;
+
     NSMutableArray<SDLCreateInteractionChoiceSet *> *choiceRPCs = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
         [choiceRPCs addObject:[self sdl_choiceFromCell:cell]];
@@ -141,6 +149,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Property Overrides
+
+- (void)finishOperation {
+    _currentState = SDLPreloadChoicesOperationStateFinished;
+
+    [super finishOperation];
+}
 
 - (nullable NSString *)name {
     return @"com.sdl.choicesetmanager.preloadChoices";

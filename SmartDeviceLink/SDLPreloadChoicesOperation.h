@@ -18,7 +18,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, SDLPreloadChoicesOperationState) {
+    SDLPreloadChoicesOperationStateWaitingToStart,
+    SDLPreloadChoicesOperationStateUploadingArtworks,
+    SDLPreloadChoicesOperationStatePreloadingChoices,
+    SDLPreloadChoicesOperationStateFinished
+};
+
 @interface SDLPreloadChoicesOperation : SDLAsynchronousOperation
+
+@property (assign, nonatomic) SDLPreloadChoicesOperationState currentState;
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager displayCapabilities:(SDLDisplayCapabilities *)displayCapabilities isVROptional:(BOOL)isVROptional cellsToPreload:(NSSet<SDLChoiceCell *> *)cells;
 
