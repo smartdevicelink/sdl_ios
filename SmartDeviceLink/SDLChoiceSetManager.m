@@ -40,7 +40,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString SDLChoiceManagerState;
 SDLChoiceManagerState *const SDLChoiceManagerStateShutdown = @"Shutdown";
 SDLChoiceManagerState *const SDLChoiceManagerStateCheckingVoiceOptional = @"CheckingVoiceOptional";
 SDLChoiceManagerState *const SDLChoiceManagerStateReady = @"Ready";
@@ -90,11 +89,7 @@ UInt16 const ChoiceCellIdMin = 1;
     _connectionManager = connectionManager;
     _fileManager = fileManager;
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLChoiceManagerStateShutdown states:[self.class sdl_stateTransitionDictionary]];
-    _transactionQueue = [[NSOperationQueue alloc] init];
-    _transactionQueue.name = @"SDLChoiceSetManager Transaction Queue";
-    _transactionQueue.maxConcurrentOperationCount = 1;
-    _transactionQueue.qualityOfService = NSQualityOfServiceUserInitiated;
-    _transactionQueue.suspended = YES;
+    _transactionQueue = [self sdl_newTransactionQueue];
 
     _preloadedMutableChoices = [NSMutableSet set];
     _pendingMutablePreloadChoices = [NSMutableSet set];
@@ -131,6 +126,16 @@ UInt16 const ChoiceCellIdMin = 1;
              };
 }
 
+- (NSOperationQueue *)sdl_newTransactionQueue {
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    queue.name = @"SDLChoiceSetManager Transaction Queue";
+    queue.maxConcurrentOperationCount = 1;
+    queue.qualityOfService = NSQualityOfServiceUserInitiated;
+    queue.suspended = YES;
+
+    return queue;
+}
+
 #pragma mark - State Management
 
 - (void)didEnterStateShutdown {
@@ -139,6 +144,7 @@ UInt16 const ChoiceCellIdMin = 1;
     _displayCapabilities = nil;
 
     [self.transactionQueue cancelAllOperations];
+    self.transactionQueue = [self sdl_newTransactionQueue];
     _preloadedMutableChoices = [NSMutableSet set];
     _pendingMutablePreloadChoices = [NSMutableSet set];
     _pendingPresentationSet = nil;
@@ -154,8 +160,11 @@ UInt16 const ChoiceCellIdMin = 1;
     __weak typeof(self) weakself = self;
     __weak typeof(checkOp) weakOp = checkOp;
     checkOp.completionBlock = ^{
-        weakself.vrOptional = weakOp.isVROptional;
+        if ([self.currentState isEqualToString:SDLChoiceManagerStateShutdown]) {
+            return;
+        }
 
+        weakself.vrOptional = weakOp.isVROptional;
         if (weakOp.error != nil) {
             [weakself.stateMachine transitionToState:SDLChoiceManagerStateStartupError];
         } else {

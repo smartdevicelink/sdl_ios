@@ -22,6 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *_Nullable error);
 
+typedef NSString SDLChoiceManagerState;
+extern SDLChoiceManagerState *const SDLChoiceManagerStateShutdown;
+extern SDLChoiceManagerState *const SDLChoiceManagerStateCheckingVoiceOptional;
+extern SDLChoiceManagerState *const SDLChoiceManagerStateReady;
+extern SDLChoiceManagerState *const SDLChoiceManagerStateStartupError;
+
 @interface SDLChoiceSetManager : NSObject
 
 /**
@@ -39,10 +45,23 @@ typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *_Nullable error);
  */
 @property (copy, nonatomic, readonly) NSSet<SDLChoiceCell *> *preloadedChoices;
 
+/**
+ Initialize the manager with required dependencies
+
+ @param connectionManager The connection manager object for sending RPCs
+ @param fileManager The file manager object for uploading files
+ @return The choice set manager
+ */
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(SDLFileManager *)fileManager;
 
+/**
+ Start the manager and prepare to manage choice sets
+ */
 - (void)start;
 
+/**
+ Stop the manager and reset all properties
+ */
 - (void)stop;
 
 /**
