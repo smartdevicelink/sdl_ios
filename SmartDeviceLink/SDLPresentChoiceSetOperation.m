@@ -99,6 +99,13 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Sending Requests
 
 - (void)sdl_updateKeyboardPropertiesWithCompletionHandler:(nullable void(^)(void))completionHandler {
+    if (self.keyboardProperties == nil) {
+        if (completionHandler != nil) {
+            completionHandler();
+        }
+        return;
+    }
+
     SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
     setProperties.keyboardProperties = self.keyboardProperties;
 
@@ -227,7 +234,22 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)finishOperation {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    [super finishOperation];
+    if (self.keyboardProperties == nil) {
+        [super finishOperation];
+        return;
+    }
+
+    // We need to reset the keyboard properties
+    SDLSetGlobalProperties *setProperties = [[SDLSetGlobalProperties alloc] init];
+    setProperties.keyboardProperties = self.originalKeyboardProperties;
+
+    [self.connectionManager sendConnectionRequest:setProperties withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogE(@"Error resetting keyboard properties to values: %@, with error: %@", request, error);
+        }
+
+        [super finishOperation];
+    }];
 }
 
 - (nullable NSString *)name {
