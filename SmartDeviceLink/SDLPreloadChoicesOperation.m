@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPreloadChoicesOperation()
 
-@property (strong, nonatomic) NSSet<SDLChoiceCell *> *cellsToUpload;
+@property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *cellsToUpload;
 @property (strong, nonatomic) SDLDisplayCapabilities *displayCapabilities;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
 
@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
     _fileManager = fileManager;
     _displayCapabilities = displayCapabilities;
     _vrOptional = isVROptional;
-    _cellsToUpload = cells;
+    _cellsToUpload = [cells mutableCopy];
 
     _currentState = SDLPreloadChoicesOperationStateWaitingToStart;
 
@@ -65,6 +65,13 @@ NS_ASSUME_NONNULL_BEGIN
         
         [self sdl_preloadCells];
     }];
+}
+
+- (BOOL)removeChoicesFromUpload:(NSSet<SDLChoiceCell *> *)choices {
+    if (self.isExecuting) { return NO; }
+
+    [self.cellsToUpload minusSet:choices];
+    return YES;
 }
 
 #pragma mark - Sending Choice Data

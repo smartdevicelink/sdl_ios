@@ -69,7 +69,7 @@ typedef NSNumber * SDLChoiceId;
 @property (strong, nonatomic, readonly) NSSet<SDLChoiceCell *> *pendingPreloadChoices;
 @property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *pendingMutablePreloadChoices;
 @property (strong, nonatomic, nullable) SDLChoiceSet *pendingPresentationSet;
-@property (strong, nonatomic, nullable) SDLAsynchronousOperation *pendingPresentOperation;
+@property (strong, nonatomic, nullable) SDLPresentChoiceSetOperation *pendingPresentOperation;
 
 @property (assign, nonatomic) UInt16 nextChoiceId;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
@@ -227,11 +227,11 @@ UInt16 const ChoiceCellIdMin = 1;
     NSSet<SDLChoiceCell *> *cellsToBeRemovedFromPending = [self sdl_choicesToBeRemovedFromPendingWithArray:choices];
 
     // If choices are deleted that are already uploaded or pending and are used by a pending presentation, cancel it and send an error
-    NSSet<SDLChoiceCell *> *pendingPresentationSet = [NSSet setWithArray:self.pendingPresentationSet.choices];
+    NSSet<SDLChoiceCell *> *pendingPresentationChoices = [NSSet setWithArray:self.pendingPresentationSet.choices];
     if ((!self.pendingPresentOperation.isCancelled && !self.pendingPresentOperation.isFinished)
-        && ([cellsToBeDeleted intersectsSet:pendingPresentationSet] || [cellsToBeRemovedFromPending intersectsSet:pendingPresentationSet])) {
+        && ([cellsToBeDeleted intersectsSet:pendingPresentationChoices] || [cellsToBeRemovedFromPending intersectsSet:pendingPresentationChoices])) {
+        [self.pendingPresentOperation cancel];
         if (self.pendingPresentationSet.delegate != nil) {
-            [self.pendingPresentOperation cancel];
             [self.pendingPresentationSet.delegate choiceSet:self.pendingPresentationSet didReceiveError:[NSError sdl_choiceSetManager_choicesDeletedBeforePresentation:@{@"deletedChoices": choices}]];
         }
 
@@ -240,6 +240,16 @@ UInt16 const ChoiceCellIdMin = 1;
 
     // Remove the cells from pending and delete choices
     [self.pendingMutablePreloadChoices minusSet:cellsToBeRemovedFromPending];
+    for (SDLAsynchronousOperation *op in self.transactionQueue.operations) {
+        if (![op isMemberOfClass:[SDLPreloadChoicesOperation class]]) { continue; }
+
+        SDLPreloadChoicesOperation *preloadOp = (SDLPreloadChoicesOperation *)op;
+        [preloadOp removeChoicesFromUpload:cellsToBeRemovedFromPending];
+    }
+
+    // Find choices to delete
+    if (cellsToBeDeleted.count == 0) { return; }
+    
     [self sdl_findIdsOnChoices:cellsToBeDeleted];
     SDLDeleteChoicesOperation *deleteOp = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:self.connectionManager cellsToDelete:cellsToBeDeleted];
 
@@ -344,7 +354,7 @@ UInt16 const ChoiceCellIdMin = 1;
 }
 
 - (void)sdl_findIdsOnChoiceSet:(SDLChoiceSet *)choiceSet {
-    return [self sdl_findIdsOnChoices:choiceSet.choices];
+    return [self sdl_findIdsOnChoices:[NSSet setWithArray:choiceSet.choices]];
 }
 
 - (void)sdl_findIdsOnChoices:(NSSet<SDLChoiceCell *> *)choices {
