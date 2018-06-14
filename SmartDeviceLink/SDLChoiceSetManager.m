@@ -69,7 +69,7 @@ typedef NSNumber * SDLChoiceId;
 @property (strong, nonatomic, readonly) NSSet<SDLChoiceCell *> *pendingPreloadChoices;
 @property (strong, nonatomic) NSMutableSet<SDLChoiceCell *> *pendingMutablePreloadChoices;
 @property (strong, nonatomic, nullable) SDLChoiceSet *pendingPresentationSet;
-@property (strong, nonatomic, nullable) SDLPresentChoiceSetOperation *pendingPresentOperation;
+@property (strong, nonatomic, nullable) SDLAsynchronousOperation *pendingPresentOperation;
 
 @property (assign, nonatomic) UInt16 nextChoiceId;
 @property (assign, nonatomic, getter=isVROptional) BOOL vrOptional;
@@ -249,7 +249,7 @@ UInt16 const ChoiceCellIdMin = 1;
 
     // Find choices to delete
     if (cellsToBeDeleted.count == 0) { return; }
-    
+
     [self sdl_findIdsOnChoices:cellsToBeDeleted];
     SDLDeleteChoicesOperation *deleteOp = [[SDLDeleteChoicesOperation alloc] initWithConnectionManager:self.connectionManager cellsToDelete:cellsToBeDeleted];
 

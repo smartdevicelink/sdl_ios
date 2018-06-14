@@ -12,6 +12,7 @@
 #import "SDLDisplayCapabilities.h"
 #import "SDLFileManager.h"
 #import "SDLHMILevel.h"
+#import "SDLKeyboardDelegate.h"
 #import "SDLKeyboardProperties.h"
 #import "SDLPreloadChoicesOperation.h"
 #import "SDLPresentChoiceSetOperation.h"
@@ -178,7 +179,7 @@ describe(@"choice set manager tests", ^{
             });
         });
 
-        fdescribe(@"deleting choices", ^{
+        describe(@"deleting choices", ^{
             context(@"used in a pending presentation", ^{
                 __block SDLPresentChoiceSetOperation *pendingPresentOp = nil;
                 __block id<SDLChoiceSetDelegate> choiceDelegate = nil;
@@ -210,11 +211,14 @@ describe(@"choice set manager tests", ^{
                 __block SDLPreloadChoicesOperation *pendingPreloadOp = nil;
 
                 beforeEach(^{
-                    testManager.pendingMutablePreloadChoices = [NSMutableSet setWithObject:testCell1];
                     pendingPreloadOp = [[SDLPreloadChoicesOperation alloc] init];
                     OCMPartialMock(pendingPreloadOp);
                     OCMStub([pendingPreloadOp removeChoicesFromUpload:[OCMArg any]]);
                     [testManager.transactionQueue addOperation:pendingPreloadOp];
+
+                    testManager.pendingMutablePreloadChoices = [NSMutableSet setWithObject:testCell1];
+
+                    [testManager deleteChoices:@[testCell1, testCell2, testCell3]];
                 });
 
                 it(@"should properly start the deletion", ^{
@@ -240,7 +244,24 @@ describe(@"choice set manager tests", ^{
         });
 
         describe(@"presenting a keyboard", ^{
+            __block SDLPresentChoiceSetOperation *pendingPresentOp = nil;
+            __block NSString *testInitialText = @"Test text";
+            __block id<SDLKeyboardDelegate> testKeyboardDelegate = nil;
 
+            beforeEach(^{
+                testKeyboardDelegate = OCMProtocolMock(@protocol(SDLKeyboardDelegate));
+
+                pendingPresentOp = OCMClassMock([SDLPresentChoiceSetOperation class]);
+                testManager.pendingPresentOperation = pendingPresentOp;
+                testManager.pendingPresentationSet = [[SDLChoiceSet alloc] init];
+
+                [testManager presentKeyboardWithInitialText:testInitialText delegate:testKeyboardDelegate];
+            });
+
+            it(@"should properly start the keyboard presentation", ^{
+                OCMVerify([pendingPresentOp cancel]);
+                expect(testManager.transactionQueue.operations).to(haveCount(1));
+            });
         });
     });
 });
