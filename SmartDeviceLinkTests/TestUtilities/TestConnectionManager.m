@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)respondToLastRequestWithResponse:(__kindof SDLRPCResponse *)response error:(nullable NSError *)error {
     NSError *thisError = nil;
     if (!response.success.boolValue && error == nil) {
-        error = self.defaultError;
+        thisError = self.defaultError;
     } else if (error != nil) {
         thisError = error;
     }
@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)respondToRequestWithResponse:(__kindof SDLRPCResponse *)response requestNumber:(NSInteger)requestNumber error:(nullable NSError *)error {
     NSError *thisError = nil;
     if (!response.success.boolValue && error == nil) {
-        error = self.defaultError;
+        thisError = self.defaultError;
     } else if (error != nil) {
         thisError = error;
     }
