@@ -303,7 +303,7 @@ UInt16 const ChoiceCellIdMin = 1;
 
         if (strongOp.error != nil && strongOp.choiceSet.delegate != nil) {
             [strongOp.choiceSet.delegate choiceSet:strongOp.choiceSet didReceiveError:strongOp.error];
-        } else if (strongOp.choiceSet.delegate != nil && strongOp.selectedCell != nil) {
+        } else if (strongOp.selectedCell != nil && strongOp.choiceSet.delegate != nil) {
             [strongOp.choiceSet.delegate choiceSet:strongOp.choiceSet didSelectChoice:strongOp.selectedCell withSource:strongOp.selectedTriggerSource];
         }
     };
@@ -315,6 +315,7 @@ UInt16 const ChoiceCellIdMin = 1;
 
     if (self.pendingPresentationSet != nil) {
         [self.pendingPresentOperation cancel];
+        self.pendingPresentationSet = nil;
     }
 
     // Present a keyboard with the choice set that we used to test VR's optional state

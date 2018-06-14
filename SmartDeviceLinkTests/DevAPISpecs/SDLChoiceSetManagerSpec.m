@@ -21,6 +21,12 @@
 #import "SDLSystemContext.h"
 #import "TestConnectionManager.h"
 
+@interface SDLPresentChoiceSetOperation()
+
+@property (copy, nonatomic, nullable) NSError *internalError;
+
+@end
+
 @interface SDLCheckChoiceVROptionalOperation()
 
 @property (copy, nonatomic, nullable) NSError *internalError;
@@ -234,12 +240,81 @@ describe(@"choice set manager tests", ^{
         });
 
         describe(@"presenting a choice set", ^{
-            context(@"searchable", ^{
+            __block SDLChoiceSet *testChoiceSet = nil;
+            __block NSString *testTitle = @"test title";
+            __block id<SDLChoiceSetDelegate> choiceDelegate = nil;
+            __block id<SDLKeyboardDelegate> keyboardDelegate = nil;
+            __block SDLInteractionMode testMode = SDLInteractionModeBoth;
+            __block SDLPresentKeyboardOperation *pendingPresentOp = nil;
 
+            beforeEach(^{
+                keyboardDelegate = OCMProtocolMock(@protocol(SDLKeyboardDelegate));
+                choiceDelegate = OCMProtocolMock(@protocol(SDLChoiceSetDelegate));
+                testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:choiceDelegate choices:@[testCell1, testCell2, testCell3]];
+
+                pendingPresentOp = OCMClassMock([SDLPresentKeyboardOperation class]);
+                testManager.pendingPresentOperation = pendingPresentOp;
+                testManager.pendingPresentationSet = [[SDLChoiceSet alloc] init];
+            });
+
+            context(@"searchable", ^{
+                beforeEach(^{
+                    [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:keyboardDelegate];
+                });
+
+                it(@"should properly start the presentation", ^{
+                    OCMVerify([pendingPresentOp cancel]);
+                    expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
+                    expect(testManager.transactionQueue.operations).to(haveCount(2));
+                    expect(testManager.transactionQueue.operations.firstObject).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
+                    expect(testManager.transactionQueue.operations.lastObject).to(beAnInstanceOf([SDLPresentChoiceSetOperation class]));
+                });
+
+                describe(@"after the completion handler is called", ^{
+                    context(@"with an error", ^{
+                        beforeEach(^{
+                            SDLPresentChoiceSetOperation *op = testManager.transactionQueue.operations.lastObject;
+                            op.internalError = [[NSError alloc] init];
+                            op.completionBlock();
+                        });
+
+                        it(@"should call the error handler", ^{
+                            OCMVerify([choiceDelegate choiceSet:[OCMArg any] didReceiveError:[OCMArg isNotNil]]);
+                            expect(testManager.pendingPresentationSet).to(beNil());
+                            expect(testManager.pendingPresentOperation).to(beNil());
+                        });
+                    });
+                });
             });
 
             context(@"non-searchable", ^{
+                beforeEach(^{
+                    [testManager presentChoiceSet:testChoiceSet mode:testMode withKeyboardDelegate:nil];
+                });
 
+                it(@"should properly start the presentation", ^{
+                    OCMVerify([pendingPresentOp cancel]);
+                    expect(testManager.pendingPresentationSet).to(equal(testChoiceSet));
+                    expect(testManager.transactionQueue.operations).to(haveCount(2));
+                    expect(testManager.transactionQueue.operations.firstObject).to(beAnInstanceOf([SDLPreloadChoicesOperation class]));
+                    expect(testManager.transactionQueue.operations.lastObject).to(beAnInstanceOf([SDLPresentChoiceSetOperation class]));
+                });
+
+                describe(@"after the completion handler is called", ^{
+                    context(@"with an error", ^{
+                        beforeEach(^{
+                            SDLPresentChoiceSetOperation *op = testManager.transactionQueue.operations.lastObject;
+                            op.internalError = [[NSError alloc] init];
+                            op.completionBlock();
+                        });
+
+                        it(@"should call the error handler", ^{
+                            OCMVerify([choiceDelegate choiceSet:[OCMArg any] didReceiveError:[OCMArg isNotNil]]);
+                            expect(testManager.pendingPresentationSet).to(beNil());
+                            expect(testManager.pendingPresentOperation).to(beNil());
+                        });
+                    });
+                });
             });
         });
 
@@ -261,6 +336,7 @@ describe(@"choice set manager tests", ^{
             it(@"should properly start the keyboard presentation", ^{
                 OCMVerify([pendingPresentOp cancel]);
                 expect(testManager.transactionQueue.operations).to(haveCount(1));
+                expect(testManager.pendingPresentOperation).to(beAnInstanceOf([SDLPresentKeyboardOperation class]));
             });
         });
     });
