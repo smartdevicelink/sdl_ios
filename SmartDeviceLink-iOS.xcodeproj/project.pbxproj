@@ -920,7 +920,6 @@
 		5D92936320B3551600FCC775 /* SDLKeyboardDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92936220B3551600FCC775 /* SDLKeyboardDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D92936820B3601700FCC775 /* SDLChoiceSetManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92936620B3601700FCC775 /* SDLChoiceSetManager.h */; };
 		5D92936920B3601700FCC775 /* SDLChoiceSetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92936720B3601700FCC775 /* SDLChoiceSetManager.m */; };
-		5D92936C20B4705F00FCC775 /* SDLScreenManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92936B20B4705F00FCC775 /* SDLScreenManagerDelegate.h */; };
 		5D92937020B5E0E500FCC775 /* SDLDeleteChoicesOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92936E20B5E0E500FCC775 /* SDLDeleteChoicesOperation.h */; };
 		5D92937120B5E0E500FCC775 /* SDLDeleteChoicesOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92936F20B5E0E500FCC775 /* SDLDeleteChoicesOperation.m */; };
 		5D92937420B5EEA200FCC775 /* SDLPreloadChoicesOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92937220B5EEA200FCC775 /* SDLPreloadChoicesOperation.h */; };
@@ -2281,7 +2280,6 @@
 		5D92936220B3551600FCC775 /* SDLKeyboardDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLKeyboardDelegate.h; sourceTree = "<group>"; };
 		5D92936620B3601700FCC775 /* SDLChoiceSetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLChoiceSetManager.h; sourceTree = "<group>"; };
 		5D92936720B3601700FCC775 /* SDLChoiceSetManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLChoiceSetManager.m; sourceTree = "<group>"; };
-		5D92936B20B4705F00FCC775 /* SDLScreenManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLScreenManagerDelegate.h; sourceTree = "<group>"; };
 		5D92936E20B5E0E500FCC775 /* SDLDeleteChoicesOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLDeleteChoicesOperation.h; sourceTree = "<group>"; };
 		5D92936F20B5E0E500FCC775 /* SDLDeleteChoicesOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLDeleteChoicesOperation.m; sourceTree = "<group>"; };
 		5D92937220B5EEA200FCC775 /* SDLPreloadChoicesOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPreloadChoicesOperation.h; sourceTree = "<group>"; };
@@ -3092,7 +3090,6 @@
 		5D0A736F203F0C450001595D /* Screen */ = {
 			isa = PBXGroup;
 			children = (
-				5D92936A20B4704000FCC775 /* Delegates */,
 				5D92935720B33D3C00FCC775 /* Choice Set */,
 				5D339CE5207C0651000CC364 /* Menu */,
 				5D0A737F203F23D10001595D /* Soft Button */,
@@ -4422,14 +4419,6 @@
 			name = Delegates;
 			sourceTree = "<group>";
 		};
-		5D92936A20B4704000FCC775 /* Delegates */ = {
-			isa = PBXGroup;
-			children = (
-				5D92936B20B4705F00FCC775 /* SDLScreenManagerDelegate.h */,
-			);
-			name = Delegates;
-			sourceTree = "<group>";
-		};
 		5D92936D20B5E07000FCC775 /* Operations */ = {
 			isa = PBXGroup;
 			children = (
@@ -5506,7 +5495,6 @@
 				5D61FDD51A84238C00846EE7 /* SDLTouchEventCapabilities.h in Headers */,
 				5D61FD0B1A84238C00846EE7 /* SDLOnEncodedSyncPData.h in Headers */,
 				5D61FC631A84238C00846EE7 /* SDLClusterModeStatus.h in Headers */,
-				5D92936C20B4705F00FCC775 /* SDLScreenManagerDelegate.h in Headers */,
 				5D61FD371A84238C00846EE7 /* SDLPredefinedLayout.h in Headers */,
 				5D61FDE31A84238C00846EE7 /* SDLUnregisterAppInterface.h in Headers */,
 				5D61FD331A84238C00846EE7 /* SDLPowerModeQualificationStatus.h in Headers */,
