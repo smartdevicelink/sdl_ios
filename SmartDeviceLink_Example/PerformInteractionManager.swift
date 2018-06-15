@@ -84,6 +84,8 @@ extension PerformInteractionManager: SDLKeyboardDelegate {
             completionHandler(PICSSecondChoice)
         } else if currentInputText.lowercased().hasPrefix("t") {
             completionHandler(PICSThirdChoice)
+        } else {
+            completionHandler(nil)
         }
     }
 }

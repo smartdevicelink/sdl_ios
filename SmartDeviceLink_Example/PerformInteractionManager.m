@@ -7,48 +7,87 @@
 //
 
 #import "PerformInteractionManager.h"
+
 #import "AppConstants.h"
+
 #import "SmartDeviceLink.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface PerformInteractionManager() <SDLChoiceSetDelegate, SDLKeyboardDelegate>
+
+@property (weak, nonatomic) SDLManager *manager;
+
+@property (strong, nonatomic, readonly) SDLChoiceSet *choiceSet;
+@property (copy, nonatomic, readonly) NSArray<SDLChoiceCell *> *cells;
+
+@end
+
 @implementation PerformInteractionManager
 
-static UInt32 ChoiceSetId = 100;
+- (instancetype)initWithManager:(SDLManager *)manager {
+    self = [super init];
+    if (!self) { return nil; }
 
-+ (SDLCreateInteractionChoiceSet *)createInteractionChoiceSet {
-    return [[SDLCreateInteractionChoiceSet alloc] initWithId:ChoiceSetId choiceSet:[self sdlex_createChoiceSet]];
+    _manager = manager;
+
+    return self;
 }
 
-+ (void)showPerformInteractionChoiceSetWithManager:(SDLManager *)manager triggerSource:(SDLTriggerSource)triggerSource {
-    [manager sendRequest:[self sdlex_createPerformInteractionWithTriggerSource:triggerSource] withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        if (response.resultCode != SDLResultSuccess) {
-            SDLLogE(@"The Show Perform Interaction Choice Set request failed: %@", error.localizedDescription);
-            return;
-        }
-
-        if ([response.resultCode isEqualToEnum:SDLResultTimedOut]) {
-            SDLLogD(@"The perform interaction choice set menu timed out before the user could select an item");
-            [manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSYouMissed]];
-        } else if ([response.resultCode isEqualToEnum:SDLResultSuccess]) {
-            SDLLogD(@"The user selected an item in the perform interaction choice set menu");
-            [manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSGoodJob]];
-        }
-    }];
+- (void)showWithTriggerSource:(SDLTriggerSource)source {
+    [self.manager.screenManager presentSearchableChoiceSet:self.choiceSet mode:[self modeForTriggerSource:source] withKeyboardDelegate:self];
 }
 
-+ (NSArray<SDLChoice *> *)sdlex_createChoiceSet {
-    SDLChoice *firstChoice = [[SDLChoice alloc] initWithId:1 menuName:PICSFirstChoice vrCommands:@[PICSFirstChoice]];
-    SDLChoice *secondChoice = [[SDLChoice alloc] initWithId:2 menuName:PICSSecondChoice vrCommands:@[PICSSecondChoice]];
-    SDLChoice *thirdChoice = [[SDLChoice alloc] initWithId:3 menuName:PICSThirdChoice vrCommands:@[PICSThirdChoice]];
+- (SDLChoiceSet *)choiceSet {
+    return [[SDLChoiceSet alloc] initWithTitle:PICSInitialPrompt delegate:self layout:SDLChoiceSetLayoutList timeout:10 initialPromptString:PICSInitialPrompt timeoutPromptString:PICSTimeoutPrompt helpPromptString:PICSHelpPrompt vrHelpList:nil choices:self.cells];
+}
+
+- (NSArray<SDLChoiceCell *> *)cells {
+    SDLChoiceCell *firstChoice = [[SDLChoiceCell alloc] initWithText:PICSFirstChoice];
+    SDLChoiceCell *secondChoice = [[SDLChoiceCell alloc] initWithText:PICSSecondChoice];
+    SDLChoiceCell *thirdChoice = [[SDLChoiceCell alloc] initWithText:PICSThirdChoice];
+
     return @[firstChoice, secondChoice, thirdChoice];
 }
 
-+ (SDLPerformInteraction *)sdlex_createPerformInteractionWithTriggerSource:(SDLTriggerSource)triggerSource {
-    SDLInteractionMode interactionMode = [triggerSource isEqualToEnum:SDLTriggerSourceVoiceRecognition] ? SDLInteractionModeVoiceRecognitionOnly : SDLInteractionModeManualOnly;
-    SDLPerformInteraction *performInteraction = [[SDLPerformInteraction alloc] initWithInitialPrompt:PICSInitialPrompt initialText:PICSInitialText interactionChoiceSetIDList:@[@(ChoiceSetId)] helpPrompt:PICSHelpPrompt timeoutPrompt:PICSTimeoutPrompt interactionMode:interactionMode timeout:10000];
-    performInteraction.interactionLayout = SDLLayoutModeListOnly;
-    return performInteraction;
+- (SDLInteractionMode)modeForTriggerSource:(SDLTriggerSource)source {
+    return ([source isEqualToEnum:SDLTriggerSourceMenu] ? SDLInteractionModeManualOnly : SDLInteractionModeVoiceRecognitionOnly);
+}
+
+#pragma mark - SDLChoiceSetDelegate
+
+- (void)choiceSet:(SDLChoiceSet *)choiceSet didSelectChoice:(SDLChoiceCell *)choice withSource:(SDLTriggerSource)source {
+    [self.manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSGoodJob]];
+}
+
+- (void)choiceSet:(SDLChoiceSet *)choiceSet didReceiveError:(NSError *)error {
+    [self.manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSYouMissed]];
+}
+
+#pragma mark - SDLKeyboardDelegate
+
+- (void)userDidSubmitInput:(NSString *)inputText withEvent:(SDLKeyboardEvent)source {
+    if ([source isEqualToEnum:SDLKeyboardEventSubmitted]) {
+        [self.manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSGoodJob]];
+    } else if ([source isEqualToEnum:SDLKeyboardEventVoice]) {
+        // Start an audio pass thru voice session
+    }
+}
+
+- (void)keyboardDidAbortWithReason:(SDLKeyboardEvent)event {
+    [self.manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSYouMissed]];
+}
+
+- (void)updateAutocompleteWithInput:(NSString *)currentInputText completionHandler:(SDLKeyboardAutocompleteCompletionHandler)completionHandler {
+    if ([currentInputText.lowercaseString hasPrefix:@"f"]) {
+        completionHandler(PICSFirstChoice);
+    } else if ([currentInputText.lowercaseString hasPrefix:@"s"]) {
+        completionHandler(PICSSecondChoice);
+    } else if ([currentInputText.lowercaseString hasPrefix:@"t"]) {
+        completionHandler(PICSThirdChoice);
+    } else {
+        completionHandler(nil);
+    }
 }
 
 @end

@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) SDLHMILevel firstHMILevel;
 
 @property (strong, nonatomic) VehicleDataManager *vehicleDataManager;
+@property (strong, nonatomic) PerformInteractionManager *performManager;
 @property (strong, nonatomic) ButtonManager *buttonManager;
 @property (nonatomic, copy, nullable) RefreshUIHandler refreshUIHandler;
 @end
@@ -63,6 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         self.vehicleDataManager = [[VehicleDataManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
+        self.performManager = [[PerformInteractionManager alloc] initWithManager:self.sdlManager];
         self.buttonManager = [[ButtonManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
 
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
@@ -143,8 +145,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Screen UI Helpers
 
 - (void)sdlex_createMenus {
-    [self.sdlManager sendRequest:[PerformInteractionManager createInteractionChoiceSet]];
-    self.sdlManager.screenManager.menu = [MenuManager allMenuItemsWithManager:self.sdlManager];
+    self.sdlManager.screenManager.menu = [MenuManager allMenuItemsWithManager:self.sdlManager performManager:self.performManager];
     self.sdlManager.screenManager.voiceCommands = [MenuManager allVoiceMenuItemsWithManager:self.sdlManager];
 }
 
