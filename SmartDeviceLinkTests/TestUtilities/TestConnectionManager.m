@@ -92,7 +92,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)respondToLastMultipleRequestsWithSuccess:(BOOL)success {
-    self.lastMultipleCompletionBlock(success);
+    if (self.lastMultipleCompletionBlock != nil) {
+        self.lastMultipleCompletionBlock(success);
+    }
 }
 
 - (void)reset {

@@ -176,6 +176,7 @@ describe(@"menu manager", ^{
 
         it(@"should properly update with subcells", ^{
             testManager.menuCells = @[submenuCell];
+            [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
             NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
             NSArray *adds = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
@@ -223,10 +224,11 @@ describe(@"menu manager", ^{
             });
         });
 
-        context(@"when a menu already exists", ^{
+        describe(@"updating when a menu already exists", ^{
             beforeEach(^{
                 testManager.menuCells = @[textOnlyCell];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // Adds
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // Submenu
 
                 testManager.menuCells = @[textAndImageCell];
                 [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // Deletes

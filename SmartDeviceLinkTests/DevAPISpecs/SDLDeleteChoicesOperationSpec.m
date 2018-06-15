@@ -56,7 +56,7 @@ describe(@"delete choices operation", ^{
             });
 
             it(@"should finish with success", ^{
-                expect(hasCalledOperationCompletionHandler).to(beTrue());
+                expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                 expect(resultError).to(beNil());
             });
         });
@@ -67,7 +67,7 @@ describe(@"delete choices operation", ^{
             });
 
             it(@"should finish with success", ^{
-                expect(hasCalledOperationCompletionHandler).to(beTrue());
+                expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                 expect(resultError).toNot(beNil());
             });
         });
