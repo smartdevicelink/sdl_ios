@@ -13,7 +13,7 @@
 QuickSpecBegin(SDLRequestTypeSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
-    fit(@"Should match internal values", ^ {
+    it(@"Should match internal values", ^ {
         expect(SDLRequestTypeHTTP).to(equal(@"HTTP"));
         expect(SDLRequestTypeFileResume).to(equal(@"FILE_RESUME"));
         expect(SDLRequestTypeAuthenticationRequest).to(equal(@"AUTH_REQUEST"));
@@ -34,7 +34,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLRequestTypeEmergency).to(equal(@"EMERGENCY"));
         expect(SDLRequestTypeMedia).to(equal(@"MEDIA"));
         expect(SDLRequestTypeFOTA).to(equal(@"FOTA"));
-        expect(SDLRequestTypeProprietary).to(equal(@"PROPRIETARY"));
+        expect(SDLRequestTypeOEMSpecific).to(equal(@"OEM_SPECIFIC"));
     });
 });
 
