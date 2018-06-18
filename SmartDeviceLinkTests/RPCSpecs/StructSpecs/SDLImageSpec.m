@@ -47,7 +47,7 @@ describe(@"Getter/Setter Tests", ^{
             NSString *value = @"value";
             SDLImageType imageType = SDLImageTypeStatic;
 
-            NSMutableDictionary* dict = [@{SDLNameValue:value,
+            NSDictionary* dict = [@{SDLNameValue:value,
                                            SDLNameImageType:imageType,
                                            SDLNameImageTemplate:@YES
                                            } mutableCopy];
