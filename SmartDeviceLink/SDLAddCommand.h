@@ -13,7 +13,7 @@
  *  This class will add a command to the application's Command Menu
  *
  *  A command will be added to the end of the list of elements in the Command Menu under the following conditions:
- *  1. When a SDLCommand is added with no SDLMenuParams value provided.
+ *  1. When a SDLAddCommand is added with no SDLMenuParams value provided.
  *  2. When a SDLMenuParams value is provided with a SDLMenuParam.position value greater than or equal to the number of menu items currently defined in the menu specified by the SDLMenuParam.parentID value.
  *
  *  The set of choices which the application builds using SDLAddCommand can be a mixture of:
