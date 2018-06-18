@@ -21,6 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameDisplayType];
 }
 
+- (void)setDisplayName:(NSString *)displayName {
+    [store sdl_setObject:displayName forName:SDLNameDisplayName];
+}
+
+- (NSString *)displayName {
+    return [store sdl_objectForName:SDLNameDisplayName];
+}
+
 - (void)setTextFields:(NSArray<SDLTextField *> *)textFields {
     [store sdl_setObject:textFields forName:SDLNameTextFields];
 }

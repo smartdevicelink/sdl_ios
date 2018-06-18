@@ -108,6 +108,7 @@ extern SDLName const SDLNameDIDResult;
 extern SDLName const SDLNameDimension;
 extern SDLName const SDLNameDisplayCapabilities;
 extern SDLName const SDLNameDisplayLayout;
+extern SDLName const SDLNameDisplayName;
 extern SDLName const SDLNameDisplayType;
 extern SDLName const SDLNameDistanceToEmpty;
 extern SDLName const SDLNameDistanceToManeuver;
