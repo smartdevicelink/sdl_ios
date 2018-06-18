@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLArtwork
 
--(void)setImage:(UIImage *)image {
+- (void)setImage:(UIImage *)image {
     _image = image;
     _isTemplate = (image.renderingMode == UIImageRenderingModeAlwaysTemplate);
 }
