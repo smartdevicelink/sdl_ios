@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)setImage:(UIImage *)image {
     _image = image;
-    self.isTemplate = image.renderingMode == UIImageRenderingModeAlwaysTemplate ? true : false;
+    _isTemplate = (image.renderingMode == UIImageRenderingModeAlwaysTemplate);
 }
 
 #pragma mark - Lifecycle
