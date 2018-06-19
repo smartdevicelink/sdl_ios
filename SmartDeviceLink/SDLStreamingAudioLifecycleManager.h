@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) SDLAudioStreamManager *audioManager;
 
 @property (strong, nonatomic, readonly) SDLStateMachine *audioStreamStateMachine;
-@property (strong, nonatomic, readonly) SDLAudioStreamState *currentAudioStreamState;
+@property (strong, nonatomic, readonly) SDLAudioStreamManagerState *currentAudioStreamState;
 
 @property (strong, nonatomic, readonly) SDLStateMachine *appStateMachine;
 @property (strong, nonatomic, readonly) SDLAppState *currentAppState;

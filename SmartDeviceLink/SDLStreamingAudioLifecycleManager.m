@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _appStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:initialState states:[self.class sdl_appStateTransitionDictionary]];
-    _audioStreamStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLAudioStreamStateStopped states:[self.class sdl_audioStreamingStateTransitionDictionary]];
+    _audioStreamStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLAudioStreamManagerStateStopped states:[self.class sdl_audioStreamingStateTransitionDictionary]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveRegisterAppInterfaceResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiLevelDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
@@ -104,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.hmiLevel = SDLHMILevelNone;
 
-    [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateStopped];
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
 - (BOOL)sendAudioData:(NSData*)audioData {
@@ -124,14 +124,14 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Getters
 
 - (BOOL)isAudioConnected {
-    return [self.audioStreamStateMachine isCurrentState:SDLAudioStreamStateReady];
+    return [self.audioStreamStateMachine isCurrentState:SDLAudioStreamManagerStateReady];
 }
 
 - (SDLAppState *)currentAppState {
     return self.appStateMachine.currentState;
 }
 
-- (SDLAudioStreamState *)currentAudioStreamState {
+- (SDLAudioStreamManagerState *)currentAudioStreamState {
     return self.audioStreamStateMachine.currentState;
 }
 
@@ -169,10 +169,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Audio
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_audioStreamingStateTransitionDictionary {
     return @{
-             SDLAudioStreamStateStopped : @[SDLAudioStreamStateStarting],
-             SDLAudioStreamStateStarting : @[SDLAudioStreamStateStopped, SDLAudioStreamStateReady],
-             SDLAudioStreamStateReady : @[SDLAudioStreamStateShuttingDown, SDLAudioStreamStateStopped],
-             SDLAudioStreamStateShuttingDown : @[SDLAudioStreamStateStopped]
+             SDLAudioStreamManagerStateStopped : @[SDLAudioStreamManagerStateStarting],
+             SDLAudioStreamManagerStateStarting : @[SDLAudioStreamManagerStateStopped, SDLAudioStreamManagerStateReady],
+             SDLAudioStreamManagerStateReady : @[SDLAudioStreamManagerStateShuttingDown, SDLAudioStreamManagerStateStopped],
+             SDLAudioStreamManagerStateShuttingDown : @[SDLAudioStreamManagerStateStopped]
              };
 }
 
@@ -189,7 +189,7 @@ NS_ASSUME_NONNULL_BEGIN
         [self.protocol startSecureServiceWithType:SDLServiceTypeAudio payload:nil completionHandler:^(BOOL success, NSError * _Nonnull error) {
             if (error) {
                 SDLLogE(@"TLS setup error: %@", error);
-                [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateStopped];
+                [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
             }
         }];
     } else {
@@ -230,7 +230,7 @@ NS_ASSUME_NONNULL_BEGIN
         [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)audioAckPayload.mtu forServiceType:SDLServiceTypeAudio];
     }
 
-    [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateReady];
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateReady];
 }
 
 #pragma mark Video / Audio Start Service NAK
@@ -308,9 +308,9 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    if ([self.audioStreamStateMachine isCurrentState:SDLAudioStreamStateStopped]
+    if ([self.audioStreamStateMachine isCurrentState:SDLAudioStreamManagerStateStopped]
         && self.isHmiStateAudioStreamCapable) {
-        [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateStarting];
+        [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStarting];
     }
 }
 
@@ -321,14 +321,14 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     if (self.isAudioConnected) {
-        [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateShuttingDown];
+        [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateShuttingDown];
     }
 }
 
 - (void)sdl_transitionToStoppedState:(SDLServiceType)serviceType {
     switch (serviceType) {
         case SDLServiceTypeAudio:
-            [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateStopped];
+            [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
             break;
         default: break;
     }

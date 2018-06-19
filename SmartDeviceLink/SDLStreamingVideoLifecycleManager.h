@@ -13,6 +13,7 @@
 #import "SDLProtocolListener.h"
 #import "SDLStreamingMediaManagerConstants.h"
 #import "SDLVideoStreamingFormat.h"
+#import "SDLVideoStreamingState.h"
 
 @class SDLCarWindow;
 @class SDLImageResolution;
@@ -32,11 +33,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLStreamingVideoLifecycleManager : NSObject <SDLProtocolListener>
 
 @property (strong, nonatomic, readonly) SDLStateMachine *videoStreamStateMachine;
-@property (strong, nonatomic, readonly) SDLVideoStreamState *currentVideoStreamState;
+@property (strong, nonatomic, readonly) SDLVideoStreamManagerState *currentVideoStreamState;
 
 @property (strong, nonatomic, readonly) SDLStateMachine *appStateMachine;
 @property (strong, nonatomic, readonly) SDLAppState *currentAppState;
 @property (copy, nonatomic, nullable) SDLHMILevel hmiLevel;
+@property (copy, nonatomic, nullable) SDLVideoStreamingState videoStreamingState;
 
 /**
  *  Touch Manager responsible for providing touch event notifications.
