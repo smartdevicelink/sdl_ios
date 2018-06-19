@@ -512,6 +512,7 @@ SDLName const SDLNameVideoCodec = @"codec";
 SDLName const SDLNameVideoProtocol = @"protocol";
 SDLName const SDLNameVideoStreaming = @"videoStreaming";
 SDLName const SDLNameVideoStreamingCapability = @"videoStreamingCapability";
+SDLName const SDLNameVideoStreamingState = @"videoStreamingState";
 SDLName const SDLNameVentilationMode = @"ventilationMode";
 SDLName const SDLNameVentilationModeAvailable = @"ventilationModeAvailable";
 SDLName const SDLNameVIN = @"vin";
