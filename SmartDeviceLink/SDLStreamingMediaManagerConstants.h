@@ -37,4 +37,21 @@ extern NSString *const SDLLockScreenManagerDidPresentLockScreenViewController;
 extern NSString *const SDLLockScreenManagerWillDismissLockScreenViewController;
 extern NSString *const SDLLockScreenManagerDidDismissLockScreenViewController;
 
+typedef NSString SDLVideoStreamState;
+extern SDLVideoStreamState *const SDLVideoStreamStateStopped;
+extern SDLVideoStreamState *const SDLVideoStreamStateStarting;
+extern SDLVideoStreamState *const SDLVideoStreamStateReady;
+extern SDLVideoStreamState *const SDLVideoStreamStateSuspended;
+extern SDLVideoStreamState *const SDLVideoStreamStateShuttingDown;
+
+typedef NSString SDLAudioStreamState;
+extern SDLAudioStreamState *const SDLAudioStreamStateStopped;
+extern SDLAudioStreamState *const SDLAudioStreamStateStarting;
+extern SDLAudioStreamState *const SDLAudioStreamStateReady;
+extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
+
+typedef NSString SDLAppState;
+extern SDLAppState *const SDLAppStateInactive;
+extern SDLAppState *const SDLAppStateActive;
+
 NS_ASSUME_NONNULL_END

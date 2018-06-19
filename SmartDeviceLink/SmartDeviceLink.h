@@ -283,6 +283,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLVentilationMode.h"
 #import "SDLVideoStreamingCodec.h"
 #import "SDLVideoStreamingProtocol.h"
+#import "SDLVideoStreamingState.h"
 #import "SDLVrCapabilities.h"
 #import "SDLWarningLightStatus.h"
 #import "SDLWayPointType.h"

@@ -327,6 +327,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLVideoStreamingCodec.h',
 'SmartDeviceLink/SDLVideoStreamingFormat.h',
 'SmartDeviceLink/SDLVideoStreamingProtocol.h',
+'SmartDeviceLink/SDLVideoStreamingState.h',
 'SmartDeviceLink/SDLVoiceCommand.h',
 'SmartDeviceLink/SDLVrCapabilities.h',
 'SmartDeviceLink/SDLVrHelpItem.h',

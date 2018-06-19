@@ -22,3 +22,17 @@ NSString *const SDLLockScreenManagerWillPresentLockScreenViewController = @"com.
 NSString *const SDLLockScreenManagerDidPresentLockScreenViewController = @"com.sdl.lockscreen.didPresent";
 NSString *const SDLLockScreenManagerWillDismissLockScreenViewController = @"com.sdl.lockscreen.willDismiss";
 NSString *const SDLLockScreenManagerDidDismissLockScreenViewController = @"com.sdl.lockscreen.didDismiss";
+
+SDLVideoStreamState *const SDLVideoStreamStateStopped = @"VideoStreamStopped";
+SDLVideoStreamState *const SDLVideoStreamStateStarting = @"VideoStreamStarting";
+SDLVideoStreamState *const SDLVideoStreamStateReady = @"VideoStreamReady";
+SDLVideoStreamState *const SDLVideoStreamStateSuspended = @"VideoStreamSuspended";
+SDLVideoStreamState *const SDLVideoStreamStateShuttingDown = @"VideoStreamShuttingDown";
+
+SDLAudioStreamState *const SDLAudioStreamStateStopped = @"AudioStreamStopped";
+SDLAudioStreamState *const SDLAudioStreamStateStarting = @"AudioStreamStarting";
+SDLAudioStreamState *const SDLAudioStreamStateReady = @"AudioStreamReady";
+SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShuttingDown";
+
+SDLAppState *const SDLAppStateInactive = @"AppInactive";
+SDLAppState *const SDLAppStateActive = @"AppActive";
