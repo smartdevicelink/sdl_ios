@@ -126,6 +126,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameFuelLevelState];
 }
 
+- (void)setFuelRange:(NSNumber<SDLBool> *)fuelRange {
+    [parameters sdl_setObject:fuelRange forName:SDLNameFuelRange];
+}
+
 - (void)setInstantFuelConsumption:(nullable NSNumber<SDLBool> *)instantFuelConsumption {
     [parameters sdl_setObject:instantFuelConsumption forName:SDLNameInstantFuelConsumption];
 }

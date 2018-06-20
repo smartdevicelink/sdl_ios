@@ -108,6 +108,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelLevel_State;
 
 /**
+ * A boolean value. If true, subscribes Instant Fuel Range data.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *fuelRange;
+
+/**
  * A boolean value. If true, subscribes Instant Fuel Consumption data.
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *instantFuelConsumption;
