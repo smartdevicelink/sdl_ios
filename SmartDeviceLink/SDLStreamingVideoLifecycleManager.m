@@ -735,7 +735,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (BOOL)isHmiStateVideoStreamCapable {
-    return ([self.videoStreamingState isEqualToEnum:SDLVideoStreamingStateStreamable]
+    return (![self.videoStreamingState isEqualToEnum:SDLVideoStreamingStateNotStreamable]
             && ([self.hmiLevel isEqualToEnum:SDLHMILevelLimited] || [self.hmiLevel isEqualToEnum:SDLHMILevelFull]));
 }
 
