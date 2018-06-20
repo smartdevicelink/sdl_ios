@@ -209,10 +209,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher];
     }
 #pragma clang diagnostic pop
-
-    if (self.streamManager != nil) {
-        [self.streamManager startWithProtocol:self.proxy.protocol];
-    }
 }
 
 - (void)didEnterStateStopped {
@@ -360,6 +356,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
         dispatch_group_leave(managerGroup);
     }];
+
+    if (self.streamManager != nil) {
+        [self.streamManager startWithProtocol:self.proxy.protocol];
+    }
 
     // We're done synchronously calling all startup methods, so we can now wait.
     dispatch_group_leave(managerGroup);

@@ -578,6 +578,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)sdl_startVideoSession {
     SDLLogV(@"Attempting to start video session");
+    if (!self.protocol) {
+        SDLLogV(@"Video manager is not yet started");
+        return;
+    }
 
     if (!self.isHmiStateVideoStreamCapable) {
         SDLLogV(@"SDL Core is not ready to stream video. Video start service request will not be sent.");

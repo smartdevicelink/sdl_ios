@@ -304,12 +304,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_startAudioSession {
     SDLLogV(@"Attempting to start audio session");
+    if (!self.protocol) {
+        return;
+    }
+
     if (!self.isStreamingSupported) {
         return;
     }
 
-    if ([self.audioStreamStateMachine isCurrentState:SDLAudioStreamManagerStateStopped]
-        && self.isHmiStateAudioStreamCapable) {
+    if ([self.audioStreamStateMachine isCurrentState:SDLAudioStreamManagerStateStopped] && self.isHmiStateAudioStreamCapable) {
         [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStarting];
     }
 }
