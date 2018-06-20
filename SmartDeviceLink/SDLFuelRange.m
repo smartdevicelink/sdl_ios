@@ -15,19 +15,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLFuelRange
 
-- (void)setType:(SDLFuelType)type {
+- (void)setType:(nullable SDLFuelType)type {
     [store sdl_setObject:type forName:SDLNameType];
 }
 
-- (SDLFuelType)type {
+- (nullable SDLFuelType)type {
     return [store sdl_objectForName:SDLNameType];
 }
 
-- (void)setRange:(NSNumber<SDLFloat> *)range {
+- (void)setRange:(nullable NSNumber<SDLFloat> *)range {
     [store sdl_setObject:range forName:SDLNameRange];
 }
 
-- (NSNumber<SDLFloat> *)range {
+- (nullable NSNumber<SDLFloat> *)range {
     return [store sdl_objectForName:SDLNameRange];
 }
 

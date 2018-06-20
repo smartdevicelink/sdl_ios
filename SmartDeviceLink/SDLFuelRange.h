@@ -21,14 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Optional
  */
-@property (strong, nonatomic) SDLFuelType type;
+@property (nullable, strong, nonatomic) SDLFuelType type;
 
 /**
  *  The estimate range in KM the vehicle can travel based on fuel level and consumption.
  *
  *  Optional, Float, 0 - 10,000
  */
-@property (strong, nonatomic) NSNumber<SDLFloat> *range;
+@property (nullable, strong, nonatomic) NSNumber<SDLFloat> *range;
 
 @end
 

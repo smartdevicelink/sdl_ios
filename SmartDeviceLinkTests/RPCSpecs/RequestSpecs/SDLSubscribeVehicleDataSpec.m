@@ -73,63 +73,63 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+        NSDictionary<NSString *, id> *dict = @{SDLNameRequest:
                                                            @{SDLNameParameters:
-                                                                 @{SDLNameGPS:@YES,
-                                                                   SDLNameSpeed:@NO,
-                                                                   SDLNameRPM:@YES,
-                                                                   SDLNameFuelLevel:@NO,
-                                                                   SDLNameFuelLevelState:@YES,
-                                                                   SDLNameFuelRange:@NO,
-                                                                   SDLNameInstantFuelConsumption:@NO,
-                                                                   SDLNameExternalTemperature:@YES,
-                                                                   SDLNamePRNDL:@YES,
-                                                                   SDLNameTirePressure:@NO,
-                                                                   SDLNameOdometer:@YES,
-                                                                   SDLNameBeltStatus:@NO,
-                                                                   SDLNameBodyInformation:@YES,
-                                                                   SDLNameDeviceStatus:@NO,
-                                                                   SDLNameDriverBraking:@YES,
-                                                                   SDLNameWiperStatus:@NO,
-                                                                   SDLNameHeadLampStatus:@YES,
-                                                                   SDLNameEngineOilLife:@YES,
-                                                                   SDLNameEngineTorque:@NO,
-                                                                   SDLNameAccelerationPedalPosition:@YES,
-                                                                   SDLNameSteeringWheelAngle:@NO,
-                                                                   SDLNameECallInfo:@YES,
-                                                                   SDLNameAirbagStatus:@NO,
-                                                                   SDLNameEmergencyEvent:@YES,
-                                                                   SDLNameClusterModeStatus:@NO,
-                                                                   SDLNameMyKey:@YES},
-                                                             SDLNameOperationName:SDLNameSubscribeVehicleData}} mutableCopy];
+                                                                 @{SDLNameAccelerationPedalPosition:@YES,
+                                                                     SDLNameAirbagStatus:@YES,
+                                                                     SDLNameBeltStatus:@YES,
+                                                                     SDLNameBodyInformation:@YES,
+                                                                     SDLNameClusterModeStatus:@YES,
+                                                                     SDLNameDeviceStatus:@YES,
+                                                                     SDLNameDriverBraking:@YES,
+                                                                     SDLNameECallInfo:@YES,
+                                                                     SDLNameEmergencyEvent:@NO,
+                                                                     SDLNameEngineOilLife:@YES,
+                                                                     SDLNameEngineTorque:@YES,
+                                                                     SDLNameExternalTemperature:@NO,
+                                                                     SDLNameFuelLevel:@YES,
+                                                                     SDLNameFuelLevelState:@YES,
+                                                                     SDLNameFuelRange:@YES,
+                                                                     SDLNameGPS:@YES,
+                                                                     SDLNameHeadLampStatus:@YES,
+                                                                     SDLNameInstantFuelConsumption:@YES,
+                                                                     SDLNameMyKey:@YES,
+                                                                     SDLNameOdometer:@YES,
+                                                                     SDLNamePRNDL:@YES,
+                                                                     SDLNameRPM:@YES,
+                                                                     SDLNameSpeed:@YES,
+                                                                     SDLNameSteeringWheelAngle:@NO,
+                                                                     SDLNameTirePressure:@YES,
+                                                                     SDLNameWiperStatus:@NO},
+                                                             SDLNameOperationName:SDLNameSubscribeVehicleData}};
         SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] initWithDictionary:dict];
         
-        expect(testRequest.gps).to(equal(@YES));
-        expect(testRequest.speed).to(equal(@NO));
-        expect(testRequest.rpm).to(equal(@YES));
-        expect(testRequest.fuelLevel).to(equal(@NO));
-        expect(testRequest.fuelLevel_State).to(equal(@YES));
-        expect(testRequest.fuelRange).to(equal(@NO));
-        expect(testRequest.instantFuelConsumption).to(equal(@NO));
-        expect(testRequest.externalTemperature).to(equal(@YES));
-        expect(testRequest.prndl).to(equal(@YES));
-        expect(testRequest.tirePressure).to(equal(@NO));
-        expect(testRequest.odometer).to(equal(@YES));
-        expect(testRequest.beltStatus).to(equal(@NO));
-        expect(testRequest.bodyInformation).to(equal(@YES));
-        expect(testRequest.deviceStatus).to(equal(@NO));
-        expect(testRequest.driverBraking).to(equal(@YES));
-        expect(testRequest.wiperStatus).to(equal(@NO));
-        expect(testRequest.headLampStatus).to(equal(@YES));
-        expect(testRequest.engineOilLife).to(equal(@YES));
-        expect(testRequest.engineTorque).to(equal(@NO));
         expect(testRequest.accPedalPosition).to(equal(@YES));
-        expect(testRequest.steeringWheelAngle).to(equal(@NO));
+        expect(testRequest.airbagStatus).to(equal(@YES));
+        expect(testRequest.beltStatus).to(equal(@YES));
+        expect(testRequest.bodyInformation).to(equal(@YES));
+        expect(testRequest.clusterModeStatus).to(equal(@YES));
+        expect(testRequest.deviceStatus).to(equal(@YES));
+        expect(testRequest.driverBraking).to(equal(@YES));
         expect(testRequest.eCallInfo).to(equal(@YES));
-        expect(testRequest.airbagStatus).to(equal(@NO));
-        expect(testRequest.emergencyEvent).to(equal(@YES));
-        expect(testRequest.clusterModeStatus).to(equal(@NO));
+        expect(testRequest.emergencyEvent).to(equal(@NO));
+        expect(testRequest.engineOilLife).to(equal(@YES));
+        expect(testRequest.engineTorque).to(equal(@YES));
+        expect(testRequest.externalTemperature).to(equal(@NO));
+        expect(testRequest.fuelLevel).to(equal(@YES));
+        expect(testRequest.fuelLevel_State).to(equal(@YES));
+        expect(testRequest.fuelRange).to(equal(@YES));
+        expect(testRequest.gps).to(equal(@YES));
+        expect(testRequest.headLampStatus).to(equal(@YES));
+        expect(testRequest.instantFuelConsumption).to(equal(@YES));
         expect(testRequest.myKey).to(equal(@YES));
+        expect(testRequest.odometer).to(equal(@YES));
+        expect(testRequest.prndl).to(equal(@YES));
+        expect(testRequest.rpm).to(equal(@YES));
+        expect(testRequest.speed).to(equal(@YES));
+        expect(testRequest.steeringWheelAngle).to(equal(@NO));
+        expect(testRequest.tirePressure).to(equal(@YES));
+        expect(testRequest.wiperStatus).to(equal(@NO));
     });
 });
 
@@ -137,32 +137,32 @@ describe(@"initializers", ^{
     context(@"init", ^{
         SDLSubscribeVehicleData* testRequest = [[SDLSubscribeVehicleData alloc] init];
 
-        expect(testRequest.gps).to(beNil());
-        expect(testRequest.speed).to(beNil());
-        expect(testRequest.rpm).to(beNil());
+        expect(testRequest.accPedalPosition).to(beNil());
+        expect(testRequest.airbagStatus).to(beNil());
+        expect(testRequest.beltStatus).to(beNil());
+        expect(testRequest.bodyInformation).to(beNil());
+        expect(testRequest.clusterModeStatus).to(beNil());
+        expect(testRequest.deviceStatus).to(beNil());
+        expect(testRequest.driverBraking).to(beNil());
+        expect(testRequest.eCallInfo).to(beNil());
+        expect(testRequest.emergencyEvent).to(beNil());
+        expect(testRequest.engineOilLife).to(beNil());
+        expect(testRequest.engineTorque).to(beNil());
+        expect(testRequest.externalTemperature).to(beNil());
         expect(testRequest.fuelLevel).to(beNil());
         expect(testRequest.fuelLevel_State).to(beNil());
         expect(testRequest.fuelRange).to(beNil());
-        expect(testRequest.instantFuelConsumption).to(beNil());
-        expect(testRequest.externalTemperature).to(beNil());
-        expect(testRequest.prndl).to(beNil());
-        expect(testRequest.tirePressure).to(beNil());
-        expect(testRequest.odometer).to(beNil());
-        expect(testRequest.beltStatus).to(beNil());
-        expect(testRequest.bodyInformation).to(beNil());
-        expect(testRequest.deviceStatus).to(beNil());
-        expect(testRequest.driverBraking).to(beNil());
-        expect(testRequest.wiperStatus).to(beNil());
+        expect(testRequest.gps).to(beNil());
         expect(testRequest.headLampStatus).to(beNil());
-        expect(testRequest.engineOilLife).to(beNil());
-        expect(testRequest.engineTorque).to(beNil());
-        expect(testRequest.accPedalPosition).to(beNil());
-        expect(testRequest.steeringWheelAngle).to(beNil());
-        expect(testRequest.eCallInfo).to(beNil());
-        expect(testRequest.airbagStatus).to(beNil());
-        expect(testRequest.emergencyEvent).to(beNil());
-        expect(testRequest.clusterModeStatus).to(beNil());
+        expect(testRequest.instantFuelConsumption).to(beNil());
         expect(testRequest.myKey).to(beNil());
+        expect(testRequest.odometer).to(beNil());
+        expect(testRequest.prndl).to(beNil());
+        expect(testRequest.rpm).to(beNil());
+        expect(testRequest.speed).to(beNil());
+        expect(testRequest.steeringWheelAngle).to(beNil());
+        expect(testRequest.tirePressure).to(beNil());
+        expect(testRequest.wiperStatus).to(beNil());
     });
 
     context(@"initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:", ^{
