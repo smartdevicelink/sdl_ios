@@ -318,7 +318,7 @@ UInt32 const MenuCellIdMin = 1;
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
     [cells enumerateObjectsUsingBlock:^(SDLMenuCell * _Nonnull cell, NSUInteger index, BOOL * _Nonnull stop) {
         if (cell.subCells.count > 0) {
-            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell position:(UInt16)index]];
+            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell withArtwork:shouldHaveArtwork position:(UInt16)index]];
         } else {
             [mutableCommands addObject:[self sdl_commandForMenuCell:cell withArtwork:shouldHaveArtwork position:(UInt16)index]];
         }
@@ -342,7 +342,7 @@ UInt32 const MenuCellIdMin = 1;
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
     [cells enumerateObjectsUsingBlock:^(SDLMenuCell * _Nonnull cell, NSUInteger index, BOOL * _Nonnull stop) {
         if (cell.subCells.count > 0) {
-            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell position:(UInt16)index]];
+            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell withArtwork:shouldHaveArtwork position:(UInt16)index]];
             [mutableCommands addObjectsFromArray:[self sdl_allCommandsForCells:cell.subCells withArtwork:shouldHaveArtwork]];
         } else {
             [mutableCommands addObject:[self sdl_commandForMenuCell:cell withArtwork:shouldHaveArtwork position:(UInt16)index]];
@@ -368,8 +368,9 @@ UInt32 const MenuCellIdMin = 1;
     return command;
 }
 
-- (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell position:(UInt16)position {
-    return [[SDLAddSubMenu alloc] initWithId:cell.cellId menuName:cell.title menuIcon:[[SDLImage alloc] initWithName:cell.icon.name] position:(UInt8)position];
+- (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell withArtwork:(BOOL)shouldHaveArtwork position:(UInt16)position {
+    SDLImage *icon = shouldHaveArtwork ? [[SDLImage alloc] initWithName:cell.icon.name] : nil;
+    return [[SDLAddSubMenu alloc] initWithId:cell.cellId menuName:cell.title menuIcon:icon position:(UInt8)position];
 }
 
 #pragma mark - Calling handlers
