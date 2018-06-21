@@ -111,7 +111,7 @@ private extension MenuManager {
     /// - Returns: A SDLMenuCell object
     class func menuCellWithSubmenu(with manager: SDLManager) -> SDLMenuCell {
         var submenuItems = [SDLMenuCell]()
-        for i in 0..<75 {
+        for i in 0 ..< 10 {
             let submenuTitle = "Submenu Item \(i)"
             submenuItems.append(SDLMenuCell(title: submenuTitle, icon: SDLArtwork(image: UIImage(named: MenuBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [submenuTitle, "Item \(i)", "\(i)"], handler: { (triggerSource) in
                 let message = "\(submenuTitle) selected!"
@@ -124,8 +124,8 @@ private extension MenuManager {
                 }
             }))
         }
-
-        return SDLMenuCell(title: "Submenu", subCells: submenuItems)
+        
+        return SDLMenuCell(title: "Submenu", icon: SDLArtwork(image: #imageLiteral(resourceName: "choice_set"), persistent: true, as: .PNG), subCells: submenuItems)
     }
 }
 
