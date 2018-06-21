@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSArray<SDLMenuCell *> *)allMenuItemsWithManager:(SDLManager *)manager {
     return @[[self sdlex_menuCellSpeakNameWithManager:manager],
-             [self sdlex_menuCellGetVehicleSpeedWithManager:manager],
+             [self sdlex_menuCellGetAllVehicleDataWithManager:manager],
              [self sdlex_menuCellShowPerformInteractionWithManager:manager],
              [self sdlex_menuCellRecordInCarMicrophoneAudioWithManager:manager],
              [self sdlex_menuCellDialNumberWithManager:manager],
@@ -45,10 +45,20 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-+ (SDLMenuCell *)sdlex_menuCellGetVehicleSpeedWithManager:(SDLManager *)manager {
-    return [[SDLMenuCell alloc] initWithTitle:ACGetVehicleDataMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:CarBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACGetVehicleDataMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [VehicleDataManager getVehicleSpeedWithManager:manager];
-    }];
++ (SDLMenuCell *)sdlex_menuCellGetAllVehicleDataWithManager:(SDLManager *)manager {
+    NSMutableArray *submenuItems = [NSMutableArray array];
+    for (NSString *vehicleDataType in submenuItems) {
+        SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:vehicleDataType icon:nil voiceCommands:@[vehicleDataType] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+            [VehicleDataManager getAllVehicleDataWithManager:manager triggerSource:triggerSource vehicleDataType:vehicleDataType];
+        }];
+        [submenuItems addObject:cell];
+    }
+
+    return [[SDLMenuCell alloc] initWithTitle:ACGetAllVehicleDataMenuName subCells:submenuItems];
+}
+
++ (NSArray<NSString *> *)sdlex_allVehicleDataTypes {
+    return @[ACAccelerationPedalPositionMenuName, ACAirbagStatusMenuName, ACBeltStatusMenuName, ACBodyInformationMenuName, ACClusterModeStatusMenuName, ACDeviceStatusMenuName, ACDriverBrakingMenuName, ACECallInfoMenuName, ACEmergencyEventMenuName, ACEngineOilLifeMenuName, ACEngineTorqueMenuName, ACExternalTemperatureMenuName, ACFuelLevelMenuName, ACFuelLevelStateMenuName, ACFuelRangeMenuName, ACGPSMenuName, ACHeadLampStatusMenuName, ACInstantFuelConsumptionMenuName, ACMyKeyMenuName, ACOdometerMenuName, ACPRNDLMenuName, ACRPMMenuName, ACSpeedMenuName, ACSteeringWheelAngleMenuName, ACTirePressureMenuName, ACVINMenuName, ACWiperStatusMenuName];
 }
 
 + (SDLMenuCell *)sdlex_menuCellShowPerformInteractionWithManager:(SDLManager *)manager {

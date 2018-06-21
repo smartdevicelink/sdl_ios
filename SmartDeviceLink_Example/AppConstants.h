@@ -68,10 +68,39 @@ extern NSString * const PICSThirdChoice;
 extern NSString * const ACSpeakAppNameMenuName;
 extern NSString * const ACShowChoiceSetMenuName;
 extern NSString * const ACGetVehicleDataMenuName;
+extern NSString * const ACGetAllVehicleDataMenuName;
 extern NSString * const ACRecordInCarMicrophoneAudioMenuName;
 extern NSString * const ACDialPhoneNumberMenuName;
 extern NSString * const ACSubmenuMenuName;
 extern NSString * const ACSubmenuItemMenuName;
+
+extern NSString * const ACAccelerationPedalPositionMenuName;
+extern NSString * const ACAirbagStatusMenuName;
+extern NSString * const ACBeltStatusMenuName;
+extern NSString * const ACBodyInformationMenuName;
+extern NSString * const ACClusterModeStatusMenuName;
+extern NSString * const ACDeviceStatusMenuName;
+extern NSString * const ACDriverBrakingMenuName;
+extern NSString * const ACECallInfoMenuName;
+extern NSString * const ACEmergencyEventMenuName;
+extern NSString * const ACEngineOilLifeMenuName;
+extern NSString * const ACEngineTorqueMenuName;
+extern NSString * const ACExternalTemperatureMenuName;
+extern NSString * const ACFuelLevelMenuName;
+extern NSString * const ACFuelLevelStateMenuName;
+extern NSString * const ACFuelRangeMenuName;
+extern NSString * const ACGPSMenuName;
+extern NSString * const ACHeadLampStatusMenuName;
+extern NSString * const ACInstantFuelConsumptionMenuName;
+extern NSString * const ACMyKeyMenuName;
+extern NSString * const ACOdometerMenuName;
+extern NSString * const ACPRNDLMenuName;
+extern NSString * const ACRPMMenuName;
+extern NSString * const ACSpeedMenuName;
+extern NSString * const ACSteeringWheelAngleMenuName;
+extern NSString * const ACTirePressureMenuName;
+extern NSString * const ACVINMenuName;
+extern NSString * const ACWiperStatusMenuName;
 
 
 #pragma mark - SDL Image Names

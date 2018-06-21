@@ -10,6 +10,12 @@ import Foundation
 import SmartDeviceLink
 import SmartDeviceLinkSwift
 
+enum VehicleData: String {
+    case accPedalPosition = "APP"
+    case speed = "Speed"
+    case gps = "GPS"
+}
+
 class VehicleDataManager: NSObject {
     fileprivate let sdlManager: SDLManager!
     fileprivate var refreshUIHandler: RefreshUIHandler?
@@ -100,49 +106,146 @@ extension VehicleDataManager {
 // MARK: - Get Vehicle Data
 
 extension VehicleDataManager {
-    /// Retreives the current vehicle speed
+    /// Retreives the current vehicle data
     ///
-    /// - Parameter manager: The SDL manager
-    class func getVehicleSpeed(with manager: SDLManager) {
-        SDLLog.d("Checking if app has permission to access vehicle data...")
-        guard manager.permissionManager.isRPCAllowed("GetVehicleData") else {
-            let alert = AlertManager.alertWithMessageAndCloseButton("This app does not have the required permissions to access vehicle data")
-            manager.send(request: alert)
-            return
-        }
+    /// - Parameters:
+    ///   - manager: The SDL manager
+    ///   - triggerSource: Whether the menu item was selected by voice or touch
+    ///   - parameter: The vehicle data to look for
+    class func getAllVehicleData(with manager: SDLManager, triggerSource: SDLTriggerSource, vehicleDataType: String) {
+        guard hasPermissionToAccessVehicleData(with: manager) else { return }
 
-        SDLLog.d("App has permission to access vehicle data. Requesting vehicle speed data...")
-        let getVehicleSpeed = SDLGetVehicleData()
-        getVehicleSpeed.speed = true
-        manager.send(request: getVehicleSpeed) { (request, response, error) in
-            guard let response = response, error == nil else {
-                let alert = AlertManager.alertWithMessageAndCloseButton("Something went wrong while getting vehicle speed")
-                manager.send(request: alert)
-                return
-            }
+        SDLLog.d("App has permission to access vehicle data. Requesting all vehicle data...")
+        let getAllVehicleData = SDLGetVehicleData(accelerationPedalPosition: true, airbagStatus: true, beltStatus: true, bodyInformation: true, clusterModeStatus: true, deviceStatus: true, driverBraking: true, eCallInfo: true, emergencyEvent: true, engineOilLife: true, engineTorque: true, externalTemperature: true, fuelLevel: true, fuelLevelState: true, fuelRange: true, gps: true, headLampStatus: true, instantFuelConsumption: true, myKey: true, odometer: true, prndl: true, rpm: true, speed: true, steeringWheelAngle: true, tirePressure: true, vin: true, wiperStatus: true)
 
-            var alertMessage = "\(VehicleDataSpeedName): "
-            switch response.resultCode {
+        manager.send(request: getAllVehicleData) { (request, response, error) in
+            guard didAccessVehicleDataSuccessfully(with: manager, response: response, error: error) else { return }
+
+            var alertMessage = ""
+            switch response!.resultCode {
             case .rejected:
-                SDLLog.d("The request for vehicle speed was rejected")
-                alertMessage += "Rejected"
+                SDLLog.d("The request for vehicle data was rejected")
+                alertMessage = "Rejected"
             case .disallowed:
                 SDLLog.d("This app does not have the required permissions to access vehicle data")
-                alertMessage += "Disallowed"
+                alertMessage = "Disallowed"
             case .success:
-                if let vehicleData = response as? SDLGetVehicleDataResponse, let speed = vehicleData.speed {
-                    SDLLog.d("Request for vehicle speed successful: \(speed)")
-                    alertMessage += "\(speed) kph"
+                if let vehicleData = response as? SDLGetVehicleDataResponse {
+                    SDLLog.d("Request for vehicle data successful")
+                    alertMessage = vehicleDataDescription(vehicleData, vehicleDataType: vehicleDataType)
                 } else {
-                    SDLLog.e("Request for vehicle speed successful but no data returned")
-                    alertMessage += "Unknown"
+                    SDLLog.e("Request for vehicle data successful but no data returned")
+                    alertMessage = "Unknown"
                 }
             default: break
             }
 
-            let alert = AlertManager.alertWithMessageAndCloseButton(alertMessage)
-            manager.send(request: alert)
+            triggerSource == .menu ? manager.send(AlertManager.alertWithMessageAndCloseButton(alertMessage.isEmpty ? "No data available" : alertMessage)) : manager.send(SDLSpeak(tts: alertMessage))
         }
+    }
+
+    /// Returns a description of the vehicle data.
+    ///
+    /// - Parameters:
+    ///   - vehicleData: All vehicle data
+    ///   - vehicleDataType: The vehicle data to get a description of
+    /// - Returns: A description of the vehicle data
+    class func vehicleDataDescription(_ vehicleData: SDLGetVehicleDataResponse, vehicleDataType: String) -> String {
+        let notAvailable = "Vehicle data not available"
+        var message = "\(vehicleDataType): "
+        switch vehicleDataType {
+        case ACAccelerationPedalPositionMenuName:
+            message += vehicleData.accPedalPosition?.description ?? notAvailable
+        case ACAirbagStatusMenuName:
+            message += vehicleData.airbagStatus?.description ?? notAvailable
+        case ACBeltStatusMenuName:
+            message += vehicleData.beltStatus?.description ?? notAvailable
+        case ACBodyInformationMenuName:
+            message += vehicleData.bodyInformation?.description ?? notAvailable
+        case ACClusterModeStatusMenuName:
+            message += vehicleData.clusterModeStatus?.description ?? notAvailable
+        case ACDeviceStatusMenuName:
+            message += vehicleData.deviceStatus?.description ?? notAvailable
+        case ACDriverBrakingMenuName:
+            message += vehicleData.driverBraking?.description ?? notAvailable
+        case ACECallInfoMenuName:
+            message += vehicleData.eCallInfo?.description ?? notAvailable
+        case ACEmergencyEventMenuName:
+            message += vehicleData.emergencyEvent?.description ?? notAvailable
+        case ACEngineOilLifeMenuName:
+            message += vehicleData.engineOilLife?.description ?? notAvailable
+        case ACEngineTorqueMenuName:
+            message += vehicleData.engineTorque?.description ?? notAvailable
+        case ACExternalTemperatureMenuName:
+            message += vehicleData.externalTemperature?.description ?? notAvailable
+        case ACFuelLevelMenuName:
+            message += vehicleData.fuelLevel?.description ?? notAvailable
+        case ACFuelLevelStateMenuName:
+            message += vehicleData.fuelLevel_State?.rawValue.rawValue ?? notAvailable
+        case ACFuelRangeMenuName:
+            message += vehicleData.fuelRange?.description ?? notAvailable
+        case ACGPSMenuName:
+            message += vehicleData.gps?.description ?? notAvailable
+        case ACHeadLampStatusMenuName:
+            message += vehicleData.headLampStatus?.description ?? notAvailable
+        case ACInstantFuelConsumptionMenuName:
+            message += vehicleData.instantFuelConsumption?.description ?? notAvailable
+        case ACMyKeyMenuName:
+            message += vehicleData.myKey?.description ?? notAvailable
+        case ACOdometerMenuName:
+            message += vehicleData.odometer?.description ?? notAvailable
+        case ACPRNDLMenuName:
+            message += vehicleData.prndl?.rawValue.rawValue ?? notAvailable
+        case ACSpeedMenuName:
+            message += vehicleData.speed?.description ?? notAvailable
+        case ACSteeringWheelAngleMenuName:
+            message += vehicleData.steeringWheelAngle?.description ?? notAvailable
+        case ACTirePressureMenuName:
+            message += vehicleData.tirePressure?.description ?? notAvailable
+        case ACVINMenuName:
+            message += vehicleData.vin?.description ?? notAvailable
+        default: break
+        }
+
+        // Trim all non a-Z0-9 characters and truncate the string if it is more than 500 characters
+        let trimmedString = message.filter { "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 :".contains($0) }
+        let condensedString = String(trimmedString).condensedWhitespace
+        return condensedString.trunc(length: 490)
+    }
+
+    /// Checks if the app has the required permissions to access vehicle data
+    ///
+    /// - Parameter manager: The SDL manager
+    /// - Returns: True if the app has permission to access vehicle data, false if not
+    class func hasPermissionToAccessVehicleData(with manager: SDLManager) -> Bool {
+        SDLLog.d("Checking if app has permission to access vehicle data...")
+
+        guard manager.permissionManager.isRPCAllowed("GetVehicleData") else {
+            let alert = AlertManager.alertWithMessageAndCloseButton("This app does not have the required permissions to access vehicle data")
+            manager.send(request: alert)
+            return false
+        }
+
+        return true
+    }
+
+    /// Checks if Core sent back vehicle data
+    ///
+    /// - Parameters:
+    ///   - manager: The SDL manager
+    ///   - response: The response from Core
+    ///   - error: An error from Core
+    /// - Returns: True if Core sent back vehicle data, false if not
+    class func didAccessVehicleDataSuccessfully(with manager:SDLManager, response: SDLRPCResponse?, error: Error?) -> Bool {
+        SDLLog.d("Checking if Core returned vehicle data")
+
+        guard response != nil, error == nil else {
+            let alert = AlertManager.alertWithMessageAndCloseButton("Something went wrong while getting vehicle data")
+            manager.send(request: alert)
+            return false
+        }
+
+        return true
     }
 }
 
@@ -180,5 +283,35 @@ extension VehicleDataManager {
             guard let success = response?.resultCode else { return }
             SDLLog.d("Sent dial number request: \(success == .success ? "successfully" : "unsuccessfully").")
         }
+    }
+}
+
+extension String {
+    var condensedWhitespace: String {
+        let components = self.components(separatedBy: NSCharacterSet.whitespacesAndNewlines)
+        return components.filter { !$0.isEmpty }.joined(separator: " ")
+    }
+
+    func trunc(length: Int, trailing: String = "…") -> String {
+        return (self.count > length) ? self.prefix(length) + trailing : self
+    }
+}
+
+extension SDLVehicleDataEventStatus {
+    var description: String {
+        switch self {
+        case .noEvent:
+            return "no event"
+        case .no:
+            return "no"
+        case .yes:
+            return "yes"
+        case .notSupported:
+            return "not supported"
+        case .fault:
+            return "fault"
+        default: break
+        }
+        return ""
     }
 }

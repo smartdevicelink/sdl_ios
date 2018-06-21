@@ -17,7 +17,7 @@ class MenuManager: NSObject {
     /// - Returns: An array of SDLAddCommand objects
     class func allMenuItems(with manager: SDLManager) -> [SDLMenuCell] {
         return [menuCellSpeakName(with: manager),
-                menuCellGetVehicleSpeed(with: manager),
+                menuCellGetAllVehicleData(with: manager),
                 menuCellShowPerformInteraction(with: manager),
                 menuCellRecordInCarMicrophoneAudio(with: manager),
                 menuCellDialNumber(with: manager),
@@ -53,14 +53,22 @@ private extension MenuManager {
         })
     }
 
-    /// Menu item that requests vehicle data when selected
+    /// Menu item that, when selected, shows a submenu with all possible vehicle data types
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
-    class func menuCellGetVehicleSpeed(with manager: SDLManager) -> SDLMenuCell {
-        return SDLMenuCell(title: ACGetVehicleDataMenuName, icon: SDLArtwork(image: UIImage(named: CarBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACGetVehicleDataMenuName], handler: { _ in
-            VehicleDataManager.getVehicleSpeed(with: manager)
-        })
+    class func menuCellGetAllVehicleData(with manager: SDLManager) -> SDLMenuCell {
+        let submenuItems = allVehicleDataTypes.map { submenuName in
+            SDLMenuCell(title: submenuName, icon: nil, voiceCommands: [submenuName], handler: { triggerSource in
+                VehicleDataManager.getAllVehicleData(with: manager, triggerSource: triggerSource, vehicleDataType: submenuName)
+            })
+        }
+        return SDLMenuCell(title: ACGetAllVehicleDataMenuName, subCells: submenuItems)
+    }
+
+    /// A list of all possible vehicle data types
+    static var allVehicleDataTypes: [String] {
+        return [ACAccelerationPedalPositionMenuName, ACAirbagStatusMenuName, ACBeltStatusMenuName, ACBodyInformationMenuName, ACClusterModeStatusMenuName, ACDeviceStatusMenuName, ACDriverBrakingMenuName, ACECallInfoMenuName, ACEmergencyEventMenuName, ACEngineOilLifeMenuName, ACEngineTorqueMenuName, ACExternalTemperatureMenuName, ACFuelLevelMenuName, ACFuelLevelStateMenuName, ACFuelRangeMenuName, ACGPSMenuName, ACHeadLampStatusMenuName, ACInstantFuelConsumptionMenuName, ACMyKeyMenuName, ACOdometerMenuName, ACPRNDLMenuName, ACRPMMenuName, ACSpeedMenuName, ACSteeringWheelAngleMenuName, ACTirePressureMenuName, ACVINMenuName, ACWiperStatusMenuName]
     }
 
     /// Menu item that shows a custom menu (i.e. a Perform Interaction Choice Set) when selected
