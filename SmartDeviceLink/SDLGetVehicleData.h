@@ -66,6 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param externalTemperature         Get externalTemperature data
  *  @param fuelLevel                   Get fuelLevel data
  *  @param fuelLevelState              Get fuelLevelState data
+ *  @param fuelRange                   Get fuelRange data
  *  @param gps                         Get gps data
  *  @param headLampStatus              Get headLampStatus data
  *  @param instantFuelConsumption      Get instantFuelConsumption data
