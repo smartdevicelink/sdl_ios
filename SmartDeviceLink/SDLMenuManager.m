@@ -369,10 +369,7 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell position:(UInt16)position {
-    SDLAddSubMenu *submenu = [[SDLAddSubMenu alloc] initWithId:cell.cellId menuName:cell.title];
-    submenu.position = @(position);
-
-    return submenu;
+    return [[SDLAddSubMenu alloc] initWithId:cell.cellId menuName:cell.title menuIcon:cell.icon position:(UInt8)position];
 }
 
 #pragma mark - Calling handlers

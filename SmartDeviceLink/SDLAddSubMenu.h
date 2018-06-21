@@ -3,6 +3,8 @@
 
 #import "SDLRPCRequest.h"
 
+@class SDLImage;
+
 /**
  * Add a SDLSubMenu to the Command Menu
  * <p>
@@ -23,7 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName;
 
-- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName position:(UInt8)position;
+- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName position:(UInt8)position __deprecated_msg(("Use initWithId:menuName:menuIcon:position: instead"));
+
+- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName menuIcon:(nullable SDLImage *)icon position:(UInt8)position;
 
 /**
  * a Menu ID that identifies a sub menu
@@ -32,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  * <p>
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *menuID;
+
 /**
  * a position of menu
  * @discussion An NSNumber pointer representing the position within the items
@@ -51,11 +56,17 @@ NS_ASSUME_NONNULL_BEGIN
  *            </ul>
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *position;
+
 /**
  * a menuName which is displayed representing this submenu item
  * @discussion NSString which will be displayed representing this submenu item
  */
 @property (strong, nonatomic) NSString *menuName;
+
+/**
+ An image that is displayed alongside this submenu item
+ */
+@property (strong, nonatomic) SDLImage *menuIcon;
 
 @end
 
