@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
  *            the end of the list</li>
  *            </ul>
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLInt> *position;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *position;
 
 /**
  * a menuName which is displayed representing this submenu item
@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  An image that is displayed alongside this submenu item
  */
-@property (strong, nonatomic) SDLImage *menuIcon;
+@property (strong, nonatomic, nullable) SDLImage *menuIcon;
 
 @end
 

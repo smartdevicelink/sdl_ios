@@ -66,11 +66,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameMenuName];
 }
 
-- (void)setMenuIcon:(SDLImage *)menuIcon {
+- (void)setMenuIcon:(nullable SDLImage *)menuIcon {
     [parameters sdl_setObject:menuIcon forName:SDLNameMenuIcon];
 }
 
-- (SDLImage *)menuIcon {
+- (nullable SDLImage *)menuIcon {
     return [parameters sdl_objectForName:SDLNameMenuIcon ofClass:[SDLImage class]];
 }
 
