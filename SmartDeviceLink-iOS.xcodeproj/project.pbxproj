@@ -1102,7 +1102,7 @@
 		88B3BF9C20DA8BBC00943565 /* SDLFuelRange.h in Headers */ = {isa = PBXBuildFile; fileRef = 88B3BF9A20DA8BBC00943565 /* SDLFuelRange.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88B3BF9D20DA8BBC00943565 /* SDLFuelRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B3BF9B20DA8BBC00943565 /* SDLFuelRange.m */; };
 		88B3BFA020DA8FD000943565 /* SDLFuelTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B3BF9F20DA8FD000943565 /* SDLFuelTypeSpec.m */; };
-		88B3BFA220DA911E00943565 /* SDL FuelRangeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B3BFA120DA911E00943565 /* SDL FuelRangeSpec.m */; };
+		88B3BFA220DA911E00943565 /* SDLFuelRangeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B3BFA120DA911E00943565 /* SDLFuelRangeSpec.m */; };
 		88B848C31F45E1A600DED768 /* TestResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B848C21F45E1A600DED768 /* TestResponse.m */; };
 		88B848C91F462E3600DED768 /* TestFileProgressResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B848C81F462E3600DED768 /* TestFileProgressResponse.m */; };
 		88B849C52080F4B3002A034D /* RPCPermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B849C32080F4AF002A034D /* RPCPermissionsManager.swift */; };
@@ -2447,7 +2447,7 @@
 		88B3BF9A20DA8BBC00943565 /* SDLFuelRange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLFuelRange.h; sourceTree = "<group>"; };
 		88B3BF9B20DA8BBC00943565 /* SDLFuelRange.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLFuelRange.m; sourceTree = "<group>"; };
 		88B3BF9F20DA8FD000943565 /* SDLFuelTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLFuelTypeSpec.m; sourceTree = "<group>"; };
-		88B3BFA120DA911E00943565 /* SDL FuelRangeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SDL FuelRangeSpec.m"; sourceTree = "<group>"; };
+		88B3BFA120DA911E00943565 /* SDLFuelRangeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLFuelRangeSpec.m; sourceTree = "<group>"; };
 		88B848C11F45E1A600DED768 /* TestResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestResponse.h; sourceTree = "<group>"; };
 		88B848C21F45E1A600DED768 /* TestResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestResponse.m; sourceTree = "<group>"; };
 		88B848C71F462E3600DED768 /* TestFileProgressResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFileProgressResponse.h; sourceTree = "<group>"; };
@@ -2894,7 +2894,7 @@
 				162E82991A9BDE8A00906325 /* SDLDisplayCapabilitiesSpec.m */,
 				162E829A1A9BDE8A00906325 /* SDLECallInfoSpec.m */,
 				162E829B1A9BDE8A00906325 /* SDLEmergencyEventSpec.m */,
-				88B3BFA120DA911E00943565 /* SDL FuelRangeSpec.m */,
+				88B3BFA120DA911E00943565 /* SDLFuelRangeSpec.m */,
 				162E829C1A9BDE8A00906325 /* SDLGPSDataSpec.m */,
 				88EED83A1F33BECB00E6C42E /* SDLHapticRectSpec.m */,
 				162E829D1A9BDE8A00906325 /* SDLHeadLampStatusSpec.m */,
@@ -6420,7 +6420,7 @@
 				162E835A1A9BDE8B00906325 /* SDLPerformAudioPassThruResponseSpec.m in Sources */,
 				162E83501A9BDE8B00906325 /* SDLDeleteFileResponseSpec.m in Sources */,
 				162E83601A9BDE8B00906325 /* SDLScrollableMessageResponseSpec.m in Sources */,
-				88B3BFA220DA911E00943565 /* SDL FuelRangeSpec.m in Sources */,
+				88B3BFA220DA911E00943565 /* SDLFuelRangeSpec.m in Sources */,
 				162E83791A9BDE8B00906325 /* SDLDeviceStatusSpec.m in Sources */,
 				162E83821A9BDE8B00906325 /* SDLImageSpec.m in Sources */,
 				162E834A1A9BDE8B00906325 /* SDLAddSubMenuResponseSpec.m in Sources */,

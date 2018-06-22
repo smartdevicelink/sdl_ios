@@ -1,5 +1,5 @@
 //
-//  SDL FuelRangeSpec.m
+//  SDLFuelRangeSpec.m
 //  SmartDeviceLinkTests
 //
 //  Created by Nicole on 6/20/18.
