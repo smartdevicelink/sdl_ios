@@ -10,11 +10,6 @@ import Foundation
 import SmartDeviceLink
 import SmartDeviceLinkSwift
 
-enum VehicleData: String {
-    case accPedalPosition = "APP"
-    case speed = "Speed"
-    case gps = "GPS"
-}
 
 class VehicleDataManager: NSObject {
     fileprivate let sdlManager: SDLManager!
