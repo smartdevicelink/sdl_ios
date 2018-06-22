@@ -298,14 +298,15 @@ UInt16 const ChoiceCellIdMin = 1;
     __weak typeof(presentOp) weakOp = presentOp;
     self.pendingPresentOperation.completionBlock = ^{
         __strong typeof(weakOp) strongOp = weakOp;
-        weakself.pendingPresentationSet = nil;
-        weakself.pendingPresentOperation = nil;
 
         if (strongOp.error != nil && strongOp.choiceSet.delegate != nil) {
             [strongOp.choiceSet.delegate choiceSet:strongOp.choiceSet didReceiveError:strongOp.error];
         } else if (strongOp.selectedCell != nil && strongOp.choiceSet.delegate != nil) {
-            [strongOp.choiceSet.delegate choiceSet:strongOp.choiceSet didSelectChoice:strongOp.selectedCell withSource:strongOp.selectedTriggerSource];
+            [strongOp.choiceSet.delegate choiceSet:strongOp.choiceSet didSelectChoice:strongOp.selectedCell withSource:strongOp.selectedTriggerSource atRowIndex:strongOp.selectedCellRow];
         }
+
+        weakself.pendingPresentationSet = nil;
+        weakself.pendingPresentOperation = nil;
     };
     [self.transactionQueue addOperation:presentOp];
 }

@@ -20,7 +20,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *_Nullable error);
+typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *__nullable error);
 
 typedef NSString SDLChoiceManagerState;
 extern SDLChoiceManagerState *const SDLChoiceManagerStateShutdown;

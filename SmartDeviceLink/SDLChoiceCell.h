@@ -44,6 +44,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, readonly, nullable) SDLArtwork *secondaryArtwork;
 
+/**
+ Initialize the cell with nothing. This is unavailable
+
+ @return A crash, probably
+ */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**

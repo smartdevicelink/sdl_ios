@@ -39,7 +39,7 @@ typedef void(^SDLScreenManagerUpdateCompletionHandler)(NSError *__nullable error
 
  @param error The error if one occurred
  */
-typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *error);
+typedef void(^SDLPreloadChoiceCompletionHandler)(NSError *__nullable error);
 
 @interface SDLScreenManager : NSObject
 

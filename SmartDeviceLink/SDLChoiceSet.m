@@ -76,7 +76,6 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
             [nonNilVoiceCommands addObject:cell.voiceCommands];
         }
     }
-
     NSMutableSet<NSArray<NSString *> *> *choiceVoiceCommandSet = [NSMutableSet setWithArray:nonNilVoiceCommands];
     if (choiceVoiceCommandSet.count < nonNilVoiceCommands.count) {
         SDLLogW(@"Attempted to create a choice set with duplicate voice commands. Voice commands must be unique.");

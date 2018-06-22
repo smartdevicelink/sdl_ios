@@ -47,7 +47,7 @@ private extension PerformInteractionManager {
 }
 
 extension PerformInteractionManager: SDLChoiceSetDelegate {
-    func choiceSet(_ choiceSet: SDLChoiceSet, didSelectChoice choice: SDLChoiceCell, withSource source: SDLTriggerSource) {
+    func choiceSet(_ choiceSet: SDLChoiceSet, didSelectChoice choice: SDLChoiceCell, withSource source: SDLTriggerSource, atRowIndex rowIndex: UInt) {
         manager.send(SDLSpeak(tts: TTSGoodJob))
     }
 

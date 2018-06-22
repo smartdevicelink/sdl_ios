@@ -32,8 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPresentChoiceSetOperation()
 
-@property (copy, nonatomic, readwrite, nullable) NSNumber<SDLInt> *selectedChoiceId;
-
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (strong, nonatomic, readwrite) SDLChoiceSet *choiceSet;
 @property (strong, nonatomic) SDLInteractionMode presentationMode;
@@ -49,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) NSError *internalError;
 @property (strong, nonatomic, readwrite, nullable) SDLChoiceCell *selectedCell;
 @property (strong, nonatomic, readwrite, nullable) SDLTriggerSource selectedTriggerSource;
+@property (assign, nonatomic, readwrite) NSUInteger selectedCellRow;
 
 @end
 
@@ -65,6 +64,8 @@ NS_ASSUME_NONNULL_BEGIN
     _originalKeyboardProperties = originalKeyboardProperties;
     _keyboardProperties = originalKeyboardProperties;
     _keyboardDelegate = keyboardDelegate;
+
+    _selectedCellRow = NSNotFound;
 
     return self;
 }
@@ -135,7 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         SDLPerformInteractionResponse *performResponse = (SDLPerformInteractionResponse *)response;
-        weakself.selectedCell = [weakself sdl_cellForId:performResponse.choiceID];
+        [weakself sdl_setSelectedCellWithId:performResponse.choiceID];
         weakself.selectedTriggerSource = performResponse.triggerSource;
 
         [weakself finishOperation];
@@ -144,14 +145,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Helpers
 
-- (nullable SDLChoiceCell *)sdl_cellForId:(NSNumber<SDLInt> *)cellId {
-    for (SDLChoiceCell *cell in self.choiceSet.choices) {
+- (void)sdl_setSelectedCellWithId:(NSNumber<SDLInt> *)cellId {
+    __weak typeof(self) weakself = self;
+    [self.choiceSet.choices enumerateObjectsUsingBlock:^(SDLChoiceCell * _Nonnull cell, NSUInteger i, BOOL * _Nonnull stop) {
         if (cell.choiceId == cellId.unsignedIntValue) {
-            return cell;
+            weakself.selectedCell = cell;
+            weakself.selectedCellRow = i;
         }
-    }
-
-    return nil;
+    }];
 }
 
 #pragma mark - Getters
