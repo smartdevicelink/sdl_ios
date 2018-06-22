@@ -152,65 +152,66 @@ extension VehicleDataManager {
     /// - Returns: A description of the vehicle data
     class func vehicleDataDescription(_ vehicleData: SDLGetVehicleDataResponse, vehicleDataType: String) -> String {
         let notAvailable = "Vehicle data not available"
-        var message = "\(vehicleDataType): "
+
+        var vehicleDataDescription = ""
         switch vehicleDataType {
         case ACAccelerationPedalPositionMenuName:
-            message += vehicleData.accPedalPosition?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.accPedalPosition?.description ?? notAvailable
         case ACAirbagStatusMenuName:
-            message += vehicleData.airbagStatus?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.airbagStatus?.description ?? notAvailable
         case ACBeltStatusMenuName:
-            message += vehicleData.beltStatus?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.beltStatus?.description ?? notAvailable
         case ACBodyInformationMenuName:
-            message += vehicleData.bodyInformation?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.bodyInformation?.description ?? notAvailable
         case ACClusterModeStatusMenuName:
-            message += vehicleData.clusterModeStatus?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.clusterModeStatus?.description ?? notAvailable
         case ACDeviceStatusMenuName:
-            message += vehicleData.deviceStatus?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.deviceStatus?.description ?? notAvailable
         case ACDriverBrakingMenuName:
-            message += vehicleData.driverBraking?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.driverBraking?.rawValue.rawValue ?? notAvailable
         case ACECallInfoMenuName:
-            message += vehicleData.eCallInfo?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.eCallInfo?.description ?? notAvailable
         case ACEmergencyEventMenuName:
-            message += vehicleData.emergencyEvent?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.emergencyEvent?.description ?? notAvailable
         case ACEngineOilLifeMenuName:
-            message += vehicleData.engineOilLife?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.engineOilLife?.description ?? notAvailable
         case ACEngineTorqueMenuName:
-            message += vehicleData.engineTorque?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.engineTorque?.description ?? notAvailable
         case ACExternalTemperatureMenuName:
-            message += vehicleData.externalTemperature?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.externalTemperature?.description ?? notAvailable
         case ACFuelLevelMenuName:
-            message += vehicleData.fuelLevel?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.fuelLevel?.description ?? notAvailable
         case ACFuelLevelStateMenuName:
-            message += vehicleData.fuelLevel_State?.rawValue.rawValue ?? notAvailable
+            vehicleDataDescription += vehicleData.fuelLevel_State?.rawValue.rawValue ?? notAvailable
         case ACFuelRangeMenuName:
-            message += vehicleData.fuelRange?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.fuelRange?.description ?? notAvailable
         case ACGPSMenuName:
-            message += vehicleData.gps?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.gps?.description ?? notAvailable
         case ACHeadLampStatusMenuName:
-            message += vehicleData.headLampStatus?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.headLampStatus?.description ?? notAvailable
         case ACInstantFuelConsumptionMenuName:
-            message += vehicleData.instantFuelConsumption?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.instantFuelConsumption?.description ?? notAvailable
         case ACMyKeyMenuName:
-            message += vehicleData.myKey?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.myKey?.description ?? notAvailable
         case ACOdometerMenuName:
-            message += vehicleData.odometer?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.odometer?.description ?? notAvailable
         case ACPRNDLMenuName:
-            message += vehicleData.prndl?.rawValue.rawValue ?? notAvailable
+            vehicleDataDescription += vehicleData.prndl?.rawValue.rawValue ?? notAvailable
         case ACSpeedMenuName:
-            message += vehicleData.speed?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.speed?.description ?? notAvailable
         case ACSteeringWheelAngleMenuName:
-            message += vehicleData.steeringWheelAngle?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.steeringWheelAngle?.description ?? notAvailable
         case ACTirePressureMenuName:
-            message += vehicleData.tirePressure?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.tirePressure?.description ?? notAvailable
         case ACVINMenuName:
-            message += vehicleData.vin?.description ?? notAvailable
+            vehicleDataDescription += vehicleData.vin?.description ?? notAvailable
         default: break
         }
 
-        // Trim all non a-Z0-9 characters and truncate the string if it is more than 500 characters
-        let trimmedString = message.filter { "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 :".contains($0) }
-        let condensedString = String(trimmedString).condensedWhitespace
-        return condensedString.trunc(length: 490)
+        // Trim all non a-Z0-9 characters and truncate description to 500 characters
+        let alertMessage = "\(vehicleDataType): \(vehicleDataDescription)"
+        let alertMessageFiltered = String(alertMessage.filter { "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 :".contains($0) })
+        return alertMessageFiltered.trunc(length: 495, trailing: "")
     }
 
     /// Checks if the app has the required permissions to access vehicle data
@@ -287,31 +288,7 @@ extension VehicleDataManager {
 }
 
 extension String {
-    var condensedWhitespace: String {
-        let components = self.components(separatedBy: NSCharacterSet.whitespacesAndNewlines)
-        return components.filter { !$0.isEmpty }.joined(separator: " ")
-    }
-
     func trunc(length: Int, trailing: String = "…") -> String {
         return (self.count > length) ? self.prefix(length) + trailing : self
-    }
-}
-
-extension SDLVehicleDataEventStatus {
-    var description: String {
-        switch self {
-        case .noEvent:
-            return "no event"
-        case .no:
-            return "no"
-        case .yes:
-            return "yes"
-        case .notSupported:
-            return "not supported"
-        case .fault:
-            return "fault"
-        default: break
-        }
-        return ""
     }
 }
