@@ -28,8 +28,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSDictionary *dict = @{SDLNameFuelType:SDLFuelTypeLPG,
-                                SDLNameFuelRange:@23
+        NSDictionary *dict = @{SDLNameType:SDLFuelTypeLPG,
+                                SDLNameRange:@23
                                 };
 
         SDLFuelRange *testStruct = [[SDLFuelRange alloc] initWithDictionary:dict];

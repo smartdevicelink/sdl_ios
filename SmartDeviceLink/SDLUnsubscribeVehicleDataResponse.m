@@ -58,6 +58,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameFuelLevelState ofClass:SDLVehicleDataResult.class];
 }
 
+- (void)setFuelRange:(nullable SDLVehicleDataResult *)fuelRange {
+    [parameters sdl_setObject:fuelRange forName:SDLNameFuelRange];
+}
+
+- (nullable SDLVehicleDataResult *)fuelRange {
+    return [parameters sdl_objectForName:SDLNameFuelRange ofClass:SDLVehicleDataResult.class];
+}
+
 - (void)setInstantFuelConsumption:(nullable SDLVehicleDataResult *)instantFuelConsumption {
     [parameters sdl_setObject:instantFuelConsumption forName:SDLNameInstantFuelConsumption];
 }

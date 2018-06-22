@@ -26,6 +26,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.rpm = vehicleDataResult;
         testResponse.fuelLevel = vehicleDataResult;
         testResponse.fuelLevel_State = vehicleDataResult;
+        testResponse.fuelRange = vehicleDataResult;
         testResponse.instantFuelConsumption = vehicleDataResult;
         testResponse.externalTemperature = vehicleDataResult;
         testResponse.prndl = vehicleDataResult;
@@ -52,6 +53,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.rpm).to(equal(vehicleDataResult));
         expect(testResponse.fuelLevel).to(equal(vehicleDataResult));
         expect(testResponse.fuelLevel_State).to(equal(vehicleDataResult));
+        expect(testResponse.fuelRange).to(equal(vehicleDataResult));
         expect(testResponse.instantFuelConsumption).to(equal(vehicleDataResult));
         expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
         expect(testResponse.prndl).to(equal(vehicleDataResult));
@@ -82,6 +84,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameRPM:vehicleDataResult,
                                                                    SDLNameFuelLevel:vehicleDataResult,
                                                                    SDLNameFuelLevelState:vehicleDataResult,
+                                                                   SDLNameFuelRange:vehicleDataResult,
                                                                    SDLNameInstantFuelConsumption:vehicleDataResult,
                                                                    SDLNameExternalTemperature:vehicleDataResult,
                                                                    SDLNamePRNDL:vehicleDataResult,
@@ -110,6 +113,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.rpm).to(equal(vehicleDataResult));
         expect(testResponse.fuelLevel).to(equal(vehicleDataResult));
         expect(testResponse.fuelLevel_State).to(equal(vehicleDataResult));
+        expect(testResponse.fuelRange).to(equal(vehicleDataResult));
         expect(testResponse.instantFuelConsumption).to(equal(vehicleDataResult));
         expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
         expect(testResponse.prndl).to(equal(vehicleDataResult));
@@ -140,6 +144,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.rpm).to(beNil());
         expect(testResponse.fuelLevel).to(beNil());
         expect(testResponse.fuelLevel_State).to(beNil());
+        expect(testResponse.fuelRange).to(beNil());
         expect(testResponse.instantFuelConsumption).to(beNil());
         expect(testResponse.externalTemperature).to(beNil());
         expect(testResponse.prndl).to(beNil());
