@@ -124,18 +124,28 @@ extension VehicleDataManager {
             case .disallowed:
                 SDLLog.d("This app does not have the required permissions to access vehicle data")
                 alertMessage = "Disallowed"
-            case .success:
+            case .success, .dataNotAvailable:
+                SDLLog.d("Request for vehicle data successful")
                 if let vehicleData = response as? SDLGetVehicleDataResponse {
-                    SDLLog.d("Request for vehicle data successful")
                     alertMessage = vehicleDataDescription(vehicleData, vehicleDataType: vehicleDataType)
                 } else {
-                    SDLLog.e("Request for vehicle data successful but no data returned")
-                    alertMessage = "Unknown"
+                    SDLLog.e("No vehicle data returned")
+                    alertMessage = "No vehicle data returned"
                 }
             default: break
             }
 
             triggerSource == .menu ? manager.send(AlertManager.alertWithMessageAndCloseButton(alertMessage.isEmpty ? "No data available" : alertMessage)) : manager.send(SDLSpeak(tts: alertMessage))
+        }
+    }
+
+    class func createVehicleDataAlertMessage(response: SDLRPCResponse?, vehicleDataType: String) -> String {
+        if let vehicleData = response as? SDLGetVehicleDataResponse {
+            SDLLog.d("Some vehicle data returned successfully")
+            return vehicleDataDescription(vehicleData, vehicleDataType: vehicleDataType)
+        } else {
+            SDLLog.e("Vehicle data request successful, but no data was returned")
+            return "Unknown"
         }
     }
 

@@ -46,8 +46,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLMenuCell *)sdlex_menuCellGetAllVehicleDataWithManager:(SDLManager *)manager {
-    NSMutableArray *submenuItems = [NSMutableArray array];
-    for (NSString *vehicleDataType in submenuItems) {
+    NSMutableArray *submenuItems = [[NSMutableArray alloc] init];
+    NSArray<NSString *> *allVehicleDataTypes = [self sdlex_allVehicleDataTypes];
+    for (NSString *vehicleDataType in allVehicleDataTypes) {
         SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:vehicleDataType icon:nil voiceCommands:@[vehicleDataType] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
             [VehicleDataManager getAllVehicleDataWithManager:manager triggerSource:triggerSource vehicleDataType:vehicleDataType];
         }];
@@ -86,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLMenuCell *)sdlex_menuCellWithSubmenuWithManager:(SDLManager *)manager {
-    NSMutableArray *submenuItems = [NSMutableArray array];
+    NSMutableArray *submenuItems = [[NSMutableArray alloc] init];
     for (int i = 0; i < 75; i++) {
         SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:[NSString stringWithFormat:@"%@ %i", ACSubmenuItemMenuName, i] icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:MenuBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
             [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:[NSString stringWithFormat:@"You selected %@ %i", ACSubmenuItemMenuName, i] textField2:nil]];

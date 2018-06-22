@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLFuelRange *> *)fuelRange {
-    return [parameters sdl_objectForName:SDLNameFuelRange ofClass:SDLFuelRange.class];
+    return [parameters sdl_objectsForName:SDLNameFuelRange ofClass:SDLFuelRange.class];
 }
 
 - (void)setInstantFuelConsumption:(nullable NSNumber<SDLFloat> *)instantFuelConsumption {

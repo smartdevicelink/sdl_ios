@@ -45,7 +45,7 @@ describe(@"Getter/Setter Tests", ^ {
         testNotification.externalTemperature = @-10;
         testNotification.fuelLevel = @10.3;
         testNotification.fuelLevel_State = SDLComponentVolumeStatusAlert;
-        testNotification.fuelRange = @[fuelRange];
+        testNotification.fuelRange = @[fuelRange, fuelRange];
         testNotification.gps = gps;
         testNotification.headLampStatus = headLamp;
         testNotification.instantFuelConsumption = @4000.63;
@@ -73,7 +73,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.externalTemperature).to(equal(@-10));
         expect(testNotification.fuelLevel).to(equal(@10.3));
         expect(testNotification.fuelLevel_State).to(equal(SDLComponentVolumeStatusAlert));
-        expect(testNotification.fuelRange).to(equal(@[fuelRange]));
+        expect(testNotification.fuelRange).to(equal(@[fuelRange, fuelRange]));
         expect(testNotification.gps).to(equal(gps));
         expect(testNotification.headLampStatus).to(equal(headLamp));
         expect(testNotification.instantFuelConsumption).to(equal(@4000.63));
@@ -105,7 +105,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameExternalTemperature:@-10,
                                                    SDLNameFuelLevel:@10.3,
                                                    SDLNameFuelLevelState:SDLComponentVolumeStatusAlert,
-                                                   SDLNameFuelRange:@[fuelRange, fuelRange],
+                                                   SDLNameFuelRange:@[fuelRange],
                                                    SDLNameGPS:gps,
                                                    SDLNameHeadLampStatus:headLamp,
                                                    SDLNameInstantFuelConsumption:@4000.63,
@@ -135,7 +135,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.externalTemperature).to(equal(@-10));
         expect(testNotification.fuelLevel).to(equal(@10.3));
         expect(testNotification.fuelLevel_State).to(equal(SDLComponentVolumeStatusAlert));
-        expect(testNotification.fuelRange).to(equal(@[fuelRange, fuelRange]));
+        expect(testNotification.fuelRange).to(equal(@[fuelRange]));
         expect(testNotification.gps).to(equal(gps));
         expect(testNotification.headLampStatus).to(equal(headLamp));
         expect(testNotification.instantFuelConsumption).to(equal(@4000.63));

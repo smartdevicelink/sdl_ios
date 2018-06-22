@@ -159,13 +159,14 @@ NS_ASSUME_NONNULL_BEGIN
         } else if ([resultCode isEqualToEnum:SDLResultDisallowed]) {
             SDLLogD(@"This app does not have the required permissions to access vehicle data.");
             [alertMessage appendString:@"Disallowed"];
-        } else if ([resultCode isEqualToEnum:SDLResultSuccess]) {
+        } else if ([resultCode isEqualToEnum:SDLResultSuccess] || [resultCode isEqualToEnum:SDLResultDataNotAvailable]) {
+            SDLLogD(@"Request for vehicle data successful");
             if (getVehicleDataResponse) {
                 NSString *vehicleDataTypeDescription = [self sdlex_vehicleDataDescription:getVehicleDataResponse vehicleDataType:vehicleDataType];
                 [alertMessage appendString:vehicleDataTypeDescription];
             } else {
-                SDLLogD(@"Request for vehicle data successful but no data returned.");
-                [alertMessage appendString:@"Unknown"];
+                SDLLogE(@"No vehicle data returned");
+                [alertMessage appendString:@"No vehicle data returned"];
             }
         }
 
