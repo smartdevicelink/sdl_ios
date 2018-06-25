@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - SDLChoiceSetDelegate
 
-- (void)choiceSet:(SDLChoiceSet *)choiceSet didSelectChoice:(SDLChoiceCell *)choice withSource:(SDLTriggerSource)source {
+- (void)choiceSet:(SDLChoiceSet *)choiceSet didSelectChoice:(SDLChoiceCell *)choice withSource:(SDLTriggerSource)source atRowIndex:(NSUInteger)rowIndex {
     [self.manager sendRequest:[[SDLSpeak alloc] initWithTTS:TTSGoodJob]];
 }
 
