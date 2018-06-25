@@ -215,7 +215,7 @@ extension VehicleDataManager {
 
         // Trim all non a-Z0-9 characters and truncate description to 500 characters
         let alertMessage = "\(vehicleDataType): \(vehicleDataDescription)"
-        let alertMessageFiltered = String(alertMessage.filter { "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 :".contains($0) })
+        let alertMessageFiltered = String(alertMessage.filter { "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 :.".contains($0) })
         return alertMessageFiltered.trunc(length: 495, trailing: "")
     }
 

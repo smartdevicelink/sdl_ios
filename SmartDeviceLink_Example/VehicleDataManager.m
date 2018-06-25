@@ -230,7 +230,10 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     NSString *vehicleDataTypeDescription = [NSString stringWithFormat:@"%@: %@", vehicleDataType, vehicleDataDescription != nil ? vehicleDataDescription : @"Vehicle data not available"];
-    NSString *filteredString = [[vehicleDataTypeDescription componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 :"] invertedSet]] componentsJoinedByString:@""];
+
+    NSString *filteredNewlines = [vehicleDataTypeDescription stringByReplacingOccurrencesOfString:@"\\n" withString:@""];
+    NSArray<NSString *> *filteredCharacters = [filteredNewlines componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 :."] invertedSet]];
+    NSString *filteredString = [filteredCharacters componentsJoinedByString:@" "];
     NSString *truncatedString = [filteredString substringToIndex:MIN(500, [filteredString length])];
 
     return truncatedString;
