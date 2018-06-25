@@ -177,12 +177,12 @@ describe(@"initializers", ^{
         expect(testRequest.driverBraking).to(equal(@YES));
         expect(testRequest.eCallInfo).to(equal(@YES));
         expect(testRequest.emergencyEvent).to(equal(@YES));
-        expect(testRequest.engineOilLife).to(beNil());
+        expect(testRequest.engineOilLife).to(equal(@NO));
         expect(testRequest.engineTorque).to(equal(@YES));
         expect(testRequest.externalTemperature).to(equal(@YES));
         expect(testRequest.fuelLevel).to(equal(@YES));
         expect(testRequest.fuelLevel_State).to(equal(@YES));
-        expect(testRequest.fuelRange).to(beNil());
+        expect(testRequest.fuelRange).to(equal(@NO));
         expect(testRequest.gps).to(equal(@YES));
         expect(testRequest.headLampStatus).to(equal(@YES));
         expect(testRequest.instantFuelConsumption).to(equal(@YES));
