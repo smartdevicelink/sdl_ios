@@ -19,11 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *spaceAvailable;
 
-/**
- *  The success status of the data sent to SDL Core. 
- */
-@property (nullable, strong, nonatomic) SDLResult resultCode;
-
 @end
 
 NS_ASSUME_NONNULL_END
