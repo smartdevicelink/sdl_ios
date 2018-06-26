@@ -90,7 +90,7 @@ describe(@"When creating a CRC32 checksum for the bulk data", ^{
 
 describe(@"initializers", ^{
     context(@"init", ^{
-        SDLPutFile* testRequest = [[SDLPutFile alloc] init];
+        SDLPutFile *testRequest = [[SDLPutFile alloc] init];
 
         expect(testRequest.syncFileName).to(beNil());
         expect(testRequest.fileType).to(beNil());
@@ -99,14 +99,20 @@ describe(@"initializers", ^{
         expect(testRequest.offset).to(beNil());
         expect(testRequest.length).to(beNil());
         expect(testRequest.crc).to(beNil());
+        expect(testRequest.bulkData).to(beNil());
     });
 
     context(@"initWithFileName:fileType:", ^{
-        SDLPutFile* testRequest = [[SDLPutFile alloc] initWithFileName:@"fileName" fileType:SDLFileTypeWAV];
+        SDLPutFile *testRequest = [[SDLPutFile alloc] initWithFileName:@"fileName" fileType:SDLFileTypeWAV];
 
         expect(testRequest.syncFileName).to(equal(@"fileName"));
         expect(testRequest.fileType).to(equal(SDLFileTypeWAV));
+        expect(testRequest.persistentFile).to(beNil());
+        expect(testRequest.systemFile).to(beNil());
+        expect(testRequest.offset).to(beNil());
+        expect(testRequest.length).to(beNil());
         expect(testRequest.crc).to(beNil());
+        expect(testRequest.bulkData).to(beNil());
     });
 
     context(@"initWithFileName:fileType:persistentFile:", ^{
@@ -115,19 +121,24 @@ describe(@"initializers", ^{
         expect(testRequest.syncFileName).to(equal(@"fileName"));
         expect(testRequest.fileType).to(equal(SDLFileTypePNG));
         expect(testRequest.persistentFile).to(beFalse());
+        expect(testRequest.systemFile).to(beNil());
+        expect(testRequest.offset).to(beNil());
+        expect(testRequest.length).to(beNil());
         expect(testRequest.crc).to(beNil());
+        expect(testRequest.bulkData).to(beNil());
     });
 
     context(@"initWithFileName:fileType:persistentFile:systemFile:offset:length:", ^{
-        SDLPutFile* testRequest = [[SDLPutFile alloc] initWithFileName:@"fileName" fileType:SDLFileTypeMP3 persistentFile:true systemFile:true offset:45 length:34];
+        SDLPutFile *testRequest = [[SDLPutFile alloc] initWithFileName:@"fileName" fileType:SDLFileTypeMP3 persistentFile:true systemFile:true offset:45 length:34];
 
         expect(testRequest.syncFileName).to(equal(@"fileName"));
         expect(testRequest.fileType).to(equal(SDLFileTypeMP3));
         expect(testRequest.persistentFile).to(beTrue());
         expect(testRequest.systemFile).to(beTrue());
-        expect(testRequest.offset).to(equal(45));
+        expect(testRequest.offset).to(equal(@45));
         expect(testRequest.length).to(equal(34));
         expect(testRequest.crc).to(beNil());
+        expect(testRequest.bulkData).to(beNil());
     });
 
     context(@"initWithFileName:fileType:persistentFile:systemFile:offset:length:crc:", ^{
@@ -137,23 +148,24 @@ describe(@"initializers", ^{
         expect(testRequest.fileType).to(equal(SDLFileTypeMP3));
         expect(testRequest.persistentFile).to(beTrue());
         expect(testRequest.systemFile).to(beTrue());
-        expect(testRequest.offset).to(equal(45));
-        expect(testRequest.length).to(equal(34));
+        expect(testRequest.offset).to(equal(@45));
+        expect(testRequest.length).to(equal(@34));
         expect(testRequest.crc).to(equal(0xffffffff));
+        expect(testRequest.bulkData).to(beNil());
     });
 
     context(@"initWithFileName:fileType:persistentFile:systemFile:offset:length:bulkData:", ^{
         NSData *testFileData = [@"someTextData" dataUsingEncoding:NSUTF8StringEncoding];
         unsigned long testFileCRC32Checksum = [SDLPutFile sdl_getCRC32ChecksumForBulkData:testFileData];
 
-        SDLPutFile* testRequest = [[SDLPutFile alloc] initWithFileName:@"fileName" fileType:SDLFileTypeMP3 persistentFile:true systemFile:true offset:45 length:34 bulkData:testFileData];
+        SDLPutFile* testRequest = [[SDLPutFile alloc] initWithFileName:@"fileName" fileType:SDLFileTypeAAC persistentFile:true systemFile:true offset:5 length:4 bulkData:testFileData];
 
         expect(testRequest.syncFileName).to(equal(@"fileName"));
-        expect(testRequest.fileType).to(equal(SDLFileTypeMP3));
+        expect(testRequest.fileType).to(equal(SDLFileTypeAAC));
         expect(testRequest.persistentFile).to(beTrue());
         expect(testRequest.systemFile).to(beTrue());
-        expect(testRequest.offset).to(equal(45));
-        expect(testRequest.length).to(equal(34));
+        expect(testRequest.offset).to(equal(@5));
+        expect(testRequest.length).to(equal(@4));
         expect(testRequest.bulkData).to(equal(testFileData));
         expect(testRequest.crc).to(equal(testFileCRC32Checksum));
     });

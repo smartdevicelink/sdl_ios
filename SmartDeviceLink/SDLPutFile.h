@@ -17,6 +17,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLPutFile : SDLRPCRequest
 
 /**
+ *  Init
+ *
+ *  @return A SDLPutFile object
+ */
+- (instancetype)init;
+
+/**
  *  Convenience init for creating a putfile with a name and file format.
  *
  *  @param fileName    The file's name

@@ -18,28 +18,14 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length {
-    self = [self initWithFileName:fileName fileType:fileType persistentFile:persistentFile];
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType {
+    self = [self init];
     if (!self) {
         return nil;
     }
 
-    self.systemFile = @(systemFile);
-    self.offset = @(offset);
-    self.length = @(length);
-
-    return self;
-}
-
-- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length crc:(UInt64)crc {
-    self = [self initWithFileName:fileName fileType:fileType persistentFile:persistentFile crc:crc];
-    if (!self) {
-        return nil;
-    }
-
-    self.systemFile = @(systemFile);
-    self.offset = @(offset);
-    self.length = @(length);
+    self.syncFileName = fileName;
+    self.fileType = fileType;
 
     return self;
 }
@@ -55,52 +41,41 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile crc:(UInt64)crc {
-    self = [self initWithFileName:fileName fileType:fileType crc:crc];
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length {
+    self = [self initWithFileName:fileName fileType:fileType persistentFile:persistentFile];
     if (!self) {
         return nil;
     }
 
-    self.persistentFile = @(persistentFile);
+    self.systemFile = @(systemFile);
+    self.offset = @(offset);
+    self.length = @(length);
 
     return self;
 }
 
-- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType {
-    self = [self init];
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length crc:(UInt64)crc {
+    self = [self initWithFileName:fileName fileType:fileType persistentFile:persistentFile];
     if (!self) {
         return nil;
     }
 
-    self.syncFileName = fileName;
-    self.fileType = fileType;
-
-    return self;
-}
-
-- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType crc:(UInt64)crc {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
-    self.syncFileName = fileName;
-    self.fileType = fileType;
+    self.systemFile = @(systemFile);
+    self.offset = @(offset);
+    self.length = @(length);
     self.crc = crc == 0 ? nil : @(crc);
 
     return self;
 }
 
 - (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length bulkData:(NSData *)bulkData {
-    self = [self initWithFileName:fileName fileType:fileType persistentFile:persistentFile crc:[self.class sdl_getCRC32ChecksumForBulkData:bulkData]];
+
+    self = [self initWithFileName:fileName fileType:fileType persistentFile:persistentFile systemFile:systemFile offset:offset length:length crc:[self.class sdl_getCRC32ChecksumForBulkData:bulkData]];
     if (!self) {
         return nil;
     }
 
     self.bulkData = bulkData;
-    self.systemFile = @(systemFile);
-    self.offset = @(offset);
-    self.length = @(length);
 
     return self;
 }
