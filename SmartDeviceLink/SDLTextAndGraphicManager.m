@@ -498,8 +498,7 @@ NSUInteger const SDLMaxArtworkUploadRetryAttempts = 2;
  *  @return                True if the artwork does not need to be uploaded to Core; false if the artwork should be sent to Core
  */
 - (BOOL)sdl_artworkUploadFinished:(nullable SDLArtwork *)artwork maxRetryCount:(int)maxRetryCount {
-    if (artwork == nil ||
-        [self sdl_uploadedArtworkOrDoesntExist:artwork]) {
+    if (artwork == nil || [self sdl_uploadedArtworkOrDoesntExist:artwork]) {
         return YES;
     }
 
