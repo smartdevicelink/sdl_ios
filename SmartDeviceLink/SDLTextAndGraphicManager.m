@@ -61,6 +61,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTextAndGraphicManager
 
+NSUInteger const SDLMaxArtworkUploadRetryAttempts = 2;
+
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(nonnull SDLFileManager *)fileManager {
     self = [super init];
     if (!self) { return nil; }
@@ -152,7 +154,6 @@ NS_ASSUME_NONNULL_BEGIN
     fullShow = [self sdl_assembleShowImages:fullShow];
 
     self.inProgressHandler = handler;
-    const int MAX_ARTWORK_UPLOAD_RETRY_ATTEMPTS = 3;
 
     __weak typeof(self)weakSelf = self;
     if (!([self sdl_shouldUpdatePrimaryImage] || [self sdl_shouldUpdateSecondaryImage])) {
@@ -163,8 +164,8 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogV(@"Images already uploaded, sending full update");
         // The files to be updated are already uploaded, send the full show immediately
         self.inProgressUpdate = fullShow;
-    } else if ([self sdl_artworkUploadsFailed:self.primaryGraphic secondaryGraphic:self.secondaryGraphic maxRetryCount:MAX_ARTWORK_UPLOAD_RETRY_ATTEMPTS]) {
-        SDLLogE(@"Images failed to upload to the remote %d times", MAX_ARTWORK_UPLOAD_RETRY_ATTEMPTS);
+    } else if ([self sdl_artworkUploadsFailed:self.primaryGraphic secondaryGraphic:self.secondaryGraphic maxRetryCount:SDLMaxArtworkUploadRetryAttempts]) {
+        SDLLogE(@"Images failed to upload to the remote %lu times", (unsigned long)SDLMaxArtworkUploadRetryAttempts);
         // Just send the images that were uploaded successfully
         self.inProgressUpdate = [self sdl_extractUploadedImagesFromShow:fullShow primaryGraphic:self.primaryGraphic secondaryGraphic:self.secondaryGraphic];
     } else {
