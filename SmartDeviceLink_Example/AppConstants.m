@@ -72,15 +72,15 @@ NSString * const ACSubmenuMenuName = @"Submenu";
 NSString * const ACSubmenuItemMenuName = @"Item";
 
 #pragma mark - SDL Image Names
-NSString * const ExampleAppLogoName = @"sdl_logo_green";
-NSString * const CarIconImageName = @"car_icon";
-NSString * const LaptopIconImageName = @"laptop_icon";
-NSString * const WheelIconImageName = @"wheel_icon";
-NSString * const SpeakBWIconImageName = @"speak";
+NSString * const AlertBWIconName = @"alert";
 NSString * const CarBWIconImageName = @"car";
+NSString * const ExampleAppLogoName = @"sdl_logo_green";
 NSString * const MenuBWIconImageName = @"choice_set";
-NSString * const PhoneBWIconImageName = @"phone";
 NSString * const MicrophoneBWIconImageName = @"microphone";
+NSString * const PhoneBWIconImageName = @"phone";
+NSString * const SpeakBWIconImageName = @"speak";
+NSString * const ToggleOffBWIconName = @"toggle_off";
+NSString * const ToggleOnBWIconName = @"toggle_on";
 
 #pragma mark - SDL App Name in Different Languages
 NSString * const ExampleAppNameSpanish = @"SDL Aplicación de ejemplo";

@@ -73,17 +73,16 @@ extern NSString * const ACDialPhoneNumberMenuName;
 extern NSString * const ACSubmenuMenuName;
 extern NSString * const ACSubmenuItemMenuName;
 
-
 #pragma mark - SDL Image Names
-extern NSString * const ExampleAppLogoName;
-extern NSString * const CarIconImageName;
-extern NSString * const LaptopIconImageName;
-extern NSString * const WheelIconImageName;
-extern NSString * const SpeakBWIconImageName;
+extern NSString * const AlertBWIconName;
 extern NSString * const CarBWIconImageName;
+extern NSString * const ExampleAppLogoName;
 extern NSString * const MenuBWIconImageName;
-extern NSString * const PhoneBWIconImageName;
 extern NSString * const MicrophoneBWIconImageName;
+extern NSString * const PhoneBWIconImageName;
+extern NSString * const SpeakBWIconImageName;
+extern NSString * const ToggleOffBWIconName;
+extern NSString * const ToggleOnBWIconName;
 
 #pragma mark - SDL App Name in Different Languages
 extern NSString * const ExampleAppNameSpanish;

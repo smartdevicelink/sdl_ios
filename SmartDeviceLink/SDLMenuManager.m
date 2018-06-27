@@ -362,7 +362,7 @@ UInt32 const MenuCellIdMin = 1;
 
     command.menuParams = params;
     command.vrCommands = cell.voiceCommands;
-    command.cmdIcon = (cell.icon && shouldHaveArtwork) ? [[SDLImage alloc] initWithName:cell.icon.name] : nil;
+    command.cmdIcon = (cell.icon && shouldHaveArtwork) ? [[SDLImage alloc] initWithName:cell.icon.name isTemplate:cell.icon.isTemplate] : nil;
     command.cmdID = @(cell.cellId);
 
     return command;

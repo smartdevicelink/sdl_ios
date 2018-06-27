@@ -83,7 +83,7 @@ private extension ProxyManager {
     /// - Returns: A SDLConfiguration object
     class func setupManagerConfiguration(with lifecycleConfiguration: SDLLifecycleConfiguration) -> SDLConfiguration {
         lifecycleConfiguration.shortAppName = ExampleAppNameShort
-        let appIcon = UIImage(named: ExampleAppLogoName)
+        let appIcon = UIImage(named: ExampleAppLogoName)?.withRenderingMode(.alwaysOriginal)
         lifecycleConfiguration.appIcon = appIcon != nil ? SDLArtwork(image: appIcon!, persistent: true, as: .PNG) : nil
         lifecycleConfiguration.appType = .default
         lifecycleConfiguration.language = .enUs
@@ -251,7 +251,7 @@ private extension ProxyManager {
         screenManager.textField3 = isTextVisible ? vehicleDataManager.vehicleOdometerData : nil
 
         if sdlManager.systemCapabilityManager.displayCapabilities?.graphicSupported.boolValue ?? false {
-            screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!, persistent: false, as: .PNG) : nil
+            screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!.withRenderingMode(.alwaysOriginal), persistent: false, as: .PNG) : nil
         }
         
         screenManager.endUpdates(completionHandler: { (error) in

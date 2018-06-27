@@ -20,11 +20,13 @@ describe(@"Getter/Setter Tests", ^{
         __block SDLImage *testSDLImage = nil;
         __block NSString *expectedValue;
         __block SDLImageType expectedImageType;
+        __block NSNumber<SDLBool> *expectedIsTemplate;
 
         beforeEach(^{
             testSDLImage = nil;
             expectedValue = nil;
             expectedImageType = nil;
+            expectedIsTemplate = @NO;
         });
 
         it(@"Should set and get correctly", ^{
@@ -34,42 +36,32 @@ describe(@"Getter/Setter Tests", ^{
             testSDLImage = [[SDLImage alloc] init];
             testSDLImage.value = value;
             testSDLImage.imageType = imageType;
+            testSDLImage.isTemplate = @YES;
 
             expectedValue = value;
             expectedImageType = imageType;
+            expectedIsTemplate = @YES;
         });
 
-        it(@"Should get correctly when initialized as a dictionary", ^{
+        it(@"Should set and get correctly when initialized", ^{
             NSString *value = @"value";
             SDLImageType imageType = SDLImageTypeStatic;
 
-            NSMutableDictionary* dict = [@{SDLNameValue:value,
-                                           SDLNameImageType:imageType} mutableCopy];
+            NSDictionary* dict = [@{SDLNameValue:value,
+                                           SDLNameImageType:imageType,
+                                           SDLNameImageTemplate:@YES
+                                           } mutableCopy];
             testSDLImage = [[SDLImage alloc] initWithDictionary:dict];
 
             expectedValue = value;
             expectedImageType = imageType;
-        });
-
-        it(@"Should get correctly when initialized with a name only", ^{
-            NSString *name = @"value";
-            testSDLImage = [[SDLImage alloc] initWithName:name];
-
-            expectedValue = name;
-            expectedImageType = SDLImageTypeDynamic;
-        });
-
-        it(@"Should get correctly when initialized with static image value", ^{
-            UInt16 staticImageValue = 2568;
-            testSDLImage = [[SDLImage alloc] initWithStaticImageValue:staticImageValue];
-
-            expectedValue = @"2568";
-            expectedImageType = SDLImageTypeStatic;
+            expectedIsTemplate = @YES;
         });
 
         afterEach(^{
             expect(testSDLImage.value).to(equal(expectedValue));
             expect(testSDLImage.imageType).to(equal(expectedImageType));
+            expect(testSDLImage.isTemplate).to(equal(expectedIsTemplate));
         });
     });
 
@@ -77,6 +69,73 @@ describe(@"Getter/Setter Tests", ^{
         SDLImage *testSDLImage = [[SDLImage alloc] init];
         expect(testSDLImage.value).to(beNil());
         expect(testSDLImage.imageType).to(beNil());
+        expect(testSDLImage.isTemplate).to(beNil());
+    });
+});
+
+describe(@"initializers", ^{
+    __block SDLImage *testImage = nil;
+    __block NSString *testValue = @"testImage";
+    __block SDLImageType testImageType = SDLImageTypeDynamic;
+    __block BOOL testIsTemplate = YES;
+
+    beforeEach(^{
+        testImage = nil;
+    });
+
+    context(@"init", ^{
+        testImage = [[SDLImage alloc] init];
+
+        expect(testImage).toNot(beNil());
+        expect(testImage.value).to(beNil());
+        expect(testImage.imageType).to(beNil());
+        expect(testImage.isTemplate).to(beNil());
+    });
+
+    context(@"initWithName:ofType:", ^{
+        testImage = [[SDLImage alloc] initWithName:testValue ofType:testImageType];
+
+        expect(testImage).toNot(beNil());
+        expect(testImage.value).to(equal(testValue));
+        expect(testImage.imageType).to(equal(testImageType));
+        expect(testImage.isTemplate).to(beFalse());
+    });
+
+    context(@"initWithName:ofType:isTemplate", ^{
+        testImage = [[SDLImage alloc] initWithName:testValue ofType:testImageType isTemplate:testIsTemplate];
+
+        expect(testImage).toNot(beNil());
+        expect(testImage.value).to(equal(testValue));
+        expect(testImage.imageType).to(equal(testImageType));
+        expect(testImage.isTemplate).to(equal(testIsTemplate));
+    });
+
+    context(@"initWithName:", ^{
+        testImage = [[SDLImage alloc] initWithName:testValue];
+
+        expect(testImage).toNot(beNil());
+        expect(testImage.value).to(equal(testValue));
+        expect(testImage.imageType).to(equal(SDLImageTypeDynamic));
+        expect(testImage.isTemplate).to(beFalse());
+    });
+
+    context(@"initWithName:isTemplate", ^{
+        testImage = [[SDLImage alloc] initWithName:testValue isTemplate:testIsTemplate];
+
+        expect(testImage).toNot(beNil());
+        expect(testImage.value).to(equal(testValue));
+        expect(testImage.imageType).to(equal(SDLImageTypeDynamic));
+        expect(testImage.isTemplate).to(equal(testIsTemplate));
+    });
+
+    context(@"initWithStaticImageValue:", ^{
+        UInt16 staticImageValue = 12;
+        testImage = [[SDLImage alloc] initWithStaticImageValue:staticImageValue];
+
+        expect(testImage).toNot(beNil());
+        expect(testImage.value).to(equal([NSString stringWithFormat:@"%hu", staticImageValue]));
+        expect(testImage.imageType).to(equal(SDLImageTypeStatic));
+        expect(testImage.isTemplate).to(beTrue());
     });
 });
 
