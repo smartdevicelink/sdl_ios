@@ -294,7 +294,7 @@ describe(@"SDLFileManager", ^{
                             it(@"should call the completion handler with the correct data", ^{
                                 expect(@(completionBytesAvailable)).to(equal(@0));
                                 expect(@(completionSuccess)).to(equal(testResponseSuccess));
-                                expect(completionError).toEventually(beNil());
+                                expect(completionError).toEventuallyNot(beNil());
                             });
                         });
 
@@ -437,7 +437,7 @@ describe(@"SDLFileManager", ^{
                         it(@"should call the completion handler with the correct data", ^{
                             expect(@(completionBytesAvailable)).to(equal(@0));
                             expect(@(completionSuccess)).to(equal(testResponseSuccess));
-                            expect(completionError).toEventually(beNil());
+                            expect(completionError).toEventuallyNot(beNil());
                         });
                     });
 

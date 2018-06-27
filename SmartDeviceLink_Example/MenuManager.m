@@ -19,10 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation MenuManager
 
-+ (NSArray<SDLMenuCell *> *)allMenuItemsWithManager:(SDLManager *)manager {
++ (NSArray<SDLMenuCell *> *)allMenuItemsWithManager:(SDLManager *)manager performManager:(PerformInteractionManager *)performManager {
     return @[[self sdlex_menuCellSpeakNameWithManager:manager],
              [self sdlex_menuCellGetVehicleSpeedWithManager:manager],
-             [self sdlex_menuCellShowPerformInteractionWithManager:manager],
+             [self sdlex_menuCellShowPerformInteractionWithManager:manager performManager:performManager],
              [self sdlex_menuCellRecordInCarMicrophoneAudioWithManager:manager],
              [self sdlex_menuCellDialNumberWithManager:manager],
              [self sdlex_menuCellWithSubmenuWithManager:manager]];
@@ -51,9 +51,9 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-+ (SDLMenuCell *)sdlex_menuCellShowPerformInteractionWithManager:(SDLManager *)manager {
++ (SDLMenuCell *)sdlex_menuCellShowPerformInteractionWithManager:(SDLManager *)manager performManager:(PerformInteractionManager *)performManager {
     return [[SDLMenuCell alloc] initWithTitle:ACShowChoiceSetMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:MenuBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] voiceCommands:@[ACShowChoiceSetMenuName] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
-        [PerformInteractionManager showPerformInteractionChoiceSetWithManager:manager triggerSource:triggerSource];
+        [performManager showWithTriggerSource:triggerSource];
     }];
 }
 

@@ -15,10 +15,10 @@ class MenuManager: NSObject {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: An array of SDLAddCommand objects
-    class func allMenuItems(with manager: SDLManager) -> [SDLMenuCell] {
+    class func allMenuItems(with manager: SDLManager, choiceSetManager: PerformInteractionManager) -> [SDLMenuCell] {
         return [menuCellSpeakName(with: manager),
                 menuCellGetVehicleSpeed(with: manager),
-                menuCellShowPerformInteraction(with: manager),
+                menuCellShowPerformInteraction(with: manager, choiceSetManager: choiceSetManager),
                 menuCellRecordInCarMicrophoneAudio(with: manager),
                 menuCellDialNumber(with: manager),
                 menuCellWithSubmenu(with: manager)]
@@ -67,9 +67,9 @@ private extension MenuManager {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
-    class func menuCellShowPerformInteraction(with manager: SDLManager) -> SDLMenuCell {
+    class func menuCellShowPerformInteraction(with manager: SDLManager, choiceSetManager: PerformInteractionManager) -> SDLMenuCell {
         return SDLMenuCell(title: ACShowChoiceSetMenuName, icon: SDLArtwork(image: UIImage(named: MenuBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [ACShowChoiceSetMenuName], handler: { triggerSource in
-            PerformInteractionManager.showPerformInteractionChoiceSet(with: manager, triggerSource: triggerSource)
+            choiceSetManager.show(from: triggerSource)
         })
     }
 
@@ -112,8 +112,8 @@ private extension MenuManager {
     class func menuCellWithSubmenu(with manager: SDLManager) -> SDLMenuCell {
         var submenuItems = [SDLMenuCell]()
         for i in 0..<75 {
-            let submenuTitle = "\(ACSubmenuMenuName) \(ACSubmenuItemMenuName) \(i)"
-            submenuItems.append(SDLMenuCell(title: submenuTitle, icon: SDLArtwork(image: UIImage(named: MenuBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [submenuTitle, "\(ACSubmenuItemMenuName) \(i)", "\(i)"], handler: { (triggerSource) in
+            let submenuTitle = "Submenu Item \(i)"
+            submenuItems.append(SDLMenuCell(title: submenuTitle, icon: SDLArtwork(image: UIImage(named: MenuBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [submenuTitle, "Item \(i)", "\(i)"], handler: { (triggerSource) in
                 let message = "\(submenuTitle) selected!"
                 switch triggerSource {
                 case .menu:

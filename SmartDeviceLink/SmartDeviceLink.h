@@ -337,6 +337,11 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLMenuCell.h"
 #import "SDLVoiceCommand.h"
 
+#import "SDLChoiceCell.h"
+#import "SDLChoiceSet.h"
+#import "SDLChoiceSetDelegate.h"
+#import "SDLKeyboardDelegate.h"
+
 // Touches
 #import "SDLPinchGesture.h"
 #import "SDLTouch.h"
