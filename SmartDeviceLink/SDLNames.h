@@ -376,6 +376,7 @@ extern SDLName const SDLNameRegion;
 extern SDLName const SDLNameRegisterAppInterface;
 extern SDLName const SDLNameRemoteControlCapability;
 extern SDLName const SDLNameRequest;
+extern SDLName const SDLNameRequestSubType;
 extern SDLName const SDLNameRequestType;
 extern SDLName const SDLNameReserved;
 extern SDLName const SDLNameResetGlobalProperties;
