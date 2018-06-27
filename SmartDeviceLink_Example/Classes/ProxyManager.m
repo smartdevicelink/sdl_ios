@@ -128,6 +128,13 @@ NS_ASSUME_NONNULL_BEGIN
     config.language = SDLLanguageEnUs;
     config.languagesSupported = @[SDLLanguageEnUs, SDLLanguageFrCa, SDLLanguageEsMx];
 
+    SDLRGBColor *green = [[SDLRGBColor alloc] initWithRed:126 green:188 blue:121];
+    SDLRGBColor *white = [[SDLRGBColor alloc] initWithRed:249 green:251 blue:254];
+    SDLRGBColor *darkGrey = [[SDLRGBColor alloc] initWithRed:57 green:78 blue:96];
+    SDLRGBColor *grey = [[SDLRGBColor alloc] initWithRed:186 green:198 blue:210];
+    config.dayColorScheme = [[SDLTemplateColorScheme alloc] initWithPrimaryRGBColor:green secondaryRGBColor:grey backgroundRGBColor:white];
+    config.nightColorScheme = [[SDLTemplateColorScheme alloc] initWithPrimaryRGBColor:green secondaryRGBColor:grey backgroundRGBColor:darkGrey];
+
     return config;
 }
 
@@ -151,6 +158,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdlex_showInitialData {
     if (![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) { return; }
+
+    SDLSetDisplayLayout *setDisplayLayout = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia];
+    [self.sdlManager sendRequest:setDisplayLayout];
 
     [self sdlex_updateScreen];
     self.sdlManager.screenManager.softButtonObjects = [self.buttonManager allScreenSoftButtons];
