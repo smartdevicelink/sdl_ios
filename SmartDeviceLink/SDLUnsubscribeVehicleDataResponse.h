@@ -51,6 +51,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *fuelLevel_State;
 
 /**
+ The result of requesting to subscribe to the fuel range.
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *fuelRange;
+
+/**
  The result of requesting to subscribe to the instantaneous fuel consumption in microlitres.
 
  Optional

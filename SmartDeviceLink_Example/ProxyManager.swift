@@ -270,7 +270,7 @@ private extension ProxyManager {
 
             // Secondary graphic
             if imageFieldSupported(imageFieldName: .secondaryGraphic) {
-                screenManager.secondaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: CarIconImageName)!, persistent: false, as: .PNG) : nil
+                screenManager.secondaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: CarBWIconImageName)!, persistent: false, as: .PNG) : nil
             }
         }
         

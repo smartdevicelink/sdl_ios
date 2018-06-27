@@ -12,6 +12,7 @@
 #import "SDLDeviceStatus.h"
 #import "SDLECallInfo.h"
 #import "SDLEmergencyEvent.h"
+#import "SDLFuelRange.h"
 #import "SDLGPSData.h"
 #import "SDLHeadLampStatus.h"
 #import "SDLMyKey.h"
@@ -70,6 +71,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setInstantFuelConsumption:(nullable NSNumber<SDLFloat> *)instantFuelConsumption {
     [parameters sdl_setObject:instantFuelConsumption forName:SDLNameInstantFuelConsumption];
+}
+
+- (void)setFuelRange:(nullable NSArray<SDLFuelRange *> *)fuelRange {
+    [parameters sdl_setObject:fuelRange forName:SDLNameFuelRange];
+}
+
+- (nullable NSArray<SDLFuelRange *> *)fuelRange {
+    return [parameters sdl_objectsForName:SDLNameFuelRange ofClass:SDLFuelRange.class];
 }
 
 - (nullable NSNumber<SDLFloat> *)instantFuelConsumption {

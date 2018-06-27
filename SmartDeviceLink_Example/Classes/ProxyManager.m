@@ -197,7 +197,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         if ([self sdlex_imageFieldSupported:SDLImageFieldNameSecondaryGraphic]) {
-            screenManager.secondaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:CarIconImageName] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+            screenManager.secondaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:CarBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] : nil;
         }
     }
 

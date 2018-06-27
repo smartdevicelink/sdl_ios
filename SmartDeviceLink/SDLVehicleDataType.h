@@ -85,6 +85,11 @@ extern SDLVehicleDataType const SDLVehicleDataTypeDeviceStatus;
 extern SDLVehicleDataType const SDLVehicleDataTypeECallInfo;
 
 /**
+ Vehicle fuel range data
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeFuelRange;
+
+/**
  Vehicle airbag status data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeAirbagStatus;
