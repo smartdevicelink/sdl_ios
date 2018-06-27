@@ -136,6 +136,7 @@ SDLName const SDLNameEmergencyEventType = @"emergencyEventType";
 SDLName const SDLNameEncodedSyncPData = @"EncodedSyncPData";
 SDLName const SDLNameEndAudioPassThru = @"EndAudioPassThru";
 SDLName const SDLNameEndTime = @"endTime";
+SDLName const SDLNameEngineOilLife = @"engineOilLife";
 SDLName const SDLNameEngineTorque = @"engineTorque";
 SDLName const SDLNameETA = @"eta";
 SDLName const SDLNameEvent = @"event";
