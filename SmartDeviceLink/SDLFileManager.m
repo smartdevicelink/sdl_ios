@@ -471,7 +471,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 }
 
 - (BOOL)isErrorACannotOverwriteError:(NSError * _Nullable)error {
-    if (error != nil && error.code == SDLFileManagerErrorCannotOverwrite) {
+    if (error != nil && error.domain == SDLErrorDomainFileManager && error.code == SDLFileManagerErrorCannotOverwrite) {
         return YES;
     }
     return NO;
