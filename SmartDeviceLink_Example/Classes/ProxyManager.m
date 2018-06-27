@@ -191,7 +191,13 @@ NS_ASSUME_NONNULL_BEGIN
     screenManager.textField3 = isTextEnabled ? self.vehicleDataManager.vehicleOdometerData : nil;
 
     if (self.sdlManager.systemCapabilityManager.displayCapabilities.graphicSupported) {
-        screenManager.primaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[[UIImage imageNamed:ExampleAppLogoName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+        if ([self sdlex_imageFieldSupported:SDLImageFieldNameGraphic]) {
+            screenManager.primaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[[UIImage imageNamed:ExampleAppLogoName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+        }
+
+        if ([self sdlex_imageFieldSupported:SDLImageFieldNameSecondaryGraphic]) {
+            screenManager.secondaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:CarIconImageName] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+        }
     }
 
     [screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
@@ -199,6 +205,20 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+/**
+ *  Checks if SDL Core's HMI current template supports the template image field (i.e. primary graphic, secondary graphic, etc.)
+ *
+ *  @param imageFieldName   The name for the image field
+ *  @return                 True if the image field is supported, false if not
+ */
+- (BOOL)sdlex_imageFieldSupported:(SDLImageFieldName)imageFieldName {
+    for (SDLImageField *imageField in self.sdlManager.systemCapabilityManager.displayCapabilities.imageFields) {
+        if ([imageField.name isEqualToString:imageFieldName]) {
+            return YES;
+        }
+    }
+    return NO;
+}
 
 #pragma mark - SDLManagerDelegate
 

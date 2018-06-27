@@ -261,7 +261,15 @@ private extension ProxyManager {
         screenManager.textField3 = isTextVisible ? vehicleDataManager.vehicleOdometerData : nil
 
         if sdlManager.systemCapabilityManager.displayCapabilities?.graphicSupported.boolValue ?? false {
-            screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!.withRenderingMode(.alwaysOriginal), persistent: false, as: .PNG) : nil
+            // Primary graphic
+            if imageFieldSupported(imageFieldName: .graphic) {
+                screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!.withRenderingMode(.alwaysOriginal), persistent: false, as: .PNG) : nil
+            }
+
+            // Secondary graphic
+            if imageFieldSupported(imageFieldName: .secondaryGraphic) {
+                screenManager.secondaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: CarIconImageName)!, persistent: false, as: .PNG) : nil
+            }
         }
         
         screenManager.endUpdates(completionHandler: { (error) in
@@ -291,5 +299,13 @@ private extension ProxyManager {
         }, completionHandler: { (success) in
             SDLLog.d("All prepare remote system requests sent \(success ? "successfully" : "unsuccessfully")")
         })
+    }
+
+    /// Checks if SDL Core's HMI current template supports the template image field (i.e. primary graphic, secondary graphic, etc.)
+    ///
+    /// - Parameter imageFieldName: The name for the image field
+    /// - Returns:                  True if the image field is supported, false if not
+    func imageFieldSupported(imageFieldName: SDLImageFieldName) -> Bool {
+        return sdlManager.systemCapabilityManager.displayCapabilities?.imageFields?.first { $0.name == imageFieldName } != nil ? true : false
     }
 }
