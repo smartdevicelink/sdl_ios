@@ -410,6 +410,7 @@ SDLName const SDLNameSendLocation = @"SendLocation";
 SDLName const SDLNameSendLocationEnabled = @"sendLocationEnabled";
 SDLName const SDLNameSetAppIcon = @"SetAppIcon";
 SDLName const SDLNameSetDisplayLayout = @"SetDisplayLayout";
+SDLName const SDLNameDisplayName = @"displayName";
 SDLName const SDLNameSetGlobalProperties = @"SetGlobalProperties";
 SDLName const SDLNameSetMediaClockTimer = @"SetMediaClockTimer";
 SDLName const SDLNameShortPress = @"shortPress";

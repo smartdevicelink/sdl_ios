@@ -25,7 +25,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required
  */
-@property (strong, nonatomic) SDLDisplayType displayType;
+@property (strong, nonatomic) SDLDisplayType displayType __deprecated_msg("See `displayName` instead");
+
+/**
+ The name of the connected display
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) NSString *displayName;
 
 /**
  * An array of SDLTextField structures, each of which describes a field in the HMI which the application can write to using operations such as *SDLShow*, *SDLSetMediaClockTimer*, etc.
