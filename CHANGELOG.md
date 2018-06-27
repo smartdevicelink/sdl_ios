@@ -1,3 +1,7 @@
+# 6.0.0 (Changes since RC1)
+
+* None
+
 # 6.0.0 Release Candidate 2 (Changes since RC1)
 ### Bug Fixes
 * Fixes generated file names being too long for some SDL implementations. [#976](https://github.com/smartdevicelink/sdl_ios/issues/976)
