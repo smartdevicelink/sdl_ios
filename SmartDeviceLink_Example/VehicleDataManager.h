@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLTriggerSource.h"
 @class SDLManager;
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,7 +26,7 @@ typedef void(^RefreshUIHandler)(void);
 - (void)subscribeToVehicleOdometer;
 - (void)unsubscribeToVehicleOdometer;
 
-+ (void)getVehicleSpeedWithManager:(SDLManager *)manager;
++ (void)getAllVehicleDataWithManager:(SDLManager *)manager triggerSource:(SDLTriggerSource)triggerSource vehicleDataType:(NSString *)vehicleDataType;
 + (void)checkPhoneCallCapabilityWithManager:(SDLManager *)manager phoneNumber:(NSString *)phoneNumber;
 
 

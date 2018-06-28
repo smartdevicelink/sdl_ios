@@ -362,7 +362,7 @@ UInt32 const MenuCellIdMin = 1;
 
     command.menuParams = params;
     command.vrCommands = cell.voiceCommands;
-    command.cmdIcon = (cell.icon && shouldHaveArtwork) ? [[SDLImage alloc] initWithName:cell.icon.name] : nil;
+    command.cmdIcon = (cell.icon && shouldHaveArtwork) ? [[SDLImage alloc] initWithName:cell.icon.name isTemplate:cell.icon.isTemplate] : nil;
     command.cmdID = @(cell.cellId);
 
     return command;
@@ -428,7 +428,9 @@ UInt32 const MenuCellIdMin = 1;
     SDLSystemContext oldSystemContext = self.currentSystemContext;
     self.currentSystemContext = hmiStatus.systemContext;
 
-    if ([oldSystemContext isEqualToEnum:SDLSystemContextMenu] && ![self.currentSystemContext isEqualToEnum:SDLSystemContextMenu] && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
+    if ([oldSystemContext isEqualToEnum:SDLSystemContextMenu]
+        && ![self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]
+        && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
         if (self.waitingOnHMIUpdate) {
             [self setMenuCells:self.waitingUpdateMenuCells];
             self.waitingUpdateMenuCells = @[];

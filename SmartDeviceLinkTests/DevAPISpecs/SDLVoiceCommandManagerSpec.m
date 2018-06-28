@@ -3,6 +3,7 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLAddCommand.h"
+#import "SDLAddCommandResponse.h"
 #import "SDLDeleteCommand.h"
 #import "SDLFileManager.h"
 #import "SDLHMILevel.h"
@@ -104,15 +105,17 @@ describe(@"voice command manager", ^{
         context(@"when a menu already exists", ^{
             beforeEach(^{
                 testManager.voiceCommands = @[testVoiceCommand];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // Add
+
+                testManager.voiceCommands = @[testVoiceCommand2];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // Delete
             });
 
             it(@"should send deletes first", ^{
-                testManager.voiceCommands = @[testVoiceCommand2];
-
-                NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLDeleteCommand class]];
+                NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
                 NSArray *deletes = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
 
-                NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
+                NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLAddCommand class]];
                 NSArray *adds = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
 
                 expect(deletes).to(haveCount(1));

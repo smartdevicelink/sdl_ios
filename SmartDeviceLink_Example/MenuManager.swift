@@ -15,10 +15,10 @@ class MenuManager: NSObject {
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: An array of SDLAddCommand objects
-    class func allMenuItems(with manager: SDLManager) -> [SDLMenuCell] {
+    class func allMenuItems(with manager: SDLManager, choiceSetManager: PerformInteractionManager) -> [SDLMenuCell] {
         return [menuCellSpeakName(with: manager),
-                menuCellGetVehicleSpeed(with: manager),
-                menuCellShowPerformInteraction(with: manager),
+                menuCellGetAllVehicleData(with: manager),
+                menuCellShowPerformInteraction(with: manager, choiceSetManager: choiceSetManager),
                 menuCellRecordInCarMicrophoneAudio(with: manager),
                 menuCellDialNumber(with: manager),
                 menuCellWithSubmenu(with: manager)]
@@ -45,7 +45,7 @@ private extension MenuManager {
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
     class func menuCellSpeakName(with manager: SDLManager) -> SDLMenuCell {
-        return SDLMenuCell(title: ACSpeakAppNameMenuName, icon: SDLArtwork(image: UIImage(named: SpeakBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACSpeakAppNameMenuName], handler: { _ in
+        return SDLMenuCell(title: ACSpeakAppNameMenuName, icon: SDLArtwork(image: UIImage(named: SpeakBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [ACSpeakAppNameMenuName], handler: { _ in
             manager.send(request: SDLSpeak(tts: ExampleAppNameTTS), responseHandler: { (_, response, error) in
                 guard response?.resultCode == .success else { return }
                 SDLLog.e("Error sending the Speak RPC: \(error?.localizedDescription ?? "no error message")")
@@ -53,23 +53,31 @@ private extension MenuManager {
         })
     }
 
-    /// Menu item that requests vehicle data when selected
+    /// Menu item that, when selected, shows a submenu with all possible vehicle data types
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
-    class func menuCellGetVehicleSpeed(with manager: SDLManager) -> SDLMenuCell {
-        return SDLMenuCell(title: ACGetVehicleDataMenuName, icon: SDLArtwork(image: UIImage(named: CarBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACGetVehicleDataMenuName], handler: { _ in
-            VehicleDataManager.getVehicleSpeed(with: manager)
-        })
+    class func menuCellGetAllVehicleData(with manager: SDLManager) -> SDLMenuCell {
+        let submenuItems = allVehicleDataTypes.map { submenuName in
+            SDLMenuCell(title: submenuName, icon: nil, voiceCommands: [submenuName], handler: { triggerSource in
+                VehicleDataManager.getAllVehicleData(with: manager, triggerSource: triggerSource, vehicleDataType: submenuName)
+            })
+        }
+        return SDLMenuCell(title: ACGetAllVehicleDataMenuName, subCells: submenuItems)
+    }
+
+    /// A list of all possible vehicle data types
+    static var allVehicleDataTypes: [String] {
+        return [ACAccelerationPedalPositionMenuName, ACAirbagStatusMenuName, ACBeltStatusMenuName, ACBodyInformationMenuName, ACClusterModeStatusMenuName, ACDeviceStatusMenuName, ACDriverBrakingMenuName, ACECallInfoMenuName, ACEmergencyEventMenuName, ACEngineOilLifeMenuName, ACEngineTorqueMenuName, ACExternalTemperatureMenuName, ACFuelLevelMenuName, ACFuelLevelStateMenuName, ACFuelRangeMenuName, ACGPSMenuName, ACHeadLampStatusMenuName, ACInstantFuelConsumptionMenuName, ACMyKeyMenuName, ACOdometerMenuName, ACPRNDLMenuName, ACRPMMenuName, ACSpeedMenuName, ACSteeringWheelAngleMenuName, ACTirePressureMenuName, ACVINMenuName, ACWiperStatusMenuName]
     }
 
     /// Menu item that shows a custom menu (i.e. a Perform Interaction Choice Set) when selected
     ///
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
-    class func menuCellShowPerformInteraction(with manager: SDLManager) -> SDLMenuCell {
-        return SDLMenuCell(title: ACShowChoiceSetMenuName, icon: SDLArtwork(image: UIImage(named: MenuBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACShowChoiceSetMenuName], handler: { triggerSource in
-            PerformInteractionManager.showPerformInteractionChoiceSet(with: manager, triggerSource: triggerSource)
+    class func menuCellShowPerformInteraction(with manager: SDLManager, choiceSetManager: PerformInteractionManager) -> SDLMenuCell {
+        return SDLMenuCell(title: ACShowChoiceSetMenuName, icon: SDLArtwork(image: UIImage(named: MenuBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [ACShowChoiceSetMenuName], handler: { triggerSource in
+            choiceSetManager.show(from: triggerSource)
         })
     }
 
@@ -80,12 +88,12 @@ private extension MenuManager {
     class func menuCellRecordInCarMicrophoneAudio(with manager: SDLManager) -> SDLMenuCell {
         if #available(iOS 10.0, *) {
             let audioManager = AudioManager(sdlManager: manager)
-            return SDLMenuCell(title: ACRecordInCarMicrophoneAudioMenuName, icon: SDLArtwork(image: UIImage(named: MicrophoneBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACRecordInCarMicrophoneAudioMenuName], handler: { _ in
+            return SDLMenuCell(title: ACRecordInCarMicrophoneAudioMenuName, icon: SDLArtwork(image: UIImage(named: MicrophoneBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [ACRecordInCarMicrophoneAudioMenuName], handler: { _ in
                 audioManager.startRecording()
             })
         }
 
-        return SDLMenuCell(title: ACRecordInCarMicrophoneAudioMenuName, icon: SDLArtwork(image: UIImage(named: SpeakBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACRecordInCarMicrophoneAudioMenuName], handler: { _ in
+        return SDLMenuCell(title: ACRecordInCarMicrophoneAudioMenuName, icon: SDLArtwork(image: UIImage(named: SpeakBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [ACRecordInCarMicrophoneAudioMenuName], handler: { _ in
             manager.send(AlertManager.alertWithMessageAndCloseButton("Speech recognition feature only available on iOS 10+"))
         })
     }
@@ -95,7 +103,7 @@ private extension MenuManager {
     /// - Parameter manager: The SDL Manager
     /// - Returns: A SDLMenuCell object
     class func menuCellDialNumber(with manager: SDLManager) -> SDLMenuCell {
-        return SDLMenuCell(title: ACDialPhoneNumberMenuName, icon: SDLArtwork(image: UIImage(named: PhoneBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [ACDialPhoneNumberMenuName], handler: { _ in
+        return SDLMenuCell(title: ACDialPhoneNumberMenuName, icon: SDLArtwork(image: UIImage(named: PhoneBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [ACDialPhoneNumberMenuName], handler: { _ in
             guard RPCPermissionsManager.isDialNumberRPCAllowed(with: manager) else {
                 manager.send(AlertManager.alertWithMessageAndCloseButton("This app does not have the required permissions to dial a number"))
                 return
@@ -125,7 +133,7 @@ private extension MenuManager {
             }))
         }
         
-        return SDLMenuCell(title: "Submenu", icon: SDLArtwork(image: #imageLiteral(resourceName: "choice_set"), persistent: true, as: .PNG), subCells: submenuItems)
+        return SDLMenuCell(title: ACSubmenuMenuName, icon: SDLArtwork(image: #imageLiteral(resourceName: "choice_set"), persistent: true, as: .PNG), subCells: submenuItems)
     }
 }
 

@@ -15,11 +15,11 @@
 @class SDLDeviceStatus;
 @class SDLECallInfo;
 @class SDLEmergencyEvent;
+@class SDLFuelRange;
 @class SDLGPSData;
 @class SDLHeadLampStatus;
 @class SDLMyKey;
 @class SDLTireStatus;
-
 
 
 /**
@@ -56,6 +56,13 @@ NS_ASSUME_NONNULL_BEGIN
  The fuel level state
  */
 @property (nullable, strong, nonatomic) SDLComponentVolumeStatus fuelLevel_State;
+
+/**
+ The estimate range in KM the vehicle can travel based on fuel level and consumption
+
+ Optional, Array of length 0 - 100, of SDLFuelRange
+ */
+@property (nullable, strong, nonatomic) NSArray<SDLFuelRange *> *fuelRange;
 
 /**
  The instantaneous fuel consumption in microlitres
@@ -116,6 +123,11 @@ NS_ASSUME_NONNULL_BEGIN
  Status of the head lamps
  */
 @property (nullable, strong, nonatomic) SDLHeadLampStatus *headLampStatus;
+
+/**
+ The estimated percentage (0% - 100%) of remaining oil life of the engine
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *engineOilLife;
 
 /**
  Torque value for engine (in Nm) on non-diesel variants

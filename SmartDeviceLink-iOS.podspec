@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "SmartDeviceLink-iOS"
-s.version      = "6.0.0-rc.2"
+s.version      = "6.0.0"
 s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
 s.license      = { :type => "New BSD", :file => "LICENSE" }
@@ -54,6 +54,9 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLChangeRegistrationResponse.h',
 'SmartDeviceLink/SDLCharacterSet.h',
 'SmartDeviceLink/SDLChoice.h',
+'SmartDeviceLink/SDLChoiceCell.h',
+'SmartDeviceLink/SDLChoiceSet.h',
+'SmartDeviceLink/SDLChoiceSetDelegate.h',
 'SmartDeviceLink/SDLClimateControlCapabilities.h',
 'SmartDeviceLink/SDLClimateControlData.h',
 'SmartDeviceLink/SDLClusterModeStatus.h',
@@ -100,6 +103,8 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLFileManagerConstants.h',
 'SmartDeviceLink/SDLFileType.h',
 'SmartDeviceLink/SDLFuelCutoffStatus.h',
+'SmartDeviceLink/SDLFuelRange.h',
+'SmartDeviceLink/SDLFuelType.h',
 'SmartDeviceLink/SDLGenericResponse.h',
 'SmartDeviceLink/SDLGetDTCs.h',
 'SmartDeviceLink/SDLGetInteriorVehicleData.h',
@@ -127,6 +132,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLImageResolution.h',
 'SmartDeviceLink/SDLImageType.h',
 'SmartDeviceLink/SDLInteractionMode.h',
+'SmartDeviceLink/SDLKeyboardDelegate.h',
 'SmartDeviceLink/SDLKeyboardEvent.h',
 'SmartDeviceLink/SDLKeyboardLayout.h',
 'SmartDeviceLink/SDLKeyboardProperties.h',
@@ -211,6 +217,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLRadioControlCapabilities.h',
 'SmartDeviceLink/SDLRadioControlData.h',
 'SmartDeviceLink/SDLRadioState.h',
+'SmartDeviceLink/SDLRDSData.h',
 'SmartDeviceLink/SDLReadDID.h',
 'SmartDeviceLink/SDLRectangle.h',
 'SmartDeviceLink/SDLReadDIDResponse.h',
@@ -222,7 +229,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLResetGlobalProperties.h',
 'SmartDeviceLink/SDLResetGlobalPropertiesResponse.h',
 'SmartDeviceLink/SDLResult.h',
-'SmartDeviceLink/SDLRDSData.h',
+'SmartDeviceLink/SDLRGBColor.h',
 'SmartDeviceLink/SDLRPCMessage.h',
 'SmartDeviceLink/SDLRPCMessageType.h',
 'SmartDeviceLink/SDLRPCNotification.h',
@@ -288,6 +295,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLTBTState.h',
 'SmartDeviceLink/SDLTemperature.h',
 'SmartDeviceLink/SDLTemperatureUnit.h',
+'SmartDeviceLink/SDLTemplateColorScheme.h',
 'SmartDeviceLink/SDLTextAlignment.h',
 'SmartDeviceLink/SDLTextField.h',
 'SmartDeviceLink/SDLTextFieldName.h',

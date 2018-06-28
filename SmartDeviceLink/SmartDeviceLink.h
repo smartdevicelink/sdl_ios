@@ -159,6 +159,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLDisplayCapabilities.h"
 #import "SDLECallInfo.h"
 #import "SDLEmergencyEvent.h"
+#import "SDLFuelRange.h"
 #import "SDLGPSData.h"
 #import "SDLHapticRect.h"
 #import "SDLHMICapabilities.h"
@@ -185,6 +186,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLRDSData.h"
 #import "SDLRectangle.h"
 #import "SDLRemoteControlCapabilities.h"
+#import "SDLRGBColor.h"
 #import "SDLScreenParams.h"
 #import "SDLSingleTireStatus.h"
 #import "SDLSoftButton.h"
@@ -194,6 +196,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLSystemCapability.h"
 #import "SDLTTSChunk.h"
 #import "SDLTemperature.h"
+#import "SDLTemplateColorScheme.h"
 #import "SDLTextField.h"
 #import "SDLTireStatus.h"
 #import "SDLTouchCoord.h"
@@ -230,6 +233,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLEmergencyEventType.h"
 #import "SDLFileType.h"
 #import "SDLFuelCutoffStatus.h"
+#import "SDLFuelType.h"
 #import "SDLGlobalProperty.h"
 #import "SDLHMILevel.h"
 #import "SDLHMIZoneCapabilities.h"
@@ -334,6 +338,11 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 
 #import "SDLMenuCell.h"
 #import "SDLVoiceCommand.h"
+
+#import "SDLChoiceCell.h"
+#import "SDLChoiceSet.h"
+#import "SDLChoiceSetDelegate.h"
+#import "SDLKeyboardDelegate.h"
 
 // Touches
 #import "SDLPinchGesture.h"

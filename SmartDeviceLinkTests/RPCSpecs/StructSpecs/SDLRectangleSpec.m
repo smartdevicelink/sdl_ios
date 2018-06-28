@@ -8,7 +8,7 @@
 
 QuickSpecBegin(SDLRectangleSpec)
 
-describe(@"Getter/Setter Tests", ^{
+describe(@"Rectangle Tests", ^{
     it(@"Should set and get correctly", ^{
         SDLRectangle *testStruct = [[SDLRectangle alloc] init];
 

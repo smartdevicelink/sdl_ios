@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class PerformInteractionManager;
 @class SDLManager;
 @class SDLMenuCell;
 @class SDLVoiceCommand;
@@ -16,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MenuManager : NSObject
 
-+ (NSArray<SDLMenuCell *> *)allMenuItemsWithManager:(SDLManager *)manager;
++ (NSArray<SDLMenuCell *> *)allMenuItemsWithManager:(SDLManager *)manager performManager:(PerformInteractionManager *)performManager;
 + (NSArray<SDLVoiceCommand *> *)allVoiceMenuItemsWithManager:(SDLManager *)manager;
 
 @end

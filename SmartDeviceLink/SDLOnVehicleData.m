@@ -11,6 +11,7 @@
 #import "SDLDeviceStatus.h"
 #import "SDLECallInfo.h"
 #import "SDLEmergencyEvent.h"
+#import "SDLFuelRange.h"
 #import "SDLGPSData.h"
 #import "SDLHeadLampStatus.h"
 #import "SDLMyKey.h"
@@ -65,6 +66,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLComponentVolumeStatus)fuelLevel_State {
     return [parameters sdl_objectForName:SDLNameFuelLevelState];
+}
+
+- (void)setFuelRange:(nullable NSArray<SDLFuelRange *> *)fuelRange {
+    [parameters sdl_setObject:fuelRange forName:SDLNameFuelRange];
+}
+
+- (nullable NSArray<SDLFuelRange *> *)fuelRange {
+    return [parameters sdl_objectsForName:SDLNameFuelRange ofClass:SDLFuelRange.class];
 }
 
 - (void)setInstantFuelConsumption:(nullable NSNumber<SDLFloat> *)instantFuelConsumption {
@@ -162,6 +171,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLHeadLampStatus *)headLampStatus {
     return [parameters sdl_objectForName:SDLNameHeadLampStatus ofClass:SDLHeadLampStatus.class];
+}
+
+- (void)setEngineOilLife:(nullable NSNumber<SDLFloat> *)engineOilLife {
+    [parameters sdl_setObject:engineOilLife forName:SDLNameEngineOilLife];
+}
+
+- (nullable NSNumber<SDLFloat> *)engineOilLife {
+    return [parameters sdl_objectForName:SDLNameEngineOilLife];
 }
 
 - (void)setEngineTorque:(nullable NSNumber<SDLFloat> *)engineTorque {
