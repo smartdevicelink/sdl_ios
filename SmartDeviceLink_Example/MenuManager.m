@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
         [submenuItems addObject:cell];
     }
 
-    return [[SDLMenuCell alloc] initWithTitle:ACSubmenuMenuName icon:[SDLArtwork artworkWithImage:[UIImage imageNamed:MenuBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] subCells:[submenuItems copy]];
+    return [[SDLMenuCell alloc] initWithTitle:ACSubmenuMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:MenuBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] subCells:[submenuItems copy]];
 }
 
 #pragma mark - Voice Commands
