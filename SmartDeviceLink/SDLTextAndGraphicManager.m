@@ -160,7 +160,7 @@ NSUInteger const SDLMaxArtworkUploadRetryAttempts = 2;
         SDLLogV(@"No images to send, sending text");
         // If there are no images to update, just send the text
         self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
-    } else if ([self sdl_artworkAlreadyUploadedOrNonexistent:self.primaryGraphic] && [self sdl_artworkAlreadyUploadedOrNonexistent:self.secondaryGraphic]) {
+    } else if ([self sdl_artworkAlreadyUploadedOrNonExistent:self.primaryGraphic] && [self sdl_artworkAlreadyUploadedOrNonExistent:self.secondaryGraphic]) {
         SDLLogV(@"Images already uploaded, sending full update");
         // The files to be updated are already uploaded, send the full show immediately
         self.inProgressUpdate = fullShow;
@@ -453,8 +453,8 @@ NSUInteger const SDLMaxArtworkUploadRetryAttempts = 2;
 
 - (SDLShow *)sdl_extractUploadedImagesFromShow:(SDLShow *)show primaryGraphic:(nullable SDLArtwork *)primaryGraphic secondaryGraphic:(nullable SDLArtwork *)secondaryGraphic  {
     SDLShow *newShow = [[SDLShow alloc] init];
-    newShow.graphic = [self sdl_artworkAlreadyUploadedOrNonexistent:primaryGraphic] ? show.graphic : nil;
-    newShow.secondaryGraphic = [self sdl_artworkAlreadyUploadedOrNonexistent:secondaryGraphic] ? show.secondaryGraphic : nil;
+    newShow.graphic = [self sdl_artworkAlreadyUploadedOrNonExistent:primaryGraphic] ? show.graphic : nil;
+    newShow.secondaryGraphic = [self sdl_artworkAlreadyUploadedOrNonExistent:secondaryGraphic] ? show.secondaryGraphic : nil;
 
     return newShow;
 }
@@ -480,7 +480,7 @@ NSUInteger const SDLMaxArtworkUploadRetryAttempts = 2;
  *  @param artwork     The artwork to be uploaded to Core
  *  @return            True if the artwork does not need to be uploaded to Core; false if artwork stills needs to be sent to Core.
  */
-- (BOOL)sdl_artworkAlreadyUploadedOrNonexistent:(SDLArtwork *)artwork {
+- (BOOL)sdl_artworkAlreadyUploadedOrNonExistent:(SDLArtwork *)artwork {
     return (!artwork || [self.fileManager hasUploadedFile:artwork]);
 }
 
@@ -506,7 +506,7 @@ NSUInteger const SDLMaxArtworkUploadRetryAttempts = 2;
  *  @return                True if the artwork still needs to be (re)sent to Core; false if not.
  */
 - (BOOL)sdl_doesArtworkNeedToBeUploaded:(nullable SDLArtwork *)artwork maxRetryCount:(int)maxRetryCount {
-    if ([self sdl_artworkAlreadyUploadedOrNonexistent:artwork]) { return NO; }
+    if ([self sdl_artworkAlreadyUploadedOrNonExistent:artwork]) { return NO; }
     NSNumber *uploadRetryCount = self.artworkUploadRetries[artwork.name];
     return (uploadRetryCount == nil) ? YES : (uploadRetryCount.integerValue < maxRetryCount);
 }
