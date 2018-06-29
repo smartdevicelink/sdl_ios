@@ -797,7 +797,7 @@ describe(@"text and graphic manager", ^{
                     testArtwork2 = [[SDLArtwork alloc] initWithData:[@"Test data 2" dataUsingEncoding:NSUTF8StringEncoding] name:@"Test data 2" fileExtension:@"png" persistent:NO];
                 });
 
-                xcontext(@"If an image fails to upload", ^{
+                context(@"If an image fails to upload", ^{
                     it(@"Should update the retry count for the image", ^{
                         testManager.primaryGraphic = testArtwork1;
                         testManager.secondaryGraphic = nil;
