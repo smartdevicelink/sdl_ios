@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
         [submenuItems addObject:cell];
     }
 
-    return [[SDLMenuCell alloc] initWithTitle:ACGetAllVehicleDataMenuName subCells:submenuItems];
+    return [[SDLMenuCell alloc] initWithTitle:ACGetAllVehicleDataMenuName icon:[SDLArtwork artworkWithImage:[[UIImage imageNamed:CarBWIconImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] asImageFormat:SDLArtworkImageFormatPNG] subCells:submenuItems];
 }
 
 + (NSArray<NSString *> *)sdlex_allVehicleDataTypes {

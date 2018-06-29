@@ -369,7 +369,7 @@ UInt32 const MenuCellIdMin = 1;
 }
 
 - (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell withArtwork:(BOOL)shouldHaveArtwork position:(UInt16)position {
-    SDLImage *icon = shouldHaveArtwork ? [[SDLImage alloc] initWithName:cell.icon.name] : nil;
+    SDLImage *icon = (shouldHaveArtwork && (cell.icon.name != nil)) ? [[SDLImage alloc] initWithName:cell.icon.name isTemplate:cell.icon.isTemplate] : nil;
     return [[SDLAddSubMenu alloc] initWithId:cell.cellId menuName:cell.title menuIcon:icon position:(UInt8)position];
 }
 
