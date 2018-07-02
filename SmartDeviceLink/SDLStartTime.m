@@ -24,6 +24,15 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithTimeInterval:(NSTimeInterval)timeInterval {
+    NSUInteger ti = (NSUInteger)round(timeInterval);
+    UInt8 hours = (UInt8)(ti / 3600);
+    UInt8 minutes = (UInt8)((ti / 60) % 60);
+    UInt8 seconds = (UInt8)(ti % 60);
+
+    return [self initWithHours:hours minutes:minutes seconds:seconds];
+}
+
 - (void)setHours:(NSNumber<SDLInt> *)hours {
     [store sdl_setObject:hours forName:SDLNameHours];
 }

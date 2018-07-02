@@ -13,7 +13,23 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLStartTime : SDLRPCStruct
 
+/**
+ Initialize an SDLStartTime with hours, minutes, and seconds.
+
+ @param hours Hours
+ @param minutes Minutes
+ @param seconds Seconds
+ @return The SDLStartTime object
+ */
 - (instancetype)initWithHours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds;
+
+/**
+ Initialize an SDLStartTime with an NSTimeInterval (a Double of seconds)
+
+ @param timeInterval The time interval to convert into an SDLStartTime
+ @return The SDLStartTime object
+ */
+- (instancetype)initWithTimeInterval:(NSTimeInterval)timeInterval;
 
 /**
  * The hour of the media clock

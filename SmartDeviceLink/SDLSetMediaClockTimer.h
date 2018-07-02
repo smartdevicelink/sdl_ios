@@ -22,41 +22,53 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSetMediaClockTimer : SDLRPCRequest
 
-- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode hours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds;
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode hours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds __deprecated_msg(("Use a more specific initializer instead"));
 
-- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode;
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode __deprecated_msg(("Use a more specific initializer instead"));
+
+- (instancetype)initWithCountUpFromTime:(SDLStartTime *)fromTime toTime:(SDLStartTime *)toTime enableSeekHandle:(BOOL)enableSeek;
+
+- (instancetype)initWithCountDownFromTime:(SDLStartTime *)fromTime toTime:(SDLStartTime *)toTime enableSeekHandle:(BOOL)enableSeek;
+
+- (instancetype)initWithResume;
+
+- (instancetype)initWithClear;
 
 /**
- * A Start Time with specifying hour, minute, second values
- *
- * @discussion A startTime object with specifying hour, minute, second values
- *            <p>
- *            <b>Notes: </b>
- *            <ul>
- *            <li>If "updateMode" is COUNTUP or COUNTDOWN, this parameter
- *            must be provided</li>
- *            <li>Will be ignored for PAUSE/RESUME and CLEAR</li>
- *            </ul>
+ Start Time with specifying hour, minute, second values
+
+ startTime must be provided for "COUNTUP" and "COUNTDOWN"
+
+ startTime will be ignored for "RESUME", and "CLEAR"
+
+ startTime can be sent for "PAUSE", in which case it will update the paused startTime
  */
 @property (strong, nonatomic, nullable) SDLStartTime *startTime;
+
 /**
- * An END time of type SDLStartTime, specifying hour, minute, second values
- *
- * @discussion An SDLStartTime object with specifying hour, minute, second values
+ An END time of type SDLStartTime, specifying hour, minute, second values
+
+ endTime can be provided for "COUNTUP" and "COUNTDOWN"
+
+ To be used to calculate a visual progress bar (if not provided, this feature is ignored)
+
+ If endTime is greater then startTime for COUNTDOWN or less than startTime for COUNTUP, then the request will return an INVALID_DATA
+
+ endTime will be ignored for "RESUME", and "CLEAR" endTime can be sent for "PAUSE", in which case it will update the paused endTime
  */
 @property (strong, nonatomic, nullable) SDLStartTime *endTime;
+
 /**
- * The media clock/timer update mode (COUNTUP/COUNTDOWN/PAUSE/RESUME)
- *
- * @discussion a Enumeration value (COUNTUP/COUNTDOWN/PAUSE/RESUME)
- *            <p>
- *            <b>Notes: </b>
- *            <ul>
- *            <li>When updateMode is PAUSE, RESUME or CLEAR, the start time value
- *            is ignored</li>
- *            <li>When updateMode is RESUME, the timer resumes counting from
- *            the timer's value when it was paused</li>
- *            </ul>
+ Defines if seek media clock timer functionality will be available. If omitted, the value is set to false. The value is retained until the next SetMediaClockTimer is sent.
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *enableSeek;
+
+/**
+ The media clock/timer update mode (COUNTUP/COUNTDOWN/PAUSE/RESUME)
+
+ When updateMode is PAUSE, RESUME or CLEAR, the start time value is ignored
+
+ When updateMode is RESUME, the timer resumes counting from the timer's value when it was paused
  */
 @property (strong, nonatomic) SDLUpdateMode updateMode;
 
