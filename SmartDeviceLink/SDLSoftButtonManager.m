@@ -116,11 +116,11 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
 
-    _softButtonObjects = softButtonObjects;
-
-    for (SDLSoftButtonObject *button in _softButtonObjects) {
+    for (SDLSoftButtonObject *button in softButtonObjects) {
         button.manager = self;
     }
+
+    _softButtonObjects = softButtonObjects;
 
     [self updateWithCompletionHandler:nil];
 }
