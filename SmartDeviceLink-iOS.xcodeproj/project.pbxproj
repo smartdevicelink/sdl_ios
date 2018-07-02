@@ -353,7 +353,7 @@
 		5D339CF0207C08BA000CC364 /* SDLVoiceCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D339CEE207C08BA000CC364 /* SDLVoiceCommand.m */; };
 		5D339CF3207C0ACE000CC364 /* SDLMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D339CF1207C0ACE000CC364 /* SDLMenuManager.h */; };
 		5D339CF4207C0ACE000CC364 /* SDLMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D339CF2207C0ACE000CC364 /* SDLMenuManager.m */; };
-		5D3E420A20EAAD6500D8C622 /* SDLTPMS.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E420820EAAD6500D8C622 /* SDLTPMS.h */; };
+		5D3E420A20EAAD6500D8C622 /* SDLTPMS.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E420820EAAD6500D8C622 /* SDLTPMS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D3E420B20EAAD6500D8C622 /* SDLTPMS.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E420920EAAD6500D8C622 /* SDLTPMS.m */; };
 		5D3E48751D6F3B330000BFEF /* SDLAsynchronousOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E48731D6F3B330000BFEF /* SDLAsynchronousOperation.h */; };
 		5D3E48761D6F3B330000BFEF /* SDLAsynchronousOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E48741D6F3B330000BFEF /* SDLAsynchronousOperation.m */; };
