@@ -353,6 +353,8 @@
 		5D339CF0207C08BA000CC364 /* SDLVoiceCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D339CEE207C08BA000CC364 /* SDLVoiceCommand.m */; };
 		5D339CF3207C0ACE000CC364 /* SDLMenuManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D339CF1207C0ACE000CC364 /* SDLMenuManager.h */; };
 		5D339CF4207C0ACE000CC364 /* SDLMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D339CF2207C0ACE000CC364 /* SDLMenuManager.m */; };
+		5D3E420A20EAAD6500D8C622 /* SDLTPMS.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E420820EAAD6500D8C622 /* SDLTPMS.h */; };
+		5D3E420B20EAAD6500D8C622 /* SDLTPMS.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E420920EAAD6500D8C622 /* SDLTPMS.m */; };
 		5D3E48751D6F3B330000BFEF /* SDLAsynchronousOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E48731D6F3B330000BFEF /* SDLAsynchronousOperation.h */; };
 		5D3E48761D6F3B330000BFEF /* SDLAsynchronousOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E48741D6F3B330000BFEF /* SDLAsynchronousOperation.m */; };
 		5D3E487B1D6F888E0000BFEF /* SDLRPCResponseNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E48791D6F888E0000BFEF /* SDLRPCResponseNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -912,6 +914,12 @@
 		5D8B17531AC9E11B006A6E1C /* SDLDialNumberResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D8B17511AC9E11B006A6E1C /* SDLDialNumberResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D8B17541AC9E11B006A6E1C /* SDLDialNumberResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8B17521AC9E11B006A6E1C /* SDLDialNumberResponse.m */; };
 		5D8B17561AC9E399006A6E1C /* SDLDialNumberSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D8B17551AC9E399006A6E1C /* SDLDialNumberSpec.m */; };
+		5D92934D20AF4BEF00FCC775 /* SDLRGBColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92934B20AF4BEF00FCC775 /* SDLRGBColor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D92934E20AF4BEF00FCC775 /* SDLRGBColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92934C20AF4BEF00FCC775 /* SDLRGBColor.m */; };
+		5D92935020AF526200FCC775 /* SDLRGBColorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92934F20AF526200FCC775 /* SDLRGBColorSpec.m */; };
+		5D92935320B2F76500FCC775 /* SDLTemplateColorScheme.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92935120B2F76500FCC775 /* SDLTemplateColorScheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D92935420B2F76500FCC775 /* SDLTemplateColorScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92935220B2F76500FCC775 /* SDLTemplateColorScheme.m */; };
+		5D92935620B2FD7300FCC775 /* SDLTemplateColorSchemeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92935520B2FD7300FCC775 /* SDLTemplateColorSchemeSpec.m */; };
 		5D92935A20B33D4F00FCC775 /* SDLChoiceCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92935820B33D4F00FCC775 /* SDLChoiceCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D92935B20B33D4F00FCC775 /* SDLChoiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92935920B33D4F00FCC775 /* SDLChoiceCell.m */; };
 		5D92935E20B33FF700FCC775 /* SDLChoiceSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92935C20B33FF700FCC775 /* SDLChoiceSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -930,12 +938,6 @@
 		5D92937D20B70A3E00FCC775 /* SDLPresentKeyboardOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92937B20B70A3E00FCC775 /* SDLPresentKeyboardOperation.m */; };
 		5D92938020B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92937E20B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.h */; };
 		5D92938120B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92937F20B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.m */; };
-		5D92934D20AF4BEF00FCC775 /* SDLRGBColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92934B20AF4BEF00FCC775 /* SDLRGBColor.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D92934E20AF4BEF00FCC775 /* SDLRGBColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92934C20AF4BEF00FCC775 /* SDLRGBColor.m */; };
-		5D92935020AF526200FCC775 /* SDLRGBColorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92934F20AF526200FCC775 /* SDLRGBColorSpec.m */; };
-		5D92935320B2F76500FCC775 /* SDLTemplateColorScheme.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D92935120B2F76500FCC775 /* SDLTemplateColorScheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5D92935420B2F76500FCC775 /* SDLTemplateColorScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92935220B2F76500FCC775 /* SDLTemplateColorScheme.m */; };
-		5D92935620B2FD7300FCC775 /* SDLTemplateColorSchemeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D92935520B2FD7300FCC775 /* SDLTemplateColorSchemeSpec.m */; };
 		5D9F50781BE7DD4C00FEF399 /* testFileJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50721BE7DD4C00FEF399 /* testFileJSON.json */; };
 		5D9F50791BE7DD4C00FEF399 /* testImageBMP.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50731BE7DD4C00FEF399 /* testImageBMP.bmp */; };
 		5D9F507A1BE7DD4C00FEF399 /* testImageJPEG.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 5D9F50741BE7DD4C00FEF399 /* testImageJPEG.jpeg */; };
@@ -1703,6 +1705,8 @@
 		5D339CEE207C08BA000CC364 /* SDLVoiceCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLVoiceCommand.m; sourceTree = "<group>"; };
 		5D339CF1207C0ACE000CC364 /* SDLMenuManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMenuManager.h; sourceTree = "<group>"; };
 		5D339CF2207C0ACE000CC364 /* SDLMenuManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMenuManager.m; sourceTree = "<group>"; };
+		5D3E420820EAAD6500D8C622 /* SDLTPMS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTPMS.h; sourceTree = "<group>"; };
+		5D3E420920EAAD6500D8C622 /* SDLTPMS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTPMS.m; sourceTree = "<group>"; };
 		5D3E48731D6F3B330000BFEF /* SDLAsynchronousOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAsynchronousOperation.h; sourceTree = "<group>"; };
 		5D3E48741D6F3B330000BFEF /* SDLAsynchronousOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAsynchronousOperation.m; sourceTree = "<group>"; };
 		5D3E48791D6F888E0000BFEF /* SDLRPCResponseNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLRPCResponseNotification.h; sourceTree = "<group>"; };
@@ -2284,6 +2288,12 @@
 		5D8B17511AC9E11B006A6E1C /* SDLDialNumberResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLDialNumberResponse.h; sourceTree = "<group>"; };
 		5D8B17521AC9E11B006A6E1C /* SDLDialNumberResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDialNumberResponse.m; sourceTree = "<group>"; };
 		5D8B17551AC9E399006A6E1C /* SDLDialNumberSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDialNumberSpec.m; sourceTree = "<group>"; };
+		5D92934B20AF4BEF00FCC775 /* SDLRGBColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLRGBColor.h; sourceTree = "<group>"; };
+		5D92934C20AF4BEF00FCC775 /* SDLRGBColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRGBColor.m; sourceTree = "<group>"; };
+		5D92934F20AF526200FCC775 /* SDLRGBColorSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRGBColorSpec.m; sourceTree = "<group>"; };
+		5D92935120B2F76500FCC775 /* SDLTemplateColorScheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTemplateColorScheme.h; sourceTree = "<group>"; };
+		5D92935220B2F76500FCC775 /* SDLTemplateColorScheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTemplateColorScheme.m; sourceTree = "<group>"; };
+		5D92935520B2FD7300FCC775 /* SDLTemplateColorSchemeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTemplateColorSchemeSpec.m; sourceTree = "<group>"; };
 		5D92935820B33D4F00FCC775 /* SDLChoiceCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLChoiceCell.h; sourceTree = "<group>"; };
 		5D92935920B33D4F00FCC775 /* SDLChoiceCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLChoiceCell.m; sourceTree = "<group>"; };
 		5D92935C20B33FF700FCC775 /* SDLChoiceSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLChoiceSet.h; sourceTree = "<group>"; };
@@ -2302,12 +2312,6 @@
 		5D92937B20B70A3E00FCC775 /* SDLPresentKeyboardOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPresentKeyboardOperation.m; sourceTree = "<group>"; };
 		5D92937E20B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCheckChoiceVROptionalOperation.h; sourceTree = "<group>"; };
 		5D92937F20B70CD600FCC775 /* SDLCheckChoiceVROptionalOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCheckChoiceVROptionalOperation.m; sourceTree = "<group>"; };
-		5D92934B20AF4BEF00FCC775 /* SDLRGBColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLRGBColor.h; sourceTree = "<group>"; };
-		5D92934C20AF4BEF00FCC775 /* SDLRGBColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRGBColor.m; sourceTree = "<group>"; };
-		5D92934F20AF526200FCC775 /* SDLRGBColorSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRGBColorSpec.m; sourceTree = "<group>"; };
-		5D92935120B2F76500FCC775 /* SDLTemplateColorScheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTemplateColorScheme.h; sourceTree = "<group>"; };
-		5D92935220B2F76500FCC775 /* SDLTemplateColorScheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTemplateColorScheme.m; sourceTree = "<group>"; };
-		5D92935520B2FD7300FCC775 /* SDLTemplateColorSchemeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTemplateColorSchemeSpec.m; sourceTree = "<group>"; };
 		5D9F50721BE7DD4C00FEF399 /* testFileJSON.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testFileJSON.json; sourceTree = "<group>"; };
 		5D9F50731BE7DD4C00FEF399 /* testImageBMP.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = testImageBMP.bmp; sourceTree = "<group>"; };
 		5D9F50741BE7DD4C00FEF399 /* testImageJPEG.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = testImageJPEG.jpeg; sourceTree = "<group>"; };
@@ -3996,6 +4000,8 @@
 				5D61FBE11A84238C00846EE7 /* SDLTimerMode.m */,
 				5D61FBEA1A84238C00846EE7 /* SDLTouchType.h */,
 				5D61FBEB1A84238C00846EE7 /* SDLTouchType.m */,
+				5D3E420820EAAD6500D8C622 /* SDLTPMS.h */,
+				5D3E420920EAAD6500D8C622 /* SDLTPMS.m */,
 				5D61FBEE1A84238C00846EE7 /* SDLTriggerSource.h */,
 				5D61FBEF1A84238C00846EE7 /* SDLTriggerSource.m */,
 				5D61FC021A84238C00846EE7 /* SDLUpdateMode.h */,
@@ -5266,6 +5272,7 @@
 				5D61FD751A84238C00846EE7 /* SDLRPCResponse.h in Headers */,
 				8B7B31A21F2F7FEA00BDC38D /* SDLVideoStreamingFormat.h in Headers */,
 				5D61FC901A84238C00846EE7 /* SDLDisplayCapabilities.h in Headers */,
+				5D3E420A20EAAD6500D8C622 /* SDLTPMS.h in Headers */,
 				5D61FCE81A84238C00846EE7 /* SDLLanguage.h in Headers */,
 				5D61FC841A84238C00846EE7 /* SDLDeviceLevelStatus.h in Headers */,
 				5DB92D321AC9C8BA00C15BB0 /* SDLRPCStruct.h in Headers */,
@@ -5808,7 +5815,7 @@
 					};
 					5D61FA1B1A84237100846EE7 = {
 						CreatedOnToolsVersion = 6.1.1;
-						LastSwiftMigration = 0930;
+						LastSwiftMigration = 0940;
 					};
 					5D61FA251A84237100846EE7 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -5988,6 +5995,7 @@
 				1E5AD0711F209C880029B8AF /* SDLModuleData.m in Sources */,
 				5D61FDD21A84238C00846EE7 /* SDLTouchCoord.m in Sources */,
 				5D61FCEF1A84238C00846EE7 /* SDLListFilesResponse.m in Sources */,
+				5D3E420B20EAAD6500D8C622 /* SDLTPMS.m in Sources */,
 				5DD67CB11E65DDB7009CD394 /* SDLLogTargetAppleSystemLog.m in Sources */,
 				5D92935420B2F76500FCC775 /* SDLTemplateColorScheme.m in Sources */,
 				5D61FD1C1A84238C00846EE7 /* SDLOnSystemRequest.m in Sources */,

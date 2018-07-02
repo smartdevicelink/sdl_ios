@@ -495,6 +495,7 @@ extern SDLName const SDLNameTimezoneMinuteOffset;
 extern SDLName const SDLNameTirePressure;
 extern SDLName const SDLNameTotalDistance;
 extern SDLName const SDLNameTouchEventAvailable;
+extern SDLName const SDLNameTPMS;
 extern SDLName const SDLNameTrafficProgramIdentification;
 extern SDLName const SDLNameTriggerSource;
 extern SDLName const SDLNameTrim;
