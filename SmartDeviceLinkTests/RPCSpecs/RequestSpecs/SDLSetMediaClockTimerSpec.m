@@ -26,10 +26,12 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.startTime = time1;
         testRequest.endTime = time2;
         testRequest.updateMode = SDLUpdateModeCountUp;
+        testRequest.enableSeek = @YES;
         
         expect(testRequest.startTime).to(equal(time1));
         expect(testRequest.endTime).to(equal(time2));
         expect(testRequest.updateMode).to(equal(SDLUpdateModeCountUp));
+        expect(testRequest.enableSeek).to(beTrue());
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -37,13 +39,16 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{SDLNameParameters:
                                                  @{SDLNameStartTime:time1,
                                                    SDLNameEndTime:time2,
-                                                   SDLNameUpdateMode:SDLUpdateModeCountUp},
+                                                   SDLNameUpdateMode:SDLUpdateModeCountUp,
+                                                   SDLNameEnableSeek: @YES,
+                                                   },
                                              SDLNameOperationName:SDLNameSetMediaClockTimer}} mutableCopy];
         SDLSetMediaClockTimer* testRequest = [[SDLSetMediaClockTimer alloc] initWithDictionary:dict];
         
         expect(testRequest.startTime).to(equal(time1));
         expect(testRequest.endTime).to(equal(time2));
         expect(testRequest.updateMode).to(equal(SDLUpdateModeCountUp));
+        expect(testRequest.enableSeek).to(beTrue());
     });
     
     it(@"Should return nil if not set", ^ {
@@ -52,6 +57,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.startTime).to(beNil());
         expect(testRequest.endTime).to(beNil());
         expect(testRequest.updateMode).to(beNil());
+        expect(testRequest.enableSeek).to(beNil());
     });
 });
 
