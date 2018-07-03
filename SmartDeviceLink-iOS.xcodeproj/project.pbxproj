@@ -344,6 +344,7 @@
 		5D1665CD1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1665CC1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D1A381120EBBF1D00A25735 /* SDLOnSeekMediaClockTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1A380F20EBBF1D00A25735 /* SDLOnSeekMediaClockTimer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D1A381220EBBF1D00A25735 /* SDLOnSeekMediaClockTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1A381020EBBF1D00A25735 /* SDLOnSeekMediaClockTimer.m */; };
+		5D1A381420EBCBB600A25735 /* SDLOnSeekMediaClockTimerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1A381320EBCBB600A25735 /* SDLOnSeekMediaClockTimerSpec.m */; };
 		5D1BF6AF204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1BF6AD204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.h */; };
 		5D1BF6B0204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1BF6AE204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.m */; };
 		5D293AFE1FE078A9000CBD7E /* SDLCarWindowViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D293AFC1FE078A9000CBD7E /* SDLCarWindowViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1696,6 +1697,7 @@
 		5D1665CC1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionConstants.h; sourceTree = "<group>"; };
 		5D1A380F20EBBF1D00A25735 /* SDLOnSeekMediaClockTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLOnSeekMediaClockTimer.h; sourceTree = "<group>"; };
 		5D1A381020EBBF1D00A25735 /* SDLOnSeekMediaClockTimer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLOnSeekMediaClockTimer.m; sourceTree = "<group>"; };
+		5D1A381320EBCBB600A25735 /* SDLOnSeekMediaClockTimerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLOnSeekMediaClockTimerSpec.m; sourceTree = "<group>"; };
 		5D1BF6AD204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SDLDisplayCapabilities+ShowManagerExtensions.h"; sourceTree = "<group>"; };
 		5D1BF6AE204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SDLDisplayCapabilities+ShowManagerExtensions.m"; sourceTree = "<group>"; };
 		5D293AFC1FE078A9000CBD7E /* SDLCarWindowViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCarWindowViewController.h; sourceTree = "<group>"; };
@@ -2811,6 +2813,7 @@
 				162E82331A9BDE8A00906325 /* SDLOnLanguageChangeSpec.m */,
 				162E82341A9BDE8A00906325 /* SDLOnLockScreenStatusSpec.m */,
 				162E82351A9BDE8A00906325 /* SDLOnPermissionsChangeSpec.m */,
+				5D1A381320EBCBB600A25735 /* SDLOnSeekMediaClockTimerSpec.m */,
 				162E82361A9BDE8A00906325 /* SDLOnSyncPDataSpec.m */,
 				162E82371A9BDE8A00906325 /* SDLOnSystemRequestSpec.m */,
 				162E82381A9BDE8A00906325 /* SDLOnTBTClientStateSpec.m */,
@@ -6422,6 +6425,7 @@
 				1EE8C44C1F385C7100FDC2CF /* SDLRDSDataSpec.m in Sources */,
 				5DB92D241AC47B2C00C15BB0 /* SDLHexUtilitySpec.m in Sources */,
 				162E83281A9BDE8B00906325 /* SDLDeleteCommandSpec.m in Sources */,
+				5D1A381420EBCBB600A25735 /* SDLOnSeekMediaClockTimerSpec.m in Sources */,
 				162E83531A9BDE8B00906325 /* SDLDiagnosticMessageResponseSpec.m in Sources */,
 				162E83671A9BDE8B00906325 /* SDLSliderResponseSpec.m in Sources */,
 				8877F5F11F34AA2D00DC128A /* SDLSendHapticDataResponseSpec.m in Sources */,

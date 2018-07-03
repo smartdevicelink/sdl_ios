@@ -39,9 +39,9 @@
 @class SDLOnLanguageChange;
 @class SDLOnLockScreenStatus;
 @class SDLOnPermissionsChange;
+@class SDLOnSeekMediaClockTimer;
 @class SDLOnSyncPData;
 @class SDLOnSystemRequest;
-@class SDLOnVehicleData;
 @class SDLOnTBTClientState;
 @class SDLOnTouchEvent;
 @class SDLOnVehicleData;
@@ -355,6 +355,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param notification A SDLOnPermissionsChange object
  */
 - (void)onOnPermissionsChange:(SDLOnPermissionsChange *)notification;
+
+/**
+ Called when an onSeekMediaClockTimer notification is received from Core
+
+ @param notification A SDLOnSeekMediaClockTimer object
+ */
+- (void)onOnSeekMediaClockTimer:(SDLOnSeekMediaClockTimer *)notification;
 
 /**
  *  Called when an On Sync P notification is received from Core

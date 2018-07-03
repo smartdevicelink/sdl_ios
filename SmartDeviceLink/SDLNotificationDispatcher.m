@@ -325,6 +325,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCNotificationNotification:SDLDidChangePermissionsNotification notification:notification];
 }
 
+- (void)onOnSeekMediaClockTimer:(SDLOnSeekMediaClockTimer *)notification {
+    [self postRPCNotificationNotification:SDLDidReceiveMediaSeekNotification notification:notification];
+}
+
 - (void)onOnSyncPData:(SDLOnSyncPData *)notification {
     [self postRPCNotificationNotification:SDLDidReceiveSystemRequestNotification notification:notification];
 }

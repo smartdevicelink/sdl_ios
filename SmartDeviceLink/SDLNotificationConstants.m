@@ -86,6 +86,7 @@ SDLNotificationName const SDLDidReceiveInteriorVehicleDataNotification = @"com.s
 SDLNotificationName const SDLDidReceiveKeyboardInputNotification = @"com.sdl.notification.keyboardInput";
 SDLNotificationName const SDLDidChangeLanguageNotification = @"com.sdl.notification.changeLanguage";
 SDLNotificationName const SDLDidChangeLockScreenStatusNotification = @"com.sdl.notification.lockScreenStatus";
+SDLNotificationName const SDLDidReceiveMediaSeekNotification = @"com.sdl.notification.mediaSeek";
 SDLNotificationName const SDLDidReceiveNewHashNotification = @"com.sdl.notification.newHash";
 SDLNotificationName const SDLDidChangePermissionsNotification = @"com.sdl.notification.changePermission";
 SDLNotificationName const SDLDidReceiveSystemRequestNotification = @"com.sdl.notification.receiveSystemRequest";
