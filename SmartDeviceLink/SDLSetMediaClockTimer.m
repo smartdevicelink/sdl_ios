@@ -18,27 +18,50 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-
 - (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode hours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds {
-    self = [self initWithUpdateMode:updateMode];
-    if (!self) {
-        return nil;
-    }
+    SDLStartTime *startTime = [[SDLStartTime alloc] initWithHours:hours minutes:minutes seconds:seconds];
 
-    self.startTime = [[SDLStartTime alloc] initWithHours:hours minutes:minutes seconds:seconds];
+    return [self initWithUpdateMode:updateMode startTime:startTime endTime:nil enableSeek:nil];
+}
+
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode {
+    return [self initWithUpdateMode:updateMode startTime:nil endTime:nil enableSeek:nil];
+}
+
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode startTime:(nullable SDLStartTime *)startTime endTime:(nullable SDLStartTime *)endTime enableSeek:(nullable NSNumber<SDLBool> *)enableSeek {
+    self = [self init];
+    if (!self) { return nil; }
+
+    self.updateMode = updateMode;
+    self.startTime = startTime;
+    self.endTime = endTime;
+    self.enableSeek = enableSeek;
 
     return self;
 }
 
-- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
+- (instancetype)initWithCountUpFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime enableSeekHandle:(BOOL)enableSeek {
+    return [self initWithUpdateMode:SDLUpdateModeCountUp startTime:startTime endTime:endTime enableSeek:@(enableSeek)];
+}
 
-    self.updateMode = updateMode;
+- (instancetype)initWithCountDownFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime enableSeekHandle:(BOOL)enableSeek {
+    return [self initWithUpdateMode:SDLUpdateModeCountDown startTime:startTime endTime:endTime enableSeek:@(enableSeek)];
+}
 
-    return self;
+- (instancetype)initWithClear {
+    return [self initWithUpdateMode:SDLUpdateModeClear startTime:nil endTime:nil enableSeek:nil];
+}
+
+- (instancetype)initWithResume {
+    return [self initWithUpdateMode:SDLUpdateModeResume startTime:nil endTime:nil enableSeek:nil];
+}
+
+- (instancetype)initWithPause {
+    return [self initWithUpdateMode:SDLUpdateModePause startTime:nil endTime:nil enableSeek:nil];
+}
+
+- (instancetype)initWithPauseAndUpdateStartTime:(nullable SDLStartTime *)startTime endTime:(nullable SDLStartTime *)endTime enableSeekHandle:(BOOL)enableSeek {
+    return [self initWithUpdateMode:SDLUpdateModePause startTime:startTime endTime:endTime enableSeek:@(enableSeek)];
 }
 
 - (void)setStartTime:(nullable SDLStartTime *)startTime {
@@ -63,6 +86,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SDLUpdateMode)updateMode {
     return [parameters sdl_objectForName:SDLNameUpdateMode];
+}
+
+- (void)setEnableSeek:(nullable NSNumber<SDLBool> *)enableSeek {
+    [parameters sdl_setObject:enableSeek forName:SDLNameEnableSeek];
+}
+
+- (nullable NSNumber<SDLBool> *)enableSeek {
+    return [parameters sdl_objectForName:SDLNameEnableSeek];
 }
 
 @end

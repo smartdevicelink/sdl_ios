@@ -134,6 +134,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLOnLanguageChange.h"
 #import "SDLOnLockScreenStatus.h"
 #import "SDLOnPermissionsChange.h"
+#import "SDLOnSeekMediaClockTimer.h"
 #import "SDLOnSyncPData.h"
 #import "SDLOnSystemRequest.h"
 #import "SDLOnTBTClientState.h"

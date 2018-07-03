@@ -32,6 +32,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithTimeInterval:(NSTimeInterval)timeInterval;
 
 /**
+ Initialize an SDLStartTime with zero
+
+ @return The SDLStartTime object
+ */
++ (instancetype)zero;
+
+/**
  * The hour of the media clock
  * 
  * Some display types only support a max value of 19. If out of range, it will be rejected.

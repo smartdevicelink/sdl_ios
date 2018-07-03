@@ -26,13 +26,67 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode __deprecated_msg(("Use a more specific initializer instead"));
 
-- (instancetype)initWithCountUpFromTime:(SDLStartTime *)fromTime toTime:(SDLStartTime *)toTime enableSeekHandle:(BOOL)enableSeek;
+/**
+ Initializer for SetMediaClockTimer with all available parameters
 
-- (instancetype)initWithCountDownFromTime:(SDLStartTime *)fromTime toTime:(SDLStartTime *)toTime enableSeekHandle:(BOOL)enableSeek;
+ @param updateMode The type of update to the clock timer
+ @param startTime The starting time of the countdown or countup.
+ @param endTime The ending time of the countdown or countup
+ @param enableSeek Whether or not to enable seeking on the timer bar
+ @return The request
+ */
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode startTime:(nullable SDLStartTime *)startTime endTime:(nullable SDLStartTime *)endTime enableSeek:(nullable NSNumber<SDLBool> *)enableSeek;
 
+/**
+ Start a count up (e.g. a song time bar) with a start time (e.g. 0:00) and an end time (e.g. 3:50)
+
+ @param startTime The bottom of the counter. Must be less than endTime.
+ @param endTime The top of the counter. Must be greater than startTime.
+ @param enableSeek Whether or not to enable a seek handle on the progress bar.
+ @return The request
+ */
+- (instancetype)initWithCountUpFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime enableSeekHandle:(BOOL)enableSeek;
+
+/**
+ Start a count down (e.g. a timer) with a start time (e.g. 30:00) and an end time (e.g. 0:00)
+
+ @param startTime The starting time of the countdown. Must be greater than endTime.
+ @param endTime The ending time of the countdown. Must be less than startTime.
+ @param enableSeek Whether or not to enable a seek handle on the progress bar.
+ @return The request
+ */
+- (instancetype)initWithCountDownFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime enableSeekHandle:(BOOL)enableSeek;
+
+/**
+ Resume a previously paused clock timer
+
+ @return The request
+ */
 - (instancetype)initWithResume;
 
+/**
+ Clear a previously enabled clock timer
+
+ @return The request
+ */
 - (instancetype)initWithClear;
+
+/**
+ Pause a previously started clock timer
+
+ @return The request
+ */
+- (instancetype)initWithPause;
+
+/**
+ Pause and update a running timer, or update a paused timer.
+
+ @param startTime The new start time
+ @param endTime The new end time
+ @param enableSeek Whether or not to enable the seek bar
+ @return The request
+ */
+- (instancetype)initWithPauseAndUpdateStartTime:(nullable SDLStartTime *)startTime endTime:(nullable SDLStartTime *)endTime enableSeekHandle:(BOOL)enableSeek;
 
 /**
  Start Time with specifying hour, minute, second values

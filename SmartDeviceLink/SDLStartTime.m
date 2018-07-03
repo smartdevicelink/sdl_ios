@@ -33,6 +33,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithHours:hours minutes:minutes seconds:seconds];
 }
 
++ (instancetype)zero {
+    return [[SDLStartTime alloc] initWithHours:0 minutes:0 seconds:0];
+}
+
 - (void)setHours:(NSNumber<SDLInt> *)hours {
     [store sdl_setObject:hours forName:SDLNameHours];
 }
