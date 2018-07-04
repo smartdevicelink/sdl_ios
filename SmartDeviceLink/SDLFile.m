@@ -103,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
  @return A socket
  */
 - (NSInputStream *)inputStream {
-    if (!_inputStream) {
+    if (![_inputStream hasBytesAvailable]) {
         if (_fileURL) {
             // Data in file
             _inputStream = [[NSInputStream alloc] initWithURL:_fileURL];
