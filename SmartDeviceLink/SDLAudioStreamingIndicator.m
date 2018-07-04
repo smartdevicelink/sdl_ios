@@ -1,13 +1,9 @@
-//
 //  SDLAudioStreamingIndicator.m
-//  SmartDeviceLink
-//
-//  Created by Kujtim Shala (Ford) on 04.07.18.
-//  Copyright © 2018 smartdevicelink. All rights reserved.
 //
 
 #import "SDLAudioStreamingIndicator.h"
 
-@implementation SDLAudioStreamingIndicator
-
-@end
+SDLAudioStreamingIndicator const SDLAudioStreamingIndicatorPlayPause = @"PLAY_PAUSE";
+SDLAudioStreamingIndicator const SDLAudioStreamingIndicatorPlay = @"PLAY";
+SDLAudioStreamingIndicator const SDLAudioStreamingIndicatorPause = @"PAUSE";
+SDLAudioStreamingIndicator const SDLAudioStreamingIndicatorStop = @"STOP";
