@@ -18,6 +18,16 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode hours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds audioStreamingIndicator:(SDLAudioStreamingIndicator)audioStreamingIndicator {
+    self = [self initWithUpdateMode:updateMode hours:hours minutes:minutes seconds:seconds];
+    if (!self) {
+        return nil;
+    }
+    
+    self.audioStreamingIndicator = audioStreamingIndicator;
+    
+    return self;
+}
 
 - (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode hours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds {
     self = [self initWithUpdateMode:updateMode];
@@ -63,6 +73,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SDLUpdateMode)updateMode {
     return [parameters sdl_objectForName:SDLNameUpdateMode];
+}
+
+- (void)setAudioStreamingIndicator:(nullable SDLAudioStreamingIndicator)audioStreamingIndicator {
+    [parameters sdl_setObject:audioStreamingIndicator forName:SDLNameAudioStreamingIndicator];
+}
+
+- (nullable SDLAudioStreamingIndicator)audioStreamingIndicator {
+    return [parameters sdl_objectForName:SDLNameAudioStreamingIndicator];
 }
 
 @end

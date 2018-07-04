@@ -38,6 +38,7 @@ SDLName const SDLNameAppVersion = @"appVersion";
 SDLName const SDLNameAudioPassThruCapabilities = @"audioPassThruCapabilities";
 SDLName const SDLNameAudioPassThruDisplayText1 = @"audioPassThruDisplayText1";
 SDLName const SDLNameAudioPassThruDisplayText2 = @"audioPassThruDisplayText2";
+SDLName const SDLNameAudioStreamingIndicator = @"audioStreamingIndicator";
 SDLName const SDLNameAudioStreamingState = @"audioStreamingState";
 SDLName const SDLNameAudioType = @"audioType";
 SDLName const SDLNameAutoCompleteText = @"autoCompleteText";

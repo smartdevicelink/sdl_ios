@@ -4,6 +4,7 @@
 #import "SDLRPCRequest.h"
 
 #import "SDLUpdateMode.h"
+#import "SDLAudioStreamingIndicator.h"
 
 @class SDLStartTime;
 
@@ -21,6 +22,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSetMediaClockTimer : SDLRPCRequest
+
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode hours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds audioStreamingIndicator:(SDLAudioStreamingIndicator)audioStreamingIndicator;
 
 - (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode hours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds;
 
@@ -59,6 +62,15 @@ NS_ASSUME_NONNULL_BEGIN
  *            </ul>
  */
 @property (strong, nonatomic) SDLUpdateMode updateMode;
+
+/**
+ * The audio streaming indicator used for a play/pause button.
+ *
+ * @discussion Set the indicator icon of a play/pause button depending on the
+ * current audio playback.
+ */
+@property (strong, nonatomic, nullable) SDLAudioStreamingIndicator audioStreamingIndicator;
+
 
 @end
 
