@@ -17,9 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  This handler is called when you wish to update your autocomplete text in response to the user's input
 
- @param updatedAutocompleteText The new autocomplete text to use
+ @param updatedAutocompleteList The new autocomplete list to use
  */
-typedef void(^SDLKeyboardAutocompleteCompletionHandler)(NSString  *_Nullable updatedAutocompleteText);
+typedef void(^SDLKeyboardAutocompleteCompletionHandler)(NSArray<NSString *> *_Nullable updatedAutocompleteList);
 
 /**
  This handler is called when you wish to update your keyboard's limitedCharacterSet in response to the user's input

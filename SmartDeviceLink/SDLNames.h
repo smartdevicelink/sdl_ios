@@ -42,6 +42,7 @@ extern SDLName const SDLNameAudioPassThruDisplayText1;
 extern SDLName const SDLNameAudioPassThruDisplayText2;
 extern SDLName const SDLNameAudioStreamingState;
 extern SDLName const SDLNameAudioType;
+extern SDLName const SDLNameAutoCompleteList;
 extern SDLName const SDLNameAutoCompleteText;
 extern SDLName const SDLNameAutoModeEnable;
 extern SDLName const SDLNameAutoModeEnableAvailable;

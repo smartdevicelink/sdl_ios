@@ -79,11 +79,11 @@ extension PerformInteractionManager: SDLKeyboardDelegate {
 
     func updateAutocomplete(withInput currentInputText: String, completionHandler: @escaping SDLKeyboardAutocompleteCompletionHandler) {
         if currentInputText.lowercased().hasPrefix("f") {
-            completionHandler(PICSFirstChoice)
+            completionHandler([PICSFirstChoice])
         } else if currentInputText.lowercased().hasPrefix("s") {
-            completionHandler(PICSSecondChoice)
+            completionHandler([PICSSecondChoice])
         } else if currentInputText.lowercased().hasPrefix("t") {
-            completionHandler(PICSThirdChoice)
+            completionHandler([PICSThirdChoice])
         } else {
             completionHandler(nil)
         }

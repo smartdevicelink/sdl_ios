@@ -142,8 +142,9 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([onKeyboard.event isEqualToEnum:SDLKeyboardEventKeypress]) {
         // Notify of keypress
         if ([self.keyboardDelegate respondsToSelector:@selector(updateAutocompleteWithInput:completionHandler:)]) {
-            [self.keyboardDelegate updateAutocompleteWithInput:onKeyboard.data completionHandler:^(NSString *updatedAutocompleteText) {
-                weakself.keyboardProperties.autoCompleteText = updatedAutocompleteText;
+            [self.keyboardDelegate updateAutocompleteWithInput:onKeyboard.data completionHandler:^(NSArray<NSString *> * _Nullable updatedAutocompleteList) {
+                weakself.keyboardProperties.autoCompleteList = updatedAutocompleteList;
+                weakself.keyboardProperties.autoCompleteText = (updatedAutocompleteList.count > 0) ? updatedAutocompleteList.firstObject : nil;
                 [weakself sdl_updateKeyboardPropertiesWithCompletionHandler:nil];
             }];
         }

@@ -40,6 +40,7 @@ SDLName const SDLNameAudioPassThruDisplayText1 = @"audioPassThruDisplayText1";
 SDLName const SDLNameAudioPassThruDisplayText2 = @"audioPassThruDisplayText2";
 SDLName const SDLNameAudioStreamingState = @"audioStreamingState";
 SDLName const SDLNameAudioType = @"audioType";
+SDLName const SDLNameAutoCompleteList = @"autoCompleteList";
 SDLName const SDLNameAutoCompleteText = @"autoCompleteText";
 SDLName const SDLNameAutoModeEnable = @"autoModeEnable";
 SDLName const SDLNameAutoModeEnableAvailable = @"autoModeEnableAvailable";

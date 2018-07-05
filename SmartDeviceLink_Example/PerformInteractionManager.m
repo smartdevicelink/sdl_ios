@@ -80,11 +80,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateAutocompleteWithInput:(NSString *)currentInputText completionHandler:(SDLKeyboardAutocompleteCompletionHandler)completionHandler {
     if ([currentInputText.lowercaseString hasPrefix:@"f"]) {
-        completionHandler(PICSFirstChoice);
+        completionHandler(@[PICSFirstChoice]);
     } else if ([currentInputText.lowercaseString hasPrefix:@"s"]) {
-        completionHandler(PICSSecondChoice);
+        completionHandler(@[PICSSecondChoice]);
     } else if ([currentInputText.lowercaseString hasPrefix:@"t"]) {
-        completionHandler(PICSThirdChoice);
+        completionHandler(@[PICSThirdChoice]);
     } else {
         completionHandler(nil);
     }

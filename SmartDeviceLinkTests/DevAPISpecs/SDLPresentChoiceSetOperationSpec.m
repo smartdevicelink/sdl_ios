@@ -233,7 +233,7 @@ describe(@"present choice operation", ^{
                 NSString *inputData = @"Test";
                 SDLRPCNotificationNotification *notification = nil;
 
-                OCMStub([testKeyboardDelegate updateAutocompleteWithInput:[OCMArg any] completionHandler:([OCMArg invokeBlockWithArgs:inputData, nil])]);
+                OCMStub([testKeyboardDelegate updateAutocompleteWithInput:[OCMArg any] completionHandler:([OCMArg invokeBlockWithArgs:@[inputData], nil])]);
 
                 // Submit notification
                 SDLOnKeyboardInput *input = [[SDLOnKeyboardInput alloc] init];

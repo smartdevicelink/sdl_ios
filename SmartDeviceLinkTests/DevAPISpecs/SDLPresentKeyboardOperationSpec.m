@@ -163,7 +163,7 @@ describe(@"present keyboard operation", ^{
                 NSString *inputData = @"Test";
                 SDLRPCNotificationNotification *notification = nil;
 
-                OCMStub([testDelegate updateAutocompleteWithInput:[OCMArg any] completionHandler:([OCMArg invokeBlockWithArgs:inputData, nil])]);
+                OCMStub([testDelegate updateAutocompleteWithInput:[OCMArg any] completionHandler:([OCMArg invokeBlockWithArgs:@[inputData], nil])]);
 
                 // Submit notification
                 SDLOnKeyboardInput *input = [[SDLOnKeyboardInput alloc] init];
