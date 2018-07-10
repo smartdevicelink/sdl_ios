@@ -16,6 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (nullable NSNumber<SDLBool> *)allowed {
+    return [parameters sdl_objectForName:SDLNameAllowed];
+}
+
+- (void)setAllowed:(nullable NSNumber<SDLBool> *)allowed {
+    [parameters sdl_setObject:allowed forName:SDLNameAllowed];
+}
+
 - (void)setAllocatedModules:(NSArray<SDLModuleData *> *)allocatedModules {
     [parameters sdl_setObject:allocatedModules forName:SDLNameAllocatedModules];
 

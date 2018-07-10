@@ -36,6 +36,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) NSArray<SDLModuleData *> *freeModules;
 
+/**
+ * Issued by SDL to notify the application about remote control status change on SDL
+ * If "true" - RC is allowed; if "false" - RC is disallowed.
+ * 
+ * optional, Boolean, default Value = false
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *allowed;
+
 NS_ASSUME_NONNULL_END
 
 @end

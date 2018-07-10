@@ -17,9 +17,11 @@ SDLModuleData * freeModule = [[SDLModuleData alloc] init];
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLOnRCStatus* testNotification = [[SDLOnRCStatus alloc] init];
+        testNotification.allowed = @YES;
         testNotification.allocatedModules = [@[allocatedModule] copy];
         testNotification.freeModules = [@[freeModule] copy];
 
+        expect(testNotification.allowed).to(equal(@YES));
         expect(testNotification.allocatedModules).to(equal([@[allocatedModule] copy]));
         expect(testNotification.freeModules).to(equal([@[freeModule] copy]));
 
@@ -29,10 +31,13 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameAllocatedModules:[@[allocatedModule] copy],
-                                                                   SDLNameFreeModules:[@[freeModule] copy]},
+                                                                   SDLNameFreeModules:[@[freeModule] copy],
+                                                                   SDLNameAllowed:@YES
+                                                                   },
                                                              SDLNameOperationName:SDLNameOnRCStatus}} mutableCopy];
         SDLOnRCStatus* testNotification = [[SDLOnRCStatus alloc] initWithDictionary:dict];
 
+        expect(testNotification.allowed).to(equal(@YES));
         expect(testNotification.allocatedModules).to(equal([@[allocatedModule] copy]));
         expect(testNotification.freeModules).to(equal([@[freeModule] copy]));
     });
@@ -40,6 +45,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should return nil if not set", ^ {
         SDLOnRCStatus* testNotification = [[SDLOnRCStatus alloc] init];
 
+        expect(testNotification.allowed).to(beNil());
         expect(testNotification.allocatedModules).to(beNil());
         expect(testNotification.freeModules).to(beNil());
     });
