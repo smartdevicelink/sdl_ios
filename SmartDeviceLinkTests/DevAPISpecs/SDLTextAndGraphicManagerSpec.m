@@ -758,9 +758,9 @@ describe(@"text and graphic manager", ^{
                 });
 
                 it(@"should immediately attempt to update", ^{
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(@""));
                     expect(testManager.inProgressUpdate.graphic.value).to(equal(testArtworkName));
                     expect(testManager.inProgressUpdate.secondaryGraphic.value).to(equal(testArtworkName));
+                    expect(testManager.inProgressUpdate.mainField1).to(beNil());
                 });
             });
 
@@ -864,7 +864,7 @@ describe(@"text and graphic manager", ^{
 
                         expect(testManager.inProgressUpdate.graphic.value).to(equal(testArtwork1.name));
                         expect(testManager.inProgressUpdate.secondaryGraphic.value).to(equal(testArtwork2.name));
-                        expect(testManager.inProgressUpdate.mainField1).to(equal(testTextFieldText));
+                        expect(testManager.inProgressUpdate.mainField1).to(beNil());
 
                         expect(testManager.queuedImageUpdate).to(beNil());
 

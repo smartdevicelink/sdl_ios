@@ -160,41 +160,33 @@ NSUInteger const SDLMaxArtworkUploadRetryAttempts = 2;
         SDLLogV(@"No images to send, sending text");
         // If there are no images to update, just send the text
         self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
-    } else if ([self sdl_artworkAlreadyUploadedOrNonExistent:self.primaryGraphic] && [self sdl_artworkAlreadyUploadedOrNonExistent:self.secondaryGraphic]) {
-        SDLLogV(@"Images already uploaded, sending full update");
-        // The files to be updated are already uploaded, send the full show immediately
-        self.inProgressUpdate = fullShow;
+    } else if ([self sdl_artworksFinishedUploading:self.primaryGraphic secondaryGraphic:self.secondaryGraphic maxRetryCount:SDLMaxArtworkUploadRetryAttempts]) {
+        SDLLogV(@"Image uploads complete. Sending update with the successfully uploaded images");
+        self.inProgressUpdate = [self sdl_extractUploadedImagesFromShow:fullShow primaryGraphic:self.primaryGraphic secondaryGraphic:self.secondaryGraphic];
     } else {
-        SDLLogV(@"Uploading images...");
+        SDLLogV(@"Image uploads not complete. Sending update with text and uploading images...");
 
-        if ([self sdl_artworksFinishedUploading:self.primaryGraphic secondaryGraphic:self.secondaryGraphic maxRetryCount:SDLMaxArtworkUploadRetryAttempts]) {
-            SDLLogD(@"Image uploads complete. Sending update with the successfully uploaded images");
-            self.inProgressUpdate = [self sdl_extractUploadedImagesFromShow:fullShow primaryGraphic:self.primaryGraphic secondaryGraphic:self.secondaryGraphic];
-        } else {
-            SDLLogD(@"Image uploads not complete");
+        // Send the text immediately and upload or queue the images
+        self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
 
-            // Send the text immediately and upload or queue the images
-            self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
+        // Start uploading the images
+        __block SDLShow *thisUpdate = fullShow;
+        [self sdl_uploadImagesWithCompletionHandler:^(NSError * _Nonnull error) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
 
-            // Start uploading the images
-            __block SDLShow *thisUpdate = fullShow;
-            [self sdl_uploadImagesWithCompletionHandler:^(NSError * _Nonnull error) {
-                __strong typeof(weakSelf) strongSelf = weakSelf;
+            // Check if queued image update still matches our images (there could have been a new Show in the meantime) and send a new update if it does. Since the images will already be on the head unit, the whole show will be sent
+            // TODO: Send delete if it doesn't?
+            if ([strongSelf sdl_showImages:thisUpdate isEqualToShowImages:strongSelf.queuedImageUpdate]) {
+                // Upload artworks
+                SDLLogV(@"Queued image update matches the images we need, sending update");
+                [strongSelf sdl_updateWithCompletionHandler:strongSelf.inProgressHandler];
+            } else {
+                SDLLogV(@"Queued image update does not match the images we need, skipping update");
+            }
+        }];
 
-                // Check if queued image update still matches our images (there could have been a new Show in the meantime) and send a new update if it does. Since the images will already be on the head unit, the whole show will be sent
-                // TODO: Send delete if it doesn't?
-                if ([strongSelf sdl_showImages:thisUpdate isEqualToShowImages:strongSelf.queuedImageUpdate]) {
-                    // Upload artworks
-                    SDLLogV(@"Queued image update matches the images we need, sending update");
-                    [strongSelf sdl_updateWithCompletionHandler:strongSelf.inProgressHandler];
-                } else {
-                    SDLLogV(@"Queued image update does not match the images we need, skipping update");
-                }
-            }];
-
-            // When the images are done uploading, send another show with the images
-            self.queuedImageUpdate = fullShow;
-        }
+        // When the images are done uploading, send another show with the images
+        self.queuedImageUpdate = fullShow;
     }
 
     [self.connectionManager sendConnectionRequest:self.inProgressUpdate withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
