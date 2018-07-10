@@ -352,7 +352,9 @@ NS_ASSUME_NONNULL_BEGIN
     self.displayCapabilities = response.displayCapabilities;
 
     // Auto-send an updated Show
-    [self updateWithCompletionHandler:nil];
+    if (self.softButtonObjects.count > 0) {
+        [self updateWithCompletionHandler:nil];
+    }
 }
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
@@ -363,7 +365,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Auto-send an updated show if we were in NONE and now we are not
     if ([oldHMILevel isEqualToString:SDLHMILevelNone] && ![self.currentLevel isEqualToString:SDLHMILevelNone] && self.waitingOnHMILevelUpdateToUpdate) {
-        [self sdl_updateWithCompletionHandler:nil];
+        [self updateWithCompletionHandler:nil];
     }
 }
 
