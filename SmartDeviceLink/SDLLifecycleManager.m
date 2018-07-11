@@ -669,7 +669,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
     } else if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateStopped]) {
         return;
-    } else if ([appUnregisteredNotification.reason isEqualToEnum:SDLAppInterfaceUnregisteredReasonAppUnauthorized]) {
+    } else if ([appUnregisteredNotification.reason isKindOfClass:[NSString class]] && [appUnregisteredNotification.reason isEqualToEnum:SDLAppInterfaceUnregisteredReasonAppUnauthorized]) {
+        // HAX: The string check is due to a core "feature" that could cause -1 to be sent as the enum value, which will crash here.
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
     } else {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReconnecting];
