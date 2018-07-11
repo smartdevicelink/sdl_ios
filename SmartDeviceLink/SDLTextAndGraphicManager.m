@@ -54,6 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, nullable) SDLArtwork *blankArtwork;
 
+@property (assign, nonatomic) BOOL waitingOnHMILevelUpdateToUpdate;
 @property (assign, nonatomic) BOOL isDirty;
 
 @end
@@ -71,6 +72,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     _currentScreenData = [[SDLShow alloc] init];
     _currentLevel = SDLHMILevelNone;
+
+    _waitingOnHMILevelUpdateToUpdate = NO;
+    _isDirty = NO;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
@@ -102,6 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
     _displayCapabilities = nil;
     _currentLevel = SDLHMILevelNone;
     _blankArtwork = nil;
+    _waitingOnHMILevelUpdateToUpdate = NO;
     _isDirty = NO;
 }
 
@@ -110,6 +115,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
     if (self.isBatchingUpdates) { return; }
 
+    // Don't send if we're in HMI NONE
+    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
+        self.waitingOnHMILevelUpdateToUpdate = YES;
+        return;
+    } else {
+        self.waitingOnHMILevelUpdateToUpdate = NO;
+    }
+
     if (self.isDirty) {
         self.isDirty = NO;
         [self sdl_updateWithCompletionHandler:handler];
@@ -117,11 +130,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_updateWithCompletionHandler:(nullable SDLTextAndGraphicUpdateCompletionHandler)handler {
-    // Don't send if we're in HMI NONE
-    if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
-        return;
-    }
-
     SDLLogD(@"Updating text and graphics");
     if (self.inProgressUpdate != nil) {
         SDLLogV(@"In progress update exists, queueing update");
@@ -487,6 +495,13 @@ NS_ASSUME_NONNULL_BEGIN
     return [array copy];
 }
 
+- (BOOL)sdl_hasData {
+    BOOL hasTextFields = ([self sdl_findNonNilTextFields].count > 0);
+    BOOL hasImageFields = (self.primaryGraphic != nil) || (self.secondaryGraphic != nil);
+
+    return !hasTextFields && !hasImageFields;
+}
+
 #pragma mark - Equality
 
 - (BOOL)sdl_showImages:(SDLShow *)show isEqualToShowImages:(SDLShow *)show2 {
@@ -644,18 +659,21 @@ NS_ASSUME_NONNULL_BEGIN
     self.displayCapabilities = response.displayCapabilities;
 
     // Auto-send an updated show
-    [self sdl_updateWithCompletionHandler:nil];
+    if ([self sdl_hasData]) {
+        [self sdl_updateWithCompletionHandler:nil];
+    }
 }
 
 - (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
 
+    SDLHMILevel oldLevel = self.currentLevel;
+    self.currentLevel = hmiStatus.hmiLevel;
+
     // Auto-send an updated show if we were in NONE and now we are not
-    if ([self.currentLevel isEqualToString:SDLHMILevelNone] && ![hmiStatus.hmiLevel isEqualToString:SDLHMILevelNone]) {
+    if ([oldLevel isEqualToString:SDLHMILevelNone] && ![self.currentLevel isEqualToString:SDLHMILevelNone] && self.waitingOnHMILevelUpdateToUpdate) {
         [self sdl_updateWithCompletionHandler:nil];
     }
-
-    self.currentLevel = hmiStatus.hmiLevel;
 }
 
 @end
