@@ -499,7 +499,7 @@ NS_ASSUME_NONNULL_BEGIN
     BOOL hasTextFields = ([self sdl_findNonNilTextFields].count > 0);
     BOOL hasImageFields = (self.primaryGraphic != nil) || (self.secondaryGraphic != nil);
 
-    return !hasTextFields && !hasImageFields;
+    return hasTextFields || hasImageFields;
 }
 
 #pragma mark - Equality
