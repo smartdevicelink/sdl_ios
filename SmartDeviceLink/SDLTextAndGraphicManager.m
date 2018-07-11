@@ -160,15 +160,10 @@ NSUInteger const SDLMaxArtworkUploadAttempts = 2;
         SDLLogV(@"No images to send, sending text");
         // If there are no images to update, just send the text
         self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
-    } else if ([self sdl_artworksFinishedUploading:self.primaryGraphic secondaryGraphic:self.secondaryGraphic maxRetryCount:SDLMaxArtworkUploadAttempts]) {
-        SDLShow *showWithGraphics = [self sdl_extractUploadedImagesFromShow:fullShow primaryGraphic:self.primaryGraphic secondaryGraphic:self.secondaryGraphic];
-        if (showWithGraphics != nil) {
-            SDLLogV(@"Image uploads complete. Sending update with the successfully uploaded images");
-            self.inProgressUpdate = showWithGraphics;
-        } else {
-            SDLLogV(@"Image uploads complete. No graphics to show, skipping update.");
-            return;
-        }
+    } else if ([self sdl_artworkAlreadyUploadedOrNonExistent:self.primaryGraphic] && [self sdl_artworkAlreadyUploadedOrNonExistent:self.secondaryGraphic]) {
+        SDLLogV(@"Images already uploaded, sending full update");
+        // The files to be updated are already uploaded, send the full show immediately
+        self.inProgressUpdate = fullShow;
     } else {
         SDLLogV(@"Images need to be uploaded, sending text and uploading images");
 
@@ -181,11 +176,23 @@ NSUInteger const SDLMaxArtworkUploadAttempts = 2;
         [self sdl_uploadImagesWithCompletionHandler:^(NSError * _Nonnull error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
 
+            if (error != nil) {
+                SDLShow *showWithGraphics = [self sdl_extractUploadedImagesFromShow:fullShow primaryGraphic:self.primaryGraphic secondaryGraphic:self.secondaryGraphic];
+                if (showWithGraphics != nil) {
+                    SDLLogE(@"Some images failed to upload. Sending update with the successfully uploaded images");
+                    self.inProgressUpdate = showWithGraphics;
+                } else {
+                    SDLLogE(@"All images failed to upload. No graphics to show, skipping update.");
+                    self.inProgressUpdate = nil;
+                }
+                return;
+            }
+
             // Check if queued image update still matches our images (there could have been a new Show in the meantime) and send a new update if it does. Since the images will already be on the head unit, the whole show will be sent
             // TODO: Send delete if it doesn't?
             if ([strongSelf sdl_showImages:thisUpdate isEqualToShowImages:strongSelf.queuedImageUpdate]) {
                 SDLLogV(@"Queued image update matches the images we need, sending update");
-                [strongSelf sdl_updateWithCompletionHandler:strongSelf.inProgressHandler];
+                return [strongSelf sdl_updateWithCompletionHandler:strongSelf.inProgressHandler];
             } else {
                 SDLLogV(@"Queued image update does not match the images we need, skipping update");
             }
@@ -194,6 +201,7 @@ NSUInteger const SDLMaxArtworkUploadAttempts = 2;
         self.queuedImageUpdate = fullShow;
     }
 
+    if (self.inProgressUpdate == nil) { return; }
     [self.connectionManager sendConnectionRequest:self.inProgressUpdate withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogD(@"Text and Graphic update completed");
@@ -229,11 +237,7 @@ NSUInteger const SDLMaxArtworkUploadAttempts = 2;
 
     [self.fileManager uploadArtworks:artworksToUpload completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
         if (error != nil) {
-            for (NSString *artworkName in error.userInfo) {
-                SDLLogE(@"Error uploading text and graphic image named: %@, with error: %@", artworkName, error.userInfo[artworkName]);
-                // Update the upload count for all artworks that failed to upload
-                [self sdl_incrementUploadCountForArtworkName:artworkName];
-            }
+            SDLLogE(@"Text and graphic manager artwork failed to upload");
         }
 
         handler(error);
@@ -490,45 +494,6 @@ NSUInteger const SDLMaxArtworkUploadAttempts = 2;
  */
 - (BOOL)sdl_artworkAlreadyUploadedOrNonExistent:(SDLArtwork *)artwork {
     return (!artwork || [self.fileManager hasUploadedFile:artwork]);
-}
-
-/**
- *  Checks if one or both artworks in a Show request need to be uploaded to Core.
- *
- *  @param primaryGraphic      The main graphic in the Show request
- *  @param secondaryGraphic    The secondary graphic in the Show request
- *  @param maxRetryCount       The max number of times the artwork is allowed to be uploaded to Core
- *  @return                    True if both artworks have been either uploaded to Core or failed to upload to Core after the max number of repeated upload attempts has been reached; false if one or both of the artworks needs to be sent to Core
- */
-- (BOOL)sdl_artworksFinishedUploading:(nullable SDLArtwork *)primaryGraphic secondaryGraphic:(nullable SDLArtwork *)secondaryGraphic maxRetryCount:(int)maxRetryCount {
-    BOOL doesPrimaryGraphicNeedToBeUploaded = [self sdl_doesArtworkNeedToBeUploaded:primaryGraphic maxRetryCount:maxRetryCount];
-    BOOL doesSecondaryGraphicNeedToBeUploaded = [self sdl_doesArtworkNeedToBeUploaded:secondaryGraphic maxRetryCount:maxRetryCount];
-    return (!doesPrimaryGraphicNeedToBeUploaded && !doesSecondaryGraphicNeedToBeUploaded);
-}
-
-/**
- *  Checks if an artwork needs to be uploaded to Core. The arwork should not be sent to Core if the artwork is already on Core or if the artwork is not on Core after the maximum number of repeated upload attempts has been reached.
- *
- *  @param artwork         The artwork to be uploaded to Core
- *  @param maxRetryCount   The max number of times the artwork is allowed to be uploaded to Core
- *  @return                True if the artwork still needs to be (re)sent to Core; false if not.
- */
-- (BOOL)sdl_doesArtworkNeedToBeUploaded:(nullable SDLArtwork *)artwork maxRetryCount:(int)maxRetryCount {
-    if ([self sdl_artworkAlreadyUploadedOrNonExistent:artwork]) { return NO; }
-    NSNumber *uploadRetryCount = self.artworkUploadRetries[artwork.name];
-    return (uploadRetryCount == nil) ? YES : (uploadRetryCount.integerValue < maxRetryCount);
-}
-
-/**
- *  Increments the number of upload attempts for an artwork by 1.
- *
- *  @param artworkName The name used to upload the file to Core
- */
-- (void)sdl_incrementUploadCountForArtworkName:(SDLFileName *)artworkName {
-    NSNumber *currentRetryCount = [self.artworkUploadRetries objectForKey:artworkName];
-    NSNumber *newRetryCount = (currentRetryCount != nil) ? @(currentRetryCount.integerValue + 1) : @1;
-    self.artworkUploadRetries[artworkName] = newRetryCount;
-    SDLLogE(@"Artwork %@ failed to upload %@ times", artworkName, newRetryCount);
 }
 
 - (BOOL)sdl_shouldUpdatePrimaryImage {

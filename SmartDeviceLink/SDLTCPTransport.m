@@ -59,7 +59,7 @@ static void TCPCallback(CFSocketRef socket, CFSocketCallBackType type, CFDataRef
     __weak typeof(self) weakself = self;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         __strong typeof(self) strongself = weakself;
-        SDLLogD(@"Attemping to connect");
+        SDLLogD(@"Attempting to connect");
         
         int sock_fd = call_socket([self.hostName UTF8String], [self.portNumber UTF8String]);
         if (sock_fd < 0) {
