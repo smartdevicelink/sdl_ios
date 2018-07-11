@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTextAndGraphicManager
 
-NSUInteger const SDLMaxArtworkUploadRetryAttempts = 2;
+NSUInteger const SDLMaxArtworkUploadAttempts = 2;
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(nonnull SDLFileManager *)fileManager {
     self = [super init];
@@ -160,9 +160,15 @@ NSUInteger const SDLMaxArtworkUploadRetryAttempts = 2;
         SDLLogV(@"No images to send, sending text");
         // If there are no images to update, just send the text
         self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
-    } else if ([self sdl_artworksFinishedUploading:self.primaryGraphic secondaryGraphic:self.secondaryGraphic maxRetryCount:SDLMaxArtworkUploadRetryAttempts]) {
-        SDLLogV(@"Image uploads complete. Sending update with the successfully uploaded images");
-        self.inProgressUpdate = [self sdl_extractUploadedImagesFromShow:fullShow primaryGraphic:self.primaryGraphic secondaryGraphic:self.secondaryGraphic];
+    } else if ([self sdl_artworksFinishedUploading:self.primaryGraphic secondaryGraphic:self.secondaryGraphic maxRetryCount:SDLMaxArtworkUploadAttempts]) {
+        SDLShow *showWithGraphics = [self sdl_extractUploadedImagesFromShow:fullShow primaryGraphic:self.primaryGraphic secondaryGraphic:self.secondaryGraphic];
+        if (showWithGraphics != nil) {
+            SDLLogV(@"Image uploads complete. Sending update with the successfully uploaded images");
+            self.inProgressUpdate = showWithGraphics;
+        } else {
+            SDLLogV(@"Image uploads complete. No graphics to show, skipping update.");
+            return;
+        }
     } else {
         SDLLogV(@"Image uploads not complete. Sending update with text and uploading images...");
 
@@ -443,10 +449,21 @@ NSUInteger const SDLMaxArtworkUploadRetryAttempts = 2;
     return newShow;
 }
 
-- (SDLShow *)sdl_extractUploadedImagesFromShow:(SDLShow *)show primaryGraphic:(nullable SDLArtwork *)primaryGraphic secondaryGraphic:(nullable SDLArtwork *)secondaryGraphic  {
+- (nullable SDLShow *)sdl_extractUploadedImagesFromShow:(SDLShow *)show primaryGraphic:(nullable SDLArtwork *)primaryGraphic secondaryGraphic:(nullable SDLArtwork *)secondaryGraphic  {
     SDLShow *newShow = [[SDLShow alloc] init];
     newShow.graphic = [self sdl_artworkAlreadyUploadedOrNonExistent:primaryGraphic] ? show.graphic : nil;
     newShow.secondaryGraphic = [self sdl_artworkAlreadyUploadedOrNonExistent:secondaryGraphic] ? show.secondaryGraphic : nil;
+
+    if (primaryGraphic != nil) {
+        SDLLogD(@"Primary graphic upload was %s", newShow.graphic != nil ? "successful" : "unsuccessful");
+    }
+    if (secondaryGraphic != nil) {
+        SDLLogD(@"Secondary graphic upload was %s", newShow.secondaryGraphic != nil ? "successful" : "unsuccessful");
+    }
+    if (newShow.graphic == nil && newShow.secondaryGraphic == nil) {
+        SDLLogV(@"No graphics to upload");
+        return nil;
+    }
 
     return newShow;
 }
