@@ -51,6 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLSoftButtonCapabilities *softButtonCapabilities;
 
 @property (assign, nonatomic) BOOL waitingOnHMILevelUpdateToUpdate;
+@property (assign, nonatomic) BOOL isDirty;
 
 @end
 
@@ -66,6 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _currentLevel = nil;
     _waitingOnHMILevelUpdateToUpdate = NO;
+    _isDirty = NO;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
@@ -86,11 +88,16 @@ NS_ASSUME_NONNULL_BEGIN
     _displayCapabilities = nil;
     _softButtonCapabilities = nil;
     _waitingOnHMILevelUpdateToUpdate = NO;
+    _isDirty = NO;
 }
 
 - (void)setSoftButtonObjects:(NSArray<SDLSoftButtonObject *> *)softButtonObjects {
     // Only update if something changed. This prevents, for example, an empty array being reset
-    if (_softButtonObjects == softButtonObjects) { return; }
+    if (_softButtonObjects == softButtonObjects) {
+        return;
+    } else {
+        self.isDirty = YES;
+    }
 
     self.inProgressUpdate = nil;
     if (self.inProgressHandler != nil) {
@@ -137,7 +144,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateWithCompletionHandler:(nullable SDLSoftButtonUpdateCompletionHandler)handler {
     // Don't send if we're batching
-    if (self.isBatchingUpdates) { return; }
+    if (self.isBatchingUpdates || !self.isDirty) { return; }
 
     // Don't send if we're in HMI NONE
     if (self.currentLevel == nil || [self.currentLevel isEqualToString:SDLHMILevelNone]) {
@@ -152,6 +159,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_updateWithCompletionHandler:(nullable SDLSoftButtonUpdateCompletionHandler)handler {
     SDLLogD(@"Updating soft buttons");
+    self.isDirty = NO;
+
     if (self.inProgressUpdate != nil) {
         SDLLogV(@"In progress update exists, queueing update");
         // If we already have a pending update, we're going to tell the old handler that it was superseded by a new update and then return
