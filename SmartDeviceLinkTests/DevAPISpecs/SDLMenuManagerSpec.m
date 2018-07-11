@@ -47,7 +47,7 @@
 
 QuickSpecBegin(SDLMenuManagerSpec)
 
-fdescribe(@"menu manager", ^{
+describe(@"menu manager", ^{
     __block SDLMenuManager *testManager = nil;
     __block TestConnectionManager *mockConnectionManager = nil;
     __block SDLFileManager *mockFileManager = nil;
