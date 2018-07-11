@@ -64,7 +64,7 @@ private extension MenuManager {
             })
         }
 
-        return SDLMenuCell(title: ACGetAllVehicleDataMenuName, icon: UIImage(named: CarBWIconImageName)!.withRenderingMode(.alwaysTemplate) subCells: submenuItems)
+        return SDLMenuCell(title: ACGetAllVehicleDataMenuName, icon: SDLArtwork(image: UIImage(named: CarBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), subCells: submenuItems)
     }
 
     /// A list of all possible vehicle data types

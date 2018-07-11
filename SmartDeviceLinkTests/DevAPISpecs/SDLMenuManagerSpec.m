@@ -47,7 +47,7 @@
 
 QuickSpecBegin(SDLMenuManagerSpec)
 
-describe(@"menu manager", ^{
+fdescribe(@"menu manager", ^{
     __block SDLMenuManager *testManager = nil;
     __block TestConnectionManager *mockConnectionManager = nil;
     __block SDLFileManager *mockFileManager = nil;
@@ -215,7 +215,7 @@ describe(@"menu manager", ^{
                     NSArray *submenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
                     SDLAddSubMenu *sentSubmenu = submenu.firstObject;
 
-                    expect(add).to(haveCount(2));
+                    expect(add).to(haveCount(1));
                     expect(submenu).to(haveCount(1));
                     expect(sentCommand.cmdIcon.value).to(equal(testArtwork.name));
                     expect(sentSubmenu.menuIcon.value).to(equal(testArtwork2.name));
@@ -238,10 +238,10 @@ describe(@"menu manager", ^{
                     NSArray *submenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
                     SDLAddSubMenu *sentSubmenu = submenu.firstObject;
 
-                    expect(add).to(haveCount(2));
+                    expect(add).to(haveCount(1));
                     expect(submenu).to(haveCount(1));
                     expect(sentCommand.cmdIcon.value).to(beNil());
-                    expect(sentSubmenu.menuIcon.value).to(equal(testArtwork2.name));
+                    expect(sentSubmenu.menuIcon.value).to(beNil());
                 });
             });
         });
