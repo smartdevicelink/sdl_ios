@@ -838,9 +838,7 @@ describe(@"text and graphic manager", ^{
                         OCMStub([mockFileManager uploadArtworks:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:testSuccessfulArtworks, testError, nil])]);
                         [testManager updateWithCompletionHandler:nil];
 
-                        expect(testManager.inProgressUpdate.graphic).to(beNil());
-                        expect(testManager.inProgressUpdate.secondaryGraphic).to(beNil());
-
+                        expect(testManager.inProgressUpdate).to(beNil());
                         expect(testManager.queuedImageUpdate).to(beNil());
 
                         expect(testManager.artworkUploadRetries[testArtwork1.name]).to(equal(@2));

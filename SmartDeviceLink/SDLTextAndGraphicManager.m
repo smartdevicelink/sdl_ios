@@ -170,9 +170,10 @@ NSUInteger const SDLMaxArtworkUploadAttempts = 2;
             return;
         }
     } else {
-        SDLLogV(@"Image uploads not complete. Sending update with text and uploading images...");
+        SDLLogV(@"Images need to be uploaded, sending text and uploading images");
 
-        // Send the text immediately and upload or queue the images
+        // We need to upload or queue the upload of the images
+        // Send the text immediately
         self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
 
         // Start uploading the images
@@ -183,14 +184,12 @@ NSUInteger const SDLMaxArtworkUploadAttempts = 2;
             // Check if queued image update still matches our images (there could have been a new Show in the meantime) and send a new update if it does. Since the images will already be on the head unit, the whole show will be sent
             // TODO: Send delete if it doesn't?
             if ([strongSelf sdl_showImages:thisUpdate isEqualToShowImages:strongSelf.queuedImageUpdate]) {
-                // Upload artworks
                 SDLLogV(@"Queued image update matches the images we need, sending update");
                 [strongSelf sdl_updateWithCompletionHandler:strongSelf.inProgressHandler];
             } else {
                 SDLLogV(@"Queued image update does not match the images we need, skipping update");
             }
         }];
-
         // When the images are done uploading, send another show with the images
         self.queuedImageUpdate = fullShow;
     }
@@ -526,9 +525,10 @@ NSUInteger const SDLMaxArtworkUploadAttempts = 2;
  *  @param artworkName The name used to upload the file to Core
  */
 - (void)sdl_incrementUploadCountForArtworkName:(SDLFileName *)artworkName {
-    NSNumber *retryCount = [self.artworkUploadRetries objectForKey:artworkName];
-    self.artworkUploadRetries[artworkName] = (retryCount != nil) ? @(retryCount.integerValue + 1) : @1;
-    SDLLogE(@"Artwork named: %@ upload failed. Number of upload tries: %@", artworkName, self.artworkUploadRetries[artworkName]);
+    NSNumber *currentRetryCount = [self.artworkUploadRetries objectForKey:artworkName];
+    NSNumber *newRetryCount = (currentRetryCount != nil) ? @(currentRetryCount.integerValue + 1) : @1;
+    self.artworkUploadRetries[artworkName] = newRetryCount;
+    SDLLogE(@"Artwork %@ failed to upload %@ times", artworkName, newRetryCount);
 }
 
 - (BOOL)sdl_shouldUpdatePrimaryImage {
