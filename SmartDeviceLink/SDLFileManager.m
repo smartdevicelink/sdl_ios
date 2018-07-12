@@ -422,8 +422,8 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
             [weakSelf.uploadedEphemeralFileNames addObject:fileName];
         } else {
             [self sdl_incrementUploadCountForFileName:file.name];
-
-            if ([self sdl_canFileBeUploadedAgain:file maxRetryCount:(int)self.maxFileUploadAttempts.integerValue]) {
+            NSNumber *maxRetryCount = [file isKindOfClass:[SDLArtwork class]] ? self.maxArtworkUploadAttempts : self.maxFileUploadAttempts;
+            if ([self sdl_canFileBeUploadedAgain:file maxRetryCount:(int)maxRetryCount.integerValue]) {
                 SDLLogV(@"Attempting to resend file with name %@ after a failed upload attempt", file.name);
                 return [self sdl_uploadFile:file completionHandler:handler];
             } else {

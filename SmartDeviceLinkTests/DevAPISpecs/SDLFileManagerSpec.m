@@ -5,6 +5,7 @@
 #import "SDLError.h"
 #import "SDLFile.h"
 #import "SDLFileManager.h"
+#import "SDLFileManagerConfiguration.h"
 #import "SDLFileType.h"
 #import "SDLListFiles.h"
 #import "SDLListFilesOperation.h"
@@ -26,6 +27,8 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
 @interface SDLFileManager ()
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 @property (strong, nonatomic) NSMutableSet<SDLFileName *> *uploadedEphemeralFileNames;
+@property (strong, nonatomic) NSNumber<SDLUInt> *maxFileUploadAttempts;
+@property (strong, nonatomic) NSNumber<SDLUInt> *maxArtworkUploadAttempts;
 @end
 
 QuickSpecBegin(SDLFileManagerSpec)
@@ -33,11 +36,13 @@ QuickSpecBegin(SDLFileManagerSpec)
 describe(@"SDLFileManager", ^{
     __block TestConnectionManager *testConnectionManager = nil;
     __block SDLFileManager *testFileManager = nil;
+    __block SDLFileManagerConfiguration *testFileManagerConfiguration = nil;
     __block NSUInteger initialSpaceAvailable = 250;
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
-        testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager];
+        testFileManagerConfiguration = [[SDLFileManagerConfiguration alloc] initWithArtworkRetryCount:0 fileRetryCount:0];
+        testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
         testFileManager.suspended = YES;
     });
 
@@ -56,6 +61,11 @@ describe(@"SDLFileManager", ^{
 
         it(@"should have no pending operations", ^{
             expect(testFileManager.pendingTransactions).to(beEmpty());
+        });
+
+        it(@"should set the maximum number of upload attempts to 1", ^{
+            expect(testFileManager.maxFileUploadAttempts).to(equal(@1));
+            expect(testFileManager.maxArtworkUploadAttempts).to(equal(@1));
         });
     });
 
@@ -303,7 +313,7 @@ describe(@"SDLFileManager", ^{
                                 [testConnectionManager respondToLastRequestWithResponse:nil error:[NSError sdl_lifecycle_notReadyError]];
                             });
 
-                            it(@"should have the correct file manager state", ^{
+                            xit(@"should have the correct file manager state", ^{
                                 expect(testFileManager.remoteFileNames).to(contain(testFileName));
                                 expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                             });
