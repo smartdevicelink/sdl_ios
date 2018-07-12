@@ -53,15 +53,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @property (strong, nonatomic, nullable) SDLArtwork *blankArtwork;
-@property (strong, nonatomic) NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *artworkUploadRetries;
 
 @property (assign, nonatomic) BOOL isDirty;
 
 @end
 
 @implementation SDLTextAndGraphicManager
-
-NSUInteger const SDLMaxArtworkUploadAttempts = 2;
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager fileManager:(nonnull SDLFileManager *)fileManager {
     self = [super init];
@@ -74,8 +71,6 @@ NSUInteger const SDLMaxArtworkUploadAttempts = 2;
 
     _currentScreenData = [[SDLShow alloc] init];
     _currentLevel = SDLHMILevelNone;
-
-    _artworkUploadRetries = [NSMutableDictionary dictionary];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
@@ -108,7 +103,6 @@ NSUInteger const SDLMaxArtworkUploadAttempts = 2;
     _currentLevel = SDLHMILevelNone;
     _blankArtwork = nil;
     _isDirty = NO;
-    _artworkUploadRetries = [NSMutableDictionary dictionary];
 }
 
 #pragma mark - Upload / Send

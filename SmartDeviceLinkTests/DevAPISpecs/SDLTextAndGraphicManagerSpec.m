@@ -32,7 +32,6 @@
 @property (strong, nonatomic, nullable) SDLHMILevel currentLevel;
 
 @property (strong, nonatomic) SDLArtwork *blankArtwork;
-@property (strong, nonatomic) NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *artworkUploadRetries;
 
 @property (assign, nonatomic) BOOL isDirty;
 
@@ -78,7 +77,6 @@ describe(@"text and graphic manager", ^{
         expect(testManager.displayCapabilities).to(beNil());
         expect(testManager.currentLevel).to(equal(SDLHMILevelNone));
         expect(testManager.blankArtwork).toNot(beNil());
-        expect(testManager.artworkUploadRetries).to(beEmpty());
         expect(testManager.isDirty).to(beFalse());
     });
 
@@ -743,8 +741,11 @@ describe(@"text and graphic manager", ^{
         });
 
         context(@"updating images", ^{
+            __block NSString *testTextFieldText = @"mainFieldText";
+
             beforeEach(^{
                 testManager.batchUpdates = YES;
+                testManager.textField1 = testTextFieldText;
             });
 
             context(@"when the image is already on the head unit", ^{
@@ -760,7 +761,7 @@ describe(@"text and graphic manager", ^{
                 it(@"should immediately attempt to update", ^{
                     expect(testManager.inProgressUpdate.graphic.value).to(equal(testArtworkName));
                     expect(testManager.inProgressUpdate.secondaryGraphic.value).to(equal(testArtworkName));
-                    expect(testManager.inProgressUpdate.mainField1).to(beNil());
+                    expect(testManager.inProgressUpdate.mainField1).to(equal(testTextFieldText));
                 });
             });
 
@@ -775,7 +776,7 @@ describe(@"text and graphic manager", ^{
                 });
 
                 it(@"should immediately attempt to update without the images", ^{
-                    expect(testManager.inProgressUpdate.mainField1).to(equal(@""));
+                    expect(testManager.inProgressUpdate.mainField1).to(equal(testTextFieldText));
                     expect(testManager.inProgressUpdate.graphic.value).to(beNil());
                     expect(testManager.inProgressUpdate.secondaryGraphic.value).to(beNil());
                     expect(testManager.queuedImageUpdate.graphic.value).to(equal(testArtworkName));
@@ -786,140 +787,72 @@ describe(@"text and graphic manager", ^{
             describe(@"When an image fails to upload to the remote", ^{
                 __block SDLArtwork *testArtwork1 = nil;
                 __block SDLArtwork *testArtwork2 = nil;
-                __block NSString *testTextFieldText = @"mainFieldText";
-                __block NSError *testError = nil;
-                __block NSArray<NSString *> *testSuccessfulArtworks = nil;
 
                 beforeEach(^{
-                    testManager.textField1 = testTextFieldText;
-
                     testArtwork1 = [[SDLArtwork alloc] initWithData:[@"Test data 1" dataUsingEncoding:NSUTF8StringEncoding] name:@"Test data 1" fileExtension:@"png" persistent:NO];
                     testArtwork2 = [[SDLArtwork alloc] initWithData:[@"Test data 2" dataUsingEncoding:NSUTF8StringEncoding] name:@"Test data 2" fileExtension:@"png" persistent:NO];
                 });
 
-                context(@"If an image fails to upload", ^{
-                    it(@"Should update the retry count for the image", ^{
-                        testManager.primaryGraphic = testArtwork1;
-                        testManager.secondaryGraphic = nil;
-                        testManager.batchUpdates = NO;
-                        testManager.artworkUploadRetries = [NSMutableDictionary dictionary];
-
-                        testSuccessfulArtworks = @[];
-                        testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{testArtwork1.name:@"error 1"}];
-
-                        OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
-                        OCMStub([mockFileManager uploadArtworks:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:testSuccessfulArtworks, testError, nil])]);
-                        [testManager updateWithCompletionHandler:nil];
-
-                        expect(testManager.artworkUploadRetries[testArtwork1.name]).to(equal(@1));
-                        expect(testManager.artworkUploadRetries[testArtwork2.name]).to(beNil());
-
-                        expect(testManager.inProgressUpdate.graphic).to(beNil());
-                        expect(testManager.inProgressUpdate.secondaryGraphic).to(beNil());
-                        expect(testManager.textField1).to(equal(testTextFieldText));
-                    });
-                });
-
-                context(@"If the primary and secondary images both fail the upload process", ^{
-                    it(@"Should attempt to update with text only", ^{
+                context(@"If the images for the primary and secondary graphics fail the upload process", ^{
+                    it(@"Should skip sending an update", ^{
                         testManager.primaryGraphic = testArtwork1;
                         testManager.secondaryGraphic = testArtwork2;
                         testManager.batchUpdates = NO;
-                        testManager.artworkUploadRetries = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                            @2, testArtwork1.name,
-                                                            @2, testArtwork2.name,
-                                                            nil];
 
                         OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
-                        testSuccessfulArtworks = @[];
-                        testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{testArtwork1.name:@"error 1",
+                        NSArray<NSString *> *testSuccessfulArtworks = @[];
+                        NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{testArtwork1.name:@"error 1",
                                                                                               testArtwork2.name:@"error 2"
                                                                                               }];
                         OCMStub([mockFileManager uploadArtworks:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:testSuccessfulArtworks, testError, nil])]);
                         [testManager updateWithCompletionHandler:nil];
 
+                        expect(testManager.textField1).to(equal(testTextFieldText));
                         expect(testManager.inProgressUpdate).to(beNil());
-                        expect(testManager.queuedImageUpdate).to(beNil());
-
-                        expect(testManager.artworkUploadRetries[testArtwork1.name]).to(equal(@2));
-                        expect(testManager.artworkUploadRetries[testArtwork2.name]).to(equal(@2));
+                        expect(testManager.queuedImageUpdate.graphic.value).to(equal(testArtwork1.name));
+                        expect(testManager.queuedImageUpdate.secondaryGraphic.value).to(equal(testArtwork2.name));
                     });
                 });
 
-                context(@"If both the primary and secondary images are uploaded successfully after a failed upload attempt", ^{
-                    it(@"Should attempt to update with both images", ^{
-                        testManager.primaryGraphic = testArtwork1;
-                        testManager.secondaryGraphic = testArtwork2;
-                        testManager.batchUpdates = NO;
-                        testManager.artworkUploadRetries = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                            @1, testArtwork1.name,
-                                                            @1, testArtwork2.name,
-                                                            nil];
-
-
-                        OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
-                        [testManager updateWithCompletionHandler:nil];
-
-                        expect(testManager.inProgressUpdate.graphic.value).to(equal(testArtwork1.name));
-                        expect(testManager.inProgressUpdate.secondaryGraphic.value).to(equal(testArtwork2.name));
-                        expect(testManager.inProgressUpdate.mainField1).to(beNil());
-
-                        expect(testManager.queuedImageUpdate).to(beNil());
-
-                        expect(testManager.artworkUploadRetries[testArtwork1.name]).to(equal(@1));
-                        expect(testManager.artworkUploadRetries[testArtwork2.name]).to(equal(@1));
-                    });
-                });
-
-                context(@"If only one of images fails to upload", ^{
+                context(@"If only one of images for the primary and secondary graphics fails to upload", ^{
                     it(@"Should show the primary graphic even if the secondary graphic upload fails", ^{
                         testManager.primaryGraphic = testArtwork1;
                         testManager.secondaryGraphic = testArtwork2;
                         testManager.batchUpdates = NO;
-                        testManager.artworkUploadRetries = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                            @2, testArtwork2.name,
-                                                            nil];
 
                         OCMStub([mockFileManager hasUploadedFile:testArtwork1]).andReturn(YES);
                         OCMStub([mockFileManager hasUploadedFile:testArtwork2]).andReturn(NO);
-                        testSuccessfulArtworks = @[testArtwork1.name];
-                        testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{testArtwork2.name:@"error 2"}];
+                        NSArray<NSString *> *testSuccessfulArtworks = @[testArtwork1.name];
+                        NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{testArtwork2.name:@"error 2"}];
                         OCMStub([mockFileManager uploadArtworks:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:testSuccessfulArtworks, testError, nil])]);
                         [testManager updateWithCompletionHandler:nil];
 
+                        expect(testManager.textField1).to(equal(testTextFieldText));
                         expect(testManager.inProgressUpdate.graphic.value).to(equal(testArtwork1.name));
                         expect(testManager.inProgressUpdate.secondaryGraphic).to(beNil());
                         expect(testManager.inProgressUpdate.mainField1).to(beNil());
-
-                        expect(testManager.queuedImageUpdate).to(beNil());
-
-                        expect(testManager.artworkUploadRetries[testArtwork1.name]).to(beNil());
-                        expect(testManager.artworkUploadRetries[testArtwork2.name]).to(equal(@2));
+                        expect(testManager.queuedImageUpdate.graphic.value).to(equal(testArtwork1.name));
+                        expect(testManager.queuedImageUpdate.secondaryGraphic.value).to(equal(testArtwork2.name));
                     });
 
                     it(@"Should show the secondary graphic even if the primary graphic upload fails", ^{
                         testManager.primaryGraphic = testArtwork1;
                         testManager.secondaryGraphic = testArtwork2;
                         testManager.batchUpdates = NO;
-                        testManager.artworkUploadRetries = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                            @2, testArtwork1.name,
-                                                            nil];
 
                         OCMStub([mockFileManager hasUploadedFile:testArtwork1]).andReturn(NO);
                         OCMStub([mockFileManager hasUploadedFile:testArtwork2]).andReturn(YES);
-                        testSuccessfulArtworks = @[testArtwork2.name];
-                        testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{testArtwork1.name:@"error 2"}];
+                        NSArray<NSString *> *testSuccessfulArtworks = @[testArtwork2.name];
+                        NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{testArtwork1.name:@"error 2"}];
                         OCMStub([mockFileManager uploadArtworks:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:testSuccessfulArtworks, testError, nil])]);
                         [testManager updateWithCompletionHandler:nil];
 
+                        expect(testManager.textField1).to(equal(testTextFieldText));
                         expect(testManager.inProgressUpdate.graphic).to(beNil());
                         expect(testManager.inProgressUpdate.secondaryGraphic.value).to(equal(testArtwork2.name));
                         expect(testManager.inProgressUpdate.mainField1).to(beNil());
-
-                        expect(testManager.queuedImageUpdate).to(beNil());
-
-                        expect(testManager.artworkUploadRetries[testArtwork1.name]).to(equal(@2));
-                        expect(testManager.artworkUploadRetries[testArtwork2.name]).to(beNil());
+                        expect(testManager.queuedImageUpdate.graphic.value).to(equal(testArtwork1.name));
+                        expect(testManager.queuedImageUpdate.secondaryGraphic.value).to(equal(testArtwork2.name));
                     });
                 });
             });
@@ -955,7 +888,6 @@ describe(@"text and graphic manager", ^{
             expect(testManager.displayCapabilities).to(beNil());
             expect(testManager.currentLevel).to(equal(SDLHMILevelNone));
             expect(testManager.blankArtwork).toNot(beNil());
-            expect(testManager.artworkUploadRetries).to(beEmpty());
             expect(testManager.isDirty).to(beFalse());
         });
     });
