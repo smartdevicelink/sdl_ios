@@ -50,11 +50,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, readonly) SDLFileType fileType;
 
-/**
- * A stream to pull binary data from a SDLFile. The stream only pulls required data from the file on disk or in memory. This reduces memory usage while uploading a large file to the remote system as each chunk of data can be released immediately after it is uploaded.
- */
-@property (nonatomic, readonly) NSInputStream *inputStream;
-
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
@@ -137,6 +132,12 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return An instance of this class
  */
 + (instancetype)fileWithData:(NSData *)data name:(NSString *)name fileExtension:(NSString *)extension;
+
+/**
+ * Opens a stream to pull binary data from a SDLFile. The stream only pulls required data from the file on disk or in memory. This reduces memory usage while uploading a large file to the remote system as each chunk of data can be released immediately after it is uploaded.
+ * @return A newly opened input stream.
+ */
+- (NSInputStream *)openInputStream;
 
 @end
 

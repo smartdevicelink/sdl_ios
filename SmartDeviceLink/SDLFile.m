@@ -87,6 +87,20 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initWithData:data name:name fileExtension:extension persistent:NO];
 }
 
+- (NSInputStream *)openInputStream {
+    NSAssert(_fileURL != nil && _data.length != 0, @"Unable to open input stream");
+    NSInputStream *inputStream = nil;
+    if (_fileURL) {
+        // Data in file
+        inputStream = [[NSInputStream alloc] initWithURL:_fileURL];
+    } else if (_data.length != 0) {
+        // Data in memory
+        inputStream = [[NSInputStream alloc] initWithData:_data];
+    }
+    [inputStream open];
+    return inputStream;
+}
+
 #pragma mark - Getters
 
 - (NSData *)data {
@@ -95,24 +109,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     return _data;
-}
-
-/**
- Initalizes a socket from which to read data.
-
- @return A socket
- */
-- (NSInputStream *)inputStream {
-    if (![_inputStream hasBytesAvailable]) {
-        if (_fileURL) {
-            // Data in file
-            _inputStream = [[NSInputStream alloc] initWithURL:_fileURL];
-        } else if (_data.length != 0) {
-            // Data in memory
-            _inputStream = [[NSInputStream alloc] initWithData:_data];
-        }
-    }
-    return _inputStream;
 }
 
 /**
