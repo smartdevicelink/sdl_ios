@@ -79,10 +79,10 @@ NS_ASSUME_NONNULL_BEGIN
         return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
     }
 
-    self.inputStream = [self sdl_openInputStreamWithFile:file];
+    self.inputStream = [file openInputStream];
     if (self.inputStream == nil || ![self.inputStream hasBytesAvailable]) {
         // If the file does not exist or the passed data is nil, return an error
-        [self sdl_closeInputStream];
+        [self.inputStream close];
         [self finishOperation];
         return completion(NO, bytesAvailable, [NSError sdl_fileManager_fileDoesNotExistError]);
     }
@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
     dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
         typeof(weakself) strongself = weakself;
 
-        [weakself sdl_closeInputStream];
+        [weakself.inputStream close];
         
         if (streamError != nil || strongself.isCancelled) {
             completion(NO, bytesAvailable, streamError);
@@ -149,24 +149,6 @@ NS_ASSUME_NONNULL_BEGIN
         }];
     }
     dispatch_group_leave(putFileGroup);
-}
-
-/**
- Opens a socket for reading data.
-
- @param file The file containing the data or the file url of the data
- */
-- (NSInputStream *)sdl_openInputStreamWithFile:(SDLFile *)file {
-    NSInputStream *inputStream = file.inputStream;
-    [inputStream open];
-    return inputStream;
-}
-/**
- *  Close the input stream once all the data has been read
- */
-- (void)sdl_closeInputStream {
-    if (self.inputStream == nil) { return; }
-    [self.inputStream close];
 }
 
 /**
