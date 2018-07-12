@@ -13,6 +13,7 @@
 #import "SDLDeleteFileOperation.h"
 #import "SDLError.h"
 #import "SDLFile.h"
+#import "SDLFileManagerConfiguration.h"
 #import "SDLFileWrapper.h"
 #import "SDLGlobals.h"
 #import "SDLListFilesOperation.h"
@@ -51,6 +52,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 @property (strong, nonatomic) NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *fileUploadRetries;
 @property (strong, nonatomic) NSNumber<SDLUInt> *maxFileUploadAttempts;
+@property (strong, nonatomic) NSNumber<SDLUInt> *maxArtworkUploadAttempts;
 
 @end
 
@@ -61,6 +63,10 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 #pragma mark - Lifecycle
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager {
+    return [self initWithConnectionManager:manager configuration:[[SDLFileManagerConfiguration alloc] initWithArtworkRetryCount:0 fileRetryCount:0]];
+}
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager configuration:(SDLFileManagerConfiguration *)configuration {
     self = [super init];
     if (!self) {
         return nil;
@@ -79,11 +85,11 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLFileManagerStateShutdown states:[self.class sdl_stateTransitionDictionary]];
 
     _fileUploadRetries = [NSMutableDictionary dictionary];
-    _maxFileUploadAttempts = @2;
+    _maxFileUploadAttempts = configuration.fileRetryCount ? @(configuration.fileRetryCount.unsignedIntegerValue + 1) : @1;
+    _maxArtworkUploadAttempts = configuration.artworkRetryCount ? @(configuration.artworkRetryCount.unsignedIntegerValue + 1) : @1;
 
     return self;
 }
-
 
 #pragma mark - Setup / Shutdown
 
