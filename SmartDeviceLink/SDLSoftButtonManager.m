@@ -142,6 +142,11 @@ NS_ASSUME_NONNULL_BEGIN
     return nil;
 }
 
+- (void)sdl_transitionSoftButton:(SDLSoftButtonObject *)softButton {
+    self.isDirty = YES;
+    [self updateWithCompletionHandler:nil];
+}
+
 - (void)updateWithCompletionHandler:(nullable SDLSoftButtonUpdateCompletionHandler)handler {
     // Don't send if we're batching
     if (self.isBatchingUpdates || !self.isDirty) { return; }
@@ -277,7 +282,7 @@ NS_ASSUME_NONNULL_BEGIN
             }
 
             SDLLogD(@"Soft button initial artworks uploaded");
-            [self updateWithCompletionHandler:nil];
+            [self sdl_updateWithCompletionHandler:nil];
         }];
     }
 }
@@ -303,7 +308,7 @@ NS_ASSUME_NONNULL_BEGIN
 
             SDLLogD(@"Soft button other state artworks uploaded");
             // In case our soft button states have changed in the meantime
-            [self updateWithCompletionHandler:nil];
+            [self sdl_updateWithCompletionHandler:nil];
         }];
     }
 }
