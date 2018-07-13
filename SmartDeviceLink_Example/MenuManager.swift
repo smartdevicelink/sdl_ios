@@ -63,7 +63,8 @@ private extension MenuManager {
                 VehicleDataManager.getAllVehicleData(with: manager, triggerSource: triggerSource, vehicleDataType: submenuName)
             })
         }
-        return SDLMenuCell(title: ACGetAllVehicleDataMenuName, subCells: submenuItems)
+
+        return SDLMenuCell(title: ACGetAllVehicleDataMenuName, icon: SDLArtwork(image: UIImage(named: CarBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), subCells: submenuItems)
     }
 
     /// A list of all possible vehicle data types
@@ -119,9 +120,9 @@ private extension MenuManager {
     /// - Returns: A SDLMenuCell object
     class func menuCellWithSubmenu(with manager: SDLManager) -> SDLMenuCell {
         var submenuItems = [SDLMenuCell]()
-        for i in 0..<75 {
+        for i in 0 ..< 10 {
             let submenuTitle = "Submenu Item \(i)"
-            submenuItems.append(SDLMenuCell(title: submenuTitle, icon: SDLArtwork(image: UIImage(named: MenuBWIconImageName)!, persistent: true, as: .PNG), voiceCommands: [submenuTitle, "Item \(i)", "\(i)"], handler: { (triggerSource) in
+            submenuItems.append(SDLMenuCell(title: submenuTitle, icon: SDLArtwork(image: UIImage(named: MenuBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [submenuTitle, "Item \(i)", "\(i)"], handler: { (triggerSource) in
                 let message = "\(submenuTitle) selected!"
                 switch triggerSource {
                 case .menu:
@@ -132,8 +133,8 @@ private extension MenuManager {
                 }
             }))
         }
-
-        return SDLMenuCell(title: ACSubmenuMenuName, subCells: submenuItems)
+        
+        return SDLMenuCell(title: ACSubmenuMenuName, icon: SDLArtwork(image: #imageLiteral(resourceName: "choice_set").withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), subCells: submenuItems)
     }
 }
 
