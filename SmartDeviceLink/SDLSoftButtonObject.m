@@ -16,6 +16,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface SDLSoftButtonManager()
+
+- (void)sdl_transitionSoftButton:(SDLSoftButtonObject *)softButton;
+
+@end
+
 @interface SDLSoftButtonObject()
 
 @property (assign, nonatomic) NSUInteger buttonId;
@@ -55,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     SDLLogD(@"Transitioning button %@ to state %@", self.name, stateName);
     self.currentStateName = stateName;
-    [self.manager updateWithCompletionHandler:nil];
+    [self.manager sdl_transitionSoftButton:self];
 
     return YES;
 }
