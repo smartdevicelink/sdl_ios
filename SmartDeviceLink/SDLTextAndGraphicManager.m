@@ -522,110 +522,98 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setTextField1:(nullable NSString *)textField1 {
     _textField1 = textField1;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
         // If we aren't batching, send the update immediately, if we are, set ourselves as dirty (so we know we should send an update after the batch ends)
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setTextField2:(nullable NSString *)textField2 {
     _textField2 = textField2;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setTextField3:(nullable NSString *)textField3 {
     _textField3 = textField3;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setTextField4:(nullable NSString *)textField4 {
     _textField4 = textField4;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setMediaTrackTextField:(nullable NSString *)mediaTrackTextField {
     _mediaTrackTextField = mediaTrackTextField;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setPrimaryGraphic:(nullable SDLArtwork *)primaryGraphic {
     _primaryGraphic = primaryGraphic;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setSecondaryGraphic:(nullable SDLArtwork *)secondaryGraphic {
     _secondaryGraphic = secondaryGraphic;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setAlignment:(nullable SDLTextAlignment)alignment {
     _alignment = alignment ? alignment : SDLTextAlignmentCenter;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setTextField1Type:(nullable SDLMetadataType)textField1Type {
     _textField1Type = textField1Type;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setTextField2Type:(nullable SDLMetadataType)textField2Type {
     _textField2Type = textField2Type;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setTextField3Type:(nullable SDLMetadataType)textField3Type {
     _textField3Type = textField3Type;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
 - (void)setTextField4Type:(nullable SDLMetadataType)textField4Type {
     _textField4Type = textField4Type;
+    _isDirty = YES;
     if (!self.isBatchingUpdates) {
-        [self sdl_updateWithCompletionHandler:nil];
-    } else {
-        _isDirty = YES;
+        [self updateWithCompletionHandler:nil];
     }
 }
 
