@@ -138,6 +138,7 @@ extern SDLName const SDLNameECallInfo;
 extern SDLName const SDLNameECallNotificationStatus;
 extern SDLName const SDLNameECUHeader;
 extern SDLName const SDLNameECUName;
+extern SDLName const SDLNameElectronicParkBrakeStatus;
 extern SDLName const SDLNameEmergencyEvent;
 extern SDLName const SDLNameEmergencyEventType;
 extern SDLName const SDLNameEncodedSyncPData;

@@ -29,6 +29,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.deviceStatus = vehicleDataResult;
         testResponse.driverBraking = vehicleDataResult;
         testResponse.eCallInfo = vehicleDataResult;
+        testResponse.electronicParkBrakeStatus = vehicleDataResult;
         testResponse.emergencyEvent = vehicleDataResult;
         testResponse.engineOilLife = vehicleDataResult;
         testResponse.engineTorque = vehicleDataResult;
@@ -56,6 +57,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.deviceStatus).to(equal(vehicleDataResult));
         expect(testResponse.driverBraking).to(equal(vehicleDataResult));
         expect(testResponse.eCallInfo).to(equal(vehicleDataResult));
+        expect(testResponse.electronicParkBrakeStatus).to(equal(vehicleDataResult));
         expect(testResponse.emergencyEvent).to(equal(vehicleDataResult));
         expect(testResponse.engineOilLife).to(equal(vehicleDataResult));
         expect(testResponse.engineTorque).to(equal(vehicleDataResult));
@@ -87,6 +89,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameDeviceStatus:vehicleDataResult,
                                                                    SDLNameDriverBraking:vehicleDataResult,
                                                                    SDLNameECallInfo:vehicleDataResult,
+                                                                   SDLNameElectronicParkBrakeStatus:vehicleDataResult,
                                                                    SDLNameEmergencyEvent:vehicleDataResult,
                                                                    SDLNameEngineOilLife:vehicleDataResult,
                                                                    SDLNameEngineTorque:vehicleDataResult,
@@ -116,6 +119,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.deviceStatus).to(equal(vehicleDataResult));
         expect(testResponse.driverBraking).to(equal(vehicleDataResult));
         expect(testResponse.eCallInfo).to(equal(vehicleDataResult));
+        expect(testResponse.electronicParkBrakeStatus).to(equal(vehicleDataResult));
         expect(testResponse.emergencyEvent).to(equal(vehicleDataResult));
         expect(testResponse.engineOilLife).to(equal(vehicleDataResult));
         expect(testResponse.engineTorque).to(equal(vehicleDataResult));
@@ -147,6 +151,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.deviceStatus).to(beNil());
         expect(testResponse.driverBraking).to(beNil());
         expect(testResponse.eCallInfo).to(beNil());
+        expect(testResponse.electronicParkBrakeStatus).to(beNil());
         expect(testResponse.emergencyEvent).to(beNil());
         expect(testResponse.engineOilLife).to(beNil());
         expect(testResponse.engineTorque).to(beNil());

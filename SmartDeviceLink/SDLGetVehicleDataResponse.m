@@ -245,6 +245,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameMyKey ofClass:SDLMyKey.class];
 }
 
+- (void)setElectronicParkBrakeStatus:(nullable SDLElectronicParkBrakeStatus)electronicParkBrakeStatus {
+    [parameters sdl_setObject:electronicParkBrakeStatus forName:SDLNameElectronicParkBrakeStatus];
+}
+
+- (nullable SDLElectronicParkBrakeStatus)electronicParkBrakeStatus {
+    return [parameters sdl_objectForName:SDLNameElectronicParkBrakeStatus];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
