@@ -111,7 +111,7 @@ extension VehicleDataManager {
         guard hasPermissionToAccessVehicleData(with: manager) else { return }
 
         SDLLog.d("App has permission to access vehicle data. Requesting all vehicle data...")
-        let getAllVehicleData = SDLGetVehicleData(accelerationPedalPosition: true, airbagStatus: true, beltStatus: true, bodyInformation: true, clusterModeStatus: true, deviceStatus: true, driverBraking: true, eCallInfo: true, emergencyEvent: true, engineOilLife: true, engineTorque: true, externalTemperature: true, fuelLevel: true, fuelLevelState: true, fuelRange: true, gps: true, headLampStatus: true, instantFuelConsumption: true, myKey: true, odometer: true, prndl: true, rpm: true, speed: true, steeringWheelAngle: true, tirePressure: true, vin: true, wiperStatus: true)
+        let getAllVehicleData = SDLGetVehicleData(accelerationPedalPosition: true, airbagStatus: true, beltStatus: true, bodyInformation: true, clusterModeStatus: true, deviceStatus: true, driverBraking: true, eCallInfo: true, electronicParkBrakeStatus: true, emergencyEvent: true, engineOilLife: true, engineTorque: true, externalTemperature: true, fuelLevel: true, fuelLevelState: true, fuelRange: true, gps: true, headLampStatus: true, instantFuelConsumption: true, myKey: true, odometer: true, prndl: true, rpm: true, speed: true, steeringWheelAngle: true, tirePressure: true, vin: true, wiperStatus: true)
 
         manager.send(request: getAllVehicleData) { (request, response, error) in
             guard didAccessVehicleDataSuccessfully(with: manager, response: response, error: error) else { return }
@@ -125,13 +125,13 @@ extension VehicleDataManager {
                 SDLLog.d("This app does not have the required permissions to access vehicle data")
                 alertMessage = "Disallowed"
             case .success, .dataNotAvailable:
-                SDLLog.d("Request for vehicle data successful")
                 if let vehicleData = response as? SDLGetVehicleDataResponse {
                     alertMessage = vehicleDataDescription(vehicleData, vehicleDataType: vehicleDataType)
                 } else {
                     SDLLog.e("No vehicle data returned")
                     alertMessage = "No vehicle data returned"
                 }
+                SDLLog.d("Request for vehicle data successful, \(alertMessage)")
             default: break
             }
 
@@ -176,6 +176,8 @@ extension VehicleDataManager {
             vehicleDataDescription += vehicleData.driverBraking?.rawValue.rawValue ?? notAvailable
         case ACECallInfoMenuName:
             vehicleDataDescription += vehicleData.eCallInfo?.description ?? notAvailable
+        case ACElectronicParkBrakeStatus:
+            vehicleDataDescription += vehicleData.electronicParkBrakeStatus?.rawValue.rawValue ?? notAvailable
         case ACEmergencyEventMenuName:
             vehicleDataDescription += vehicleData.emergencyEvent?.description ?? notAvailable
         case ACEngineOilLifeMenuName:
