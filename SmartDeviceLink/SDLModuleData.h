@@ -7,6 +7,7 @@
 
 @class SDLRadioControlData;
 @class SDLClimateControlData;
+@class SDLSeatControlData;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithRadioControlData:(SDLRadioControlData *)radioControlData;
 - (instancetype)initWithClimateControlData:(SDLClimateControlData *)climateControlData;
+- (instancetype)initWithseatControlData:(SDLSeatControlData *)seatControlData;
 
 /**
  The moduleType indicates which type of data should be changed and identifies which data object exists in this struct.
@@ -40,6 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
  Optional
  */
 @property (nullable, strong, nonatomic) SDLClimateControlData *climateControlData;
+
+@property (nullable, strong, nonatomic) SDLSeatControlData *seatControlData;
 
 @end
 

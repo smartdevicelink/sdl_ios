@@ -6,6 +6,7 @@
 #import "SDLNames.h"
 #import "SDLClimateControlData.h"
 #import "SDLRadioControlData.h"
+#import "SDLSeatControlData.h"
 #import "NSMutableDictionary+Store.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -36,6 +37,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithseatControlData:(SDLSeatControlData *)seatControlData {
+    self = [self init];
+    if(!self){
+        return nil;
+    }
+
+    self.moduleType = SDLModuleTypeSeat;
+    self.seatControlData = seatControlData;
+
+    return self;
+}
+
 - (void)setModuleType:(SDLModuleType)moduleType {
     [store sdl_setObject:moduleType forName:SDLNameModuleType];
 }
@@ -59,6 +72,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable SDLClimateControlData *)climateControlData {
     return [store sdl_objectForName:SDLNameClimateControlData ofClass:SDLClimateControlData.class];
 }
+
+- (void)setSeatControlData:(nullable SDLSeatControlData *)seatControlData {
+    [store sdl_setObject:seatControlData forName:SDLNameSeatControlData];
+}
+
+- (nullable SDLSeatControlData *)seatControlData {
+    return [store sdl_objectForName:SDLNameSeatControlData ofClass:SDLSeatControlData.class];
+}
+
 
 @end
 

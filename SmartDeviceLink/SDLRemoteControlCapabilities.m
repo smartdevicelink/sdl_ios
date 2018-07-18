@@ -3,8 +3,9 @@
 //
 
 #import "SDLRemoteControlCapabilities.h"
-#import "SDLClimateControlCapabilities.h"
 #import "SDLRadioControlCapabilities.h"
+#import "SDLClimateControlCapabilities.h"
+#import "SDLSeatControlCapabilities.h"
 #import "SDLButtonCapabilities.h"
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
@@ -22,6 +23,20 @@ NS_ASSUME_NONNULL_BEGIN
     self.climateControlCapabilities = climateControlCapabilities;
     self.radioControlCapabilities = radioControlCapabilities;
     self.buttonCapabilities = buttonCapabilities;
+
+    return self;
+}
+
+- (instancetype)initWithClimateControlCapabilities:(nullable NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(nullable NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities seatControlCapabilities:(nullable NSArray<SDLSeatControlCapabilities *> *)seatControlCapabilities {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+
+    self.climateControlCapabilities = climateControlCapabilities;
+    self.radioControlCapabilities = radioControlCapabilities;
+    self.buttonCapabilities = buttonCapabilities;
+    self.seatControlCapabilities = seatControlCapabilities;
 
     return self;
 }
@@ -47,6 +62,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities {
     return [store sdl_objectsForName:SDLNameButtonCapabilities ofClass:SDLButtonCapabilities.class];
+}
+
+- (void)setSeatControlCapabilities:(nullable NSArray<SDLSeatControlCapabilities *> *)seatControlCapabilities {
+    [store sdl_setObject:seatControlCapabilities forName:SDLNameSeatControlCapabilities];
+}
+
+- (nullable NSArray<SDLSeatControlCapabilities *> *)seatControlCapabilities {
+    return [store sdl_objectsForName:SDLNameSeatControlCapabilities ofClass:SDLSeatControlCapabilities.class];
 }
 
 @end
