@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithseatControlData:(SDLSeatControlData *)seatControlData {
+- (instancetype)initWithSeatControlData:(SDLSeatControlData *)seatControlData {
     self = [self init];
     if(!self){
         return nil;

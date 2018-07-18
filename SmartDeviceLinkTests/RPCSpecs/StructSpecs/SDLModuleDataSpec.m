@@ -79,7 +79,7 @@ describe(@"Initialization tests", ^{
     });
 
     it(@"Should get correctly when initialized with ClimateControlData", ^ {
-        SDLModuleData* testStruct = [[SDLModuleData alloc] initWithseatControlData:someSeatData];
+        SDLModuleData* testStruct = [[SDLModuleData alloc] initWithSeatControlData:someSeatData];
 
         expect(testStruct.moduleType).to(equal(SDLModuleTypeSeat));
         expect(testStruct.seatControlData).to(equal(someSeatData));

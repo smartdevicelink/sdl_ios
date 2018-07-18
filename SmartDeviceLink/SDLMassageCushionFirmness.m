@@ -30,11 +30,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setFirmness:(NSNumber<SDLInt> *)firmness {
-    [store sdl_setObject:firmness forName:SDLNamefirmness];
+    [store sdl_setObject:firmness forName:SDLNameFirmness];
 }
 
 - (NSNumber<SDLInt> *)firmness {
-    return [store sdl_objectForName:SDLNamefirmness];
+    return [store sdl_objectForName:SDLNameFirmness];
 }
 
 @end

@@ -32,7 +32,7 @@ describe(@"Getter/Setter Tests", ^ {
 
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameCushion:SDLMassageCushionSeatBolsters,
-                                       SDLNamefirmness:@12
+                                       SDLNameFirmness:@12
                                        } mutableCopy];
         SDLMassageCushionFirmness* testStruct = [[SDLMassageCushionFirmness alloc] initWithDictionary:dict];
 

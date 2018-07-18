@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithRadioControlData:(SDLRadioControlData *)radioControlData;
 - (instancetype)initWithClimateControlData:(SDLClimateControlData *)climateControlData;
-- (instancetype)initWithseatControlData:(SDLSeatControlData *)seatControlData;
+- (instancetype)initWithSeatControlData:(SDLSeatControlData *)seatControlData;
 
 /**
  The moduleType indicates which type of data should be changed and identifies which data object exists in this struct.
