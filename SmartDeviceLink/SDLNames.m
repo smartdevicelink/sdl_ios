@@ -490,6 +490,7 @@ SDLName const SDLNameStationLocation = @"stationLocation";
 SDLName const SDLNameStationMessage = @"stationMessage";
 SDLName const SDLNameStationShortName = @"stationShortName";
 SDLName const SDLNameStatus = @"status";
+SDLName const SDLNameStatusAvailable = @"statusAvailable";
 SDLName const SDLNameStatusBar = @"statusBar";
 SDLName const SDLNameSteeringWheelAngle = @"steeringWheelAngle";
 SDLName const SDLNameStereoAudioOutputMuted = @"stereoAudioOutputMuted";

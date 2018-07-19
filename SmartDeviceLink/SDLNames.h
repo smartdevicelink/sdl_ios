@@ -498,6 +498,7 @@ extern SDLName const SDLNameStationLocation;
 extern SDLName const SDLNameStationMessage;
 extern SDLName const SDLNameStationShortName;
 extern SDLName const SDLNameStatus;
+extern SDLName const SDLNameStatusAvailable;
 extern SDLName const SDLNameStatusBar;
 extern SDLName const SDLNameSteeringWheelAngle;
 extern SDLName const SDLNameStereoAudioOutputMuted;

@@ -34,6 +34,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *sRGBColorSpaceAvailable;
 
+/**
+ * @abstract Indicates if the status (ON/OFF) can be set remotely.
+ * App shall not use read-only values (RAMP_UP/RAMP_DOWN/UNKNOWN/INVALID) in a setInteriorVehicleData request.
+ *
+ * Optional, Boolean
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *statusAvailable;
+
 @end
 
 NS_ASSUME_NONNULL_END
