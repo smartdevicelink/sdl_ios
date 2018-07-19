@@ -48,6 +48,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.clusterModes = vehicleDataResult;
         testResponse.myKey = vehicleDataResult;
         testResponse.electronicParkBrakeStatus = vehicleDataResult;
+        testResponse.turnSignal = vehicleDataResult;
         
         expect(testResponse.gps).to(equal(vehicleDataResult));
         expect(testResponse.speed).to(equal(vehicleDataResult));
@@ -76,6 +77,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.clusterModes).to(equal(vehicleDataResult));
         expect(testResponse.myKey).to(equal(vehicleDataResult));
         expect(testResponse.electronicParkBrakeStatus).to(equal(vehicleDataResult));
+        expect(testResponse.turnSignal).to(equal(vehicleDataResult));
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -108,6 +110,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameClusterModes:vehicleDataResult,
                                                                    SDLNameMyKey:vehicleDataResult,
                                                                    SDLNameElectronicParkBrakeStatus:vehicleDataResult,
+                                                                   SDLNameTurnSignal:vehicleDataResult,
                                                                    },
                                                              SDLNameOperationName:SDLNameUnsubscribeVehicleData}} mutableCopy];
         SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] initWithDictionary:dict];
@@ -139,6 +142,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.clusterModes).to(equal(vehicleDataResult));
         expect(testResponse.myKey).to(equal(vehicleDataResult));
         expect(testResponse.electronicParkBrakeStatus).to(equal(vehicleDataResult));
+        expect(testResponse.turnSignal).to(equal(vehicleDataResult));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -171,6 +175,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.clusterModes).to(beNil());
         expect(testResponse.myKey).to(beNil());
         expect(testResponse.electronicParkBrakeStatus).to(beNil());
+        expect(testResponse.turnSignal).to(beNil());
     });
 });
 

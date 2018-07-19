@@ -1105,6 +1105,9 @@
 		8814AEAA20AB663800466E0F /* PerformInteractionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8814AEA920AB663800466E0F /* PerformInteractionManager.m */; };
 		8814AEAC20AB667B00466E0F /* PerformInteractionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8814AEAB20AB667B00466E0F /* PerformInteractionManager.swift */; };
 		88166B00207E41E900076236 /* MenuManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88166AFF207E41E900076236 /* MenuManager.swift */; };
+		8818ADD82100FC18007D6F19 /* SDLTurnSignal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8818ADD62100FC18007D6F19 /* SDLTurnSignal.h */; };
+		8818ADD92100FC18007D6F19 /* SDLTurnSignal.m in Sources */ = {isa = PBXBuildFile; fileRef = 8818ADD72100FC18007D6F19 /* SDLTurnSignal.m */; };
+		8818ADDD2100FE0C007D6F19 /* SDLTurnSignalSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8818ADDC2100FE0C007D6F19 /* SDLTurnSignalSpec.m */; };
 		8829568B207CF68800EF056C /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		88295690207CF68800EF056C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029D31A76F0340006B0C2 /* Images.xcassets */; };
 		88295693207CF68800EF056C /* SmartDeviceLink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -2492,6 +2495,9 @@
 		8814AEA920AB663800466E0F /* PerformInteractionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PerformInteractionManager.m; sourceTree = "<group>"; };
 		8814AEAB20AB667B00466E0F /* PerformInteractionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformInteractionManager.swift; sourceTree = "<group>"; };
 		88166AFF207E41E900076236 /* MenuManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuManager.swift; sourceTree = "<group>"; };
+		8818ADD62100FC18007D6F19 /* SDLTurnSignal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTurnSignal.h; sourceTree = "<group>"; };
+		8818ADD72100FC18007D6F19 /* SDLTurnSignal.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTurnSignal.m; sourceTree = "<group>"; };
+		8818ADDC2100FE0C007D6F19 /* SDLTurnSignalSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTurnSignalSpec.m; sourceTree = "<group>"; };
 		88295697207CF68800EF056C /* SDL Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SDL Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		88295698207CF68800EF056C /* SmartDeviceLink-Example-Swift-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "SmartDeviceLink-Example-Swift-Info.plist"; path = "/Users/nicolelivioradio.com/sdl_ios/SmartDeviceLink-Example-Swift-Info.plist"; sourceTree = "<absolute>"; };
 		8829569C207CFD0D00EF056C /* SmartDeviceLink-Example-Swift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartDeviceLink-Example-Swift-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -2781,6 +2787,7 @@
 				162E82191A9BDE8A00906325 /* SDLTimerModeSpec.m */,
 				162E821A1A9BDE8A00906325 /* SDLTouchTypeSpec.m */,
 				162E821B1A9BDE8A00906325 /* SDLTriggerSource.m */,
+				8818ADDC2100FE0C007D6F19 /* SDLTurnSignalSpec.m */,
 				162E821C1A9BDE8A00906325 /* SDLUpdateModeSpec.m */,
 				162E821D1A9BDE8A00906325 /* SDLVehicleDataActiveStatusSpec.m */,
 				162E821E1A9BDE8A00906325 /* SDLVehicleDataEventStatusSpec.m */,
@@ -4013,6 +4020,8 @@
 				5D3E420920EAAD6500D8C622 /* SDLTPMS.m */,
 				5D61FBEE1A84238C00846EE7 /* SDLTriggerSource.h */,
 				5D61FBEF1A84238C00846EE7 /* SDLTriggerSource.m */,
+				8818ADD62100FC18007D6F19 /* SDLTurnSignal.h */,
+				8818ADD72100FC18007D6F19 /* SDLTurnSignal.m */,
 				5D61FC021A84238C00846EE7 /* SDLUpdateMode.h */,
 				5D61FC031A84238C00846EE7 /* SDLUpdateMode.m */,
 				5D61FC101A84238C00846EE7 /* SDLVehicleDataActiveStatus.h */,
@@ -5628,6 +5637,7 @@
 				EED5CA001F4D18DC00F04000 /* SDLRAWH264Packetizer.h in Headers */,
 				DA8966EB1E56939F00413EAB /* SDLStreamingMediaLifecycleManager.h in Headers */,
 				5D293AFE1FE078A9000CBD7E /* SDLCarWindowViewController.h in Headers */,
+				8818ADD82100FC18007D6F19 /* SDLTurnSignal.h in Headers */,
 				5D61FDDB1A84238C00846EE7 /* SDLTriggerSource.h in Headers */,
 				5D61FD8F1A84238C00846EE7 /* SDLShow.h in Headers */,
 				5D61FDDD1A84238C00846EE7 /* SDLTTSChunk.h in Headers */,
@@ -6223,6 +6233,7 @@
 				5D61FE061A84238C00846EE7 /* SDLVehicleDataResultCode.m in Sources */,
 				5D61FCA41A84238C00846EE7 /* SDLEndAudioPassThru.m in Sources */,
 				5D339CEB207C066E000CC364 /* SDLMenuCell.m in Sources */,
+				8818ADD92100FC18007D6F19 /* SDLTurnSignal.m in Sources */,
 				5D8B17541AC9E11B006A6E1C /* SDLDialNumberResponse.m in Sources */,
 				DA6223BE1E7B088200878689 /* CVPixelBufferRef+SDLUtil.m in Sources */,
 				1FF7DABC1F75B2BF00B46C30 /* SDLFocusableItemLocator.m in Sources */,
@@ -6579,6 +6590,7 @@
 				1EE8C4401F348D3200FDC2CF /* SDLClimateControlCapabilitiesSpec.m in Sources */,
 				5DE35E5420CB1C590034BE5A /* SDLPresentChoiceSetOperationSpec.m in Sources */,
 				162E838F1A9BDE8B00906325 /* SDLTextFieldSpec.m in Sources */,
+				8818ADDD2100FE0C007D6F19 /* SDLTurnSignalSpec.m in Sources */,
 				162E82CA1A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m in Sources */,
 				162E83091A9BDE8B00906325 /* SDLVehicleDataStatusSpec.m in Sources */,
 				5DAD5F8D20508F220025624C /* SDLSoftButtonManagerSpec.m in Sources */,

@@ -501,6 +501,7 @@ SDLName const SDLNameTTSChunks = @"ttsChunks";
 SDLName const SDLNameTTSName = @"ttsName";
 SDLName const SDLNameTurnIcon = @"turnIcon";
 SDLName const SDLNameTurnList = @"turnList";
+SDLName const SDLNameTurnSignal = @"turnSignal";
 SDLName const SDLNameType = @"type";
 SDLName const SDLNameUnit = @"unit";
 SDLName const SDLNameUnregisterAppInterface = @"UnregisterAppInterface";
