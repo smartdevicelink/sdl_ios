@@ -43,4 +43,12 @@ SDLLightName const  SDLLightNameExteriorFrontLights = @"EXTERIOR_FRONT_LIGHTS";
 SDLLightName const  SDLLightNameExteriorRearLights = @"EXTERIOR_REAR_LIGHTS";
 SDLLightName const  SDLLightNameExteriorLeftLights = @"EXTERIOR_LEFT_LIGHTS";
 SDLLightName const  SDLLightNameExteriorRightLights = @"EXTERIOR_RIGHT_LIGHTS";
+SDLLightName const  SDLLightNameExteriorRearCargoLights = @"REAR_CARGO_LIGHTS";
+SDLLightName const  SDLLightNameExteriorRearTruckBedLights = @"REAR_TRUCK_BED_LIGHTS";
+SDLLightName const  SDLLightNameExteriorRearTrailerLights = @"REAR_TRAILER_LIGHTS";
+SDLLightName const  SDLLightNameExteriorLeftSpotLights = @"LEFT_SPOT_LIGHTS";
+SDLLightName const  SDLLightNameExteriorRightSpotLights = @"RIGHT_SPOT_LIGHTS";
+SDLLightName const  SDLLightNameExteriorLeftPuddleLights = @"LEFT_PUDDLE_LIGHTS";
+SDLLightName const  SDLLightNameExteriorRightPuddleLights = @"RIGHT_PUDDLE_LIGHTS";
+SDLLightName const  SDLLightNameExteriorAllLights = @"EXTERIOR_ALL_LIGHTS";
 

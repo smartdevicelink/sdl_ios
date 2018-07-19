@@ -254,3 +254,51 @@ extern  SDLLightName const  SDLLightNameExteriorLeftLights;
  *
  */
 extern  SDLLightName const  SDLLightNameExteriorRightLights;
+
+/**
+ * @abstract Cargo lamps illuminate the cargo area.
+ *
+ */
+extern  SDLLightName const  SDLLightNameExteriorRearCargoLights;
+
+/**
+ * @abstract Truck bed lamps light up the bed of the truck.
+ *
+ */
+extern  SDLLightName const  SDLLightNameExteriorRearTruckBedLights;
+
+/**
+ * @abstract  Trailer lights are lamps mounted on a trailer hitch.
+ *
+ */
+extern  SDLLightName const  SDLLightNameExteriorRearTrailerLights;
+
+/**
+ * @abstract It is the spotlights mounted on the left side of a vehicle.
+ *
+ */
+extern  SDLLightName const  SDLLightNameExteriorLeftSpotLights;
+
+/**
+ * @abstract It is the spotlights mounted on the right side of a vehicle.
+ *
+ */
+extern  SDLLightName const  SDLLightNameExteriorRightSpotLights;
+
+/**
+ * @abstract Puddle lamps illuminate the ground beside the door as the customer is opening or approaching the door.
+ *
+ */
+extern  SDLLightName const  SDLLightNameExteriorLeftPuddleLights;
+
+/**
+ * @abstract  Puddle lamps illuminate the ground beside the door as the customer is opening or approaching the door.
+ *
+ */
+extern  SDLLightName const  SDLLightNameExteriorRightPuddleLights;
+
+/**
+ * @abstract Include all exterior lights around the vehicle.
+ *
+ */
+extern  SDLLightName const  SDLLightNameExteriorAllLights;

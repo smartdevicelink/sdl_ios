@@ -55,6 +55,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameSRGBColorSpaceAvailable];
 }
 
+- (void)setStatusAvailable:(nullable NSNumber<SDLBool> *)statusAvailable {
+    [store sdl_setObject:statusAvailable forName:SDLNameStatusAvailable];
+}
+
+- (nullable NSNumber<SDLBool> *)statusAvailable {
+    return [store sdl_objectForName:SDLNameStatusAvailable];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
