@@ -1070,6 +1070,9 @@
 		5DD67CC31E68AE82009CD394 /* SDLLogFileModuleMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DD67CC11E68AE82009CD394 /* SDLLogFileModuleMap.h */; };
 		5DD67CC41E68AE82009CD394 /* SDLLogFileModuleMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DD67CC21E68AE82009CD394 /* SDLLogFileModuleMap.m */; };
 		5DD67CC71E68B568009CD394 /* SDLLogMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DD67CC51E68B568009CD394 /* SDLLogMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5DD8406220FCD6C10082CE04 /* SDLElectronicParkBrakeStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DD8406020FCD6C10082CE04 /* SDLElectronicParkBrakeStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5DD8406320FCD6C10082CE04 /* SDLElectronicParkBrakeStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DD8406120FCD6C10082CE04 /* SDLElectronicParkBrakeStatus.m */; };
+		5DD8406520FCE21A0082CE04 /* SDLElectronicParkBrakeStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DD8406420FCE21A0082CE04 /* SDLElectronicParkBrakeStatusSpec.m */; };
 		5DE35E4520CAFC5D0034BE5A /* SDLChoiceCellSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE35E4420CAFC5D0034BE5A /* SDLChoiceCellSpec.m */; };
 		5DE35E4720CB0AB90034BE5A /* SDLChoiceSetSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE35E4620CB0AB90034BE5A /* SDLChoiceSetSpec.m */; };
 		5DE35E4A20CB1BF70034BE5A /* SDLChoiceSetManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DE35E4920CB1BF70034BE5A /* SDLChoiceSetManagerSpec.m */; };
@@ -2448,6 +2451,9 @@
 		5DD67CC11E68AE82009CD394 /* SDLLogFileModuleMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLogFileModuleMap.h; sourceTree = "<group>"; };
 		5DD67CC21E68AE82009CD394 /* SDLLogFileModuleMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLogFileModuleMap.m; sourceTree = "<group>"; };
 		5DD67CC51E68B568009CD394 /* SDLLogMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLogMacros.h; sourceTree = "<group>"; };
+		5DD8406020FCD6C10082CE04 /* SDLElectronicParkBrakeStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLElectronicParkBrakeStatus.h; sourceTree = "<group>"; };
+		5DD8406120FCD6C10082CE04 /* SDLElectronicParkBrakeStatus.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLElectronicParkBrakeStatus.m; sourceTree = "<group>"; };
+		5DD8406420FCE21A0082CE04 /* SDLElectronicParkBrakeStatusSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLElectronicParkBrakeStatusSpec.m; sourceTree = "<group>"; };
 		5DE35E4420CAFC5D0034BE5A /* SDLChoiceCellSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLChoiceCellSpec.m; path = DevAPISpecs/SDLChoiceCellSpec.m; sourceTree = "<group>"; };
 		5DE35E4620CB0AB90034BE5A /* SDLChoiceSetSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLChoiceSetSpec.m; path = DevAPISpecs/SDLChoiceSetSpec.m; sourceTree = "<group>"; };
 		5DE35E4920CB1BF70034BE5A /* SDLChoiceSetManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLChoiceSetManagerSpec.m; path = DevAPISpecs/SDLChoiceSetManagerSpec.m; sourceTree = "<group>"; };
@@ -2731,6 +2737,7 @@
 				162E81F11A9BDE8A00906325 /* SDLDisplayTypeSpec.m */,
 				162E81F21A9BDE8A00906325 /* SDLDriverDistractionStateSpec.m */,
 				162E81F31A9BDE8A00906325 /* SDLECallConfirmationStatusSpec.m */,
+				5DD8406420FCE21A0082CE04 /* SDLElectronicParkBrakeStatusSpec.m */,
 				162E81F41A9BDE8A00906325 /* SDLEmergencyEventTypeSpec.m */,
 				162E81F51A9BDE8A00906325 /* SDLFileTypeSpec.m */,
 				162E81F61A9BDE8A00906325 /* SDLFuelCutoffStatusSpec.m */,
@@ -3909,6 +3916,8 @@
 				5D61FAA81A84238A00846EE7 /* SDLDriverDistractionState.m */,
 				5D61FAA91A84238A00846EE7 /* SDLECallConfirmationStatus.h */,
 				5D61FAAA1A84238A00846EE7 /* SDLECallConfirmationStatus.m */,
+				5DD8406020FCD6C10082CE04 /* SDLElectronicParkBrakeStatus.h */,
+				5DD8406120FCD6C10082CE04 /* SDLElectronicParkBrakeStatus.m */,
 				5D61FAAF1A84238A00846EE7 /* SDLEmergencyEventType.h */,
 				5D61FAB01A84238A00846EE7 /* SDLEmergencyEventType.m */,
 				5D61FABC1A84238A00846EE7 /* SDLFileType.h */,
@@ -5303,6 +5312,7 @@
 				5D61FC9C1A84238C00846EE7 /* SDLEmergencyEventType.h in Headers */,
 				5D61FD131A84238C00846EE7 /* SDLOnLanguageChange.h in Headers */,
 				5D61FDE71A84238C00846EE7 /* SDLUnsubscribeButton.h in Headers */,
+				5DD8406220FCD6C10082CE04 /* SDLElectronicParkBrakeStatus.h in Headers */,
 				5D61FCAB1A84238C00846EE7 /* SDLFuelCutoffStatus.h in Headers */,
 				5D9FC2A31FD8814A00ACA5C2 /* SDLAudioFile.h in Headers */,
 				5DB9965C1F268F97002D8795 /* SDLControlFramePayloadVideoStartService.h in Headers */,
@@ -6126,6 +6136,7 @@
 				5D9FDA931F2A7D3400A495C8 /* bson_util.c in Sources */,
 				5D61FD511A84238C00846EE7 /* SDLProxy.m in Sources */,
 				5D61FD461A84238C00846EE7 /* SDLProtocolHeader.m in Sources */,
+				5DD8406320FCD6C10082CE04 /* SDLElectronicParkBrakeStatus.m in Sources */,
 				8BBEA6071F324165003EEA26 /* SDLMetadataType.m in Sources */,
 				5D61FDBC1A84238C00846EE7 /* SDLSystemAction.m in Sources */,
 				5D61FC381A84238C00846EE7 /* SDLAlert.m in Sources */,
@@ -6525,6 +6536,7 @@
 				162E83141A9BDE8B00906325 /* SDLOnDriverDistractionSpec.m in Sources */,
 				162E83371A9BDE8B00906325 /* SDLResetGlobalPropertiesSpec.m in Sources */,
 				162E82DF1A9BDE8B00906325 /* SDLGlobalProperySpec.m in Sources */,
+				5DD8406520FCE21A0082CE04 /* SDLElectronicParkBrakeStatusSpec.m in Sources */,
 				162E82F61A9BDE8B00906325 /* SDLRequestTypeSpec.m in Sources */,
 				5DE35E4520CAFC5D0034BE5A /* SDLChoiceCellSpec.m in Sources */,
 				162E82FB1A9BDE8B00906325 /* SDLSpeechCapabilitiesSpec.m in Sources */,

@@ -63,6 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param deviceStatus                 Unsubscribe to deviceStatus
  *  @param driverBraking                Unsubscribe to driverBraking
  *  @param eCallInfo                    Unsubscribe to eCallInfo
+ *  @param electronicParkBrakeStatus    Unsubscribe to electronicParkBrakeStatus
  *  @param emergencyEvent               Unsubscribe to emergencyEvent
  *  @param engineOilLife                Unsubscribe to engineOilLife
  *  @param engineTorque                 Unsubscribe to engineTorque
@@ -83,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param wiperStatus                  Unsubscribe to wiperStatus
  *  @return                             A SDLUnsubscribeVehicleData object
  */
-- (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo emergencyEvent:(BOOL)emergencyEvent engineOilLife:(BOOL)engineOilLife engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState fuelRange:(BOOL)fuelRange gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure wiperStatus:(BOOL)wiperStatus;
+- (instancetype)initWithAccelerationPedalPosition:(BOOL)accelerationPedalPosition airbagStatus:(BOOL)airbagStatus beltStatus:(BOOL)beltStatus bodyInformation:(BOOL)bodyInformation clusterModeStatus:(BOOL)clusterModeStatus deviceStatus:(BOOL)deviceStatus driverBraking:(BOOL)driverBraking eCallInfo:(BOOL)eCallInfo electronicParkBrakeStatus:(BOOL)electronicParkBrakeStatus emergencyEvent:(BOOL)emergencyEvent engineOilLife:(BOOL)engineOilLife engineTorque:(BOOL)engineTorque externalTemperature:(BOOL)externalTemperature fuelLevel:(BOOL)fuelLevel fuelLevelState:(BOOL)fuelLevelState fuelRange:(BOOL)fuelRange gps:(BOOL)gps headLampStatus:(BOOL)headLampStatus instantFuelConsumption:(BOOL)instantFuelConsumption myKey:(BOOL)myKey odometer:(BOOL)odometer prndl:(BOOL)prndl rpm:(BOOL)rpm speed:(BOOL)speed steeringWheelAngle:(BOOL)steeringWheelAngle tirePressure:(BOOL)tirePressure wiperStatus:(BOOL)wiperStatus;
 
 /**
  * If true, unsubscribes from GPS
@@ -214,6 +215,11 @@ NS_ASSUME_NONNULL_BEGIN
  * If true, unsubscribes from My Key
  */
 @property (strong, nonatomic, nullable) NSNumber<SDLBool> *myKey;
+
+/**
+ A boolean value. If true, unsubscribes to the electronic parking brake status
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *electronicParkBrakeStatus;
 
 @end
 

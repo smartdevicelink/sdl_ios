@@ -134,6 +134,7 @@ SDLName const SDLNameECallInfo = @"eCallInfo";
 SDLName const SDLNameECallNotificationStatus = @"eCallNotificationStatus";
 SDLName const SDLNameECUHeader = @"ecuHeader";
 SDLName const SDLNameECUName = @"ecuName";
+SDLName const SDLNameElectronicParkBrakeStatus = @"electronicParkBrakeStatus";
 SDLName const SDLNameEmergencyEvent = @"emergencyEvent";
 SDLName const SDLNameEmergencyEventType = @"emergencyEventType";
 SDLName const SDLNameEncodedSyncPData = @"EncodedSyncPData";
