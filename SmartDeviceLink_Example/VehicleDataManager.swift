@@ -111,41 +111,45 @@ extension VehicleDataManager {
         guard hasPermissionToAccessVehicleData(with: manager) else { return }
 
         SDLLog.d("App has permission to access vehicle data. Requesting all vehicle data...")
-        let getAllVehicleData = SDLGetVehicleData(accelerationPedalPosition: true, airbagStatus: true, beltStatus: true, bodyInformation: true, clusterModeStatus: true, deviceStatus: true, driverBraking: true, eCallInfo: true, electronicParkBrakeStatus: true, emergencyEvent: true, engineOilLife: true, engineTorque: true, externalTemperature: true, fuelLevel: true, fuelLevelState: true, fuelRange: true, gps: true, headLampStatus: true, instantFuelConsumption: true, myKey: true, odometer: true, prndl: true, rpm: true, speed: true, steeringWheelAngle: true, tirePressure: true, vin: true, wiperStatus: true)
+        let getAllVehicleData = SDLGetVehicleData(accelerationPedalPosition: true, airbagStatus: true, beltStatus: true, bodyInformation: true, clusterModeStatus: true, deviceStatus: true, driverBraking: true, eCallInfo: true, electronicParkBrakeStatus: true, emergencyEvent: true, engineOilLife: true, engineTorque: true, externalTemperature: true, fuelLevel: true, fuelLevelState: true, fuelRange: true, gps: true, headLampStatus: true, instantFuelConsumption: true, myKey: true, odometer: true, prndl: true, rpm: true, speed: true, steeringWheelAngle: true, tirePressure: true, turnSignal: true, vin: true, wiperStatus: true)
 
         manager.send(request: getAllVehicleData) { (request, response, error) in
             guard didAccessVehicleDataSuccessfully(with: manager, response: response, error: error) else { return }
 
+            var alertTitle = ""
             var alertMessage = ""
+
             switch response!.resultCode {
             case .rejected:
                 SDLLog.d("The request for vehicle data was rejected")
-                alertMessage = "Rejected"
+                alertTitle = "Rejected"
             case .disallowed:
                 SDLLog.d("This app does not have the required permissions to access vehicle data")
-                alertMessage = "Disallowed"
+                alertTitle = "Disallowed"
             case .success, .dataNotAvailable:
                 if let vehicleData = response as? SDLGetVehicleDataResponse {
+                    alertTitle = vehicleDataType
                     alertMessage = vehicleDataDescription(vehicleData, vehicleDataType: vehicleDataType)
                 } else {
                     SDLLog.e("No vehicle data returned")
-                    alertMessage = "No vehicle data returned"
+                    alertTitle = "No vehicle data returned"
                 }
-                SDLLog.d("Request for vehicle data successful, \(alertMessage)")
+                SDLLog.d("Request for vehicle data successful, \(alertTitle)")
             default: break
             }
 
-            triggerSource == .menu ? manager.send(AlertManager.alertWithMessageAndCloseButton(alertMessage.isEmpty ? "No data available" : alertMessage)) : manager.send(SDLSpeak(tts: alertMessage))
-        }
-    }
+            alertTitle = TextValidator.validateText(alertTitle, length: 25)
+            alertMessage = TextValidator.validateText(alertMessage, length: 200)
 
-    class func createVehicleDataAlertMessage(response: SDLRPCResponse?, vehicleDataType: String) -> String {
-        if let vehicleData = response as? SDLGetVehicleDataResponse {
-            SDLLog.d("Some vehicle data returned successfully")
-            return vehicleDataDescription(vehicleData, vehicleDataType: vehicleDataType)
-        } else {
-            SDLLog.e("Vehicle data request successful, but no data was returned")
-            return "Unknown"
+            if triggerSource == .menu {
+                let alert = AlertManager.alertWithMessageAndCloseButton(
+                    !alertTitle.isEmpty ? alertTitle : "No Vehicle Data Available",
+                    textField2: !alertMessage.isEmpty ? alertMessage : nil)
+                manager.send(alert)
+            } else {
+                let spokenAlert = !alertMessage.isEmpty ? alertMessage : alertTitle
+                manager.send(SDLSpeak(tts: spokenAlert))
+            }
         }
     }
 
@@ -210,15 +214,14 @@ extension VehicleDataManager {
             vehicleDataDescription += vehicleData.steeringWheelAngle?.description ?? notAvailable
         case ACTirePressureMenuName:
             vehicleDataDescription += vehicleData.tirePressure?.description ?? notAvailable
+        case ACTurnSignalMenuName:
+            vehicleDataDescription += vehicleData.turnSignal?.rawValue.rawValue ?? notAvailable
         case ACVINMenuName:
             vehicleDataDescription += vehicleData.vin?.description ?? notAvailable
         default: break
         }
 
-        // Trim all non a-Z0-9 characters and truncate description to 500 characters
-        let alertMessage = "\(vehicleDataType): \(vehicleDataDescription)"
-        let alertMessageFiltered = String(alertMessage.filter { "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 :.".contains($0) })
-        return alertMessageFiltered.trunc(length: 495, trailing: "")
+        return vehicleDataDescription
     }
 
     /// Checks if the app has the required permissions to access vehicle data
@@ -291,11 +294,5 @@ extension VehicleDataManager {
             guard let success = response?.resultCode else { return }
             SDLLog.d("Sent dial number request: \(success == .success ? "successfully" : "unsuccessfully").")
         }
-    }
-}
-
-extension String {
-    func trunc(length: Int, trailing: String = "…") -> String {
-        return (self.count > length) ? self.prefix(length) + trailing : self
     }
 }

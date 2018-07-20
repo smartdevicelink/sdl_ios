@@ -98,6 +98,7 @@ NSString * const ACRPMMenuName = @"RPM";
 NSString * const ACSpeedMenuName = @"Speed";
 NSString * const ACSteeringWheelAngleMenuName = @"Steering Wheel Angle";
 NSString * const ACTirePressureMenuName = @"Tire Pressure";
+NSString * const ACTurnSignalMenuName = @"Turn Signal";
 NSString * const ACVINMenuName = @"VIN";
 NSString * const ACWiperStatusMenuName = @"Wiper Status";
 

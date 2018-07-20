@@ -57,6 +57,7 @@ describe(@"Getter/Setter Tests", ^ {
         testNotification.speed = @70.1;
         testNotification.steeringWheelAngle = @0.000000001;
         testNotification.tirePressure = tires;
+        testNotification.turnSignal = SDLTurnSignalRight;
         testNotification.vin = @"222222222722";
         testNotification.wiperStatus = SDLWiperStatusStalled;
 
@@ -86,42 +87,44 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.speed).to(equal(@70.1));
         expect(testNotification.steeringWheelAngle).to(equal(@0.000000001));
         expect(testNotification.tirePressure).to(equal(tires));
+        expect(testNotification.turnSignal).to(equal(SDLTurnSignalRight));
         expect(testNotification.vin).to(equal(@"222222222722"));
         expect(testNotification.wiperStatus).to(equal(SDLWiperStatusStalled));
     });
     
     it(@"Should get correctly when initialized", ^ {
         NSDictionary* dict = @{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameAccelerationPedalPosition:@99.99999999,
-                                                   SDLNameAirbagStatus:airbag,
-                                                   SDLNameBeltStatus:belt,
-                                                   SDLNameBodyInformation:body,
-                                                   SDLNameClusterModeStatus:clusterMode,
-                                                   SDLNameDeviceStatus:device,
-                                                   SDLNameDriverBraking:SDLVehicleDataEventStatusYes,
-                                                   SDLNameECallInfo:eCall,
-                                                   SDLNameElectronicParkBrakeStatus:SDLElectronicParkBrakeStatusDriveActive,
-                                                   SDLNameEmergencyEvent:event,
-                                                   SDLNameEngineOilLife:@45.1,
-                                                   SDLNameEngineTorque:@-200.124,
-                                                   SDLNameExternalTemperature:@-10,
-                                                   SDLNameFuelLevel:@10.3,
-                                                   SDLNameFuelLevelState:SDLComponentVolumeStatusAlert,
-                                                   SDLNameFuelRange:@[fuelRange],
-                                                   SDLNameGPS:gps,
-                                                   SDLNameHeadLampStatus:headLamp,
-                                                   SDLNameInstantFuelConsumption:@4000.63,
-                                                   SDLNameMyKey:myKey,
-                                                   SDLNameOdometer:@100050,
-                                                   SDLNamePRNDL:SDLPRNDLDrive,
-                                                   SDLNameRPM:@4242,
-                                                   SDLNameSpeed:@70.1,
-                                                   SDLNameSteeringWheelAngle:@0.000000001,
-                                                   SDLNameTirePressure:tires,
-                                                   SDLNameVIN:@"222222222722",
-                                                   SDLNameWiperStatus:SDLWiperStatusStalled},
-                                             SDLNameOperationName:SDLNameOnVehicleData}};
+                                   @{SDLNameParameters:
+                                         @{SDLNameAccelerationPedalPosition:@99.99999999,
+                                           SDLNameAirbagStatus:airbag,
+                                           SDLNameBeltStatus:belt,
+                                           SDLNameBodyInformation:body,
+                                           SDLNameClusterModeStatus:clusterMode,
+                                           SDLNameDeviceStatus:device,
+                                           SDLNameDriverBraking:SDLVehicleDataEventStatusYes,
+                                           SDLNameECallInfo:eCall,
+                                           SDLNameElectronicParkBrakeStatus:SDLElectronicParkBrakeStatusDriveActive,
+                                           SDLNameEmergencyEvent:event,
+                                           SDLNameEngineOilLife:@45.1,
+                                           SDLNameEngineTorque:@-200.124,
+                                           SDLNameExternalTemperature:@-10,
+                                           SDLNameFuelLevel:@10.3,
+                                           SDLNameFuelLevelState:SDLComponentVolumeStatusAlert,
+                                           SDLNameFuelRange:@[fuelRange],
+                                           SDLNameGPS:gps,
+                                           SDLNameHeadLampStatus:headLamp,
+                                           SDLNameInstantFuelConsumption:@4000.63,
+                                           SDLNameMyKey:myKey,
+                                           SDLNameOdometer:@100050,
+                                           SDLNamePRNDL:SDLPRNDLDrive,
+                                           SDLNameRPM:@4242,
+                                           SDLNameSpeed:@70.1,
+                                           SDLNameSteeringWheelAngle:@0.000000001,
+                                           SDLNameTirePressure:tires,
+                                           SDLNameTurnSignal:SDLTurnSignalOff,
+                                           SDLNameVIN:@"222222222722",
+                                           SDLNameWiperStatus:SDLWiperStatusStalled},
+                                     SDLNameOperationName:SDLNameOnVehicleData}};
         SDLOnVehicleData* testNotification = [[SDLOnVehicleData alloc] initWithDictionary:dict];
         
         expect(testNotification.accPedalPosition).to(equal(@99.99999999));
@@ -150,6 +153,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.speed).to(equal(@70.1));
         expect(testNotification.steeringWheelAngle).to(equal(@0.000000001));
         expect(testNotification.tirePressure).to(equal(tires));
+        expect(testNotification.turnSignal).to(equal(SDLTurnSignalOff));
         expect(testNotification.vin).to(equal(@"222222222722"));
         expect(testNotification.wiperStatus).to(equal(SDLWiperStatusStalled));
     });
@@ -183,6 +187,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.speed).to(beNil());
         expect(testNotification.steeringWheelAngle).to(beNil());
         expect(testNotification.tirePressure).to(beNil());
+        expect(testNotification.turnSignal).to(beNil());
         expect(testNotification.vin).to(beNil());
         expect(testNotification.wiperStatus).to(beNil());
     });

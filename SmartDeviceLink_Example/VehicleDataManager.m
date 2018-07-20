@@ -141,7 +141,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLLogD(@"App has permission to access vehicle data. Requesting vehicle data...");
-    SDLGetVehicleData *getVehicleSpeed = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES electronicParkBrakeStatus:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES vin:YES wiperStatus:YES];
+    SDLGetVehicleData *getVehicleSpeed = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES electronicParkBrakeStatus:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES turnSignal:YES vin:YES wiperStatus:YES];
 
     [manager sendRequest:getVehicleSpeed withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error || ![response isKindOfClass:SDLGetVehicleDataResponse.class]) {
@@ -227,6 +227,8 @@ NS_ASSUME_NONNULL_BEGIN
         vehicleDataDescription = vehicleData.steeringWheelAngle.description;
     } else if ([vehicleDataType isEqualToString:ACTirePressureMenuName]) {
         vehicleDataDescription = vehicleData.tirePressure.description;
+    } else if ([vehicleDataType isEqualToString:ACTurnSignalMenuName]) {
+        vehicleDataDescription = vehicleData.turnSignal.description;
     } else if ([vehicleDataType isEqualToString: ACVINMenuName]) {
         vehicleDataDescription = vehicleData.vin.description;
     }

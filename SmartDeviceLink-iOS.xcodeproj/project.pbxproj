@@ -1105,7 +1105,7 @@
 		8814AEAA20AB663800466E0F /* PerformInteractionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8814AEA920AB663800466E0F /* PerformInteractionManager.m */; };
 		8814AEAC20AB667B00466E0F /* PerformInteractionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8814AEAB20AB667B00466E0F /* PerformInteractionManager.swift */; };
 		88166B00207E41E900076236 /* MenuManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88166AFF207E41E900076236 /* MenuManager.swift */; };
-		8818ADD82100FC18007D6F19 /* SDLTurnSignal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8818ADD62100FC18007D6F19 /* SDLTurnSignal.h */; };
+		8818ADD82100FC18007D6F19 /* SDLTurnSignal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8818ADD62100FC18007D6F19 /* SDLTurnSignal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8818ADD92100FC18007D6F19 /* SDLTurnSignal.m in Sources */ = {isa = PBXBuildFile; fileRef = 8818ADD72100FC18007D6F19 /* SDLTurnSignal.m */; };
 		8818ADDD2100FE0C007D6F19 /* SDLTurnSignalSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8818ADDC2100FE0C007D6F19 /* SDLTurnSignalSpec.m */; };
 		8829568B207CF68800EF056C /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -1126,6 +1126,7 @@
 		88802FF420853BED00E9EBC6 /* SmartDeviceLinkSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D4346631E6F38E600B639C6 /* SmartDeviceLinkSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88802FF520853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */; };
 		88802FF620853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8880B2EF21021E37004721DB /* TextValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8880B2ED21021964004721DB /* TextValidator.swift */; };
 		888D178F207E7F42008E9F8F /* ButtonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888D178D207E7F0E008E9F8F /* ButtonManager.swift */; };
 		888D1790207E815C008E9F8F /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 8863B597207D2388002D6459 /* AppConstants.m */; };
 		88A0AA56207CFE5D0075132C /* AppUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A0AA55207CFE5C0075132C /* AppUserDefaults.swift */; };
@@ -2512,6 +2513,7 @@
 		8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponse.m; sourceTree = "<group>"; };
 		8877F5F01F34AA2D00DC128A /* SDLSendHapticDataResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponseSpec.m; sourceTree = "<group>"; };
 		88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartDeviceLinkSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8880B2ED21021964004721DB /* TextValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextValidator.swift; sourceTree = "<group>"; };
 		888D178D207E7F0E008E9F8F /* ButtonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonManager.swift; sourceTree = "<group>"; };
 		88A0AA55207CFE5C0075132C /* AppUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUserDefaults.swift; sourceTree = "<group>"; };
 		88A0AA57207CFE650075132C /* ProxyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProxyManager.swift; sourceTree = "<group>"; };
@@ -5085,6 +5087,7 @@
 				8814AEAB20AB667B00466E0F /* PerformInteractionManager.swift */,
 				88B849C32080F4AF002A034D /* RPCPermissionsManager.swift */,
 				88B849C620812412002A034D /* VehicleDataManager.swift */,
+				8880B2ED21021964004721DB /* TextValidator.swift */,
 			);
 			name = SDL;
 			sourceTree = "<group>";
@@ -6743,6 +6746,7 @@
 				88DFB053207F8E100079D19D /* Protocol+ProxyManagerDelegate.swift in Sources */,
 				88B849C820812442002A034D /* VehicleDataManager.swift in Sources */,
 				8829569E207CFD0E00EF056C /* AppDelegate.swift in Sources */,
+				8880B2EF21021E37004721DB /* TextValidator.swift in Sources */,
 				88A0AA58207CFE650075132C /* ProxyManager.swift in Sources */,
 				88166B00207E41E900076236 /* MenuManager.swift in Sources */,
 				8814AEAC20AB667B00466E0F /* PerformInteractionManager.swift in Sources */,
