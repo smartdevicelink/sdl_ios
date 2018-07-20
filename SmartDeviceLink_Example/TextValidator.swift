@@ -9,23 +9,23 @@
 import Foundation
 
 class TextValidator {
-    private static let validEnglishCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 :."
+    private static let validCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789. "
 
     class func validateText(_ text: String, length: Int) -> String {
         if text.isEmpty { return text }
         let filteredText = filterUnsupportedCharacters(text)
         let condensedString = filteredText.condenseWhitespace
-        let truncatedString = condensedString.trunc(length: length)
+        let truncatedString = condensedString.truncate(length: length)
         return truncatedString
     }
 
     private class func filterUnsupportedCharacters(_ text:String) -> String {
-        return String(text.filter { validEnglishCharacters.contains($0) } )
+        return String(text.filter { validCharacters.contains($0) } )
     }
 }
 
 extension String {
-    func trunc(length: Int, trailing: String = "…") -> String {
+    func truncate(length: Int, trailing: String = "…") -> String {
         return (self.count > length) ? self.prefix(length) + trailing : self
     }
 

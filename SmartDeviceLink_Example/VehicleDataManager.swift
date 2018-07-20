@@ -45,22 +45,22 @@ extension VehicleDataManager {
             switch result {
             case .success:
                 SDLLog.d("Subscribed to vehicle odometer data")
-                message += "Subscribed"
+                message = "Subscribed"
             case .disallowed:
                 SDLLog.d("Access to vehicle data disallowed")
-                message += "Disallowed"
+                message = "Disallowed"
             case .userDisallowed:
                 SDLLog.d("Vehicle user disabled access to vehicle data")
-                message += "Disabled"
+                message = "Disabled"
             case .ignored:
                 SDLLog.d("Already subscribed to odometer data")
-                message += "Subscribed"
+                message = "Subscribed"
             case .dataNotAvailable:
                 SDLLog.d("You have permission to access to vehicle data, but the vehicle you are connected to did not provide any data")
-                message += "Unknown"
+                message = "Unknown"
             default:
                 SDLLog.e("Unknown reason for failure to get vehicle data: \(error != nil ? error!.localizedDescription : "no error message")")
-                message += "Unsubscribed"
+                message = "Unsubscribed"
                 return
             }
             self.vehicleOdometerData = message
@@ -116,8 +116,8 @@ extension VehicleDataManager {
         manager.send(request: getAllVehicleData) { (request, response, error) in
             guard didAccessVehicleDataSuccessfully(with: manager, response: response, error: error) else { return }
 
-            var alertTitle = ""
-            var alertMessage = ""
+            var alertTitle: String = ""
+            var alertMessage: String = ""
 
             switch response!.resultCode {
             case .rejected:
@@ -130,11 +130,11 @@ extension VehicleDataManager {
                 if let vehicleData = response as? SDLGetVehicleDataResponse {
                     alertTitle = vehicleDataType
                     alertMessage = vehicleDataDescription(vehicleData, vehicleDataType: vehicleDataType)
+                    SDLLog.d("Request for \(vehicleDataType) vehicle data successful, \(alertMessage)")
                 } else {
-                    SDLLog.e("No vehicle data returned")
                     alertTitle = "No vehicle data returned"
+                    SDLLog.e(alertTitle)
                 }
-                SDLLog.d("Request for vehicle data successful, \(alertTitle)")
             default: break
             }
 
@@ -142,9 +142,10 @@ extension VehicleDataManager {
             alertMessage = TextValidator.validateText(alertMessage, length: 200)
 
             if triggerSource == .menu {
-                let alert = AlertManager.alertWithMessageAndCloseButton(
-                    !alertTitle.isEmpty ? alertTitle : "No Vehicle Data Available",
-                    textField2: !alertMessage.isEmpty ? alertMessage : nil)
+                let title = !alertTitle.isEmpty ? alertTitle : "No Vehicle Data Available"
+                let detailMessage = !alertMessage.isEmpty ? alertMessage : nil
+                let alert = AlertManager.alertWithMessageAndCloseButton(title,
+                    textField2: detailMessage)
                 manager.send(alert)
             } else {
                 let spokenAlert = !alertMessage.isEmpty ? alertMessage : alertTitle
@@ -165,59 +166,59 @@ extension VehicleDataManager {
         var vehicleDataDescription = ""
         switch vehicleDataType {
         case ACAccelerationPedalPositionMenuName:
-            vehicleDataDescription += vehicleData.accPedalPosition?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.accPedalPosition?.description ?? notAvailable
         case ACAirbagStatusMenuName:
-            vehicleDataDescription += vehicleData.airbagStatus?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.airbagStatus?.description ?? notAvailable
         case ACBeltStatusMenuName:
-            vehicleDataDescription += vehicleData.beltStatus?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.beltStatus?.description ?? notAvailable
         case ACBodyInformationMenuName:
-            vehicleDataDescription += vehicleData.bodyInformation?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.bodyInformation?.description ?? notAvailable
         case ACClusterModeStatusMenuName:
-            vehicleDataDescription += vehicleData.clusterModeStatus?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.clusterModeStatus?.description ?? notAvailable
         case ACDeviceStatusMenuName:
-            vehicleDataDescription += vehicleData.deviceStatus?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.deviceStatus?.description ?? notAvailable
         case ACDriverBrakingMenuName:
-            vehicleDataDescription += vehicleData.driverBraking?.rawValue.rawValue ?? notAvailable
+            vehicleDataDescription = vehicleData.driverBraking?.rawValue.rawValue ?? notAvailable
         case ACECallInfoMenuName:
-            vehicleDataDescription += vehicleData.eCallInfo?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.eCallInfo?.description ?? notAvailable
         case ACElectronicParkBrakeStatus:
-            vehicleDataDescription += vehicleData.electronicParkBrakeStatus?.rawValue.rawValue ?? notAvailable
+            vehicleDataDescription = vehicleData.electronicParkBrakeStatus?.rawValue.rawValue ?? notAvailable
         case ACEmergencyEventMenuName:
-            vehicleDataDescription += vehicleData.emergencyEvent?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.emergencyEvent?.description ?? notAvailable
         case ACEngineOilLifeMenuName:
-            vehicleDataDescription += vehicleData.engineOilLife?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.engineOilLife?.description ?? notAvailable
         case ACEngineTorqueMenuName:
-            vehicleDataDescription += vehicleData.engineTorque?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.engineTorque?.description ?? notAvailable
         case ACExternalTemperatureMenuName:
-            vehicleDataDescription += vehicleData.externalTemperature?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.externalTemperature?.description ?? notAvailable
         case ACFuelLevelMenuName:
-            vehicleDataDescription += vehicleData.fuelLevel?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.fuelLevel?.description ?? notAvailable
         case ACFuelLevelStateMenuName:
-            vehicleDataDescription += vehicleData.fuelLevel_State?.rawValue.rawValue ?? notAvailable
+            vehicleDataDescription = vehicleData.fuelLevel_State?.rawValue.rawValue ?? notAvailable
         case ACFuelRangeMenuName:
-            vehicleDataDescription += vehicleData.fuelRange?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.fuelRange?.description ?? notAvailable
         case ACGPSMenuName:
-            vehicleDataDescription += vehicleData.gps?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.gps?.description ?? notAvailable
         case ACHeadLampStatusMenuName:
-            vehicleDataDescription += vehicleData.headLampStatus?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.headLampStatus?.description ?? notAvailable
         case ACInstantFuelConsumptionMenuName:
-            vehicleDataDescription += vehicleData.instantFuelConsumption?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.instantFuelConsumption?.description ?? notAvailable
         case ACMyKeyMenuName:
-            vehicleDataDescription += vehicleData.myKey?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.myKey?.description ?? notAvailable
         case ACOdometerMenuName:
-            vehicleDataDescription += vehicleData.odometer?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.odometer?.description ?? notAvailable
         case ACPRNDLMenuName:
-            vehicleDataDescription += vehicleData.prndl?.rawValue.rawValue ?? notAvailable
+            vehicleDataDescription = vehicleData.prndl?.rawValue.rawValue ?? notAvailable
         case ACSpeedMenuName:
-            vehicleDataDescription += vehicleData.speed?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.speed?.description ?? notAvailable
         case ACSteeringWheelAngleMenuName:
-            vehicleDataDescription += vehicleData.steeringWheelAngle?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.steeringWheelAngle?.description ?? notAvailable
         case ACTirePressureMenuName:
-            vehicleDataDescription += vehicleData.tirePressure?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.tirePressure?.description ?? notAvailable
         case ACTurnSignalMenuName:
-            vehicleDataDescription += vehicleData.turnSignal?.rawValue.rawValue ?? notAvailable
+            vehicleDataDescription = vehicleData.turnSignal?.rawValue.rawValue ?? notAvailable
         case ACVINMenuName:
-            vehicleDataDescription += vehicleData.vin?.description ?? notAvailable
+            vehicleDataDescription = vehicleData.vin?.description ?? notAvailable
         default: break
         }
 

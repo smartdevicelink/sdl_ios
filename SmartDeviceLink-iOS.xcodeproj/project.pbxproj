@@ -1127,6 +1127,7 @@
 		88802FF520853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */; };
 		88802FF620853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8880B2EF21021E37004721DB /* TextValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8880B2ED21021964004721DB /* TextValidator.swift */; };
+		8880B2F421022896004721DB /* TextValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8880B2F121022887004721DB /* TextValidator.m */; };
 		888D178F207E7F42008E9F8F /* ButtonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888D178D207E7F0E008E9F8F /* ButtonManager.swift */; };
 		888D1790207E815C008E9F8F /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 8863B597207D2388002D6459 /* AppConstants.m */; };
 		88A0AA56207CFE5D0075132C /* AppUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A0AA55207CFE5C0075132C /* AppUserDefaults.swift */; };
@@ -2514,6 +2515,8 @@
 		8877F5F01F34AA2D00DC128A /* SDLSendHapticDataResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponseSpec.m; sourceTree = "<group>"; };
 		88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartDeviceLinkSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8880B2ED21021964004721DB /* TextValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextValidator.swift; sourceTree = "<group>"; };
+		8880B2F021022887004721DB /* TextValidator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextValidator.h; sourceTree = "<group>"; };
+		8880B2F121022887004721DB /* TextValidator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextValidator.m; sourceTree = "<group>"; };
 		888D178D207E7F0E008E9F8F /* ButtonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonManager.swift; sourceTree = "<group>"; };
 		88A0AA55207CFE5C0075132C /* AppUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUserDefaults.swift; sourceTree = "<group>"; };
 		88A0AA57207CFE650075132C /* ProxyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProxyManager.swift; sourceTree = "<group>"; };
@@ -3431,6 +3434,8 @@
 			children = (
 				5D48329B1A8EA33D00252386 /* Preferences.h */,
 				5D48329C1A8EA33D00252386 /* Preferences.m */,
+				8880B2F021022887004721DB /* TextValidator.h */,
+				8880B2F121022887004721DB /* TextValidator.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -5087,7 +5092,6 @@
 				8814AEAB20AB667B00466E0F /* PerformInteractionManager.swift */,
 				88B849C32080F4AF002A034D /* RPCPermissionsManager.swift */,
 				88B849C620812412002A034D /* VehicleDataManager.swift */,
-				8880B2ED21021964004721DB /* TextValidator.swift */,
 			);
 			name = SDL;
 			sourceTree = "<group>";
@@ -5119,6 +5123,7 @@
 			children = (
 				88A0AA55207CFE5C0075132C /* AppUserDefaults.swift */,
 				88DFB051207F8DF50079D19D /* Protocol+ProxyManagerDelegate.swift */,
+				8880B2ED21021964004721DB /* TextValidator.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -5941,6 +5946,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D4832A51A94F90D00252386 /* ConnectionTransitionContext.m in Sources */,
+				8880B2F421022896004721DB /* TextValidator.m in Sources */,
 				8800871E20A6356D008E1EA0 /* ButtonManager.m in Sources */,
 				5D0218FC1A8E7E1700D1BF62 /* ConnectionContainerViewController.m in Sources */,
 				88DA6D10209794A400AD8297 /* AlertManager.m in Sources */,
