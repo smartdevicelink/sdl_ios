@@ -16,6 +16,7 @@
 #import "SDLSetGlobalProperties.h"
 #import "SDLSetGlobalPropertiesResponse.h"
 #import "TestConnectionManager.h"
+
 QuickSpecBegin(SDLPresentChoiceSetOperationSpec)
 
 describe(@"present choice operation", ^{

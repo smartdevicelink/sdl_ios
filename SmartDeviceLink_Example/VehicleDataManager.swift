@@ -45,22 +45,22 @@ extension VehicleDataManager {
             switch result {
             case .success:
                 SDLLog.d("Subscribed to vehicle odometer data")
-                message = "Subscribed"
+                message += "Subscribed"
             case .disallowed:
                 SDLLog.d("Access to vehicle data disallowed")
-                message = "Disallowed"
+                message += "Disallowed"
             case .userDisallowed:
                 SDLLog.d("Vehicle user disabled access to vehicle data")
-                message = "Disabled"
+                message += "Disabled"
             case .ignored:
                 SDLLog.d("Already subscribed to odometer data")
-                message = "Subscribed"
+                message += "Subscribed"
             case .dataNotAvailable:
                 SDLLog.d("You have permission to access to vehicle data, but the vehicle you are connected to did not provide any data")
-                message = "Unknown"
+                message += "Unknown"
             default:
                 SDLLog.e("Unknown reason for failure to get vehicle data: \(error != nil ? error!.localizedDescription : "no error message")")
-                message = "Unsubscribed"
+                message += "Unsubscribed"
                 return
             }
             self.vehicleOdometerData = message
