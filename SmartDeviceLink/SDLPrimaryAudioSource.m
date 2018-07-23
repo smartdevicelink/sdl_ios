@@ -13,3 +13,7 @@ SDLPrimaryAudioSource const SDLPrimaryAudioSourceIpod = @"IPOD";
 SDLPrimaryAudioSource const SDLPrimaryAudioSourceMobileApp = @"MOBILE_APP";
 SDLPrimaryAudioSource const SDLPrimaryAudioSourceCD = @"CD";
 SDLPrimaryAudioSource const SDLPrimaryAudioSourceRadioTuner = @"RADIO_TUNER";
+SDLPrimaryAudioSource const SDLPrimaryAudioSourceAM = @"AM";
+SDLPrimaryAudioSource const SDLPrimaryAudioSourceFM = @"FM";
+SDLPrimaryAudioSource const SDLPrimaryAudioSourceXM = @"XM";
+SDLPrimaryAudioSource const SDLPrimaryAudioSourceDAB = @"DAB";
