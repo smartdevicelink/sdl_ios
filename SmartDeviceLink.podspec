@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "SmartDeviceLink"
-s.version      = "6.0.0"
+s.version      = "6.0.1"
 s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
 s.license      = { :type => "New BSD", :file => "LICENSE" }
@@ -275,6 +275,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLSpeakResponse.h',
 'SmartDeviceLink/SDLSpeechCapabilities.h',
 'SmartDeviceLink/SDLStartTime.h',
+'SmartDeviceLink/SDLStaticIconName.h',
 'SmartDeviceLink/SDLStreamingMediaConfiguration.h',
 'SmartDeviceLink/SDLStreamingMediaManager.h',
 'SmartDeviceLink/SDLStreamingMediaManagerConstants.h',
