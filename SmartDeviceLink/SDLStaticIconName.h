@@ -224,6 +224,11 @@ extern SDLStaticIconName const SDLStaticIconNameDestinationFerryAhead;
 extern SDLStaticIconName const SDLStaticIconNameEbookmark;
 
 /*
+ * Static icon empty (i.e. no image)
+ */
+extern SDLStaticIconName const SDLStaticIconNameEmpty;
+
+/*
  * Static icon end call / reject call
  */
 extern SDLStaticIconName const SDLStaticIconNameEndCall;
@@ -424,11 +429,6 @@ extern SDLStaticIconName const SDLStaticIconNameMoveUp;
 extern SDLStaticIconName const SDLStaticIconNameMP3TagArtist;
 
 /*
- * Static icon n/a
- */
-extern SDLStaticIconName const SDLStaticIconNameNA;
-
-/*
  * Static icon navigation / navigation settings
  */
 extern SDLStaticIconName const SDLStaticIconNameNavigation;
@@ -469,6 +469,11 @@ extern SDLStaticIconName const SDLStaticIconNameOrigin;
 extern SDLStaticIconName const SDLStaticIconNameOutgoingCalls;
 
 /*
+ * Static icon play / pause - pause active
+ */
+extern SDLStaticIconName const SDLStaticIconNamePause;
+
+/*
  * Static icon phone call 1
  */
 extern SDLStaticIconName const SDLStaticIconNamePhoneCall1;
@@ -494,14 +499,9 @@ extern SDLStaticIconName const SDLStaticIconNamePhonebook;
 extern SDLStaticIconName const SDLStaticIconNamePhoto;
 
 /*
- * Static icon play / pause - pause active
- */
-extern SDLStaticIconName const SDLStaticIconNamePlayPausePauseActive;
-
-/*
  * Static icon play / pause - play active
  */
-extern SDLStaticIconName const SDLStaticIconNamePlayPausePlayActive;
+extern SDLStaticIconName const SDLStaticIconNamePlay;
 
 /*
  * Static icon playlist
