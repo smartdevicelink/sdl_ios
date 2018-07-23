@@ -1,3 +1,9 @@
+# 6.0.1
+
+### Bug Fixes
+* Fixed a crash that could occur in development circumstances if the head unit returns "-1" for an enum
+* Fixed manually sent Show RPCs causing issues when changing layouts.
+
 # 6.0.0 (Changes since RC1)
 
 * None

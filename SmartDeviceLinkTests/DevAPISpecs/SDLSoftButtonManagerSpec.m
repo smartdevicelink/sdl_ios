@@ -24,22 +24,22 @@
 
 @interface SDLSoftButtonManager()
 
+@property (strong, nonatomic) NSArray<SDLSoftButton *> *currentSoftButtons;
+
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLFileManager *fileManager;
-
-@property (strong, nonatomic) NSArray<SDLSoftButton *> *currentSoftButtons;
 
 @property (strong, nonatomic, nullable) SDLShow *inProgressUpdate;
 @property (copy, nonatomic, nullable) SDLSoftButtonUpdateCompletionHandler inProgressHandler;
 
-@property (strong, nonatomic, nullable) SDLShow *queuedImageUpdate;
 @property (assign, nonatomic) BOOL hasQueuedUpdate;
 @property (copy, nonatomic, nullable) SDLSoftButtonUpdateCompletionHandler queuedUpdateHandler;
-@property (strong, nonatomic, nullable) SDLHMILevel currentLevel;
-@property (assign, nonatomic) BOOL waitingOnHMILevelUpdateToSetButtons;
 
+@property (copy, nonatomic, nullable) SDLHMILevel currentLevel;
 @property (strong, nonatomic, nullable) SDLDisplayCapabilities *displayCapabilities;
 @property (strong, nonatomic, nullable) SDLSoftButtonCapabilities *softButtonCapabilities;
+
+@property (assign, nonatomic) BOOL waitingOnHMILevelUpdateToUpdate;
 
 @end
 
@@ -91,22 +91,22 @@ describe(@"a soft button manager", ^{
         expect(testManager.hasQueuedUpdate).to(beFalse());
         expect(testManager.displayCapabilities).to(beNil());
         expect(testManager.softButtonCapabilities).to(beNil());
-        expect(testManager.waitingOnHMILevelUpdateToSetButtons).to(beFalse());
+        expect(testManager.waitingOnHMILevelUpdateToUpdate).to(beFalse());
     });
 
     context(@"when in HMI NONE", ^{
         beforeEach(^{
             testManager.currentLevel = SDLHMILevelNone;
 
-            NSString *sameName = @"Same name";
-            testObject1 = [[SDLSoftButtonObject alloc] initWithName:sameName states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
-            testObject2 = [[SDLSoftButtonObject alloc] initWithName:sameName state:object2State1 handler:nil];
+            testObject1 = [[SDLSoftButtonObject alloc] initWithName:@"name1" states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
+            testObject2 = [[SDLSoftButtonObject alloc] initWithName:@"name2" state:object2State1 handler:nil];
 
             testManager.softButtonObjects = @[testObject1, testObject2];
         });
 
-        it(@"should not set the soft buttons", ^{
-            expect(testManager.waitingOnHMILevelUpdateToSetButtons).to(beTrue());
+        it(@"should set the soft buttons, but not update", ^{
+            expect(testManager.softButtonObjects).toNot(beEmpty());
+            expect(testManager.waitingOnHMILevelUpdateToUpdate).to(beTrue());
             expect(testManager.inProgressUpdate).to(beNil());
         });
     });
@@ -115,15 +115,15 @@ describe(@"a soft button manager", ^{
         beforeEach(^{
             testManager.currentLevel = nil;
 
-            NSString *sameName = @"Same name";
-            testObject1 = [[SDLSoftButtonObject alloc] initWithName:sameName states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
-            testObject2 = [[SDLSoftButtonObject alloc] initWithName:sameName state:object2State1 handler:nil];
+            testObject1 = [[SDLSoftButtonObject alloc] initWithName:@"name1" states:@[object1State1, object1State2] initialStateName:object1State1Name handler:nil];
+            testObject2 = [[SDLSoftButtonObject alloc] initWithName:@"name2" state:object2State1 handler:nil];
 
             testManager.softButtonObjects = @[testObject1, testObject2];
         });
 
-        it(@"should not set the soft buttons", ^{
-            expect(testManager.waitingOnHMILevelUpdateToSetButtons).to(beTrue());
+        it(@"should set the soft buttons, but not update", ^{
+            expect(testManager.softButtonObjects).toNot(beEmpty());
+            expect(testManager.waitingOnHMILevelUpdateToUpdate).to(beTrue());
             expect(testManager.inProgressUpdate).to(beNil());
         });
     });
@@ -359,7 +359,7 @@ describe(@"a soft button manager", ^{
             expect(testManager.currentLevel).to(beNil());
             expect(testManager.displayCapabilities).to(beNil());
             expect(testManager.softButtonCapabilities).to(beNil());
-            expect(testManager.waitingOnHMILevelUpdateToSetButtons).to(beFalse());
+            expect(testManager.waitingOnHMILevelUpdateToUpdate).to(beFalse());
         });
     });
 });
