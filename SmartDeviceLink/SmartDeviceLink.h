@@ -279,6 +279,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLTouchType.h"
 #import "SDLTPMS.h"
 #import "SDLTriggerSource.h"
+#import "SDLTurnSignal.h"
 #import "SDLUpdateMode.h"
 #import "SDLVehicleDataActiveStatus.h"
 #import "SDLVehicleDataEventStatus.h"

@@ -6,6 +6,7 @@
 #import "SDLComponentVolumeStatus.h"
 #import "SDLElectronicParkBrakeStatus.h"
 #import "SDLPRNDL.h"
+#import "SDLTurnSignal.h"
 #import "SDLVehicleDataEventStatus.h"
 #import "SDLWiperStatus.h"
 
@@ -174,6 +175,11 @@ NS_ASSUME_NONNULL_BEGIN
  The status of the electronic parking brake
  */
 @property (nullable, strong, nonatomic) SDLElectronicParkBrakeStatus electronicParkBrakeStatus;
+
+/**
+ The status of the turn signal
+ */
+@property (nullable, strong, nonatomic) SDLTurnSignal turnSignal;
 
 @end
 

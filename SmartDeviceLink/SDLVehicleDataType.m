@@ -33,3 +33,5 @@ SDLVehicleDataType const SDLVehicleDataTypeEngineTorque = @"VEHICLEDATA_ENGINETO
 SDLVehicleDataType const SDLVehicleDataTypeAccelerationPedal = @"VEHICLEDATA_ACCPEDAL";
 SDLVehicleDataType const SDLVehicleDataTypeSteeringWheel = @"VEHICLEDATA_STEERINGWHEEL";
 SDLVehicleDataType const SDLVehicleDataTypeElectronicParkBrakeStatus = @"VEHICLEDATA_ELECTRONICPARKBRAKESTATUS";
+SDLVehicleDataType const SDLVehicleDataTypeTurnSignal = @"VEHICLEDATA_TURNSIGNAL";
+
