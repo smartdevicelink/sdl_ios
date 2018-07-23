@@ -50,6 +50,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithName:value ofType:SDLImageTypeStatic isTemplate:YES];
 }
 
+- (instancetype)initWithStaticIconName:(SDLStaticIconName)staticIconName {
+    return [self initWithName:staticIconName ofType:SDLImageTypeStatic isTemplate:YES];
+}
+
 #pragma mark - Getters / Setters
 
 - (void)setValue:(NSString *)value {
