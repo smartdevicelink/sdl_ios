@@ -2500,7 +2500,7 @@
 		8818ADD62100FC18007D6F19 /* SDLTurnSignal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTurnSignal.h; sourceTree = "<group>"; };
 		8818ADD72100FC18007D6F19 /* SDLTurnSignal.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTurnSignal.m; sourceTree = "<group>"; };
 		8818ADDC2100FE0C007D6F19 /* SDLTurnSignalSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTurnSignalSpec.m; sourceTree = "<group>"; };
-		88295697207CF68800EF056C /* SDL Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SDL Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		88295697207CF68800EF056C /* SDL Example Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SDL Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		88295698207CF68800EF056C /* SmartDeviceLink-Example-Swift-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "SmartDeviceLink-Example-Swift-Info.plist"; path = "/Users/nicolelivioradio.com/sdl_ios/SmartDeviceLink-Example-Swift-Info.plist"; sourceTree = "<absolute>"; };
 		8829569C207CFD0D00EF056C /* SmartDeviceLink-Example-Swift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartDeviceLink-Example-Swift-Bridging-Header.h"; sourceTree = "<group>"; };
 		8829569D207CFD0E00EF056C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -3327,7 +3327,7 @@
 				5D4019AF1A76EC350006B0C2 /* SDL Example.app */,
 				5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */,
 				5D61FA261A84237100846EE7 /* SmartDeviceLinkTests.xctest */,
-				88295697207CF68800EF056C /* SDL Example.app */,
+				88295697207CF68800EF056C /* SDL Example Swift.app */,
 				88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */,
 			);
 			name = Products;
@@ -5796,7 +5796,7 @@
 			);
 			name = "SmartDeviceLink-Example-Swift";
 			productName = "SmartDeviceLink-iOS";
-			productReference = 88295697207CF68800EF056C /* SDL Example.app */;
+			productReference = 88295697207CF68800EF056C /* SDL Example Swift.app */;
 			productType = "com.apple.product-type.application";
 		};
 		88802CD720853AE600E9EBC6 /* SmartDeviceLinkSwift */ = {
@@ -7159,7 +7159,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
-				PRODUCT_NAME = "SDL Example";
+				PRODUCT_NAME = "SDL Example Swift";
 				SWIFT_OBJC_BRIDGING_HEADER = "SmartDeviceLink_Example/SmartDeviceLink-Example-Swift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -7178,7 +7178,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
-				PRODUCT_NAME = "SDL Example";
+				PRODUCT_NAME = "SDL Example Swift";
 				SWIFT_OBJC_BRIDGING_HEADER = "SmartDeviceLink_Example/SmartDeviceLink-Example-Swift-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

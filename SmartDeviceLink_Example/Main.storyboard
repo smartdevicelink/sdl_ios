@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mM3-m6-I5t">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mM3-m6-I5t">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -30,7 +30,7 @@
         <!--Connection Container View Controller-->
         <scene sceneID="vG9-Hv-OW2">
             <objects>
-                <viewController id="cXb-Co-0MA" customClass="ConnectionContainerViewController" customModule="SDL_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="cXb-Co-0MA" customClass="ConnectionContainerViewController" customModule="SDL_Example_Swift" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bfp-O0-sxl"/>
                         <viewControllerLayoutGuide type="bottom" id="fet-m3-F1O"/>
