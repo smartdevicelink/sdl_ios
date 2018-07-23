@@ -190,6 +190,7 @@ SDLName const SDLNameHMICapabilities = @"hmiCapabilities";
 SDLName const SDLNameHMIZoneCapabilities = @"hmiZoneCapabilities";
 SDLName const SDLNameHour = @"hour";
 SDLName const SDLNameHours = @"hours";
+SDLName const SDLNameIconResumed = @"iconResumed";
 SDLName const SDLNameId = @"id";
 SDLName const SDLNameIgnitionStableStatus = @"ignitionStableStatus";
 SDLName const SDLNameIgnitionStatus = @"ignitionStatus";
