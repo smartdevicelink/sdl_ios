@@ -100,6 +100,7 @@ extern NSString * const ACRPMMenuName;
 extern NSString * const ACSpeedMenuName;
 extern NSString * const ACSteeringWheelAngleMenuName;
 extern NSString * const ACTirePressureMenuName;
+extern NSString * const ACTurnSignalMenuName;
 extern NSString * const ACVINMenuName;
 extern NSString * const ACWiperStatusMenuName;
 

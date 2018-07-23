@@ -253,6 +253,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameElectronicParkBrakeStatus];
 }
 
+- (void)setTurnSignal:(nullable SDLTurnSignal)turnSignal {
+    [parameters sdl_setObject:turnSignal forName:SDLNameTurnSignal];
+}
+
+- (nullable SDLTurnSignal)turnSignal {
+    return [parameters sdl_objectForName:SDLNameTurnSignal];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

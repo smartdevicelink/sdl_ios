@@ -57,6 +57,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.speed = @100;
         testResponse.steeringWheelAngle = @-1500;
         testResponse.tirePressure = tires;
+        testResponse.turnSignal = SDLTurnSignalBoth;
         testResponse.vin = @"6574839201";
         testResponse.wiperStatus = SDLWiperStatusAutomaticHigh;
 
@@ -86,6 +87,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.speed).to(equal(@100));
         expect(testResponse.steeringWheelAngle).to(equal(@-1500));
         expect(testResponse.tirePressure).to(equal(tires));
+        expect(testResponse.turnSignal).to(equal(SDLTurnSignalBoth));
         expect(testResponse.vin).to(equal(@"6574839201"));
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
     });
@@ -120,6 +122,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                      SDLNameSpeed:@100,
                                                      SDLNameSteeringWheelAngle:@-1500,
                                                      SDLNameTirePressure:tires,
+                                                     SDLNameTurnSignal:SDLTurnSignalOff,
                                                      SDLNameVIN:@"6574839201",
                                                      SDLNameWiperStatus:SDLWiperStatusAutomaticHigh},
                                              SDLNameOperationName:SDLNameGetVehicleData}} mutableCopy];
@@ -151,6 +154,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.speed).to(equal(@100));
         expect(testResponse.steeringWheelAngle).to(equal(@-1500));
         expect(testResponse.tirePressure).to(equal(tires));
+        expect(testResponse.turnSignal).to(equal(SDLTurnSignalOff));
         expect(testResponse.vin).to(equal(@"6574839201"));
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
     });
@@ -184,6 +188,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.speed).to(beNil());
         expect(testResponse.steeringWheelAngle).to(beNil());
         expect(testResponse.tirePressure).to(beNil());
+        expect(testResponse.turnSignal).to(beNil());
         expect(testResponse.vin).to(beNil());
         expect(testResponse.wiperStatus).to(beNil());
     });
