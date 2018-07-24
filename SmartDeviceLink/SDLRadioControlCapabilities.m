@@ -10,6 +10,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRadioControlCapabilities
 
+- (instancetype)initWithModuleName:(NSString *)moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDsAvailable:(BOOL)availableHDsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable {
+    self = [self init];
+    if(!self){
+        return nil;
+    }
+
+    self.moduleName = moduleName;
+    self.radioEnableAvailable = @(radioEnableAvailable);
+    self.radioBandAvailable = @(radioBandAvailable);
+    self.radioFrequencyAvailable = @(radioFrequencyAvailable);
+    self.hdChannelAvailable = @(hdChannelAvailable);
+    self.rdsDataAvailable = @(rdsDataAvailable);
+    self.availableHDsAvailable = @(availableHDsAvailable);
+    self.stateAvailable = @(stateAvailable);
+    self.signalStrengthAvailable = @(signalStrengthAvailable);
+    self.signalChangeThresholdAvailable = @(signalChangeThresholdAvailable);
+
+    return self;
+}
+
 - (instancetype)initWithModuleName:(NSString *)moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDsAvailable:(BOOL)availableHDsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable hdRadioEnableAvailable:(BOOL)hdRadioEnableAvailable siriusxmRadioAvailable:(BOOL)siriusxmRadioAvailable {
     self = [self init];
     if(!self){
@@ -74,7 +94,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setRdsDataAvailable:(nullable NSNumber<SDLBool> *)rdsDataAvailable {
     [store sdl_setObject:rdsDataAvailable forName:SDLNameRDSDataAvailable];
-    
 }
 
 - (nullable NSNumber<SDLBool> *)rdsDataAvailable {
