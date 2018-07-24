@@ -275,6 +275,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLSpeakResponse.h',
 'SmartDeviceLink/SDLSpeechCapabilities.h',
 'SmartDeviceLink/SDLStartTime.h',
+'SmartDeviceLink/SDLStaticIconName.h',
 'SmartDeviceLink/SDLStreamingMediaConfiguration.h',
 'SmartDeviceLink/SDLStreamingMediaManager.h',
 'SmartDeviceLink/SDLStreamingMediaManagerConstants.h',
