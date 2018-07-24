@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithModuleName:(NSString *)moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDsAvailable:(BOOL)availableHDsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable;
 
+- (instancetype)initWithModuleName:(NSString *)moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDsAvailable:(BOOL)availableHDsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable sisDataAvailable:(BOOL)sisDataAvailable;
+
 /**
  * The short friendly name of the climate control module.
  
@@ -102,6 +104,14 @@ NS_ASSUME_NONNULL_BEGIN
  * Optional, Boolean
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *signalChangeThresholdAvailable;
+
+/**
+ * @abstract Availability of the getting HD radio Station Information Service (SIS) data.
+ * True: Available, False: Not Available, Not present: Not Available.
+ *
+ * Optional, Boolean
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *sisDataAvailable;
 
 @end
 

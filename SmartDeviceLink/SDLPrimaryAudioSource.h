@@ -45,3 +45,14 @@ extern SDLPrimaryAudioSource const SDLPrimaryAudioSourceIpod;
  * Mobile app is current source
  */
 extern SDLPrimaryAudioSource const SDLPrimaryAudioSourceMobileApp;
+
+/**
+ * @abstract CD is current source
+ */
+extern SDLPrimaryAudioSource const SDLPrimaryAudioSourceCD;
+
+/**
+ * @abstract Radio Tuner is current source
+ * Radio may be on AM, FM or XM
+ */
+extern SDLPrimaryAudioSource const SDLPrimaryAudioSourceRadioTuner;

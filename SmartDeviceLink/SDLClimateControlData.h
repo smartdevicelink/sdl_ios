@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithFanSpeed:(nullable NSNumber<SDLInt> *)fanSpeed desiredTemperature:(nullable SDLTemperature *)desiredTemperature acEnable:(nullable NSNumber<SDLBool> *)acEnable circulateAirEnable:(nullable NSNumber<SDLBool> *)circulateAirEnable autoModeEnable:(nullable NSNumber<SDLBool> *)autoModeEnable defrostZone:(nullable SDLDefrostZone)defrostZone dualModeEnable:(nullable NSNumber<SDLBool> *)dualModeEnable acMaxEnable:(nullable NSNumber<SDLBool> *)acMaxEnable ventilationMode:(nullable SDLVentilationMode)ventilationMode;
 
+- (instancetype)initWithFanSpeed:(nullable NSNumber<SDLInt> *)fanSpeed desiredTemperature:(nullable SDLTemperature *)desiredTemperature acEnable:(nullable NSNumber<SDLBool> *)acEnable circulateAirEnable:(nullable NSNumber<SDLBool> *)circulateAirEnable autoModeEnable:(nullable NSNumber<SDLBool> *)autoModeEnable defrostZone:(nullable SDLDefrostZone)defrostZone dualModeEnable:(nullable NSNumber<SDLBool> *)dualModeEnable acMaxEnable:(nullable NSNumber<SDLBool> *)acMaxEnable ventilationMode:(nullable SDLVentilationMode)ventilationMode heatedSteeringWheelEnable:(nullable NSNumber<SDLBool> *)steeringWheelEnable heatedWindshieldEnable:(nullable NSNumber<SDLBool> *)windshieldEnable heatedRearWindowEnable:(nullable NSNumber<SDLBool> *)rearWindowEnable heatedMirrorsEnable:(nullable NSNumber<SDLBool> *)mirrorsEnable;
+
 /**
  * Speed of Fan in integer
  *
@@ -89,6 +91,34 @@ NS_ASSUME_NONNULL_BEGIN
  * Optional, SDLVentilationMode
  */
 @property (nullable, strong, nonatomic) SDLVentilationMode ventilationMode;
+
+/**
+ * @abstract value false means disabled/turn off, value true means enabled/turn on.
+ *
+ * Optional, Boolean
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *heatedSteeringWheelEnable;
+
+/**
+ * @abstract value false means disabled, value true means enabled.
+ *
+ * Optional, Boolean
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *heatedWindshieldEnable;
+
+/**
+ * @abstract value false means disabled, value true means enabled.
+ *
+ * Optional, Boolean
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *heatedRearWindowEnable;
+
+/**
+ * @abstract Value false means disabled, value true means enabled.
+ *
+ * Optional, Boolean
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *heatedMirrorsEnable;
 
 @end
 
