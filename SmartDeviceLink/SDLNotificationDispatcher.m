@@ -326,7 +326,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)onOnRCStatus:(SDLOnRCStatus *)notification {
-    [self postRPCNotificationNotification:SDLDidReceiveRemoteControlNotification notification:notification];
+    [self postRPCNotificationNotification:SDLDidReceiveRemoteControlStatusNotification notification:notification];
 }
 
 - (void)onOnSyncPData:(SDLOnSyncPData *)notification {
