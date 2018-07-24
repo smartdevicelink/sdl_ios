@@ -7,6 +7,7 @@
 #import "SDLRadioState.h"
 
 @class SDLRDSData;
+@class SDLSisData;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLRadioControlData : SDLRPCStruct
 
 - (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable;
+
+- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable sisData:(SDLSisData *)sisData;
 
 /**
  * The integer part of the frequency ie for 101.7 this value should be 101
@@ -96,6 +99,15 @@ NS_ASSUME_NONNULL_BEGIN
  * SDLRadioState
  */
 @property (nullable, strong, nonatomic) SDLRadioState state;
+
+/**
+ * Read Read-only Station Information Service (SIS) data provides basic information
+ * about the station such as call sign,
+ * as well as information not displayable to the consumer such as the station identification number
+ *
+ * Optional, SDLSisData
+ */
+@property (nullable, strong, nonatomic) SDLSisData *sisData;
 
 @end
 

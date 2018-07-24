@@ -11,3 +11,5 @@ SDLPrimaryAudioSource const SDLPrimaryAudioSourceBluetoothStereo = @"BLUETOOTH_S
 SDLPrimaryAudioSource const SDLPrimaryAudioSourceLineIn = @"LINE_IN";
 SDLPrimaryAudioSource const SDLPrimaryAudioSourceIpod = @"IPOD";
 SDLPrimaryAudioSource const SDLPrimaryAudioSourceMobileApp = @"MOBILE_APP";
+SDLPrimaryAudioSource const SDLPrimaryAudioSourceCD = @"CD";
+SDLPrimaryAudioSource const SDLPrimaryAudioSourceRadioTuner = @"RADIO_TUNER";
