@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param shortAppName              An abbreviated version of the mobile application's name
  * @return                          A SDLRegisterAppInterface object
  */
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName __deprecated_msg("Use initWithAppName:fullAppID:languageDesired:isMediaApp:appTypes:shortAppName: instead");;
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName __deprecated_msg("Use initWithAppName:fullAppID:languageDesired:isMediaApp:appTypes:shortAppName: instead");
 
 /**
  * Convenience init for registering the application.

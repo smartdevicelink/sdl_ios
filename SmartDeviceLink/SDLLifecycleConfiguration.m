@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Lifecycle
 
-- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId {
+- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId {
     self = [super init];
     if (!self) {
         return nil;
@@ -40,7 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
     _tcpDebugPort = DefaultTCPIPPort;
 
     _appName = appName;
-    _appId = appId;
+    _fullAppId = fullAppId;
+    _appId = fullAppId;
 
     _appType = SDLAppHMITypeDefault;
     _language = SDLLanguageEnUs;
@@ -53,12 +54,24 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+// j old
 + (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId {
-    return [[self alloc] initDefaultConfigurationWithAppName:appName appId:appId];
+    return [self defaultConfigurationWithAppName:appName fullAppId:appId];
 }
 
+// j new
++ (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppID {
+    return [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppID];
+}
+
+// k old
 + (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port {
-    SDLLifecycleConfiguration *config = [[self alloc] initDefaultConfigurationWithAppName:appName appId:appId];
+    return [self debugConfigurationWithAppName:appName fullAppId:appId ipAddress:ipAddress port:port];
+}
+
+// k new
++ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppID ipAddress:(NSString *)ipAddress port:(UInt16)port {
+    SDLLifecycleConfiguration *config = [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppID];
     config.tcpDebugMode = YES;
     config.tcpDebugIPAddress = ipAddress;
     config.tcpDebugPort = port;
@@ -97,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLLifecycleConfiguration *newConfig = [[self.class allocWithZone:zone] initDefaultConfigurationWithAppName:_appName appId:_appId];
+    SDLLifecycleConfiguration *newConfig = [[self.class allocWithZone:zone] initDefaultConfigurationWithAppName:_appName fullAppId:_fullAppId];
     newConfig->_tcpDebugMode = _tcpDebugMode;
     newConfig->_tcpDebugIPAddress = _tcpDebugIPAddress;
     newConfig->_tcpDebugPort = _tcpDebugPort;
@@ -111,6 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
     newConfig->_voiceRecognitionCommandNames = _voiceRecognitionCommandNames;
     newConfig->_dayColorScheme = _dayColorScheme;
     newConfig->_nightColorScheme = _nightColorScheme;
+    newConfig->_appId = _appId;
 
     return newConfig;
 }

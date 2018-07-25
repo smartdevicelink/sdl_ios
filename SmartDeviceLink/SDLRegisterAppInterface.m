@@ -199,6 +199,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameAppId];
 }
 
+- (void)setFullAppID:(NSString *)fullAppID {
+    [parameters sdl_setObject:fullAppID forName:SDLNameFullAppID];
+}
+
+- (NSString *)fullAppID {
+    return [parameters sdl_objectForName:SDLNameFullAppID];
+}
+
 - (void)setAppInfo:(nullable SDLAppInfo *)appInfo {
     [parameters sdl_setObject:appInfo forName:SDLNameAppInfo];
 }

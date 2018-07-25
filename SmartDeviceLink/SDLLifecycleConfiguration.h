@@ -29,23 +29,27 @@ NS_ASSUME_NONNULL_BEGIN
  *  A production configuration that runs using IAP. Additional functionality should be customized on the properties.
  *
  *  @param appName The name of the app.
- *  @param appId   The appId to be used. This should be registered with the radio's manufacturer.
+ *  @param appId   The appId to be used. This should be registered with the head unit's manufacturer.
  *
  *  @return The lifecycle configuration
  */
-+ (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId NS_SWIFT_NAME(init(appName:appId:));
++ (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId NS_SWIFT_NAME(init(appName:appId:)) __deprecated_msg("Use defaultConfigurationWithAppName:fullAppId: instead");
+
++ (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId NS_SWIFT_NAME(init(appName:fullAppId:));
 
 /**
  *  A debug configuration that runs using TCP. Additional functionality should be customized on the properties.
  *
  *  @param appName   The name of the app.
- *  @param appId     The appId to be used. This should be registered with the radio's manufacturer.
+ *  @param appId     The appId to be used. This should be registered with the head unit's manufacturer.
  *  @param ipAddress The ip address of the server to connect to
  *  @param port      The port of the server to connect to
  *
  *  @return The lifecycle configuration
  */
-+ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port NS_SWIFT_NAME(init(appName:appId:ipAddress:port:));
++ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port NS_SWIFT_NAME(init(appName:appId:ipAddress:port:)) __deprecated_msg("Use debugConfigurationWithAppName:fullAppId:ipAddress:port: instead");
+
++ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId ipAddress:(NSString *)ipAddress port:(UInt16)port NS_SWIFT_NAME(init(appName:fullAppId:ipAddress:port:));
 
 /**
  *  Whether or not debug mode is enabled
@@ -73,6 +77,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readonly) NSString *appId;
 
 /**
+ * The app id. This must be the same as the app id received from the SDL developer portal or OEM. If set, the `appId` parameter will be set automatically to the first 10 non-dash characters.
+ */
+@property (strong, nonatomic) NSString *fullAppId;
+
+/**
  *  A hash id which should be passed to the remote system in the RegisterAppInterface
  */
 @property (copy, nonatomic, nullable) NSString *resumeHash;
@@ -88,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, null_resettable) SDLAppHMIType appType;
 
 /**
- Additional application types beyond `appType`
+ *  Additional application types beyond `appType`
  */
 @property (copy, nonatomic, nullable) NSArray<SDLAppHMIType> *additionalAppTypes;
 
@@ -123,12 +132,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) NSArray<NSString *> *voiceRecognitionCommandNames;
 
 /**
- The color scheme to use when the head unit is in a light / day situation.
+ *  The color scheme to use when the head unit is in a light / day situation.
  */
 @property (copy, nonatomic, nullable) SDLTemplateColorScheme *dayColorScheme;
 
 /**
- The color scheme to use when the head unit is in a dark / night situation.
+ *  The color scheme to use when the head unit is in a dark / night situation.
  */
 @property (copy, nonatomic, nullable) SDLTemplateColorScheme *nightColorScheme;
 
