@@ -54,22 +54,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-// j old
 + (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId {
     return [self defaultConfigurationWithAppName:appName fullAppId:appId];
 }
 
-// j new
 + (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppID {
     return [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppID];
 }
 
-// k old
 + (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port {
     return [self debugConfigurationWithAppName:appName fullAppId:appId ipAddress:ipAddress port:port];
 }
 
-// k new
 + (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppID ipAddress:(NSString *)ipAddress port:(UInt16)port {
     SDLLifecycleConfiguration *config = [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppID];
     config.tcpDebugMode = YES;
