@@ -38,74 +38,27 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration;
 
-/**
- * Convenience init for registering the application.
- *
- * @param appName                   The mobile application's name
- * @param appId                     ID used to validate app with policy table entries
- * @param languageDesired           The language the application intends to use for user interaction
- * @return                          A SDLRegisterAppInterface object
- */
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired __deprecated_msg("Use initWithAppName:fullAppID:languageDesired: instead");
 
-/**
- * Convenience init for registering the application.
- *
- * @param appName                   The mobile application's name
- * @param fullAppID                 ID used to validate app with policy table entries
- * @param languageDesired           The language the application intends to use for user interaction
- * @return                          A SDLRegisterAppInterface object
- */
-- (instancetype)initWithAppName:(NSString *)appName fullAppID:(NSString *)fullAppID languageDesired:(SDLLanguage)languageDesired;
+- (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired;
 
-/**
- * Convenience init for registering the application.
- *
- * @param appName                   The mobile application's name
- * @param appId                     ID used to validate app with policy table entries
- * @param languageDesired           The language the application intends to use for user interaction
- * @param isMediaApp                Indicates if the application is a media or a non-media application
- * @param appTypes                  A list of all applicable app types stating which classifications to be given to the app
- * @param shortAppName              An abbreviated version of the mobile application's name
- * @return                          A SDLRegisterAppInterface object
- */
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName __deprecated_msg("Use initWithAppName:fullAppID:languageDesired:isMediaApp:appTypes:shortAppName: instead");
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired __deprecated_msg("Use initWithAppName:fullAppId:languageDesired: instead");
 
-/**
- * Convenience init for registering the application.
- *
- * @param appName                   The mobile application's name
- * @param fullAppID                 ID used to validate app with policy table entries
- * @param languageDesired           The language the application intends to use for user interaction
- * @param isMediaApp                Indicates if the application is a media or a non-media application
- * @param appTypes                  A list of all applicable app types stating which classifications to be given to the app
- * @param shortAppName              An abbreviated version of the mobile application's name
- * @return                          A SDLRegisterAppInterface object
- */
-- (instancetype)initWithAppName:(NSString *)appName fullAppID:(NSString *)fullAppID languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName;
+
+- (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName;
+
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName __deprecated_msg("Use initWithAppName:fullAppId:languageDesired:isMediaApp:appTypes:shortAppName: instead");
+
+
+- (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash;
+
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash __deprecated_msg("Use initWithAppName:fullAppId:languageDesired:isMediaApp:appTypes:shortAppNamettsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash: instead");
+
 
 /**
  * Convenience init for registering the application with all possible options.
  *
  * @param appName                   The mobile application's name
- * @param appId                     ID used to validate app with policy table entries
- * @param languageDesired           The language the application intends to use for user interaction
- * @param isMediaApp                Indicates if the application is a media or a non-media application
- * @param appTypes                  A list of all applicable app types stating which classifications to be given to the app
- * @param shortAppName              An abbreviated version of the mobile application's name
- * @param ttsName                   TTS string for VR recognition of the mobile application name
- * @param vrSynonyms                Additional voice recognition commands
- * @param hmiDisplayLanguageDesired Current app's expected VR+TTS language
- * @param resumeHash                ID used to uniquely identify current state of all app data that can persist through connection cycles
- * @return                          A SDLRegisterAppInterface object
- */
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash __deprecated_msg("Use initWithAppName:fullAppID:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:dayColorScheme:nightColorScheme: instead");
-
-/**
- * Convenience init for registering the application with all possible options.
- *
- * @param appName                   The mobile application's name
- * @param fullAppID                 ID used to validate app with policy table entries
+ * @param fullAppId                 ID used to validate app with policy table entries
  * @param languageDesired           The language the application intends to use for user interaction
  * @param isMediaApp                Indicates if the application is a media or a non-media application
  * @param appTypes                  A list of all applicable app types stating which classifications to be given to the app
@@ -118,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param nightColorScheme          The color scheme to be used on a head unit using a "dark" or "night" color scheme
  * @return                          A SDLRegisterAppInterface object
  */
-- (instancetype)initWithAppName:(NSString *)appName fullAppID:(NSString *)fullAppID languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme;
+- (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme;
 
 /**
  * The version of the SDL interface
@@ -239,7 +192,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *appID;
 
 /**
- * ID used to validate app with policy table entries
+ * A full UUID appID used to validate app with policy table entries.
  *
  * Required
  */

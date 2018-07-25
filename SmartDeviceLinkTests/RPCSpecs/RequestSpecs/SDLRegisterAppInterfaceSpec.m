@@ -116,7 +116,7 @@ describe(@"RegisterAppInterface Tests", ^{
 
         //// FIXME: deprecate methoded
         it(@"should initialize with initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:dayColorScheme:nightColorScheme:", ^{
-            SDLRegisterAppInterface *testRequest = [[SDLRegisterAppInterface alloc] initWithAppName:appName fullAppID:appId languageDesired:language isMediaApp:isMediaApp appTypes:@[appType] shortAppName:shortAppName ttsName:@[chunk] vrSynonyms:@[vrSynonyms] hmiDisplayLanguageDesired:hmiDisplayLanguage resumeHash:resumeHash dayColorScheme:colorScheme nightColorScheme:colorScheme];
+            SDLRegisterAppInterface *testRequest = [[SDLRegisterAppInterface alloc] initWithAppName:appName fullAppId:appId languageDesired:language isMediaApp:isMediaApp appTypes:@[appType] shortAppName:shortAppName ttsName:@[chunk] vrSynonyms:@[vrSynonyms] hmiDisplayLanguageDesired:hmiDisplayLanguage resumeHash:resumeHash dayColorScheme:colorScheme nightColorScheme:colorScheme];
 
             expect(testRequest.syncMsgVersion).toNot(beNil());
             expect(testRequest.appName).to(equal(appName));

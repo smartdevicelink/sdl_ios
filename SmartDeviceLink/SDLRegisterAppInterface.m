@@ -17,7 +17,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static NSUInteger const shortAppIdCharacterCount = 10;
+
 @implementation SDLRegisterAppInterface
+
+#pragma mark - Lifecycle
 
 - (instancetype)init {
     if (self = [super initWithName:SDLNameRegisterAppInterface]) {
@@ -42,6 +46,12 @@ NS_ASSUME_NONNULL_BEGIN
                 nightColorScheme:lifecycleConfiguration.nightColorScheme];
 }
 
+// l1 new
+- (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired {
+
+}
+
+// l1 old
 - (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired {
     self = [self init];
     if (!self) {
@@ -62,6 +72,12 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+// n1 new
+- (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName {
+
+}
+
+// n2 old
 - (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName {
     self = [self initWithAppName:appName appId:appId languageDesired:languageDesired];
     if (!self) {
@@ -75,6 +91,12 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+// m1 new
+- (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppID languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName {
+
+}
+
+// m2 old
 - (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash {
     self = [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
     if (!self) {
@@ -89,8 +111,9 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
-    self = [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
+// n updated
+- (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppID languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
+    self = [self initWithAppName:appName appId:fullAppID languageDesired:languageDesired isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
     if (!self) { return nil; }
 
     self.ttsName = [ttsName copy];
@@ -102,6 +125,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     return self;
 }
+
+#pragma mark - Getters and Setters
 
 - (void)setSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
     [parameters sdl_setObject:syncMsgVersion forName:SDLNameSyncMessageVersion];
@@ -229,6 +254,49 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLTemplateColorScheme *)nightColorScheme {
     return [parameters sdl_objectForName:SDLNameNightColorScheme ofClass:[SDLTemplateColorScheme class]];
+}
+
+#pragma mark - Helpers
+
+/**
+ *  Generates the `appId` from the `fullAppId`.
+ *
+ *  @discussion When an app is registered with an OEM, it is assigned an `appID` and a `fullAppID`. The `fullAppID` is the full UUID appID. The `appID` is the first 10 non-dash (i.e. "-") characters of the  `fullAppID`.
+ *
+ *  @param fullAppId   A `fullAppId`
+ *  @return            An `appID` made of the first 10 non-dash characters of the "fullAppID"
+ */
++ (NSString *)sdlex_shortAppIdFromFullAppId:(NSString *)fullAppId {
+    if (fullAppId.length <= shortAppIdCharacterCount) { return fullAppId; }
+
+    NSString *filteredString = [self sdlex_filterDashesFromText:fullAppId];
+    NSString *truncatedString = [self sdlex_truncateText:filteredString length:shortAppIdCharacterCount];
+
+    return truncatedString;
+}
+
+/**
+ *  Filters the dash characters from a string.
+ *
+ *  @param text    The string
+ *  @return        The string with all dash characters removed
+ */
++ (NSString *)sdlex_filterDashesFromText:(NSString *)text {
+    if (text.length == 0) { return text; }
+    NSCharacterSet *supportedCharacters = [NSCharacterSet characterSetWithCharactersInString:@"-"];
+    return [[text componentsSeparatedByCharactersInSet:supportedCharacters.invertedSet] componentsJoinedByString:@""];
+}
+
+/**
+ *  Truncates a string to the specified length
+ *
+ *  @param text    The string to truncate
+ *  @param length  The length to truncate the string
+ *  @return        A truncated string
+ */
++ (NSString *)sdlex_truncateText:(NSString *)text length:(UInt8)length {
+    if (length >= text.length) { return text; }
+    return [text substringToIndex:MIN(length, text.length)];
 }
 
 @end
