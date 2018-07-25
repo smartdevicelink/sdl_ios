@@ -10,10 +10,15 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface SDLMassageCushionFirmness : SDLRPCStruct
 
+
 /**
- * @abstract Constructs a newly allocated SDLMassageCushionFirmness object with cushion and firmness
+ Constructs a newly allocated SDLMassageCushionFirmness object with cushion and firmness
+
+ @param cushion The cushion type for a multi-contour massage seat
+ @param firmness The firmness value for the multi-contour massage seat, MinValue: 0 MaxValue: 100
+ @return An instance of the SDLMassageCushionFirmness class
  */
-- (instancetype)initWithMassageCushion:(SDLMassageCushion)cushion firmness:(UInt16)firmness;
+- (instancetype)initWithMassageCushion:(SDLMassageCushion)cushion firmness:(UInt8)firmness;
 
 /**
  * @abstract cushion of a multi-contour massage seat.
@@ -25,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * @abstract zone of a multi-contour massage seat.
  *
- * Required, MinValue- 0 MaxValue= 100
+ * Required, MinValue: 0 MaxValue: 100
  *
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *firmness;

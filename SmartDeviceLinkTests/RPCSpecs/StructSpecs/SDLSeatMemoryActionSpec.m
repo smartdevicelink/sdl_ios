@@ -28,8 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get correctly", ^ {
-        SDLSeatMemoryAction* testStruct = [[SDLSeatMemoryAction alloc] initWithId:23 action:SDLSeatMemoryActionTypeRestore];
-        testStruct.label = @"restore";
+        SDLSeatMemoryAction* testStruct = [[SDLSeatMemoryAction alloc] initWithId:23 label:@"restore" action:SDLSeatMemoryActionTypeRestore];
 
         expect(testStruct.id).to(equal(@23));
         expect(testStruct.action).to(equal(SDLSeatMemoryActionTypeRestore));

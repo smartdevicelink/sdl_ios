@@ -20,29 +20,32 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithId:(SDLSupportedSeat)supportedSeat heatingEnabled:(BOOL)heatingEnable coolingEnable:(BOOL)coolingEnabled heatingLevel:(UInt16)heatingLevel coolingLevel:(UInt16)coolingLevel horizontalPostion:(UInt16)horizontal verticalPostion:(UInt16)vertical frontVerticalPostion:(UInt16)frontVertical backVerticalPostion:(UInt16)backVertical backTiltAngle:(UInt16)backAngle headSupportedHorizontalPostion:(UInt16)headSupportedHorizontal headSupportedVerticalPostion:(UInt16)headSupportedVertical massageEnabled:(BOOL)massageEnable massageMode:(NSArray<SDLMassageModeData *> *)massageMode massageCussionFirmness:(NSArray<SDLMassageCushionFirmness *> *)firmness memory:(SDLSeatMemoryAction *)memoryAction {
+- (instancetype)initWithId:(SDLSupportedSeat)supportedSeat heatingEnabled:(BOOL)heatingEnable coolingEnable:(BOOL)coolingEnabled heatingLevel:(UInt8)heatingLevel coolingLevel:(UInt8)coolingLevel horizontalPostion:(UInt8)horizontal verticalPostion:(UInt8)vertical frontVerticalPostion:(UInt8)frontVertical backVerticalPostion:(UInt8)backVertical backTiltAngle:(UInt8)backAngle headSupportedHorizontalPostion:(UInt8)headSupportedHorizontal headSupportedVerticalPostion:(UInt8)headSupportedVertical massageEnabled:(BOOL)massageEnable massageMode:(NSArray<SDLMassageModeData *> *)massageMode massageCussionFirmness:(NSArray<SDLMassageCushionFirmness *> *)firmness memory:(SDLSeatMemoryAction *)memoryAction {
 
-    if (self = [super init]) {
-        self.id = supportedSeat;
-        self.heatingEnabled = @(heatingEnable);
-        self.coolingEnabled = @(coolingEnabled);
-        self.heatingLevel = @(heatingLevel);
-        self.coolingLevel = @(coolingLevel);
-
-        self.horizontalPosition = @(horizontal);
-        self.verticalPosition = @(vertical);
-        self.frontVerticalPosition = @(frontVertical);
-        self.backVerticalPosition = @(backVertical);
-        self.backTiltAngle = @(backAngle);
-
-        self.headSupportHorizontalPosition = @(headSupportedHorizontal);
-        self.headSupportVerticalPosition = @(headSupportedVertical);
-
-        self.massageEnabled = @(massageEnable);
-        self.massageMode = massageMode;
-        self.massageCushionFirmness = firmness;
-        self.memory = memoryAction;
+    self = [super init];
+    if (!self) {
+        return nil;
     }
+
+    self.id = supportedSeat;
+    self.heatingEnabled = @(heatingEnable);
+    self.coolingEnabled = @(coolingEnabled);
+    self.heatingLevel = @(heatingLevel);
+    self.coolingLevel = @(coolingLevel);
+
+    self.horizontalPosition = @(horizontal);
+    self.verticalPosition = @(vertical);
+    self.frontVerticalPosition = @(frontVertical);
+    self.backVerticalPosition = @(backVertical);
+    self.backTiltAngle = @(backAngle);
+
+    self.headSupportHorizontalPosition = @(headSupportedHorizontal);
+    self.headSupportVerticalPosition = @(headSupportedVertical);
+
+    self.massageEnabled = @(massageEnable);
+    self.massageMode = massageMode;
+    self.massageCushionFirmness = firmness;
+    self.memory = memoryAction;
 
     return self;
 }

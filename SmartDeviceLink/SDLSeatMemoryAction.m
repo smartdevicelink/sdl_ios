@@ -9,13 +9,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSeatMemoryAction
 
-- (instancetype)initWithId:(UInt16)id action:(SDLSeatMemoryActionType)action {
+- (instancetype)initWithId:(UInt8)id label:(nullable NSString*)label action:(SDLSeatMemoryActionType)action {
     self = [super init];
     if (!self) {
         return nil;
     }
 
     self.id = @(id);
+    self.label = label;
     self.action = action;
 
     return self;

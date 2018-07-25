@@ -15,16 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLRemoteControlCapabilities
 
 - (instancetype)initWithClimateControlCapabilities:(nullable NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(nullable NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities {
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
-    
-    self.climateControlCapabilities = climateControlCapabilities;
-    self.radioControlCapabilities = radioControlCapabilities;
-    self.buttonCapabilities = buttonCapabilities;
 
-    return self;
+    return [self initWithClimateControlCapabilities:climateControlCapabilities radioControlCapabilities:radioControlCapabilities buttonCapabilities:buttonCapabilities seatControlCapabilities:nil];
+
 }
 
 - (instancetype)initWithClimateControlCapabilities:(nullable NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(nullable NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities seatControlCapabilities:(nullable NSArray<SDLSeatControlCapabilities *> *)seatControlCapabilities {

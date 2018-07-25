@@ -13,9 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLSeatMemoryAction : SDLRPCStruct
 
 /**
- * @abstract Constructs a newly allocated SDLSeatMemoryAction object with id, label and action type
+ * @abstract Constructs a newly allocated SDLSeatMemoryAction object with id, label (max length 100 chars) and action type
  */
-- (instancetype)initWithId:(UInt16)id action:(SDLSeatMemoryActionType)action;
+- (instancetype)initWithId:(UInt8)id label:(nullable NSString*) label action:(SDLSeatMemoryActionType)action;
 
 /**
  * @abstract id of the action to be performed.
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSNumber<SDLInt> *id;
 
 /**
- * @abstract mode of a massage zone
+ * @abstract label of the action to be performed.
  *
  * Optional, Max length 100 chars
  */

@@ -19,13 +19,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithId:(SDLSupportedSeat)supportedSeat;
 
-- (instancetype)initWithId:(SDLSupportedSeat)supportedSeat heatingEnabled:(BOOL)heatingEnable coolingEnable:(BOOL)coolingEnable heatingLevel:(UInt16)heatingLevel coolingLevel:(UInt16)coolingLevel horizontalPostion:(UInt16)horizontal verticalPostion:(UInt16)vertical frontVerticalPostion:(UInt16)frontVertical backVerticalPostion:(UInt16)backVertical backTiltAngle:(UInt16)backAngle headSupportedHorizontalPostion:(UInt16)headSupportedHorizontal headSupportedVerticalPostion:(UInt16)headSupportedVertical massageEnabled:(BOOL)massageEnable massageMode:(NSArray<SDLMassageModeData *> *)massageMode massageCussionFirmness:(NSArray<SDLMassageCushionFirmness *> *)firmness memory:(SDLSeatMemoryAction *)memoryAction;
+- (instancetype)initWithId:(SDLSupportedSeat)supportedSeat heatingEnabled:(BOOL)heatingEnable coolingEnable:(BOOL)coolingEnable heatingLevel:(UInt8)heatingLevel coolingLevel:(UInt8)coolingLevel horizontalPostion:(UInt8)horizontal verticalPostion:(UInt8)vertical frontVerticalPostion:(UInt8)frontVertical backVerticalPostion:(UInt8)backVertical backTiltAngle:(UInt8)backAngle headSupportedHorizontalPostion:(UInt8)headSupportedHorizontal headSupportedVerticalPostion:(UInt8)headSupportedVertical massageEnabled:(BOOL)massageEnable massageMode:(NSArray<SDLMassageModeData *> *)massageMode massageCussionFirmness:(NSArray<SDLMassageCushionFirmness *> *)firmness memory:(SDLSeatMemoryAction *)memoryAction;
 
 /**
- * @abstract id of seat that is a remote controllable seat..
+ * @abstract id of seat that is a remote controllable seat.
  *
  * Required
- *
  */
 @property (strong, nonatomic) SDLSupportedSeat id;
 
@@ -132,7 +131,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @abstract type of action to be performed
  *
  * Required, @see SDLSeatMemoryAction
- *
  */
 @property (nullable, strong, nonatomic) SDLSeatMemoryAction *memory;
 

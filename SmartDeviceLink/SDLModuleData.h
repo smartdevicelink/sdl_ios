@@ -43,6 +43,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, strong, nonatomic) SDLClimateControlData *climateControlData;
 
+/**
+ The seat control data
+
+ Optional
+ */
 @property (nullable, strong, nonatomic) SDLSeatControlData *seatControlData;
 
 @end

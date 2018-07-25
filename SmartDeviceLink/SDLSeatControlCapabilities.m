@@ -17,24 +17,29 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithName:(NSString *)moduleName heatingEnabledAvailable:(BOOL)heatingEnabledAvail coolingEnabledAvailable:(BOOL)coolingEnabledAvail heatingLevelAvailable:(BOOL)heatingLevelAvail coolingLevelAvailable:(BOOL)coolingLevelAvail horizontalPositionAvailable:(BOOL)horizontalPositionAvail verticalPositionAvailable:(BOOL)verticalPositionAvail frontVerticalPositionAvailable:(BOOL)frontVerticalPositionAvail backVerticalPositionAvailable:(BOOL)backVerticalPositionAvail backTiltAngleAvailable:(BOOL)backTitlAngleAvail headSupportHorizontalPositionAvailable:(BOOL)headSupportHorizontalPositionAvail headSupportVerticalPositionAvailable:(BOOL)headSupportVerticalPositionAvail massageEnabledAvailable:(BOOL)massageEnabledAvail massageModeAvailable:(BOOL)massageModeAvail massageCushionFirmnessAvailable:(BOOL)massageCushionFirmnessAvail memoryAvailable:(BOOL)memoryAvail {
-    if (self = [super init]) {
-        self.moduleName = moduleName;
-        self.heatingEnabledAvailable = @(heatingEnabledAvail);
-        self.coolingEnabledAvailable = @(coolingEnabledAvail);
-        self.heatingLevelAvailable = @(heatingLevelAvail);
-        self.coolingLevelAvailable = @(coolingLevelAvail);
-        self.horizontalPositionAvailable = @(horizontalPositionAvail);
-        self.verticalPositionAvailable = @(verticalPositionAvail);
-        self.frontVerticalPositionAvailable = @(frontVerticalPositionAvail);
-        self.backVerticalPositionAvailable = @(backVerticalPositionAvail);
-        self.backTiltAngleAvailable = @(backTitlAngleAvail);
-        self.headSupportVerticalPositionAvailable = @(headSupportVerticalPositionAvail);
-        self.headSupportHorizontalPositionAvailable = @(headSupportHorizontalPositionAvail);
-        self.massageEnabledAvailable = @(massageEnabledAvail);
-        self.massageModeAvailable = @(massageModeAvail);
-        self.massageCushionFirmnessAvailable = @(massageCushionFirmnessAvail);
-        self.memoryAvailable = @(memoryAvail);
+
+    self = [super init];
+    if (!self) {
+        return nil;
     }
+
+    self.moduleName = moduleName;
+    self.heatingEnabledAvailable = @(heatingEnabledAvail);
+    self.coolingEnabledAvailable = @(coolingEnabledAvail);
+    self.heatingLevelAvailable = @(heatingLevelAvail);
+    self.coolingLevelAvailable = @(coolingLevelAvail);
+    self.horizontalPositionAvailable = @(horizontalPositionAvail);
+    self.verticalPositionAvailable = @(verticalPositionAvail);
+    self.frontVerticalPositionAvailable = @(frontVerticalPositionAvail);
+    self.backVerticalPositionAvailable = @(backVerticalPositionAvail);
+    self.backTiltAngleAvailable = @(backTitlAngleAvail);
+    self.headSupportVerticalPositionAvailable = @(headSupportVerticalPositionAvail);
+    self.headSupportHorizontalPositionAvailable = @(headSupportHorizontalPositionAvail);
+    self.massageEnabledAvailable = @(massageEnabledAvail);
+    self.massageModeAvailable = @(massageModeAvail);
+    self.massageCushionFirmnessAvailable = @(massageCushionFirmnessAvail);
+    self.memoryAvailable = @(memoryAvail);
+
     return self;
 }
 
