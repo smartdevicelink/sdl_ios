@@ -188,6 +188,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLOnLanguageChange.h',
 'SmartDeviceLink/SDLOnLockScreenStatus.h',
 'SmartDeviceLink/SDLOnPermissionsChange.h',
+'SmartDeviceLink/SDLOnRCStatus.h',
 'SmartDeviceLink/SDLOnSyncPData.h',
 'SmartDeviceLink/SDLOnSystemRequest.h',
 'SmartDeviceLink/SDLOnTBTClientState.h',
