@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Current availablility of video streaming for the application. When this parameter is NOT_STREAMABLE, the application must stop video streaming to SDL.
  */
-@property (strong, nonatomic) SDLVideoStreamingState videoStreamingState;
+@property (strong, nonatomic, nullable) SDLVideoStreamingState videoStreamingState;
 
 /**
  Whether a user-initiated interaction is in-progress (VRSESSION or MENU), or not (MAIN)
