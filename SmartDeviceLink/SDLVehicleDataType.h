@@ -148,3 +148,13 @@ extern SDLVehicleDataType const SDLVehicleDataTypeAccelerationPedal;
  Vehicle steering wheel data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeSteeringWheel;
+
+/**
+ Vehicle electronic parking brake status data
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeElectronicParkBrakeStatus;
+
+/**
+ Vehicle turn signal data
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeTurnSignal;

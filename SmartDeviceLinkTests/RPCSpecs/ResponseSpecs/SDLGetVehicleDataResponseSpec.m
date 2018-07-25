@@ -39,6 +39,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.deviceStatus = device;
         testResponse.driverBraking = SDLVehicleDataEventStatusNoEvent;
         testResponse.eCallInfo = eCall;
+        testResponse.electronicParkBrakeStatus = SDLElectronicParkBrakeStatusDriveActive;
         testResponse.emergencyEvent = event;
         testResponse.engineOilLife = @56.3;
         testResponse.engineTorque = @630.4;
@@ -56,6 +57,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.speed = @100;
         testResponse.steeringWheelAngle = @-1500;
         testResponse.tirePressure = tires;
+        testResponse.turnSignal = SDLTurnSignalBoth;
         testResponse.vin = @"6574839201";
         testResponse.wiperStatus = SDLWiperStatusAutomaticHigh;
 
@@ -67,6 +69,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.deviceStatus).to(equal(device));
         expect(testResponse.driverBraking).to(equal(SDLVehicleDataEventStatusNoEvent));
         expect(testResponse.eCallInfo).to(equal(eCall));
+        expect(testResponse.electronicParkBrakeStatus).to(equal(SDLElectronicParkBrakeStatusDriveActive));
         expect(testResponse.emergencyEvent).to(equal(event));
         expect(testResponse.engineOilLife).to(equal(@56.3));
         expect(testResponse.engineTorque).to(equal(@630.4));
@@ -84,6 +87,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.speed).to(equal(@100));
         expect(testResponse.steeringWheelAngle).to(equal(@-1500));
         expect(testResponse.tirePressure).to(equal(tires));
+        expect(testResponse.turnSignal).to(equal(SDLTurnSignalBoth));
         expect(testResponse.vin).to(equal(@"6574839201"));
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
     });
@@ -100,6 +104,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                      SDLNameDeviceStatus:device,
                                                      SDLNameDriverBraking:SDLVehicleDataEventStatusNoEvent,
                                                      SDLNameECallInfo:eCall,
+                                                     SDLNameElectronicParkBrakeStatus:SDLElectronicParkBrakeStatusDriveActive,
                                                      SDLNameEmergencyEvent:event,
                                                      SDLNameEngineOilLife:@23.22,
                                                      SDLNameEngineTorque:@630.4,
@@ -117,6 +122,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                      SDLNameSpeed:@100,
                                                      SDLNameSteeringWheelAngle:@-1500,
                                                      SDLNameTirePressure:tires,
+                                                     SDLNameTurnSignal:SDLTurnSignalOff,
                                                      SDLNameVIN:@"6574839201",
                                                      SDLNameWiperStatus:SDLWiperStatusAutomaticHigh},
                                              SDLNameOperationName:SDLNameGetVehicleData}} mutableCopy];
@@ -130,6 +136,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.deviceStatus).to(equal(device));
         expect(testResponse.driverBraking).to(equal(SDLVehicleDataEventStatusNoEvent));
         expect(testResponse.eCallInfo).to(equal(eCall));
+        expect(testResponse.electronicParkBrakeStatus).to(equal(SDLElectronicParkBrakeStatusDriveActive));
         expect(testResponse.emergencyEvent).to(equal(event));
         expect(testResponse.engineOilLife).to(equal(@23.22));
         expect(testResponse.engineTorque).to(equal(@630.4));
@@ -147,6 +154,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.speed).to(equal(@100));
         expect(testResponse.steeringWheelAngle).to(equal(@-1500));
         expect(testResponse.tirePressure).to(equal(tires));
+        expect(testResponse.turnSignal).to(equal(SDLTurnSignalOff));
         expect(testResponse.vin).to(equal(@"6574839201"));
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
     });
@@ -162,6 +170,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.deviceStatus).to(beNil());
         expect(testResponse.driverBraking).to(beNil());
         expect(testResponse.eCallInfo).to(beNil());
+        expect(testResponse.electronicParkBrakeStatus).to(beNil());
         expect(testResponse.emergencyEvent).to(beNil());
         expect(testResponse.engineOilLife).to(beNil());
         expect(testResponse.engineTorque).to(beNil());
@@ -179,6 +188,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.speed).to(beNil());
         expect(testResponse.steeringWheelAngle).to(beNil());
         expect(testResponse.tirePressure).to(beNil());
+        expect(testResponse.turnSignal).to(beNil());
         expect(testResponse.vin).to(beNil());
         expect(testResponse.wiperStatus).to(beNil());
     });

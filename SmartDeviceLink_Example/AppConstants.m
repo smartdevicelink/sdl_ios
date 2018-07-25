@@ -80,6 +80,7 @@ NSString * const ACClusterModeStatusMenuName = @"Cluster Mode Status";
 NSString * const ACDeviceStatusMenuName = @"Device Status";
 NSString * const ACDriverBrakingMenuName = @"Driver Braking";
 NSString * const ACECallInfoMenuName = @"eCall Info";
+NSString * const ACElectronicParkBrakeStatus = @"Electronic Parking Brake Status";
 NSString * const ACEmergencyEventMenuName = @"Emergency Event";
 NSString * const ACEngineOilLifeMenuName = @"Engine Oil Life";
 NSString * const ACEngineTorqueMenuName = @"Engine Torque";
@@ -97,6 +98,7 @@ NSString * const ACRPMMenuName = @"RPM";
 NSString * const ACSpeedMenuName = @"Speed";
 NSString * const ACSteeringWheelAngleMenuName = @"Steering Wheel Angle";
 NSString * const ACTirePressureMenuName = @"Tire Pressure";
+NSString * const ACTurnSignalMenuName = @"Turn Signal";
 NSString * const ACVINMenuName = @"VIN";
 NSString * const ACWiperStatusMenuName = @"Wiper Status";
 

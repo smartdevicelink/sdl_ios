@@ -59,7 +59,7 @@ private extension MenuManager {
     /// - Returns: A SDLMenuCell object
     class func menuCellGetAllVehicleData(with manager: SDLManager) -> SDLMenuCell {
         let submenuItems = allVehicleDataTypes.map { submenuName in
-            SDLMenuCell(title: submenuName, icon: nil, voiceCommands: [submenuName], handler: { triggerSource in
+            SDLMenuCell(title: submenuName, icon: nil, voiceCommands: nil, handler: { triggerSource in
                 VehicleDataManager.getAllVehicleData(with: manager, triggerSource: triggerSource, vehicleDataType: submenuName)
             })
         }
@@ -69,7 +69,7 @@ private extension MenuManager {
 
     /// A list of all possible vehicle data types
     static var allVehicleDataTypes: [String] {
-        return [ACAccelerationPedalPositionMenuName, ACAirbagStatusMenuName, ACBeltStatusMenuName, ACBodyInformationMenuName, ACClusterModeStatusMenuName, ACDeviceStatusMenuName, ACDriverBrakingMenuName, ACECallInfoMenuName, ACEmergencyEventMenuName, ACEngineOilLifeMenuName, ACEngineTorqueMenuName, ACExternalTemperatureMenuName, ACFuelLevelMenuName, ACFuelLevelStateMenuName, ACFuelRangeMenuName, ACGPSMenuName, ACHeadLampStatusMenuName, ACInstantFuelConsumptionMenuName, ACMyKeyMenuName, ACOdometerMenuName, ACPRNDLMenuName, ACRPMMenuName, ACSpeedMenuName, ACSteeringWheelAngleMenuName, ACTirePressureMenuName, ACVINMenuName, ACWiperStatusMenuName]
+        return [ACAccelerationPedalPositionMenuName, ACAirbagStatusMenuName, ACBeltStatusMenuName, ACBodyInformationMenuName, ACClusterModeStatusMenuName, ACDeviceStatusMenuName, ACDriverBrakingMenuName, ACECallInfoMenuName, ACElectronicParkBrakeStatus, ACEmergencyEventMenuName, ACEngineOilLifeMenuName, ACEngineTorqueMenuName, ACExternalTemperatureMenuName, ACFuelLevelMenuName, ACFuelLevelStateMenuName, ACFuelRangeMenuName, ACGPSMenuName, ACHeadLampStatusMenuName, ACInstantFuelConsumptionMenuName, ACMyKeyMenuName, ACOdometerMenuName, ACPRNDLMenuName, ACRPMMenuName, ACSpeedMenuName, ACSteeringWheelAngleMenuName, ACTirePressureMenuName, ACTurnSignalMenuName, ACVINMenuName, ACWiperStatusMenuName]
     }
 
     /// Menu item that shows a custom menu (i.e. a Perform Interaction Choice Set) when selected
@@ -122,7 +122,7 @@ private extension MenuManager {
         var submenuItems = [SDLMenuCell]()
         for i in 0 ..< 10 {
             let submenuTitle = "Submenu Item \(i)"
-            submenuItems.append(SDLMenuCell(title: submenuTitle, icon: SDLArtwork(image: UIImage(named: MenuBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: [submenuTitle, "Item \(i)", "\(i)"], handler: { (triggerSource) in
+            submenuItems.append(SDLMenuCell(title: submenuTitle, icon: SDLArtwork(image: UIImage(named: MenuBWIconImageName)!.withRenderingMode(.alwaysTemplate), persistent: true, as: .PNG), voiceCommands: nil, handler: { (triggerSource) in
                 let message = "\(submenuTitle) selected!"
                 switch triggerSource {
                 case .menu:
