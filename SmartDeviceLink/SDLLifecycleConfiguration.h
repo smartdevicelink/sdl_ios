@@ -97,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The app id. This must be the same as the app id received from the SDL developer portal or OEM. If set, the `appId` parameter will be set automatically to the first 10 non-dash characters.
  */
-@property (strong, nonatomic) NSString *fullAppId;
+@property (strong, nonatomic, readonly) NSString *fullAppId;
 
 /**
  *  A hash id which should be passed to the remote system in the RegisterAppInterface

@@ -29,7 +29,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Lifecycle
 
-- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName {
++ (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId {
+    return [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:@"" appId:appId];
+}
+
++ (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId {
+    return [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppId appId:@""];
+}
+
++ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port {
+    return [self debugConfigurationWithAppName:appName fullAppId:@"" appId:appId ipAddress:ipAddress port:port];
+}
+
++ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppID ipAddress:(NSString *)ipAddress port:(UInt16)port {
+    return [self debugConfigurationWithAppName:appName fullAppId:fullAppID appId:@"" ipAddress:ipAddress port:port];
+}
+
+#pragma mark Initalization Helpers
+
+- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId appId:(NSString *)appId  {
     self = [super init];
     if (!self) {
         return nil;
@@ -48,35 +66,14 @@ NS_ASSUME_NONNULL_BEGIN
     _ttsName = nil;
     _voiceRecognitionCommandNames = nil;
 
-    return self;
-}
-
-- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId {
-    self = [self initDefaultConfigurationWithAppName:appName];
-    if (!self) {
-        return nil;
-    }
-
     _fullAppId = fullAppId;
-    _appId = @"";
+    _appId = appId;
 
     return self;
 }
 
-+ (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId {
-    return [self defaultConfigurationWithAppName:appName fullAppId:appId];
-}
-
-+ (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppID {
-    return [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppID];
-}
-
-+ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port {
-    return [self debugConfigurationWithAppName:appName fullAppId:appId ipAddress:ipAddress port:port];
-}
-
-+ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppID ipAddress:(NSString *)ipAddress port:(UInt16)port {
-    SDLLifecycleConfiguration *config = [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppID];
++ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppID appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port {
+    SDLLifecycleConfiguration *config = [[self alloc] initDefaultConfigurationWithAppName:appName fullAppId:fullAppID appId:appId];
     config.tcpDebugMode = YES;
     config.tcpDebugIPAddress = ipAddress;
     config.tcpDebugPort = port;
@@ -84,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
     return config;
 }
 
-#pragma mark Computed Properties
+#pragma mark - Computed Properties
 
 - (BOOL)isMedia {
     if ([self.appType isEqualToEnum:SDLAppHMITypeMedia] || [self.additionalAppTypes containsObject:SDLAppHMITypeMedia]) {
@@ -112,10 +109,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-#pragma mark NSCopying
+#pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLLifecycleConfiguration *newConfig = [[self.class allocWithZone:zone] initDefaultConfigurationWithAppName:_appName fullAppId:_fullAppId];
+    SDLLifecycleConfiguration *newConfig = [[self.class allocWithZone:zone] initDefaultConfigurationWithAppName:_appName fullAppId:_fullAppId appId:_appId];
     newConfig->_tcpDebugMode = _tcpDebugMode;
     newConfig->_tcpDebugIPAddress = _tcpDebugIPAddress;
     newConfig->_tcpDebugPort = _tcpDebugPort;
@@ -129,7 +126,6 @@ NS_ASSUME_NONNULL_BEGIN
     newConfig->_voiceRecognitionCommandNames = _voiceRecognitionCommandNames;
     newConfig->_dayColorScheme = _dayColorScheme;
     newConfig->_nightColorScheme = _nightColorScheme;
-    newConfig->_appId = _appId;
 
     return newConfig;
 }

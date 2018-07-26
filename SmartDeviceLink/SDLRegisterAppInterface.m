@@ -29,27 +29,9 @@ static NSUInteger const shortAppIdCharacterCount = 10;
     return self;
 }
 
-- (instancetype)initWithAppName:(NSString *)appName languageDesired:(SDLLanguage)languageDesired {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
-    self.appName = appName;
-    self.languageDesired = languageDesired;
-    self.hmiDisplayLanguageDesired = languageDesired;
-
-    self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:1 minorVersion:0 patchVersion:0];
-    self.appInfo = [SDLAppInfo currentAppInfo];
-    self.deviceInfo = [SDLDeviceInfo currentDevice];
-    self.correlationID = @1;
-    self.isMediaApplication = @NO;
-
-    return self;
-}
-
 - (instancetype)initWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
     NSArray<SDLAppHMIType> *allHMITypes = lifecycleConfiguration.additionalAppTypes ? [lifecycleConfiguration.additionalAppTypes arrayByAddingObject:lifecycleConfiguration.appType] : @[lifecycleConfiguration.appType];
+
     return [self initWithAppName:lifecycleConfiguration.appName
                        fullAppId:lifecycleConfiguration.fullAppId
                  languageDesired:lifecycleConfiguration.language
@@ -144,6 +126,27 @@ static NSUInteger const shortAppIdCharacterCount = 10;
     self.hashID = resumeHash;
     self.dayColorScheme = dayColorScheme;
     self.nightColorScheme = nightColorScheme;
+
+    return self;
+}
+
+#pragma mark Initializer Helpers
+
+- (instancetype)initWithAppName:(NSString *)appName languageDesired:(SDLLanguage)languageDesired {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.appName = appName;
+    self.languageDesired = languageDesired;
+    self.hmiDisplayLanguageDesired = languageDesired;
+
+    self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:1 minorVersion:0 patchVersion:0];
+    self.appInfo = [SDLAppInfo currentAppInfo];
+    self.deviceInfo = [SDLDeviceInfo currentDevice];
+    self.correlationID = @1;
+    self.isMediaApplication = @NO;
 
     return self;
 }
@@ -288,7 +291,7 @@ static NSUInteger const shortAppIdCharacterCount = 10;
  *  @param fullAppId   A `fullAppId`
  *  @return            An `appID` made of the first 10 non-dash characters of the "fullAppID"
  */
-+ (NSString *)sdlex_shortAppIdFromFullAppId:(NSString *)fullAppId {
++ (nullable NSString *)sdlex_shortAppIdFromFullAppId:(nullable NSString *)fullAppId {
     if (fullAppId.length <= shortAppIdCharacterCount) { return fullAppId; }
 
     NSString *filteredString = [self sdlex_filterDashesFromText:fullAppId];
@@ -306,7 +309,7 @@ static NSUInteger const shortAppIdCharacterCount = 10;
 + (NSString *)sdlex_filterDashesFromText:(NSString *)text {
     if (text.length == 0) { return text; }
     NSCharacterSet *supportedCharacters = [NSCharacterSet characterSetWithCharactersInString:@"-"];
-    return [[text componentsSeparatedByCharactersInSet:supportedCharacters.invertedSet] componentsJoinedByString:@""];
+    return [[text componentsSeparatedByCharactersInSet:supportedCharacters] componentsJoinedByString:@""];
 }
 
 /**
