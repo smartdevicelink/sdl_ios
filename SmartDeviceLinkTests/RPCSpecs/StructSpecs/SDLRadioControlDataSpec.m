@@ -32,6 +32,7 @@ describe(@"Initialization tests", ^{
         expect(testStruct.signalChangeThreshold).to(beNil());
         expect(testStruct.radioEnable).to(beNil());
         expect(testStruct.state).to(beNil());
+        expect(testStruct.hdRadioEnable).to(beNil());
     });
     
     it(@"should properly initialize initWithDictionary", ^{
@@ -45,7 +46,9 @@ describe(@"Initialization tests", ^{
                                        SDLNameSignalStrength : @54,
                                        SDLNameSignalChangeThreshold : @76,
                                        SDLNameRadioEnable : @YES,
-                                       SDLNameState : SDLRadioStateNotFound} mutableCopy];
+                                       SDLNameState : SDLRadioStateNotFound,
+                                       SDLNameHDRadioEnable : @NO
+                                       } mutableCopy];
         SDLRadioControlData* testStruct = [[SDLRadioControlData alloc] initWithDictionary:dict];
         
         expect(testStruct.frequencyInteger).to(equal(@101));
@@ -58,6 +61,7 @@ describe(@"Initialization tests", ^{
         expect(testStruct.signalChangeThreshold).to(equal(@76));
         expect(testStruct.radioEnable).to(equal(@YES));
         expect(testStruct.state).to(equal(SDLRadioStateNotFound));
+        expect(testStruct.hdRadioEnable).to(equal(@NO));
     });
 
     it(@"Should set and get correctly", ^{
@@ -72,6 +76,7 @@ describe(@"Initialization tests", ^{
         testStruct.signalChangeThreshold = @76;
         testStruct.radioEnable = @YES;
         testStruct.state = SDLRadioStateNotFound;
+        testStruct.hdRadioEnable = @YES;
         
         expect(testStruct.frequencyInteger).to(equal(@101));
         expect(testStruct.frequencyFraction).to(equal(@7));
@@ -83,6 +88,7 @@ describe(@"Initialization tests", ^{
         expect(testStruct.signalChangeThreshold).to(equal(@76));
         expect(testStruct.radioEnable).to(equal(@YES));
         expect(testStruct.state).to(equal(SDLRadioStateNotFound));
+        expect(testStruct.hdRadioEnable).to(equal(@YES));
     });
 
     it(@"Should get correctly when initialized with Module Name and other radio control capabilite's parameters", ^ {
