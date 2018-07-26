@@ -36,74 +36,74 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required, Integer, 2010 - 2100
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *utcYear;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *utcYear;
 
 /**
  * utc month
  *
  * Required, Integer, 1 - 12
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *utcMonth;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *utcMonth;
 
 /**
  * utc day
  *
  * Required, Integer, 1 - 31
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *utcDay;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *utcDay;
 
 /**
  * utc hours
  *
  * Required, Integer, 0 - 23
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *utcHours;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *utcHours;
 
 /**
  * utc minutes
  *
  * Required, Integer, 0 - 59
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *utcMinutes;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *utcMinutes;
 
 /**
  * utc seconds
  *
  * Required, Integer, 0 - 59
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *utcSeconds;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *utcSeconds;
 
 /**
  * Potential Compass Directions
  */
-@property (strong, nonatomic) SDLCompassDirection compassDirection;
+@property (strong, nonatomic, nullable) SDLCompassDirection compassDirection;
 
 /**
  * The 3D positional dilution of precision.
  *
  * @discussion If undefined or unavailable, then value shall be set to 0
  *
- * Required, Float, 0.0 - 10.0
+ * Required, Float, 0.0 - 1000.0
  */
-@property (strong, nonatomic) NSNumber<SDLFloat> *pdop;
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *pdop;
 
 /**
  * The horizontal dilution of precision
  *
  * @discussion If undefined or unavailable, then value shall be set to 0
  *
- * Required, Float, 0.0 - 10.0
+ * Required, Float, 0.0 - 1000.0
  */
-@property (strong, nonatomic) NSNumber<SDLFloat> *hdop;
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *hdop;
 
 /**
  * the vertical dilution of precision
  *
  * @discussion If undefined or unavailable, then value shall be set to 0
  *
- * Required, Float, 0.0 - 10.0
+ * Required, Float, 0.0 - 1000.0
  */
-@property (strong, nonatomic) NSNumber<SDLFloat> *vdop;
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *vdop;
 
 /**
  * What the coordinates are based on
@@ -112,28 +112,28 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required, Boolean
  */
-@property (strong, nonatomic) NSNumber<SDLBool> *actual;
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *actual;
 
 /**
  * The number of satellites in view
  *
  * Required, Integer, 0 - 31
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *satellites;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *satellites;
 
 /**
  * The supported dimensions of the GPS
  *
  * Required
  */
-@property (strong, nonatomic) SDLDimension dimension;
+@property (strong, nonatomic, nullable) SDLDimension dimension;
 
 /**
  * Altitude in meters
  *
  * Required, Float, -10000.0 - 10000.0
  */
-@property (strong, nonatomic) NSNumber<SDLFloat> *altitude;
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *altitude;
 
 /**
  * Heading based on the GPS data.
@@ -142,14 +142,25 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required, Float, 0.0 - 359.99
  */
-@property (strong, nonatomic) NSNumber<SDLFloat> *heading;
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *heading;
 
 /**
  * Speed in KPH
  *
  * Required, Float, 0.0 - 500.0
  */
-@property (strong, nonatomic) NSNumber<SDLFloat> *speed;
+@property (strong, nonatomic, nullable) NSNumber<SDLFloat> *speed;
+
+/**
+ Whether or not the GPS has been shifted for proprietary purposes.
+
+ True, if GPS lat/long, time, and altitude have been purposefully shifted (requiring a proprietary algorithm to unshift).
+ False, if the GPS data is raw and un-shifted.
+ If not provided, then value is assumed False.
+
+ Optional, Boolean
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *shifted;
 
 @end
 
