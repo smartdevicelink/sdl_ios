@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Lifecycle
 
-- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId {
+- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName {
     self = [super init];
     if (!self) {
         return nil;
@@ -40,9 +40,6 @@ NS_ASSUME_NONNULL_BEGIN
     _tcpDebugPort = DefaultTCPIPPort;
 
     _appName = appName;
-    _fullAppId = fullAppId;
-    _appId = fullAppId;
-
     _appType = SDLAppHMITypeDefault;
     _language = SDLLanguageEnUs;
     _languagesSupported = @[_language];
@@ -50,6 +47,18 @@ NS_ASSUME_NONNULL_BEGIN
     _shortAppName = nil;
     _ttsName = nil;
     _voiceRecognitionCommandNames = nil;
+
+    return self;
+}
+
+- (instancetype)initDefaultConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId {
+    self = [self initDefaultConfigurationWithAppName:appName];
+    if (!self) {
+        return nil;
+    }
+
+    _fullAppId = fullAppId;
+    _appId = @"";
 
     return self;
 }

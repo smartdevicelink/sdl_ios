@@ -29,11 +29,29 @@ static NSUInteger const shortAppIdCharacterCount = 10;
     return self;
 }
 
+- (instancetype)initWithAppName:(NSString *)appName languageDesired:(SDLLanguage)languageDesired {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.appName = appName;
+    self.languageDesired = languageDesired;
+    self.hmiDisplayLanguageDesired = languageDesired;
+
+    self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:1 minorVersion:0 patchVersion:0];
+    self.appInfo = [SDLAppInfo currentAppInfo];
+    self.deviceInfo = [SDLDeviceInfo currentDevice];
+    self.correlationID = @1;
+    self.isMediaApplication = @NO;
+
+    return self;
+}
+
 - (instancetype)initWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
     NSArray<SDLAppHMIType> *allHMITypes = lifecycleConfiguration.additionalAppTypes ? [lifecycleConfiguration.additionalAppTypes arrayByAddingObject:lifecycleConfiguration.appType] : @[lifecycleConfiguration.appType];
-
     return [self initWithAppName:lifecycleConfiguration.appName
-                           appId:lifecycleConfiguration.appId
+                       fullAppId:lifecycleConfiguration.fullAppId
                  languageDesired:lifecycleConfiguration.language
                       isMediaApp:lifecycleConfiguration.isMedia
                         appTypes:allHMITypes
@@ -48,33 +66,42 @@ static NSUInteger const shortAppIdCharacterCount = 10;
 
 // l1 new
 - (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired {
+    self = [self initWithAppName:appName languageDesired:languageDesired];
+    if (!self) {
+        return nil;
+    }
 
+    self.fullAppID = fullAppId;
+    self.appID = [self.class sdlex_shortAppIdFromFullAppId:fullAppId];
+
+    return self;
 }
 
 // l1 old
 - (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired {
-    self = [self init];
+    self = [self initWithAppName:appName languageDesired:languageDesired];
     if (!self) {
         return nil;
     }
-    
-    self.appName = appName;
+
+    self.fullAppID = @"";
     self.appID = appId;
-    self.languageDesired = languageDesired;
-    self.hmiDisplayLanguageDesired = languageDesired;
-    
-    self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:1 minorVersion:0 patchVersion:0];
-    self.appInfo = [SDLAppInfo currentAppInfo];
-    self.deviceInfo = [SDLDeviceInfo currentDevice];
-    self.correlationID = @1;
-    self.isMediaApplication = @NO;
-    
+
     return self;
 }
 
 // n1 new
 - (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName {
+    self = [self initWithAppName:appName fullAppId:fullAppId languageDesired:languageDesired];
+    if (!self) {
+        return nil;
+    }
 
+    self.isMediaApplication = @(isMediaApp);
+    self.appHMIType = appTypes;
+    self.ngnMediaScreenAppName = shortAppName;
+
+    return self;
 }
 
 // n2 old
@@ -89,11 +116,6 @@ static NSUInteger const shortAppIdCharacterCount = 10;
     self.ngnMediaScreenAppName = shortAppName;
 
     return self;
-}
-
-// m1 new
-- (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppID languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName {
-
 }
 
 // m2 old
@@ -113,7 +135,7 @@ static NSUInteger const shortAppIdCharacterCount = 10;
 
 // n updated
 - (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppID languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
-    self = [self initWithAppName:appName appId:fullAppID languageDesired:languageDesired isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
+    self = [self initWithAppName:appName fullAppId:fullAppID languageDesired:languageDesired isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
     if (!self) { return nil; }
 
     self.ttsName = [ttsName copy];
@@ -259,7 +281,7 @@ static NSUInteger const shortAppIdCharacterCount = 10;
 #pragma mark - Helpers
 
 /**
- *  Generates the `appId` from the `fullAppId`.
+ *  Generates the `appId` from the `fullAppId`
  *
  *  @discussion When an app is registered with an OEM, it is assigned an `appID` and a `fullAppID`. The `fullAppID` is the full UUID appID. The `appID` is the first 10 non-dash (i.e. "-") characters of the  `fullAppID`.
  *
@@ -276,7 +298,7 @@ static NSUInteger const shortAppIdCharacterCount = 10;
 }
 
 /**
- *  Filters the dash characters from a string.
+ *  Filters the dash characters from a string
  *
  *  @param text    The string
  *  @return        The string with all dash characters removed

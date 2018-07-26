@@ -26,6 +26,7 @@ QuickSpecBegin(SDLRegisterAppInterfaceSpec)
 describe(@"RegisterAppInterface Tests", ^{
     __block NSString *appName = @"app56";
     __block NSString *appId = @"123456789";
+    __block NSString *fullAppId = @"123e4567-e89b-12d3-a456-426655440000";
     __block NSString *shortAppName = @"whatisanngn";
     __block NSString *resumeHash = @"gercd35grw2";
     __block NSString *vrSynonyms = @"app56";
