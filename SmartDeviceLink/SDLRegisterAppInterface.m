@@ -46,7 +46,6 @@ static NSUInteger const shortAppIdCharacterCount = 10;
                 nightColorScheme:lifecycleConfiguration.nightColorScheme];
 }
 
-// l1 new
 - (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired {
     self = [self initWithAppName:appName languageDesired:languageDesired];
     if (!self) {
@@ -59,7 +58,6 @@ static NSUInteger const shortAppIdCharacterCount = 10;
     return self;
 }
 
-// l1 old
 - (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired {
     self = [self initWithAppName:appName languageDesired:languageDesired];
     if (!self) {
@@ -72,7 +70,6 @@ static NSUInteger const shortAppIdCharacterCount = 10;
     return self;
 }
 
-// n1 new
 - (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName {
     self = [self initWithAppName:appName fullAppId:fullAppId languageDesired:languageDesired];
     if (!self) {
@@ -86,7 +83,6 @@ static NSUInteger const shortAppIdCharacterCount = 10;
     return self;
 }
 
-// n2 old
 - (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName {
     self = [self initWithAppName:appName appId:appId languageDesired:languageDesired];
     if (!self) {
@@ -100,7 +96,6 @@ static NSUInteger const shortAppIdCharacterCount = 10;
     return self;
 }
 
-// m2 old
 - (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash {
     self = [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
     if (!self) {
@@ -115,7 +110,6 @@ static NSUInteger const shortAppIdCharacterCount = 10;
     return self;
 }
 
-// n updated
 - (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppID languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
     self = [self initWithAppName:appName fullAppId:fullAppID languageDesired:languageDesired isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
     if (!self) { return nil; }
