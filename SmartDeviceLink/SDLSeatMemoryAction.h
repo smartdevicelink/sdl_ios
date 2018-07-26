@@ -12,8 +12,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSeatMemoryAction : SDLRPCStruct
 
+
 /**
- * @abstract Constructs a newly allocated SDLSeatMemoryAction object with id, label (max length 100 chars) and action type
+ @abstract Constructs a newly allocated SDLSeatMemoryAction object with id, label (max length 100 chars) and action type
+
+ @param id of the action to be performed
+ @param action type of action to be performed
+ @return A SDLSeatMemoryAction object
+ */
+- (instancetype)initWithId:(UInt8)id action:(SDLSeatMemoryActionType)action;
+
+/**
+ @abstract Constructs a newly allocated SDLSeatMemoryAction object with id, label (max length 100 chars) and action type
+
+ @param id of the action to be performed
+ @param label of the action to be performed.
+ @param action type of action to be performed
+ @return A SDLSeatMemoryAction object
  */
 - (instancetype)initWithId:(UInt8)id label:(nullable NSString*) label action:(SDLSeatMemoryActionType)action;
 

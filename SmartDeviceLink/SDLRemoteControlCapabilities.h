@@ -18,6 +18,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithClimateControlCapabilities:(nullable NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(nullable NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities __deprecated_msg(("Use initWithClimateControlCapabilities:climateControlCapabilities:radioControlCapabilities:buttonCapabilities:seatControlCapabilities: instead"));
 
+/**
+ Constructs a newly allocated SDLRemoteControlCapabilities object with cushion and firmness
+
+ @param climateControlCapabilities Array of SDLClimateControlCapabilities
+ @param radioControlCapabilities Array of SDLRadioControlCapabilities
+ @param buttonCapabilities Array of SDLButtonCapabilities
+ @param seatControlCapabilities Array of SDLSeatControlCapabilities
+ @return An instance of the SDLRemoteControlCapabilities class
+ */
 - (instancetype)initWithClimateControlCapabilities:(nullable NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(nullable NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities seatControlCapabilities:(nullable NSArray<SDLSeatControlCapabilities *> *)seatControlCapabilities;
 
 /**

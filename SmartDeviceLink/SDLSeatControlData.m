@@ -14,9 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLSeatControlData
 
 - (instancetype)initWithId:(SDLSupportedSeat)supportedSeat {
-    if (self = [super init]) {
-        self.id = supportedSeat;
+    self = [self init];
+    if (!self) {
+        return nil;
     }
+    self.id = supportedSeat;
+    
     return self;
 }
 

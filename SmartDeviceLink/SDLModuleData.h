@@ -16,8 +16,28 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLModuleData : SDLRPCStruct
 
+/**
+ Constructs a newly allocated SDLModuleData object with radio control data
+
+ @param radioControlData The radio control data
+ @return An instance of the SDLModuleData class
+ */
 - (instancetype)initWithRadioControlData:(SDLRadioControlData *)radioControlData;
+
+/**
+ Constructs a newly allocated SDLModuleData object with climate control data
+
+ @param climateControlData The climate control data
+ @return An instance of the SDLModuleData class
+ */
 - (instancetype)initWithClimateControlData:(SDLClimateControlData *)climateControlData;
+
+/**
+ Constructs a newly allocated SDLModuleData object with seat control data
+
+ @param seatControlData The seat control data
+ @return An instance of the SDLModuleData class
+ */
 - (instancetype)initWithSeatControlData:(SDLSeatControlData *)seatControlData;
 
 /**
