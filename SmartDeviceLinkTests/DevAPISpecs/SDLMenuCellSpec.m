@@ -41,6 +41,15 @@ describe(@"a menu cell", ^{
             expect(testCell.voiceCommands).to(beNil());
             expect(testCell.subCells).to(equal(someSubcells));
         });
+
+        it(@"should initialize properly as a submenu item with icon", ^{
+            testCell = [[SDLMenuCell alloc] initWithTitle:someTitle icon:someArtwork subCells:someSubcells];
+
+            expect(testCell.title).to(equal(someTitle));
+            expect(testCell.icon).to(equal(someArtwork));
+            expect(testCell.voiceCommands).to(beNil());
+            expect(testCell.subCells).to(equal(someSubcells));
+        });
     });
 });
 

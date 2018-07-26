@@ -6,3 +6,4 @@
 
 SDLModuleType const SDLModuleTypeClimate = @"CLIMATE";
 SDLModuleType const SDLModuleTypeRadio = @"RADIO";
+SDLModuleType const SDLModuleTypeSeat = @"SEAT";

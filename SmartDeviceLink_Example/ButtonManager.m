@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSoftButtonObject *)sdlex_softButtonAlertWithManager:(SDLManager *)manager {
-    SDLSoftButtonState *alertImageAndTextState = [[SDLSoftButtonState alloc] initWithStateName:AlertSoftButtonImageState text:AlertSoftButtonText image:[UIImage imageNamed:CarIconImageName]];
+    SDLSoftButtonState *alertImageAndTextState = [[SDLSoftButtonState alloc] initWithStateName:AlertSoftButtonImageState text:AlertSoftButtonText image:[[UIImage imageNamed:AlertBWIconName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
     SDLSoftButtonState *alertTextState = [[SDLSoftButtonState alloc] initWithStateName:AlertSoftButtonTextState text:AlertSoftButtonText image:nil];
 
     __weak typeof(self) weakself = self;
@@ -89,8 +89,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSoftButtonObject *)sdlex_softButtonToggleWithManager:(SDLManager *)manager {
-    SDLSoftButtonState *toggleImageOnState = [[SDLSoftButtonState alloc] initWithStateName:ToggleSoftButtonImageOnState text:nil image:[UIImage imageNamed:WheelIconImageName]];
-    SDLSoftButtonState *toggleImageOffState = [[SDLSoftButtonState alloc] initWithStateName:ToggleSoftButtonImageOffState text:nil image:[UIImage imageNamed:LaptopIconImageName]];
+    SDLSoftButtonState *toggleImageOnState = [[SDLSoftButtonState alloc] initWithStateName:ToggleSoftButtonImageOnState text:nil image:[[UIImage imageNamed:ToggleOnBWIconName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
+    SDLSoftButtonState *toggleImageOffState = [[SDLSoftButtonState alloc] initWithStateName:ToggleSoftButtonImageOffState text:nil image:[[UIImage imageNamed:ToggleOffBWIconName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
 
     __weak typeof(self) weakself = self;
     SDLSoftButtonObject *toggleButton = [[SDLSoftButtonObject alloc] initWithName:ToggleSoftButton states:@[toggleImageOnState, toggleImageOffState] initialStateName:toggleImageOnState.name handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {

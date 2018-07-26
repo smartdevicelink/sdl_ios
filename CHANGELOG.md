@@ -1,3 +1,13 @@
+# 6.0.1
+
+### Bug Fixes
+* Fixed a crash that could occur in development circumstances if the head unit returns "-1" for an enum
+* Fixed manually sent Show RPCs causing issues when changing layouts.
+
+# 6.0.0 (Changes since RC1)
+
+* None
+
 # 6.0.0 Release Candidate 2 (Changes since RC1)
 ### Bug Fixes
 * Fixes generated file names being too long for some SDL implementations. [#976](https://github.com/smartdevicelink/sdl_ios/issues/976)

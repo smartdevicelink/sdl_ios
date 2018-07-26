@@ -52,6 +52,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *fuelLevel_State;
 
 /**
+ The result of requesting to subscribe to the fuel range.
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *fuelRange;
+
+/**
  The result of requesting to subscribe to the instantaneous fuel consumption in microlitres.
 
  Optional
@@ -129,6 +136,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *headLampStatus;
 
 /**
+ The result of requesting to subscribe to the estimated percentage of remaining oil life of the engine.
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *engineOilLife;
+
+/**
  The result of requesting to subscribe to the torque value for engine (in Nm) on non-diesel variants.
 
  Optional
@@ -183,6 +197,20 @@ NS_ASSUME_NONNULL_BEGIN
  Optional
  */
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *myKey;
+
+/**
+ The result of requesting to subscribe to the electronic parking brake status
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *electronicParkBrakeStatus;
+
+/**
+ The result of requesting to subscribe to the turn signal
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *turnSignal;
 
 @end
 

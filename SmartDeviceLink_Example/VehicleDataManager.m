@@ -7,9 +7,10 @@
 //
 
 #import "AlertManager.h"
-#import "VehicleDataManager.h"
 #import "AppConstants.h"
 #import "SmartDeviceLink.h"
+#import "TextValidator.h"
+#import "VehicleDataManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -127,49 +128,122 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Get Vehicle Data
 
 /**
- *  Retreives the current vehicle speed
+ *  Retreives the current vehicle data
  *
- *  @param manager The SDL manager
+ *  @param manager The SDL Manager
+ *  @param triggerSource Whether the menu item was selected by voice or touch
+ *  @param vehicleDataType The vehicle data to look for
  */
-+ (void)getVehicleSpeedWithManager:(SDLManager *)manager {
++ (void)getAllVehicleDataWithManager:(SDLManager *)manager triggerSource:(SDLTriggerSource)triggerSource vehicleDataType:(NSString *)vehicleDataType {
     SDLLogD(@"Checking if app has permission to access vehicle data...");
     if (![manager.permissionManager isRPCAllowed:@"GetVehicleData"]) {
         [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"This app does not have the required permissions to access vehicle data" textField2:nil]];
         return;
     }
 
-    SDLLogD(@"App has permission to access vehicle data. Requesting vehicle speed data...");
-    SDLGetVehicleData *getVehicleSpeed = [[SDLGetVehicleData alloc] init];
-    getVehicleSpeed.speed = @YES;
-    [manager sendRequest:getVehicleSpeed withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    SDLLogD(@"App has permission to access vehicle data. Requesting vehicle data...");
+    SDLGetVehicleData *getAllVehicleData = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES electronicParkBrakeStatus:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES turnSignal:YES vin:YES wiperStatus:YES];
+
+    [manager sendRequest:getAllVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error || ![response isKindOfClass:SDLGetVehicleDataResponse.class]) {
-            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Something went wrong while getting vehicle speed" textField2:nil]];
+            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:@"Something went wrong while getting vehicle data" textField2:nil]];
             return;
         }
 
-        SDLGetVehicleDataResponse* getVehicleDataResponse = (SDLGetVehicleDataResponse *)response;
+        SDLGetVehicleDataResponse *getVehicleDataResponse = (SDLGetVehicleDataResponse *)response;
         SDLResult resultCode = getVehicleDataResponse.resultCode;
 
-        NSMutableString *alertMessage = [NSMutableString stringWithFormat:@"%@: ", VehicleDataSpeedName];
+        NSString *alertTitle = vehicleDataType;
+        NSString *alertMessage = nil;
+
         if ([resultCode isEqualToEnum:SDLResultRejected]) {
-            SDLLogD(@"The request for vehicle speed was rejected");
-            [alertMessage appendString:@"Rejected"];
+            SDLLogD(@"The request for vehicle data was rejected");
+            alertMessage = @"Rejected";
         } else if ([resultCode isEqualToEnum:SDLResultDisallowed]) {
             SDLLogD(@"This app does not have the required permissions to access vehicle data.");
-            [alertMessage appendString:@"Disallowed"];
-        } else if ([resultCode isEqualToEnum:SDLResultSuccess]) {
-            NSNumber *speed = getVehicleDataResponse.speed;
-            if (speed) {
-                SDLLogD(@"Request for vehicle speed successful: %f", speed.floatValue);
-                [alertMessage appendString:[NSString stringWithFormat:@"%f kph", speed.floatValue]];
+            alertMessage = @"Disallowed";
+        } else if ([resultCode isEqualToEnum:SDLResultSuccess] || [resultCode isEqualToEnum:SDLResultDataNotAvailable]) {
+            SDLLogD(@"Request for vehicle data successful");
+            if (getVehicleDataResponse) {
+                alertMessage = [self sdlex_vehicleDataDescription:getVehicleDataResponse vehicleDataType:vehicleDataType];
             } else {
-                SDLLogD(@"Request for vehicle speed successful but no data returned.");
-                [alertMessage appendString:@"Unknown"];
+                SDLLogE(@"No vehicle data returned");
+                alertMessage = @"No vehicle data returned";
             }
         }
 
-        [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:alertMessage textField2:nil]];
+        alertTitle = [TextValidator validateText:alertTitle length:25];
+        alertMessage = [TextValidator validateText:alertMessage length:200];
+
+        if ([triggerSource isEqualToEnum:SDLTriggerSourceMenu]) {
+            [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:alertTitle textField2:alertMessage]];
+        } else {
+            NSString *spokenAlert = alertMessage ?: alertTitle;
+            [manager sendRequest:[[SDLSpeak alloc] initWithTTS:spokenAlert]];
+        }
     }];
+}
+
++ (NSString *)sdlex_vehicleDataDescription:(SDLGetVehicleDataResponse *)vehicleData vehicleDataType:(NSString *)vehicleDataType {
+    NSString *vehicleDataDescription = nil;
+
+    if ([vehicleDataType isEqualToString:ACAccelerationPedalPositionMenuName]) {
+        vehicleDataDescription = vehicleData.accPedalPosition.description;
+    } else if ([vehicleDataType isEqualToString:ACAirbagStatusMenuName]) {
+        vehicleDataDescription = vehicleData.airbagStatus.description;
+    } else if ([vehicleDataType isEqualToString:ACBeltStatusMenuName]) {
+        vehicleDataDescription = vehicleData.beltStatus.description;
+    } else if ([vehicleDataType isEqualToString:ACBodyInformationMenuName]) {
+        vehicleDataDescription = vehicleData.bodyInformation.description;
+    } else if ([vehicleDataType isEqualToString:ACClusterModeStatusMenuName]) {
+        vehicleDataDescription = vehicleData.clusterModeStatus.description;
+    } else if ([vehicleDataType isEqualToString:ACDeviceStatusMenuName]) {
+        vehicleDataDescription = vehicleData.deviceStatus.description;
+    } else if ([vehicleDataType isEqualToString:ACDriverBrakingMenuName]) {
+        vehicleDataDescription = vehicleData.driverBraking.description;
+    } else if ([vehicleDataType isEqualToString:ACECallInfoMenuName]) {
+        vehicleDataDescription = vehicleData.eCallInfo.description;
+    } else if ([vehicleDataType isEqualToEnum:ACElectronicParkBrakeStatus]) {
+        vehicleDataDescription = vehicleData.electronicParkBrakeStatus.description;
+    } else if ([vehicleDataType isEqualToString:ACEmergencyEventMenuName]) {
+        vehicleDataDescription = vehicleData.emergencyEvent.description;
+    } else if ([vehicleDataType isEqualToString:ACEngineOilLifeMenuName]) {
+        vehicleDataDescription = vehicleData.engineOilLife.description;
+    } else if ([vehicleDataType isEqualToString:ACEngineTorqueMenuName]) {
+        vehicleDataDescription = vehicleData.engineTorque.description;
+    } else if ([vehicleDataType isEqualToString:ACExternalTemperatureMenuName]) {
+        vehicleDataDescription = vehicleData.externalTemperature.description;
+    } else if ([vehicleDataType isEqualToString:ACFuelLevelMenuName]) {
+        vehicleDataDescription = vehicleData.fuelLevel.description;
+    } else if ([vehicleDataType isEqualToString:ACFuelLevelStateMenuName]) {
+        vehicleDataDescription = vehicleData.fuelLevel_State.description;
+    } else if ([vehicleDataType isEqualToString:ACFuelRangeMenuName]) {
+        vehicleDataDescription = vehicleData.fuelRange.description;
+    } else if ([vehicleDataType isEqualToString:ACGPSMenuName]) {
+        vehicleDataDescription = vehicleData.gps.description;
+    } else if ([vehicleDataType isEqualToString:ACHeadLampStatusMenuName]) {
+        vehicleDataDescription = vehicleData.headLampStatus.description;
+    } else if ([vehicleDataType isEqualToString:ACInstantFuelConsumptionMenuName]) {
+        vehicleDataDescription = vehicleData.instantFuelConsumption.description;
+    } else if ([vehicleDataType isEqualToString:ACMyKeyMenuName]) {
+        vehicleDataDescription = vehicleData.myKey.description;
+    } else if ([vehicleDataType isEqualToString:ACOdometerMenuName]) {
+        vehicleDataDescription = vehicleData.odometer.description;
+    } else if ([vehicleDataType isEqualToString:ACPRNDLMenuName]) {
+        vehicleDataDescription = vehicleData.prndl.description;
+    } else if ([vehicleDataType isEqualToString:ACSpeedMenuName]) {
+        vehicleDataDescription = vehicleData.speed.description;
+    } else if ([vehicleDataType isEqualToString:ACSteeringWheelAngleMenuName]) {
+        vehicleDataDescription = vehicleData.steeringWheelAngle.description;
+    } else if ([vehicleDataType isEqualToString:ACTirePressureMenuName]) {
+        vehicleDataDescription = vehicleData.tirePressure.description;
+    } else if ([vehicleDataType isEqualToString:ACTurnSignalMenuName]) {
+        vehicleDataDescription = vehicleData.turnSignal.description;
+    } else if ([vehicleDataType isEqualToString: ACVINMenuName]) {
+        vehicleDataDescription = vehicleData.vin.description;
+    }
+
+    return vehicleDataDescription ?: @"Vehicle data not available";
 }
 
 #pragma mark - Phone Calls

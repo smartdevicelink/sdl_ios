@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic) SDLHMILevel firstHMILevel;
 
 @property (strong, nonatomic) VehicleDataManager *vehicleDataManager;
+@property (strong, nonatomic) PerformInteractionManager *performManager;
 @property (strong, nonatomic) ButtonManager *buttonManager;
 @property (nonatomic, copy, nullable) RefreshUIHandler refreshUIHandler;
 @end
@@ -63,6 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         self.vehicleDataManager = [[VehicleDataManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
+        self.performManager = [[PerformInteractionManager alloc] initWithManager:self.sdlManager];
         self.buttonManager = [[ButtonManager alloc] initWithManager:self.sdlManager refreshUIHandler:self.refreshUIHandler];
 
         [weakSelf sdlex_updateProxyState:ProxyStateConnected];
@@ -118,7 +120,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLLifecycleConfiguration *)sdlex_setLifecycleConfigurationPropertiesOnConfiguration:(SDLLifecycleConfiguration *)config {
-    SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:ExampleAppLogoName] asImageFormat:SDLArtworkImageFormatPNG];
+    UIImage *appLogo = [[UIImage imageNamed:ExampleAppLogoName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    SDLArtwork *appIconArt = [SDLArtwork persistentArtworkWithImage:appLogo asImageFormat:SDLArtworkImageFormatPNG];
 
     config.shortAppName = ExampleAppNameShort;
     config.appIcon = appIconArt;
@@ -126,6 +129,13 @@ NS_ASSUME_NONNULL_BEGIN
     config.ttsName = [SDLTTSChunk textChunksFromString:ExampleAppName];
     config.language = SDLLanguageEnUs;
     config.languagesSupported = @[SDLLanguageEnUs, SDLLanguageFrCa, SDLLanguageEsMx];
+
+    SDLRGBColor *green = [[SDLRGBColor alloc] initWithRed:126 green:188 blue:121];
+    SDLRGBColor *white = [[SDLRGBColor alloc] initWithRed:249 green:251 blue:254];
+    SDLRGBColor *darkGrey = [[SDLRGBColor alloc] initWithRed:57 green:78 blue:96];
+    SDLRGBColor *grey = [[SDLRGBColor alloc] initWithRed:186 green:198 blue:210];
+    config.dayColorScheme = [[SDLTemplateColorScheme alloc] initWithPrimaryRGBColor:green secondaryRGBColor:grey backgroundRGBColor:white];
+    config.nightColorScheme = [[SDLTemplateColorScheme alloc] initWithPrimaryRGBColor:green secondaryRGBColor:grey backgroundRGBColor:darkGrey];
 
     return config;
 }
@@ -143,13 +153,15 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Screen UI Helpers
 
 - (void)sdlex_createMenus {
-    [self.sdlManager sendRequest:[PerformInteractionManager createInteractionChoiceSet]];
-    self.sdlManager.screenManager.menu = [MenuManager allMenuItemsWithManager:self.sdlManager];
+    self.sdlManager.screenManager.menu = [MenuManager allMenuItemsWithManager:self.sdlManager performManager:self.performManager];
     self.sdlManager.screenManager.voiceCommands = [MenuManager allVoiceMenuItemsWithManager:self.sdlManager];
 }
 
 - (void)sdlex_showInitialData {
     if (![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) { return; }
+
+    SDLSetDisplayLayout *setDisplayLayout = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia];
+    [self.sdlManager sendRequest:setDisplayLayout];
 
     [self sdlex_updateScreen];
     self.sdlManager.screenManager.softButtonObjects = [self.buttonManager allScreenSoftButtons];
@@ -180,7 +192,13 @@ NS_ASSUME_NONNULL_BEGIN
     screenManager.textField3 = isTextEnabled ? self.vehicleDataManager.vehicleOdometerData : nil;
 
     if (self.sdlManager.systemCapabilityManager.displayCapabilities.graphicSupported) {
-        screenManager.primaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"sdl_logo_green"] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+        if ([self sdlex_imageFieldSupported:SDLImageFieldNameGraphic]) {
+            screenManager.primaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[[UIImage imageNamed:ExampleAppLogoName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+        }
+
+        if ([self sdlex_imageFieldSupported:SDLImageFieldNameSecondaryGraphic]) {
+            screenManager.secondaryGraphic = areImagesVisible ? [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:CarBWIconImageName] asImageFormat:SDLArtworkImageFormatPNG] : nil;
+        }
     }
 
     [screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
@@ -188,6 +206,20 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+/**
+ *  Checks if SDL Core's HMI current template supports the template image field (i.e. primary graphic, secondary graphic, etc.)
+ *
+ *  @param imageFieldName   The name for the image field
+ *  @return                 True if the image field is supported, false if not
+ */
+- (BOOL)sdlex_imageFieldSupported:(SDLImageFieldName)imageFieldName {
+    for (SDLImageField *imageField in self.sdlManager.systemCapabilityManager.displayCapabilities.imageFields) {
+        if ([imageField.name isEqualToString:imageFieldName]) {
+            return YES;
+        }
+    }
+    return NO;
+}
 
 #pragma mark - SDLManagerDelegate
 

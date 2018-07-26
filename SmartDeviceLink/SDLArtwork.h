@@ -20,7 +20,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLArtwork : SDLFile
 
 /**
- *  Convenience Helper to create an ephemeral artwork from an image.
+ *  Describes whether or not the image is a template that can be (re)colored by the SDL HMI. To make the artwork a template, set the `UIImage`s rendering mode to `UIImageRenderingModeAlwaysTemplate`. In order for templates to work successfully, the icon must be one solid color with a clear background. The artwork should be created using the PNG image format.
+ *
+ *  @discussion An image should be templated if it is intended to be used as an icon in a button or menu.
+ */
+@property (assign, nonatomic, readonly) BOOL isTemplate;
+
+/**
+ *  Convenience helper to create an ephemeral artwork from an image.
  *
  *  This is an ephemeral file, it will not be persisted through sessions / ignition cycles. Any files that you do not *know* you will use in future sessions should be created through this method. For example, album / artist artwork should be ephemeral.
  *
@@ -37,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)artworkWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat NS_SWIFT_UNAVAILABLE("Use the standard initializer and set persistant to false");
 
 /**
- *  Convenience Helper to create an ephemeral artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image's data which is created by hashing the data using the MD5 algorithm.
+ *  Convenience helper to create an ephemeral artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image's data which is created by hashing the data using the MD5 algorithm.
  *
  *  This is an ephemeral file, it will not be persisted through sessions / ignition cycles. Any files that you do not *know* you will use in future sessions should be created through this method. For example, album / artist artwork should be ephemeral.
  *
@@ -53,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)artworkWithImage:(UIImage *)image asImageFormat:(SDLArtworkImageFormat)imageFormat NS_SWIFT_UNAVAILABLE("Use the standard initializer and set persistant to false");
 
 /**
- *  Convenience Helper to create a persistent artwork from an image.
+ *  Convenience helper to create a persistent artwork from an image.
  *
  *  This is a persistent file, it will be persisted through sessions / ignition cycles. You will only have a limited space for all files, so be sure to only persist files that are required for all or most sessions. For example, menu artwork should be persistent.
  *
@@ -70,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)persistentArtworkWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat NS_SWIFT_UNAVAILABLE("Use the standard initializer and set persistant to true");
 
 /**
- *  Convenience Helper to create a persistent artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image's data which is created by hashing the data using the MD5 algorithm.
+ *  Convenience helper to create a persistent artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image's data which is created by hashing the data using the MD5 algorithm.
  *
  *  This is a persistent file, it will be persisted through sessions / ignition cycles. You will only have a limited space for all files, so be sure to only persist files that are required for all or most sessions. For example, menu artwork should be persistent.
  *
