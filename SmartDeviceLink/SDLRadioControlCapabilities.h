@@ -11,11 +11,44 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLRadioControlCapabilities : SDLRPCStruct
 
-- (instancetype)initWithModuleName:(NSString *)moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDsAvailable:(BOOL)availableHDsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable;
-- (instancetype)initWithModuleName:(NSString *)moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDsAvailable:(BOOL)availableHDsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable hdRadioEnableAvailable:(BOOL)hdRadioEnableAvailable siriusxmRadioAvailable:(BOOL)siriusxmRadioAvailable;
+/**
+ Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.
+
+ @param moduleName The short friendly name of the radio control module.
+ @param radioEnableAvailable Availability of the control of enable/disable radio.
+ @param radioBandAvailable Availability of the control of radio band.
+ @param radioFrequencyAvailable Availability of the control of radio frequency.
+ @param hdChannelAvailable Availability of the control of HD radio channel.
+ @param rdsDataAvailable Availability of the getting Radio Data System (RDS) data.
+ @param availableHDsAvailable Availability of the getting the number of available HD channels.
+ @param stateAvailable Availability of the getting the Radio state.
+ @param signalStrengthAvailable Availability of the getting the signal strength.
+ @param signalChangeThresholdAvailable Availability of the getting the signal Change Threshold.
+ @return An instance of the SDLRadioControlCapabilities class.
+ */
+- (instancetype)initWithModuleName:(NSString *)moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDsAvailable:(BOOL)availableHDsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable __deprecated_msg(("Use initWithModuleName:moduleName:radioEnableAvailable radioFrequencyAvailable:hdChannelAvailable:rdsDataAvailable:availableHDsAvailable:stateAvailable:signalStrengthAvailable:signalChangeThresholdAvailable:hdRadioEnableAvailable:siriusXMRadioAvailable: instead"));
 
 /**
- * The short friendly name of the climate control module.
+ Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.
+
+ @param moduleName The short friendly name of the radio control module.
+ @param radioEnableAvailable Availability of the control of enable/disable radio.
+ @param radioBandAvailable Availability of the control of radio band.
+ @param radioFrequencyAvailable Availability of the control of radio frequency.
+ @param hdChannelAvailable Availability of the control of HD radio channel.
+ @param rdsDataAvailable Availability of the getting Radio Data System (RDS) data.
+ @param availableHDsAvailable Availability of the getting the number of available HD channels.
+ @param stateAvailable Availability of the getting the Radio state.
+ @param signalStrengthAvailable Availability of the getting the signal strength.
+ @param signalChangeThresholdAvailable Availability of the getting the signal Change Threshold.
+ @param hdRadioEnableAvailable Availability of the control of enable/disable HD radio.
+ @param siriusXMRadioAvailable Availability of sirius XM radio.
+ @return An instance of the SDLRadioControlCapabilities class
+ */
+- (instancetype)initWithModuleName:(NSString *)moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDsAvailable:(BOOL)availableHDsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable hdRadioEnableAvailable:(BOOL)hdRadioEnableAvailable siriusXMRadioAvailable:(BOOL)siriusXMRadioAvailable;
+
+/**
+ * The short friendly name of the radio control module.
  
  * It should not be used to identify a module by mobile application.
  *
@@ -118,7 +151,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Boolean
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLBool> *siriusxmRadioAvailable;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *siriusXMRadioAvailable;
 
 @end
 

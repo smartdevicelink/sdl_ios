@@ -107,11 +107,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setHdRadioEnable:(nullable NSNumber<SDLBool> *)hdRadioEnable {
-    [store sdl_setObject:hdRadioEnable forName:SDLNameHdRadioEnable];
+    [store sdl_setObject:hdRadioEnable forName:SDLNameHDRadioEnable];
 }
 
 - (nullable NSNumber<SDLBool> *)hdRadioEnable {
-    return [store sdl_objectForName:SDLNameHdRadioEnable];
+    return [store sdl_objectForName:SDLNameHDRadioEnable];
 }
 
 @end
