@@ -6,6 +6,7 @@
 
 @class  SDLClimateControlCapabilities;
 @class  SDLRadioControlCapabilities;
+@class  SDLSeatControlCapabilities;
 @class  SDLButtonCapabilities;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -15,7 +16,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLRemoteControlCapabilities : SDLRPCStruct
 
-- (instancetype)initWithClimateControlCapabilities:(nullable NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(nullable NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities;
+- (instancetype)initWithClimateControlCapabilities:(nullable NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(nullable NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities __deprecated_msg(("Use initWithClimateControlCapabilities:climateControlCapabilities:radioControlCapabilities:buttonCapabilities:seatControlCapabilities: instead"));
+
+/**
+ Constructs a newly allocated SDLRemoteControlCapabilities object with cushion and firmness
+
+ @param climateControlCapabilities Array of SDLClimateControlCapabilities
+ @param radioControlCapabilities Array of SDLRadioControlCapabilities
+ @param buttonCapabilities Array of SDLButtonCapabilities
+ @param seatControlCapabilities Array of SDLSeatControlCapabilities
+ @return An instance of the SDLRemoteControlCapabilities class
+ */
+- (instancetype)initWithClimateControlCapabilities:(nullable NSArray<SDLClimateControlCapabilities *> *)climateControlCapabilities radioControlCapabilities:(nullable NSArray<SDLRadioControlCapabilities *> *)radioControlCapabilities buttonCapabilities:(nullable NSArray<SDLButtonCapabilities *> *)buttonCapabilities seatControlCapabilities:(nullable NSArray<SDLSeatControlCapabilities *> *)seatControlCapabilities;
 
 /**
  * If included, the platform supports RC climate controls.
@@ -39,6 +51,13 @@ NS_ASSUME_NONNULL_BEGIN
  * Optional, Array of SDLButtonCapabilities, Array length 1 - 100
  */
 @property (nullable, strong, nonatomic) NSArray<SDLButtonCapabilities *> *buttonCapabilities;
+
+/**
+ * @abstract If included, the platform supports seat controls.
+ *
+ * Optional, Array of SDLSeatControlCapabilities, Array length 1 - 100
+ */
+@property (nullable, strong, nonatomic) NSArray<SDLSeatControlCapabilities *> *seatControlCapabilities;
 
 @end
 

@@ -25,6 +25,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.deviceStatus = @YES;
         testRequest.driverBraking = @YES;
         testRequest.eCallInfo = @YES;
+        testRequest.electronicParkBrakeStatus = @YES;
         testRequest.emergencyEvent = @YES;
         testRequest.engineOilLife = @YES;
         testRequest.engineTorque = @YES;
@@ -42,6 +43,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.speed = @YES;
         testRequest.steeringWheelAngle = @YES;
         testRequest.tirePressure = @YES;
+        testRequest.turnSignal = @NO;
         testRequest.wiperStatus = @YES;
 
         expect(testRequest.accPedalPosition).to(equal(@YES));
@@ -52,6 +54,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.deviceStatus).to(equal(@YES));
         expect(testRequest.driverBraking).to(equal(@YES));
         expect(testRequest.eCallInfo).to(equal(@YES));
+        expect(testRequest.electronicParkBrakeStatus).to(equal(@YES));
         expect(testRequest.emergencyEvent).to(equal(@YES));
         expect(testRequest.engineOilLife).to(equal(@YES));
         expect(testRequest.engineTorque).to(equal(@YES));
@@ -69,39 +72,42 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.speed).to(equal(@YES));
         expect(testRequest.steeringWheelAngle).to(equal(@YES));
         expect(testRequest.tirePressure).to(equal(@YES));
+        expect(testRequest.turnSignal).to(equal(@NO));
         expect(testRequest.wiperStatus).to(equal(@YES));
     });
     
     it(@"Should get correctly when initialized", ^ {
         NSDictionary<NSString *, id> *dict = @{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameAccelerationPedalPosition:@YES,
-                                                                     SDLNameAirbagStatus:@YES,
-                                                                     SDLNameBeltStatus:@YES,
-                                                                     SDLNameBodyInformation:@YES,
-                                                                     SDLNameClusterModeStatus:@YES,
-                                                                     SDLNameDeviceStatus:@YES,
-                                                                     SDLNameDriverBraking:@YES,
-                                                                     SDLNameECallInfo:@YES,
-                                                                     SDLNameEmergencyEvent:@YES,
-                                                                     SDLNameEngineOilLife:@YES,
-                                                                     SDLNameEngineTorque:@YES,
-                                                                     SDLNameExternalTemperature:@YES,
-                                                                     SDLNameFuelLevel:@YES,
-                                                                     SDLNameFuelLevelState:@YES,
-                                                                     SDLNameFuelRange:@YES,
-                                                                     SDLNameGPS:@YES,
-                                                                     SDLNameHeadLampStatus:@YES,
-                                                                     SDLNameInstantFuelConsumption:@YES,
-                                                                     SDLNameMyKey:@YES,
-                                                                     SDLNameOdometer:@YES,
-                                                                     SDLNamePRNDL:@YES,
-                                                                     SDLNameRPM:@YES,
-                                                                     SDLNameSpeed:@YES,
-                                                                     SDLNameSteeringWheelAngle:@YES,
-                                                                     SDLNameTirePressure:@YES,
-                                                                     SDLNameWiperStatus:@YES},
-                                                             SDLNameOperationName:SDLNameUnsubscribeVehicleData}};
+                                                   @{SDLNameParameters:
+                                                         @{SDLNameAccelerationPedalPosition:@YES,
+                                                           SDLNameAirbagStatus:@YES,
+                                                           SDLNameBeltStatus:@YES,
+                                                           SDLNameBodyInformation:@YES,
+                                                           SDLNameClusterModeStatus:@YES,
+                                                           SDLNameDeviceStatus:@YES,
+                                                           SDLNameDriverBraking:@YES,
+                                                           SDLNameECallInfo:@YES,
+                                                           SDLNameElectronicParkBrakeStatus: @YES,
+                                                           SDLNameEmergencyEvent:@YES,
+                                                           SDLNameEngineOilLife:@YES,
+                                                           SDLNameEngineTorque:@YES,
+                                                           SDLNameExternalTemperature:@YES,
+                                                           SDLNameFuelLevel:@YES,
+                                                           SDLNameFuelLevelState:@YES,
+                                                           SDLNameFuelRange:@YES,
+                                                           SDLNameGPS:@YES,
+                                                           SDLNameHeadLampStatus:@YES,
+                                                           SDLNameInstantFuelConsumption:@YES,
+                                                           SDLNameMyKey:@YES,
+                                                           SDLNameOdometer:@YES,
+                                                           SDLNamePRNDL:@YES,
+                                                           SDLNameRPM:@YES,
+                                                           SDLNameSpeed:@YES,
+                                                           SDLNameSteeringWheelAngle:@YES,
+                                                           SDLNameTirePressure:@YES,
+                                                           SDLNameTurnSignal:@YES,
+                                                           SDLNameWiperStatus:@YES},
+                                                     SDLNameOperationName:SDLNameUnsubscribeVehicleData}};
         SDLUnsubscribeVehicleData* testRequest = [[SDLUnsubscribeVehicleData alloc] initWithDictionary:dict];
         
         expect(testRequest.accPedalPosition).to(equal(@YES));
@@ -112,6 +118,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.deviceStatus).to(equal(@YES));
         expect(testRequest.driverBraking).to(equal(@YES));
         expect(testRequest.eCallInfo).to(equal(@YES));
+        expect(testRequest.electronicParkBrakeStatus).to(equal(@YES));
         expect(testRequest.emergencyEvent).to(equal(@YES));
         expect(testRequest.engineOilLife).to(equal(@YES));
         expect(testRequest.engineTorque).to(equal(@YES));
@@ -129,6 +136,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.speed).to(equal(@YES));
         expect(testRequest.steeringWheelAngle).to(equal(@YES));
         expect(testRequest.tirePressure).to(equal(@YES));
+        expect(testRequest.turnSignal).to(equal(@YES));
         expect(testRequest.wiperStatus).to(equal(@YES));
     });
 });
@@ -145,6 +153,7 @@ describe(@"initializers", ^{
         expect(testRequest.deviceStatus).to(beNil());
         expect(testRequest.driverBraking).to(beNil());
         expect(testRequest.eCallInfo).to(beNil());
+        expect(testRequest.electronicParkBrakeStatus).to(beNil());
         expect(testRequest.emergencyEvent).to(beNil());
         expect(testRequest.engineOilLife).to(beNil());
         expect(testRequest.engineTorque).to(beNil());
@@ -162,11 +171,12 @@ describe(@"initializers", ^{
         expect(testRequest.speed).to(beNil());
         expect(testRequest.steeringWheelAngle).to(beNil());
         expect(testRequest.tirePressure).to(beNil());
+        expect(testRequest.turnSignal).to(beNil());
         expect(testRequest.wiperStatus).to(beNil());
     });
 
-    context(@"initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:", ^{
-        SDLUnsubscribeVehicleData *testRequest = [[SDLUnsubscribeVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES wiperStatus:YES];
+    context(@"initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:electronicParkBrakeStatus:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:turnSignal:wiperStatus:", ^{
+        SDLUnsubscribeVehicleData *testRequest = [[SDLUnsubscribeVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES electronicParkBrakeStatus:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES turnSignal:YES wiperStatus:YES];
 
         expect(testRequest.accPedalPosition).to(equal(@YES));
         expect(testRequest.airbagStatus).to(equal(@YES));
@@ -176,6 +186,7 @@ describe(@"initializers", ^{
         expect(testRequest.deviceStatus).to(equal(@YES));
         expect(testRequest.driverBraking).to(equal(@YES));
         expect(testRequest.eCallInfo).to(equal(@YES));
+        expect(testRequest.electronicParkBrakeStatus).to(equal(@YES));
         expect(testRequest.emergencyEvent).to(equal(@YES));
         expect(testRequest.engineOilLife).to(equal(@YES));
         expect(testRequest.engineTorque).to(equal(@YES));
@@ -193,6 +204,7 @@ describe(@"initializers", ^{
         expect(testRequest.speed).to(equal(@YES));
         expect(testRequest.steeringWheelAngle).to(equal(@YES));
         expect(testRequest.tirePressure).to(equal(@YES));
+        expect(testRequest.turnSignal).to(equal(@YES));
         expect(testRequest.wiperStatus).to(equal(@YES));
     });
 
@@ -207,6 +219,7 @@ describe(@"initializers", ^{
         expect(testRequest.deviceStatus).to(equal(@YES));
         expect(testRequest.driverBraking).to(equal(@YES));
         expect(testRequest.eCallInfo).to(equal(@YES));
+        expect(testRequest.electronicParkBrakeStatus).to(equal(@NO));
         expect(testRequest.emergencyEvent).to(equal(@YES));
         expect(testRequest.engineOilLife).to(equal(@NO));
         expect(testRequest.engineTorque).to(equal(@YES));
@@ -224,6 +237,7 @@ describe(@"initializers", ^{
         expect(testRequest.speed).to(equal(@YES));
         expect(testRequest.steeringWheelAngle).to(equal(@YES));
         expect(testRequest.tirePressure).to(equal(@YES));
+        expect(testRequest.turnSignal).to(equal(@NO));
         expect(testRequest.wiperStatus).to(equal(@YES));
     });
 });

@@ -52,14 +52,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @warning This property is readonly and cannot be set on the module.
  *
- * Integer value Min Value - 1 Max Value -3
+ * Integer value Min Value - 1 Max Value -7
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *availableHDs;
 
 /**
  * Current HD sub-channel if available
  *
- * Integer value Min Value - 1 Max Value -3
+ * Integer value Min Value - 1 Max Value -7
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLInt> *hdChannel;
 
@@ -96,6 +96,13 @@ NS_ASSUME_NONNULL_BEGIN
  * SDLRadioState
  */
 @property (nullable, strong, nonatomic) SDLRadioState state;
+
+/**
+ * True if the hd radio is on, false is the radio is off
+ *
+ * Boolean value
+ */
+@property (nullable, strong, nonatomic)  NSNumber<SDLBool> *hdRadioEnable;
 
 @end
 
