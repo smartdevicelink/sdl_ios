@@ -25,7 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  The port number of Core
  */
 @property (strong, nonatomic) NSString *portNumber;
-@property (nonatomic, assign) NSUInteger receiveBufferSize;
 
 /**
  *  The subscribed listener

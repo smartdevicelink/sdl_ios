@@ -23,6 +23,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
 @property (nullable, nonatomic, strong) NSThread *ioThread;
 @property (nonatomic, strong) dispatch_semaphore_t ioThreadStoppedSemaphore;
+@property (nonatomic, assign) NSUInteger receiveBufferSize;
 @property (nonatomic, strong) SDLMutableDataQueue *sendDataQueue;
 @property (nullable, nonatomic, strong) NSInputStream *inputStream;
 @property (nullable, nonatomic, strong) NSOutputStream *outputStream;
@@ -187,6 +188,9 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
     switch (eventCode) {
+        case NSStreamEventNone: {
+            // nothing to do
+        } break;
         case NSStreamEventOpenCompleted: {
             // We will get two NSStreamEventOpenCompleted events (for both input and output streams) and we don't need both. Let's use the one of output stream since we need to make sure that output stream is ready before Proxy sending Start Service frame.
             if (aStream == self.outputStream) {
@@ -210,9 +214,6 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         case NSStreamEventEndEncountered: {
             SDLLogD(@"TCP transport %@ stream end encountered", aStream == self.inputStream ? @"input" : @"output");
             [self sdl_onStreamEnd:aStream];
-        } break;
-        default: {
-            SDLLogW(@"Unknown TCP stream event: %lu", (unsigned long)eventCode);
         } break;
     }
 }
@@ -240,11 +241,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 }
 
 - (void)sdl_writeToStream {
-    if (!self.outputStreamHasSpace) {
-        return;
-    }
-    if ([self.sendDataQueue count] == 0) {
-        // If send queue is empty, outputStreamHasSpace flag stays in YES. So once sendData is called, write to the stream will be attempted immediately.
+    if (!self.outputStreamHasSpace || [self.sendDataQueue count] == 0) {
         return;
     }
 
@@ -292,44 +289,46 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     [self sdl_cancelIOThread];
 
     // avoid notifying multiple error events
-    if (!self.transportErrorNotified) {
-        if (self.transportConnected) {
-            // transport is disconnected while running
-            [self.delegate onTransportDisconnected];
-            self.transportErrorNotified = YES;
-        } else if ([stream.streamError.domain isEqualToString:NSPOSIXErrorDomain]) {
-            // connection error
+    if (self.transportErrorNotified) {
+        return;
+    }
 
-            // According to Apple's document "Error Objects, Domains, and Codes", the 'code' values of NSPOSIXErrorDomain are actually errno values.
-            NSError *error;
-            switch (stream.streamError.code) {
-                case ECONNREFUSED: {
-                    SDLLogD(@"TCP connection error: ECONNREFUSED");
-                    error = [NSError sdl_transport_connectionRefusedError];
-                } break;
-                case ETIMEDOUT: {
-                    SDLLogD(@"TCP connection error: ETIMEDOUT");
-                    error = [NSError sdl_transport_connectionTimedOutError];
-                } break;
-                case ENETDOWN: {
-                    SDLLogD(@"TCP connection error: ENETDOWN");
-                    error = [NSError sdl_transport_networkDownError];
-                } break;
-                case ENETUNREACH: {
-                    // This is just for safe. I did not observe ENETUNREACH error on iPhone.
-                    SDLLogD(@"TCP connection error: ENETUNREACH");
-                    error = [NSError sdl_transport_networkDownError];
-                } break;
-                default: {
-                    SDLLogD(@"TCP connection error: unknown error %ld", (long)stream.streamError.code);
-                    error = [NSError sdl_transport_unknownError];
-                } break;
-            }
-            [self.delegate onError:error];
-            self.transportErrorNotified = YES;
-        } else {
-            SDLLogW(@"Unhandled stream error! %@", stream.streamError);
+    if (self.transportConnected) {
+        // transport is disconnected while running
+        [self.delegate onTransportDisconnected];
+        self.transportErrorNotified = YES;
+    } else if ([stream.streamError.domain isEqualToString:NSPOSIXErrorDomain]) {
+        // connection error
+
+        // According to Apple's document "Error Objects, Domains, and Codes", the 'code' values of NSPOSIXErrorDomain are actually errno values.
+        NSError *error;
+        switch (stream.streamError.code) {
+            case ECONNREFUSED: {
+                SDLLogD(@"TCP connection error: ECONNREFUSED");
+                error = [NSError sdl_transport_connectionRefusedError];
+            } break;
+            case ETIMEDOUT: {
+                SDLLogD(@"TCP connection error: ETIMEDOUT");
+                error = [NSError sdl_transport_connectionTimedOutError];
+            } break;
+            case ENETDOWN: {
+                SDLLogD(@"TCP connection error: ENETDOWN");
+                error = [NSError sdl_transport_networkDownError];
+            } break;
+            case ENETUNREACH: {
+                // This is just for safe. I did not observe ENETUNREACH error on iPhone.
+                SDLLogD(@"TCP connection error: ENETUNREACH");
+                error = [NSError sdl_transport_networkDownError];
+            } break;
+            default: {
+                SDLLogD(@"TCP connection error: unknown error %ld", (long)stream.streamError.code);
+                error = [NSError sdl_transport_unknownError];
+            } break;
         }
+        [self.delegate onError:error];
+        self.transportErrorNotified = YES;
+    } else {
+        SDLLogE(@"Unhandled stream error! %@", stream.streamError);
     }
 }
 
