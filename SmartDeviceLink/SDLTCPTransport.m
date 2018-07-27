@@ -275,11 +275,8 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     [self sdl_cancelIOThread];
 
     if (!self.transportErrorNotified) {
-        if (!self.transportConnected) { // this condition should be always true
-            [self.delegate onError:[NSError sdl_transport_connectionTimedOutError]];
-        } else {
-            [self.delegate onTransportDisconnected];
-        }
+        NSAssert(!self.transportConnected, @"transport should not be connected in this case");
+        [self.delegate onError:[NSError sdl_transport_connectionTimedOutError]];
         self.transportErrorNotified = YES;
     }
 }
