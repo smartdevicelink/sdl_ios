@@ -14,6 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLHMISettingsControlData : SDLRPCStruct
 
+/**
+ Constructs a newly allocated SDLHMISettingsControlCapabilities object with cushion and firmness
+
+ @param displayMode Display Mode used in HMI setting
+ @param temperatureUnit temperature unit used in HMI setting
+ @param distanceUnit distance unit used in HMI setting
+ @return An instance of the SDLHMISettingsControlCapabilities class
+ */
 - (instancetype)initWithDisplaymode:(SDLDisplayMode)displayMode temperatureUnit:(SDLTemperatureUnit)temperatureUnit distanceUnit:(SDLDistanceUnit)distanceUnit;
 
 /**

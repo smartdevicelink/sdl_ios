@@ -9,6 +9,15 @@
 @interface SDLAudioControlData : SDLRPCStruct
 
 
+/**
+ Constructs a newly allocated SDLAudioControlData object with cushion and firmness
+
+ @param source current primary audio source of the system
+ @param keepContext Whether or not application's context is changed
+ @param volume Reflects the volume of audio
+ @param equalizerSettings list of supported Equalizer channels
+ @return An instance of the SDLAudioControlData class
+ */
 - (_Nonnull instancetype)initWithSource:(nullable SDLPrimaryAudioSource)source keepContext:(nullable NSNumber<SDLBool> *)keepContext volume:(nullable NSNumber<SDLInt> *)volume equalizerSettings:(nullable NSArray<SDLEqualizerSettings *> *)equalizerSettings;
 
 /**

@@ -9,6 +9,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLightControlData : SDLRPCStruct
 
+/**
+ Constructs a newly allocated SDLLightControlData object with cushion and firmness
+
+ @param lightState An array of LightNames and their current or desired status
+ @return An instance of the SDLLightControlData class
+ */
 - (instancetype)initWithLightStateArray:(NSArray<SDLLightState *> *)lightState;
 
 /**

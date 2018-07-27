@@ -16,8 +16,29 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLRadioControlData : SDLRPCStruct
 
-- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable;
+/**
+ Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.
 
+ @param frequencyInteger integer part of the frequency
+ @param frequencyFraction fractional part of the frequency
+ @param band Radio band value
+ @param hdChannel Current HD sub-channel
+ @param radioEnable whether or not radio is enabled
+ @return An instance of the SDLRadioControlData class
+ */
+- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable __deprecated_msg(("Use initWithFrequencyInteger:frequencyFraction:band:hdChannel:radioEnable:sisData:"));
+
+/**
+ Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.
+
+ @param frequencyInteger integer part of the frequency
+ @param frequencyFraction fractional part of the frequency
+ @param band Radio band value
+ @param hdChannel Current HD sub-channel
+ @param radioEnable whether or not radio is enabled
+ @param sisData Station Information Service (SIS) data
+ @return An instance of the SDLRadioControlData class
+ */
 - (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable sisData:(SDLSisData *)sisData;
 
 /**

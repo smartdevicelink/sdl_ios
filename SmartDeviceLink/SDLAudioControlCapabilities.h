@@ -7,12 +7,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLAudioControlCapabilities : SDLRPCStruct
 
+/**
+ Constructs a newly allocated SDLAudioControlCapabilities object with cushion and firmness
+
+ @param name The short friendly name of the light control module.
+ @return An instance of the SDLAudioControlCapabilities class
+ */
 - (instancetype)initWithModuleName:(NSString *)name;
 
+/**
+  Constructs a newly allocated SDLAudioControlCapabilities object with cushion and firmness
+
+ @param name The short friendly name of the light control module.
+ @param sourceAvailable Availability of the control of audio source
+ @param volumeAvailable Availability of the volume of audio source
+ @param equalizerAvailable Availability of the equalizer of audio source
+ @param channelID Equalizer ID
+ @return An instance of the SDLAudioControlCapabilities class
+ */
 - (instancetype)initWithModuleName:(NSString *)name sourceAvailable:(nullable NSNumber<SDLBool> *)sourceAvailable volueAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable equalizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable equalizerMaxChannelID:(nullable NSNumber<SDLInt> *)channelID;
 
 /**
- * @abstract    The short friendly name of the light control module.
+ * @abstract The short friendly name of the light control module.
  * It should not be used to identify a module by mobile application.
  *
  * Required, Max String length 100 chars

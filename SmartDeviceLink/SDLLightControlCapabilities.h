@@ -9,10 +9,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLightControlCapabilities : SDLRPCStruct
 
+/**
+ Constructs a newly allocated SDLLightControlCapabilities object with cushion and firmness
+
+
+ @param moduleName friendly name of the light control module
+ @param supportedLights array of available LightCapabilities
+ @return An instance of the SDLLightControlCapabilities class
+ */
 - (instancetype)initWithModuleName:(NSString *)moduleName supportedLights:(NSArray<SDLLightCapabilities *> *)supportedLights;
 
 /**
- * @abstract    The short friendly name of the light control module.
+ * @abstract  The short friendly name of the light control module.
  * It should not be used to identify a module by mobile application.
  *
  * Required, Max String length 100 chars

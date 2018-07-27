@@ -27,11 +27,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get correctly", ^ {
-        SDLLightCapabilities* testStruct = [[SDLLightCapabilities alloc] initWithName:SDLLightNameFogLights desityAvailable:YES sRGBColorSpaceAvailable:NO];
+        SDLLightCapabilities* testStruct = [[SDLLightCapabilities alloc] initWithName:SDLLightNameFogLights desityAvailable:YES sRGBColorSpaceAvailable:NO statusAvailable:NO];
 
         expect(testStruct.name).to(equal(SDLLightNameFogLights));
         expect(testStruct.densityAvailable).to(equal(@YES));
         expect(testStruct.sRGBColorSpaceAvailable).to(equal(@NO));
+        expect(testStruct.statusAvailable).to(equal(@NO));
+
     });
 
     it(@"Should get correctly when initialized", ^ {
