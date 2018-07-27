@@ -128,7 +128,7 @@ typedef NS_ENUM(NSInteger, SDLTransportError) {
     /**
      *  Connection cannot be established due to a reason not listed here.
      */
-    SDLTransportErrorOthers = -1,
+    SDLTransportErrorUnknown = -1,
     /**
      *  TCP connection is refused.
      *  Probably specified port number is invalid, or SDL Core is not running on the head unit.

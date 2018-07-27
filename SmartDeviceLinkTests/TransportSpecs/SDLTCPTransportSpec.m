@@ -497,7 +497,7 @@ describe(@"SDLTCPTransport", ^ {
 
     it(@"Should invoke onError delegate when input parameter is invalid", ^ {
         OCMExpect([transportDelegateMock onError:[OCMArg checkWithBlock:^BOOL(NSError *error) {
-            if (error.domain == SDLErrorDomainTransport && error.code == SDLTransportErrorOthers) {
+            if (error.domain == SDLErrorDomainTransport && error.code == SDLTransportErrorUnknown) {
                 return YES;
             } else {
                 return NO;

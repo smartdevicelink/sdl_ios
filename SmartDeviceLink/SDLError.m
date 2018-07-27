@@ -220,13 +220,13 @@ SDLErrorDomain *const SDLErrorDomainTransport = @"com.sdl.transport.error";
 
 #pragma mark Transport
 
-+ (NSError *)sdl_transport_OthersError {
++ (NSError *)sdl_transport_unknownError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(@"TCP connection error", nil),
                                                        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"TCP connection cannot be established due to unknown error.", nil),
                                                        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that correct IP address and TCP port number are specified, and the phone is connected to the correct Wi-Fi network.", nil)
                                                        };
-    return [NSError errorWithDomain:SDLErrorDomainTransport code:SDLTransportErrorOthers userInfo:userInfo];
+    return [NSError errorWithDomain:SDLErrorDomainTransport code:SDLTransportErrorUnknown userInfo:userInfo];
 }
 
 + (NSError *)sdl_transport_connectionRefusedError {

@@ -68,7 +68,7 @@ extern SDLErrorDomain *const SDLErrorDomainTransport;
 
 #pragma mark Transport
 
-+ (NSError *)sdl_transport_OthersError;
++ (NSError *)sdl_transport_unknownError;
 + (NSError *)sdl_transport_connectionRefusedError;
 + (NSError *)sdl_transport_connectionTimedOutError;
 + (NSError *)sdl_transport_networkDownError;

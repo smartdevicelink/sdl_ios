@@ -57,10 +57,9 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     [self disconnect];
 }
 
-#pragma mark - SDLAbstractTransport methods
+#pragma mark - Stream Lifecycle
 
-// Note: When a connection is refused (e.g. TCP port number is not correct) or timed out (e.g. invalid IP address),
-//       then onError will be notified.
+// Note: When a connection is refused (e.g. TCP port number is not correct) or timed out (e.g. invalid IP address), then onError will be notified.
 - (void)connect {
     if (self.ioThread != nil) {
         SDLLogW(@"TCP transport is already connected");
@@ -72,13 +71,12 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     if (0 <= num && num <= 65535) {
         port = (unsigned int)num;
     } else {
-        // specify an invalid port, so that once connection is initiated we will receive an error
-        // through delegate
+        // specify an invalid port, so that once connection is initiated we will receive an error through delegate
         port = 65536;
     }
 
     self.ioThread = [[NSThread alloc] initWithTarget:self selector:@selector(sdl_tcpTransportEventLoop) object:nil];
-    [self.ioThread setName:TCPIOThreadName];
+    self.ioThread.name = TCPIOThreadName;
     self.ioThreadStoppedSemaphore = dispatch_semaphore_create(0);
 
     CFReadStreamRef readStream = NULL;
@@ -123,6 +121,8 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     self.transportConnected = NO;
 }
 
+#pragma mark - Data Transmission
+
 - (void)sendData:(NSData *)msgBytes {
     [self.sendDataQueue enqueueBuffer:msgBytes.mutableCopy];
 
@@ -136,8 +136,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         [self sdl_setupStream:self.inputStream];
         [self sdl_setupStream:self.outputStream];
 
-        // JFYI: NSStream itself has a connection timeout (about 1 minute). If you specify a large timeout value,
-        // you may get the NSStream's timeout event first.
+        // JFYI: NSStream itself has a connection timeout (about 1 minute). If you specify a large timeout value, you may get the NSStream's timeout event first.
         self.connectionTimer = [NSTimer scheduledTimerWithTimeInterval:ConnectionTimeoutSecs target:self selector:@selector(sdl_onConnectionTimedOut:) userInfo:nil repeats:NO];
 
         // these will initiate a connection to remote server
@@ -164,7 +163,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 }
 
 - (void)sdl_setupStream:(NSStream *)stream {
-    [stream setDelegate:self];
+    stream.delegate = self;
     [stream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
@@ -178,51 +177,51 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 }
 
 - (void)sdl_cancelIOThread {
-    // set cancel flag
     [self.ioThread cancel];
     // wake up the run loop in case we don't have any I/O event
     [self performSelector:@selector(sdl_doNothing) onThread:self.ioThread withObject:nil waitUntilDone:NO];
 }
 
-#pragma mark - Stream events
-// these methods run only on the I/O thread (i.e. invoked from the run loop)
+#pragma mark - NSStreamDelegate
+// this method runs only on the I/O thread (i.e. invoked from the run loop)
 
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
     switch (eventCode) {
-        case NSStreamEventOpenCompleted:
-            // We will get two NSStreamEventOpenCompleted events (for both input and output streams) and
-            // we don't need both. Let's use the one of output stream since we need to make sure that
-            // output stream is ready before Proxy sending Start Service frame.
+        case NSStreamEventOpenCompleted: {
+            // We will get two NSStreamEventOpenCompleted events (for both input and output streams) and we don't need both. Let's use the one of output stream since we need to make sure that output stream is ready before Proxy sending Start Service frame.
             if (aStream == self.outputStream) {
                 SDLLogD(@"TCP transport connected");
                 [self.connectionTimer invalidate];
                 self.transportConnected = YES;
                 [self.delegate onTransportConnected];
             }
-            break;
-        case NSStreamEventHasBytesAvailable:
+        } break;
+        case NSStreamEventHasBytesAvailable: {
             [self sdl_readFromStream];
-            break;
-        case NSStreamEventHasSpaceAvailable:
+        } break;
+        case NSStreamEventHasSpaceAvailable: {
             self.outputStreamHasSpace = YES;
             [self sdl_writeToStream];
-            break;
-        case NSStreamEventErrorOccurred:
+        } break;
+        case NSStreamEventErrorOccurred: {
             SDLLogW(@"TCP transport error occurred with %@ stream: %@", aStream == self.inputStream ? @"input" : @"output", aStream.streamError);
             [self sdl_onStreamError:aStream];
-            break;
-        case NSStreamEventEndEncountered:
+        } break;
+        case NSStreamEventEndEncountered: {
             SDLLogD(@"TCP transport %@ stream end encountered", aStream == self.inputStream ? @"input" : @"output");
             [self sdl_onStreamEnd:aStream];
-            break;
-        default:
+        } break;
+        default: {
             SDLLogW(@"Unknown TCP stream event: %lu", (unsigned long)eventCode);
-            break;
+        } break;
     }
 }
 
+#pragma mark - Stream event handlers
+// these methods run only on the I/O thread (i.e. invoked from the run loop)
+
 - (void)sdl_readFromStream {
-    uint8_t *buffer = malloc(self.receiveBufferSize);
+    BytePtr buffer = malloc(self.receiveBufferSize);
     NSInteger readBytes = [self.inputStream read:buffer maxLength:self.receiveBufferSize];
     if (readBytes < 0) {
         SDLLogW(@"TCP transport read error: %@", self.inputStream.streamError);
@@ -245,8 +244,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         return;
     }
     if ([self.sendDataQueue count] == 0) {
-        // If send queue is empty, outputStreamHasSpace flag stays in YES. So once sendData is
-        // called, write to the stream will be attempted immediately.
+        // If send queue is empty, outputStreamHasSpace flag stays in YES. So once sendData is called, write to the stream will be attempted immediately.
         return;
     }
 
@@ -271,8 +269,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         [buffer replaceBytesInRange:NSMakeRange(0, (NSUInteger)bytesWritten) withBytes:NULL length:0];
     }
 
-    // the output stream may still have some spaces, but let's wait for another
-    // NSStreamEventHasSpaceAvailable event before writing
+    // the output stream may still have some spaces, but let's wait for another NSStreamEventHasSpaceAvailable event before writing
     self.outputStreamHasSpace = NO;
 }
 
@@ -282,7 +279,6 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 
     if (!self.transportErrorNotified) {
         if (!self.transportConnected) { // this condition should be always true
-            SDLLogD(@"Notifying connection timed out error");
             [self.delegate onError:[NSError sdl_transport_connectionTimedOutError]];
         } else {
             [self.delegate onTransportDisconnected];
@@ -304,31 +300,30 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
         } else if ([stream.streamError.domain isEqualToString:NSPOSIXErrorDomain]) {
             // connection error
 
-            // According to Apple's document "Error Objects, Domains, and Codes", the 'code' values
-            // of NSPOSIXErrorDomain are actually errno values.
+            // According to Apple's document "Error Objects, Domains, and Codes", the 'code' values of NSPOSIXErrorDomain are actually errno values.
             NSError *error;
             switch (stream.streamError.code) {
-                case ECONNREFUSED:
+                case ECONNREFUSED: {
                     SDLLogD(@"TCP connection error: ECONNREFUSED");
                     error = [NSError sdl_transport_connectionRefusedError];
-                    break;
-                case ETIMEDOUT:
+                } break;
+                case ETIMEDOUT: {
                     SDLLogD(@"TCP connection error: ETIMEDOUT");
                     error = [NSError sdl_transport_connectionTimedOutError];
-                    break;
-                case ENETDOWN:
+                } break;
+                case ENETDOWN: {
                     SDLLogD(@"TCP connection error: ENETDOWN");
                     error = [NSError sdl_transport_networkDownError];
-                    break;
-                case ENETUNREACH:
+                } break;
+                case ENETUNREACH: {
                     // This is just for safe. I did not observe ENETUNREACH error on iPhone.
                     SDLLogD(@"TCP connection error: ENETUNREACH");
                     error = [NSError sdl_transport_networkDownError];
-                    break;
-                default:
+                } break;
+                default: {
                     SDLLogD(@"TCP connection error: unknown error %ld", (long)stream.streamError.code);
-                    error = [NSError sdl_transport_OthersError];
-                    break;
+                    error = [NSError sdl_transport_unknownError];
+                } break;
             }
             [self.delegate onError:error];
             self.transportErrorNotified = YES;
@@ -347,8 +342,7 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
     }
 }
 
-- (void)sdl_doNothing {
-}
+- (void)sdl_doNothing {}
 
 @end
 
