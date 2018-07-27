@@ -226,6 +226,22 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameMyKey ofClass:SDLVehicleDataResult.class];
 }
 
+- (void)setElectronicParkBrakeStatus:(nullable SDLVehicleDataResult *)electronicParkBrakeStatus {
+    [parameters sdl_setObject:electronicParkBrakeStatus forName:SDLNameElectronicParkBrakeStatus];
+}
+
+- (nullable SDLVehicleDataResult *)electronicParkBrakeStatus {
+    return [parameters sdl_objectForName:SDLNameElectronicParkBrakeStatus ofClass:[SDLVehicleDataResult class]];
+}
+
+- (void)setTurnSignal:(nullable SDLVehicleDataResult *)turnSignal {
+    [parameters sdl_setObject:turnSignal forName:SDLNameTurnSignal];
+}
+
+- (nullable SDLVehicleDataResult *)turnSignal {
+    return [parameters sdl_objectForName:SDLNameTurnSignal ofClass:[SDLVehicleDataResult class]];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

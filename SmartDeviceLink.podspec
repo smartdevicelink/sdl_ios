@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "SmartDeviceLink"
-s.version      = "6.0.0"
+s.version      = "6.0.1"
 s.summary      = "Connect your app with cars!"
 s.homepage     = "https://github.com/smartdevicelink/SmartDeviceLink-iOS"
 s.license      = { :type => "New BSD", :file => "LICENSE" }
@@ -91,6 +91,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLDriverDistractionState.h',
 'SmartDeviceLink/SDLECallConfirmationStatus.h',
 'SmartDeviceLink/SDLECallInfo.h',
+'SmartDeviceLink/SDLElectronicParkBrakeStatus.h',
 'SmartDeviceLink/SDLEmergencyEvent.h',
 'SmartDeviceLink/SDLEmergencyEventType.h',
 'SmartDeviceLink/SDLEncodedSyncPData.h',
@@ -163,6 +164,11 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLMaintenanceModeStatus.h',
 'SmartDeviceLink/SDLManager.h',
 'SmartDeviceLink/SDLManagerDelegate.h',
+'SmartDeviceLink/SDLMassageCushionFirmness.h',
+'SmartDeviceLink/SDLMassageModeData.h',
+'SmartDeviceLink/SDLMassageCushion.h',
+'SmartDeviceLink/SDLMassageMode.h',
+'SmartDeviceLink/SDLMassageZone.h',
 'SmartDeviceLink/SDLMediaClockFormat.h',
 'SmartDeviceLink/SDLMenuCell.h',
 'SmartDeviceLink/SDLMenuParams.h',
@@ -188,6 +194,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLOnLanguageChange.h',
 'SmartDeviceLink/SDLOnLockScreenStatus.h',
 'SmartDeviceLink/SDLOnPermissionsChange.h',
+'SmartDeviceLink/SDLOnRCStatus.h',
 'SmartDeviceLink/SDLOnSyncPData.h',
 'SmartDeviceLink/SDLOnSystemRequest.h',
 'SmartDeviceLink/SDLOnTBTClientState.h',
@@ -244,6 +251,11 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLScreenManager.h',
 'SmartDeviceLink/SDLScrollableMessage.h',
 'SmartDeviceLink/SDLScrollableMessageResponse.h',
+'SmartDeviceLink/SDLSeatControlCapabilities.h',
+'SmartDeviceLink/SDLSeatControlData.h',
+'SmartDeviceLink/SDLSeatMemoryAction.h',
+'SmartDeviceLink/SDLSeatMemoryActionType.h',
+'SmartDeviceLink/SDLSupportedSeat.h',
 'SmartDeviceLink/SDLSecurityType.h',
 'SmartDeviceLink/SDLSendHapticData.h',
 'SmartDeviceLink/SDLSendHapticDataResponse.h',
@@ -275,6 +287,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLSpeakResponse.h',
 'SmartDeviceLink/SDLSpeechCapabilities.h',
 'SmartDeviceLink/SDLStartTime.h',
+'SmartDeviceLink/SDLStaticIconName.h',
 'SmartDeviceLink/SDLStreamingMediaConfiguration.h',
 'SmartDeviceLink/SDLStreamingMediaManager.h',
 'SmartDeviceLink/SDLStreamingMediaManagerConstants.h',
@@ -309,9 +322,11 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLTouchManager.h',
 'SmartDeviceLink/SDLTouchManagerDelegate.h',
 'SmartDeviceLink/SDLTouchType.h',
+'SmartDeviceLink/SDLTPMS.h',
 'SmartDeviceLink/SDLTriggerSource.h',
 'SmartDeviceLink/SDLTTSChunk.h',
 'SmartDeviceLink/SDLTurn.h',
+'SmartDeviceLink/SDLTurnSignal.h',
 'SmartDeviceLink/SDLUnregisterAppInterface.h',
 'SmartDeviceLink/SDLUnregisterAppInterfaceResponse.h',
 'SmartDeviceLink/SDLUnsubscribeButton.h',
@@ -336,6 +351,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLVideoStreamingCodec.h',
 'SmartDeviceLink/SDLVideoStreamingFormat.h',
 'SmartDeviceLink/SDLVideoStreamingProtocol.h',
+'SmartDeviceLink/SDLVideoStreamingState.h',
 'SmartDeviceLink/SDLVoiceCommand.h',
 'SmartDeviceLink/SDLVrCapabilities.h',
 'SmartDeviceLink/SDLVrHelpItem.h',

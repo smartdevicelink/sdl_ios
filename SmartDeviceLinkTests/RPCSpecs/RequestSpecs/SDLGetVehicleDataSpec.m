@@ -25,6 +25,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.deviceStatus = @NO;
         testRequest.driverBraking = @YES;
         testRequest.eCallInfo = @YES;
+        testRequest.electronicParkBrakeStatus = @YES;
         testRequest.emergencyEvent = @YES;
         testRequest.engineOilLife = @YES;
         testRequest.engineTorque = @NO;
@@ -42,6 +43,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.speed = @NO;
         testRequest.steeringWheelAngle = @NO;
         testRequest.tirePressure = @NO;
+        testRequest.turnSignal = @YES;
         testRequest.wiperStatus = @NO;
 
         expect(testRequest.accPedalPosition).to(equal(@YES));
@@ -52,6 +54,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.deviceStatus).to(equal(@NO));
         expect(testRequest.driverBraking).to(equal(@YES));
         expect(testRequest.eCallInfo).to(equal(@YES));
+        expect(testRequest.electronicParkBrakeStatus).to(equal(@YES));
         expect(testRequest.emergencyEvent).to(equal(@YES));
         expect(testRequest.engineOilLife).to(equal(@YES));
         expect(testRequest.engineTorque).to(equal(@NO));
@@ -69,6 +72,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.speed).to(equal(@NO));
         expect(testRequest.steeringWheelAngle).to(equal(@NO));
         expect(testRequest.tirePressure).to(equal(@NO));
+        expect(testRequest.turnSignal).to(equal(@YES));
         expect(testRequest.wiperStatus).to(equal(@NO));
     });
     
@@ -83,6 +87,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameDeviceStatus:@YES,
                                                                    SDLNameDriverBraking:@YES,
                                                                    SDLNameECallInfo:@YES,
+                                                                   SDLNameElectronicParkBrakeStatus:@YES,
                                                                    SDLNameEmergencyEvent:@NO,
                                                                    SDLNameEngineOilLife:@YES,
                                                                    SDLNameEngineTorque:@YES,
@@ -100,6 +105,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameSpeed:@YES,
                                                                    SDLNameSteeringWheelAngle:@NO,
                                                                    SDLNameTirePressure:@YES,
+                                                                   SDLNameTurnSignal:@NO,
                                                                    SDLNameWiperStatus:@YES},
                                                              SDLNameOperationName:SDLNameGetVehicleData}};
         SDLGetVehicleData* testRequest = [[SDLGetVehicleData alloc] initWithDictionary:dict];
@@ -112,6 +118,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.deviceStatus).to(equal(@YES));
         expect(testRequest.driverBraking).to(equal(@YES));
         expect(testRequest.eCallInfo).to(equal(@YES));
+        expect(testRequest.electronicParkBrakeStatus).to(equal(@YES));
         expect(testRequest.emergencyEvent).to(equal(@NO));
         expect(testRequest.engineOilLife).to(equal(@YES));
         expect(testRequest.engineTorque).to(equal(@YES));
@@ -129,6 +136,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.speed).to(equal(@YES));
         expect(testRequest.steeringWheelAngle).to(equal(@NO));
         expect(testRequest.tirePressure).to(equal(@YES));
+        expect(testRequest.turnSignal).to(equal(@NO));
         expect(testRequest.wiperStatus).to(equal(@YES));
     });
 });
@@ -145,6 +153,7 @@ describe(@"initializers", ^{
         expect(testRequest.deviceStatus).to(beNil());
         expect(testRequest.driverBraking).to(beNil());
         expect(testRequest.eCallInfo).to(beNil());
+        expect(testRequest.electronicParkBrakeStatus).to(beNil());
         expect(testRequest.emergencyEvent).to(beNil());
         expect(testRequest.engineOilLife).to(beNil());
         expect(testRequest.engineTorque).to(beNil());
@@ -162,6 +171,7 @@ describe(@"initializers", ^{
         expect(testRequest.speed).to(beNil());
         expect(testRequest.steeringWheelAngle).to(beNil());
         expect(testRequest.tirePressure).to(beNil());
+        expect(testRequest.turnSignal).to(beNil());
         expect(testRequest.wiperStatus).to(beNil());
     });
 
@@ -176,6 +186,7 @@ describe(@"initializers", ^{
         expect(testRequest.deviceStatus).to(equal(@YES));
         expect(testRequest.driverBraking).to(equal(@YES));
         expect(testRequest.eCallInfo).to(equal(@YES));
+        expect(testRequest.electronicParkBrakeStatus).to(equal(@NO));
         expect(testRequest.emergencyEvent).to(equal(@YES));
         expect(testRequest.engineOilLife).to(equal(@NO));
         expect(testRequest.engineTorque).to(equal(@YES));
@@ -193,11 +204,12 @@ describe(@"initializers", ^{
         expect(testRequest.speed).to(equal(@YES));
         expect(testRequest.steeringWheelAngle).to(equal(@YES));
         expect(testRequest.tirePressure).to(equal(@YES));
+        expect(testRequest.turnSignal).to(equal(@NO));
         expect(testRequest.wiperStatus).to(equal(@YES));
     });
 
     context(@"initWithAccelerationPedalPosition:airbagStatus:beltStatus:bodyInformation:clusterModeStatus:deviceStatus:driverBraking:eCallInfo:emergencyEvent:engineOilLife:engineTorque:externalTemperature:fuelLevel:fuelLevelState:gps:headLampStatus:instantFuelConsumption:myKey:odometer:prndl:rpm:speed:steeringWheelAngle:tirePressure:wiperStatus:", ^{
-        SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES vin:YES wiperStatus:YES];
+        SDLGetVehicleData *testRequest = [[SDLGetVehicleData alloc] initWithAccelerationPedalPosition:YES airbagStatus:YES beltStatus:YES bodyInformation:YES clusterModeStatus:YES deviceStatus:YES driverBraking:YES eCallInfo:YES electronicParkBrakeStatus:YES emergencyEvent:YES engineOilLife:YES engineTorque:YES externalTemperature:YES fuelLevel:YES fuelLevelState:YES fuelRange:YES gps:YES headLampStatus:YES instantFuelConsumption:YES myKey:YES odometer:YES prndl:YES rpm:YES speed:YES steeringWheelAngle:YES tirePressure:YES turnSignal:YES vin:YES wiperStatus:YES];
 
         expect(testRequest.accPedalPosition).to(equal(@YES));
         expect(testRequest.airbagStatus).to(equal(@YES));
@@ -207,6 +219,7 @@ describe(@"initializers", ^{
         expect(testRequest.deviceStatus).to(equal(@YES));
         expect(testRequest.driverBraking).to(equal(@YES));
         expect(testRequest.eCallInfo).to(equal(@YES));
+        expect(testRequest.electronicParkBrakeStatus).to(equal(@YES));
         expect(testRequest.emergencyEvent).to(equal(@YES));
         expect(testRequest.engineOilLife).to(equal(@YES));
         expect(testRequest.engineTorque).to(equal(@YES));
@@ -224,6 +237,7 @@ describe(@"initializers", ^{
         expect(testRequest.speed).to(equal(@YES));
         expect(testRequest.steeringWheelAngle).to(equal(@YES));
         expect(testRequest.tirePressure).to(equal(@YES));
+        expect(testRequest.turnSignal).to(equal(@YES));
         expect(testRequest.wiperStatus).to(equal(@YES));
     });
 });

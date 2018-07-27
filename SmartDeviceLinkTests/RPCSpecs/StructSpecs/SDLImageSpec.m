@@ -137,6 +137,16 @@ describe(@"initializers", ^{
         expect(testImage.imageType).to(equal(SDLImageTypeStatic));
         expect(testImage.isTemplate).to(beTrue());
     });
+
+    context(@"initWithStaticIconName:", ^{
+        SDLStaticIconName staticIconName = SDLStaticIconNameFavoriteStar;
+        testImage = [[SDLImage alloc] initWithStaticIconName:staticIconName];
+
+        expect(testImage).toNot(beNil());
+        expect(testImage.value).to(equal(staticIconName));
+        expect(testImage.imageType).to(equal(SDLImageTypeStatic));
+        expect(testImage.isTemplate).to(beTrue());
+    });
 });
 
 QuickSpecEnd
