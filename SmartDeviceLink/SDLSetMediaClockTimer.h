@@ -67,7 +67,8 @@ NS_ASSUME_NONNULL_BEGIN
  * The audio streaming indicator used for a play/pause button.
  *
  * @discussion Set the indicator icon of a play/pause button depending on the
- * current audio playback.
+ * current audio playback. This parameter is optional. If omitted the last indicator sent
+ * will not change.
  */
 @property (strong, nonatomic, nullable) SDLAudioStreamingIndicator audioStreamingIndicator;
 

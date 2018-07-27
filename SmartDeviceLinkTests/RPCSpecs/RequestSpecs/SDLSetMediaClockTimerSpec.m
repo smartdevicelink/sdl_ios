@@ -26,7 +26,7 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.startTime = time1;
         testRequest.endTime = time2;
         testRequest.updateMode = SDLUpdateModeCountUp;
-        testRequest.audioStreamingIndicator = SDLAudioStreamingIndicatorPlayPause
+        testRequest.audioStreamingIndicator = SDLAudioStreamingIndicatorPlayPause;
         
         expect(testRequest.startTime).to(equal(time1));
         expect(testRequest.endTime).to(equal(time2));
