@@ -122,13 +122,16 @@ UInt32 const MenuCellIdMin = 1;
     NSMutableSet *vrCheckSet = [NSMutableSet set];
     for (SDLMenuCell *cell in menuCells) {
         [titleCheckSet addObject:cell.title];
-        cell.voiceCommands ?: [vrCheckSet addObject:cell.voiceCommands];
+        if (cell.voiceCommands.count > 0) {
+            [vrCheckSet addObject:cell.voiceCommands];
+        }
+//         cell.voiceCommands ?: [vrCheckSet addObject:cell.voiceCommands];
     }
     if (titleCheckSet.count != menuCells.count) {
         SDLLogE(@"Not all cell titles are unique. The menu will not be set.");
         return;
     }
-    if (!(vrCheckSet.count == 0 || vrCheckSet.count == menuCells.count)) {
+    if (vrCheckSet.count > 0 && vrCheckSet.count < menuCells.count) {
         SDLLogE(@"Either all or none of the menu items must have VR commands. %lu of the %lu menu items have VR commands. The menu will not be set.", (unsigned long)vrCheckSet.count, (unsigned long)menuCells.count);
         return;
     }
