@@ -577,6 +577,7 @@ extern SDLName const SDLNameVideoCodec;
 extern SDLName const SDLNameVideoProtocol;
 extern SDLName const SDLNameVideoStreaming;
 extern SDLName const SDLNameVideoStreamingCapability;
+extern SDLName const SDLNameVideoStreamingState;
 extern SDLName const SDLNameVentilationMode;
 extern SDLName const SDLNameVentilationModeAvailable;
 extern SDLName const SDLNameVIN;
