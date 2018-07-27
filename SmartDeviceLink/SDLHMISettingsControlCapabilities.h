@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLHMISettingsControlCapabilities : SDLRPCStruct
 
 /**
- Constructs a newly allocated SDLHMISettingsControlCapabilities object with cushion and firmness
+ Constructs a newly allocated SDLHMISettingsControlCapabilities object with moduleName
 
  @param moduleName The short friendly name of the hmi setting module
 
@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithModuleName:(NSString *)moduleName;
 
 /**
- Constructs a newly allocated SDLHMISettingsControlCapabilities object with cushion and firmness
+ Constructs a newly allocated SDLHMISettingsControlCapabilities object with given parameters
 
  @param moduleName The short friendly name of the hmi setting module
  @param distanceUnitAvailable Availability of the control of distance unit.

@@ -48,7 +48,7 @@ describe(@"Initialization tests", ^{
                                        SDLNameSignalChangeThresholdAvailable : @NO,
                                        SDLNameHDRadioEnableAvailable : @YES,
                                        SDLNameSiriusXMRadioAvailable : @NO,
-                                       SDLNameSisDataAvailable:@YES
+                                       SDLNameSISDataAvailable:@YES
                                        } mutableCopy];
         SDLRadioControlCapabilities* testStruct = [[SDLRadioControlCapabilities alloc] initWithDictionary:dict];
         

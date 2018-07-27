@@ -9,26 +9,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLGPSLocation
 
-- (instancetype)initWithLatitudeDegrees:(double)latitude LongitudeDegrees:(double)longitude {
-    self = [self init];
-    if(!self) {
-        return nil;
-    }
-
-    self.latitudeDegrees = @(latitude);
-    self.longitudeDegrees = @(longitude);
-
-    return self;
+- (instancetype)initWithLatitudeDegrees:(double)latitudeDegrees longitudeDegrees:(double)longitudeDegrees {
+    return [self initWithLatitudeDegrees:latitudeDegrees longitudeDegrees:longitudeDegrees altitudeMeters:nil];
 }
 
--(instancetype)initWithLatitudeDegrees:(double)latitude LongitudeDegrees:(double)longitude altitudeMeter:(nullable NSNumber<SDLFloat> *)altitudeMeters {
+-(instancetype)initWithLatitudeDegrees:(double)latitudeDegrees longitudeDegrees:(double)longitudeDegrees altitudeMeters:(nullable NSNumber<SDLFloat> *)altitudeMeters {
     self = [self init];
     if(!self) {
         return nil;
     }
 
-    self.latitudeDegrees = @(latitude);
-    self.longitudeDegrees = @(longitude);
+    self.latitudeDegrees = @(latitudeDegrees);
+    self.longitudeDegrees = @(longitudeDegrees);
     self.altitudeMeters = altitudeMeters;
 
     return self;

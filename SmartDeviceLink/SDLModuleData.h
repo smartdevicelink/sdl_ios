@@ -53,9 +53,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithLightControlData:(SDLLightControlData *)lightControlData;
 
 /**
- Constructs a newly allocated SDLModuleData object with climate control data
+ Constructs a newly allocated SDLModuleData object with hmi settings data
  
- @param climateControlData The climate control data
+ @param hmiSettingsControlData The hmi settings data
  @return An instance of the SDLModuleData class
  */
 - (instancetype)initWithHMISettingsControlData:(SDLHMISettingsControlData *)hmiSettingsControlData;

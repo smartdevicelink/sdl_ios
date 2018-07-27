@@ -1,4 +1,4 @@
-//  SDLSisData.h
+//  SDLSISData.h
 //
 
 #import "SDLRPCMessage.h"
@@ -13,9 +13,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLSisData : SDLRPCStruct
+@interface SDLSISData : SDLRPCStruct
 
-- (instancetype)initWithStationShortName:(nullable NSString *)shortName stationID:(nullable SDLStationIDNumber *)id stationLongName:(nullable NSString *)longName stationLocation:(nullable SDLGPSLocation *)location stationMessage:(nullable NSString *)message;
+- (instancetype)initWithStationShortName:(nullable NSString *)stationShortName stationIDNumber:(nullable SDLStationIDNumber *)id stationLongName:(nullable NSString *)stationLongName stationLocation:(nullable SDLGPSLocation *)stationLocation stationMessage:(nullable NSString *)stationMessage;
 
 /**
  * @abstract Identifies the 4-alpha-character station call sign

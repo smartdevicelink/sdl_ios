@@ -8,27 +8,27 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLAudioControlCapabilities : SDLRPCStruct
 
 /**
- Constructs a newly allocated SDLAudioControlCapabilities object with cushion and firmness
+ Constructs a newly allocated SDLAudioControlCapabilities object with audio control module name (max 100 chars)
 
- @param name The short friendly name of the light control module.
- @return An instance of the SDLAudioControlCapabilities class
+ @param name The short friendly name of the audio control module.
+ @return An instance of the SDLAudioControlCapabilities class.
  */
 - (instancetype)initWithModuleName:(NSString *)name;
 
 /**
-  Constructs a newly allocated SDLAudioControlCapabilities object with cushion and firmness
+  Constructs a newly allocated SDLAudioControlCapabilities object with given parameters
 
- @param name The short friendly name of the light control module.
- @param sourceAvailable Availability of the control of audio source
- @param volumeAvailable Availability of the volume of audio source
- @param equalizerAvailable Availability of the equalizer of audio source
- @param channelID Equalizer ID
- @return An instance of the SDLAudioControlCapabilities class
+ @param name The short friendly name of the audio control module.
+ @param sourceAvailable Availability of the control of audio source.
+ @param volumeAvailable Availability of the volume of audio source.
+ @param equalizerAvailable Availability of the equalizer of audio source.
+ @param equalizerMaxChannelID Equalizer channel ID (between 1-100).
+ @return An instance of the SDLAudioControlCapabilities class.
  */
-- (instancetype)initWithModuleName:(NSString *)name sourceAvailable:(nullable NSNumber<SDLBool> *)sourceAvailable volueAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable equalizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable equalizerMaxChannelID:(nullable NSNumber<SDLInt> *)channelID;
+- (instancetype)initWithModuleName:(NSString *)name sourceAvailable:(nullable NSNumber<SDLBool> *)sourceAvailable volueAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable equalizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable equalizerMaxChannelID:(nullable NSNumber<SDLInt> *)equalizerMaxChannelID;
 
 /**
- * @abstract The short friendly name of the light control module.
+ * @abstract The short friendly name of the audio control module.
  * It should not be used to identify a module by mobile application.
  *
  * Required, Max String length 100 chars

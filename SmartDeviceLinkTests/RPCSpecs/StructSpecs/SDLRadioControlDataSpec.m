@@ -12,12 +12,12 @@
 #import "SDLRadioBand.h"
 #import "SDLRadioState.h"
 #import "SDLRDSData.h"
-#import "SDLSisData.h"
+#import "SDLSISData.h"
 #import "SDLNames.h"
 
 QuickSpecBegin(SDLRadioControlDataSpec)
 __block SDLRDSData* someRdsData = [[SDLRDSData alloc] init];
-__block SDLSisData* someSisData = [[SDLSisData alloc] init];
+__block SDLSISData* someSisData = [[SDLSISData alloc] init];
 
 describe(@"Initialization tests", ^{
     
@@ -52,7 +52,7 @@ describe(@"Initialization tests", ^{
                                        SDLNameRadioEnable : @YES,
                                        SDLNameState : SDLRadioStateNotFound,
                                        SDLNameHDRadioEnable : @NO,
-                                       SDLNameSisData:someSisData
+                                       SDLNameSISData:someSisData
                                        } mutableCopy];
         SDLRadioControlData* testStruct = [[SDLRadioControlData alloc] initWithDictionary:dict];
         

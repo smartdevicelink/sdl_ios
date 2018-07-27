@@ -15,9 +15,9 @@
 
     self.source = source;
     self.keepContext = keepContext;
-    self.equalizerSettings = equalizerSettings;
     self.volume = volume;
-    
+    self.equalizerSettings = equalizerSettings;
+
     return self;
 }
 

@@ -8,8 +8,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString* SDLName SDL_SWIFT_ENUM;
 
-
-
 extern SDLName const SDLNameACEnable;
 extern SDLName const SDLNameACEnableAvailable;
 extern SDLName const SDLNameACMaxEnable;
@@ -179,7 +177,7 @@ extern SDLName const SDLNameEvent;
 extern SDLName const SDLNameExternalTemperature;
 extern SDLName const SDLNameFanSpeed;
 extern SDLName const SDLNameFanSpeedAvailable;
-extern SDLName const SDLNameFccFacilityId;
+extern SDLName const SDLNameFCCFacilityId;
 extern SDLName const SDLNameFilename;
 extern SDLName const SDLNameFilenames;
 extern SDLName const SDLNameFileType;
@@ -513,8 +511,8 @@ extern SDLName const SDLNameSignalChangeThresholdAvailable;
 extern SDLName const SDLNameSignalStrength;
 extern SDLName const SDLNameSignalStrengthAvailable;
 extern SDLName const SDLNameSiriusXMRadioAvailable;
-extern SDLName const SDLNameSisData;
-extern SDLName const SDLNameSisDataAvailable;
+extern SDLName const SDLNameSISData;
+extern SDLName const SDLNameSISDataAvailable;
 extern SDLName const SDLNameSlider;
 extern SDLName const SDLNameSliderFooter;
 extern SDLName const SDLNameSliderHeader;

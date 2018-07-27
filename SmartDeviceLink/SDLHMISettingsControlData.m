@@ -45,8 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameTemperatureUnit];
 }
 
-
-
 @end
 
 NS_ASSUME_NONNULL_END

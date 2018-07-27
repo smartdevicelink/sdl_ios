@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLightCapabilities : SDLRPCStruct
 
 /**
- Constructs a newly allocated SDLLightCapabilities object with cushion and firmness
+ Constructs a newly allocated SDLLightCapabilities object with the name of the light or group of lights
 
  @param name The name of a light or a group of lights
  @return An instance of the SDLLightCapabilities class
@@ -18,16 +18,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithName:(SDLLightName)name;
 
 /**
- Constructs a newly allocated SDLLightCapabilities object with cushion and firmness
+ Constructs a newly allocated SDLLightCapabilities object with given parameters
 
  @param name The name of a light or a group of lights
- @param desityAvailable light's density can be set remotely
+ @param densityAvailable light's density can be set remotely
  @param sRGBColorSpaceAvailable Light's color can be set remotely by using the sRGB color space
  @param statusAvailable whether status is available
 
  @return An instance of the SDLLightCapabilities class
  */
-- (instancetype)initWithName:(SDLLightName)name desityAvailable:(BOOL)desityAvailable sRGBColorSpaceAvailable:(BOOL)sRGBColorSpaceAvailable statusAvailable:(BOOL)statusAvailable;
+- (instancetype)initWithName:(SDLLightName)name densityAvailable:(BOOL)densityAvailable sRGBColorSpaceAvailable:(BOOL)sRGBColorSpaceAvailable statusAvailable:(BOOL)statusAvailable;
 
 /**
  * @abstract The name of a light or a group of lights

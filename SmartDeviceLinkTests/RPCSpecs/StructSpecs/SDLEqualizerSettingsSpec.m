@@ -27,7 +27,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get correctly", ^ {
-        SDLEqualizerSettings* testStruct = [[SDLEqualizerSettings alloc] initWithChannelId:2 channelSettings:45];
+        SDLEqualizerSettings* testStruct = [[SDLEqualizerSettings alloc] initWithChannelId:2 channelSetting:45];
 
         expect(testStruct.channelId).to(equal(@2));
         expect(testStruct.channelName).to(beNil());
@@ -35,7 +35,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get correctly", ^ {
-        SDLEqualizerSettings* testStruct = [[SDLEqualizerSettings alloc] initWithChannelId:2 channelName:@"channel" channelSettings:45];
+        SDLEqualizerSettings* testStruct = [[SDLEqualizerSettings alloc] initWithChannelId:2 channelName:@"channel" channelSetting:45];
 
         expect(testStruct.channelId).to(equal(@2));
         expect(testStruct.channelName).to(equal(@"channel"));

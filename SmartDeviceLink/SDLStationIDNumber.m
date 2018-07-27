@@ -31,11 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 - (void)setFccFacilityId:(nullable NSNumber<SDLInt> *)fccFacilityId {
-    [store sdl_setObject:fccFacilityId forName:SDLNameFccFacilityId];
+    [store sdl_setObject:fccFacilityId forName:SDLNameFCCFacilityId];
 }
 
 - (nullable NSNumber<SDLInt> *)fccFacilityId {
-    return [store sdl_objectForName:SDLNameFccFacilityId];
+    return [store sdl_objectForName:SDLNameFCCFacilityId];
 }
 
 @end

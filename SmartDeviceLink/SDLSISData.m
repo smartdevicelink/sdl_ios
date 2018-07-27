@@ -1,7 +1,7 @@
-//  SDLSisData.m
+//  SDLSISData.m
 //
 
-#import "SDLSisData.h"
+#import "SDLSISData.h"
 
 #import "SDLStationIDNumber.h"
 #import "SDLGPSLocation.h"
@@ -11,18 +11,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@implementation SDLSisData
+@implementation SDLSISData
 
-- (instancetype)initWithStationShortName:(nullable NSString *)shortName stationID:(nullable SDLStationIDNumber *)id stationLongName:(nullable NSString *)longName stationLocation:(nullable SDLGPSLocation *)location stationMessage:(nullable NSString *)message {
+- (instancetype)initWithStationShortName:(nullable NSString *)stationShortName stationIDNumber:(nullable SDLStationIDNumber *)stationIDNumber stationLongName:(nullable NSString *)stationLongName stationLocation:(nullable SDLGPSLocation *)stationLocation stationMessage:(nullable NSString *)stationMessage {
     self = [self init];
     if(!self) {
         return nil;
     }
-    self.stationShortName = shortName;
-    self.stationIDNumber = id;
-    self.stationLongName = longName;
-    self.stationLocation = location;
-    self.stationMessage = message;
+    self.stationShortName = stationShortName;
+    self.stationIDNumber = stationIDNumber;
+    self.stationLongName = stationLongName;
+    self.stationLocation = stationLocation;
+    self.stationMessage = stationMessage;
 
     return self;
 }

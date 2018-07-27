@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLightControlCapabilities : SDLRPCStruct
 
 /**
- Constructs a newly allocated SDLLightControlCapabilities object with cushion and firmness
+ Constructs a newly allocated SDLLightControlCapabilities object with given parameters
 
 
  @param moduleName friendly name of the light control module

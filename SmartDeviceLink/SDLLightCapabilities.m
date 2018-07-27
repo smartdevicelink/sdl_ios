@@ -19,13 +19,13 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithName:(SDLLightName)name desityAvailable:(BOOL)desityAvailable sRGBColorSpaceAvailable:(BOOL)sRGBColorSpaceAvailable statusAvailable:(BOOL)statusAvailable {
+- (instancetype)initWithName:(SDLLightName)name densityAvailable:(BOOL)densityAvailable sRGBColorSpaceAvailable:(BOOL)sRGBColorSpaceAvailable statusAvailable:(BOOL)statusAvailable {
     self = [self init];
     if(!self) {
         return nil;
     }
     self.name = name;
-    self.densityAvailable = @(desityAvailable);
+    self.densityAvailable = @(densityAvailable);
     self.sRGBColorSpaceAvailable = @(sRGBColorSpaceAvailable);
     self.statusAvailable = @(statusAvailable);
 

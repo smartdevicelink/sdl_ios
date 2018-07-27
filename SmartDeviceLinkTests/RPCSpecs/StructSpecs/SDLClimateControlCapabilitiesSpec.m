@@ -107,10 +107,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.dualModeEnableAvailable).to(equal(@NO));
         expect(testStruct.defrostZoneAvailable).to(equal(@YES));
         expect(testStruct.ventilationModeAvailable).to(equal(@YES));
-        expect(testStruct.heatedSteeringWheelAvailable).to(beNil());
-        expect(testStruct.heatedWindshieldAvailable).to(beNil());
-        expect(testStruct.heatedRearWindowAvailable).to(beNil());
-        expect(testStruct.heatedMirrorsAvailable).to(beNil());
+        expect(testStruct.heatedSteeringWheelAvailable).to(equal(@NO));
+        expect(testStruct.heatedWindshieldAvailable).to(equal(@NO));
+        expect(testStruct.heatedRearWindowAvailable).to(equal(@NO));
+        expect(testStruct.heatedMirrorsAvailable).to(equal(@NO));;
     });
 
     it(@"Should get correctly when initialized with module data and other climate control capabilities parameters", ^ {

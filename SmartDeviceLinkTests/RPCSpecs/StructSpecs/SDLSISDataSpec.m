@@ -1,5 +1,5 @@
 //
-//  SDLSisDataSpec.m
+//  SDLSISDataSpec.m
 //  SmartDeviceLinkTests
 //
 
@@ -9,19 +9,19 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLNames.h"
-#import "SDLSisData.h"
+#import "SDLSISData.h"
 #import "SDLStationIDNumber.h"
 #import "SDLGPSLocation.h"
 
 
-QuickSpecBegin(SDLSisDataSpec)
+QuickSpecBegin(SDLSISDataSpec)
 
 SDLStationIDNumber *someID = [[SDLStationIDNumber alloc] init];
 SDLGPSLocation *someLocation = [[SDLGPSLocation alloc] init];
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
-        SDLSisData* testStruct = [[SDLSisData alloc] init];
+        SDLSISData* testStruct = [[SDLSISData alloc] init];
 
         testStruct.stationShortName = @"short";
         testStruct.stationIDNumber = someID;
@@ -39,7 +39,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get correctly", ^ {
-        SDLSisData* testStruct = [[SDLSisData alloc] initWithStationShortName:@"short" stationID:someID stationLongName:@"long" stationLocation:someLocation stationMessage:@"message"];
+        SDLSISData* testStruct = [[SDLSISData alloc] initWithStationShortName:@"short" stationIDNumber:someID stationLongName:@"long" stationLocation:someLocation stationMessage:@"message"];
 
         expect(testStruct.stationShortName).to(equal(@"short"));
         expect(testStruct.stationIDNumber).to(equal(someID));
@@ -56,7 +56,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLNameStationMessage:@"message"
                                        } mutableCopy];
 
-        SDLSisData* testStruct = [[SDLSisData alloc] initWithDictionary:dict];
+        SDLSISData* testStruct = [[SDLSISData alloc] initWithDictionary:dict];
 
         expect(testStruct.stationShortName).to(equal(@"short"));
         expect(testStruct.stationIDNumber).to(equal(someID));
@@ -66,7 +66,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should return nil if not set", ^ {
-        SDLSisData* testStruct = [[SDLSisData alloc] init];
+        SDLSISData* testStruct = [[SDLSISData alloc] init];
 
         expect(testStruct.stationShortName).to(beNil());
         expect(testStruct.stationIDNumber).to(beNil());

@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLHMISettingsControlData : SDLRPCStruct
 
 /**
- Constructs a newly allocated SDLHMISettingsControlCapabilities object with cushion and firmness
+ Constructs a newly allocated SDLHMISettingsControlCapabilities object with given parameters
 
  @param displayMode Display Mode used in HMI setting
  @param temperatureUnit temperature unit used in HMI setting

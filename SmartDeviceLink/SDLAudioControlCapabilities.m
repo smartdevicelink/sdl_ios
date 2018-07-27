@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithModuleName:(NSString *)name sourceAvailable:(nullable NSNumber<SDLBool> *)sourceAvailable volueAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable equalizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable equalizerMaxChannelID:(nullable NSNumber<SDLInt> *)channelID {
+- (instancetype)initWithModuleName:(NSString *)name sourceAvailable:(nullable NSNumber<SDLBool> *)sourceAvailable volueAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable equalizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable equalizerMaxChannelID:(nullable NSNumber<SDLInt> *)equalizerMaxChannelID {
     self = [self init];
     if (!self) {
         return nil;
@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.sourceAvailable = sourceAvailable;
     self.volumeAvailable = volumeAvailable;
     self.equalizerAvailable = equalizerAvailable;
-    self.equalizerMaxChannelId = channelID;
+    self.equalizerMaxChannelId = equalizerMaxChannelID;
 
     return self;
 }

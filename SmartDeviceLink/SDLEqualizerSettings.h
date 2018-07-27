@@ -11,9 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLEqualizerSettings : SDLRPCStruct
 
-- (instancetype)initWithChannelId:(UInt32)id channelSettings:(UInt32)settings;
+- (instancetype)initWithChannelId:(UInt8)channelId channelSetting:(UInt8)channelSetting;
 
-- (instancetype)initWithChannelId:(UInt32)id channelName:(nullable NSString *)name channelSettings:(UInt32)settings;
+- (instancetype)initWithChannelId:(UInt8)channelId channelName:(nullable NSString *)channelName channelSetting:(UInt8)channelSetting;
 
 /**
  * @abstract Read-only channel / frequency name

@@ -289,7 +289,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLShowConstantTBTResponse.h',
 'SmartDeviceLink/SDLShowResponse.h',
 'SmartDeviceLink/SDLSingleTireStatus.h',
-'SmartDeviceLink/SDLSisData.h',
+'SmartDeviceLink/SDLSISData.h',
 'SmartDeviceLink/SDLSlider.h',
 'SmartDeviceLink/SDLSliderResponse.h',
 'SmartDeviceLink/SDLSoftButton.h',

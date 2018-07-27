@@ -141,11 +141,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setSisDataAvailable:(nullable NSNumber<SDLBool> *)sisDataAvailable {
-    [store sdl_setObject:sisDataAvailable forName:SDLNameSisDataAvailable];
+    [store sdl_setObject:sisDataAvailable forName:SDLNameSISDataAvailable];
 }
 
 - (nullable NSNumber<SDLBool> *)sisDataAvailable {
-    return [store sdl_objectForName:SDLNameSisDataAvailable];
+    return [store sdl_objectForName:SDLNameSISDataAvailable];
 }
 
 @end

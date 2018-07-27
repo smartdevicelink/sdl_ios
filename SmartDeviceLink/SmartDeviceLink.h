@@ -205,7 +205,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLSeatControlData.h"
 #import "SDLSeatMemoryAction.h"
 #import "SDLSingleTireStatus.h"
-#import "SDLSisData.h"
+#import "SDLSISData.h"
 #import "SDLSoftButton.h"
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLSRGBColor.h"

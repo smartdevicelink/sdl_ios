@@ -72,10 +72,10 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.dualModeEnable).to(equal(NO));
         expect(testStruct.acMaxEnable).to(equal(YES));
         expect(testStruct.ventilationMode).to(equal(SDLVentilationModeBoth));
-        expect(testStruct.heatedSteeringWheelEnable).to(beNil());
-        expect(testStruct.heatedWindshieldEnable).to(beNil());
-        expect(testStruct.heatedRearWindowEnable).to(beNil());
-        expect(testStruct.heatedMirrorsEnable).to(beNil());
+        expect(testStruct.heatedSteeringWheelEnable).to(equal(NO));
+        expect(testStruct.heatedWindshieldEnable).to(equal(NO));
+        expect(testStruct.heatedRearWindowEnable).to(equal(NO));
+        expect(testStruct.heatedMirrorsEnable).to(equal(NO));
     });
 
     it(@"Should get correctly when initialized with FanSpeed and other climate control parameters", ^ {

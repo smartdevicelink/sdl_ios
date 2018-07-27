@@ -272,34 +272,6 @@
 		1E5AD0981F20C0FB0029B8AF /* SDLOnInteriorVehicleData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E5AD0961F20C0FB0029B8AF /* SDLOnInteriorVehicleData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1E89B0DE2031636000A47992 /* SDLSeatControlDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E89B0DD2031636000A47992 /* SDLSeatControlDataSpec.m */; };
 		1E89B0E2203196B800A47992 /* SDLSeatControlCapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E89B0E1203196B800A47992 /* SDLSeatControlCapabilitiesSpec.m */; };
-		1EB59C9F202D925500343A61 /* SDLMassageZone.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59C9D202D925500343A61 /* SDLMassageZone.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1EB59CA0202D925500343A61 /* SDLMassageZone.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59C9E202D925500343A61 /* SDLMassageZone.m */; };
-		1EB59CA3202D92F600343A61 /* SDLMassageMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CA1202D92F600343A61 /* SDLMassageMode.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1EB59CA4202D92F600343A61 /* SDLMassageMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CA2202D92F600343A61 /* SDLMassageMode.m */; };
-		1EB59CA7202D946500343A61 /* SDLMassageModeData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CA5202D946500343A61 /* SDLMassageModeData.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1EB59CA8202D946500343A61 /* SDLMassageModeData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CA6202D946500343A61 /* SDLMassageModeData.m */; };
-		1EB59CAB202D96A200343A61 /* SDLMassageCushion.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CA9202D96A200343A61 /* SDLMassageCushion.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1EB59CAC202D96A200343A61 /* SDLMassageCushion.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CAA202D96A200343A61 /* SDLMassageCushion.m */; };
-		1EB59CAF202D97AC00343A61 /* SDLMassageCushionFirmness.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CAD202D97AC00343A61 /* SDLMassageCushionFirmness.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1EB59CB0202D97AC00343A61 /* SDLMassageCushionFirmness.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CAE202D97AC00343A61 /* SDLMassageCushionFirmness.m */; };
-		1EB59CB3202D9B5F00343A61 /* SDLSeatMemoryActionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CB1202D9B5F00343A61 /* SDLSeatMemoryActionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1EB59CB4202D9B5F00343A61 /* SDLSeatMemoryActionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CB2202D9B5F00343A61 /* SDLSeatMemoryActionType.m */; };
-		1EB59CB7202D9C8100343A61 /* SDLSeatMemoryAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CB5202D9C8100343A61 /* SDLSeatMemoryAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1EB59CB8202D9C8100343A61 /* SDLSeatMemoryAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CB6202D9C8100343A61 /* SDLSeatMemoryAction.m */; };
-		1EB59CBB202DA1B400343A61 /* SDLSupportedSeat.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CB9202DA1B400343A61 /* SDLSupportedSeat.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1EB59CBC202DA1B400343A61 /* SDLSupportedSeat.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CBA202DA1B400343A61 /* SDLSupportedSeat.m */; };
-		1EB59CBF202DA26000343A61 /* SDLSeatControlData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CBD202DA26000343A61 /* SDLSeatControlData.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1EB59CC0202DA26000343A61 /* SDLSeatControlData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CBE202DA26000343A61 /* SDLSeatControlData.m */; };
-		1EB59CC3202DB40400343A61 /* SDLSeatControlCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CC1202DB40400343A61 /* SDLSeatControlCapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1EB59CC4202DB40400343A61 /* SDLSeatControlCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CC2202DB40400343A61 /* SDLSeatControlCapabilities.m */; };
-		1EB59CC8202DC86A00343A61 /* SDLModuleTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CC7202DC86A00343A61 /* SDLModuleTypeSpec.m */; };
-		1EB59CCA202DC8E300343A61 /* SDLMassageZoneSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CC9202DC8E300343A61 /* SDLMassageZoneSpec.m */; };
-		1EB59CCE202DC97900343A61 /* SDLMassageCushionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CCD202DC97900343A61 /* SDLMassageCushionSpec.m */; };
-		1EB59CD0202DC9F200343A61 /* SDLSupportedSeatSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CCF202DC9F200343A61 /* SDLSupportedSeatSpec.m */; };
-		1EB59CD2202DCA9B00343A61 /* SDLMassageModeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CD1202DCA9B00343A61 /* SDLMassageModeSpec.m */; };
-		1EB59CD4202DCAE900343A61 /* SDLMassageModeDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CD3202DCAE900343A61 /* SDLMassageModeDataSpec.m */; };
-		1EB59CD8202DCCD500343A61 /* SDLMassageCushionFirmnessSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CD7202DCCD500343A61 /* SDLMassageCushionFirmnessSpec.m */; };
-		1EB59CDA202DCEEC00343A61 /* SDLSeatMemoryActionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CD9202DCEEC00343A61 /* SDLSeatMemoryActionSpec.m */; };
 		1EAA470B2032BAE5000FE74B /* SDLOnRCStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EAA47092032BAE5000FE74B /* SDLOnRCStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1EAA470C2032BAE5000FE74B /* SDLOnRCStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA470A2032BAE5000FE74B /* SDLOnRCStatus.m */; };
 		1EAA470E2032BF1D000FE74B /* SDLOnRCStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA470D2032BF1D000FE74B /* SDLOnRCStatusSpec.m */; };
@@ -307,8 +279,8 @@
 		1EAA47122033FE80000FE74B /* SDLStationIDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA47102033FE80000FE74B /* SDLStationIDNumber.m */; };
 		1EAA47152034052D000FE74B /* SDLGPSLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EAA47132034052D000FE74B /* SDLGPSLocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1EAA47162034052D000FE74B /* SDLGPSLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA47142034052D000FE74B /* SDLGPSLocation.m */; };
-		1EAA4719203406B2000FE74B /* SDLSisData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EAA4717203406B1000FE74B /* SDLSisData.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1EAA471A203406B2000FE74B /* SDLSisData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA4718203406B1000FE74B /* SDLSisData.m */; };
+		1EAA4719203406B2000FE74B /* SDLSISData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EAA4717203406B1000FE74B /* SDLSISData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1EAA471A203406B2000FE74B /* SDLSISData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA4718203406B1000FE74B /* SDLSISData.m */; };
 		1EAA471D203410BB000FE74B /* SDLAudioControlCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EAA471B203410BB000FE74B /* SDLAudioControlCapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1EAA471E203410BB000FE74B /* SDLAudioControlCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA471C203410BB000FE74B /* SDLAudioControlCapabilities.m */; };
 		1EAA4725203416D3000FE74B /* SDLEqualizerSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EAA4723203416D3000FE74B /* SDLEqualizerSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -350,10 +322,38 @@
 		1EAA47742036B31E000FE74B /* SDLAudioControlDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA47732036B31E000FE74B /* SDLAudioControlDataSpec.m */; };
 		1EAA47762036B847000FE74B /* SDLEqualizerSettingsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA47752036B847000FE74B /* SDLEqualizerSettingsSpec.m */; };
 		1EAA47782036BA74000FE74B /* SDLAudioControlCapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA47772036BA74000FE74B /* SDLAudioControlCapabilitiesSpec.m */; };
-		1EAA477A2036BD46000FE74B /* SDLSisDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA47792036BD46000FE74B /* SDLSisDataSpec.m */; };
+		1EAA477A2036BD46000FE74B /* SDLSISDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA47792036BD46000FE74B /* SDLSISDataSpec.m */; };
 		1EAA477C2036BD6D000FE74B /* SDLSDLSRGBColorSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA477B2036BD6D000FE74B /* SDLSDLSRGBColorSpec.m */; };
 		1EAA477E2036C091000FE74B /* SDLGPSLocationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA477D2036C091000FE74B /* SDLGPSLocationSpec.m */; };
 		1EAA47802036C2C9000FE74B /* SDLStationIDNumberSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA477F2036C2C9000FE74B /* SDLStationIDNumberSpec.m */; };
+		1EB59C9F202D925500343A61 /* SDLMassageZone.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59C9D202D925500343A61 /* SDLMassageZone.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1EB59CA0202D925500343A61 /* SDLMassageZone.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59C9E202D925500343A61 /* SDLMassageZone.m */; };
+		1EB59CA3202D92F600343A61 /* SDLMassageMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CA1202D92F600343A61 /* SDLMassageMode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1EB59CA4202D92F600343A61 /* SDLMassageMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CA2202D92F600343A61 /* SDLMassageMode.m */; };
+		1EB59CA7202D946500343A61 /* SDLMassageModeData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CA5202D946500343A61 /* SDLMassageModeData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1EB59CA8202D946500343A61 /* SDLMassageModeData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CA6202D946500343A61 /* SDLMassageModeData.m */; };
+		1EB59CAB202D96A200343A61 /* SDLMassageCushion.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CA9202D96A200343A61 /* SDLMassageCushion.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1EB59CAC202D96A200343A61 /* SDLMassageCushion.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CAA202D96A200343A61 /* SDLMassageCushion.m */; };
+		1EB59CAF202D97AC00343A61 /* SDLMassageCushionFirmness.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CAD202D97AC00343A61 /* SDLMassageCushionFirmness.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1EB59CB0202D97AC00343A61 /* SDLMassageCushionFirmness.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CAE202D97AC00343A61 /* SDLMassageCushionFirmness.m */; };
+		1EB59CB3202D9B5F00343A61 /* SDLSeatMemoryActionType.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CB1202D9B5F00343A61 /* SDLSeatMemoryActionType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1EB59CB4202D9B5F00343A61 /* SDLSeatMemoryActionType.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CB2202D9B5F00343A61 /* SDLSeatMemoryActionType.m */; };
+		1EB59CB7202D9C8100343A61 /* SDLSeatMemoryAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CB5202D9C8100343A61 /* SDLSeatMemoryAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1EB59CB8202D9C8100343A61 /* SDLSeatMemoryAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CB6202D9C8100343A61 /* SDLSeatMemoryAction.m */; };
+		1EB59CBB202DA1B400343A61 /* SDLSupportedSeat.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CB9202DA1B400343A61 /* SDLSupportedSeat.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1EB59CBC202DA1B400343A61 /* SDLSupportedSeat.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CBA202DA1B400343A61 /* SDLSupportedSeat.m */; };
+		1EB59CBF202DA26000343A61 /* SDLSeatControlData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CBD202DA26000343A61 /* SDLSeatControlData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1EB59CC0202DA26000343A61 /* SDLSeatControlData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CBE202DA26000343A61 /* SDLSeatControlData.m */; };
+		1EB59CC3202DB40400343A61 /* SDLSeatControlCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59CC1202DB40400343A61 /* SDLSeatControlCapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1EB59CC4202DB40400343A61 /* SDLSeatControlCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CC2202DB40400343A61 /* SDLSeatControlCapabilities.m */; };
+		1EB59CC8202DC86A00343A61 /* SDLModuleTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CC7202DC86A00343A61 /* SDLModuleTypeSpec.m */; };
+		1EB59CCA202DC8E300343A61 /* SDLMassageZoneSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CC9202DC8E300343A61 /* SDLMassageZoneSpec.m */; };
+		1EB59CCE202DC97900343A61 /* SDLMassageCushionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CCD202DC97900343A61 /* SDLMassageCushionSpec.m */; };
+		1EB59CD0202DC9F200343A61 /* SDLSupportedSeatSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CCF202DC9F200343A61 /* SDLSupportedSeatSpec.m */; };
+		1EB59CD2202DCA9B00343A61 /* SDLMassageModeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CD1202DCA9B00343A61 /* SDLMassageModeSpec.m */; };
+		1EB59CD4202DCAE900343A61 /* SDLMassageModeDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CD3202DCAE900343A61 /* SDLMassageModeDataSpec.m */; };
+		1EB59CD8202DCCD500343A61 /* SDLMassageCushionFirmnessSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CD7202DCCD500343A61 /* SDLMassageCushionFirmnessSpec.m */; };
+		1EB59CDA202DCEEC00343A61 /* SDLSeatMemoryActionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59CD9202DCEEC00343A61 /* SDLSeatMemoryActionSpec.m */; };
 		1EE48E901F2F0EE700B98D08 /* SDLTemperatureUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EE48E8E1F2F0EE700B98D08 /* SDLTemperatureUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1EE48E911F2F0EE700B98D08 /* SDLTemperatureUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EE48E8F1F2F0EE700B98D08 /* SDLTemperatureUnit.m */; };
 		1EE8C4381F347C7300FDC2CF /* SDLRadioBandSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EE8C4371F347C7300FDC2CF /* SDLRadioBandSpec.m */; };
@@ -1708,34 +1708,6 @@
 		1E5AD0971F20C0FB0029B8AF /* SDLOnInteriorVehicleData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLOnInteriorVehicleData.m; sourceTree = "<group>"; };
 		1E89B0DD2031636000A47992 /* SDLSeatControlDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatControlDataSpec.m; sourceTree = "<group>"; };
 		1E89B0E1203196B800A47992 /* SDLSeatControlCapabilitiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatControlCapabilitiesSpec.m; sourceTree = "<group>"; };
-		1EB59C9D202D925500343A61 /* SDLMassageZone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMassageZone.h; sourceTree = "<group>"; };
-		1EB59C9E202D925500343A61 /* SDLMassageZone.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageZone.m; sourceTree = "<group>"; };
-		1EB59CA1202D92F600343A61 /* SDLMassageMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMassageMode.h; sourceTree = "<group>"; };
-		1EB59CA2202D92F600343A61 /* SDLMassageMode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageMode.m; sourceTree = "<group>"; };
-		1EB59CA5202D946500343A61 /* SDLMassageModeData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMassageModeData.h; sourceTree = "<group>"; };
-		1EB59CA6202D946500343A61 /* SDLMassageModeData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageModeData.m; sourceTree = "<group>"; };
-		1EB59CA9202D96A200343A61 /* SDLMassageCushion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMassageCushion.h; sourceTree = "<group>"; };
-		1EB59CAA202D96A200343A61 /* SDLMassageCushion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageCushion.m; sourceTree = "<group>"; };
-		1EB59CAD202D97AC00343A61 /* SDLMassageCushionFirmness.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMassageCushionFirmness.h; sourceTree = "<group>"; };
-		1EB59CAE202D97AC00343A61 /* SDLMassageCushionFirmness.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageCushionFirmness.m; sourceTree = "<group>"; };
-		1EB59CB1202D9B5F00343A61 /* SDLSeatMemoryActionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSeatMemoryActionType.h; sourceTree = "<group>"; };
-		1EB59CB2202D9B5F00343A61 /* SDLSeatMemoryActionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatMemoryActionType.m; sourceTree = "<group>"; };
-		1EB59CB5202D9C8100343A61 /* SDLSeatMemoryAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSeatMemoryAction.h; sourceTree = "<group>"; };
-		1EB59CB6202D9C8100343A61 /* SDLSeatMemoryAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatMemoryAction.m; sourceTree = "<group>"; };
-		1EB59CB9202DA1B400343A61 /* SDLSupportedSeat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSupportedSeat.h; sourceTree = "<group>"; };
-		1EB59CBA202DA1B400343A61 /* SDLSupportedSeat.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSupportedSeat.m; sourceTree = "<group>"; };
-		1EB59CBD202DA26000343A61 /* SDLSeatControlData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSeatControlData.h; sourceTree = "<group>"; };
-		1EB59CBE202DA26000343A61 /* SDLSeatControlData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatControlData.m; sourceTree = "<group>"; };
-		1EB59CC1202DB40400343A61 /* SDLSeatControlCapabilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSeatControlCapabilities.h; sourceTree = "<group>"; };
-		1EB59CC2202DB40400343A61 /* SDLSeatControlCapabilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatControlCapabilities.m; sourceTree = "<group>"; };
-		1EB59CC7202DC86A00343A61 /* SDLModuleTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLModuleTypeSpec.m; sourceTree = "<group>"; };
-		1EB59CC9202DC8E300343A61 /* SDLMassageZoneSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageZoneSpec.m; sourceTree = "<group>"; };
-		1EB59CCD202DC97900343A61 /* SDLMassageCushionSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageCushionSpec.m; sourceTree = "<group>"; };
-		1EB59CCF202DC9F200343A61 /* SDLSupportedSeatSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSupportedSeatSpec.m; sourceTree = "<group>"; };
-		1EB59CD1202DCA9B00343A61 /* SDLMassageModeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageModeSpec.m; sourceTree = "<group>"; };
-		1EB59CD3202DCAE900343A61 /* SDLMassageModeDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageModeDataSpec.m; sourceTree = "<group>"; };
-		1EB59CD7202DCCD500343A61 /* SDLMassageCushionFirmnessSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageCushionFirmnessSpec.m; sourceTree = "<group>"; };
-		1EB59CD9202DCEEC00343A61 /* SDLSeatMemoryActionSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatMemoryActionSpec.m; sourceTree = "<group>"; };
 		1EAA47092032BAE5000FE74B /* SDLOnRCStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLOnRCStatus.h; sourceTree = "<group>"; };
 		1EAA470A2032BAE5000FE74B /* SDLOnRCStatus.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLOnRCStatus.m; sourceTree = "<group>"; };
 		1EAA470D2032BF1D000FE74B /* SDLOnRCStatusSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLOnRCStatusSpec.m; sourceTree = "<group>"; };
@@ -1743,8 +1715,8 @@
 		1EAA47102033FE80000FE74B /* SDLStationIDNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLStationIDNumber.m; sourceTree = "<group>"; };
 		1EAA47132034052D000FE74B /* SDLGPSLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLGPSLocation.h; sourceTree = "<group>"; };
 		1EAA47142034052D000FE74B /* SDLGPSLocation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGPSLocation.m; sourceTree = "<group>"; };
-		1EAA4717203406B1000FE74B /* SDLSisData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSisData.h; sourceTree = "<group>"; };
-		1EAA4718203406B1000FE74B /* SDLSisData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSisData.m; sourceTree = "<group>"; };
+		1EAA4717203406B1000FE74B /* SDLSISData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSISData.h; sourceTree = "<group>"; };
+		1EAA4718203406B1000FE74B /* SDLSISData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSISData.m; sourceTree = "<group>"; };
 		1EAA471B203410BB000FE74B /* SDLAudioControlCapabilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAudioControlCapabilities.h; sourceTree = "<group>"; };
 		1EAA471C203410BB000FE74B /* SDLAudioControlCapabilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAudioControlCapabilities.m; sourceTree = "<group>"; };
 		1EAA4723203416D3000FE74B /* SDLEqualizerSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLEqualizerSettings.h; sourceTree = "<group>"; };
@@ -1786,10 +1758,38 @@
 		1EAA47732036B31E000FE74B /* SDLAudioControlDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAudioControlDataSpec.m; sourceTree = "<group>"; };
 		1EAA47752036B847000FE74B /* SDLEqualizerSettingsSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLEqualizerSettingsSpec.m; sourceTree = "<group>"; };
 		1EAA47772036BA74000FE74B /* SDLAudioControlCapabilitiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAudioControlCapabilitiesSpec.m; sourceTree = "<group>"; };
-		1EAA47792036BD46000FE74B /* SDLSisDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSisDataSpec.m; sourceTree = "<group>"; };
+		1EAA47792036BD46000FE74B /* SDLSISDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSISDataSpec.m; sourceTree = "<group>"; };
 		1EAA477B2036BD6D000FE74B /* SDLSDLSRGBColorSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSDLSRGBColorSpec.m; sourceTree = "<group>"; };
 		1EAA477D2036C091000FE74B /* SDLGPSLocationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGPSLocationSpec.m; sourceTree = "<group>"; };
 		1EAA477F2036C2C9000FE74B /* SDLStationIDNumberSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLStationIDNumberSpec.m; sourceTree = "<group>"; };
+		1EB59C9D202D925500343A61 /* SDLMassageZone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMassageZone.h; sourceTree = "<group>"; };
+		1EB59C9E202D925500343A61 /* SDLMassageZone.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageZone.m; sourceTree = "<group>"; };
+		1EB59CA1202D92F600343A61 /* SDLMassageMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMassageMode.h; sourceTree = "<group>"; };
+		1EB59CA2202D92F600343A61 /* SDLMassageMode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageMode.m; sourceTree = "<group>"; };
+		1EB59CA5202D946500343A61 /* SDLMassageModeData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMassageModeData.h; sourceTree = "<group>"; };
+		1EB59CA6202D946500343A61 /* SDLMassageModeData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageModeData.m; sourceTree = "<group>"; };
+		1EB59CA9202D96A200343A61 /* SDLMassageCushion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMassageCushion.h; sourceTree = "<group>"; };
+		1EB59CAA202D96A200343A61 /* SDLMassageCushion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageCushion.m; sourceTree = "<group>"; };
+		1EB59CAD202D97AC00343A61 /* SDLMassageCushionFirmness.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMassageCushionFirmness.h; sourceTree = "<group>"; };
+		1EB59CAE202D97AC00343A61 /* SDLMassageCushionFirmness.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageCushionFirmness.m; sourceTree = "<group>"; };
+		1EB59CB1202D9B5F00343A61 /* SDLSeatMemoryActionType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSeatMemoryActionType.h; sourceTree = "<group>"; };
+		1EB59CB2202D9B5F00343A61 /* SDLSeatMemoryActionType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatMemoryActionType.m; sourceTree = "<group>"; };
+		1EB59CB5202D9C8100343A61 /* SDLSeatMemoryAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSeatMemoryAction.h; sourceTree = "<group>"; };
+		1EB59CB6202D9C8100343A61 /* SDLSeatMemoryAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatMemoryAction.m; sourceTree = "<group>"; };
+		1EB59CB9202DA1B400343A61 /* SDLSupportedSeat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSupportedSeat.h; sourceTree = "<group>"; };
+		1EB59CBA202DA1B400343A61 /* SDLSupportedSeat.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSupportedSeat.m; sourceTree = "<group>"; };
+		1EB59CBD202DA26000343A61 /* SDLSeatControlData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSeatControlData.h; sourceTree = "<group>"; };
+		1EB59CBE202DA26000343A61 /* SDLSeatControlData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatControlData.m; sourceTree = "<group>"; };
+		1EB59CC1202DB40400343A61 /* SDLSeatControlCapabilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSeatControlCapabilities.h; sourceTree = "<group>"; };
+		1EB59CC2202DB40400343A61 /* SDLSeatControlCapabilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatControlCapabilities.m; sourceTree = "<group>"; };
+		1EB59CC7202DC86A00343A61 /* SDLModuleTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLModuleTypeSpec.m; sourceTree = "<group>"; };
+		1EB59CC9202DC8E300343A61 /* SDLMassageZoneSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageZoneSpec.m; sourceTree = "<group>"; };
+		1EB59CCD202DC97900343A61 /* SDLMassageCushionSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageCushionSpec.m; sourceTree = "<group>"; };
+		1EB59CCF202DC9F200343A61 /* SDLSupportedSeatSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSupportedSeatSpec.m; sourceTree = "<group>"; };
+		1EB59CD1202DCA9B00343A61 /* SDLMassageModeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageModeSpec.m; sourceTree = "<group>"; };
+		1EB59CD3202DCAE900343A61 /* SDLMassageModeDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageModeDataSpec.m; sourceTree = "<group>"; };
+		1EB59CD7202DCCD500343A61 /* SDLMassageCushionFirmnessSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageCushionFirmnessSpec.m; sourceTree = "<group>"; };
+		1EB59CD9202DCEEC00343A61 /* SDLSeatMemoryActionSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSeatMemoryActionSpec.m; sourceTree = "<group>"; };
 		1EE48E8E1F2F0EE700B98D08 /* SDLTemperatureUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLTemperatureUnit.h; sourceTree = "<group>"; };
 		1EE48E8F1F2F0EE700B98D08 /* SDLTemperatureUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLTemperatureUnit.m; sourceTree = "<group>"; };
 		1EE8C4371F347C7300FDC2CF /* SDLRadioBandSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRadioBandSpec.m; sourceTree = "<group>"; };
@@ -3211,7 +3211,7 @@
 				1E89B0DD2031636000A47992 /* SDLSeatControlDataSpec.m */,
 				1EB59CD9202DCEEC00343A61 /* SDLSeatMemoryActionSpec.m */,
 				162E82A81A9BDE8A00906325 /* SDLSingleTireStatusSpec.m */,
-				1EAA47792036BD46000FE74B /* SDLSisDataSpec.m */,
+				1EAA47792036BD46000FE74B /* SDLSISDataSpec.m */,
 				162E82A91A9BDE8A00906325 /* SDLSoftButtonCapabilitiesSpec.m */,
 				162E82AA1A9BDE8A00906325 /* SDLSoftButtonSpec.m */,
 				1EAA477B2036BD6D000FE74B /* SDLSDLSRGBColorSpec.m */,
@@ -4078,8 +4078,8 @@
 				1EB59CC2202DB40400343A61 /* SDLSeatControlCapabilities.m */,
 				1EB59CB5202D9C8100343A61 /* SDLSeatMemoryAction.h */,
 				1EB59CB6202D9C8100343A61 /* SDLSeatMemoryAction.m */,
-				1EAA4717203406B1000FE74B /* SDLSisData.h */,
-				1EAA4718203406B1000FE74B /* SDLSisData.m */,
+				1EAA4717203406B1000FE74B /* SDLSISData.h */,
+				1EAA4718203406B1000FE74B /* SDLSISData.m */,
 				5D61FBB21A84238B00846EE7 /* SDLSoftButton.h */,
 				5D61FBB31A84238B00846EE7 /* SDLSoftButton.m */,
 				5D61FBB41A84238B00846EE7 /* SDLSoftButtonCapabilities.h */,
@@ -5572,7 +5572,7 @@
 				5D9FC2A61FD8815800ACA5C2 /* SDLPCMAudioConverter.h in Headers */,
 				1EAA47292034388D000FE74B /* SDLAudioControlData.h in Headers */,
 				1EAA471D203410BB000FE74B /* SDLAudioControlCapabilities.h in Headers */,
-				1EAA4719203406B2000FE74B /* SDLSisData.h in Headers */,
+				1EAA4719203406B2000FE74B /* SDLSISData.h in Headers */,
 				8BBEA6061F324165003EEA26 /* SDLMetadataType.h in Headers */,
 				E4139D1D1F6017770005B6EA /* SDLLifecycleConfigurationUpdate.h in Headers */,
 				5DA3F35A1BC448480026F2D0 /* SDLError.h in Headers */,
@@ -6380,7 +6380,7 @@
 				5D61FD601A84238C00846EE7 /* SDLRegisterAppInterfaceResponse.m in Sources */,
 				5DB996581F268ECB002D8795 /* SDLControlFramePayloadAudioStartServiceAck.m in Sources */,
 				DAC572621D10C5020004288B /* SDLPinchGesture.m in Sources */,
-				1EAA471A203406B2000FE74B /* SDLSisData.m in Sources */,
+				1EAA471A203406B2000FE74B /* SDLSISData.m in Sources */,
 				5D61FCF51A84238C00846EE7 /* SDLMaintenanceModeStatus.m in Sources */,
 				1EAA47162034052D000FE74B /* SDLGPSLocation.m in Sources */,
 				1EE48E911F2F0EE700B98D08 /* SDLTemperatureUnit.m in Sources */,
@@ -6941,7 +6941,7 @@
 				162E83091A9BDE8B00906325 /* SDLVehicleDataStatusSpec.m in Sources */,
 				5DAD5F8D20508F220025624C /* SDLSoftButtonManagerSpec.m in Sources */,
 				162E83741A9BDE8B00906325 /* SDLBodyInformationSpec.m in Sources */,
-				1EAA477A2036BD46000FE74B /* SDLSisDataSpec.m in Sources */,
+				1EAA477A2036BD46000FE74B /* SDLSISDataSpec.m in Sources */,
 				162E83641A9BDE8B00906325 /* SDLSetMediaClockTimerResponseSpec.m in Sources */,
 				162E839C1A9BDE8B00906325 /* SDLRPCRequestSpec.m in Sources */,
 				DA4353E31D2720A30099B8C4 /* SDLPinchGestureSpec.m in Sources */,

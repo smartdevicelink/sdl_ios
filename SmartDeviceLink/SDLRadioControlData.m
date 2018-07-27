@@ -5,7 +5,7 @@
 #import "SDLRadioControlData.h"
 #import "SDLNames.h"
 #import "SDLRDSData.h"
-#import "SDLSisData.h"
+#import "SDLSISData.h"
 #import "NSMutableDictionary+Store.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable sisData:(SDLSisData *)sisData {
+- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable sisData:(SDLSISData *)sisData {
     self = [self init];
     if(!self) {
         return nil;
@@ -131,12 +131,12 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameHDRadioEnable];
 }
 
-- (void)setSisData:(nullable SDLSisData *)sisData {
-    [store sdl_setObject:sisData forName:SDLNameSisData];
+- (void)setSisData:(nullable SDLSISData *)sisData {
+    [store sdl_setObject:sisData forName:SDLNameSISData];
 }
 
-- (nullable SDLSisData *)sisData {
-    return [store sdl_objectForName:SDLNameSisData ofClass:SDLSisData.class];
+- (nullable SDLSISData *)sisData {
+    return [store sdl_objectForName:SDLNameSISData ofClass:SDLSISData.class];
 }
 
 @end

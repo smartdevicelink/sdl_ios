@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSRGBColor : SDLRPCStruct
 
-- (instancetype)initWithRed:(UInt32)red green:(UInt32)green blue:(UInt32)blue;
+- (instancetype)initWithRed:(UInt8)red green:(UInt8)green blue:(UInt8)blue;
 
 /**
  * @abstract value of red in integer

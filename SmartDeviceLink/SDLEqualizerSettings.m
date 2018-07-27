@@ -9,27 +9,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLEqualizerSettings
 
-- (instancetype)initWithChannelId:(UInt32)id channelSettings:(UInt32)settings {
-    self = [self init];
-    if(!self) {
-        return nil;
-    }
-
-    self.channelId = @(id);
-    self.channelSetting = @(settings);
-
-    return self;
+- (instancetype)initWithChannelId:(UInt8)channelId channelSetting:(UInt8)channelSetting {
+    return [self initWithChannelId:channelId channelName:nil channelSetting:channelSetting];
 }
 
-- (instancetype)initWithChannelId:(UInt32)id channelName:(nullable NSString *)name channelSettings:(UInt32)settings {
+- (instancetype)initWithChannelId:(UInt8)channelId channelName:(nullable NSString *)channelName channelSetting:(UInt8)channelSetting {
     self = [self init];
     if(!self) {
         return nil;
     }
 
-    self.channelId = @(id);
-    self.channelSetting = @(settings);
-    self.channelName = name;
+    self.channelId = @(channelId);
+    self.channelSetting = @(channelSetting);
+    self.channelName = channelName;
 
     return self;
 }

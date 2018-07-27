@@ -7,7 +7,7 @@
 #import "SDLRadioState.h"
 
 @class SDLRDSData;
-@class SDLSisData;
+@class SDLSISData;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param radioEnable whether or not radio is enabled
  @return An instance of the SDLRadioControlData class
  */
-- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable __deprecated_msg(("Use initWithFrequencyInteger:frequencyFraction:band:hdChannel:radioEnable:sisData:"));
+- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable __deprecated_msg(("Use initWithFrequencyInteger:frequencyInteger:frequencyFraction:band:hdChannel:radioEnable:sisData: instead"));
 
 /**
  Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.
@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param sisData Station Information Service (SIS) data
  @return An instance of the SDLRadioControlData class
  */
-- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable sisData:(SDLSisData *)sisData;
+- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable sisData:(SDLSISData *)sisData;
 
 /**
  * The integer part of the frequency ie for 101.7 this value should be 101
@@ -133,9 +133,9 @@ NS_ASSUME_NONNULL_BEGIN
  * about the station such as call sign,
  * as well as information not displayable to the consumer such as the station identification number
  *
- * Optional, SDLSisData
+ * Optional, SDLSISData
  */
-@property (nullable, strong, nonatomic) SDLSisData *sisData;
+@property (nullable, strong, nonatomic) SDLSISData *sisData;
 
 @end
 

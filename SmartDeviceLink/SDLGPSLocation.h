@@ -4,19 +4,16 @@
 #import "SDLRPCMessage.h"
 
 /**
- * Describes the GPS data. Not all data will be available on all carlines.
- *
- * @since SDL 2.0
+ * Provides teh 3-dimensional geographic station location.
  */
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLGPSLocation : SDLRPCStruct
 
-- (instancetype)initWithLatitudeDegrees:(double)latitude LongitudeDegrees:(double)longitude;
+- (instancetype)initWithLatitudeDegrees:(double)latitudeDegrees longitudeDegrees:(double)longitudeDegrees;
 
-
-- (instancetype)initWithLatitudeDegrees:(double)latitude LongitudeDegrees:(double)longitude altitudeMeter:(nullable NSNumber<SDLFloat> *)altitudeMeters;
+- (instancetype)initWithLatitudeDegrees:(double)latitudeDegrees longitudeDegrees:(double)longitudeDegrees altitudeMeters:(nullable NSNumber<SDLFloat> *)altitudeMeters;
 
 /**
  * @abstract longitude degrees

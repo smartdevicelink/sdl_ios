@@ -30,14 +30,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get correctly", ^ {
-        SDLGPSLocation* testStruct = [[SDLGPSLocation alloc] initWithLatitudeDegrees:-60 LongitudeDegrees:60];
+        SDLGPSLocation* testStruct = [[SDLGPSLocation alloc] initWithLatitudeDegrees:-60 longitudeDegrees:60];
 
         expect(testStruct.latitudeDegrees).to(equal(@(-60)));
         expect(testStruct.longitudeDegrees).to(equal(@60));
     });
 
     it(@"Should set and get correctly", ^ {
-        SDLGPSLocation* testStruct = [[SDLGPSLocation alloc] initWithLatitudeDegrees:-60 LongitudeDegrees:60 altitudeMeter:@5000];
+        SDLGPSLocation* testStruct = [[SDLGPSLocation alloc] initWithLatitudeDegrees:-60 longitudeDegrees:60 altitudeMeters:@5000];
 
         expect(testStruct.latitudeDegrees).to(equal(@(-60)));
         expect(testStruct.longitudeDegrees).to(equal(@60));

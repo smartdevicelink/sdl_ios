@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLLightState : SDLRPCStruct
 
 /**
- Constructs a newly allocated SDLLightState object with cushion and firmness
+ Constructs a newly allocated SDLLightState object with given parameters
 
  @param id The name of a light or a group of lights
  @param status Reflects the status of Light.
@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithID:(SDLLightName)id status:(SDLLightStatus)status;
 
 /**
- Constructs a newly allocated SDLLightState object with cushion and firmness
+ Constructs a newly allocated SDLLightState object with given parameters
 
  @param id The name of a light or a group of lights
  @param status Reflects the status of Light.

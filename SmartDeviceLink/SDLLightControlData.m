@@ -28,7 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectsForName:SDLNameLightState ofClass:SDLLightState.class];
 }
 
-
 @end
 
 NS_ASSUME_NONNULL_END
