@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLLightState
 
-- (instancetype)initWithID:(SDLLightName)id status:(SDLLightStatus)status{
+- (instancetype)initWithId:(SDLLightName)id status:(SDLLightStatus)status{
     self = [self init];
     if(!self) {
         return nil;
@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithID:(SDLLightName)id status:(SDLLightStatus)status density:(double)density sRGBColor:(SDLSRGBColor *)sRGBColor {
+- (instancetype)initWithId:(SDLLightName)id status:(SDLLightStatus)status density:(double)density sRGBColor:(SDLSRGBColor *)sRGBColor {
     self = [self init];
     if(!self) {
         return nil;

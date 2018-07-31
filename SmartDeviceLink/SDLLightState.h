@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param status Reflects the status of Light.
  @return An instance of the SDLLightState class
  */
-- (instancetype)initWithID:(SDLLightName)id status:(SDLLightStatus)status;
+- (instancetype)initWithId:(SDLLightName)id status:(SDLLightStatus)status;
 
 /**
  Constructs a newly allocated SDLLightState object with given parameters
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param sRGBColor Reflects the color of Light.
  @return An instance of the SDLLightState class
  */
-- (instancetype)initWithID:(SDLLightName)id status:(SDLLightStatus)status density:(double)density sRGBColor:(SDLSRGBColor *)sRGBColor;
+- (instancetype)initWithId:(SDLLightName)id status:(SDLLightStatus)status density:(double)density sRGBColor:(SDLSRGBColor *)sRGBColor;
 
 /**
  * @abstract The name of a light or a group of lights

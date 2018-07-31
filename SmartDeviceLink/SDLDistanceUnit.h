@@ -16,4 +16,4 @@ extern SDLDistanceUnit const SDLDistanceUnitMiles;
 /**
  * @abstract SDLDistanceUnit: *KILOMETERS*
  */
-extern SDLDistanceUnit const SDLDistanceUnitKms;
+extern SDLDistanceUnit const SDLDistanceUnitKilometers;

@@ -4,4 +4,4 @@
 #import "SDLDistanceUnit.h"
 
 SDLDistanceUnit const SDLDistanceUnitMiles = @"MILES";
-SDLDistanceUnit const SDLDistanceUnitKms = @"KILOMETERS";
+SDLDistanceUnit const SDLDistanceUnitKilometers = @"KILOMETERS";

@@ -5,6 +5,8 @@
 #import "SDLNames.h"
 #import "NSMutableDictionary+Store.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLAudioControlData
 
 - (instancetype)initWithSource:(nullable SDLPrimaryAudioSource)source keepContext:(nullable NSNumber<SDLBool> *)keepContext volume:(nullable NSNumber<SDLInt> *)volume equalizerSettings:(nullable NSArray<SDLEqualizerSettings *> *)equalizerSettings {
@@ -55,3 +57,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

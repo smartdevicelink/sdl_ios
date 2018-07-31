@@ -6,6 +6,8 @@
 
 @class SDLEqualizerSettings;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLAudioControlData : SDLRPCStruct
 
 
@@ -18,7 +20,7 @@
  @param equalizerSettings list of supported Equalizer channels.
  @return An instance of the SDLAudioControlData class.
  */
-- (_Nonnull instancetype)initWithSource:(nullable SDLPrimaryAudioSource)source keepContext:(nullable NSNumber<SDLBool> *)keepContext volume:(nullable NSNumber<SDLInt> *)volume equalizerSettings:(nullable NSArray<SDLEqualizerSettings *> *)equalizerSettings;
+- (instancetype)initWithSource:(nullable SDLPrimaryAudioSource)source keepContext:(nullable NSNumber<SDLBool> *)keepContext volume:(nullable NSNumber<SDLInt> *)volume equalizerSettings:(nullable NSArray<SDLEqualizerSettings *> *)equalizerSettings;
 
 /**
  * @abstract   In a getter response or a notification,
@@ -56,3 +58,5 @@
 @property (nullable, strong, nonatomic) NSArray<SDLEqualizerSettings *> *equalizerSettings;
 
 @end
+
+NS_ASSUME_NONNULL_END
