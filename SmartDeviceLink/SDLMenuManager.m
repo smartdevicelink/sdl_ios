@@ -117,7 +117,7 @@ UInt32 const MenuCellIdMin = 1;
 
     self.waitingOnHMIUpdate = NO;
 
-    // Check for duplicate titles
+    // Check for duplicate titles and number of voice recognition commands
     NSMutableSet *titleCheckSet = [NSMutableSet set];
     NSMutableSet *vrCheckSet = [NSMutableSet set];
     for (SDLMenuCell *cell in menuCells) {
@@ -125,14 +125,25 @@ UInt32 const MenuCellIdMin = 1;
         if (cell.voiceCommands.count > 0) {
             [vrCheckSet addObject:cell.voiceCommands];
         }
-//         cell.voiceCommands ?: [vrCheckSet addObject:cell.voiceCommands];
     }
     if (titleCheckSet.count != menuCells.count) {
         SDLLogE(@"Not all cell titles are unique. The menu will not be set.");
         return;
     }
     if (vrCheckSet.count > 0 && vrCheckSet.count < menuCells.count) {
-        SDLLogE(@"Either all or none of the menu items must have VR commands. %lu of the %lu menu items have VR commands. The menu will not be set.", (unsigned long)vrCheckSet.count, (unsigned long)menuCells.count);
+        SDLLogE(@"If using voice recognition commands, all of the menu cells must have unique voice recognition commands. There are %lu unique VR commands and %lu menu items. The menu will not be set.", (unsigned long)vrCheckSet.count, (unsigned long)menuCells.count);
+        return;
+    }
+
+    NSMutableArray<NSString *> *nonNilVoiceCommands = [NSMutableArray array];
+    for (SDLMenuCell *cell in menuCells) {
+        if (cell.voiceCommands != nil) {
+            [nonNilVoiceCommands addObjectsFromArray:cell.voiceCommands];
+        }
+    }
+    NSMutableSet<NSArray<NSString *> *> *choiceVoiceCommandSet = [NSMutableSet setWithArray:nonNilVoiceCommands];
+    if (choiceVoiceCommandSet.count < nonNilVoiceCommands.count) {
+        SDLLogE(@"Attempted to create a menu with duplicate voice commands. Voice commands must be unique. The menu will not be set.");
         return;
     }
 

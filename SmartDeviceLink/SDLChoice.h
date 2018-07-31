@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, Array of Strings, Array length 1 - 100, Max String length 99 chars
  *
- * @discussion, VR commands are optional beginning with SDL v.5.0. They are required for previous versions.
+ * @discussion, VR commands are optional beginning with SDL Core v.5.0. They are required for previous versions.
  */
 @property (nullable, strong, nonatomic) NSArray<NSString *> *vrCommands;
 

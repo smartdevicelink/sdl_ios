@@ -166,10 +166,51 @@ describe(@"menu manager", ^{
             testManager.displayCapabilities.graphicSupported = @YES;
         });
 
-        it(@"should fail with a duplicate title", ^{
-            testManager.menuCells = @[textOnlyCell, textOnlyCell];
+        context(@"duplicate titles", ^{
+            it(@"should fail with a duplicate title", ^{
+                testManager.menuCells = @[textOnlyCell, textOnlyCell];
+                expect(testManager.menuCells).to(beEmpty());
+            });
+        });
 
-            expect(testManager.menuCells).to(beEmpty());
+        context(@"incorrect VR commands", ^{
+            __block SDLMenuCell *textOnlyCell1 = nil;
+            __block SDLMenuCell *textOnlyCell2 = nil;
+            __block SDLMenuCell *textAndVRCell1 = nil;
+            __block SDLMenuCell *textAndVRCell2 = nil;
+            __block SDLMenuCell *textAndVRCell3 = nil;
+
+            beforeEach(^{
+                textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"Cat", @"Turtle"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:nil voiceCommands:@[@"Dog"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                textAndVRCell3 = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil voiceCommands:@[@"Cat", @"Turtle"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                textOnlyCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 4" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+                textOnlyCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 5" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            });
+
+            describe(@"When VR commands are not set correctly", ^{
+                it(@"should fail when not all menu items have vr commands", ^{
+                    testManager.menuCells = @[textOnlyCell, textAndVRCell1];
+                    expect(testManager.menuCells).to(beEmpty());
+                });
+
+                it(@"should fail when menu items have duplicate vr commands", ^{
+                    testManager.menuCells = @[textAndVRCell1, textAndVRCell3];
+                    expect(testManager.menuCells).to(beEmpty());
+                });
+            });
+
+            describe(@"When VR commands are set correctly", ^{
+                it(@"should succeed when all menu items have vr commands", ^{
+                    testManager.menuCells = @[textAndVRCell1, textAndVRCell2];
+                    expect(testManager.menuCells.count).to(equal(2));
+                });
+
+                it(@"should succeed when all menu items do not have vr commands", ^{
+                    testManager.menuCells = @[textOnlyCell1, textOnlyCell2];
+                    expect(testManager.menuCells.count).to(equal(2));
+                });
+            });
         });
 
         it(@"should properly update a text cell", ^{

@@ -131,12 +131,22 @@ describe(@"an SDLChoiceSet", ^{
                 expect(testChoiceSet).to(beNil());
             });
 
-            it(@"should return nil with equivalent voice command strings", ^{
-                // Cell `voiceCommands` cannot be equal
-                SDLChoiceCell *equalCellVR = [[SDLChoiceCell alloc] initWithText:@"Text" artwork:nil voiceCommands:@[@"vr"]];
-                SDLChoiceCell *equalCellVR2 = [[SDLChoiceCell alloc] initWithText:@"Text2" artwork:nil voiceCommands:@[@"vr"]];
-                testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:testDelegate choices:@[equalCellVR, equalCellVR2]];
-                expect(testChoiceSet).to(beNil());
+            context(@"With bad VR data", ^{
+                it(@"should return nil if not all choice set items have voice commands", ^{
+                    // Cell `voiceCommands` cannot be equal
+                    SDLChoiceCell *equalCellVR = [[SDLChoiceCell alloc] initWithText:@"Text" artwork:nil voiceCommands:@[@"vr"]];
+                    SDLChoiceCell *equalCellVR2 = [[SDLChoiceCell alloc] initWithText:@"Text2" artwork:nil voiceCommands:nil];
+                    testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:testDelegate choices:@[equalCellVR, equalCellVR2]];
+                    expect(testChoiceSet).to(beNil());
+                });
+
+                it(@"should return nil if there are duplicate voice command strings in the choice set", ^{
+                    // Cell `voiceCommands` cannot be equal
+                    SDLChoiceCell *equalCellVR = [[SDLChoiceCell alloc] initWithText:@"Text" artwork:nil voiceCommands:@[@"Cat", @"Dog"]];
+                    SDLChoiceCell *equalCellVR2 = [[SDLChoiceCell alloc] initWithText:@"Text2" artwork:nil voiceCommands:@[@"Parrot", @"Dog"]];
+                    testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:testDelegate choices:@[equalCellVR, equalCellVR2]];
+                    expect(testChoiceSet).to(beNil());
+                });
             });
         });
     });

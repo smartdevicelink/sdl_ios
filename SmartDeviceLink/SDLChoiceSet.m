@@ -62,23 +62,31 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     }
 
     NSMutableSet<NSString *> *choiceTextSet = [NSMutableSet setWithCapacity:choices.count];
+    NSMutableSet *vrCheckSet = [NSMutableSet set];
     for (SDLChoiceCell *cell in choices) {
         [choiceTextSet addObject:cell.text];
+        if (cell.voiceCommands.count > 0) {
+            [vrCheckSet addObject:cell.voiceCommands];
+        }
     }
     if (choiceTextSet.count < choices.count) {
-        SDLLogW(@"Attempted to create a choice set with duplicate cell text. Cell text must be unique.");
+        SDLLogW(@"Attempted to create a choice set with duplicate cell text. Cell text must be unique. The choice set will not be set.");
+        return nil;
+    }
+    if (vrCheckSet.count > 0 && vrCheckSet.count < choices.count) {
+        SDLLogE(@"If using voice recognition commands, all of the choice set cells must have unique VR commands. There are %lu unique VR commands and %lu choice set items. The choice set will not be set.", (unsigned long)vrCheckSet.count, (unsigned long)choices.count);
         return nil;
     }
 
-    NSMutableArray<NSArray<NSString *> *> *nonNilVoiceCommands = [NSMutableArray array];
+    NSMutableArray<NSString *> *nonNilVoiceCommands = [NSMutableArray array];
     for (SDLChoiceCell *cell in choices) {
         if (cell.voiceCommands != nil) {
-            [nonNilVoiceCommands addObject:cell.voiceCommands];
+            [nonNilVoiceCommands addObjectsFromArray:cell.voiceCommands];
         }
     }
     NSMutableSet<NSArray<NSString *> *> *choiceVoiceCommandSet = [NSMutableSet setWithArray:nonNilVoiceCommands];
     if (choiceVoiceCommandSet.count < nonNilVoiceCommands.count) {
-        SDLLogW(@"Attempted to create a choice set with duplicate voice commands. Voice commands must be unique.");
+        SDLLogE(@"Attempted to create a choice set with duplicate voice commands. Voice commands must be unique. The choice set will not be set.");
         return nil;
     }
 
