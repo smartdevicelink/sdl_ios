@@ -33,7 +33,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get correctly", ^ {
-        SDLLightState* testStruct = [[SDLLightState alloc] initWithID:SDLLightNameFogLights status:SDLLightStatusOFF];
+        SDLLightState* testStruct = [[SDLLightState alloc] initWithId:SDLLightNameFogLights status:SDLLightStatusOFF];
         expect(testStruct.id).to(equal(SDLLightNameFogLights));
         expect(testStruct.status).to(equal(SDLLightStatusOFF));
         expect(testStruct.density).to(beNil());
@@ -42,7 +42,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get correctly", ^ {
-        SDLLightState* testStruct = [[SDLLightState alloc] initWithID:SDLLightNameFogLights status:SDLLightStatusOFF density:0.5 sRGBColor:somesRGBColor];
+        SDLLightState* testStruct = [[SDLLightState alloc] initWithId:SDLLightNameFogLights status:SDLLightStatusOFF density:0.5 sRGBColor:somesRGBColor];
 
         expect(testStruct.id).to(equal(SDLLightNameFogLights));
         expect(testStruct.status).to(equal(SDLLightStatusOFF));

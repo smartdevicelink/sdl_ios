@@ -15,7 +15,7 @@ QuickSpecBegin(SDLDistanceUnitSpec)
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
         expect(SDLDistanceUnitMiles).to(equal(@"MILES"));
-        expect(SDLDistanceUnitKms).to(equal(@"KILOMETERS"));
+        expect(SDLDistanceUnitKilometers).to(equal(@"KILOMETERS"));
     });
 });
 

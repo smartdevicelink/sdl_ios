@@ -18,30 +18,30 @@ describe(@"Getter/Setter Tests", ^ {
 
             testStruct.displayMode = SDLDisplayModeAuto;
             testStruct.temperatureUnit = SDLTemperatureUnitCelsius;
-            testStruct.distanceUnit = SDLDistanceUnitKms;
+            testStruct.distanceUnit = SDLDistanceUnitKilometers;
 
             expect(testStruct.displayMode).to(equal(SDLDisplayModeAuto));
             expect(testStruct.temperatureUnit).to(equal(SDLTemperatureUnitCelsius));
-            expect(testStruct.distanceUnit).to(equal(SDLDistanceUnitKms));
+            expect(testStruct.distanceUnit).to(equal(SDLDistanceUnitKilometers));
         });
 
         it(@"Should set and get correctly", ^ {
-            SDLHMISettingsControlData* testStruct = [[SDLHMISettingsControlData alloc] initWithDisplaymode:SDLDisplayModeAuto temperatureUnit:SDLTemperatureUnitCelsius distanceUnit:SDLDistanceUnitKms];
+            SDLHMISettingsControlData* testStruct = [[SDLHMISettingsControlData alloc] initWithDisplaymode:SDLDisplayModeAuto temperatureUnit:SDLTemperatureUnitCelsius distanceUnit:SDLDistanceUnitKilometers];
 
             expect(testStruct.displayMode).to(equal(SDLDisplayModeAuto));
             expect(testStruct.temperatureUnit).to(equal(SDLTemperatureUnitCelsius));
-            expect(testStruct.distanceUnit).to(equal(SDLDistanceUnitKms));
+            expect(testStruct.distanceUnit).to(equal(SDLDistanceUnitKilometers));
         });
 
         it(@"Should get correctly when initialized", ^ {
             NSMutableDictionary* dict = [@{SDLNameDisplayMode:SDLDisplayModeAuto,
                                            SDLNameTemperatureUnit:SDLTemperatureUnitCelsius,
-                                           SDLNameDistanceUnit:SDLDistanceUnitKms} mutableCopy];
+                                           SDLNameDistanceUnit:SDLDistanceUnitKilometers} mutableCopy];
             SDLHMISettingsControlData* testStruct = [[SDLHMISettingsControlData alloc] initWithDictionary:dict];
 
             expect(testStruct.displayMode).to(equal(SDLDisplayModeAuto));
             expect(testStruct.temperatureUnit).to(equal(SDLTemperatureUnitCelsius));
-            expect(testStruct.distanceUnit).to(equal(SDLDistanceUnitKms));
+            expect(testStruct.distanceUnit).to(equal(SDLDistanceUnitKilometers));
 
         });
 
