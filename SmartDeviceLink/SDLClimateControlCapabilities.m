@@ -11,6 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLClimateControlCapabilities
 
 - (instancetype)initWithModuleName:(NSString *)moduleName fanSpeedAvailable:(BOOL)fanSpeedAvailable desiredTemperatureAvailable:(BOOL)desiredTemperatureAvailable acEnableAvailable:(BOOL)acEnableAvailable acMaxEnableAvailable:(BOOL)acMaxEnableAvailable circulateAirAvailable:(BOOL)circulateAirEnableAvailable autoModeEnableAvailable:(BOOL)autoModeEnableAvailable dualModeEnableAvailable:(BOOL)dualModeEnableAvailable defrostZoneAvailable:(BOOL)defrostZoneAvailable ventilationModeAvailable:(BOOL)ventilationModeAvailable {
+
+    return [self initWithModuleName:moduleName fanSpeedAvailable:fanSpeedAvailable desiredTemperatureAvailable:desiredTemperatureAvailable acEnableAvailable:acEnableAvailable acMaxEnableAvailable:acMaxEnableAvailable circulateAirAvailable:circulateAirEnableAvailable autoModeEnableAvailable:autoModeEnableAvailable dualModeEnableAvailable:dualModeEnableAvailable defrostZoneAvailable:defrostZoneAvailable ventilationModeAvailable:ventilationModeAvailable heatedSteeringWheelAvailable:NO heatedWindshieldAvailable:NO heatedRearWindowAvailable:NO heatedMirrorsAvailable:NO];
+}
+
+- (instancetype)initWithModuleName:(NSString *)moduleName fanSpeedAvailable:(BOOL)fanSpeedAvailable desiredTemperatureAvailable:(BOOL)desiredTemperatureAvailable acEnableAvailable:(BOOL)acEnableAvailable acMaxEnableAvailable:(BOOL)acMaxEnableAvailable circulateAirAvailable:(BOOL)circulateAirEnableAvailable autoModeEnableAvailable:(BOOL)autoModeEnableAvailable dualModeEnableAvailable:(BOOL)dualModeEnableAvailable defrostZoneAvailable:(BOOL)defrostZoneAvailable ventilationModeAvailable:(BOOL)ventilationModeAvailable heatedSteeringWheelAvailable:(BOOL)steeringWheelAvailable heatedWindshieldAvailable:(BOOL)windshieldAvailable heatedRearWindowAvailable:(BOOL)rearWindowAvailable heatedMirrorsAvailable:(BOOL)mirrorsAvailable {
     self = [self init];
     if (!self) {
         return nil;
@@ -26,6 +31,10 @@ NS_ASSUME_NONNULL_BEGIN
     self.dualModeEnableAvailable = @(dualModeEnableAvailable);
     self.defrostZoneAvailable = @(defrostZoneAvailable);
     self.ventilationModeAvailable = @(ventilationModeAvailable);
+    self.heatedSteeringWheelAvailable = @(steeringWheelAvailable);
+    self.heatedWindshieldAvailable = @(windshieldAvailable);
+    self.heatedRearWindowAvailable = @(rearWindowAvailable);
+    self.heatedMirrorsAvailable = @(mirrorsAvailable);
     return self;
 }
 
@@ -123,6 +132,38 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSArray<SDLVentilationMode> *)ventilationMode {
     return [store sdl_objectForName:SDLNameVentilationMode];
+}
+
+- (void)setHeatedSteeringWheelAvailable:(nullable NSNumber<SDLBool> *)heatedSteeringWheelAvailable {
+    [store sdl_setObject:heatedSteeringWheelAvailable forName:SDLNameHeatedSteeringWheelAvailable];
+}
+
+- (nullable NSNumber<SDLBool> *)heatedSteeringWheelAvailable {
+    return [store sdl_objectForName:SDLNameHeatedSteeringWheelAvailable];
+}
+
+- (void)setHeatedWindshieldAvailable:(nullable NSNumber<SDLBool> *)heatedWindshieldAvailable {
+    [store sdl_setObject:heatedWindshieldAvailable forName:SDLNameHeatedWindshieldAvailable];
+}
+
+- (nullable NSNumber<SDLBool> *)heatedWindshieldAvailable {
+    return [store sdl_objectForName:SDLNameHeatedWindshieldAvailable];
+}
+
+- (void)setHeatedRearWindowAvailable:(nullable NSNumber<SDLBool> *)heatedRearWindowAvailable {
+    [store sdl_setObject:heatedRearWindowAvailable forName:SDLNameHeatedRearWindowAvailable];
+}
+
+- (nullable NSNumber<SDLBool> *)heatedRearWindowAvailable {
+    return [store sdl_objectForName:SDLNameHeatedRearWindowAvailable];
+}
+
+- (void)setHeatedMirrorsAvailable:(nullable NSNumber<SDLBool> *)heatedMirrorsAvailable {
+    [store sdl_setObject:heatedMirrorsAvailable forName:SDLNameHeatedMirrorsAvailable];
+}
+
+- (nullable NSNumber<SDLBool> *)heatedMirrorsAvailable {
+    return [store sdl_objectForName:SDLNameHeatedMirrorsAvailable];
 }
 
 @end
