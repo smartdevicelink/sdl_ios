@@ -144,8 +144,8 @@ describe(@"the secondary transport manager ", ^{
     afterEach(^{
         // it is possible that manager calls methods of SDLStreamingProtocolListener while stopping, so accept them
         // (Don't put OCMVerifyAll() after calling stop.)
-        OCMExpect([testStreamingProtocolListener onAudioServiceProtocolUpdated:OCMOCK_ANY to:nil]);
-        OCMExpect([testStreamingProtocolListener onVideoServiceProtocolUpdated:OCMOCK_ANY to:nil]);
+        OCMExpect([testStreamingProtocolListener audioServiceProtocolDidUpdateFromOldProtocol:OCMOCK_ANY toNewProtocol:nil]);
+        OCMExpect([testStreamingProtocolListener videoServiceProtocolDidUpdateFromOldProtocol:OCMOCK_ANY toNewProtocol:nil]);
 
         [manager stop];
         manager = nil;
@@ -228,7 +228,7 @@ describe(@"the secondary transport manager ", ^{
 
                 it(@"should configure its properties and transition to Configured state", ^{
                     // in this configuration, only audio service is allowed on primary transport
-                    OCMExpect([testStreamingProtocolListener onAudioServiceProtocolUpdated:nil to:testPrimaryProtocol]);
+                    OCMExpect([testStreamingProtocolListener audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:testPrimaryProtocol]);
 
                     [testPrimaryProtocol handleBytesFromTransport:testStartServiceACKMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
@@ -256,8 +256,8 @@ describe(@"the secondary transport manager ", ^{
 
                 it(@"should configure its properties and transition to Configured state", ^{
                     // in this case, audio and video services start on primary transport (for compatibility)
-                    OCMExpect([testStreamingProtocolListener onAudioServiceProtocolUpdated:nil to:testPrimaryProtocol]);
-                    OCMExpect([testStreamingProtocolListener onVideoServiceProtocolUpdated:nil to:testPrimaryProtocol]);
+                    OCMExpect([testStreamingProtocolListener audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:testPrimaryProtocol]);
+                    OCMExpect([testStreamingProtocolListener videoServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:testPrimaryProtocol]);
 
                     [testPrimaryProtocol handleBytesFromTransport:testStartServiceACKMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
@@ -285,8 +285,8 @@ describe(@"the secondary transport manager ", ^{
                 it(@"should transition to Configured state with transport type disabled", ^{
                     // Since primary transport is iAP, we cannot use iAP for secondary transport.
                     // So both services run on primary transport.
-                    OCMExpect([testStreamingProtocolListener onAudioServiceProtocolUpdated:nil to:testPrimaryProtocol]);
-                    OCMExpect([testStreamingProtocolListener onVideoServiceProtocolUpdated:nil to:testPrimaryProtocol]);
+                    OCMExpect([testStreamingProtocolListener audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:testPrimaryProtocol]);
+                    OCMExpect([testStreamingProtocolListener videoServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:testPrimaryProtocol]);
 
                     [testPrimaryProtocol handleBytesFromTransport:testStartServiceACKMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
@@ -310,8 +310,8 @@ describe(@"the secondary transport manager ", ^{
 
                 it(@"should transition to Configured state with transport type disabled", ^{
                     // both services run on primary transport
-                    OCMExpect([testStreamingProtocolListener onAudioServiceProtocolUpdated:nil to:testPrimaryProtocol]);
-                    OCMExpect([testStreamingProtocolListener onVideoServiceProtocolUpdated:nil to:testPrimaryProtocol]);
+                    OCMExpect([testStreamingProtocolListener audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:testPrimaryProtocol]);
+                    OCMExpect([testStreamingProtocolListener videoServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:testPrimaryProtocol]);
 
                     [testPrimaryProtocol handleBytesFromTransport:testStartServiceACKMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
@@ -616,8 +616,8 @@ describe(@"the secondary transport manager ", ^{
                 });
 
                 it(@"should transition to Registered state", ^{
-                    OCMExpect([testStreamingProtocolListener onAudioServiceProtocolUpdated:nil to:secondaryProtocol]);
-                    OCMExpect([testStreamingProtocolListener onVideoServiceProtocolUpdated:nil to:secondaryProtocol]);
+                    OCMExpect([testStreamingProtocolListener audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:secondaryProtocol]);
+                    OCMExpect([testStreamingProtocolListener videoServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:secondaryProtocol]);
 
                     [testSecondaryProtocolMock handleBytesFromTransport:testRegisterSecondaryTransportAckMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
@@ -819,8 +819,8 @@ describe(@"the secondary transport manager ", ^{
                 });
 
                 it(@"should transition to Configured state, then transition to Connecting state again", ^{
-                    OCMExpect([testStreamingProtocolListener onAudioServiceProtocolUpdated:secondaryProtocol to:nil]);
-                    OCMExpect([testStreamingProtocolListener onVideoServiceProtocolUpdated:secondaryProtocol to:nil]);
+                    OCMExpect([testStreamingProtocolListener audioServiceProtocolDidUpdateFromOldProtocol:secondaryProtocol toNewProtocol:nil]);
+                    OCMExpect([testStreamingProtocolListener videoServiceProtocolDidUpdateFromOldProtocol:secondaryProtocol toNewProtocol:nil]);
 
                     [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
@@ -840,8 +840,8 @@ describe(@"the secondary transport manager ", ^{
                 });
 
                 it(@"should transition to Configured state", ^{
-                    OCMExpect([testStreamingProtocolListener onAudioServiceProtocolUpdated:secondaryProtocol to:nil]);
-                    OCMExpect([testStreamingProtocolListener onVideoServiceProtocolUpdated:secondaryProtocol to:nil]);
+                    OCMExpect([testStreamingProtocolListener audioServiceProtocolDidUpdateFromOldProtocol:secondaryProtocol toNewProtocol:nil]);
+                    OCMExpect([testStreamingProtocolListener videoServiceProtocolDidUpdateFromOldProtocol:secondaryProtocol toNewProtocol:nil]);
 
                     [testPrimaryProtocol handleBytesFromTransport:testTransportEventUpdateMessage.data];
                     [NSThread sleepForTimeInterval:0.1];
@@ -862,8 +862,8 @@ describe(@"the secondary transport manager ", ^{
             });
 
             it(@"should transition to Reconnecting state", ^{
-                OCMExpect([testStreamingProtocolListener onAudioServiceProtocolUpdated:secondaryProtocol to:nil]);
-                OCMExpect([testStreamingProtocolListener onVideoServiceProtocolUpdated:secondaryProtocol to:nil]);
+                OCMExpect([testStreamingProtocolListener audioServiceProtocolDidUpdateFromOldProtocol:secondaryProtocol toNewProtocol:nil]);
+                OCMExpect([testStreamingProtocolListener videoServiceProtocolDidUpdateFromOldProtocol:secondaryProtocol toNewProtocol:nil]);
 
                 [testSecondaryProtocolMock onProtocolClosed];
                 [NSThread sleepForTimeInterval:0.1];
@@ -883,8 +883,8 @@ describe(@"the secondary transport manager ", ^{
             });
 
             it(@"should transition to Stopped state", ^{
-                OCMExpect([testStreamingProtocolListener onAudioServiceProtocolUpdated:secondaryProtocol to:nil]);
-                OCMExpect([testStreamingProtocolListener onVideoServiceProtocolUpdated:secondaryProtocol to:nil]);
+                OCMExpect([testStreamingProtocolListener audioServiceProtocolDidUpdateFromOldProtocol:secondaryProtocol toNewProtocol:nil]);
+                OCMExpect([testStreamingProtocolListener videoServiceProtocolDidUpdateFromOldProtocol:secondaryProtocol toNewProtocol:nil]);
 
                 [manager stop];
 

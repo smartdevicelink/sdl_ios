@@ -1,5 +1,5 @@
 //
-//  SDLStreamingMediaVideoLifecycleManagerSpec.m
+//  SDLStreamingVideoLifecycleManagerSpec.m
 //  SmartDeviceLink-iOS
 //
 
@@ -30,7 +30,7 @@
 #import "SDLScreenParams.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
-#import "SDLStreamingMediaVideoLifecycleManager.h"
+#import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLFakeStreamingManagerDataSource.h"
 #import "SDLSystemCapability.h"
 #import "SDLV2ProtocolHeader.h"
@@ -41,10 +41,10 @@
 #import "SDLVideoStreamingProtocol.h"
 #import "TestConnectionManager.h"
 
-QuickSpecBegin(SDLStreamingMediaVideoLifecycleManagerSpec)
+QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec)
 
 describe(@"the streaming media manager", ^{
-    __block SDLStreamingMediaVideoLifecycleManager *streamingLifecycleManager = nil;
+    __block SDLStreamingVideoLifecycleManager *streamingLifecycleManager = nil;
     __block SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
     __block SDLCarWindowViewController *testViewController = [[SDLCarWindowViewController alloc] init];
     __block SDLFakeStreamingManagerDataSource *testDataSource = [[SDLFakeStreamingManagerDataSource alloc] init];
@@ -68,7 +68,7 @@ describe(@"the streaming media manager", ^{
         testConfiguration.rootViewController = testViewController;
         someBackgroundTitleString = @"Open Test App";
         testConnectionManager = [[TestConnectionManager alloc] init];
-        streamingLifecycleManager = [[SDLStreamingMediaVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration];
+        streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration];
     });
 
     it(@"should initialize properties", ^{

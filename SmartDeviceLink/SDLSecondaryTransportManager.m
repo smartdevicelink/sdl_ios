@@ -443,7 +443,7 @@ static const float RetryConnectionDelay = 15.0;
            primaryAvailable:primaryAvailable
          secondaryAvailable:secondaryAvailable
       transportUpdatedBlock:^(SDLProtocol * _Nullable oldProtocol, SDLProtocol * _Nullable newProtocol) {
-          [self.streamingProtocolListener onAudioServiceProtocolUpdated:oldProtocol to:newProtocol];
+          [self.streamingProtocolListener audioServiceProtocolDidUpdateFromOldProtocol:oldProtocol toNewProtocol:newProtocol];
       }];
 
     // update video service
@@ -452,7 +452,7 @@ static const float RetryConnectionDelay = 15.0;
            primaryAvailable:primaryAvailable
          secondaryAvailable:secondaryAvailable
       transportUpdatedBlock:^(SDLProtocol * _Nullable oldProtocol, SDLProtocol * _Nullable newProtocol) {
-          [self.streamingProtocolListener onVideoServiceProtocolUpdated:oldProtocol to:newProtocol];
+          [self.streamingProtocolListener videoServiceProtocolDidUpdateFromOldProtocol:oldProtocol toNewProtocol:newProtocol];
       }];
 }
 

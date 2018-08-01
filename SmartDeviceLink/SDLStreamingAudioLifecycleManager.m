@@ -1,12 +1,12 @@
 //
-//  SDLStreamingMediaAudioLifecycleManager.m
+//  SDLStreamingAudioLifecycleManager.m
 //  SmartDeviceLink-iOS
 //
 //  Created by Muller, Alexander (A.) on 2/16/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import "SDLStreamingMediaAudioLifecycleManager.h"
+#import "SDLStreamingAudioLifecycleManager.h"
 
 #import "SDLAudioStreamManager.h"
 #import "SDLControlFramePayloadAudioStartServiceAck.h"
@@ -44,7 +44,7 @@ SDLAudioStreamState *const SDLAudioStreamStateReady = @"AudioStreamReady";
 SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShuttingDown";
 
 
-@interface SDLStreamingMediaAudioLifecycleManager ()
+@interface SDLStreamingAudioLifecycleManager ()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLProtocol *protocol;
@@ -60,7 +60,7 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
 @end
 
 
-@implementation SDLStreamingMediaAudioLifecycleManager
+@implementation SDLStreamingAudioLifecycleManager
 
 #pragma mark - Public
 #pragma mark Lifecycle

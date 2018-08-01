@@ -1,5 +1,5 @@
 //
-//  SDLStreamingMediaVideoLifecycleManager.h
+//  SDLStreamingVideoLifecycleManager.h
 //  SmartDeviceLink-iOS
 //
 //  Created by Muller, Alexander (A.) on 2/16/17.
@@ -28,7 +28,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString SDLAppState;
-// defined in SDLStreamingMediaAudioLifecycleManager.m
+// defined in SDLStreamingAudioLifecycleManager.m
 extern SDLAppState *const SDLAppStateInactive;
 extern SDLAppState *const SDLAppStateActive;
 
@@ -42,7 +42,7 @@ extern SDLVideoStreamState *const SDLVideoStreamStateShuttingDown;
 
 #pragma mark - Interface
 
-@interface SDLStreamingMediaVideoLifecycleManager : NSObject <SDLProtocolListener>
+@interface SDLStreamingVideoLifecycleManager : NSObject <SDLProtocolListener>
 
 @property (strong, nonatomic, readonly) SDLStateMachine *appStateMachine;
 @property (strong, nonatomic, readonly) SDLStateMachine *videoStreamStateMachine;

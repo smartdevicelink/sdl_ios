@@ -223,8 +223,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     // onAudioServiceProtocolUpdated and onVideoServiceProtocolUpdated
     if (self.secondaryTransportManager == nil) {
         if (self.streamManager != nil) {
-            [self onAudioServiceProtocolUpdated:nil to:self.proxy.protocol];
-            [self onVideoServiceProtocolUpdated:nil to:self.proxy.protocol];
+            [self audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
+            [self videoServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
         }
     }
 }
@@ -247,8 +247,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (self.secondaryTransportManager != nil) {
         [self.secondaryTransportManager stop];
     } else {
-        [self onAudioServiceProtocolUpdated:self.proxy.protocol to:nil];
-        [self onVideoServiceProtocolUpdated:self.proxy.protocol to:nil];
+        [self audioServiceProtocolDidUpdateFromOldProtocol:self.proxy.protocol toNewProtocol:nil];
+        [self videoServiceProtocolDidUpdateFromOldProtocol:self.proxy.protocol toNewProtocol:nil];
     }
     [self.systemCapabilityManager stop];
     [self.responseDispatcher clear];
@@ -706,7 +706,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 #pragma mark Streaming protocol listener
 
-- (void)onAudioServiceProtocolUpdated:(nullable SDLProtocol *)oldProtocol to:(nullable SDLProtocol *)newProtocol {
+- (void)audioServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol {
     if ((oldProtocol == nil && newProtocol == nil) || (oldProtocol == newProtocol)) {
         return;
     }
@@ -719,7 +719,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 }
 
-- (void)onVideoServiceProtocolUpdated:(nullable SDLProtocol *)oldProtocol to:(nullable SDLProtocol *)newProtocol {
+- (void)videoServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol {
     if ((oldProtocol == nil && newProtocol == nil) || (oldProtocol == newProtocol)) {
         return;
     }

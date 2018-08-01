@@ -1,12 +1,12 @@
 //
-//  SDLStreamingMediaVideoLifecycleManager.m
+//  SDLStreamingVideoLifecycleManager.m
 //  SmartDeviceLink-iOS
 //
 //  Created by Muller, Alexander (A.) on 2/16/17.
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import "SDLStreamingMediaVideoLifecycleManager.h"
+#import "SDLStreamingVideoLifecycleManager.h"
 
 #import "SDLCarWindow.h"
 #import "SDLControlFramePayloadConstants.h"
@@ -58,7 +58,7 @@ static NSUInteger const FramesToSendOnBackground = 30;
 typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_Nullable capability);
 
 
-@interface SDLStreamingMediaVideoLifecycleManager () <SDLVideoEncoderDelegate>
+@interface SDLStreamingVideoLifecycleManager () <SDLVideoEncoderDelegate>
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLProtocol *protocol;
@@ -86,7 +86,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @end
 
 
-@implementation SDLStreamingMediaVideoLifecycleManager
+@implementation SDLStreamingVideoLifecycleManager
 
 #pragma mark - Public
 #pragma mark Lifecycle
@@ -170,7 +170,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)stop {
-    SDLLogD(@"Stopping StreamingMediaVideoLifecycleManager");
+    SDLLogD(@"Stopping StreamingVideoLifecycleManager");
     [self sdl_stopVideoSession];
 
     [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
@@ -251,7 +251,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)didEnterStateAppInactive {
-    SDLLogD(@"App became inactive in StreamingMediaVideoLifecycleManager");
+    SDLLogD(@"App became inactive in StreamingVideoLifecycleManager");
     if (!self.protocol) { return; }
 
     [self sdl_sendBackgroundFrames];
@@ -267,7 +267,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 // Per Apple's guidelines: https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/StrategiesforHandlingAppStateTransitions/StrategiesforHandlingAppStateTransitions.html
 // We should be waiting to start any OpenGL drawing until UIApplicationDidBecomeActive is called.
 - (void)didEnterStateAppActive {
-    SDLLogD(@"App became active in StreamingMediaVideoLifecycleManager");
+    SDLLogD(@"App became active in StreamingVideoLifecycleManager");
     if (!self.protocol) { return; }
 
     if ([self.videoStreamStateMachine.currentState isEqualToString:SDLVideoStreamStateSuspended]) {

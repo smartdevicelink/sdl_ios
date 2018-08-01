@@ -12,8 +12,8 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManagerDataSource.h"
-#import "SDLStreamingMediaAudioLifecycleManager.h"
-#import "SDLStreamingMediaVideoLifecycleManager.h"
+#import "SDLStreamingAudioLifecycleManager.h"
+#import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLTouchManager.h"
 
 
@@ -21,8 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStreamingMediaManager ()
 
-@property (strong, nonatomic) SDLStreamingMediaAudioLifecycleManager *audioLifecycleManager;
-@property (strong, nonatomic) SDLStreamingMediaVideoLifecycleManager *videoLifecycleManager;
+@property (strong, nonatomic) SDLStreamingAudioLifecycleManager *audioLifecycleManager;
+@property (strong, nonatomic) SDLStreamingVideoLifecycleManager *videoLifecycleManager;
 @property (assign, nonatomic) BOOL audioStarted;
 @property (assign, nonatomic) BOOL videoStarted;
 
@@ -40,8 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
     
-    _audioLifecycleManager = [[SDLStreamingMediaAudioLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
-    _videoLifecycleManager = [[SDLStreamingMediaVideoLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
+    _audioLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
+    _videoLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
 
     return self;
 }

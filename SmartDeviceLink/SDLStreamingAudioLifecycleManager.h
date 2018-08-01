@@ -1,5 +1,5 @@
 //
-//  SDLStreamingMediaAudioLifecycleManager.h
+//  SDLStreamingAudioLifecycleManager.h
 //  SmartDeviceLink-iOS
 //
 //  Created by Muller, Alexander (A.) on 2/16/17.
@@ -34,7 +34,7 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
 
 #pragma mark - Interface
 
-@interface SDLStreamingMediaAudioLifecycleManager : NSObject <SDLProtocolListener, SDLStreamingAudioManagerType>
+@interface SDLStreamingAudioLifecycleManager : NSObject <SDLProtocolListener, SDLStreamingAudioManagerType>
 
 @property (strong, nonatomic, readonly) SDLStateMachine *appStateMachine;
 @property (strong, nonatomic, readonly) SDLStateMachine *audioStreamStateMachine;

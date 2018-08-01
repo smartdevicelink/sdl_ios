@@ -1,5 +1,5 @@
 //
-//  SDLStreamingMediaAudioLifecycleManagerSpec.m
+//  SDLStreamingAudioLifecycleManagerSpec.m
 //  SmartDeviceLink-iOS
 //
 
@@ -29,17 +29,17 @@
 #import "SDLScreenParams.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
-#import "SDLStreamingMediaAudioLifecycleManager.h"
+#import "SDLStreamingAudioLifecycleManager.h"
 #import "SDLFakeStreamingManagerDataSource.h"
 #import "SDLSystemCapability.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLV2ProtocolMessage.h"
 #import "TestConnectionManager.h"
 
-QuickSpecBegin(SDLStreamingMediaAudioLifecycleManagerSpec)
+QuickSpecBegin(SDLStreamingAudioLifecycleManagerSpec)
 
 describe(@"the audio streaming media manager", ^{
-    __block SDLStreamingMediaAudioLifecycleManager *streamingLifecycleManager = nil;
+    __block SDLStreamingAudioLifecycleManager *streamingLifecycleManager = nil;
     __block SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
     __block TestConnectionManager *testConnectionManager = nil;
 
@@ -54,7 +54,7 @@ describe(@"the audio streaming media manager", ^{
 
     beforeEach(^{
         testConnectionManager = [[TestConnectionManager alloc] init];
-        streamingLifecycleManager = [[SDLStreamingMediaAudioLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration];
+        streamingLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration];
     });
 
     it(@"should initialize properties", ^{
