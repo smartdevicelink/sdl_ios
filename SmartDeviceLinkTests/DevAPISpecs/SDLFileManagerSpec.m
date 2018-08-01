@@ -1,5 +1,6 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <OCMock/OCMock.h>
 
 #import "SDLDeleteFileResponse.h"
 #import "SDLError.h"
@@ -30,6 +31,10 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
 @property (strong, nonatomic) NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *failedFileUploadsCount;
 @property (strong, nonatomic) NSNumber<SDLUInt> *maxFileUploadAttempts;
 @property (strong, nonatomic) NSNumber<SDLUInt> *maxArtworkUploadAttempts;
+
+- (BOOL)sdl_canFileBeUploadedAgain:(nullable SDLFile *)file maxRetryCount:(int)maxRetryCount failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount;
++ (NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)sdl_incrementFailedUploadCountForFileName:(SDLFileName *)fileName failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount;
+
 @end
 
 QuickSpecBegin(SDLFileManagerSpec)
@@ -67,34 +72,6 @@ describe(@"SDLFileManager", ^{
         it(@"should set the maximum number of upload attempts to 1", ^{
             expect(testFileManager.maxFileUploadAttempts).to(equal(@1));
             expect(testFileManager.maxArtworkUploadAttempts).to(equal(@1));
-        });
-    });
-
-    describe(@"setting max upload attempts with the file manager configuration", ^{
-        it(@"should set the max upload attempts to 1 if the configuration properties are not set", ^{
-            SDLFileManagerConfiguration *testFileManagerConfiguration = [[SDLFileManagerConfiguration alloc] init];
-            SDLFileManager *testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
-
-            expect(testFileManager.maxFileUploadAttempts).to(equal(1));
-            expect(testFileManager.maxArtworkUploadAttempts).to(equal(1));
-        });
-
-        it(@"should set the max upload attempts to 1 if retry attempts are disabled", ^{
-            SDLFileManagerConfiguration *testFileManagerConfiguration = [[SDLFileManagerConfiguration alloc] initWithArtworkRetryCount:0 fileRetryCount:0];
-            SDLFileManager *testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
-
-            expect(testFileManager.maxFileUploadAttempts).to(equal(1));
-            expect(testFileManager.maxArtworkUploadAttempts).to(equal(1));
-        });
-
-        it(@"should set the max upload attempts to the corresponding file manager configuration retry attempt count + 1", ^{
-            UInt8 artworkRetryCount = 5;
-            UInt8 fileRetryCount = 3;
-            SDLFileManagerConfiguration *testFileManagerConfiguration = [[SDLFileManagerConfiguration alloc] initWithArtworkRetryCount:artworkRetryCount fileRetryCount:fileRetryCount];
-            SDLFileManager *testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
-
-            expect(testFileManager.maxArtworkUploadAttempts).to(equal((artworkRetryCount + 1)));
-            expect(testFileManager.maxFileUploadAttempts).to(equal(fileRetryCount + 1));
         });
     });
 
@@ -307,7 +284,7 @@ describe(@"SDLFileManager", ^{
                             });
                         });
 
-                        fcontext(@"when the connection returns failure", ^{
+                        context(@"when the connection returns failure", ^{
                             __block SDLPutFileResponse *testResponse = nil;
                             __block NSNumber *testResponseBytesAvailable = nil;
                             __block NSNumber *testResponseSuccess = nil;
@@ -337,7 +314,7 @@ describe(@"SDLFileManager", ^{
                             });
 
                             it(@"should increment the failure count for the artwork", ^{
-                                expect(testFileManager.failedFileUploadsCount[testFileName]).to(equal(1));
+                                expect(testFileManager.failedFileUploadsCount[testFileName]).toEventually(equal(1));
                             });
                         });
 
@@ -1565,6 +1542,113 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
             expectAction(^{
                 [testFileManager uploadArtworks:[NSArray array] progressHandler:nil completionHandler:nil];
             }).to(raiseException().named([NSException sdl_missingFilesException].name));
+        });
+    });
+});
+
+describe(@"SDLFileManager reupload failed files", ^{
+    describe(@"setting max upload attempts with the file manager configuration", ^{
+        __block SDLFileManager *testFileManager = nil;
+        __block TestConnectionManager *testConnectionManager = nil;
+        __block SDLFileManagerConfiguration *testFileManagerConfiguration = nil;
+
+        it(@"should set the max upload attempts to 1 if the configuration properties are not set", ^{
+            testFileManagerConfiguration = [[SDLFileManagerConfiguration alloc] init];
+            testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
+
+            expect(testFileManager.maxFileUploadAttempts).to(equal(1));
+            expect(testFileManager.maxArtworkUploadAttempts).to(equal(1));
+        });
+
+        it(@"should set the max upload attempts to 1 if retry attempts are disabled", ^{
+            testFileManagerConfiguration = [[SDLFileManagerConfiguration alloc] initWithArtworkRetryCount:0 fileRetryCount:0];
+            testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
+
+            expect(testFileManager.maxFileUploadAttempts).to(equal(1));
+            expect(testFileManager.maxArtworkUploadAttempts).to(equal(1));
+        });
+
+        it(@"should set the max upload attempts to the corresponding file manager configuration retry attempt count + 1", ^{
+            UInt8 artworkRetryCount = 5;
+            UInt8 fileRetryCount = 3;
+            testFileManagerConfiguration = [[SDLFileManagerConfiguration alloc] initWithArtworkRetryCount:artworkRetryCount fileRetryCount:fileRetryCount];
+            testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
+
+            expect(testFileManager.maxArtworkUploadAttempts).to(equal((artworkRetryCount + 1)));
+            expect(testFileManager.maxFileUploadAttempts).to(equal(fileRetryCount + 1));
+        });
+    });
+
+    describe(@"updating the failed upload count", ^{
+        __block NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *testFailedFileUploadsCount = nil;
+        __block NSString *testFileName = @"Test File Cat";
+
+        beforeEach(^{
+            testFailedFileUploadsCount = [NSMutableDictionary dictionary];
+
+            expect(testFailedFileUploadsCount).to(beEmpty());
+        });
+
+        it(@"should correctly add a file name", ^{
+            testFailedFileUploadsCount = [SDLFileManager sdl_incrementFailedUploadCountForFileName:testFileName failedFileUploadsCount:testFailedFileUploadsCount];
+
+            expect(testFailedFileUploadsCount[testFileName]).to(equal(1));
+        });
+
+        it(@"should correctly increment the count for a file name", ^{
+            testFailedFileUploadsCount[testFileName] = @1;
+            testFailedFileUploadsCount = [SDLFileManager sdl_incrementFailedUploadCountForFileName:testFileName failedFileUploadsCount:testFailedFileUploadsCount];
+
+            expect(testFailedFileUploadsCount[testFileName]).to(equal(2));
+        });
+    });
+
+    describe(@"checking if a failed upload can be uploaded again", ^{
+        __block NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *testFailedFileUploadsCount = nil;
+        __block NSString *testFileName = @"Test File Dog";
+        __block SDLFile *testFile = nil;
+        __block SDLFileManager *mockFileManager = nil;
+
+        beforeEach(^{
+            mockFileManager = OCMClassMock([SDLFileManager class]);
+            testFailedFileUploadsCount = [NSMutableDictionary dictionary];
+            testFile = [[SDLFile alloc] initWithData:[@"someData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin" persistent:false];
+        });
+
+        it(@"should not upload a file that is already uploaded", ^{
+            OCMStub([mockFileManager hasUploadedFile:testFile]).andReturn(YES);
+            BOOL canUploadAgain = [mockFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:5 failedFileUploadsCount:testFailedFileUploadsCount];
+            expect(canUploadAgain).to(beFalse());
+        });
+
+        it(@"should not upload a file that is nil", ^{
+            testFile = nil;
+            BOOL canUploadAgain = [mockFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:5 failedFileUploadsCount:testFailedFileUploadsCount];
+            expect(canUploadAgain).to(beFalse());
+        });
+
+        it(@"should not upload a file that has already been uploaded the max number of times", ^{
+            testFailedFileUploadsCount[testFileName] = @4;
+
+            OCMStub([mockFileManager hasUploadedFile:testFile]).andReturn(NO);
+            BOOL canUploadAgain = [mockFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:4 failedFileUploadsCount:testFailedFileUploadsCount];
+            expect(canUploadAgain).to(beFalse());
+        });
+
+        it(@"should upload a file that has not yet failed to upload", ^{
+            testFailedFileUploadsCount = [NSMutableDictionary dictionary];
+
+            OCMStub([mockFileManager hasUploadedFile:testFile]).andReturn(NO);
+            BOOL canUploadAgain = [mockFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:2 failedFileUploadsCount:testFailedFileUploadsCount];
+            expect(canUploadAgain).to(beTrue());
+        });
+
+        it(@"should upload a file that has not been uploaded the max number of times", ^{
+            testFailedFileUploadsCount[testFileName] = @2;
+
+            OCMStub([mockFileManager hasUploadedFile:testFile]).andReturn(NO);
+            BOOL canUploadAgain = [mockFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:4 failedFileUploadsCount:testFailedFileUploadsCount];
+            expect(canUploadAgain).to(beTrue());
         });
     });
 });
