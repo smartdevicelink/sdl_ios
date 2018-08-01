@@ -181,7 +181,7 @@ NS_ASSUME_NONNULL_BEGIN
             if (error != nil) {
                 SDLShow *showWithGraphics = [self sdl_extractUploadedImagesFromShow:fullShow primaryGraphic:self.primaryGraphic secondaryGraphic:self.secondaryGraphic];
                 if (showWithGraphics != nil) {
-                    SDLLogE(@"Some images failed to upload. Sending update with the successfully uploaded images");
+                    SDLLogW(@"Some images failed to upload. Sending update with the successfully uploaded images");
                     self.inProgressUpdate = showWithGraphics;
                 } else {
                     SDLLogE(@"All images failed to upload. No graphics to show, skipping update.");
@@ -204,6 +204,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     if (self.inProgressUpdate == nil) { return; }
+
     [self.connectionManager sendConnectionRequest:self.inProgressUpdate withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogD(@"Text and Graphic update completed");

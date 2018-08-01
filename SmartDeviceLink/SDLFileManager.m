@@ -106,6 +106,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 - (void)stop {
     [self.stateMachine transitionToState:SDLFileManagerStateShutdown];
 
+    // Clear the failed uploads tracking so failed files can be uploaded again when a new connection has been established with Core
     _failedFileUploadsCount = [NSMutableDictionary dictionary];
 }
 
@@ -342,35 +343,6 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     });
 }
 
-/**
- *  Computes the total amount of bytes to be uploaded to the remote. This total is computed by summing up the file size of all files to be uploaded to the remote
- *
- *  @param files All the files being uploaded to the remote
- *  @return The total byte count
- */
-- (float)sdl_totalBytesToUpload:(NSArray<SDLFile *> *)files {
-    float totalBytes = 0.0;
-    for(SDLFile *file in files) {
-        totalBytes += file.fileSize;
-    }
-
-    return totalBytes;
-}
-
-/**
- * Computes the percentage of files uploaded to the remote. This percentage is a decimal number between 0.0 - 1.0. It is calculated by dividing the total number of bytes in files successfully or unsuccessfully uploaded by the total number of bytes in all files to be uploaded.
- *
- *  @param totalBytes      The total number of bytes in all files to be uploaded
- *  @param uploadedBytes   The total number of bytes in files successfully or unsuccessfully uploaded
- *  @return                The upload percentage
- */
-- (float)sdl_uploadPercentage:(float)totalBytes uploadedBytes:(float)uploadedBytes {
-    if (totalBytes == 0 || uploadedBytes == 0) {
-        return 0.0;
-    }
-    return uploadedBytes / totalBytes;
-}
-
 - (void)uploadFile:(SDLFile *)file completionHandler:(nullable SDLFileManagerUploadCompletionHandler)handler {
     if (file == nil || file.data.length == 0) {
         if (handler != nil) {
@@ -422,6 +394,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
             [weakSelf.uploadedEphemeralFileNames addObject:fileName];
         } else {
             [self sdl_incrementUploadCountForFileName:file.name];
+
             NSNumber *maxRetryCount = [file isKindOfClass:[SDLArtwork class]] ? self.maxArtworkUploadAttempts : self.maxFileUploadAttempts;
             if ([self sdl_canFileBeUploadedAgain:file maxRetryCount:(int)maxRetryCount.integerValue]) {
                 SDLLogV(@"Attempting to resend file with name %@ after a failed upload attempt", file.name);
@@ -447,7 +420,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 - (void)uploadArtwork:(SDLArtwork *)artwork completionHandler:(nullable SDLFileManagerUploadArtworkCompletionHandler)completion {
     [self uploadFile:artwork completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
         if (completion == nil) { return; }
-        if ([self isErrorACannotOverwriteError:error]) {
+        if ([self sdl_isErrorACannotOverwriteError:error]) {
             // Artwork with same name already uploaded to remote
             return completion(true, artwork.name, bytesAvailable, nil);
         }
@@ -466,7 +439,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
     [self uploadFiles:artworks progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
         if (progressHandler == nil) { return YES; }
-        if ([self isErrorACannotOverwriteError:error]) {
+        if ([self sdl_isErrorACannotOverwriteError:error]) {
             return progressHandler(fileName, uploadPercentage, nil);
         }
         return progressHandler(fileName, uploadPercentage, error);
@@ -481,7 +454,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
         if (error != nil) {
             for (NSString *erroredArtworkName in error.userInfo) {
-                if (![self isErrorACannotOverwriteError:[error.userInfo objectForKey:erroredArtworkName]]) {
+                if (![self sdl_isErrorACannotOverwriteError:[error.userInfo objectForKey:erroredArtworkName]]) {
                     [successfulArtworkUploadNames removeObject:erroredArtworkName];
                 } else {
                     // An overwrite error means that an artwork with the same name is already uploaded to the remote
@@ -494,12 +467,51 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     }];
 }
 
-- (BOOL)isErrorACannotOverwriteError:(NSError * _Nullable)error {
+#pragma mark Helpers
+
+/**
+ *  Checks an error returned by Core to see if it is a "can not overwrite" error.
+ *
+ *  @param error    The error returned by SDL Core
+ *  @return         True if the error is an overwrite error; false if not
+ */
+- (BOOL)sdl_isErrorACannotOverwriteError:(NSError * _Nullable)error {
     if (error != nil && error.domain == SDLErrorDomainFileManager && error.code == SDLFileManagerErrorCannotOverwrite) {
         return YES;
     }
     return NO;
 }
+
+/**
+ *  Computes the total amount of bytes to be uploaded to the remote. This total is computed by summing up the file size of all files to be uploaded to the remote
+ *
+ *  @param files All the files being uploaded to the remote
+ *  @return The total byte count
+ */
+- (float)sdl_totalBytesToUpload:(NSArray<SDLFile *> *)files {
+    float totalBytes = 0.0;
+    for(SDLFile *file in files) {
+        totalBytes += file.fileSize;
+    }
+
+    return totalBytes;
+}
+
+/**
+ * Computes the percentage of files uploaded to the remote. This percentage is a decimal number between 0.0 - 1.0. It is calculated by dividing the total number of bytes in files successfully or unsuccessfully uploaded by the total number of bytes in all files to be uploaded.
+ *
+ *  @param totalBytes      The total number of bytes in all files to be uploaded
+ *  @param uploadedBytes   The total number of bytes in files successfully or unsuccessfully uploaded
+ *  @return                The upload percentage
+ */
+- (float)sdl_uploadPercentage:(float)totalBytes uploadedBytes:(float)uploadedBytes {
+    if (totalBytes == 0 || uploadedBytes == 0) {
+        return 0.0;
+    }
+    return uploadedBytes / totalBytes;
+}
+
+#pragma mark Reuploads
 
 /**
  *  Checks if an artwork needs to be uploaded to Core. The arwork should not be sent to Core if the artwork is already on Core or if the artwork is not on Core after the maximum number of repeated upload attempts has been reached.

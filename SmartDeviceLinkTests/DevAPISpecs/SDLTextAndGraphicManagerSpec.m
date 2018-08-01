@@ -801,9 +801,10 @@ describe(@"text and graphic manager", ^{
 
                         OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
                         NSArray<NSString *> *testSuccessfulArtworks = @[];
-                        NSError *testError = [NSError errorWithDomain:@"errorDomain" code:9 userInfo:@{testArtwork1.name:@"error 1",
-                                                                                              testArtwork2.name:@"error 2"
-                                                                                              }];
+                        NSError *testError = [NSError errorWithDomain:@"errorDomain"
+                                                                 code:9
+                                                             userInfo:@{testArtwork1.name:@"error 1", testArtwork2.name:@"error 2"}
+                                              ];
                         OCMStub([mockFileManager uploadArtworks:[OCMArg isNotNil] completionHandler:([OCMArg invokeBlockWithArgs:testSuccessfulArtworks, testError, nil])]);
                         [testManager updateWithCompletionHandler:nil];
 

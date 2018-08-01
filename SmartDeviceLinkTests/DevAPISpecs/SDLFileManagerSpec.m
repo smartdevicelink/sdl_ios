@@ -27,6 +27,7 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
 @interface SDLFileManager ()
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 @property (strong, nonatomic) NSMutableSet<SDLFileName *> *uploadedEphemeralFileNames;
+@property (strong, nonatomic) NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *failedFileUploadsCount;
 @property (strong, nonatomic) NSNumber<SDLUInt> *maxFileUploadAttempts;
 @property (strong, nonatomic) NSNumber<SDLUInt> *maxArtworkUploadAttempts;
 @end
@@ -66,6 +67,34 @@ describe(@"SDLFileManager", ^{
         it(@"should set the maximum number of upload attempts to 1", ^{
             expect(testFileManager.maxFileUploadAttempts).to(equal(@1));
             expect(testFileManager.maxArtworkUploadAttempts).to(equal(@1));
+        });
+    });
+
+    describe(@"setting max upload attempts with the file manager configuration", ^{
+        it(@"should set the max upload attempts to 1 if the configuration properties are not set", ^{
+            SDLFileManagerConfiguration *testFileManagerConfiguration = [[SDLFileManagerConfiguration alloc] init];
+            SDLFileManager *testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
+
+            expect(testFileManager.maxFileUploadAttempts).to(equal(1));
+            expect(testFileManager.maxArtworkUploadAttempts).to(equal(1));
+        });
+
+        it(@"should set the max upload attempts to 1 if retry attempts are disabled", ^{
+            SDLFileManagerConfiguration *testFileManagerConfiguration = [[SDLFileManagerConfiguration alloc] initWithArtworkRetryCount:0 fileRetryCount:0];
+            SDLFileManager *testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
+
+            expect(testFileManager.maxFileUploadAttempts).to(equal(1));
+            expect(testFileManager.maxArtworkUploadAttempts).to(equal(1));
+        });
+
+        it(@"should set the max upload attempts to the corresponding file manager configuration retry attempt count + 1", ^{
+            UInt8 artworkRetryCount = 5;
+            UInt8 fileRetryCount = 3;
+            SDLFileManagerConfiguration *testFileManagerConfiguration = [[SDLFileManagerConfiguration alloc] initWithArtworkRetryCount:artworkRetryCount fileRetryCount:fileRetryCount];
+            SDLFileManager *testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
+
+            expect(testFileManager.maxArtworkUploadAttempts).to(equal((artworkRetryCount + 1)));
+            expect(testFileManager.maxFileUploadAttempts).to(equal(fileRetryCount + 1));
         });
     });
 
@@ -278,7 +307,7 @@ describe(@"SDLFileManager", ^{
                             });
                         });
 
-                        context(@"when the connection returns failure", ^{
+                        fcontext(@"when the connection returns failure", ^{
                             __block SDLPutFileResponse *testResponse = nil;
                             __block NSNumber *testResponseBytesAvailable = nil;
                             __block NSNumber *testResponseSuccess = nil;
@@ -306,6 +335,10 @@ describe(@"SDLFileManager", ^{
                                 expect(@(completionSuccess)).to(equal(testResponseSuccess));
                                 expect(completionError).toEventuallyNot(beNil());
                             });
+
+                            it(@"should increment the failure count for the artwork", ^{
+                                expect(testFileManager.failedFileUploadsCount[testFileName]).to(equal(1));
+                            });
                         });
 
                         context(@"when the connection errors without a response", ^{
@@ -313,7 +346,7 @@ describe(@"SDLFileManager", ^{
                                 [testConnectionManager respondToLastRequestWithResponse:nil error:[NSError sdl_lifecycle_notReadyError]];
                             });
 
-                            xit(@"should have the correct file manager state", ^{
+                            it(@"should have the correct file manager state", ^{
                                 expect(testFileManager.remoteFileNames).to(contain(testFileName));
                                 expect(testFileManager.currentState).to(match(SDLFileManagerStateReady));
                             });
@@ -585,7 +618,8 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
 
     beforeEach(^{
         testConnectionManager = [[TestMultipleFilesConnectionManager alloc] init];
-        testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager];
+        SDLFileManagerConfiguration *testFileManagerConfiguration = [[SDLFileManagerConfiguration alloc] initWithArtworkRetryCount:0 fileRetryCount:0];
+        testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
         initialSpaceAvailable = 66666;
     });
 
