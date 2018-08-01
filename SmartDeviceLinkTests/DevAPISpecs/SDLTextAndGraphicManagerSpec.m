@@ -95,7 +95,7 @@ describe(@"text and graphic manager", ^{
 
                 expect(testManager.textField1).to(equal(testString));
                 expect(testManager.inProgressUpdate).to(beNil());
-                expect(testManager.isDirty).to(beFalse());
+                expect(testManager.isDirty).to(beTrue());
             });
         });
 
@@ -109,7 +109,7 @@ describe(@"text and graphic manager", ^{
 
                 expect(testManager.textField1).to(equal(testString));
                 expect(testManager.inProgressUpdate).to(beNil());
-                expect(testManager.isDirty).to(beFalse());
+                expect(testManager.isDirty).to(beTrue());
             });
         });
 

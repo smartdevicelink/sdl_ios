@@ -24,6 +24,7 @@ class ProxyManager: NSObject {
     fileprivate var sdlManager: SDLManager!
     fileprivate var buttonManager: ButtonManager!
     fileprivate var vehicleDataManager: VehicleDataManager!
+    fileprivate var performInteractionManager: PerformInteractionManager!
     fileprivate var firstHMILevelState: SDLHMILevel
     weak var delegate: ProxyManagerDelegate?
 
@@ -83,12 +84,19 @@ private extension ProxyManager {
     /// - Returns: A SDLConfiguration object
     class func setupManagerConfiguration(with lifecycleConfiguration: SDLLifecycleConfiguration) -> SDLConfiguration {
         lifecycleConfiguration.shortAppName = ExampleAppNameShort
-        let appIcon = UIImage(named: ExampleAppLogoName)
+        let appIcon = UIImage(named: ExampleAppLogoName)?.withRenderingMode(.alwaysOriginal)
         lifecycleConfiguration.appIcon = appIcon != nil ? SDLArtwork(image: appIcon!, persistent: true, as: .PNG) : nil
         lifecycleConfiguration.appType = .default
         lifecycleConfiguration.language = .enUs
         lifecycleConfiguration.languagesSupported = [.enUs, .esMx, .frCa]
         lifecycleConfiguration.ttsName = [SDLTTSChunk(text: "S D L", type: .text)]
+
+        let green = SDLRGBColor(red: 126, green: 188, blue: 121)
+        let white = SDLRGBColor(red: 249, green: 251, blue: 254)
+        let grey = SDLRGBColor(red: 186, green: 198, blue: 210)
+        let darkGrey = SDLRGBColor(red: 57, green: 78, blue: 96)
+        lifecycleConfiguration.dayColorScheme = SDLTemplateColorScheme(primaryRGBColor: green, secondaryRGBColor: grey, backgroundRGBColor: white)
+        lifecycleConfiguration.nightColorScheme = SDLTemplateColorScheme(primaryRGBColor: green, secondaryRGBColor: grey, backgroundRGBColor: darkGrey)
 
         let lockScreenConfiguration = appIcon != nil ? SDLLockScreenConfiguration.enabledConfiguration(withAppIcon: appIcon!, backgroundColor: nil) : SDLLockScreenConfiguration.enabled()
         return SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: lockScreenConfiguration, logging: logConfiguration(), fileManager:.default())
@@ -119,6 +127,7 @@ private extension ProxyManager {
 
             self.buttonManager = ButtonManager(sdlManager: self.sdlManager, updateScreenHandler: self.refreshUIHandler)
             self.vehicleDataManager = VehicleDataManager(sdlManager: self.sdlManager, refreshUIHandler: self.refreshUIHandler)
+            self.performInteractionManager = PerformInteractionManager(sdlManager: self.sdlManager)
 
             RPCPermissionsManager.setupPermissionsCallbacks(with: self.sdlManager)
 
@@ -152,7 +161,7 @@ extension ProxyManager: SDLManagerDelegate {
             firstHMILevelState = newLevel
 
             // Send static menu items. Menu related RPCs can be sent at all `hmiLevel`s except `NONE`
-            createStaticMenus()
+            createMenuAndGlobalVoiceCommands()
             vehicleDataManager.subscribeToVehicleOdometer()
         }
 
@@ -231,6 +240,9 @@ private extension ProxyManager {
     /// Set the template and create the UI
     func showInitialData() {
         guard sdlManager.hmiLevel == .full else { return }
+        
+        let setDisplayLayout = SDLSetDisplayLayout(predefinedLayout: .nonMedia)
+        sdlManager.send(setDisplayLayout)
 
         updateScreen()
         sdlManager.screenManager.softButtonObjects = buttonManager.allScreenSoftButtons(with: sdlManager)
@@ -251,7 +263,15 @@ private extension ProxyManager {
         screenManager.textField3 = isTextVisible ? vehicleDataManager.vehicleOdometerData : nil
 
         if sdlManager.systemCapabilityManager.displayCapabilities?.graphicSupported.boolValue ?? false {
-            screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!, persistent: false, as: .PNG) : nil
+            // Primary graphic
+            if imageFieldSupported(imageFieldName: .graphic) {
+                screenManager.primaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: ExampleAppLogoName)!.withRenderingMode(.alwaysOriginal), persistent: false, as: .PNG) : nil
+            }
+
+            // Secondary graphic
+            if imageFieldSupported(imageFieldName: .secondaryGraphic) {
+                screenManager.secondaryGraphic = areImagesVisible ? SDLArtwork(image: UIImage(named: CarBWIconImageName)!, persistent: false, as: .PNG) : nil
+            }
         }
         
         screenManager.endUpdates(completionHandler: { (error) in
@@ -261,25 +281,21 @@ private extension ProxyManager {
     }
 
     /// Send static menu data
-    func createStaticMenus() {
+    func createMenuAndGlobalVoiceCommands() {
         // Send the root menu items
         let screenManager = sdlManager.screenManager
-        let menuItems = MenuManager.allMenuItems(with: sdlManager)
+        let menuItems = MenuManager.allMenuItems(with: sdlManager, choiceSetManager: performInteractionManager)
         let voiceMenuItems = MenuManager.allVoiceMenuItems(with: sdlManager)
 
-        screenManager.beginUpdates()
         if !menuItems.isEmpty { screenManager.menu = menuItems }
         if !voiceMenuItems.isEmpty { screenManager.voiceCommands = voiceMenuItems }
-        screenManager.endUpdates { (error) in
-            guard error != nil else { return }
-            SDLLog.e("Menu items and voice commands failed to update: \(error!.localizedDescription)")
-        }
+    }
 
-        // Send the choice sets
-        sdlManager.send([PerformInteractionManager.createInteractionChoiceSet()], progressHandler: { (request, response, error, percentComplete) in
-            SDLLog.d("\(request), was sent \(response?.resultCode == .success ? "successfully" : "unsuccessfully"), error: \(error?.localizedDescription ?? "no error message")")
-        }, completionHandler: { (success) in
-            SDLLog.d("All prepare remote system requests sent \(success ? "successfully" : "unsuccessfully")")
-        })
+    /// Checks if SDL Core's HMI current template supports the template image field (i.e. primary graphic, secondary graphic, etc.)
+    ///
+    /// - Parameter imageFieldName: The name for the image field
+    /// - Returns:                  True if the image field is supported, false if not
+    func imageFieldSupported(imageFieldName: SDLImageFieldName) -> Bool {
+        return sdlManager.systemCapabilityManager.displayCapabilities?.imageFields?.first { $0.name == imageFieldName } != nil ? true : false
     }
 }

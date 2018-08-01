@@ -12,7 +12,8 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManagerDataSource.h"
-#import "SDLStreamingMediaLifecycleManager.h"
+#import "SDLStreamingAudioLifecycleManager.h"
+#import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLTouchManager.h"
 
 
@@ -20,7 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLStreamingMediaManager ()
 
-@property (strong, nonatomic) SDLStreamingMediaLifecycleManager *lifecycleManager;
+@property (strong, nonatomic) SDLStreamingAudioLifecycleManager *audioLifecycleManager;
+@property (strong, nonatomic) SDLStreamingVideoLifecycleManager *videoLifecycleManager;
 
 @end
 
@@ -36,101 +38,105 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
     
-    _lifecycleManager = [[SDLStreamingMediaLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
+    _audioLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
+    _videoLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
 
     return self;
 }
 
 - (void)startWithProtocol:(SDLProtocol *)protocol {
-    [self.lifecycleManager startWithProtocol:protocol];
+    [self.audioLifecycleManager startWithProtocol:protocol];
+    [self.videoLifecycleManager startWithProtocol:protocol];
 }
 
 - (void)stop {
-    [self.lifecycleManager stop];
+    [self.audioLifecycleManager stop];
+    [self.videoLifecycleManager stop];
 }
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
-    return [self.lifecycleManager sendVideoData:imageBuffer];
+    return [self.videoLifecycleManager sendVideoData:imageBuffer];
 }
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp {
-    return [self.lifecycleManager sendVideoData:imageBuffer presentationTimestamp:presentationTimestamp];
+    return [self.videoLifecycleManager sendVideoData:imageBuffer presentationTimestamp:presentationTimestamp];
 }
 
 - (BOOL)sendAudioData:(NSData*)audioData {
-    return [self.lifecycleManager sendAudioData:audioData];
+    return [self.audioLifecycleManager sendAudioData:audioData];
 }
 
 
 #pragma mark - Getters
 
 - (SDLTouchManager *)touchManager {
-    return self.lifecycleManager.touchManager;
+    return self.videoLifecycleManager.touchManager;
 }
 
 - (SDLAudioStreamManager *)audioManager {
-    return self.lifecycleManager.audioManager;
+    return self.audioLifecycleManager.audioManager;
 }
 
 - (UIViewController *)rootViewController {
-    return self.lifecycleManager.rootViewController;
+    return self.videoLifecycleManager.rootViewController;
 }
 
 - (nullable id<SDLFocusableItemLocatorType>)focusableItemManager {
-    return self.lifecycleManager.focusableItemManager;
+    return self.videoLifecycleManager.focusableItemManager;
 }
 
 - (BOOL)isStreamingSupported {
-    return self.lifecycleManager.isStreamingSupported;
+    return self.videoLifecycleManager.isStreamingSupported;
 }
 
 - (BOOL)isAudioConnected {
-    return self.lifecycleManager.isAudioConnected;
+    return self.audioLifecycleManager.isAudioConnected;
 }
 
 - (BOOL)isVideoConnected {
-    return self.lifecycleManager.isVideoConnected;
+    return self.videoLifecycleManager.isVideoConnected;
 }
 
 - (BOOL)isAudioEncrypted {
-    return self.lifecycleManager.isAudioEncrypted;
+    return self.audioLifecycleManager.isAudioEncrypted;
 }
 
 - (BOOL)isVideoEncrypted {
-    return self.lifecycleManager.isVideoEncrypted;
+    return self.videoLifecycleManager.isVideoEncrypted;
 }
     
 - (BOOL)isVideoStreamingPaused {
-    return self.lifecycleManager.isVideoStreamingPaused;
+    return self.videoLifecycleManager.isVideoStreamingPaused;
 }
 
 - (CGSize)screenSize {
-    return self.lifecycleManager.screenSize;
+    return self.videoLifecycleManager.screenSize;
 }
 
 - (nullable SDLVideoStreamingFormat *)videoFormat {
-    return self.lifecycleManager.videoFormat;
+    return self.videoLifecycleManager.videoFormat;
 }
 
 - (NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
-    return self.lifecycleManager.supportedFormats;
+    return self.videoLifecycleManager.supportedFormats;
 }
 
 - (CVPixelBufferPoolRef __nullable)pixelBufferPool {
-    return self.lifecycleManager.pixelBufferPool;
+    return self.videoLifecycleManager.pixelBufferPool;
 }
 
 - (SDLStreamingEncryptionFlag)requestedEncryptionType {
-    return self.lifecycleManager.requestedEncryptionType;
+    return self.videoLifecycleManager.requestedEncryptionType;
 }
 
 #pragma mark - Setters
 - (void)setRootViewController:(UIViewController *)rootViewController {
-    self.lifecycleManager.rootViewController = rootViewController;
+    self.videoLifecycleManager.rootViewController = rootViewController;
 }
 
 - (void)setRequestedEncryptionType:(SDLStreamingEncryptionFlag)requestedEncryptionType {
-    self.lifecycleManager.requestedEncryptionType = requestedEncryptionType;
+    self.videoLifecycleManager.requestedEncryptionType = requestedEncryptionType;
+    self.audioLifecycleManager.requestedEncryptionType = requestedEncryptionType;
 }
 
 @end

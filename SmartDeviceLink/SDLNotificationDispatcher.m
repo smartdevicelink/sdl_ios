@@ -325,6 +325,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCNotificationNotification:SDLDidChangePermissionsNotification notification:notification];
 }
 
+- (void)onOnRCStatus:(SDLOnRCStatus *)notification {
+    [self postRPCNotificationNotification:SDLDidReceiveRemoteControlStatusNotification notification:notification];
+}
+
 - (void)onOnSyncPData:(SDLOnSyncPData *)notification {
     [self postRPCNotificationNotification:SDLDidReceiveSystemRequestNotification notification:notification];
 }

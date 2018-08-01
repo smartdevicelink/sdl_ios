@@ -302,12 +302,12 @@ describe(@"System capability manager", ^{
 
                     waitUntilTimeout(1.0, ^(void (^done)(void)) {
                         [testSystemCapabilityManager updateCapabilityType:testGetSystemCapabilityResponse.systemCapability.systemCapabilityType completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
-                            expect(error).to(equal(testError));
+                            expect(error).to(equal(testConnectionManager.defaultError));
                             expect(systemCapabilityManager.phoneCapability).to(beNil());
                             done();
                         }];
 
-                        [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse error:testError];
+                        [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
                     });
                 });
 
@@ -324,7 +324,7 @@ describe(@"System capability manager", ^{
                         // The handler will not be notifified
                     }];
 
-                    [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse error:nil];
+                    [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
                 });
 
                 it(@"should not save the capabilities because a successful Get System Capability Response notification will be intercepted by the manager and be handled there", ^{

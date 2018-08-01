@@ -22,6 +22,7 @@ extern SDLErrorDomain *const SDLErrorDomainFileManager;
 extern SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager;
 extern SDLErrorDomain *const SDLErrorDomainSoftButtonManager;
 extern SDLErrorDomain *const SDLErrorDomainMenuManager;
+extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
 
 @interface NSError (SDLErrors)
 
@@ -57,6 +58,12 @@ extern SDLErrorDomain *const SDLErrorDomainMenuManager;
 #pragma mark Menu Manager
 
 + (NSError *)sdl_menuManager_failedToUpdateWithDictionary:(NSDictionary *)userInfo;
+
+#pragma mark Choice Set Manager
+
++ (NSError *)sdl_choiceSetManager_choicesDeletedBeforePresentation:(NSDictionary *)userInfo;
++ (NSError *)sdl_choiceSetManager_choiceDeletionFailed:(NSDictionary *)userInfo;
++ (NSError *)sdl_choiceSetManager_choiceUploadFailed:(NSDictionary *)userInfo;
 
 @end
 

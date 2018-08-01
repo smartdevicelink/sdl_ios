@@ -10,6 +10,8 @@
 
 @interface SDLAsynchronousOperation : NSOperation
 
+@property (copy, nonatomic, readonly, nullable) NSError *error;
+
 - (void)finishOperation;
 
 @end

@@ -41,8 +41,8 @@ extern SDLImageFieldName const SDLImageFieldNameTurnIcon;
  */
 extern SDLImageFieldName const SDLImageFieldNameMenuIcon;
 
-/**
- The image filed for AddCommand.
+/** The image field for AddCommand.
+ *
  */
 extern SDLImageFieldName const SDLImageFieldNameCommandIcon;
 
@@ -51,13 +51,18 @@ extern SDLImageFieldName const SDLImageFieldNameCommandIcon;
  */
 extern SDLImageFieldName const SDLImageFieldNameAppIcon;
 
-/**
- The image filed for Show.
+/** The primary image field for Show.
+ *
  */
 extern SDLImageFieldName const SDLImageFieldNameGraphic;
 
-/**
- The primary image field for ShowConstant TBT.
+/** The secondary image field for Show.
+ *
+ */
+extern SDLImageFieldName const SDLImageFieldNameSecondaryGraphic;
+
+/** The primary image field for ShowConstant TBT.
+ *
  */
 extern SDLImageFieldName const SDLImageFieldNameShowConstantTBTIcon;
 

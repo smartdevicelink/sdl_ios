@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "SDLTriggerSource.h"
 
 @class SDLCreateInteractionChoiceSet;
@@ -16,8 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PerformInteractionManager : NSObject
 
-+ (SDLCreateInteractionChoiceSet *)createInteractionChoiceSet;
-+ (void)showPerformInteractionChoiceSetWithManager:(SDLManager *)manager triggerSource:(SDLTriggerSource)triggerSource;
+- (instancetype)initWithManager:(SDLManager *)manager;
+- (void)showWithTriggerSource:(SDLTriggerSource)source;
 
 @end
 

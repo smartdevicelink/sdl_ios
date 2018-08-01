@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "0940"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5D4346601E6F38E600B639C6"
+               BlueprintIdentifier = "88802CD720853AE600E9EBC6"
                BuildableName = "SmartDeviceLinkSwift.framework"
                BlueprintName = "SmartDeviceLinkSwift"
                ReferencedContainer = "container:SmartDeviceLink-iOS.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5D4346601E6F38E600B639C6"
+            BlueprintIdentifier = "88802CD720853AE600E9EBC6"
             BuildableName = "SmartDeviceLinkSwift.framework"
             BlueprintName = "SmartDeviceLinkSwift"
             ReferencedContainer = "container:SmartDeviceLink-iOS.xcodeproj">
@@ -63,7 +63,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5D4346601E6F38E600B639C6"
+            BlueprintIdentifier = "88802CD720853AE600E9EBC6"
             BuildableName = "SmartDeviceLinkSwift.framework"
             BlueprintName = "SmartDeviceLinkSwift"
             ReferencedContainer = "container:SmartDeviceLink-iOS.xcodeproj">

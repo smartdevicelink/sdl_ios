@@ -12,6 +12,7 @@
 #import "SDLLifecycleConfiguration.h"
 #import "SDLNames.h"
 #import "SDLSyncMsgVersion.h"
+#import "SDLTemplateColorScheme.h"
 #import "SDLTTSChunk.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -36,7 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
                          ttsName:lifecycleConfiguration.ttsName
                       vrSynonyms:lifecycleConfiguration.voiceRecognitionCommandNames
        hmiDisplayLanguageDesired:lifecycleConfiguration.language
-                      resumeHash:lifecycleConfiguration.resumeHash];
+                      resumeHash:lifecycleConfiguration.resumeHash
+                  dayColorScheme:lifecycleConfiguration.dayColorScheme
+                nightColorScheme:lifecycleConfiguration.nightColorScheme];
 }
 
 - (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired {
@@ -48,11 +51,13 @@ NS_ASSUME_NONNULL_BEGIN
     self.appName = appName;
     self.appID = appId;
     self.languageDesired = languageDesired;
+    self.hmiDisplayLanguageDesired = languageDesired;
     
     self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:1 minorVersion:0 patchVersion:0];
     self.appInfo = [SDLAppInfo currentAppInfo];
     self.deviceInfo = [SDLDeviceInfo currentDevice];
     self.correlationID = @1;
+    self.isMediaApplication = @NO;
     
     return self;
 }
@@ -80,6 +85,20 @@ NS_ASSUME_NONNULL_BEGIN
     self.vrSynonyms = [vrSynonyms copy];
     self.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
     self.hashID = resumeHash;
+
+    return self;
+}
+
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
+    self = [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
+    if (!self) { return nil; }
+
+    self.ttsName = [ttsName copy];
+    self.vrSynonyms = [vrSynonyms copy];
+    self.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
+    self.hashID = resumeHash;
+    self.dayColorScheme = dayColorScheme;
+    self.nightColorScheme = nightColorScheme;
 
     return self;
 }
@@ -186,6 +205,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLAppInfo *)appInfo {
     return [parameters sdl_objectForName:SDLNameAppInfo ofClass:SDLAppInfo.class];
+}
+
+- (void)setDayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme {
+    [parameters sdl_setObject:dayColorScheme forName:SDLNameDayColorScheme];
+}
+
+- (nullable SDLTemplateColorScheme *)dayColorScheme {
+    return [parameters sdl_objectForName:SDLNameDayColorScheme ofClass:[SDLTemplateColorScheme class]];
+}
+
+- (void)setNightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
+    [parameters sdl_setObject:nightColorScheme forName:SDLNameNightColorScheme];
+}
+
+- (nullable SDLTemplateColorScheme *)nightColorScheme {
+    return [parameters sdl_objectForName:SDLNameNightColorScheme ofClass:[SDLTemplateColorScheme class]];
 }
 
 @end

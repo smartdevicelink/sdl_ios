@@ -19,6 +19,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) SDLRequestType requestType;
 
 /**
+ A request subType used when the `requestType` is `OEM_SPECIFIC`.
+
+ Optional, Max length 255
+ */
+@property (strong, nonatomic, nullable) NSString *requestSubType;
+
+/**
  Optional URL for HTTP requests. If blank, the binary data shall be forwarded to the app. If not blank, the binary data shall be forwarded to the url with a provided timeout in seconds.
  */
 @property (nullable, strong, nonatomic) NSString *url;

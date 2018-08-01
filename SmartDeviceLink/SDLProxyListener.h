@@ -39,6 +39,7 @@
 @class SDLOnLanguageChange;
 @class SDLOnLockScreenStatus;
 @class SDLOnPermissionsChange;
+@class SDLOnRCStatus;
 @class SDLOnSyncPData;
 @class SDLOnSystemRequest;
 @class SDLOnVehicleData;
@@ -355,6 +356,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param notification A SDLOnPermissionsChange object
  */
 - (void)onOnPermissionsChange:(SDLOnPermissionsChange *)notification;
+
+/**
+ *  Called when an On RC Change notification is received from Core
+ *
+ *  @param notification A SDLOnRCStatus object
+ */
+- (void)onOnRCStatus:(SDLOnRCStatus *)notification;
 
 /**
  *  Called when an On Sync P notification is received from Core
