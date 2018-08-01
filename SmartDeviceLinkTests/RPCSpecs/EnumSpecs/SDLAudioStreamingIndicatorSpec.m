@@ -10,7 +10,7 @@
 
 #import "SDLAudioStreamingIndicator.h"
 
-QuickSpecBegin(SDLAmbientLightStatusSpec)
+QuickSpecBegin(SDLAudioStreamingIndicatorStatusSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
