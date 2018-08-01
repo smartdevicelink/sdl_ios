@@ -90,7 +90,7 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
 }
 
 - (void)sdl_stop {
-    NSParameterAssert([NSThread.currentThread isMainThread]);
+    NSAssert(NSThread.isMainThread, @"%@ must only be called on the main thread", NSStringFromSelector(_cmd));
     if (self.isDataSession) {
         [self.ioStreamThread cancel];
 
@@ -138,8 +138,7 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
             if (ostream.streamError != nil) {
                 [self sdl_handleOutputStreamWriteError:ostream.streamError];
             } else {
-                // The write operation failed but there is no further information about the error.
-                // This can occur when disconnecting from an external accessory.
+                // The write operation failed but there is no further information about the error. This can occur when disconnecting from an external accessory.
                 SDLLogE(@"Output stream write operation failed");
             }
         } else if (bytesWritten == bytesRemaining) {

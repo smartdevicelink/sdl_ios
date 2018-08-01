@@ -550,11 +550,11 @@ int const ProtocolIndexTimeoutSeconds = 10;
 - (SDLStreamEndHandler)sdl_dataStreamEndedHandler {
     __weak typeof(self) weakSelf = self;
     return ^(NSStream *stream) {
-        NSAssert(![NSThread.currentThread isMainThread], @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
+        NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         SDLLogD(@"Data stream ended");
-        if (!strongSelf.session) {
+        if (strongSelf.session == nil) {
             SDLLogD(@"Data session is nil");
             return;
         }
@@ -574,7 +574,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 - (SDLStreamHasBytesHandler)sdl_dataStreamHasBytesHandler {
     __weak typeof(self) weakSelf = self;
     return ^(NSInputStream *istream) {
-        NSAssert(![NSThread.currentThread isMainThread], @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
+        NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
         __strong typeof(weakSelf) strongSelf = weakSelf;
         uint8_t buf[[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
         while (istream.streamStatus == NSStreamStatusOpen && istream.hasBytesAvailable) {
@@ -603,7 +603,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 - (SDLStreamErrorHandler)sdl_dataStreamErroredHandler {
     __weak typeof(self) weakSelf = self;
     return ^(NSStream *stream) {
-        NSAssert(![NSThread.currentThread isMainThread], @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
+        NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogE(@"Data stream error");
         dispatch_async(dispatch_get_main_queue(), ^{
