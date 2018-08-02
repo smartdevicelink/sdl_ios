@@ -1547,7 +1547,7 @@ describe(@"SDLFileManager uploading/deleting multiple files", ^{
 });
 
 describe(@"SDLFileManager reupload failed files", ^{
-    describe(@"setting max upload attempts with the file manager configuration", ^{
+    context(@"setting max upload attempts with the file manager configuration", ^{
         __block SDLFileManager *testFileManager = nil;
         __block TestConnectionManager *testConnectionManager = nil;
         __block SDLFileManagerConfiguration *testFileManagerConfiguration = nil;
@@ -1579,9 +1579,9 @@ describe(@"SDLFileManager reupload failed files", ^{
         });
     });
 
-    describe(@"updating the failed upload count", ^{
+    context(@"updating the failed upload count", ^{
         __block NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *testFailedFileUploadsCount = nil;
-        __block NSString *testFileName = @"Test File Cat";
+        __block NSString *testFileName = @"Test File A";
 
         beforeEach(^{
             testFailedFileUploadsCount = [NSMutableDictionary dictionary];
@@ -1603,52 +1603,48 @@ describe(@"SDLFileManager reupload failed files", ^{
         });
     });
 
-    describe(@"checking if a failed upload can be uploaded again", ^{
+    context(@"checking if a failed upload can be uploaded again", ^{
+        __block TestConnectionManager *testConnectionManager = nil;
+        __block SDLFileManager *testFileManager = nil;
+        __block SDLFileManagerConfiguration *testFileManagerConfiguration = nil;
         __block NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *testFailedFileUploadsCount = nil;
-        __block NSString *testFileName = @"Test File Dog";
         __block SDLFile *testFile = nil;
-        __block SDLFileManager *mockFileManager = nil;
+        __block NSString *testFileName = @"Test File B";
 
         beforeEach(^{
-            mockFileManager = OCMClassMock([SDLFileManager class]);
+            testConnectionManager = [[TestConnectionManager alloc] init];
+            testFileManagerConfiguration = [[SDLFileManagerConfiguration alloc] initWithArtworkRetryCount:0 fileRetryCount:0];
+            testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
             testFailedFileUploadsCount = [NSMutableDictionary dictionary];
             testFile = [[SDLFile alloc] initWithData:[@"someData" dataUsingEncoding:NSUTF8StringEncoding] name:testFileName fileExtension:@"bin" persistent:false];
         });
 
-        it(@"should not upload a file that is already uploaded", ^{
-            OCMStub([mockFileManager hasUploadedFile:testFile]).andReturn(YES);
-            BOOL canUploadAgain = [mockFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:5 failedFileUploadsCount:testFailedFileUploadsCount];
-            expect(canUploadAgain).to(beFalse());
+        describe(@"the file cannot be uploaded again", ^{
+            it(@"should not upload a file that is nil", ^{
+                testFile = nil;
+                BOOL canUploadAgain = [testFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:5 failedFileUploadsCount:testFailedFileUploadsCount];
+                expect(canUploadAgain).to(equal(NO));
+            });
+
+            it(@"should not upload a file that has already been uploaded the max number of times", ^{
+                testFailedFileUploadsCount[testFileName] = @4;
+                BOOL canUploadAgain = [testFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:4 failedFileUploadsCount:testFailedFileUploadsCount];
+                expect(canUploadAgain).to(equal(NO));
+            });
         });
 
-        it(@"should not upload a file that is nil", ^{
-            testFile = nil;
-            BOOL canUploadAgain = [mockFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:5 failedFileUploadsCount:testFailedFileUploadsCount];
-            expect(canUploadAgain).to(beFalse());
-        });
+        describe(@"the file can be uploaded again", ^{
+            it(@"should upload a file that has not yet failed to upload", ^{
+                testFailedFileUploadsCount = [NSMutableDictionary dictionary];
+                BOOL canUploadAgain = [testFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:2 failedFileUploadsCount:testFailedFileUploadsCount];
+                expect(canUploadAgain).to(equal(YES));
+            });
 
-        it(@"should not upload a file that has already been uploaded the max number of times", ^{
-            testFailedFileUploadsCount[testFileName] = @4;
-
-            OCMStub([mockFileManager hasUploadedFile:testFile]).andReturn(NO);
-            BOOL canUploadAgain = [mockFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:4 failedFileUploadsCount:testFailedFileUploadsCount];
-            expect(canUploadAgain).to(beFalse());
-        });
-
-        it(@"should upload a file that has not yet failed to upload", ^{
-            testFailedFileUploadsCount = [NSMutableDictionary dictionary];
-
-            OCMStub([mockFileManager hasUploadedFile:testFile]).andReturn(NO);
-            BOOL canUploadAgain = [mockFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:2 failedFileUploadsCount:testFailedFileUploadsCount];
-            expect(canUploadAgain).to(beTrue());
-        });
-
-        it(@"should upload a file that has not been uploaded the max number of times", ^{
-            testFailedFileUploadsCount[testFileName] = @2;
-
-            OCMStub([mockFileManager hasUploadedFile:testFile]).andReturn(NO);
-            BOOL canUploadAgain = [mockFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:4 failedFileUploadsCount:testFailedFileUploadsCount];
-            expect(canUploadAgain).to(beTrue());
+            it(@"should upload a file that has not been reuploaded the max number of times", ^{
+                testFailedFileUploadsCount[testFileName] = @2;
+                BOOL canUploadAgain = [testFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:4 failedFileUploadsCount:testFailedFileUploadsCount];
+                expect(canUploadAgain).to(equal(YES));
+            });
         });
     });
 });
