@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param signalChangeThresholdAvailable Availability of the getting the signal Change Threshold.
  @return An instance of the SDLRadioControlCapabilities class.
  */
-- (instancetype)initWithModuleName:(NSString *)moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDsAvailable:(BOOL)availableHDsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable __deprecated_msg(("Use initWithModuleName:moduleName:radioEnableAvailable radioFrequencyAvailable:hdChannelAvailable:rdsDataAvailable:availableHDsAvailable:stateAvailable:signalStrengthAvailable:signalChangeThresholdAvailable:hdRadioEnableAvailable:siriusXMRadioAvailable: instead"));
+- (instancetype)initWithModuleName:(NSString *)moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDsAvailable:(BOOL)availableHDsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable __deprecated_msg(("Use initWithModuleName:moduleName:radioEnableAvailable radioFrequencyAvailable:hdChannelAvailable:rdsDataAvailable:availableHDsAvailable:stateAvailable:signalStrengthAvailable:signalChangeThresholdAvailable:hdRadioEnableAvailable:siriusXMRadioAvailable:sisDataAvailable: instead"));
 
 /**
  Constructs a newly allocated SDLRadioControlCapabilities object with given parameters.
@@ -43,9 +43,10 @@ NS_ASSUME_NONNULL_BEGIN
  @param signalChangeThresholdAvailable Availability of the getting the signal Change Threshold.
  @param hdRadioEnableAvailable Availability of the control of enable/disable HD radio.
  @param siriusXMRadioAvailable Availability of sirius XM radio.
+ @param sisDataAvailable Availability of sis data.
  @return An instance of the SDLRadioControlCapabilities class
  */
-- (instancetype)initWithModuleName:(NSString *)moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDsAvailable:(BOOL)availableHDsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable hdRadioEnableAvailable:(BOOL)hdRadioEnableAvailable siriusXMRadioAvailable:(BOOL)siriusXMRadioAvailable;
+- (instancetype)initWithModuleName:(NSString *)moduleName radioEnableAvailable:(BOOL)radioEnableAvailable radioBandAvailable:(BOOL)radioBandAvailable radioFrequencyAvailable:(BOOL)radioFrequencyAvailable hdChannelAvailable:(BOOL)hdChannelAvailable rdsDataAvailable:(BOOL)rdsDataAvailable availableHDsAvailable:(BOOL)availableHDsAvailable stateAvailable:(BOOL)stateAvailable signalStrengthAvailable:(BOOL)signalStrengthAvailable signalChangeThresholdAvailable:(BOOL)signalChangeThresholdAvailable hdRadioEnableAvailable:(BOOL)hdRadioEnableAvailable siriusXMRadioAvailable:(BOOL)siriusXMRadioAvailable sisDataAvailable:(BOOL)sisDataAvailable;
 
 /**
  * The short friendly name of the radio control module.
@@ -138,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *signalChangeThresholdAvailable;
 
 /**
- * @abstract Availability of the control of enable/disable HD radio.
+ * Availability of the control of enable/disable HD radio.
  * True: Available, False: Not Available, Not present: Not Available.
  *
  * Optional, Boolean
@@ -146,12 +147,20 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *hdRadioEnableAvailable;
 
 /**
- * @abstract Availability of sirius XM radio.
+ * Availability of sirius XM radio.
  * True: Available, False: Not Available, Not present: Not Available.
  *
  * Optional, Boolean
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *siriusXMRadioAvailable;
+
+/**
+ * Availability of the getting HD radio Station Information Service (SIS) data.
+ * True: Available, False: Not Available, Not present: Not Available.
+ *
+ * Optional, Boolean
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *sisDataAvailable;
 
 @end
 

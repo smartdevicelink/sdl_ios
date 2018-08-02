@@ -20,6 +20,22 @@ extern SDLModuleType const SDLModuleTypeClimate;
 extern SDLModuleType const SDLModuleTypeRadio;
 
 /**
- * @abstract A SDLModuleType with the value of *SEAT*
+ * A SDLModuleType with the value of *SEAT*
  */
 extern SDLModuleType const SDLModuleTypeSeat;
+
+/**
+ * A SDLModuleType with the value of *AUDIO*
+ */
+extern SDLModuleType const SDLModuleTypeAudio;
+
+/**
+ * A SDLModuleType with the value of *LIGHT*
+ */
+extern SDLModuleType const SDLModuleTypeLight;
+
+/**
+ * A SDLModuleType with the value of *HMI_SETTINGS*
+ */
+extern SDLModuleType const SDLModuleTypeHMISettings;
+
