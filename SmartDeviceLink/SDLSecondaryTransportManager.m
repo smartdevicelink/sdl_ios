@@ -37,12 +37,12 @@ typedef NS_ENUM(NSInteger, SDLTransportClass) {
 };
 typedef NSNumber SDLTransportClassBox;
 
-typedef NS_ENUM(NSInteger, SDLTransportSelection) {
-    SDLTransportSelectionDisabled,   // only for Secondary Transport
-    SDLTransportSelectionIAP,
-    SDLTransportSelectionTCP
+typedef NS_ENUM(NSInteger, SDLSecondaryTransportType) {
+    SDLSecondaryTransportTypeDisabled,  // only for Secondary Transport
+    SDLSecondaryTransportTypeIAP,
+    SDLSecondaryTransportTypeTCP
 };
-typedef NSNumber SDLTransportSelectionBox;
+typedef NSNumber SDLSecondaryTransportTypeBox;
 
 SDLSecondaryTransportState *const SDLSecondaryTransportStateStopped = @"Stopped";
 SDLSecondaryTransportState *const SDLSecondaryTransportStateStarted = @"Started";
@@ -51,14 +51,14 @@ SDLSecondaryTransportState *const SDLSecondaryTransportStateConnecting = @"Conne
 SDLSecondaryTransportState *const SDLSecondaryTransportStateRegistered = @"Registered";
 SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting = @"Reconnecting";
 
-/// Timeout for receiving Register Secondary Transport ACK frame
+// Timeout for receiving Register Secondary Transport ACK frame
 static const float RegisterTransportTime = 10.0;
 
-/// Delay to retry connection after secondary transport is disconnected or registration is failed
+// Delay to retry connection after secondary transport is disconnected or registration is failed
 static const float RetryConnectionDelay = 15.0;
 
 
-/// An internal class to receive event from primary transport.
+/** An internal class to receive event from primary transport. */
 @interface PrimaryProtocolListener : NSObject <SDLProtocolListener>
 
 @property (weak, nonatomic) SDLProtocol *primaryProtocol;
@@ -122,38 +122,38 @@ static const float RetryConnectionDelay = 15.0;
 
 @interface SDLSecondaryTransportManager ()
 
-/// state of this manager
+// State of this manager.
 @property (strong, nonatomic, readwrite) SDLStateMachine *stateMachine;
-/// dedicated queue that the state machine will run on
+// Dedicated queue that the state machine will run on.
 @property (copy, nonatomic) dispatch_queue_t stateMachineQueue;
 
-/// instance of the protocol that runs on primary transport
+// Instance of the protocol that runs on primary transport.
 @property (weak, nonatomic) SDLProtocol *primaryProtocol;
-/// a sub-class to catch Start Service ACK and Transport Config Update frames
+// A sub-class to catch Start Service ACK and Transport Config Update frames.
 @property (strong, nonatomic) PrimaryProtocolListener *primaryProtocolListener;
 
-/// Selected type of secondary transport. If 'SDLTransportSelectionDisabled' then secondary transport is disabled.
-@property (assign, nonatomic) SDLTransportSelection transportSelection;
-/// instance of the transport for secondary transport
+// Selected type of secondary transport. If 'SDLTransportSelectionDisabled' then secondary transport is disabled.
+@property (assign, nonatomic) SDLSecondaryTransportType transportSelection;
+// Instance of the transport for secondary transport.
 @property (nullable, strong, nonatomic) id<SDLTransportType> secondaryTransport;
-/// instance of the protocol that runs on secondary transport
+// Instance of the protocol that runs on secondary transport.
 @property (nullable, strong, nonatomic) SDLProtocol *secondaryProtocol;
-/// timer to check Register Secondary Transport ACK response on secondary transport
+// Timer to check Register Secondary Transport ACK response on secondary transport.
 @property (strong, nonatomic, nullable) SDLTimer *registerTransportTimer;
 
-// a listener to notify protocol change
+// A listener to notify protocol change.
 @property (weak, nonatomic) id<SDLStreamingProtocolListener> streamingProtocolListener;
 
-/// Configuration sent by system; list of transports that are allowed to carry audio service
+// Configuration sent by system; list of transports that are allowed to carry audio service
 @property (strong, nonatomic, nullable) NSArray<SDLTransportClassBox *> *transportsForAudioService;
-/// Configuration sent by system; list of transports that are allowed to carry video service
+// Configuration sent by system; list of transports that are allowed to carry video service
 @property (strong, nonatomic, nullable) NSArray<SDLTransportClassBox *> *transportsForVideoService;
-/// A map to remember which service is currently running on which transport
-@property (strong, nonatomic) NSMutableDictionary<SDLServiceTypeBox *, SDLTransportClassBox *> *assignedTransport;
+// A map to remember which service is currently running on which transport
+@property (strong, nonatomic) NSMutableDictionary<SDLServiceTypeBox *, SDLTransportClassBox *> *streamingServiceTransportMap;
 
-/// IP address of SDL Core (either IPv4 or IPv6 address)
+// IP address of SDL Core (either IPv4 or IPv6 address)
 @property (strong, nonatomic, nullable) NSString *ipAddress;
-/// TCP port number of SDL Core. -1 if the information isn't available
+// TCP port number of SDL Core. -1 if the information isn't available
 @property (assign, nonatomic) int tcpPort;
 
 @end
@@ -172,15 +172,15 @@ static const float RetryConnectionDelay = 15.0;
     _stateMachineQueue = dispatch_queue_create("com.sdl.secondarytransportmanager", DISPATCH_QUEUE_SERIAL);
     _streamingProtocolListener = streamingProtocolListener;
 
-    _transportSelection = SDLTransportSelectionDisabled;
-    _assignedTransport = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
+    _transportSelection = SDLSecondaryTransportTypeDisabled;
+    _streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
                             @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
     _tcpPort = -1;
 
     return self;
 }
 
-- (void)startWithProtocol:(SDLProtocol *)primaryProtocol {
+- (void)startWithPrimaryProtocol:(SDLProtocol *)primaryProtocol {
     SDLLogD(@"SDLSecondaryTransportManager start");
 
     dispatch_sync(_stateMachineQueue, ^{
@@ -235,8 +235,8 @@ static const float RetryConnectionDelay = 15.0;
 }
 
 - (void)didEnterStateConfigured {
-    if ((self.transportSelection == SDLTransportSelectionTCP && [self sdl_isTCPReady]) ||
-        self.transportSelection == SDLTransportSelectionIAP) {
+    if ((self.transportSelection == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady])
+        || self.transportSelection == SDLSecondaryTransportTypeIAP) {
         [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
     }
 }
@@ -318,9 +318,9 @@ static const float RetryConnectionDelay = 15.0;
 
     [self.primaryProtocolListener stop];
 
-    self.assignedTransport = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
+    self.streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
                                 @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
-    self.transportSelection = SDLTransportSelectionDisabled;
+    self.transportSelection = SDLSecondaryTransportTypeDisabled;
     self.transportsForAudioService = nil;
     self.transportsForVideoService = nil;
 
@@ -328,33 +328,32 @@ static const float RetryConnectionDelay = 15.0;
     self.tcpPort = -1;
 }
 
-- (void)sdl_configureManager:(nullable NSArray<SDLTransportSelectionBox *> *)secondaryTransports
+- (void)sdl_configureManager:(nullable NSArray<SDLSecondaryTransportTypeBox *> *)secondaryTransports
           transportsForAudio:(nullable NSArray<SDLTransportClassBox *> *)transportsForAudio
           transportsForVideo:(nullable NSArray<SDLTransportClassBox *> *)transportsForVideo {
-
     if (![self.stateMachine isCurrentState:SDLSecondaryTransportStateStarted]) {
         SDLLogW(@"SecondaryTransportManager ignores duplicate Start Service ACK frame");
         return;
     }
 
-    SDLTransportSelection secondaryTransportSelection;
+    SDLSecondaryTransportType secondaryTransportSelection;
     if (secondaryTransports == nil || [secondaryTransports count] == 0) {
         SDLLogW(@"Did not receive secondary transport type from system. Secondary transport is disabled.");
-        secondaryTransportSelection = SDLTransportSelectionDisabled;
+        secondaryTransportSelection = SDLSecondaryTransportTypeDisabled;
     } else {
         // current proposal says the list should contain only one element
-        SDLTransportSelectionBox *transportSelection = [secondaryTransports objectAtIndex:0];
+        SDLSecondaryTransportTypeBox *transportSelection = [secondaryTransports objectAtIndex:0];
         secondaryTransportSelection = [transportSelection integerValue];
     }
 
-    SDLTransportSelection primaryTransportSelection = [self sdl_getTransportSelectionFromProtocol:self.primaryProtocol];
+    SDLSecondaryTransportType primaryTransportSelection = [self sdl_getTransportSelectionFromProtocol:self.primaryProtocol];
     if (primaryTransportSelection == secondaryTransportSelection) {
         SDLLogW(@"Same transport is specified for both primary and secondary transport. Secondary transport is disabled.");
-        secondaryTransportSelection = SDLTransportSelectionDisabled;
+        secondaryTransportSelection = SDLSecondaryTransportTypeDisabled;
         // clear out these values, so that audio and video services will start on primary transport
         transportsForAudio = nil;
         transportsForVideo = nil;
-    } else if (secondaryTransportSelection == SDLTransportSelectionIAP) {
+    } else if (secondaryTransportSelection == SDLSecondaryTransportTypeIAP) {
         SDLLogW(@"Starting IAP as secondary transport, which does not usually happen");
     }
 
@@ -374,7 +373,7 @@ static const float RetryConnectionDelay = 15.0;
         SDLLogD(@"Received TCP transport information prior to Start Service ACK");
         return;
     }
-    if (self.transportSelection != SDLTransportSelectionTCP) {
+    if (self.transportSelection != SDLSecondaryTransportTypeTCP) {
         return;
     }
 
@@ -415,22 +414,22 @@ static const float RetryConnectionDelay = 15.0;
 
 - (void)sdl_handleAppBecomeActive {
     if (([self.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured])
-        && self.transportSelection == SDLTransportSelectionTCP && [self sdl_isTCPReady]) {
+        && self.transportSelection == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady]) {
         SDLLogD(@"Resuming TCP transport since the app becomes foreground");
         [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
     }
 }
 
 - (void)sdl_handleAppResignedActive {
-    if ([self sdl_isTransportOpened] && self.transportSelection == SDLTransportSelectionTCP) {
+    if ([self sdl_isTransportOpened] && self.transportSelection == SDLSecondaryTransportTypeTCP) {
         SDLLogD(@"Disconnecting TCP transport since the app will go to background");
         [self.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
     }
 }
 
 - (BOOL)sdl_isTransportOpened {
-    return [self.stateMachine isCurrentState:SDLSecondaryTransportStateConnecting] ||
-           [self.stateMachine isCurrentState:SDLSecondaryTransportStateRegistered];
+    return [self.stateMachine isCurrentState:SDLSecondaryTransportStateConnecting]
+    || [self.stateMachine isCurrentState:SDLSecondaryTransportStateRegistered];
 }
 
 
@@ -461,7 +460,6 @@ static const float RetryConnectionDelay = 15.0;
          primaryAvailable:(BOOL)primaryTransportAvailable
        secondaryAvailable:(BOOL)secondaryTransportAvailable
     transportUpdatedBlock:(void (^)(SDLProtocol * _Nullable oldProtocol, SDLProtocol * _Nullable newProtocol))transportUpdatedBlock {
-
     if (transportList == nil) {
         // SDL Core did not send transport list for this service. Let's start it on Primary Transport for safe.
         SDLLogW(@"Transport for service 0x%2X is not specified by the system, using primary transport", service);
@@ -480,10 +478,10 @@ static const float RetryConnectionDelay = 15.0;
         }
     }
 
-    SDLTransportClass oldTransport = [self.assignedTransport[@(service)] intValue];
+    SDLTransportClass oldTransport = [self.streamingServiceTransportMap[@(service)] intValue];
 
     // update transport, and notify the change to start/stop/restart service
-    self.assignedTransport[@(service)] = @(newTransport);
+    self.streamingServiceTransportMap[@(service)] = @(newTransport);
 
     if (oldTransport != newTransport) {
         if (oldTransport != SDLTransportClassInvalid && newTransport != SDLTransportClassInvalid) {
@@ -501,17 +499,17 @@ static const float RetryConnectionDelay = 15.0;
 
 - (nullable SDLProtocol *)sdl_getProtocolFromTransportClass:(SDLTransportClass)transportClass {
     switch (transportClass) {
-        case SDLTransportClassPrimary:   return self.primaryProtocol;
+        case SDLTransportClassPrimary: return self.primaryProtocol;
         case SDLTransportClassSecondary: return self.secondaryProtocol;
-        default:                         return nil;
+        default: return nil;
     }
 }
 
 - (nullable NSString *)sdl_getTransportClassName:(SDLTransportClass)transportClass {
     switch (transportClass) {
-        case SDLTransportClassPrimary:   return @"primary";
+        case SDLTransportClassPrimary: return @"primary";
         case SDLTransportClassSecondary: return @"secondary";
-        default:                         return nil;
+        default: return nil;
     }
 }
 
@@ -524,11 +522,11 @@ static const float RetryConnectionDelay = 15.0;
 
     SDLControlFramePayloadRPCStartServiceAck *payload = notification.userInfo[SDLNotificationUserInfoObject];
 
-    NSMutableArray<SDLTransportSelectionBox *> *secondaryTransports = nil;
+    NSMutableArray<SDLSecondaryTransportTypeBox *> *secondaryTransports = nil;
     if (payload.secondaryTransports != nil) {
         secondaryTransports = [NSMutableArray array];
         for (NSString *transportString in payload.secondaryTransports) {
-            SDLTransportSelection transport = [self sdl_convertTransportSelection:transportString];
+            SDLSecondaryTransportType transport = [self sdl_convertTransportSelection:transportString];
             [secondaryTransports addObject:@(transport)];
         }
     }
@@ -542,18 +540,18 @@ static const float RetryConnectionDelay = 15.0;
     });
 }
 
-- (SDLTransportSelection)sdl_convertTransportSelection:(NSString *)transportString {
+- (SDLSecondaryTransportType)sdl_convertTransportSelection:(NSString *)transportString {
     if ([transportString isEqualToString:@"TCP_WIFI"]) {
-        return SDLTransportSelectionTCP;
+        return SDLSecondaryTransportTypeTCP;
     } else if ([transportString isEqualToString:@"IAP_BLUETOOTH"] ||
                [transportString isEqualToString:@"IAP_USB"] ||
                [transportString isEqualToString:@"IAP_USB_HOST_MODE"] ||
                [transportString isEqualToString:@"IAP_USB_DEVICE_MODE"] ||
                [transportString isEqualToString:@"IAP_CARPLAY"]) {
-        return SDLTransportSelectionIAP;
+        return SDLSecondaryTransportTypeIAP;
     } else {
         // "SPP_BLUETOOTH" and "AOA_USB" are not used
-        return SDLTransportSelectionDisabled;
+        return SDLSecondaryTransportTypeDisabled;
     }
 }
 
@@ -578,14 +576,14 @@ static const float RetryConnectionDelay = 15.0;
     return [array copy];
 }
 
-- (SDLTransportSelection)sdl_getTransportSelectionFromProtocol:(SDLProtocol *)protocol {
+- (SDLSecondaryTransportType)sdl_getTransportSelectionFromProtocol:(SDLProtocol *)protocol {
     if ([protocol.transport isMemberOfClass:[SDLIAPTransport class]]) {
-        return SDLTransportSelectionIAP;
+        return SDLSecondaryTransportTypeIAP;
     } else if ([protocol.transport isMemberOfClass:[SDLTCPTransport class]]) {
-        return SDLTransportSelectionTCP;
+        return SDLSecondaryTransportTypeTCP;
     } else {
         SDLLogD(@"Unknown type of primary transport");
-        return SDLTransportSelectionDisabled;
+        return SDLSecondaryTransportTypeDisabled;
     }
 }
 
@@ -633,9 +631,9 @@ static const float RetryConnectionDelay = 15.0;
     }
 
     switch (self.transportSelection) {
-        case SDLTransportSelectionTCP:
+        case SDLSecondaryTransportTypeTCP:
             return [self sdl_startTCPSecondaryTransport];
-        case SDLTransportSelectionIAP:
+        case SDLSecondaryTransportTypeIAP:
             return [self sdl_startIAPSecondaryTransport];
         default:
             SDLLogW(@"Unknown transport type for secondary transport: %ld", (long)self.transportSelection);
@@ -746,7 +744,7 @@ static const float RetryConnectionDelay = 15.0;
 
 // called on transport's thread, notifying that the transport is established
 - (void)onProtocolOpened {
-    SDLLogD(@"secondary transport connected");
+    SDLLogD(@"Secondary transport connected");
 
     self.registerTransportTimer = [[SDLTimer alloc] initWithDuration:RegisterTransportTime repeat:NO];
     __weak typeof(self) weakSelf = self;

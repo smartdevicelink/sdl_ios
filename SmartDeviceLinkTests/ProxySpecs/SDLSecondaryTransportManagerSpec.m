@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, SDLTransportClass) {
 };
 typedef NSNumber SDLTransportClassBox;
 
-typedef NS_ENUM(NSInteger, SDLTransportSelection) {
+typedef NS_ENUM(NSInteger, SDLSecondaryTransportType) {
     SDLTransportSelectionDisabled,   // only for Secondary Transport
     SDLTransportSelectionIAP,
     SDLTransportSelectionTCP
@@ -43,12 +43,12 @@ static const float RetryConnectionDelay = 15.0;
 @interface SDLSecondaryTransportManager ()
 
 // we need to reach to private properties for the tests
-@property (assign, nonatomic) SDLTransportSelection transportSelection;
+@property (assign, nonatomic) SDLSecondaryTransportType transportSelection;
 @property (nullable, strong, nonatomic) id<SDLTransportType> secondaryTransport;
 @property (nullable, strong, nonatomic) SDLProtocol *secondaryProtocol;
 @property (strong, nonatomic, nullable) NSArray<SDLTransportClassBox *> *transportsForAudioService;
 @property (strong, nonatomic, nullable) NSArray<SDLTransportClassBox *> *transportsForVideoService;
-@property (strong, nonatomic) NSMutableDictionary<SDLServiceTypeBox *, SDLTransportClassBox *> *assignedTransport;
+@property (strong, nonatomic) NSMutableDictionary<SDLServiceTypeBox *, SDLTransportClassBox *> *streamingServiceTransportMap;
 @property (strong, nonatomic, nullable) NSString *ipAddress;
 @property (assign, nonatomic) int tcpPort;
 
@@ -163,7 +163,7 @@ describe(@"the secondary transport manager ", ^{
         expect(manager.transportsForVideoService).to(beNil());
         NSMutableDictionary<SDLServiceTypeBox *, SDLTransportClassBox *> *expectedAssignedTransport = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
            @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
-        expect(manager.assignedTransport).to(equal(expectedAssignedTransport));
+        expect(manager.streamingServiceTransportMap).to(equal(expectedAssignedTransport));
         expect(manager.ipAddress).to(beNil());
         expect(manager.tcpPort).to(equal(-1));
     });
@@ -175,7 +175,7 @@ describe(@"the secondary transport manager ", ^{
         });
 
         it(@"should transition to Started state", ^{
-            [manager startWithProtocol:testPrimaryProtocol];
+            [manager startWithPrimaryProtocol:testPrimaryProtocol];
 
             expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateStarted));
             OCMVerifyAll(testStreamingProtocolListener);
@@ -190,7 +190,7 @@ describe(@"the secondary transport manager ", ^{
             testPrimaryTransport = [[SDLIAPTransport alloc] init];
             testPrimaryProtocol.transport = testPrimaryTransport;
 
-            [manager startWithProtocol:testPrimaryProtocol];
+            [manager startWithPrimaryProtocol:testPrimaryProtocol];
         });
 
         describe(@"when received Start Service ACK on primary transport", ^{
@@ -480,7 +480,7 @@ describe(@"the secondary transport manager ", ^{
                 testPrimaryProtocol = [[SDLProtocol alloc] init];
                 testPrimaryTransport = [[SDLTCPTransport alloc] init];
                 testPrimaryProtocol.transport = testPrimaryTransport;
-                [manager startWithProtocol:testPrimaryProtocol];
+                [manager startWithPrimaryProtocol:testPrimaryProtocol];
 
                 manager.transportSelection = SDLTransportSelectionIAP;
             });
@@ -498,7 +498,7 @@ describe(@"the secondary transport manager ", ^{
                 testPrimaryProtocol = [[SDLProtocol alloc] init];
                 testPrimaryTransport = [[SDLIAPTransport alloc] init];
                 testPrimaryProtocol.transport = testPrimaryTransport;
-                [manager startWithProtocol:testPrimaryProtocol];
+                [manager startWithPrimaryProtocol:testPrimaryProtocol];
 
                 manager.transportSelection = SDLTransportSelectionTCP;
                 manager.ipAddress = nil;
@@ -549,7 +549,7 @@ describe(@"the secondary transport manager ", ^{
                 testPrimaryTransport = [[SDLIAPTransport alloc] init];
                 testPrimaryProtocol.transport = testPrimaryTransport;
 
-                [manager startWithProtocol:testPrimaryProtocol];
+                [manager startWithPrimaryProtocol:testPrimaryProtocol];
 
                 [manager.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
             });
@@ -575,7 +575,7 @@ describe(@"the secondary transport manager ", ^{
             testPrimaryProtocol = [[SDLProtocol alloc] init];
             testPrimaryTransport = [[SDLIAPTransport alloc] init];
             testPrimaryProtocol.transport = testPrimaryTransport;
-            [manager startWithProtocol:testPrimaryProtocol];
+            [manager startWithPrimaryProtocol:testPrimaryProtocol];
 
             [secondaryProtocol.protocolDelegateTable addObject:manager];
             manager.secondaryProtocol = secondaryProtocol;
@@ -604,8 +604,8 @@ describe(@"the secondary transport manager ", ^{
                     // assume audio and video services are allowed only on secondary transport
                     manager.transportsForAudioService = @[@(SDLTransportClassSecondary)];
                     manager.transportsForVideoService = @[@(SDLTransportClassSecondary)];
-                    manager.assignedTransport[@(SDLServiceTypeAudio)] = @(SDLTransportClassInvalid);
-                    manager.assignedTransport[@(SDLServiceTypeVideo)] = @(SDLTransportClassInvalid);
+                    manager.streamingServiceTransportMap[@(SDLServiceTypeAudio)] = @(SDLTransportClassInvalid);
+                    manager.streamingServiceTransportMap[@(SDLServiceTypeVideo)] = @(SDLTransportClassInvalid);
 
                     testRegisterSecondaryTransportAckHeader = [SDLProtocolHeader headerForVersion:5];
                     testRegisterSecondaryTransportAckHeader.frameType = SDLFrameTypeControl;
@@ -759,7 +759,7 @@ describe(@"the secondary transport manager ", ^{
             testPrimaryProtocol = [[SDLProtocol alloc] init];
             testPrimaryTransport = [[SDLIAPTransport alloc] init];
             testPrimaryProtocol.transport = testPrimaryTransport;
-            [manager startWithProtocol:testPrimaryProtocol];
+            [manager startWithPrimaryProtocol:testPrimaryProtocol];
 
             [secondaryProtocol.protocolDelegateTable addObject:manager];
             manager.secondaryProtocol = secondaryProtocol;
@@ -778,8 +778,8 @@ describe(@"the secondary transport manager ", ^{
                 // assume audio and video services are allowed only on secondary transport
                 manager.transportsForAudioService = @[@(SDLTransportClassSecondary)];
                 manager.transportsForVideoService = @[@(SDLTransportClassSecondary)];
-                manager.assignedTransport[@(SDLServiceTypeAudio)] = @(SDLTransportClassSecondary);
-                manager.assignedTransport[@(SDLServiceTypeVideo)] = @(SDLTransportClassSecondary);
+                manager.streamingServiceTransportMap[@(SDLServiceTypeAudio)] = @(SDLTransportClassSecondary);
+                manager.streamingServiceTransportMap[@(SDLServiceTypeVideo)] = @(SDLTransportClassSecondary);
 
                 manager.transportSelection = SDLTransportSelectionTCP;
                 manager.ipAddress = @"192.168.1.1";
@@ -857,8 +857,8 @@ describe(@"the secondary transport manager ", ^{
                 // assume audio and video services are allowed only on secondary transport
                 manager.transportsForAudioService = @[@(SDLTransportClassSecondary)];
                 manager.transportsForVideoService = @[@(SDLTransportClassSecondary)];
-                manager.assignedTransport[@(SDLServiceTypeAudio)] = @(SDLTransportClassSecondary);
-                manager.assignedTransport[@(SDLServiceTypeVideo)] = @(SDLTransportClassSecondary);
+                manager.streamingServiceTransportMap[@(SDLServiceTypeAudio)] = @(SDLTransportClassSecondary);
+                manager.streamingServiceTransportMap[@(SDLServiceTypeVideo)] = @(SDLTransportClassSecondary);
             });
 
             it(@"should transition to Reconnecting state", ^{
@@ -878,8 +878,8 @@ describe(@"the secondary transport manager ", ^{
                 // assume audio and video services are allowed only on secondary transport
                 manager.transportsForAudioService = @[@(SDLTransportClassSecondary)];
                 manager.transportsForVideoService = @[@(SDLTransportClassSecondary)];
-                manager.assignedTransport[@(SDLServiceTypeAudio)] = @(SDLTransportClassSecondary);
-                manager.assignedTransport[@(SDLServiceTypeVideo)] = @(SDLTransportClassSecondary);
+                manager.streamingServiceTransportMap[@(SDLServiceTypeAudio)] = @(SDLTransportClassSecondary);
+                manager.streamingServiceTransportMap[@(SDLServiceTypeVideo)] = @(SDLTransportClassSecondary);
             });
 
             it(@"should transition to Stopped state", ^{
@@ -900,7 +900,7 @@ describe(@"the secondary transport manager ", ^{
             testPrimaryProtocol = [[SDLProtocol alloc] init];
             testPrimaryTransport = [[SDLIAPTransport alloc] init];
             testPrimaryProtocol.transport = testPrimaryTransport;
-            [manager startWithProtocol:testPrimaryProtocol];
+            [manager startWithPrimaryProtocol:testPrimaryProtocol];
 
             [manager.stateMachine setToState:SDLSecondaryTransportStateReconnecting fromOldState:nil callEnterTransition:NO];
         });

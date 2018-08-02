@@ -16,9 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLControlFramePayloadTransportEventUpdate ()
 
-/// A string representing IP address of Core's TCP transport. It can be either IPv4 or IPv6 address.
+// A string representing IP address of Core's TCP transport. It can be either IPv4 or IPv6 address.
 @property (copy, nonatomic, readwrite, nullable) NSString *tcpIpAddress;
-/// TCP port number that Core is listening on
+// TCP port number that Core is listening on
 @property (assign, nonatomic, readwrite) int32_t tcpPort;
 
 @end

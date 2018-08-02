@@ -34,7 +34,7 @@ extern SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting;
  */
 @interface SDLSecondaryTransportManager : NSObject <SDLProtocolListener>
 
-/// state of this manager
+/** state of this manager */
 @property (strong, nonatomic, readonly) SDLStateMachine *stateMachine;
 
 /**
@@ -50,7 +50,7 @@ extern SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting;
 
  @param primaryProtocol protocol that runs on the main (primary) transport
  */
-- (void)startWithProtocol:(SDLProtocol *)primaryProtocol;
+- (void)startWithPrimaryProtocol:(SDLProtocol *)primaryProtocol;
 
 /**
  *  Stop the manager.

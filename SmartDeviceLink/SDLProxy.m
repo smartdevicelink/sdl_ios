@@ -83,7 +83,7 @@ static float DefaultConnectionTimeout = 45.0;
 
         // make sure that secondary transport manager is started prior to starting protocol
         if (secondaryTransportManager != nil) {
-            [secondaryTransportManager startWithProtocol:_protocol];
+            [secondaryTransportManager startWithPrimaryProtocol:_protocol];
         }
 
         [self.transport connect];
