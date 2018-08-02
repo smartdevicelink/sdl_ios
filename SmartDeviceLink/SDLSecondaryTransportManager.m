@@ -202,7 +202,7 @@ static const float RetryConnectionDelay = 15.0;
     dispatch_sync(_stateMachineQueue, ^{
         // stop all services, including those running on primary transport
         SDLLogD(@"Stopping audio / video services on both transports");
-        [self sdl_handleTransportUpdate:NO secondaryAvailable:NO];
+        [self sdl_handleTransportUpdateWithPrimaryAvailable:NO secondaryAvailable:NO];
 
         [self.stateMachine transitionToState:SDLSecondaryTransportStateStopped];
     });
@@ -264,26 +264,26 @@ static const float RetryConnectionDelay = 15.0;
 }
 
 - (void)didEnterStateRegistered {
-    [self sdl_handleTransportUpdate:YES secondaryAvailable:YES];
+    [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:YES];
 }
 
 - (void)willTransitionFromStateRegisteredToStateConfigured {
     // before disconnecting Secondary Transport, stop running services
     SDLLogD(@"Stopping services on secondary transport");
-    [self sdl_handleTransportUpdate:YES secondaryAvailable:NO];
+    [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
 
     [self sdl_disconnectSecondaryTransport];
 }
 
 - (void)willTransitionFromStateRegisteredToStateReconnecting {
     SDLLogD(@"Stopping services on secondary transport");
-    [self sdl_handleTransportUpdate:YES secondaryAvailable:NO];
+    [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
 
     [self sdl_disconnectSecondaryTransport];
 }
 
 - (void)willTransitionFromStateRegisteredToStateStopped {
-    // sdl_handleTransportUpdate is called in stop method
+    // sdl_handleTransportUpdateWithPrimaryAvailable is called in stop method
     [self sdl_disconnectSecondaryTransport];
 }
 
@@ -362,7 +362,7 @@ static const float RetryConnectionDelay = 15.0;
     self.transportsForVideoService = transportsForVideo;
 
     // this will trigger audio / video streaming if they are allowed on primary transport
-    [self sdl_handleTransportUpdate:YES secondaryAvailable:NO];
+    [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
 
     [self.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
 }
@@ -435,7 +435,7 @@ static const float RetryConnectionDelay = 15.0;
 
 #pragma mark - Starting / Stopping / Restarting services
 
-- (void)sdl_handleTransportUpdate:(BOOL)primaryAvailable secondaryAvailable:(BOOL)secondaryAvailable {
+- (void)sdl_handleTransportUpdateWithPrimaryAvailable:(BOOL)primaryAvailable secondaryAvailable:(BOOL)secondaryAvailable {
     // update audio service
     [self sdl_updateService:SDLServiceTypeAudio
           allowedTransports:self.transportsForAudioService
