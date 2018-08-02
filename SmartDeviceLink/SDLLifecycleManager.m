@@ -221,11 +221,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     // if secondary transport manager is used, streaming media manager will be started through
     // onAudioServiceProtocolUpdated and onVideoServiceProtocolUpdated
-    if (self.secondaryTransportManager == nil) {
-        if (self.streamManager != nil) {
-            [self audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
-            [self videoServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
-        }
+    if (self.secondaryTransportManager == nil && self.streamManager != nil) {
+        [self audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
+        [self videoServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
     }
 }
 

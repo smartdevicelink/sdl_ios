@@ -336,13 +336,13 @@ static const float RetryConnectionDelay = 15.0;
         return;
     }
 
-    SDLSecondaryTransportType secondaryTransportSelection;
-    if (secondaryTransports == nil || [secondaryTransports count] == 0) {
+    SDLSecondaryTransportType secondaryTransportSelection = SDLSecondaryTransportTypeDisabled;
+    if (secondaryTransports == nil || secondaryTransports.count == 0) {
         SDLLogW(@"Did not receive secondary transport type from system. Secondary transport is disabled.");
         secondaryTransportSelection = SDLSecondaryTransportTypeDisabled;
     } else {
         // current proposal says the list should contain only one element
-        SDLSecondaryTransportTypeBox *transportSelection = [secondaryTransports objectAtIndex:0];
+        SDLSecondaryTransportTypeBox *transportSelection = secondaryTransports[0];
         secondaryTransportSelection = [transportSelection integerValue];
     }
 
