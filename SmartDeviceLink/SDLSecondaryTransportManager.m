@@ -141,8 +141,8 @@ static const float RetryConnectionDelay = 15.0;
 // Timer to check Register Secondary Transport ACK response on secondary transport.
 @property (strong, nonatomic, nullable) SDLTimer *registerTransportTimer;
 
-// A listener to notify protocol change.
-@property (weak, nonatomic) id<SDLStreamingProtocolListener> streamingProtocolListener;
+// A delegate to notify protocol change.
+@property (weak, nonatomic) id<SDLStreamingProtocolDelegate> streamingProtocolDelegate;
 
 // Configuration sent by system; list of transports that are allowed to carry audio service
 @property (strong, nonatomic, nullable) NSArray<SDLTransportClassBox *> *transportsForAudioService;
@@ -162,7 +162,7 @@ static const float RetryConnectionDelay = 15.0;
 
 #pragma mark - Public
 
-- (instancetype)initWithStreamingProtocolListener:(id<SDLStreamingProtocolListener>)streamingProtocolListener {
+- (instancetype)initWithStreamingProtocolDelegate:(id<SDLStreamingProtocolDelegate>)streamingProtocolDelegate {
     self = [super init];
     if (!self) {
         return nil;
@@ -170,7 +170,7 @@ static const float RetryConnectionDelay = 15.0;
 
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLSecondaryTransportStateStopped states:[self.class sdl_stateTransitionDictionary]];
     _stateMachineQueue = dispatch_queue_create("com.sdl.secondarytransportmanager", DISPATCH_QUEUE_SERIAL);
-    _streamingProtocolListener = streamingProtocolListener;
+    _streamingProtocolDelegate = streamingProtocolDelegate;
 
     _transportSelection = SDLSecondaryTransportTypeDisabled;
     _streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
@@ -442,7 +442,7 @@ static const float RetryConnectionDelay = 15.0;
            primaryAvailable:primaryAvailable
          secondaryAvailable:secondaryAvailable
       transportUpdatedBlock:^(SDLProtocol * _Nullable oldProtocol, SDLProtocol * _Nullable newProtocol) {
-          [self.streamingProtocolListener audioServiceProtocolDidUpdateFromOldProtocol:oldProtocol toNewProtocol:newProtocol];
+          [self.streamingProtocolDelegate audioServiceProtocolDidUpdateFromOldProtocol:oldProtocol toNewProtocol:newProtocol];
       }];
 
     // update video service
@@ -451,7 +451,7 @@ static const float RetryConnectionDelay = 15.0;
            primaryAvailable:primaryAvailable
          secondaryAvailable:secondaryAvailable
       transportUpdatedBlock:^(SDLProtocol * _Nullable oldProtocol, SDLProtocol * _Nullable newProtocol) {
-          [self.streamingProtocolListener videoServiceProtocolDidUpdateFromOldProtocol:oldProtocol toNewProtocol:newProtocol];
+          [self.streamingProtocolDelegate videoServiceProtocolDidUpdateFromOldProtocol:oldProtocol toNewProtocol:newProtocol];
       }];
 }
 

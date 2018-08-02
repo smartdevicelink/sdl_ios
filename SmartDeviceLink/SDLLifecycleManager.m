@@ -49,7 +49,7 @@
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManager.h"
-#import "SDLStreamingProtocolListener.h"
+#import "SDLStreamingProtocolDelegate.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLUnregisterAppInterface.h"
 
@@ -70,7 +70,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 #pragma mark - SDLManager Private Interface
 
-@interface SDLLifecycleManager () <SDLConnectionManagerType, SDLStreamingProtocolListener>
+@interface SDLLifecycleManager () <SDLConnectionManagerType, SDLStreamingProtocolDelegate>
 
 // Readonly public properties
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
@@ -213,7 +213,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                                             tcpPort:@(self.configuration.lifecycleConfig.tcpDebugPort).stringValue
                           secondaryTransportManager:self.secondaryTransportManager];
     } else {
-        self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolListener:self];
+        self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:self];
         self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher
                           secondaryTransportManager:self.secondaryTransportManager];
     }

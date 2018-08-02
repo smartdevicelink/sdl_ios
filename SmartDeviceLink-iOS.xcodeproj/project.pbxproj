@@ -1252,7 +1252,7 @@
 		E9C32B9D1AB20C5900F283AF /* EAAccessory+SDLProtocols.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B991AB20C5900F283AF /* EAAccessory+SDLProtocols.m */; };
 		E9C32B9E1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B9A1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h */; };
 		E9C32B9F1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B9B1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m */; };
-		EE28F9E3209802A500B1B61D /* SDLStreamingProtocolListener.h in Headers */ = {isa = PBXBuildFile; fileRef = EE6CBF872064CAEE00EEE0CA /* SDLStreamingProtocolListener.h */; };
+		EE28F9E3209802A500B1B61D /* SDLStreamingProtocolDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = EE6CBF872064CAEE00EEE0CA /* SDLStreamingProtocolDelegate.h */; };
 		EE460E082066B5F20006EDD3 /* SDLControlFramePayloadTransportEventUpdateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EE460E072066B5F20006EDD3 /* SDLControlFramePayloadTransportEventUpdateSpec.m */; };
 		EE460E0A2066B6E40006EDD3 /* SDLControlFramePayloadRegisterSecondaryTransportNakSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EE460E092066B6E40006EDD3 /* SDLControlFramePayloadRegisterSecondaryTransportNakSpec.m */; };
 		EE798CA420561210008EDE8E /* SDLSecondaryTransportManager.h in Headers */ = {isa = PBXBuildFile; fileRef = EE798CA32056120F008EDE8E /* SDLSecondaryTransportManager.h */; };
@@ -2652,7 +2652,7 @@
 		E9C32B9B1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EAAccessoryManager+SDLProtocols.m"; sourceTree = "<group>"; };
 		EE460E072066B5F20006EDD3 /* SDLControlFramePayloadTransportEventUpdateSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLControlFramePayloadTransportEventUpdateSpec.m; path = ControlFramePayloadSpecs/SDLControlFramePayloadTransportEventUpdateSpec.m; sourceTree = "<group>"; };
 		EE460E092066B6E40006EDD3 /* SDLControlFramePayloadRegisterSecondaryTransportNakSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLControlFramePayloadRegisterSecondaryTransportNakSpec.m; path = ControlFramePayloadSpecs/SDLControlFramePayloadRegisterSecondaryTransportNakSpec.m; sourceTree = "<group>"; };
-		EE6CBF872064CAEE00EEE0CA /* SDLStreamingProtocolListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLStreamingProtocolListener.h; sourceTree = "<group>"; };
+		EE6CBF872064CAEE00EEE0CA /* SDLStreamingProtocolDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLStreamingProtocolDelegate.h; sourceTree = "<group>"; };
 		EE798CA32056120F008EDE8E /* SDLSecondaryTransportManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSecondaryTransportManager.h; sourceTree = "<group>"; };
 		EE798CA520561217008EDE8E /* SDLSecondaryTransportManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSecondaryTransportManager.m; sourceTree = "<group>"; };
 		EE798CA72056121F008EDE8E /* SDLSecondaryTransportManagerConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSecondaryTransportManagerConstants.h; sourceTree = "<group>"; };
@@ -4583,7 +4583,7 @@
 			isa = PBXGroup;
 			children = (
 				5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */,
-				EE6CBF872064CAEE00EEE0CA /* SDLStreamingProtocolListener.h */,
+				EE6CBF872064CAEE00EEE0CA /* SDLStreamingProtocolDelegate.h */,
 				5D616B501D59042B00553F6B /* Errors */,
 				5DA3F35C1BC4484B0026F2D0 /* Notifications */,
 				5DA3F3571BC448160026F2D0 /* Categories */,
@@ -5676,7 +5676,7 @@
 				5D61FCC11A84238C00846EE7 /* SDLHMILevel.h in Headers */,
 				8B9376D71F3349FC009605C4 /* SDLMetadataTags.h in Headers */,
 				5D61FD471A84238C00846EE7 /* SDLProtocolListener.h in Headers */,
-				EE28F9E3209802A500B1B61D /* SDLStreamingProtocolListener.h in Headers */,
+				EE28F9E3209802A500B1B61D /* SDLStreamingProtocolDelegate.h in Headers */,
 				5D61FCA01A84238C00846EE7 /* SDLEncodedSyncPDataResponse.h in Headers */,
 				5D61FD271A84238C00846EE7 /* SDLPerformAudioPassThruResponse.h in Headers */,
 				5D61FD251A84238C00846EE7 /* SDLPerformAudioPassThru.h in Headers */,

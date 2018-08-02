@@ -7,7 +7,7 @@
 //
 
 #import "SDLProtocolListener.h"
-#import "SDLStreamingProtocolListener.h"
+#import "SDLStreamingProtocolDelegate.h"
 
 @class SDLProtocol;
 @class SDLStateMachine;
@@ -40,10 +40,10 @@ extern SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting;
 /**
  Create a new secondary transport manager.
 
- @param streamingProtocolListener a listener to handle updates on protocol instances
+ @param streamingProtocolDelegate a delegate to handle updates on protocol instances
  @return A new secondary transport manager
  */
-- (instancetype)initWithStreamingProtocolListener:(id<SDLStreamingProtocolListener>)streamingProtocolListener;
+- (instancetype)initWithStreamingProtocolDelegate:(id<SDLStreamingProtocolDelegate>)streamingProtocolDelegate;
 
 /**
  *  Start the manager.

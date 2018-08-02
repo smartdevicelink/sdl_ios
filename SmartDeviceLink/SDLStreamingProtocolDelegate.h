@@ -1,5 +1,5 @@
 //
-//  SDLStreamingProtocolListener.h
+//  SDLStreamingProtocolDelegate.h
 //  SmartDeviceLink-iOS
 //
 //  Created by Sho Amano on 2018/03/23.
@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol SDLStreamingProtocolListener <NSObject>
+@protocol SDLStreamingProtocolDelegate <NSObject>
 
 /**
  *  Called when protocol instance for audio service has been updated.
