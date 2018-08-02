@@ -17,9 +17,9 @@
 #import "SDLIAPTransport.h"
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
-#import "SDLPrimaryProtocolListener.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolHeader.h"
+#import "SDLProtocolMessage.h"
 #import "SDLSecondaryTransportManagerConstants.h"
 #import "SDLStateMachine.h"
 #import "SDLTCPTransport.h"
@@ -57,6 +57,69 @@ static const float RegisterTransportTime = 10.0;
 /// Delay to retry connection after secondary transport is disconnected or registration is failed
 static const float RetryConnectionDelay = 15.0;
 
+
+/// An internal class to receive event from primary transport.
+@interface PrimaryProtocolListener : NSObject <SDLProtocolListener>
+
+@property (weak, nonatomic) SDLProtocol *primaryProtocol;
+@property (copy, nonatomic) SDLProtocolHeader *primaryRPCHeader;
+
+@end
+
+@implementation PrimaryProtocolListener
+
+- (instancetype)initWithProtocol:(SDLProtocol *)primaryProtocol {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+
+    _primaryProtocol = primaryProtocol;
+
+    return self;
+}
+
+- (void)start {
+    @synchronized(self.primaryProtocol.protocolDelegateTable) {
+        [self.primaryProtocol.protocolDelegateTable addObject:self];
+    }
+}
+
+- (void)stop {
+    @synchronized(self.primaryProtocol.protocolDelegateTable) {
+        [self.primaryProtocol.protocolDelegateTable removeObject:self];
+    }
+}
+
+// called from protocol's _reeiveQueue of Primary Transport
+- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
+    if (startServiceACK.header.serviceType != SDLServiceTypeRPC) {
+        return;
+    }
+
+    SDLLogV(@"Received Start Service ACK header of RPC service on primary transport");
+
+    // keep header to acquire Session ID
+    self.primaryRPCHeader = startServiceACK.header;
+
+    SDLControlFramePayloadRPCStartServiceAck *payload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
+
+    NSDictionary<NSString *, id> *userInfo = @{SDLNotificationUserInfoObject: payload};
+    [[NSNotificationCenter defaultCenter] postNotificationName:SDLStartSecondaryTransportManagerNotification object:self userInfo:userInfo];
+}
+
+// called from protocol's _reeiveQueue of Primary Transport
+- (void)handleTransportEventUpdateMessage:(SDLProtocolMessage *)transportEventUpdate {
+
+    SDLControlFramePayloadTransportEventUpdate *payload = [[SDLControlFramePayloadTransportEventUpdate alloc] initWithData:transportEventUpdate.payload];
+    SDLLogV(@"Transport Config Update: %@", payload);
+
+    NSDictionary<NSString *, id> *userInfo = @{SDLNotificationUserInfoObject: payload};
+    [[NSNotificationCenter defaultCenter] postNotificationName:SDLTransportEventUpdateNotification object:self userInfo:userInfo];
+}
+
+@end
+
 @interface SDLSecondaryTransportManager ()
 
 /// state of this manager
@@ -67,7 +130,7 @@ static const float RetryConnectionDelay = 15.0;
 /// instance of the protocol that runs on primary transport
 @property (weak, nonatomic) SDLProtocol *primaryProtocol;
 /// a sub-class to catch Start Service ACK and Transport Config Update frames
-@property (strong, nonatomic) SDLPrimaryProtocolListener *primaryProtocolListener;
+@property (strong, nonatomic) PrimaryProtocolListener *primaryProtocolListener;
 
 /// Selected type of secondary transport. If 'SDLTransportSelectionDisabled' then secondary transport is disabled.
 @property (assign, nonatomic) SDLTransportSelection transportSelection;
@@ -127,7 +190,7 @@ static const float RetryConnectionDelay = 15.0;
         }
 
         self.primaryProtocol = primaryProtocol;
-        self.primaryProtocolListener = [[SDLPrimaryProtocolListener alloc] initWithProtocol:primaryProtocol];
+        self.primaryProtocolListener = [[PrimaryProtocolListener alloc] initWithProtocol:primaryProtocol];
 
         [self.stateMachine transitionToState:SDLSecondaryTransportStateStarted];
     });
