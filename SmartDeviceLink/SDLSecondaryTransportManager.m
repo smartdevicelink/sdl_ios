@@ -208,11 +208,6 @@ static const float RetryConnectionDelay = 15.0;
     });
 }
 
-- (void)dealloc {
-    SDLLogD(@"SDLSecondaryTransportManager dealloc");
-}
-
-
 #pragma mark - State machine
 
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_stateTransitionDictionary {
@@ -386,44 +381,6 @@ static const float RetryConnectionDelay = 15.0;
         [self.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
     } else if ([self.stateMachine isCurrentState:SDLSecondaryTransportStateReconnecting]) {
         SDLLogD(@"TCP transport information updated, aborting reconnection timer");
-        [self.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
-    }
-}
-
-- (void)sdl_handleTransportRegistered {
-    // secondary transport is now ready
-    [self.stateMachine transitionToState:SDLSecondaryTransportStateRegistered];
-}
-
-- (void)sdl_handleTransportRegisterFailed {
-    [self.stateMachine transitionToState:SDLSecondaryTransportStateReconnecting];
-}
-
-- (void)sdl_handleTransportRegisterTimeout {
-    // if the state is still Connecting, go back to Configured state and retry immediately
-    if ([self.stateMachine isCurrentState:SDLSecondaryTransportStateConnecting]) {
-        SDLLogD(@"Retry secondary transport connection after registration timeout");
-        [self.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
-    }
-}
-
-- (void)sdl_handleProtocolClosed {
-    if ([self sdl_isTransportOpened]) {
-        [self.stateMachine transitionToState:SDLSecondaryTransportStateReconnecting];
-    }
-}
-
-- (void)sdl_handleAppBecomeActive {
-    if (([self.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured])
-        && self.secondaryTransportType == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady]) {
-        SDLLogD(@"Resuming TCP transport since the app becomes foreground");
-        [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
-    }
-}
-
-- (void)sdl_handleAppResignedActive {
-    if ([self sdl_isTransportOpened] && self.secondaryTransportType == SDLSecondaryTransportTypeTCP) {
-        SDLLogD(@"Disconnecting TCP transport since the app will go to background");
         [self.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
     }
 }
@@ -752,7 +709,16 @@ static const float RetryConnectionDelay = 15.0;
     self.registerTransportTimer.elapsedBlock = ^{
         SDLLogW(@"Timeout for registration of secondary transport");
         dispatch_async(weakSelf.stateMachineQueue, ^{
-            [weakSelf sdl_handleTransportRegisterTimeout];
+            __strong typeof(self) strongSelf = weakSelf;
+            if (!strongSelf) {
+                return;
+            }
+
+            // if the state is still Connecting, go back to Configured state and retry immediately
+            if ([strongSelf.stateMachine isCurrentState:SDLSecondaryTransportStateConnecting]) {
+                SDLLogD(@"Retry secondary transport connection after registration timeout");
+                [strongSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
+            }
         });
     };
     [self.registerTransportTimer start];
@@ -766,7 +732,9 @@ static const float RetryConnectionDelay = 15.0;
     SDLLogD(@"secondary transport disconnected");
 
     dispatch_async(self.stateMachineQueue, ^{
-        [self sdl_handleProtocolClosed];
+        if ([self sdl_isTransportOpened]) {
+            [self.stateMachine transitionToState:SDLSecondaryTransportStateReconnecting];
+        }
     });
 }
 
@@ -775,7 +743,8 @@ static const float RetryConnectionDelay = 15.0;
     SDLLogD(@"Received Register Secondary Transport ACK frame");
 
     dispatch_async(self.stateMachineQueue, ^{
-        [self sdl_handleTransportRegistered];
+        // secondary transport is now ready
+        [self.stateMachine transitionToState:SDLSecondaryTransportStateRegistered];
     });
 }
 
@@ -784,7 +753,7 @@ static const float RetryConnectionDelay = 15.0;
     SDLLogW(@"Received Register Secondary Transport NAK frame");
 
     dispatch_async(self.stateMachineQueue, ^{
-        [self sdl_handleTransportRegisterFailed];
+        [self.stateMachine transitionToState:SDLSecondaryTransportStateReconnecting];
     });
 }
 
@@ -793,9 +762,16 @@ static const float RetryConnectionDelay = 15.0;
 - (void)sdl_onAppStateUpdated:(NSNotification *)notification {
     dispatch_async(_stateMachineQueue, ^{
         if (notification.name == UIApplicationWillResignActiveNotification) {
-            [self sdl_handleAppResignedActive];
+            if ([self sdl_isTransportOpened] && self.secondaryTransportType == SDLSecondaryTransportTypeTCP) {
+                SDLLogD(@"Disconnecting TCP transport since the app will go to background");
+                [self.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
+            }
         } else if (notification.name == UIApplicationDidBecomeActiveNotification) {
-            [self sdl_handleAppBecomeActive];
+            if (([self.stateMachine isCurrentState:SDLSecondaryTransportStateConfigured])
+                && self.secondaryTransportType == SDLSecondaryTransportTypeTCP && [self sdl_isTCPReady]) {
+                SDLLogD(@"Resuming TCP transport since the app becomes foreground");
+                [self.stateMachine transitionToState:SDLSecondaryTransportStateConnecting];
+            }
         }
     });
 }
