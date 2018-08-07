@@ -328,21 +328,21 @@ static const float RetryConnectionDelay = 15.0;
     self.tcpPort = -1;
 }
 
-- (void)sdl_configureManager:(nullable NSArray<SDLSecondaryTransportTypeBox *> *)secondaryTransports
-          transportsForAudio:(nullable NSArray<SDLTransportClassBox *> *)transportsForAudio
-          transportsForVideo:(nullable NSArray<SDLTransportClassBox *> *)transportsForVideo {
+- (void)sdl_configureManager:(nullable NSArray<SDLSecondaryTransportTypeBox *> *)availableSecondaryTransports
+          availableTransportsForAudio:(nullable NSArray<SDLTransportClassBox *> *)availableTransportsForAudio
+          availableTransportsForVideo:(nullable NSArray<SDLTransportClassBox *> *)availableTransportsForVideo {
     if (![self.stateMachine isCurrentState:SDLSecondaryTransportStateStarted]) {
         SDLLogW(@"SecondaryTransportManager ignores duplicate Start Service ACK frame");
         return;
     }
 
     SDLSecondaryTransportType secondaryTransportType = SDLSecondaryTransportTypeDisabled;
-    if (secondaryTransports == nil || secondaryTransports.count == 0) {
+    if (availableSecondaryTransports == nil || availableSecondaryTransports.count == 0) {
         SDLLogW(@"Did not receive secondary transport type from system. Secondary transport is disabled.");
         secondaryTransportType = SDLSecondaryTransportTypeDisabled;
     } else {
         // current proposal says the list should contain only one element
-        SDLSecondaryTransportTypeBox *transportType = secondaryTransports[0];
+        SDLSecondaryTransportTypeBox *transportType = availableSecondaryTransports[0];
         secondaryTransportType = [transportType integerValue];
     }
 
@@ -351,15 +351,15 @@ static const float RetryConnectionDelay = 15.0;
         SDLLogW(@"Same transport is specified for both primary and secondary transport. Secondary transport is disabled.");
         secondaryTransportType = SDLSecondaryTransportTypeDisabled;
         // clear out these values, so that audio and video services will start on primary transport
-        transportsForAudio = nil;
-        transportsForVideo = nil;
+        availableTransportsForAudio = nil;
+        availableTransportsForVideo = nil;
     } else if (secondaryTransportType == SDLSecondaryTransportTypeIAP) {
         SDLLogW(@"Starting IAP as secondary transport, which does not usually happen");
     }
 
     self.secondaryTransportType = secondaryTransportType;
-    self.transportsForAudioService = transportsForAudio;
-    self.transportsForVideoService = transportsForVideo;
+    self.transportsForAudioService = availableTransportsForAudio;
+    self.transportsForVideoService = availableTransportsForVideo;
 
     // this will trigger audio / video streaming if they are allowed on primary transport
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
@@ -536,7 +536,7 @@ static const float RetryConnectionDelay = 15.0;
     SDLLogV(@"Secondary transports: %@, transports for audio: %@, transports for video: %@", secondaryTransports, transportsForAudio, transportsForVideo);
 
     dispatch_async(_stateMachineQueue, ^{
-        [self sdl_configureManager:secondaryTransports transportsForAudio:transportsForAudio transportsForVideo:transportsForVideo];
+        [self sdl_configureManager:secondaryTransports availableTransportsForAudio:transportsForAudio availableTransportsForVideo:transportsForVideo];
     });
 }
 
