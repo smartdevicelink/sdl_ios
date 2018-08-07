@@ -369,11 +369,12 @@ static const float RetryConnectionDelay = 15.0;
 
 - (void)sdl_handleTransportEventUpdate {
     if ([self.stateMachine isCurrentState:SDLSecondaryTransportStateStarted]) {
-        // The system sent Transport Event Update frame prior to Start Service ACK! Just keep the information and do nothing here.
+        // The system sent Transport Event Update frame prior to Start Service ACK. Just keep the information and do nothing here.
         SDLLogD(@"Received TCP transport information prior to Start Service ACK");
         return;
     }
     if (self.secondaryTransportType != SDLSecondaryTransportTypeTCP) {
+        SDLLogV(@"Received TCP transport information while the transport is not TCP");
         return;
     }
 
@@ -569,7 +570,7 @@ static const float RetryConnectionDelay = 15.0;
         } else if (transport == 2) {
             [array addObject:@(SDLTransportClassSecondary)];
         } else {
-            SDLLogV(@"Unknown transport class received: %d", transport);
+            SDLLogE(@"Unknown transport class received: %d", transport);
         }
     }
 
@@ -582,7 +583,7 @@ static const float RetryConnectionDelay = 15.0;
     } else if ([protocol.transport isMemberOfClass:[SDLTCPTransport class]]) {
         return SDLSecondaryTransportTypeTCP;
     } else {
-        SDLLogD(@"Unknown type of primary transport");
+        SDLLogE(@"Unknown type of primary transport");
         return SDLSecondaryTransportTypeDisabled;
     }
 }
@@ -626,7 +627,7 @@ static const float RetryConnectionDelay = 15.0;
 // try establishing secondary transport. Returns NO if failed
 - (BOOL)sdl_connectSecondaryTransport {
     if (self.secondaryTransport != nil) {
-        SDLLogW(@"Secondary transport is already started.");
+        SDLLogW(@"Attempting to connect secondary transport, but it's already started.");
         return NO;
     }
 
@@ -643,7 +644,7 @@ static const float RetryConnectionDelay = 15.0;
 
 - (BOOL)sdl_disconnectSecondaryTransport {
     if (self.secondaryTransport == nil) {
-        SDLLogD(@"Secondary transport is already stopped.");
+        SDLLogW(@"Attempted to disconnect secondary transport, but it's already stopped.");
         return NO;
     }
 
@@ -656,7 +657,7 @@ static const float RetryConnectionDelay = 15.0;
 
 - (BOOL)sdl_startTCPSecondaryTransport {
     if (![self sdl_isTCPReady]) {
-        SDLLogD(@"Cannot start TCP secondary transport");
+        SDLLogD(@"TCP secondary transport is not ready.");
         return NO;
     }
 
