@@ -468,14 +468,6 @@ NS_ASSUME_NONNULL_BEGIN
     return newShow;
 }
 
-/*
- show.graphic = [[SDLImage alloc] initWithName:self.primaryGraphic.name ofType:SDLImageTypeDynamic isTemplate:self.primaryGraphic.isTemplate];
- }
- if ([self sdl_shouldUpdateSecondaryImage]) {
- show.secondaryGraphic = [[SDLImage alloc] initWithName:self.secondaryGraphic.name ofType:SDLImageTypeDynamic isTemplate:self.secondaryGraphic.isTemplate];
-
- */
-
 - (void)sdl_updateCurrentScreenDataFromShow:(SDLShow *)show {
     // If the items are nil, they were not updated, so we can't just set it directly
     self.currentScreenData.mainField1 = show.mainField1 ?: self.currentScreenData.mainField1;
