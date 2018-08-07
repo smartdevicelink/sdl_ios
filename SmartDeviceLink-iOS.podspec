@@ -102,7 +102,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLEncodedSyncPDataResponse.h',
 'SmartDeviceLink/SDLEndAudioPassThru.h',
 'SmartDeviceLink/SDLEndAudioPassThruResponse.h',
-'SmartDeviceLink/SDLEqualizerSettings.h'
+'SmartDeviceLink/SDLEqualizerSettings.h',
 'SmartDeviceLink/SDLEnum.h',
 'SmartDeviceLink/SDLErrorConstants.h',
 'SmartDeviceLink/SDLFile.h',
