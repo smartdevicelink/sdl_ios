@@ -222,6 +222,8 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 // these methods run only on the I/O thread (i.e. invoked from the run loop)
 
 - (void)sdl_readFromStream {
+    NSAssert([[NSThread currentThread] isEqual:self.ioThread], @"sdl_readFromStream is called on a wrong thread!");
+
     BytePtr buffer = malloc(self.receiveBufferSize);
     NSInteger readBytes = [self.inputStream read:buffer maxLength:self.receiveBufferSize];
     if (readBytes < 0) {
@@ -241,6 +243,8 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 }
 
 - (void)sdl_writeToStream {
+    NSAssert([[NSThread currentThread] isEqual:self.ioThread], @"sdl_writeToStream is called on a wrong thread!");
+
     if (!self.outputStreamHasSpace || [self.sendDataQueue count] == 0) {
         return;
     }
@@ -271,6 +275,8 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 }
 
 - (void)sdl_onConnectionTimedOut:(NSTimer *)timer {
+    NSAssert([[NSThread currentThread] isEqual:self.ioThread], @"sdl_onConnectionTimedOut is called on a wrong thread!");
+
     SDLLogW(@"TCP connection timed out");
     [self sdl_cancelIOThread];
 
@@ -282,6 +288,8 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 }
 
 - (void)sdl_onStreamError:(NSStream *)stream {
+    NSAssert([[NSThread currentThread] isEqual:self.ioThread], @"sdl_onStreamError is called on a wrong thread!");
+
     // stop I/O thread
     [self sdl_cancelIOThread];
 
@@ -330,6 +338,8 @@ NSTimeInterval ConnectionTimeoutSecs = 30.0;
 }
 
 - (void)sdl_onStreamEnd:(NSStream *)stream {
+    NSAssert([[NSThread currentThread] isEqual:self.ioThread], @"sdl_onStreamEnd is called on a wrong thread!");
+
     [self sdl_cancelIOThread];
 
     if (!self.transportErrorNotified) {
