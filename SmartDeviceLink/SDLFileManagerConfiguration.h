@@ -19,14 +19,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Defaults to 1. To disable reuploads, set to 0.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLUInt> *artworkRetryCount;
+@property (assign, nonatomic) UInt8 artworkRetryCount;
 
 /**
  *  Defines the number of times the file manager will attempt to reupload general `SDLFile`s in the event of a failed upload to Core.
  *
  *  Defaults to 1. To disable reuploads, set to 0.
  */
-@property (strong, nonatomic, nullable) NSNumber<SDLUInt> *fileRetryCount;
+@property (assign, nonatomic) UInt8 fileRetryCount;
 
 /**
  *  Creates a default file manager configuration.
@@ -34,6 +34,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return A default configuration that may be customized.
  */
 + (instancetype)defaultConfiguration;
+
+/**
+ *  Creates a file manager configuration.
+ *
+ *  @return The configuration
+ */
+- (instancetype)init;
 
 /**
  *  Creates a file manager configuration with customized upload retry counts.

@@ -18,18 +18,18 @@ describe(@"A file manager configuration", ^{
 
     it(@"should get and set correctly", ^{
         testConfig = [[SDLFileManagerConfiguration alloc] init];
-        testConfig.artworkRetryCount = @5;
-        testConfig.fileRetryCount = @1;
+        testConfig.artworkRetryCount = 5;
+        testConfig.fileRetryCount = 1;
 
         expect(testConfig.artworkRetryCount).to(equal(5));
         expect(testConfig.fileRetryCount).to(equal(1));
     });
 
-    it(@"should be nil if not set", ^{
+    it(@"should be disabled if not set", ^{
         testConfig = [[SDLFileManagerConfiguration alloc] init];
 
-        expect(testConfig.artworkRetryCount).to(beNil());
-        expect(testConfig.fileRetryCount).to(beNil());
+        expect(testConfig.artworkRetryCount).to(equal(0));
+        expect(testConfig.fileRetryCount).to(equal(0));
     });
 
     it(@"should instantiate correctly with the default configuration", ^{

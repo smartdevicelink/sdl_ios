@@ -28,8 +28,8 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
 @property (strong, nonatomic) NSMutableSet<SDLFileName *> *uploadedEphemeralFileNames;
 @property (strong, nonatomic) NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *failedFileUploadsCount;
-@property (strong, nonatomic) NSNumber<SDLUInt> *maxFileUploadAttempts;
-@property (strong, nonatomic) NSNumber<SDLUInt> *maxArtworkUploadAttempts;
+@property (assign, nonatomic) UInt8 maxFileUploadAttempts;
+@property (assign, nonatomic) UInt8 maxArtworkUploadAttempts;
 
 - (BOOL)sdl_canFileBeUploadedAgain:(nullable SDLFile *)file maxRetryCount:(int)maxRetryCount failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount;
 + (NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)sdl_incrementFailedUploadCountForFileName:(SDLFileName *)fileName failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount;
@@ -69,8 +69,8 @@ describe(@"SDLFileManager", ^{
         });
 
         it(@"should set the maximum number of upload attempts to 1", ^{
-            expect(testFileManager.maxFileUploadAttempts).to(equal(@1));
-            expect(testFileManager.maxArtworkUploadAttempts).to(equal(@1));
+            expect(testFileManager.maxFileUploadAttempts).to(equal(1));
+            expect(testFileManager.maxArtworkUploadAttempts).to(equal(1));
         });
     });
 

@@ -18,14 +18,18 @@ static NSUInteger const DefaultRetryCount = 1;
     return [[self.class alloc] initWithArtworkRetryCount:DefaultRetryCount fileRetryCount:DefaultRetryCount];
 }
 
+- (instancetype)init {
+    return [self initWithArtworkRetryCount:0 fileRetryCount:0];
+}
+
 - (instancetype)initWithArtworkRetryCount:(UInt8)artworkRetryCount fileRetryCount:(UInt8)fileRetryCount {
     self = [super init];
     if (!self) {
         return nil;
     }
 
-    _artworkRetryCount = @(artworkRetryCount);
-    _fileRetryCount = @(fileRetryCount);
+    _artworkRetryCount = artworkRetryCount;
+    _fileRetryCount = fileRetryCount;
 
     return self;
 }

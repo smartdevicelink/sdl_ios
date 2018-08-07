@@ -179,7 +179,7 @@ NS_ASSUME_NONNULL_BEGIN
             __strong typeof(weakSelf) strongSelf = weakSelf;
 
             if (error != nil) {
-                SDLShow *showWithGraphics = [self sdl_extractUploadedImagesFromShow:fullShow primaryGraphic:self.primaryGraphic secondaryGraphic:self.secondaryGraphic];
+                SDLShow *showWithGraphics = [self sdl_createShowWithUploadedImages:self.primaryGraphic secondaryGraphic:self.secondaryGraphic];
                 if (showWithGraphics != nil) {
                     SDLLogW(@"Some images failed to upload. Sending update with the successfully uploaded images");
                     self.inProgressUpdate = showWithGraphics;
@@ -240,7 +240,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     [self.fileManager uploadArtworks:artworksToUpload completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
         if (error != nil) {
-            SDLLogE(@"Text and graphic manager artwork failed to upload");
+            SDLLogW(@"Text and graphic manager artwork failed to upload");
         }
 
         handler(error);
@@ -455,17 +455,11 @@ NS_ASSUME_NONNULL_BEGIN
     return newShow;
 }
 
-- (nullable SDLShow *)sdl_extractUploadedImagesFromShow:(SDLShow *)show primaryGraphic:(nullable SDLArtwork *)primaryGraphic secondaryGraphic:(nullable SDLArtwork *)secondaryGraphic  {
+- (nullable SDLShow *)sdl_createShowWithUploadedImages:(nullable SDLArtwork *)primaryGraphic secondaryGraphic:(nullable SDLArtwork *)secondaryGraphic  {
     SDLShow *newShow = [[SDLShow alloc] init];
-    newShow.graphic = [self sdl_artworkAlreadyUploadedOrNonExistent:primaryGraphic] ? show.graphic : nil;
-    newShow.secondaryGraphic = [self sdl_artworkAlreadyUploadedOrNonExistent:secondaryGraphic] ? show.secondaryGraphic : nil;
+    newShow.graphic = [self sdl_artworkAlreadyUploadedOrNonExistent:primaryGraphic] ? [[SDLImage alloc] initWithName:primaryGraphic.name ofType:SDLImageTypeDynamic isTemplate:primaryGraphic.isTemplate] : nil;
+    newShow.secondaryGraphic = [self sdl_artworkAlreadyUploadedOrNonExistent:secondaryGraphic] ? [[SDLImage alloc] initWithName:secondaryGraphic.name ofType:SDLImageTypeDynamic isTemplate:secondaryGraphic.isTemplate] : nil;
 
-    if (primaryGraphic != nil) {
-        SDLLogD(@"Primary graphic upload was %s", newShow.graphic != nil ? "successful" : "unsuccessful");
-    }
-    if (secondaryGraphic != nil) {
-        SDLLogD(@"Secondary graphic upload was %s", newShow.secondaryGraphic != nil ? "successful" : "unsuccessful");
-    }
     if (newShow.graphic == nil && newShow.secondaryGraphic == nil) {
         SDLLogV(@"No graphics to upload");
         return nil;
@@ -473,6 +467,14 @@ NS_ASSUME_NONNULL_BEGIN
 
     return newShow;
 }
+
+/*
+ show.graphic = [[SDLImage alloc] initWithName:self.primaryGraphic.name ofType:SDLImageTypeDynamic isTemplate:self.primaryGraphic.isTemplate];
+ }
+ if ([self sdl_shouldUpdateSecondaryImage]) {
+ show.secondaryGraphic = [[SDLImage alloc] initWithName:self.secondaryGraphic.name ofType:SDLImageTypeDynamic isTemplate:self.secondaryGraphic.isTemplate];
+
+ */
 
 - (void)sdl_updateCurrentScreenDataFromShow:(SDLShow *)show {
     // If the items are nil, they were not updated, so we can't just set it directly
