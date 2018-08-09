@@ -83,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @discussion If undefined or unavailable, then value shall be set to 0
  *
- * Optional, Float, 0.0 - 10.0
+ * Required, Float, 0.0 - 1000.0
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *pdop;
 
@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @discussion If undefined or unavailable, then value shall be set to 0
  *
- * Optional, Float, 0.0 - 10.0
+ * Required, Float, 0.0 - 1000.0
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *hdop;
 
@@ -101,7 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @discussion If undefined or unavailable, then value shall be set to 0
  *
- * Optional, Float, 0.0 - 10.0
+ * Required, Float, 0.0 - 1000.0
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *vdop;
 

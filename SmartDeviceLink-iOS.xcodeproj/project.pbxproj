@@ -277,8 +277,6 @@
 		1EAA470E2032BF1D000FE74B /* SDLOnRCStatusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA470D2032BF1D000FE74B /* SDLOnRCStatusSpec.m */; };
 		1EAA47112033FE80000FE74B /* SDLStationIDNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EAA470F2033FE80000FE74B /* SDLStationIDNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1EAA47122033FE80000FE74B /* SDLStationIDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA47102033FE80000FE74B /* SDLStationIDNumber.m */; };
-		1EAA47152034052D000FE74B /* SDLGPSLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EAA47132034052D000FE74B /* SDLGPSLocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1EAA47162034052D000FE74B /* SDLGPSLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA47142034052D000FE74B /* SDLGPSLocation.m */; };
 		1EAA4719203406B2000FE74B /* SDLSISData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EAA4717203406B1000FE74B /* SDLSISData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1EAA471A203406B2000FE74B /* SDLSISData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA4718203406B1000FE74B /* SDLSISData.m */; };
 		1EAA471D203410BB000FE74B /* SDLAudioControlCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EAA471B203410BB000FE74B /* SDLAudioControlCapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -321,7 +319,6 @@
 		1EAA47762036B847000FE74B /* SDLEqualizerSettingsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA47752036B847000FE74B /* SDLEqualizerSettingsSpec.m */; };
 		1EAA47782036BA74000FE74B /* SDLAudioControlCapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA47772036BA74000FE74B /* SDLAudioControlCapabilitiesSpec.m */; };
 		1EAA477A2036BD46000FE74B /* SDLSISDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA47792036BD46000FE74B /* SDLSISDataSpec.m */; };
-		1EAA477E2036C091000FE74B /* SDLGPSLocationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA477D2036C091000FE74B /* SDLGPSLocationSpec.m */; };
 		1EAA47802036C2C9000FE74B /* SDLStationIDNumberSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EAA477F2036C2C9000FE74B /* SDLStationIDNumberSpec.m */; };
 		1EB59C9F202D925500343A61 /* SDLMassageZone.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB59C9D202D925500343A61 /* SDLMassageZone.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1EB59CA0202D925500343A61 /* SDLMassageZone.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB59C9E202D925500343A61 /* SDLMassageZone.m */; };
@@ -1719,8 +1716,6 @@
 		1EAA470D2032BF1D000FE74B /* SDLOnRCStatusSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLOnRCStatusSpec.m; sourceTree = "<group>"; };
 		1EAA470F2033FE80000FE74B /* SDLStationIDNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLStationIDNumber.h; sourceTree = "<group>"; };
 		1EAA47102033FE80000FE74B /* SDLStationIDNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLStationIDNumber.m; sourceTree = "<group>"; };
-		1EAA47132034052D000FE74B /* SDLGPSLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLGPSLocation.h; sourceTree = "<group>"; };
-		1EAA47142034052D000FE74B /* SDLGPSLocation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGPSLocation.m; sourceTree = "<group>"; };
 		1EAA4717203406B1000FE74B /* SDLSISData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSISData.h; sourceTree = "<group>"; };
 		1EAA4718203406B1000FE74B /* SDLSISData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSISData.m; sourceTree = "<group>"; };
 		1EAA471B203410BB000FE74B /* SDLAudioControlCapabilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAudioControlCapabilities.h; sourceTree = "<group>"; };
@@ -1763,7 +1758,6 @@
 		1EAA47752036B847000FE74B /* SDLEqualizerSettingsSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLEqualizerSettingsSpec.m; sourceTree = "<group>"; };
 		1EAA47772036BA74000FE74B /* SDLAudioControlCapabilitiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAudioControlCapabilitiesSpec.m; sourceTree = "<group>"; };
 		1EAA47792036BD46000FE74B /* SDLSISDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSISDataSpec.m; sourceTree = "<group>"; };
-		1EAA477D2036C091000FE74B /* SDLGPSLocationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGPSLocationSpec.m; sourceTree = "<group>"; };
 		1EAA477F2036C2C9000FE74B /* SDLStationIDNumberSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLStationIDNumberSpec.m; sourceTree = "<group>"; };
 		1EB59C9D202D925500343A61 /* SDLMassageZone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMassageZone.h; sourceTree = "<group>"; };
 		1EB59C9E202D925500343A61 /* SDLMassageZone.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMassageZone.m; sourceTree = "<group>"; };
@@ -3185,7 +3179,6 @@
 				88B3BFA120DA911E00943565 /* SDLFuelRangeSpec.m */,
 				1EAA47752036B847000FE74B /* SDLEqualizerSettingsSpec.m */,
 				162E829C1A9BDE8A00906325 /* SDLGPSDataSpec.m */,
-				1EAA477D2036C091000FE74B /* SDLGPSLocationSpec.m */,
 				88EED83A1F33BECB00E6C42E /* SDLHapticRectSpec.m */,
 				162E829D1A9BDE8A00906325 /* SDLHeadLampStatusSpec.m */,
 				5DE372A31ACB336600849FAA /* SDLHMICapabilitiesSpec.m */,
@@ -4011,8 +4004,6 @@
 				1EAA4724203416D3000FE74B /* SDLEqualizerSettings.m */,
 				5D61FACE1A84238A00846EE7 /* SDLGPSData.h */,
 				5D61FACF1A84238A00846EE7 /* SDLGPSData.m */,
-				1EAA47132034052D000FE74B /* SDLGPSLocation.h */,
-				1EAA47142034052D000FE74B /* SDLGPSLocation.m */,
 				88EED8361F33AE1700E6C42E /* SDLHapticRect.h */,
 				88EED8371F33AE1700E6C42E /* SDLHapticRect.m */,
 				5D61FAD01A84238A00846EE7 /* SDLHeadLampStatus.h */,
@@ -5586,7 +5577,6 @@
 				1EAA473920345B7A000FE74B /* SDLLightCapabilities.h in Headers */,
 				1EAA4725203416D3000FE74B /* SDLEqualizerSettings.h in Headers */,
 				1EAA47112033FE80000FE74B /* SDLStationIDNumber.h in Headers */,
-				1EAA47152034052D000FE74B /* SDLGPSLocation.h in Headers */,
 				5D9FC2A61FD8815800ACA5C2 /* SDLPCMAudioConverter.h in Headers */,
 				1EAA47292034388D000FE74B /* SDLAudioControlData.h in Headers */,
 				1EAA471D203410BB000FE74B /* SDLAudioControlCapabilities.h in Headers */,
@@ -6404,7 +6394,6 @@
 				DAC572621D10C5020004288B /* SDLPinchGesture.m in Sources */,
 				1EAA471A203406B2000FE74B /* SDLSISData.m in Sources */,
 				5D61FCF51A84238C00846EE7 /* SDLMaintenanceModeStatus.m in Sources */,
-				1EAA47162034052D000FE74B /* SDLGPSLocation.m in Sources */,
 				1EE48E911F2F0EE700B98D08 /* SDLTemperatureUnit.m in Sources */,
 				5D61FCD81A84238C00846EE7 /* SDLInteractionMode.m in Sources */,
 				5D61FCB01A84238C00846EE7 /* SDLGenericResponse.m in Sources */,
@@ -6818,7 +6807,6 @@
 				1EE8C45A1F387BBB00FDC2CF /* SDLGetInteriorVehicleDataSpec.m in Sources */,
 				5D6035D5202CE4A500A429C9 /* TestMultipleRequestsConnectionManager.m in Sources */,
 				162E83691A9BDE8B00906325 /* SDLSubscribeButtonResponseSpec.m in Sources */,
-				1EAA477E2036C091000FE74B /* SDLGPSLocationSpec.m in Sources */,
 				5DAE06751BDEC6D600F9B498 /* SDLArtworkSpec.m in Sources */,
 				5DA23FF01F2FA0FF009C0313 /* SDLControlFramePayloadEndServiceSpec.m in Sources */,
 				162E83591A9BDE8B00906325 /* SDLListFilesResponseSpec.m in Sources */,

@@ -125,7 +125,6 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLGetWaypointsResponse.h',
 'SmartDeviceLink/SDLGlobalProperty.h',
 'SmartDeviceLink/SDLGPSData.h',
-'SmartDeviceLink/SDLGPSLocation.h',
 'SmartDeviceLink/SDLHapticRect.h',
 'SmartDeviceLink/SDLHeadLampStatus.h',
 'SmartDeviceLink/SDLHMICapabilities.h',

@@ -4,7 +4,7 @@
 #import "SDLRPCMessage.h"
 
 @class SDLStationIDNumber;
-@class SDLGPSLocation;
+@class SDLGPSData;
 
 /**
  * HD radio Station Information Service (SIS) data.
@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSISData : SDLRPCStruct
 
-- (instancetype)initWithStationShortName:(nullable NSString *)stationShortName stationIDNumber:(nullable SDLStationIDNumber *)id stationLongName:(nullable NSString *)stationLongName stationLocation:(nullable SDLGPSLocation *)stationLocation stationMessage:(nullable NSString *)stationMessage;
+- (instancetype)initWithStationShortName:(nullable NSString *)stationShortName stationIDNumber:(nullable SDLStationIDNumber *)id stationLongName:(nullable NSString *)stationLongName stationLocation:(nullable SDLGPSData *)stationLocation stationMessage:(nullable NSString *)stationMessage;
 
 /**
  * @abstract Identifies the 4-alpha-character station call sign
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, SDLGPSLocation type
  */
-@property (nullable, strong, nonatomic) SDLGPSLocation *stationLocation;
+@property (nullable, strong, nonatomic) SDLGPSData *stationLocation;
 
 /**
  * @abstract May be used to convey textual information of general interest

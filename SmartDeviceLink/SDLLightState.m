@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.id = id;
     self.status = lightStatus;
     self.density = @(lightDensity);
-    self.color = [[SDLRGBColor alloc] initWithColor:lightColor];;
+    self.color = [[SDLRGBColor alloc] initWithColor:lightColor];
 
     return self;
 }
@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLRGBColor *)color {
-    return [store sdl_objectForName:SDLNameColor ofClass:[SDLRGBColor class]];;
+    return [store sdl_objectForName:SDLNameColor ofClass:[SDLRGBColor class]];
 }
 
 @end
