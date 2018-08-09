@@ -17,9 +17,9 @@
 #import "SDLIAPTransport.h"
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
+#import "SDLPrimaryProtocolDelegate.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolHeader.h"
-#import "SDLProtocolMessage.h"
 #import "SDLSecondaryTransportManagerConstants.h"
 #import "SDLStateMachine.h"
 #import "SDLTCPTransport.h"
@@ -58,68 +58,6 @@ static const float RegisterTransportTime = 10.0;
 static const float RetryConnectionDelay = 15.0;
 
 
-/** An internal class to receive event from primary transport. */
-@interface PrimaryProtocolListener : NSObject <SDLProtocolListener>
-
-@property (weak, nonatomic) SDLProtocol *primaryProtocol;
-@property (copy, nonatomic) SDLProtocolHeader *primaryRPCHeader;
-
-@end
-
-@implementation PrimaryProtocolListener
-
-- (instancetype)initWithProtocol:(SDLProtocol *)primaryProtocol {
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
-
-    _primaryProtocol = primaryProtocol;
-
-    return self;
-}
-
-- (void)start {
-    @synchronized(self.primaryProtocol.protocolDelegateTable) {
-        [self.primaryProtocol.protocolDelegateTable addObject:self];
-    }
-}
-
-- (void)stop {
-    @synchronized(self.primaryProtocol.protocolDelegateTable) {
-        [self.primaryProtocol.protocolDelegateTable removeObject:self];
-    }
-}
-
-// called from protocol's _reeiveQueue of Primary Transport
-- (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
-    if (startServiceACK.header.serviceType != SDLServiceTypeRPC) {
-        return;
-    }
-
-    SDLLogV(@"Received Start Service ACK header of RPC service on primary transport");
-
-    // keep header to acquire Session ID
-    self.primaryRPCHeader = startServiceACK.header;
-
-    SDLControlFramePayloadRPCStartServiceAck *payload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
-
-    NSDictionary<NSString *, id> *userInfo = @{SDLNotificationUserInfoObject: payload};
-    [[NSNotificationCenter defaultCenter] postNotificationName:SDLStartSecondaryTransportManagerNotification object:self userInfo:userInfo];
-}
-
-// called from protocol's _reeiveQueue of Primary Transport
-- (void)handleTransportEventUpdateMessage:(SDLProtocolMessage *)transportEventUpdate {
-
-    SDLControlFramePayloadTransportEventUpdate *payload = [[SDLControlFramePayloadTransportEventUpdate alloc] initWithData:transportEventUpdate.payload];
-    SDLLogV(@"Transport Config Update: %@", payload);
-
-    NSDictionary<NSString *, id> *userInfo = @{SDLNotificationUserInfoObject: payload};
-    [[NSNotificationCenter defaultCenter] postNotificationName:SDLTransportEventUpdateNotification object:self userInfo:userInfo];
-}
-
-@end
-
 @interface SDLSecondaryTransportManager ()
 
 // State of this manager.
@@ -129,8 +67,8 @@ static const float RetryConnectionDelay = 15.0;
 
 // Instance of the protocol that runs on primary transport.
 @property (weak, nonatomic) SDLProtocol *primaryProtocol;
-// A sub-class to catch Start Service ACK and Transport Config Update frames.
-@property (strong, nonatomic) PrimaryProtocolListener *primaryProtocolListener;
+// A class to catch Start Service ACK and Transport Config Update frames.
+@property (strong, nonatomic) SDLPrimaryProtocolDelegate *primaryProtocolDelegate;
 
 // Selected type of secondary transport. If 'SDLSecondaryTransportTypeDisabled' then secondary transport is disabled.
 @property (assign, nonatomic) SDLSecondaryTransportType secondaryTransportType;
@@ -190,7 +128,7 @@ static const float RetryConnectionDelay = 15.0;
         }
 
         self.primaryProtocol = primaryProtocol;
-        self.primaryProtocolListener = [[PrimaryProtocolListener alloc] initWithProtocol:primaryProtocol];
+        self.primaryProtocolDelegate = [[SDLPrimaryProtocolDelegate alloc] initWithProtocol:primaryProtocol];
 
         [self.stateMachine transitionToState:SDLSecondaryTransportStateStarted];
     });
@@ -299,7 +237,7 @@ static const float RetryConnectionDelay = 15.0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onAppStateUpdated:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onAppStateUpdated:) name:UIApplicationWillResignActiveNotification object:nil];
 
-    [self.primaryProtocolListener start];
+    [self.primaryProtocolDelegate start];
 }
 
 - (void)sdl_stopManager {
@@ -311,7 +249,7 @@ static const float RetryConnectionDelay = 15.0;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
 
-    [self.primaryProtocolListener stop];
+    [self.primaryProtocolDelegate stop];
 
     self.streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
                                 @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
@@ -633,9 +571,9 @@ static const float RetryConnectionDelay = 15.0;
 
     // we reuse Session ID acquired from primary transport's protocol
     // this is for Register Secondary Transport frame
-    [self.secondaryProtocol storeHeader:self.primaryProtocolListener.primaryRPCHeader forServiceType:SDLServiceTypeControl];
+    [self.secondaryProtocol storeHeader:self.primaryProtocolDelegate.primaryRPCHeader forServiceType:SDLServiceTypeControl];
     // this is for video and audio services
-    [self.secondaryProtocol storeHeader:self.primaryProtocolListener.primaryRPCHeader forServiceType:SDLServiceTypeRPC];
+    [self.secondaryProtocol storeHeader:self.primaryProtocolDelegate.primaryRPCHeader forServiceType:SDLServiceTypeRPC];
 
     [self.secondaryTransport connect];
     return YES;
@@ -655,9 +593,9 @@ static const float RetryConnectionDelay = 15.0;
 
     // we reuse Session ID acquired from primary transport's protocol
     // this is for Register Secondary Transport frame
-    [self.secondaryProtocol storeHeader:self.primaryProtocolListener.primaryRPCHeader forServiceType:SDLServiceTypeControl];
+    [self.secondaryProtocol storeHeader:self.primaryProtocolDelegate.primaryRPCHeader forServiceType:SDLServiceTypeControl];
     // this is for video and audio services
-    [self.secondaryProtocol storeHeader:self.primaryProtocolListener.primaryRPCHeader forServiceType:SDLServiceTypeRPC];
+    [self.secondaryProtocol storeHeader:self.primaryProtocolDelegate.primaryRPCHeader forServiceType:SDLServiceTypeRPC];
 
     [self.secondaryTransport connect];
     return YES;

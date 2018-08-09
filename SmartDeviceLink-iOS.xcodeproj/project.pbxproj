@@ -1253,6 +1253,7 @@
 		E9C32B9E1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B9A1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h */; };
 		E9C32B9F1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B9B1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m */; };
 		EE28F9E3209802A500B1B61D /* SDLStreamingProtocolDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = EE6CBF872064CAEE00EEE0CA /* SDLStreamingProtocolDelegate.h */; };
+		EE38C0C3211C440400E170AD /* SDLPrimaryProtocolDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE38C0C2211C440400E170AD /* SDLPrimaryProtocolDelegate.m */; };
 		EE460E082066B5F20006EDD3 /* SDLControlFramePayloadTransportEventUpdateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EE460E072066B5F20006EDD3 /* SDLControlFramePayloadTransportEventUpdateSpec.m */; };
 		EE460E0A2066B6E40006EDD3 /* SDLControlFramePayloadRegisterSecondaryTransportNakSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EE460E092066B6E40006EDD3 /* SDLControlFramePayloadRegisterSecondaryTransportNakSpec.m */; };
 		EE798CA420561210008EDE8E /* SDLSecondaryTransportManager.h in Headers */ = {isa = PBXBuildFile; fileRef = EE798CA32056120F008EDE8E /* SDLSecondaryTransportManager.h */; };
@@ -2650,6 +2651,8 @@
 		E9C32B991AB20C5900F283AF /* EAAccessory+SDLProtocols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EAAccessory+SDLProtocols.m"; sourceTree = "<group>"; };
 		E9C32B9A1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EAAccessoryManager+SDLProtocols.h"; sourceTree = "<group>"; };
 		E9C32B9B1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EAAccessoryManager+SDLProtocols.m"; sourceTree = "<group>"; };
+		EE38C0C1211C43E100E170AD /* SDLPrimaryProtocolDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPrimaryProtocolDelegate.h; sourceTree = "<group>"; };
+		EE38C0C2211C440400E170AD /* SDLPrimaryProtocolDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPrimaryProtocolDelegate.m; sourceTree = "<group>"; };
 		EE460E072066B5F20006EDD3 /* SDLControlFramePayloadTransportEventUpdateSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLControlFramePayloadTransportEventUpdateSpec.m; path = ControlFramePayloadSpecs/SDLControlFramePayloadTransportEventUpdateSpec.m; sourceTree = "<group>"; };
 		EE460E092066B6E40006EDD3 /* SDLControlFramePayloadRegisterSecondaryTransportNakSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLControlFramePayloadRegisterSecondaryTransportNakSpec.m; path = ControlFramePayloadSpecs/SDLControlFramePayloadRegisterSecondaryTransportNakSpec.m; sourceTree = "<group>"; };
 		EE6CBF872064CAEE00EEE0CA /* SDLStreamingProtocolDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLStreamingProtocolDelegate.h; sourceTree = "<group>"; };
@@ -5291,6 +5294,8 @@
 			children = (
 				EE798CA32056120F008EDE8E /* SDLSecondaryTransportManager.h */,
 				EE798CA520561217008EDE8E /* SDLSecondaryTransportManager.m */,
+				EE38C0C1211C43E100E170AD /* SDLPrimaryProtocolDelegate.h */,
+				EE38C0C2211C440400E170AD /* SDLPrimaryProtocolDelegate.m */,
 				EE798CA72056121F008EDE8E /* SDLSecondaryTransportManagerConstants.h */,
 				EE798CA920561225008EDE8E /* SDLSecondaryTransportManagerConstants.m */,
 			);
@@ -6273,6 +6278,7 @@
 				1FF7DABC1F75B2BF00B46C30 /* SDLFocusableItemLocator.m in Sources */,
 				EED5CA021F4D18EC00F04000 /* SDLRAWH264Packetizer.m in Sources */,
 				5D61FC851A84238C00846EE7 /* SDLDeviceLevelStatus.m in Sources */,
+				EE38C0C3211C440400E170AD /* SDLPrimaryProtocolDelegate.m in Sources */,
 				5D9FDA981F2A7D3F00A495C8 /* emhashmap.c in Sources */,
 				5D61FD1E1A84238C00846EE7 /* SDLOnTBTClientState.m in Sources */,
 				5DD67CBD1E661C84009CD394 /* SDLLogTargetOSLog.m in Sources */,
