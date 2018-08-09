@@ -37,7 +37,7 @@ typedef NS_ENUM(NSInteger, SDLSecondaryTransportType) {
 };
 
 // should be in sync with SDLSecondaryTransportManager.m
-static const float RetryConnectionDelay = 15.0;
+static const float RetryConnectionDelay = 5.0;
 
 
 @interface SDLSecondaryTransportManager ()

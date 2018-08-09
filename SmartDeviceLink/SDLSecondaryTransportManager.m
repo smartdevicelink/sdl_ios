@@ -53,7 +53,7 @@ SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting = @"Rec
 static const float RegisterTransportTime = 10.0;
 
 // Delay to retry connection after secondary transport is disconnected or registration is failed
-static const float RetryConnectionDelay = 15.0;
+static const float RetryConnectionDelay = 5.0;
 
 
 @interface SDLSecondaryTransportManager ()
