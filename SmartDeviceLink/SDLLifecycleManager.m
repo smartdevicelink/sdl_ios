@@ -218,13 +218,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                           secondaryTransportManager:self.secondaryTransportManager];
     }
 #pragma clang diagnostic pop
-
-    // if secondary transport manager is used, streaming media manager will be started through
-    // onAudioServiceProtocolUpdated and onVideoServiceProtocolUpdated
-    if (self.secondaryTransportManager == nil && self.streamManager != nil) {
-        [self audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
-        [self videoServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
-    }
 }
 
 - (void)didEnterStateStopped {
@@ -378,8 +371,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         dispatch_group_leave(managerGroup);
     }];
 
-	if (self.streamManager != nil) {
-        [self.streamManager startWithProtocol:self.proxy.protocol];
+    // if secondary transport manager is used, streaming media manager will be started through onAudioServiceProtocolUpdated and onVideoServiceProtocolUpdated
+    if (self.secondaryTransportManager == nil && self.streamManager != nil) {
+        [self audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
+        [self videoServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
     }
 
 	dispatch_group_enter(managerGroup);
