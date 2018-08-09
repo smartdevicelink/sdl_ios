@@ -13,23 +13,25 @@
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
 #import "SDLControlFramePayloadTransportEventUpdate.h"
 #import "SDLLogMacros.h"
-#import "SDLNotificationConstants.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolMessage.h"
-#import "SDLSecondaryTransportManagerConstants.h"
+#import "SDLSecondaryTransportManager.h"
 
 @interface SDLPrimaryProtocolDelegate ()
+@property (weak, nonatomic) SDLSecondaryTransportManager *secondaryTransportManager;
 @property (weak, nonatomic) SDLProtocol *primaryProtocol;
 @end
 
 @implementation SDLPrimaryProtocolDelegate
 
-- (instancetype)initWithProtocol:(SDLProtocol *)primaryProtocol {
+- (instancetype)initWithSecondaryTransportManager:(SDLSecondaryTransportManager *)manager
+                                  primaryProtocol:(SDLProtocol *)primaryProtocol {
     self = [super init];
     if (!self) {
         return nil;
     }
 
+    _secondaryTransportManager = manager;
     _primaryProtocol = primaryProtocol;
 
     return self;
@@ -60,8 +62,7 @@
 
     SDLControlFramePayloadRPCStartServiceAck *payload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithData:startServiceACK.payload];
 
-    NSDictionary<NSString *, id> *userInfo = @{SDLNotificationUserInfoObject: payload};
-    [[NSNotificationCenter defaultCenter] postNotificationName:SDLStartSecondaryTransportManagerNotification object:self userInfo:userInfo];
+    [self.secondaryTransportManager onStartServiceAckReceived:payload];
 }
 
 // called from protocol's _reeiveQueue of Primary Transport
@@ -69,8 +70,7 @@
     SDLControlFramePayloadTransportEventUpdate *payload = [[SDLControlFramePayloadTransportEventUpdate alloc] initWithData:transportEventUpdate.payload];
     SDLLogV(@"Transport Config Update: %@", payload);
 
-    NSDictionary<NSString *, id> *userInfo = @{SDLNotificationUserInfoObject: payload};
-    [[NSNotificationCenter defaultCenter] postNotificationName:SDLTransportEventUpdateNotification object:self userInfo:userInfo];
+    [self.secondaryTransportManager onTransportEventUpdateReceived:payload];
 }
 
 @end

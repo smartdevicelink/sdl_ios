@@ -16,11 +16,9 @@
 #import "SDLControlFramePayloadTransportEventUpdate.h"
 #import "SDLIAPTransport.h"
 #import "SDLLogMacros.h"
-#import "SDLNotificationConstants.h"
 #import "SDLPrimaryProtocolDelegate.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolHeader.h"
-#import "SDLSecondaryTransportManagerConstants.h"
 #import "SDLStateMachine.h"
 #import "SDLTCPTransport.h"
 #import "SDLTimer.h"
@@ -128,7 +126,7 @@ static const float RetryConnectionDelay = 15.0;
         }
 
         self.primaryProtocol = primaryProtocol;
-        self.primaryProtocolDelegate = [[SDLPrimaryProtocolDelegate alloc] initWithProtocol:primaryProtocol];
+        self.primaryProtocolDelegate = [[SDLPrimaryProtocolDelegate alloc] initWithSecondaryTransportManager:self primaryProtocol:primaryProtocol];
 
         [self.stateMachine transitionToState:SDLSecondaryTransportStateStarted];
     });
@@ -143,6 +141,52 @@ static const float RetryConnectionDelay = 15.0;
         [self sdl_handleTransportUpdateWithPrimaryAvailable:NO secondaryAvailable:NO];
 
         [self.stateMachine transitionToState:SDLSecondaryTransportStateStopped];
+    });
+}
+
+// called from SDLProtocol's _receiveQueue of "primary" transport
+- (void)onStartServiceAckReceived:(SDLControlFramePayloadRPCStartServiceAck *)payload {
+    NSMutableArray<SDLSecondaryTransportTypeBox *> *secondaryTransports = nil;
+    if (payload.secondaryTransports != nil) {
+        secondaryTransports = [NSMutableArray array];
+        for (NSString *transportString in payload.secondaryTransports) {
+            SDLSecondaryTransportType transport = [self sdl_convertTransportType:transportString];
+            [secondaryTransports addObject:@(transport)];
+        }
+    }
+    NSArray<SDLTransportClassBox *> *transportsForAudio = [self sdl_convertServiceTransports:payload.audioServiceTransports];
+    NSArray<SDLTransportClassBox *> *transportsForVideo = [self sdl_convertServiceTransports:payload.videoServiceTransports];
+
+    SDLLogV(@"Secondary transports: %@, transports for audio: %@, transports for video: %@", secondaryTransports, transportsForAudio, transportsForVideo);
+
+    dispatch_async(_stateMachineQueue, ^{
+        [self sdl_configureManager:secondaryTransports availableTransportsForAudio:transportsForAudio availableTransportsForVideo:transportsForVideo];
+    });
+}
+
+// called from SDLProtocol's _receiveQueue of "primary" transport
+- (void)onTransportEventUpdateReceived:(SDLControlFramePayloadTransportEventUpdate *)payload {
+    dispatch_async(_stateMachineQueue, ^{
+        BOOL updated = NO;
+
+        if (payload.tcpIpAddress != nil) {
+            if (![self.ipAddress isEqualToString:payload.tcpIpAddress]) {
+                self.ipAddress = payload.tcpIpAddress;
+                updated = YES;
+                SDLLogD(@"TCP transport IP address updated: %@", self.ipAddress);
+            }
+        }
+        if (payload.tcpPort != SDLControlFrameInt32NotFound) {
+            if (self.tcpPort != payload.tcpPort) {
+                self.tcpPort = payload.tcpPort;
+                updated = YES;
+                SDLLogD(@"TCP transport port number updated: %d", self.tcpPort);
+            }
+        }
+
+        if (updated) {
+            [self sdl_handleTransportEventUpdate];
+        }
     });
 }
 
@@ -231,9 +275,6 @@ static const float RetryConnectionDelay = 15.0;
 }
 
 - (void)sdl_startManager {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onStartServiceACKReceived:) name:SDLStartSecondaryTransportManagerNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onTransportEventUpdate:) name:SDLTransportEventUpdateNotification object:nil];
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onAppStateUpdated:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onAppStateUpdated:) name:UIApplicationWillResignActiveNotification object:nil];
 
@@ -242,9 +283,6 @@ static const float RetryConnectionDelay = 15.0;
 
 - (void)sdl_stopManager {
     SDLLogD(@"SDLSecondaryTransportManager stop");
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:SDLStartSecondaryTransportManagerNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:SDLTransportEventUpdateNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
@@ -407,113 +445,6 @@ static const float RetryConnectionDelay = 15.0;
         case SDLTransportClassSecondary: return @"secondary";
         default: return nil;
     }
-}
-
-
-#pragma mark - Start Service ACK notification implementation
-
-// called from SDLProtocol's _receiveQueue of "primary" transport
-- (void)sdl_onStartServiceACKReceived:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLControlFramePayloadRPCStartServiceAck class]], @"Unexpected type of object in the notification");
-
-    SDLControlFramePayloadRPCStartServiceAck *payload = notification.userInfo[SDLNotificationUserInfoObject];
-
-    NSMutableArray<SDLSecondaryTransportTypeBox *> *secondaryTransports = nil;
-    if (payload.secondaryTransports != nil) {
-        secondaryTransports = [NSMutableArray array];
-        for (NSString *transportString in payload.secondaryTransports) {
-            SDLSecondaryTransportType transport = [self sdl_convertTransportType:transportString];
-            [secondaryTransports addObject:@(transport)];
-        }
-    }
-    NSArray<SDLTransportClassBox *> *transportsForAudio = [self sdl_convertServiceTransports:payload.audioServiceTransports];
-    NSArray<SDLTransportClassBox *> *transportsForVideo = [self sdl_convertServiceTransports:payload.videoServiceTransports];
-
-    SDLLogV(@"Secondary transports: %@, transports for audio: %@, transports for video: %@", secondaryTransports, transportsForAudio, transportsForVideo);
-
-    dispatch_async(_stateMachineQueue, ^{
-        [self sdl_configureManager:secondaryTransports availableTransportsForAudio:transportsForAudio availableTransportsForVideo:transportsForVideo];
-    });
-}
-
-- (SDLSecondaryTransportType)sdl_convertTransportType:(NSString *)transportString {
-    if ([transportString isEqualToString:@"TCP_WIFI"]) {
-        return SDLSecondaryTransportTypeTCP;
-    } else if ([transportString isEqualToString:@"IAP_BLUETOOTH"] ||
-               [transportString isEqualToString:@"IAP_USB"] ||
-               [transportString isEqualToString:@"IAP_USB_HOST_MODE"] ||
-               [transportString isEqualToString:@"IAP_USB_DEVICE_MODE"] ||
-               [transportString isEqualToString:@"IAP_CARPLAY"]) {
-        return SDLSecondaryTransportTypeIAP;
-    } else {
-        // "SPP_BLUETOOTH" and "AOA_USB" are not used
-        return SDLSecondaryTransportTypeDisabled;
-    }
-}
-
-- (nullable NSArray<SDLTransportClassBox *> *)sdl_convertServiceTransports:(nullable NSArray<NSNumber *> *)transports {
-    if (transports == nil) {
-        return nil;
-    }
-
-    // Actually there is nothing to "convert" here. We just check the range and recreate an array.
-    NSMutableArray<SDLTransportClassBox *> *array = [NSMutableArray new];
-    for (NSNumber *num in transports) {
-        int transport = [num intValue];
-        if (transport == 1) {
-            [array addObject:@(SDLTransportClassPrimary)];
-        } else if (transport == 2) {
-            [array addObject:@(SDLTransportClassSecondary)];
-        } else {
-            SDLLogE(@"Unknown transport class received: %d", transport);
-        }
-    }
-
-    return [array copy];
-}
-
-- (SDLSecondaryTransportType)sdl_getTransportTypeFromProtocol:(SDLProtocol *)protocol {
-    if ([protocol.transport isMemberOfClass:[SDLIAPTransport class]]) {
-        return SDLSecondaryTransportTypeIAP;
-    } else if ([protocol.transport isMemberOfClass:[SDLTCPTransport class]]) {
-        return SDLSecondaryTransportTypeTCP;
-    } else {
-        SDLLogE(@"Unknown type of primary transport");
-        return SDLSecondaryTransportTypeDisabled;
-    }
-}
-
-
-#pragma mark - TransportEventUpdate notification implementation
-
-// called from SDLProtocol's _receiveQueue of "primary" transport
-- (void)sdl_onTransportEventUpdate:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLControlFramePayloadTransportEventUpdate class]], @"Unexpected type of object in the notification");
-
-    SDLControlFramePayloadTransportEventUpdate *payload = notification.userInfo[SDLNotificationUserInfoObject];
-
-    dispatch_async(_stateMachineQueue, ^{
-        BOOL updated = NO;
-
-        if (payload.tcpIpAddress != nil) {
-            if (![self.ipAddress isEqualToString:payload.tcpIpAddress]) {
-                self.ipAddress = payload.tcpIpAddress;
-                updated = YES;
-                SDLLogD(@"TCP transport IP address updated: %@", self.ipAddress);
-            }
-        }
-        if (payload.tcpPort != SDLControlFrameInt32NotFound) {
-            if (self.tcpPort != payload.tcpPort) {
-                self.tcpPort = payload.tcpPort;
-                updated = YES;
-                SDLLogD(@"TCP transport port number updated: %d", self.tcpPort);
-            }
-        }
-
-        if (updated) {
-            [self sdl_handleTransportEventUpdate];
-        }
-    });
 }
 
 
@@ -712,6 +643,55 @@ static const float RetryConnectionDelay = 15.0;
             }
         }
     });
+}
+
+#pragma mark - Utility methods
+
+- (SDLSecondaryTransportType)sdl_convertTransportType:(NSString *)transportString {
+    if ([transportString isEqualToString:@"TCP_WIFI"]) {
+        return SDLSecondaryTransportTypeTCP;
+    } else if ([transportString isEqualToString:@"IAP_BLUETOOTH"] ||
+               [transportString isEqualToString:@"IAP_USB"] ||
+               [transportString isEqualToString:@"IAP_USB_HOST_MODE"] ||
+               [transportString isEqualToString:@"IAP_USB_DEVICE_MODE"] ||
+               [transportString isEqualToString:@"IAP_CARPLAY"]) {
+        return SDLSecondaryTransportTypeIAP;
+    } else {
+        // "SPP_BLUETOOTH" and "AOA_USB" are not used
+        return SDLSecondaryTransportTypeDisabled;
+    }
+}
+
+- (nullable NSArray<SDLTransportClassBox *> *)sdl_convertServiceTransports:(nullable NSArray<NSNumber *> *)transports {
+    if (transports == nil) {
+        return nil;
+    }
+
+    // Actually there is nothing to "convert" here. We just check the range and recreate an array.
+    NSMutableArray<SDLTransportClassBox *> *array = [NSMutableArray new];
+    for (NSNumber *num in transports) {
+        int transport = [num intValue];
+        if (transport == 1) {
+            [array addObject:@(SDLTransportClassPrimary)];
+        } else if (transport == 2) {
+            [array addObject:@(SDLTransportClassSecondary)];
+        } else {
+            SDLLogE(@"Unknown transport class received: %d", transport);
+        }
+    }
+
+    return [array copy];
+}
+
+- (SDLSecondaryTransportType)sdl_getTransportTypeFromProtocol:(SDLProtocol *)protocol {
+    if ([protocol.transport isMemberOfClass:[SDLIAPTransport class]]) {
+        return SDLSecondaryTransportTypeIAP;
+    } else if ([protocol.transport isMemberOfClass:[SDLTCPTransport class]]) {
+        return SDLSecondaryTransportTypeTCP;
+    } else {
+        SDLLogE(@"Unknown type of primary transport");
+        return SDLSecondaryTransportTypeDisabled;
+    }
 }
 
 @end

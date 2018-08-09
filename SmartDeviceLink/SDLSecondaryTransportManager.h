@@ -9,6 +9,8 @@
 #import "SDLProtocolListener.h"
 #import "SDLStreamingProtocolDelegate.h"
 
+@class SDLControlFramePayloadRPCStartServiceAck;
+@class SDLControlFramePayloadTransportEventUpdate;
 @class SDLProtocol;
 @class SDLStateMachine;
 
@@ -56,6 +58,20 @@ extern SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting;
  *  Stop the manager.
  */
 - (void)stop;
+
+/**
+ * Call this method when Start Service ACK control frame is received on primary transport.
+
+ @param payload payload of Start Service ACK frame received on the primary transport
+ */
+- (void)onStartServiceAckReceived:(SDLControlFramePayloadRPCStartServiceAck *)payload;
+
+/**
+ * Call this method when Transport Event Update control frame is received on primary transport.
+
+ @param payload payload of Transport Event Update frame received on the primary transport
+ */
+- (void)onTransportEventUpdateReceived:(SDLControlFramePayloadTransportEventUpdate *)payload;
 
 @end
 

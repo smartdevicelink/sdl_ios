@@ -9,6 +9,7 @@
 #import "SDLProtocolListener.h"
 
 @class SDLProtocol;
+@class SDLSecondaryTransportManager;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,12 +22,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) SDLProtocolHeader *primaryRPCHeader;
 
 /**
- Create a new primary protocol delegate with given SDLProtocol instance.
+ Create a new primary protocol delegate with given SDLSecondaryTransportManager and SDLProtocol instances.
 
+ @param manager instance of SDLSecondaryTransportManager
  @param primaryProtocol instance of SDLProtocol for the primary transport
  @return A new primary protocol delegate
  */
-- (instancetype)initWithProtocol:(SDLProtocol *)primaryProtocol;
+- (instancetype)initWithSecondaryTransportManager:(SDLSecondaryTransportManager *)manager
+                                  primaryProtocol:(SDLProtocol *)primaryProtocol;
 
 /**
  *  Start the delegate.
