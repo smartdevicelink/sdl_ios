@@ -1,29 +1,31 @@
 //
 //  SDLStreamingVideoLifecycleManager.m
-//  SmartDeviceLink-iOS
+//  SmartDeviceLink
 //
-//  Created by Muller, Alexander (A.) on 2/16/17.
-//  Copyright © 2017 smartdevicelink. All rights reserved.
+//  Created by Joel Fischer on 6/19/18.
+//  Copyright © 2018 smartdevicelink. All rights reserved.
 //
 
 #import "SDLStreamingVideoLifecycleManager.h"
 
+#import "CVPixelBufferRef+SDLUtil.h"
 #import "SDLCarWindow.h"
+#import "SDLConnectionManagerType.h"
 #import "SDLControlFramePayloadConstants.h"
 #import "SDLControlFramePayloadNak.h"
 #import "SDLControlFramePayloadVideoStartService.h"
 #import "SDLControlFramePayloadVideoStartServiceAck.h"
 #import "SDLDisplayCapabilities.h"
+#import "SDLFocusableItemLocator.h"
 #import "SDLGenericResponse.h"
 #import "SDLGetSystemCapability.h"
 #import "SDLGetSystemCapabilityResponse.h"
 #import "SDLGlobals.h"
-#import "SDLFocusableItemLocator.h"
 #import "SDLH264VideoEncoder.h"
 #import "SDLHMICapabilities.h"
+#import "SDLHMILevel.h"
 #import "SDLImageResolution.h"
 #import "SDLLogMacros.h"
-#import "SDLNotificationConstants.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolMessage.h"
@@ -37,28 +39,16 @@
 #import "SDLSystemCapability.h"
 #import "SDLTouchManager.h"
 #import "SDLVehicleType.h"
+#import "SDLVideoEncoderDelegate.h"
 #import "SDLVideoStreamingCapability.h"
-#import "SDLVideoStreamingCodec.h"
-#import "SDLVideoStreamingFormat.h"
-#import "SDLVideoStreamingProtocol.h"
-
-#import "CVPixelBufferRef+SDLUtil.h"
-
-
-NS_ASSUME_NONNULL_BEGIN
-
-SDLVideoStreamState *const SDLVideoStreamStateStopped = @"VideoStreamStopped";
-SDLVideoStreamState *const SDLVideoStreamStateStarting = @"VideoStreamStarting";
-SDLVideoStreamState *const SDLVideoStreamStateReady = @"VideoStreamReady";
-SDLVideoStreamState *const SDLVideoStreamStateSuspended = @"VideoStreamSuspended";
-SDLVideoStreamState *const SDLVideoStreamStateShuttingDown = @"VideoStreamShuttingDown";
 
 static NSUInteger const FramesToSendOnBackground = 30;
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_Nullable capability);
 
-
-@interface SDLStreamingVideoLifecycleManager () <SDLVideoEncoderDelegate>
+@interface SDLStreamingVideoLifecycleManager() <SDLVideoEncoderDelegate>
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLProtocol *protocol;
@@ -66,15 +56,15 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (assign, nonatomic, readonly, getter=isAppStateVideoStreamCapable) BOOL appStateVideoStreamCapable;
 @property (assign, nonatomic, readonly, getter=isHmiStateVideoStreamCapable) BOOL hmiStateVideoStreamCapable;
 
+@property (strong, nonatomic, readwrite) SDLStateMachine *videoStreamStateMachine;
+@property (strong, nonatomic, readwrite) SDLStateMachine *appStateMachine;
+
 @property (strong, nonatomic, readwrite, nullable) SDLVideoStreamingFormat *videoFormat;
 
 @property (strong, nonatomic, nullable) SDLH264VideoEncoder *videoEncoder;
 @property (copy, nonatomic) NSDictionary<NSString *, id> *videoEncoderSettings;
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
 @property (copy, nonatomic) NSString *connectedVehicleMake;
-
-@property (strong, nonatomic, readwrite) SDLStateMachine *appStateMachine;
-@property (strong, nonatomic, readwrite) SDLStateMachine *videoStreamStateMachine;
 
 @property (assign, nonatomic) CV_NULLABLE CVPixelBufferRef backgroundingPixelBuffer;
 
@@ -85,11 +75,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 @end
 
-
 @implementation SDLStreamingVideoLifecycleManager
-
-#pragma mark - Public
-#pragma mark Lifecycle
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration {
     self = [super init];
@@ -97,7 +83,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         return nil;
     }
 
-    SDLLogV(@"Creating StreamingVideoLifecycleManager");
+    SDLLogV(@"Creating StreamingLifecycleManager");
 
     _connectionManager = connectionManager;
     _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
@@ -124,6 +110,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _preferredFormatIndex = 0;
     _preferredResolutionIndex = 0;
 
+    _hmiLevel = SDLHMILevelNone;
+    _videoStreamingState = SDLVideoStreamingStateNotStreamable;
+
     NSMutableArray<NSString *> *tempMakeArray = [NSMutableArray array];
     for (Class securityManagerClass in configuration.securityManagers) {
         [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
@@ -143,10 +132,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     _appStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:initialState states:[self.class sdl_appStateTransitionDictionary]];
-    _videoStreamStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLVideoStreamStateStopped states:[self.class sdl_videoStreamStateTransitionDictionary]];
+    _videoStreamStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLVideoStreamManagerStateStopped states:[self.class sdl_videoStreamStateTransitionDictionary]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveRegisterAppInterfaceResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiLevelDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_appStateDidUpdate:) name:UIApplicationWillResignActiveNotification object:nil];
@@ -170,12 +159,20 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)stop {
-    SDLLogD(@"Stopping StreamingVideoLifecycleManager");
+    SDLLogD(@"Stopping manager");
     [self sdl_stopVideoSession];
 
-    [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
+    _protocol = nil;
+    _screenSize = SDLDefaultScreenSize;
+    _backgroundingPixelBuffer = NULL;
+    _preferredFormatIndex = 0;
+    _preferredResolutionIndex = 0;
 
-    self.protocol = nil;
+    _hmiLevel = SDLHMILevelNone;
+    _videoStreamingState = SDLVideoStreamingStateNotStreamable;
+    _lastPresentationTimestamp = kCMTimeInvalid;
+
+    [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
 }
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
@@ -211,8 +208,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 #pragma mark Getters
+
 - (BOOL)isVideoConnected {
-    return [self.videoStreamStateMachine isCurrentState:SDLVideoStreamStateReady];
+    return [self.videoStreamStateMachine isCurrentState:SDLVideoStreamManagerStateReady];
 }
 
 - (BOOL)isVideoStreamingPaused {
@@ -227,7 +225,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     return self.appStateMachine.currentState;
 }
 
-- (SDLVideoStreamState *)currentVideoStreamState {
+- (SDLVideoStreamManagerState *)currentVideoStreamState {
     return self.videoStreamStateMachine.currentState;
 }
 
@@ -251,14 +249,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (void)didEnterStateAppInactive {
-    SDLLogD(@"App became inactive in StreamingVideoLifecycleManager");
+    SDLLogD(@"App became inactive");
     if (!self.protocol) { return; }
 
     [self sdl_sendBackgroundFrames];
     [self.touchManager cancelPendingTouches];
 
-    if ([self.videoStreamStateMachine.currentState isEqualToString:SDLVideoStreamStateReady]) {
-        [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateSuspended];
+    if ([self.videoStreamStateMachine.currentState isEqualToString:SDLVideoStreamManagerStateReady]) {
+        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateSuspended];
     } else {
         [self sdl_stopVideoSession];
     }
@@ -267,11 +265,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 // Per Apple's guidelines: https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/StrategiesforHandlingAppStateTransitions/StrategiesforHandlingAppStateTransitions.html
 // We should be waiting to start any OpenGL drawing until UIApplicationDidBecomeActive is called.
 - (void)didEnterStateAppActive {
-    SDLLogD(@"App became active in StreamingVideoLifecycleManager");
+    SDLLogD(@"App became active");
     if (!self.protocol) { return; }
 
-    if ([self.videoStreamStateMachine.currentState isEqualToString:SDLVideoStreamStateSuspended]) {
-        [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateReady];
+    if ([self.videoStreamStateMachine.currentState isEqualToString:SDLVideoStreamManagerStateSuspended]) {
+        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateReady];
     } else {
         [self sdl_startVideoSession];
     }
@@ -280,11 +278,11 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 #pragma mark Video Streaming
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_videoStreamStateTransitionDictionary {
     return @{
-             SDLVideoStreamStateStopped : @[SDLVideoStreamStateStarting],
-             SDLVideoStreamStateStarting : @[SDLVideoStreamStateStopped, SDLVideoStreamStateReady],
-             SDLVideoStreamStateReady : @[SDLVideoStreamStateSuspended, SDLVideoStreamStateShuttingDown, SDLVideoStreamStateStopped],
-             SDLVideoStreamStateSuspended : @[SDLVideoStreamStateReady, SDLVideoStreamStateShuttingDown, SDLVideoStreamStateStopped],
-             SDLVideoStreamStateShuttingDown : @[SDLVideoStreamStateStopped]
+             SDLVideoStreamManagerStateStopped : @[SDLVideoStreamManagerStateStarting],
+             SDLVideoStreamManagerStateStarting : @[SDLVideoStreamManagerStateStopped, SDLVideoStreamManagerStateReady],
+             SDLVideoStreamManagerStateReady : @[SDLVideoStreamManagerStateSuspended, SDLVideoStreamManagerStateShuttingDown, SDLVideoStreamManagerStateStopped],
+             SDLVideoStreamManagerStateSuspended : @[SDLVideoStreamManagerStateReady, SDLVideoStreamManagerStateShuttingDown, SDLVideoStreamManagerStateStopped],
+             SDLVideoStreamManagerStateShuttingDown : @[SDLVideoStreamManagerStateStopped]
              };
 }
 
@@ -358,7 +356,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         [self.videoEncoder stop];
         self.videoEncoder = nil;
     }
-    
+
     if (self.videoEncoder == nil) {
         NSError* error = nil;
         NSAssert(self.videoFormat != nil, @"No video format is known, but it must be if we got a protocol start service response");
@@ -368,7 +366,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
         if (error || self.videoEncoder == nil) {
             SDLLogE(@"Could not create a video encoder: %@", error);
-            [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
+            [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
             return;
         }
 
@@ -376,7 +374,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
             CVPixelBufferRef backgroundingPixelBuffer = [self.videoEncoder newPixelBuffer];
             if (CVPixelBufferAddText(backgroundingPixelBuffer, @"") == NO) {
                 SDLLogE(@"Could not create a backgrounding frame");
-                [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
+                [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
                 return;
             }
 
@@ -407,7 +405,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 - (void)didEnterStateVideoStreamSuspended {
     SDLLogD(@"Video stream suspended");
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamSuspendedNotification object:nil];
 }
 
@@ -417,7 +415,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 #pragma mark - SDLProtocolListener
-#pragma mark Video Start Service ACK
+#pragma mark Video / Audio Start Service ACK
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     switch (startServiceACK.header.serviceType) {
@@ -457,10 +455,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     self.videoFormat.codec = videoAckPayload.videoCodec ?: SDLVideoStreamingCodecH264;
     self.videoFormat.protocol = videoAckPayload.videoProtocol ?: SDLVideoStreamingProtocolRAW;
 
-    [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateReady];
+    [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateReady];
 }
 
-#pragma mark Video Start Service NAK
+#pragma mark Video / Audio Start Service NAK
 
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
     switch (startServiceNAK.header.serviceType) {
@@ -478,7 +476,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     // If we have no payload rejected params, we don't know what to do to retry, so we'll just stop and maybe cry
     if (nakPayload.rejectedParams.count == 0) {
-        [self sdl_transitionToStoppedState];
+        [self sdl_transitionToStoppedState:SDLServiceTypeVideo];
         return;
     }
 
@@ -496,36 +494,16 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self sdl_sendVideoStartService];
 }
 
-#pragma mark Video End Service
+#pragma mark Video / Audio End Service
 
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
-    if (endServiceACK.header.serviceType == SDLServiceTypeVideo) {
-        SDLLogD(@"Video service ended");
-        [self sdl_transitionToStoppedState];
-    }
+    SDLLogD(@"%@ service ended", (endServiceACK.header.serviceType == SDLServiceTypeVideo ? @"Video" : @"Audio"));
+    [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
 }
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
-    if (endServiceNAK.header.serviceType == SDLServiceTypeVideo) {
-        SDLLogW(@"Video service ended with end service NAK");
-        [self sdl_transitionToStoppedState];
-    }
-}
-
-#pragma mark - SDLVideoEncoderDelegate
-
-- (void)videoEncoder:(SDLH264VideoEncoder *)encoder hasEncodedFrame:(NSData *)encodedVideo {
-    SDLLogV(@"Video encoder encoded frame, sending data");
-    // Do we care about app state here? I don't think so…
-    BOOL capableVideoStreamState = [self.videoStreamStateMachine isCurrentState:SDLVideoStreamStateReady];
-
-    if (self.isHmiStateVideoStreamCapable && capableVideoStreamState) {
-        if (self.isVideoEncrypted) {
-            [self.protocol sendEncryptedRawData:encodedVideo onService:SDLServiceTypeVideo];
-        } else {
-            [self.protocol sendRawData:encodedVideo withServiceType:SDLServiceTypeVideo];
-        }
-    }
+    SDLLogW(@"%@ service ended with end service NAK", (endServiceNAK.header.serviceType == SDLServiceTypeVideo ? @"Video" : @"Audio"));
+    [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];
 }
 
 #pragma mark - SDL RPC Notification callbacks
@@ -560,15 +538,24 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogD(@"Determined base screen size on display capabilities: %@", NSStringFromCGSize(_screenSize));
 }
 
-- (void)sdl_hmiLevelDidChange:(SDLRPCNotificationNotification *)notification {
+- (void)sdl_hmiStatusDidChange:(SDLRPCNotificationNotification *)notification {
     NSAssert([notification.notification isKindOfClass:[SDLOnHMIStatus class]], @"A notification was sent with an unanticipated object");
     if (![notification.notification isKindOfClass:[SDLOnHMIStatus class]]) {
         return;
     }
 
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus*)notification.notification;
-    SDLLogD(@"HMI level changed from level %@ to level %@", self.hmiLevel, hmiStatus.hmiLevel);
-    self.hmiLevel = hmiStatus.hmiLevel;
+
+    if (![self.hmiLevel isEqualToEnum:hmiStatus.hmiLevel]) {
+        SDLLogD(@"HMI level changed from level %@ to level %@", self.hmiLevel, hmiStatus.hmiLevel);
+        self.hmiLevel = hmiStatus.hmiLevel;
+    }
+
+    SDLVideoStreamingState newState = hmiStatus.videoStreamingState ?: SDLVideoStreamingStateStreamable;
+    if (![self.videoStreamingState isEqualToEnum:newState]) {
+        SDLLogD(@"Video streaming state changed from %@ to %@", self.videoStreamingState, hmiStatus.videoStreamingState);
+        self.videoStreamingState = newState;
+    }
 
     // if startWithProtocol has not been called yet, abort here
     if (!self.protocol) { return; }
@@ -580,11 +567,30 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 }
 
+#pragma mark - SDLVideoEncoderDelegate
+
+- (void)videoEncoder:(SDLH264VideoEncoder *)encoder hasEncodedFrame:(NSData *)encodedVideo {
+    SDLLogV(@"Video encoder encoded frame, sending data");
+    // Do we care about app state here? I don't think so…
+    BOOL capableVideoStreamState = [self.videoStreamStateMachine isCurrentState:SDLVideoStreamManagerStateReady];
+
+    if (self.isHmiStateVideoStreamCapable && capableVideoStreamState) {
+        if (self.isVideoEncrypted) {
+            [self.protocol sendEncryptedRawData:encodedVideo onService:SDLServiceTypeVideo];
+        } else {
+            [self.protocol sendRawData:encodedVideo withServiceType:SDLServiceTypeVideo];
+        }
+    }
+}
 
 #pragma mark - Streaming session helpers
 
 - (void)sdl_startVideoSession {
     SDLLogV(@"Attempting to start video session");
+    if (!self.protocol) {
+        SDLLogV(@"Video manager is not yet started");
+        return;
+    }
 
     if (!self.isHmiStateVideoStreamCapable) {
         SDLLogV(@"SDL Core is not ready to stream video. Video start service request will not be sent.");
@@ -596,8 +602,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         return;
     }
 
-    if ([self.videoStreamStateMachine isCurrentState:SDLVideoStreamStateStopped] && self.isHmiStateVideoStreamCapable) {
-        [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStarting];
+    if ([self.videoStreamStateMachine isCurrentState:SDLVideoStreamManagerStateStopped] && self.isHmiStateVideoStreamCapable) {
+        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStarting];
     } else {
         SDLLogE(@"Unable to send video start service request\n"
                 "Video State must be in state STOPPED: %@\n"
@@ -613,12 +619,18 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     if (self.isVideoConnected) {
-        [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateShuttingDown];
+        [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateShuttingDown];
     }
 }
 
-- (void)sdl_transitionToStoppedState {
-    [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
+- (void)sdl_transitionToStoppedState:(SDLServiceType)serviceType {
+    switch (serviceType) {
+        case SDLServiceTypeVideo:
+            [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)sdl_displayLinkFired:(CADisplayLink *)displayLink {
@@ -691,7 +703,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     if (self.preferredFormatIndex >= self.preferredFormats.count
         || self.preferredResolutionIndex >= self.preferredResolutions.count) {
         SDLLogE(@"No preferred format or no preferred resolution found that works: format index %lu, resolution index %lu", (unsigned long)self.preferredFormatIndex, (unsigned long)self.preferredResolutionIndex);
-        [self sdl_transitionToStoppedState];
+        [self sdl_transitionToStoppedState:SDLServiceTypeVideo];
         return;
     }
 
@@ -706,7 +718,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         [self.protocol startSecureServiceWithType:SDLServiceTypeVideo payload:startVideoPayload.data completionHandler:^(BOOL success, NSError *error) {
             if (error) {
                 SDLLogE(@"TLS setup error: %@", error);
-                [self.videoStreamStateMachine transitionToState:SDLVideoStreamStateStopped];
+                [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
             }
         }];
     } else {
@@ -714,7 +726,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         [self.protocol startServiceWithType:SDLServiceTypeVideo payload:startVideoPayload.data];
     }
 }
-
 
 #pragma mark Setters / Getters
 
@@ -733,13 +744,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (BOOL)isHmiStateVideoStreamCapable {
-    return [self.hmiLevel isEqualToEnum:SDLHMILevelLimited] || [self.hmiLevel isEqualToEnum:SDLHMILevelFull];
+    return (![self.videoStreamingState isEqualToEnum:SDLVideoStreamingStateNotStreamable]
+            && ([self.hmiLevel isEqualToEnum:SDLHMILevelLimited] || [self.hmiLevel isEqualToEnum:SDLHMILevelFull]));
 }
 
 - (NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
     SDLVideoStreamingFormat *h264raw = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRAW];
     SDLVideoStreamingFormat *h264rtp = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP];
-    
+
     return @[h264raw, h264rtp];
 }
 

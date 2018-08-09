@@ -85,7 +85,7 @@
 }
 
 + (SDLLogFileModule *)sdl_screenManagerChoiceSetModule {
-    return [SDLLogFileModule moduleWithName:@"Screen/ChoiceSet" files:[NSSet setWithArray:@[@"SDLChoiceSetManager", @"SDLCheckChoiceVROptionalOperation", @"SDLDeleteChoicesOperation", @"SDLPreloadChoicesOperation", @"SDLPresentChoiceSetOperation", @"SDLPresentKeyboardOperation"]]];
+    return [SDLLogFileModule moduleWithName:@"Screen/ChoiceSet" files:[NSSet setWithArray:@[@"SDLChoiceSetManager", @"SDLCheckChoiceVROptionalOperation", @"SDLDeleteChoicesOperation", @"SDLPreloadChoicesOperation", @"SDLPresentChoiceSetOperation", @"SDLPresentKeyboardOperation", @"SDLChoiceSet"]]];
 }
 
 

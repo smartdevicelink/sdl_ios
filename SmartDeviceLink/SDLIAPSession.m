@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 NSString *const IOStreamThreadName = @"com.smartdevicelink.iostream";
-NSTimeInterval const StreamThreadWaitSecs = 1.0;
+NSTimeInterval const StreamThreadWaitSecs = 10.0;
 
 @interface SDLIAPSession ()
 
@@ -80,7 +80,6 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
 }
 
 - (void)stop {
-    // This method must be called on the main thread
     if ([NSThread isMainThread]) {
         [self sdl_stop];
     } else {
@@ -91,6 +90,7 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
 }
 
 - (void)sdl_stop {
+    NSAssert(NSThread.isMainThread, @"%@ must only be called on the main thread", NSStringFromSelector(_cmd));
     if (self.isDataSession) {
         [self.ioStreamThread cancel];
 
@@ -137,6 +137,9 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
         if (bytesWritten < 0) {
             if (ostream.streamError != nil) {
                 [self sdl_handleOutputStreamWriteError:ostream.streamError];
+            } else {
+                // The write operation failed but there is no further information about the error. This can occur when disconnecting from an external accessory.
+                SDLLogE(@"Output stream write operation failed");
             }
         } else if (bytesWritten == bytesRemaining) {
             // Remove the data from the queue
@@ -173,13 +176,10 @@ NSTimeInterval const StreamThreadWaitSecs = 1.0;
         [self startStream:self.easession.outputStream];
 
         SDLLogD(@"Starting the accessory event loop");
-        do {
-            if (self.sendDataQueue.count > 0 && !self.sendDataQueue.frontDequeued) {
-                [self sdl_dequeueAndWriteToOutputStream];
-            }
-            // The principle here is to give the event loop enough time to process stream events while also allowing it to handle new enqueued data buffers in a timely manner. We're capping the run loop CPU time at 0.25s maximum before it will return control to the rest of the loop.
+        while (!NSThread.currentThread.cancelled) {
+            // Enqueued data will be written to and read from the streams in the runloop
             [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.25f]];
-        } while (![NSThread currentThread].cancelled);
+        }
 
         SDLLogD(@"Closing the accessory session for id: %tu, name: %@", self.easession.accessory.connectionID, self.easession.accessory.name);
 

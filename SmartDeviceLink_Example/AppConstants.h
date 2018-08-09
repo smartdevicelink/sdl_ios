@@ -82,6 +82,7 @@ extern NSString * const ACClusterModeStatusMenuName;
 extern NSString * const ACDeviceStatusMenuName;
 extern NSString * const ACDriverBrakingMenuName;
 extern NSString * const ACECallInfoMenuName;
+extern NSString * const ACElectronicParkBrakeStatus;
 extern NSString * const ACEmergencyEventMenuName;
 extern NSString * const ACEngineOilLifeMenuName;
 extern NSString * const ACEngineTorqueMenuName;
@@ -99,6 +100,7 @@ extern NSString * const ACRPMMenuName;
 extern NSString * const ACSpeedMenuName;
 extern NSString * const ACSteeringWheelAngleMenuName;
 extern NSString * const ACTirePressureMenuName;
+extern NSString * const ACTurnSignalMenuName;
 extern NSString * const ACVINMenuName;
 extern NSString * const ACWiperStatusMenuName;
 

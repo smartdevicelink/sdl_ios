@@ -165,8 +165,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setRequestedEncryptionType:(SDLStreamingEncryptionFlag)requestedEncryptionType {
-    self.audioLifecycleManager.requestedEncryptionType = requestedEncryptionType;
     self.videoLifecycleManager.requestedEncryptionType = requestedEncryptionType;
+    self.audioLifecycleManager.requestedEncryptionType = requestedEncryptionType;
 }
 
 @end

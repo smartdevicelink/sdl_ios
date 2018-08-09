@@ -19,8 +19,8 @@
 #import "SDLError.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
-#import "SDLStreamingMediaManagerConstants.h"
 #import "SDLStreamingVideoLifecycleManager.h"
+#import "SDLStreamingMediaManagerConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

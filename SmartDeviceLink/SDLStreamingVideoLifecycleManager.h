@@ -1,18 +1,19 @@
 //
 //  SDLStreamingVideoLifecycleManager.h
-//  SmartDeviceLink-iOS
+//  SmartDeviceLink
 //
-//  Created by Muller, Alexander (A.) on 2/16/17.
-//  Copyright © 2017 smartdevicelink. All rights reserved.
+//  Created by Joel Fischer on 6/19/18.
+//  Copyright © 2018 smartdevicelink. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <VideoToolbox/VideoToolbox.h>
 
-#import "SDLConnectionManagerType.h"
 #import "SDLHMILevel.h"
 #import "SDLProtocolListener.h"
 #import "SDLStreamingMediaManagerConstants.h"
+#import "SDLVideoStreamingFormat.h"
+#import "SDLVideoStreamingState.h"
 
 @class SDLCarWindow;
 @class SDLImageResolution;
@@ -20,45 +21,29 @@
 @class SDLStateMachine;
 @class SDLStreamingMediaConfiguration;
 @class SDLTouchManager;
-@class SDLVideoStreamingFormat;
 
+@protocol SDLConnectionManagerType;
 @protocol SDLFocusableItemLocatorType;
 @protocol SDLStreamingMediaManagerDataSource;
 
+
+
 NS_ASSUME_NONNULL_BEGIN
-
-typedef NSString SDLAppState;
-// defined in SDLStreamingAudioLifecycleManager.m
-extern SDLAppState *const SDLAppStateInactive;
-extern SDLAppState *const SDLAppStateActive;
-
-typedef NSString SDLVideoStreamState;
-extern SDLVideoStreamState *const SDLVideoStreamStateStopped;
-extern SDLVideoStreamState *const SDLVideoStreamStateStarting;
-extern SDLVideoStreamState *const SDLVideoStreamStateReady;
-extern SDLVideoStreamState *const SDLVideoStreamStateSuspended;
-extern SDLVideoStreamState *const SDLVideoStreamStateShuttingDown;
-
-
-#pragma mark - Interface
 
 @interface SDLStreamingVideoLifecycleManager : NSObject <SDLProtocolListener>
 
-@property (strong, nonatomic, readonly) SDLStateMachine *appStateMachine;
 @property (strong, nonatomic, readonly) SDLStateMachine *videoStreamStateMachine;
+@property (strong, nonatomic, readonly) SDLVideoStreamManagerState *currentVideoStreamState;
 
+@property (strong, nonatomic, readonly) SDLStateMachine *appStateMachine;
 @property (strong, nonatomic, readonly) SDLAppState *currentAppState;
-@property (strong, nonatomic, readonly) SDLVideoStreamState *currentVideoStreamState;
-
 @property (copy, nonatomic, nullable) SDLHMILevel hmiLevel;
-
-@property (assign, nonatomic, readonly, getter=shouldRestartVideoStream) BOOL restartVideoStream __deprecated_msg("This is now unused as the stream doesn't restart anymore. The video stream suspends and resumes if the app changed the state during active video stream");
+@property (copy, nonatomic, nullable) SDLVideoStreamingState videoStreamingState;
 
 /**
  *  Touch Manager responsible for providing touch event notifications.
  */
 @property (nonatomic, strong, readonly) SDLTouchManager *touchManager;
-
 @property (nonatomic, strong) UIViewController *rootViewController;
 @property (strong, nonatomic, readonly, nullable) SDLCarWindow *carWindow;
 
@@ -138,7 +123,7 @@ extern SDLVideoStreamState *const SDLVideoStreamStateShuttingDown;
 @property (assign, nonatomic, readonly, nullable) CVPixelBufferPoolRef pixelBufferPool;
 
 /**
- *  The requested encryption type when a session attempts to connect.
+ *  The requested encryption type when a session attempts to connect. This setting applies to both video and audio sessions.
  *
  *  DEFAULT: SDLStreamingEncryptionFlagAuthenticateAndEncrypt
  */
@@ -183,7 +168,6 @@ extern SDLVideoStreamState *const SDLVideoStreamStateShuttingDown;
  *  @return Whether or not the data was successfully encoded and sent.
  */
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer presentationTimestamp:(CMTime)presentationTimestamp;
-
 
 @end
 

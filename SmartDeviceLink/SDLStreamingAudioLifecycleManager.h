@@ -1,14 +1,13 @@
 //
 //  SDLStreamingAudioLifecycleManager.h
-//  SmartDeviceLink-iOS
+//  SmartDeviceLink
 //
-//  Created by Muller, Alexander (A.) on 2/16/17.
-//  Copyright © 2017 smartdevicelink. All rights reserved.
+//  Created by Joel Fischer on 6/19/18.
+//  Copyright © 2018 smartdevicelink. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-#import "SDLConnectionManagerType.h"
 #import "SDLHMILevel.h"
 #import "SDLProtocolListener.h"
 #import "SDLStreamingAudioManagerType.h"
@@ -19,39 +18,22 @@
 @class SDLStateMachine;
 @class SDLStreamingMediaConfiguration;
 
+@protocol SDLConnectionManagerType;
+
+
 NS_ASSUME_NONNULL_BEGIN
-
-typedef NSString SDLAppState;
-extern SDLAppState *const SDLAppStateInactive;
-extern SDLAppState *const SDLAppStateActive;
-
-typedef NSString SDLAudioStreamState;
-extern SDLAudioStreamState *const SDLAudioStreamStateStopped;
-extern SDLAudioStreamState *const SDLAudioStreamStateStarting;
-extern SDLAudioStreamState *const SDLAudioStreamStateReady;
-extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
-
-
-#pragma mark - Interface
 
 @interface SDLStreamingAudioLifecycleManager : NSObject <SDLProtocolListener, SDLStreamingAudioManagerType>
 
-@property (strong, nonatomic, readonly) SDLStateMachine *appStateMachine;
-@property (strong, nonatomic, readonly) SDLStateMachine *audioStreamStateMachine;
-
-@property (strong, nonatomic, readonly) SDLAppState *currentAppState;
-@property (strong, nonatomic, readonly) SDLAudioStreamState *currentAudioStreamState;
-
-@property (copy, nonatomic, nullable) SDLHMILevel hmiLevel;
-
 @property (nonatomic, strong, readonly) SDLAudioStreamManager *audioManager;
 
-/**
- *  Whether or not streaming is supported
- *
- *  @see SDLRegisterAppInterface SDLDisplayCapabilities
- */
-@property (assign, nonatomic, readonly, getter=isStreamingSupported) BOOL streamingSupported;
+@property (strong, nonatomic, readonly) SDLStateMachine *audioStreamStateMachine;
+@property (strong, nonatomic, readonly) SDLAudioStreamManagerState *currentAudioStreamState;
+
+@property (strong, nonatomic, readonly) SDLStateMachine *appStateMachine;
+@property (strong, nonatomic, readonly) SDLAppState *currentAppState;
+
+@property (copy, nonatomic, nullable) SDLHMILevel hmiLevel;
 
 /**
  *  Whether or not the audio session is connected.
@@ -64,7 +46,14 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
 @property (assign, nonatomic, readonly, getter=isAudioEncrypted) BOOL audioEncrypted;
 
 /**
- *  The requested encryption type when a session attempts to connect.
+ *  Whether or not video streaming is supported
+ *
+ *  @see SDLRegisterAppInterface SDLDisplayCapabilities
+ */
+@property (assign, nonatomic, readonly, getter=isStreamingSupported) BOOL streamingSupported;
+
+/**
+ *  The requested encryption type when a session attempts to connect. This setting applies to both video and audio sessions.
  *
  *  DEFAULT: SDLStreamingEncryptionFlagAuthenticateAndEncrypt
  */
@@ -99,7 +88,6 @@ extern SDLAudioStreamState *const SDLAudioStreamStateShuttingDown;
  *  @return Whether or not the data was successfully sent.
  */
 - (BOOL)sendAudioData:(NSData *)audioData;
-
 
 @end
 

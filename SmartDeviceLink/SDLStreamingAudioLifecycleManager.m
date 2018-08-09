@@ -1,26 +1,22 @@
 //
 //  SDLStreamingAudioLifecycleManager.m
-//  SmartDeviceLink-iOS
+//  SmartDeviceLink
 //
-//  Created by Muller, Alexander (A.) on 2/16/17.
-//  Copyright © 2017 smartdevicelink. All rights reserved.
+//  Created by Joel Fischer on 6/19/18.
+//  Copyright © 2018 smartdevicelink. All rights reserved.
 //
 
 #import "SDLStreamingAudioLifecycleManager.h"
 
 #import "SDLAudioStreamManager.h"
+#import "SDLConnectionManagerType.h"
 #import "SDLControlFramePayloadAudioStartServiceAck.h"
 #import "SDLControlFramePayloadConstants.h"
 #import "SDLControlFramePayloadNak.h"
 #import "SDLDisplayCapabilities.h"
-#import "SDLGenericResponse.h"
-#import "SDLGetSystemCapability.h"
-#import "SDLGetSystemCapabilityResponse.h"
 #import "SDLGlobals.h"
-#import "SDLH264VideoEncoder.h"
 #import "SDLHMICapabilities.h"
 #import "SDLLogMacros.h"
-#import "SDLNotificationConstants.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolMessage.h"
@@ -29,41 +25,26 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
-#import "SDLSystemCapability.h"
 #import "SDLVehicleType.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-SDLAppState *const SDLAppStateInactive = @"AppInactive";
-SDLAppState *const SDLAppStateActive = @"AppActive";
+@interface SDLStreamingAudioLifecycleManager()
 
-SDLAudioStreamState *const SDLAudioStreamStateStopped = @"AudioStreamStopped";
-SDLAudioStreamState *const SDLAudioStreamStateStarting = @"AudioStreamStarting";
-SDLAudioStreamState *const SDLAudioStreamStateReady = @"AudioStreamReady";
-SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShuttingDown";
-
-
-@interface SDLStreamingAudioLifecycleManager ()
+@property (strong, nonatomic, readwrite) SDLStateMachine *appStateMachine;
+@property (strong, nonatomic, readwrite) SDLStateMachine *audioStreamStateMachine;
+@property (assign, nonatomic, readonly, getter=isHmiStateAudioStreamCapable) BOOL hmiStateAudioStreamCapable;
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (weak, nonatomic) SDLProtocol *protocol;
 
-@property (assign, nonatomic, readonly, getter=isHmiStateAudioStreamCapable) BOOL hmiStateAudioStreamCapable;
-
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
 @property (copy, nonatomic) NSString *connectedVehicleMake;
 
-@property (strong, nonatomic, readwrite) SDLStateMachine *appStateMachine;
-@property (strong, nonatomic, readwrite) SDLStateMachine *audioStreamStateMachine;
-
 @end
 
-
 @implementation SDLStreamingAudioLifecycleManager
-
-#pragma mark - Public
-#pragma mark Lifecycle
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration {
     self = [super init];
@@ -71,9 +52,10 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
         return nil;
     }
 
-    SDLLogV(@"Creating StreamingAudioLifecycleManager");
+    SDLLogV(@"Creating AudioStreamingLifecycleManager");
 
     _connectionManager = connectionManager;
+
     _audioManager = [[SDLAudioStreamManager alloc] initWithManager:self];
 
     _requestedEncryptionType = configuration.maximumDesiredEncryption;
@@ -97,7 +79,7 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
     }
 
     _appStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:initialState states:[self.class sdl_appStateTransitionDictionary]];
-    _audioStreamStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLAudioStreamStateStopped states:[self.class sdl_audioStreamingStateTransitionDictionary]];
+    _audioStreamStateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLAudioStreamManagerStateStopped states:[self.class sdl_audioStreamingStateTransitionDictionary]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_didReceiveRegisterAppInterfaceResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiLevelDidChange:) name:SDLDidChangeHMIStatusNotification object:nil];
@@ -122,12 +104,12 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
 }
 
 - (void)stop {
-    SDLLogD(@"Stopping StreamingMediaAudioLifecycleManager");
+    SDLLogD(@"Stopping manager");
     [self sdl_stopAudioSession];
 
-    [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateStopped];
+    self.hmiLevel = SDLHMILevelNone;
 
-    self.protocol = nil;
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
 }
 
 - (BOOL)sendAudioData:(NSData*)audioData {
@@ -145,15 +127,16 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
 }
 
 #pragma mark Getters
+
 - (BOOL)isAudioConnected {
-    return [self.audioStreamStateMachine isCurrentState:SDLAudioStreamStateReady];
+    return [self.audioStreamStateMachine isCurrentState:SDLAudioStreamManagerStateReady];
 }
 
 - (SDLAppState *)currentAppState {
     return self.appStateMachine.currentState;
 }
 
-- (SDLAudioStreamState *)currentAudioStreamState {
+- (SDLAudioStreamManagerState *)currentAudioStreamState {
     return self.audioStreamStateMachine.currentState;
 }
 
@@ -177,26 +160,24 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
 }
 
 - (void)didEnterStateAppInactive {
-    SDLLogD(@"App became inactive in StreamingMediaAudioLifecycleManager");
-    if (!self.protocol) { return; }
-
+    SDLLogD(@"App became inactive");
     [self sdl_stopAudioSession];
 }
 
+// Per Apple's guidelines: https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/StrategiesforHandlingAppStateTransitions/StrategiesforHandlingAppStateTransitions.html
+// We should be waiting to start any OpenGL drawing until UIApplicationDidBecomeActive is called.
 - (void)didEnterStateAppActive {
-    SDLLogD(@"App became active in StreamingMediaAudioLifecycleManager");
-    if (!self.protocol) { return; }
-
+    SDLLogD(@"App became active");
     [self sdl_startAudioSession];
 }
 
 #pragma mark Audio
 + (NSDictionary<SDLState *, SDLAllowableStateTransitions *> *)sdl_audioStreamingStateTransitionDictionary {
     return @{
-             SDLAudioStreamStateStopped : @[SDLAudioStreamStateStarting],
-             SDLAudioStreamStateStarting : @[SDLAudioStreamStateStopped, SDLAudioStreamStateReady],
-             SDLAudioStreamStateReady : @[SDLAudioStreamStateShuttingDown, SDLAudioStreamStateStopped],
-             SDLAudioStreamStateShuttingDown : @[SDLAudioStreamStateStopped]
+             SDLAudioStreamManagerStateStopped : @[SDLAudioStreamManagerStateStarting],
+             SDLAudioStreamManagerStateStarting : @[SDLAudioStreamManagerStateStopped, SDLAudioStreamManagerStateReady],
+             SDLAudioStreamManagerStateReady : @[SDLAudioStreamManagerStateShuttingDown, SDLAudioStreamManagerStateStopped],
+             SDLAudioStreamManagerStateShuttingDown : @[SDLAudioStreamManagerStateStopped]
              };
 }
 
@@ -213,7 +194,7 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
         [self.protocol startSecureServiceWithType:SDLServiceTypeAudio payload:nil completionHandler:^(BOOL success, NSError * _Nonnull error) {
             if (error) {
                 SDLLogE(@"TLS setup error: %@", error);
-                [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateStopped];
+                [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
             }
         }];
     } else {
@@ -232,7 +213,7 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
 }
 
 #pragma mark - SDLProtocolListener
-#pragma mark Audio Start Service ACK
+#pragma mark Video / Audio Start Service ACK
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     switch (startServiceACK.header.serviceType) {
@@ -254,10 +235,10 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
         [[SDLGlobals sharedGlobals] setDynamicMTUSize:(NSUInteger)audioAckPayload.mtu forServiceType:SDLServiceTypeAudio];
     }
 
-    [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateReady];
+    [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateReady];
 }
 
-#pragma mark Audio Start Service NAK
+#pragma mark Video / Audio Start Service NAK
 
 - (void)handleProtocolStartServiceNAKMessage:(SDLProtocolMessage *)startServiceNAK {
     switch (startServiceNAK.header.serviceType) {
@@ -273,20 +254,16 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
     [self sdl_transitionToStoppedState:SDLServiceTypeAudio];
 }
 
-#pragma mark Audio End Service
+#pragma mark Video / Audio End Service
 
 - (void)handleProtocolEndServiceACKMessage:(SDLProtocolMessage *)endServiceACK {
-    if (endServiceACK.header.serviceType == SDLServiceTypeAudio) {
-        SDLLogD(@"Audio service ended");
-        [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
-    }
+    SDLLogD(@"%@ service ended", (endServiceACK.header.serviceType == SDLServiceTypeVideo ? @"Video" : @"Audio"));
+    [self sdl_transitionToStoppedState:endServiceACK.header.serviceType];
 }
 
 - (void)handleProtocolEndServiceNAKMessage:(SDLProtocolMessage *)endServiceNAK {
-    if (endServiceNAK.header.serviceType == SDLServiceTypeAudio) {
-        SDLLogW(@"Audio service ended with end service NAK");
-        [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];
-    }
+    SDLLogW(@"%@ service ended with end service NAK", (endServiceNAK.header.serviceType == SDLServiceTypeVideo ? @"Video" : @"Audio"));
+    [self sdl_transitionToStoppedState:endServiceNAK.header.serviceType];
 }
 
 #pragma mark - SDL RPC Notification callbacks
@@ -331,18 +308,20 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
     }
 }
 
-
 #pragma mark - Streaming session helpers
 
 - (void)sdl_startAudioSession {
     SDLLogV(@"Attempting to start audio session");
+    if (!self.protocol) {
+        return;
+    }
+
     if (!self.isStreamingSupported) {
         return;
     }
 
-    if ([self.audioStreamStateMachine isCurrentState:SDLAudioStreamStateStopped]
-        && self.isHmiStateAudioStreamCapable) {
-        [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateStarting];
+    if ([self.audioStreamStateMachine isCurrentState:SDLAudioStreamManagerStateStopped] && self.isHmiStateAudioStreamCapable) {
+        [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStarting];
     }
 }
 
@@ -353,20 +332,18 @@ SDLAudioStreamState *const SDLAudioStreamStateShuttingDown = @"AudioStreamShutti
     }
 
     if (self.isAudioConnected) {
-        [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateShuttingDown];
+        [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateShuttingDown];
     }
 }
 
 - (void)sdl_transitionToStoppedState:(SDLServiceType)serviceType {
     switch (serviceType) {
         case SDLServiceTypeAudio:
-            [self.audioStreamStateMachine transitionToState:SDLAudioStreamStateStopped];
+            [self.audioStreamStateMachine transitionToState:SDLAudioStreamManagerStateStopped];
             break;
-        default:
-            break;
+        default: break;
     }
 }
-
 
 #pragma mark Setters / Getters
 
