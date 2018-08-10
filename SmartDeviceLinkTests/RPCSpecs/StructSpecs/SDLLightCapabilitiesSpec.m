@@ -39,7 +39,7 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameName:SDLLightNameFogLights,
                                        SDLNameDensityAvailable:@YES,
-                                       SDLNameSRGBColorSpaceAvailable:@NO
+                                       SDLNameRGBColorSpaceAvailable:@NO
                                        } mutableCopy];
 
         SDLLightCapabilities* testStruct = [[SDLLightCapabilities alloc] initWithDictionary:dict];

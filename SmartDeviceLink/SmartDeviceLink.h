@@ -208,7 +208,6 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLSISData.h"
 #import "SDLSoftButton.h"
 #import "SDLSoftButtonCapabilities.h"
-#import "SDLSRGBColor.h"
 #import "SDLStartTime.h"
 #import "SDLStationIDNumber.h"
 #import "SDLSyncMsgVersion.h"

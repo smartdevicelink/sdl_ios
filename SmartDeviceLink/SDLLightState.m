@@ -4,7 +4,7 @@
 #import "SDLLightState.h"
 #import "SDLNames.h"
 #import "NSMutableDictionary+Store.h"
-#import "SDLSRGBColor.h"
+#import "SDLRGBColor.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithId:(SDLLightName)id status:(SDLLightStatus)status density:(double)density sRGBColor:(SDLSRGBColor *)sRGBColor {
+- (instancetype)initWithId:(SDLLightName)id status:(SDLLightStatus)status density:(double)density color:(SDLRGBColor *)color {
     self = [self init];
     if(!self) {
         return nil;
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.id = id;
     self.status = status;
     self.density = @(density);
-    self.sRGBColor = sRGBColor;
+    self.color = color;
 
     return self;
 }
@@ -58,12 +58,12 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameDensity];
 }
 
-- (void)setSRGBColor:(nullable SDLSRGBColor *)sRGBColor {
-    [store sdl_setObject:sRGBColor forName:SDLNameSRGBColor];
+- (void)setColor:(nullable SDLRGBColor *)color {
+    [store sdl_setObject:color forName:SDLNameColor];
 }
 
-- (nullable SDLSRGBColor *)sRGBColor {
-    return [store sdl_objectForName:SDLNameSRGBColor];
+- (nullable SDLRGBColor *)color {
+    return [store sdl_objectForName:SDLNameColor ofClass:[SDLRGBColor class]];;
 }
 
 @end
