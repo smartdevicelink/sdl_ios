@@ -49,11 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setColorAvailable:(nullable NSNumber<SDLBool> *)colorAvailable {
-    [store sdl_setObject:colorAvailable forName:colorAvailable];
+    [store sdl_setObject:colorAvailable forName:SDLNameRGBColorSpaceAvailable];
 }
 
 - (nullable NSNumber<SDLBool> *)colorAvailable {
-    return [store sdl_objectForName:SDLNameColorAvailable];
+    return [store sdl_objectForName:SDLNameRGBColorSpaceAvailable];
 }
 
 - (void)setStatusAvailable:(nullable NSNumber<SDLBool> *)statusAvailable {

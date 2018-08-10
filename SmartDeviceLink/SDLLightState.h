@@ -1,5 +1,6 @@
 //  SDLLightState.h
 //
+#import <UIKit/UIKit.h>
 
 #import "SDLRPCMessage.h"
 #import "SDLLightName.h"
@@ -30,6 +31,17 @@ NS_ASSUME_NONNULL_BEGIN
  @return An instance of the SDLLightState class
  */
 - (instancetype)initWithId:(SDLLightName)id status:(SDLLightStatus)status density:(double)density color:(SDLRGBColor *)color;
+
+/**
+ Constructs a newly allocated SDLLightState object with given parameters
+
+ @param id The name of a light or a group of lights
+ @param lightStatus Reflects the status of Light.
+ @param lightDensity Reflects the density of Light.
+ @param lightColor Reflects the color of Light.
+ @return An instance of the SDLLightState class
+ */
+- (instancetype)initWithId:(SDLLightName)id lightStatus:(SDLLightStatus)lightStatus lightDensity:(double)lightDensity lightColor:(UIColor *)lightColor;
 
 /**
  * @abstract The name of a light or a group of lights

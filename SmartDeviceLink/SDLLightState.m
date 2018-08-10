@@ -34,6 +34,19 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithId:(SDLLightName)id lightStatus:(SDLLightStatus)lightStatus lightDensity:(double)lightDensity lightColor:(UIColor *)lightColor {
+    self = [self init];
+    if(!self) {
+        return nil;
+    }
+    self.id = id;
+    self.status = lightStatus;
+    self.density = @(lightDensity);
+    self.color = [[SDLRGBColor alloc] initWithColor:lightColor];;
+
+    return self;
+}
+
 - (void)setId:(SDLLightName)id {
     [store sdl_setObject:id forName:SDLNameId];
 }

@@ -19,19 +19,19 @@ describe(@"Getter/Setter Tests", ^ {
 
         testStruct.name = SDLLightNameFogLights;
         testStruct.densityAvailable = @YES;
-        testStruct.sRGBColorSpaceAvailable = @NO;
+        testStruct.colorAvailable = @NO;
 
         expect(testStruct.name).to(equal(SDLLightNameFogLights));
         expect(testStruct.densityAvailable).to(equal(@YES));
-        expect(testStruct.sRGBColorSpaceAvailable).to(equal(@NO));
+        expect(testStruct.colorAvailable).to(equal(@NO));
     });
 
     it(@"Should set and get correctly", ^ {
-        SDLLightCapabilities* testStruct = [[SDLLightCapabilities alloc] initWithName:SDLLightNameFogLights densityAvailable:YES sRGBColorSpaceAvailable:NO statusAvailable:NO];
+        SDLLightCapabilities* testStruct = [[SDLLightCapabilities alloc] initWithName:SDLLightNameFogLights densityAvailable:YES colorAvailable:NO statusAvailable:NO];
 
         expect(testStruct.name).to(equal(SDLLightNameFogLights));
         expect(testStruct.densityAvailable).to(equal(@YES));
-        expect(testStruct.sRGBColorSpaceAvailable).to(equal(@NO));
+        expect(testStruct.colorAvailable).to(equal(@NO));
         expect(testStruct.statusAvailable).to(equal(@NO));
 
     });
@@ -46,7 +46,7 @@ describe(@"Getter/Setter Tests", ^ {
 
         expect(testStruct.name).to(equal(SDLLightNameFogLights));
         expect(testStruct.densityAvailable).to(equal(@YES));
-        expect(testStruct.sRGBColorSpaceAvailable).to(equal(@NO));
+        expect(testStruct.colorAvailable).to(equal(@NO));
     });
 
     it(@"Should return nil if not set", ^ {
@@ -54,7 +54,7 @@ describe(@"Getter/Setter Tests", ^ {
 
         expect(testStruct.name).to(beNil());
         expect(testStruct.densityAvailable).to(beNil());
-        expect(testStruct.sRGBColorSpaceAvailable).to(beNil());
+        expect(testStruct.colorAvailable).to(beNil());
 
     });
 });
