@@ -304,6 +304,17 @@ describe(@"the streaming video manager", ^{
                             expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
                         });
                     });
+
+                    context(@"and hmi state changes to background after app becomes inactive", ^{
+                        beforeEach(^{
+                            [streamingLifecycleManager.appStateMachine setToState:SDLAppStateInactive fromOldState:nil callEnterTransition:YES];
+                            sendNotificationForHMILevel(SDLHMILevelBackground, SDLVideoStreamingStateNotStreamable);
+                        });
+
+                        it(@"should close the stream", ^{
+                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateShuttingDown));
+                        });
+                    });
                 });
             });
 
