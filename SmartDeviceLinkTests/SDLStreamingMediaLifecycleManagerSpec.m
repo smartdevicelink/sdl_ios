@@ -311,6 +311,17 @@ describe(@"the streaming media manager", ^{
                             expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateReady));
                         });
                     });
+
+                    context(@"and hmi state changes to background after app becomes inactive", ^{
+                        beforeEach(^{
+                            [streamingLifecycleManager.appStateMachine setToState:SDLAppStateInactive fromOldState:nil callEnterTransition:YES];
+                            sendNotificationForHMILevel(SDLHMILevelBackground);
+                        });
+
+                        it(@"should close the stream", ^{
+                            expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamStateShuttingDown));
+                        });
+                    });
                 });
             });
 
