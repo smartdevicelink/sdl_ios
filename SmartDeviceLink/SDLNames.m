@@ -496,6 +496,7 @@ SDLName const SDLNameSetDisplayLayout = @"SetDisplayLayout";
 SDLName const SDLNameDisplayName = @"displayName";
 SDLName const SDLNameSetGlobalProperties = @"SetGlobalProperties";
 SDLName const SDLNameSetMediaClockTimer = @"SetMediaClockTimer";
+SDLName const SDLNameShifted = @"shifted";
 SDLName const SDLNameShortPress = @"shortPress";
 SDLName const SDLNameShortPressAvailable = @"shortPressAvailable";
 SDLName const SDLNameShow = @"Show";

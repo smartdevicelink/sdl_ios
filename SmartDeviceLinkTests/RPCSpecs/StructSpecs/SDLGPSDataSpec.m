@@ -38,6 +38,7 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.altitude = @3000;
         testStruct.heading = @96;
         testStruct.speed = @64;
+        testStruct.shifted = @YES;
         
         expect(testStruct.longitudeDegrees).to(equal(@31.41592653589793));
         expect(testStruct.latitudeDegrees).to(equal(@45));
@@ -57,27 +58,29 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.altitude).to(equal(@3000));
         expect(testStruct.heading).to(equal(@96));
         expect(testStruct.speed).to(equal(@64));
+        expect(testStruct.shifted).to(beTrue());
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameLongitudeDegrees:@31.41592653589793,
-                                       SDLNameLatitudeDegrees:@45,
-                                       SDLNameUTCYear:@2015,
-                                       SDLNameUTCMonth:@1,
-                                       SDLNameUTCDay:@26,
-                                       SDLNameUTCHours:@23,
-                                       SDLNameUTCMinutes:@59,
-                                       SDLNameUTCSeconds:@59,
-                                       SDLNameCompassDirection:SDLCompassDirectionSoutheast,
-                                       SDLNamePDOP:@3.4,
-                                       SDLNameHDOP:@9.9,
-                                       SDLNameVDOP:@0,
-                                       SDLNameActual:@NO,
-                                       SDLNameSatellites:@12,
-                                       SDLNameDimension:SDLDimension3D,
-                                       SDLNameAltitude:@3000,
-                                       SDLNameHeading:@96,
-                                       SDLNameSpeed:@64} mutableCopy];
+        NSDictionary* dict = @{SDLNameLongitudeDegrees:@31.41592653589793,
+                               SDLNameLatitudeDegrees:@45,
+                               SDLNameUTCYear:@2015,
+                               SDLNameUTCMonth:@1,
+                               SDLNameUTCDay:@26,
+                               SDLNameUTCHours:@23,
+                               SDLNameUTCMinutes:@59,
+                               SDLNameUTCSeconds:@59,
+                               SDLNameCompassDirection:SDLCompassDirectionSoutheast,
+                               SDLNamePDOP:@3.4,
+                               SDLNameHDOP:@9.9,
+                               SDLNameVDOP:@0,
+                               SDLNameActual:@NO,
+                               SDLNameSatellites:@12,
+                               SDLNameDimension:SDLDimension3D,
+                               SDLNameAltitude:@3000,
+                               SDLNameHeading:@96,
+                               SDLNameSpeed:@64,
+                               SDLNameShifted:@YES};
         SDLGPSData* testStruct = [[SDLGPSData alloc] initWithDictionary:dict];
         
         expect(testStruct.longitudeDegrees).to(equal(@31.41592653589793));
@@ -98,6 +101,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.altitude).to(equal(@3000));
         expect(testStruct.heading).to(equal(@96));
         expect(testStruct.speed).to(equal(@64));
+        expect(testStruct.shifted).to(beTrue());
     });
     
     it(@"Should return nil if not set", ^ {
@@ -121,6 +125,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.altitude).to(beNil());
         expect(testStruct.heading).to(beNil());
         expect(testStruct.speed).to(beNil());
+        expect(testStruct.shifted).to(beNil());
     });
 });
 

@@ -502,6 +502,7 @@ extern SDLName const SDLNameSetDisplayLayout;
 extern SDLName const SDLNameSetGlobalProperties;
 extern SDLName const SDLNameSetInteriorVehicleData;
 extern SDLName const SDLNameSetMediaClockTimer;
+extern SDLName const SDLNameShifted;
 extern SDLName const SDLNameShortPress;
 extern SDLName const SDLNameShortPressAvailable;
 extern SDLName const SDLNameShow;
