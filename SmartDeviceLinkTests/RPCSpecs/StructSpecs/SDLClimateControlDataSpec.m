@@ -61,6 +61,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized with FanSpeed and other climate control parameters", ^ {
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLClimateControlData* testStruct = [[SDLClimateControlData alloc] initWithFanSpeed:@43 desiredTemperature:desiredTemp acEnable:@YES circulateAirEnable:@YES autoModeEnable:@NO defrostZone:SDLDefrostZoneFront dualModeEnable:@NO acMaxEnable:@YES ventilationMode:SDLVentilationModeBoth];
 
         expect(testStruct.fanSpeed).to(equal(@43));
@@ -76,6 +78,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.heatedWindshieldEnable).to(equal(NO));
         expect(testStruct.heatedRearWindowEnable).to(equal(NO));
         expect(testStruct.heatedMirrorsEnable).to(equal(NO));
+        #pragma clang diagnostic pop
     });
 
     it(@"Should get correctly when initialized with FanSpeed and other climate control parameters", ^ {

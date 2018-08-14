@@ -129,6 +129,8 @@ describe(@"initializers", ^{
     });
 
     context(@"initWithFileName:fileType:persistentFile:systemFile:offset:length:", ^{
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLPutFile *testRequest = [[SDLPutFile alloc] initWithFileName:@"fileName" fileType:SDLFileTypeMP3 persistentFile:true systemFile:true offset:45 length:34];
 
         expect(testRequest.syncFileName).to(equal(@"fileName"));
@@ -139,6 +141,7 @@ describe(@"initializers", ^{
         expect(testRequest.length).to(equal(34));
         expect(testRequest.crc).to(beNil());
         expect(testRequest.bulkData).to(beNil());
+        #pragma clang diagnostic pop
     });
 
     context(@"initWithFileName:fileType:persistentFile:systemFile:offset:length:crc:", ^{

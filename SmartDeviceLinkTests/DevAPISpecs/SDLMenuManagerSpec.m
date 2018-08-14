@@ -66,7 +66,7 @@ describe(@"menu manager", ^{
 
         textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
         textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-        submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" subCells:@[textOnlyCell, textAndImageCell]];
+        submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil subCells:@[textOnlyCell, textAndImageCell]];
         submenuImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 4" icon:testArtwork2 subCells:@[textOnlyCell]];
 
         mockConnectionManager = [[TestConnectionManager alloc] init];
@@ -318,7 +318,7 @@ describe(@"menu manager", ^{
                     testTriggerSource = triggerSource;
                 }];
 
-                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" subCells:@[cellWithHandler]];
+                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" icon:nil subCells:@[cellWithHandler]];
 
                 testManager.menuCells = @[submenuCell];
             });
