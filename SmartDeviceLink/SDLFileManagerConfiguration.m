@@ -19,7 +19,7 @@ static NSUInteger const DefaultRetryCount = 1;
 }
 
 - (instancetype)init {
-    return [self initWithArtworkRetryCount:0 fileRetryCount:0];
+    return [self.class defaultConfiguration];
 }
 
 - (instancetype)initWithArtworkRetryCount:(UInt8)artworkRetryCount fileRetryCount:(UInt8)fileRetryCount {
@@ -38,7 +38,7 @@ static NSUInteger const DefaultRetryCount = 1;
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLFileManagerConfiguration *new = [[SDLFileManagerConfiguration allocWithZone:zone] initWithArtworkRetryCount:(UInt8)_artworkRetryCount fileRetryCount:(UInt8)_fileRetryCount];
+    SDLFileManagerConfiguration *new = [[SDLFileManagerConfiguration allocWithZone:zone] initWithArtworkRetryCount:_artworkRetryCount fileRetryCount:_fileRetryCount];
     return new;
 }
 

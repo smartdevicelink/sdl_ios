@@ -395,9 +395,9 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         } else {
             self.failedFileUploadsCount = [self.class sdl_incrementFailedUploadCountForFileName:file.name failedFileUploadsCount:self.failedFileUploadsCount];
 
-            UInt8 maxRetryCount = [file isKindOfClass:[SDLArtwork class]] ? self.maxArtworkUploadAttempts : self.maxFileUploadAttempts;
-            if ([self sdl_canFileBeUploadedAgain:file maxRetryCount:maxRetryCount failedFileUploadsCount:self.failedFileUploadsCount]) {
-                SDLLogV(@"Attempting to resend file with name %@ after a failed upload attempt", file.name);
+            UInt8 maxUploadCount = [file isKindOfClass:[SDLArtwork class]] ? self.maxArtworkUploadAttempts : self.maxFileUploadAttempts;
+            if ([self sdl_canFileBeUploadedAgain:file maxUploadCount:maxUploadCount failedFileUploadsCount:self.failedFileUploadsCount]) {
+                SDLLogD(@"Attempting to resend file with name %@ after a failed upload attempt", file.name);
                 return [self sdl_uploadFile:file completionHandler:handler];
             } else {
                 SDLLogE(@"File named %@ failed to upload. Max number of upload attempts reached", file.name);
@@ -517,15 +517,15 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
  *  Checks if an artwork needs to be uploaded to Core. The arwork should not be sent to Core if the artwork is already on Core or if the artwork is not on Core after the maximum number of repeated upload attempts has been reached.
  *
  *  @param file             The file to be uploaded to Core
- *  @param maxRetryCount    The max number of times the file is allowed to be uploaded to Core
- *  @return                True if the file still needs to be (re)sent to Core; false if not.
+ *  @param maxUploadCount   The max number of times the file is allowed to be uploaded to Core
+ *  @return                 True if the file still needs to be (re)sent to Core; false if not.
  */
-- (BOOL)sdl_canFileBeUploadedAgain:(nullable SDLFile *)file maxRetryCount:(UInt8)maxRetryCount failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount {
+- (BOOL)sdl_canFileBeUploadedAgain:(nullable SDLFile *)file maxUploadCount:(UInt8)maxUploadCount failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount {
     if (!file || [self hasUploadedFile:file]) {
         return NO;
     }
-    NSNumber *uploadRetryCount = failedFileUploadsCount[file.name];
-    return (uploadRetryCount == nil) ? YES : (uploadRetryCount.integerValue < maxRetryCount);
+    NSNumber *failedUploadCount = failedFileUploadsCount[file.name];
+    return (failedUploadCount == nil) ? YES : (failedUploadCount.integerValue < maxUploadCount);
 }
 
 /**
@@ -534,10 +534,10 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
  *  @param fileName The name used to upload the file to Core
  */
 + (NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)sdl_incrementFailedUploadCountForFileName:(SDLFileName *)fileName failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount {
-    NSNumber *currentRetryCount = failedFileUploadsCount[fileName];
-    NSNumber *newRetryCount = (currentRetryCount != nil) ? @(currentRetryCount.integerValue + 1) : @1;
-    failedFileUploadsCount[fileName] = newRetryCount;
-    SDLLogW(@"File with name %@ failed to upload %@ times", fileName, newRetryCount);
+    NSNumber *currentFailedUploadCount = failedFileUploadsCount[fileName];
+    NSNumber *newFailedUploadCount = (currentFailedUploadCount != nil) ? @(currentFailedUploadCount.integerValue + 1) : @1;
+    failedFileUploadsCount[fileName] = newFailedUploadCount;
+    SDLLogW(@"File with name %@ failed to upload %@ times", fileName, newFailedUploadCount);
     return failedFileUploadsCount;
 }
 

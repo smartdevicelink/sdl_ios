@@ -162,7 +162,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogV(@"No images to send, sending text");
         // If there are no images to update, just send the text
         self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
-    } else if ([self sdl_artworkAlreadyUploadedOrNonExistent:self.primaryGraphic] && [self sdl_artworkAlreadyUploadedOrNonExistent:self.secondaryGraphic]) {
+    } else if ([self sdl_isArtworkUploadedOrNonExistent:self.primaryGraphic] && [self sdl_isArtworkUploadedOrNonExistent:self.secondaryGraphic]) {
         SDLLogV(@"Images already uploaded, sending full update");
         // The files to be updated are already uploaded, send the full show immediately
         self.inProgressUpdate = fullShow;
@@ -179,7 +179,7 @@ NS_ASSUME_NONNULL_BEGIN
             __strong typeof(weakSelf) strongSelf = weakSelf;
 
             if (error != nil) {
-                SDLShow *showWithGraphics = [self sdl_createShowWithUploadedImages:self.primaryGraphic secondaryGraphic:self.secondaryGraphic];
+                SDLShow *showWithGraphics = [self sdl_createImageOnlyShowWithPrimaryArtwork:self.primaryGraphic secondaryArtwork:self.secondaryGraphic];
                 if (showWithGraphics != nil) {
                     SDLLogW(@"Some images failed to upload. Sending update with the successfully uploaded images");
                     self.inProgressUpdate = showWithGraphics;
@@ -240,7 +240,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     [self.fileManager uploadArtworks:artworksToUpload completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
         if (error != nil) {
-            SDLLogW(@"Text and graphic manager artwork failed to upload");
+            SDLLogW(@"Text and graphic manager artwork failed to upload with error: %@", error.localizedDescription);
         }
 
         handler(error);
@@ -455,10 +455,10 @@ NS_ASSUME_NONNULL_BEGIN
     return newShow;
 }
 
-- (nullable SDLShow *)sdl_createShowWithUploadedImages:(nullable SDLArtwork *)primaryGraphic secondaryGraphic:(nullable SDLArtwork *)secondaryGraphic  {
+- (nullable SDLShow *)sdl_createImageOnlyShowWithPrimaryArtwork:(nullable SDLArtwork *)primaryArtwork secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork  {
     SDLShow *newShow = [[SDLShow alloc] init];
-    newShow.graphic = [self sdl_artworkAlreadyUploadedOrNonExistent:primaryGraphic] ? [[SDLImage alloc] initWithName:primaryGraphic.name ofType:SDLImageTypeDynamic isTemplate:primaryGraphic.isTemplate] : nil;
-    newShow.secondaryGraphic = [self sdl_artworkAlreadyUploadedOrNonExistent:secondaryGraphic] ? [[SDLImage alloc] initWithName:secondaryGraphic.name ofType:SDLImageTypeDynamic isTemplate:secondaryGraphic.isTemplate] : nil;
+    newShow.graphic = [self sdl_isArtworkUploadedOrNonExistent:primaryArtwork] ? [[SDLImage alloc] initWithName:primaryArtwork.name ofType:SDLImageTypeDynamic isTemplate:primaryArtwork.isTemplate] : nil;
+    newShow.secondaryGraphic = [self sdl_isArtworkUploadedOrNonExistent:secondaryArtwork] ? [[SDLImage alloc] initWithName:secondaryArtwork.name ofType:SDLImageTypeDynamic isTemplate:secondaryArtwork.isTemplate] : nil;
 
     if (newShow.graphic == nil && newShow.secondaryGraphic == nil) {
         SDLLogV(@"No graphics to upload");
@@ -489,7 +489,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param artwork     The artwork to be uploaded to Core
  *  @return            True if the artwork does not need to be uploaded to Core; false if artwork stills needs to be sent to Core.
  */
-- (BOOL)sdl_artworkAlreadyUploadedOrNonExistent:(SDLArtwork *)artwork {
+- (BOOL)sdl_isArtworkUploadedOrNonExistent:(SDLArtwork *)artwork {
     return (!artwork || [self.fileManager hasUploadedFile:artwork]);
 }
 

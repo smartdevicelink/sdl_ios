@@ -31,7 +31,7 @@ SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
 @property (assign, nonatomic) UInt8 maxFileUploadAttempts;
 @property (assign, nonatomic) UInt8 maxArtworkUploadAttempts;
 
-- (BOOL)sdl_canFileBeUploadedAgain:(nullable SDLFile *)file maxRetryCount:(int)maxRetryCount failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount;
+- (BOOL)sdl_canFileBeUploadedAgain:(nullable SDLFile *)file maxUploadCount:(int)maxRetryCount failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount;
 + (NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)sdl_incrementFailedUploadCountForFileName:(SDLFileName *)fileName failedFileUploadsCount:(NSMutableDictionary<SDLFileName *, NSNumber<SDLUInt> *> *)failedFileUploadsCount;
 
 @end
@@ -1551,12 +1551,12 @@ describe(@"SDLFileManager reupload failed files", ^{
         __block TestConnectionManager *testConnectionManager = nil;
         __block SDLFileManagerConfiguration *testFileManagerConfiguration = nil;
 
-        it(@"should set the max upload attempts to 1 if the configuration properties are not set", ^{
+        it(@"should set the max upload attempts to 2 if the configuration properties are not set", ^{
             testFileManagerConfiguration = [[SDLFileManagerConfiguration alloc] init];
             testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
 
-            expect(testFileManager.maxFileUploadAttempts).to(equal(1));
-            expect(testFileManager.maxArtworkUploadAttempts).to(equal(1));
+            expect(testFileManager.maxFileUploadAttempts).to(equal(2));
+            expect(testFileManager.maxArtworkUploadAttempts).to(equal(2));
         });
 
         it(@"should set the max upload attempts to 1 if retry attempts are disabled", ^{
@@ -1621,13 +1621,13 @@ describe(@"SDLFileManager reupload failed files", ^{
         describe(@"the file cannot be uploaded again", ^{
             it(@"should not upload a file that is nil", ^{
                 testFile = nil;
-                BOOL canUploadAgain = [testFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:5 failedFileUploadsCount:testFailedFileUploadsCount];
+                BOOL canUploadAgain = [testFileManager sdl_canFileBeUploadedAgain:testFile maxUploadCount:5 failedFileUploadsCount:testFailedFileUploadsCount];
                 expect(canUploadAgain).to(equal(NO));
             });
 
             it(@"should not upload a file that has already been uploaded the max number of times", ^{
                 testFailedFileUploadsCount[testFileName] = @4;
-                BOOL canUploadAgain = [testFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:4 failedFileUploadsCount:testFailedFileUploadsCount];
+                BOOL canUploadAgain = [testFileManager sdl_canFileBeUploadedAgain:testFile maxUploadCount:4 failedFileUploadsCount:testFailedFileUploadsCount];
                 expect(canUploadAgain).to(equal(NO));
             });
         });
@@ -1635,13 +1635,13 @@ describe(@"SDLFileManager reupload failed files", ^{
         describe(@"the file can be uploaded again", ^{
             it(@"should upload a file that has not yet failed to upload", ^{
                 testFailedFileUploadsCount = [NSMutableDictionary dictionary];
-                BOOL canUploadAgain = [testFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:2 failedFileUploadsCount:testFailedFileUploadsCount];
+                BOOL canUploadAgain = [testFileManager sdl_canFileBeUploadedAgain:testFile maxUploadCount:2 failedFileUploadsCount:testFailedFileUploadsCount];
                 expect(canUploadAgain).to(equal(YES));
             });
 
             it(@"should upload a file that has not been reuploaded the max number of times", ^{
                 testFailedFileUploadsCount[testFileName] = @2;
-                BOOL canUploadAgain = [testFileManager sdl_canFileBeUploadedAgain:testFile maxRetryCount:4 failedFileUploadsCount:testFailedFileUploadsCount];
+                BOOL canUploadAgain = [testFileManager sdl_canFileBeUploadedAgain:testFile maxUploadCount:4 failedFileUploadsCount:testFailedFileUploadsCount];
                 expect(canUploadAgain).to(equal(YES));
             });
         });

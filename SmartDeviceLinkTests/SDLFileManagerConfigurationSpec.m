@@ -25,11 +25,11 @@ describe(@"A file manager configuration", ^{
         expect(testConfig.fileRetryCount).to(equal(1));
     });
 
-    it(@"should be disabled if not set", ^{
+    it(@"should be set to default configuration if parameters are not set", ^{
         testConfig = [[SDLFileManagerConfiguration alloc] init];
 
-        expect(testConfig.artworkRetryCount).to(equal(0));
-        expect(testConfig.fileRetryCount).to(equal(0));
+        expect(testConfig.artworkRetryCount).to(equal(1));
+        expect(testConfig.fileRetryCount).to(equal(1));
     });
 
     it(@"should instantiate correctly with the default configuration", ^{

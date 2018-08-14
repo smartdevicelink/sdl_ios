@@ -228,6 +228,9 @@ describe(@"a lifecycle manager", ^{
         describe(@"in the connected state", ^{
             beforeEach(^{
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateConnected fromOldState:nil callEnterTransition:NO];
+
+                // Need to wait state machine transitions to complete before sending RPCs
+                [NSThread sleepForTimeInterval:0.1];
             });
             
             describe(@"after receiving a register app interface response", ^{
@@ -286,6 +289,9 @@ describe(@"a lifecycle manager", ^{
                     testManager.registerResponse = response;
                     
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpHMI fromOldState:nil callEnterTransition:YES];
+
+                    // Need to wait state machine transitions to complete before sending RPCs
+                    [NSThread sleepForTimeInterval:0.1];
                     
                     expect(@(readyHandlerSuccess)).to(equal(@NO));
                     expect(readyHandlerError).to(beNil());
@@ -405,6 +411,9 @@ describe(@"a lifecycle manager", ^{
         describe(@"in the ready state", ^{
             beforeEach(^{
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:NO];
+
+                // Need to wait state machine transitions to complete before sending RPCs
+                [NSThread sleepForTimeInterval:0.1];
             });
 
             it(@"can send an RPC", ^{
