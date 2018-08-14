@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * @abstract Provides the 3-dimensional geographic station location
  *
- * Optional, SDLGPSLocation type
+ * Optional, SDLGPSData type
  */
 @property (nullable, strong, nonatomic) SDLGPSData *stationLocation;
 
