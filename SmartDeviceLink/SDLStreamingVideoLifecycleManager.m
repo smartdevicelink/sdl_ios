@@ -208,6 +208,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     return [self.videoStreamStateMachine isCurrentState:SDLVideoStreamManagerStateReady];
 }
 
+- (BOOL)isVideoSuspended {
+    return [self.videoStreamStateMachine isCurrentState:SDLVideoStreamManagerStateSuspended];
+}
+
 - (BOOL)isVideoStreamingPaused {
     return !(self.isVideoConnected && self.isHmiStateVideoStreamCapable && self.isAppStateVideoStreamCapable);
 }
@@ -250,7 +254,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     [self sdl_sendBackgroundFrames];
     [self.touchManager cancelPendingTouches];
 
-    if ([self.videoStreamStateMachine.currentState isEqualToString:SDLVideoStreamManagerStateReady]) {
+    if (self.isVideoConnected) {
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateSuspended];
     } else {
         [self sdl_stopVideoSession];
@@ -263,7 +267,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLLogD(@"App became active");
     if (!self.protocol) { return; }
 
-    if ([self.videoStreamStateMachine.currentState isEqualToString:SDLVideoStreamManagerStateSuspended]) {
+    if (self.isVideoSuspended) {
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateReady];
     } else {
         [self sdl_startVideoSession];
@@ -610,7 +614,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         return;
     }
 
-    if (self.isVideoConnected) {
+
+    if (self.isVideoConnected || self.isVideoSuspended) {
         [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateShuttingDown];
     }
 }
