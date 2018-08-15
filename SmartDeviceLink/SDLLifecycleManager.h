@@ -33,6 +33,7 @@
 @class SDLStateMachine;
 @class SDLStreamingMediaManager;
 @class SDLSystemCapabilityManager;
+@class SDLLocalization;
 
 @protocol SDLManagerDelegate;
 
@@ -86,6 +87,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 @property (copy, nonatomic, nullable) SDLAudioStreamingState audioStreamingState;
 @property (copy, nonatomic, nullable) SDLSystemContext systemContext;
 @property (strong, nonatomic, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
+@property (strong, nonatomic) SDLLocalization *localization;
 
 @property (strong, nonatomic) NSOperationQueue *rpcOperationQueue;
 

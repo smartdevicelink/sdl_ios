@@ -49,6 +49,7 @@
 #import "SDLStreamingMediaManager.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLUnregisterAppInterface.h"
+#import "SDLLocalization.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -123,6 +124,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
     _screenManager = [[SDLScreenManager alloc] initWithConnectionManager:self fileManager:_fileManager];
     _systemCapabilityManager = [[SDLSystemCapabilityManager alloc] initWithConnectionManager:self];
+    _localization = [SDLLocalization defaultLocalization];
     
     if ([configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeNavigation] ||
         [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] ||
@@ -248,7 +250,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     __weak typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [weakSelf.delegate managerDidDisconnect];
-
+        self.localization = [SDLLocalization defaultLocalization];
         if (shouldRestart) {
             [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
         }
@@ -292,6 +294,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     NSArray<SDLLanguage> *supportedLanguages = self.configuration.lifecycleConfig.languagesSupported;
     SDLLanguage desiredLanguage = self.configuration.lifecycleConfig.language;
     SDLLanguage actualLanguage = self.registerResponse.language;
+    self.localization = [SDLLocalization localizationForLanguage:desiredLanguage];
     BOOL delegateCanUpdateLifecycle = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:)];
     
     // language mismatch? but actual language is a supported language? and delegate has implemented method?
@@ -310,6 +313,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     
     if (configUpdate) {
         self.configuration.lifecycleConfig.language = actualLanguage;
+        self.localization = [SDLLocalization localizationForLanguage:actualLanguage];
         if (configUpdate.appName) {
             self.configuration.lifecycleConfig.appName = configUpdate.appName;
         }

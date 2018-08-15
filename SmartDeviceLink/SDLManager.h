@@ -21,6 +21,7 @@
 @class SDLScreenManager;
 @class SDLStreamingMediaManager;
 @class SDLSystemCapabilityManager;
+@class SDLLocalization;
 
 @protocol SDLManagerDelegate;
 
@@ -72,6 +73,11 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *  The screen manager for sending UI related RPCs.
  */
 @property (strong, nonatomic, readonly) SDLScreenManager *screenManager;
+
+/**
+ *  The localization class to be used for translation
+ */
+@property (strong, nonatomic, readonly) SDLLocalization *localization;
 
 /**
  *  Centralized manager for retrieving all system capabilities.

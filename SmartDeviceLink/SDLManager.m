@@ -19,6 +19,7 @@
 #import "SDLSoftButtonManager.h"
 #import "SDLStateMachine.h"
 #import "SDLTextAndGraphicManager.h"
+#import "SDLLocalization.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -49,6 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _lifecycleManager = [[SDLLifecycleManager alloc] initWithConfiguration:configuration delegate:delegate];
+    _localization = [SDLLocalization defaultLocalization];
 
     return self;
 }
