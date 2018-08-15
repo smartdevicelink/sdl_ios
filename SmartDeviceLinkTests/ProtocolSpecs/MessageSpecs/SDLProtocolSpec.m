@@ -200,7 +200,7 @@ describe(@"Send Register Secondary Transport Tests", ^ {
         }] sendData:[OCMArg any]];
         testProtocol.transport = transportMock;
 
-        [testProtocol registerSecondaryTransport:nil];
+        [testProtocol registerSecondaryTransport];
 
         expect(@(verified)).toEventually(beTruthy());
     });

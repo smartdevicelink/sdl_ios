@@ -592,7 +592,7 @@ static const float RetryConnectionDelay = 5.0;
     };
     [self.registerTransportTimer start];
 
-    [self.secondaryProtocol registerSecondaryTransport:nil];
+    [self.secondaryProtocol registerSecondaryTransport];
 }
 
 // called on transport's thread, notifying that the transport is disconnected

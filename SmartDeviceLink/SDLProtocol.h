@@ -95,10 +95,8 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
 
 /**
  *  Sends a Register Secondary Transport control frame to Core
- *
- *  @param payload The data to send in the message
  */
-- (void)registerSecondaryTransport:(nullable NSData *)payload;
+- (void)registerSecondaryTransport;
 
 /**
  *  Sends an unencrypted RPC to Core

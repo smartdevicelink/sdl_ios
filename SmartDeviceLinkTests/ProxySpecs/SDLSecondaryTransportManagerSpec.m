@@ -585,7 +585,7 @@ describe(@"the secondary transport manager ", ^{
 
         describe(@"when transport is opened", ^{
             it(@"should send out Register Secondary Transport frame", ^{
-                OCMExpect([testSecondaryProtocolMock registerSecondaryTransport:[OCMArg any]]);
+                OCMExpect([testSecondaryProtocolMock registerSecondaryTransport]);
 
                 [testSecondaryProtocolMock onProtocolOpened];
                 [NSThread sleepForTimeInterval:0.1];
