@@ -94,9 +94,8 @@ NS_ASSUME_NONNULL_BEGIN
     __weak typeof(self) weakself = self;
     dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
         typeof(weakself) strongself = weakself;
-
         [weakself sdl_closeInputStream];
-        
+
         if (streamError != nil || strongself.isCancelled) {
             completion(NO, bytesAvailable, streamError);
         } else {
@@ -110,15 +109,21 @@ NS_ASSUME_NONNULL_BEGIN
     for (int i = 0; i < (((file.fileSize - 1) / mtuSize) + 1); i++) {
         dispatch_group_enter(putFileGroup);
 
-        // The putfile's length parameter is based on the current offset
-        SDLPutFile *putFile = [[SDLPutFile alloc] initWithFileName:file.name fileType:file.fileType persistentFile:file.isPersistent];
-        putFile.offset = @(currentOffset);
-        putFile.length = @([self.class sdl_getPutFileLengthForOffset:currentOffset fileSize:(NSUInteger)file.fileSize mtuSize:mtuSize]);
-
         // Get a chunk of data from the input stream
-        NSUInteger dataSize = [self.class sdl_getDataSizeForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize];
-        putFile.bulkData = [self.class sdl_getDataChunkWithSize:dataSize inputStream:self.inputStream];
-        currentOffset += dataSize;
+        UInt32 putFileLength = (UInt32)[self.class sdl_getPutFileLengthForOffset:currentOffset fileSize:(NSUInteger)file.fileSize mtuSize:mtuSize];
+        NSUInteger putFileBulkDataSize = [self.class sdl_getDataSizeForOffset:currentOffset fileSize:file.fileSize mtuSize:mtuSize];
+        NSData *putFileBulkData = [self.class sdl_getDataChunkWithSize:putFileBulkDataSize inputStream:self.inputStream];
+
+        SDLPutFile *putFile = [[SDLPutFile alloc]
+                               initWithFileName:file.name
+                               fileType:file.fileType
+                               persistentFile:file.isPersistent
+                               systemFile:NO
+                               offset:(UInt32)currentOffset
+                               length:putFileLength
+                               bulkData:putFileBulkData];
+
+        currentOffset += putFileBulkDataSize;
 
         __weak typeof(self) weakself = self;
         [self.connectionManager sendConnectionManagerRequest:putFile withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {

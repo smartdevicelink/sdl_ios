@@ -30,6 +30,7 @@ SDLResult const SDLResultDisallowed = @"DISALLOWED";
 SDLResult const SDLResultUserDisallowed = @"USER_DISALLOWED";
 SDLResult const SDLResultTimedOut = @"TIMED_OUT";
 SDLResult const SDLResultCancelRoute = @"CANCEL_ROUTE";
+SDLResult const SDLResultCorruptedData = @"CORRUPTED_DATA";
 SDLResult const SDLResultTruncatedData = @"TRUNCATED_DATA";
 SDLResult const SDLResultRetry = @"RETRY";
 SDLResult const SDLResultWarnings = @"WARNINGS";

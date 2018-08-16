@@ -21,6 +21,7 @@
 #import "SDLError.h"
 #import "SDLFile.h"
 #import "SDLFileManager.h"
+#import "SDLFileManagerConfiguration.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLifecycleConfigurationUpdate.h"
 #import "SDLLockScreenConfiguration.h"
@@ -88,7 +89,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 #pragma mark Lifecycle
 
 - (instancetype)init {
-    return [self initWithConfiguration:[SDLConfiguration configurationWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"SDL APP" appId:@"001"] lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration]] delegate:nil];
+    return [self initWithConfiguration:[SDLConfiguration configurationWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"SDL APP" appId:@"001"] lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration]] delegate:nil];
 }
 
 - (instancetype)initWithConfiguration:(SDLConfiguration *)configuration delegate:(nullable id<SDLManagerDelegate>)delegate {
@@ -119,7 +120,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _lifecycleQueue = dispatch_queue_create("com.sdl.lifecycle", DISPATCH_QUEUE_SERIAL);
 
     // Managers
-    _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
+    _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self configuration:_configuration.fileManagerConfig];
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
     _screenManager = [[SDLScreenManager alloc] initWithConnectionManager:self fileManager:_fileManager];
@@ -210,10 +211,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher];
     }
 #pragma clang diagnostic pop
-
-    if (self.streamManager != nil) {
-        [self.streamManager startWithProtocol:self.proxy.protocol];
-    }
 }
 
 - (void)didEnterStateStopped {
@@ -362,7 +359,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         dispatch_group_leave(managerGroup);
     }];
 
-    dispatch_group_enter(managerGroup);
+	if (self.streamManager != nil) {
+        [self.streamManager startWithProtocol:self.proxy.protocol];
+    }
+
+	dispatch_group_enter(managerGroup);
     [self.screenManager startWithCompletionHandler:^(NSError * _Nullable error) {
         if (error != nil) {
             SDLLogW(@"Screen Manager was unable to start; error: %@", error);

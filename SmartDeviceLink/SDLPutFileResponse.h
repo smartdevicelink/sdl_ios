@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLPutFileResponse : SDLRPCResponse
 
 /**
- Provides the total local space available in SDL Core for the registered app. If the transfer has systemFile enabled, then the value will be set to 0 automatically.
+ *  Provides the total local space available in SDL Core for the registered app. If the transfer has systemFile enabled, then the value will be set to 0 automatically.
  */
 @property (strong, nonatomic) NSNumber<SDLInt> *spaceAvailable;
 
