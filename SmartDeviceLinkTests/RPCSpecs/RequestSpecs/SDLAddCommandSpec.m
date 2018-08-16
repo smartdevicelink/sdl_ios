@@ -122,6 +122,8 @@ describe(@"initializers", ^{
             NSString *iconValue = @"Icon";
             SDLImageType imageType = SDLImageTypeDynamic;
 
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testCommand = [[SDLAddCommand alloc] initWithId:commandId vrCommands:vrCommands menuName:menuName parentId:parentId position:position iconValue:iconValue iconType:imageType handler:nil];
 
             expect(testCommand.cmdID).to(equal(commandId));
@@ -130,9 +132,12 @@ describe(@"initializers", ^{
             expect(testCommand.menuParams.parentID).to(equal(parentId));
             expect(testCommand.menuParams.position).to(equal(position));
             expect(testCommand.cmdIcon).toNot(beNil());
+            #pragma clang diagnostic pop
         });
 
         it(@"should initialize without an image", ^{
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testCommand = [[SDLAddCommand alloc] initWithId:commandId vrCommands:vrCommands menuName:menuName parentId:parentId position:position iconValue:nil iconType:nil handler:nil];
 
             expect(testCommand.cmdID).to(equal(commandId));
@@ -141,6 +146,7 @@ describe(@"initializers", ^{
             expect(testCommand.menuParams.parentID).to(equal(parentId));
             expect(testCommand.menuParams.position).to(equal(position));
             expect(testCommand.cmdIcon).to(beNil());
+            #pragma clang diagnostic pop
         });
     });
 

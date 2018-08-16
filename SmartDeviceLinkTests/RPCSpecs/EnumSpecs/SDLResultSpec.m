@@ -42,6 +42,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLResultVehicleDataNotAllowed).to(equal(@"VEHICLE_DATA_NOT_ALLOWED"));
         expect(SDLResultFileNotFound).to(equal(@"FILE_NOT_FOUND"));
         expect(SDLResultCancelRoute).to(equal(@"CANCEL_ROUTE"));
+        expect(SDLResultCorruptedData).to(equal(@"CORRUPTED_DATA"));
         expect(SDLResultTruncatedData).to(equal(@"TRUNCATED_DATA"));
         expect(SDLResultSaved).to(equal(@"SAVED"));
         expect(SDLResultInvalidCertificate).to(equal(@"INVALID_CERT"));

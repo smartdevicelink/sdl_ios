@@ -239,7 +239,7 @@ describe(@"present keyboard operation", ^{
                     });
 
                     it(@"should be finished", ^{
-                        expect(hasCalledOperationCompletionHandler).to(beTrue());
+                        expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                         expect(testOp.isFinished).to(beTrue());
                     });
                 });
