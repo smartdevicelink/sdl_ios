@@ -59,6 +59,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postNotificationName:SDLTransportDidDisconnect infoObject:nil];
 }
 
+- (void)onTransportError:(NSError *)error {
+    [self postNotificationName:SDLTransportConnectError infoObject:error];
+}
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wincompatible-pointer-types"
 
