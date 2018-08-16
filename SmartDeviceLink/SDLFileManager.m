@@ -85,8 +85,8 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLFileManagerStateShutdown states:[self.class sdl_stateTransitionDictionary]];
 
     _failedFileUploadsCount = [NSMutableDictionary dictionary];
-    _maxFileUploadAttempts = configuration.fileRetryCount ? configuration.fileRetryCount + 1 : 1;
-    _maxArtworkUploadAttempts = configuration.artworkRetryCount ? configuration.artworkRetryCount + 1 : 1;
+    _maxFileUploadAttempts = configuration.fileRetryCount + 1;
+    _maxArtworkUploadAttempts = configuration.artworkRetryCount + 1;
 
     return self;
 }
