@@ -38,6 +38,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLAudioControlCapabilities.h',
 'SmartDeviceLink/SDLAudioPassThruCapabilities.h',
 'SmartDeviceLink/SDLAudioStreamingState.h',
+'SmartDeviceLink/SDLAudioStreamingIndicator.h',
 'SmartDeviceLink/SDLAudioStreamManager.h',
 'SmartDeviceLink/SDLAudioStreamManagerDelegate.h',
 'SmartDeviceLink/SDLStreamingAudioManagerType.h',
@@ -101,7 +102,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLEncodedSyncPDataResponse.h',
 'SmartDeviceLink/SDLEndAudioPassThru.h',
 'SmartDeviceLink/SDLEndAudioPassThruResponse.h',
-'SmartDeviceLink/SDLEqualizerSettings.h'
+'SmartDeviceLink/SDLEqualizerSettings.h',
 'SmartDeviceLink/SDLEnum.h',
 'SmartDeviceLink/SDLErrorConstants.h',
 'SmartDeviceLink/SDLFile.h',

@@ -23,6 +23,7 @@ extern SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager;
 extern SDLErrorDomain *const SDLErrorDomainSoftButtonManager;
 extern SDLErrorDomain *const SDLErrorDomainMenuManager;
 extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
+extern SDLErrorDomain *const SDLErrorDomainTransport;
 
 @interface NSError (SDLErrors)
 
@@ -64,6 +65,13 @@ extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
 + (NSError *)sdl_choiceSetManager_choicesDeletedBeforePresentation:(NSDictionary *)userInfo;
 + (NSError *)sdl_choiceSetManager_choiceDeletionFailed:(NSDictionary *)userInfo;
 + (NSError *)sdl_choiceSetManager_choiceUploadFailed:(NSDictionary *)userInfo;
+
+#pragma mark Transport
+
++ (NSError *)sdl_transport_unknownError;
++ (NSError *)sdl_transport_connectionRefusedError;
++ (NSError *)sdl_transport_connectionTimedOutError;
++ (NSError *)sdl_transport_networkDownError;
 
 @end
 
