@@ -93,12 +93,15 @@ describe(@"initializers", ^{
     });
 
     context(@"initWithName:ofType:", ^{
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testImage = [[SDLImage alloc] initWithName:testValue ofType:testImageType];
 
         expect(testImage).toNot(beNil());
         expect(testImage.value).to(equal(testValue));
         expect(testImage.imageType).to(equal(testImageType));
         expect(testImage.isTemplate).to(beFalse());
+        #pragma clang diagnostic pop
     });
 
     context(@"initWithName:ofType:isTemplate", ^{
@@ -111,12 +114,15 @@ describe(@"initializers", ^{
     });
 
     context(@"initWithName:", ^{
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         testImage = [[SDLImage alloc] initWithName:testValue];
 
         expect(testImage).toNot(beNil());
         expect(testImage.value).to(equal(testValue));
         expect(testImage.imageType).to(equal(SDLImageTypeDynamic));
         expect(testImage.isTemplate).to(beFalse());
+        #pragma clang diagnostic pop
     });
 
     context(@"initWithName:isTemplate", ^{

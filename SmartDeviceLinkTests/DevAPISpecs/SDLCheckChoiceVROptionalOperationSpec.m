@@ -65,7 +65,7 @@ describe(@"check choice VR optional operation", ^{
             });
 
             it(@"should have called the completion handler with proper data", ^{
-                expect(hasCalledOperationCompletionHandler).to(beTrue());
+                expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                 expect(resultVROptional).to(beTrue());
                 expect(resultError).to(beNil());
             });
@@ -131,7 +131,7 @@ describe(@"check choice VR optional operation", ^{
                 });
 
                 it(@"should return a failure", ^{
-                    expect(hasCalledOperationCompletionHandler).to(beTrue());
+                    expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                     expect(resultVROptional).to(beFalse());
                     expect(resultError).toNot(beNil());
                 });
