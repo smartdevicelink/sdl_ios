@@ -245,6 +245,7 @@ SDLName const SDLNameHorizontalPosition = @"horizontalPosition";
 SDLName const SDLNameHorizontalPositionAvailable = @"horizontalPositionAvailable";
 SDLName const SDLNameHour = @"hour";
 SDLName const SDLNameHours = @"hours";
+SDLName const SDLNameIconResumed = @"iconResumed";
 SDLName const SDLNameId = @"id";
 SDLName const SDLNameIgnitionStableStatus = @"ignitionStableStatus";
 SDLName const SDLNameIgnitionStatus = @"ignitionStatus";

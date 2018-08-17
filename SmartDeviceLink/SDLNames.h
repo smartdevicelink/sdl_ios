@@ -248,6 +248,7 @@ extern SDLName const SDLNameHorizontalPosition;
 extern SDLName const SDLNameHorizontalPositionAvailable;
 extern SDLName const SDLNameHour;
 extern SDLName const SDLNameHours;
+extern SDLName const SDLNameIconResumed;
 extern SDLName const SDLNameId;
 extern SDLName const SDLNameIgnitionStableStatus;
 extern SDLName const SDLNameIgnitionStatus;

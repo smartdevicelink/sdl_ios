@@ -385,6 +385,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateSettingUpAppIcon {
+    if (self.registerResponse.iconResumed.boolValue) {
+        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
+        return;
+    }
+
     // We only want to send the app icon when the file manager is complete, and when that's done, wait for hmi status to be ready
     __weak typeof(self) weakself = self;
     [self sdl_sendAppIcon:self.configuration.lifecycleConfig.appIcon withCompletion:^() {
