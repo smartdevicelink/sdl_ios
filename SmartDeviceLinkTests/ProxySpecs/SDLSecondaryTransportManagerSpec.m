@@ -47,8 +47,8 @@ static const int TCPPortUnspecified = -1;
 @property (assign, nonatomic) SDLSecondaryTransportType secondaryTransportType;
 @property (nullable, strong, nonatomic) id<SDLTransportType> secondaryTransport;
 @property (nullable, strong, nonatomic) SDLProtocol *secondaryProtocol;
-@property (strong, nonatomic, nullable) NSArray<SDLTransportClassBox *> *transportsForAudioService;
-@property (strong, nonatomic, nullable) NSArray<SDLTransportClassBox *> *transportsForVideoService;
+@property (strong, nonatomic, nonnull) NSArray<SDLTransportClassBox *> *transportsForAudioService;
+@property (strong, nonatomic, nonnull) NSArray<SDLTransportClassBox *> *transportsForVideoService;
 @property (strong, nonatomic) NSMutableDictionary<SDLServiceTypeBox *, SDLTransportClassBox *> *streamingServiceTransportMap;
 @property (strong, nonatomic, nullable) NSString *ipAddress;
 @property (assign, nonatomic) int tcpPort;
@@ -160,8 +160,8 @@ describe(@"the secondary transport manager ", ^{
     it(@"should initialize its property", ^{
         expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateStopped));
         expect((NSInteger)manager.secondaryTransportType).to(equal(SDLTransportSelectionDisabled));
-        expect(manager.transportsForAudioService).to(beNil());
-        expect(manager.transportsForVideoService).to(beNil());
+        expect(manager.transportsForAudioService).to(equal(@[]));
+        expect(manager.transportsForVideoService).to(equal(@[]));
         NSMutableDictionary<SDLServiceTypeBox *, SDLTransportClassBox *> *expectedAssignedTransport = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
            @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
         expect(manager.streamingServiceTransportMap).to(equal(expectedAssignedTransport));
@@ -266,8 +266,8 @@ describe(@"the secondary transport manager ", ^{
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
 
                     expect((NSInteger)manager.secondaryTransportType).to(equal(SDLTransportSelectionTCP));
-                    expect(manager.transportsForAudioService).to(beNil());
-                    expect(manager.transportsForVideoService).to(beNil());
+                    expect(manager.transportsForAudioService).to(equal(@[@(SDLTransportClassPrimary)]));
+                    expect(manager.transportsForVideoService).to(equal(@[@(SDLTransportClassPrimary)]));
 
                     OCMVerifyAll(testStreamingProtocolDelegate);
                 });
@@ -296,8 +296,8 @@ describe(@"the secondary transport manager ", ^{
 
                     // see the comment above
                     expect((NSInteger)manager.secondaryTransportType).to(equal(SDLTransportSelectionDisabled));
-                    expect(manager.transportsForAudioService).to(beNil());
-                    expect(manager.transportsForVideoService).to(beNil());
+                    expect(manager.transportsForAudioService).to(equal(@[@(SDLTransportClassPrimary)]));
+                    expect(manager.transportsForVideoService).to(equal(@[@(SDLTransportClassPrimary)]));
 
                     OCMVerifyAll(testStreamingProtocolDelegate);
                 });
@@ -320,8 +320,8 @@ describe(@"the secondary transport manager ", ^{
                     expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateConfigured));
 
                     expect((NSInteger)manager.secondaryTransportType).to(equal(SDLTransportSelectionDisabled));
-                    expect(manager.transportsForAudioService).to(beNil());
-                    expect(manager.transportsForVideoService).to(beNil());
+                    expect(manager.transportsForAudioService).to(equal(@[@(SDLTransportClassPrimary)]));
+                    expect(manager.transportsForVideoService).to(equal(@[@(SDLTransportClassPrimary)]));
 
                     OCMVerifyAll(testStreamingProtocolDelegate);
                 });
@@ -354,8 +354,8 @@ describe(@"the secondary transport manager ", ^{
                 expect(manager.stateMachine.currentState).to(equal(SDLSecondaryTransportStateStarted));
 
                 expect((NSInteger)manager.secondaryTransportType).to(equal(SDLTransportSelectionDisabled));
-                expect(manager.transportsForAudioService).to(beNil());
-                expect(manager.transportsForVideoService).to(beNil());
+                expect(manager.transportsForAudioService).to(equal(@[]));
+                expect(manager.transportsForVideoService).to(equal(@[]));
                 expect(manager.ipAddress).to(equal(testTcpIpAddress));
                 expect(manager.tcpPort).to(equal(testTcpPort));
 

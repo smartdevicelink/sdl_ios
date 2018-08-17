@@ -84,9 +84,9 @@ static const int TCPPortUnspecified = -1;
 @property (weak, nonatomic) id<SDLStreamingProtocolDelegate> streamingProtocolDelegate;
 
 // Configuration sent by system; list of transports that are allowed to carry audio service
-@property (strong, nonatomic, nullable) NSArray<SDLTransportClassBox *> *transportsForAudioService;
+@property (strong, nonatomic, nonnull) NSArray<SDLTransportClassBox *> *transportsForAudioService;
 // Configuration sent by system; list of transports that are allowed to carry video service
-@property (strong, nonatomic, nullable) NSArray<SDLTransportClassBox *> *transportsForVideoService;
+@property (strong, nonatomic, nonnull) NSArray<SDLTransportClassBox *> *transportsForVideoService;
 // A map to remember which service is currently running on which transport
 @property (strong, nonatomic) NSMutableDictionary<SDLServiceTypeBox *, SDLTransportClassBox *> *streamingServiceTransportMap;
 
@@ -112,6 +112,8 @@ static const int TCPPortUnspecified = -1;
     _streamingProtocolDelegate = streamingProtocolDelegate;
 
     _secondaryTransportType = SDLSecondaryTransportTypeDisabled;
+    _transportsForAudioService = @[];
+    _transportsForVideoService = @[];
     _streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
                             @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
     _tcpPort = TCPPortUnspecified;
@@ -295,8 +297,8 @@ static const int TCPPortUnspecified = -1;
     self.streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
                                 @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
     self.secondaryTransportType = SDLSecondaryTransportTypeDisabled;
-    self.transportsForAudioService = nil;
-    self.transportsForVideoService = nil;
+    self.transportsForAudioService = @[];
+    self.transportsForVideoService = @[];
 
     self.ipAddress = nil;
     self.tcpPort = TCPPortUnspecified;
@@ -324,11 +326,21 @@ static const int TCPPortUnspecified = -1;
     if (primaryTransportType == secondaryTransportType) {
         SDLLogW(@"Same transport is specified for both primary and secondary transport. Secondary transport is disabled.");
         secondaryTransportType = SDLSecondaryTransportTypeDisabled;
-        // clear out these values, so that audio and video services will start on primary transport
-        availableTransportsForAudio = nil;
-        availableTransportsForVideo = nil;
+        // let audio and video services start on primary transport
+        availableTransportsForAudio = @[@(SDLTransportClassPrimary)];
+        availableTransportsForVideo = @[@(SDLTransportClassPrimary)];
     } else if (secondaryTransportType == SDLSecondaryTransportTypeIAP) {
         SDLLogW(@"Starting IAP as secondary transport, which does not usually happen");
+    }
+
+    // If SDL Core did not send transport list for the service, start it on Primary Transport.
+    if (availableTransportsForAudio == nil) {
+        SDLLogW(@"Transport for audio service is not specified by the system, using primary transport.");
+        availableTransportsForAudio = @[@(SDLTransportClassPrimary)];
+    }
+    if (availableTransportsForVideo == nil) {
+        SDLLogW(@"Transport for video service is not specified by the system, using primary transport.");
+        availableTransportsForVideo = @[@(SDLTransportClassPrimary)];
     }
 
     self.secondaryTransportType = secondaryTransportType;
@@ -393,16 +405,10 @@ static const int TCPPortUnspecified = -1;
 }
 
 - (void)sdl_updateService:(UInt8)service
-        allowedTransports:(nullable NSArray<SDLTransportClassBox *> *)transportList
+        allowedTransports:(nonnull NSArray<SDLTransportClassBox *> *)transportList
          primaryAvailable:(BOOL)primaryTransportAvailable
        secondaryAvailable:(BOOL)secondaryTransportAvailable
     transportUpdatedBlock:(void (^)(SDLProtocol * _Nullable oldProtocol, SDLProtocol * _Nullable newProtocol))transportUpdatedBlock {
-    if (transportList == nil) {
-        // SDL Core did not send transport list for this service. Let's start it on Primary Transport for safe.
-        SDLLogW(@"Transport for service 0x%2X is not specified by the system, using primary transport", service);
-        transportList = @[@(SDLTransportClassPrimary)];
-    }
-
     SDLTransportClass newTransport = SDLTransportClassInvalid;
     // the list is in preferred order, so take a look from the beginning
     for (SDLTransportClassBox *transport in transportList) {
