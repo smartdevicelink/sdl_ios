@@ -38,6 +38,7 @@ typedef NS_ENUM(NSInteger, SDLSecondaryTransportType) {
 
 // should be in sync with SDLSecondaryTransportManager.m
 static const float RetryConnectionDelay = 5.0;
+static const int TCPPortUnspecified = -1;
 
 
 @interface SDLSecondaryTransportManager ()
@@ -165,7 +166,7 @@ describe(@"the secondary transport manager ", ^{
            @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
         expect(manager.streamingServiceTransportMap).to(equal(expectedAssignedTransport));
         expect(manager.ipAddress).to(beNil());
-        expect(manager.tcpPort).to(equal(-1));
+        expect(manager.tcpPort).to(equal(TCPPortUnspecified));
     });
 
 
@@ -332,7 +333,7 @@ describe(@"the secondary transport manager ", ^{
             __block SDLProtocolMessage *testTransportEventUpdateMessage = nil;
             __block SDLControlFramePayloadTransportEventUpdate *testTransportEventUpdatePayload = nil;
             __block NSString *testTcpIpAddress = nil;
-            __block int32_t testTcpPort = -1;
+            __block int32_t testTcpPort = TCPPortUnspecified;
 
             beforeEach(^{
                 testTransportEventUpdateHeader = [SDLProtocolHeader headerForVersion:5];
@@ -367,7 +368,7 @@ describe(@"the secondary transport manager ", ^{
             __block SDLProtocolMessage *testTransportEventUpdateMessage = nil;
             __block SDLControlFramePayloadTransportEventUpdate *testTransportEventUpdatePayload = nil;
             __block NSString *testTcpIpAddress = nil;
-            __block int32_t testTcpPort = -1;
+            __block int32_t testTcpPort = TCPPortUnspecified;
 
             __block SDLProtocolHeader *testStartServiceACKHeader = nil;
             __block SDLProtocolMessage *testStartServiceACKMessage = nil;
@@ -502,7 +503,7 @@ describe(@"the secondary transport manager ", ^{
 
                 manager.secondaryTransportType = SDLTransportSelectionTCP;
                 manager.ipAddress = nil;
-                manager.tcpPort = -1;
+                manager.tcpPort = TCPPortUnspecified;
 
                 [manager.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
             });
@@ -519,7 +520,7 @@ describe(@"the secondary transport manager ", ^{
                 __block SDLProtocolMessage *testTransportEventUpdateMessage = nil;
                 __block SDLControlFramePayloadTransportEventUpdate *testTransportEventUpdatePayload = nil;
                 __block NSString *testTcpIpAddress = nil;
-                __block int32_t testTcpPort = -1;
+                __block int32_t testTcpPort = TCPPortUnspecified;
 
                 beforeEach(^{
                     testTransportEventUpdateHeader = [SDLProtocolHeader headerForVersion:5];
@@ -668,7 +669,7 @@ describe(@"the secondary transport manager ", ^{
             __block SDLProtocolMessage *testTransportEventUpdateMessage = nil;
             __block SDLControlFramePayloadTransportEventUpdate *testTransportEventUpdatePayload = nil;
             __block NSString *testTcpIpAddress = nil;
-            __block int32_t testTcpPort = -1;
+            __block int32_t testTcpPort = TCPPortUnspecified;
 
             beforeEach(^{
                 manager.secondaryTransportType = SDLTransportSelectionTCP;
@@ -772,7 +773,7 @@ describe(@"the secondary transport manager ", ^{
             __block SDLProtocolMessage *testTransportEventUpdateMessage = nil;
             __block SDLControlFramePayloadTransportEventUpdate *testTransportEventUpdatePayload = nil;
             __block NSString *testTcpIpAddress = nil;
-            __block int32_t testTcpPort = -1;
+            __block int32_t testTcpPort = TCPPortUnspecified;
 
             beforeEach(^{
                 // assume audio and video services are allowed only on secondary transport
@@ -931,7 +932,7 @@ describe(@"the secondary transport manager ", ^{
             __block SDLProtocolMessage *testTransportEventUpdateMessage = nil;
             __block SDLControlFramePayloadTransportEventUpdate *testTransportEventUpdatePayload = nil;
             __block NSString *testTcpIpAddress = nil;
-            __block int32_t testTcpPort = -1;
+            __block int32_t testTcpPort = TCPPortUnspecified;
 
             beforeEach(^{
                 manager.secondaryTransportType = SDLTransportSelectionTCP;

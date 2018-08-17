@@ -55,6 +55,9 @@ static const float RegisterTransportTime = 10.0;
 // Delay to retry connection after secondary transport is disconnected or registration is failed
 static const float RetryConnectionDelay = 5.0;
 
+// Indicates that a TCP port is not specified (unconfigured).
+static const int TCPPortUnspecified = -1;
+
 
 @interface SDLSecondaryTransportManager ()
 
@@ -89,7 +92,7 @@ static const float RetryConnectionDelay = 5.0;
 
 // IP address of SDL Core (either IPv4 or IPv6 address)
 @property (strong, nonatomic, nullable) NSString *ipAddress;
-// TCP port number of SDL Core. -1 if the information isn't available
+// TCP port number of SDL Core. If the information isn't available then TCPPortUnspecified is stored.
 @property (assign, nonatomic) int tcpPort;
 
 @end
@@ -111,7 +114,7 @@ static const float RetryConnectionDelay = 5.0;
     _secondaryTransportType = SDLSecondaryTransportTypeDisabled;
     _streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
                             @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
-    _tcpPort = -1;
+    _tcpPort = TCPPortUnspecified;
 
     return self;
 }
@@ -269,7 +272,7 @@ static const float RetryConnectionDelay = 5.0;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(RetryConnectionDelay * NSEC_PER_SEC)), _stateMachineQueue, ^{
         if ([weakSelf.stateMachine isCurrentState:SDLSecondaryTransportStateReconnecting]) {
             SDLLogD(@"Retry secondary transport after disconnection or registration failure");
-            [self.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
+            [weakSelf.stateMachine transitionToState:SDLSecondaryTransportStateConfigured];
         }
     });
 }
@@ -296,7 +299,7 @@ static const float RetryConnectionDelay = 5.0;
     self.transportsForVideoService = nil;
 
     self.ipAddress = nil;
-    self.tcpPort = -1;
+    self.tcpPort = TCPPortUnspecified;
 }
 
 - (void)sdl_configureManager:(nullable NSArray<SDLSecondaryTransportTypeBox *> *)availableSecondaryTransports
@@ -341,7 +344,7 @@ static const float RetryConnectionDelay = 5.0;
 - (void)sdl_handleTransportEventUpdate {
     if ([self.stateMachine isCurrentState:SDLSecondaryTransportStateStarted]) {
         // The system sent Transport Event Update frame prior to Start Service ACK. Just keep the information and do nothing here.
-        SDLLogD(@"Received TCP transport information prior to Start Service ACK");
+        SDLLogV(@"Received TCP transport information prior to Start Service ACK");
         return;
     }
     if (self.secondaryTransportType != SDLSecondaryTransportTypeTCP) {
@@ -537,7 +540,7 @@ static const float RetryConnectionDelay = 5.0;
         SDLLogD(@"IP address is empty");
         return NO;
     }
-    if (self.tcpPort < 0) {
+    if (self.tcpPort == TCPPortUnspecified) {
         SDLLogD(@"TCP port number is not available");
         return NO;
     }
@@ -668,7 +671,7 @@ static const float RetryConnectionDelay = 5.0;
     }
 
     // Actually there is nothing to "convert" here. We just check the range and recreate an array.
-    NSMutableArray<SDLTransportClassBox *> *array = [NSMutableArray new];
+    NSMutableArray<SDLTransportClassBox *> *array = [[NSMutableArray alloc] init];
     for (NSNumber *num in transports) {
         int transport = [num intValue];
         if (transport == 1) {
