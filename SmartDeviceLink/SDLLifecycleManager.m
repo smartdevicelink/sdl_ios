@@ -213,7 +213,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                                             tcpPort:@(self.configuration.lifecycleConfig.tcpDebugPort).stringValue
                           secondaryTransportManager:self.secondaryTransportManager];
     } else {
-        self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:self];
+        // we reuse our queue to run secondary transport manager's state machine
+        self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:self
+                                                                                                     serialQueue:self.lifecycleQueue];
         self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher
                           secondaryTransportManager:self.secondaryTransportManager];
     }

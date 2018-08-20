@@ -43,9 +43,11 @@ extern SDLSecondaryTransportState *const SDLSecondaryTransportStateReconnecting;
  Create a new secondary transport manager.
 
  @param streamingProtocolDelegate a delegate to handle updates on protocol instances
+ @param queue a serial dispatch queue that the internal state machine runs on
  @return A new secondary transport manager
  */
-- (instancetype)initWithStreamingProtocolDelegate:(id<SDLStreamingProtocolDelegate>)streamingProtocolDelegate;
+- (instancetype)initWithStreamingProtocolDelegate:(id<SDLStreamingProtocolDelegate>)streamingProtocolDelegate
+                                      serialQueue:(dispatch_queue_t)queue;
 
 /**
  *  Start the manager.

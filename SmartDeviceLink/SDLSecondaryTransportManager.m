@@ -101,14 +101,15 @@ static const int TCPPortUnspecified = -1;
 
 #pragma mark - Public
 
-- (instancetype)initWithStreamingProtocolDelegate:(id<SDLStreamingProtocolDelegate>)streamingProtocolDelegate {
+- (instancetype)initWithStreamingProtocolDelegate:(id<SDLStreamingProtocolDelegate>)streamingProtocolDelegate
+                                      serialQueue:(dispatch_queue_t)queue {
     self = [super init];
     if (!self) {
         return nil;
     }
 
     _stateMachine = [[SDLStateMachine alloc] initWithTarget:self initialState:SDLSecondaryTransportStateStopped states:[self.class sdl_stateTransitionDictionary]];
-    _stateMachineQueue = dispatch_queue_create("com.sdl.secondarytransportmanager", DISPATCH_QUEUE_SERIAL);
+    _stateMachineQueue = queue;
     _streamingProtocolDelegate = streamingProtocolDelegate;
 
     _secondaryTransportType = SDLSecondaryTransportTypeDisabled;
@@ -124,29 +125,31 @@ static const int TCPPortUnspecified = -1;
 - (void)startWithPrimaryProtocol:(SDLProtocol *)primaryProtocol {
     SDLLogD(@"SDLSecondaryTransportManager start");
 
-    dispatch_sync(_stateMachineQueue, ^{
-        if (![self.stateMachine isCurrentState:SDLSecondaryTransportStateStopped]) {
-            SDLLogW(@"Secondary transport manager is already started!");
-            return;
-        }
+    // this method must be called in SDLLifecycleManager's state machine queue
+    dispatch_assert_queue(self.stateMachineQueue);
 
-        self.primaryProtocol = primaryProtocol;
-        self.primaryProtocolDelegate = [[SDLPrimaryProtocolDelegate alloc] initWithSecondaryTransportManager:self primaryProtocol:primaryProtocol];
+    if (![self.stateMachine isCurrentState:SDLSecondaryTransportStateStopped]) {
+        SDLLogW(@"Secondary transport manager is already started!");
+        return;
+    }
 
-        [self.stateMachine transitionToState:SDLSecondaryTransportStateStarted];
-    });
+    self.primaryProtocol = primaryProtocol;
+    self.primaryProtocolDelegate = [[SDLPrimaryProtocolDelegate alloc] initWithSecondaryTransportManager:self primaryProtocol:primaryProtocol];
+
+    [self.stateMachine transitionToState:SDLSecondaryTransportStateStarted];
 }
 
 - (void)stop {
     SDLLogD(@"SDLSecondaryTransportManager stop");
 
-    dispatch_sync(_stateMachineQueue, ^{
-        // stop all services, including those running on primary transport
-        SDLLogD(@"Stopping audio / video services on both transports");
-        [self sdl_handleTransportUpdateWithPrimaryAvailable:NO secondaryAvailable:NO];
+    // this method must be called in SDLLifecycleManager's state machine queue
+    dispatch_assert_queue(self.stateMachineQueue);
 
-        [self.stateMachine transitionToState:SDLSecondaryTransportStateStopped];
-    });
+    // stop all services, including those running on primary transport
+    SDLLogD(@"Stopping audio / video services on both transports");
+    [self sdl_handleTransportUpdateWithPrimaryAvailable:NO secondaryAvailable:NO];
+
+    [self.stateMachine transitionToState:SDLSecondaryTransportStateStopped];
 }
 
 // called from SDLProtocol's _receiveQueue of "primary" transport
