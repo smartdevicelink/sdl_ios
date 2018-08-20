@@ -6,6 +6,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+#import <zlib.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPutFile
@@ -13,6 +15,29 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init {
     if (self = [super initWithName:SDLNamePutFile]) {
     }
+    return self;
+}
+
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.syncFileName = fileName;
+    self.fileType = fileType;
+
+    return self;
+}
+
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile {
+    self = [self initWithFileName:fileName fileType:fileType];
+    if (!self) {
+        return nil;
+    }
+
+    self.persistentFile = @(persistentFile);
+
     return self;
 }
 
@@ -29,28 +54,33 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile {
-    self = [self initWithFileName:fileName fileType:fileType];
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length crc:(UInt64)crc {
+    self = [self initWithFileName:fileName fileType:fileType persistentFile:persistentFile];
     if (!self) {
         return nil;
     }
 
-    self.persistentFile = @(persistentFile);
+    self.systemFile = @(systemFile);
+    self.offset = @(offset);
+    self.length = @(length);
+    self.crc = crc == 0 ? nil : @(crc);
 
     return self;
 }
 
-- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType {
-    self = [self init];
+- (instancetype)initWithFileName:(NSString *)fileName fileType:(SDLFileType)fileType persistentFile:(BOOL)persistentFile systemFile:(BOOL)systemFile offset:(UInt32)offset length:(UInt32)length bulkData:(NSData *)bulkData {
+
+    self = [self initWithFileName:fileName fileType:fileType persistentFile:persistentFile systemFile:systemFile offset:offset length:length crc:[self.class sdl_getCRC32ChecksumForBulkData:bulkData]];
     if (!self) {
         return nil;
     }
 
-    self.syncFileName = fileName;
-    self.fileType = fileType;
+    self.bulkData = bulkData;
 
     return self;
 }
+
+#pragma mark - Getters and Setters
 
 - (void)setSyncFileName:(NSString *)syncFileName {
     [parameters sdl_setObject:syncFileName forName:SDLNameSyncFileName];
@@ -98,6 +128,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLUInt> *)length {
     return [parameters sdl_objectForName:SDLNameLength];
+}
+
+- (void)setCrc:(nullable NSNumber<SDLUInt> *)crc {
+    [parameters sdl_setObject:crc forName:SDLNameCRC];
+}
+
+- (nullable NSNumber<SDLUInt> *)crc {
+    return [parameters sdl_objectForName:SDLNameCRC];
+}
+
+#pragma mark - Helpers
+
++ (unsigned long)sdl_getCRC32ChecksumForBulkData:(NSData *)data {
+    if (data.length == 0) {
+        return 0;
+    }
+
+    return crc32(0, data.bytes, (uInt)data.length);
 }
 
 @end

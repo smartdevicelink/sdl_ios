@@ -83,6 +83,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)onError:(NSString *)info exception:(NSException *)e;
 
+/**
+ *  Called when an error is notified from transport.
+ *
+ *  Note: currently, this is used only by TCP transport.
+ *
+ *  @param error The type of the error
+ */
+- (void)onTransportError:(NSError *)error;
+
 @end
 
 NS_ASSUME_NONNULL_END

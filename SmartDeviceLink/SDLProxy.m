@@ -249,6 +249,10 @@ static float DefaultConnectionTimeout = 45.0;
     [self invokeMethodOnDelegates:@selector(onError:) withObject:e];
 }
 
+- (void)onTransportError:(NSError *)error {
+    [self invokeMethodOnDelegates:@selector(onTransportError:) withObject:error];
+}
+
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {
     // Turn off the timer, the start session response came back
     [self.startSessionTimer cancel];

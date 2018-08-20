@@ -73,7 +73,7 @@ describe(@"present keyboard operation", ^{
                 SDLPerformInteraction *request = testConnectionManager.receivedRequests.lastObject;
                 expect(request.initialText).to(equal(testInitialText));
                 expect(request.interactionMode).to(equal(SDLInteractionModeManualOnly));
-                expect(request.interactionChoiceSetIDList).to(equal(@[@0]));
+                expect(request.interactionChoiceSetIDList).to(beEmpty());
                 expect(request.interactionLayout).to(equal(SDLLayoutModeKeyboard));
             });
 
@@ -239,7 +239,7 @@ describe(@"present keyboard operation", ^{
                     });
 
                     it(@"should be finished", ^{
-                        expect(hasCalledOperationCompletionHandler).to(beTrue());
+                        expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
                         expect(testOp.isFinished).to(beTrue());
                     });
                 });

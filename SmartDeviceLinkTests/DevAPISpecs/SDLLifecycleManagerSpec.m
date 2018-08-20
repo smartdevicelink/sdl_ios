@@ -302,7 +302,7 @@ describe(@"a lifecycle manager", ^{
                     testManager.registerResponse = response;
                     
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpHMI fromOldState:nil callEnterTransition:YES];
-                    
+
                     expect(@(readyHandlerSuccess)).to(equal(@NO));
                     expect(readyHandlerError).to(beNil());
                 });
@@ -386,10 +386,10 @@ describe(@"a lifecycle manager", ^{
                     // Transition to StateSettingUpManagers to prevent assert error from the lifecycle machine
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpManagers fromOldState:SDLLifecycleStateUpdatingConfiguration callEnterTransition:NO];
 
-                    expect(testManager.configuration.lifecycleConfig.language).to(equal(SDLLanguageEnGb));
-                    expect(testManager.configuration.lifecycleConfig.appName).to(equal(@"EnGb"));
-                    expect(testManager.configuration.lifecycleConfig.shortAppName).to(equal(@"E"));
-                    expect(testManager.configuration.lifecycleConfig.ttsName).to(equal([SDLTTSChunk textChunksFromString:@"EnGb ttsName"]));
+                    expect(testManager.configuration.lifecycleConfig.language).toEventually(equal(SDLLanguageEnGb));
+                    expect(testManager.configuration.lifecycleConfig.appName).toEventually(equal(@"EnGb"));
+                    expect(testManager.configuration.lifecycleConfig.shortAppName).toEventually(equal(@"E"));
+                    expect(testManager.configuration.lifecycleConfig.ttsName).toEventually(equal([SDLTTSChunk textChunksFromString:@"EnGb ttsName"]));
 
                     OCMVerify([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any]]);
                 });
@@ -408,10 +408,10 @@ describe(@"a lifecycle manager", ^{
                     // Transition to StateSettingUpManagers to prevent assert error from the lifecycle machine
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpManagers fromOldState:SDLLifecycleStateUpdatingConfiguration callEnterTransition:NO];
 
-                    expect(testManager.configuration.lifecycleConfig.language).to(equal(SDLLanguageEnUs));
-                    expect(testManager.configuration.lifecycleConfig.appName).to(equal(@"Test App"));
-                    expect(testManager.configuration.lifecycleConfig.shortAppName).to(equal(@"Short Name"));
-                    expect(testManager.configuration.lifecycleConfig.ttsName).to(beNil());
+                    expect(testManager.configuration.lifecycleConfig.language).toEventually(equal(SDLLanguageEnUs));
+                    expect(testManager.configuration.lifecycleConfig.appName).toEventually(equal(@"Test App"));
+                    expect(testManager.configuration.lifecycleConfig.shortAppName).toEventually(equal(@"Short Name"));
+                    expect(testManager.configuration.lifecycleConfig.ttsName).toEventually(beNil());
 
                     OCMVerify([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any]]);
                 });

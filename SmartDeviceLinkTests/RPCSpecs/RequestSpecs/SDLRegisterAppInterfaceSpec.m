@@ -48,7 +48,7 @@ describe(@"RegisterAppInterface Tests", ^{
     });
 
     describe(@"initializers", ^{
-        it(@"should initialize with initWithLifecycleConfiguration:", ^{
+        it(@"initWithLifecycleConfiguration:", ^{
             SDLLifecycleConfiguration *testConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:appName appId:appId];
             testConfiguration.resumeHash = resumeHash;
             testConfiguration.appType = appType;
@@ -76,10 +76,10 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRequest.nightColorScheme).to(equal(colorScheme));
         });
 
-        it(@"should initialize with initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:", ^{
+        it(@"initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:", ^{
             SDLRegisterAppInterface *testRequest = [[SDLRegisterAppInterface alloc] initWithAppName:appName appId:appId languageDesired:language];
 
-            expect(testRequest.syncMsgVersion).toNot(beNil());
+            expect(testRequest.syncMsgVersion).to(equal([[SDLSyncMsgVersion alloc] initWithMajorVersion:5 minorVersion:0 patchVersion:0]));
             expect(testRequest.appName).to(equal(appName));
             expect(testRequest.ttsName).to(beNil());
             expect(testRequest.ngnMediaScreenAppName).to(beNil());
@@ -95,7 +95,7 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRequest.nightColorScheme).to(beNil());
         });
 
-        it(@"should initialize with initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:", ^{
+        it(@"initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:", ^{
             SDLRegisterAppInterface *testRequest = [[SDLRegisterAppInterface alloc] initWithAppName:appName appId:appId languageDesired:language isMediaApp:isMediaApp appTypes:@[appType] shortAppName:shortAppName];
 
             expect(testRequest.syncMsgVersion).toNot(beNil());
@@ -114,7 +114,7 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRequest.nightColorScheme).to(beNil());
         });
 
-        it(@"should initialize with initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:dayColorScheme:nightColorScheme:", ^{
+        it(@"initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:dayColorScheme:nightColorScheme:", ^{
             SDLRegisterAppInterface *testRequest = [[SDLRegisterAppInterface alloc] initWithAppName:appName appId:appId languageDesired:language isMediaApp:isMediaApp appTypes:@[appType] shortAppName:shortAppName ttsName:@[chunk] vrSynonyms:@[vrSynonyms] hmiDisplayLanguageDesired:hmiDisplayLanguage resumeHash:resumeHash dayColorScheme:colorScheme nightColorScheme:colorScheme];
 
             expect(testRequest.syncMsgVersion).toNot(beNil());
@@ -133,8 +133,8 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRequest.nightColorScheme).to(equal(colorScheme));
         });
 
-        it(@"should initialize with a dictionary", ^ {
-            NSMutableDictionary* dict = [@{SDLNameRequest:
+        it(@"init with a dictionary", ^ {
+            NSDictionary* dict = @{SDLNameRequest:
                                                @{SDLNameParameters:
                                                      @{SDLNameSyncMessageVersion:version,
                                                        SDLNameAppName:@"app56",
@@ -152,7 +152,7 @@ describe(@"RegisterAppInterface Tests", ^{
                                                        SDLNameDayColorScheme: colorScheme,
                                                        SDLNameNightColorScheme: colorScheme,
                                                        },
-                                                 SDLNameOperationName:SDLNameRegisterAppInterface}} mutableCopy];
+                                                 SDLNameOperationName:SDLNameRegisterAppInterface}};
             SDLRegisterAppInterface* testRequest = [[SDLRegisterAppInterface alloc] initWithDictionary:dict];
 
             expect(testRequest.syncMsgVersion).to(equal(version));
@@ -172,7 +172,7 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRequest.nightColorScheme).to(equal(colorScheme));
         });
 
-        it(@"should initialize with nil", ^ {
+        it(@"init", ^ {
             SDLRegisterAppInterface* testRequest = [[SDLRegisterAppInterface alloc] init];
 
             expect(testRequest.syncMsgVersion).to(beNil());

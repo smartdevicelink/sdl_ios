@@ -21,7 +21,7 @@ describe(@"Getter/Setter Tests", ^ {
     __block SDLImage *image = nil;
 
     beforeEach(^{
-        image = [[SDLImage alloc] initWithName:@"Test"];
+        image = [[SDLImage alloc] initWithName:@"Test" isTemplate:false];
     });
 
     it(@"should correctly initialize with initWithId:menuName:", ^{
@@ -34,12 +34,15 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"should correctly initialize with initWithId:menuName:position:", ^{
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAddSubMenu *testRequest = [[SDLAddSubMenu alloc] initWithId:menuId menuName:menuName position:position];
 
         expect(testRequest.menuID).to(equal(@(menuId)));
         expect(testRequest.position).to(equal(@(position)));
         expect(testRequest.menuName).to(equal(menuName));
         expect(testRequest.menuIcon).to(beNil());
+        #pragma clang diagnostic pop
     });
 
     it(@"should correctly initialize with initWithId:menuName:menuIcon:position:", ^{

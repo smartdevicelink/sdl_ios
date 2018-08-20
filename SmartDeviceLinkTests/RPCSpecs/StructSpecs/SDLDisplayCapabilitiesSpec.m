@@ -23,6 +23,9 @@ SDLScreenParams* screenParams = [[SDLScreenParams alloc] init];
 SDLTextField* textField = [[SDLTextField alloc] init];
 SDLImageField* imageField = [[SDLImageField alloc] init];
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLDisplayCapabilities* testStruct = [[SDLDisplayCapabilities alloc] init];
@@ -85,5 +88,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.numCustomPresetsAvailable).to(beNil());
     });
 });
+
+#pragma clang diagnostic pop
 
 QuickSpecEnd
