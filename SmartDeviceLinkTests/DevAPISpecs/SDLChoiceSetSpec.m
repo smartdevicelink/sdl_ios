@@ -142,7 +142,7 @@ describe(@"an SDLChoiceSet", ^{
 
                 it(@"should return nil if there are duplicate voice command strings in the choice set", ^{
                     // Cell `voiceCommands` cannot be equal
-                    SDLChoiceCell *equalCellVR = [[SDLChoiceCell alloc] initWithText:@"Text" artwork:nil voiceCommands:@[@"Cat", @"Dog"]];
+                    SDLChoiceCell *equalCellVR = [[SDLChoiceCell alloc] initWithText:@"Text" artwork:nil voiceCommands:@[@"Dog"]];
                     SDLChoiceCell *equalCellVR2 = [[SDLChoiceCell alloc] initWithText:@"Text2" artwork:nil voiceCommands:@[@"Parrot", @"Dog"]];
                     testChoiceSet = [[SDLChoiceSet alloc] initWithTitle:testTitle delegate:testDelegate choices:@[equalCellVR, equalCellVR2]];
                     expect(testChoiceSet).to(beNil());

@@ -62,31 +62,23 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     }
 
     NSMutableSet<NSString *> *choiceTextSet = [NSMutableSet setWithCapacity:choices.count];
-    NSMutableSet *vrCheckSet = [NSMutableSet set];
+    NSMutableSet<NSString *> *allMenuVoiceCommands = [NSMutableSet set];
+    NSUInteger allVoiceCommandsCount = 0;
+    NSUInteger choiceSetWithVoiceCommandCount = 0;
     for (SDLChoiceCell *cell in choices) {
         [choiceTextSet addObject:cell.text];
-        if (cell.voiceCommands.count > 0) {
-            [vrCheckSet addObject:cell.voiceCommands];
-        }
+        if (cell.voiceCommands == nil) { continue; }
+        [allMenuVoiceCommands addObjectsFromArray:cell.voiceCommands];
+        choiceSetWithVoiceCommandCount += 1;
+        allVoiceCommandsCount += cell.voiceCommands.count;
     }
     if (choiceTextSet.count < choices.count) {
         SDLLogE(@"Attempted to create a choice set with duplicate cell text. Cell text must be unique. The choice set will not be set.");
         return nil;
     }
-    if (vrCheckSet.count > 0 && vrCheckSet.count < choices.count) {
-        SDLLogE(@"If using voice recognition commands, all of the choice set cells must have unique VR commands. There are %lu unique VR commands and %lu choice set items. The choice set will not be set.", (unsigned long)vrCheckSet.count, (unsigned long)choices.count);
-        return nil;
-    }
-
-    NSMutableArray<NSString *> *nonNilVoiceCommands = [NSMutableArray array];
-    for (SDLChoiceCell *cell in choices) {
-        if (cell.voiceCommands != nil) {
-            [nonNilVoiceCommands addObjectsFromArray:cell.voiceCommands];
-        }
-    }
-    NSMutableSet<NSArray<NSString *> *> *choiceVoiceCommandSet = [NSMutableSet setWithArray:nonNilVoiceCommands];
-    if (choiceVoiceCommandSet.count < nonNilVoiceCommands.count) {
-        SDLLogE(@"Attempted to create a choice set with duplicate voice commands. Voice commands must be unique. The choice set will not be set.");
+    if ((choiceSetWithVoiceCommandCount > 0 && choiceSetWithVoiceCommandCount < choices.count)
+        || (allMenuVoiceCommands.count < allVoiceCommandsCount)) {
+        SDLLogE(@"If using voice recognition commands, all of the choice set cells must have unique VR commands. There are %lu unique VR commands and %lu choice set items. The choice set will not be set.", (unsigned long)allMenuVoiceCommands.count, (unsigned long)choiceSetWithVoiceCommandCount);
         return nil;
     }
 
