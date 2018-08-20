@@ -1,5 +1,5 @@
 //
-//  SDLPrimaryProtocolDelegate.m
+//  SDLSecondaryTransportPrimaryProtocolHandler.m
 //  SmartDeviceLink
 //
 //  Created by Sho Amano on 2018/08/09.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SDLPrimaryProtocolDelegate.h"
+#import "SDLSecondaryTransportPrimaryProtocolHandler.h"
 
 #import "SDLControlFramePayloadRPCStartServiceAck.h"
 #import "SDLControlFramePayloadTransportEventUpdate.h"
@@ -17,12 +17,12 @@
 #import "SDLProtocolMessage.h"
 #import "SDLSecondaryTransportManager.h"
 
-@interface SDLPrimaryProtocolDelegate ()
+@interface SDLSecondaryTransportPrimaryProtocolHandler ()
 @property (weak, nonatomic) SDLSecondaryTransportManager *secondaryTransportManager;
 @property (weak, nonatomic) SDLProtocol *primaryProtocol;
 @end
 
-@implementation SDLPrimaryProtocolDelegate
+@implementation SDLSecondaryTransportPrimaryProtocolHandler
 
 - (instancetype)initWithSecondaryTransportManager:(SDLSecondaryTransportManager *)manager
                                   primaryProtocol:(SDLProtocol *)primaryProtocol {

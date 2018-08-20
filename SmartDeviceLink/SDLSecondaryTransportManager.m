@@ -16,9 +16,9 @@
 #import "SDLControlFramePayloadTransportEventUpdate.h"
 #import "SDLIAPTransport.h"
 #import "SDLLogMacros.h"
-#import "SDLPrimaryProtocolDelegate.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolHeader.h"
+#import "SDLSecondaryTransportPrimaryProtocolHandler.h"
 #import "SDLStateMachine.h"
 #import "SDLTCPTransport.h"
 #import "SDLTimer.h"
@@ -69,7 +69,7 @@ static const int TCPPortUnspecified = -1;
 // Instance of the protocol that runs on primary transport.
 @property (weak, nonatomic) SDLProtocol *primaryProtocol;
 // A class to catch Start Service ACK and Transport Config Update frames.
-@property (strong, nonatomic) SDLPrimaryProtocolDelegate *primaryProtocolDelegate;
+@property (strong, nonatomic) SDLSecondaryTransportPrimaryProtocolHandler *primaryProtocolHandler;
 
 // Selected type of secondary transport. If 'SDLSecondaryTransportTypeDisabled' then secondary transport is disabled.
 @property (assign, nonatomic) SDLSecondaryTransportType secondaryTransportType;
@@ -134,7 +134,7 @@ static const int TCPPortUnspecified = -1;
     }
 
     self.primaryProtocol = primaryProtocol;
-    self.primaryProtocolDelegate = [[SDLPrimaryProtocolDelegate alloc] initWithSecondaryTransportManager:self primaryProtocol:primaryProtocol];
+    self.primaryProtocolHandler = [[SDLSecondaryTransportPrimaryProtocolHandler alloc] initWithSecondaryTransportManager:self primaryProtocol:primaryProtocol];
 
     [self.stateMachine transitionToState:SDLSecondaryTransportStateStarted];
 }
@@ -286,7 +286,7 @@ static const int TCPPortUnspecified = -1;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onAppStateUpdated:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_onAppStateUpdated:) name:UIApplicationWillResignActiveNotification object:nil];
 
-    [self.primaryProtocolDelegate start];
+    [self.primaryProtocolHandler start];
 }
 
 - (void)sdl_stopManager {
@@ -295,7 +295,7 @@ static const int TCPPortUnspecified = -1;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
 
-    [self.primaryProtocolDelegate stop];
+    [self.primaryProtocolHandler stop];
 
     self.streamingServiceTransportMap = [@{@(SDLServiceTypeAudio):@(SDLTransportClassInvalid),
                                 @(SDLServiceTypeVideo):@(SDLTransportClassInvalid)} mutableCopy];
@@ -514,9 +514,9 @@ static const int TCPPortUnspecified = -1;
 
     // we reuse Session ID acquired from primary transport's protocol
     // this is for Register Secondary Transport frame
-    [self.secondaryProtocol storeHeader:self.primaryProtocolDelegate.primaryRPCHeader forServiceType:SDLServiceTypeControl];
+    [self.secondaryProtocol storeHeader:self.primaryProtocolHandler.primaryRPCHeader forServiceType:SDLServiceTypeControl];
     // this is for video and audio services
-    [self.secondaryProtocol storeHeader:self.primaryProtocolDelegate.primaryRPCHeader forServiceType:SDLServiceTypeRPC];
+    [self.secondaryProtocol storeHeader:self.primaryProtocolHandler.primaryRPCHeader forServiceType:SDLServiceTypeRPC];
 
     [self.secondaryTransport connect];
     return YES;
@@ -536,9 +536,9 @@ static const int TCPPortUnspecified = -1;
 
     // we reuse Session ID acquired from primary transport's protocol
     // this is for Register Secondary Transport frame
-    [self.secondaryProtocol storeHeader:self.primaryProtocolDelegate.primaryRPCHeader forServiceType:SDLServiceTypeControl];
+    [self.secondaryProtocol storeHeader:self.primaryProtocolHandler.primaryRPCHeader forServiceType:SDLServiceTypeControl];
     // this is for video and audio services
-    [self.secondaryProtocol storeHeader:self.primaryProtocolDelegate.primaryRPCHeader forServiceType:SDLServiceTypeRPC];
+    [self.secondaryProtocol storeHeader:self.primaryProtocolHandler.primaryRPCHeader forServiceType:SDLServiceTypeRPC];
 
     [self.secondaryTransport connect];
     return YES;
