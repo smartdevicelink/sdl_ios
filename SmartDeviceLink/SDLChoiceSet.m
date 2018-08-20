@@ -76,9 +76,15 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
         SDLLogE(@"Attempted to create a choice set with duplicate cell text. Cell text must be unique. The choice set will not be set.");
         return nil;
     }
-    if ((choiceSetWithVoiceCommandCount > 0 && choiceSetWithVoiceCommandCount < choices.count)
-        || (allMenuVoiceCommands.count < allVoiceCommandsCount)) {
-        SDLLogE(@"If using voice recognition commands, all of the choice set cells must have unique VR commands. There are %lu unique VR commands and %lu choice set items. The choice set will not be set.", (unsigned long)allMenuVoiceCommands.count, (unsigned long)choiceSetWithVoiceCommandCount);
+
+    // All or none of the choices must have VR commands
+    if ((choiceSetWithVoiceCommandCount > 0 && choiceSetWithVoiceCommandCount < choices.count)) {
+        SDLLogE(@"If using voice recognition commands, all of the choice set cells must have unique VR commands. There are %lu unique VR commands and %lu choice set items. The choice set will not be set.", (unsigned long)choiceSetWithVoiceCommandCount, (unsigned long)choices.count);
+        return nil;
+    }
+    // All the VR commands must be unique
+    if (allMenuVoiceCommands.count < allVoiceCommandsCount) {
+        SDLLogE(@"If using voice recognition commands, all VR commands must be unique. There are %lu unique VR commands and %lu VR commands. The choice set will not be set.", (unsigned long)allMenuVoiceCommands.count, (unsigned long)allVoiceCommandsCount);
         return nil;
     }
 
