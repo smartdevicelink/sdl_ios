@@ -70,7 +70,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
         }
     }
     if (choiceTextSet.count < choices.count) {
-        SDLLogW(@"Attempted to create a choice set with duplicate cell text. Cell text must be unique. The choice set will not be set.");
+        SDLLogE(@"Attempted to create a choice set with duplicate cell text. Cell text must be unique. The choice set will not be set.");
         return nil;
     }
     if (vrCheckSet.count > 0 && vrCheckSet.count < choices.count) {
