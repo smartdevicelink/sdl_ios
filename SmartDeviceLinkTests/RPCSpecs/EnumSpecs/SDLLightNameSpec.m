@@ -30,8 +30,8 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLLightNameRearRightFogLight).to(equal(@"REAR_RIGHT_FOG_LIGHT"));
         expect(SDLLightNameRearLeftTailLight).to(equal(@"REAR_LEFT_TAIL_LIGHT"));
         expect(SDLLightNameRearRightTailLight).to(equal(@"REAR_RIGHT_TAIL_LIGHT"));
-        expect(SDLLightNameRearLeftBreakLight).to(equal(@"REAR_LEFT_BREAK_LIGHT"));
-        expect(SDLLightNameRearRightBreakLight).to(equal(@"REAR_RIGHT_BREAK_LIGHT"));
+        expect(SDLLightNameRearLeftBrakeLight).to(equal(@"REAR_LEFT_BRAKE_LIGHT"));
+        expect(SDLLightNameRearRightBrakeLight).to(equal(@"REAR_RIGHT_BRAKE_LIGHT"));
         expect(SDLLightNameRearLeftTurnLight).to(equal(@"REAR_LEFT_TURN_LIGHT"));
         expect(SDLLightNameRearRightTurnLight).to(equal(@"REAR_RIGHT_TURN_LIGHT"));
         expect(SDLLightNameRearRegistrationPlateLight).to(equal(@"REAR_REGISTRATION_PLATE_LIGHT"));
