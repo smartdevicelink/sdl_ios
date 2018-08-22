@@ -62,14 +62,14 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     }
 
     NSMutableSet<NSString *> *choiceTextSet = [NSMutableSet setWithCapacity:choices.count];
-    NSMutableSet<NSString *> *allMenuVoiceCommands = [NSMutableSet set];
+    NSMutableSet<NSString *> *uniqueVoiceCommands = [NSMutableSet set];
     NSUInteger allVoiceCommandsCount = 0;
-    NSUInteger choiceSetWithVoiceCommandCount = 0;
+    NSUInteger choiceCellWithVoiceCommandCount = 0;
     for (SDLChoiceCell *cell in choices) {
         [choiceTextSet addObject:cell.text];
         if (cell.voiceCommands == nil) { continue; }
-        [allMenuVoiceCommands addObjectsFromArray:cell.voiceCommands];
-        choiceSetWithVoiceCommandCount += 1;
+        [uniqueVoiceCommands addObjectsFromArray:cell.voiceCommands];
+        choiceCellWithVoiceCommandCount += 1;
         allVoiceCommandsCount += cell.voiceCommands.count;
     }
     if (choiceTextSet.count < choices.count) {
@@ -78,13 +78,13 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     }
 
     // All or none of the choices must have VR commands
-    if ((choiceSetWithVoiceCommandCount > 0 && choiceSetWithVoiceCommandCount < choices.count)) {
-        SDLLogE(@"If using voice recognition commands, all of the choice set cells must have unique VR commands. There are %lu unique VR commands and %lu choice set items. The choice set will not be set.", (unsigned long)choiceSetWithVoiceCommandCount, (unsigned long)choices.count);
+    if ((choiceCellWithVoiceCommandCount > 0 && choiceCellWithVoiceCommandCount < choices.count)) {
+        SDLLogE(@"If using voice recognition commands, all of the choice set cells must have unique VR commands. There are %lu cells with unique voice commands and %lu total cells. The choice set will not be set.", (unsigned long)choiceCellWithVoiceCommandCount, (unsigned long)choices.count);
         return nil;
     }
     // All the VR commands must be unique
-    if (allMenuVoiceCommands.count < allVoiceCommandsCount) {
-        SDLLogE(@"If using voice recognition commands, all VR commands must be unique. There are %lu unique VR commands and %lu VR commands. The choice set will not be set.", (unsigned long)allMenuVoiceCommands.count, (unsigned long)allVoiceCommandsCount);
+    if (uniqueVoiceCommands.count < allVoiceCommandsCount) {
+        SDLLogE(@"If using voice recognition commands, all VR commands must be unique. There are %lu unique VR commands and %lu VR commands. The choice set will not be set.", (unsigned long)uniqueVoiceCommands.count, (unsigned long)allVoiceCommandsCount);
         return nil;
     }
 
