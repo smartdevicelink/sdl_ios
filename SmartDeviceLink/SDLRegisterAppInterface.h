@@ -49,7 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
  * Convenience init for registering the application.
  *
  * @param appName                   The mobile application's name
- * @param fullAppId                 A full UUID appID used to validate app with policy table entries. The `appId` parameter will automatically be set to a truncated version of the `fullAppId`
+ * @param appId                     An appId used to validate app with policy table entries
+ * @param fullAppId                 A full UUID appID used to validate app with policy table entries. If the `fullAppId` is not nil, the `appId` parameter will automatically be set to a truncated version of the `fullAppId`
  * @param languageDesired           The language the application intends to use for user interaction
  * @return                          A SDLRegisterAppInterface object
  */
@@ -59,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Convenience init for registering the application.
  *
  * @param appName                   The mobile application's name
- * @param appId                     ID used to validate app with policy table entries
+ * @param appId                     An appId used to validate app with policy table entries
  * @param languageDesired           The language the application intends to use for user interaction
  * @return                          A SDLRegisterAppInterface object
  */
@@ -69,7 +70,8 @@ NS_ASSUME_NONNULL_BEGIN
  * Convenience init for registering the application.
  *
  * @param appName                   The mobile application's name
- * @param fullAppId                 A full UUID appID used to validate app with policy table entries. The `appId` parameter will automatically be set to a truncated version of the `fullAppId`
+ * @param appId                     An appId used to validate app with policy table entries
+ * @param fullAppId                 A full UUID appID used to validate app with policy table entries. If the `fullAppId` is not nil, the `appId` parameter will automatically be set to a truncated version of the `fullAppId`
  * @param languageDesired           The language the application intends to use for user interaction
  * @param isMediaApp                Indicates if the application is a media or a non-media application
  * @param appTypes                  A list of all applicable app types stating which classifications to be given to the app
@@ -82,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Convenience init for registering the application.
  *
  * @param appName                   The mobile application's name
- * @param appId                     ID used to validate app with policy table entries
+ * @param appId                     An appId used to validate app with policy table entries
  * @param languageDesired           The language the application intends to use for user interaction
  * @param isMediaApp                Indicates if the application is a media or a non-media application
  * @param appTypes                  A list of all applicable app types stating which classifications to be given to the app
@@ -95,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Convenience init for registering the application.
  *
  * @param appName                   The mobile application's name
- * @param appId                     ID used to validate app with policy table entries
+ * @param appId                     An appId used to validate app with policy table entries
  * @param languageDesired           The language the application intends to use for user interaction
  * @param isMediaApp                Indicates if the application is a media or a non-media application
  * @param appTypes                  A list of all applicable app types stating which classifications to be given to the app
@@ -112,7 +114,8 @@ NS_ASSUME_NONNULL_BEGIN
  * Convenience init for registering the application with all possible options.
  *
  * @param appName                   The mobile application's name
- * @param fullAppId                 A full UUID appID used to validate app with policy table entries. The `appId` parameter will automatically be set to a truncated version of the `fullAppId`
+ * @param appId                     An appId used to validate app with policy table entries
+ * @param fullAppId                 A full UUID appID used to validate app with policy table entries. If the `fullAppId` is not nil, the `appId` parameter will automatically be set to a truncated version of the `fullAppId`
  * @param languageDesired           The language the application intends to use for user interaction
  * @param isMediaApp                Indicates if the application is a media or a non-media application
  * @param appTypes                  A list of all applicable app types stating which classifications to be given to the app
@@ -125,7 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param nightColorScheme          The color scheme to be used on a head unit using a "dark" or "night" color scheme
  * @return                          A SDLRegisterAppInterface object
  */
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId  fullAppId:(nullable NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme;
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId fullAppId:(nullable NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme;
 
 /**
  * The version of the SDL interface
