@@ -17,7 +17,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSUInteger const shortAppIdCharacterCount = 10;
+static NSUInteger const AppIdCharacterCount = 10;
 
 @implementation SDLRegisterAppInterface
 
@@ -286,10 +286,10 @@ static NSUInteger const shortAppIdCharacterCount = 10;
  *  @return            An `appID` made of the first 10 non-dash characters of the "fullAppID"
  */
 + (nullable NSString *)sdlex_shortAppIdFromFullAppId:(nullable NSString *)fullAppId {
-    if (fullAppId.length <= shortAppIdCharacterCount) { return fullAppId; }
+    if (fullAppId.length <= AppIdCharacterCount) { return fullAppId; }
 
     NSString *filteredString = [self sdlex_filterDashesFromText:fullAppId];
-    NSString *truncatedString = [self sdlex_truncateText:filteredString length:shortAppIdCharacterCount];
+    NSString *truncatedString = [self sdlex_truncateText:filteredString length:AppIdCharacterCount];
 
     return truncatedString;
 }
