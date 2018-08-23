@@ -97,7 +97,7 @@ describe(@"Getter/Setter Tests", ^ {
         __block SDLMetadataTags *testTags = nil;
 
         beforeEach(^{
-            testGraphic = [[SDLImage alloc] initWithName:@"test name"];
+            testGraphic = [[SDLImage alloc] initWithName:@"test name" isTemplate:false];
             testCustomPresets = @[testString1];
             testButton = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"Test Button" image:nil highlighted:NO buttonId:0 systemAction:nil handler:nil];
             testSoftButtons = @[testButton];

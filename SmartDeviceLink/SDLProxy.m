@@ -42,7 +42,7 @@ typedef NSString SDLVehicleMake;
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
-NSString *const SDLProxyVersion = @"6.0.0";
+NSString *const SDLProxyVersion = @"6.0.2";
 const float StartSessionTime = 10.0;
 const float NotifyProxyClosedDelay = (float)0.1;
 const int PoliciesCorrelationId = 65535;
@@ -241,6 +241,10 @@ static float DefaultConnectionTimeout = 45.0;
 
 - (void)onError:(NSString *)info exception:(NSException *)e {
     [self invokeMethodOnDelegates:@selector(onError:) withObject:e];
+}
+
+- (void)onTransportError:(NSError *)error {
+    [self invokeMethodOnDelegates:@selector(onTransportError:) withObject:error];
 }
 
 - (void)handleProtocolStartServiceACKMessage:(SDLProtocolMessage *)startServiceACK {

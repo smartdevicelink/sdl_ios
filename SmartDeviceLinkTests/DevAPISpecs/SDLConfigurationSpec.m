@@ -2,6 +2,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLConfiguration.h"
+#import "SDLFileManagerConfiguration.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLogConfiguration.h"
 #import "SDLLockScreenConfiguration.h"
@@ -17,6 +18,7 @@ describe(@"a configuration", ^{
         __block SDLLockScreenConfiguration *someLockscreenConfig = nil;
         __block SDLLogConfiguration *someLogConfig = nil;
         __block SDLStreamingMediaConfiguration *someStreamingConfig = nil;
+        __block SDLFileManagerConfiguration *someFileManagerConfig = nil;
         
         __block NSString *someAppName = nil;
         __block NSString *someAppId = nil;
@@ -33,42 +35,106 @@ describe(@"a configuration", ^{
             someLockscreenConfig = [SDLLockScreenConfiguration enabledConfigurationWithAppIcon:someImage backgroundColor:someBackgroundColor];
             someLogConfig = [SDLLogConfiguration defaultConfiguration];
             someStreamingConfig  = [SDLStreamingMediaConfiguration insecureConfiguration];
+            someFileManagerConfig = [SDLFileManagerConfiguration defaultConfiguration];
         });
-        
-        it(@"should create correctly with initWithLifecycle:lockScreen:logging:", ^{
+
+        it(@"initWithLifecycle:lockScreen:logging:", ^{
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testConfig = [[SDLConfiguration alloc] initWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig];
 
             expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
             expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));
             expect(testConfig.loggingConfig).to(equal(someLogConfig));
             expect(testConfig.streamingMediaConfig).to(beNil());
+            expect(testConfig.fileManagerConfig).toNot(beNil());
+            #pragma clang diagnostic pop
         });
 
-        it(@"should create correctly with configurationWithLifecycle:lockScreen:logging:", ^{
+        it(@"initWithLifecycle:lockScreen:logging:fileManager:", ^{
+            testConfig = [[SDLConfiguration alloc] initWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig fileManager:someFileManagerConfig];
+
+            expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
+            expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));
+            expect(testConfig.loggingConfig).to(equal(someLogConfig));
+            expect(testConfig.streamingMediaConfig).to(beNil());
+            expect(testConfig.fileManagerConfig).to(equal(someFileManagerConfig));
+        });
+
+        it(@"configurationWithLifecycle:lockScreen:logging:", ^{
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testConfig = [SDLConfiguration configurationWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig];
 
             expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
             expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));
             expect(testConfig.loggingConfig).to(equal(someLogConfig));
             expect(testConfig.streamingMediaConfig).to(beNil());
+            expect(testConfig.fileManagerConfig).toNot(beNil());
+            #pragma clang diagnostic pop
         });
 
-        it(@"should create correctly with initWithLifecycle:lockScreen:logging:streamingMedia:", ^{
-            testConfig = [[SDLConfiguration alloc] initWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig streamingMedia:nil];
+        it(@"configurationWithLifecycle:lockScreen:logging:fileManager", ^{
+            testConfig = [SDLConfiguration configurationWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig fileManager:someFileManagerConfig];
 
             expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
             expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));
             expect(testConfig.loggingConfig).to(equal(someLogConfig));
             expect(testConfig.streamingMediaConfig).to(beNil());
+            expect(testConfig.fileManagerConfig).to(equal(someFileManagerConfig));
         });
 
-        it(@"should create correctly with configurationWithLifecycle:lockScreen:logging:streamingMedia:", ^{
-            testConfig = [SDLConfiguration configurationWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig streamingMedia:nil];
+        describe(@"streaming media config", ^{
+            beforeEach(^{
+                someLifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:someAppName appId:someAppId];
+                someLifecycleConfig.appType = SDLAppHMITypeNavigation;
+            });
 
-            expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
-            expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));
-            expect(testConfig.loggingConfig).to(equal(someLogConfig));
-            expect(testConfig.streamingMediaConfig).to(beNil());
+            it(@"initWithLifecycle:lockScreen:logging:streamingMedia:", ^{
+                #pragma clang diagnostic push
+                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                testConfig = [[SDLConfiguration alloc] initWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig streamingMedia:someStreamingConfig];
+
+                expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
+                expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));
+                expect(testConfig.loggingConfig).to(equal(someLogConfig));
+                expect(testConfig.streamingMediaConfig).to(equal(someStreamingConfig));
+                expect(testConfig.fileManagerConfig).toNot(beNil());
+                #pragma clang diagnostic pop
+            });
+
+            it(@"initWithLifecycle:lockScreen:logging:streamingMedia:fileManager:", ^{
+                testConfig = [[SDLConfiguration alloc] initWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig streamingMedia:someStreamingConfig fileManager:someFileManagerConfig];
+
+                expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
+                expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));
+                expect(testConfig.loggingConfig).to(equal(someLogConfig));
+                expect(testConfig.streamingMediaConfig).to(equal(someStreamingConfig));
+                expect(testConfig.fileManagerConfig).to(equal(someFileManagerConfig));
+            });
+
+            it(@"configurationWithLifecycle:lockScreen:logging:streamingMedia:", ^{
+                #pragma clang diagnostic push
+                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                testConfig = [SDLConfiguration configurationWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig streamingMedia:someStreamingConfig];
+
+                expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
+                expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));
+                expect(testConfig.loggingConfig).to(equal(someLogConfig));
+                expect(testConfig.streamingMediaConfig).to(equal(someStreamingConfig));
+                expect(testConfig.fileManagerConfig).toNot(beNil());
+                #pragma clang diagnostic pop
+            });
+
+            it(@"configurationWithLifecycle:lockScreen:logging:streamingMedia:fileManager:", ^{
+                testConfig = [SDLConfiguration configurationWithLifecycle:someLifecycleConfig lockScreen:someLockscreenConfig logging:someLogConfig streamingMedia:someStreamingConfig fileManager:someFileManagerConfig];
+
+                expect(testConfig.lifecycleConfig).to(equal(someLifecycleConfig));
+                expect(testConfig.lockScreenConfig).to(equal(someLockscreenConfig));
+                expect(testConfig.loggingConfig).to(equal(someLogConfig));
+                expect(testConfig.streamingMediaConfig).to(equal(someStreamingConfig));
+                expect(testConfig.fileManagerConfig).to(equal(someFileManagerConfig));
+            });
         });
     });
 });

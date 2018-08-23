@@ -170,6 +170,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameSystemSoftwareVersion];
 }
 
+- (void)setIconResumed:(nullable NSNumber<SDLBool> *)iconResumed {
+    [parameters sdl_setObject:iconResumed forName:SDLNameIconResumed];
+}
+
+- (nullable NSNumber<SDLBool> *)iconResumed {
+    return [parameters sdl_objectForName:SDLNameIconResumed];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

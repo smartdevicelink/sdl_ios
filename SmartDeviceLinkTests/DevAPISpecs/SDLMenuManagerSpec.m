@@ -66,7 +66,7 @@ describe(@"menu manager", ^{
 
         textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
         textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-        submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" subCells:@[textOnlyCell, textAndImageCell]];
+        submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil subCells:@[textOnlyCell, textAndImageCell]];
         submenuImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 4" icon:testArtwork2 subCells:@[textOnlyCell]];
 
         mockConnectionManager = [[TestConnectionManager alloc] init];
@@ -166,10 +166,21 @@ describe(@"menu manager", ^{
             testManager.displayCapabilities.graphicSupported = @YES;
         });
 
-        it(@"should fail with a duplicate title", ^{
-            testManager.menuCells = @[textOnlyCell, textOnlyCell];
+        context(@"duplicate titles", ^{
+            it(@"should fail with a duplicate title", ^{
+                testManager.menuCells = @[textOnlyCell, textOnlyCell];
+                expect(testManager.menuCells).to(beEmpty());
+            });
+        });
 
-            expect(testManager.menuCells).to(beEmpty());
+        context(@"duplicate VR commands", ^{
+            __block SDLMenuCell *textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"Cat", @"Turtle"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            __block SDLMenuCell *textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil voiceCommands:@[@"Cat", @"Dog"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+
+            it(@"should fail when menu items have duplicate vr commands", ^{
+                testManager.menuCells = @[textAndVRCell1, textAndVRCell2];
+                expect(testManager.menuCells).to(beEmpty());
+            });
         });
 
         it(@"should properly update a text cell", ^{
@@ -318,7 +329,7 @@ describe(@"menu manager", ^{
                     testTriggerSource = triggerSource;
                 }];
 
-                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" subCells:@[cellWithHandler]];
+                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" icon:nil subCells:@[cellWithHandler]];
 
                 testManager.menuCells = @[submenuCell];
             });

@@ -18,6 +18,7 @@ SDLErrorDomain *const SDLErrorDomainTextAndGraphicManager = @"com.sdl.textandgra
 SDLErrorDomain *const SDLErrorDomainSoftButtonManager = @"com.sdl.softbuttonmanager.error";
 SDLErrorDomain *const SDLErrorDomainMenuManager = @"com.sdl.menumanager.error";
 SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanager.error";
+SDLErrorDomain *const SDLErrorDomainTransport = @"com.sdl.transport.error";
 
 @implementation NSError (SDLErrors)
 
@@ -215,6 +216,44 @@ SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanage
 
 + (NSError *)sdl_choiceSetManager_choiceUploadFailed:(NSDictionary *)userInfo {
     return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorUploadFailed userInfo:userInfo];
+}
+
+#pragma mark Transport
+
++ (NSError *)sdl_transport_unknownError {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"TCP connection error", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"TCP connection cannot be established due to unknown error.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that correct IP address and TCP port number are specified, and the phone is connected to the correct Wi-Fi network.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainTransport code:SDLTransportErrorUnknown userInfo:userInfo];
+}
+
++ (NSError *)sdl_transport_connectionRefusedError {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"TCP connection cannot be established", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The TCP connection is refused by head unit. Possible causes are that the specified TCP port number is not correct, or SDL Core is not running properly on the head unit.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that correct IP address and TCP port number are specified. Also, make sure that SDL Core on the head unit enables TCP transport.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainTransport code:SDLTransportErrorConnectionRefused userInfo:userInfo];
+}
+
++ (NSError *)sdl_transport_connectionTimedOutError {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"TCP connection timed out", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The TCP connection cannot be established within a given time. Possible causes are that the specified IP address is not correct, or the connection is blocked by a firewall.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that correct IP address and TCP port number are specified. Also, make sure that the head unit's system configuration accepts TCP connections.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainTransport code:SDLTransportErrorConnectionTimedOut userInfo:userInfo];
+}
+
++ (NSError *)sdl_transport_networkDownError {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Network is not available", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"TCP connection cannot be established because the phone is not connected to the network. Possible causes are: Wi-Fi being disabled on the phone or the phone is connected to a wrong Wi-Fi network.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that the phone is connected to the Wi-Fi network that has the head unit on it. Also, make sure that correct IP address and TCP port number are specified.", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainTransport code:SDLTransportErrorNetworkDown userInfo:userInfo];
 }
 
 @end

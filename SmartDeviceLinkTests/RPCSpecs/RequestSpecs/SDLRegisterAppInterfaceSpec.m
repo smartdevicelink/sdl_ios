@@ -48,6 +48,8 @@ describe(@"RegisterAppInterface Tests", ^{
     __block SDLAppInfo *appInfo = nil;
     __block SDLTemplateColorScheme *colorScheme = nil;
 
+    __block SDLSyncMsgVersion *currentSyncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:5 minorVersion:0 patchVersion:0];
+
     beforeEach(^{
         testRegisterAppInterface = nil;
         version = [[SDLSyncMsgVersion alloc] init];
@@ -173,7 +175,7 @@ describe(@"RegisterAppInterface Tests", ^{
             SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithLifecycleConfiguration:testLifecyleConfiguration];
             expect(testRegisterAppInterface.fullAppID).to(match(fullAppId));
             expect(testRegisterAppInterface.appID).to(match(expectedAppId));
-            expect(testRegisterAppInterface.syncMsgVersion).toNot(beNil());
+            expect(testRegisterAppInterface.syncMsgVersion).to(equal(currentSyncMsgVersion));
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(contain(chunk));
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(equal(shortAppName));
@@ -197,7 +199,7 @@ describe(@"RegisterAppInterface Tests", ^{
 
             expect(testRegisterAppInterface.fullAppID).to(match(fullAppId));
             expect(testRegisterAppInterface.appID).to(match(expectedAppId));
-            expect(testRegisterAppInterface.syncMsgVersion).toNot(beNil());
+            expect(testRegisterAppInterface.syncMsgVersion).to(equal(currentSyncMsgVersion));
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(beNil());
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(beNil());
@@ -214,11 +216,13 @@ describe(@"RegisterAppInterface Tests", ^{
         });
 
         it(@"initWithAppName:appId:languageDesired:", ^{
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithAppName:appName appId:appId languageDesired:language];
 
             expect(testRegisterAppInterface.fullAppID).to(beEmpty());
             expect(testRegisterAppInterface.appID).to(match(appId));
-            expect(testRegisterAppInterface.syncMsgVersion).toNot(beNil());
+            expect(testRegisterAppInterface.syncMsgVersion).to(equal(currentSyncMsgVersion));
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(beNil());
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(beNil());
@@ -232,6 +236,7 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRegisterAppInterface.appInfo).toNot(beNil());
             expect(testRegisterAppInterface.dayColorScheme).to(beNil());
             expect(testRegisterAppInterface.nightColorScheme).to(beNil());
+            #pragma clang diagnostic pop
         });
 
         it(@"initWithAppName:fullAppId:languageDesired:isMediaApp:appTypes:shortAppName:", ^{
@@ -239,7 +244,7 @@ describe(@"RegisterAppInterface Tests", ^{
 
             expect(testRegisterAppInterface.fullAppID).to(match(fullAppId));
             expect(testRegisterAppInterface.appID).to(match(expectedAppId));
-            expect(testRegisterAppInterface.syncMsgVersion).toNot(beNil());
+            expect(testRegisterAppInterface.syncMsgVersion).to(equal(currentSyncMsgVersion));
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(beNil());
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(equal(shortAppName));
@@ -258,11 +263,13 @@ describe(@"RegisterAppInterface Tests", ^{
         });
 
         it(@"initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:", ^{
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithAppName:appName appId:appId languageDesired:language isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
 
             expect(testRegisterAppInterface.fullAppID).to(beEmpty());
             expect(testRegisterAppInterface.appID).to(match(appId));
-            expect(testRegisterAppInterface.syncMsgVersion).toNot(beNil());
+            expect(testRegisterAppInterface.syncMsgVersion).to(equal(currentSyncMsgVersion));
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(beNil());
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(equal(shortAppName));
@@ -278,13 +285,16 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRegisterAppInterface.appInfo).toNot(beNil());
             expect(testRegisterAppInterface.dayColorScheme).to(beNil());
             expect(testRegisterAppInterface.nightColorScheme).to(beNil());
+            #pragma clang diagnostic pop
         });
         it(@"initWithAppName:appId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:", ^{
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithAppName:appName appId:appId languageDesired:language isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName ttsName:@[chunk] vrSynonyms:@[vrSynonyms] hmiDisplayLanguageDesired:hmiDisplayLanguage resumeHash:resumeHash];
 
             expect(testRegisterAppInterface.fullAppID).to(beEmpty());
             expect(testRegisterAppInterface.appID).to(match(appId));
-            expect(testRegisterAppInterface.syncMsgVersion).toNot(beNil());
+            expect(testRegisterAppInterface.syncMsgVersion).to(equal(currentSyncMsgVersion));
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(contain(chunk));
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(equal(shortAppName));
@@ -300,6 +310,7 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRegisterAppInterface.appInfo).toNot(beNil());
             expect(testRegisterAppInterface.dayColorScheme).to(beNil());
             expect(testRegisterAppInterface.nightColorScheme).to(beNil());
+            #pragma clang diagnostic pop
         });
 
         it(@"should initialize with initWithAppName:fullAppId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:dayColorScheme:nightColorScheme:", ^{
@@ -307,7 +318,7 @@ describe(@"RegisterAppInterface Tests", ^{
 
             expect(testRegisterAppInterface.fullAppID).to(match(fullAppId));
             expect(testRegisterAppInterface.appID).to(match(expectedAppId));
-            expect(testRegisterAppInterface.syncMsgVersion).toNot(beNil());
+            expect(testRegisterAppInterface.syncMsgVersion).to(equal(currentSyncMsgVersion));
             expect(testRegisterAppInterface.appName).to(equal(appName));
             expect(testRegisterAppInterface.ttsName).to(contain(chunk));
             expect(testRegisterAppInterface.ngnMediaScreenAppName).to(equal(shortAppName));

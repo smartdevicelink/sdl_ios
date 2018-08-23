@@ -113,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdlex_setupConfigurationWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
-    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfigurationWithAppIcon:[UIImage imageNamed:ExampleAppLogoName] backgroundColor:nil] logging:[self.class sdlex_logConfiguration]];
+    SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfigurationWithAppIcon:[UIImage imageNamed:ExampleAppLogoName] backgroundColor:nil] logging:[self.class sdlex_logConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration]];
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:config delegate:self];
 
     [self startManager];
@@ -129,6 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
     config.ttsName = [SDLTTSChunk textChunksFromString:ExampleAppName];
     config.language = SDLLanguageEnUs;
     config.languagesSupported = @[SDLLanguageEnUs, SDLLanguageFrCa, SDLLanguageEsMx];
+    config.appType = SDLAppHMITypeDefault;
 
     SDLRGBColor *green = [[SDLRGBColor alloc] initWithRed:126 green:188 blue:121];
     SDLRGBColor *white = [[SDLRGBColor alloc] initWithRed:249 green:251 blue:254];

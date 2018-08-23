@@ -100,17 +100,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Initalizes a socket from which to read data.
 
+ @discussion A new `NSInputStream` is created when requested instead of returning the already open `NSInputStream`. This is done because once a opened, a stream *cannot* be closed and reopened. If the same file is accessed multiple times (i.e. a non-persistant file is uploaded before and after a disconnect from Core during the same session) the file cannot be accessed after the first access because the stream is closed once the upload is completed. Apple `NSInputStream` doc: https://developer.apple.com/documentation/foundation/nsstream/1411963-open
+
  @return A socket
  */
 - (NSInputStream *)inputStream {
-    if (!_inputStream) {
-        if (_fileURL) {
-            // Data in file
-            _inputStream = [[NSInputStream alloc] initWithURL:_fileURL];
-        } else if (_data.length != 0) {
-            // Data in memory
-            _inputStream = [[NSInputStream alloc] initWithData:_data];
-        }
+    if (_fileURL) {
+        // Data in file
+        _inputStream = [[NSInputStream alloc] initWithURL:_fileURL];
+    } else if (_data.length != 0) {
+        // Data in memory
+        _inputStream = [[NSInputStream alloc] initWithData:_data];
     }
     return _inputStream;
 }

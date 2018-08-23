@@ -45,6 +45,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.hmiCapabilities = hmiCapabilities;
         testResponse.sdlVersion = @"sdlVersion";
         testResponse.systemSoftwareVersion = @"systemSoftwareVersion";
+        testResponse.iconResumed = @YES;
         
         expect(testResponse.syncMsgVersion).to(equal(version));
         expect(testResponse.language).to(equal(SDLLanguageEsMx));
@@ -64,6 +65,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.hmiCapabilities).to(equal(hmiCapabilities));
         expect(testResponse.sdlVersion).to(equal(@"sdlVersion"));
         expect(testResponse.systemSoftwareVersion).to(equal(@"systemSoftwareVersion"));
+        expect(testResponse.iconResumed).to(beTrue());
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -86,7 +88,8 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameSupportedDiagnosticModes:@[@67, @99, @111],
                                                    SDLNameHMICapabilities: hmiCapabilities,
                                                    SDLNameSDLVersion: @"sdlVersion",
-                                                   SDLNameSystemSoftwareVersion: @"systemSoftwareVersion"
+                                                   SDLNameSystemSoftwareVersion: @"systemSoftwareVersion",
+                                                   SDLNameIconResumed: @YES,
                                                    },
                                              SDLNameOperationName:SDLNameRegisterAppInterface}};
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
@@ -109,6 +112,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.hmiCapabilities).to(equal(hmiCapabilities));
         expect(testResponse.sdlVersion).to(equal(@"sdlVersion"));
         expect(testResponse.systemSoftwareVersion).to(equal(@"systemSoftwareVersion"));
+        expect(testResponse.iconResumed).to(beTrue());
     });
     
     it(@"Should return nil if not set", ^ {
@@ -132,6 +136,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.hmiCapabilities).to(beNil());
         expect(testResponse.sdlVersion).to(beNil());
         expect(testResponse.systemSoftwareVersion).to(beNil());
+        expect(testResponse.iconResumed).to(beNil());
     });
 });
 
