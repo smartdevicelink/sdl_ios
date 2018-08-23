@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  A production configuration that runs using IAP. Additional functionality should be customized on the properties.
  *
  *  @param appName      The name of the app.
- *  @param fullAppId    The full app id to be used. This should be registered with the head unit's manufacturer. The corresponding `appId` will be set based on the `fullAppId`.
+ *  @param fullAppId    The full app id to be used. This should be registered with the head unit's manufacturer. When set, the `appId` parameter will be set automatically to the first 10 non-dash characters of the `fullAppId`.
  *
  *  @return The lifecycle configuration
  */
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  A debug configuration that runs using TCP. Additional functionality should be customized on the properties.
  *
  *  @param appName      The name of the app.
- *  @param fullAppId    The full app id to be used. This should be registered with the head unit's manufacturer. The corresponding `appId` will be set based on the `fullAppId`.
+ *  @param fullAppId    The full app id to be used. This should be registered with the head unit's manufacturer. When set, the `appId` parameter will be set automatically to the first 10 non-dash characters of the `fullAppId`.
  *  @param ipAddress    The ip address of the server to connect to
  *  @param port         The port of the server to connect to
  *
@@ -91,13 +91,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  The app id. This must be the same as the app id received from the SDL developer portal or OEM.
+ *
+ *  Required
  */
 @property (copy, nonatomic, readonly) NSString *appId;
 
 /**
- * The app id. This must be the same as the app id received from the SDL developer portal or OEM. If set, the `appId` parameter will be set automatically to the first 10 non-dash characters.
+ * The app id. This must be the same as the app id received from the SDL developer portal or OEM.
+ *
+ *  Optional
  */
-@property (strong, nonatomic, readonly) NSString *fullAppId;
+@property (copy, nonatomic, nullable, readonly) NSString *fullAppId;
 
 /**
  *  A hash id which should be passed to the remote system in the RegisterAppInterface
