@@ -66,7 +66,7 @@ private extension ProxyManager {
     ///
     /// - Returns: A SDLConfiguration object
     class func connectIAP() -> SDLConfiguration {
-        let lifecycleConfiguration = SDLLifecycleConfiguration(appName: ExampleAppName, fullAppId: ExampleAppId)
+        let lifecycleConfiguration = SDLLifecycleConfiguration(appName: ExampleAppName, fullAppId: ExampleFullAppId)
         return setupManagerConfiguration(with: lifecycleConfiguration)
     }
 
@@ -74,7 +74,7 @@ private extension ProxyManager {
     ///
     /// - Returns: A SDLConfiguration object
     class func connectTCP() -> SDLConfiguration {
-        let lifecycleConfiguration = SDLLifecycleConfiguration(appName: ExampleAppName, fullAppId: ExampleAppId, ipAddress: AppUserDefaults.shared.ipAddress!, port: UInt16(AppUserDefaults.shared.port!)!)
+        let lifecycleConfiguration = SDLLifecycleConfiguration(appName: ExampleAppName, fullAppId: ExampleFullAppId, ipAddress: AppUserDefaults.shared.ipAddress!, port: UInt16(AppUserDefaults.shared.port!)!)
         return setupManagerConfiguration(with: lifecycleConfiguration)
     }
 

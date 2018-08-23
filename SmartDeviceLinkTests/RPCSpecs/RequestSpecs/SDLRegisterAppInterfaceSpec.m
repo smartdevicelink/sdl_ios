@@ -194,8 +194,8 @@ describe(@"RegisterAppInterface Tests", ^{
             expect(testRegisterAppInterface.nightColorScheme).to(equal(colorScheme));
         });
 
-        it(@"initWithAppName:fullAppId:languageDesired:", ^{
-            SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithAppName:appName fullAppId:fullAppId languageDesired:language];
+        it(@"initWithAppName:appId:fullAppId:languageDesired:", ^{
+            SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithAppName:appName appId:appId fullAppId:fullAppId languageDesired:language];
 
             expect(testRegisterAppInterface.fullAppID).to(match(fullAppId));
             expect(testRegisterAppInterface.appID).to(match(expectedAppId));
@@ -239,8 +239,8 @@ describe(@"RegisterAppInterface Tests", ^{
             #pragma clang diagnostic pop
         });
 
-        it(@"initWithAppName:fullAppId:languageDesired:isMediaApp:appTypes:shortAppName:", ^{
-            SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithAppName:appName fullAppId:fullAppId languageDesired:language isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
+        it(@"initWithAppName:appId:fullAppId:languageDesired:isMediaApp:appTypes:shortAppName:", ^{
+            SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithAppName:appName appId:appId fullAppId:fullAppId languageDesired:language isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
 
             expect(testRegisterAppInterface.fullAppID).to(match(fullAppId));
             expect(testRegisterAppInterface.appID).to(match(expectedAppId));
@@ -313,8 +313,8 @@ describe(@"RegisterAppInterface Tests", ^{
             #pragma clang diagnostic pop
         });
 
-        it(@"should initialize with initWithAppName:fullAppId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:dayColorScheme:nightColorScheme:", ^{
-            SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithAppName:appName fullAppId:fullAppId languageDesired:language isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName ttsName:@[chunk] vrSynonyms:@[vrSynonyms] hmiDisplayLanguageDesired:hmiDisplayLanguage resumeHash:resumeHash dayColorScheme:colorScheme nightColorScheme:colorScheme];
+        it(@"should initialize with initWithAppName:appId:fullAppId:languageDesired:isMediaApp:appTypes:shortAppName:ttsName:vrSynonyms:hmiDisplayLanguageDesired:resumeHash:dayColorScheme:nightColorScheme:", ^{
+            SDLRegisterAppInterface *testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithAppName:appName appId:appId fullAppId:fullAppId languageDesired:language isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName ttsName:@[chunk] vrSynonyms:@[vrSynonyms] hmiDisplayLanguageDesired:hmiDisplayLanguage resumeHash:resumeHash dayColorScheme:colorScheme nightColorScheme:colorScheme];
 
             expect(testRegisterAppInterface.fullAppID).to(match(fullAppId));
             expect(testRegisterAppInterface.appID).to(match(expectedAppId));

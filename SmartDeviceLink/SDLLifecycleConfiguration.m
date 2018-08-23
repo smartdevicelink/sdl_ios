@@ -41,8 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
     return [self debugConfigurationWithAppName:appName fullAppId:@"" appId:appId ipAddress:ipAddress port:port];
 }
 
-+ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppID ipAddress:(NSString *)ipAddress port:(UInt16)port {
-    return [self debugConfigurationWithAppName:appName fullAppId:fullAppID appId:@"" ipAddress:ipAddress port:port];
++ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId ipAddress:(NSString *)ipAddress port:(UInt16)port {
+    return [self debugConfigurationWithAppName:appName fullAppId:fullAppId appId:@"" ipAddress:ipAddress port:port];
 }
 
 #pragma mark Initalization Helpers

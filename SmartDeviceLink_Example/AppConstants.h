@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString * const ExampleAppName;
 extern NSString * const ExampleAppNameShort;
 extern NSString * const ExampleAppNameTTS;
-extern NSString * const ExampleAppId;
+extern NSString * const ExampleFullAppId;
 extern BOOL const ExampleAppShouldRestartSDLManagerOnDisconnect;
 
 #pragma mark - SDL Textfields

@@ -33,6 +33,7 @@ static NSUInteger const AppIdCharacterCount = 10;
     NSArray<SDLAppHMIType> *allHMITypes = lifecycleConfiguration.additionalAppTypes ? [lifecycleConfiguration.additionalAppTypes arrayByAddingObject:lifecycleConfiguration.appType] : @[lifecycleConfiguration.appType];
 
     return [self initWithAppName:lifecycleConfiguration.appName
+                           appId:lifecycleConfiguration.appId
                        fullAppId:lifecycleConfiguration.fullAppId
                  languageDesired:lifecycleConfiguration.language
                       isMediaApp:lifecycleConfiguration.isMedia
@@ -46,14 +47,14 @@ static NSUInteger const AppIdCharacterCount = 10;
                 nightColorScheme:lifecycleConfiguration.nightColorScheme];
 }
 
-- (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired {
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId fullAppId:(nullable NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired {
     self = [self initWithAppName:appName languageDesired:languageDesired];
     if (!self) {
         return nil;
     }
 
-    self.fullAppID = fullAppId;
-    self.appID = [self.class sdlex_shortAppIdFromFullAppId:fullAppId];
+    self.fullAppID = fullAppId.length > 0 ? fullAppId : nil;
+    self.appID = fullAppId.length > 0 ? [self.class sdlex_shortAppIdFromFullAppId:fullAppId] : appId;
 
     return self;
 }
@@ -70,8 +71,8 @@ static NSUInteger const AppIdCharacterCount = 10;
     return self;
 }
 
-- (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName {
-    self = [self initWithAppName:appName fullAppId:fullAppId languageDesired:languageDesired];
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId fullAppId:(nullable NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName {
+    self = [self initWithAppName:appName appId:appId fullAppId:fullAppId languageDesired:languageDesired];
     if (!self) {
         return nil;
     }
@@ -110,8 +111,8 @@ static NSUInteger const AppIdCharacterCount = 10;
     return self;
 }
 
-- (instancetype)initWithAppName:(NSString *)appName fullAppId:(NSString *)fullAppID languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
-    self = [self initWithAppName:appName fullAppId:fullAppID languageDesired:languageDesired isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId fullAppId:(nullable NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
+    self = [self initWithAppName:appName appId:appId fullAppId:fullAppId languageDesired:languageDesired isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
     if (!self) { return nil; }
 
     self.ttsName = [ttsName copy];
@@ -243,11 +244,11 @@ static NSUInteger const AppIdCharacterCount = 10;
     return [parameters sdl_objectForName:SDLNameAppId];
 }
 
-- (void)setFullAppID:(NSString *)fullAppID {
+- (void)setFullAppID:(nullable NSString *)fullAppID {
     [parameters sdl_setObject:fullAppID forName:SDLNameFullAppID];
 }
 
-- (NSString *)fullAppID {
+- (nullable NSString *)fullAppID {
     return [parameters sdl_objectForName:SDLNameFullAppID];
 }
 
