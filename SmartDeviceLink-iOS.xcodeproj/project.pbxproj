@@ -397,11 +397,6 @@
 		5D00AC781F15283E004000D9 /* SDLNavigationCapability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D00AC761F15283E004000D9 /* SDLNavigationCapability.m */; };
 		5D00AC7B1F15287E004000D9 /* SDLPhoneCapability.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D00AC791F15287E004000D9 /* SDLPhoneCapability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D00AC7C1F15287E004000D9 /* SDLPhoneCapability.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D00AC7A1F15287E004000D9 /* SDLPhoneCapability.m */; };
-		5D0218F61A8E79C400D1BF62 /* ConnectionTCPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0218F51A8E79C400D1BF62 /* ConnectionTCPTableViewController.m */; };
-		5D0218F91A8E7A7300D1BF62 /* ConnectionTCPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D0218F71A8E7A7300D1BF62 /* ConnectionTCPTableViewController.storyboard */; };
-		5D0218FC1A8E7E1700D1BF62 /* ConnectionContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0218FB1A8E7E1700D1BF62 /* ConnectionContainerViewController.m */; };
-		5D0218FF1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D0218FE1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m */; };
-		5D0219051A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D0219031A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard */; };
 		5D07C02D2044AC9100D1ECDC /* SDLSequentialRPCRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D07C02B2044AC9000D1ECDC /* SDLSequentialRPCRequestOperation.h */; };
 		5D07C02E2044AC9100D1ECDC /* SDLSequentialRPCRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D07C02C2044AC9100D1ECDC /* SDLSequentialRPCRequestOperation.m */; };
 		5D07C0312044AD0C00D1ECDC /* SDLAsynchronousRPCRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D07C02F2044AD0C00D1ECDC /* SDLAsynchronousRPCRequestOperation.h */; };
@@ -437,6 +432,52 @@
 		5D1665CD1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1665CC1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D1BF6AF204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D1BF6AD204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.h */; };
 		5D1BF6B0204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1BF6AE204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.m */; };
+		5D1FF28D213044F9000EB9B4 /* AlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF28C213044F9000EB9B4 /* AlertManager.m */; };
+		5D1FF29C21304515000EB9B4 /* PerformInteractionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29121304513000EB9B4 /* PerformInteractionManager.m */; };
+		5D1FF29D21304515000EB9B4 /* RPCPermissionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29221304513000EB9B4 /* RPCPermissionsManager.m */; };
+		5D1FF29E21304515000EB9B4 /* MenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29421304513000EB9B4 /* MenuManager.m */; };
+		5D1FF29F21304515000EB9B4 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29621304514000EB9B4 /* ProxyManager.m */; };
+		5D1FF2A021304515000EB9B4 /* AudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29721304514000EB9B4 /* AudioManager.m */; };
+		5D1FF2A121304515000EB9B4 /* VehicleDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29921304514000EB9B4 /* VehicleDataManager.m */; };
+		5D1FF2A221304515000EB9B4 /* ButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF29B21304515000EB9B4 /* ButtonManager.m */; };
+		5D1FF2A721304531000EB9B4 /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2A421304531000EB9B4 /* Preferences.m */; };
+		5D1FF2A821304531000EB9B4 /* TextValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2A621304531000EB9B4 /* TextValidator.m */; };
+		5D1FF2AF21304568000EB9B4 /* ConnectionTCPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2A921304567000EB9B4 /* ConnectionTCPTableViewController.storyboard */; };
+		5D1FF2B021304568000EB9B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2AB21304567000EB9B4 /* Main.storyboard */; };
+		5D1FF2B121304568000EB9B4 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2AD21304567000EB9B4 /* ConnectionIAPTableViewController.storyboard */; };
+		5D1FF2B821304581000EB9B4 /* ConnectionIAPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2B421304580000EB9B4 /* ConnectionIAPTableViewController.m */; };
+		5D1FF2B921304581000EB9B4 /* ConnectionContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2B521304581000EB9B4 /* ConnectionContainerViewController.m */; };
+		5D1FF2BA21304581000EB9B4 /* ConnectionTCPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2B621304581000EB9B4 /* ConnectionTCPTableViewController.m */; };
+		5D1FF2BF21304598000EB9B4 /* ConnectionAnimatedTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2BC21304598000EB9B4 /* ConnectionAnimatedTransition.m */; };
+		5D1FF2C021304598000EB9B4 /* ConnectionTransitionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2BE21304598000EB9B4 /* ConnectionTransitionContext.m */; };
+		5D1FF2C3213045EB000EB9B4 /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C2213045EB000EB9B4 /* AppConstants.m */; };
+		5D1FF2C4213045EB000EB9B4 /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C2213045EB000EB9B4 /* AppConstants.m */; };
+		5D1FF2C6213045F2000EB9B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C5213045F1000EB9B4 /* Images.xcassets */; };
+		5D1FF2C7213045F2000EB9B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C5213045F1000EB9B4 /* Images.xcassets */; };
+		5D1FF2CA2130463F000EB9B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C92130463F000EB9B4 /* AppDelegate.m */; };
+		5D1FF2CC2130464E000EB9B4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2CB2130464D000EB9B4 /* main.m */; };
+		5D1FF2CE21304654000EB9B4 /* SmartDeviceLink-Example-ObjC-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2CD21304654000EB9B4 /* SmartDeviceLink-Example-ObjC-Info.plist */; };
+		5D1FF2D12130466D000EB9B4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2CF2130466D000EB9B4 /* LaunchScreen.xib */; };
+		5D1FF2DA21304746000EB9B4 /* ButtonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2D221304745000EB9B4 /* ButtonManager.swift */; };
+		5D1FF2DB21304746000EB9B4 /* ProxyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2D321304745000EB9B4 /* ProxyManager.swift */; };
+		5D1FF2DC21304746000EB9B4 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2D421304746000EB9B4 /* AlertManager.swift */; };
+		5D1FF2DD21304746000EB9B4 /* RPCPermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2D521304746000EB9B4 /* RPCPermissionsManager.swift */; };
+		5D1FF2DE21304746000EB9B4 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2D621304746000EB9B4 /* AudioManager.swift */; };
+		5D1FF2DF21304746000EB9B4 /* PerformInteractionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2D721304746000EB9B4 /* PerformInteractionManager.swift */; };
+		5D1FF2E021304746000EB9B4 /* MenuManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2D821304746000EB9B4 /* MenuManager.swift */; };
+		5D1FF2E121304746000EB9B4 /* VehicleDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2D921304746000EB9B4 /* VehicleDataManager.swift */; };
+		5D1FF2E521304761000EB9B4 /* AppUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2E221304761000EB9B4 /* AppUserDefaults.swift */; };
+		5D1FF2E621304761000EB9B4 /* Protocol+ProxyManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2E321304761000EB9B4 /* Protocol+ProxyManagerDelegate.swift */; };
+		5D1FF2E721304761000EB9B4 /* TextValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2E421304761000EB9B4 /* TextValidator.swift */; };
+		5D1FF2EB2130479C000EB9B4 /* ConnectionContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2E82130479C000EB9B4 /* ConnectionContainerViewController.swift */; };
+		5D1FF2EC2130479C000EB9B4 /* ConnectionTCPTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2E92130479C000EB9B4 /* ConnectionTCPTableViewController.swift */; };
+		5D1FF2ED2130479C000EB9B4 /* ConnectionIAPTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2EA2130479C000EB9B4 /* ConnectionIAPTableViewController.swift */; };
+		5D1FF2F1213047AB000EB9B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2EE213047AB000EB9B4 /* Main.storyboard */; };
+		5D1FF2F2213047AB000EB9B4 /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2EF213047AB000EB9B4 /* ConnectionIAPTableViewController.storyboard */; };
+		5D1FF2F3213047AB000EB9B4 /* ConnectionTCPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2F0213047AB000EB9B4 /* ConnectionTCPTableViewController.storyboard */; };
+		5D1FF2F5213047B3000EB9B4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2F4213047B2000EB9B4 /* LaunchScreen.xib */; };
+		5D1FF2F8213047C1000EB9B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2F7213047C1000EB9B4 /* AppDelegate.swift */; };
+		5D1FF2FA2130480C000EB9B4 /* SmartDeviceLink-Example-Swift-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2F92130480C000EB9B4 /* SmartDeviceLink-Example-Swift-Info.plist */; };
 		5D293AFE1FE078A9000CBD7E /* SDLCarWindowViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D293AFC1FE078A9000CBD7E /* SDLCarWindowViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D293AFF1FE078A9000CBD7E /* SDLCarWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D293AFD1FE078A9000CBD7E /* SDLCarWindowViewController.m */; };
 		5D2F58081D0717D5001085CE /* SDLManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -456,9 +497,6 @@
 		5D3E48801D6F88A30000BFEF /* SDLRPCNotificationNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E487E1D6F88A30000BFEF /* SDLRPCNotificationNotification.m */; };
 		5D3E48CB1D7722FE0000BFEF /* NSBundle+SDLBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D3E48C91D7722FE0000BFEF /* NSBundle+SDLBundle.h */; };
 		5D3E48CC1D7722FE0000BFEF /* NSBundle+SDLBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3E48CA1D7722FE0000BFEF /* NSBundle+SDLBundle.m */; };
-		5D4029D41A76F0340006B0C2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029D31A76F0340006B0C2 /* Images.xcassets */; };
-		5D4029E31A76F0760006B0C2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029DF1A76F0760006B0C2 /* LaunchScreen.xib */; };
-		5D4029E41A76F0760006B0C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029E11A76F0760006B0C2 /* Main.storyboard */; };
 		5D4346471E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4346461E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m */; };
 		5D43465B1E6F154400B639C6 /* SDLLogConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D43465A1E6F154400B639C6 /* SDLLogConfigurationSpec.m */; };
 		5D43466B1E6F3B4C00B639C6 /* SDLLogFilterSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D43466A1E6F3B4C00B639C6 /* SDLLogFilterSpec.m */; };
@@ -472,10 +510,6 @@
 		5D4631111F2135850092EFDC /* SDLControlFramePayloadConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D46310F1F2135850092EFDC /* SDLControlFramePayloadConstants.m */; };
 		5D4631141F2136B60092EFDC /* SDLControlFramePayloadNak.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D4631121F2136B60092EFDC /* SDLControlFramePayloadNak.h */; };
 		5D4631151F2136B60092EFDC /* SDLControlFramePayloadNak.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4631131F2136B60092EFDC /* SDLControlFramePayloadNak.m */; };
-		5D48329D1A8EA33D00252386 /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D48329C1A8EA33D00252386 /* Preferences.m */; };
-		5D4832A11A92868E00252386 /* ProxyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A01A92868E00252386 /* ProxyManager.m */; };
-		5D4832A51A94F90D00252386 /* ConnectionTransitionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A41A94F90D00252386 /* ConnectionTransitionContext.m */; };
-		5D4832A81A95191B00252386 /* ConnectionAnimatedTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4832A71A95191B00252386 /* ConnectionAnimatedTransition.m */; };
 		5D4D67AC1D2ED37A00468B4A /* SDLNotificationDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D4D67AA1D2ED37A00468B4A /* SDLNotificationDispatcher.h */; };
 		5D4D67AD1D2ED37A00468B4A /* SDLNotificationDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D4D67AB1D2ED37A00468B4A /* SDLNotificationDispatcher.m */; };
 		5D4D67B01D2FE2F900468B4A /* SDLResponseDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D4D67AE1D2FE2F900468B4A /* SDLResponseDispatcher.h */; };
@@ -486,8 +520,6 @@
 		5D535DC61B72473800CF7760 /* SDLGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D535DC41B72473800CF7760 /* SDLGlobals.m */; };
 		5D53C46D1B7A99B9003526EA /* SDLStreamingMediaManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D53C46B1B7A99B9003526EA /* SDLStreamingMediaManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D53C46E1B7A99B9003526EA /* SDLStreamingMediaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D53C46C1B7A99B9003526EA /* SDLStreamingMediaManager.m */; };
-		5D59350F1A855EB300687FB9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D59350C1A855EB300687FB9 /* AppDelegate.m */; };
-		5D5935121A855EBE00687FB9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D5935111A855EBE00687FB9 /* main.m */; };
 		5D59DD471B14FDEE00BE744D /* SDLLockScreenStatusManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D59DD461B14FDEE00BE744D /* SDLLockScreenStatusManagerSpec.m */; };
 		5D5DBF081D48E39C00D4F914 /* FBSnapshotTestCase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D5DBF071D48E39C00D4F914 /* FBSnapshotTestCase.framework */; };
 		5D5DBF091D48E3AC00D4F914 /* FBSnapshotTestCase.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D5DBF071D48E39C00D4F914 /* FBSnapshotTestCase.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -1191,28 +1223,17 @@
 		5DF40B26208FA7DE00DD6FDA /* SDLMenuManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B25208FA7DE00DD6FDA /* SDLMenuManagerSpec.m */; };
 		5DF40B28208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m */; };
 		5DFFB9151BD7C89700DB3F04 /* SDLConnectionManagerType.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */; };
-		8800871E20A6356D008E1EA0 /* ButtonManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8800871B20A6338C008E1EA0 /* ButtonManager.m */; };
 		880245A420F79C3400ED195B /* SDLFileManagerConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 880245A220F79C3400ED195B /* SDLFileManagerConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		880245A520F79C3400ED195B /* SDLFileManagerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 880245A320F79C3400ED195B /* SDLFileManagerConfiguration.m */; };
-		8803A0AF208E2A3A009FDC02 /* AudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8803A0AC208E2907009FDC02 /* AudioManager.m */; };
-		8803A0B2208E7CA4009FDC02 /* VehicleDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8803A0B1208E7CA4009FDC02 /* VehicleDataManager.m */; };
 		880E35B42088F75A00181259 /* SDLSystemCapabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 880E35B22088F75A00181259 /* SDLSystemCapabilityManager.m */; };
 		880E35B52088F75A00181259 /* SDLSystemCapabilityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 880E35B32088F75A00181259 /* SDLSystemCapabilityManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		880E35B82088F78E00181259 /* SDLSystemCapabilityManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 880E35B72088F78E00181259 /* SDLSystemCapabilityManagerSpec.m */; };
-		8814AEA720AB65FC00466E0F /* MenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8814AEA620AB65FC00466E0F /* MenuManager.m */; };
-		8814AEAA20AB663800466E0F /* PerformInteractionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8814AEA920AB663800466E0F /* PerformInteractionManager.m */; };
-		8814AEAC20AB667B00466E0F /* PerformInteractionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8814AEAB20AB667B00466E0F /* PerformInteractionManager.swift */; };
-		88166B00207E41E900076236 /* MenuManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88166AFF207E41E900076236 /* MenuManager.swift */; };
 		8818ADD82100FC18007D6F19 /* SDLTurnSignal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8818ADD62100FC18007D6F19 /* SDLTurnSignal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8818ADD92100FC18007D6F19 /* SDLTurnSignal.m in Sources */ = {isa = PBXBuildFile; fileRef = 8818ADD72100FC18007D6F19 /* SDLTurnSignal.m */; };
 		8818ADDD2100FE0C007D6F19 /* SDLTurnSignalSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8818ADDC2100FE0C007D6F19 /* SDLTurnSignalSpec.m */; };
 		8829568B207CF68800EF056C /* SmartDeviceLink.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		88295690207CF68800EF056C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D4029D31A76F0340006B0C2 /* Images.xcassets */; };
 		88295693207CF68800EF056C /* SmartDeviceLink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8829569E207CFD0E00EF056C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8829569D207CFD0E00EF056C /* AppDelegate.swift */; };
 		8850DB601F4475D30053A48D /* TestMultipleFilesConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */; };
-		8863B59D207D3849002D6459 /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 8863B597207D2388002D6459 /* AppConstants.m */; };
-		8870C3EA208662540070E018 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8870C3E82086623F0070E018 /* AudioManager.swift */; };
 		8877F5EB1F34A3BE00DC128A /* SDLSendHapticDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */; };
 		8877F5EE1F34A72200DC128A /* SDLSendHapticDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8877F5EF1F34A72200DC128A /* SDLSendHapticDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */; };
@@ -1224,20 +1245,7 @@
 		88802FF420853BED00E9EBC6 /* SmartDeviceLinkSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D4346631E6F38E600B639C6 /* SmartDeviceLinkSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88802FF520853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */; };
 		88802FF620853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8880B2EF21021E37004721DB /* TextValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8880B2ED21021964004721DB /* TextValidator.swift */; };
-		8880B2F421022896004721DB /* TextValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8880B2F121022887004721DB /* TextValidator.m */; };
 		8886EB982111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */; };
-		888D178F207E7F42008E9F8F /* ButtonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888D178D207E7F0E008E9F8F /* ButtonManager.swift */; };
-		888D1790207E815C008E9F8F /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 8863B597207D2388002D6459 /* AppConstants.m */; };
-		88A0AA56207CFE5D0075132C /* AppUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A0AA55207CFE5C0075132C /* AppUserDefaults.swift */; };
-		88A0AA58207CFE650075132C /* ProxyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A0AA57207CFE650075132C /* ProxyManager.swift */; };
-		88A0AA5C207CFE740075132C /* ConnectionContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A0AA59207CFE740075132C /* ConnectionContainerViewController.swift */; };
-		88A0AA5D207CFE740075132C /* ConnectionIAPTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A0AA5A207CFE740075132C /* ConnectionIAPTableViewController.swift */; };
-		88A0AA5E207CFE740075132C /* ConnectionTCPTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A0AA5B207CFE740075132C /* ConnectionTCPTableViewController.swift */; };
-		88A0AA65207CFF980075132C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88A0AA61207CFF970075132C /* LaunchScreen.xib */; };
-		88A0AA66207CFF980075132C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88A0AA62207CFF970075132C /* Main.storyboard */; };
-		88A0AA67207CFF980075132C /* ConnectionIAPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88A0AA63207CFF970075132C /* ConnectionIAPTableViewController.storyboard */; };
-		88A0AA68207CFF980075132C /* ConnectionTCPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88A0AA64207CFF980075132C /* ConnectionTCPTableViewController.storyboard */; };
 		88A795D22106787400056542 /* SDLStaticIconName.h in Headers */ = {isa = PBXBuildFile; fileRef = 88A795D02106787400056542 /* SDLStaticIconName.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88A795D32106787400056542 /* SDLStaticIconName.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A795D12106787400056542 /* SDLStaticIconName.m */; };
 		88A795D5210678E000056542 /* SDLStaticIconNameSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A795D4210678E000056542 /* SDLStaticIconNameSpec.m */; };
@@ -1249,13 +1257,7 @@
 		88B3BFA220DA911E00943565 /* SDLFuelRangeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B3BFA120DA911E00943565 /* SDLFuelRangeSpec.m */; };
 		88B848C31F45E1A600DED768 /* TestResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B848C21F45E1A600DED768 /* TestResponse.m */; };
 		88B848C91F462E3600DED768 /* TestFileProgressResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B848C81F462E3600DED768 /* TestFileProgressResponse.m */; };
-		88B849C52080F4B3002A034D /* RPCPermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B849C32080F4AF002A034D /* RPCPermissionsManager.swift */; };
-		88B849C820812442002A034D /* VehicleDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B849C620812412002A034D /* VehicleDataManager.swift */; };
 		88D2AAE41F682BB20078D5B2 /* SDLLogConstantsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */; };
-		88DA6D10209794A400AD8297 /* AlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DA6D0F209794A400AD8297 /* AlertManager.m */; };
-		88DE80B720A5C8DD00BA9CF0 /* RPCPermissionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DE80B620A5C8DD00BA9CF0 /* RPCPermissionsManager.m */; };
-		88DFB053207F8E100079D19D /* Protocol+ProxyManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DFB051207F8DF50079D19D /* Protocol+ProxyManagerDelegate.swift */; };
-		88DFB055207F96EE0079D19D /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DFB054207F96EE0079D19D /* AlertManager.swift */; };
 		88EED8381F33AE1700E6C42E /* SDLHapticRect.h in Headers */ = {isa = PBXBuildFile; fileRef = 88EED8361F33AE1700E6C42E /* SDLHapticRect.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88EED8391F33AE1700E6C42E /* SDLHapticRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EED8371F33AE1700E6C42E /* SDLHapticRect.m */; };
 		88EED83B1F33BECB00E6C42E /* SDLHapticRectSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EED83A1F33BECB00E6C42E /* SDLHapticRectSpec.m */; };
@@ -1847,14 +1849,6 @@
 		5D00AC761F15283E004000D9 /* SDLNavigationCapability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationCapability.m; sourceTree = "<group>"; };
 		5D00AC791F15287E004000D9 /* SDLPhoneCapability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPhoneCapability.h; sourceTree = "<group>"; };
 		5D00AC7A1F15287E004000D9 /* SDLPhoneCapability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLPhoneCapability.m; sourceTree = "<group>"; };
-		5D0218F41A8E79C400D1BF62 /* ConnectionTCPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionTCPTableViewController.h; path = SmartDeviceLink_Example/Classes/ConnectionTCPTableViewController.h; sourceTree = SOURCE_ROOT; };
-		5D0218F51A8E79C400D1BF62 /* ConnectionTCPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionTCPTableViewController.m; path = SmartDeviceLink_Example/Classes/ConnectionTCPTableViewController.m; sourceTree = SOURCE_ROOT; };
-		5D0218F81A8E7A7300D1BF62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SmartDeviceLink_Example/Base.lproj/ConnectionTCPTableViewController.storyboard; sourceTree = SOURCE_ROOT; };
-		5D0218FA1A8E7E1700D1BF62 /* ConnectionContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionContainerViewController.h; path = SmartDeviceLink_Example/Classes/ConnectionContainerViewController.h; sourceTree = SOURCE_ROOT; };
-		5D0218FB1A8E7E1700D1BF62 /* ConnectionContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionContainerViewController.m; path = SmartDeviceLink_Example/Classes/ConnectionContainerViewController.m; sourceTree = SOURCE_ROOT; };
-		5D0218FD1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionIAPTableViewController.h; path = SmartDeviceLink_Example/Classes/ConnectionIAPTableViewController.h; sourceTree = SOURCE_ROOT; };
-		5D0218FE1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionIAPTableViewController.m; path = SmartDeviceLink_Example/Classes/ConnectionIAPTableViewController.m; sourceTree = SOURCE_ROOT; };
-		5D0219041A8E9F6D00D1BF62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SmartDeviceLink_Example/Base.lproj/ConnectionIAPTableViewController.storyboard; sourceTree = SOURCE_ROOT; };
 		5D07C02B2044AC9000D1ECDC /* SDLSequentialRPCRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSequentialRPCRequestOperation.h; sourceTree = "<group>"; };
 		5D07C02C2044AC9100D1ECDC /* SDLSequentialRPCRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSequentialRPCRequestOperation.m; sourceTree = "<group>"; };
 		5D07C02F2044AD0C00D1ECDC /* SDLAsynchronousRPCRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLAsynchronousRPCRequestOperation.h; sourceTree = "<group>"; };
@@ -1898,6 +1892,68 @@
 		5D1665CC1CF8CA8A00CC4CA1 /* SDLPermissionConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLPermissionConstants.h; sourceTree = "<group>"; };
 		5D1BF6AD204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SDLDisplayCapabilities+ShowManagerExtensions.h"; sourceTree = "<group>"; };
 		5D1BF6AE204742FB00D36881 /* SDLDisplayCapabilities+ShowManagerExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SDLDisplayCapabilities+ShowManagerExtensions.m"; sourceTree = "<group>"; };
+		5D1FF28B213044F9000EB9B4 /* AlertManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlertManager.h; path = "Example Apps/Example ObjC/AlertManager.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF28C213044F9000EB9B4 /* AlertManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlertManager.m; path = "Example Apps/Example ObjC/AlertManager.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF28E21304513000EB9B4 /* MenuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuManager.h; path = "Example Apps/Example ObjC/MenuManager.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF28F21304513000EB9B4 /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioManager.h; path = "Example Apps/Example ObjC/AudioManager.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF29021304513000EB9B4 /* VehicleDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VehicleDataManager.h; path = "Example Apps/Example ObjC/VehicleDataManager.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF29121304513000EB9B4 /* PerformInteractionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PerformInteractionManager.m; path = "Example Apps/Example ObjC/PerformInteractionManager.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF29221304513000EB9B4 /* RPCPermissionsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RPCPermissionsManager.m; path = "Example Apps/Example ObjC/RPCPermissionsManager.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF29321304513000EB9B4 /* PerformInteractionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PerformInteractionManager.h; path = "Example Apps/Example ObjC/PerformInteractionManager.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF29421304513000EB9B4 /* MenuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuManager.m; path = "Example Apps/Example ObjC/MenuManager.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF29521304514000EB9B4 /* ButtonManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonManager.h; path = "Example Apps/Example ObjC/ButtonManager.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF29621304514000EB9B4 /* ProxyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProxyManager.m; path = "Example Apps/Example ObjC/ProxyManager.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF29721304514000EB9B4 /* AudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioManager.m; path = "Example Apps/Example ObjC/AudioManager.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF29821304514000EB9B4 /* RPCPermissionsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPCPermissionsManager.h; path = "Example Apps/Example ObjC/RPCPermissionsManager.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF29921304514000EB9B4 /* VehicleDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VehicleDataManager.m; path = "Example Apps/Example ObjC/VehicleDataManager.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF29A21304514000EB9B4 /* ProxyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProxyManager.h; path = "Example Apps/Example ObjC/ProxyManager.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF29B21304515000EB9B4 /* ButtonManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ButtonManager.m; path = "Example Apps/Example ObjC/ButtonManager.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF2A321304530000EB9B4 /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Preferences.h; path = "Example Apps/Example ObjC/Preferences.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF2A421304531000EB9B4 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Preferences.m; path = "Example Apps/Example ObjC/Preferences.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF2A521304531000EB9B4 /* TextValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextValidator.h; path = "Example Apps/Example ObjC/TextValidator.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF2A621304531000EB9B4 /* TextValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextValidator.m; path = "Example Apps/Example ObjC/TextValidator.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF2AA21304567000EB9B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Example Apps/Example ObjC/Base.lproj/ConnectionTCPTableViewController.storyboard"; sourceTree = SOURCE_ROOT; };
+		5D1FF2AC21304567000EB9B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Example Apps/Example ObjC/Base.lproj/Main.storyboard"; sourceTree = SOURCE_ROOT; };
+		5D1FF2AE21304567000EB9B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Example Apps/Example ObjC/Base.lproj/ConnectionIAPTableViewController.storyboard"; sourceTree = SOURCE_ROOT; };
+		5D1FF2B221304580000EB9B4 /* ConnectionContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionContainerViewController.h; path = "Example Apps/Example ObjC/ConnectionContainerViewController.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF2B321304580000EB9B4 /* ConnectionTCPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionTCPTableViewController.h; path = "Example Apps/Example ObjC/ConnectionTCPTableViewController.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF2B421304580000EB9B4 /* ConnectionIAPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionIAPTableViewController.m; path = "Example Apps/Example ObjC/ConnectionIAPTableViewController.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF2B521304581000EB9B4 /* ConnectionContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionContainerViewController.m; path = "Example Apps/Example ObjC/ConnectionContainerViewController.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF2B621304581000EB9B4 /* ConnectionTCPTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionTCPTableViewController.m; path = "Example Apps/Example ObjC/ConnectionTCPTableViewController.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF2B721304581000EB9B4 /* ConnectionIAPTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionIAPTableViewController.h; path = "Example Apps/Example ObjC/ConnectionIAPTableViewController.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF2BB21304598000EB9B4 /* ConnectionAnimatedTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionAnimatedTransition.h; path = "Example Apps/Example ObjC/ConnectionAnimatedTransition.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF2BC21304598000EB9B4 /* ConnectionAnimatedTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionAnimatedTransition.m; path = "Example Apps/Example ObjC/ConnectionAnimatedTransition.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF2BD21304598000EB9B4 /* ConnectionTransitionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionTransitionContext.h; path = "Example Apps/Example ObjC/ConnectionTransitionContext.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF2BE21304598000EB9B4 /* ConnectionTransitionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionTransitionContext.m; path = "Example Apps/Example ObjC/ConnectionTransitionContext.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF2C1213045EB000EB9B4 /* AppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppConstants.h; path = "Example Apps/Shared/AppConstants.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF2C2213045EB000EB9B4 /* AppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppConstants.m; path = "Example Apps/Shared/AppConstants.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF2C5213045F1000EB9B4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "Example Apps/Shared/Images.xcassets"; sourceTree = SOURCE_ROOT; };
+		5D1FF2C82130463E000EB9B4 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = "Example Apps/Example ObjC/AppDelegate.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF2C92130463F000EB9B4 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = "Example Apps/Example ObjC/AppDelegate.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF2CB2130464D000EB9B4 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "Example Apps/Example ObjC/main.m"; sourceTree = SOURCE_ROOT; };
+		5D1FF2CD21304654000EB9B4 /* SmartDeviceLink-Example-ObjC-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "SmartDeviceLink-Example-ObjC-Info.plist"; path = "Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist"; sourceTree = SOURCE_ROOT; };
+		5D1FF2D02130466D000EB9B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = "Example Apps/Example ObjC/Base.lproj/LaunchScreen.xib"; sourceTree = SOURCE_ROOT; };
+		5D1FF2D221304745000EB9B4 /* ButtonManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonManager.swift; path = "Example Apps/Example Swift/ButtonManager.swift"; sourceTree = SOURCE_ROOT; };
+		5D1FF2D321304745000EB9B4 /* ProxyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProxyManager.swift; path = "Example Apps/Example Swift/ProxyManager.swift"; sourceTree = SOURCE_ROOT; };
+		5D1FF2D421304746000EB9B4 /* AlertManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertManager.swift; path = "Example Apps/Example Swift/AlertManager.swift"; sourceTree = SOURCE_ROOT; };
+		5D1FF2D521304746000EB9B4 /* RPCPermissionsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RPCPermissionsManager.swift; path = "Example Apps/Example Swift/RPCPermissionsManager.swift"; sourceTree = SOURCE_ROOT; };
+		5D1FF2D621304746000EB9B4 /* AudioManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioManager.swift; path = "Example Apps/Example Swift/AudioManager.swift"; sourceTree = SOURCE_ROOT; };
+		5D1FF2D721304746000EB9B4 /* PerformInteractionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PerformInteractionManager.swift; path = "Example Apps/Example Swift/PerformInteractionManager.swift"; sourceTree = SOURCE_ROOT; };
+		5D1FF2D821304746000EB9B4 /* MenuManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuManager.swift; path = "Example Apps/Example Swift/MenuManager.swift"; sourceTree = SOURCE_ROOT; };
+		5D1FF2D921304746000EB9B4 /* VehicleDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VehicleDataManager.swift; path = "Example Apps/Example Swift/VehicleDataManager.swift"; sourceTree = SOURCE_ROOT; };
+		5D1FF2E221304761000EB9B4 /* AppUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppUserDefaults.swift; path = "Example Apps/Example Swift/AppUserDefaults.swift"; sourceTree = SOURCE_ROOT; };
+		5D1FF2E321304761000EB9B4 /* Protocol+ProxyManagerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Protocol+ProxyManagerDelegate.swift"; path = "Example Apps/Example Swift/Protocol+ProxyManagerDelegate.swift"; sourceTree = SOURCE_ROOT; };
+		5D1FF2E421304761000EB9B4 /* TextValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextValidator.swift; path = "Example Apps/Example Swift/TextValidator.swift"; sourceTree = SOURCE_ROOT; };
+		5D1FF2E82130479C000EB9B4 /* ConnectionContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionContainerViewController.swift; path = "Example Apps/Example Swift/ConnectionContainerViewController.swift"; sourceTree = SOURCE_ROOT; };
+		5D1FF2E92130479C000EB9B4 /* ConnectionTCPTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionTCPTableViewController.swift; path = "Example Apps/Example Swift/ConnectionTCPTableViewController.swift"; sourceTree = SOURCE_ROOT; };
+		5D1FF2EA2130479C000EB9B4 /* ConnectionIAPTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionIAPTableViewController.swift; path = "Example Apps/Example Swift/ConnectionIAPTableViewController.swift"; sourceTree = SOURCE_ROOT; };
+		5D1FF2EE213047AB000EB9B4 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = "Example Apps/Example Swift/Main.storyboard"; sourceTree = SOURCE_ROOT; };
+		5D1FF2EF213047AB000EB9B4 /* ConnectionIAPTableViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ConnectionIAPTableViewController.storyboard; path = "Example Apps/Example Swift/ConnectionIAPTableViewController.storyboard"; sourceTree = SOURCE_ROOT; };
+		5D1FF2F0213047AB000EB9B4 /* ConnectionTCPTableViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ConnectionTCPTableViewController.storyboard; path = "Example Apps/Example Swift/ConnectionTCPTableViewController.storyboard"; sourceTree = SOURCE_ROOT; };
+		5D1FF2F4213047B2000EB9B4 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = "Example Apps/Example Swift/LaunchScreen.xib"; sourceTree = SOURCE_ROOT; };
+		5D1FF2F6213047C1000EB9B4 /* SmartDeviceLink-Example-Swift-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SmartDeviceLink-Example-Swift-Bridging-Header.h"; path = "Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		5D1FF2F7213047C1000EB9B4 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "Example Apps/Example Swift/AppDelegate.swift"; sourceTree = SOURCE_ROOT; };
+		5D1FF2F92130480C000EB9B4 /* SmartDeviceLink-Example-Swift-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "SmartDeviceLink-Example-Swift-Info.plist"; path = "Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Info.plist"; sourceTree = SOURCE_ROOT; };
 		5D293AFC1FE078A9000CBD7E /* SDLCarWindowViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCarWindowViewController.h; sourceTree = "<group>"; };
 		5D293AFD1FE078A9000CBD7E /* SDLCarWindowViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCarWindowViewController.m; sourceTree = "<group>"; };
 		5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLManagerDelegate.h; sourceTree = "<group>"; };
@@ -1918,10 +1974,6 @@
 		5D3E48C91D7722FE0000BFEF /* NSBundle+SDLBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+SDLBundle.h"; sourceTree = "<group>"; };
 		5D3E48CA1D7722FE0000BFEF /* NSBundle+SDLBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+SDLBundle.m"; sourceTree = "<group>"; };
 		5D4019AF1A76EC350006B0C2 /* SDL Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SDL Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5D4029D31A76F0340006B0C2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SmartDeviceLink_Example/Images.xcassets; sourceTree = SOURCE_ROOT; };
-		5D4029D51A76F0410006B0C2 /* SmartDeviceLink-Example-ObjC-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "SmartDeviceLink-Example-ObjC-Info.plist"; path = "SmartDeviceLink_Example/SmartDeviceLink-Example-ObjC-Info.plist"; sourceTree = SOURCE_ROOT; };
-		5D4029E01A76F0760006B0C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = SmartDeviceLink_Example/Base.lproj/LaunchScreen.xib; sourceTree = SOURCE_ROOT; };
-		5D4029E21A76F0760006B0C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = SmartDeviceLink_Example/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
 		5D4346461E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLogFileModuleSpec.m; path = LoggingSpecs/SDLLogFileModuleSpec.m; sourceTree = "<group>"; };
 		5D43465A1E6F154400B639C6 /* SDLLogConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLogConfigurationSpec.m; path = LoggingSpecs/SDLLogConfigurationSpec.m; sourceTree = "<group>"; };
 		5D4346631E6F38E600B639C6 /* SmartDeviceLinkSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartDeviceLinkSwift.h; sourceTree = "<group>"; };
@@ -1939,14 +1991,6 @@
 		5D46310F1F2135850092EFDC /* SDLControlFramePayloadConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLControlFramePayloadConstants.m; sourceTree = "<group>"; };
 		5D4631121F2136B60092EFDC /* SDLControlFramePayloadNak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLControlFramePayloadNak.h; sourceTree = "<group>"; };
 		5D4631131F2136B60092EFDC /* SDLControlFramePayloadNak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLControlFramePayloadNak.m; sourceTree = "<group>"; };
-		5D48329B1A8EA33D00252386 /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Preferences.h; path = SmartDeviceLink_Example/Classes/Preferences.h; sourceTree = SOURCE_ROOT; };
-		5D48329C1A8EA33D00252386 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Preferences.m; path = SmartDeviceLink_Example/Classes/Preferences.m; sourceTree = SOURCE_ROOT; };
-		5D48329F1A92868E00252386 /* ProxyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProxyManager.h; path = SmartDeviceLink_Example/Classes/ProxyManager.h; sourceTree = SOURCE_ROOT; };
-		5D4832A01A92868E00252386 /* ProxyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProxyManager.m; path = SmartDeviceLink_Example/Classes/ProxyManager.m; sourceTree = SOURCE_ROOT; };
-		5D4832A31A94F90D00252386 /* ConnectionTransitionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionTransitionContext.h; path = SmartDeviceLink_Example/Classes/ConnectionTransitionContext.h; sourceTree = SOURCE_ROOT; };
-		5D4832A41A94F90D00252386 /* ConnectionTransitionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionTransitionContext.m; path = SmartDeviceLink_Example/Classes/ConnectionTransitionContext.m; sourceTree = SOURCE_ROOT; };
-		5D4832A61A95191B00252386 /* ConnectionAnimatedTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionAnimatedTransition.h; path = SmartDeviceLink_Example/Classes/ConnectionAnimatedTransition.h; sourceTree = SOURCE_ROOT; };
-		5D4832A71A95191B00252386 /* ConnectionAnimatedTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionAnimatedTransition.m; path = SmartDeviceLink_Example/Classes/ConnectionAnimatedTransition.m; sourceTree = SOURCE_ROOT; };
 		5D4D67AA1D2ED37A00468B4A /* SDLNotificationDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLNotificationDispatcher.h; sourceTree = "<group>"; };
 		5D4D67AB1D2ED37A00468B4A /* SDLNotificationDispatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLNotificationDispatcher.m; sourceTree = "<group>"; };
 		5D4D67AE1D2FE2F900468B4A /* SDLResponseDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLResponseDispatcher.h; sourceTree = "<group>"; };
@@ -1957,9 +2001,6 @@
 		5D535DC41B72473800CF7760 /* SDLGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLGlobals.m; sourceTree = "<group>"; };
 		5D53C46B1B7A99B9003526EA /* SDLStreamingMediaManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLStreamingMediaManager.h; sourceTree = "<group>"; };
 		5D53C46C1B7A99B9003526EA /* SDLStreamingMediaManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLStreamingMediaManager.m; sourceTree = "<group>"; };
-		5D59350B1A855EB300687FB9 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = SmartDeviceLink_Example/AppDelegate.h; sourceTree = SOURCE_ROOT; };
-		5D59350C1A855EB300687FB9 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = SmartDeviceLink_Example/AppDelegate.m; sourceTree = SOURCE_ROOT; };
-		5D5935111A855EBE00687FB9 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SmartDeviceLink_Example/Classes/main.m; sourceTree = SOURCE_ROOT; };
 		5D59DD461B14FDEE00BE744D /* SDLLockScreenStatusManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLockScreenStatusManagerSpec.m; path = ProxySpecs/SDLLockScreenStatusManagerSpec.m; sourceTree = "<group>"; };
 		5D5DBF071D48E39C00D4F914 /* FBSnapshotTestCase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSnapshotTestCase.framework; path = sdl_ios/Carthage/Build/iOS/FBSnapshotTestCase.framework; sourceTree = "<group>"; };
 		5D5DBF0A1D48E5E600D4F914 /* SDLLockScreenViewControllerSnapshotTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLLockScreenViewControllerSnapshotTests.m; path = DevAPISpecs/SDLLockScreenViewControllerSnapshotTests.m; sourceTree = "<group>"; };
@@ -2679,54 +2720,23 @@
 		5DF40B25208FA7DE00DD6FDA /* SDLMenuManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLMenuManagerSpec.m; path = DevAPISpecs/SDLMenuManagerSpec.m; sourceTree = "<group>"; };
 		5DF40B27208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLVoiceCommandManagerSpec.m; path = DevAPISpecs/SDLVoiceCommandManagerSpec.m; sourceTree = "<group>"; };
 		5DFFB9141BD7C89700DB3F04 /* SDLConnectionManagerType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLConnectionManagerType.h; sourceTree = "<group>"; };
-		8800871A20A6338C008E1EA0 /* ButtonManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ButtonManager.h; sourceTree = "<group>"; };
-		8800871B20A6338C008E1EA0 /* ButtonManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ButtonManager.m; sourceTree = "<group>"; };
 		880245A220F79C3400ED195B /* SDLFileManagerConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLFileManagerConfiguration.h; sourceTree = "<group>"; };
 		880245A320F79C3400ED195B /* SDLFileManagerConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLFileManagerConfiguration.m; sourceTree = "<group>"; };
-		8803A0AB208E2907009FDC02 /* AudioManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioManager.h; sourceTree = "<group>"; };
-		8803A0AC208E2907009FDC02 /* AudioManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioManager.m; sourceTree = "<group>"; };
-		8803A0B0208E7CA4009FDC02 /* VehicleDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VehicleDataManager.h; sourceTree = "<group>"; };
-		8803A0B1208E7CA4009FDC02 /* VehicleDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VehicleDataManager.m; sourceTree = "<group>"; };
 		880E35B22088F75A00181259 /* SDLSystemCapabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSystemCapabilityManager.m; sourceTree = "<group>"; };
 		880E35B32088F75A00181259 /* SDLSystemCapabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSystemCapabilityManager.h; sourceTree = "<group>"; };
 		880E35B72088F78E00181259 /* SDLSystemCapabilityManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSystemCapabilityManagerSpec.m; sourceTree = "<group>"; };
-		8814AEA520AB65FC00466E0F /* MenuManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MenuManager.h; sourceTree = "<group>"; };
-		8814AEA620AB65FC00466E0F /* MenuManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MenuManager.m; sourceTree = "<group>"; };
-		8814AEA820AB663800466E0F /* PerformInteractionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PerformInteractionManager.h; sourceTree = "<group>"; };
-		8814AEA920AB663800466E0F /* PerformInteractionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PerformInteractionManager.m; sourceTree = "<group>"; };
-		8814AEAB20AB667B00466E0F /* PerformInteractionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformInteractionManager.swift; sourceTree = "<group>"; };
-		88166AFF207E41E900076236 /* MenuManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuManager.swift; sourceTree = "<group>"; };
 		8818ADD62100FC18007D6F19 /* SDLTurnSignal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTurnSignal.h; sourceTree = "<group>"; };
 		8818ADD72100FC18007D6F19 /* SDLTurnSignal.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTurnSignal.m; sourceTree = "<group>"; };
 		8818ADDC2100FE0C007D6F19 /* SDLTurnSignalSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTurnSignalSpec.m; sourceTree = "<group>"; };
-		88295697207CF68800EF056C /* SDL Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "SDL Example.app"; path = "SDL Example Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		88295698207CF68800EF056C /* SmartDeviceLink-Example-Swift-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "SmartDeviceLink-Example-Swift-Info.plist"; path = "/Users/nicolelivioradio.com/sdl_ios/SmartDeviceLink-Example-Swift-Info.plist"; sourceTree = "<absolute>"; };
-		8829569C207CFD0D00EF056C /* SmartDeviceLink-Example-Swift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartDeviceLink-Example-Swift-Bridging-Header.h"; sourceTree = "<group>"; };
-		8829569D207CFD0E00EF056C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		88295697207CF68800EF056C /* SDL Example Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SDL Example Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8850DB5E1F4475D30053A48D /* TestMultipleFilesConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestMultipleFilesConnectionManager.h; sourceTree = "<group>"; };
 		8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestMultipleFilesConnectionManager.m; sourceTree = "<group>"; };
-		8863B596207D2388002D6459 /* AppConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConstants.h; sourceTree = "<group>"; };
-		8863B597207D2388002D6459 /* AppConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppConstants.m; sourceTree = "<group>"; };
-		8870C3E82086623F0070E018 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataSpec.m; sourceTree = "<group>"; };
 		8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSendHapticDataResponse.h; sourceTree = "<group>"; };
 		8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponse.m; sourceTree = "<group>"; };
 		8877F5F01F34AA2D00DC128A /* SDLSendHapticDataResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponseSpec.m; sourceTree = "<group>"; };
 		88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartDeviceLinkSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8880B2ED21021964004721DB /* TextValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextValidator.swift; sourceTree = "<group>"; };
-		8880B2F021022887004721DB /* TextValidator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextValidator.h; sourceTree = "<group>"; };
-		8880B2F121022887004721DB /* TextValidator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextValidator.m; sourceTree = "<group>"; };
 		8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLFileManagerConfigurationSpec.m; sourceTree = "<group>"; };
-		888D178D207E7F0E008E9F8F /* ButtonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonManager.swift; sourceTree = "<group>"; };
-		88A0AA55207CFE5C0075132C /* AppUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUserDefaults.swift; sourceTree = "<group>"; };
-		88A0AA57207CFE650075132C /* ProxyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProxyManager.swift; sourceTree = "<group>"; };
-		88A0AA59207CFE740075132C /* ConnectionContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionContainerViewController.swift; sourceTree = "<group>"; };
-		88A0AA5A207CFE740075132C /* ConnectionIAPTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionIAPTableViewController.swift; sourceTree = "<group>"; };
-		88A0AA5B207CFE740075132C /* ConnectionTCPTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionTCPTableViewController.swift; sourceTree = "<group>"; };
-		88A0AA61207CFF970075132C /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		88A0AA62207CFF970075132C /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		88A0AA63207CFF970075132C /* ConnectionIAPTableViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ConnectionIAPTableViewController.storyboard; sourceTree = "<group>"; };
-		88A0AA64207CFF980075132C /* ConnectionTCPTableViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ConnectionTCPTableViewController.storyboard; sourceTree = "<group>"; };
 		88A795D02106787400056542 /* SDLStaticIconName.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLStaticIconName.h; sourceTree = "<group>"; };
 		88A795D12106787400056542 /* SDLStaticIconName.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLStaticIconName.m; sourceTree = "<group>"; };
 		88A795D4210678E000056542 /* SDLStaticIconNameSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLStaticIconNameSpec.m; sourceTree = "<group>"; };
@@ -2740,15 +2750,7 @@
 		88B848C21F45E1A600DED768 /* TestResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestResponse.m; sourceTree = "<group>"; };
 		88B848C71F462E3600DED768 /* TestFileProgressResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFileProgressResponse.h; sourceTree = "<group>"; };
 		88B848C81F462E3600DED768 /* TestFileProgressResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestFileProgressResponse.m; sourceTree = "<group>"; };
-		88B849C32080F4AF002A034D /* RPCPermissionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPCPermissionsManager.swift; sourceTree = "<group>"; };
-		88B849C620812412002A034D /* VehicleDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDataManager.swift; sourceTree = "<group>"; };
 		88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLogConstantsSpec.m; sourceTree = "<group>"; };
-		88DA6D0E209794A400AD8297 /* AlertManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlertManager.h; sourceTree = "<group>"; };
-		88DA6D0F209794A400AD8297 /* AlertManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AlertManager.m; sourceTree = "<group>"; };
-		88DE80B520A5C8DD00BA9CF0 /* RPCPermissionsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RPCPermissionsManager.h; sourceTree = "<group>"; };
-		88DE80B620A5C8DD00BA9CF0 /* RPCPermissionsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RPCPermissionsManager.m; sourceTree = "<group>"; };
-		88DFB051207F8DF50079D19D /* Protocol+ProxyManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Protocol+ProxyManagerDelegate.swift"; sourceTree = "<group>"; };
-		88DFB054207F96EE0079D19D /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		88EED8361F33AE1700E6C42E /* SDLHapticRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLHapticRect.h; sourceTree = "<group>"; };
 		88EED8371F33AE1700E6C42E /* SDLHapticRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHapticRect.m; sourceTree = "<group>"; };
 		88EED83A1F33BECB00E6C42E /* SDLHapticRectSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHapticRectSpec.m; sourceTree = "<group>"; };
@@ -3330,6 +3332,7 @@
 		5D0218EB1A8E795700D1BF62 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5D1FF2CF2130466D000EB9B4 /* LaunchScreen.xib */,
 				5D0218EC1A8E796100D1BF62 /* Connection */,
 			);
 			name = UI;
@@ -3340,12 +3343,12 @@
 			children = (
 				5D4832991A8EA27200252386 /* Storyboards */,
 				5D4832A21A94F8F100252386 /* Transition */,
-				5D0218FA1A8E7E1700D1BF62 /* ConnectionContainerViewController.h */,
-				5D0218FB1A8E7E1700D1BF62 /* ConnectionContainerViewController.m */,
-				5D0218F41A8E79C400D1BF62 /* ConnectionTCPTableViewController.h */,
-				5D0218F51A8E79C400D1BF62 /* ConnectionTCPTableViewController.m */,
-				5D0218FD1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.h */,
-				5D0218FE1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m */,
+				5D1FF2B221304580000EB9B4 /* ConnectionContainerViewController.h */,
+				5D1FF2B521304581000EB9B4 /* ConnectionContainerViewController.m */,
+				5D1FF2B721304581000EB9B4 /* ConnectionIAPTableViewController.h */,
+				5D1FF2B421304580000EB9B4 /* ConnectionIAPTableViewController.m */,
+				5D1FF2B321304580000EB9B4 /* ConnectionTCPTableViewController.h */,
+				5D1FF2B621304581000EB9B4 /* ConnectionTCPTableViewController.m */,
 			);
 			name = Connection;
 			sourceTree = "<group>";
@@ -3561,7 +3564,7 @@
 				5D4019AF1A76EC350006B0C2 /* SDL Example.app */,
 				5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */,
 				5D61FA261A84237100846EE7 /* SmartDeviceLinkTests.xctest */,
-				88295697207CF68800EF056C /* SDL Example.app */,
+				88295697207CF68800EF056C /* SDL Example Swift.app */,
 				88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */,
 			);
 			name = Products;
@@ -3581,11 +3584,10 @@
 		5D4019B21A76EC350006B0C2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				5D59350B1A855EB300687FB9 /* AppDelegate.h */,
-				5D59350C1A855EB300687FB9 /* AppDelegate.m */,
-				5D4029DF1A76F0760006B0C2 /* LaunchScreen.xib */,
-				5D5935111A855EBE00687FB9 /* main.m */,
-				5D4029D51A76F0410006B0C2 /* SmartDeviceLink-Example-ObjC-Info.plist */,
+				5D1FF2C82130463E000EB9B4 /* AppDelegate.h */,
+				5D1FF2C92130463F000EB9B4 /* AppDelegate.m */,
+				5D1FF2CD21304654000EB9B4 /* SmartDeviceLink-Example-ObjC-Info.plist */,
+				5D1FF2CB2130464D000EB9B4 /* main.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3656,9 +3658,9 @@
 		5D4832991A8EA27200252386 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				5D4029E11A76F0760006B0C2 /* Main.storyboard */,
-				5D0218F71A8E7A7300D1BF62 /* ConnectionTCPTableViewController.storyboard */,
-				5D0219031A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard */,
+				5D1FF2AD21304567000EB9B4 /* ConnectionIAPTableViewController.storyboard */,
+				5D1FF2A921304567000EB9B4 /* ConnectionTCPTableViewController.storyboard */,
+				5D1FF2AB21304567000EB9B4 /* Main.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -3666,10 +3668,10 @@
 		5D48329A1A8EA31500252386 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				5D48329B1A8EA33D00252386 /* Preferences.h */,
-				5D48329C1A8EA33D00252386 /* Preferences.m */,
-				8880B2F021022887004721DB /* TextValidator.h */,
-				8880B2F121022887004721DB /* TextValidator.m */,
+				5D1FF2A321304530000EB9B4 /* Preferences.h */,
+				5D1FF2A421304531000EB9B4 /* Preferences.m */,
+				5D1FF2A521304531000EB9B4 /* TextValidator.h */,
+				5D1FF2A621304531000EB9B4 /* TextValidator.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -3677,22 +3679,22 @@
 		5D48329E1A92865900252386 /* SDL */ = {
 			isa = PBXGroup;
 			children = (
-				5D48329F1A92868E00252386 /* ProxyManager.h */,
-				5D4832A01A92868E00252386 /* ProxyManager.m */,
-				88DA6D0E209794A400AD8297 /* AlertManager.h */,
-				88DA6D0F209794A400AD8297 /* AlertManager.m */,
-				8803A0AB208E2907009FDC02 /* AudioManager.h */,
-				8803A0AC208E2907009FDC02 /* AudioManager.m */,
-				8800871A20A6338C008E1EA0 /* ButtonManager.h */,
-				8800871B20A6338C008E1EA0 /* ButtonManager.m */,
-				8814AEA520AB65FC00466E0F /* MenuManager.h */,
-				8814AEA620AB65FC00466E0F /* MenuManager.m */,
-				8814AEA820AB663800466E0F /* PerformInteractionManager.h */,
-				8814AEA920AB663800466E0F /* PerformInteractionManager.m */,
-				88DE80B520A5C8DD00BA9CF0 /* RPCPermissionsManager.h */,
-				88DE80B620A5C8DD00BA9CF0 /* RPCPermissionsManager.m */,
-				8803A0B0208E7CA4009FDC02 /* VehicleDataManager.h */,
-				8803A0B1208E7CA4009FDC02 /* VehicleDataManager.m */,
+				5D1FF28B213044F9000EB9B4 /* AlertManager.h */,
+				5D1FF28C213044F9000EB9B4 /* AlertManager.m */,
+				5D1FF28F21304513000EB9B4 /* AudioManager.h */,
+				5D1FF29721304514000EB9B4 /* AudioManager.m */,
+				5D1FF29521304514000EB9B4 /* ButtonManager.h */,
+				5D1FF29B21304515000EB9B4 /* ButtonManager.m */,
+				5D1FF28E21304513000EB9B4 /* MenuManager.h */,
+				5D1FF29421304513000EB9B4 /* MenuManager.m */,
+				5D1FF29321304513000EB9B4 /* PerformInteractionManager.h */,
+				5D1FF29121304513000EB9B4 /* PerformInteractionManager.m */,
+				5D1FF29A21304514000EB9B4 /* ProxyManager.h */,
+				5D1FF29621304514000EB9B4 /* ProxyManager.m */,
+				5D1FF29821304514000EB9B4 /* RPCPermissionsManager.h */,
+				5D1FF29221304513000EB9B4 /* RPCPermissionsManager.m */,
+				5D1FF29021304513000EB9B4 /* VehicleDataManager.h */,
+				5D1FF29921304514000EB9B4 /* VehicleDataManager.m */,
 			);
 			name = SDL;
 			sourceTree = "<group>";
@@ -3700,10 +3702,10 @@
 		5D4832A21A94F8F100252386 /* Transition */ = {
 			isa = PBXGroup;
 			children = (
-				5D4832A31A94F90D00252386 /* ConnectionTransitionContext.h */,
-				5D4832A41A94F90D00252386 /* ConnectionTransitionContext.m */,
-				5D4832A61A95191B00252386 /* ConnectionAnimatedTransition.h */,
-				5D4832A71A95191B00252386 /* ConnectionAnimatedTransition.m */,
+				5D1FF2BB21304598000EB9B4 /* ConnectionAnimatedTransition.h */,
+				5D1FF2BC21304598000EB9B4 /* ConnectionAnimatedTransition.m */,
+				5D1FF2BD21304598000EB9B4 /* ConnectionTransitionContext.h */,
+				5D1FF2BE21304598000EB9B4 /* ConnectionTransitionContext.m */,
 			);
 			name = Transition;
 			sourceTree = "<group>";
@@ -5395,14 +5397,14 @@
 		88295679207CF48C00EF056C /* SDL */ = {
 			isa = PBXGroup;
 			children = (
-				88A0AA57207CFE650075132C /* ProxyManager.swift */,
-				88DFB054207F96EE0079D19D /* AlertManager.swift */,
-				8870C3E82086623F0070E018 /* AudioManager.swift */,
-				888D178D207E7F0E008E9F8F /* ButtonManager.swift */,
-				88166AFF207E41E900076236 /* MenuManager.swift */,
-				8814AEAB20AB667B00466E0F /* PerformInteractionManager.swift */,
-				88B849C32080F4AF002A034D /* RPCPermissionsManager.swift */,
-				88B849C620812412002A034D /* VehicleDataManager.swift */,
+				5D1FF2D421304746000EB9B4 /* AlertManager.swift */,
+				5D1FF2D621304746000EB9B4 /* AudioManager.swift */,
+				5D1FF2D221304745000EB9B4 /* ButtonManager.swift */,
+				5D1FF2D821304746000EB9B4 /* MenuManager.swift */,
+				5D1FF2D721304746000EB9B4 /* PerformInteractionManager.swift */,
+				5D1FF2D321304745000EB9B4 /* ProxyManager.swift */,
+				5D1FF2D521304746000EB9B4 /* RPCPermissionsManager.swift */,
+				5D1FF2D921304746000EB9B4 /* VehicleDataManager.swift */,
 			);
 			name = SDL;
 			sourceTree = "<group>";
@@ -5410,10 +5412,9 @@
 		8829567A207CF49600EF056C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				8829569D207CFD0E00EF056C /* AppDelegate.swift */,
-				88A0AA61207CFF970075132C /* LaunchScreen.xib */,
-				88295698207CF68800EF056C /* SmartDeviceLink-Example-Swift-Info.plist */,
-				8829569C207CFD0D00EF056C /* SmartDeviceLink-Example-Swift-Bridging-Header.h */,
+				5D1FF2F92130480C000EB9B4 /* SmartDeviceLink-Example-Swift-Info.plist */,
+				5D1FF2F7213047C1000EB9B4 /* AppDelegate.swift */,
+				5D1FF2F6213047C1000EB9B4 /* SmartDeviceLink-Example-Swift-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -5421,10 +5422,11 @@
 		8829567B207CF49F00EF056C /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				5D1FF2F4213047B2000EB9B4 /* LaunchScreen.xib */,
 				88A0AA5F207CFEA60075132C /* Connection */,
-				88A0AA59207CFE740075132C /* ConnectionContainerViewController.swift */,
-				88A0AA5A207CFE740075132C /* ConnectionIAPTableViewController.swift */,
-				88A0AA5B207CFE740075132C /* ConnectionTCPTableViewController.swift */,
+				5D1FF2E82130479C000EB9B4 /* ConnectionContainerViewController.swift */,
+				5D1FF2EA2130479C000EB9B4 /* ConnectionIAPTableViewController.swift */,
+				5D1FF2E92130479C000EB9B4 /* ConnectionTCPTableViewController.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -5432,9 +5434,9 @@
 		8829567C207CF4AB00EF056C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				88A0AA55207CFE5C0075132C /* AppUserDefaults.swift */,
-				88DFB051207F8DF50079D19D /* Protocol+ProxyManagerDelegate.swift */,
-				8880B2ED21021964004721DB /* TextValidator.swift */,
+				5D1FF2E221304761000EB9B4 /* AppUserDefaults.swift */,
+				5D1FF2E321304761000EB9B4 /* Protocol+ProxyManagerDelegate.swift */,
+				5D1FF2E421304761000EB9B4 /* TextValidator.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -5442,9 +5444,9 @@
 		88295699207CFBD900EF056C /* Shared Assets */ = {
 			isa = PBXGroup;
 			children = (
-				5D4029D31A76F0340006B0C2 /* Images.xcassets */,
-				8863B596207D2388002D6459 /* AppConstants.h */,
-				8863B597207D2388002D6459 /* AppConstants.m */,
+				5D1FF2C5213045F1000EB9B4 /* Images.xcassets */,
+				5D1FF2C1213045EB000EB9B4 /* AppConstants.h */,
+				5D1FF2C2213045EB000EB9B4 /* AppConstants.m */,
 			);
 			name = "Shared Assets";
 			sourceTree = "<group>";
@@ -5460,9 +5462,9 @@
 		88A0AA60207CFEAC0075132C /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				88A0AA63207CFF970075132C /* ConnectionIAPTableViewController.storyboard */,
-				88A0AA64207CFF980075132C /* ConnectionTCPTableViewController.storyboard */,
-				88A0AA62207CFF970075132C /* Main.storyboard */,
+				5D1FF2EF213047AB000EB9B4 /* ConnectionIAPTableViewController.storyboard */,
+				5D1FF2F0213047AB000EB9B4 /* ConnectionTCPTableViewController.storyboard */,
+				5D1FF2EE213047AB000EB9B4 /* Main.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -6150,7 +6152,7 @@
 			);
 			name = "SmartDeviceLink-Example-Swift";
 			productName = "SmartDeviceLink-iOS";
-			productReference = 88295697207CF68800EF056C /* SDL Example.app */;
+			productReference = 88295697207CF68800EF056C /* SDL Example Swift.app */;
 			productType = "com.apple.product-type.application";
 		};
 		88802CD720853AE600E9EBC6 /* SmartDeviceLinkSwift */ = {
@@ -6235,11 +6237,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D0218F91A8E7A7300D1BF62 /* ConnectionTCPTableViewController.storyboard in Resources */,
-				5D0219051A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard in Resources */,
-				5D4029E31A76F0760006B0C2 /* LaunchScreen.xib in Resources */,
-				5D4029D41A76F0340006B0C2 /* Images.xcassets in Resources */,
-				5D4029E41A76F0760006B0C2 /* Main.storyboard in Resources */,
+				5D1FF2B121304568000EB9B4 /* ConnectionIAPTableViewController.storyboard in Resources */,
+				5D1FF2AF21304568000EB9B4 /* ConnectionTCPTableViewController.storyboard in Resources */,
+				5D1FF2C6213045F2000EB9B4 /* Images.xcassets in Resources */,
+				5D1FF2B021304568000EB9B4 /* Main.storyboard in Resources */,
+				5D1FF2D12130466D000EB9B4 /* LaunchScreen.xib in Resources */,
+				5D1FF2CE21304654000EB9B4 /* SmartDeviceLink-Example-ObjC-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6274,11 +6277,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88A0AA66207CFF980075132C /* Main.storyboard in Resources */,
-				88A0AA68207CFF980075132C /* ConnectionTCPTableViewController.storyboard in Resources */,
-				88A0AA65207CFF980075132C /* LaunchScreen.xib in Resources */,
-				88295690207CF68800EF056C /* Images.xcassets in Resources */,
-				88A0AA67207CFF980075132C /* ConnectionIAPTableViewController.storyboard in Resources */,
+				5D1FF2F1213047AB000EB9B4 /* Main.storyboard in Resources */,
+				5D1FF2FA2130480C000EB9B4 /* SmartDeviceLink-Example-Swift-Info.plist in Resources */,
+				5D1FF2F3213047AB000EB9B4 /* ConnectionTCPTableViewController.storyboard in Resources */,
+				5D1FF2C7213045F2000EB9B4 /* Images.xcassets in Resources */,
+				5D1FF2F5213047B3000EB9B4 /* LaunchScreen.xib in Resources */,
+				5D1FF2F2213047AB000EB9B4 /* ConnectionIAPTableViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6299,24 +6303,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D4832A51A94F90D00252386 /* ConnectionTransitionContext.m in Sources */,
-				8880B2F421022896004721DB /* TextValidator.m in Sources */,
-				8800871E20A6356D008E1EA0 /* ButtonManager.m in Sources */,
-				5D0218FC1A8E7E1700D1BF62 /* ConnectionContainerViewController.m in Sources */,
-				88DA6D10209794A400AD8297 /* AlertManager.m in Sources */,
-				8803A0AF208E2A3A009FDC02 /* AudioManager.m in Sources */,
-				5D0218FF1A8E9E0D00D1BF62 /* ConnectionIAPTableViewController.m in Sources */,
-				8803A0B2208E7CA4009FDC02 /* VehicleDataManager.m in Sources */,
-				5D48329D1A8EA33D00252386 /* Preferences.m in Sources */,
-				8814AEA720AB65FC00466E0F /* MenuManager.m in Sources */,
-				8814AEAA20AB663800466E0F /* PerformInteractionManager.m in Sources */,
-				5D59350F1A855EB300687FB9 /* AppDelegate.m in Sources */,
-				5D5935121A855EBE00687FB9 /* main.m in Sources */,
-				5D4832A81A95191B00252386 /* ConnectionAnimatedTransition.m in Sources */,
-				88DE80B720A5C8DD00BA9CF0 /* RPCPermissionsManager.m in Sources */,
-				5D4832A11A92868E00252386 /* ProxyManager.m in Sources */,
-				5D0218F61A8E79C400D1BF62 /* ConnectionTCPTableViewController.m in Sources */,
-				8863B59D207D3849002D6459 /* AppConstants.m in Sources */,
+				5D1FF2CA2130463F000EB9B4 /* AppDelegate.m in Sources */,
+				5D1FF2BA21304581000EB9B4 /* ConnectionTCPTableViewController.m in Sources */,
+				5D1FF2B921304581000EB9B4 /* ConnectionContainerViewController.m in Sources */,
+				5D1FF29D21304515000EB9B4 /* RPCPermissionsManager.m in Sources */,
+				5D1FF2A121304515000EB9B4 /* VehicleDataManager.m in Sources */,
+				5D1FF29F21304515000EB9B4 /* ProxyManager.m in Sources */,
+				5D1FF2BF21304598000EB9B4 /* ConnectionAnimatedTransition.m in Sources */,
+				5D1FF2A721304531000EB9B4 /* Preferences.m in Sources */,
+				5D1FF2CC2130464E000EB9B4 /* main.m in Sources */,
+				5D1FF2C021304598000EB9B4 /* ConnectionTransitionContext.m in Sources */,
+				5D1FF2A221304515000EB9B4 /* ButtonManager.m in Sources */,
+				5D1FF2A021304515000EB9B4 /* AudioManager.m in Sources */,
+				5D1FF29E21304515000EB9B4 /* MenuManager.m in Sources */,
+				5D1FF2C3213045EB000EB9B4 /* AppConstants.m in Sources */,
+				5D1FF2B821304581000EB9B4 /* ConnectionIAPTableViewController.m in Sources */,
+				5D1FF29C21304515000EB9B4 /* PerformInteractionManager.m in Sources */,
+				5D1FF2A821304531000EB9B4 /* TextValidator.m in Sources */,
+				5D1FF28D213044F9000EB9B4 /* AlertManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7165,22 +7169,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88A0AA5C207CFE740075132C /* ConnectionContainerViewController.swift in Sources */,
-				88B849C52080F4B3002A034D /* RPCPermissionsManager.swift in Sources */,
-				8870C3EA208662540070E018 /* AudioManager.swift in Sources */,
-				88DFB055207F96EE0079D19D /* AlertManager.swift in Sources */,
-				888D178F207E7F42008E9F8F /* ButtonManager.swift in Sources */,
-				88A0AA5E207CFE740075132C /* ConnectionTCPTableViewController.swift in Sources */,
-				88DFB053207F8E100079D19D /* Protocol+ProxyManagerDelegate.swift in Sources */,
-				88B849C820812442002A034D /* VehicleDataManager.swift in Sources */,
-				8829569E207CFD0E00EF056C /* AppDelegate.swift in Sources */,
-				8880B2EF21021E37004721DB /* TextValidator.swift in Sources */,
-				88A0AA58207CFE650075132C /* ProxyManager.swift in Sources */,
-				88166B00207E41E900076236 /* MenuManager.swift in Sources */,
-				8814AEAC20AB667B00466E0F /* PerformInteractionManager.swift in Sources */,
-				888D1790207E815C008E9F8F /* AppConstants.m in Sources */,
-				88A0AA5D207CFE740075132C /* ConnectionIAPTableViewController.swift in Sources */,
-				88A0AA56207CFE5D0075132C /* AppUserDefaults.swift in Sources */,
+				5D1FF2E121304746000EB9B4 /* VehicleDataManager.swift in Sources */,
+				5D1FF2DB21304746000EB9B4 /* ProxyManager.swift in Sources */,
+				5D1FF2E621304761000EB9B4 /* Protocol+ProxyManagerDelegate.swift in Sources */,
+				5D1FF2E521304761000EB9B4 /* AppUserDefaults.swift in Sources */,
+				5D1FF2EC2130479C000EB9B4 /* ConnectionTCPTableViewController.swift in Sources */,
+				5D1FF2C4213045EB000EB9B4 /* AppConstants.m in Sources */,
+				5D1FF2DA21304746000EB9B4 /* ButtonManager.swift in Sources */,
+				5D1FF2DC21304746000EB9B4 /* AlertManager.swift in Sources */,
+				5D1FF2EB2130479C000EB9B4 /* ConnectionContainerViewController.swift in Sources */,
+				5D1FF2E021304746000EB9B4 /* MenuManager.swift in Sources */,
+				5D1FF2DF21304746000EB9B4 /* PerformInteractionManager.swift in Sources */,
+				5D1FF2ED2130479C000EB9B4 /* ConnectionIAPTableViewController.swift in Sources */,
+				5D1FF2DD21304746000EB9B4 /* RPCPermissionsManager.swift in Sources */,
+				5D1FF2E721304761000EB9B4 /* TextValidator.swift in Sources */,
+				5D1FF2F8213047C1000EB9B4 /* AppDelegate.swift in Sources */,
+				5D1FF2DE21304746000EB9B4 /* AudioManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7228,36 +7232,36 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		5D0218F71A8E7A7300D1BF62 /* ConnectionTCPTableViewController.storyboard */ = {
+		5D1FF2A921304567000EB9B4 /* ConnectionTCPTableViewController.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				5D0218F81A8E7A7300D1BF62 /* Base */,
+				5D1FF2AA21304567000EB9B4 /* Base */,
 			);
 			name = ConnectionTCPTableViewController.storyboard;
 			sourceTree = "<group>";
 		};
-		5D0219031A8E9F6D00D1BF62 /* ConnectionIAPTableViewController.storyboard */ = {
+		5D1FF2AB21304567000EB9B4 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				5D0219041A8E9F6D00D1BF62 /* Base */,
+				5D1FF2AC21304567000EB9B4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		5D1FF2AD21304567000EB9B4 /* ConnectionIAPTableViewController.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5D1FF2AE21304567000EB9B4 /* Base */,
 			);
 			name = ConnectionIAPTableViewController.storyboard;
 			sourceTree = "<group>";
 		};
-		5D4029DF1A76F0760006B0C2 /* LaunchScreen.xib */ = {
+		5D1FF2CF2130466D000EB9B4 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				5D4029E01A76F0760006B0C2 /* Base */,
+				5D1FF2D02130466D000EB9B4 /* Base */,
 			);
 			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-		5D4029E11A76F0760006B0C2 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5D4029E21A76F0760006B0C2 /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		5D616B481D552F7A00553F6B /* SDLLockScreen.storyboard */ = {
@@ -7388,7 +7392,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = NCVC2MHU7M;
-				INFOPLIST_FILE = "$(SRCROOT)/SmartDeviceLink_Example/SmartDeviceLink-Example-ObjC-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
@@ -7402,7 +7406,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = NCVC2MHU7M;
-				INFOPLIST_FILE = "$(SRCROOT)/SmartDeviceLink_Example/SmartDeviceLink-Example-ObjC-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example ObjC/SmartDeviceLink-Example-ObjC-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
@@ -7577,12 +7581,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = NCVC2MHU7M;
-				INFOPLIST_FILE = "SmartDeviceLink-Example-Swift-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example Swift";
-				SWIFT_OBJC_BRIDGING_HEADER = "SmartDeviceLink_Example/SmartDeviceLink-Example-Swift-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -7596,12 +7600,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = NCVC2MHU7M;
-				INFOPLIST_FILE = "SmartDeviceLink-Example-Swift-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
 				PRODUCT_NAME = "SDL Example Swift";
-				SWIFT_OBJC_BRIDGING_HEADER = "SmartDeviceLink_Example/SmartDeviceLink-Example-Swift-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
