@@ -3386,7 +3386,7 @@
 		5D5934EE1A85160900687FB9 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				5DA49C8C1F1E549000E65FC5 /* BSON library */,
+				EC5167462133FA6D0074CB5D /* bson_c_lib */,
 				5D5934FA1A851AC900687FB9 /* @protocols */,
 				5D5935011A851D7E00687FB9 /* Header */,
 				5D5935021A851D8700687FB9 /* Message */,
