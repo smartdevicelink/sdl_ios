@@ -3,48 +3,31 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--init">-init</a></li>
-  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
   <li><a href="#section-type">type</a></li>
   <li><a href="#section-event">event</a></li>
 </ul>
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>Notifies about touch events on the screen&rsquo;s prescribed area during video streaming</p>
 
 
 <section class="section task-group-section">
-  <h3 id="section--init">
-      -init
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
-  <h3 id="section--initWithDictionary:">
-      -initWithDictionary:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
   <h3 id="section-type">
       type
   </h3>
   
-  <p>Undocumented</p>
+  <p>The type of touch event.</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLTouchType.h@T@SDLTouchType">SDLTouchType</a></span> <span class="n">_Nonnull</span> <span class="n">type</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLTouchType.h@T@SDLTouchType">SDLTouchType</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -52,10 +35,18 @@
       event
   </h3>
   
-  <p>Undocumented</p>
+  <p>List of all individual touches involved in this event.</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTouchEvent.html">SDLTouchEvent</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">event</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">event</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTouchEvent.html">SDLTouchEvent</a></span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   

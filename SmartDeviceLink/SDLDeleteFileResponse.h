@@ -4,17 +4,21 @@
 
 #import "SDLRPCResponse.h"
 
+
+NS_ASSUME_NONNULL_BEGIN
+
 /**
- * Delete File Response is sent, when DeleteFile has been called
- *
- * Since <b>SmartDeviceLink 2.0</b><br>
+ Response to SDLDeleteFile
+
+ Since SmartDeviceLink 2.0
  */
-@interface SDLDeleteFileResponse : SDLRPCResponse {
-}
+@interface SDLDeleteFileResponse : SDLRPCResponse
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
-@property (strong) NSNumber *spaceAvailable;
+/**
+ The remaining available space for your application to store data on the remote system.
+ */
+@property (strong, nonatomic) NSNumber<SDLInt> *spaceAvailable;
 
 @end
+
+NS_ASSUME_NONNULL_END

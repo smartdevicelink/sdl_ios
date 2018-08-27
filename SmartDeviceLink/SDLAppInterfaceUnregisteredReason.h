@@ -9,95 +9,57 @@
  *
  * @since SDL 1.0
  */
-@interface SDLAppInterfaceUnregisteredReason : SDLEnum {
-}
+typedef SDLEnum SDLAppInterfaceUnregisteredReason SDL_SWIFT_ENUM;
+
 
 /**
- * @abstract Convert String to SDLAppInterfaceUnregisteredReason
- *
- * @param value String value to retrieve the object for
- *
- * @return SDLAppInterfaceUnregisteredReason
+ * Vehicle ignition turned off.
  */
-+ (SDLAppInterfaceUnregisteredReason *)valueOf:(NSString *)value;
+extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonIgnitionOff;
 
 /**
- * @abstract Store the enumeration of all possible SDLAppInterfaceUnregisteredReason
- *
- * @return an array that stores all possible SDLAppInterfaceUnregisteredReason
+ * Bluetooth was turned off, causing termination of a necessary Bluetooth connection.
  */
-+ (NSArray *)values;
+extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonBluetoothOff;
 
 /**
- * @abstract Vehicle ignition turned off.
- *
- * @return SDLAppInterfaceUnregisteredReason with value *IGNITION_OFF*
+ * USB was disconnected, causing termination of a necessary iAP connection.
  */
-+ (SDLAppInterfaceUnregisteredReason *)IGNITION_OFF;
+extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonUSBDisconnected;
 
 /**
- * @abstract Bluetooth was turned off, causing termination of a necessary Bluetooth connection.
- *
- * @return SDLAppInterfaceUnregisteredReason with value *BLUETOOTH_OFF*
+ * Application attempted SmartDeviceLink RPC request while HMILevel = NONE. App must have HMILevel other than NONE to issue RPC requests or get notifications or RPC responses.
  */
-+ (SDLAppInterfaceUnregisteredReason *)BLUETOOTH_OFF;
+extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonRequestWhileInNoneHMILevel;
 
 /**
- * @abstract USB was disconnected, causing termination of a necessary iAP connection.
- *
- * @return SDLAppInterfaceUnregisteredReason with value *USB_DISCONNECTED*
+ * Either too many -- or too many per unit of time -- requests were made by the application.
  */
-+ (SDLAppInterfaceUnregisteredReason *)USB_DISCONNECTED;
+extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonTooManyRequests;
 
 /**
- * @abstract Application attempted SmartDeviceLink RPC request while HMILevel = NONE. App must have HMILevel other than NONE to issue RPC requests or get notifications or RPC responses.
- *
- * @return SDLAppInterfaceUnregisteredReason with value *REQUEST_WHILE_IN_NONE_HMI_LEVEL*
+ * The application has issued requests which cause driver distraction rules to be violated.
  */
-+ (SDLAppInterfaceUnregisteredReason *)REQUEST_WHILE_IN_NONE_HMI_LEVEL;
+extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonDriverDistractionViolation;
 
 /**
- * @abstract Either too many -- or too many per unit of time -- requests were made by the application.
- *
- * @return SDLAppInterfaceUnregisteredReason with value *TOO_MANY_REQUESTS*
+ *  The user performed a language change on the SDL platform, causing the application to need to be reregistered for the new language.
  */
-+ (SDLAppInterfaceUnregisteredReason *)TOO_MANY_REQUESTS;
+extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonLanguageChange;
 
 /**
- * @abstract The application has issued requests which cause driver distraction rules to be violated.
- *
- * @return SDLAppInterfaceUnregisteredReason with value *DRIVER_DISTRACTION_VIOLATION*
+ * The user performed a MASTER RESET on the SDL platform, causing removal of a necessary Bluetooth pairing.
  */
-+ (SDLAppInterfaceUnregisteredReason *)DRIVER_DISTRACTION_VIOLATION;
+extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonMasterReset;
 
 /**
- *  @abstract The user performed a language change on the SDL platform, causing the application to need to be reregistered for the new language.
- *
- *  @return SDLAppInterfaceUnregisteredReason with value *LANGUAGE_CHANGE*
+ * The user restored settings to FACTORY DEFAULTS on the SDL platform.
  */
-+ (SDLAppInterfaceUnregisteredReason *)LANGUAGE_CHANGE;
+extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonFactoryDefaults;
 
 /**
- * @abstract The user performed a MASTER RESET on the SDL platform, causing removal of a necessary Bluetooth pairing.
- *
- * @return SDLAppInterfaceUnregisteredReason with value *MASTER_RESET*
- */
-+ (SDLAppInterfaceUnregisteredReason *)MASTER_RESET;
-
-/**
- * @abstract The user restored settings to FACTORY DEFAULTS on the SDL platform.
- *
- * @return SDLAppInterfaceUnregisteredReason with value *FACTORY_DEFAULTS*
- */
-+ (SDLAppInterfaceUnregisteredReason *)FACTORY_DEFAULTS;
-
-/**
- * @abstract The app is not being authorized to be connected to SDL.
- *
- * @return SDLAppInterfaceUnregisteredReason with value *APP_UNAUTHORIZED*
+ * The app is not being authorized to be connected to SDL.
  *
  * @since SDL 2.0
  */
-+ (SDLAppInterfaceUnregisteredReason *)APP_UNAUTHORIZED;
-
-@end
+extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonAppUnauthorized;

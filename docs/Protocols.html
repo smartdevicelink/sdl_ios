@@ -7,15 +7,13 @@
   <li><a href="#section-SDLUInt">SDLUInt</a></li>
   <li><a href="#section-SDLBool">SDLBool</a></li>
   <li><a href="#section-SDLFloat">SDLFloat</a></li>
-  <li><a href="#section-SDLDebugToolConsole">SDLDebugToolConsole</a></li>
-  <li><a href="#section-SDLIAPSessionDelegate">SDLIAPSessionDelegate</a></li>
+  <li><a href="#section-SDLAudioStreamManagerDelegate">SDLAudioStreamManagerDelegate</a></li>
+  <li><a href="#section-SDLLogTarget">SDLLogTarget</a></li>
   <li><a href="#section-SDLManagerDelegate">SDLManagerDelegate</a></li>
-  <li><a href="#section-SDLProtocolListener">SDLProtocolListener</a></li>
-  <li><a href="#section-SDLProxyListener">SDLProxyListener</a></li>
-  <li><a href="#section-SDLRequestHandler">SDLRequestHandler</a></li>
   <li><a href="#section-SDLSecurityType">SDLSecurityType</a></li>
+  <li><a href="#section-SDLStreamingAudioManagerType">SDLStreamingAudioManagerType</a></li>
+  <li><a href="#section-SDLStreamingMediaManagerDataSource">SDLStreamingMediaManagerDataSource</a></li>
   <li><a href="#section-SDLTouchManagerDelegate">SDLTouchManagerDelegate</a></li>
-  <li><a href="#section-SDLTransportDelegate">SDLTransportDelegate</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -33,11 +31,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">SDLInt</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLInt</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">SDLInt</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLInt</span></code></pre>
 
   
   
@@ -51,11 +49,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">SDLUInt</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLUInt</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">SDLUInt</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLUInt</span></code></pre>
 
   
   
@@ -69,11 +67,11 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">SDLBool</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLBool</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">SDLBool</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLBool</span></code></pre>
 
   
   
@@ -87,36 +85,72 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">SDLFloat</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLFloat</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">SDLFloat</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLFloat</span></code></pre>
 
   
   
   
-  <h3 id="section-SDLDebugToolConsole">
-      SDLDebugToolConsole
+  <h3 id="section-SDLAudioStreamManagerDelegate">
+      SDLAudioStreamManagerDelegate
   </h3>
   
   <p>Undocumented</p>
 
-  <a href="Protocols/SDLDebugToolConsole.html" class="slightly-smaller">See more</a>
+  <a href="Protocols/SDLAudioStreamManagerDelegate.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLAudioStreamManagerDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+
+<span class="err">@required</span>
+
+<span class="cm">/**
+ Called when a file from the SDLAudioStreamManager finishes playing
+
+ @param audioManager A reference to the audio stream manager
+ @param fileURL The URL that finished playing
+ @param successfully Whether or not it was played successfully
+ */</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">audioStreamManager</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="p">)</span><span class="n">audioManager</span> <span class="n">fileDidFinishPlaying</span><span class="o">:</span><span class="p">(</span><span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="n">fileURL</span> <span class="n">successfully</span><span class="o">:</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">successfully</span><span class="p">;</span>
+
+<span class="cm">/**
+ Called when a file from the SDLAudioStreamManager could not play
+
+ @param audioManager  A reference to the audio stream manager
+ @param fileURL The URL that failed
+ @param error The error that occurred
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">audioStreamManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLAudioStreamManager.html">SDLAudioStreamManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">audioManager</span> <span class="nf">errorDidOccurForFile</span><span class="p">:(</span><span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileURL</span> <span class="nf">error</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLAudioStreamManagerDelegate</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
   
   
   
-  
-  
-  <h3 id="section-SDLIAPSessionDelegate">
-      SDLIAPSessionDelegate
+  <h3 id="section-SDLLogTarget">
+      SDLLogTarget
   </h3>
   
-  <p>Undocumented</p>
+  <p>A protocol describing a place logs from SDLLogManager are logged to</p>
 
-  <a href="Protocols/SDLIAPSessionDelegate.html" class="slightly-smaller">See more</a>
+  <a href="Protocols/SDLLogTarget.html" class="slightly-smaller">See more</a>
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLLogTarget</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLLogTarget</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
   
   
   
@@ -129,42 +163,54 @@
   <a href="Protocols/SDLManagerDelegate.html" class="slightly-smaller">See more</a>
   
   
-  
-  
-  
-  <h3 id="section-SDLProtocolListener">
-      SDLProtocolListener
-  </h3>
-  
-  <p>Undocumented</p>
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLManagerDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
 
-  <a href="Protocols/SDLProtocolListener.html" class="slightly-smaller">See more</a>
-  
-  
-  
-  
-  
-  <h3 id="section-SDLProxyListener">
-      SDLProxyListener
-  </h3>
-  
-  <p>Undocumented</p>
+<span class="cm">/**
+ *  Called upon a disconnection from the remote system.
+ */</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">managerDidDisconnect</span><span class="p">;</span>
 
-  <a href="Protocols/SDLProxyListener.html" class="slightly-smaller">See more</a>
-  
-  
-  
-  
-  
-  <h3 id="section-SDLRequestHandler">
-      SDLRequestHandler
-  </h3>
-  
-  <p>Undocumented</p>
+<span class="cm">/**
+ *  Called when the HMI level state of this application changes on the remote system. This is equivalent to the application's state changes in iOS such as foreground, background, or closed.
+ *
+ *  @param oldLevel The previous level which has now been left.
+ *  @param newLevel The current level.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">hmiLevel</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLHMILevel.h@T@SDLHMILevel">SDLHMILevel</a></span><span class="p">)</span><span class="nv">oldLevel</span> <span class="nf">didChangeToLevel</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLHMILevel.h@T@SDLHMILevel">SDLHMILevel</a></span><span class="p">)</span><span class="nv">newLevel</span><span class="p">;</span>
 
-  <a href="Protocols/SDLRequestHandler.html" class="slightly-smaller">See more</a>
+<span class="k">@optional</span>
+<span class="cm">/**
+ *  Called when the audio streaming state of this application changes on the remote system. This refers to when streaming audio is audible to the user.
+ *
+ *  @param oldState The previous state which has now been left.
+ *  @param newState The current state.
+ */</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">audioStreamingState</span><span class="o">:</span><span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLAudioStreamingState.h@T@SDLAudioStreamingState">SDLAudioStreamingState</a></span><span class="p">)</span><span class="n">oldState</span> <span class="n">didChangeToState</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Type Definitions.html#/c:SDLAudioStreamingState.h@T@SDLAudioStreamingState">SDLAudioStreamingState</a></span><span class="p">)</span><span class="n">newState</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Called when the system context of this application changes on the remote system. This refers to whether or not a user-initiated interaction is in progress, and if so, what it is.
+ *
+ *  @param oldContext The previous context which has now been left.
+ *  @param newContext The current context.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">systemContext</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLSystemContext.h@T@SDLSystemContext">SDLSystemContext</a></span><span class="p">)</span><span class="nv">oldContext</span> <span class="nf">didChangeToContext</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLSystemContext.h@T@SDLSystemContext">SDLSystemContext</a></span><span class="p">)</span><span class="nv">newContext</span><span class="p">;</span>
+
+<span class="cm">/**
+ * Called when the lifecycle manager detected a language mismatch. In case of a language mismatch the manager should change the apps registration by updating the lifecycle configuration to the specified language. If the app can support the specified language it should return an Object of SDLLifecycleConfigurationUpdate, otherwise it should return nil to indicate that the language is not supported.
+ *
+ * @param language The language of the connected head unit the manager is trying to update the configuration.
+ * @return An object of SDLLifecycleConfigurationUpdate if the head unit language is supported, otherwise nil to indicate that the language is not supported.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLifecycleConfigurationUpdate.html">SDLLifecycleConfigurationUpdate</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">managerShouldUpdateLifecycleToLanguage</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">)</span><span class="nv">language</span><span class="p">;</span>
+
+
+<span class="k">@end</span></code></pre>
+
   
-  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLManagerDelegate</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
   
   
   
@@ -172,11 +218,98 @@
       SDLSecurityType
   </h3>
   
-  <p>Undocumented</p>
+  <p>A protocol used by SDL Security libraries.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    Used internally
+
+</div>
 
   <a href="Protocols/SDLSecurityType.html" class="slightly-smaller">See more</a>
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLSecurityType</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLSecurityType</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLStreamingAudioManagerType">
+      SDLStreamingAudioManagerType
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Protocols/SDLStreamingAudioManagerType.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLStreamingAudioManagerType</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+
+<span class="cm">/**
+ Whether or not the audio byte stream is currently connected
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">isAudioConnected</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">audioConnected</span><span class="p">;</span>
+
+<span class="cm">/**
+ Send audio data bytes over the audio byte stream
+
+ @param audioData The PCM data bytes
+ @return Whether or not it sent successfully
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">sendAudioData</span><span class="p">:(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">audioData</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLStreamingAudioManagerType</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLStreamingMediaManagerDataSource">
+      SDLStreamingMediaManagerDataSource
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Protocols/SDLStreamingMediaManagerDataSource.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLStreamingMediaManagerDataSource</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
+
+<span class="cm">/**
+ Implement to return a different preferred order of attempted format usage than the head unit's preferred order. In nearly all cases, it's best to simply return the head unit's preferred order, or not implement this method (which does the same thing).
+ 
+ @warning If you return a format that is not supported by the StreamingMediaManager, that format will be skipped.
+ 
+ @note If the head unit does not support the `GetSystemCapabilities` RPC, this method will not be called and H264 RAW will be used.
+
+ @param headUnitPreferredOrder The head unit's preferred order of format usage. The first item is the one that will be used unless this proxy does not support it, then the next item, etc.
+ @return Your preferred order of format usage.
+ */</span>
+<span class="o">-</span> <span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLVideoStreamingFormat.html">SDLVideoStreamingFormat</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">preferredVideoFormatOrderFromHeadUnitPreferredOrder</span><span class="o">:</span><span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLVideoStreamingFormat.html">SDLVideoStreamingFormat</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">headUnitPreferredOrder</span><span class="p">;</span>
+
+<span class="cm">/**
+ Implement to return a different resolution to use for video streaming than the head unit's requested resolution. If you return a resolution that the head unit does not like, the manager will fail to start up. In nearly all cases, it's best to simply return the head unit's preferred order, or not implement this method (which does the same thing), and adapt your UI to the head unit's preferred resolution instead.
+
+ @param headUnitPreferredResolution The resolution the head unit requested to use.
+ @return Your preferred order of image resolution usage. This system will not attempt more than 3 resolutions. It is strongly recommended that at least one resolution is the head unit's preferred resolution.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nf">resolutionFromHeadUnitPreferredResolution</span><span class="p">:(</span><span class="n"><a href="Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">headUnitPreferredResolution</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLStreamingMediaManagerDataSource</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
   
   
   
@@ -189,18 +322,118 @@
   <a href="Protocols/SDLTouchManagerDelegate.html" class="slightly-smaller">See more</a>
   
   
-  
-  
-  
-  <h3 id="section-SDLTransportDelegate">
-      SDLTransportDelegate
-  </h3>
-  
-  <p>Undocumented</p>
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@protocol</span> <span class="nc">SDLTouchManagerDelegate</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span>
 
-  <a href="Protocols/SDLTransportDelegate.html" class="slightly-smaller">See more</a>
+<span class="k">@optional</span>
+
+<span class="cm">/**
+ A single tap was received
+
+ @param manager The SDLTouchManager issuing the callback
+ @param view The view under the touch if it could be determined
+ @param point The point at which the touch occurred in the head unit's coordinate system
+ */</span>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">touchManager</span><span class="o">:</span><span class="p">(</span><span class="n"><a href="Classes/SDLTouchManager.html">SDLTouchManager</a></span> <span class="o">*</span><span class="p">)</span><span class="n">manager</span> <span class="n">didReceiveSingleTapForView</span><span class="o">:</span><span class="p">(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span><span class="n">view</span> <span class="n">atPoint</span><span class="o">:</span><span class="p">(</span><span class="n">CGPoint</span><span class="p">)</span><span class="n">point</span><span class="p">;</span>
+
+<span class="cm">/**
+ A double tap was received
+
+ @param manager The SDLTouchManager issuing the callback
+ @param view The view under the touch if it could be determined
+ @param point Location of the double tap in the head unit's coordinate system. This is the average of the first and second tap.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLTouchManager.html">SDLTouchManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didReceiveDoubleTapForView</span><span class="p">:(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span><span class="nv">view</span> <span class="nf">atPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">point</span><span class="p">;</span>
+
+<span class="cm">/**
+ Panning started
+
+ @param manager The SDLTouchManager issuing the callback
+ @param view The view under where the panning started if it could be determined
+ @param point Location of the panning start point in the head unit's coordinate system.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLTouchManager.html">SDLTouchManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">panningDidStartInView</span><span class="p">:(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span><span class="nv">view</span> <span class="nf">atPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">point</span><span class="p">;</span>
+
+<span class="cm">/**
+ Panning moved between points
+
+ @param manager The SDLTouchManager issuing the callback
+ @param fromPoint Location of the panning's previous point in the head unit's coordinate system
+ @param toPoint Location of the panning's new point in the head unit's coordinate system
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLTouchManager.html">SDLTouchManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didReceivePanningFromPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">fromPoint</span> <span class="nf">toPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">toPoint</span><span class="p">;</span>
+
+<span class="cm">/**
+ Panning ended
+
+ @param manager The SDLTouchManager issuing the callback
+ @param view The view under where the panning ended if it could be determined
+ @param point Location of the panning's end point in the head unit's coordinate system
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLTouchManager.html">SDLTouchManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">panningDidEndInView</span><span class="p">:(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span><span class="nv">view</span> <span class="nf">atPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">point</span><span class="p">;</span>
+
+<span class="cm">/**
+ Panning canceled
+
+ @param manager The SDLTouchManager issuing the callback
+ @param point Location of the panning's end point in the head unit's coordinate system
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLTouchManager.html">SDLTouchManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">panningCanceledAtPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">point</span><span class="p">;</span>
+
+<span class="cm">/**
+ Pinch did start
+
+ @param manager The SDLTouchManager issuing the callback
+ @param view The view under the center of the pinch start
+ @param point Center point of the pinch in the head unit's coordinate system
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLTouchManager.html">SDLTouchManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">pinchDidStartInView</span><span class="p">:(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span><span class="nv">view</span> <span class="nf">atCenterPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">point</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  @abstract
+ *      Pinch did move.
+ *  @param manager
+ *      Current initalized SDLTouchManager issuing the callback.
+ *  @param point
+ *      Center point of the pinch in the head unit's coordinate system.
+ *  @param scale
+ *      Scale relative to the distance between touch points.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLTouchManager.html">SDLTouchManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didReceivePinchAtCenterPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">point</span> <span class="nf">withScale</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">scale</span><span class="p">;</span>
+
+<span class="cm">/**
+ Pinch moved and changed scale
+
+ @param manager The SDLTouchManager issuing the callback
+ @param view The view under the center of the pinch
+ @param point Center point of the pinch in the head unit's coordinate system
+ @param scale Scale relative to the distance between touch points
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLTouchManager.html">SDLTouchManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">didReceivePinchInView</span><span class="p">:(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span><span class="nv">view</span> <span class="nf">atCenterPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">point</span> <span class="nf">withScale</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">scale</span><span class="p">;</span>
+
+<span class="cm">/**
+ Pinch did end
+
+ @param manager The SDLTouchManager issuing the callback
+ @param view The view under the center of the pinch
+ @param point Center point of the pinch in the head unit's coordinate system
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLTouchManager.html">SDLTouchManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">pinchDidEndInView</span><span class="p">:(</span><span class="n">UIView</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span><span class="nv">view</span> <span class="nf">atCenterPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">point</span><span class="p">;</span>
+
+<span class="cm">/**
+ Pinch canceled
+
+ @param manager The SDLTouchManager issuing the callback
+ @param point Center point of the pinch in the head unit's coordinate system
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLTouchManager.html">SDLTouchManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">manager</span> <span class="nf">pinchCanceledAtCenterPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">point</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
   
-  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">protocol</span> <span class="kt">SDLTouchManagerDelegate</span> <span class="p">:</span> <span class="kt">NSObjectProtocol</span></code></pre>
+
   
   
   

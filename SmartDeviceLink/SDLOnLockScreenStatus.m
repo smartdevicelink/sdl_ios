@@ -5,80 +5,53 @@
 
 #import "SDLOnLockScreenStatus.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLHMILevel.h"
 #import "SDLLockScreenStatus.h"
+#import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnLockScreenStatus
 
 - (instancetype)init {
-    if (self = [super initWithName:@"OnLockScreenStatus"]) {
+    if (self = [super initWithName:SDLNameOnLockScreenStatus]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (void)setLockScreenStatus:(SDLLockScreenStatus)lockScreenStatus {
+    [parameters sdl_setObject:lockScreenStatus forName:SDLNameOnLockScreenStatus];
 }
 
-- (void)setLockScreenStatus:(SDLLockScreenStatus *)lockScreenStatus {
-    if (lockScreenStatus != nil) {
-        [parameters setObject:lockScreenStatus forKey:@"OnLockScreenStatus"];
-    } else {
-        [parameters removeObjectForKey:@"OnLockScreenStatus"];
-    }
+- (SDLLockScreenStatus)lockScreenStatus {
+    return [parameters sdl_objectForName:SDLNameOnLockScreenStatus];
 }
 
-- (SDLLockScreenStatus *)lockScreenStatus {
-    NSObject *obj = [parameters objectForKey:@"OnLockScreenStatus"];
-    if (obj == nil || [obj isKindOfClass:SDLLockScreenStatus.class]) {
-        return (SDLLockScreenStatus *)obj;
-    } else {
-        return [SDLLockScreenStatus valueOf:(NSString *)obj];
-    }
+- (void)setHmiLevel:(SDLHMILevel)hmiLevel {
+    [parameters sdl_setObject:hmiLevel forName:SDLNameHMILevel];
 }
 
-- (void)setHmiLevel:(SDLHMILevel *)hmiLevel {
-    if (hmiLevel != nil) {
-        [parameters setObject:hmiLevel forKey:@"hmilevel"];
-    } else {
-        [parameters removeObjectForKey:@"hmilevel"];
-    }
+- (SDLHMILevel)hmiLevel {
+    return [parameters sdl_objectForName:SDLNameHMILevel];
 }
 
-- (SDLHMILevel *)hmiLevel {
-    NSObject *obj = [parameters objectForKey:@"hmilevel"];
-    if (obj == nil || [obj isKindOfClass:SDLHMILevel.class]) {
-        return (SDLHMILevel *)obj;
-    } else {
-        return [SDLHMILevel valueOf:(NSString *)obj];
-    }
+- (void)setUserSelected:(NSNumber<SDLBool> *)userSelected {
+    [parameters sdl_setObject:userSelected forName:SDLNameUserSelected];
 }
 
-- (void)setUserSelected:(NSNumber *)userSelected {
-    if (userSelected != nil) {
-        [parameters setObject:userSelected forKey:@"userselected"];
-    } else {
-        [parameters removeObjectForKey:@"userselected"];
-    }
+- (NSNumber<SDLBool> *)userSelected {
+    return [parameters sdl_objectForName:SDLNameUserSelected];
 }
 
-- (NSNumber *)userSelected {
-    return [parameters objectForKey:@"userselected"];
+- (void)setDriverDistractionStatus:(NSNumber<SDLBool> *)driverDistractionStatus {
+    [parameters sdl_setObject:driverDistractionStatus forName:SDLNameDriverDistractionStatus];
 }
 
-- (void)setDriverDistractionStatus:(NSNumber *)driverDistractionStatus {
-    if (driverDistractionStatus != nil) {
-        [parameters setObject:driverDistractionStatus forKey:@"driverdistractionstatus"];
-    } else {
-        [parameters removeObjectForKey:@"driverdistractionstatus"];
-    }
-}
-
-- (NSNumber *)driverDistractionStatus {
-    return [parameters objectForKey:@"driverdistractionstatus"];
+- (NSNumber<SDLBool> *)driverDistractionStatus {
+    return [parameters sdl_objectForName:SDLNameDriverDistractionStatus];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

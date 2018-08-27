@@ -2,73 +2,61 @@
 
 #import "SDLAlert.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 #import "SDLSoftButton.h"
 #import "SDLTTSChunk.h"
-#import "SDLTTSChunkFactory.h"
 
 static UInt16 const SDLDefaultDuration = 5000;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAlert
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_Alert]) {
+    if (self = [super initWithName:SDLNameAlert]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 {
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 {
     return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:alertText3 duration:SDLDefaultDuration];
 }
 
-- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 duration:(UInt16)duration {
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 duration:(UInt16)duration {
     return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:nil duration:duration];
 }
 
-- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 duration:(UInt16)duration {
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 duration:(UInt16)duration {
     return [self initWithAlertText1:alertText1 alertText2:alertText2 alertText3:alertText3 duration:duration softButtons:nil];
 }
 
-- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons {
+- (instancetype)initWithAlertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 duration:(UInt16)duration softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
     return [self initWithTTSChunks:nil alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:NO duration:duration softButtons:softButtons];
 }
 
-- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 icon:(NSString *)icon duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons {
-    return [self initWithTTSChunks:nil alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 icon:icon playTone:NO duration:duration softButtons:softButtons];
-}
-
-- (instancetype)initWithTTS:(NSString *)ttsText playTone:(BOOL)playTone {
+- (instancetype)initWithTTS:(nullable NSString *)ttsText playTone:(BOOL)playTone {
     return [self initWithTTS:ttsText alertText1:nil alertText2:nil playTone:playTone duration:SDLDefaultDuration];
 }
 
-- (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 playTone:(BOOL)playTone duration:(UInt16)duration {
+- (instancetype)initWithTTS:(nullable NSString *)ttsText alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 playTone:(BOOL)playTone duration:(UInt16)duration {
     return [self initWithTTS:ttsText alertText1:alertText1 alertText2:alertText2 alertText3:nil playTone:playTone duration:duration];
 }
 
-- (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 icon:(NSString *)icon playTone:(BOOL)playTone duration:(UInt16)duration {
-    return [self initWithTTS:ttsText alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 icon:icon playTone:playTone duration:duration];
-}
-
-- (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration {
-    NSMutableArray *ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
+- (instancetype)initWithTTS:(nullable NSString *)ttsText alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration {
+    NSArray *ttsChunks = [SDLTTSChunk textChunksFromString:ttsText];
     return [self initWithTTSChunks:ttsChunks alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:playTone duration:duration softButtons:nil];
 }
 
-- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone {
+- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone {
     return [self initWithTTSChunks:ttsChunks alertText1:nil alertText2:nil alertText3:nil playTone:playTone duration:SDLDefaultDuration softButtons:nil];
 }
 
-- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(BOOL)playTone softButtons:(NSArray<SDLSoftButton *> *)softButtons {
+- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
     return [self initWithTTSChunks:ttsChunks alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:playTone duration:SDLDefaultDuration softButtons:softButtons];
 }
 
-- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons {
+- (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
     self = [self init];
     if (!self) {
         return nil;
@@ -85,138 +73,70 @@ static UInt16 const SDLDefaultDuration = 5000;
     return self;
 }
 
-- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 icon:(NSString *)icon playTone:(BOOL)playTone duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons {
-    return [self initWithTTSChunks:ttsChunks alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 icon:icon playTone:playTone duration:duration softButtons:softButtons];
+- (void)setAlertText1:(nullable NSString *)alertText1 {
+    [parameters sdl_setObject:alertText1 forName:SDLNameAlertText1];
 }
 
-- (void)setAlertText1:(NSString *)alertText1 {
-    if (alertText1 != nil) {
-        [parameters setObject:alertText1 forKey:NAMES_alertText1];
-    } else {
-        [parameters removeObjectForKey:NAMES_alertText1];
-    }
+- (nullable NSString *)alertText1 {
+    return [parameters sdl_objectForName:SDLNameAlertText1];
 }
 
-- (NSString *)alertText1 {
-    return [parameters objectForKey:NAMES_alertText1];
+- (void)setAlertText2:(nullable NSString *)alertText2 {
+    [parameters sdl_setObject:alertText2 forName:SDLNameAlertText2];
 }
 
-- (void)setAlertText2:(NSString *)alertText2 {
-    if (alertText2 != nil) {
-        [parameters setObject:alertText2 forKey:NAMES_alertText2];
-    } else {
-        [parameters removeObjectForKey:NAMES_alertText2];
-    }
+- (nullable NSString *)alertText2 {
+    return [parameters sdl_objectForName:SDLNameAlertText2];
 }
 
-- (NSString *)alertText2 {
-    return [parameters objectForKey:NAMES_alertText2];
+- (void)setAlertText3:(nullable NSString *)alertText3 {
+    [parameters sdl_setObject:alertText3 forName:SDLNameAlertText3];
 }
 
-- (void)setAlertText3:(NSString *)alertText3 {
-    if (alertText3 != nil) {
-        [parameters setObject:alertText3 forKey:NAMES_alertText3];
-    } else {
-        [parameters removeObjectForKey:NAMES_alertText3];
-    }
+- (nullable NSString *)alertText3 {
+    return [parameters sdl_objectForName:SDLNameAlertText3];
 }
 
-- (NSString *)alertText3 {
-    return [parameters objectForKey:NAMES_alertText3];
+- (void)setTtsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks {
+    [parameters sdl_setObject:ttsChunks forName:SDLNameTTSChunks];
 }
 
-- (void)setIcon:(NSString *)icon {
-    if (icon != nil) {
-        [parameters setObject:icon forKey:NAMES_alertIcon];
-    } else {
-        [parameters removeObjectForKey:NAMES_alertIcon];
-    }
+- (nullable NSArray<SDLTTSChunk *> *)ttsChunks {
+    return [parameters sdl_objectsForName:SDLNameTTSChunks ofClass:SDLTTSChunk.class];
 }
 
-- (NSString *)icon {
-    return [parameters objectForKey:NAMES_alertIcon];
+- (void)setDuration:(nullable NSNumber<SDLInt> *)duration {
+    [parameters sdl_setObject:duration forName:SDLNameDuration];
 }
 
-- (void)setTtsChunks:(NSMutableArray *)ttsChunks {
-    if (ttsChunks != nil) {
-        [parameters setObject:ttsChunks forKey:NAMES_ttsChunks];
-    } else {
-        [parameters removeObjectForKey:NAMES_ttsChunks];
-    }
+- (nullable NSNumber<SDLInt> *)duration {
+    return [parameters sdl_objectForName:SDLNameDuration];
 }
 
-- (NSMutableArray *)ttsChunks {
-    NSMutableArray *array = [parameters objectForKey:NAMES_ttsChunks];
-    if ([array isEqual:[NSNull null]]) {
-        return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLTTSChunk.class]) {
-        return array;
-    } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLTTSChunk alloc] initWithDictionary:(NSMutableDictionary *)dict]];
-        }
-        return newList;
-    }
+- (void)setPlayTone:(nullable NSNumber<SDLBool> *)playTone {
+    [parameters sdl_setObject:playTone forName:SDLNamePlayTone];
 }
 
-- (void)setDuration:(NSNumber *)duration {
-    if (duration != nil) {
-        [parameters setObject:duration forKey:NAMES_duration];
-    } else {
-        [parameters removeObjectForKey:NAMES_duration];
-    }
+- (nullable NSNumber<SDLBool> *)playTone {
+    return [parameters sdl_objectForName:SDLNamePlayTone];
 }
 
-- (NSNumber *)duration {
-    return [parameters objectForKey:NAMES_duration];
+- (void)setProgressIndicator:(nullable NSNumber<SDLBool> *)progressIndicator {
+    [parameters sdl_setObject:progressIndicator forName:SDLNameProgressIndicator];
 }
 
-- (void)setPlayTone:(NSNumber *)playTone {
-    if (playTone != nil) {
-        [parameters setObject:playTone forKey:NAMES_playTone];
-    } else {
-        [parameters removeObjectForKey:NAMES_playTone];
-    }
+- (nullable NSNumber<SDLBool> *)progressIndicator {
+    return [parameters sdl_objectForName:SDLNameProgressIndicator];
 }
 
-- (NSNumber *)playTone {
-    return [parameters objectForKey:NAMES_playTone];
+- (void)setSoftButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
+    [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
 }
 
-- (void)setProgressIndicator:(NSNumber *)progressIndicator {
-    if (progressIndicator != nil) {
-        [parameters setObject:progressIndicator forKey:NAMES_progressIndicator];
-    } else {
-        [parameters removeObjectForKey:NAMES_progressIndicator];
-    }
-}
-
-- (NSNumber *)progressIndicator {
-    return [parameters objectForKey:NAMES_progressIndicator];
-}
-
-- (void)setSoftButtons:(NSMutableArray *)softButtons {
-    if (softButtons != nil) {
-        [parameters setObject:softButtons forKey:NAMES_softButtons];
-    } else {
-        [parameters removeObjectForKey:NAMES_softButtons];
-    }
-}
-
-- (NSMutableArray *)softButtons {
-    NSMutableArray *array = [parameters objectForKey:NAMES_softButtons];
-    if ([array isEqual:[NSNull null]]) {
-        return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isKindOfClass:SDLSoftButton.class]) {
-        return array;
-    } else {
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
-        for (NSDictionary *dict in array) {
-            [newList addObject:[[SDLSoftButton alloc] initWithDictionary:(NSMutableDictionary *)dict]];
-        }
-        return newList;
-    }
+- (nullable NSArray<SDLSoftButton *> *)softButtons {
+    return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

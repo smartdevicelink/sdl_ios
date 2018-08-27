@@ -4,23 +4,14 @@
 
 #import "SDLSyncMsgVersion.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSyncMsgVersion
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithMajorVersion:(NSInteger)majorVersion minorVersion:(NSInteger)minorVersion {
+- (instancetype)initWithMajorVersion:(UInt8)majorVersion minorVersion:(UInt8)minorVersion patchVersion:(UInt8)patchVersion {
     self = [self init];
     if (!self) {
         return nil;
@@ -28,35 +19,38 @@
 
     self.majorVersion = @(majorVersion);
     self.minorVersion = @(minorVersion);
+    self.patchVersion = @(patchVersion);
 
     return self;
 }
 
-- (void)setMajorVersion:(NSNumber *)majorVersion {
-    if (majorVersion != nil) {
-        [store setObject:majorVersion forKey:NAMES_majorVersion];
-    } else {
-        [store removeObjectForKey:NAMES_majorVersion];
-    }
+- (void)setMajorVersion:(NSNumber<SDLInt> *)majorVersion {
+    [store sdl_setObject:majorVersion forName:SDLNameMajorVersion];
 }
 
-- (NSNumber *)majorVersion {
-    return [store objectForKey:NAMES_majorVersion];
+- (NSNumber<SDLInt> *)majorVersion {
+    return [store sdl_objectForName:SDLNameMajorVersion];
 }
 
-- (void)setMinorVersion:(NSNumber *)minorVersion {
-    if (minorVersion != nil) {
-        [store setObject:minorVersion forKey:NAMES_minorVersion];
-    } else {
-        [store removeObjectForKey:NAMES_minorVersion];
-    }
+- (void)setMinorVersion:(NSNumber<SDLInt> *)minorVersion {
+    [store sdl_setObject:minorVersion forName:SDLNameMinorVersion];
 }
 
-- (NSNumber *)minorVersion {
-    return [store objectForKey:NAMES_minorVersion];
+- (NSNumber<SDLInt> *)minorVersion {
+    return [store sdl_objectForName:SDLNameMinorVersion];
+}
+
+- (void)setPatchVersion:(nullable NSNumber<SDLInt> *)patchVersion {
+    [store sdl_setObject:patchVersion forName:SDLNamePatchVersion];
+}
+
+- (nullable NSNumber<SDLInt> *)patchVersion {
+    return [store sdl_objectForName:SDLNamePatchVersion];
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@.%@", self.majorVersion, self.minorVersion];
+    return [NSString stringWithFormat:@"%@.%@.%@", self.majorVersion, self.minorVersion, self.patchVersion];
 }
 @end
+
+NS_ASSUME_NONNULL_END

@@ -4,44 +4,39 @@
 
 #import "SDLImageResolution.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLImageResolution
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
+- (instancetype)initWithWidth:(uint16_t)width height:(uint16_t)height {
+    self = [self init];
+    if (!self) { return nil; }
+
+    self.resolutionWidth = @(width);
+    self.resolutionHeight = @(height);
+
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (void)setResolutionWidth:(NSNumber<SDLInt> *)resolutionWidth {
+    [store sdl_setObject:resolutionWidth forName:SDLNameResolutionWidth];
 }
 
-- (void)setResolutionWidth:(NSNumber *)resolutionWidth {
-    if (resolutionWidth != nil) {
-        [store setObject:resolutionWidth forKey:NAMES_resolutionWidth];
-    } else {
-        [store removeObjectForKey:NAMES_resolutionWidth];
-    }
+- (NSNumber<SDLInt> *)resolutionWidth {
+    return [store sdl_objectForName:SDLNameResolutionWidth];
 }
 
-- (NSNumber *)resolutionWidth {
-    return [store objectForKey:NAMES_resolutionWidth];
+- (void)setResolutionHeight:(NSNumber<SDLInt> *)resolutionHeight {
+    [store sdl_setObject:resolutionHeight forName:SDLNameResolutionHeight];
 }
 
-- (void)setResolutionHeight:(NSNumber *)resolutionHeight {
-    if (resolutionHeight != nil) {
-        [store setObject:resolutionHeight forKey:NAMES_resolutionHeight];
-    } else {
-        [store removeObjectForKey:NAMES_resolutionHeight];
-    }
-}
-
-- (NSNumber *)resolutionHeight {
-    return [store objectForKey:NAMES_resolutionHeight];
+- (NSNumber<SDLInt> *)resolutionHeight {
+    return [store sdl_objectForName:SDLNameResolutionHeight];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

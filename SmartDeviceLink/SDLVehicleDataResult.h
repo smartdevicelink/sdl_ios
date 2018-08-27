@@ -3,17 +3,26 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLVehicleDataType;
-@class SDLVehicleDataResultCode;
+#import "SDLVehicleDataType.h"
+#import "SDLVehicleDataResultCode.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLVehicleDataResult : SDLRPCStruct {
-}
+/**
+ Individual published data request result
+ */
+@interface SDLVehicleDataResult : SDLRPCStruct
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+/**
+ Defined published data element type
+ */
+@property (strong, nonatomic) SDLVehicleDataType dataType;
 
-@property (strong) SDLVehicleDataType *dataType;
-@property (strong) SDLVehicleDataResultCode *resultCode;
+/**
+ Published data result code
+ */
+@property (strong, nonatomic) SDLVehicleDataResultCode resultCode;
 
 @end
+
+NS_ASSUME_NONNULL_END

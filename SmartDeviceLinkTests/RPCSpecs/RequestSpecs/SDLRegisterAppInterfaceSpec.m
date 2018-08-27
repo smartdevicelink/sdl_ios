@@ -35,9 +35,9 @@ describe(@"Getter/Setter Tests", ^ {
         testRequest.ngnMediaScreenAppName = @"whatisanngn";
         testRequest.vrSynonyms = [@[@"paraphrase of the original name"] mutableCopy];
         testRequest.isMediaApplication = @NO;
-        testRequest.languageDesired = [SDLLanguage NO_NO];
-        testRequest.hmiDisplayLanguageDesired = [SDLLanguage PT_PT];
-        testRequest.appHMIType = [@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] copy];
+        testRequest.languageDesired = SDLLanguageNoNo;
+        testRequest.hmiDisplayLanguageDesired = SDLLanguagePtPt;
+        testRequest.appHMIType = [@[SDLAppHMITypeMessaging, SDLAppHMITypeInformation] copy];
         testRequest.hashID = @"gercd35grw2";
         testRequest.deviceInfo = info;
         testRequest.appID = @"123456789";
@@ -49,9 +49,9 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.ngnMediaScreenAppName).to(equal(@"whatisanngn"));
         expect(testRequest.vrSynonyms).to(equal([@[@"paraphrase of the original name"] mutableCopy]));
         expect(testRequest.isMediaApplication).to(equal(@NO));
-        expect(testRequest.languageDesired).to(equal([SDLLanguage NO_NO]));
-        expect(testRequest.hmiDisplayLanguageDesired).to(equal([SDLLanguage PT_PT]));
-        expect(testRequest.appHMIType).to(equal([@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] copy]));
+        expect(testRequest.languageDesired).to(equal(SDLLanguageNoNo));
+        expect(testRequest.hmiDisplayLanguageDesired).to(equal(SDLLanguagePtPt));
+        expect(testRequest.appHMIType).to(equal([@[SDLAppHMITypeMessaging, SDLAppHMITypeInformation] copy]));
         expect(testRequest.hashID).to(equal(@"gercd35grw2"));
         expect(testRequest.deviceInfo).to(equal(info));
         expect(testRequest.appID).to(equal(@"123456789"));
@@ -59,22 +59,22 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_request:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_syncMsgVersion:version,
-                                                   NAMES_appName:@"app56",
-                                                   NAMES_ttsName:[@[chunk] mutableCopy],
-                                                   NAMES_ngnMediaScreenAppName:@"whatisanngn",
-                                                   NAMES_vrSynonyms:[@[@"paraphrase of the original name"] mutableCopy],
-                                                   NAMES_isMediaApplication:@NO,
-                                                   NAMES_languageDesired:[SDLLanguage NO_NO],
-                                                   NAMES_hmiDisplayLanguageDesired:[SDLLanguage PT_PT],
-                                                   NAMES_appHMIType:[@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] copy],
-                                                   NAMES_hashID:@"gercd35grw2",
-                                                   NAMES_deviceInfo:info,
-                                                   NAMES_appID:@"123456789",
-                                                   NAMES_appInfo:appInfo},
-                                             NAMES_operation_name:NAMES_RegisterAppInterface}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameRequest:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameSyncMessageVersion:version,
+                                                   SDLNameAppName:@"app56",
+                                                   SDLNameTTSName:[@[chunk] mutableCopy],
+                                                   SDLNameNGNMediaScreenAppName:@"whatisanngn",
+                                                   SDLNameVRSynonyms:[@[@"paraphrase of the original name"] mutableCopy],
+                                                   SDLNameIsMediaApplication:@NO,
+                                                   SDLNameLanguageDesired:SDLLanguageNoNo,
+                                                   SDLNameHMIDisplayLanguageDesired:SDLLanguagePtPt,
+                                                   SDLNameAppHMIType:[@[SDLAppHMITypeMessaging, SDLAppHMITypeInformation] copy],
+                                                   SDLNameHashId:@"gercd35grw2",
+                                                   SDLNameDeviceInfo:info,
+                                                   SDLNameAppId:@"123456789",
+                                                   SDLNameAppInfo:appInfo},
+                                             SDLNameOperationName:SDLNameRegisterAppInterface}} mutableCopy];
         SDLRegisterAppInterface* testRequest = [[SDLRegisterAppInterface alloc] initWithDictionary:dict];
         
         expect(testRequest.syncMsgVersion).to(equal(version));
@@ -83,9 +83,9 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.ngnMediaScreenAppName).to(equal(@"whatisanngn"));
         expect(testRequest.vrSynonyms).to(equal([@[@"paraphrase of the original name"] mutableCopy]));
         expect(testRequest.isMediaApplication).to(equal(@NO));
-        expect(testRequest.languageDesired).to(equal([SDLLanguage NO_NO]));
-        expect(testRequest.hmiDisplayLanguageDesired).to(equal([SDLLanguage PT_PT]));
-        expect(testRequest.appHMIType).to(equal([@[[SDLAppHMIType MESSAGING], [SDLAppHMIType INFORMATION]] copy]));
+        expect(testRequest.languageDesired).to(equal(SDLLanguageNoNo));
+        expect(testRequest.hmiDisplayLanguageDesired).to(equal(SDLLanguagePtPt));
+        expect(testRequest.appHMIType).to(equal([@[SDLAppHMITypeMessaging, SDLAppHMITypeInformation] copy]));
         expect(testRequest.hashID).to(equal(@"gercd35grw2"));
         expect(testRequest.deviceInfo).to(equal(info));
         expect(testRequest.appID).to(equal(@"123456789"));

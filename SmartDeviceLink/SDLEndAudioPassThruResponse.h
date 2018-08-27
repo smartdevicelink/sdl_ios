@@ -5,14 +5,15 @@
 #import "SDLRPCResponse.h"
 
 /**
- * SDLEndAudioPassThruResponse is sent, when SDLEndAudioPassThru has been called
- *
- * Since <b>SmartDeviceLink 2.0</b>
- */
-@interface SDLEndAudioPassThruResponse : SDLRPCResponse {
-}
+ Response to SDLEndAudioPassThru
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+ Since SmartDeviceLink 2.0
+ */
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLEndAudioPassThruResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -5,35 +5,29 @@
 #import "SDLEnum.h"
 
 /**
- * Character sets supported by SDL.
+ * Character sets supported by SDL. Used to describe text field capabilities.
  *
  * @since SDL 1.0
  */
-@interface SDLCharacterSet : SDLEnum {
-}
+typedef SDLEnum SDLCharacterSet SDL_SWIFT_ENUM;
 
 /**
- * @abstract Convert String to SDLCharacterSet
- *
- * @param value The value of the string to get an object for
- *
- * @return SDLCharacterSet
+ Character Set Type 2
  */
-+ (SDLCharacterSet *)valueOf:(NSString *)value;
+extern SDLCharacterSet const SDLCharacterSetType2;
 
 /**
- * @abstract Store the enumeration of all possible SDLCharacterSet
- *
- * @return an array that store all possible SDLCharacterSet
+ Character Set Type 5
  */
-+ (NSArray *)values;
+extern SDLCharacterSet const SDLCharacterSetType5;
 
-+ (SDLCharacterSet *)TYPE2SET;
+/**
+ Character Set CID1
+ */
+extern SDLCharacterSet const SDLCharacterSetCID1;
 
-+ (SDLCharacterSet *)TYPE5SET;
+/**
+ Character Set CID2
+ */
+extern SDLCharacterSet const SDLCharacterSetCID2;
 
-+ (SDLCharacterSet *)CID1SET;
-
-+ (SDLCharacterSet *)CID2SET;
-
-@end

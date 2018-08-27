@@ -6,19 +6,24 @@
 
 #import "SDLEnum.h"
 
-@interface SDLLockScreenStatus : SDLEnum
-+ (SDLLockScreenStatus *)valueOf:(NSString *)value;
-+ (NSMutableArray *)values;
+/**
+ Describes what the status of the lock screen should be
+
+ Used in OnLockScreenStatus
+ */
+typedef SDLEnum SDLLockScreenStatus SDL_SWIFT_ENUM;
+
 /**
  * LockScreen is Not Required
  */
-+ (SDLLockScreenStatus *)OFF;
+extern SDLLockScreenStatus const SDLLockScreenStatusOff;
+
 /**
  * LockScreen is Optional
  */
-+ (SDLLockScreenStatus *)OPTIONAL;
+extern SDLLockScreenStatus const SDLLockScreenStatusOptional;
+
 /**
  * LockScreen is Not Required
  */
-+ (SDLLockScreenStatus *)REQUIRED;
-@end
+extern SDLLockScreenStatus const SDLLockScreenStatusRequired;

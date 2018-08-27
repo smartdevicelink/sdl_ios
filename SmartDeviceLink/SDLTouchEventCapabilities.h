@@ -4,14 +4,28 @@
 
 #import "SDLRPCMessage.h"
 
-@interface SDLTouchEventCapabilities : SDLRPCStruct {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+/**
+ The capabilities of touches during projection applications
+ */
+@interface SDLTouchEventCapabilities : SDLRPCStruct
 
-@property (strong) NSNumber *pressAvailable;
-@property (strong) NSNumber *multiTouchAvailable;
-@property (strong) NSNumber *doublePressAvailable;
+/**
+ Whether or not long presses are available
+ */
+@property (strong, nonatomic) NSNumber<SDLBool> *pressAvailable;
+
+/**
+ Whether or not multi-touch (e.g. a pinch gesture) is available
+ */
+@property (strong, nonatomic) NSNumber<SDLBool> *multiTouchAvailable;
+
+/**
+ Whether or not a double tap is available
+ */
+@property (strong, nonatomic) NSNumber<SDLBool> *doublePressAvailable;
 
 @end
+
+NS_ASSUME_NONNULL_END

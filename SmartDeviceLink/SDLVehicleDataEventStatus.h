@@ -5,54 +5,33 @@
 #import "SDLEnum.h"
 
 /**
- * Reflects the status of a vehicle data event; e.g. a seat belt event status.
+ * Reflects the status of a vehicle data event; e.g. a seat belt event status. Used in retrieving vehicle data.
  *
  * @since SDL 2.0
  */
-@interface SDLVehicleDataEventStatus : SDLEnum {
-}
+typedef SDLEnum SDLVehicleDataEventStatus SDL_SWIFT_ENUM;
 
 /**
- * Convert String to SDLVehicleDataEventStatus
- *
- * @param value The value of the string to get an object for
- *
- * @return SDLVehicleDataEventStatus
+ No event
  */
-+ (SDLVehicleDataEventStatus *)valueOf:(NSString *)value;
+extern SDLVehicleDataEventStatus const SDLVehicleDataEventStatusNoEvent;
 
 /**
- * @abstract Store the enumeration of all possible SDLVehicleDataEventStatus
- *
- * @return an array that store all possible SDLVehicleDataEventStatus
+ The event is a No status
  */
-+ (NSArray *)values;
+extern SDLVehicleDataEventStatus const SDLVehicleDataEventStatusNo;
 
 /**
- * @return The SDLVehicleDataEventStatus instance with value of *NO_EVENT*
+ The event is a Yes status
  */
-+ (SDLVehicleDataEventStatus *)NO_EVENT;
+extern SDLVehicleDataEventStatus const SDLVehicleDataEventStatusYes;
 
 /**
- * @return The SDLVehicleDataEventStatus instance with value of *NO*
+ Vehicle data event is not supported
  */
-+ (SDLVehicleDataEventStatus *)_NO;
+extern SDLVehicleDataEventStatus const SDLVehicleDataEventStatusNotSupported;
 
 /**
- * @return The SDLVehicleDataEventStatus instance with value of *YES*
+ The event is a Fault status
  */
-+ (SDLVehicleDataEventStatus *)_YES;
-
-/**
- * @abstract Vehicle data event is not supported
- *
- * @return the SDLVehicleDataEventStatus instance with value of *NOT_SUPPORTED*
- */
-+ (SDLVehicleDataEventStatus *)NOT_SUPPORTED;
-
-/**
- * @abstract The SDLVehicleDataEventStatus instance with value of *FAULT*
- */
-+ (SDLVehicleDataEventStatus *)FAULT;
-
-@end
+extern SDLVehicleDataEventStatus const SDLVehicleDataEventStatusFault;

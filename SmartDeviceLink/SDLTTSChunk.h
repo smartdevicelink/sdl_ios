@@ -3,80 +3,84 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLSpeechCapabilities;
+#import "SDLSpeechCapabilities.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Specifies what is to be spoken. This can be simply a text phrase, which SDL will speak according to its own rules. It can also be phonemes from either the Microsoft SAPI phoneme set, or from the LHPLUS phoneme set. It can also be a pre-recorded sound in WAV format (either developer-defined, or provided by the SDL platform).
- *
- *  In SDL, words, and therefore sentences, can be built up from phonemes and are used to explicitly provide the proper pronounciation to the TTS engine. For example, to have SDL pronounce the word "read" as "red", rather than as when it is pronounced like "reed", the developer would use phonemes to express this desired pronounciation.
- *
- *  For more information about phonemes, see <a href="http://en.wikipedia.org/wiki/Phoneme">http://en.wikipedia.org/wiki/Phoneme</a>.
- *
- *  Parameter List
- *  <table border="1" rules="all">
- * 		<tr>
- * 			<th>Name</th>
- * 			<th>Type</th>
- * 			<th>Description</th>
- * 			<th>SmartDeviceLink Ver. Available</th>
- * 		</tr>
- * 		<tr>
- * 			<td>text</td>
- * 			<td>String</td>
- * 			<td>Text to be spoken, or a phoneme specification, or the name of a pre-recorded sound. The contents of this field are indicated by the "type" field.</td>
- * 			<td>SmartDeviceLink 1.0</td>
- * 		</tr>
- * 		<tr>
- * 			<td>type</td>
- * 			<td>SpeechCapabilities</td>
- * 			<td>Indicates the type of information in the "text" field (e.g. phrase to be spoken, phoneme specification, name of pre-recorded sound). </td>
- * 			<td>SmartDeviceLink 1.0</td>
- * 		</tr>
- *  </table>
- *
- *  @since SmartDeviceLink 1.0
+ Specifies what is to be spoken. This can be simply a text phrase, which SDL will speak according to its own rules. It can also be phonemes from either the Microsoft SAPI phoneme set, or from the LHPLUS phoneme set. It can also be a pre-recorded sound in WAV format (either developer-defined, or provided by the SDL platform).
+
+ In SDL, words, and therefore sentences, can be built up from phonemes and are used to explicitly provide the proper pronounciation to the TTS engine. For example, to have SDL pronounce the word "read" as "red", rather than as when it is pronounced like "reed", the developer would use phonemes to express this desired pronounciation.
+
+ For more information about phonemes, see <a href="http://en.wikipedia.org/wiki/Phoneme">http://en.wikipedia.org/wiki/Phoneme</a>.
+
+ @since SmartDeviceLink 1.0
  */
-@interface SDLTTSChunk : SDLRPCStruct {
-}
+@interface SDLTTSChunk : SDLRPCStruct
 
 /**
- * @abstract Constructs a newly allocated SDLTTSChunk object
+ Initialize with text and a type
+
+ @param text The string to be spoken
+ @param type The type of text the string is
+ @return The RPC
  */
-- (instancetype)init;
+- (instancetype)initWithText:(NSString *)text type:(SDLSpeechCapabilities)type;
 
 /**
- * @abstract Constructs a newly allocated SDLTTSChunk object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
+ Create TTS using text
+
+ @param string The text chunk
+ @return The RPC
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
++ (NSArray<SDLTTSChunk *> *)textChunksFromString:(NSString *)string;
 
-- (instancetype)initWithText:(NSString *)text type:(SDLSpeechCapabilities *)type;
+/**
+ Create TTS using SAPI
 
-+ (NSMutableArray<SDLTTSChunk *> *)textChunksFromString:(NSString *)string;
+ @param string The SAPI chunk
+ @return The RPC
+ */
++ (NSArray<SDLTTSChunk *> *)sapiChunksFromString:(NSString *)string;
 
-+ (NSMutableArray<SDLTTSChunk *> *)sapiChunksFromString:(NSString *)string;
+/**
+ Create TTS using LH Plus
 
-+ (NSMutableArray<SDLTTSChunk *> *)lhPlusChunksFromString:(NSString *)string;
+ @param string The LH Plus chunk
+ @return The RPC
+ */
++ (NSArray<SDLTTSChunk *> *)lhPlusChunksFromString:(NSString *)string;
 
-+ (NSMutableArray<SDLTTSChunk *> *)prerecordedChunksFromString:(NSString *)string;
+/**
+ Create TTS using prerecorded chunks
 
-+ (NSMutableArray<SDLTTSChunk *> *)silenceChunks;
+ @param string The prerecorded chunk
+ @return The RPC
+ */
++ (NSArray<SDLTTSChunk *> *)prerecordedChunksFromString:(NSString *)string;
+
+/**
+ Create TTS using silence
+
+ @return The RPC
+ */
++ (NSArray<SDLTTSChunk *> *)silenceChunks;
 
 
 /**
- * @abstract Text to be spoken, or a phoneme specification, or the name of a pre-recorded sound. The contents of this field are indicated by the "type" field.
+ * Text to be spoken, or a phoneme specification, or the name of a pre-recorded sound. The contents of this field are indicated by the "type" field.
  *
  * Required, Max length 500
  */
-@property (strong) NSString *text;
+@property (strong, nonatomic) NSString *text;
 
 /**
- * @abstract The type of information in the "text" field (e.g. phrase to be spoken, phoneme specification, name of pre-recorded sound).
+ * The type of information in the "text" field (e.g. phrase to be spoken, phoneme specification, name of pre-recorded sound).
  *
  * Required
  */
-@property (strong) SDLSpeechCapabilities *type;
+@property (strong, nonatomic) SDLSpeechCapabilities type;
 
 @end
+
+NS_ASSUME_NONNULL_END

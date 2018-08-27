@@ -4,48 +4,24 @@
 
 #import "SDLEnum.h"
 
-#import <Foundation/Foundation.h>
-
 /**
- * The supported dimensions of the GPS.
+ * The supported dimensions of the GPS. Used in GPSData
  *
  * @since SDL 2.0
  */
-@interface SDLDimension : SDLEnum {
-}
+typedef SDLEnum SDLDimension SDL_SWIFT_ENUM;
 
 /**
- * Convert String to SDLDimension
- *
- * @param value The value of the string to get an object for
- *
- * @return SDLDimension
+ * No GPS at all
  */
-+ (SDLDimension *)valueOf:(NSString *)value;
+extern SDLDimension const SDLDimensionNoFix;
 
 /**
- * @abstract Store the enumeration of all possible SDLDimension
- *
- * @return An array that store all possible SDLDimension
+ * Longitude and latitude of the GPS
  */
-+ (NSArray *)values;
+extern SDLDimension const SDLDimension2D;
 
 /**
- * @abstract No GPS at all
- * @return the dimension with value of *NO_FIX*
+ * Longitude and latitude and altitude of the GPS
  */
-+ (SDLDimension *)NO_FIX;
-
-/**
- * @abstract Longitude and latitude of the GPS
- * @return the dimension with value of *2D*
- */
-+ (SDLDimension *)_2D;
-
-/**
- * @abstract Longitude and latitude and altitude of the GPS
- * @return the dimension with value of *3D*
- */
-+ (SDLDimension *)_3D;
-
-@end
+extern SDLDimension const SDLDimension3D;

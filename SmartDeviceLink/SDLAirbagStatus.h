@@ -3,22 +3,71 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLVehicleDataEventStatus;
+#import "SDLVehicleDataEventStatus.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLAirbagStatus : SDLRPCStruct {
-}
+/**
+ A vehicle data status struct for airbags
+ */
+@interface SDLAirbagStatus : SDLRPCStruct
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+/**
+ References signal "VedsDrvBag_D_Ltchd". See VehicleDataEventStatus.
 
-@property (strong) SDLVehicleDataEventStatus *driverAirbagDeployed;
-@property (strong) SDLVehicleDataEventStatus *driverSideAirbagDeployed;
-@property (strong) SDLVehicleDataEventStatus *driverCurtainAirbagDeployed;
-@property (strong) SDLVehicleDataEventStatus *passengerAirbagDeployed;
-@property (strong) SDLVehicleDataEventStatus *passengerCurtainAirbagDeployed;
-@property (strong) SDLVehicleDataEventStatus *driverKneeAirbagDeployed;
-@property (strong) SDLVehicleDataEventStatus *passengerSideAirbagDeployed;
-@property (strong) SDLVehicleDataEventStatus *passengerKneeAirbagDeployed;
+ Required
+ */
+@property (strong, nonatomic) SDLVehicleDataEventStatus driverAirbagDeployed;
+
+/**
+ References signal "VedsDrvSideBag_D_Ltchd". See VehicleDataEventStatus.
+
+ Required
+ */
+@property (strong, nonatomic) SDLVehicleDataEventStatus driverSideAirbagDeployed;
+
+/**
+ References signal "VedsDrvCrtnBag_D_Ltchd". See VehicleDataEventStatus
+
+ Required
+ */
+@property (strong, nonatomic) SDLVehicleDataEventStatus driverCurtainAirbagDeployed;
+
+/**
+ References signal "VedsPasBag_D_Ltchd". See VehicleDataEventStatus.
+
+ Required
+ */
+@property (strong, nonatomic) SDLVehicleDataEventStatus passengerAirbagDeployed;
+
+/**
+ References signal "VedsPasCrtnBag_D_Ltchd". See VehicleDataEventStatus.
+
+ Required
+ */
+@property (strong, nonatomic) SDLVehicleDataEventStatus passengerCurtainAirbagDeployed;
+
+/**
+ References signal "VedsKneeDrvBag_D_Ltchd". See VehicleDataEventStatus.
+
+ Required
+ */
+@property (strong, nonatomic) SDLVehicleDataEventStatus driverKneeAirbagDeployed;
+
+/**
+ References signal "VedsPasSideBag_D_Ltchd". See VehicleDataEventStatus.
+
+ Required
+ */
+@property (strong, nonatomic) SDLVehicleDataEventStatus passengerSideAirbagDeployed;
+
+/**
+ References signal "VedsKneePasBag_D_Ltchd". See VehicleDataEventStatus.
+
+ Required
+ */
+@property (strong, nonatomic) SDLVehicleDataEventStatus passengerKneeAirbagDeployed;
 
 @end
+
+NS_ASSUME_NONNULL_END

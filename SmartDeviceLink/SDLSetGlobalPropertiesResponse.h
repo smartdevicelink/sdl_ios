@@ -4,23 +4,15 @@
 
 #import "SDLRPCResponse.h"
 
-/**
- * Set Global Properties Response is sent, when SDLSetGlobalProperties has been called
- *
- * Since SmartDeviceLink 1.0
- */
-@interface SDLSetGlobalPropertiesResponse : SDLRPCResponse {
-}
+NS_ASSUME_NONNULL_BEGIN
 
 /**
- * @abstract Constructs a new SDLSetGlobalPropertiesResponse object
+ Response to SDLSetGlobalProperties
+
+ Since SmartDeviceLink 1.0
  */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLSetGlobalPropertiesResponse object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLSetGlobalPropertiesResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

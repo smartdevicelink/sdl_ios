@@ -35,7 +35,7 @@ describe(@"the lockscreen status manager", ^{
         context(@"to FULL", ^{
             beforeEach(^{
                 lockScreenManager.userSelected = NO;
-                lockScreenManager.hmiLevel = [SDLHMILevel FULL];
+                lockScreenManager.hmiLevel = SDLHMILevelFull;
             });
             
             it(@"should set user selected to true", ^{
@@ -46,7 +46,7 @@ describe(@"the lockscreen status manager", ^{
         context(@"to LIMITED", ^{
             beforeEach(^{
                 lockScreenManager.userSelected = NO;
-                lockScreenManager.hmiLevel = [SDLHMILevel LIMITED];
+                lockScreenManager.hmiLevel = SDLHMILevelLimited;
             });
             
             it(@"should set user selected to true", ^{
@@ -56,7 +56,7 @@ describe(@"the lockscreen status manager", ^{
         
         context(@"to BACKGROUND", ^{
             beforeEach(^{
-                lockScreenManager.hmiLevel = [SDLHMILevel BACKGROUND];
+                lockScreenManager.hmiLevel = SDLHMILevelBackground;
             });
             
             context(@"when user selected is false", ^{
@@ -83,7 +83,7 @@ describe(@"the lockscreen status manager", ^{
         context(@"to NONE", ^{
             beforeEach(^{
                 lockScreenManager.userSelected = YES;
-                lockScreenManager.hmiLevel = [SDLHMILevel NONE];
+                lockScreenManager.hmiLevel = SDLHMILevelNone;
             });
             
             it(@"should set user selected to false", ^{
@@ -99,23 +99,23 @@ describe(@"the lockscreen status manager", ^{
             });
             
             it(@"should return lock screen off", ^{
-                expect(lockScreenManager.lockScreenStatus).to(equal([SDLLockScreenStatus OFF]));
+                expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusOff));
             });
         });
         
         context(@"when HMI level is NONE", ^{
             beforeEach(^{
-                lockScreenManager.hmiLevel = [SDLHMILevel NONE];
+                lockScreenManager.hmiLevel = SDLHMILevelNone;
             });
             
             it(@"should return lock screen off", ^{
-                expect(lockScreenManager.lockScreenStatus).to(equal([SDLLockScreenStatus OFF]));
+                expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusOff));
             });
         });
         
         context(@"when HMI level is BACKGROUND", ^{
             beforeEach(^{
-                lockScreenManager.hmiLevel = [SDLHMILevel BACKGROUND];
+                lockScreenManager.hmiLevel = SDLHMILevelBackground;
             });
             
             context(@"when user selected is true", ^{
@@ -125,7 +125,7 @@ describe(@"the lockscreen status manager", ^{
 
                 context(@"if we do not set the driver distraction state", ^{
                     it(@"should return lock screen required", ^{
-                        expect(lockScreenManager.lockScreenStatus).to(equal([SDLLockScreenStatus REQUIRED]));
+                        expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
                     });
                 });
 
@@ -135,7 +135,7 @@ describe(@"the lockscreen status manager", ^{
                     });
 
                     it(@"should return lock screen optional", ^{
-                        expect(lockScreenManager.lockScreenStatus).to(equal([SDLLockScreenStatus OPTIONAL]));
+                        expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusOptional));
                     });
                 });
 
@@ -145,7 +145,7 @@ describe(@"the lockscreen status manager", ^{
                     });
 
                     it(@"should return lock screen required", ^{
-                        expect(lockScreenManager.lockScreenStatus).to(equal([SDLLockScreenStatus REQUIRED]));
+                        expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
                     });
                 });
             });
@@ -156,19 +156,19 @@ describe(@"the lockscreen status manager", ^{
                 });
                 
                 it(@"should return lock screen off", ^{
-                    expect(lockScreenManager.lockScreenStatus).to(equal([SDLLockScreenStatus OFF]));
+                    expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusOff));
                 });
             });
         });
         
         context(@"when HMI level is LIMITED", ^{
             beforeEach(^{
-                lockScreenManager.hmiLevel = [SDLHMILevel LIMITED];
+                lockScreenManager.hmiLevel = SDLHMILevelLimited;
             });
             
             context(@"if we do not set the driver distraction state", ^{
                 it(@"should return lock screen required", ^{
-                    expect(lockScreenManager.lockScreenStatus).to(equal([SDLLockScreenStatus REQUIRED]));
+                    expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
                 });
             });
             
@@ -178,7 +178,7 @@ describe(@"the lockscreen status manager", ^{
                 });
                 
                 it(@"should return lock screen optional", ^{
-                    expect(lockScreenManager.lockScreenStatus).to(equal([SDLLockScreenStatus OPTIONAL]));
+                    expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusOptional));
                 });
             });
             
@@ -188,19 +188,19 @@ describe(@"the lockscreen status manager", ^{
                 });
                 
                 it(@"should return lock screen required", ^{
-                    expect(lockScreenManager.lockScreenStatus).to(equal([SDLLockScreenStatus REQUIRED]));
+                    expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
                 });
             });
         });
         
         context(@"when HMI level is FULL", ^{
             beforeEach(^{
-                lockScreenManager.hmiLevel = [SDLHMILevel FULL];
+                lockScreenManager.hmiLevel = SDLHMILevelFull;
             });
             
             context(@"if we do not set the driver distraction state", ^{
                 it(@"should return lock screen required", ^{
-                    expect(lockScreenManager.lockScreenStatus).to(equal([SDLLockScreenStatus REQUIRED]));
+                    expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
                 });
             });
             
@@ -210,7 +210,7 @@ describe(@"the lockscreen status manager", ^{
                 });
                 
                 it(@"should return lock screen optional", ^{
-                    expect(lockScreenManager.lockScreenStatus).to(equal([SDLLockScreenStatus OPTIONAL]));
+                    expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusOptional));
                 });
             });
             
@@ -220,7 +220,7 @@ describe(@"the lockscreen status manager", ^{
                 });
                 
                 it(@"should return lock screen required", ^{
-                    expect(lockScreenManager.lockScreenStatus).to(equal([SDLLockScreenStatus REQUIRED]));
+                    expect(lockScreenManager.lockScreenStatus).to(equal(SDLLockScreenStatusRequired));
                 });
             });
         });
@@ -231,7 +231,7 @@ describe(@"the lockscreen status manager", ^{
         beforeEach(^{
             lockScreenManager.userSelected = YES;
             lockScreenManager.driverDistracted = NO;
-            lockScreenManager.hmiLevel = [SDLHMILevel LIMITED];
+            lockScreenManager.hmiLevel = SDLHMILevelLimited;
             
             onLockScreenStatusNotification = lockScreenManager.lockScreenStatusNotification;
         });
@@ -245,11 +245,11 @@ describe(@"the lockscreen status manager", ^{
         });
         
         it(@"should properly return HMI level", ^{
-            expect(onLockScreenStatusNotification.hmiLevel).to(equal([SDLHMILevel LIMITED]));
+            expect(onLockScreenStatusNotification.hmiLevel).to(equal(SDLHMILevelLimited));
         });
         
         it(@"should properly return lock screen status", ^{
-            expect(onLockScreenStatusNotification.lockScreenStatus).to(equal([SDLLockScreenStatus OPTIONAL]));
+            expect(onLockScreenStatusNotification.lockScreenStatus).to(equal(SDLLockScreenStatusOptional));
         });
     });
 });

@@ -4,45 +4,21 @@
 #import "SDLEnum.h"
 
 /**
- *Specifies the mode in which the sendLocation request is sent.
+ * Specifies the mode in which the sendLocation request is sent. Used in SendLocation.
  */
-@interface SDLDeliveryMode : SDLEnum
+typedef SDLEnum SDLDeliveryMode SDL_SWIFT_ENUM;
 
 /**
- * @abstract Convert String to SDLDeliveryMode
- *
- * @param value The value of the string to get an object for
- *
- * @return SDLDeliveryMode
+ * User is prompted on HMI
  */
-+ (SDLDeliveryMode *)valueOf:(NSString *)value;
+extern SDLDeliveryMode const SDLDeliveryModePrompt;
 
 /**
- * @abstract Store the enumeration of all possible SDLDeliveryMode
- *
- * @return an array that store all possible SDLDeliveryMode
+ * Set the location as destination without prompting the user
  */
-+ (NSArray *)values;
+extern SDLDeliveryMode const SDLDeliveryModeDestination;
 
 /**
- * @abstract User is prompted on HMI
- *
- * @return a SDLDeliveryMode with value of *PROMPT*
+ * Adds the current location to navigation queue
  */
-+ (SDLDeliveryMode *)PROMPT;
-
-/**
- * @abstract Set the location as destination without prompting the user
- *
- * @return a SDLDeliveryMode with value of *DESTINATION*
- */
-+ (SDLDeliveryMode *)DESTINATION;
-
-/**
- * @abstract Adds the current location to navigation queue
- *
- * @return a SDLDeliveryMode with value of *QUEUE*
- */
-+ (SDLDeliveryMode *)QUEUE;
-
-@end
+extern SDLDeliveryMode const SDLDeliveryModeQueue;

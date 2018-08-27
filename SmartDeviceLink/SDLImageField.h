@@ -3,18 +3,39 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLImageFieldName;
+#import "SDLFileType.h"
+#import "SDLImageFieldName.h"
+
 @class SDLImageResolution;
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLImageField : SDLRPCStruct {
-}
+/**
+ A struct used in DisplayCapabilities describing the capability of an image field
+ */
+@interface SDLImageField : SDLRPCStruct
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+/**
+ The name that identifies the field.
 
-@property (strong) SDLImageFieldName *name;
-@property (strong) NSMutableArray *imageTypeSupported;
-@property (strong) SDLImageResolution *imageResolution;
+ Required
+ */
+@property (strong, nonatomic) SDLImageFieldName name;
+
+/**
+ The image types that are supported in this field.
+
+ Required
+ */
+@property (strong, nonatomic) NSArray<SDLFileType> *imageTypeSupported;
+
+/**
+ The image resolution of this field
+
+ Optional
+ */
+@property (nullable, strong, nonatomic) SDLImageResolution *imageResolution;
 
 @end
+
+NS_ASSUME_NONNULL_END

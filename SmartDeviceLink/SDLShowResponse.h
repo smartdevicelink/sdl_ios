@@ -4,23 +4,15 @@
 
 #import "SDLRPCResponse.h"
 
-/**
- * Show Response is sent, when Show has been called
- *
- * Since SmartDeviceLink 1.0
- */
-@interface SDLShowResponse : SDLRPCResponse {
-}
+NS_ASSUME_NONNULL_BEGIN
 
 /**
- * @abstract Constructs a new SDLShowResponse object
+ Response to SDLShow
+
+ Since SmartDeviceLink 1.0
  */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLShowResponse object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLShowResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

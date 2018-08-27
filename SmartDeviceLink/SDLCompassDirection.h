@@ -5,72 +5,48 @@
 #import "SDLEnum.h"
 
 /**
- * The list of potential compass directions.
+ * The list of potential compass directions. Used in GPS data
  *
  * @since SDL 2.0
  */
-@interface SDLCompassDirection : SDLEnum {
-}
+typedef SDLEnum SDLCompassDirection SDL_SWIFT_ENUM;
 
 /**
- * @abstract Convert String to SDLCompassDirection
- * @param value The value of the string to get an object for
- * @return SDLCompassDirection
+ * Direction North
  */
-+ (SDLCompassDirection *)valueOf:(NSString *)value;
+extern SDLCompassDirection const SDLCompassDirectionNorth;
 
 /**
- * @abstract Store the enumeration of all possible SDLCompassDirection
- * @return An array that store all possible SDLCompassDirection
+ * Direction Northwest
  */
-+ (NSArray *)values;
+extern SDLCompassDirection const SDLCompassDirectionNorthwest;
 
 /**
- * @abstract Direction North
- * @return A SDLCompassDirection with the value of *NORTH*
+ * Direction West
  */
-+ (SDLCompassDirection *)NORTH;
+extern SDLCompassDirection const SDLCompassDirectionWest;
 
 /**
- * @abstract Direction Northwest
- * @return A SDLCompassDirection with the value of *NORTHWEST*
+ * Direction Southwest
  */
-+ (SDLCompassDirection *)NORTHWEST;
+extern SDLCompassDirection const SDLCompassDirectionSouthwest;
 
 /**
- * @abstract Direction West
- * @return A SDLCompassDirection with the value of *WEST*
+ * Direction South
  */
-+ (SDLCompassDirection *)WEST;
+extern SDLCompassDirection const SDLCompassDirectionSouth;
 
 /**
- * @abstract Direction Southwest
- * @return A SDLCompassDirection with the value of *SOUTHWEST*
+ * Direction Southeast
  */
-+ (SDLCompassDirection *)SOUTHWEST;
+extern SDLCompassDirection const SDLCompassDirectionSoutheast;
 
 /**
- * @abstract Direction South
- * @return A SDLCompassDirection with the value of *SOUTH*
+ * Direction East
  */
-+ (SDLCompassDirection *)SOUTH;
+extern SDLCompassDirection const SDLCompassDirectionEast;
 
 /**
- * @abstract Direction Southeast
- * @return A SDLCompassDirection with the value of *SOUTHEAST*
+ * Direction Northeast
  */
-+ (SDLCompassDirection *)SOUTHEAST;
-
-/**
- * @abstract Direction East
- * @return A SDLCompassDirection with the value of *EAST*
- */
-+ (SDLCompassDirection *)EAST;
-
-/**
- * @abstract Direction Northeast
- * @return A SDLCompassDirection with the value of *NORTHEAST*
- */
-+ (SDLCompassDirection *)NORTHEAST;
-
-@end
+extern SDLCompassDirection const SDLCompassDirectionNortheast;

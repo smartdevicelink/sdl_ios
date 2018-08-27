@@ -5,17 +5,25 @@
 #import "SDLRPCResponse.h"
 
 /**
- * SDLListFilesResponse is sent, when SDLListFiles has been called
- *
- * Since <b>SmartDeviceLink 2.0</b>
+ Response to SDLListFiles
+
+ Since SmartDeviceLink 2.0
  */
-@interface SDLListFilesResponse : SDLRPCResponse {
-}
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
 
-@property (strong) NSMutableArray *filenames;
-@property (strong) NSNumber *spaceAvailable;
+@interface SDLListFilesResponse : SDLRPCResponse
+
+/**
+ An array of all filenames resident on the module for the given registered app. If omitted, then no files currently reside on the system.
+ */
+@property (nullable, strong, nonatomic) NSArray<NSString *> *filenames;
+
+/**
+ Provides the total local space available on the module for the registered app.
+ */
+@property (strong, nonatomic) NSNumber<SDLInt> *spaceAvailable;
 
 @end
+
+NS_ASSUME_NONNULL_END

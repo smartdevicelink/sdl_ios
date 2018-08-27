@@ -3,15 +3,20 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLTBTState;
+#import "SDLTBTState.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLOnTBTClientState : SDLRPCNotification {
-}
+/**
+ Provides applications with notifications specific to the current TBT client status on the module
+ */
+@interface SDLOnTBTClientState : SDLRPCNotification
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
-@property (strong) SDLTBTState *state;
+/**
+ Current State of TBT client
+ */
+@property (strong, nonatomic) SDLTBTState state;
 
 @end
+
+NS_ASSUME_NONNULL_END

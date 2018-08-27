@@ -3,8 +3,6 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--init">-init</a></li>
-  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
   <li><a href="#section--initWithNavigationText1:navigationText2:eta:timeToDestination:totalDistance:turnIcon:nextTurnIcon:distanceToManeuver:distanceToManeuverScale:maneuverComplete:softButtons:">-initWithNavigationText1:navigationText2:eta:timeToDestination:totalDistance:turnIcon:nextTurnIcon:distanceToManeuver:distanceToManeuverScale:maneuverComplete:softButtons:</a></li>
   <li><a href="#section-navigationText1">navigationText1</a></li>
   <li><a href="#section-navigationText2">navigationText2</a></li>
@@ -21,44 +19,12 @@
 
 <h3>Overview</h3>
 
-<p>This RPC is used to update the user with navigation information<br>
- *  for the constantly shown screen (base screen),but also for the<br>
- *  alert type screen.
- *<p>
- * @since SmartDeviceLink 2.0</p>
+<p>This RPC is used to update the user with navigation information for the constantly shown screen (base screen), but also for the alert maneuver screen.</p>
+
+<p>@since SmartDeviceLink 2.0</p>
 
 
 <section class="section task-group-section">
-  <h3 id="section--init">
-      -init
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBT</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
-
-  
-  
-  
-  
-  <h3 id="section--initWithDictionary:">
-      -initWithDictionary:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBT</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
-
-  
-  
-  
-  
   <h3 id="section--initWithNavigationText1:navigationText2:eta:timeToDestination:totalDistance:turnIcon:nextTurnIcon:distanceToManeuver:distanceToManeuverScale:maneuverComplete:softButtons:">
       -initWithNavigationText1:navigationText2:eta:timeToDestination:totalDistance:turnIcon:nextTurnIcon:distanceToManeuver:distanceToManeuverScale:maneuverComplete:softButtons:
   </h3>
@@ -68,9 +34,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBT</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithNavigationText1</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigationText1</span> <span class="nf">navigationText2</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">navigationText2</span> <span class="nf">eta</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">eta</span> <span class="nf">timeToDestination</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeToDestination</span> <span class="nf">totalDistance</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">totalDistance</span> <span class="nf">turnIcon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">turnIcon</span> <span class="nf">nextTurnIcon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">nextTurnIcon</span> <span class="nf">distanceToManeuver</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">distanceToManeuver</span> <span class="nf">distanceToManeuverScale</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">distanceToManeuverScale</span> <span class="nf">maneuverComplete</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">maneuverComplete</span> <span class="nf">softButtons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">navigationText1</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">navigationText2</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">eta</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">timeToDestination</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">totalDistance</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">turnIcon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?,</span> <span class="nv">nextTurnIcon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?,</span> <span class="nv">distanceToManeuver</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="nv">distanceToManeuverScale</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="nv">maneuverComplete</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span><span class="p">]?)</span></code></pre>
+
   
   
   
@@ -78,14 +47,19 @@
       navigationText1
   </h3>
   
-  <p>Undocumented</p>
+  <p>The first line of text in a multi-line overlay screen.</p>
+
+<p>Optional, Max length 500 chars</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBT</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">navigationText1</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">navigationText1</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -93,14 +67,19 @@
       navigationText2
   </h3>
   
-  <p>Undocumented</p>
+  <p>The second line of text in a multi-line overlay screen.</p>
+
+<p>Optional, 1 - 500 chars</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBT</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">navigationText2</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">navigationText2</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -108,14 +87,19 @@
       eta
   </h3>
   
-  <p>Undocumented</p>
+  <p>Estimated Time of Arrival time at final destination</p>
+
+<p>Optional, 1 - 500 chars</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBT</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">eta</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">eta</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -123,14 +107,19 @@
       timeToDestination
   </h3>
   
-  <p>Undocumented</p>
+  <p>The amount of time needed to reach the final destination</p>
+
+<p>Optional, 1 - 500 chars</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBT</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">timeToDestination</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">timeToDestination</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -138,14 +127,19 @@
       totalDistance
   </h3>
   
-  <p>Undocumented</p>
+  <p>The distance to the final destination</p>
+
+<p>Optional, 1 - 500 chars</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBT</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">totalDistance</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">totalDistance</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -153,14 +147,24 @@
       turnIcon
   </h3>
   
-  <p>Undocumented</p>
+  <p>An icon to show with the turn description</p>
+
+<p>Optional</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLImage
+
+</div>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBT</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="n">turnIcon</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">turnIcon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -168,14 +172,24 @@
       nextTurnIcon
   </h3>
   
-  <p>Undocumented</p>
+  <p>An icon to show with the next turn description</p>
+
+<p>Optional</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLImage
+
+</div>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBT</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="n">nextTurnIcon</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">nextTurnIcon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -183,14 +197,20 @@
       distanceToManeuver
   </h3>
   
-  <p>Undocumented</p>
+  <p>Fraction of distance till next maneuver (starting from when AlertManeuver is triggered). Used to calculate progress bar.</p>
+
+<p>Optional, Float, 0 - 1,000,000,000</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBT</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">distanceToManeuver</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">distanceToManeuver</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -198,14 +218,20 @@
       distanceToManeuverScale
   </h3>
   
-  <p>Undocumented</p>
+  <p>Distance till next maneuver (starting from) from previous maneuver. Used to calculate progress bar.</p>
+
+<p>Optional, Float, 0 - 1,000,000,000</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBT</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">distanceToManeuverScale</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">distanceToManeuverScale</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -213,14 +239,20 @@
       maneuverComplete
   </h3>
   
-  <p>Undocumented</p>
+  <p>If and when a maneuver has completed while an AlertManeuver is active, the app must send this value set to TRUE in order to clear the AlertManeuver overlay. If omitted the value will be assumed as FALSE.</p>
+
+<p>Optional</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBT</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">maneuverComplete</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">maneuverComplete</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -228,14 +260,25 @@
       softButtons
   </h3>
   
-  <p>Undocumented</p>
+  <p>Three dynamic SoftButtons available (first SoftButton is fixed to <q>Turns</q>). If omitted on supported displays, the currently displayed SoftButton values will not change.</p>
+
+<p>Optional, Array length 0 - 3</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLSoftButton
+
+</div>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLShowConstantTBT</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">softButtons</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   

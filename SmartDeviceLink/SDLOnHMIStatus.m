@@ -3,75 +3,49 @@
 
 #import "SDLOnHMIStatus.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLAudioStreamingState.h"
 #import "SDLHMILevel.h"
 #import "SDLNames.h"
 #import "SDLSystemContext.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnHMIStatus
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnHMIStatus]) {
+    if (self = [super initWithName:SDLNameOnHMIStatus]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (void)setHmiLevel:(SDLHMILevel)hmiLevel {
+    [parameters sdl_setObject:hmiLevel forName:SDLNameHMILevel];
 }
 
-- (void)setHmiLevel:(SDLHMILevel *)hmiLevel {
-    if (hmiLevel != nil) {
-        [parameters setObject:hmiLevel forKey:NAMES_hmiLevel];
-    } else {
-        [parameters removeObjectForKey:NAMES_hmiLevel];
-    }
+- (SDLHMILevel)hmiLevel {
+    NSObject *obj = [parameters sdl_objectForName:SDLNameHMILevel];
+    return (SDLHMILevel)obj;
 }
 
-- (SDLHMILevel *)hmiLevel {
-    NSObject *obj = [parameters objectForKey:NAMES_hmiLevel];
-    if (obj == nil || [obj isKindOfClass:SDLHMILevel.class]) {
-        return (SDLHMILevel *)obj;
-    } else {
-        return [SDLHMILevel valueOf:(NSString *)obj];
-    }
+- (void)setAudioStreamingState:(SDLAudioStreamingState)audioStreamingState {
+    [parameters sdl_setObject:audioStreamingState forName:SDLNameAudioStreamingState];
 }
 
-- (void)setAudioStreamingState:(SDLAudioStreamingState *)audioStreamingState {
-    if (audioStreamingState != nil) {
-        [parameters setObject:audioStreamingState forKey:NAMES_audioStreamingState];
-    } else {
-        [parameters removeObjectForKey:NAMES_audioStreamingState];
-    }
+- (SDLAudioStreamingState)audioStreamingState {
+    NSObject *obj = [parameters sdl_objectForName:SDLNameAudioStreamingState];
+    return (SDLAudioStreamingState)obj;
 }
 
-- (SDLAudioStreamingState *)audioStreamingState {
-    NSObject *obj = [parameters objectForKey:NAMES_audioStreamingState];
-    if (obj == nil || [obj isKindOfClass:SDLAudioStreamingState.class]) {
-        return (SDLAudioStreamingState *)obj;
-    } else {
-        return [SDLAudioStreamingState valueOf:(NSString *)obj];
-    }
+- (void)setSystemContext:(SDLSystemContext)systemContext {
+    [parameters sdl_setObject:systemContext forName:SDLNameSystemContext];
 }
 
-- (void)setSystemContext:(SDLSystemContext *)systemContext {
-    if (systemContext != nil) {
-        [parameters setObject:systemContext forKey:NAMES_systemContext];
-    } else {
-        [parameters removeObjectForKey:NAMES_systemContext];
-    }
-}
-
-- (SDLSystemContext *)systemContext {
-    NSObject *obj = [parameters objectForKey:NAMES_systemContext];
-    if (obj == nil || [obj isKindOfClass:SDLSystemContext.class]) {
-        return (SDLSystemContext *)obj;
-    } else {
-        return [SDLSystemContext valueOf:(NSString *)obj];
-    }
+- (SDLSystemContext)systemContext {
+    NSObject *obj = [parameters sdl_objectForName:SDLNameSystemContext];
+    return (SDLSystemContext)obj;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

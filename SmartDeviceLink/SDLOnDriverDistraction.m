@@ -3,39 +3,29 @@
 
 #import "SDLOnDriverDistraction.h"
 
-#import "SDLDriverDistractionState.h"
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLDriverDistractionState.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnDriverDistraction
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnDriverDistraction]) {
+    if (self = [super initWithName:SDLNameOnDriverDistraction]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (void)setState:(SDLDriverDistractionState)state {
+    [parameters sdl_setObject:state forName:SDLNameState];
 }
 
-- (void)setState:(SDLDriverDistractionState *)state {
-    if (state != nil) {
-        [parameters setObject:state forKey:NAMES_state];
-    } else {
-        [parameters removeObjectForKey:NAMES_state];
-    }
-}
-
-- (SDLDriverDistractionState *)state {
-    NSObject *obj = [parameters objectForKey:NAMES_state];
-    if (obj == nil || [obj isKindOfClass:SDLDriverDistractionState.class]) {
-        return (SDLDriverDistractionState *)obj;
-    } else {
-        return [SDLDriverDistractionState valueOf:(NSString *)obj];
-    }
+- (SDLDriverDistractionState)state {
+    NSObject *obj = [parameters sdl_objectForName:SDLNameState];
+    return (SDLDriverDistractionState)obj;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

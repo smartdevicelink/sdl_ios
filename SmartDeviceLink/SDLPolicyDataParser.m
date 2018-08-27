@@ -3,17 +3,19 @@
 //
 
 #import "SDLPolicyDataParser.h"
-#import "SDLDebugTool.h"
+#import "SDLLogMacros.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPolicyDataParser
 
-- (NSData *)unwrap:(NSData *)wrappedData {
+- (nullable NSData *)unwrap:(NSData *)wrappedData {
     NSData *decodedData = nil;
 
     @try {
         NSError *errorJSONSerialization = nil;
         NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:wrappedData options:kNilOptions error:&errorJSONSerialization];
-        NSArray *array = dictionary[@"data"];
+        NSArray<NSString *> *array = dictionary[@"data"];
         NSString *base64EncodedString = array[0];
 
         if ([NSData instancesRespondToSelector:@selector(initWithBase64EncodedString:options:)]) {
@@ -27,17 +29,13 @@
     }
     @catch (NSException *exception) {
         decodedData = nil;
-        [SDLDebugTool logInfo:@"Error in PolicyDataParser::unwrap()"];
+        SDLLogW(@"%@", exception);
     }
 
     return decodedData;
 }
 
 - (void)parsePolicyData:(NSData *)data {
-    if (data == nil) {
-        return;
-    }
-
     @try {
         Byte *bytes = (Byte *)data.bytes;
 
@@ -56,11 +54,11 @@
         self.CPUDestination = (thirdByte & 0b00001000) != 0;
         self.encryptionKeyIndex = (thirdByte & 0b00000111);
 
-        const int payloadSizeOffset = 3;
+        const int PayloadSizeOffset = 3;
         if (self.isHighBandwidth) {
-            self.payloadSize = ntohl(*(UInt32 *)(bytes + payloadSizeOffset));
+            self.payloadSize = ntohl(*(UInt32 *)(bytes + PayloadSizeOffset));
         } else {
-            self.payloadSize = ntohs(*(UInt16 *)(bytes + payloadSizeOffset));
+            self.payloadSize = ntohs(*(UInt16 *)(bytes + PayloadSizeOffset));
         }
 
         if (self.hasESN) {
@@ -95,22 +93,25 @@
         }
 
         int payloadOffset = 5;
-        if (self.isHighBandwidth)
+        if (self.isHighBandwidth) {
             payloadOffset += 11;
-        if (self.hasESN)
+        }
+        if (self.hasESN) {
             payloadOffset += self.ESN.length;
-        if (self.isEncrypted)
+        }
+        if (self.isEncrypted) {
             payloadOffset += self.initializationVector.length;
+        }
+        
         self.payload = [NSData dataWithBytes:(bytes + payloadOffset) length:self.payloadSize];
 
         if (self.isSigned) {
             int signatureTagOffset = (int)data.length - 16;
             self.signatureTag = [NSData dataWithBytes:(bytes + signatureTagOffset) length:16];
         }
-
     }
     @catch (NSException *exception) {
-        [SDLDebugTool logInfo:@"Error in PolicyDataParser::parsePolicyData()"];
+        SDLLogW(@"%@", exception);
     }
 }
 
@@ -138,3 +139,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

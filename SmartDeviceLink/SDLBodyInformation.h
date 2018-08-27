@@ -3,61 +3,67 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLIgnitionStableStatus;
-@class SDLIgnitionStatus;
+#import "SDLIgnitionStableStatus.h"
+#import "SDLIgnitionStatus.h"
 
 
 /**
  * The body information including power modes.
  */
-@interface SDLBodyInformation : SDLRPCStruct {
-}
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLBodyInformation : SDLRPCStruct
 
 /**
- * @abstract Constructs a new SDLBodyInformation object
+ * References signal "PrkBrkActv_B_Actl".
+
+ Required
  */
-- (instancetype)init;
+@property (strong, nonatomic) NSNumber<SDLBool> *parkBrakeActive;
 
 /**
- * @abstract Constructs a new SDLBodyInformation object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
+ * References signal "Ignition_Switch_Stable". See IgnitionStableStatus.
+
+ Required
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@property (strong, nonatomic) SDLIgnitionStableStatus ignitionStableStatus;
 
 /**
- * @abstract References signal "PrkBrkActv_B_Actl".
+ * References signal "Ignition_status". See IgnitionStatus.
+
+ Required
  */
-@property (strong) NSNumber *parkBrakeActive;
+@property (strong, nonatomic) SDLIgnitionStatus ignitionStatus;
 
 /**
- * @abstract References signal "Ignition_Switch_Stable". See IgnitionStableStatus.
+ * References signal "DrStatDrv_B_Actl".
+
+ Optional
  */
-@property (strong) SDLIgnitionStableStatus *ignitionStableStatus;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *driverDoorAjar;
 
 /**
- * @abstract References signal "Ignition_status". See IgnitionStatus.
+ * References signal "DrStatPsngr_B_Actl".
+
+ Optional
  */
-@property (strong) SDLIgnitionStatus *ignitionStatus;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *passengerDoorAjar;
 
 /**
- * @abstract References signal "DrStatDrv_B_Actl".
+ * References signal "DrStatRl_B_Actl".
+
+ Optional
  */
-@property (strong) NSNumber *driverDoorAjar;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *rearLeftDoorAjar;
 
 /**
- * @abstract References signal "DrStatPsngr_B_Actl".
- */
-@property (strong) NSNumber *passengerDoorAjar;
+ * References signal "DrStatRr_B_Actl".
 
-/**
- * @abstract References signal "DrStatRl_B_Actl".
+ Optional
  */
-@property (strong) NSNumber *rearLeftDoorAjar;
-
-/**
- * @abstract References signal "DrStatRr_B_Actl".
- */
-@property (strong) NSNumber *rearRightDoorAjar;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *rearRightDoorAjar;
 
 @end
+
+NS_ASSUME_NONNULL_END

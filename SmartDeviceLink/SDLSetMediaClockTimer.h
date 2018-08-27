@@ -3,9 +3,9 @@
 
 #import "SDLRPCRequest.h"
 
-@class SDLStartTime;
-@class SDLUpdateMode;
+#import "SDLUpdateMode.h"
 
+@class SDLStartTime;
 
 /**
  * Sets the media clock/timer value and the update method (e.g.count-up,
@@ -17,27 +17,17 @@
  *
  * Since SmartDeviceLink 1.0
  */
-@interface SDLSetMediaClockTimer : SDLRPCRequest {
-}
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLSetMediaClockTimer : SDLRPCRequest
+
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode hours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds;
+
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode;
 
 /**
- * @abstract Constructs a new SDLSetMediaClockTimer object
- */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLSetMediaClockTimer object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
-// TODO: (Alex M.)[2016-12-1] Change NSInteger to UInt8
-- (instancetype)initWithUpdateMode:(SDLUpdateMode *)updateMode hours:(NSInteger)hours minutes:(NSInteger)minutes seconds:(NSInteger)seconds;
-
-- (instancetype)initWithUpdateMode:(SDLUpdateMode *)updateMode;
-
-/**
- * @abstract A Start Time with specifying hour, minute, second values
+ * A Start Time with specifying hour, minute, second values
  *
  * @discussion A startTime object with specifying hour, minute, second values
  *            <p>
@@ -48,15 +38,15 @@
  *            <li>Will be ignored for PAUSE/RESUME and CLEAR</li>
  *            </ul>
  */
-@property (strong) SDLStartTime *startTime;
+@property (strong, nonatomic, nullable) SDLStartTime *startTime;
 /**
- * @abstract An END time of type SDLStartTime, specifying hour, minute, second values
+ * An END time of type SDLStartTime, specifying hour, minute, second values
  *
  * @discussion An SDLStartTime object with specifying hour, minute, second values
  */
-@property (strong) SDLStartTime *endTime;
+@property (strong, nonatomic, nullable) SDLStartTime *endTime;
 /**
- * @abstract The media clock/timer update mode (COUNTUP/COUNTDOWN/PAUSE/RESUME)
+ * The media clock/timer update mode (COUNTUP/COUNTDOWN/PAUSE/RESUME)
  *
  * @discussion a Enumeration value (COUNTUP/COUNTDOWN/PAUSE/RESUME)
  *            <p>
@@ -68,6 +58,8 @@
  *            the timer's value when it was paused</li>
  *            </ul>
  */
-@property (strong) SDLUpdateMode *updateMode;
+@property (strong, nonatomic) SDLUpdateMode updateMode;
 
 @end
+
+NS_ASSUME_NONNULL_END

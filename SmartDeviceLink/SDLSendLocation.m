@@ -4,13 +4,15 @@
 
 #import "SDLSendLocation.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSendLocation
 
 - (instancetype)init {
-    self = [super initWithName:NAMES_SendLocation];
+    self = [super initWithName:SDLNameSendLocation];
     if (!self) {
         return nil;
     }
@@ -18,11 +20,11 @@
     return self;
 }
 
-- (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription address:(NSArray<NSString *> *)address phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image {
+- (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription address:(nullable NSArray<NSString *> *)address phoneNumber:(nullable NSString *)phoneNumber image:(nullable SDLImage *)image {
     return [self initWithLongitude:longitude latitude:latitude locationName:locationName locationDescription:locationDescription displayAddressLines:address phoneNumber:phoneNumber image:image deliveryMode:nil timeStamp:nil address:nil];
 }
 
-- (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(NSString *)locationName locationDescription:(NSString *)locationDescription displayAddressLines:(NSArray<NSString *> *)displayAddressLines phoneNumber:(NSString *)phoneNumber image:(SDLImage *)image deliveryMode:(SDLDeliveryMode *)deliveryMode timeStamp:(SDLDateTime *)timeStamp address:(SDLOasisAddress *)address {
+- (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription displayAddressLines:(nullable NSArray<NSString *> *)displayAddressLines phoneNumber:(nullable NSString *)phoneNumber image:(nullable SDLImage *)image deliveryMode:(nullable SDLDeliveryMode)deliveryMode timeStamp:(nullable SDLDateTime *)timeStamp address:(nullable SDLOasisAddress *)address {
     self = [self init];
     if (!self) {
         return nil;
@@ -42,144 +44,86 @@
     return self;
 }
 
-- (void)setLongitudeDegrees:(NSNumber<SDLFloat> *)longitudeDegrees {
-    if (longitudeDegrees != nil) {
-        parameters[NAMES_longitudeDegrees] = longitudeDegrees;
-    } else {
-        [parameters removeObjectForKey:NAMES_longitudeDegrees];
-    }
+- (void)setLongitudeDegrees:(nullable NSNumber<SDLFloat> *)longitudeDegrees {
+    [parameters sdl_setObject:longitudeDegrees forName:SDLNameLongitudeDegrees];
 }
 
-- (NSNumber<SDLFloat> *)longitudeDegrees {
-    return parameters[NAMES_longitudeDegrees];
+- (nullable NSNumber<SDLFloat> *)longitudeDegrees {
+    return [parameters sdl_objectForName:SDLNameLongitudeDegrees];
 }
 
-- (void)setLatitudeDegrees:(NSNumber<SDLFloat> *)latitudeDegrees {
-    if (latitudeDegrees != nil) {
-        parameters[NAMES_latitudeDegrees] = latitudeDegrees;
-    } else {
-        [parameters removeObjectForKey:NAMES_latitudeDegrees];
-    }
+- (void)setLatitudeDegrees:(nullable NSNumber<SDLFloat> *)latitudeDegrees {
+    [parameters sdl_setObject:latitudeDegrees forName:SDLNameLatitudeDegrees];
 }
 
-- (NSNumber<SDLFloat> *)latitudeDegrees {
-    return parameters[NAMES_latitudeDegrees];
+- (nullable NSNumber<SDLFloat> *)latitudeDegrees {
+    return [parameters sdl_objectForName:SDLNameLatitudeDegrees];
 }
 
-- (void)setLocationName:(NSString *)locationName {
-    if (locationName != nil) {
-        parameters[NAMES_locationName] = locationName;
-    } else {
-        [parameters removeObjectForKey:NAMES_locationName];
-    }
+- (void)setLocationName:(nullable NSString *)locationName {
+    [parameters sdl_setObject:locationName forName:SDLNameLocationName];
 }
 
-- (NSString *)locationName {
-    return parameters[NAMES_locationName];
+- (nullable NSString *)locationName {
+    return [parameters sdl_objectForName:SDLNameLocationName];
 }
 
-- (void)setAddressLines:(NSArray *)addressLines {
-    if (addressLines != nil) {
-        parameters[NAMES_addressLines] = addressLines;
-    } else {
-        [parameters removeObjectForKey:NAMES_addressLines];
-    }
+- (void)setAddressLines:(nullable NSArray<NSString *> *)addressLines {
+    [parameters sdl_setObject:addressLines forName:SDLNameAddressLines];
 }
 
-- (NSString *)locationDescription {
-    return parameters[NAMES_locationDescription];
+- (nullable NSString *)locationDescription {
+    return [parameters sdl_objectForName:SDLNameLocationDescription];
 }
 
-- (void)setLocationDescription:(NSString *)locationDescription {
-    if (locationDescription != nil) {
-        parameters[NAMES_locationDescription] = locationDescription;
-    } else {
-        [parameters removeObjectForKey:NAMES_locationDescription];
-    }
+- (void)setLocationDescription:(nullable NSString *)locationDescription {
+    [parameters sdl_setObject:locationDescription forName:SDLNameLocationDescription];
 }
 
-- (NSArray *)addressLines {
-    return parameters[NAMES_addressLines];
+- (nullable NSArray<NSString *> *)addressLines {
+    return [parameters sdl_objectForName:SDLNameAddressLines];
 }
 
-- (void)setPhoneNumber:(NSString *)phoneNumber {
-    if (phoneNumber != nil) {
-        parameters[NAMES_phoneNumber] = phoneNumber;
-    } else {
-        [parameters removeObjectForKey:NAMES_phoneNumber];
-    }
+- (void)setPhoneNumber:(nullable NSString *)phoneNumber {
+    [parameters sdl_setObject:phoneNumber forName:SDLNamePhoneNumber];
 }
 
-- (NSString *)phoneNumber {
-    return parameters[NAMES_phoneNumber];
+- (nullable NSString *)phoneNumber {
+    return [parameters sdl_objectForName:SDLNamePhoneNumber];
 }
 
-- (void)setLocationImage:(SDLImage *)locationImage {
-    if (locationImage != nil) {
-        parameters[NAMES_locationImage] = locationImage;
-    } else {
-        [parameters removeObjectForKey:NAMES_locationImage];
-    }
+- (void)setLocationImage:(nullable SDLImage *)locationImage {
+    [parameters sdl_setObject:locationImage forName:SDLNameLocationImage];
 }
 
-- (SDLImage *)locationImage {
-    id obj = parameters[NAMES_locationImage];
-    if (obj == nil || [obj isKindOfClass:[SDLImage class]]) {
-        return (SDLImage *)obj;
-    } else {
-        return [[SDLImage alloc] initWithDictionary:obj];
-    }
+- (nullable SDLImage *)locationImage {
+    return [parameters sdl_objectForName:SDLNameLocationImage ofClass:SDLImage.class];
 }
 
-- (void)setDeliveryMode:(SDLDeliveryMode *)deliveryMode {
-    if (deliveryMode != nil) {
-        parameters[NAMES_deliveryMode] = deliveryMode;
-    } else {
-        [parameters removeObjectForKey:NAMES_deliveryMode];
-    }
+- (void)setDeliveryMode:(nullable SDLDeliveryMode)deliveryMode {
+    [parameters sdl_setObject:deliveryMode forName:SDLNameDeliveryMode];
 }
 
-- (SDLDeliveryMode *)deliveryMode {
-    NSObject *obj = [parameters objectForKey:NAMES_deliveryMode];
-    if (obj == nil || [obj isKindOfClass:SDLDeliveryMode.class]) {
-        return (SDLDeliveryMode *)obj;
-    } else {
-        return [SDLDeliveryMode valueOf:(NSString *)obj];
-    }
+- (nullable SDLDeliveryMode)deliveryMode {
+    return [parameters sdl_objectForName:SDLNameDeliveryMode];
 }
 
-- (void)setTimeStamp:(SDLDateTime *)timeStamp {
-    if (timeStamp != nil) {
-        parameters[NAMES_timeStamp] = timeStamp;
-    } else {
-        [parameters removeObjectForKey:NAMES_timeStamp];
-    }
+- (void)setTimeStamp:(nullable SDLDateTime *)timeStamp {
+    [parameters sdl_setObject:timeStamp forName:SDLNameLocationTimeStamp];
 }
 
-- (SDLDateTime *)timeStamp {
-    id obj = parameters[NAMES_timeStamp];
-    if (obj == nil || [obj isKindOfClass:[SDLDateTime class]]) {
-        return (SDLDateTime *)obj;
-    } else {
-        return [[SDLDateTime alloc] initWithDictionary:obj];
-    }
+- (nullable SDLDateTime *)timeStamp {
+    return [parameters sdl_objectForName:SDLNameLocationTimeStamp ofClass:SDLDateTime.class];
 }
 
-- (void)setAddress:(SDLOasisAddress *)address {
-    if (address != nil) {
-        parameters[NAMES_address] = address;
-    } else {
-        [parameters removeObjectForKey:NAMES_address];
-    }
+- (void)setAddress:(nullable SDLOasisAddress *)address {
+    [parameters sdl_setObject:address forName:SDLNameAddress];
 }
 
-- (SDLOasisAddress *)address {
-    id obj = [parameters objectForKey:NAMES_address];
-    if (obj == nil || [obj isKindOfClass:[SDLOasisAddress class]]) {
-        return (SDLOasisAddress *)obj;
-    } else {
-        return [[SDLOasisAddress alloc] initWithDictionary:obj];
-    }
+- (nullable SDLOasisAddress *)address {
+    return [parameters sdl_objectForName:SDLNameAddress ofClass:SDLOasisAddress.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

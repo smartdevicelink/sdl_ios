@@ -1,4 +1,4 @@
-<h1>SDLRPCMessageType Enum Reference</h1>
+<h1>SDLRPCMessageType Enumeration Reference</h1>
 
 <h3>Section Contents</h3>
 
@@ -10,7 +10,13 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>The type of RPC message</p>
+
+<ul>
+<li>SDLRPCMessageTypeRequest: A request from the app to the IVI system</li>
+<li>SDLRPCMessageTypeResponse: A response from the IVI system to the app</li>
+<li>SDLRPCMessageTypeNotification: A notification from the IVI system to the app</li>
+</ul>
 
 
 <section class="section task-group-section">
@@ -22,6 +28,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLRPCMessageTypeRequest</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">request</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+
   
   
   
@@ -33,6 +46,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLRPCMessageTypeResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">response</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
+
   
   
   
@@ -44,6 +64,13 @@
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">SDLRPCMessageTypeNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">case</span> <span class="n">notification</span> <span class="o">=</span> <span class="mi">2</span></code></pre>
+
   
   
   

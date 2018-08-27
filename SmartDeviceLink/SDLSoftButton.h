@@ -4,29 +4,66 @@
 #import "SDLRPCMessage.h"
 
 #import "SDLNotificationConstants.h"
-#import "SDLRequestHandler.h"
+#import "SDLSoftButtonType.h"
+#import "SDLSystemAction.h"
 
 @class SDLImage;
-@class SDLSoftButtonType;
-@class SDLSystemAction;
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLSoftButton : SDLRPCStruct <SDLRequestHandler> {
-}
+/**
+ Describes an on-screen button which may be presented in various contexts, e.g. templates or alerts
+ */
+@interface SDLSoftButton : SDLRPCStruct
 
-- (instancetype)init;
-- (instancetype)initWithHandler:(SDLRPCNotificationHandler)handler;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithHandler:(nullable SDLRPCButtonNotificationHandler)handler;
 
-- (instancetype)initWithType:(SDLSoftButtonType *)type text:(NSString *)text image:(SDLImage *)image highlighted:(BOOL)highlighted buttonId:(UInt16)buttonId systemAction:(SDLSystemAction *)systemAction handler:(SDLRPCNotificationHandler)handler;
+- (instancetype)initWithType:(SDLSoftButtonType)type text:(nullable NSString *)text image:(nullable SDLImage *)image highlighted:(BOOL)highlighted buttonId:(UInt16)buttonId systemAction:(nullable SDLSystemAction)systemAction handler:(nullable SDLRPCButtonNotificationHandler)handler;
 
-@property (copy, nonatomic) SDLRPCNotificationHandler handler;
+@property (copy, nonatomic) SDLRPCButtonNotificationHandler handler;
 
-@property (strong) SDLSoftButtonType *type;
-@property (strong) NSString *text;
-@property (strong) SDLImage *image;
-@property (strong) NSNumber *isHighlighted;
-@property (strong) NSNumber *softButtonID;
-@property (strong) SDLSystemAction *systemAction;
+/**
+ Describes whether this soft button displays only text, only an image, or both
+
+ Required
+ */
+@property (strong, nonatomic) SDLSoftButtonType type;
+
+/**
+ Optional text to display (if defined as TEXT or BOTH type)
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) NSString *text;
+
+/**
+ Optional image struct for SoftButton (if defined as IMAGE or BOTH type)
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLImage *image;
+
+/**
+ Displays in an alternate mode, e.g. with a colored background or foreground. Depends on the IVI system.
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) NSNumber<SDLBool> *isHighlighted;
+
+/**
+ Value which is returned via OnButtonPress / OnButtonEvent
+
+ Required
+ */
+@property (strong, nonatomic) NSNumber<SDLInt> *softButtonID;
+
+/**
+ Parameter indicating whether selecting a SoftButton shall call a specific system action. This is intended to allow Notifications to bring the callee into full / focus; or in the case of persistent overlays, the overlay can persist when a SoftButton is pressed.
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLSystemAction systemAction;
 
 @end
+
+NS_ASSUME_NONNULL_END

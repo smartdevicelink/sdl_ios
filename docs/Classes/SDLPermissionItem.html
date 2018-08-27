@@ -3,8 +3,6 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--init">-init</a></li>
-  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
   <li><a href="#section-rpcName">rpcName</a></li>
   <li><a href="#section-hmiPermissions">hmiPermissions</a></li>
   <li><a href="#section-parameterPermissions">parameterPermissions</a></li>
@@ -16,36 +14,23 @@
 
 
 <section class="section task-group-section">
-  <h3 id="section--init">
-      -init
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
-  <h3 id="section--initWithDictionary:">
-      -initWithDictionary:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
   <h3 id="section-rpcName">
       rpcName
   </h3>
   
-  <p>Undocumented</p>
+  <p>Name of the individual RPC in the policy table.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">rpcName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">rpcName</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -53,10 +38,20 @@
       hmiPermissions
   </h3>
   
-  <p>Undocumented</p>
+  <p>HMI Permissions for the individual RPC; i.e. which HMI levels may it be used in</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLHMIPermissions.html">SDLHMIPermissions</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">hmiPermissions</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">hmiPermissions</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLHMIPermissions.html">SDLHMIPermissions</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -64,10 +59,20 @@
       parameterPermissions
   </h3>
   
-  <p>Undocumented</p>
+  <p>RPC parameters for the individual RPC</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLParameterPermissions.html">SDLParameterPermissions</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">parameterPermissions</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">parameterPermissions</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLParameterPermissions.html">SDLParameterPermissions</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   

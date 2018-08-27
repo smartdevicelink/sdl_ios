@@ -4,16 +4,32 @@
 
 #import "SDLEnum.h"
 
-@interface SDLPrerecordedSpeech : SDLEnum {
-}
+/**
+ Contains information about the speech capabilities on the SDL platform. Used in RegisterAppInterfaceResponse to indicate capability.
+ */
+typedef SDLEnum SDLPrerecordedSpeech SDL_SWIFT_ENUM;
 
-+ (SDLPrerecordedSpeech *)valueOf:(NSString *)value;
-+ (NSArray *)values;
+/**
+ A prerecorded help prompt
+ */
+extern SDLPrerecordedSpeech const SDLPrerecordedSpeechHelp;
 
-+ (SDLPrerecordedSpeech *)HELP_JINGLE;
-+ (SDLPrerecordedSpeech *)INITIAL_JINGLE;
-+ (SDLPrerecordedSpeech *)LISTEN_JINGLE;
-+ (SDLPrerecordedSpeech *)POSITIVE_JINGLE;
-+ (SDLPrerecordedSpeech *)NEGATIVE_JINGLE;
+/**
+ A prerecorded initial prompt
+ */
+extern SDLPrerecordedSpeech const SDLPrerecordedSpeechInitial;
 
-@end
+/**
+ A prerecorded listen prompt is available
+ */
+extern SDLPrerecordedSpeech const SDLPrerecordedSpeechListen;
+
+/**
+ A prerecorded positive indicator noise is available
+ */
+extern SDLPrerecordedSpeech const SDLPrerecordedSpeechPositive;
+
+/**
+ A prerecorded negative indicator noise is available
+ */
+extern SDLPrerecordedSpeech const SDLPrerecordedSpeechNegative;

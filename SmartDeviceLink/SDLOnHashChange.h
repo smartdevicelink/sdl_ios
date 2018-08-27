@@ -4,12 +4,18 @@
 
 #import "SDLRPCNotification.h"
 
-@interface SDLOnHashChange : SDLRPCNotification {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+/**
+ Notification containing an updated hashID which can be used over connection cycles (i.e. loss of connection, ignition cycles, etc.). Sent after initial registration and subsequently after any change in the calculated hash of all persisted app data.
+ */
+@interface SDLOnHashChange : SDLRPCNotification
 
-@property (strong) NSString *hashID;
+/**
+ Calculated hash ID to be referenced during RegisterAppInterface request.
+ */
+@property (strong, nonatomic) NSString *hashID;
 
 @end
+
+NS_ASSUME_NONNULL_END

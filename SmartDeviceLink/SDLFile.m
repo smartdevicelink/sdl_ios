@@ -19,10 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readwrite, nullable) NSURL *fileURL;
 @property (copy, nonatomic, readwrite) NSData *data;
 
-@property (strong, nonatomic, readwrite) SDLFileType *fileType;
+@property (strong, nonatomic, readwrite) SDLFileType fileType;
 @property (assign, nonatomic, readwrite) BOOL persistent;
 @property (copy, nonatomic, readwrite) NSString *name;
 
+@property (nonatomic, readwrite) NSInputStream *inputStream;
 @end
 
 
@@ -86,46 +87,102 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initWithData:data name:name fileExtension:extension persistent:NO];
 }
 
-
 #pragma mark - Getters
 
 - (NSData *)data {
     if (_data.length == 0 && _fileURL != nil) {
-        _data = [NSData dataWithContentsOfURL:_fileURL];
+        return [NSData dataWithContentsOfURL:_fileURL];
     }
 
     return _data;
 }
 
+/**
+ Initalizes a socket from which to read data.
+
+ @return A socket
+ */
+- (NSInputStream *)inputStream {
+    if (!_inputStream) {
+        if (_fileURL) {
+            // Data in file
+            _inputStream = [[NSInputStream alloc] initWithURL:_fileURL];
+        } else if (_data.length != 0) {
+            // Data in memory
+            _inputStream = [[NSInputStream alloc] initWithData:_data];
+        }
+    }
+    return _inputStream;
+}
+
+/**
+ Gets the size of the data. The data may be stored on disk or it may already be in the application's memory.
+
+ @return The size of the data.
+ */
+- (unsigned long long)fileSize {
+    if (_fileURL) {
+        // Data in file
+        NSString *path = [_fileURL path];
+        return [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil].fileSize;
+    } else if (_data) {
+        // Data in memory
+        return _data.length;
+    }
+    return 0;
+}
 
 #pragma mark - File Type
 
-+ (SDLFileType *)sdl_fileTypeFromFileExtension:(NSString *)fileExtension {
++ (SDLFileType)sdl_fileTypeFromFileExtension:(NSString *)fileExtension {
     if ([fileExtension caseInsensitiveCompare:@"bmp"] == NSOrderedSame) {
-        return [SDLFileType GRAPHIC_BMP];
+        return SDLFileTypeBMP;
     } else if (([fileExtension caseInsensitiveCompare:@"jpg"] == NSOrderedSame) ||
                ([fileExtension caseInsensitiveCompare:@"jpeg"] == NSOrderedSame)) {
-        return [SDLFileType GRAPHIC_JPEG];
+        return SDLFileTypeJPEG;
     } else if ([fileExtension caseInsensitiveCompare:@"png"] == NSOrderedSame) {
-        return [SDLFileType GRAPHIC_PNG];
+        return SDLFileTypePNG;
     } else if ([fileExtension caseInsensitiveCompare:@"wav"] == NSOrderedSame) {
-        return [SDLFileType AUDIO_WAVE];
+        return SDLFileTypeWAV;
     } else if ([fileExtension caseInsensitiveCompare:@"mp3"] == NSOrderedSame) {
-        return [SDLFileType AUDIO_MP3];
+        return SDLFileTypeMP3;
     } else if ([fileExtension caseInsensitiveCompare:@"aac"] == NSOrderedSame) {
-        return [SDLFileType AUDIO_AAC];
+        return SDLFileTypeAAC;
     } else if ([fileExtension caseInsensitiveCompare:@"json"] == NSOrderedSame) {
-        return [SDLFileType JSON];
+        return SDLFileTypeJSON;
     } else {
-        return [SDLFileType BINARY];
+        return SDLFileTypeBinary;
     }
 }
-
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
     return [[self.class allocWithZone:zone] initWithFileURL:_fileURL name:_name persistent:_persistent];
+}
+
+#pragma mark - NSObject overrides
+
+- (NSUInteger)hash {
+    return self.name.hash ^ self.data.hash;
+}
+
+- (BOOL)isEqual:(id)object {
+    if (self == object) { return YES; }
+
+    if (![object isKindOfClass:[SDLFile class]]) { return NO; }
+
+    return [self isEqualToFile:(SDLFile *)object];
+}
+
+- (BOOL)isEqualToFile:(SDLFile *)file {
+    if (!file) { return NO; }
+
+    BOOL haveEqualNames = [self.name isEqualToString:file.name];
+    BOOL haveEqualData = [self.data isEqualToData:file.data];
+    BOOL haveEqualFormats = [self.fileType isEqualToEnum:file.fileType];
+
+    return haveEqualNames && haveEqualData && haveEqualFormats;
 }
 
 @end

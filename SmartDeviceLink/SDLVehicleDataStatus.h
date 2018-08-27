@@ -5,40 +5,23 @@
 #import "SDLEnum.h"
 
 /**
- * Reflects the status of a binary vehicle data item.
+ * Reflects the status of a binary vehicle data item. Used in MyKey.
  *
  * @since SDL 2.0
  */
-@interface SDLVehicleDataStatus : SDLEnum {
-}
+typedef SDLEnum SDLVehicleDataStatus SDL_SWIFT_ENUM;
 
 /**
- * Convert String to SDLVehicleDataStatus
- * @param value The value of the string to get an object for
- * @return SDLVehicleDataStatus
+ No data avaliable
  */
-+ (SDLVehicleDataStatus *)valueOf:(NSString *)value;
+extern SDLVehicleDataStatus const SDLVehicleDataStatusNoDataExists;
 
 /**
- * @abstract Store the enumeration of all possible SDLVehicleDataStatus
- * @return an array that store all possible SDLVehicleDataStatus
+ The status is Off
  */
-+ (NSArray *)values;
+extern SDLVehicleDataStatus const SDLVehicleDataStatusOff;
 
 /**
- * @abstract No data avaliable
- * @return SDLVehicleDataStatus: *NO_DATA_EXISTS*
+ The status is On
  */
-+ (SDLVehicleDataStatus *)NO_DATA_EXISTS;
-
-/**
- * @abstract return SDLVehicleDataStatus: *OFF*
- */
-+ (SDLVehicleDataStatus *)OFF;
-
-/**
- * @abstract return SDLVehicleDataStatus: *ON*
- */
-+ (SDLVehicleDataStatus *)ON;
-
-@end
+extern SDLVehicleDataStatus const SDLVehicleDataStatusOn;

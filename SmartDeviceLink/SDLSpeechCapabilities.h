@@ -5,42 +5,33 @@
 #import "SDLEnum.h"
 
 /*
- * Contains information about TTS capabilities on the SDL platform.
+ * Contains information about TTS capabilities on the SDL platform. Used in RegisterAppInterfaceResponse, and TTSChunk.
  *
  * @since SDL 1.0
  */
-@interface SDLSpeechCapabilities : SDLEnum {
-}
+typedef SDLEnum SDLSpeechCapabilities SDL_SWIFT_ENUM;
 
 /**
- * @abstract get SDLSpeechCapabilities according value string
- *
- * @param value The value of the string to get an object for
- *
- * @return SDLSpeechCapabilities object
+ The SDL platform can speak text phrases.
  */
-+ (SDLSpeechCapabilities *)valueOf:(NSString *)value;
+extern SDLSpeechCapabilities const SDLSpeechCapabilitiesText;
 
 /**
- * @abstract declare an array to store all possible SDLSpeechCapabilities values
- *
- * @return the array of all possible values
+ The SDL platform can speak SAPI Phonemes.
  */
-+ (NSArray *)values;
+extern SDLSpeechCapabilities const SDLSpeechCapabilitiesSAPIPhonemes;
 
 /**
- * @abstract The SDL platform can speak text phrases.
- *
- * @return SDLSpeechCapabilities of value: *TEXT*
+ The SDL platform can speak LHPlus Phonemes.
  */
-+ (SDLSpeechCapabilities *)TEXT;
+extern SDLSpeechCapabilities const SDLSpeechCapabilitiesLHPlusPhonemes;
 
-+ (SDLSpeechCapabilities *)SAPI_PHONEMES;
+/**
+ The SDL platform can speak Prerecorded indicators and prompts.
+ */
+extern SDLSpeechCapabilities const SDLSpeechCapabilitiesPrerecorded;
 
-+ (SDLSpeechCapabilities *)LHPLUS_PHONEMES;
-
-+ (SDLSpeechCapabilities *)PRE_RECORDED;
-
-+ (SDLSpeechCapabilities *)SILENCE;
-
-@end
+/**
+ The SDL platform can speak Silence.
+ */
+extern SDLSpeechCapabilities const SDLSpeechCapabilitiesSilence;

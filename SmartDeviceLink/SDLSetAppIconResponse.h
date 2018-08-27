@@ -4,13 +4,15 @@
 
 #import "SDLRPCResponse.h"
 
-/** SDLSetAppIconResponse is sent, when SDLSetAppIcon has been called.
- * Since<b>SmartDeviceLink 2.0</b>
- */
-@interface SDLSetAppIconResponse : SDLRPCResponse {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+/**
+ Response to SDLSetAppIcon
+
+ Since SmartDeviceLink 2.0
+ */
+@interface SDLSetAppIconResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

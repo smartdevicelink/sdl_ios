@@ -5,83 +5,48 @@
 #import "SDLEnum.h"
 
 /**
- * Enumeration listing possible file types.
+ * Enumeration listing possible file types. Used in SDLFile, PutFile, ImageField, OnSystemRequest
  *
  * @since SDL 2.0
  */
-@interface SDLFileType : SDLEnum {
-}
+typedef SDLEnum SDLFileType SDL_SWIFT_ENUM;
 
 /**
- * @abstract Convert String to SDLFileType
- *
- * @param value String value to retrieve the object for
- *
- * @return SDLFileType
+ * file type: Bitmap (BMP)
  */
-+ (SDLFileType *)valueOf:(NSString *)value;
+extern SDLFileType const SDLFileTypeBMP;
 
 /**
- * @abstract Store the enumeration of all possible SDLFileType
- *
- * @return an array that store all possible SDLFileType
+ * file type: JPEG
  */
-+ (NSArray *)values;
+extern SDLFileType const SDLFileTypeJPEG;
 
 /**
- * @abstract file type: Bitmap (BMP)
- *
- * @return SDLFileType with value of *GRAPHIC_BMP*
+ * file type: PNG
  */
-+ (SDLFileType *)GRAPHIC_BMP;
+extern SDLFileType const SDLFileTypePNG;
 
 /**
- * @abstract file type: JPEG
- *
- * @return SDLFileType with value of *GRAPHIC_JPEG*
+ * file type: WAVE (WAV)
  */
-+ (SDLFileType *)GRAPHIC_JPEG;
+extern SDLFileType const SDLFileTypeWAV;
 
 /**
- * @abstract file type: PNG
- *
- * @return SDLFileType with value of *GRAPHIC_PNG*
+ * file type: MP3
  */
-+ (SDLFileType *)GRAPHIC_PNG;
+extern SDLFileType const SDLFileTypeMP3;
 
 /**
- * @abstract file type: WAVE (WAV)
- *
- * @return SDLFileType with value of *AUDIO_WAVE*
+ * file type: AAC
  */
-+ (SDLFileType *)AUDIO_WAVE;
+extern SDLFileType const SDLFileTypeAAC;
 
 /**
- * @abstract file type: MP3
- *
- * @return SDLFileType with value of *AUDIO_MP3*
+ * file type: BINARY
  */
-+ (SDLFileType *)AUDIO_MP3;
+extern SDLFileType const SDLFileTypeBinary;
 
 /**
- * @abstract file type: AAC
- *
- * @return SDLFileType with value of *AUDIO_AAC*
+ * file type: JSON
  */
-+ (SDLFileType *)AUDIO_AAC;
-
-/**
- * @abstract file type: BINARY
- *
- * @return SDLFileType with value of *BINARY*
- */
-+ (SDLFileType *)BINARY;
-
-/**
- * @abstract file type: JSON
- *
- * @return SDLFileType with value of *JSON*
- */
-+ (SDLFileType *)JSON;
-
-@end
+extern SDLFileType const SDLFileTypeJSON;

@@ -25,25 +25,25 @@ describe(@"Getter/Setter Tests", ^ {
         
         testRequest.startTime = time1;
         testRequest.endTime = time2;
-        testRequest.updateMode = [SDLUpdateMode COUNTUP];
+        testRequest.updateMode = SDLUpdateModeCountUp;
         
         expect(testRequest.startTime).to(equal(time1));
         expect(testRequest.endTime).to(equal(time2));
-        expect(testRequest.updateMode).to(equal([SDLUpdateMode COUNTUP]));
+        expect(testRequest.updateMode).to(equal(SDLUpdateModeCountUp));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_request:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_startTime:time1,
-                                                   NAMES_endTime:time2,
-                                                   NAMES_updateMode:[SDLUpdateMode COUNTUP]},
-                                             NAMES_operation_name:NAMES_SetMediaClockTimer}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameRequest:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameStartTime:time1,
+                                                   SDLNameEndTime:time2,
+                                                   SDLNameUpdateMode:SDLUpdateModeCountUp},
+                                             SDLNameOperationName:SDLNameSetMediaClockTimer}} mutableCopy];
         SDLSetMediaClockTimer* testRequest = [[SDLSetMediaClockTimer alloc] initWithDictionary:dict];
         
         expect(testRequest.startTime).to(equal(time1));
         expect(testRequest.endTime).to(equal(time2));
-        expect(testRequest.updateMode).to(equal([SDLUpdateMode COUNTUP]));
+        expect(testRequest.updateMode).to(equal(SDLUpdateModeCountUp));
     });
     
     it(@"Should return nil if not set", ^ {

@@ -3,7 +3,7 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLLanguage;
+#import "SDLLanguage.h"
 
 
 /**
@@ -11,28 +11,21 @@
  *
  * @since SDL 2.0
  */
-@interface SDLOnLanguageChange : SDLRPCNotification {
-}
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLOnLanguageChange : SDLRPCNotification
 
 /**
- *Constructs a newly allocated SDLOnLanguageChange object
+ Current SDL voice engine (VR+TTS) language
  */
-- (instancetype)init;
+@property (strong, nonatomic) SDLLanguage language;
 
 /**
- * Constructs a newly allocated SDLOnLanguageChange object indicated by the dictionary parameter
- * @param dict The dictionary to use
+ Current display language
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
-/**
- * @abstract Current SDL voice engine (VR+TTS) language
- */
-@property (strong) SDLLanguage *language;
-
-/**
- * @abstract Current display language
- */
-@property (strong) SDLLanguage *hmiDisplayLanguage;
+@property (strong, nonatomic) SDLLanguage hmiDisplayLanguage;
 
 @end
+
+NS_ASSUME_NONNULL_END

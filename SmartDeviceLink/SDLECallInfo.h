@@ -3,18 +3,37 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLVehicleDataNotificationStatus;
-@class SDLECallConfirmationStatus;
+#import "SDLECallConfirmationStatus.h"
+#import "SDLVehicleDataNotificationStatus.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLECallInfo : SDLRPCStruct {
-}
+/**
+ A vehicle data struct for emergency call information
+ */
+@interface SDLECallInfo : SDLRPCStruct
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+/**
+ References signal "eCallNotification_4A". See VehicleDataNotificationStatus.
 
-@property (strong) SDLVehicleDataNotificationStatus *eCallNotificationStatus;
-@property (strong) SDLVehicleDataNotificationStatus *auxECallNotificationStatus;
-@property (strong) SDLECallConfirmationStatus *eCallConfirmationStatus;
+ Required
+ */
+@property (strong, nonatomic) SDLVehicleDataNotificationStatus eCallNotificationStatus;
+
+/**
+ References signal "eCallNotification". See VehicleDataNotificationStatus.
+
+ Required
+ */
+@property (strong, nonatomic) SDLVehicleDataNotificationStatus auxECallNotificationStatus;
+
+/**
+ References signal "eCallConfirmation". See ECallConfirmationStatus.
+
+ Required
+ */
+@property (strong, nonatomic) SDLECallConfirmationStatus eCallConfirmationStatus;
 
 @end
+
+NS_ASSUME_NONNULL_END

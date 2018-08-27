@@ -3,8 +3,6 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--init">-init</a></li>
-  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
   <li><a href="#section--initWithTTS:softButtons:">-initWithTTS:softButtons:</a></li>
   <li><a href="#section--initWithTTSChunks:softButtons:">-initWithTTSChunks:softButtons:</a></li>
   <li><a href="#section-ttsChunks">ttsChunks</a></li>
@@ -13,40 +11,12 @@
 
 <h3>Overview</h3>
 
+<p>Shows a SDLShowConstantTBT message with an optional voice command. This message is shown as an overlay over the display&rsquo;s base screen.</p>
+
 <p>@since SmartDeviceLink 1.0</p>
 
 
 <section class="section task-group-section">
-  <h3 id="section--init">
-      -init
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlertManeuver</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
-
-  
-  
-  
-  
-  <h3 id="section--initWithDictionary:">
-      -initWithDictionary:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlertManeuver</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
-
-  
-  
-  
-  
   <h3 id="section--initWithTTS:softButtons:">
       -initWithTTS:softButtons:
   </h3>
@@ -56,9 +26,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlertManeuver</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTTS</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsText</span> <span class="nf">softButtons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">tts</span> <span class="nv">ttsText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span><span class="p">]?)</span></code></pre>
+
   
   
   
@@ -71,9 +44,12 @@
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlertManeuver</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTTSChunks</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">ttsChunks</span> <span class="nf">softButtons</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">softButtons</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">ttsChunks</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?,</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span><span class="p">]?)</span></code></pre>
+
   
   
   
@@ -81,14 +57,25 @@
       ttsChunks
   </h3>
   
-  <p>Undocumented</p>
+  <p>An array of text chunks.</p>
+
+<p>Optional, Array of SDLTTSChunk, Array length 1 - 100</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLTTSChunk
+
+</div>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlertManeuver</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">ttsChunks</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">ttsChunks</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLTTSChunk.html">SDLTTSChunk</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -96,14 +83,25 @@
       softButtons
   </h3>
   
-  <p>Undocumented</p>
+  <p>An arry of soft buttons. If omitted on supported displays, only the system defined <q>Close</q> SoftButton shall be displayed.</p>
+
+<p>Optional, Array of SDLSoftButton, Array length 0 - 3</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLSoftButton
+
+</div>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">SDLAlertManeuver</span> <span class="p">:</span> <span class="nc">SDLRPCRequest</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">softButtons</span><span class="p">;</span></code></pre>
 
   
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">softButtons</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButton.html">SDLSoftButton</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   

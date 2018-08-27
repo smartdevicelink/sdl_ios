@@ -4,13 +4,15 @@
 
 #import "SDLRPCResponse.h"
 
-/** SDLSystemRequestResponse is sent, when SDLSystemRequest has been called.
- * Since<b>SmartDeviceLink 3.0</b>
- */
-@interface SDLSystemRequestResponse : SDLRPCResponse {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+/**
+ Response to SystemRequest
+
+ Since SmartDeviceLink 3.0
+ */
+@interface SDLSystemRequestResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

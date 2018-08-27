@@ -3,16 +3,25 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLKeyboardEvent;
+#import "SDLKeyboardEvent.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLOnKeyboardInput : SDLRPCNotification {
-}
+/**
+ Sent when a keyboard presented by a PerformInteraction has a keyboard input.
+ */
+@interface SDLOnKeyboardInput : SDLRPCNotification
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+/**
+ The type of keyboard input
+ */
+@property (strong, nonatomic) SDLKeyboardEvent event;
 
-@property (strong) SDLKeyboardEvent *event;
-@property (strong) NSString *data;
+/**
+ The current keyboard string input from the user
+ */
+@property (nullable, strong, nonatomic) NSString *data;
 
 @end
+
+NS_ASSUME_NONNULL_END

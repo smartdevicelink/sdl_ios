@@ -2,16 +2,20 @@
 //
 
 #import "SDLRPCMessage.h"
+#import "SDLVehicleDataStatus.h"
 
-@class SDLVehicleDataStatus;
+NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Vehicle Data struct
+ */
+@interface SDLMyKey : SDLRPCStruct
 
-@interface SDLMyKey : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
-@property (strong) SDLVehicleDataStatus *e911Override;
+/**
+ Indicates whether e911 override is on.  References signal "MyKey_e911Override_St". See VehicleDataStatus.
+ */
+@property (strong, nonatomic) SDLVehicleDataStatus e911Override;
 
 @end
+
+NS_ASSUME_NONNULL_END

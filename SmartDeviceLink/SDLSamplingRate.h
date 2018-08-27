@@ -5,52 +5,28 @@
 #import "SDLEnum.h"
 
 /**
- * Describes different sampling rates for PerformAudioPassThru
- *
- * @since SDL 2.0
+ Describes different sampling rates for PerformAudioPassThru and AudioPassThruCapabilities
+
+ @since SDL 2.0
  */
-@interface SDLSamplingRate : SDLEnum {
-}
+typedef SDLEnum SDLSamplingRate SDL_SWIFT_ENUM;
 
 /**
- * @abstract get SDLSamplingRate according value string
- *
- * @param value The value of the string to get an object for
- *
- * @return SDLSamplingRate object
+ Sampling rate of 8 kHz
  */
-+ (SDLSamplingRate *)valueOf:(NSString *)value;
+extern SDLSamplingRate const SDLSamplingRate8KHZ;
 
 /**
- * @abstract declare an array to store all possible SDLSamplingRate values
- *
- * @return the array
+ * Sampling rate of 16 kHz
  */
-+ (NSArray *)values;
+extern SDLSamplingRate const SDLSamplingRate16KHZ;
 
 /**
- * @abstract Sampling rate of 8 kHz
- *
- * @return SamplingRate of *8KHZ*
+ * Sampling rate of 22 kHz
  */
-+ (SDLSamplingRate *)_8KHZ;
-/**
- * @abstract Sampling rate of 16 kHz
- *
- * @return SamplingRate of *16KHZ*
- */
-+ (SDLSamplingRate *)_16KHZ;
-/**
- * @abstract Sampling rate of 22 kHz
- *
- * @return SamplingRate of *22KHZ*
- */
-+ (SDLSamplingRate *)_22KHZ;
-/**
- * @abstract Sampling rate of 44 kHz
- *
- * @return SamplingRate of *44KHZ*
- */
-+ (SDLSamplingRate *)_44KHZ;
+extern SDLSamplingRate const SDLSamplingRate22KHZ;
 
-@end
+/**
+ * Sampling rate of 44 kHz
+ */
+extern SDLSamplingRate const SDLSamplingRate44KHZ;

@@ -4,49 +4,44 @@
 
 #import "SDLEnum.h"
 
-/** Reflects the status of the eCall Notification.
- *<b>Since</b> SmartDeviceLink 2.0
- <p>
+/**
+ Reflects the status of the eCall Notification. Used in ECallInfo
+
+ Since SmartDeviceLink 2.0
  */
-@interface SDLECallConfirmationStatus : SDLEnum {
-}
+typedef SDLEnum SDLECallConfirmationStatus SDL_SWIFT_ENUM;
 
-+ (SDLECallConfirmationStatus *)valueOf:(NSString *)value;
-+ (NSArray *)values;
-
-/** No E-Call signal triggered.
+/**
+ No E-Call signal triggered.
  */
+extern SDLECallConfirmationStatus const SDLECallConfirmationStatusNormal;
 
-+ (SDLECallConfirmationStatus *)NORMAL;
-
-/** An E-Call is being in progress.
+/**
+ An E-Call is being in progress.
  */
+extern SDLECallConfirmationStatus const SDLECallConfirmationStatusInProgress;
 
-+ (SDLECallConfirmationStatus *)CALL_IN_PROGRESS;
-
-/** CALL_CANCELLED	An E-Call was cancelled by the user.
+/**
+ An E-Call was cancelled by the user.
  */
+extern SDLECallConfirmationStatus const SDLECallConfirmationStatusCancelled;
 
-+ (SDLECallConfirmationStatus *)CALL_CANCELLED;
-
-/** The E-Call sequence is completed.
+/**
+ The E-Call sequence is completed.
  */
+extern SDLECallConfirmationStatus const SDLECallConfirmationStatusCompleted;
 
-+ (SDLECallConfirmationStatus *)CALL_COMPLETED;
-
-/** An E-Call could not be connected.
+/**
+ An E-Call could not be connected.
  */
+extern SDLECallConfirmationStatus const SDLECallConfirmationStatusUnsuccessful;
 
-+ (SDLECallConfirmationStatus *)CALL_UNSUCCESSFUL;
-
-/** E-Call is not configured on this vehicle.
+/**
+ E-Call is not configured on this vehicle.
  */
+extern SDLECallConfirmationStatus const SDLECallConfirmationStatusConfiguredOff;
 
-+ (SDLECallConfirmationStatus *)ECALL_CONFIGURED_OFF;
-
-/** E-Call is considered to be complete without Emergency Operator contact.
+/**
+ E-Call is considered to be complete without Emergency Operator contact.
  */
-
-+ (SDLECallConfirmationStatus *)CALL_COMPLETE_DTMF_TIMEOUT;
-
-@end
+extern SDLECallConfirmationStatus const SDLECallConfirmationStatusCompleteDTMFTimeout;

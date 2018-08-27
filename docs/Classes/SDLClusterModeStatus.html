@@ -3,8 +3,6 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--init">-init</a></li>
-  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
   <li><a href="#section-powerModeActive">powerModeActive</a></li>
   <li><a href="#section-powerModeQualificationStatus">powerModeQualificationStatus</a></li>
   <li><a href="#section-carModeStatus">carModeStatus</a></li>
@@ -13,40 +11,28 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>A vehicle data struct for the cluster mode and power status</p>
 
 
 <section class="section task-group-section">
-  <h3 id="section--init">
-      -init
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
-  <h3 id="section--initWithDictionary:">
-      -initWithDictionary:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
   <h3 id="section-powerModeActive">
       powerModeActive
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>PowerMode_UB</q>.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">powerModeActive</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">powerModeActive</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -54,10 +40,20 @@
       powerModeQualificationStatus
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>PowerModeQF</q>. See PowerModeQualificationStatus.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLPowerModeQualificationStatus.h@T@SDLPowerModeQualificationStatus">SDLPowerModeQualificationStatus</a></span> <span class="n">_Nonnull</span> <span class="n">powerModeQualificationStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">powerModeQualificationStatus</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLPowerModeQualificationStatus.h@T@SDLPowerModeQualificationStatus">SDLPowerModeQualificationStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -65,10 +61,19 @@
       carModeStatus
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>CarMode</q>. See CarMode.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLCarModeStatus.h@T@SDLCarModeStatus">SDLCarModeStatus</a></span> <span class="n">_Nonnull</span> <span class="n">carModeStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">carModeStatus</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLCarModeStatus.h@T@SDLCarModeStatus">SDLCarModeStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -76,10 +81,20 @@
       powerModeStatus
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>PowerMode</q>. See PowerMode.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLPowerModeStatus.h@T@SDLPowerModeStatus">SDLPowerModeStatus</a></span> <span class="n">_Nonnull</span> <span class="n">powerModeStatus</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">powerModeStatus</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLPowerModeStatus.h@T@SDLPowerModeStatus">SDLPowerModeStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   

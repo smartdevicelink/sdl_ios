@@ -5,15 +5,17 @@
 #import "SDLRPCResponse.h"
 
 /**
- * Sent after SDLAlert has been sent
- * @since SDL 1.0
+ Response to SDLAlert
+
+ @since SDL 1.0
  */
-@interface SDLAlertResponse : SDLRPCResponse {
-}
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
 
-@property (strong) NSNumber *tryAgainTime;
+@interface SDLAlertResponse : SDLRPCResponse
+
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *tryAgainTime;
 
 @end
+
+NS_ASSUME_NONNULL_END

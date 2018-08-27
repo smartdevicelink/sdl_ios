@@ -3,48 +3,33 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--init">-init</a></li>
-  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
   <li><a href="#section-resolution">resolution</a></li>
   <li><a href="#section-touchEventAvailable">touchEventAvailable</a></li>
 </ul>
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>A struct in DisplayCapabilities describing parameters related to a video / touch input area</p>
 
 
 <section class="section task-group-section">
-  <h3 id="section--init">
-      -init
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
-  <h3 id="section--initWithDictionary:">
-      -initWithDictionary:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
   <h3 id="section-resolution">
       resolution
   </h3>
   
-  <p>Undocumented</p>
+  <p>The resolution of the prescribed screen area</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">resolution</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">resolution</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImageResolution.html">SDLImageResolution</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -52,10 +37,20 @@
       touchEventAvailable
   </h3>
   
-  <p>Undocumented</p>
+  <p>Types of screen touch events available in screen area</p>
+
+<p>Optional</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTouchEventCapabilities.html">SDLTouchEventCapabilities</a></span> <span class="o">*</span><span class="n">touchEventAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">touchEventAvailable</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTouchEventCapabilities.html">SDLTouchEventCapabilities</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   

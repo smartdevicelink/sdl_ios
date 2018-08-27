@@ -49,7 +49,7 @@ describe(@"a lock screen manager", ^{
                 
                 beforeEach(^{
                     testRequiredStatus = [[SDLOnLockScreenStatus alloc] init];
-                    testRequiredStatus.lockScreenStatus = [SDLLockScreenStatus REQUIRED];
+                    testRequiredStatus.lockScreenStatus = SDLLockScreenStatusRequired;
                     
                     [testNotificationDispatcher postNotificationName:SDLDidChangeLockScreenStatusNotification infoObject:testRequiredStatus];
                 });
@@ -87,7 +87,7 @@ describe(@"a lock screen manager", ^{
                 
                 beforeEach(^{
                     testRequiredStatus = [[SDLOnLockScreenStatus alloc] init];
-                    testRequiredStatus.lockScreenStatus = [SDLLockScreenStatus REQUIRED];
+                    testRequiredStatus.lockScreenStatus = SDLLockScreenStatusRequired;
                     
                     SDLRPCNotificationNotification *testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testRequiredStatus];
                     [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
@@ -130,7 +130,7 @@ describe(@"a lock screen manager", ^{
                     
                     beforeEach(^{
                         testOffStatus = [[SDLOnLockScreenStatus alloc] init];
-                        testOffStatus.lockScreenStatus = [SDLLockScreenStatus OFF];
+                        testOffStatus.lockScreenStatus = SDLLockScreenStatusOff;
                         
                         SDLRPCNotificationNotification *testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testOffStatus];
                         [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];

@@ -9,13 +9,14 @@
 #import "SDLLockScreenManager.h"
 
 #import "NSBundle+SDLBundle.h"
-#import "SDLDebugTool.h"
+#import "SDLLogMacros.h"
 #import "SDLLockScreenConfiguration.h"
 #import "SDLLockScreenStatus.h"
 #import "SDLLockScreenViewController.h"
 #import "SDLNotificationConstants.h"
 #import "SDLOnLockScreenStatus.h"
 #import "SDLRPCNotificationNotification.h"
+#import "SDLScreenshotViewController.h"
 #import "SDLViewControllerPresentable.h"
 
 
@@ -55,24 +56,23 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Create and initialize the lock screen controller depending on the configuration
     if (!self.config.enableAutomaticLockScreen) {
-        self.presenter.viewController = nil;
-
+        self.presenter.lockViewController = nil;
         return;
     } else if (self.config.customViewController != nil) {
-        self.presenter.viewController = self.config.customViewController;
+        self.presenter.lockViewController = self.config.customViewController;
     } else {
         SDLLockScreenViewController *viewController = nil;
 
         @try {
             viewController = [[UIStoryboard storyboardWithName:@"SDLLockScreen" bundle:[NSBundle sdlBundle]] instantiateInitialViewController];
         } @catch (NSException *exception) {
-            [SDLDebugTool logInfo:@"SDL Error: Attempted to instantiate the default SDL Lock Screen and could not find the storyboard. Be sure the 'SmartDeviceLink' bundle is within your main bundle. We're just going to return without instantiating the lock screen."];
+            SDLLogE(@"Attempted to instantiate the default SDL Lock Screen and could not find the storyboard. Be sure the 'SmartDeviceLink' bundle is within your main bundle. We're just going to return without instantiating the lock screen");
             return;
         }
 
         viewController.appIcon = self.config.appIcon;
         viewController.backgroundColor = self.config.backgroundColor;
-        self.presenter.viewController = viewController;
+        self.presenter.lockViewController = viewController;
     }
 
     self.canPresent = YES;
@@ -82,19 +82,20 @@ NS_ASSUME_NONNULL_BEGIN
     self.canPresent = NO;
 
     // Remove the lock screen if presented, don't allow it to present again until we start
-    [self.presenter dismiss];
+    if (self.presenter.lockViewController != nil) {
+        [self.presenter dismiss];
+    }
 }
 
 - (nullable UIViewController *)lockScreenViewController {
-    return self.presenter.viewController;
+    return self.presenter.lockViewController;
 }
 
 
 #pragma mark - Notification Selectors
 
 - (void)sdl_lockScreenStatusDidChange:(SDLRPCNotificationNotification *)notification {
-    NSAssert([notification.notification isKindOfClass:[SDLOnLockScreenStatus class]], @"A notification was sent with an unanticipated object");
-    if (![notification.notification isKindOfClass:[SDLOnLockScreenStatus class]]) {
+    if (![notification isNotificationMemberOfClass:[SDLOnLockScreenStatus class]]) {
         return;
     }
 
@@ -129,17 +130,17 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Present the VC depending on the lock screen status
-    if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus REQUIRED]]) {
+    if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusRequired]) {
         if (!self.presenter.presented && self.canPresent) {
             [self.presenter present];
         }
-    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OPTIONAL]]) {
+    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
         if (self.config.showInOptionalState && !self.presenter.presented && self.canPresent) {
             [self.presenter present];
         } else if (self.presenter.presented) {
             [self.presenter dismiss];
         }
-    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:[SDLLockScreenStatus OFF]]) {
+    } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOff]) {
         if (self.presenter.presented) {
             [self.presenter dismiss];
         }

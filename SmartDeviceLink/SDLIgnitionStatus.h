@@ -5,60 +5,38 @@
 #import "SDLEnum.h"
 
 /**
- * Reflects the status of ignition..
+ * Reflects the status of ignition. Used in BodyInformation.
  *
  * @since SDL 2.0
  */
-@interface SDLIgnitionStatus : SDLEnum {
-}
+typedef SDLEnum SDLIgnitionStatus SDL_SWIFT_ENUM;
 
 /**
- * @abstract return SDLIgnitionStatus
- * @param value The value of the string to get an object for
- * @return SDLIgnitionStatus object
+ * Ignition status currently unknown
  */
-+ (SDLIgnitionStatus *)valueOf:(NSString *)value;
+extern SDLIgnitionStatus const SDLIgnitionStatusUnknown;
 
 /**
- * @abstract store all possible SDLIgnitionStatus values
- * @return an array with all possible SDLIgnitionStatus values inside
+ * Ignition is off
  */
-+ (NSArray *)values;
+extern SDLIgnitionStatus const SDLIgnitionStatusOff;
 
 /**
- * @abstract Ignition status currently unknown
- * @return Ignition Status with value of *UNKNOWN*
+ * Ignition is in mode accessory
  */
-+ (SDLIgnitionStatus *)UNKNOWN;
+extern SDLIgnitionStatus const SDLIgnitionStatusAccessory;
 
 /**
- * @abstract Ignition is off
- * @return Ignition Status with value of *OFF*
+ * Ignition is in mode run
  */
-+ (SDLIgnitionStatus *)OFF;
+extern SDLIgnitionStatus const SDLIgnitionStatusRun;
 
 /**
- * @abstract Ignition is in mode accessory
- * @return Ignition Status with value of *ACCESSORY*
+ * Ignition is in mode start
  */
-+ (SDLIgnitionStatus *)ACCESSORY;
+extern SDLIgnitionStatus const SDLIgnitionStatusStart;
 
 /**
- * @abstract Ignition is in mode run
- * @return Ignition Status with value of *RUN*
+ * Signal is invalid
  */
-+ (SDLIgnitionStatus *)RUN;
-
-/**
- * @abstract Ignition is in mode start
- * @return Ignition Status with value of *START*
- */
-+ (SDLIgnitionStatus *)START;
-
-/**
- * @abstract Signal is invalid
- * @return Ignition Status with value of *INVALID*
- */
-+ (SDLIgnitionStatus *)INVALID;
-
-@end
+extern SDLIgnitionStatus const SDLIgnitionStatusInvalid;

@@ -5,67 +5,51 @@
 #import "SDLEnum.h"
 
 /**
- Vehicle Data Result Code
+ Vehicle Data Result Code. Used in DIDResult.
  */
-@interface SDLVehicleDataResultCode : SDLEnum {
-}
+typedef SDLEnum SDLVehicleDataResultCode SDL_SWIFT_ENUM;
 
 /**
- * Convert String to SDLVehicleDataResultCode
- * @param value String
- * @return SDLVehicleDataResultCode
+ Individual vehicle data item / DTC / DID request or subscription successful
  */
-+ (SDLVehicleDataResultCode *)valueOf:(NSString *)value;
+extern SDLVehicleDataResultCode const SDLVehicleDataResultCodeSuccess;
 
 /**
- @abstract Store the enumeration of all possible SDLVehicleDataResultCode
- @return an array that store all possible SDLVehicleDataResultCode
+ DTC / DID request successful, however, not all active DTCs or full contents of DID location available
  */
-+ (NSArray *)values;
+extern SDLVehicleDataResultCode const SDLVehicleDataResultCodeTruncatedData;
+   
+/**
+ This vehicle data item is not allowed for this app by SDL
+ */
+extern SDLVehicleDataResultCode const SDLVehicleDataResultCodeDisallowed;
 
 /**
- * Individual vehicle data item / DTC / DID request or subscription successful
+ The user has not granted access to this type of vehicle data item at this time
  */
-+ (SDLVehicleDataResultCode *)SUCCESS;
+extern SDLVehicleDataResultCode const SDLVehicleDataResultCodeUserDisallowed;
 
 /**
- * DTC / DID request successful, however, not all active DTCs or full contents of DID location available
+ The ECU ID referenced is not a valid ID on the bus / system
  */
-+ (SDLVehicleDataResultCode *)TRUNCATED_DATA;
+extern SDLVehicleDataResultCode const SDLVehicleDataResultCodeInvalidId;
 
 /**
- * This vehicle data item is not allowed for this app by SDL
+ The requested vehicle data item / DTC / DID is not currently available or responding on the bus / system
  */
-+ (SDLVehicleDataResultCode *)DISALLOWED;
+extern SDLVehicleDataResultCode const SDLVehicleDataResultCodeVehicleDataNotAvailable;
 
 /**
- * The user has not granted access to this type of vehicle data item at this time
+ The vehicle data item is already subscribed
  */
-+ (SDLVehicleDataResultCode *)USER_DISALLOWED;
+extern SDLVehicleDataResultCode const SDLVehicleDataResultCodeDataAlreadySubscribed;
 
 /**
- * The ECU ID referenced is not a valid ID on the bus / system
+ The vehicle data item cannot be unsubscribed because it is not currently subscribed
  */
-+ (SDLVehicleDataResultCode *)INVALID_ID;
+extern SDLVehicleDataResultCode const SDLVehicleDataResultCodeDataNotSubscribed;
 
 /**
- * The requested vehicle data item / DTC / DID is not currently available or responding on the bus / system
+ The request for this item is ignored because it is already in progress
  */
-+ (SDLVehicleDataResultCode *)VEHICLE_DATA_NOT_AVAILABLE;
-
-/**
- * The vehicle data item is already subscribed
- */
-+ (SDLVehicleDataResultCode *)DATA_ALREADY_SUBSCRIBED;
-
-/**
- * The vehicle data item cannot be unsubscribed because it is not currently subscribed
- */
-+ (SDLVehicleDataResultCode *)DATA_NOT_SUBSCRIBED;
-
-/**
- * The request for this item is ignored because it is already in progress
- */
-+ (SDLVehicleDataResultCode *)IGNORED;
-
-@end
+extern SDLVehicleDataResultCode const SDLVehicleDataResultCodeIgnored;

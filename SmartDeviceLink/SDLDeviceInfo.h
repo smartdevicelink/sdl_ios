@@ -3,20 +3,59 @@
 
 #import "SDLRPCMessage.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLDeviceInfo : SDLRPCStruct {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+/**
+ Various information about connecting device. Referenced in RegisterAppInterface
+ */
+@interface SDLDeviceInfo : SDLRPCStruct
 
 + (instancetype)currentDevice;
 
-@property (strong) NSString *hardware;
-@property (strong) NSString *firmwareRev;
-@property (strong) NSString *os;
-@property (strong) NSString *osVersion;
-@property (strong) NSString *carrier;
-@property (strong) NSNumber *maxNumberRFCOMMPorts;
+/**
+ Device model
+
+ Optional
+ */
+@property (nullable, strong, nonatomic) NSString *hardware;
+
+/**
+ Device firmware version
+
+ Optional
+ */
+@property (nullable, strong, nonatomic) NSString *firmwareRev;
+
+/**
+ Device OS
+
+ Optional
+ */
+@property (nullable, strong, nonatomic) NSString *os;
+
+/**
+ Device OS version
+
+ Optional
+ */
+@property (nullable, strong, nonatomic) NSString *osVersion;
+
+/**
+ Device mobile carrier
+
+ Optional
+ */
+@property (nullable, strong, nonatomic) NSString *carrier;
+
+/**
+ Number of bluetooth RFCOMM ports available.
+
+ Omitted if not connected via BT or on iOS
+
+ Optional
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *maxNumberRFCOMMPorts;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -3,15 +3,28 @@
 
 #import "SDLRPCNotification.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLOnEncodedSyncPData : SDLRPCNotification {
-}
+/**
+ Callback including encoded data of any SyncP packets that SYNC needs to send back to the mobile device. Legacy / v1 Protocol implementation; responds to EncodedSyncPData. *** DEPRECATED ***
+ */
+@interface SDLOnEncodedSyncPData : SDLRPCNotification
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+/**
+ Contains base64 encoded string of SyncP packets.
+ */
+@property (strong, nonatomic) NSArray<NSString *> *data;
 
-@property (strong) NSMutableArray *data;
-@property (strong) NSString *URL;
-@property (strong) NSNumber *Timeout;
+/**
+ If blank, the SyncP data shall be forwarded to the app. If not blank, the SyncP data shall be forwarded to the provided URL.
+ */
+@property (nullable, strong, nonatomic) NSString *URL;
+
+/**
+ If blank, the SyncP data shall be forwarded to the app. If not blank, the SyncP data shall be forwarded with the provided timeout in seconds.
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *Timeout;
 
 @end
+
+NS_ASSUME_NONNULL_END

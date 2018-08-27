@@ -5,60 +5,38 @@
 #import "SDLEnum.h"
 
 /**
- * Reflects the reported battery status of the connected device, if reported.
+ * Reflects the reported battery status of the connected device, if reported. Used in DeviceStatus.
  *
  * @since SDL 2.0
  */
-@interface SDLDeviceLevelStatus : SDLEnum {
-}
+typedef SDLEnum SDLDeviceLevelStatus SDL_SWIFT_ENUM;
 
 /**
- * Convert String to DeviceLevelStatus
- * @param value String
- * @return DeviceLevelStatus
+ * Device battery level is zero bars
  */
-+ (SDLDeviceLevelStatus *)valueOf:(NSString *)value;
+extern SDLDeviceLevelStatus const SDLDeviceLevelStatusZeroBars;
 
 /**
- @abstract Store the enumeration of all possible SDLDeviceLevelStatus
- @return an array that store all possible SDLDeviceLevelStatus
+ * Device battery level is one bar
  */
-+ (NSArray *)values;
+extern SDLDeviceLevelStatus const SDLDeviceLevelStatusOneBar;
 
 /**
- * @abstract Device battery level is zero bars
- * @return a SDLDeviceLevelStatus with value of *ZERO_LEVEL_BARS*
+ * Device battery level is two bars
  */
-+ (SDLDeviceLevelStatus *)ZERO_LEVEL_BARS;
+extern SDLDeviceLevelStatus const SDLDeviceLevelStatusTwoBars;
 
 /**
- * @abstract Device battery level is one bar
- * @return a SDLDeviceLevelStatus with value of *ONE_LEVEL_BARS*
+ * Device battery level is three bars
  */
-+ (SDLDeviceLevelStatus *)ONE_LEVEL_BARS;
+extern SDLDeviceLevelStatus const SDLDeviceLevelStatusThreeBars;
 
 /**
- * @abstract Device battery level is two bars
- * @return a SDLDeviceLevelStatus with value of *TWO_LEVEL_BARS*
+ * Device battery level is four bars
  */
-+ (SDLDeviceLevelStatus *)TWO_LEVEL_BARS;
+extern SDLDeviceLevelStatus const SDLDeviceLevelStatusFourBars;
 
 /**
- * @abstract Device battery level is three bars
- * @return a SDLDeviceLevelStatus with value of *THREE_LEVEL_BARS*
+ * Device battery level is unknown
  */
-+ (SDLDeviceLevelStatus *)THREE_LEVEL_BARS;
-
-/**
- * @abstract Device battery level is four bars
- * @return a SDLDeviceLevelStatus with value of *FOUR_LEVEL_BARS*
- */
-+ (SDLDeviceLevelStatus *)FOUR_LEVEL_BARS;
-
-/**
- * @abstract Device battery level is unknown
- * @return a SDLDeviceLevelStatus with value of *NOT_PROVIDED*
- */
-+ (SDLDeviceLevelStatus *)NOT_PROVIDED;
-
-@end
+extern SDLDeviceLevelStatus const SDLDeviceLevelStatusNotProvided;

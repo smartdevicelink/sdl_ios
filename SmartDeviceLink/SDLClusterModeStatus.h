@@ -3,20 +3,45 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLCarModeStatus;
-@class SDLPowerModeQualificationStatus;
-@class SDLPowerModeStatus;
+#import "SDLCarModeStatus.h"
+#import "SDLPowerModeQualificationStatus.h"
+#import "SDLPowerModeStatus.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLClusterModeStatus : SDLRPCStruct {
-}
+/**
+ A vehicle data struct for the cluster mode and power status
+ */
+@interface SDLClusterModeStatus : SDLRPCStruct
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+/**
+ References signal "PowerMode_UB".
 
-@property (strong) NSNumber *powerModeActive;
-@property (strong) SDLPowerModeQualificationStatus *powerModeQualificationStatus;
-@property (strong) SDLCarModeStatus *carModeStatus;
-@property (strong) SDLPowerModeStatus *powerModeStatus;
+ Required
+ */
+@property (strong, nonatomic) NSNumber<SDLBool> *powerModeActive;
+
+/**
+ References signal "PowerModeQF". See PowerModeQualificationStatus.
+
+ Required
+ */
+@property (strong, nonatomic) SDLPowerModeQualificationStatus powerModeQualificationStatus;
+
+/**
+ References signal "CarMode". See CarMode.
+
+ Required
+ */
+@property (strong, nonatomic) SDLCarModeStatus carModeStatus;
+
+/**
+ References signal "PowerMode". See PowerMode.
+
+ Required
+ */
+@property (strong, nonatomic) SDLPowerModeStatus powerModeStatus;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -11,49 +11,67 @@
  *
  * Since SmartDeviceLink 2.0
  */
-@interface SDLSlider : SDLRPCRequest {
-}
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLSlider : SDLRPCRequest
 
 /**
- * @abstract Constructs a new SDLSlider object
- */
-- (instancetype)init;
+ Create an SDLSlider with only the number of ticks and position. Note that this is not enough to get a SUCCESS response. You must supply additional data. See below for required parameters.
 
-/**
- * @abstract Constructs a new SDLSlider object indicated by the dictionary parameter
- * @param dict The dictionary to use
+ @param numTicks The number of ticks present on the slider.
+ @param position The default starting position of the slider.
+ @return An SDLSlider RPC Request.
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
 - (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position;
 
-- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooter:(NSString *)sliderFooter timeout:(UInt16)timeout;
+/**
+ Create an SDLSlider with all required data and a static footer (or no footer).
 
-- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(NSArray<NSString *> *)sliderFooters timeout:(UInt16)timeout;
+ @param numTicks The number of ticks present on the slider.
+ @param position The default starting position of the slider.
+ @param sliderHeader The header describing the slider.
+ @param sliderFooter A static footer with text, or nil for no footer.
+ @param timeout The length of time in milliseconds the popup should be displayed before automatically disappearing.
+ @return An SDLSlider RPC Request.
+ */
+- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooter:(nullable NSString *)sliderFooter timeout:(UInt16)timeout;
 
 /**
- * @abstract Represents a number of selectable items on a horizontal axis
+ Create an SDLSlider with all required data and a dynamic footer (or no footer).
+
+ @param numTicks The number of ticks present on the slider.
+ @param position The default starting position of the slider.
+ @param sliderHeader The header describing the slider.
+ @param sliderFooters An array of footers. This should be the same length as `numTicks` as each footer should correspond to a tick, or no footer if nil.
+ @param timeout The length of time in milliseconds the popup should be displayed before automatically disappearing.
+ @return An SDLSlider RPC Request.
+ */
+- (instancetype)initWithNumTicks:(UInt8)numTicks position:(UInt8)position sliderHeader:(NSString *)sliderHeader sliderFooters:(nullable NSArray<NSString *> *)sliderFooters timeout:(UInt16)timeout;
+
+/**
+ * Represents a number of selectable items on a horizontal axis
  *
  * Required, Integer, 2 - 26
  */
-@property (strong) NSNumber *numTicks;
+@property (strong, nonatomic) NSNumber<SDLInt> *numTicks;
 
 /**
- * @abstract An Initial position of slider control
+ * An Initial position of slider control
  *
  * Required, Integer, 1 - 26
  */
-@property (strong) NSNumber *position;
+@property (strong, nonatomic) NSNumber<SDLInt> *position;
 
 /**
- * @abstract A text header to display
+ * A text header to display
  *
- * Rquired, Max length 500 chars
+ * Required, Max length 500 chars
  */
-@property (strong) NSString *sliderHeader;
+@property (strong, nonatomic) NSString *sliderHeader;
 
 /**
- * @abstract A text footer to display
+ * A text footer to display
  *
  * @discussion For a static text footer, only one footer string shall be provided in the array.
  * 
@@ -65,10 +83,10 @@
  *
  * Optional, Array of Strings, Array length 1 - 26, Max string length 500 chars
  */
-@property (strong) NSMutableArray *sliderFooter;
+@property (strong, nonatomic, nullable) NSArray<NSString *> *sliderFooter;
 
 /**
- * @abstract An App defined timeout
+ * An App defined timeout in milliseconds
  *
  * @discussion Indicates how long of a timeout from the last action (i.e. sliding control resets timeout).
  *
@@ -76,6 +94,8 @@
  *
  * Optional, Integer, 1000 - 65535
  */
-@property (strong) NSNumber *timeout;
+@property (strong, nonatomic, nullable) NSNumber<SDLInt> *timeout;
 
 @end
+
+NS_ASSUME_NONNULL_END

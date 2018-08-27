@@ -4,20 +4,21 @@
 
 #import "SDLRPCRequest.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRPCRequest
 
-- (NSNumber *)correlationID {
-    return [function objectForKey:NAMES_correlationID];
+- (NSNumber<SDLInt> *)correlationID {
+    return [function sdl_objectForName:SDLNameCorrelationId];
 }
 
-- (void)setCorrelationID:(NSNumber *)corrID {
-    if (corrID != nil) {
-        [function setObject:corrID forKey:NAMES_correlationID];
-    } else {
-        [function removeObjectForKey:NAMES_correlationID];
-    }
+- (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {
+    [function sdl_setObject:corrID forName:SDLNameCorrelationId];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

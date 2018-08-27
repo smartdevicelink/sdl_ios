@@ -9,32 +9,14 @@
  *
  * @since SDL 1.0
  */
-@interface SDLButtonEventMode : SDLEnum {
-}
+typedef SDLEnum SDLButtonEventMode SDL_SWIFT_ENUM;
 
 /**
- * @abstract Convert String to SDLButtonEventMode
- * @param value The value of the string to get an object for
- * @return SDLButtonEventMode (BUTTONUP / BUTTONDOWN)
+ * The button was released
  */
-+ (SDLButtonEventMode *)valueOf:(NSString *)value;
+extern SDLButtonEventMode const SDLButtonEventModeButtonUp;
 
 /**
- * @abstract Store the enumeration of all possible SDLButtonEventMode
- * @return an array that store all possible SDLButtonEventMode
+ * The button was depressed
  */
-+ (NSArray *)values;
-
-/**
- * @abstract The button was released
- * @return a SDLButtonEventMode with value of *BUTTONUP*
- */
-+ (SDLButtonEventMode *)BUTTONUP;
-
-/**
- * @abstract The button was depressed
- * @return a SDLButtonEventMode with value of *BUTTONDOWN*
- */
-+ (SDLButtonEventMode *)BUTTONDOWN;
-
-@end
+extern SDLButtonEventMode const SDLButtonEventModeButtonDown;

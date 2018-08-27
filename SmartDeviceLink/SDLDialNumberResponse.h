@@ -5,13 +5,15 @@
 #import "SDLRPCResponse.h"
 
 /**
- Indicates the result, success, or failure of the SDLDialNumber request.
+ The response to SDLDialNumber
  
  @since SDL 4.0
  */
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SDLDialNumberResponse : SDLRPCResponse
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
 @end
+
+NS_ASSUME_NONNULL_END

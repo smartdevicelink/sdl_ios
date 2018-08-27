@@ -3,60 +3,103 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SDLProtocolConstants.h"
 
-typedef NS_ENUM(UInt8, SDLFrameType) {
-    SDLFrameType_Control = 0x00,
-    SDLFrameType_Single = 0x01,
-    SDLFrameType_First = 0x02,
-    SDLFrameType_Consecutive = 0x03
-};
-
-typedef NS_ENUM(UInt8, SDLServiceType) {
-    SDLServiceType_Control = 0x00,
-    SDLServiceType_RPC = 0x07,
-    SDLServiceType_Audio = 0x0A,
-    SDLServiceType_Video = 0x0B,
-    SDLServiceType_BulkData = 0x0F
-};
-
-typedef NS_ENUM(UInt8, SDLFrameData) {
-    SDLFrameData_Heartbeat = 0x00,
-    SDLFrameData_StartSession = 0x01,
-    SDLFrameData_StartSessionACK = 0x02,
-    SDLFrameData_StartSessionNACK = 0x03,
-    SDLFrameData_EndSession = 0x04,
-    SDLFrameData_EndSessionACK = 0x05,
-    SDLFrameData_EndSessionNACK = 0x06,
-    SDLFrameData_ServiceDataACK = 0xFE,
-    SDLFrameData_HeartbeatACK = 0xFF,
-    // If frameType == Single (0x01)
-    SDLFrameData_SingleFrame = 0x00,
-    // If frameType == First (0x02)
-    SDLFrameData_FirstFrame = 0x00,
-    // If frametype == Consecutive (0x03)
-    SDLFrameData_ConsecutiveLastFrame = 0x00
-};
-
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLProtocolHeader : NSObject <NSCopying> {
     UInt8 _version;
     NSUInteger _size;
 }
 
-@property (assign, readonly) UInt8 version;
-@property (assign, readonly) NSUInteger size;
-@property (assign) BOOL compressed __deprecated_msg("This is a mirror for encrypted");
-@property (assign) BOOL encrypted;
-@property (assign) SDLFrameType frameType;
-@property (assign) SDLServiceType serviceType;
-@property (assign) SDLFrameData frameData;
-@property (assign) UInt8 sessionID;
-@property (assign) UInt32 bytesInPayload;
+/**
+ *  The protocol version. The frame header differs between versions.
+ */
+@property (assign, nonatomic, readonly) UInt8 version;
 
+/**
+ *  The total size of the data packet.
+ */
+@property (assign, nonatomic, readonly) NSUInteger size;
+
+/**
+ *  Whether or not the data packet is encrypted.
+ *
+ *  @note Only available in Protocol Version 2 and higher.
+ */
+@property (assign, nonatomic) BOOL encrypted;
+
+/**
+ *  The data packet's header and payload combination.
+ */
+@property (assign, nonatomic) SDLFrameType frameType;
+
+/**
+ *  The data packet's payload format and priority. Lower values for service type have higher delivery priority.
+ */
+@property (assign, nonatomic) SDLServiceType serviceType;
+
+/**
+ *  The type of data in the packet. This differs based on the control frame type and the service type.
+ */
+@property (assign, nonatomic) SDLFrameInfo frameData;
+
+/**
+ *  The session identifier.
+ */
+@property (assign, nonatomic) UInt8 sessionID;
+
+/**
+ *  The payload size differs if the frame type is first frame or single or consecutive frame:
+ *  First frame: The data size for a first frame is always 8 bytes. In the payload, the first four bytes denote the total size of the data contained in all consecutive frames, and the second four bytes denote the number of consecutive frames following this one.
+ *  Single or consecutive frame: The total bytes in this frame's payload.
+ */
+@property (assign, nonatomic) UInt32 bytesInPayload;
+
+/**
+ *  The initializer for the class.
+ *
+ *  @return A SDLProtocolHeader object
+ */
 - (instancetype)init;
-- (NSData *)data;
+
+/**
+ *  Not implemented
+ *
+ *  @return Unused
+ */
+- (nullable NSData *)data;
+
+/**
+ *  Not implemented
+ *
+ *  @param data Unused
+ */
 - (void)parse:(NSData *)data;
+
+/**
+ *  Prints a description of the SDLProtocolHeader object.
+ *
+ *  @return A string description of the SDLProtocolHeader object
+ */
 - (NSString *)description;
+
+/**
+ *  Returns the correct header for the protocol version.
+ *
+ *  @param version  The protocol version
+ *  @return         A SDLProtocolHeader object
+ */
 + (__kindof SDLProtocolHeader *)headerForVersion:(UInt8)version;
 
+/**
+ *  For use in decoding a stream of bytes.
+ *
+ *  @param data     Bytes representing message (or beginning of message)
+ *  @return         The version number
+ */
++ (UInt8)determineVersion:(NSData *)data;
+
 @end
+
+NS_ASSUME_NONNULL_END

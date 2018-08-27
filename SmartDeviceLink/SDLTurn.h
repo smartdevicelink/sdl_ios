@@ -5,16 +5,25 @@
 
 @class SDLImage;
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLTurn : SDLRPCStruct {
-}
+/**
+ A struct used in UpdateTurnList for Turn-by-Turn navigation applications
+ */
+@interface SDLTurn : SDLRPCStruct
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithNavigationText:(nullable NSString *)navigationText turnIcon:(nullable SDLImage *)icon;
 
-- (instancetype)initWithNavigationText:(NSString *)navigationText turnIcon:(SDLImage *)icon;
+/**
+ Individual turn text. Must provide at least text or icon for a given turn
+ */
+@property (strong, nonatomic, nullable) NSString *navigationText;
 
-@property (strong) NSString *navigationText;
-@property (strong) SDLImage *turnIcon;
+/**
+ Individual turn icon. Must provide at least text or icon for a given turn
+ */
+@property (strong, nonatomic, nullable) SDLImage *turnIcon;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -4,20 +4,52 @@
 
 #import "SDLEnum.h"
 
-@interface SDLPowerModeStatus : SDLEnum {
-}
+/**
+ The status of the car's power. Used in ClusterModeStatus.
+ */
+typedef SDLEnum SDLPowerModeStatus SDL_SWIFT_ENUM;
 
-+ (SDLPowerModeStatus *)valueOf:(NSString *)value;
-+ (NSArray *)values;
+/**
+ The key is not in the ignition, and the power is off
+ */
+extern SDLPowerModeStatus const SDLPowerModeStatusKeyOut;
 
-+ (SDLPowerModeStatus *)KEY_OUT;
-+ (SDLPowerModeStatus *)KEY_RECENTLY_OUT;
-+ (SDLPowerModeStatus *)KEY_APPROVED_0;
-+ (SDLPowerModeStatus *)POST_ACCESORY_0;
-+ (SDLPowerModeStatus *)ACCESORY_1;
-+ (SDLPowerModeStatus *)POST_IGNITION_1;
-+ (SDLPowerModeStatus *)IGNITION_ON_2;
-+ (SDLPowerModeStatus *)RUNNING_2;
-+ (SDLPowerModeStatus *)CRANK_3;
+/**
+ The key is not in the ignition and it was just recently removed
+ */
+extern SDLPowerModeStatus const SDLPowerModeStatusKeyRecentlyOut;
 
-@end
+/**
+ The key is not in the ignition, but an approved key is available
+ */
+extern SDLPowerModeStatus const SDLPowerModeStatusKeyApproved;
+
+/**
+ We are in a post-accessory power situation
+ */
+extern SDLPowerModeStatus const SDLPowerModeStatusPostAccessory;
+
+/**
+ The car is in accessory power mode
+ */
+extern SDLPowerModeStatus const SDLPowerModeStatusAccessory;
+
+/**
+ We are in a post-ignition power situation
+ */
+extern SDLPowerModeStatus const SDLPowerModeStatusPostIgnition;
+
+/**
+ The ignition is on but the car is not yet running
+ */
+extern SDLPowerModeStatus const SDLPowerModeStatusIgnitionOn;
+
+/**
+ The ignition is on and the car is running
+ */
+extern SDLPowerModeStatus const SDLPowerModeStatusRunning;
+
+/**
+ We are in a crank power situation
+ */
+extern SDLPowerModeStatus const SDLPowerModeStatusCrank;

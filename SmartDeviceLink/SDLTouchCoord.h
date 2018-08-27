@@ -4,13 +4,27 @@
 
 #import "SDLRPCMessage.h"
 
-@interface SDLTouchCoord : SDLRPCStruct {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+/**
+ The coordinate of a touch, used in a touch event
+ */
+@interface SDLTouchCoord : SDLRPCStruct
 
-@property (strong) NSNumber *x;
-@property (strong) NSNumber *y;
+/**
+ The x value of the touch coordinate
+
+ Required, float 0 - 10000
+ */
+@property (strong, nonatomic) NSNumber<SDLFloat> *x;
+
+/**
+ The y value of the touch coordinate
+
+ Required, float 0 - 10000
+ */
+@property (strong, nonatomic) NSNumber<SDLFloat> *y;
 
 @end
+
+NS_ASSUME_NONNULL_END

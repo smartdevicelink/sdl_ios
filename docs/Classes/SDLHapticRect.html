@@ -1,0 +1,75 @@
+<h1>SDLHapticRect Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithId:rect:">-initWithId:rect:</a></li>
+  <li><a href="#section-id">id</a></li>
+  <li><a href="#section-rect">rect</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Defines spatial for each user control object for video streaming application</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithId:rect:">
+      -initWithId:rect:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n">UInt32</span><span class="p">)</span><span class="nv">id</span> <span class="nf">rect</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLRectangle.html">SDLRectangle</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">rect</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="nv">rect</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRectangle.html">SDLRectangle</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-id">
+      id
+  </h3>
+  
+  <p>A user control spatial identifier</p>
+
+<p>Required, Integer, 0 - 2,000,000,000</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">id</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLUInt">SDLUInt</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-rect">
+      rect
+  </h3>
+  
+  <p>The position of the haptic rectangle to be highlighted. The center of this rectangle will be <q>touched</q> when a press occurs.</p>
+
+<p>Required</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLRectangle.html">SDLRectangle</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">rect</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">rect</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRectangle.html">SDLRectangle</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

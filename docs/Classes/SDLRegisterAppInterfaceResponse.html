@@ -3,8 +3,6 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--init">-init</a></li>
-  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
   <li><a href="#section-syncMsgVersion">syncMsgVersion</a></li>
   <li><a href="#section-language">language</a></li>
   <li><a href="#section-hmiDisplayLanguage">hmiDisplayLanguage</a></li>
@@ -17,6 +15,7 @@
   <li><a href="#section-prerecordedSpeech">prerecordedSpeech</a></li>
   <li><a href="#section-vrCapabilities">vrCapabilities</a></li>
   <li><a href="#section-audioPassThruCapabilities">audioPassThruCapabilities</a></li>
+  <li><a href="#section-pcmStreamCapabilities">pcmStreamCapabilities</a></li>
   <li><a href="#section-vehicleType">vehicleType</a></li>
   <li><a href="#section-supportedDiagModes">supportedDiagModes</a></li>
   <li><a href="#section-hmiCapabilities">hmiCapabilities</a></li>
@@ -26,76 +25,29 @@
 
 <h3>Overview</h3>
 
-<p>@abstract Register AppInterface Response is sent, when SDLRegisterAppInterface has been called</p>
+<p>Response to SDLRegisterAppInterface</p>
 
 <p>Since SmartDeviceLink 1.0</p>
 
 
 <section class="section task-group-section">
-  <h3 id="section--init">
-      -init
-  </h3>
-  
-  <p>@abstract Constructs a new SDLRegisterAppInterfaceResponse object</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
-
-  
-  
-  
-  <h3 id="section--initWithDictionary:">
-      -initWithDictionary:
-  </h3>
-  
-  <p>Constructs a new SDLRegisterAppInterfaceResponse object indicated by the NSMutableDictionary
-parameter
-- parameter: dict The dictionary to use</p>
-
-  
-  
-  <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDictionary</span><span class="p">:(</span><span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">dict</span><span class="p">;</span></code></pre>
-
-  
-  <h4>Swift</h4>
-  <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">dictionary</span> <span class="nv">dict</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span><span class="o">!</span><span class="p">)</span></code></pre>
-
-  
-  
-  <h4>Parameters</h4>
-  <dl>
-      <dt>dict</dt>
-      <dd><p>The dictionary to use</p>
-</dd>
-  </dl>
-  
   <h3 id="section-syncMsgVersion">
       syncMsgVersion
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLSyncMsgVersion
-
-</div>
+  <p>The RPC spec version supported by the connected IVI system.</p>
 
 <p>Optional</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLSyncMsgVersion.html">SDLSyncMsgVersion</a></span> <span class="o">*</span><span class="n">syncMsgVersion</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLSyncMsgVersion.html">SDLSyncMsgVersion</a></span> <span class="o">*</span><span class="n">syncMsgVersion</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">syncMsgVersion</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSyncMsgVersion.html">SDLSyncMsgVersion</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">syncMsgVersion</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSyncMsgVersion.html">SDLSyncMsgVersion</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -104,24 +56,18 @@ parameter
       language
   </h3>
   
-  <p>The currently active VR+TTS language on Sync.</p>
-
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLLanguage
-
-</div>
+  <p>The currently active VR+TTS language on the module. See <q>Language</q> for options.</p>
 
 <p>Optional</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span> <span class="o">*</span><span class="n">language</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span> <span class="n">language</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">language</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">language</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -130,25 +76,21 @@ parameter
       hmiDisplayLanguage
   </h3>
   
-  <p>The currently active display language on Sync</p>
+  <p>The currently active display language on the module. See <q>Language</q> for options.</p>
 
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLLanguage
-@since SmartDeviceLink 2.0
-
-</div>
+<p>Since SmartDeviceLink 2.0</p>
 
 <p>Optional</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span> <span class="o">*</span><span class="n">hmiDisplayLanguage</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span> <span class="n">hmiDisplayLanguage</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">hmiDisplayLanguage</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLanguage.html">SDLLanguage</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">hmiDisplayLanguage</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLanguage.h@T@SDLLanguage">SDLLanguage</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -157,23 +99,19 @@ parameter
       displayCapabilities
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLDisplayCapabilities
-
-</div>
+  <p>Contains information about the display for the SDL system to which the application is currently connected.</p>
 
 <p>Optional</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
     <span class="n"><a href="../Classes/SDLDisplayCapabilities.html">SDLDisplayCapabilities</a></span> <span class="o">*</span><span class="n">displayCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">displayCapabilities</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLDisplayCapabilities.html">SDLDisplayCapabilities</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">displayCapabilities</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLDisplayCapabilities.html">SDLDisplayCapabilities</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -182,22 +120,19 @@ parameter
       buttonCapabilities
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLButtonCapabilities
-
-</div>
+  <p>Provides information about the capabilities of a SDL HMI button.</p>
 
 <p>Optional, Array of length 1 - 100, of SDLButtonCapabilities</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">buttonCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLButtonCapabilities.html">SDLButtonCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">buttonCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">buttonCapabilities</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">buttonCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLButtonCapabilities.html">SDLButtonCapabilities</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -206,24 +141,19 @@ parameter
       softButtonCapabilities
   </h3>
   
-  <p>If returned, the platform supports on-screen SoftButtons</p>
-
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLSoftButtonCapabilities
-
-</div>
+  <p>Contains information about a SoftButton&rsquo;s capabilities.</p>
 
 <p>Optional, Array of length 1 - 100, of SDLSoftButtonCapabilities</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">softButtonCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLSoftButtonCapabilities.html">SDLSoftButtonCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">softButtonCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">softButtonCapabilities</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">softButtonCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLSoftButtonCapabilities.html">SDLSoftButtonCapabilities</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -234,23 +164,17 @@ parameter
   
   <p>If returned, the platform supports custom on-screen Presets</p>
 
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLPresetBankCapabilities
-
-</div>
-
 <p>Optional</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
     <span class="n"><a href="../Classes/SDLPresetBankCapabilities.html">SDLPresetBankCapabilities</a></span> <span class="o">*</span><span class="n">presetBankCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">presetBankCapabilities</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLPresetBankCapabilities.html">SDLPresetBankCapabilities</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">presetBankCapabilities</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLPresetBankCapabilities.html">SDLPresetBankCapabilities</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -259,22 +183,19 @@ parameter
       hmiZoneCapabilities
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLHMIZoneCapabilities
-
-</div>
+  <p>Specifies HMI Zones in the vehicle.</p>
 
 <p>Optional, Array of length 1 - 100, of SDLHMIZoneCapabilities</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">hmiZoneCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLHMIZoneCapabilities.h@T@SDLHMIZoneCapabilities">SDLHMIZoneCapabilities</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">hmiZoneCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">hmiZoneCapabilities</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">hmiZoneCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Type Definitions.html#/c:SDLHMIZoneCapabilities.h@T@SDLHMIZoneCapabilities">SDLHMIZoneCapabilities</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -283,22 +204,19 @@ parameter
       speechCapabilities
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLSpeechCapabilities
-
-</div>
+  <p>Contains information about TTS capabilities on the SDL platform.</p>
 
 <p>Optional, Array of length 1 - 100, of SDLSpeechCapabilities</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">speechCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLSpeechCapabilities.h@T@SDLSpeechCapabilities">SDLSpeechCapabilities</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">speechCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">speechCapabilities</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">speechCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Type Definitions.html#/c:SDLSpeechCapabilities.h@T@SDLSpeechCapabilities">SDLSpeechCapabilities</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -307,22 +225,22 @@ parameter
       prerecordedSpeech
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLPrerecordedSpeech
+  <p>Contains information about the speech capabilities on the SDL platform
+*</p>
 
-</div>
-
-<p>Optional, Array of length 1 - 100, of SDLPrerecordedSpeech</p>
+<ul>
+<li>Optional, Array of length 1 - 100, of SDLPrerecordedSpeech</li>
+</ul>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">prerecordedSpeech</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLPrerecordedSpeech.h@T@SDLPrerecordedSpeech">SDLPrerecordedSpeech</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">prerecordedSpeech</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">prerecordedSpeech</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">prerecordedSpeech</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Type Definitions.html#/c:SDLPrerecordedSpeech.h@T@SDLPrerecordedSpeech">SDLPrerecordedSpeech</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -331,22 +249,19 @@ parameter
       vrCapabilities
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLVRCapabilities
-
-</div>
+  <p>The VR capabilities of the connected SDL platform.</p>
 
 <p>Optional, Array of length 1 - 100, of SDLVRCapabilities</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">vrCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Type Definitions.html#/c:SDLVrCapabilities.h@T@SDLVRCapabilities">SDLVRCapabilities</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">vrCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">vrCapabilities</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">vrCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Type Definitions.html#/c:SDLVrCapabilities.h@T@SDLVRCapabilities">SDLVRCapabilities</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -355,22 +270,38 @@ parameter
       audioPassThruCapabilities
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLAudioPassThruCapabilities
-
-</div>
+  <p>Describes different audio type configurations for SDLPerformAudioPassThru, e.g. {8kHz,8-bit,PCM}</p>
 
 <p>Optional, Array of length 1 - 100, of SDLAudioPassThruCapabilities</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">audioPassThruCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLAudioPassThruCapabilities.html">SDLAudioPassThruCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">audioPassThruCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">audioPassThruCapabilities</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">audioPassThruCapabilities</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLAudioPassThruCapabilities.html">SDLAudioPassThruCapabilities</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-pcmStreamCapabilities">
+      pcmStreamCapabilities
+  </h3>
+  
+  <p>Describes different audio type configurations for the audio PCM stream service, e.g. {8kHz,8-bit,PCM}</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLAudioPassThruCapabilities.html">SDLAudioPassThruCapabilities</a></span> <span class="o">*</span><span class="n">pcmStreamCapabilities</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">pcmStreamCapabilities</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAudioPassThruCapabilities.html">SDLAudioPassThruCapabilities</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -379,24 +310,16 @@ parameter
       vehicleType
   </h3>
   
-  <p>Specifies the vehicle&rsquo;s type</p>
-
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLVehicleType
-
-</div>
-
-<p>Optional, Array of length 1 - 100, of SDLVehicleType</p>
+  <p>Specifies the connected vehicle&rsquo;s type</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleType.html">SDLVehicleType</a></span> <span class="o">*</span><span class="n">vehicleType</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLVehicleType.html">SDLVehicleType</a></span> <span class="o">*</span><span class="n">vehicleType</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">vehicleType</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleType.html">SDLVehicleType</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">vehicleType</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVehicleType.html">SDLVehicleType</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -412,11 +335,12 @@ parameter
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">supportedDiagModes</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">supportedDiagModes</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">supportedDiagModes</span><span class="p">:</span> <span class="kt">NSMutableArray</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">supportedDiagModes</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -425,22 +349,19 @@ parameter
       hmiCapabilities
   </h3>
   
-  <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLHMICapabilities
-
-</div>
+  <p>Specifies the availability of various SDL features.</p>
 
 <p>Optional</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLHMICapabilities.html">SDLHMICapabilities</a></span> <span class="o">*</span><span class="n">hmiCapabilities</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLHMICapabilities.html">SDLHMICapabilities</a></span> <span class="o">*</span><span class="n">hmiCapabilities</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">hmiCapabilities</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLHMICapabilities.html">SDLHMICapabilities</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">hmiCapabilities</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLHMICapabilities.html">SDLHMICapabilities</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -449,18 +370,18 @@ parameter
       sdlVersion
   </h3>
   
-  <p>The SmartDeviceLink version</p>
+  <p>The SmartDeviceLink Core version</p>
 
 <p>Optional, String max length 100</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">sdlVersion</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">sdlVersion</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">sdlVersion</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">sdlVersion</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   
@@ -469,18 +390,19 @@ parameter
       systemSoftwareVersion
   </h3>
   
-  <p>The software version of the system that implements the SmartDeviceLink core</p>
+  <p>The software version of the system that implements SmartDeviceLink Core</p>
 
 <p>Optional, String max length 100</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">atomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">systemSoftwareVersion</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">systemSoftwareVersion</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight"><code><span class="k">var</span> <span class="nv">systemSoftwareVersion</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">systemSoftwareVersion</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

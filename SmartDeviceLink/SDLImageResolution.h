@@ -4,13 +4,29 @@
 
 #import "SDLRPCMessage.h"
 
-@interface SDLImageResolution : SDLRPCStruct {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+/**
+ The resolution of an image
+ */
+@interface SDLImageResolution : SDLRPCStruct
 
-@property (strong) NSNumber *resolutionWidth;
-@property (strong) NSNumber *resolutionHeight;
+/**
+ Resolution width
+
+ Required
+ */
+@property (strong, nonatomic) NSNumber<SDLInt> *resolutionWidth;
+
+/**
+ Resolution height
+
+ Required
+ */
+@property (strong, nonatomic) NSNumber<SDLInt> *resolutionHeight;
+
+- (instancetype)initWithWidth:(uint16_t)width height:(uint16_t)height;
 
 @end
+
+NS_ASSUME_NONNULL_END

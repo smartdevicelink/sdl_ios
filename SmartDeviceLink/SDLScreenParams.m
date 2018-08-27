@@ -3,57 +3,31 @@
 
 #import "SDLScreenParams.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLImageResolution.h"
 #import "SDLNames.h"
 #import "SDLTouchEventCapabilities.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLScreenParams
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
-}
-
 - (void)setResolution:(SDLImageResolution *)resolution {
-    if (resolution != nil) {
-        [store setObject:resolution forKey:NAMES_resolution];
-    } else {
-        [store removeObjectForKey:NAMES_resolution];
-    }
+    [store sdl_setObject:resolution forName:SDLNameResolution];
 }
 
 - (SDLImageResolution *)resolution {
-    NSObject *obj = [store objectForKey:NAMES_resolution];
-    if (obj == nil || [obj isKindOfClass:SDLImageResolution.class]) {
-        return (SDLImageResolution *)obj;
-    } else {
-        return [[SDLImageResolution alloc] initWithDictionary:(NSMutableDictionary *)obj];
-    }
+    return [store sdl_objectForName:SDLNameResolution ofClass:SDLImageResolution.class];
 }
 
-- (void)setTouchEventAvailable:(SDLTouchEventCapabilities *)touchEventAvailable {
-    if (touchEventAvailable != nil) {
-        [store setObject:touchEventAvailable forKey:NAMES_touchEventAvailable];
-    } else {
-        [store removeObjectForKey:NAMES_touchEventAvailable];
-    }
+- (void)setTouchEventAvailable:(nullable SDLTouchEventCapabilities *)touchEventAvailable {
+    [store sdl_setObject:touchEventAvailable forName:SDLNameTouchEventAvailable];
 }
 
-- (SDLTouchEventCapabilities *)touchEventAvailable {
-    NSObject *obj = [store objectForKey:NAMES_touchEventAvailable];
-    if (obj == nil || [obj isKindOfClass:SDLTouchEventCapabilities.class]) {
-        return (SDLTouchEventCapabilities *)obj;
-    } else {
-        return [[SDLTouchEventCapabilities alloc] initWithDictionary:(NSMutableDictionary *)obj];
-    }
+- (nullable SDLTouchEventCapabilities *)touchEventAvailable {
+    return [store sdl_objectForName:SDLNameTouchEventAvailable ofClass:SDLTouchEventCapabilities.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

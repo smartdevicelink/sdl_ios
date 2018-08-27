@@ -19,23 +19,23 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLOnLanguageChange* testNotification = [[SDLOnLanguageChange alloc] init];
         
-        testNotification.language = [SDLLanguage ES_ES];
-        testNotification.hmiDisplayLanguage = [SDLLanguage DE_DE];
+        testNotification.language = SDLLanguageEsEs;
+        testNotification.hmiDisplayLanguage = SDLLanguageDeDe;
         
-        expect(testNotification.language).to(equal([SDLLanguage ES_ES]));
-        expect(testNotification.hmiDisplayLanguage).to(equal([SDLLanguage DE_DE]));
+        expect(testNotification.language).to(equal(SDLLanguageEsEs));
+        expect(testNotification.hmiDisplayLanguage).to(equal(SDLLanguageDeDe));
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_notification:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_language:[SDLLanguage ES_ES],
-                                                   NAMES_hmiDisplayLanguage:[SDLLanguage DE_DE]},
-                                             NAMES_operation_name:NAMES_OnLanguageChange}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLNameNotification:
+                                           @{SDLNameParameters:
+                                                 @{SDLNameLanguage:SDLLanguageEsEs,
+                                                   SDLNameHMIDisplayLanguage:SDLLanguageDeDe},
+                                             SDLNameOperationName:SDLNameOnLanguageChange}} mutableCopy];
         SDLOnLanguageChange* testNotification = [[SDLOnLanguageChange alloc] initWithDictionary:dict];
         
-        expect(testNotification.language).to(equal([SDLLanguage ES_ES]));
-        expect(testNotification.hmiDisplayLanguage).to(equal([SDLLanguage DE_DE]));
+        expect(testNotification.language).to(equal(SDLLanguageEsEs));
+        expect(testNotification.hmiDisplayLanguage).to(equal(SDLLanguageDeDe));
     });
     
     it(@"Should return nil if not set", ^ {

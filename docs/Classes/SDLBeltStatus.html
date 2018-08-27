@@ -3,8 +3,6 @@
 <h3>Section Contents</h3>
 
 <ul>
-  <li><a href="#section--init">-init</a></li>
-  <li><a href="#section--initWithDictionary:">-initWithDictionary:</a></li>
   <li><a href="#section-driverBeltDeployed">driverBeltDeployed</a></li>
   <li><a href="#section-passengerBeltDeployed">passengerBeltDeployed</a></li>
   <li><a href="#section-passengerBuckleBelted">passengerBuckleBelted</a></li>
@@ -24,40 +22,28 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>Vehicle data struct for the seat belt status</p>
 
 
 <section class="section task-group-section">
-  <h3 id="section--init">
-      -init
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
-  <h3 id="section--initWithDictionary:">
-      -initWithDictionary:
-  </h3>
-  
-  <p>Undocumented</p>
-
-  
-  
-  
-  
-  
   <h3 id="section-driverBeltDeployed">
       driverBeltDeployed
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsDrvBelt_D_Ltchd</q>. See VehicleDataEventStatus.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">_Nonnull</span> <span class="n">driverBeltDeployed</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">driverBeltDeployed</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -65,10 +51,20 @@
       passengerBeltDeployed
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsPasBelt_D_Ltchd</q>. See VehicleDataEventStatus.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">_Nonnull</span> <span class="n">passengerBeltDeployed</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">passengerBeltDeployed</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -76,10 +72,20 @@
       passengerBuckleBelted
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsRw1PasBckl_D_Ltchd</q>. See VehicleDataEventStatus.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">_Nonnull</span> <span class="n">passengerBuckleBelted</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">passengerBuckleBelted</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -87,10 +93,20 @@
       driverBuckleBelted
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsRw1DrvBckl_D_Ltchd</q>. See VehicleDataEventStatus</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">_Nonnull</span> <span class="n">driverBuckleBelted</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">driverBuckleBelted</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -98,10 +114,20 @@
       leftRow2BuckleBelted
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsRw2lBckl_D_Ltchd</q>. See VehicleDataEventStatus.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">_Nonnull</span> <span class="n">leftRow2BuckleBelted</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">leftRow2BuckleBelted</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -109,10 +135,20 @@
       passengerChildDetected
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsRw1PasChld_D_Ltchd</q>. See VehicleDataEventStatus.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">_Nonnull</span> <span class="n">passengerChildDetected</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">passengerChildDetected</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -120,10 +156,20 @@
       rightRow2BuckleBelted
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsRw2rBckl_D_Ltchd</q>. See VehicleDataEventStatus.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">_Nonnull</span> <span class="n">rightRow2BuckleBelted</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">rightRow2BuckleBelted</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -131,10 +177,20 @@
       middleRow2BuckleBelted
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsRw2mBckl_D_Ltchd</q>. See VehicleDataEventStatus.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">_Nonnull</span> <span class="n">middleRow2BuckleBelted</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">middleRow2BuckleBelted</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -142,10 +198,20 @@
       middleRow3BuckleBelted
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsRw3mBckl_D_Ltchd</q>. See VehicleDataEventStatus.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">_Nonnull</span> <span class="n">middleRow3BuckleBelted</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">middleRow3BuckleBelted</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -153,10 +219,20 @@
       leftRow3BuckleBelted
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsRw3lBckl_D_Ltchd</q>. See VehicleDataEventStatus.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">_Nonnull</span> <span class="n">leftRow3BuckleBelted</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">leftRow3BuckleBelted</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -164,10 +240,20 @@
       rightRow3BuckleBelted
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsRw3rBckl_D_Ltchd</q>. See VehicleDataEventStatus.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">_Nonnull</span> <span class="n">rightRow3BuckleBelted</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">rightRow3BuckleBelted</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -175,10 +261,20 @@
       leftRearInflatableBelted
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsRw2lRib_D_Ltchd</q>. See VehicleDataEventStatus.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">_Nonnull</span> <span class="n">leftRearInflatableBelted</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">leftRearInflatableBelted</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -186,10 +282,20 @@
       rightRearInflatableBelted
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsRw2rRib_D_Ltchd</q>. See VehicleDataEventStatus.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">_Nonnull</span> <span class="n">rightRearInflatableBelted</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">rightRearInflatableBelted</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -197,10 +303,20 @@
       middleRow1BeltDeployed
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsRw1mBelt_D_Ltchd</q>. See VehicleDataEventStatus.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">_Nonnull</span> <span class="n">middleRow1BeltDeployed</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">middleRow1BeltDeployed</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -208,10 +324,20 @@
       middleRow1BuckleBelted
   </h3>
   
-  <p>Undocumented</p>
+  <p>References signal <q>VedsRw1mBckl_D_Ltchd</q>. See VehicleDataEventStatus.</p>
+
+<p>Required</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="n">_Nonnull</span> <span class="n">middleRow1BuckleBelted</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">middleRow1BuckleBelted</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLVehicleDataEventStatus.h@T@SDLVehicleDataEventStatus">SDLVehicleDataEventStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   

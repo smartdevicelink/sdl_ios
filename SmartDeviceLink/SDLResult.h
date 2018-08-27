@@ -5,200 +5,201 @@
 #import "SDLEnum.h"
 
 /**
- * Defines the possible result codes returned by SDL to the application in a response to a requested operation
+ * Defines the possible result codes returned by SDL to the application in a response to a requested operation. Used in RPC responses
  *
  * @since SDL 1.0
  */
-@interface SDLResult : SDLEnum {
-}
+typedef SDLEnum SDLResult SDL_SWIFT_ENUM;
 
 /**
- * @abstract get SDLResult according value string
- * @param value The value of the string to get an object for
- * @return SDLResult object
+ * The request succeeded
  */
-+ (SDLResult *)valueOf:(NSString *)value;
+extern SDLResult const SDLResultSuccess;
 
 /**
- @abstract declare an array to store all possible SDLResult values
- @return the array
+ The request contained invalid data
+
+ The data sent is invalid. For example:
+
+ Invalid JSON syntax
+
+ Parameters out of bounds (number or enum range)
+
+ Mandatory parameters not provided
+
+ Parameter provided with wrong type
+
+ Invalid characters
+
+ Empty string
  */
-+ (NSArray *)values;
+extern SDLResult const SDLResultInvalidData;
 
 /**
- * @abstract The request succeeded
+ The request had a string containing too many characters
  */
-+ (SDLResult *)SUCCESS;
+extern SDLResult const SDLResultCharacterLimitExceeded;
 
 /**
- * @abstract Result code : Invalid Data
- *
- * @discussion The data sent is invalid. For example:
- * <li>Invalid Json syntax</li>
- * <li>Parameters out of bounds (number or enum range)</li>
- * <li>Mandatory parameters not provided</li>
- * <li>Parameter provided with wrong type</li>
- * <li>Invalid characters</li>
- * <li>Empty string</li>
+ The request is not supported by the IVI unit implementing SDL
  */
-+ (SDLResult *)INVALID_DATA;
-
-+ (SDLResult *)CHAR_LIMIT_EXCEEDED;
+extern SDLResult const SDLResultUnsupportedRequest;
 
 /**
- * @abstract The request is not supported by SDL
+ The system could not process the request because the necessary memory couldn't be allocated
  */
-+ (SDLResult *)UNSUPPORTED_REQUEST;
+extern SDLResult const SDLResultOutOfMemory;
 
 /**
- * @abstract The system could not process the request because the necessary memory couldn't be allocated
+ There are too many requests pending (means that the response has not been delivered yet).
+
+ There is a limit of 1000 pending requests at a time.
  */
-+ (SDLResult *)OUT_OF_MEMORY;
+extern SDLResult const SDLResultTooManyPendingRequests;
 
 /**
- * @abstract There are too many requests pending (means that the response has not been delivered yet).
- *
- * @discussion There is a limit of 1000 pending requests at a time.
+ One of the provided IDs is not valid.
+
+ For example: CorrelationID, CommandID, MenuID
  */
-+ (SDLResult *)TOO_MANY_PENDING_REQUESTS;
+extern SDLResult const SDLResultInvalidId;
 
 /**
- * @abstract One of the provided IDs is not valid.
- * @discussion For example:
- * <li>CorrelationID</li>
- * <li>CommandID</li>
- * <li>MenuID</li>
+ The provided name or synonym is a duplicate of some already-defined name or synonym.
  */
-+ (SDLResult *)INVALID_ID;
+extern SDLResult const SDLResultDuplicateName;
 
 /**
- * @abstract The provided name or synonym is a duplicate of some already-defined name or synonym.
+ There are already too many registered applications.
  */
-+ (SDLResult *)DUPLICATE_NAME;
+extern SDLResult const SDLResultTooManyApplications;
 
 /**
- * There are already too many registered applications.
+ RegisterAppInterface has been called, but this app is already registered
  */
-+ (SDLResult *)TOO_MANY_APPLICATIONS;
+extern SDLResult const SDLResultApplicationRegisteredAlready;
 
 /**
- * RegisterApplication has been called again, after a RegisterApplication was successful before.
+ The Head Unit doesn't support the SDL version that is requested by the mobile application.
  */
-+ (SDLResult *)APPLICATION_REGISTERED_ALREADY;
+extern SDLResult const SDLResultUnsupportedVersion;
 
 /**
- * The Head Unit doesn't support the protocol that is requested by the mobile application.
+ The requested language is currently not supported. This might be because of a mismatch of the currently active language on the head unit and the requested language.
  */
-+ (SDLResult *)UNSUPPORTED_VERSION;
+extern SDLResult const SDLResultWrongLanguage;
 
 /**
- * The requested language is currently not supported. Might be because of a mismatch of the currently active language on the head unit and the requested language.
+ A command can not be executed because no application has been registered with RegisterApplication.
  */
-+ (SDLResult *)WRONG_LANGUAGE;
+extern SDLResult const SDLResultApplicationNotRegistered;
 
 /**
- * A command can not be executed because no application has been registered with RegisterApplication.
+ The data may not be changed, because it is currently in use. For example when trying to delete a choice set that is currently involved in an interaction.
  */
-+ (SDLResult *)APPLICATION_NOT_REGISTERED;
+extern SDLResult const SDLResultInUse;
 
 /**
- * The data may not be changed, because it is currently in use. For example when trying to delete a command set that is currently involved in an interaction.
+ The user has turned off access to vehicle data, and it is globally unavailable to mobile applications.
  */
-+ (SDLResult *)IN_USE;
+extern SDLResult const SDLResultVehicleDataNotAllowed;
 
 /**
- * The user has turned off access to vehicle data, and it is globally unavailable to mobile applications.
+ The requested vehicle data is not available on this vehicle or is not published.
  */
-+ (SDLResult *)VEHICLE_DATA_NOT_ALLOWED;
+extern SDLResult const SDLResultVehicleDataNotAvailable;
 
 /**
- * The requested vehicle data is not available on this vehicle or is not published.
+ The requested command was rejected, e.g. because the mobile app is in background and cannot perform any HMI commands, or an HMI command (e.g. Speak) is rejected because a higher priority HMI command (e.g. Alert) is playing.
  */
-+ (SDLResult *)VEHICLE_DATA_NOT_AVAILABLE;
+extern SDLResult const SDLResultRejected;
 
 /**
- * The requested command was rejected, e.g. because mobile app is in background and cannot perform any HMI commands. Or an HMI command (e.g. Speak) is rejected because a higher priority HMI command (e.g. Alert) is playing.
+ A command was aborted, e.g. due to user interaction (user pressed button), or an HMI command (e.g. Speak) is aborted because a higher priority HMI command (e.g. Alert) was requested.
  */
-+ (SDLResult *)REJECTED;
+extern SDLResult const SDLResultAborted;
 
 /**
- * A command was aborted, for example due to user interaction (e.g. user pressed button). Or an HMI command (e.g. Speak) is aborted because a higher priority HMI command (e.g. Alert) was requested.
+ A command was ignored, because the intended result is already in effect. For example, SetMediaClockTimer was used to pause the media clock although the clock is paused already.
  */
-+ (SDLResult *)ABORTED;
+extern SDLResult const SDLResultIgnored;
 
 /**
- * A command was ignored, because the intended result is already in effect. For example, SetMediaClockTimer was used to pause the media clock although the clock is paused already.
+ A button that was requested for subscription is not supported under the current system.
  */
-+ (SDLResult *)IGNORED;
+extern SDLResult const SDLResultUnsupportedResource;
 
 /**
- *  A button that was requested for subscription is not supported under the current system.
+ A specified file could not be found on the head unit.
  */
-+ (SDLResult *)UNSUPPORTED_RESOURCE;
+extern SDLResult const SDLResultFileNotFound;
 
 /**
- * A specified file could not be found on the head unit.
+ Provided data is valid but something went wrong in the lower layers.
  */
-+ (SDLResult *)FILE_NOT_FOUND;
+extern SDLResult const SDLResultGenericError;
 
 /**
- * Provided data is valid but something went wrong in the lower layers.
+ RPC is not authorized in local policy table.
  */
-+ (SDLResult *)GENERIC_ERROR;
+extern SDLResult const SDLResultDisallowed;
 
 /**
- * RPC is not authorized in local policy table.
+ RPC is included in a functional group explicitly blocked by the user.
  */
-+ (SDLResult *)DISALLOWED;
-
-/**
- * RPC is included in a functional group explicitly blocked by the user.
- */
-+ (SDLResult *)USER_DISALLOWED;
+extern SDLResult const SDLResultUserDisallowed;
 
 /**
  * Overlay reached the maximum timeout and closed.
  */
-+ (SDLResult *)TIMED_OUT;
+extern SDLResult const SDLResultTimedOut;
 
 /**
  * User selected to Cancel Route.
  */
-+ (SDLResult *)CANCEL_ROUTE;
+extern SDLResult const SDLResultCancelRoute;
 
 /**
- * The RPC (e.g. ReadDID) executed successfully but the data exceeded the platform maximum threshold and thus, only part of the data is available.
+ The RPC (e.g. ReadDID) executed successfully but the data exceeded the platform maximum threshold and thus, only part of the data is available.
  */
-+ (SDLResult *)TRUNCATED_DATA;
+extern SDLResult const SDLResultTruncatedData;
 
 /**
- * The user interrupted the RPC (e.g. PerformAudioPassThru) and indicated to start over. Note, the app must issue the new RPC.
+ The user interrupted the RPC (e.g. PerformAudioPassThru) and indicated to start over. Note, the app must issue the new RPC.
  */
-+ (SDLResult *)RETRY;
+extern SDLResult const SDLResultRetry;
 
 /**
- * The RPC (e.g. SubscribeVehicleData) executed successfully but one or more items have a warning or failure.
+ The RPC (e.g. SubscribeVehicleData) executed successfully but one or more items have a warning or failure.
  */
-+ (SDLResult *)WARNINGS;
+extern SDLResult const SDLResultWarnings;
 
 /**
- * The RPC (e.g. Slider) executed successfully and the user elected to save the current position / value.
+ The RPC (e.g. Slider) executed successfully and the user elected to save the current position / value.
  */
-+ (SDLResult *)SAVED;
+extern SDLResult const SDLResultSaved;
 
 /**
- * The certificate provided during authentication is invalid.
+ The certificate provided during authentication is invalid.
  */
-+ (SDLResult *)INVALID_CERT;
+extern SDLResult const SDLResultInvalidCertificate;
 
 /**
- * The certificate provided during authentication is expired.
+ The certificate provided during authentication is expired.
  */
-+ (SDLResult *)EXPIRED_CERT;
+extern SDLResult const SDLResultExpiredCertificate;
 
 /**
- * The provided hash ID does not match the hash of the current set of registered data or the core could not resume the previous data.
+ The provided hash ID does not match the hash of the current set of registered data or the core could not resume the previous data.
  */
-+ (SDLResult *)RESUME_FAILED;
+extern SDLResult const SDLResultResumeFailed;
 
-@end
+/**
+ The requested data is not available on this vehicle or is not published for the connected app.
+ */
+extern SDLResult const SDLResultDataNotAvailable;
+
+/**
+ The requested data is read only thus cannot be change via remote control .
+ */
+extern SDLResult const SDLResultReadOnly;

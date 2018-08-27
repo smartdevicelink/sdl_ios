@@ -5,10 +5,10 @@
 
 #import "SDLLockScreenStatusManager.h"
 
-#import "SDLHMILevel.h"
 #import "SDLLockScreenStatus.h"
 #import "SDLOnLockScreenStatus.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLLockScreenStatusManager ()
 
@@ -40,14 +40,14 @@
     _haveDriverDistractionStatus = YES;
 }
 
-- (void)setHmiLevel:(SDLHMILevel *)hmiLevel {
+- (void)setHmiLevel:(nullable SDLHMILevel)hmiLevel {
     if (_hmiLevel != hmiLevel) {
         _hmiLevel = hmiLevel;
     }
 
-    if ([hmiLevel isEqualToEnum:[SDLHMILevel FULL]] || [hmiLevel isEqualToEnum:[SDLHMILevel LIMITED]]) {
+    if ([hmiLevel isEqualToEnum:SDLHMILevelFull] || [hmiLevel isEqualToEnum:SDLHMILevelLimited]) {
         self.userSelected = YES;
-    } else if ([hmiLevel isEqualToEnum:[SDLHMILevel NONE]]) {
+    } else if ([hmiLevel isEqualToEnum:SDLHMILevelNone]) {
         self.userSelected = NO;
     }
 }
@@ -65,38 +65,39 @@
     return notification;
 }
 
-- (SDLLockScreenStatus *)lockScreenStatus {
-    if (self.hmiLevel == nil || [self.hmiLevel isEqualToEnum:[SDLHMILevel NONE]]) {
+- (SDLLockScreenStatus)lockScreenStatus {
+    if (self.hmiLevel == nil || [self.hmiLevel isEqualToEnum:SDLHMILevelNone]) {
         // App is not active on the car
-        return [SDLLockScreenStatus OFF];
-    } else if ([self.hmiLevel isEqualToEnum:[SDLHMILevel BACKGROUND]]) {
+        return SDLLockScreenStatusOff;
+    } else if ([self.hmiLevel isEqualToEnum:SDLHMILevelBackground]) {
         // App is in the background on the car
         if (self.userSelected) {
             // It was user selected
             if (self.haveDriverDistractionStatus && !self.driverDistracted) {
                 // We have the distraction status, and the driver is not distracted
-                return [SDLLockScreenStatus OPTIONAL];
+                return SDLLockScreenStatusOptional;
             } else {
                 // We don't have the distraction status, and/or the driver is distracted
-                return [SDLLockScreenStatus REQUIRED];
+                return SDLLockScreenStatusRequired;
             }
         } else {
-            // It wasn't user selected
-            return [SDLLockScreenStatus OFF];
+            return SDLLockScreenStatusOff;
         }
-    } else if ([self.hmiLevel isEqualToEnum:[SDLHMILevel FULL]] || [self.hmiLevel isEqualToEnum:[SDLHMILevel LIMITED]]) {
+    } else if ([self.hmiLevel isEqualToEnum:SDLHMILevelFull] || [self.hmiLevel isEqualToEnum:SDLHMILevelLimited]) {
         // App is in the foreground on the car in some manner
         if (self.haveDriverDistractionStatus && !self.driverDistracted) {
             // We have the distraction status, and the driver is not distracted
-            return [SDLLockScreenStatus OPTIONAL];
+            return SDLLockScreenStatusOptional;
         } else {
             // We don't have the distraction status, and/or the driver is distracted
-            return [SDLLockScreenStatus REQUIRED];
+            return SDLLockScreenStatusRequired;
         }
     } else {
         // This shouldn't be possible.
-        return [SDLLockScreenStatus OFF];
+        return SDLLockScreenStatusOff;
     }
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

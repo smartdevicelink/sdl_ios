@@ -5,46 +5,43 @@
 #import "SDLEnum.h"
 
 /**
- * Properties of a user-initiated VR interaction (i.e. interactions started by the user pressing the PTT button).
+ * Properties of a user-initiated VR interaction (i.e. interactions started by the user pressing the PTT button). Used in RPCs related to ResetGlobalProperties
  *
  * @since SDL 1.0
  */
-@interface SDLGlobalProperty : SDLEnum {
-}
+typedef SDLEnum SDLGlobalProperty SDL_SWIFT_ENUM;
 
 /**
- * Convert String to SDLGlobalProperty
- * @param value The value of the string to get an object for
- * @return SDLGlobalProperty
+ * The help prompt to be spoken if the user needs assistance during a user-initiated interaction.
  */
-+ (SDLGlobalProperty *)valueOf:(NSString *)value;
+extern SDLGlobalProperty const SDLGlobalPropertyHelpPrompt;
 
 /**
- * @abstract Store the enumeration of all possible SDLGlobalProperty
- * @return An array that store all possible SDLGlobalProperty
+ * The prompt to be spoken if the user-initiated interaction times out waiting for the user's verbal input.
  */
-+ (NSArray *)values;
+extern SDLGlobalProperty const SDLGlobalPropertyTimeoutPrompt;
 
 /**
- * @abstract The help prompt to be spoken if the user needs assistance during a user-initiated interaction.
- * @return A SDLGlobalProperty with value of *HELPPROMPT*
+ * The title of the menu displayed when the user requests help via voice recognition.
  */
-+ (SDLGlobalProperty *)HELPPROMPT;
+extern SDLGlobalProperty const SDLGlobalPropertyVoiceRecognitionHelpTitle;
 
 /**
- * @abstract The prompt to be spoken if the user-initiated interaction times out waiting for the user's verbal input.
- * @return A SDLGlobalProperty with value of *TIMEOUTPROMPT*
+ * Items of the menu displayed when the user requests help via voice recognition.
  */
-+ (SDLGlobalProperty *)TIMEOUTPROMPT;
+extern SDLGlobalProperty const SDLGlobalPropertyVoiceRecognitionHelpItems;
 
-+ (SDLGlobalProperty *)VRHELPTITLE;
+/**
+ * The name of the menu button displayed in templates
+ */
+extern SDLGlobalProperty const SDLGlobalPropertyMenuName;
 
-+ (SDLGlobalProperty *)VRHELPITEMS;
+/**
+ * An icon on the menu button displayed in templates
+ */
+extern SDLGlobalProperty const SDLGlobalPropertyMenuIcon;
 
-+ (SDLGlobalProperty *)MENUNAME;
-
-+ (SDLGlobalProperty *)MENUICON;
-
-+ (SDLGlobalProperty *)KEYBOARDPROPERTIES;
-
-@end
+/**
+ * Property related to the keyboard
+ */
+extern SDLGlobalProperty const SDLGlobalPropertyKeyboard;

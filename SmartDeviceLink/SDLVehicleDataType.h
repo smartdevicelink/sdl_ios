@@ -5,155 +5,136 @@
 #import "SDLEnum.h"
 
 /**
- * Defines the vehicle data types that can be published and/or subscribed to using SDLSubscribeVehicleData
+ * Defines the vehicle data types that can be published and/or subscribed to using SDLSubscribeVehicleData. Used in VehicleDataResult
  */
-@interface SDLVehicleDataType : SDLEnum {
-}
+typedef SDLEnum SDLVehicleDataType SDL_SWIFT_ENUM;
 
 /**
- * Convert String to SDLVehicleDataType
- *
- * @param value String value to retrieve the object for
- *
- * @return SDLVehicleDataType
+ GPS vehicle data
  */
-+ (SDLVehicleDataType *)valueOf:(NSString *)value;
+extern SDLVehicleDataType const SDLVehicleDataTypeGPS;
 
 /**
- * @abstract Store the enumeration of all possible SDLVehicleDataType
- *
- * @return an array that store all possible SDLVehicleDataType
+ Vehicle speed data
  */
-+ (NSArray *)values;
+extern SDLVehicleDataType const SDLVehicleDataTypeSpeed;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_GPS*
+ Vehicle RPM data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_GPS;
+extern SDLVehicleDataType const SDLVehicleDataTypeRPM;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_SPEED*
+ Vehicle fuel level data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_SPEED;
+extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevel;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_RPM*
+ Vehicle fuel level state data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_RPM;
+extern SDLVehicleDataType const SDLVehicleDataTypeFuelLevelState;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_FUELLEVEL*
+ Vehicle fuel consumption data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_FUELLEVEL;
+extern SDLVehicleDataType const SDLVehicleDataTypeFuelConsumption;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_FUELLEVEL_STATE*
+ Vehicle external temperature data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_FUELLEVEL_STATE;
+extern SDLVehicleDataType const SDLVehicleDataTypeExternalTemperature;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_FUELCONSUMPTION*
+ Vehicle VIN data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_FUELCONSUMPTION;
+extern SDLVehicleDataType const SDLVehicleDataTypeVIN;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_EXTERNTEMP*
+ Vehicle PRNDL data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_EXTERNTEMP;
+extern SDLVehicleDataType const SDLVehicleDataTypePRNDL;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_VIN*
+ Vehicle tire pressure data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_VIN;
+extern SDLVehicleDataType const SDLVehicleDataTypeTirePressure;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_PRNDL*
+ Vehicle odometer data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_PRNDL;
+extern SDLVehicleDataType const SDLVehicleDataTypeOdometer;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_TIREPRESSURE*
+ Vehicle belt status data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_TIREPRESSURE;
+extern SDLVehicleDataType const SDLVehicleDataTypeBeltStatus;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_ODOMETER*
+ Vehicle body info data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_ODOMETER;
+extern SDLVehicleDataType const SDLVehicleDataTypeBodyInfo;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_BELTSTATUS*
+ Vehicle device status data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_BELTSTATUS;
+extern SDLVehicleDataType const SDLVehicleDataTypeDeviceStatus;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_BODYINFO*
+ Vehicle emergency call info data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_BODYINFO;
+extern SDLVehicleDataType const SDLVehicleDataTypeECallInfo;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_DEVICESTATUS*
+ Vehicle airbag status data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_DEVICESTATUS;
+extern SDLVehicleDataType const SDLVehicleDataTypeAirbagStatus;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_ECALLINFO*
+ Vehicle emergency event info
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_ECALLINFO;
+extern SDLVehicleDataType const SDLVehicleDataTypeEmergencyEvent;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_AIRBAGSTATUS*
+ Vehicle cluster mode status data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_AIRBAGSTATUS;
+extern SDLVehicleDataType const SDLVehicleDataTypeClusterModeStatus;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_EMERGENCYEVENT*
+ Vehicle MyKey data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_EMERGENCYEVENT;
+extern SDLVehicleDataType const SDLVehicleDataTypeMyKey;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_CLUSTERMODESTATUS*
+ Vehicle braking data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_CLUSTERMODESTATUS;
+extern SDLVehicleDataType const SDLVehicleDataTypeBraking;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_MYKEY*
+ Vehicle wiper status data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_MYKEY;
+extern SDLVehicleDataType const SDLVehicleDataTypeWiperStatus;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_BRAKING*
+ Vehicle headlamp status
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_BRAKING;
+extern SDLVehicleDataType const SDLVehicleDataTypeHeadlampStatus;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_WIPERSTATUS*
+ Vehicle battery voltage data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_WIPERSTATUS;
+extern SDLVehicleDataType const SDLVehicleDataTypeBatteryVoltage;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_HEADLAMPSTATUS*
+ Vehicle engine torque data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_HEADLAMPSTATUS;
+extern SDLVehicleDataType const SDLVehicleDataTypeEngineTorque;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_BATTVOLTAGE*
+ Vehicle accleration pedal data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_BATTVOLTAGE;
+extern SDLVehicleDataType const SDLVehicleDataTypeAccelerationPedal;
 
 /**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_ENGINETORQUE*
+ Vehicle steering wheel data
  */
-+ (SDLVehicleDataType *)VEHICLEDATA_ENGINETORQUE;
-
-/**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_ACCPEDAL*
- */
-+ (SDLVehicleDataType *)VEHICLEDATA_ACCPEDAL;
-
-/**
- * @abstract SDLVehicleDataType: *VEHICLEDATA_STEERINGWHEEL*
- */
-+ (SDLVehicleDataType *)VEHICLEDATA_STEERINGWHEEL;
-
-@end
+extern SDLVehicleDataType const SDLVehicleDataTypeSteeringWheel;

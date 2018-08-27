@@ -5,14 +5,15 @@
 
 
 /**
- * SDLAddCommandResponse is sent, when SDLAddCommand has been called
- *
- * Since <b>SmartDeviceLink 1.0</b>
- */
-@interface SDLAddCommandResponse : SDLRPCResponse {
-}
+ Response to `SDLAddCommand`
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+ Since SmartDeviceLink 1.0
+ */
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLAddCommandResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

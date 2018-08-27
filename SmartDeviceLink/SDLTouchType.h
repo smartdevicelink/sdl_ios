@@ -4,14 +4,27 @@
 
 #import "SDLEnum.h"
 
-@interface SDLTouchType : SDLEnum {
-}
+/**
+ The type of a touch in a projection application. Used in OnTouchEvent.
+ */
+typedef SDLEnum SDLTouchType SDL_SWIFT_ENUM;
 
-+ (SDLTouchType *)valueOf:(NSString *)value;
-+ (NSArray *)values;
+/**
+ The touch is the beginning of a finger pressed on the display.
+ */
+extern SDLTouchType const SDLTouchTypeBegin;
 
-+ (SDLTouchType *)BEGIN;
-+ (SDLTouchType *)MOVE;
-+ (SDLTouchType *)END;
+/**
+ The touch is the movement of a finger pressed on the display.
+ */
+extern SDLTouchType const SDLTouchTypeMove;
 
-@end
+/**
+ The touch is the ending of a finger pressed on the display.
+ */
+extern SDLTouchType const SDLTouchTypeEnd;
+
+/**
+ The touch is the cancellation of a finger pressed on the display.
+ */
+extern SDLTouchType const SDLTouchTypeCancel;

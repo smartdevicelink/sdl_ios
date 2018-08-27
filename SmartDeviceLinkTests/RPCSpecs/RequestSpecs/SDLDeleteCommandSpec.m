@@ -23,10 +23,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_request:
-                                           @{NAMES_parameters:
-                                                 @{NAMES_cmdID:@11223344},
-                                             NAMES_operation_name:NAMES_DeleteCommand}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
+                                                           @{SDLNameParameters:
+                                                                 @{SDLNameCommandId:@11223344},
+                                                             SDLNameOperationName:SDLNameDeleteCommand}} mutableCopy];
         SDLDeleteCommand* testRequest = [[SDLDeleteCommand alloc] initWithDictionary:dict];
         
         expect(testRequest.cmdID).to(equal(@11223344));

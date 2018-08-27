@@ -5,43 +5,20 @@
 #import "SDLEnum.h"
 
 /**
-* Contains information about the type of image.
-*
-* @since SDL 2.0
-*/
-@interface SDLImageType : SDLEnum {
-}
+ Contains information about the type of image. Used in Image.
+
+ @since SDL 2.0
+ */
+typedef SDLEnum SDLImageType SDL_SWIFT_ENUM;
 
 /**
- * @abstract return SDLImageType (STATIC / DYNAMIC)
- *
- * @param value The value of the string to get an object for
- *
- * @return An SDLImageType
+ Activate an icon that shipped with the IVI system by passing a hex value.
  */
-+ (SDLImageType *)valueOf:(NSString *)value;
+extern SDLImageType const SDLImageTypeStatic;
 
 /**
- * @abstract store all possible SDLImageType values
- *
- * @return An array with all possible SDLImageType values inside
- */
-+ (NSArray *)values;
+ An icon referencing an image uploaded by the app (identifier to be sent by SDLPutFile)
 
-/**
- * @abstract Just the static hex icon value to be used
- *
- * @return The Image Type with value *STATIC*
+ @see SDLPutFile
  */
-+ (SDLImageType *)STATIC;
-
-/**
- * @abstract Binary image file to be used (identifier to be sent by SDLPutFile)
- *
- * @see SDLPutFile
- *
- * @return The Image Type with value *DYNAMIC*
- */
-+ (SDLImageType *)DYNAMIC;
-
-@end
+extern SDLImageType const SDLImageTypeDynamic;

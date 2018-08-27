@@ -4,31 +4,107 @@
 
 #import "SDLEnum.h"
 
-@interface SDLRequestType : SDLEnum {
-}
+/**
+ A type of system request. Used in SystemRequest.
+ */
+typedef SDLEnum SDLRequestType SDL_SWIFT_ENUM;
 
-+ (SDLRequestType *)valueOf:(NSString *)value;
-+ (NSArray *)values;
+/**
+ An HTTP request
+ */
+extern SDLRequestType const SDLRequestTypeHTTP;
 
-+ (SDLRequestType *)HTTP;
-+ (SDLRequestType *)FILE_RESUME;
-+ (SDLRequestType *)AUTH_REQUEST;
-+ (SDLRequestType *)AUTH_CHALLENGE;
-+ (SDLRequestType *)AUTH_ACK;
-+ (SDLRequestType *)PROPRIETARY;
-+ (SDLRequestType *)QUERY_APPS;
-+ (SDLRequestType *)LAUNCH_APP;
-+ (SDLRequestType *)LOCK_SCREEN_ICON_URL;
-+ (SDLRequestType *)TRAFFIC_MESSAGE_CHANNEL;
-+ (SDLRequestType *)DRIVER_PROFILE;
-+ (SDLRequestType *)VOICE_SEARCH;
-+ (SDLRequestType *)NAVIGATION;
-+ (SDLRequestType *)PHONE;
-+ (SDLRequestType *)CLIMATE;
-+ (SDLRequestType *)SETTINGS;
-+ (SDLRequestType *)VEHICLE_DIAGNOSTICS;
-+ (SDLRequestType *)EMERGENCY;
-+ (SDLRequestType *)MEDIA;
-+ (SDLRequestType *)FOTA;
+/**
+ A file resumption request
+ */
+extern SDLRequestType const SDLRequestTypeFileResume;
 
-@end
+/**
+ An authentication request
+ */
+extern SDLRequestType const SDLRequestTypeAuthenticationRequest;
+
+/**
+ An authentication challenge
+ */
+extern SDLRequestType const SDLRequestTypeAuthenticationChallenge;
+
+/**
+ An authentication acknowledgment
+ */
+extern SDLRequestType const SDLRequestTypeAuthenticationAck;
+
+/**
+ An proprietary formatted request
+ */
+extern SDLRequestType const SDLRequestTypeProprietary;
+
+/**
+ An Query Apps request
+ */
+extern SDLRequestType const SDLRequestTypeQueryApps;
+
+/**
+ A Launch Apps request
+ */
+extern SDLRequestType const SDLRequestTypeLaunchApp;
+
+/**
+ The URL for a lock screen icon
+ */
+extern SDLRequestType const SDLRequestTypeLockScreenIconURL;
+
+/**
+ A traffic message channel request
+ */
+extern SDLRequestType const SDLRequestTypeTrafficMessageChannel;
+
+/**
+ A driver profile request
+ */
+extern SDLRequestType const SDLRequestTypeDriverProfile;
+
+/**
+ A voice search request
+ */
+extern SDLRequestType const SDLRequestTypeVoiceSearch;
+
+/**
+ A navigation request
+ */
+extern SDLRequestType const SDLRequestTypeNavigation;
+
+/**
+ A phone request
+ */
+extern SDLRequestType const SDLRequestTypePhone;
+
+/**
+ A climate request
+ */
+extern SDLRequestType const SDLRequestTypeClimate;
+
+/**
+ A settings request
+ */
+extern SDLRequestType const SDLRequestTypeSettings;
+
+/**
+ A vehicle diagnostics request
+ */
+extern SDLRequestType const SDLRequestTypeVehicleDiagnostics;
+
+/**
+ An emergency request
+ */
+extern SDLRequestType const SDLRequestTypeEmergency;
+
+/**
+ A media request
+ */
+extern SDLRequestType const SDLRequestTypeMedia;
+
+/**
+ A firmeware over-the-air request
+ */
+extern SDLRequestType const SDLRequestTypeFOTA;

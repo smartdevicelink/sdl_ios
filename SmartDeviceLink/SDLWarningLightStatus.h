@@ -5,48 +5,28 @@
 #import "SDLEnum.h"
 
 /**
- * Reflects the status of a cluster instrument warning light.
+ * Reflects the status of a cluster instrument warning light. Used in TireStatus
  *
  * @since SDL 2.0
  */
-@interface SDLWarningLightStatus : SDLEnum {
-}
+typedef SDLEnum SDLWarningLightStatus SDL_SWIFT_ENUM;
 
 /**
- * Convert String to SDLWarningLightStatus
- * @param value The value of the string to get an object for
- * @return SDLWarningLightStatus
+ * The warning light is off
  */
-+ (SDLWarningLightStatus *)valueOf:(NSString *)value;
+extern SDLWarningLightStatus const SDLWarningLightStatusOff;
 
 /**
- * @abstract Store the enumeration of all possible SDLWarningLightStatus
- * @return an array that store all possible SDLWarningLightStatus
+ * The warning light is off
  */
-+ (NSArray *)values;
+extern SDLWarningLightStatus const SDLWarningLightStatusOn;
 
 /**
- * @abstract Warninglight Off
- * @return SDLWarningLightStatus instance with value of *OFF*
+ * The warning light is flashing
  */
-+ (SDLWarningLightStatus *)OFF;
+extern SDLWarningLightStatus const SDLWarningLightStatusFlash;
 
 /**
- * @abstract Warninglight On
- * @return SDLWarningLightStatus instance with value of *ON*
+ * The warning light is unused
  */
-+ (SDLWarningLightStatus *)ON;
-
-/**
- * @abstract Warninglight is flashing
- * @return SDLWarningLightStatus instance with value of *FLASH*
- */
-+ (SDLWarningLightStatus *)FLASH;
-
-/**
- * @abstract Not used
- * @return SDLWarningLightStatus instance with value of *NOT_USED*
- */
-+ (SDLWarningLightStatus *)NOT_USED;
-
-@end
+extern SDLWarningLightStatus const SDLWarningLightStatusNotUsed;

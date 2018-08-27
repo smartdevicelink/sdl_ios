@@ -40,13 +40,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{NAMES_choiceID:@3,
-                                       NAMES_menuName:@"Hello",
-                                       NAMES_vrCommands:[@[@"1", @"2"] mutableCopy],
-                                       NAMES_image:image,
-                                       NAMES_secondaryText:@"Arbitrary",
-                                       NAMES_tertiaryText:@"qwerty",
-                                       NAMES_secondaryImage:secondaryImage} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameChoiceId:@3,
+                                       SDLNameMenuName:@"Hello",
+                                       SDLNameVRCommands:[@[@"1", @"2"] mutableCopy],
+                                       SDLNameImage:image,
+                                       SDLNameSecondaryText:@"Arbitrary",
+                                       SDLNameTertiaryText:@"qwerty",
+                                       SDLNameSecondaryImage:secondaryImage} mutableCopy];
         SDLChoice* testStruct = [[SDLChoice alloc] initWithDictionary:dict];
         
         expect(testStruct.choiceID).to(equal(@3));

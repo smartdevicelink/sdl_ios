@@ -3,16 +3,27 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLTouchType;
+#import "SDLTouchType.h"
 
+@class SDLTouchEvent;
 
-@interface SDLOnTouchEvent : SDLRPCNotification {
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+/**
+ Notifies about touch events on the screen's prescribed area during video streaming
+ */
+@interface SDLOnTouchEvent : SDLRPCNotification
 
-@property (strong) SDLTouchType *type;
-@property (strong) NSMutableArray *event;
+/**
+ The type of touch event.
+ */
+@property (strong, nonatomic) SDLTouchType type;
+
+/**
+ List of all individual touches involved in this event.
+ */
+@property (strong, nonatomic) NSArray<SDLTouchEvent *> *event;
 
 @end
+
+NS_ASSUME_NONNULL_END

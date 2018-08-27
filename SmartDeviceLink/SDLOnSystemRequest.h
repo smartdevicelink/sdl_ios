@@ -3,21 +3,46 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLFileType;
-@class SDLRequestType;
+#import "SDLFileType.h"
+#import "SDLRequestType.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLOnSystemRequest : SDLRPCNotification {
-}
+/**
+ An asynchronous request from the system for specific data from the device or the cloud or response to a request from the device or cloud Binary data can be included in hybrid part of message for some requests (such as Authentication request responses)
+ */
+@interface SDLOnSystemRequest : SDLRPCNotification
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+/**
+ The type of system request.
+ */
+@property (strong, nonatomic) SDLRequestType requestType;
 
-@property (strong) SDLRequestType *requestType;
-@property (strong) NSString *url;
-@property (strong) NSNumber *timeout;
-@property (strong) SDLFileType *fileType;
-@property (strong) NSNumber *offset;
-@property (strong) NSNumber *length;
+/**
+ Optional URL for HTTP requests. If blank, the binary data shall be forwarded to the app. If not blank, the binary data shall be forwarded to the url with a provided timeout in seconds.
+ */
+@property (nullable, strong, nonatomic) NSString *url;
+
+/**
+ Optional timeout for HTTP requests Required if a URL is provided
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *timeout;
+
+/**
+ Optional file type (meant for HTTP file requests).
+ */
+@property (nullable, strong, nonatomic) SDLFileType fileType;
+
+/**
+ Optional offset in bytes for resuming partial data chunks
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *offset;
+
+/**
+ Optional length in bytes for resuming partial data chunks
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLUInt> *length;
 
 @end
+
+NS_ASSUME_NONNULL_END

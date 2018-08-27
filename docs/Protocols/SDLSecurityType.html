@@ -14,7 +14,12 @@
 
 <h3>Overview</h3>
 
-<p>Undocumented</p>
+<p>A protocol used by SDL Security libraries.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    Used internally
+
+</div>
 
 
 <section class="section task-group-section">
@@ -22,10 +27,17 @@
       appId
   </h3>
   
-  <p>Undocumented</p>
+  <p>The app id of the app</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">appId</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
   
   
   
@@ -33,21 +45,44 @@
       -initializeWithAppId:completionHandler:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Initialize the SDL security library with the app&rsquo;s id and a completion handler</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">initializeWithAppId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span>
+          <span class="nf">completionHandler</span><span class="p">:</span>
+              <span class="p">(</span><span class="n">nonnull</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">))</span><span class="nv">completionHandler</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">withAppId</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>appId</dt>
+      <dd><p>The app&rsquo;s id</p></dd>
+      <dt>completionHandler</dt>
+      <dd><p>A handler for when the security library is initialized</p></dd>
+  </dl>
   
   <h3 id="section--stop">
       -stop
   </h3>
   
-  <p>Undocumented</p>
+  <p>Stop the security library</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stop</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span></code></pre>
+
   
   
   
@@ -55,44 +90,113 @@
       -runHandshakeWithClientData:error:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Run the SSL/TLS handshake</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nf">runHandshakeWithClientData</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span>
+                                          <span class="nf">error</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span>
+                                                    <span class="n">error</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">runHandshake</span><span class="p">(</span><span class="n">withClientData</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span></code></pre>
+
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>data</dt>
+      <dd><p>The client data for the handshake</p></dd>
+      <dt>error</dt>
+      <dd><p>A returnable error</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The server handshake data</p>
+  </div>
   
   <h3 id="section--encryptData:withError:">
       -encryptData:withError:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Encrypt data using SSL/TLS</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nf">encryptData</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span>
+                       <span class="nf">withError</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">encryptData</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span></code></pre>
+
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>data</dt>
+      <dd><p>The data to encrypt</p></dd>
+      <dt>error</dt>
+      <dd><p>A returnable error</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The encrypted data</p>
+  </div>
   
   <h3 id="section--decryptData:withError:">
       -decryptData:withError:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Decrypt data using SSL/TLS</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nf">decryptData</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span>
+                       <span class="nf">withError</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="n">_Nullable</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">decryptData</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span></code></pre>
+
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>data</dt>
+      <dd><p>The data to decrypt</p></dd>
+      <dt>error</dt>
+      <dd><p>A returnable error</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The decrypted data</p>
+  </div>
   
   <h3 id="section-+availableMakes">
       +availableMakes
   </h3>
   
-  <p>Undocumented</p>
+  <p>The vehicle makes this security library covers</p>
 
   
   
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="n">availableMakes</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">availableMakes</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span></code></pre>
+
   
   
+  <div>
+    <h4>Return Value</h4>
+    <p>The makes</p>
+  </div>
   
 </section>

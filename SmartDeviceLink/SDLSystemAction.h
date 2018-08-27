@@ -5,35 +5,21 @@
 #import "SDLEnum.h"
 
 /**
- *
- * Enumeration that describes system actions that can be triggered.
+ * Enumeration that describes system actions that can be triggered. Used in SoftButton.
  */
-@interface SDLSystemAction : SDLEnum {
-}
+typedef SDLEnum SDLSystemAction SDL_SWIFT_ENUM;
 
 /**
- * Convert String to SDLSystemAction
- * @param value String
- * @return SDLSystemAction
+ A default soft button action
  */
-+ (SDLSystemAction *)valueOf:(NSString *)value;
-/**
- @abstract Store the enumeration of all possible SDLSystemAction
- @return an array that store all possible SDLSystemAction
- */
-+ (NSArray *)values;
+extern SDLSystemAction const SDLSystemActionDefaultAction;
 
 /**
- @abstract Default_Action
+ An action causing your app to steal HMI focus
  */
-+ (SDLSystemAction *)DEFAULT_ACTION;
-/**
- @abstract Steal_Focus
- */
-+ (SDLSystemAction *)STEAL_FOCUS;
-/**
- @abstract Keep_Context
- */
-+ (SDLSystemAction *)KEEP_CONTEXT;
+extern SDLSystemAction const SDLSystemActionStealFocus;
 
-@end
+/**
+ An action causing you to keep context
+ */
+extern SDLSystemAction const SDLSystemActionKeepContext;

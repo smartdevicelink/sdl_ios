@@ -5,15 +5,15 @@
 #import "SDLRPCResponse.h"
 
 /**
- * SDLCreateInteractionChoiceSetResponse is sent, when SDLCreateInteractionChoiceSet
- * has been called
- *
- * Since <b>SmartDeviceLink 1.0</b>
- */
-@interface SDLCreateInteractionChoiceSetResponse : SDLRPCResponse {
-}
+ Response to SDLCreateInteractionChoiceSet has been called
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+ Since SmartDeviceLink 1.0
+ */
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLCreateInteractionChoiceSetResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

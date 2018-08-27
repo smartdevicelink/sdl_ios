@@ -5,60 +5,38 @@
 #import "SDLEnum.h"
 
 /**
- * The volume status of a vehicle component.
+ * The volume status of a vehicle component. Used in SingleTireStatus and VehicleData Fuel Level
  *
  * @since SDL 2.0
  */
-@interface SDLComponentVolumeStatus : SDLEnum {
-}
+typedef SDLEnum SDLComponentVolumeStatus SDL_SWIFT_ENUM;
 
 /**
- * @abstract Convert String to SDLComponentVolumeStatus
- * @param value The value of the string to get an object for
- * @return SDLComponentVolumeStatus
+ * Unknown SDLComponentVolumeStatus
  */
-+ (SDLComponentVolumeStatus *)valueOf:(NSString *)value;
+extern SDLComponentVolumeStatus const SDLComponentVolumeStatusUnknown;
 
 /**
- * @abstract Store the enumeration of all possible SDLComponentVolumeStatus
- * @return An array that store all possible SDLComponentVolumeStatus
+ * Normal SDLComponentVolumeStatus
  */
-+ (NSArray *)values;
+extern SDLComponentVolumeStatus const SDLComponentVolumeStatusNormal;
 
 /**
- * @abstract Unknown SDLComponentVolumeStatus
- * @return a SDLComponentVolumeStatus with the value of *UNKNOWN*
+ * Low SDLComponentVolumeStatus
  */
-+ (SDLComponentVolumeStatus *)UNKNOWN;
+extern SDLComponentVolumeStatus const SDLComponentVolumeStatusLow;
 
 /**
- * @abstract Normal SDLComponentVolumeStatus
- * @return a SDLComponentVolumeStatus with the value of *NORMAL*
+ * Fault SDLComponentVolumeStatus
  */
-+ (SDLComponentVolumeStatus *)NORMAL;
+extern SDLComponentVolumeStatus const SDLComponentVolumeStatusFault;
 
 /**
- * @abstract Low SDLComponentVolumeStatus
- * @return a SDLComponentVolumeStatus with the value of *LOW*
+ * Alert SDLComponentVolumeStatus
  */
-+ (SDLComponentVolumeStatus *)LOW;
+extern SDLComponentVolumeStatus const SDLComponentVolumeStatusAlert;
 
 /**
- * @abstract Fault SDLComponentVolumeStatus
- * @return a SDLComponentVolumeStatus with the value of *FAULT*
+ * Not supported SDLComponentVolumeStatus
  */
-+ (SDLComponentVolumeStatus *)FAULT;
-
-/**
- * @abstract Alert SDLComponentVolumeStatus
- * @return a SDLComponentVolumeStatus with the value of *ALERT*
- */
-+ (SDLComponentVolumeStatus *)ALERT;
-
-/**
- * @abstract Not supported SDLComponentVolumeStatus
- * @return a SDLComponentVolumeStatus with the value of *NOT_SUPPORTED*
- */
-+ (SDLComponentVolumeStatus *)NOT_SUPPORTED;
-
-@end
+extern SDLComponentVolumeStatus const SDLComponentVolumeStatusNotSupported;

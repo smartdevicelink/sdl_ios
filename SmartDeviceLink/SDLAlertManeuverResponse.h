@@ -4,13 +4,16 @@
 
 #import "SDLRPCResponse.h"
 
-/** SDLAlertManeuverResponse is sent, when SDLAlertManeuver has been called.
- * @since SmartDeviceLink 1.0
- */
-@interface SDLAlertManeuverResponse : SDLRPCResponse {
-}
+/**
+ Response to SDLAlertManeuver
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+ @since SmartDeviceLink 1.0
+ */
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLAlertManeuverResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

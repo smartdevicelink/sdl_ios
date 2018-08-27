@@ -4,28 +4,24 @@
 
 #import "SDLRPCPayload.h"
 
-#import "SDLDebugTool.h"
+#import "SDLLogMacros.h"
 
 const NSUInteger RPC_HEADER_SIZE = 12;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLRPCPayload
 
-- (instancetype)init {
-    if (self = [super init]) {
-    }
-    return self;
-}
-
-- (instancetype)initWithData:(NSData *)data {
+- (nullable instancetype)initWithData:(NSData *)data {
     unsigned long dataLength = data.length;
 
     if (data == nil || dataLength == 0) {
-        [SDLDebugTool logInfo:@"Error: data is nil."];
+        SDLLogW(@"RPC Payload data is nil");
         return nil;
     }
 
     if (dataLength < RPC_HEADER_SIZE) {
-        [SDLDebugTool logInfo:@"Error: insfficient data to form RPC header."];
+        SDLLogW(@"RPC Payload error: not enough data to form RPC header");
         return nil;
     }
 
@@ -60,15 +56,14 @@ const NSUInteger RPC_HEADER_SIZE = 12;
 
             NSData *binaryData = nil;
             NSUInteger offsetOfBinaryData = RPC_HEADER_SIZE + jsonDataSize;
-            NSInteger binaryDataSize = data.length - jsonDataSize - RPC_HEADER_SIZE;
+            NSUInteger binaryDataSize = data.length - jsonDataSize - RPC_HEADER_SIZE;
             if (binaryDataSize > 0) {
                 binaryData = [data subdataWithRange:NSMakeRange(offsetOfBinaryData, binaryDataSize)];
             }
             self.binaryData = binaryData;
 
         } @catch (NSException *e) {
-            // Print exception information
-            [SDLDebugTool logFormat:@"NSException caught in SDLRPCPayload::initWithData\nName: %@\nReason: %@\nData: %@", e.name, e.reason, data.debugDescription];
+            SDLLogW(@"SDLRPCPayload error: %@", e);
             return nil;
         }
     }
@@ -86,7 +81,7 @@ const NSUInteger RPC_HEADER_SIZE = 12;
     *(UInt32 *)&headerBuffer[0] = CFSwapInt32HostToBig(self.functionID);
     *(UInt32 *)&headerBuffer[4] = CFSwapInt32HostToBig(self.correlationID);
     *(UInt32 *)&headerBuffer[8] = CFSwapInt32HostToBig((UInt32)self.jsonData.length);
-    UInt8 rpcType = (self.rpcType & 0x0F) << 4;
+    UInt8 rpcType = (Byte)((self.rpcType & 0x0F) << 4);
     headerBuffer[0] &= 0x0F;
     headerBuffer[0] |= rpcType;
 
@@ -114,7 +109,9 @@ const NSUInteger RPC_HEADER_SIZE = 12;
     return description;
 }
 
-+ (id)rpcPayloadWithData:(NSData *)data {
++ (nullable id)rpcPayloadWithData:(NSData *)data {
     return [[SDLRPCPayload alloc] initWithData:data];
 }
 @end
+
+NS_ASSUME_NONNULL_END

@@ -4,15 +4,27 @@
 
 #import "SDLEnum.h"
 
-@interface SDLPowerModeQualificationStatus : SDLEnum {
-}
+/**
+ Describes the power mode qualification status. Used in ClusterModeStatus.
+ */
+typedef SDLEnum SDLPowerModeQualificationStatus SDL_SWIFT_ENUM;
 
-+ (SDLPowerModeQualificationStatus *)valueOf:(NSString *)value;
-+ (NSArray *)values;
+/**
+ An undefined status
+ */
+extern SDLPowerModeQualificationStatus const SDLPowerModeQualificationStatusUndefined;
 
-+ (SDLPowerModeQualificationStatus *)POWER_MODE_UNDEFINED;
-+ (SDLPowerModeQualificationStatus *)POWER_MODE_EVALUATION_IN_PROGRESS;
-+ (SDLPowerModeQualificationStatus *)NOT_DEFINED;
-+ (SDLPowerModeQualificationStatus *)POWER_MODE_OK;
+/**
+ An "evaluation in progress" status
+ */
+extern SDLPowerModeQualificationStatus const SDLPowerModeQualificationStatusEvaluationInProgress;
 
-@end
+/**
+ A "not defined" status
+ */
+extern SDLPowerModeQualificationStatus const SDLPowerModeQualificationStatusNotDefined;
+
+/**
+ An "ok" status
+ */
+extern SDLPowerModeQualificationStatus const SDLPowerModeQualificationStatusOk;

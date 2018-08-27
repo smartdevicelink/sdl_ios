@@ -4,23 +4,15 @@
 
 #import "SDLRPCResponse.h"
 
-/**
- * Unregister AppInterface Response is sent, when SDLUnregisterAppInterface has been called
- *
- * @since SmartDeviceLink 1.0
- */
-@interface SDLUnregisterAppInterfaceResponse : SDLRPCResponse {
-}
+NS_ASSUME_NONNULL_BEGIN
 
 /**
- * @abstract Constructs a new SDLUnregisterAppInterfaceResponse object
+ Response to UnregisterAppInterface
+ 
+ SmartDeviceLink 1.0
  */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLUnregisterAppInterfaceResponse object indicated by the NSMutableDictionary
- * parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLUnregisterAppInterfaceResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

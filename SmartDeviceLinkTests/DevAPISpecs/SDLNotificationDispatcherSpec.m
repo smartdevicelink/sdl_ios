@@ -25,6 +25,7 @@ describe(@"a notification dispatcher", ^{
         expect(@([testDispatcher respondsToSelector:@selector(onAddSubMenuResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onAlertManeuverResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onAlertResponse:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onButtonPressResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onChangeRegistrationResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onCreateInteractionChoiceSetResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onDeleteCommandResponse:)])).to(beTruthy());
@@ -37,6 +38,8 @@ describe(@"a notification dispatcher", ^{
         expect(@([testDispatcher respondsToSelector:@selector(onError:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGenericResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGetDTCsResponse:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onGetInteriorVehicleDataResponse:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onGetSystemCapabilityResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGetVehicleDataResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGetWayPointsResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onReceivedLockScreenIcon:)])).to(beTruthy());
@@ -62,10 +65,12 @@ describe(@"a notification dispatcher", ^{
         expect(@([testDispatcher respondsToSelector:@selector(onRegisterAppInterfaceResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onResetGlobalPropertiesResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onScrollableMessageResponse:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onSendHapticDataResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSendLocationResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSetAppIconResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSetDisplayLayoutResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSetGlobalPropertiesResponse:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onSetInteriorVehicleDataResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSetMediaClockTimerResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onShowConstantTBTResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onShowResponse:)])).to(beTruthy());

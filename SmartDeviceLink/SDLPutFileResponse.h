@@ -5,20 +5,20 @@
 #import "SDLRPCResponse.h"
 
 /**
- * Put File Response is sent, when SDLPutFile has been called
- *
- * Since SmartDeviceLink 2.0
+ Response to SDLPutFile
+
+ Since SmartDeviceLink 2.0
  */
-@interface SDLPutFileResponse : SDLRPCResponse {
-}
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLPutFileResponse : SDLRPCResponse
+
 /**
- * @abstract Constructs a new SDLPutFileResponse object
+ Provides the total local space available in SDL Core for the registered app. If the transfer has systemFile enabled, then the value will be set to 0 automatically.
  */
-- (instancetype)init;
-/**
- * @abstract Constructs a new SDLPutFileResponse object indicated by the dictionary parameter
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-@property (strong) NSNumber *spaceAvailable;
+@property (strong, nonatomic) NSNumber<SDLInt> *spaceAvailable;
+
 @end
+
+NS_ASSUME_NONNULL_END

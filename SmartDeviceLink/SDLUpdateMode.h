@@ -5,53 +5,33 @@
 #import "SDLEnum.h"
 
 /**
- * Specifies what function should be performed on the media clock/counter
+ * Specifies what function should be performed on the media clock/counter. Used in SetMediaClockTimer.
  *
  * @since SDL 1.0
  */
-@interface SDLUpdateMode : SDLEnum {
-}
+typedef SDLEnum SDLUpdateMode SDL_SWIFT_ENUM;
 
 /**
- * Convert String to SDLUpdateMode
- * @param value The value of the string to get an object for
- * @return SDLUpdateMode
+ * Starts the media clock timer counting upward, in increments of 1 second.
  */
-+ (SDLUpdateMode *)valueOf:(NSString *)value;
+extern SDLUpdateMode const SDLUpdateModeCountUp;
 
 /**
- * @abstract Store the enumeration of all possible SDLUpdateMode
- * @return an array that store all possible SDLUpdateMode
+ * Starts the media clock timer counting downward, in increments of 1 second.
  */
-+ (NSArray *)values;
+extern SDLUpdateMode const SDLUpdateModeCountDown;
 
 /**
- * @abstract Starts the media clock timer counting upward, in increments of 1 second.
- * @return SDLUpdateMode with value of *COUNTUP*
+ * Pauses the media clock timer.
  */
-+ (SDLUpdateMode *)COUNTUP;
+extern SDLUpdateMode const SDLUpdateModePause;
 
 /**
- * @abstract Starts the media clock timer counting downward, in increments of 1 second.
- * @return SDLUpdateMode with value of *COUNTDOWN*
+ * Resumes the media clock timer. The timer resumes counting in whatever mode was in effect before pausing (i.e. COUNTUP or COUNTDOWN).
  */
-+ (SDLUpdateMode *)COUNTDOWN;
+extern SDLUpdateMode const SDLUpdateModeResume;
 
 /**
- * @abstract Pauses the media clock timer.
- * @return SDLUpdateMode with value of *PAUSE*
+ * Clear the media clock timer.
  */
-+ (SDLUpdateMode *)PAUSE;
-
-/**
- * @abstract Resumes the media clock timer. The timer resumes counting in whatever mode was in effect before pausing (i.e. COUNTUP or COUNTDOWN).
- * @return SDLUpdateMode with value of *RESUME*
- */
-+ (SDLUpdateMode *)RESUME;
-
-/**
- * @abstract Clear the media clock timer.
- */
-+ (SDLUpdateMode *)CLEAR;
-
-@end
+extern SDLUpdateMode const SDLUpdateModeClear;

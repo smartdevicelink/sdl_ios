@@ -5,59 +5,65 @@
 #import "SDLEnum.h"
 
 /**
- * Identifies the various display types used by SDL.
- *
- * @since SDL 1.0
+ Identifies the various display types used by SDL. Used in DisplayCapabilities.
+
+ @warning This should not be used to identify features of a display, this is a deprecated parameter.
+
+ @since SDL 1.0
  */
-@interface SDLDisplayType : SDLEnum {
-}
+typedef SDLEnum SDLDisplayType SDL_SWIFT_ENUM;
 
 /**
- * Convert String to SDLDisplayType
- *
- * @param value The value of the string to get an object for
- *
- * @return SDLDisplayType
+ * This display type provides a 2-line x 20 character "dot matrix" display.
  */
-+ (SDLDisplayType *)valueOf:(NSString *)value;
+extern SDLDisplayType const SDLDisplayTypeCID;
 
 /**
- * @abstract Store the enumeration of all possible SDLDisplayType
- *
- * @return an array that store all possible SDLDisplayType
+ * Display type 2
  */
-+ (NSArray *)values;
+extern SDLDisplayType const SDLDisplayTypeType2;
 
 /**
- * @abstract This display type provides a 2-line x 20 character "dot matrix" display.
- *
- * @return SDLDisplayType with value of *CID*
+ * Display type 5
  */
-+ (SDLDisplayType *)CID;
-
-+ (SDLDisplayType *)TYPE2;
-
-+ (SDLDisplayType *)TYPE5;
+extern SDLDisplayType const SDLDisplayTypeType5;
 
 /**
- * @abstract This display type provides an 8 inch touchscreen display.
- *
- * @return SDLDisplayType with value of *NGN*
+ * This display type provides an 8 inch touchscreen display.
  */
-+ (SDLDisplayType *)NGN;
+extern SDLDisplayType const SDLDisplayTypeNGN;
 
-+ (SDLDisplayType *)GEN2_8_DMA;
+/**
+ * Display type Gen 28 DMA
+ */
+extern SDLDisplayType const SDLDisplayTypeGen28DMA;
 
-+ (SDLDisplayType *)GEN2_6_DMA;
+/**
+ * Display type Gen 26 DMA
+ */
+extern SDLDisplayType const SDLDisplayTypeGen26DMA;
 
-+ (SDLDisplayType *)MFD3;
+/**
+ * Display type MFD3
+ */
+extern SDLDisplayType const SDLDisplayTypeMFD3;
 
-+ (SDLDisplayType *)MFD4;
+/**
+ * Display type MFD4
+ */
+extern SDLDisplayType const SDLDisplayTypeMFD4;
 
-+ (SDLDisplayType *)MFD5;
+/**
+ * Display type MFD5
+ */
+extern SDLDisplayType const SDLDisplayTypeMFD5;
 
-+ (SDLDisplayType *)GEN3_8_INCH;
+/**
+ * Display type Gen 3 8-inch
+ */
+extern SDLDisplayType const SDLDisplayTypeGen38Inch;
 
-+ (SDLDisplayType *)GENERIC;
-
-@end
+/**
+ * Display type Generic
+ */
+extern SDLDisplayType const SDLDisplayTypeGeneric;

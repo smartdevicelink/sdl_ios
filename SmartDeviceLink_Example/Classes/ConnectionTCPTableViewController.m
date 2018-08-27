@@ -46,10 +46,6 @@
     } @catch (NSException __unused *exception) {}
 }
 
-- (void)didReceiveMemoryWarning {
-    NSLog(@"***** MEMORY WARNING *****");
-}
-
 
 #pragma mark - IBActions
 
@@ -60,7 +56,7 @@
     ProxyState state = [ProxyManager sharedManager].state;
     switch (state) {
         case ProxyStateStopped: {
-            [[ProxyManager sharedManager] startTCP];
+            [[ProxyManager sharedManager] startWithProxyTransportType:ProxyTransportTypeTCP];
         } break;
         case ProxyStateSearchingForConnection: {
             [[ProxyManager sharedManager] reset];

@@ -3,44 +3,31 @@
 
 #import "SDLRPCNotification.h"
 
-@class SDLDriverDistractionState;
-
-
-/**
- * Notifies the application of the current driver distraction state (whether driver distraction rules are in effect, or
- * not).
- *
- * HMI Status Requirements:
- *
- * <ul>
- * HMILevel:
- * <ul><li>Can be sent with FULL, LIMITED or BACKGROUND</li></ul>
- * AudioStreamingState:
- * <ul><li>Any</li></ul>
- * SystemContext:
- * <ul><li>Any</li></ul>
- * </ul>
- *
- * @since SDL 1.0
- */
-@interface SDLOnDriverDistraction : SDLRPCNotification {
-}
+#import "SDLDriverDistractionState.h"
 
 /**
- * Constructs a newly allocated SDLOnDriverDistraction object
+ Notifies the application of the current driver distraction state (whether driver distraction rules are in effect, or not).
+
+ HMI Status Requirements:
+
+ HMILevel: Can be sent with FULL, LIMITED or BACKGROUND
+
+ AudioStreamingState: Any
+
+ SystemContext: Any
+
+ @since SDL 1.0
  */
-- (instancetype)init;
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLOnDriverDistraction : SDLRPCNotification
 
 /**
- * Constructs a newly allocated SDLOnDriverDistraction object indicated by the dictionary parameter
- *
- * @param dict The dictionary to use
+ The driver distraction state (i.e. whether driver distraction rules are in effect, or not)
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
-/**
- * @abstract The driver distraction state (i.e. whether driver distraction rules are in effect, or not)
- */
-@property (strong) SDLDriverDistractionState *state;
+@property (strong, nonatomic) SDLDriverDistractionState state;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -3,24 +3,56 @@
 
 #import "SDLRPCMessage.h"
 
-@class SDLLanguage;
-@class SDLKeyboardLayout;
-@class SDLKeypressMode;
+#import "SDLKeyboardLayout.h"
+#import "SDLKeypressMode.h"
+#import "SDLLanguage.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLKeyboardProperties : SDLRPCStruct {
-}
+/**
+ Configuration of on-screen keyboard (if available)
+ */
+@interface SDLKeyboardProperties : SDLRPCStruct
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+- (instancetype)initWithLanguage:(nullable SDLLanguage)language layout:(nullable SDLKeyboardLayout)layout keypressMode:(nullable SDLKeypressMode)keypressMode limitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList autoCompleteText:(nullable NSString *)autoCompleteText;
 
-// TODO: (Alex M.)[2016-12-1] Add missing generic
-- (instancetype)initWithLanguage:(SDLLanguage *)language layout:(SDLKeyboardLayout *)layout keypressMode:(SDLKeypressMode *)keypressMode limitedCharacterList:(NSArray *)limitedCharacterList autoCompleteText:(NSString *)autoCompleteText;
+/**
+ The keyboard language
 
-@property (strong) SDLLanguage *language;
-@property (strong) SDLKeyboardLayout *keyboardLayout;
-@property (strong) SDLKeypressMode *keypressMode;
-@property (strong) NSMutableArray *limitedCharacterList;
-@property (strong) NSString *autoCompleteText;
+ Optional
+ */
+@property (nullable, strong, nonatomic) SDLLanguage language;
+
+/**
+ Desired keyboard layout
+
+ Optional
+ */
+@property (nullable, strong, nonatomic) SDLKeyboardLayout keyboardLayout;
+
+/**
+ Desired keypress mode.
+
+ If omitted, this value will be set to RESEND_CURRENT_ENTRY.
+
+ Optional
+ */
+@property (nullable, strong, nonatomic) SDLKeypressMode keypressMode;
+
+/**
+ Array of keyboard characters to enable. All omitted characters will be greyed out (disabled) on the keyboard. If omitted, the entire keyboard will be enabled.
+
+ Optional
+ */
+@property (nullable, strong, nonatomic) NSArray<NSString *> *limitedCharacterList;
+
+/**
+ Allows an app to prepopulate the text field with a suggested or completed entry as the user types
+
+ Optional
+ */
+@property (nullable, strong, nonatomic) NSString *autoCompleteText;
 
 @end
+
+NS_ASSUME_NONNULL_END

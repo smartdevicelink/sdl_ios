@@ -16,30 +16,21 @@
  * Since <b>SmartDeviceLink 1.0</b><br>
  * see SDLAddCommand SDLAddSubMenu SDLDeleteSubMenu
  */
-@interface SDLDeleteCommand : SDLRPCRequest {
-}
 
-/**
- * Constructs a new SDLDeleteCommand object
- */
-- (instancetype)init;
-/**
- * Constructs a new SDLDeleteCommand object indicated by the NSMutableDictionary
- * parameter
- * <p>
- *
- * @param dict The dictionary to use
- */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLDeleteCommand : SDLRPCRequest
 
 - (instancetype)initWithId:(UInt32)commandId;
 
 /**
- * @abstract the Command ID that identifies the Command to be deleted from Command Menu
+ * the Command ID that identifies the Command to be deleted from Command Menu
  * @discussion an NSNumber value representing Command ID
  *            <p>
  *            <b>Notes: </b>Min Value: 0; Max Value: 2000000000
  */
-@property (strong) NSNumber *cmdID;
+@property (strong, nonatomic) NSNumber<SDLInt> *cmdID;
 
 @end
+
+NS_ASSUME_NONNULL_END

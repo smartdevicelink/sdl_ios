@@ -39,8 +39,12 @@ NS_ASSUME_NONNULL_BEGIN
     return NO;
 }
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    BOOL useWhiteIcon = [self.class shouldUseWhiteForegroundForBackgroundColor:self.backgroundColor];
+    BOOL useWhiteIcon = [self.class sdl_shouldUseWhiteForegroundForBackgroundColor:self.backgroundColor];
 
     return useWhiteIcon ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault;
 }
@@ -63,7 +67,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setBackgroundColor:(UIColor *_Nullable)backgroundColor {
     _backgroundColor = backgroundColor;
 
-    self.view.backgroundColor = _backgroundColor;
     [self sdl_layoutViews];
 }
 
@@ -71,34 +74,41 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Layout
 
 - (void)sdl_layoutViews {
-    BOOL useWhiteIcon = [self.class shouldUseWhiteForegroundForBackgroundColor:self.backgroundColor];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIColor *iconColor = [self.class sdl_accentColorBasedOnColor:self.backgroundColor];
 
-    UIImage *sdlLogo = [self.class sdl_logoImageWithColor:useWhiteIcon];
-    self.sdlIconImageView.image = sdlLogo;
+        self.sdlIconImageView.image = [self.class sdl_imageWithName:@"sdl_logo_black"];
+        self.sdlIconImageView.tintColor = iconColor;
 
-    self.arrowUpImageView.image = [self.class sdl_arrowUpImageWithColor:useWhiteIcon];
-    self.arrowDownImageView.image = [self.class sdl_arrowDownImageWithColor:useWhiteIcon];
+        self.arrowUpImageView.image = [self.class sdl_imageWithName:@"lock_arrow_up_black"];
+        self.arrowUpImageView.tintColor = iconColor;
 
-    self.lockedLabel.textColor = useWhiteIcon ? [UIColor whiteColor] : [UIColor blackColor];
+        self.arrowDownImageView.image = [self.class sdl_imageWithName:@"lock_arrow_down_black"];
+        self.arrowDownImageView.tintColor = iconColor;
 
-    if (self.vehicleIcon != nil && self.appIcon != nil) {
-        [self sdl_setVehicleAndAppIconsLayout];
-    } else if (self.vehicleIcon != nil) {
-        [self sdl_setVehicleIconOnlyLayout];
-    } else if (self.appIcon != nil) {
-        [self sdl_setAppIconOnlyLayout];
-    } else {
-        [self sdl_setNoIconsLayout];
-    }
+        self.lockedLabel.textColor = iconColor;
 
-    // HAX: The autolayout doesn't scale for 4s, so hide a view so it doesn't look like garbage.
-    if (CGRectGetHeight([UIScreen mainScreen].bounds) == 480) {
-        self.sdlIconImageView.hidden = YES;
-    } else {
-        self.sdlIconImageView.hidden = NO;
-    }
+        self.view.backgroundColor = self.backgroundColor;
 
-    [self.view layoutIfNeeded];
+        if (self.vehicleIcon != nil && self.appIcon != nil) {
+            [self sdl_setVehicleAndAppIconsLayout];
+        } else if (self.vehicleIcon != nil) {
+            [self sdl_setVehicleIconOnlyLayout];
+        } else if (self.appIcon != nil) {
+            [self sdl_setAppIconOnlyLayout];
+        } else {
+            [self sdl_setNoIconsLayout];
+        }
+
+        // HAX: The autolayout doesn't scale for 4s, so hide a view so it doesn't look like garbage.
+        if (CGRectGetHeight([UIScreen mainScreen].bounds) == 480) {
+            self.sdlIconImageView.hidden = YES;
+        } else {
+            self.sdlIconImageView.hidden = NO;
+        }
+
+        [self.view layoutIfNeeded];
+    });
 }
 
 - (void)sdl_setVehicleAndAppIconsLayout {
@@ -106,7 +116,8 @@ NS_ASSUME_NONNULL_BEGIN
     self.primaryVehicleIconImageView.image = self.vehicleIcon;
 
     self.backupImageView.image = nil;
-
+    self.backupImageView.tintColor = nil;
+    
     self.arrowUpImageView.alpha = 1.0;
     self.arrowDownImageView.alpha = 1.0;
 
@@ -118,7 +129,8 @@ NS_ASSUME_NONNULL_BEGIN
     self.primaryVehicleIconImageView.image = nil;
 
     self.backupImageView.image = self.appIcon;
-
+    self.backupImageView.tintColor = nil;
+    
     self.arrowUpImageView.alpha = 0.0;
     self.arrowDownImageView.alpha = 0.0;
 
@@ -130,7 +142,8 @@ NS_ASSUME_NONNULL_BEGIN
     self.primaryVehicleIconImageView.image = nil;
 
     self.backupImageView.image = self.vehicleIcon;
-
+    self.backupImageView.tintColor = nil;
+    
     self.arrowUpImageView.alpha = 0.0;
     self.arrowDownImageView.alpha = 0.0;
 
@@ -142,6 +155,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.primaryVehicleIconImageView.image = nil;
 
     self.backupImageView.image = self.sdlIconImageView.image;
+    self.backupImageView.tintColor = [self.class sdl_accentColorBasedOnColor:self.backgroundColor];
 
     self.arrowUpImageView.alpha = 0.0;
     self.arrowDownImageView.alpha = 0.0;
@@ -152,34 +166,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Private Image
 
-// TODO: (Joel F.)[2016-08-22] When moved to iOS 7+, use `imageWithRenderingMode:`
-+ (UIImage *)sdl_logoImageWithColor:(BOOL)white {
-    return [self sdl_imageWithName:[NSString stringWithFormat:@"sdl_logo_%@", white ? @"white" : @"black"]];
-}
-
-+ (UIImage *)sdl_arrowUpImageWithColor:(BOOL)white {
-    return [self sdl_imageWithName:[NSString stringWithFormat:@"lock_arrow_up_%@", white ? @"white" : @"black"]];
-}
-
-+ (UIImage *)sdl_arrowDownImageWithColor:(BOOL)white {
-    return [self sdl_imageWithName:[NSString stringWithFormat:@"lock_arrow_down_%@", white ? @"white" : @"black"]];
++ (UIColor *)sdl_accentColorBasedOnColor:(UIColor *)backgroundColor {
+    return [self sdl_shouldUseWhiteForegroundForBackgroundColor:backgroundColor] ? [UIColor whiteColor] : [UIColor blackColor];
 }
 
 + (UIImage *)sdl_imageWithName:(NSString *)name {
-    if (SDL_SYSTEM_VERSION_LESS_THAN(@"8.0")) {
-        NSString *bundlePath = [[NSBundle sdlBundle] bundlePath];
-        NSInteger deviceScale = [[UIScreen mainScreen] scale];
-        // We assume we are only dealing with PNGs.
-        NSString *fileName = [NSString stringWithFormat:@"%@%li.png", name, (long)deviceScale];
-        NSString *fullPath = [NSString stringWithFormat:@"%@/%@", bundlePath, fileName];
-        NSData *imageData = [NSData dataWithContentsOfFile:fullPath];
-        return [UIImage imageWithData:imageData];
-    } else {
-        return [UIImage imageNamed:name inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
-    }
+    UIImage* image = [UIImage imageNamed:name inBundle:[NSBundle sdlBundle] compatibleWithTraitCollection:nil];
+    return [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
-+ (BOOL)shouldUseWhiteForegroundForBackgroundColor:(UIColor *)backgroundColor {
++ (BOOL)sdl_shouldUseWhiteForegroundForBackgroundColor:(UIColor *)backgroundColor {
     CGFloat red, green, blue;
 
     [backgroundColor getRed:&red green:&green blue:&blue alpha:nil];

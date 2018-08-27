@@ -15,11 +15,17 @@
 #import "SDLDeleteCommand.h"
 #import "SDLDeleteCommandResponse.h"
 #import "SDLError.h"
+#import "SDLLogMacros.h"
+#import "SDLOnAudioPassThru.h"
 #import "SDLOnButtonEvent.h"
 #import "SDLOnButtonPress.h"
 #import "SDLOnCommand.h"
+#import "SDLPerformAudioPassThru.h"
+#import "SDLPerformAudioPassThruResponse.h"
 #import "SDLRPCResponse.h"
 #import "SDLResult.h"
+#import "SDLRPCNotificationNotification.h"
+#import "SDLRPCResponseNotification.h"
 #import "SDLScrollableMessage.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
@@ -29,6 +35,13 @@
 
 
 NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLResponseDispatcher ()
+
+@property (strong, nonatomic, readwrite, nullable) SDLAudioPassThruHandler audioPassThruHandler;
+
+@end
+
 
 @implementation SDLResponseDispatcher
 
@@ -60,6 +73,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Commands
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlerForCommand:) name:SDLDidReceiveCommandNotification object:dispatcher];
+    
+    // Audio Pass Thru
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_runHandlerForAudioPassThru:) name:SDLDidReceiveAudioPassThruNotification object:dispatcher];
 
     return self;
 }
@@ -82,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([request isKindOfClass:[SDLSubscribeButton class]]) {
         // Convert SDLButtonName to NSString, since it doesn't conform to <NSCopying>
         SDLSubscribeButton *subscribeButton = (SDLSubscribeButton *)request;
-        NSString *buttonName = subscribeButton.buttonName.value;
+        SDLButtonName buttonName = subscribeButton.buttonName;
         if (!buttonName) {
             @throw [NSException sdl_missingIdException];
         }
@@ -98,6 +114,9 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([request isKindOfClass:[SDLShow class]]) {
         SDLShow *show = (SDLShow *)request;
         [self sdl_addToCustomButtonHandlerMap:show.softButtons];
+    } else if ([request isKindOfClass:[SDLPerformAudioPassThru class]]) {
+        SDLPerformAudioPassThru *performAudioPassThru = (SDLPerformAudioPassThru *)request;
+        self.audioPassThruHandler = performAudioPassThru.audioDataHandler;
     }
 
     // Always store the request, it's needed in some cases whether or not there was a handler (e.g. DeleteCommand).
@@ -109,7 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)clear {
     // When we get disconnected we have to delete all existing responseHandlers as they are not valid anymore
-    for (SDLRPCCorrelationId *correlationID in self.rpcResponseHandlerMap) {
+    for (SDLRPCCorrelationId *correlationID in self.rpcResponseHandlerMap.dictionaryRepresentation) {
         SDLResponseHandler responseHandler = self.rpcResponseHandlerMap[correlationID];
         responseHandler(self.rpcRequestDictionary[correlationID], nil, [NSError sdl_lifecycle_notConnectedError]);
     }
@@ -118,9 +137,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self.commandHandlerMap removeAllObjects];
     [self.buttonHandlerMap removeAllObjects];
     [self.customButtonHandlerMap removeAllObjects];
+    _audioPassThruHandler = nil;
 }
 
-- (void)sdl_addToCustomButtonHandlerMap:(NSMutableArray<SDLSoftButton *> *)softButtons {
+- (void)sdl_addToCustomButtonHandlerMap:(NSArray<SDLSoftButton *> *)softButtons {
     for (SDLSoftButton *sb in softButtons) {
         if (!sb.softButtonID) {
             @throw [NSException sdl_missingIdException];
@@ -135,17 +155,16 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Notification Handler
 
 // Called by notifications
-- (void)sdl_runHandlersForResponse:(NSNotification *)notification {
-    NSAssert([notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLRPCResponse class]], @"A notification was sent with an unanticipated object");
-    if (![notification.userInfo[SDLNotificationUserInfoObject] isKindOfClass:[SDLRPCResponse class]]) {
+- (void)sdl_runHandlersForResponse:(SDLRPCResponseNotification *)notification {
+    if (![notification isResponseKindOfClass:[SDLRPCResponse class]]) {
         return;
     }
 
-    __kindof SDLRPCResponse *response = notification.userInfo[SDLNotificationUserInfoObject];
+    __kindof SDLRPCResponse *response = notification.response;
 
     NSError *error = nil;
     if (![response.success boolValue]) {
-        error = [NSError sdl_lifecycle_rpcErrorWithDescription:response.resultCode.value andReason:response.info];
+        error = [NSError sdl_lifecycle_rpcErrorWithDescription:response.resultCode andReason:response.info];
     }
 
     // Find the appropriate request completion handler, remove the request and response handler
@@ -156,6 +175,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Run the response handler
     if (handler) {
+        if (!response.success.boolValue) {
+            SDLLogW(@"Request failed: %@, response: %@, error: %@", request, response, error);
+        }
         handler(request, response, error);
     }
 
@@ -164,25 +186,26 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    // If it's a DeleteCommand or UnsubscribeButton, we need to remove handlers for the corresponding commands / buttons
+    // If it's a DeleteCommand, UnsubscribeButton, or PerformAudioPassThru we need to remove handlers for the corresponding RPCs
     if ([response isKindOfClass:[SDLDeleteCommandResponse class]]) {
         SDLDeleteCommand *deleteCommandRequest = (SDLDeleteCommand *)request;
         NSNumber *deleteCommandId = deleteCommandRequest.cmdID;
         [self.commandHandlerMap safeRemoveObjectForKey:deleteCommandId];
     } else if ([response isKindOfClass:[SDLUnsubscribeButtonResponse class]]) {
         SDLUnsubscribeButton *unsubscribeButtonRequest = (SDLUnsubscribeButton *)request;
-        NSString *unsubscribeButtonName = unsubscribeButtonRequest.buttonName.value;
+        SDLButtonName unsubscribeButtonName = unsubscribeButtonRequest.buttonName;
         [self.buttonHandlerMap safeRemoveObjectForKey:unsubscribeButtonName];
+    } else if ([response isKindOfClass:[SDLPerformAudioPassThruResponse class]]) {
+        _audioPassThruHandler = nil;
     }
 }
 
 #pragma mark Command
 
-- (void)sdl_runHandlerForCommand:(NSNotification *)notification {
-    SDLOnCommand *onCommandNotification = notification.userInfo[SDLNotificationUserInfoObject];
-    SDLRPCNotificationHandler handler = nil;
+- (void)sdl_runHandlerForCommand:(SDLRPCNotificationNotification *)notification {
+    SDLOnCommand *onCommandNotification = notification.notification;
+    SDLRPCCommandNotificationHandler handler = self.commandHandlerMap[onCommandNotification.cmdID];
 
-    handler = self.commandHandlerMap[onCommandNotification.cmdID];
     if (handler) {
         handler(onCommandNotification);
     }
@@ -190,29 +213,43 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Button
 
-- (void)sdl_runHandlerForButton:(NSNotification *)notification {
-    __kindof SDLRPCNotification *rpcNotification = notification.userInfo[SDLNotificationUserInfoObject];
+- (void)sdl_runHandlerForButton:(SDLRPCNotificationNotification *)notification {
+    __kindof SDLRPCNotification *rpcNotification = notification.notification;
 
-    SDLRPCNotificationHandler handler = nil;
-    SDLButtonName *name = nil;
+    SDLRPCButtonNotificationHandler handler = nil;
+    SDLButtonName name = nil;
     NSNumber *customID = nil;
 
-    if ([rpcNotification isKindOfClass:[SDLOnButtonEvent class]]) {
+    if ([rpcNotification isMemberOfClass:[SDLOnButtonEvent class]]) {
         name = ((SDLOnButtonEvent *)rpcNotification).buttonName;
         customID = ((SDLOnButtonEvent *)rpcNotification).customButtonID;
-    } else if ([rpcNotification isKindOfClass:[SDLOnButtonPress class]]) {
+    } else if ([rpcNotification isMemberOfClass:[SDLOnButtonPress class]]) {
         name = ((SDLOnButtonPress *)rpcNotification).buttonName;
         customID = ((SDLOnButtonPress *)rpcNotification).customButtonID;
     }
 
-    if ([name isEqualToEnum:[SDLButtonName CUSTOM_BUTTON]]) {
+    if ([name isEqualToEnum:SDLButtonNameCustomButton]) {
         handler = self.customButtonHandlerMap[customID];
     } else {
-        handler = self.buttonHandlerMap[name.value];
+        handler = self.buttonHandlerMap[name];
     }
 
     if (handler) {
-        handler(rpcNotification);
+        if ([rpcNotification isMemberOfClass:[SDLOnButtonEvent class]]) {
+            handler(nil, rpcNotification);
+        } else if ([rpcNotification isMemberOfClass:[SDLOnButtonPress class]]) {
+            handler(rpcNotification, nil);
+        }
+    }
+}
+    
+#pragma mark Audio Pass Thru
+    
+- (void)sdl_runHandlerForAudioPassThru:(SDLRPCNotificationNotification *)notification {
+    SDLOnAudioPassThru *onAudioPassThruNotification = notification.notification;
+    
+    if (self.audioPassThruHandler) {
+        self.audioPassThruHandler(onAudioPassThruNotification.bulkData);
     }
 }
 

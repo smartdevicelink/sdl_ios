@@ -4,31 +4,107 @@
 
 #import "SDLEnum.h"
 
-@interface SDLPredefinedLayout : SDLEnum {
-}
+/**
+ A template layout an app uses to display information. The broad details of the layout are defined, but the details depend on the IVI system. Used in SetDisplayLayout.
+ */
+typedef SDLEnum SDLPredefinedLayout SDL_SWIFT_ENUM;
 
-+ (SDLPredefinedLayout *)valueOf:(NSString *)value;
-+ (NSArray *)values;
+/**
+ A default layout
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutDefault;
 
-+ (SDLPredefinedLayout *)DEFAULT;
-+ (SDLPredefinedLayout *)MEDIA;
-+ (SDLPredefinedLayout *)NON_MEDIA;
-+ (SDLPredefinedLayout *)ONSCREEN_PRESETS;
-+ (SDLPredefinedLayout *)NAV_FULLSCREEN_MAP;
-+ (SDLPredefinedLayout *)NAV_LIST;
-+ (SDLPredefinedLayout *)NAV_KEYBOARD;
-+ (SDLPredefinedLayout *)GRAPHIC_WITH_TEXT;
-+ (SDLPredefinedLayout *)TEXT_WITH_GRAPHIC;
-+ (SDLPredefinedLayout *)TILES_ONLY;
-+ (SDLPredefinedLayout *)TEXTBUTTONS_ONLY;
-+ (SDLPredefinedLayout *)GRAPHIC_WITH_TILES;
-+ (SDLPredefinedLayout *)TILES_WITH_GRAPHIC;
-+ (SDLPredefinedLayout *)GRAPHIC_WITH_TEXT_AND_SOFTBUTTONS;
-+ (SDLPredefinedLayout *)TEXT_AND_SOFTBUTTONS_WITH_GRAPHIC;
-+ (SDLPredefinedLayout *)GRAPHIC_WITH_TEXTBUTTONS;
-+ (SDLPredefinedLayout *)TEXTBUTTONS_WITH_GRAPHIC;
-+ (SDLPredefinedLayout *)LARGE_GRAPHIC_WITH_SOFTBUTTONS;
-+ (SDLPredefinedLayout *)DOUBLE_GRAPHIC_WITH_SOFTBUTTONS;
-+ (SDLPredefinedLayout *)LARGE_GRAPHIC_ONLY;
+/**
+ The default media layout
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutMedia;
 
-@end
+/**
+ The default non-media layout
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutNonMedia;
+
+/**
+ A media layout containing preset buttons
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutOnscreenPresets;
+
+/**
+ The default navigation layout with a fullscreen map
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutNavigationFullscreenMap;
+
+/**
+ A list layout used for navigation apps
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutNavigationList;
+
+/**
+ A keyboard layout used for navigation apps
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutNavigationKeyboard;
+
+/**
+ A layout with a single graphic on the left and text on the right
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutGraphicWithText;
+
+/**
+ A layout with text on the left and a single graphic on the right
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutTextWithGraphic;
+
+/**
+ A layout with only softbuttons placed in a tile layout
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutTilesOnly;
+
+/**
+ A layout with only soft buttons that only accept text
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutTextButtonsOnly;
+
+/**
+ A layout with a single graphic on the left and soft buttons in a tile layout on the right
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutGraphicWithTiles;
+
+/**
+ A layout with soft buttons in a tile layout on the left and a single graphic on the right
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutTilesWithGraphic;
+
+/**
+ A layout with a single graphic on the left and both text and soft buttons on the right
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutGraphicWithTextAndSoftButtons;
+
+/**
+ A layout with both text and soft buttons on the left and a single graphic on the right
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutTextAndSoftButtonsWithGraphic;
+
+/**
+ A layout with a single graphic on the left and text-only soft buttons on the right
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutGraphicWithTextButtons;
+
+/**
+ A layout with text-only soft buttons on the left and a single graphic on the right
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutTextButtonsWithGraphic;
+
+/**
+ A layout with a single large graphic and soft buttons
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutLargeGraphicWithSoftButtons;
+
+/**
+ A layout with two graphics and soft buttons
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutDoubleGraphicWithSoftButtons;
+
+/**
+ A layout with only a single large graphic
+ */
+extern SDLPredefinedLayout const SDLPredefinedLayoutLargeGraphicOnly;

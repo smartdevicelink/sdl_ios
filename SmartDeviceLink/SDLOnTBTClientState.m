@@ -3,39 +3,28 @@
 
 #import "SDLOnTBTClientState.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
-#import "SDLTBTState.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnTBTClientState
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_OnTBTClientState]) {
+    if (self = [super initWithName:SDLNameOnTBTClientState]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (void)setState:(SDLTBTState)state {
+    [parameters sdl_setObject:state forName:SDLNameState];
 }
 
-- (void)setState:(SDLTBTState *)state {
-    if (state != nil) {
-        [parameters setObject:state forKey:NAMES_state];
-    } else {
-        [parameters removeObjectForKey:NAMES_state];
-    }
-}
-
-- (SDLTBTState *)state {
-    NSObject *obj = [parameters objectForKey:NAMES_state];
-    if (obj == nil || [obj isKindOfClass:SDLTBTState.class]) {
-        return (SDLTBTState *)obj;
-    } else {
-        return [SDLTBTState valueOf:(NSString *)obj];
-    }
+- (SDLTBTState)state {
+    NSObject *obj = [parameters sdl_objectForName:SDLNameState];
+    return (SDLTBTState)obj;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

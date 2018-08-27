@@ -5,44 +5,28 @@
 #import "SDLEnum.h"
 
 /**
- * Reflects the status of a vehicle data notification.
+ * Reflects the status of a vehicle data notification. Used in ECallInfo
  *
  * @since SDL 2.0
  */
-@interface SDLVehicleDataNotificationStatus : SDLEnum {
-}
+typedef SDLEnum SDLVehicleDataNotificationStatus SDL_SWIFT_ENUM;
 
 /**
- * Convert String to SDLVehicleDataNotificationStatus
- * @param value The value of the string to get an object for
- * @return SDLVehicleDataNotificationStatus
+ The vehicle data notification status is not supported
  */
-+ (SDLVehicleDataNotificationStatus *)valueOf:(NSString *)value;
+extern SDLVehicleDataNotificationStatus const SDLVehicleDataNotificationStatusNotSupported;
 
 /**
- * @abstract Store the enumeration of all possible SDLVehicleDataNotificationStatus
- * @return an array that store all possible SDLVehicleDataNotificationStatus
+ The vehicle data notification status is normal
  */
-+ (NSArray *)values;
+extern SDLVehicleDataNotificationStatus const SDLVehicleDataNotificationStatusNormal;
 
 /**
- * @abstract SDLVehicleDataNotificationStatus: *NOT_SUPPORTED*
+ The vehicle data notification status is active
  */
-+ (SDLVehicleDataNotificationStatus *)NOT_SUPPORTED;
+extern SDLVehicleDataNotificationStatus const SDLVehicleDataNotificationStatusActive;
 
 /**
- @abstract SDLVehicleDataNotificationStatus: *NORMAL*
+ The vehicle data notification status is not used
  */
-+ (SDLVehicleDataNotificationStatus *)NORMAL;
-
-/**
- @abstract SDLVehicleDataNotificationStatus: *ACTIVE*
- */
-+ (SDLVehicleDataNotificationStatus *)ACTIVE;
-
-/**
- @abstract SDLVehicleDataNotificationStatus: *NOT_USED*
- */
-+ (SDLVehicleDataNotificationStatus *)NOT_USED;
-
-@end
+extern SDLVehicleDataNotificationStatus const SDLVehicleDataNotificationStatusNotUsed;

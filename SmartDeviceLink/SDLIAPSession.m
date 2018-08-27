@@ -3,20 +3,22 @@
 //
 
 #import "SDLIAPSession.h"
-#import "SDLDebugTool.h"
+#import "SDLLogMacros.h"
 #import "SDLMutableDataQueue.h"
 #import "SDLStreamDelegate.h"
 #import "SDLTimer.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 NSString *const IOStreamThreadName = @"com.smartdevicelink.iostream";
-NSTimeInterval const streamThreadWaitSecs = 1.0;
+NSTimeInterval const StreamThreadWaitSecs = 1.0;
 
 @interface SDLIAPSession ()
 
-@property (assign) BOOL isInputStreamOpen;
-@property (assign) BOOL isOutputStreamOpen;
-@property (assign, nonatomic) BOOL isDataSession;
-@property (nonatomic, strong) NSThread *ioStreamThread;
+@property (nonatomic, assign) BOOL isInputStreamOpen;
+@property (nonatomic, assign) BOOL isOutputStreamOpen;
+@property (nonatomic, assign) BOOL isDataSession;
+@property (nullable, nonatomic, strong) NSThread *ioStreamThread;
 @property (nonatomic, strong) SDLMutableDataQueue *sendDataQueue;
 @property (nonatomic, strong) dispatch_semaphore_t canceledSemaphore;
 
@@ -28,19 +30,15 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 #pragma mark - Lifecycle
 
 - (instancetype)initWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol {
-    NSString *logMessage = [NSString stringWithFormat:@"SDLIAPSession initWithAccessory:%@ forProtocol:%@", accessory, protocol];
-    [SDLDebugTool logInfo:logMessage];
+    SDLLogD(@"SDLIAPSession initWithAccessory:%@ forProtocol:%@", accessory, protocol);
 
     self = [super init];
     if (self) {
-        _delegate = nil;
         _isDataSession = [protocol isEqualToString:@"com.smartdevicelink.prot0"] ? NO : YES;
         _accessory = accessory;
         _protocol = protocol;
         _canceledSemaphore = dispatch_semaphore_create(0);
         _sendDataQueue = [[SDLMutableDataQueue alloc] init];
-        _streamDelegate = nil;
-        _easession = nil;
         _isInputStreamOpen = NO;
         _isOutputStreamOpen = NO;
     }
@@ -52,15 +50,13 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 
 - (BOOL)start {
     __weak typeof(self) weakSelf = self;
-
-    NSString *logMessage = [NSString stringWithFormat:@"Opening EASession withAccessory:%@ forProtocol:%@", self.accessory.name, self.protocol];
-    [SDLDebugTool logInfo:logMessage];
+    SDLLogD(@"Opening EASession withAccessory:%@ forProtocol:%@", _accessory.name, _protocol);
 
     // TODO: This assignment should be broken out of the if and the if / else should be flipped.
     if ((self.easession = [[EASession alloc] initWithAccessory:self.accessory forProtocol:self.protocol])) {
         __strong typeof(self) strongSelf = weakSelf;
 
-        [SDLDebugTool logInfo:@"Created Session Object"];
+        SDLLogD(@"Created Session Object");
 
         strongSelf.streamDelegate.streamErrorHandler = [self streamErroredHandler];
         strongSelf.streamDelegate.streamOpenHandler = [self streamOpenedHandler];
@@ -78,20 +74,31 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
         return YES;
 
     } else {
-        [SDLDebugTool logInfo:@"Error: Could Not Create Session Object"];
+        SDLLogE(@"Error: Could Not Create Session Object");
         return NO;
     }
 }
 
 - (void)stop {
+    // This method must be called on the main thread
+    if ([NSThread isMainThread]) {
+        [self sdl_stop];
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self sdl_stop];
+        });
+    }
+}
+
+- (void)sdl_stop {
     if (self.isDataSession) {
         [self.ioStreamThread cancel];
 
-        long lWait = dispatch_semaphore_wait(self.canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, streamThreadWaitSecs * NSEC_PER_SEC));
+        long lWait = dispatch_semaphore_wait(self.canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(StreamThreadWaitSecs * NSEC_PER_SEC)));
         if (lWait == 0) {
-            [SDLDebugTool logInfo:@"Stream thread canceled"];
+            SDLLogW(@"Stream thread cancelled");
         } else {
-            [SDLDebugTool logInfo:@"Error: failed to cancel stream thread"];
+            SDLLogE(@"Failed to cancel stream thread");
         }
         self.ioStreamThread = nil;
         self.isDataSession = NO;
@@ -112,34 +119,37 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
 - (void)sendData:(NSData *)data {
     // Enqueue the data for transmission on the IO thread
     [self.sendDataQueue enqueueBuffer:data.mutableCopy];
+
+    [self performSelector:@selector(sdl_dequeueAndWriteToOutputStream) onThread:self.ioStreamThread withObject:nil waitUntilDone:NO];
 }
 
-- (BOOL)sdl_dequeueAndWriteToOutputStream:(NSError **)error {
+- (void)sdl_dequeueAndWriteToOutputStream {
     NSOutputStream *ostream = self.easession.outputStream;
+    if (!ostream.hasSpaceAvailable) {
+        return;
+    }
+    
     NSMutableData *remainder = [self.sendDataQueue frontBuffer];
-    BOOL allDataWritten = NO;
 
-    if (error != nil && remainder != nil && ostream.streamStatus == NSStreamStatusOpen) {
-        NSInteger bytesRemaining = remainder.length;
+    if (remainder != nil && ostream.streamStatus == NSStreamStatusOpen) {
+        NSUInteger bytesRemaining = remainder.length;
         NSInteger bytesWritten = [ostream write:remainder.bytes maxLength:bytesRemaining];
         if (bytesWritten < 0) {
-            *error = ostream.streamError;
+            if (ostream.streamError != nil) {
+                [self sdl_handleOutputStreamWriteError:ostream.streamError];
+            }
         } else if (bytesWritten == bytesRemaining) {
             // Remove the data from the queue
             [self.sendDataQueue popBuffer];
-            allDataWritten = YES;
         } else {
             // Cleave the sent bytes from the data, the remainder will sit at the head of the queue
-            [remainder replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
+            [remainder replaceBytesInRange:NSMakeRange(0, (NSUInteger)bytesWritten) withBytes:NULL length:0];
         }
     }
-
-    return allDataWritten;
 }
 
 - (void)sdl_handleOutputStreamWriteError:(NSError *)error {
-    NSString *errString = [NSString stringWithFormat:@"Output stream error: %@", error];
-    [SDLDebugTool logInfo:errString];
+    SDLLogE(@"Output stream error: %@", error);
     // TODO: We should look at the domain and the code as a tuple and decide how to handle the error based on both values. For now, if the stream is closed, we will flush the send queue and leave it as-is otherwise so that temporary error conditions can be dealt with by retrying
     if (self.easession == nil ||
         self.easession.outputStream == nil ||
@@ -162,19 +172,16 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
         [self startStream:self.easession.inputStream];
         [self startStream:self.easession.outputStream];
 
-        [SDLDebugTool logInfo:@"starting the event loop for accessory"];
+        SDLLogD(@"Starting the accessory event loop");
         do {
             if (self.sendDataQueue.count > 0 && !self.sendDataQueue.frontDequeued) {
-                NSError *sendErr = nil;
-                if (![self sdl_dequeueAndWriteToOutputStream:&sendErr] && sendErr != nil) {
-                    [self sdl_handleOutputStreamWriteError:sendErr];
-                }
+                [self sdl_dequeueAndWriteToOutputStream];
             }
             // The principle here is to give the event loop enough time to process stream events while also allowing it to handle new enqueued data buffers in a timely manner. We're capping the run loop CPU time at 0.25s maximum before it will return control to the rest of the loop.
             [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.25f]];
         } while (![NSThread currentThread].cancelled);
 
-        [SDLDebugTool logInfo:@"closing accessory session"];
+        SDLLogD(@"Closing the accessory session for id: %tu, name: %@", self.easession.accessory.connectionID, self.easession.accessory.name);
 
         // Close I/O streams of the iAP session
         [self sdl_closeSession];
@@ -188,8 +195,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
         return;
     }
 
-    NSString *closeSessionString = [NSString stringWithFormat:@"Close EASession: %tu", self.easession.accessory.connectionID];
-    [SDLDebugTool logInfo:closeSessionString];
+    SDLLogD(@"Close EASession for accessory id: %tu, name: %@", self.easession.accessory.connectionID, self.easession.accessory.name);
 
     [self stopStream:[self.easession inputStream]];
     [self stopStream:[self.easession outputStream]];
@@ -226,11 +232,11 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
     NSUInteger status2 = stream.streamStatus;
     if (status2 == NSStreamStatusClosed) {
         if (stream == [self.easession inputStream]) {
-            [SDLDebugTool logInfo:@"Input Stream Closed"];
-            self.isInputStreamOpen = NO;
+            SDLLogD(@"Input Stream Closed");
+			self.isInputStreamOpen = NO;
         } else if (stream == [self.easession outputStream]) {
-            [SDLDebugTool logInfo:@"Output Stream Closed"];
-            self.isOutputStreamOpen = NO;
+            SDLLogD(@"Output Stream Closed");
+			self.isOutputStreamOpen = NO;
         }
     }
 }
@@ -245,10 +251,10 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         if (stream == [strongSelf.easession outputStream]) {
-            [SDLDebugTool logInfo:@"Output Stream Opened"];
+            SDLLogD(@"Output Stream Opened");
             strongSelf.isOutputStreamOpen = YES;
         } else if (stream == [strongSelf.easession inputStream]) {
-            [SDLDebugTool logInfo:@"Input Stream Opened"];
+            SDLLogD(@"Input Stream Opened");
             strongSelf.isInputStreamOpen = YES;
         }
 
@@ -265,7 +271,7 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
     return ^(NSStream *stream) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
-        [SDLDebugTool logInfo:@"Stream Error"];
+        SDLLogW(@"Stream Error: %@", stream);
         [strongSelf.delegate onSessionStreamsEnded:strongSelf];
     };
 }
@@ -280,12 +286,10 @@ NSTimeInterval const streamThreadWaitSecs = 1.0;
             return;
         }
 
-        NSError *sendErr = nil;
-
-        if (![strongSelf sdl_dequeueAndWriteToOutputStream:&sendErr] && sendErr != nil) {
-            [strongSelf sdl_handleOutputStreamWriteError:sendErr];
-        }
+        [strongSelf sdl_dequeueAndWriteToOutputStream];
     };
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

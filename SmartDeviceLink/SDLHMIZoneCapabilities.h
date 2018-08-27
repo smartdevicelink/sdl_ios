@@ -5,35 +5,18 @@
 #import "SDLEnum.h"
 
 /**
- * Specifies HMI Zones in the vehicle.
+ * Specifies HMI Zones in the vehicle. Used in RegisterAppInterfaceResponse
  *
  * @since SDL 1.0
  */
-@interface SDLHMIZoneCapabilities : SDLEnum {
-}
+typedef SDLEnum SDLHMIZoneCapabilities SDL_SWIFT_ENUM;
 
 /**
- * @abstract SDLHMIZoneCapabilities
- * @param value The value of the string to get an object for
- * @return SDLHMIZoneCapabilities
+ * Indicates HMI available for front seat passengers.
  */
-+ (SDLHMIZoneCapabilities *)valueOf:(NSString *)value;
+extern SDLHMIZoneCapabilities const SDLHMIZoneCapabilitiesFront;
 
 /**
- * @abstract store all possible SDLHMIZoneCapabilities values
- * @return an array with all possible SDLHMIZoneCapabilities values inside
+ * Indicates HMI available for rear seat passengers.
  */
-+ (NSArray *)values;
-
-/**
- * @abstract Indicates HMI available for front seat passengers.
- * @return a SDLHMIZoneCapabilities with value of *FRONT*
- */
-+ (SDLHMIZoneCapabilities *)FRONT;
-/**
- * @abstract Indicates HMI available for rear seat passengers.
- * @return a SDLHMIZoneCapabilities with value of *BACK*
- */
-+ (SDLHMIZoneCapabilities *)BACK;
-
-@end
+extern SDLHMIZoneCapabilities const SDLHMIZoneCapabilitiesBack;

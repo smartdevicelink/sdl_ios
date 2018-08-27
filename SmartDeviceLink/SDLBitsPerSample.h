@@ -9,37 +9,14 @@
  *
  * @since SDL 2.0
  */
-@interface SDLBitsPerSample : SDLEnum {
-}
+typedef SDLEnum SDLBitsPerSample SDL_SWIFT_ENUM;
 
 /**
- * @abstract Convert String to SDLBitsPerSample
- *
- * @param value The value of the string to get an object for
- *
- * @return SDLBitsPerSample
+ * 8 bits per sample
  */
-+ (SDLBitsPerSample *)valueOf:(NSString *)value;
+extern SDLBitsPerSample const SDLBitsPerSample8Bit;
 
 /**
- * @abstract Store the enumeration of all possible SDLBitsPerSample
- *
- * @return an array that store all possible SDLBitsPerSample
+ * 16 bits per sample
  */
-+ (NSArray *)values;
-
-/**
- * @abstract 8 bits per sample
- *
- * @return a SDLBitsPerSample with value of *8_BIT*
- */
-+ (SDLBitsPerSample *)_8_BIT;
-
-/**
- * @abstract 16 bits per sample
- *
- * @return a SDLBitsPerSample with value of *16_BIT*
- */
-+ (SDLBitsPerSample *)_16_BIT;
-
-@end
+extern SDLBitsPerSample const SDLBitsPerSample16Bit;

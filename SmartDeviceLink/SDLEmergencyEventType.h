@@ -4,50 +4,44 @@
 
 #import "SDLEnum.h"
 
-/** Reflects the emergency event status of the vehicle.
- *<b> Since:</b> SmartDeviceLink 2.0
- *<p>
+/**
+ Reflects the emergency event status of the vehicle. Used in EmergencyEvent
+
+ Since SmartDeviceLink 2.0
  */
+typedef SDLEnum SDLEmergencyEventType SDL_SWIFT_ENUM;
 
-@interface SDLEmergencyEventType : SDLEnum {
-}
-
-+ (SDLEmergencyEventType *)valueOf:(NSString *)value;
-+ (NSArray *)values;
-
-/** No emergency event has happened.
+/**
+ No emergency event has happened.
  */
+extern SDLEmergencyEventType const SDLEmergencyEventTypeNoEvent;
 
-+ (SDLEmergencyEventType *)NO_EVENT;
-
-/** Frontal collision has happened.
+/**
+ Frontal collision has happened.
  */
+extern SDLEmergencyEventType const SDLEmergencyEventTypeFrontal;
 
-+ (SDLEmergencyEventType *)FRONTAL;
-
-/** Side collision has happened.
+/**
+ Side collision has happened.
  */
+extern SDLEmergencyEventType const SDLEmergencyEventTypeSide;
 
-+ (SDLEmergencyEventType *)SIDE;
-
-/**Rear collision has happened.
+/**
+ Rear collision has happened.
  */
+extern SDLEmergencyEventType const SDLEmergencyEventTypeRear;
 
-+ (SDLEmergencyEventType *)REAR;
-
-/** A rollover event has happened.
+/**
+ A rollover event has happened.
  */
+extern SDLEmergencyEventType const SDLEmergencyEventTypeRollover;
 
-+ (SDLEmergencyEventType *)ROLLOVER;
-
-/** The signal is not supported
+/**
+ The signal is not supported
  */
+extern SDLEmergencyEventType const SDLEmergencyEventTypeNotSupported;
 
-+ (SDLEmergencyEventType *)NOT_SUPPORTED;
-
-/** Emergency status cannot be determined
+/**
+ Emergency status cannot be determined
  */
-
-+ (SDLEmergencyEventType *)FAULT;
-
-@end
+extern SDLEmergencyEventType const SDLEmergencyEventTypeFault;

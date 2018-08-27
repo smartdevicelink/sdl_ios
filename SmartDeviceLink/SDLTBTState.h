@@ -4,21 +4,57 @@
 
 #import "SDLEnum.h"
 
-@interface SDLTBTState : SDLEnum {
-}
+/**
+ The turn-by-turn state, used in OnTBTClientState.
+ */
+typedef SDLEnum SDLTBTState SDL_SWIFT_ENUM;
 
-+ (SDLTBTState *)valueOf:(NSString *)value;
-+ (NSArray *)values;
+/**
+ The route should be updated
+ */
+extern SDLTBTState const SDLTBTStateRouteUpdateRequest;
 
-+ (SDLTBTState *)ROUTE_UPDATE_REQUEST;
-+ (SDLTBTState *)ROUTE_ACCEPTED;
-+ (SDLTBTState *)ROUTE_REFUSED;
-+ (SDLTBTState *)ROUTE_CANCELLED;
-+ (SDLTBTState *)ETA_REQUEST;
-+ (SDLTBTState *)NEXT_TURN_REQUEST;
-+ (SDLTBTState *)ROUTE_STATUS_REQUEST;
-+ (SDLTBTState *)ROUTE_SUMMARY_REQUEST;
-+ (SDLTBTState *)TRIP_STATUS_REQUEST;
-+ (SDLTBTState *)ROUTE_UPDATE_REQUEST_TIMEOUT;
+/**
+ The route is accepted
+ */
+extern SDLTBTState const SDLTBTStateRouteAccepted;
 
-@end
+/**
+ The route is refused
+ */
+extern SDLTBTState const SDLTBTStateRouteRefused;
+
+/**
+ The route is cancelled
+ */
+extern SDLTBTState const SDLTBTStateRouteCancelled;
+
+/**
+ The route should update its Estimated Time of Arrival
+ */
+extern SDLTBTState const SDLTBTStateETARequest;
+
+/**
+ The route should update its next turn
+ */
+extern SDLTBTState const SDLTBTStateNextTurnRequest;
+
+/**
+ The route should update its status
+ */
+extern SDLTBTState const SDLTBTStateRouteStatusRequest;
+
+/**
+ The route update its summary
+ */
+extern SDLTBTState const SDLTBTStateRouteSummaryRequest;
+
+/**
+ The route should update the trip's status
+ */
+extern SDLTBTState const SDLTBTStateTripStatusRequest;
+
+/**
+ The route update timed out
+ */
+extern SDLTBTState const SDLTBTStateRouteUpdateRequestTimeout;

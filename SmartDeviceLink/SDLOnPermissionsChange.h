@@ -3,33 +3,25 @@
 
 #import "SDLRPCNotification.h"
 
+@class SDLPermissionItem;
 
 /**
  * Provides update to app of which sets of functions are available
  *
  * @since SDL 2.0
  */
-@interface SDLOnPermissionsChange : SDLRPCNotification {
-}
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLOnPermissionsChange : SDLRPCNotification
 
 /**
- * Constructs a newly allocated SDLOnPermissionsChange object
- */
-- (instancetype)init;
+ Describes change in permissions for a given set of RPCs
 
-/**
- * Constructs a newly allocated SDLOnPermissionsChange object indicated by the dictionary parameter
- * @param dict The dictionary to use
+ Required, Array of SDLPermissionItem, Array size 0 - 500
  */
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
-
-/**
- * @abstract Describes change in permissions for a given set of RPCs
- *
- * Required, Array of SDLPermissionItem, Array size 0 - 500
- *
- * @see SDLPermissionItem
- */
-@property (strong) NSMutableArray *permissionItem;
+@property (strong, nonatomic) NSArray<SDLPermissionItem *> *permissionItem;
 
 @end
+
+NS_ASSUME_NONNULL_END

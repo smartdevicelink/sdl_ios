@@ -6,9 +6,10 @@
 #import "SDLPrioritizedObjectCollection.h"
 #import "SDLObjectWithPriority.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLPrioritizedObjectCollection () {
-    NSMutableArray *privateArray;
+    NSMutableArray<id> *privateArray;
 }
 @end
 
@@ -18,12 +19,12 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        privateArray = [NSMutableArray new];
+        privateArray = [NSMutableArray<id> new];
     }
     return self;
 }
 
-- (void)addObject:(id)object withPriority:(NSInteger)priority {
+- (void)addObject:(nullable id)object withPriority:(NSInteger)priority {
     if (object == nil || [[NSNull null] isEqual:object]) {
         return;
     }
@@ -34,8 +35,8 @@
         // Find correct place to insert.
         // Sorted in descending order.
         BOOL lowerPriorityFound = NO;
-        NSInteger currentCount = privateArray.count;
-        for (int x = 0; x < currentCount; x++) {
+        NSUInteger currentCount = privateArray.count;
+        for (NSUInteger x = 0; x < currentCount; x++) {
             SDLObjectWithPriority *o = privateArray[x];
             if (o.priority <= priority) {
                 lowerPriorityFound = YES;
@@ -49,7 +50,7 @@
     }
 }
 
-- (instancetype)nextObject {
+- (nullable instancetype)nextObject {
     if (privateArray.count == 0) {
         return nil;
     }
@@ -64,3 +65,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

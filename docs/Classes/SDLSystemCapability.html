@@ -1,0 +1,192 @@
+<h1>SDLSystemCapability Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithNavigationCapability:">-initWithNavigationCapability:</a></li>
+  <li><a href="#section--initWithPhoneCapability:">-initWithPhoneCapability:</a></li>
+  <li><a href="#section--initWithVideoStreamingCapability:">-initWithVideoStreamingCapability:</a></li>
+  <li><a href="#section--initWithRemoteControlCapability:">-initWithRemoteControlCapability:</a></li>
+  <li><a href="#section-systemCapabilityType">systemCapabilityType</a></li>
+  <li><a href="#section-navigationCapability">navigationCapability</a></li>
+  <li><a href="#section-phoneCapability">phoneCapability</a></li>
+  <li><a href="#section-videoStreamingCapability">videoStreamingCapability</a></li>
+  <li><a href="#section-remoteControlCapability">remoteControlCapability</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>The systemCapabilityType indicates which type of data should be changed and identifies which data object exists in this struct. For example, if the SystemCapability Type is NAVIGATION then a <q>navigationCapability</q> should exist.</p>
+
+<p>First implemented in SDL Core v4.4</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithNavigationCapability:">
+      -initWithNavigationCapability:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithNavigationCapability</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLNavigationCapability.html">SDLNavigationCapability</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">capability</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n"><a href="../Classes/SDLSystemCapability.html#/c:objc(cs)SDLSystemCapability(py)navigationCapability">navigationCapability</a></span> <span class="nv">capability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLNavigationCapability.html">SDLNavigationCapability</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithPhoneCapability:">
+      -initWithPhoneCapability:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithPhoneCapability</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLPhoneCapability.html">SDLPhoneCapability</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">capability</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n"><a href="../Classes/SDLSystemCapability.html#/c:objc(cs)SDLSystemCapability(py)phoneCapability">phoneCapability</a></span> <span class="nv">capability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLPhoneCapability.html">SDLPhoneCapability</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithVideoStreamingCapability:">
+      -initWithVideoStreamingCapability:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithVideoStreamingCapability</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLVideoStreamingCapability.html">SDLVideoStreamingCapability</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">capability</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n"><a href="../Classes/SDLSystemCapability.html#/c:objc(cs)SDLSystemCapability(py)videoStreamingCapability">videoStreamingCapability</a></span> <span class="nv">capability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVideoStreamingCapability.html">SDLVideoStreamingCapability</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithRemoteControlCapability:">
+      -initWithRemoteControlCapability:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithRemoteControlCapability</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html">SDLRemoteControlCapabilities</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">capability</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n"><a href="../Classes/SDLSystemCapability.html#/c:objc(cs)SDLSystemCapability(py)remoteControlCapability">remoteControlCapability</a></span> <span class="nv">capability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRemoteControlCapabilities.html">SDLRemoteControlCapabilities</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-systemCapabilityType">
+      systemCapabilityType
+  </h3>
+  
+  <p>Used as a descriptor of what data to expect in this struct. The corresponding param to this enum should be included and the only other parameter included.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span> <span class="n">_Nonnull</span> <span class="n">systemCapabilityType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">systemCapabilityType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-navigationCapability">
+      navigationCapability
+  </h3>
+  
+  <p>Describes extended capabilities for onboard navigation system</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLNavigationCapability.html">SDLNavigationCapability</a></span> <span class="o">*</span><span class="n">navigationCapability</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">navigationCapability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLNavigationCapability.html">SDLNavigationCapability</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-phoneCapability">
+      phoneCapability
+  </h3>
+  
+  <p>Describes extended capabilities of the module&rsquo;s phone feature</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLPhoneCapability.html">SDLPhoneCapability</a></span> <span class="o">*</span><span class="n">phoneCapability</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">phoneCapability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLPhoneCapability.html">SDLPhoneCapability</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-videoStreamingCapability">
+      videoStreamingCapability
+  </h3>
+  
+  <p>Describes extended capabilities of the module&rsquo;s phone feature</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLVideoStreamingCapability.html">SDLVideoStreamingCapability</a></span> <span class="o">*</span><span class="n">videoStreamingCapability</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">videoStreamingCapability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLVideoStreamingCapability.html">SDLVideoStreamingCapability</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-remoteControlCapability">
+      remoteControlCapability
+  </h3>
+  
+  <p>Describes extended capabilities of the module&rsquo;s phone feature</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLRemoteControlCapabilities.html">SDLRemoteControlCapabilities</a></span> <span class="o">*</span><span class="n">remoteControlCapability</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">remoteControlCapability</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRemoteControlCapabilities.html">SDLRemoteControlCapabilities</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

@@ -3,14 +3,15 @@
 
 #import "SDLRPCResponse.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-/** SDLUpdateTurnListResponse is sent, when SDLUpdateTurnList has been called.
- * Since<b>SmartDeviceLink 2.0</b>
+/**
+ Response to UpdateTurnList
+
+ Since SmartDeviceLink 2.0
  */
-@interface SDLUpdateTurnListResponse : SDLRPCResponse {
-}
-
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+@interface SDLUpdateTurnListResponse : SDLRPCResponse
 
 @end
+
+NS_ASSUME_NONNULL_END

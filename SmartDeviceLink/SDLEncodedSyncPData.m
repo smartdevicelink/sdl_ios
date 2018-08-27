@@ -4,32 +4,27 @@
 
 #import "SDLEncodedSyncPData.h"
 
+#import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLEncodedSyncPData
 
 - (instancetype)init {
-    if (self = [super initWithName:NAMES_EncodedSyncPData]) {
+    if (self = [super initWithName:SDLNameEncodedSyncPData]) {
     }
     return self;
 }
 
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict {
-    if (self = [super initWithDictionary:dict]) {
-    }
-    return self;
+- (void)setData:(NSArray<NSString *> *)data {
+    [parameters sdl_setObject:data forName:SDLNameData];
 }
 
-- (void)setData:(NSMutableArray *)data {
-    if (data != nil) {
-        [parameters setObject:data forKey:NAMES_data];
-    } else {
-        [parameters removeObjectForKey:NAMES_data];
-    }
-}
-
-- (NSMutableArray *)data {
-    return [parameters objectForKey:NAMES_data];
+- (NSArray<NSString *> *)data {
+    return [parameters sdl_objectForName:SDLNameData];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

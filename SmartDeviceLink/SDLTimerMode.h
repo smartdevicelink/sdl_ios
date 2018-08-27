@@ -4,14 +4,22 @@
 
 #import "SDLEnum.h"
 
-@interface SDLTimerMode : SDLEnum {
-}
+/**
+ The direction of a timer. Used in nothing.
+ */
+typedef SDLEnum SDLTimerMode SDL_SWIFT_ENUM;
 
-+ (SDLTimerMode *)valueOf:(NSString *)value;
-+ (NSArray *)values;
+/**
+ The timer should count up.
+ */
+extern SDLTimerMode const SDLTimerModeUp;
 
-+ (SDLTimerMode *)UP;
-+ (SDLTimerMode *)DOWN;
-+ (SDLTimerMode *)NONE;
+/**
+ The timer should count down.
+ */
+extern SDLTimerMode const SDLTimerModeDown;
 
-@end
+/**
+ The timer should not count.
+ */
+extern SDLTimerMode const SDLTimerModeNone;

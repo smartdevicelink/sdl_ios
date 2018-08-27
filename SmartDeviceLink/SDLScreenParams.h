@@ -6,14 +6,27 @@
 @class SDLImageResolution;
 @class SDLTouchEventCapabilities;
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLScreenParams : SDLRPCStruct {
-}
+/**
+ A struct in DisplayCapabilities describing parameters related to a video / touch input area
+ */
+@interface SDLScreenParams : SDLRPCStruct
 
-- (instancetype)init;
-- (instancetype)initWithDictionary:(NSMutableDictionary *)dict;
+/**
+ The resolution of the prescribed screen area
 
-@property (strong) SDLImageResolution *resolution;
-@property (strong) SDLTouchEventCapabilities *touchEventAvailable;
+ Required
+ */
+@property (strong, nonatomic) SDLImageResolution *resolution;
+
+/**
+ Types of screen touch events available in screen area
+
+ Optional
+ */
+@property (nullable, strong, nonatomic) SDLTouchEventCapabilities *touchEventAvailable;
 
 @end
+
+NS_ASSUME_NONNULL_END

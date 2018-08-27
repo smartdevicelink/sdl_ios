@@ -5,66 +5,37 @@
 #import "SDLEnum.h"
 
 /**
- * Indicates whether or not a user-initiated interaction is in progress, and if so, in what mode (i.e. MENU or VR).
+ * Indicates whether or not a user-initiated interaction is in progress, and if so, in what mode (i.e. MENU or VR). Used in OnHMIStatus
  *
  * @since SDL 1.0
  */
-@interface SDLSystemContext : SDLEnum {
-}
+typedef SDLEnum SDLSystemContext SDL_SWIFT_ENUM;
 
 /**
- * Convert String to SDLSystemContext
- *
- * @param value String value to retrieve the object for
- *
- * @return SDLSystemContext
+ * No user interaction (user-initiated or app-initiated) is in progress.
  */
-+ (SDLSystemContext *)valueOf:(NSString *)value;
+extern SDLSystemContext const SDLSystemContextMain;
 
 /**
- *  @abstract Store the enumeration of all possible SDLSystemContext
- *
- *  @return an array that store all possible SDLSystemContext
+ * VR-oriented, user-initiated or app-initiated interaction is in-progress.
  */
-+ (NSArray *)values;
+extern SDLSystemContext const SDLSystemContextVoiceRecognitionSession;
 
 /**
- * @abstract No user interaction (user-initiated or app-initiated) is in progress.
- *
- * @return SDLSystemContext object of value *MAIN*
+ * Menu-oriented, user-initiated or app-initiated interaction is in-progress.
  */
-+ (SDLSystemContext *)MAIN;
+extern SDLSystemContext const SDLSystemContextMenu;
 
 /**
- * @abstract VR-oriented, user-initiated or app-initiated interaction is in-progress.
- *
- * @return SDLSystemContext object of value *VRSESSION*
- */
-+ (SDLSystemContext *)VRSESSION;
-
-/**
- * @abstract Menu-oriented, user-initiated or app-initiated interaction is in-progress.
- *
- * @return SDLSystemContext object of value *MENU*
- */
-+ (SDLSystemContext *)MENU;
-
-/**
- * @abstract The app's display HMI is currently being obscured by either a system or other app's overlay.
- *
- * @return SDLSystemContext object of value *HMI_OBSCURED*
+ * The app's display HMI is currently being obscured by either a system or other app's overlay.
  *
  * @since SDL 2.0
  */
-+ (SDLSystemContext *)HMI_OBSCURED;
+extern SDLSystemContext const SDLSystemContextHMIObscured;
 
 /**
- * @abstract Broadcast only to whichever app has an alert currently being displayed.
- *
- * @return SDLSystemContext object of value *ALERT*
+ * Broadcast only to whichever app has an alert currently being displayed.
  *
  * @since SDL 2.0
  */
-+ (SDLSystemContext *)ALERT;
-
-@end
+extern SDLSystemContext const SDLSystemContextAlert;
