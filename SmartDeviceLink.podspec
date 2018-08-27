@@ -14,10 +14,10 @@ s.resource_bundles = { 'SmartDeviceLink' => ['SmartDeviceLink/Assets/**/*'] }
 
 s.default_subspec = 'Default'
 
-s.subspec 'Default' do |ss|
-ss.source_files = 'SmartDeviceLink/*.{h,m}'
+s.subspec 'Default' do |sdefault|
+sdefault.source_files = 'SmartDeviceLink/*.{h,m}'
 
-ss.public_header_files = [
+sdefault.public_header_files = [
 'SmartDeviceLink/NSNumber+NumberType.h',
 'SmartDeviceLink/SDLAddCommand.h',
 'SmartDeviceLink/SDLAddCommandResponse.h',
@@ -380,9 +380,9 @@ ss.public_header_files = [
 ]
 end
 
-s.subspec 'Swift' do |ss|
-ss.dependency 'SmartDeviceLink/Default'
-ss.source_files = 'SmartDeviceLinkSwift/*.swift'
+s.subspec 'Swift' do |sswift|
+sswift.dependency 'SmartDeviceLink/Default'
+sswift.source_files = 'SmartDeviceLinkSwift/*.swift'
 end
 
 end
