@@ -7,7 +7,7 @@
 #import "ProxyManager.h"
 #import "SDLLogMacros.h"
 #import "SDLManager.h"
-
+#import "LogManager.h"
 
 @interface AppDelegate ()
 
@@ -18,6 +18,12 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    UIDevice *device = [UIDevice currentDevice];
+    if (![[device model] isEqualToString:@"iPhone Simulator"]) {
+        [[LogManager shareInstance] redirectNSlogToDocumentFolder];
+    }
+    
     return YES;
 }
 
