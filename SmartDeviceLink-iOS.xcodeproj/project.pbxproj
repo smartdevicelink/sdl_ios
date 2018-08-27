@@ -4448,30 +4448,6 @@
 			name = Notifications;
 			sourceTree = "<group>";
 		};
-		5DA49C8C1F1E549000E65FC5 /* BSON library */ = {
-			isa = PBXGroup;
-			children = (
-				5D9FDA891F2A7D3400A495C8 /* bson_array.c */,
-				5D9FDA8A1F2A7D3400A495C8 /* bson_array.h */,
-				5D9FDA8B1F2A7D3400A495C8 /* bson_object.c */,
-				5D9FDA8C1F2A7D3400A495C8 /* bson_object.h */,
-				5D9FDA8D1F2A7D3400A495C8 /* bson_util.c */,
-				5D9FDA8E1F2A7D3400A495C8 /* bson_util.h */,
-				5DA49CB51F1E64BB00E65FC5 /* emhashmap */,
-			);
-			name = "BSON library";
-			sourceTree = "<group>";
-		};
-		5DA49CB51F1E64BB00E65FC5 /* emhashmap */ = {
-			isa = PBXGroup;
-			children = (
-				5D9FDA951F2A7D3F00A495C8 /* emhashmap.c */,
-				5D9FDA961F2A7D3F00A495C8 /* emhashmap.h */,
-				5D9FDA971F2A7D3F00A495C8 /* LICENSE */,
-			);
-			name = emhashmap;
-			sourceTree = "<group>";
-		};
 		5DA49CE21F1EA77900E65FC5 /* Control Frame Payloads */ = {
 			isa = PBXGroup;
 			children = (
@@ -5088,6 +5064,30 @@
 				DA318C1E1DD0F06C00C035AC /* NSMutableDictionary+Store.m */,
 			);
 			name = "@categories";
+			sourceTree = "<group>";
+		};
+		EC5167462133FA6D0074CB5D /* bson_c_lib */ = {
+			isa = PBXGroup;
+			children = (
+				EC5167472133FA6D0074CB5D /* bson_util.c */,
+				EC5167482133FA6D0074CB5D /* bson_array.h */,
+				EC5167492133FA6D0074CB5D /* bson_object.h */,
+				EC51674A2133FA6D0074CB5D /* bson_util.h */,
+				EC51674B2133FA6D0074CB5D /* emhashmap */,
+				EC51674F2133FA6D0074CB5D /* bson_object.c */,
+				EC5167502133FA6D0074CB5D /* bson_array.c */,
+			);
+			path = bson_c_lib;
+			sourceTree = SOURCE_ROOT;
+		};
+		EC51674B2133FA6D0074CB5D /* emhashmap */ = {
+			isa = PBXGroup;
+			children = (
+				EC51674C2133FA6D0074CB5D /* LICENSE */,
+				EC51674D2133FA6D0074CB5D /* emhashmap.c */,
+				EC51674E2133FA6D0074CB5D /* emhashmap.h */,
+			);
+			path = emhashmap;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
