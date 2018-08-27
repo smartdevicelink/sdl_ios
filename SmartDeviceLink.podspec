@@ -382,6 +382,7 @@ end
 
 s.subspec 'Swift' do |sswift|
 sswift.dependency 'SmartDeviceLink/Default'
+sswift.resource_bundles = { 'SmartDeviceLink' => ['SmartDeviceLink/Assets/**/*'] }
 sswift.source_files = 'SmartDeviceLinkSwift/*.swift'
 end
 
