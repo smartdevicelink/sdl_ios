@@ -9,13 +9,13 @@
 
 #import "SDLLightState.h"
 #import "SDLLightStatus.h"
-#import "SDLSRGBColor.h"
+#import "SDLRGBColor.h"
 #import "SDLLightName.h"
 #import "SDLNames.h"
 
 QuickSpecBegin(SDLLightStateSpec)
 
-SDLSRGBColor* somesRGBColor = [[SDLSRGBColor alloc] init];
+SDLRGBColor* someRGBColor = [[SDLRGBColor alloc] init];
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
@@ -24,46 +24,56 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.id = SDLLightNameFogLights;
         testStruct.status = SDLLightStatusOn;
         testStruct.density = @(0.5);
-        testStruct.sRGBColor = somesRGBColor;
+        testStruct.color = someRGBColor;
 
         expect(testStruct.id).to(equal(SDLLightNameFogLights));
         expect(testStruct.status).to(equal(SDLLightStatusOn));
         expect(testStruct.density).to(equal(@(0.5)));
-        expect(testStruct.sRGBColor).to(equal(somesRGBColor));
+        expect(testStruct.color).to(equal(someRGBColor));
     });
 
     it(@"Should set and get correctly", ^ {
         SDLLightState* testStruct = [[SDLLightState alloc] initWithId:SDLLightNameFogLights status:SDLLightStatusOFF];
+
         expect(testStruct.id).to(equal(SDLLightNameFogLights));
         expect(testStruct.status).to(equal(SDLLightStatusOFF));
         expect(testStruct.density).to(beNil());
-        expect(testStruct.sRGBColor).to(beNil());
-
+        expect(testStruct.color).to(beNil());
     });
 
     it(@"Should set and get correctly", ^ {
-        SDLLightState* testStruct = [[SDLLightState alloc] initWithId:SDLLightNameFogLights status:SDLLightStatusOFF density:0.5 sRGBColor:somesRGBColor];
+        SDLLightState* testStruct = [[SDLLightState alloc] initWithId:SDLLightNameFogLights status:SDLLightStatusOFF density:0.5 color:someRGBColor];
 
         expect(testStruct.id).to(equal(SDLLightNameFogLights));
         expect(testStruct.status).to(equal(SDLLightStatusOFF));
         expect(testStruct.density).to(equal(@(0.5)));
-        expect(testStruct.sRGBColor).to(equal(somesRGBColor));
+        expect(testStruct.color).to(equal(someRGBColor));
+    });
 
+    it(@"Should set and get correctly", ^ {
+        UIColor *testColorBack = [[UIColor alloc] init];
+        SDLRGBColor *testBlack = [[SDLRGBColor alloc] initWithRed:0 green:0 blue:0];
+
+        SDLLightState* testStruct = [[SDLLightState alloc] initWithId:SDLLightNameFogLights lightStatus:SDLLightStatusOFF lightDensity:0.5 lightColor:testColorBack];
+
+        expect(testStruct.id).to(equal(SDLLightNameFogLights));
+        expect(testStruct.status).to(equal(SDLLightStatusOFF));
+        expect(testStruct.density).to(equal(@(0.5)));
+        expect(testStruct.color).to(equal(testBlack));
     });
 
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameId:SDLLightNameFogLights,
                                        SDLNameStatus:SDLLightStatusOn,
                                        SDLNameDensity:@(0.5),
-                                       SDLNameSRGBColor:somesRGBColor} mutableCopy];
+                                       SDLNameColor:someRGBColor} mutableCopy];
 
         SDLLightState* testStruct = [[SDLLightState alloc] initWithDictionary:dict];
 
         expect(testStruct.id).to(equal(SDLLightNameFogLights));
         expect(testStruct.status).to(equal(SDLLightStatusOn));
         expect(testStruct.density).to(equal(@(0.5)));
-        expect(testStruct.sRGBColor).to(equal(somesRGBColor));
-
+        expect(testStruct.color).to(equal(someRGBColor));
     });
 
     it(@"Should return nil if not set", ^ {
@@ -72,7 +82,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.id).to(beNil());
         expect(testStruct.status).to(beNil());
         expect(testStruct.density).to(beNil());
-        expect(testStruct.sRGBColor).to(beNil());
+        expect(testStruct.color).to(beNil());
     });
 });
 

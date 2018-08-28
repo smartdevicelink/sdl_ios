@@ -11,13 +11,12 @@
 #import "SDLNames.h"
 #import "SDLSISData.h"
 #import "SDLStationIDNumber.h"
-#import "SDLGPSLocation.h"
-
+#import "SDLGPSData.h"
 
 QuickSpecBegin(SDLSISDataSpec)
 
 SDLStationIDNumber *someID = [[SDLStationIDNumber alloc] init];
-SDLGPSLocation *someLocation = [[SDLGPSLocation alloc] init];
+SDLGPSData *someLocation = [[SDLGPSData alloc] init];
 
 describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {

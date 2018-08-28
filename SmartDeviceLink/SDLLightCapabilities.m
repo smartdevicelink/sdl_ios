@@ -19,14 +19,14 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithName:(SDLLightName)name densityAvailable:(BOOL)densityAvailable sRGBColorSpaceAvailable:(BOOL)sRGBColorSpaceAvailable statusAvailable:(BOOL)statusAvailable {
+- (instancetype)initWithName:(SDLLightName)name densityAvailable:(BOOL)densityAvailable colorAvailable:(BOOL)colorAvailable statusAvailable:(BOOL)statusAvailable {
     self = [self init];
     if(!self) {
         return nil;
     }
     self.name = name;
     self.densityAvailable = @(densityAvailable);
-    self.sRGBColorSpaceAvailable = @(sRGBColorSpaceAvailable);
+    self.colorAvailable = @(colorAvailable);
     self.statusAvailable = @(statusAvailable);
 
     return self;
@@ -48,12 +48,12 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameDensityAvailable];
 }
 
-- (void)setSRGBColorSpaceAvailable:(nullable NSNumber<SDLBool> *)sRGBColorSpaceAvailable {
-    [store sdl_setObject:sRGBColorSpaceAvailable forName:SDLNameSRGBColorSpaceAvailable];
+- (void)setColorAvailable:(nullable NSNumber<SDLBool> *)colorAvailable {
+    [store sdl_setObject:colorAvailable forName:SDLNameRGBColorSpaceAvailable];
 }
 
-- (nullable NSNumber<SDLBool> *)sRGBColorSpaceAvailable {
-    return [store sdl_objectForName:SDLNameSRGBColorSpaceAvailable];
+- (nullable NSNumber<SDLBool> *)colorAvailable {
+    return [store sdl_objectForName:SDLNameRGBColorSpaceAvailable];
 }
 
 - (void)setStatusAvailable:(nullable NSNumber<SDLBool> *)statusAvailable {

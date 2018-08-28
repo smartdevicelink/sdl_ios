@@ -13,8 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithChannelId:(UInt8)channelId channelSetting:(UInt8)channelSetting;
 
-- (instancetype)initWithChannelId:(UInt8)channelId channelName:(nullable NSString *)channelName channelSetting:(UInt8)channelSetting;
-
 /**
  * @abstract Read-only channel / frequency name
  * (e.i. "Treble, Midrange, Bass" or "125 Hz")
