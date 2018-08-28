@@ -6,7 +6,7 @@
 
 @class SDLSoftButton;
 @class SDLTTSChunk;
-
+@class SDLImage;
 /**
  * Shows an alert which typically consists of text-to-speech message and text on the display. At least either alertText1, alertText2 or TTSChunks need to be provided.
  *
@@ -53,6 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithTTS:(nullable NSString *)ttsText alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 playTone:(BOOL)playTone duration:(UInt16)duration;
 
+- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 icon:(SDLImage *)icon duration:(UInt16)duration;
+
 - (instancetype)initWithTTS:(nullable NSString *)ttsText alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration;
 
 - (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks playTone:(BOOL)playTone;
@@ -61,6 +63,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone duration:(UInt16)duration softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons;
 
+- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 icon:(SDLImage *)icon duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons;
+
+- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 icon:(SDLImage *)icon duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons;
+
+- (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 icon:(SDLImage *)icon playTone:(BOOL)playTone duration:(UInt16)duration;
+
+- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 icon:(SDLImage *)icon playTone:(BOOL)playTone duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons;
+
+@property (strong, nonatomic) SDLImage *icon;
 
 /**
  * The String to be displayed in the first field of the display during the Alert

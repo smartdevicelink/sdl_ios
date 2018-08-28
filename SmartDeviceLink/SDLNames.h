@@ -25,6 +25,7 @@ extern SDLName const SDLNameAlertManeuver;
 extern SDLName const SDLNameAlertText1;
 extern SDLName const SDLNameAlertText2;
 extern SDLName const SDLNameAlertText3;
+extern SDLName const SDLNameAlertIcon;
 extern SDLName const SDLNameAlignment;
 extern SDLName const SDLNameAllowed;
 extern SDLName const SDLNameAltitude;

@@ -74,7 +74,7 @@ class ConnectionContainerViewController: UIViewController {
     }
 
     func loadChildViewController(index: Int?) {
-        let initialViewController: UIViewController = viewControllers[index!] as! UIViewController
+        let initialViewController = viewControllers[index!]
         self.addChildViewController(initialViewController)
         view.addSubview(initialViewController.view)
         initialViewController.didMove(toParentViewController: self)
