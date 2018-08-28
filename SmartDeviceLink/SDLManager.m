@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _lifecycleManager = [[SDLLifecycleManager alloc] initWithConfiguration:configuration delegate:delegate];
-    _localization = [SDLLocalization defaultLocalization];
+    _localization = _lifecycleManager.localization;
 
     return self;
 }
