@@ -34,14 +34,6 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.channelSetting).to(equal(@45));
     });
 
-    it(@"Should set and get correctly", ^ {
-        SDLEqualizerSettings* testStruct = [[SDLEqualizerSettings alloc] initWithChannelId:2 channelName:@"channel" channelSetting:45];
-
-        expect(testStruct.channelId).to(equal(@2));
-        expect(testStruct.channelName).to(equal(@"channel"));
-        expect(testStruct.channelSetting).to(equal(@45));
-    });
-
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary* dict = [@{SDLNameChannelId:@2,
                                        SDLNameChannelName:@"channel",

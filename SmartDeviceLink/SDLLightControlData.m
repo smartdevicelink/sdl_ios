@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLLightControlData
 
--(instancetype)initWithLightStateArray:(NSArray<SDLLightState *> *)lightState {
+-(instancetype)initWithLightStates:(NSArray<SDLLightState *> *)lightState {
     self = [self init];
     if(!self) {
         return nil;
