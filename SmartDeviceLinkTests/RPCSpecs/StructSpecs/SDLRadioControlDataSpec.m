@@ -34,11 +34,9 @@ describe(@"Initialization tests", ^{
         expect(testStruct.radioEnable).to(beNil());
         expect(testStruct.state).to(beNil());
         expect(testStruct.hdRadioEnable).to(beNil());
-
     });
     
     it(@"should properly initialize initWithDictionary", ^{
-        
         NSMutableDictionary* dict = [@{SDLNameFrequencyInteger : @101,
                                        SDLNameFrequencyFraction : @7,
                                        SDLNameBand : SDLRadioBandAM,
@@ -64,7 +62,6 @@ describe(@"Initialization tests", ^{
         expect(testStruct.radioEnable).to(equal(@YES));
         expect(testStruct.state).to(equal(SDLRadioStateNotFound));
         expect(testStruct.hdRadioEnable).to(equal(@NO));
-
     });
 
     it(@"Should set and get correctly", ^{
@@ -94,7 +91,9 @@ describe(@"Initialization tests", ^{
         expect(testStruct.hdRadioEnable).to(equal(@YES));
     });
 
-    it(@"Should get correctly when initialized with Module Name and other radio control capabilite's parameters", ^ {
+    it(@"Should get correctly when initialized with Module Name and other radio control capabilities parameters", ^ {
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRadioControlData* testStruct = [[SDLRadioControlData alloc] initWithFrequencyInteger:@101 frequencyFraction:@7 band:SDLRadioBandAM hdChannel:@2 radioEnable:@YES];
 
         expect(testStruct.frequencyInteger).to(equal(@101));
@@ -102,9 +101,12 @@ describe(@"Initialization tests", ^{
         expect(testStruct.band).to(equal(SDLRadioBandAM));
         expect(testStruct.hdChannel).to(equal(@2));
         expect(testStruct.radioEnable).to(equal(@YES));
+        #pragma clang diagnostic pop
     });
     
-    it(@"Should get correctly when initialized with Module Name and other radio control capabilite's parameters", ^ {
+    it(@"Should get correctly when initialized with Module Name and other radio control capabilities parameters", ^ {
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRadioControlData* testStruct = [[SDLRadioControlData alloc] initWithFrequencyInteger:@101 frequencyFraction:@7 band:SDLRadioBandAM hdChannel:@2 radioEnable:@YES];
         
         expect(testStruct.frequencyInteger).to(equal(@101));
@@ -112,9 +114,12 @@ describe(@"Initialization tests", ^{
         expect(testStruct.band).to(equal(SDLRadioBandAM));
         expect(testStruct.hdChannel).to(equal(@2));
         expect(testStruct.radioEnable).to(equal(@YES));
+        #pragma clang diagnostic pop
     });
     
-    it(@"Should get correctly when initialized with Module Name and other radio control capabilite's parameters", ^ {
+    it(@"Should get correctly when initialized with Module Name and other radio control capabilities parameters", ^ {
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRadioControlData* testStruct = [[SDLRadioControlData alloc] initWithFrequencyInteger:@101 frequencyFraction:@7 band:SDLRadioBandAM hdChannel:@2 radioEnable:@YES];
         
         expect(testStruct.frequencyInteger).to(equal(@101));
@@ -123,9 +128,10 @@ describe(@"Initialization tests", ^{
         expect(testStruct.hdChannel).to(equal(@2));
         expect(testStruct.radioEnable).to(equal(@YES));
         expect(testStruct.sisData).to(beNil());
+        #pragma clang diagnostic pop
     });
     
-    it(@"Should get correctly when initialized with Module Name and other radio control capabilite's parameters", ^ {
+    it(@"Should get correctly when initialized with Module Name and other radio control capabilities parameters", ^ {
         SDLRadioControlData* testStruct = [[SDLRadioControlData alloc] initWithFrequencyInteger:@101 frequencyFraction:@7 band:SDLRadioBandAM hdChannel:@2 radioEnable:@YES hdRadioEnable:@YES];
         
         expect(testStruct.frequencyInteger).to(equal(@101));
