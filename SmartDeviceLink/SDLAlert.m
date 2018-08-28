@@ -52,6 +52,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [self initWithTTSChunks:ttsChunks alertText1:nil alertText2:nil alertText3:nil playTone:playTone duration:SDLDefaultDuration softButtons:nil];
 }
 
+- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 icon:(SDLImage *)icon duration:(UInt16)duration
+{
+    return [self initWithTTS:nil alertText1:alertText1 alertText2:alertText2 alertText3:nil icon:icon playTone:NO duration:duration];
+}
+
 - (instancetype)initWithTTSChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(nullable NSString *)alertText1 alertText2:(nullable NSString *)alertText2 alertText3:(nullable NSString *)alertText3 playTone:(BOOL)playTone softButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
     return [self initWithTTSChunks:ttsChunks alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 playTone:playTone duration:SDLDefaultDuration softButtons:softButtons];
 }
@@ -71,6 +76,49 @@ NS_ASSUME_NONNULL_BEGIN
     self.softButtons = [softButtons mutableCopy];
 
     return self;
+}
+
+- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 icon:(SDLImage *)icon duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons {
+    return [self initWithTTSChunks:nil alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 icon:icon playTone:NO duration:duration softButtons:softButtons];
+}
+
+- (instancetype)initWithAlertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 icon:(SDLImage *)icon duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons{
+    return [self initWithTTSChunks:nil alertText1:alertText1 alertText2:alertText2 alertText3:nil icon:icon playTone:NO duration:duration softButtons:softButtons];
+}
+
+- (instancetype)initWithTTS:(NSString *)ttsText alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 icon:(SDLImage *)icon playTone:(BOOL)playTone duration:(UInt16)duration {
+    return [self initWithTTSChunks:nil alertText1:alertText1 alertText2:alertText2 alertText3:alertText3 icon:icon playTone:playTone duration:duration softButtons:nil];
+}
+
+- (instancetype)initWithTTSChunks:(NSArray<SDLTTSChunk *> *)ttsChunks alertText1:(NSString *)alertText1 alertText2:(NSString *)alertText2 alertText3:(NSString *)alertText3 icon:(SDLImage *)icon playTone:(BOOL)playTone duration:(UInt16)duration softButtons:(NSArray<SDLSoftButton *> *)softButtons {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.ttsChunks = [ttsChunks mutableCopy];
+    self.alertText1 = alertText1;
+    self.alertText2 = alertText2;
+    self.alertText3 = alertText3;
+    self.playTone = @(playTone);
+    self.duration = @(duration);
+    self.softButtons = [softButtons mutableCopy];
+    self.icon = icon;
+    
+    return self;
+    
+}
+
+- (void)setIcon:(SDLImage *)icon {
+    if (icon != nil) {
+        [parameters setObject:icon forKey:SDLNameAlertIcon];
+    } else {
+        [parameters removeObjectForKey:SDLNameAlertIcon];
+    }
+}
+
+- (SDLImage *)icon {
+    return [parameters objectForKey:SDLNameAlertIcon];
 }
 
 - (void)setAlertText1:(nullable NSString *)alertText1 {

@@ -928,15 +928,6 @@
 		5D9FC2A31FD8814A00ACA5C2 /* SDLAudioFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D9FC2A11FD8814A00ACA5C2 /* SDLAudioFile.h */; };
 		5D9FC2A61FD8815800ACA5C2 /* SDLPCMAudioConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D9FC2A41FD8815800ACA5C2 /* SDLPCMAudioConverter.h */; };
 		5D9FC2A71FD8815800ACA5C2 /* SDLPCMAudioConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D9FC2A51FD8815800ACA5C2 /* SDLPCMAudioConverter.m */; };
-		5D9FDA8F1F2A7D3400A495C8 /* bson_array.c in Sources */ = {isa = PBXBuildFile; fileRef = 5D9FDA891F2A7D3400A495C8 /* bson_array.c */; };
-		5D9FDA901F2A7D3400A495C8 /* bson_array.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D9FDA8A1F2A7D3400A495C8 /* bson_array.h */; };
-		5D9FDA911F2A7D3400A495C8 /* bson_object.c in Sources */ = {isa = PBXBuildFile; fileRef = 5D9FDA8B1F2A7D3400A495C8 /* bson_object.c */; };
-		5D9FDA921F2A7D3400A495C8 /* bson_object.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D9FDA8C1F2A7D3400A495C8 /* bson_object.h */; };
-		5D9FDA931F2A7D3400A495C8 /* bson_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 5D9FDA8D1F2A7D3400A495C8 /* bson_util.c */; };
-		5D9FDA941F2A7D3400A495C8 /* bson_util.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D9FDA8E1F2A7D3400A495C8 /* bson_util.h */; };
-		5D9FDA981F2A7D3F00A495C8 /* emhashmap.c in Sources */ = {isa = PBXBuildFile; fileRef = 5D9FDA951F2A7D3F00A495C8 /* emhashmap.c */; };
-		5D9FDA991F2A7D3F00A495C8 /* emhashmap.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D9FDA961F2A7D3F00A495C8 /* emhashmap.h */; };
-		5D9FDA9A1F2A7D3F00A495C8 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5D9FDA971F2A7D3F00A495C8 /* LICENSE */; };
 		5DA026901AD44EE700019F86 /* SDLDialNumberResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA0268F1AD44EE700019F86 /* SDLDialNumberResponseSpec.m */; };
 		5DA102A41D4122C700C15826 /* NSMutableDictionary+SafeRemove.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA102A21D4122C700C15826 /* NSMutableDictionary+SafeRemove.h */; };
 		5DA102A51D4122C700C15826 /* NSMutableDictionary+SafeRemove.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA102A31D4122C700C15826 /* NSMutableDictionary+SafeRemove.m */; };
@@ -1079,7 +1070,6 @@
 		8877F5EE1F34A72200DC128A /* SDLSendHapticDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8877F5EF1F34A72200DC128A /* SDLSendHapticDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */; };
 		8877F5F11F34AA2D00DC128A /* SDLSendHapticDataResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5F01F34AA2D00DC128A /* SDLSendHapticDataResponseSpec.m */; };
-		88802FE920853AE600E9EBC6 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5D9FDA971F2A7D3F00A495C8 /* LICENSE */; };
 		88802FEA20853AE600E9EBC6 /* SDLAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D6F7A3D1BC811FC0070BF37 /* SDLAssets.xcassets */; };
 		88802FEB20853AE600E9EBC6 /* SDLLockScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D616B481D552F7A00553F6B /* SDLLockScreen.storyboard */; };
 		88802FF120853BB700E9EBC6 /* SDLLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4346851E771B5700B639C6 /* SDLLog.swift */; };
@@ -1214,6 +1204,15 @@
 		E9C32B9D1AB20C5900F283AF /* EAAccessory+SDLProtocols.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B991AB20C5900F283AF /* EAAccessory+SDLProtocols.m */; };
 		E9C32B9E1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h in Headers */ = {isa = PBXBuildFile; fileRef = E9C32B9A1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h */; };
 		E9C32B9F1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C32B9B1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m */; };
+		EC5167512133FA6D0074CB5D /* bson_util.c in Sources */ = {isa = PBXBuildFile; fileRef = EC5167472133FA6D0074CB5D /* bson_util.c */; };
+		EC5167522133FA6D0074CB5D /* bson_array.h in Headers */ = {isa = PBXBuildFile; fileRef = EC5167482133FA6D0074CB5D /* bson_array.h */; };
+		EC5167532133FA6D0074CB5D /* bson_object.h in Headers */ = {isa = PBXBuildFile; fileRef = EC5167492133FA6D0074CB5D /* bson_object.h */; };
+		EC5167542133FA6D0074CB5D /* bson_util.h in Headers */ = {isa = PBXBuildFile; fileRef = EC51674A2133FA6D0074CB5D /* bson_util.h */; };
+		EC5167552133FA6D0074CB5D /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = EC51674C2133FA6D0074CB5D /* LICENSE */; };
+		EC5167562133FA6D0074CB5D /* emhashmap.c in Sources */ = {isa = PBXBuildFile; fileRef = EC51674D2133FA6D0074CB5D /* emhashmap.c */; };
+		EC5167572133FA6D0074CB5D /* emhashmap.h in Headers */ = {isa = PBXBuildFile; fileRef = EC51674E2133FA6D0074CB5D /* emhashmap.h */; };
+		EC5167582133FA6D0074CB5D /* bson_object.c in Sources */ = {isa = PBXBuildFile; fileRef = EC51674F2133FA6D0074CB5D /* bson_object.c */; };
+		EC5167592133FA6D0074CB5D /* bson_array.c in Sources */ = {isa = PBXBuildFile; fileRef = EC5167502133FA6D0074CB5D /* bson_array.c */; };
 		EED5C9FE1F4D18D100F04000 /* SDLH264Packetizer.h in Headers */ = {isa = PBXBuildFile; fileRef = EED5C9FD1F4D18D100F04000 /* SDLH264Packetizer.h */; };
 		EED5CA001F4D18DC00F04000 /* SDLRAWH264Packetizer.h in Headers */ = {isa = PBXBuildFile; fileRef = EED5C9FF1F4D18DC00F04000 /* SDLRAWH264Packetizer.h */; };
 		EED5CA021F4D18EC00F04000 /* SDLRAWH264Packetizer.m in Sources */ = {isa = PBXBuildFile; fileRef = EED5CA011F4D18EC00F04000 /* SDLRAWH264Packetizer.m */; };
@@ -2263,15 +2262,6 @@
 		5D9FC2A11FD8814A00ACA5C2 /* SDLAudioFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLAudioFile.h; path = SmartDeviceLink/SDLAudioFile.h; sourceTree = SOURCE_ROOT; };
 		5D9FC2A41FD8815800ACA5C2 /* SDLPCMAudioConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLPCMAudioConverter.h; path = SmartDeviceLink/SDLPCMAudioConverter.h; sourceTree = SOURCE_ROOT; };
 		5D9FC2A51FD8815800ACA5C2 /* SDLPCMAudioConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLPCMAudioConverter.m; path = SmartDeviceLink/SDLPCMAudioConverter.m; sourceTree = SOURCE_ROOT; };
-		5D9FDA891F2A7D3400A495C8 /* bson_array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bson_array.c; path = bson_c_lib/src/bson_array.c; sourceTree = SOURCE_ROOT; };
-		5D9FDA8A1F2A7D3400A495C8 /* bson_array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bson_array.h; path = bson_c_lib/src/bson_array.h; sourceTree = SOURCE_ROOT; };
-		5D9FDA8B1F2A7D3400A495C8 /* bson_object.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bson_object.c; path = bson_c_lib/src/bson_object.c; sourceTree = SOURCE_ROOT; };
-		5D9FDA8C1F2A7D3400A495C8 /* bson_object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bson_object.h; path = bson_c_lib/src/bson_object.h; sourceTree = SOURCE_ROOT; };
-		5D9FDA8D1F2A7D3400A495C8 /* bson_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bson_util.c; path = bson_c_lib/src/bson_util.c; sourceTree = SOURCE_ROOT; };
-		5D9FDA8E1F2A7D3400A495C8 /* bson_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bson_util.h; path = bson_c_lib/src/bson_util.h; sourceTree = SOURCE_ROOT; };
-		5D9FDA951F2A7D3F00A495C8 /* emhashmap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = emhashmap.c; path = bson_c_lib/src/emhashmap/emhashmap.c; sourceTree = SOURCE_ROOT; };
-		5D9FDA961F2A7D3F00A495C8 /* emhashmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = emhashmap.h; path = bson_c_lib/src/emhashmap/emhashmap.h; sourceTree = SOURCE_ROOT; };
-		5D9FDA971F2A7D3F00A495C8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = bson_c_lib/src/emhashmap/LICENSE; sourceTree = SOURCE_ROOT; };
 		5DA0268F1AD44EE700019F86 /* SDLDialNumberResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLDialNumberResponseSpec.m; sourceTree = "<group>"; };
 		5DA102A21D4122C700C15826 /* NSMutableDictionary+SafeRemove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+SafeRemove.h"; sourceTree = "<group>"; };
 		5DA102A31D4122C700C15826 /* NSMutableDictionary+SafeRemove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+SafeRemove.m"; sourceTree = "<group>"; };
@@ -2559,6 +2549,15 @@
 		E9C32B991AB20C5900F283AF /* EAAccessory+SDLProtocols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EAAccessory+SDLProtocols.m"; sourceTree = "<group>"; };
 		E9C32B9A1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EAAccessoryManager+SDLProtocols.h"; sourceTree = "<group>"; };
 		E9C32B9B1AB20C5900F283AF /* EAAccessoryManager+SDLProtocols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EAAccessoryManager+SDLProtocols.m"; sourceTree = "<group>"; };
+		EC5167472133FA6D0074CB5D /* bson_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bson_util.c; sourceTree = "<group>"; };
+		EC5167482133FA6D0074CB5D /* bson_array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bson_array.h; sourceTree = "<group>"; };
+		EC5167492133FA6D0074CB5D /* bson_object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bson_object.h; sourceTree = "<group>"; };
+		EC51674A2133FA6D0074CB5D /* bson_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bson_util.h; sourceTree = "<group>"; };
+		EC51674C2133FA6D0074CB5D /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		EC51674D2133FA6D0074CB5D /* emhashmap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = emhashmap.c; sourceTree = "<group>"; };
+		EC51674E2133FA6D0074CB5D /* emhashmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = emhashmap.h; sourceTree = "<group>"; };
+		EC51674F2133FA6D0074CB5D /* bson_object.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bson_object.c; sourceTree = "<group>"; };
+		EC5167502133FA6D0074CB5D /* bson_array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bson_array.c; sourceTree = "<group>"; };
 		EED5C9FD1F4D18D100F04000 /* SDLH264Packetizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLH264Packetizer.h; sourceTree = "<group>"; };
 		EED5C9FF1F4D18DC00F04000 /* SDLRAWH264Packetizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLRAWH264Packetizer.h; sourceTree = "<group>"; };
 		EED5CA011F4D18EC00F04000 /* SDLRAWH264Packetizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRAWH264Packetizer.m; sourceTree = "<group>"; };
@@ -3386,7 +3385,7 @@
 		5D5934EE1A85160900687FB9 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				5DA49C8C1F1E549000E65FC5 /* BSON library */,
+				EC5167462133FA6D0074CB5D /* bson_c_lib */,
 				5D5934FA1A851AC900687FB9 /* @protocols */,
 				5D5935011A851D7E00687FB9 /* Header */,
 				5D5935021A851D8700687FB9 /* Message */,
@@ -4448,30 +4447,6 @@
 			name = Notifications;
 			sourceTree = "<group>";
 		};
-		5DA49C8C1F1E549000E65FC5 /* BSON library */ = {
-			isa = PBXGroup;
-			children = (
-				5D9FDA891F2A7D3400A495C8 /* bson_array.c */,
-				5D9FDA8A1F2A7D3400A495C8 /* bson_array.h */,
-				5D9FDA8B1F2A7D3400A495C8 /* bson_object.c */,
-				5D9FDA8C1F2A7D3400A495C8 /* bson_object.h */,
-				5D9FDA8D1F2A7D3400A495C8 /* bson_util.c */,
-				5D9FDA8E1F2A7D3400A495C8 /* bson_util.h */,
-				5DA49CB51F1E64BB00E65FC5 /* emhashmap */,
-			);
-			name = "BSON library";
-			sourceTree = "<group>";
-		};
-		5DA49CB51F1E64BB00E65FC5 /* emhashmap */ = {
-			isa = PBXGroup;
-			children = (
-				5D9FDA951F2A7D3F00A495C8 /* emhashmap.c */,
-				5D9FDA961F2A7D3F00A495C8 /* emhashmap.h */,
-				5D9FDA971F2A7D3F00A495C8 /* LICENSE */,
-			);
-			name = emhashmap;
-			sourceTree = "<group>";
-		};
 		5DA49CE21F1EA77900E65FC5 /* Control Frame Payloads */ = {
 			isa = PBXGroup;
 			children = (
@@ -5090,6 +5065,30 @@
 			name = "@categories";
 			sourceTree = "<group>";
 		};
+		EC5167462133FA6D0074CB5D /* bson_c_lib */ = {
+			isa = PBXGroup;
+			children = (
+				EC5167472133FA6D0074CB5D /* bson_util.c */,
+				EC5167482133FA6D0074CB5D /* bson_array.h */,
+				EC5167492133FA6D0074CB5D /* bson_object.h */,
+				EC51674A2133FA6D0074CB5D /* bson_util.h */,
+				EC51674B2133FA6D0074CB5D /* emhashmap */,
+				EC51674F2133FA6D0074CB5D /* bson_object.c */,
+				EC5167502133FA6D0074CB5D /* bson_array.c */,
+			);
+			path = bson_c_lib;
+			sourceTree = SOURCE_ROOT;
+		};
+		EC51674B2133FA6D0074CB5D /* emhashmap */ = {
+			isa = PBXGroup;
+			children = (
+				EC51674C2133FA6D0074CB5D /* LICENSE */,
+				EC51674D2133FA6D0074CB5D /* emhashmap.c */,
+				EC51674E2133FA6D0074CB5D /* emhashmap.h */,
+			);
+			path = emhashmap;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -5100,6 +5099,7 @@
 				5D9FC2A61FD8815800ACA5C2 /* SDLPCMAudioConverter.h in Headers */,
 				8BBEA6061F324165003EEA26 /* SDLMetadataType.h in Headers */,
 				E4139D1D1F6017770005B6EA /* SDLLifecycleConfigurationUpdate.h in Headers */,
+				EC5167532133FA6D0074CB5D /* bson_object.h in Headers */,
 				5DA3F35A1BC448480026F2D0 /* SDLError.h in Headers */,
 				5DA3F35F1BC448590026F2D0 /* SDLNotificationConstants.h in Headers */,
 				5DE5ABB71B0E38C90067BB02 /* SDLSystemRequest.h in Headers */,
@@ -5159,10 +5159,8 @@
 				5D61FC7A1A84238C00846EE7 /* SDLDeleteInteractionChoiceSet.h in Headers */,
 				5D61FC3B1A84238C00846EE7 /* SDLAlertManeuverResponse.h in Headers */,
 				5DB9964E1F26886C002D8795 /* SDLControlFramePayloadEndService.h in Headers */,
-				5D9FDA991F2A7D3F00A495C8 /* emhashmap.h in Headers */,
 				5D61FDB71A84238C00846EE7 /* SDLSyncPData.h in Headers */,
 				5D61FD011A84238C00846EE7 /* SDLOnAudioPassThru.h in Headers */,
-				5D9FDA901F2A7D3400A495C8 /* bson_array.h in Headers */,
 				5D61FDCB1A84238C00846EE7 /* SDLTextFieldName.h in Headers */,
 				5D61FD8B1A84238C00846EE7 /* SDLSetMediaClockTimer.h in Headers */,
 				DA6223BD1E7B088200878689 /* CVPixelBufferRef+SDLUtil.h in Headers */,
@@ -5221,6 +5219,7 @@
 				5D61FDAB1A84238C00846EE7 /* SDLStartTime.h in Headers */,
 				5D61FD071A84238C00846EE7 /* SDLOnCommand.h in Headers */,
 				5D00AC671F140F0A004000D9 /* SDLSystemCapabilityType.h in Headers */,
+				EC5167522133FA6D0074CB5D /* bson_array.h in Headers */,
 				DA9F7E9B1DCC052C00ACAE48 /* SDLLocationDetails.h in Headers */,
 				5D61FD1D1A84238C00846EE7 /* SDLOnTBTClientState.h in Headers */,
 				5D61FD9D1A84238C00846EE7 /* SDLSliderResponse.h in Headers */,
@@ -5246,6 +5245,7 @@
 				5D61FCE61A84238C00846EE7 /* SDLKeypressMode.h in Headers */,
 				5D61FD871A84238C00846EE7 /* SDLSetGlobalProperties.h in Headers */,
 				5D61FC741A84238C00846EE7 /* SDLDeleteCommandResponse.h in Headers */,
+				EC5167572133FA6D0074CB5D /* emhashmap.h in Headers */,
 				5D61FDF11A84238C00846EE7 /* SDLUpdateTurnList.h in Headers */,
 				5DB996571F268ECB002D8795 /* SDLControlFramePayloadAudioStartServiceAck.h in Headers */,
 				5D61FD671A84238C00846EE7 /* SDLResult.h in Headers */,
@@ -5284,7 +5284,6 @@
 				5D61FCFA1A84238C00846EE7 /* SDLMyKey.h in Headers */,
 				8B7B31A61F2F875200BDC38D /* SDLVideoStreamingCapability.h in Headers */,
 				5D61FC981A84238C00846EE7 /* SDLECallInfo.h in Headers */,
-				5D9FDA921F2A7D3400A495C8 /* bson_object.h in Headers */,
 				5D61FD7B1A84238C00846EE7 /* SDLScrollableMessage.h in Headers */,
 				DA9F7E931DCC04E400ACAE48 /* SDLUnsubscribeWayPoints.h in Headers */,
 				5D61FD3D1A84238C00846EE7 /* SDLPrimaryAudioSource.h in Headers */,
@@ -5389,6 +5388,7 @@
 				5D61FD231A84238C00846EE7 /* SDLParameterPermissions.h in Headers */,
 				5D61FCB91A84238C00846EE7 /* SDLGlobalProperty.h in Headers */,
 				5D61FE051A84238C00846EE7 /* SDLVehicleDataResultCode.h in Headers */,
+				EC5167542133FA6D0074CB5D /* bson_util.h in Headers */,
 				5D61FD2B1A84238C00846EE7 /* SDLPerformInteractionResponse.h in Headers */,
 				5D61FDA11A84238C00846EE7 /* SDLSoftButtonCapabilities.h in Headers */,
 				5D61FDB51A84238C00846EE7 /* SDLSyncMsgVersion.h in Headers */,
@@ -5458,7 +5458,6 @@
 				332A91501CED9CF10043824C /* SDLAppInfo.h in Headers */,
 				5D61FDA71A84238C00846EE7 /* SDLSpeakResponse.h in Headers */,
 				5D1665CB1CF8CA6700CC4CA1 /* NSNumber+NumberType.h in Headers */,
-				5D9FDA941F2A7D3400A495C8 /* bson_util.h in Headers */,
 				5D61FD771A84238C00846EE7 /* SDLSamplingRate.h in Headers */,
 				5DF40B22208E761A00DD6FDA /* SDLVoiceCommandManager.h in Headers */,
 				5D61FCBB1A84238C00846EE7 /* SDLGPSData.h in Headers */,
@@ -5690,7 +5689,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D9FDA9A1F2A7D3F00A495C8 /* LICENSE in Resources */,
+				EC5167552133FA6D0074CB5D /* LICENSE in Resources */,
 				5D6F7A3E1BC811FC0070BF37 /* SDLAssets.xcassets in Resources */,
 				5D616B451D552F7A00553F6B /* SDLLockScreen.storyboard in Resources */,
 			);
@@ -5729,7 +5728,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88802FE920853AE600E9EBC6 /* LICENSE in Resources */,
 				88802FEA20853AE600E9EBC6 /* SDLAssets.xcassets in Resources */,
 				88802FEB20853AE600E9EBC6 /* SDLLockScreen.storyboard in Resources */,
 			);
@@ -5834,6 +5832,7 @@
 				1E5AD0691F2080B50029B8AF /* SDLRadioControlData.m in Sources */,
 				5D61FCC01A84238C00846EE7 /* SDLHexUtility.m in Sources */,
 				5DB9964F1F26886C002D8795 /* SDLControlFramePayloadEndService.m in Sources */,
+				EC5167582133FA6D0074CB5D /* bson_object.c in Sources */,
 				5D61FD821A84238C00846EE7 /* SDLSetAppIconResponse.m in Sources */,
 				5D61FDF81A84238C00846EE7 /* SDLV1ProtocolMessage.m in Sources */,
 				5D61FDC81A84238C00846EE7 /* SDLTextAlignment.m in Sources */,
@@ -5902,6 +5901,7 @@
 				DAC572581D1067270004288B /* SDLTouchManager.m in Sources */,
 				5D61FC641A84238C00846EE7 /* SDLClusterModeStatus.m in Sources */,
 				5DB9965D1F268F97002D8795 /* SDLControlFramePayloadVideoStartService.m in Sources */,
+				EC5167592133FA6D0074CB5D /* bson_array.c in Sources */,
 				5D61FCF91A84238C00846EE7 /* SDLMenuParams.m in Sources */,
 				5D61FD7C1A84238C00846EE7 /* SDLScrollableMessage.m in Sources */,
 				5D4D67B11D2FE2F900468B4A /* SDLResponseDispatcher.m in Sources */,
@@ -5933,7 +5933,6 @@
 				5D61FD9C1A84238C00846EE7 /* SDLSlider.m in Sources */,
 				5D0A7383203F23F30001595D /* SDLSoftButtonManager.m in Sources */,
 				5DCF76FA1ACDD7CD00BB647B /* SDLSendLocationResponse.m in Sources */,
-				5D9FDA8F1F2A7D3400A495C8 /* bson_array.c in Sources */,
 				5D61FD661A84238C00846EE7 /* SDLResetGlobalPropertiesResponse.m in Sources */,
 				5D61FCFE1A84238C00846EE7 /* SDLObjectWithPriority.m in Sources */,
 				5DBF06241E64A83F00A5CF03 /* SDLLogManager.m in Sources */,
@@ -5942,7 +5941,6 @@
 				5DB996611F28C6ED002D8795 /* SDLControlFramePayloadVideoStartServiceAck.m in Sources */,
 				5D61FD961A84238C00846EE7 /* SDLShowResponse.m in Sources */,
 				5D61FD981A84238C00846EE7 /* SDLSingleTireStatus.m in Sources */,
-				5D9FDA931F2A7D3400A495C8 /* bson_util.c in Sources */,
 				5D61FD511A84238C00846EE7 /* SDLProxy.m in Sources */,
 				5D61FD461A84238C00846EE7 /* SDLProtocolHeader.m in Sources */,
 				8BBEA6071F324165003EEA26 /* SDLMetadataType.m in Sources */,
@@ -5980,6 +5978,7 @@
 				5DBF062E1E64A93A00A5CF03 /* SDLLogFilter.m in Sources */,
 				5D61FDFA1A84238C00846EE7 /* SDLV2ProtocolHeader.m in Sources */,
 				5D61FDD01A84238C00846EE7 /* SDLTireStatus.m in Sources */,
+				EC5167562133FA6D0074CB5D /* emhashmap.c in Sources */,
 				5D61FC321A84238C00846EE7 /* SDLAddSubMenu.m in Sources */,
 				5D61FDF61A84238C00846EE7 /* SDLV1ProtocolHeader.m in Sources */,
 				5D61FDAA1A84238C00846EE7 /* SDLSpeechCapabilities.m in Sources */,
@@ -6033,7 +6032,6 @@
 				1FF7DABC1F75B2BF00B46C30 /* SDLFocusableItemLocator.m in Sources */,
 				EED5CA021F4D18EC00F04000 /* SDLRAWH264Packetizer.m in Sources */,
 				5D61FC851A84238C00846EE7 /* SDLDeviceLevelStatus.m in Sources */,
-				5D9FDA981F2A7D3F00A495C8 /* emhashmap.c in Sources */,
 				5D61FD1E1A84238C00846EE7 /* SDLOnTBTClientState.m in Sources */,
 				5DD67CBD1E661C84009CD394 /* SDLLogTargetOSLog.m in Sources */,
 				DA9F7E641DCBFAC800ACAE48 /* SDLDateTime.m in Sources */,
@@ -6078,6 +6076,7 @@
 				5DB92D331AC9C8BA00C15BB0 /* SDLRPCStruct.m in Sources */,
 				8B7B31A31F2F7FEA00BDC38D /* SDLVideoStreamingFormat.m in Sources */,
 				DA0C46AD1DCD35080001F2A8 /* SDLNames.m in Sources */,
+				EC5167512133FA6D0074CB5D /* bson_util.c in Sources */,
 				5DA3F3551BC448060026F2D0 /* NSMapTable+Subscripting.m in Sources */,
 				5D61FCD61A84238C00846EE7 /* SDLImageType.m in Sources */,
 				5D4D67AD1D2ED37A00468B4A /* SDLNotificationDispatcher.m in Sources */,
@@ -6112,7 +6111,6 @@
 				5D61FE0E1A84238C00846EE7 /* SDLVrCapabilities.m in Sources */,
 				5DAD5F80204DEDEB0025624C /* SDLScreenManager.m in Sources */,
 				5D61FDC21A84238C00846EE7 /* SDLSystemRequestResponse.m in Sources */,
-				5D9FDA911F2A7D3400A495C8 /* bson_object.c in Sources */,
 				5D61FD001A84238C00846EE7 /* SDLOnAppInterfaceUnregistered.m in Sources */,
 				DA8966EC1E56939F00413EAB /* SDLStreamingMediaLifecycleManager.m in Sources */,
 				DAC5726A1D10D5FC0004288B /* dispatch_timer.m in Sources */,

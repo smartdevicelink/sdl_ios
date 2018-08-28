@@ -23,6 +23,7 @@ SDLName const SDLNameAlertManeuver = @"AlertManeuver";
 SDLName const SDLNameAlertText1 = @"alertText1";
 SDLName const SDLNameAlertText2 = @"alertText2";
 SDLName const SDLNameAlertText3 = @"alertText3";
+SDLName const SDLNameAlertIcon = @"alertIcon";
 SDLName const SDLNameAlignment = @"alignment";
 SDLName const SDLNameAllowed = @"allowed";
 SDLName const SDLNameAltitude = @"altitude";
