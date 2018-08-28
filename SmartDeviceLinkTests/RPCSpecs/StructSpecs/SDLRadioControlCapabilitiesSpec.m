@@ -101,7 +101,9 @@ describe(@"Initialization tests", ^{
 
     });
 
-    it(@"Should get correctly when initialized with Module Name and other radio control capabilite's parameters", ^ {
+    it(@"Should get correctly when initialized with Module Name and other radio control capability parameters", ^ {
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRadioControlCapabilities* testStruct = [[SDLRadioControlCapabilities alloc] initWithModuleName:@"someName" radioEnableAvailable:YES radioBandAvailable:NO radioFrequencyAvailable:YES hdChannelAvailable:NO rdsDataAvailable:NO availableHDsAvailable:NO stateAvailable:YES signalStrengthAvailable:YES signalChangeThresholdAvailable:NO];
 
         expect(testStruct.moduleName).to(equal(@"someName"));
@@ -116,6 +118,7 @@ describe(@"Initialization tests", ^{
         expect(testStruct.signalChangeThresholdAvailable).to(equal(@NO));
         expect(testStruct.hdRadioEnableAvailable).to(equal(@NO));
         expect(testStruct.siriusXMRadioAvailable).to(equal(@NO));
+        #pragma clang diagnostic pop
     });
 
     it(@"Should get correctly when initialized with Module Name and other radio control capabilite's parameters", ^ {

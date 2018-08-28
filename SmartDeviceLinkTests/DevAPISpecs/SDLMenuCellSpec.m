@@ -34,12 +34,15 @@ describe(@"a menu cell", ^{
         });
 
         it(@"should initialize properly as a submenu item", ^{
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             testCell = [[SDLMenuCell alloc] initWithTitle:someTitle subCells:someSubcells];
 
             expect(testCell.title).to(equal(someTitle));
             expect(testCell.icon).to(beNil());
             expect(testCell.voiceCommands).to(beNil());
             expect(testCell.subCells).to(equal(someSubcells));
+            #pragma clang diagnostic pop
         });
 
         it(@"should initialize properly as a submenu item with icon", ^{
