@@ -126,7 +126,9 @@ static const int TCPPortUnspecified = -1;
     SDLLogD(@"SDLSecondaryTransportManager start");
 
     // this method must be called in SDLLifecycleManager's state machine queue
-    dispatch_assert_queue(self.stateMachineQueue);
+    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(self.stateMachineQueue)) != 0) {
+        SDLLogE(@"startWithPrimaryProtocol: must be called in SDLLifecycleManager's state machine queue!");
+    }
 
     if (![self.stateMachine isCurrentState:SDLSecondaryTransportStateStopped]) {
         SDLLogW(@"Secondary transport manager is already started!");
@@ -143,7 +145,9 @@ static const int TCPPortUnspecified = -1;
     SDLLogD(@"SDLSecondaryTransportManager stop");
 
     // this method must be called in SDLLifecycleManager's state machine queue
-    dispatch_assert_queue(self.stateMachineQueue);
+    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(self.stateMachineQueue)) != 0) {
+        SDLLogE(@"stop must be called in SDLLifecycleManager's state machine queue!");
+    }
 
     // stop all services, including those running on primary transport
     SDLLogD(@"Stopping audio / video services on both transports");
