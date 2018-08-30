@@ -451,7 +451,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                 SDLLogE(@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response);
             }
 
-            [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+            dispatch_async(weakSelf.lifecycleQueue, ^{
+                [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+            });
         }];
 }
 
