@@ -38,6 +38,11 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
+@interface SDLLifecycleManager ()
+// this private property is used for testing
+@property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
+@end
+
 QuickConfigurationBegin(SendingRPCsConfiguration)
 
 + (void)configure:(Configuration *)configuration {
@@ -242,7 +247,9 @@ describe(@"a lifecycle manager", ^{
                     
                     // Send an RAI response & make sure we have an HMI status to move the lifecycle forward
                     testManager.hmiLevel = SDLHMILevelFull;
-                    [testManager.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
+                    dispatch_sync(testManager.lifecycleQueue, ^{
+                        [testManager.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
+                    });
                     [NSThread sleepForTimeInterval:0.3];
                 });
                 
@@ -285,7 +292,9 @@ describe(@"a lifecycle manager", ^{
                     response.resultCode = SDLResultSuccess;
                     testManager.registerResponse = response;
                     
-                    [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpHMI fromOldState:nil callEnterTransition:YES];
+                    dispatch_sync(testManager.lifecycleQueue, ^{
+                        [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpHMI fromOldState:nil callEnterTransition:YES];
+                    });
 
                     expect(@(readyHandlerSuccess)).to(equal(@NO));
                     expect(readyHandlerError).to(beNil());
@@ -302,7 +311,9 @@ describe(@"a lifecycle manager", ^{
                     response.resultCode = SDLResultSuccess;
                     testManager.registerResponse = response;
                     
-                    [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpHMI fromOldState:nil callEnterTransition:YES];
+                    dispatch_sync(testManager.lifecycleQueue, ^{
+                        [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpHMI fromOldState:nil callEnterTransition:YES];
+                    });
                     
                     testHMILevel = SDLHMILevelFull;
                     testHMIStatus.hmiLevel = testHMILevel;
@@ -323,7 +334,9 @@ describe(@"a lifecycle manager", ^{
                     response.resultCode = SDLResultSuccess;
                     testManager.registerResponse = response;
                     
-                    [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:YES];
+                    dispatch_sync(testManager.lifecycleQueue, ^{
+                        [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:YES];
+                    });
 
                     expect(@(readyHandlerSuccess)).toEventually(equal(@YES));
                     expect(readyHandlerError).toEventually(beNil());
@@ -337,7 +350,9 @@ describe(@"a lifecycle manager", ^{
                     response.info = @"some info";
                     testManager.registerResponse = response;
 
-                    [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:YES];
+                    dispatch_sync(testManager.lifecycleQueue, ^{
+                        [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:YES];
+                    });
 
                     expect(@(readyHandlerSuccess)).toEventually(equal(@YES));
                     expect(readyHandlerError).toEventuallyNot(beNil());
@@ -366,7 +381,9 @@ describe(@"a lifecycle manager", ^{
                     SDLLifecycleConfigurationUpdate *update = [[SDLLifecycleConfigurationUpdate alloc] initWithAppName:@"EnGb" shortAppName:@"E" ttsName:[SDLTTSChunk textChunksFromString:@"EnGb ttsName"] voiceRecognitionCommandNames:nil];
                     OCMStub([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any]]).andReturn(update);
 
-                    [testManager.lifecycleStateMachine setToState:SDLLifecycleStateUpdatingConfiguration fromOldState:SDLLifecycleStateRegistered callEnterTransition:YES];
+                    dispatch_sync(testManager.lifecycleQueue, ^{
+                        [testManager.lifecycleStateMachine setToState:SDLLifecycleStateUpdatingConfiguration fromOldState:SDLLifecycleStateRegistered callEnterTransition:YES];
+                    });
                     // Transition to StateSettingUpManagers to prevent assert error from the lifecycle machine
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpManagers fromOldState:SDLLifecycleStateUpdatingConfiguration callEnterTransition:NO];
 
@@ -388,7 +405,9 @@ describe(@"a lifecycle manager", ^{
 
                     OCMStub([testManager.delegate managerShouldUpdateLifecycleToLanguage:[OCMArg any]]).andReturn(nil);
 
-                    [testManager.lifecycleStateMachine setToState:SDLLifecycleStateUpdatingConfiguration fromOldState:SDLLifecycleStateRegistered callEnterTransition:YES];
+                    dispatch_sync(testManager.lifecycleQueue, ^{
+                        [testManager.lifecycleStateMachine setToState:SDLLifecycleStateUpdatingConfiguration fromOldState:SDLLifecycleStateRegistered callEnterTransition:YES];
+                    });
                     // Transition to StateSettingUpManagers to prevent assert error from the lifecycle machine
                     [testManager.lifecycleStateMachine setToState:SDLLifecycleStateSettingUpManagers fromOldState:SDLLifecycleStateUpdatingConfiguration callEnterTransition:NO];
 
@@ -432,6 +451,7 @@ describe(@"a lifecycle manager", ^{
                         testUnregisterResponse.success = @YES;
                         testUnregisterResponse.correlationID = @(testManager.lastCorrelationId);
                         
+                        // This should run on `com.sdl.rpcProcessingQueue` to simulate the real case.
                         [testManager.notificationDispatcher postRPCResponseNotification:SDLDidReceiveUnregisterAppInterfaceResponse response:testUnregisterResponse];
                     });
                     
