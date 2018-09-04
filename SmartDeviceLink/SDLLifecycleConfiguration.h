@@ -90,16 +90,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic) NSString *appName;
 
 /**
- *  The app id. This must be the same as the app id received from the SDL developer portal or OEM.
+ *  The app id. This is only for use with head units that implement SDL Core v.5.0. Newer versions of SDL Core will use the `fullAppId` to  This must be the same as the app id received from the SDL developer portal.
  *
  *  Required
  */
 @property (copy, nonatomic, readonly) NSString *appId;
 
 /**
- * The app id. This must be the same as the app id received from the SDL developer portal or OEM.
+ *  The full app id. This must be the same as the full app id received from the SDL developer portal.
  *
  *  Optional
+ *
+ * @discussion, The `fullAppId` can be used with head units that implement SDL Core v.5.0 and newer. If connecting with older head units, the `fullAppId` can be truncated to create the required `appId` needed to register the app. The `appId` is the first 10 non-dash ("-") characters of the `fullAppID` (e.g. if you have a `fullAppId` of 123e4567-e89b-12d3-a456-426655440000, the `appId` will be 123e4567e8).
  */
 @property (copy, nonatomic, nullable, readonly) NSString *fullAppId;
 

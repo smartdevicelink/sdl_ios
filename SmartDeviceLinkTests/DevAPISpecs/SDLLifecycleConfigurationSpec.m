@@ -15,19 +15,25 @@
 #import "SDLSpeechCapabilities.h"
 #import "SDLTTSChunk.h"
 
+
+@interface SDLLifecycleConfiguration()
+
++ (NSString *)sdlex_shortAppIdFromFullAppId:(NSString *)fullAppId;
+
+@end
+
+
 QuickSpecBegin(SDLLifecycleConfigurationSpec)
 
 describe(@"A lifecycle configuration", ^{
     __block SDLLifecycleConfiguration *testConfig = nil;
-    __block NSString *testAppName = nil;
-    __block NSString *testAppId = nil;
-    __block NSString *testFullAppId = nil;
+    __block NSString *testAppName = @"An App Name";
+    __block NSString *testAppId = @"00542596";
+    __block NSString *testFullAppId = @"-ab--987-adfa651kj-212346h3kjkaju";
+    __block NSString *expectedGeneratedAppId = @"ab987adfa6";
 
     beforeEach(^{
         testConfig = nil;
-        testAppName = @"An App Name";
-        testAppId = @"00542596";
-        testFullAppId = @"ab987adfa651kj-212346h3kjkaju";
     });
 
     context(@"created with a default configuration", ^{
@@ -38,14 +44,14 @@ describe(@"A lifecycle configuration", ^{
                 testConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName appId:testAppId];
 
                 expect(testConfig.appId).to(match(testAppId));
-                expect(testConfig.fullAppId).to(beEmpty());
+                expect(testConfig.fullAppId).to(beNil());
                 #pragma clang diagnostic pop
             });
 
             it(@"defaultConfigurationWithAppName:fullAppId:", ^{
                 testConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName fullAppId:testFullAppId];
 
-                expect(testConfig.appId).to(beEmpty());
+                expect(testConfig.appId).to(match(expectedGeneratedAppId));
                 expect(testConfig.fullAppId).to(match(testFullAppId));
             });
 
@@ -98,7 +104,7 @@ describe(@"A lifecycle configuration", ^{
                 expect(testConfig.appName).to(match(testAppName));
                 expect(testConfig.shortAppName).to(match(testShortAppName));
                 expect(testConfig.fullAppId).to(match(testFullAppId));
-                expect(testConfig.appId).to(beEmpty());
+                expect(testConfig.appId).to(match(expectedGeneratedAppId));
                 expect(testConfig.tcpDebugMode).to(beFalse());
                 expect(testConfig.tcpDebugIPAddress).to(match(@"192.168.0.1"));
                 expect(@(testConfig.tcpDebugPort)).to(equal(@12345));
@@ -131,14 +137,14 @@ describe(@"A lifecycle configuration", ^{
                 testConfig = [SDLLifecycleConfiguration debugConfigurationWithAppName:testAppName appId:testAppId ipAddress:testIPAddress port:testPort];
 
                 expect(testConfig.appId).to(match(testAppId));
-                expect(testConfig.fullAppId).to(beEmpty());
+                expect(testConfig.fullAppId).to(beNil());
                 #pragma clang diagnostic pop
             });
 
             it(@"debugConfigurationWithAppName:fullAppId:ipAddress:port:", ^{
                 testConfig = [SDLLifecycleConfiguration debugConfigurationWithAppName:testAppName fullAppId:testFullAppId ipAddress:testIPAddress port:testPort];
 
-                expect(testConfig.appId).to(beEmpty());
+                expect(testConfig.appId).to(match(expectedGeneratedAppId));
                 expect(testConfig.fullAppId).to(match(testFullAppId));
             });
 
@@ -190,7 +196,7 @@ describe(@"A lifecycle configuration", ^{
                 expect(testConfig.appName).to(match(testAppName));
                 expect(testConfig.shortAppName).to(match(testShortAppName));
                 expect(testConfig.fullAppId).to(match(testFullAppId));
-                expect(testConfig.appId).to(beEmpty());
+                expect(testConfig.appId).to(match(expectedGeneratedAppId));
                 expect(testConfig.tcpDebugMode).to(beTrue());
                 expect(testConfig.tcpDebugIPAddress).to(match(@"1.1.1.1"));
                 expect(@(testConfig.tcpDebugPort)).to(equal(@42));
@@ -205,6 +211,32 @@ describe(@"A lifecycle configuration", ^{
                 expect(testConfig.resumeHash).to(match(testResumeHashString));
             });
         });
+    });
+});
+
+describe(@"When generating the `appId` from the `fullAppId`", ^{
+    it(@"should return nil if full app id is nil", ^{
+        NSString *testFullAppId = nil;
+        NSString *appId = [SDLLifecycleConfiguration sdlex_shortAppIdFromFullAppId:testFullAppId];
+        expect(appId).to(beNil());
+    });
+
+    it(@"should return an empty string if the full app id is empty", ^{
+        NSString *testFullAppId = @"";
+        NSString *appId = [SDLLifecycleConfiguration sdlex_shortAppIdFromFullAppId:testFullAppId];
+        expect(appId).to(beEmpty());
+    });
+
+    it(@"should return a string truncated to the first non-dash 10 characters", ^{
+        NSString *testFullAppId = @"34-uipe--k-rtqwedeftg-1";
+        NSString *appId = [SDLLifecycleConfiguration sdlex_shortAppIdFromFullAppId:testFullAppId];
+        expect(appId).to(match(@"34uipekrtq"));
+    });
+
+    it(@"should return a string if the full app id is less than 10 characters", ^{
+        NSString *testFullAppId = @"a";
+        NSString *appId = [SDLLifecycleConfiguration sdlex_shortAppIdFromFullAppId:testFullAppId];
+        expect(appId).to(match(@"a"));
     });
 });
 

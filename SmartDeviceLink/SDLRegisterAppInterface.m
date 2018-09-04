@@ -17,8 +17,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSUInteger const AppIdCharacterCount = 10;
-
 @implementation SDLRegisterAppInterface
 
 #pragma mark - Lifecycle
@@ -47,39 +45,14 @@ static NSUInteger const AppIdCharacterCount = 10;
                 nightColorScheme:lifecycleConfiguration.nightColorScheme];
 }
 
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId fullAppId:(nullable NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired {
-    self = [self initWithAppName:appName languageDesired:languageDesired];
-    if (!self) {
-        return nil;
-    }
-
-    self.fullAppID = fullAppId.length > 0 ? fullAppId : nil;
-    self.appID = fullAppId.length > 0 ? [self.class sdlex_shortAppIdFromFullAppId:fullAppId] : appId;
-
-    return self;
-}
-
 - (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired {
     self = [self initWithAppName:appName languageDesired:languageDesired];
     if (!self) {
         return nil;
     }
 
-    self.fullAppID = @"";
     self.appID = appId;
-
-    return self;
-}
-
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId fullAppId:(nullable NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName {
-    self = [self initWithAppName:appName appId:appId fullAppId:fullAppId languageDesired:languageDesired];
-    if (!self) {
-        return nil;
-    }
-
-    self.isMediaApplication = @(isMediaApp);
-    self.appHMIType = appTypes;
-    self.ngnMediaScreenAppName = shortAppName;
+    self.fullAppID = nil;
 
     return self;
 }
@@ -112,13 +85,10 @@ static NSUInteger const AppIdCharacterCount = 10;
 }
 
 - (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId fullAppId:(nullable NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
-    self = [self initWithAppName:appName appId:appId fullAppId:fullAppId languageDesired:languageDesired isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
+    self = [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName ttsName:ttsName vrSynonyms:vrSynonyms hmiDisplayLanguageDesired:hmiDisplayLanguageDesired resumeHash:resumeHash];
     if (!self) { return nil; }
 
-    self.ttsName = [ttsName copy];
-    self.vrSynonyms = [vrSynonyms copy];
-    self.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
-    self.hashID = resumeHash;
+    self.fullAppID = fullAppId;
     self.dayColorScheme = dayColorScheme;
     self.nightColorScheme = nightColorScheme;
 
@@ -274,49 +244,6 @@ static NSUInteger const AppIdCharacterCount = 10;
 
 - (nullable SDLTemplateColorScheme *)nightColorScheme {
     return [parameters sdl_objectForName:SDLNameNightColorScheme ofClass:[SDLTemplateColorScheme class]];
-}
-
-#pragma mark - Helpers
-
-/**
- *  Generates the `appId` from the `fullAppId`
- *
- *  @discussion When an app is registered with an OEM, it is assigned an `appID` and a `fullAppID`. The `fullAppID` is the full UUID appID. The `appID` is the first 10 non-dash (i.e. "-") characters of the  `fullAppID`.
- *
- *  @param fullAppId   A `fullAppId`
- *  @return            An `appID` made of the first 10 non-dash characters of the "fullAppID"
- */
-+ (nullable NSString *)sdlex_shortAppIdFromFullAppId:(nullable NSString *)fullAppId {
-    if (fullAppId.length <= AppIdCharacterCount) { return fullAppId; }
-
-    NSString *filteredString = [self sdlex_filterDashesFromText:fullAppId];
-    NSString *truncatedString = [self sdlex_truncateText:filteredString length:AppIdCharacterCount];
-
-    return truncatedString;
-}
-
-/**
- *  Filters the dash characters from a string
- *
- *  @param text    The string
- *  @return        The string with all dash characters removed
- */
-+ (NSString *)sdlex_filterDashesFromText:(NSString *)text {
-    if (text.length == 0) { return text; }
-    NSCharacterSet *supportedCharacters = [NSCharacterSet characterSetWithCharactersInString:@"-"];
-    return [[text componentsSeparatedByCharactersInSet:supportedCharacters] componentsJoinedByString:@""];
-}
-
-/**
- *  Truncates a string to the specified length
- *
- *  @param text    The string to truncate
- *  @param length  The length to truncate the string
- *  @return        A truncated string
- */
-+ (NSString *)sdlex_truncateText:(NSString *)text length:(UInt8)length {
-    if (length >= text.length) { return text; }
-    return [text substringToIndex:MIN(length, text.length)];
 }
 
 @end
