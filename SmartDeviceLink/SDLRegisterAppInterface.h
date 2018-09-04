@@ -219,6 +219,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Required, max length 100
  *
+ * @see `fullAppID`
+ *
  * @since SDL 2.0
  */
 @property (strong, nonatomic) NSString *appID;
@@ -226,7 +228,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A full UUID appID used to validate app with policy table entries.
  *
- * Required
+ *  Optional
+ *
+ *  @discussion  The `fullAppId` is used to authenticate apps that connect with head units that implement SDL Core v.5.0 and newer. If connecting with older head units, the `fullAppId` can be truncated to create the required `appId` needed to register the app. The `appId` is the first 10 non-dash ("-") characters of the `fullAppID` (e.g. if you have a `fullAppId` of 123e4567-e89b-12d3-a456-426655440000, the `appId` will be 123e4567e8).
  */
 @property (nullable, strong, nonatomic) NSString *fullAppID;
 

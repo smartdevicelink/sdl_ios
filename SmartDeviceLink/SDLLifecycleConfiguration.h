@@ -103,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Optional
  *
- *  @discussion  The `fullAppId` is used to authenticate apps that connect with head units that implement SDL Core v.5.0 and newer. If connecting with older head units, the `fullAppId` can be truncated to create the required `appId` needed to register the app. The `appId` is the first 10 non-dash ("-") characters of the `fullAppID` (e.g. if you have a `fullAppId` of 123e4567-e89b-12d3-a456-426655440000, the `appId` will be 123e4567e8).
+ *  @discussion  The `fullAppId` is used to authenticate apps that connect with head units that implement SDL Core v.5.0 and newer. If connecting with older head units, the `fullAppId` can be truncated to create the required `appId` needed to register the app. The `appId` is the first 10 non-dash ("-") characters of the `fullAppId` (e.g. if you have a `fullAppId` of 123e4567-e89b-12d3-a456-426655440000, the `appId` will be 123e4567e8).
  */
 @property (copy, nonatomic, nullable, readonly) NSString *fullAppId;
 
