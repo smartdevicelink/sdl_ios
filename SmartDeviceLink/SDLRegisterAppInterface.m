@@ -46,13 +46,22 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired {
-    self = [self initWithAppName:appName languageDesired:languageDesired];
+    self = [self init];
     if (!self) {
         return nil;
     }
 
+    self.appName = appName;
     self.appID = appId;
     self.fullAppID = nil;
+    self.languageDesired = languageDesired;
+
+    self.hmiDisplayLanguageDesired = languageDesired;
+    self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:5 minorVersion:0 patchVersion:0];
+    self.appInfo = [SDLAppInfo currentAppInfo];
+    self.deviceInfo = [SDLDeviceInfo currentDevice];
+    self.correlationID = @1;
+    self.isMediaApplication = @NO;
 
     return self;
 }
@@ -91,27 +100,6 @@ NS_ASSUME_NONNULL_BEGIN
     self.fullAppID = fullAppId;
     self.dayColorScheme = dayColorScheme;
     self.nightColorScheme = nightColorScheme;
-
-    return self;
-}
-
-#pragma mark Initializer Helpers
-
-- (instancetype)initWithAppName:(NSString *)appName languageDesired:(SDLLanguage)languageDesired {
-    self = [self init];
-    if (!self) {
-        return nil;
-    }
-
-    self.appName = appName;
-    self.languageDesired = languageDesired;
-    self.hmiDisplayLanguageDesired = languageDesired;
-
-    self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:5 minorVersion:0 patchVersion:0];
-    self.appInfo = [SDLAppInfo currentAppInfo];
-    self.deviceInfo = [SDLDeviceInfo currentDevice];
-    self.correlationID = @1;
-    self.isMediaApplication = @NO;
 
     return self;
 }
