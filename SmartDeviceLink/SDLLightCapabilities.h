@@ -22,12 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param name The name of a light or a group of lights
  @param densityAvailable light's density can be set remotely
- @param sRGBColorSpaceAvailable Light's color can be set remotely by using the sRGB color space
+ @param colorAvailable Light's color can be set remotely by using the RGB color space
  @param statusAvailable whether status is available
 
  @return An instance of the SDLLightCapabilities class
  */
-- (instancetype)initWithName:(SDLLightName)name densityAvailable:(BOOL)densityAvailable sRGBColorSpaceAvailable:(BOOL)sRGBColorSpaceAvailable statusAvailable:(BOOL)statusAvailable;
+- (instancetype)initWithName:(SDLLightName)name densityAvailable:(BOOL)densityAvailable colorAvailable:(BOOL)colorAvailable statusAvailable:(BOOL)statusAvailable;
 
 /**
  * @abstract The name of a light or a group of lights
@@ -44,11 +44,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *densityAvailable;
 
 /**
- * @abstract Indicates if the light's color can be set remotely by using the sRGB color space.
+ * @abstract Indicates if the light's color can be set remotely by using the RGB color space.
  *
  * Optional, Boolean
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLBool> *sRGBColorSpaceAvailable;
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *colorAvailable;
 
 /**
  * @abstract Indicates if the status (ON/OFF) can be set remotely.

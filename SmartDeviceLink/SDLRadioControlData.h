@@ -36,10 +36,10 @@ NS_ASSUME_NONNULL_BEGIN
  @param band Radio band value
  @param hdChannel Current HD sub-channel
  @param radioEnable whether or not radio is enabled
- @param sisData Station Information Service (SIS) data
+ @param hdRadioEnable whether or not hdradio is enabled
  @return An instance of the SDLRadioControlData class
  */
-- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable sisData:(SDLSISData *)sisData;
+- (instancetype)initWithFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger frequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction band:(nullable SDLRadioBand)band hdChannel:(nullable NSNumber<SDLInt> *)hdChannel radioEnable:(nullable NSNumber<SDLBool> *)radioEnable hdRadioEnable:(nullable NSNumber<SDLBool> *)hdRadioEnable;
 
 /**
  * The integer part of the frequency ie for 101.7 this value should be 101
