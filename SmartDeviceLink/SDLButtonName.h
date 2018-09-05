@@ -21,6 +21,11 @@ typedef SDLEnum SDLButtonName SDL_SWIFT_ENUM;
 extern SDLButtonName const SDLButtonNameOk;
 
 /**
+ * Represents the play/pause button for media apps. Replaces "OK" on sub-5.0 head units, compliments it on 5.0 head units and later.
+ */
+extern SDLButtonName const SDLButtonNamePlayPause;
+
+/**
  * Represents the seek-left button. A typical use of this button is for the user to scroll to the left through menu choices one menu item per press.
  */
 extern SDLButtonName const SDLButtonNameSeekLeft;
