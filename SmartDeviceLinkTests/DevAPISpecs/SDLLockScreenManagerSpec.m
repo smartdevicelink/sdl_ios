@@ -1,5 +1,6 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
+#import <OCMock/OCMock.h>
 
 #import "SDLFakeViewControllerPresenter.h"
 #import "SDLLockScreenConfiguration.h"
@@ -11,6 +12,13 @@
 #import "SDLOnLockScreenStatus.h"
 #import "SDLRPCNotificationNotification.h"
 
+
+@interface SDLLockScreenManager ()
+
++ (BOOL)sdl_canDismissLockScreenWithLockScreenStatus:(SDLOnLockScreenStatus *)lockScreenStatus previousHMILevel:(SDLHMILevel)previousHMILevel showInOptionalState:(BOOL)showInOptionalState;
++ (BOOL)sdl_inLockScreenOptionalStateForLockScreenStatus:(nullable SDLOnLockScreenStatus *)lockScreenStatus previousHMILevel:(nullable SDLHMILevel)previousHMILevel;
+
+@end
 
 QuickSpecBegin(SDLLockScreenManagerSpec)
 
@@ -199,6 +207,128 @@ describe(@"a lock screen manager", ^{
                 expect(testManager.lockScreenViewController).toNot(beAnInstanceOf([SDLLockScreenViewController class]));
                 expect(testManager.lockScreenViewController).to(equal(testViewController));
             });
+        });
+    });
+});
+
+describe(@"The lock screen's show in optional state configuration", ^{
+    __block id mockLockScreenManager = nil;
+    __block SDLOnLockScreenStatus *testLockScreenStatus = nil;
+    __block SDLHMILevel testPreviousHMILevel = nil;
+
+    beforeEach(^{
+        mockLockScreenManager = OCMClassMock([SDLLockScreenManager class]);
+
+        testLockScreenStatus = [[SDLOnLockScreenStatus alloc] init];
+        testLockScreenStatus.userSelected = @NO;
+        testLockScreenStatus.lockScreenStatus = SDLLockScreenStatusOptional;
+
+        testPreviousHMILevel = nil;
+    });
+
+    context(@"Check if app in the lock screen optional state", ^{
+        it(@"is not in the lock screen optional state if the lock screen status is nil", ^{
+            BOOL inLockScreenOptionalState = [SDLLockScreenManager sdl_inLockScreenOptionalStateForLockScreenStatus:nil previousHMILevel:nil];
+
+            expect(inLockScreenOptionalState).to(beFalse());
+        });
+
+        it(@"is not in the lock screen optional state if the driver is distracted", ^{
+            testLockScreenStatus.driverDistractionStatus = @YES;
+            testLockScreenStatus.hmiLevel = SDLHMILevelFull;
+
+            BOOL inLockScreenOptionalState = [SDLLockScreenManager sdl_inLockScreenOptionalStateForLockScreenStatus:testLockScreenStatus previousHMILevel:nil];
+
+            expect(inLockScreenOptionalState).to(beFalse());
+        });
+
+        context(@"When the driver is not distracted", ^{
+            beforeEach(^{
+                testLockScreenStatus.driverDistractionStatus = @NO;
+            });
+
+            it(@"is in the lock screen optional state if the hmi level is FULL", ^{
+                testLockScreenStatus.hmiLevel = SDLHMILevelFull;
+
+                BOOL inLockScreenOptionalState = [SDLLockScreenManager sdl_inLockScreenOptionalStateForLockScreenStatus:testLockScreenStatus previousHMILevel:nil];
+
+                expect(inLockScreenOptionalState).to(beTrue());
+            });
+
+            it(@"is in the lock screen optional state if the hmi level is LIMITED", ^{
+                testLockScreenStatus.hmiLevel = SDLHMILevelLimited;
+
+                BOOL inLockScreenOptionalState = [SDLLockScreenManager sdl_inLockScreenOptionalStateForLockScreenStatus:testLockScreenStatus previousHMILevel:nil];
+
+                expect(inLockScreenOptionalState).to(beTrue());
+            });
+
+            it(@"is not in the lock screen optional state if the hmi level is NONE", ^{
+                testLockScreenStatus.hmiLevel = SDLHMILevelNone;
+
+                BOOL inLockScreenOptionalState = [SDLLockScreenManager sdl_inLockScreenOptionalStateForLockScreenStatus:testLockScreenStatus previousHMILevel:nil];
+
+                expect(inLockScreenOptionalState).to(beFalse());
+            });
+
+            context(@"When the current hmi level is BACKGROUND", ^{
+                beforeEach(^{
+                    testLockScreenStatus.hmiLevel = SDLHMILevelBackground;
+                });
+
+                it(@"is in the lock screen optional state if the hmi level is BACKGROUND and the previous hmi level was LIMITED", ^{
+                    BOOL inLockScreenOptionalState = [SDLLockScreenManager sdl_inLockScreenOptionalStateForLockScreenStatus:testLockScreenStatus previousHMILevel:SDLHMILevelLimited];
+
+                    expect(inLockScreenOptionalState).to(beTrue());
+                });
+
+                it(@"is in the lock screen optional state if the hmi level is BACKGROUND and the previous hmi level was FULL", ^{
+                    BOOL inLockScreenOptionalState = [SDLLockScreenManager sdl_inLockScreenOptionalStateForLockScreenStatus:testLockScreenStatus previousHMILevel:SDLHMILevelFull];
+
+                    expect(inLockScreenOptionalState).to(beTrue());
+                });
+
+                it(@"is not in the lock screen optional state if the hmi level is BACKGROUND and the previous hmi level was NONE", ^{
+                    BOOL inLockScreenOptionalState = [SDLLockScreenManager sdl_inLockScreenOptionalStateForLockScreenStatus:testLockScreenStatus previousHMILevel:SDLHMILevelNone];
+
+                    expect(inLockScreenOptionalState).to(beFalse());
+                });
+            });
+        });
+    });
+
+    context(@"Check if the lock screen can be dismissed", ^{
+        beforeEach(^{
+            testLockScreenStatus.userSelected = @NO;
+            testLockScreenStatus.lockScreenStatus = SDLLockScreenStatusOptional;
+            testLockScreenStatus.hmiLevel = SDLHMILevelLimited;
+            testLockScreenStatus.driverDistractionStatus = @NO;
+
+            testPreviousHMILevel = SDLHMILevelLimited;
+        });
+
+        it(@"can be dismissed if the show in optional state has been set to false", ^{
+            OCMStub([mockLockScreenManager sdl_inLockScreenOptionalStateForLockScreenStatus:[OCMArg any] previousHMILevel:[OCMArg any]]).andReturn(YES);
+
+            BOOL canDismissLockScreen = [SDLLockScreenManager sdl_canDismissLockScreenWithLockScreenStatus:testLockScreenStatus previousHMILevel:testPreviousHMILevel showInOptionalState:false];
+
+            expect(canDismissLockScreen).to(beTrue());
+        });
+
+        it(@"can be dismissed the SDL app is not in the lock screen optional state", ^{
+            OCMStub([mockLockScreenManager sdl_inLockScreenOptionalStateForLockScreenStatus:[OCMArg any] previousHMILevel:[OCMArg any]]).andReturn(NO);
+
+            BOOL canDismissLockScreen = [SDLLockScreenManager sdl_canDismissLockScreenWithLockScreenStatus:testLockScreenStatus previousHMILevel:testPreviousHMILevel showInOptionalState:true];
+
+            expect(canDismissLockScreen).to(beTrue());
+        });
+
+        it(@"can not be dismissed if the show in optional state has been set to true and the SDL app is in the lock screen optional state", ^{
+            OCMStub([mockLockScreenManager sdl_inLockScreenOptionalStateForLockScreenStatus:[OCMArg any] previousHMILevel:[OCMArg any]]).andReturn(YES);
+
+            BOOL canDismissLockScreen = [SDLLockScreenManager sdl_canDismissLockScreenWithLockScreenStatus:testLockScreenStatus previousHMILevel:testPreviousHMILevel showInOptionalState:true];
+
+            expect(canDismissLockScreen).to(beFalse());
         });
     });
 });
