@@ -142,8 +142,6 @@ NS_ASSUME_NONNULL_BEGIN
             [self.presenter present];
         } else if (self.presenter.presented && [self.class sdl_canDismissLockScreenWithLockScreenStatus:self.lastLockNotification previousHMILevel:self.previousHMILevel showInOptionalState:self.config.showInOptionalState]) {
             [self.presenter dismiss];
-        } else {
-            NSLog(@"boo");
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOff]) {
         if (self.presenter.presented) {
@@ -153,7 +151,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 /**
- * Checks if the lock screen can be dismissed. If the the app is currently in the "lock screen optional" state and the `showInOptionalState` has been set to true, then the lock screen should not be dismissed.
+ *  Checks if the lock screen can be dismissed. If the the app is currently in the "lock screen optional" state and the `showInOptionalState` has been set to true, then the lock screen should not be dismissed.
  *
  *  @param lockScreenStatus    The most recent lock screen status received from SDL Core
  *  @param previousHMILevel    The previous `hmiLevel`
