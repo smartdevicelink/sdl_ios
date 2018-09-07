@@ -238,6 +238,12 @@ describe(@"When generating the `appId` from the `fullAppId`", ^{
         NSString *appId = [SDLLifecycleConfiguration sdlex_shortAppIdFromFullAppId:testFullAppId];
         expect(appId).to(match(@"a"));
     });
+
+    it(@"should return an empty string if the full app id only has dash characters", ^{
+        NSString *testFullAppId = @"-";
+        NSString *appId = [SDLLifecycleConfiguration sdlex_shortAppIdFromFullAppId:testFullAppId];
+        expect(appId).to(beEmpty());
+    });
 });
 
 QuickSpecEnd

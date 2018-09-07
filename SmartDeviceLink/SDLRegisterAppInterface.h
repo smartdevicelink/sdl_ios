@@ -32,13 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLRegisterAppInterface : SDLRPCRequest
 
 /**
- * Init
- *
- * @return A SDLRegisterAppInterface object
- */
-- (instancetype)init;
-
-/**
  * Convenience init for registering the application with a lifecycle configuration.
  *
  * @param lifecycleConfiguration Configuration options for SDLManager
