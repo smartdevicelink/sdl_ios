@@ -228,13 +228,13 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         __strong typeof(weakSelf) strongSelf = weakSelf;
 
         // Mutate self based on the changes
-        strongSelf.bytesAvailable = bytesAvailable;
         if (success) {
+            strongSelf.bytesAvailable = bytesAvailable;
             [strongSelf.mutableRemoteFileNames removeObject:name];
         }
 
         if (handler != nil) {
-            handler(success, self.bytesAvailable, error);
+            handler(success, bytesAvailable, error);
         }
     }];
 
@@ -385,11 +385,9 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         if (self.uploadsInProgress[file.name]) {
             [self.uploadsInProgress removeObjectForKey:file.name];
         }
-
-        if (bytesAvailable != 0) {
-            weakSelf.bytesAvailable = bytesAvailable;
-        }
+        
         if (success) {
+            weakSelf.bytesAvailable = bytesAvailable;
             [weakSelf.mutableRemoteFileNames addObject:fileName];
             [weakSelf.uploadedEphemeralFileNames addObject:fileName];
         } else {

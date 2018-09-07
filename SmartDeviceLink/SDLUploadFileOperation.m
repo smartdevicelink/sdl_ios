@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sdl_sendFile:(SDLFile *)file mtuSize:(NSUInteger)mtuSize withCompletion:(SDLFileManagerUploadCompletionHandler)completion  {
     __block NSError *streamError = nil;
-    __block NSUInteger bytesAvailable = 0;
+    __block NSUInteger bytesAvailable = 2000000000;
     __block NSInteger highestCorrelationIDReceived = -1;
 
     if (self.isCancelled) {
@@ -128,6 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
         __weak typeof(self) weakself = self;
         [self.connectionManager sendConnectionManagerRequest:putFile withResponseHandler:^(__kindof SDLRPCRequest *_Nullable request, __kindof SDLRPCResponse *_Nullable response, NSError *_Nullable error) {
             typeof(weakself) strongself = weakself;
+            SDLPutFileResponse *putFileResponse = (SDLPutFileResponse *)response;
 
             // Check if the upload process has been cancelled by another packet. If so, stop the upload process.
             // TODO: Is this the right way to handle this case? Should we just abort everything in the future? Should we be deleting what we sent? Should we have an automatic retry strategy based on what the error was?
@@ -147,7 +148,9 @@ NS_ASSUME_NONNULL_BEGIN
             // If no errors, watch for a response containing the amount of storage left on the SDL Core
             if ([self.class sdl_newHighestCorrelationID:request highestCorrelationIDReceived:highestCorrelationIDReceived]) {
                 highestCorrelationIDReceived = [request.correlationID integerValue];
-                bytesAvailable = [(SDLPutFileResponse *)response spaceAvailable].unsignedIntegerValue;
+
+                // If spaceAvailable is nil, set it to the max value
+                bytesAvailable = putFileResponse.spaceAvailable != nil ? putFileResponse.spaceAvailable.unsignedIntegerValue : 2000000000;
             }
 
             dispatch_group_leave(putFileGroup);
