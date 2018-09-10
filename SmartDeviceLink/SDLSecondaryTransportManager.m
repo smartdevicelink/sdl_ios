@@ -319,40 +319,35 @@ static const int TCPPortUnspecified = -1;
         return;
     }
 
-    SDLSecondaryTransportType secondaryTransportType = SDLSecondaryTransportTypeDisabled;
-    if (availableSecondaryTransports == nil || availableSecondaryTransports.count == 0) {
-        SDLLogW(@"Did not receive secondary transport type from system. Secondary transport is disabled.");
-        secondaryTransportType = SDLSecondaryTransportTypeDisabled;
-    } else {
+    // default values
+    self.secondaryTransportType = SDLSecondaryTransportTypeDisabled;
+    self.transportsForAudioService = @[@(SDLTransportClassPrimary)]; // If SDL Core did not send a transport list for the service, start it on Primary Transport.
+    self.transportsForVideoService = @[@(SDLTransportClassPrimary)];
+    BOOL validConfig = YES;
+
+    if (availableSecondaryTransports.count > 0) {
         // current proposal says the list should contain only one element
         SDLSecondaryTransportTypeBox *transportType = availableSecondaryTransports[0];
-        secondaryTransportType = [transportType integerValue];
+        self.secondaryTransportType = [transportType integerValue];
+    } else {
+        SDLLogW(@"Did not receive secondary transport type from system. Secondary transport is disabled.");
     }
 
     SDLSecondaryTransportType primaryTransportType = [self sdl_getTransportTypeFromProtocol:self.primaryProtocol];
-    if (primaryTransportType == secondaryTransportType) {
+    if (self.secondaryTransportType == primaryTransportType) {
         SDLLogW(@"Same transport is specified for both primary and secondary transport. Secondary transport is disabled.");
-        secondaryTransportType = SDLSecondaryTransportTypeDisabled;
-        // let audio and video services start on primary transport
-        availableTransportsForAudio = @[@(SDLTransportClassPrimary)];
-        availableTransportsForVideo = @[@(SDLTransportClassPrimary)];
-    } else if (secondaryTransportType == SDLSecondaryTransportTypeIAP) {
+        self.secondaryTransportType = SDLSecondaryTransportTypeDisabled;
+        validConfig = NO; // let audio and video services start on primary transport
+    } else if (self.secondaryTransportType == SDLSecondaryTransportTypeIAP) {
         SDLLogW(@"Starting IAP as secondary transport, which does not usually happen");
     }
 
-    // If SDL Core did not send transport list for the service, start it on Primary Transport.
-    if (availableTransportsForAudio == nil) {
-        SDLLogW(@"Transport for audio service is not specified by the system, using primary transport.");
-        availableTransportsForAudio = @[@(SDLTransportClassPrimary)];
+    if (availableTransportsForAudio != nil && validConfig) {
+        self.transportsForAudioService = availableTransportsForAudio;
     }
-    if (availableTransportsForVideo == nil) {
-        SDLLogW(@"Transport for video service is not specified by the system, using primary transport.");
-        availableTransportsForVideo = @[@(SDLTransportClassPrimary)];
+    if (availableTransportsForVideo != nil && validConfig) {
+        self.transportsForVideoService = availableTransportsForVideo;
     }
-
-    self.secondaryTransportType = secondaryTransportType;
-    self.transportsForAudioService = availableTransportsForAudio;
-    self.transportsForVideoService = availableTransportsForVideo;
 
     // this will trigger audio / video streaming if they are allowed on primary transport
     [self sdl_handleTransportUpdateWithPrimaryAvailable:YES secondaryAvailable:NO];
