@@ -202,64 +202,59 @@ describe(@"a lock screen manager", ^{
             });
         });
     });
-});
 
-describe(@"A lock screen status of OPTIONAL", ^{
-    __block SDLLockScreenManager *testLockScreenManager = nil;
-    __block SDLLockScreenConfiguration *testLockScreenConfig = nil;
-    __block id mockViewControllerPresenter = nil;
-    __block SDLOnLockScreenStatus *testOptionalStatus = nil;
+    describe(@"A lock screen status of OPTIONAL", ^{
+        __block SDLLockScreenManager *testLockScreenManager = nil;
+        __block SDLLockScreenConfiguration *testLockScreenConfig = nil;
+        __block id mockViewControllerPresenter = nil;
+        __block SDLRPCNotificationNotification *testLockStatusNotification = nil;
 
-    beforeEach(^{
-        mockViewControllerPresenter = OCMClassMock([SDLFakeViewControllerPresenter class]);
-    });
-
-    context(@"showInOptionalState is true", ^{
         beforeEach(^{
-            testLockScreenConfig = [SDLLockScreenConfiguration enabledConfiguration];
-            testLockScreenConfig.showInOptionalState = true;
+            mockViewControllerPresenter = OCMClassMock([SDLFakeViewControllerPresenter class]);
 
-            testLockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:testLockScreenConfig notificationDispatcher:nil presenter:mockViewControllerPresenter];
-
-            [testLockScreenManager start];
-        });
-
-
-        it(@"should present the lock screen if not already presented", ^{
-            OCMStub([mockViewControllerPresenter lockViewController]).andReturn([OCMArg any]);
-            OCMStub([mockViewControllerPresenter presented]).andReturn(false);
-
-            testOptionalStatus = [[SDLOnLockScreenStatus alloc] init];
+            SDLOnLockScreenStatus *testOptionalStatus = [[SDLOnLockScreenStatus alloc] init];
             testOptionalStatus.lockScreenStatus = SDLLockScreenStatusOptional;
+            testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testOptionalStatus];
 
-            SDLRPCNotificationNotification *testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testOptionalStatus];
-            [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
-
-            OCMVerify([mockViewControllerPresenter present]);
-        });
-    });
-
-    context(@"showInOptionalState is false", ^{
-        beforeEach(^{
             testLockScreenConfig = [SDLLockScreenConfiguration enabledConfiguration];
-            testLockScreenConfig.showInOptionalState = false;
-
-            testLockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:testLockScreenConfig notificationDispatcher:nil presenter:mockViewControllerPresenter];
-
-            [testLockScreenManager start]; // Sets `canPresent` to `true`
         });
 
-        it(@"should dismiss the lock screen if already presented", ^{
-            OCMStub([mockViewControllerPresenter lockViewController]).andReturn([OCMArg any]);
-            OCMStub([mockViewControllerPresenter presented]).andReturn(true);
+        context(@"showInOptionalState is true", ^{
+            beforeEach(^{
+                testLockScreenConfig.showInOptionalState = true;
 
-            testOptionalStatus = [[SDLOnLockScreenStatus alloc] init];
-            testOptionalStatus.lockScreenStatus = SDLLockScreenStatusOptional;
+                testLockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:testLockScreenConfig notificationDispatcher:nil presenter:mockViewControllerPresenter];
 
-            SDLRPCNotificationNotification *testLockStatusNotification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeLockScreenStatusNotification object:nil rpcNotification:testOptionalStatus];
-            [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
+                [testLockScreenManager start]; // Sets `canPresent` to `true`
+            });
 
-            OCMVerify([mockViewControllerPresenter dismiss]);
+            it(@"should present the lock screen if not already presented", ^{
+                OCMStub([mockViewControllerPresenter lockViewController]).andReturn([OCMArg any]);
+                OCMStub([mockViewControllerPresenter presented]).andReturn(false);
+
+                [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
+
+                OCMVerify([mockViewControllerPresenter present]);
+            });
+        });
+
+        context(@"showInOptionalState is false", ^{
+            beforeEach(^{
+                testLockScreenConfig.showInOptionalState = false;
+
+                testLockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:testLockScreenConfig notificationDispatcher:nil presenter:mockViewControllerPresenter];
+
+                [testLockScreenManager start]; // Sets `canPresent` to `true`
+            });
+
+            it(@"should dismiss the lock screen if already presented", ^{
+                OCMStub([mockViewControllerPresenter lockViewController]).andReturn([OCMArg any]);
+                OCMStub([mockViewControllerPresenter presented]).andReturn(true);
+
+                [[NSNotificationCenter defaultCenter] postNotification:testLockStatusNotification];
+
+                OCMVerify([mockViewControllerPresenter dismiss]);
+            });
         });
     });
 });
