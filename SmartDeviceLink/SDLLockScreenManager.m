@@ -140,7 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOptional]) {
         if (self.config.showInOptionalState && !self.presenter.presented && self.canPresent) {
             [self.presenter present];
-        } else if (self.presenter.presented && [self.class sdl_canDismissLockScreenWithLockScreenStatus:self.lastLockNotification previousHMILevel:self.previousHMILevel showInOptionalState:self.config.showInOptionalState]) {
+        } else if (!self.config.showInOptionalState && self.presenter.presented) {
             [self.presenter dismiss];
         }
     } else if ([self.lastLockNotification.lockScreenStatus isEqualToEnum:SDLLockScreenStatusOff]) {
@@ -148,53 +148,6 @@ NS_ASSUME_NONNULL_BEGIN
             [self.presenter dismiss];
         }
     }
-}
-
-/**
- *  Checks if the lock screen can be dismissed. If the the app is currently in the "lock screen optional" state and the `showInOptionalState` has been set to true, then the lock screen should not be dismissed.
- *
- *  @param lockScreenStatus    The most recent lock screen status received from SDL Core
- *  @param previousHMILevel    The previous `hmiLevel`
- *  @param showInOptionalState Whether or not the lock screen should be shown in the "lock screen optional" state
- *  @return                    True if the lock screen can be dismissed; false if not
- */
-+ (BOOL)sdl_canDismissLockScreenWithLockScreenStatus:(nullable SDLOnLockScreenStatus *)lockScreenStatus previousHMILevel:(nullable SDLHMILevel)previousHMILevel showInOptionalState:(BOOL)showInOptionalState {
-    BOOL currentlyInShowInOptionalState = [self sdl_inLockScreenOptionalStateForLockScreenStatus:lockScreenStatus previousHMILevel:previousHMILevel];
-
-    if (currentlyInShowInOptionalState && showInOptionalState) {
-        return false;
-    }
-
-    return true;
-}
-
-/**
- *  Checks if the app is currently in the "lock screen optional" state.
- *
- *  @discussion In order for the "lock screen optional" state to occur, the following must be true:
- *  1. The app should have received at least 1 driver distraction notification (i.e. a `OnDriverDistraction` notification) from SDL Core. Older versions of Core did not send a notification immediately on connection.
- *  2. The driver is not distracted (i.e. the last `OnDriverDistraction` notification received was for a driver distraction state off).
- *  3. The `hmiLevel` can not be `NONE`.
- *  4. If the `hmiLevel` is currently `BACKGROUND` then the previous `hmiLevel` should have been `FULL` or `LIMITED` (i.e. the user should have interacted with app before it was backgrounded).
- *
- *  @param lockScreenStatus The most recent lock screen status received from SDL Core
- *  @param previousHMILevel The previous `hmiLevel`
- *  @return                 True if currently if the "lock screen optional" state; false if not
- */
-+ (BOOL)sdl_inLockScreenOptionalStateForLockScreenStatus:(nullable SDLOnLockScreenStatus *)lockScreenStatus previousHMILevel:(nullable SDLHMILevel)previousHMILevel {
-    if (lockScreenStatus == nil ||
-        lockScreenStatus.driverDistractionStatus.boolValue ||
-        [lockScreenStatus.hmiLevel isEqualToEnum:SDLHMILevelNone]) {
-        return false;
-    }
-
-    if ([lockScreenStatus.hmiLevel isEqualToEnum:SDLHMILevelFull] || [lockScreenStatus.hmiLevel isEqualToEnum:SDLHMILevelLimited]) {
-        return true;
-    } else if ([lockScreenStatus.hmiLevel isEqualToEnum:SDLHMILevelBackground] && ([previousHMILevel isEqualToEnum:SDLHMILevelLimited] || [previousHMILevel isEqualToEnum:SDLHMILevelFull])) {
-        return true;
-    }
-
-    return false;
 }
 
 @end
