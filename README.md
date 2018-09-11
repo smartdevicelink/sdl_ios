@@ -29,11 +29,9 @@ The mobile library component of SDL is meant to run on the end user’s smart-de
 
 ## SDL iOS
 
-We're still working on creating documentation for each of these individual repositories, but in the meantime, you can find more information about SmartDeviceLink [on the SDL Core README](https://github.com/smartdevicelink/sdl_core/blob/master/README.md) and [on Genivi](http://projects.genivi.org/smartdevicelink/about).
+We're still working on creating documentation for each of these individual repositories, but in the meantime, you can find more information about SmartDeviceLink [on the website](https://www.smartdevicelink.com).
 
 See the [changelog](https://github.com/smartdevicelink/sdl_ios/blob/master/CHANGELOG.md) for release notes. This project uses [Semantic Versioning](http://semver.org/).
-
-See the [roadmap](https://github.com/smartdevicelink/sdl_ios/wiki/Roadmap) to see what we have planned for future versions.
 
 ### Installing
 
@@ -79,8 +77,11 @@ If you see a bug, please post an issue on the appropriate repository. Please see
 
 ### SDL iOS Getting Started
 
+#### Example Apps
+To use the example apps, you can use `pod try SmartDeviceLink`, alternately, you can clone or download the project, but you must then also retrieve the submodules by running `git submodule init` and `git submodule update` in your terminal while in the main directory of the project.
+
 #### Other Installation Requirements
-You may want to build the [sdl_core project](https://github.com/smartdevicelink/sdl_core) to be able to see your application connecting if you don't have an iAP enabled head unit to test.
+You can connect your application with [manticore](https://smartdevicelink.com/resources/manticore/) while running in TCP debug mode in order to test. For more information, [see the guildes](https://smartdevicelink.com/en/guides/iOS/getting-started/connecting-to-an-infotainment-system/).
 
 #### Enabling Background Capabilities
 iOS 5 introduced the capability for an iOS application to maintain a connection to an external accessory while the application is in the background. This capability must be explicitly enabled for your application.
@@ -129,13 +130,6 @@ Your application must support a set of smartdevicelink protocol strings in order
 <string>com.smartdevicelink.multisession</string>
 </array>
 ```
-
-#### Lock Screen Support
-If you used CocoaPods to install the SDL SDK, you must complete the following steps to add the default lock screen resources to your project:
-
-1. Select your application's build target, go to Build Phases, Copy Bundle Resources.
-2. Then in the Navigator window of Xcode, go to Target's Support Files, Pods-YourProjectName, and drag and drop the SmartDeviceLink.bundle file into Copy Bundle Resources.
-3. After the bundle is dropped into Copy Bundle Resources check "copy items if need" from the popup box and click "Finish."
 
 #### Continue Integrating
 Go through the [guide documentation](https://smartdevicelink.com/en/guides/iOS/getting-started/integration-basics/) to get started setting up your app to work with SDL!
