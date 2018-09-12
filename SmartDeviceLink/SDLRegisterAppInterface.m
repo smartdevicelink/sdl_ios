@@ -8,6 +8,7 @@
 #import "SDLAppHMIType.h"
 #import "SDLAppInfo.h"
 #import "SDLDeviceInfo.h"
+#import "SDLGlobals.h"
 #import "SDLLanguage.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLNames.h"
@@ -52,8 +53,11 @@ NS_ASSUME_NONNULL_BEGIN
     self.appID = appId;
     self.languageDesired = languageDesired;
     self.hmiDisplayLanguageDesired = languageDesired;
-    
-    self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:5 minorVersion:0 patchVersion:0];
+
+    UInt8 majorVersion = (UInt8)[SDLMaxProxyRPCVersion substringWithRange:NSMakeRange(0, 1)].intValue;
+    UInt8 minorVersion = (UInt8)[SDLMaxProxyRPCVersion substringWithRange:NSMakeRange(2, 1)].intValue;
+    UInt8 patchVersion = (UInt8)[SDLMaxProxyRPCVersion substringWithRange:NSMakeRange(4, 1)].intValue;
+    self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:majorVersion minorVersion:minorVersion patchVersion:patchVersion];
     self.appInfo = [SDLAppInfo currentAppInfo];
     self.deviceInfo = [SDLDeviceInfo currentDevice];
     self.correlationID = @1;

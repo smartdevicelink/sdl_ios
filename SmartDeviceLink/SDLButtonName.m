@@ -5,6 +5,7 @@
 #import "SDLButtonName.h"
 
 SDLButtonName const SDLButtonNameOk = @"OK";
+SDLButtonName const SDLButtonNameOkay = @"OKAY";
 SDLButtonName const SDLButtonNamePlayPause = @"PLAY_PAUSE";
 SDLButtonName const SDLButtonNameSeekLeft = @"SEEKLEFT";
 SDLButtonName const SDLButtonNameSeekRight = @"SEEKRIGHT";

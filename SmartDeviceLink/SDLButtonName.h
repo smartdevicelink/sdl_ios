@@ -18,7 +18,9 @@ typedef SDLEnum SDLButtonName SDL_SWIFT_ENUM;
 /**
  * Represents the button usually labeled "OK". A typical use of this button is for the user to press it to make a selection.
  */
-extern SDLButtonName const SDLButtonNameOk;
+extern SDLButtonName const SDLButtonNameOk __deprecated_msg("Use SDLButtonNameOkay or SDLButtonNamePlayPause instead");
+
+extern SDLButtonName const SDLButtonNameOkay;
 
 /**
  * Represents the play/pause button for media apps. Replaces "OK" on sub-5.0 head units, compliments it on 5.0 head units and later.
