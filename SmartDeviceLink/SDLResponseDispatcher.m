@@ -226,6 +226,8 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([rpcNotification isMemberOfClass:[SDLOnButtonPress class]]) {
         name = ((SDLOnButtonPress *)rpcNotification).buttonName;
         customID = ((SDLOnButtonPress *)rpcNotification).customButtonID;
+    } else {
+        return;
     }
 
     NSArray<SDLRPCButtonNotificationHandler> *handlers = nil;

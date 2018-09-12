@@ -6,7 +6,7 @@
 //  Copyright © 2018 smartdevicelink. All rights reserved.
 //
 
-#import "NSMutableArray+NSMutableArray_Safe.h"
+#import "NSMutableArray+Safe.h"
 
 @implementation NSMutableArray (Safe)
 
