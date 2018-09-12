@@ -8,6 +8,7 @@
 
 #import "SDLResponseDispatcher.h"
 
+#import "NSMutableArray+Safe.h"
 #import "NSMutableDictionary+SafeRemove.h"
 #import "SDLAddCommand.h"
 #import "SDLAlert.h"
@@ -15,6 +16,7 @@
 #import "SDLDeleteCommand.h"
 #import "SDLDeleteCommandResponse.h"
 #import "SDLError.h"
+#import "SDLGlobals.h"
 #import "SDLLogMacros.h"
 #import "SDLOnAudioPassThru.h"
 #import "SDLOnButtonEvent.h"
@@ -215,8 +217,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_runHandlerForButton:(SDLRPCNotificationNotification *)notification {
     __kindof SDLRPCNotification *rpcNotification = notification.notification;
-
-    SDLRPCButtonNotificationHandler handler = nil;
     SDLButtonName name = nil;
     NSNumber *customID = nil;
 
@@ -228,13 +228,16 @@ NS_ASSUME_NONNULL_BEGIN
         customID = ((SDLOnButtonPress *)rpcNotification).customButtonID;
     }
 
+    NSArray<SDLRPCButtonNotificationHandler> *handlers = nil;
     if ([name isEqualToEnum:SDLButtonNameCustomButton]) {
-        handler = self.customButtonHandlerMap[customID];
+        // Custom buttons
+        handlers = @[self.customButtonHandlerMap[customID]];
     } else {
-        handler = self.buttonHandlerMap[name];
+        // Static buttons
+        handlers = [self sdl_handlersForButtonName:name];
     }
 
-    if (handler) {
+    for (SDLRPCButtonNotificationHandler handler in handlers) {
         if ([rpcNotification isMemberOfClass:[SDLOnButtonEvent class]]) {
             handler(nil, rpcNotification);
         } else if ([rpcNotification isMemberOfClass:[SDLOnButtonPress class]]) {
@@ -242,6 +245,31 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
 }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+- (NSArray<SDLRPCButtonNotificationHandler> *)sdl_handlersForButtonName:(SDLButtonName)name {
+    NSMutableArray<SDLRPCButtonNotificationHandler> *handlers = [NSMutableArray array];
+
+    if ([SDLGlobals sharedGlobals].rpcVersion.majorVersion.intValue >= 5) {
+        if ([name isEqualToEnum:SDLButtonNameOk]) {
+            [handlers sdl_safeAddObject:self.buttonHandlerMap[SDLButtonNameOkay]];
+            [handlers sdl_safeAddObject:self.buttonHandlerMap[SDLButtonNameOk]];
+        } else if ([name isEqualToEnum:SDLButtonNamePlayPause]) {
+            [handlers sdl_safeAddObject:self.buttonHandlerMap[SDLButtonNamePlayPause]];
+            [handlers sdl_safeAddObject:self.buttonHandlerMap[SDLButtonNameOk]];
+        }
+    } else {
+        if ([name isEqualToEnum:SDLButtonNameOk]) {
+            [handlers sdl_safeAddObject:self.buttonHandlerMap[SDLButtonNameOkay]];
+            [handlers sdl_safeAddObject:self.buttonHandlerMap[SDLButtonNameOk]];
+            [handlers sdl_safeAddObject:self.buttonHandlerMap[SDLButtonNamePlayPause]];
+        }
+    }
+
+    return [handlers copy];
+}
+#pragma clang diagnostic pop
     
 #pragma mark Audio Pass Thru
     
