@@ -28,7 +28,7 @@ extern NSUInteger const SDLV3MTUSize;
 
 @property (copy, nonatomic, readonly) NSString *protocolVersion;
 @property (assign, nonatomic, readonly) NSInteger majorProtocolVersion;
-@property (copy, nonatomic) SDLSyncMsgVersion *rpcVersion;
+@property (strong, nonatomic) SDLSyncMsgVersion *rpcVersion;
 @property (copy, nonatomic) NSString *maxHeadUnitVersion;
 
 + (instancetype)sharedGlobals;
