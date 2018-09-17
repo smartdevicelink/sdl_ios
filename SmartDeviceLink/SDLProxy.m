@@ -303,34 +303,12 @@ static float DefaultConnectionTimeout = 45.0;
             }
 
             return YES;
-        } else if ([message.buttonName isEqualToEnum:SDLButtonNameOkay]) {
-            SDLSubscribeButton *okMessage = [message copy];
-            okMessage.buttonName = SDLButtonNameOk;
-
-            @try {
-                [self.protocol sendRPC:okMessage];
-            } @catch (NSException *exception) {
-                SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
-            }
-
-            return YES;
         } else if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
             return NO;
         }
-    } else {
+    } else { // Major version < 5
         if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
             return NO;
-        } else if ([message.buttonName isEqualToEnum:SDLButtonNameOkay]) {
-            SDLSubscribeButton *okMessage = [message copy];
-            okMessage.buttonName = SDLButtonNameOk;
-
-            @try {
-                [self.protocol sendRPC:okMessage];
-            } @catch (NSException *exception) {
-                SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
-            }
-
-            return YES;
         } else if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
             SDLSubscribeButton *okMessage = [message copy];
             okMessage.buttonName = SDLButtonNameOk;
@@ -362,34 +340,12 @@ static float DefaultConnectionTimeout = 45.0;
             }
 
             return YES;
-        } else if ([message.buttonName isEqualToEnum:SDLButtonNameOkay]) {
-            SDLUnsubscribeButton *okMessage = [message copy];
-            okMessage.buttonName = SDLButtonNameOk;
-
-            @try {
-                [self.protocol sendRPC:okMessage];
-            } @catch (NSException *exception) {
-                SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
-            }
-
-            return YES;
         } else if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
             return NO;
         }
-    } else {
+    } else { // Major version < 5
         if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
             return NO;
-        } else if ([message.buttonName isEqualToEnum:SDLButtonNameOkay]) {
-            SDLUnsubscribeButton *okMessage = [message copy];
-            okMessage.buttonName = SDLButtonNameOk;
-
-            @try {
-                [self.protocol sendRPC:okMessage];
-            } @catch (NSException *exception) {
-                SDLLogE(@"Proxy: Failed to send RPC message: %@", message.name);
-            }
-
-            return YES;
         } else if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
             SDLUnsubscribeButton *okMessage = [message copy];
             okMessage.buttonName = SDLButtonNameOk;
@@ -565,14 +521,10 @@ static float DefaultConnectionTimeout = 45.0;
     if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
         return YES;
     } else if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
-        // Send Ok, Okay, and Play/Pause notifications
-        SDLOnButtonPress *okayPress = [message copy];
-        okayPress.buttonName = SDLButtonNameOkay;
-
+        // Send Ok and Play/Pause notifications
         SDLOnButtonPress *playPausePress = [message copy];
         playPausePress.buttonName = SDLButtonNamePlayPause;
 
-        [self sdl_invokeDelegateMethodsWithFunction:message.getFunctionName message:okayPress];
         [self sdl_invokeDelegateMethodsWithFunction:message.getFunctionName message:playPausePress];
         [self sdl_invokeDelegateMethodsWithFunction:message.getFunctionName message:message];
         return YES;
@@ -591,11 +543,11 @@ static float DefaultConnectionTimeout = 45.0;
         [self sdl_invokeDelegateMethodsWithFunction:message.getFunctionName message:message];
         return YES;
     } else if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
-        // Send Okay and OK notifications
-        SDLOnButtonPress *okayPress = [message copy];
-        okayPress.buttonName = SDLButtonNameOkay;
+        // Send PlayPause and OK notifications
+        SDLOnButtonPress *playPausePress = [message copy];
+        playPausePress.buttonName = SDLButtonNamePlayPause;
 
-        [self sdl_invokeDelegateMethodsWithFunction:message.getFunctionName message:okayPress];
+        [self sdl_invokeDelegateMethodsWithFunction:message.getFunctionName message:playPausePress];
         [self sdl_invokeDelegateMethodsWithFunction:message.getFunctionName message:message];
         return YES;
     }
@@ -608,14 +560,10 @@ static float DefaultConnectionTimeout = 45.0;
     if ([message.buttonName isEqualToEnum:SDLButtonNamePlayPause]) {
         return YES;
     } else if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
-        // Send Ok, Okay, and Play/Pause notifications
-        SDLOnButtonEvent *okayEvent = [message copy];
-        okayEvent.buttonName = SDLButtonNameOkay;
-
+        // Send Ok and Play/Pause notifications
         SDLOnButtonEvent *playPauseEvent = [message copy];
         playPauseEvent.buttonName = SDLButtonNamePlayPause;
 
-        [self sdl_invokeDelegateMethodsWithFunction:message.getFunctionName message:okayEvent];
         [self sdl_invokeDelegateMethodsWithFunction:message.getFunctionName message:playPauseEvent];
         [self sdl_invokeDelegateMethodsWithFunction:message.getFunctionName message:message];
         return YES;
@@ -634,11 +582,11 @@ static float DefaultConnectionTimeout = 45.0;
         [self sdl_invokeDelegateMethodsWithFunction:message.getFunctionName message:message];
         return YES;
     } else if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
-        // Send Okay and OK notifications
-        SDLOnButtonEvent *okayEvent = [message copy];
-        okayEvent.buttonName = SDLButtonNameOkay;
+        // Send PlayPause and OK notifications
+        SDLOnButtonEvent *playPauseEvent = [message copy];
+        playPauseEvent.buttonName = SDLButtonNamePlayPause;
 
-        [self sdl_invokeDelegateMethodsWithFunction:message.getFunctionName message:okayEvent];
+        [self sdl_invokeDelegateMethodsWithFunction:message.getFunctionName message:playPauseEvent];
         [self sdl_invokeDelegateMethodsWithFunction:message.getFunctionName message:message];
         return YES;
     }

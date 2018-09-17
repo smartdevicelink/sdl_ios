@@ -219,6 +219,7 @@ NS_ASSUME_NONNULL_BEGIN
     __kindof SDLRPCNotification *rpcNotification = notification.notification;
     SDLButtonName name = nil;
     NSNumber *customID = nil;
+    SDLRPCButtonNotificationHandler handler = nil;
 
     if ([rpcNotification isMemberOfClass:[SDLOnButtonEvent class]]) {
         name = ((SDLOnButtonEvent *)rpcNotification).buttonName;
@@ -230,48 +231,20 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    NSArray<SDLRPCButtonNotificationHandler> *handlers = nil;
     if ([name isEqualToEnum:SDLButtonNameCustomButton]) {
         // Custom buttons
-        handlers = @[self.customButtonHandlerMap[customID]];
+        handler = self.customButtonHandlerMap[customID];
     } else {
         // Static buttons
-        handlers = [self sdl_handlersForButtonName:name];
+        handler = self.buttonHandlerMap[name];
     }
 
-    for (SDLRPCButtonNotificationHandler handler in handlers) {
-        if ([rpcNotification isMemberOfClass:[SDLOnButtonEvent class]]) {
-            handler(nil, rpcNotification);
-        } else if ([rpcNotification isMemberOfClass:[SDLOnButtonPress class]]) {
-            handler(rpcNotification, nil);
-        }
+    if ([rpcNotification isMemberOfClass:[SDLOnButtonEvent class]] && handler != nil) {
+        handler(nil, rpcNotification);
+    } else if ([rpcNotification isMemberOfClass:[SDLOnButtonPress class]] && handler != nil) {
+        handler(rpcNotification, nil);
     }
 }
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-- (NSArray<SDLRPCButtonNotificationHandler> *)sdl_handlersForButtonName:(SDLButtonName)name {
-    NSMutableArray<SDLRPCButtonNotificationHandler> *handlers = [NSMutableArray array];
-
-    if ([SDLGlobals sharedGlobals].rpcVersion.majorVersion.intValue >= 5) {
-        if ([name isEqualToEnum:SDLButtonNameOk]) {
-            [handlers sdl_safeAddObject:self.buttonHandlerMap[SDLButtonNameOkay]];
-            [handlers sdl_safeAddObject:self.buttonHandlerMap[SDLButtonNameOk]];
-        } else if ([name isEqualToEnum:SDLButtonNamePlayPause]) {
-            [handlers sdl_safeAddObject:self.buttonHandlerMap[SDLButtonNamePlayPause]];
-            [handlers sdl_safeAddObject:self.buttonHandlerMap[SDLButtonNameOk]];
-        }
-    } else {
-        if ([name isEqualToEnum:SDLButtonNameOk]) {
-            [handlers sdl_safeAddObject:self.buttonHandlerMap[SDLButtonNameOkay]];
-            [handlers sdl_safeAddObject:self.buttonHandlerMap[SDLButtonNameOk]];
-            [handlers sdl_safeAddObject:self.buttonHandlerMap[SDLButtonNamePlayPause]];
-        }
-    }
-
-    return [handlers copy];
-}
-#pragma clang diagnostic pop
     
 #pragma mark Audio Pass Thru
     
