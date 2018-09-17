@@ -239,9 +239,13 @@ NS_ASSUME_NONNULL_BEGIN
         handler = self.buttonHandlerMap[name];
     }
 
-    if ([rpcNotification isMemberOfClass:[SDLOnButtonEvent class]] && handler != nil) {
+    if (handler == nil) {
+        return;
+    }
+
+    if ([rpcNotification isMemberOfClass:[SDLOnButtonEvent class]]) {
         handler(nil, rpcNotification);
-    } else if ([rpcNotification isMemberOfClass:[SDLOnButtonPress class]] && handler != nil) {
+    } else if ([rpcNotification isMemberOfClass:[SDLOnButtonPress class]]) {
         handler(rpcNotification, nil);
     }
 }
