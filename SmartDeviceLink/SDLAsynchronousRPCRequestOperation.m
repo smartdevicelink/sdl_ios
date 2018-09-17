@@ -122,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (self.isFinished) { return; }
     self.requestFailed = YES;
 
-    for (NSUInteger i = self.requestsComplete; i <= self.requests.count; i++) {
+    for (NSUInteger i = self.requestsComplete; i < self.requests.count; i++) {
         if (self.progressHandler != NULL) {
             self.progressHandler(self.requests[i], nil, [NSError sdl_lifecycle_multipleRequestsCancelled], self.percentComplete);
         }
