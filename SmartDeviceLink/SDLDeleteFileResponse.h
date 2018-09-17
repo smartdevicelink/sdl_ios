@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The remaining available space for your application to store data on the remote system.
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *spaceAvailable;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *spaceAvailable;
 
 @end
 
