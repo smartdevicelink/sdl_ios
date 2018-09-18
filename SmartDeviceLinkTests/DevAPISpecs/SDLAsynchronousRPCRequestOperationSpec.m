@@ -100,6 +100,41 @@ describe(@"sending asynchronous requests", ^{
             [NSThread sleepForTimeInterval:0.5];
         });
     });
+
+    context(@"Cancelling the operation with multiple requests", ^{
+        __block TestMultipleRequestsConnectionManager *connectionManager = [[TestMultipleRequestsConnectionManager alloc] init];
+        __block SDLAsynchronousRPCRequestOperation *operation = nil;
+
+        beforeEach(^{
+            float numberOfRequests = 9;
+            for (float i = 0; i < numberOfRequests; i++) {
+                SDLAddCommand *addCommand = [[SDLAddCommand alloc] init];
+                [sendRequests addObject:addCommand];
+
+                connectionManager.responses[@(i)] = [SDLSpecUtilities addCommandRPCResponseWithCorrelationId:addCommand.correlationID];
+                testProgressResponses[@(i)] = [[TestRequestProgressResponse alloc] initWithCorrelationId:addCommand.correlationID
+                                                                                         percentComplete:((i+1)/numberOfRequests)
+                                                                                                   error:nil];
+            }
+        });
+
+        it(@"Pass without crash(NSRangeException)", ^{
+            connectionManager.isPendingCompletion = YES;
+            operation = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:connectionManager requests:sendRequests.copy progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+            } completionHandler:^(BOOL success) {
+                expect(success).to(beFalse());
+            }];
+            [testOperationQueue addOperation:operation];
+
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [operation cancel];
+            });
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                connectionManager.isPendingCompletion = NO;
+            });
+            [NSThread sleepForTimeInterval:0.6];
+        });
+    });
 });
 
 QuickSpecEnd
