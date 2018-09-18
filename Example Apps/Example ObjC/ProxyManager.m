@@ -161,19 +161,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdlex_showInitialData {
     if (![self.sdlManager.hmiLevel isEqualToEnum:SDLHMILevelFull]) { return; }
 
-//    SDLSetDisplayLayout *setDisplayLayout = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia];
-//    [self.sdlManager sendRequest:setDisplayLayout];
+    SDLSetDisplayLayout *setDisplayLayout = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia];
+    [self.sdlManager sendRequest:setDisplayLayout];
 
     [self sdlex_updateScreen];
     self.sdlManager.screenManager.softButtonObjects = [self.buttonManager allScreenSoftButtons];
-
-    SDLSubscribeButton *subscribeOk = [[SDLSubscribeButton alloc] initWithButtonName:SDLButtonNamePlayPause handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
-        NSLog(@"OK PRESSED");
-    }];
-
-    [self.sdlManager sendRequest:subscribeOk withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-        NSLog(@"OK Request: %@, response: %@, error: %@", request, response, error);
-    }];
 }
 
 - (nullable RefreshUIHandler)refreshUIHandler {
