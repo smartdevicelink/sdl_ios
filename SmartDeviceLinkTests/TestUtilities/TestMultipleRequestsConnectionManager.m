@@ -13,6 +13,14 @@
 #import "SDLNames.h"
 #import "TestResponse.h"
 
+typedef void (^CompletionCallback)(void);
+
+@interface TestMultipleRequestsConnectionManager()
+
+@property (nonatomic, strong) NSMutableArray<CompletionCallback> *waitingCompletions;
+
+@end
+
 @implementation TestMultipleRequestsConnectionManager
 
 - (instancetype)init {
@@ -20,20 +28,41 @@
     if (!self) { return nil; }
 
     _responses = [[NSMutableDictionary alloc] init];
+    _waitingCompletions = [NSMutableArray array];
 
     return self;
 }
 
 - (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(SDLResponseHandler)handler {
-    [super sendConnectionRequest:request withResponseHandler:handler];
+    CompletionCallback completion = ^(){
+        [super sendConnectionRequest:request withResponseHandler:handler];
 
-    NSAssert([request.name isEqualToString:SDLNameAddCommand], @"The TestMultipleRequestsConnectionManager is only setup for SDLAddCommand");
+        NSAssert([request.name isEqualToString:SDLNameAddCommand], @"The TestMultipleRequestsConnectionManager is only setup for SDLAddCommand");
 
-    SDLAddCommand *addCommand = (SDLAddCommand *)request;
-    TestResponse *response = self.responses[addCommand.correlationID];
+        SDLAddCommand *addCommand = (SDLAddCommand *)request;
+        TestResponse *response = self.responses[addCommand.correlationID];
 
-    if (response == nil || handler == nil) { return; }
-    handler(request, response.testResponse, response.testError);
+        if (response == nil || handler == nil) { return; }
+
+        handler(request, response.testResponse, response.testError);
+    };
+    if (self.isPendingCompletion) {
+        [self.waitingCompletions addObject:completion];
+    } else {
+        completion();
+    }
+}
+
+- (void)setIsPendingCompletion:(BOOL)isPendingCompletion {
+    if (_isPendingCompletion != isPendingCompletion) {
+        _isPendingCompletion = isPendingCompletion;
+        if (!_isPendingCompletion) {
+            for (CompletionCallback completion in self.waitingCompletions) {
+                completion();
+            }
+            [self.waitingCompletions removeAllObjects];
+        }
+    }
 }
 
 @end
