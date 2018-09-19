@@ -159,16 +159,16 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLLogD(@"Starting lifecycle manager");
     self.readyHandler = [readyHandler copy];
 
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
+    [self sdl_transitionToState:SDLLifecycleStateStarted];
 }
 
 - (void)stop {
     dispatch_sync(_lifecycleQueue, ^{
         SDLLogD(@"Lifecycle manager stopped");
         if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
+            [self sdl_transitionToState:SDLLifecycleStateUnregistering];
         } else {
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+            [self sdl_transitionToState:SDLLifecycleStateStopped];
         }
     });
 }
@@ -253,9 +253,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         [strongSelf.delegate managerDidDisconnect];
 
         if (shouldRestart) {
-            dispatch_async(strongSelf.lifecycleQueue, ^{
-                [strongSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
-            });
+            [strongSelf sdl_transitionToState:SDLLifecycleStateStarted];
         }
     });
 }
@@ -281,14 +279,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                     weakSelf.readyHandler(NO, error);
 
                     if (weakSelf.lifecycleState != SDLLifecycleStateReconnecting) {
-                        [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+                        [weakSelf sdl_transitionToState:SDLLifecycleStateStopped];
                     }
 
                     return;
                 }
 
                 weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
-                [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
+                [weakSelf sdl_transitionToState:SDLLifecycleStateRegistered];
             });
         }];
 }
@@ -301,9 +299,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     
     // language mismatch? but actual language is a supported language? and delegate has implemented method?
     if (actualLanguage != desiredLanguage && [supportedLanguages containsObject:actualLanguage] && delegateCanUpdateLifecycle) {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUpdatingConfiguration];
+        [self sdl_transitionToState:SDLLifecycleStateUpdatingConfiguration];
     } else {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpManagers];
+        [self sdl_transitionToState:SDLLifecycleStateSettingUpManagers];
     }
 }
 
@@ -337,7 +335,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         [self sendConnectionManagerRequest:changeRegistration withResponseHandler:nil];
     }
     
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpManagers];
+    [self sdl_transitionToState:SDLLifecycleStateSettingUpManagers];
 }
 
 - (void)didEnterStateSettingUpManagers {
@@ -386,14 +384,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     dispatch_group_notify(managerGroup, self.lifecycleQueue, ^{
         // We could have been shut down while waiting for the completion of starting file manager and permission manager.
         if (self.lifecycleState == SDLLifecycleStateSettingUpManagers) {
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpAppIcon];
+            [self sdl_transitionToState:SDLLifecycleStateSettingUpAppIcon];
         }
     });
 }
 
 - (void)didEnterStateSettingUpAppIcon {
     if (self.registerResponse.iconResumed.boolValue) {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
+        [self sdl_transitionToState:SDLLifecycleStateSettingUpHMI];
         return;
     }
 
@@ -403,7 +401,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         dispatch_async(weakself.lifecycleQueue, ^{
             // We could have been shut down while setting up the app icon, make sure we still want to continue or we could crash
             if (weakself.lifecycleState == SDLLifecycleStateSettingUpAppIcon) {
-                [weakself.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
+                [weakself sdl_transitionToState:SDLLifecycleStateSettingUpHMI];
             }
         });
    }];
@@ -417,7 +415,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     // We are sure to have a HMIStatus, set state to ready
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
+    [self sdl_transitionToState:SDLLifecycleStateReady];
 }
 
 - (void)didEnterStateReady {
@@ -458,9 +456,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                 SDLLogE(@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response);
             }
 
-            dispatch_async(weakSelf.lifecycleQueue, ^{
-                [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
-            });
+            [weakSelf sdl_transitionToState:SDLLifecycleStateStopped];
         }];
 }
 
@@ -601,6 +597,17 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return YES;
 }
 
+// this is to make sure that the transition happens on the dedicated queue
+- (void)sdl_transitionToState:(SDLState *)state {
+    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(self.lifecycleQueue)) == 0) {
+        [self.lifecycleStateMachine transitionToState:state];
+    } else {
+        dispatch_async(self.lifecycleQueue, ^{
+            [self.lifecycleStateMachine transitionToState:state];
+        });
+    }
+}
+
 
 #pragma mark SDL notification observers
 
@@ -608,7 +615,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLLogD(@"Transport connected");
 
     dispatch_async(self.lifecycleQueue, ^{
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateConnected];
+        [self sdl_transitionToState:SDLLifecycleStateConnected];
     });
 }
 
@@ -617,9 +624,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     dispatch_async(self.lifecycleQueue, ^{
         if (self.lifecycleState == SDLLifecycleStateUnregistering || self.lifecycleState == SDLLifecycleStateStopped) {
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+            [self sdl_transitionToState:SDLLifecycleStateStopped];
         } else {
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReconnecting];
+            [self sdl_transitionToState:SDLLifecycleStateReconnecting];
         }
     });
 }
@@ -649,7 +656,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLLogD(@"Audio streaming state changed from %@ to %@", oldStreamingState, self.audioStreamingState);
 
     if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateSettingUpHMI]) {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
+        [self sdl_transitionToState:SDLLifecycleStateReady];
     }
 
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
@@ -691,14 +698,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLLogE(@"Remote Device forced unregistration for reason: %@", appUnregisteredNotification.reason);
 
     if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateUnregistering]) {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+        [self sdl_transitionToState:SDLLifecycleStateStopped];
     } else if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateStopped]) {
         return;
     } else if ([appUnregisteredNotification.reason isKindOfClass:[NSString class]] && [appUnregisteredNotification.reason isEqualToEnum:SDLAppInterfaceUnregisteredReasonAppUnauthorized]) {
         // HAX: The string check is due to a core "feature" that could cause -1 to be sent as the enum value, which will crash here.
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+        [self sdl_transitionToState:SDLLifecycleStateStopped];
     } else {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReconnecting];
+        [self sdl_transitionToState:SDLLifecycleStateReconnecting];
     }
 }
 
