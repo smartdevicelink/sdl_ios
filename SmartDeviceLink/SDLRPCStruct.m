@@ -31,10 +31,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSDictionary<NSString *, id> *)serializeAsDictionary:(Byte)version {
     if (version >= 2) {
-        NSString *messageType = [[store keyEnumerator] nextObject];
-        NSMutableDictionary<NSString *, id> *function = [store objectForKey:messageType];
+        NSString *messageType = store.keyEnumerator.nextObject;
+        NSMutableDictionary<NSString *, id> *function = store[messageType];
         if ([function isKindOfClass:NSMutableDictionary.class]) {
-            NSMutableDictionary<NSString *, id> *parameters = [function objectForKey:SDLNameParameters];
+            NSMutableDictionary<NSString *, id> *parameters = function[SDLNameParameters];
             return [self.class sdl_serializeDictionary:parameters version:version];
         } else {
             return [self.class sdl_serializeDictionary:store version:version];
@@ -50,34 +50,34 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSDictionary<NSString *, id> *)sdl_serializeDictionary:(NSDictionary *)dict version:(Byte)version {
     NSMutableDictionary<NSString *, id> *ret = [NSMutableDictionary dictionaryWithCapacity:dict.count];
-    for (NSString *key in [dict keyEnumerator]) {
-        NSObject *value = [dict objectForKey:key];
+    for (NSString *key in dict.keyEnumerator) {
+        NSObject *value = dict[key];
         if ([value isKindOfClass:SDLRPCStruct.class]) {
-            [ret setObject:[(SDLRPCStruct *)value serializeAsDictionary:version] forKey:key];
+            ret[key] = [(SDLRPCStruct *)value serializeAsDictionary:version];
         } else if ([value isKindOfClass:NSDictionary.class]) {
-            [ret setObject:[self sdl_serializeDictionary:(NSDictionary *)value version:version] forKey:key];
+            ret[key] = [self sdl_serializeDictionary:(NSDictionary *)value version:version];
         } else if ([value isKindOfClass:NSArray.class]) {
             NSArray<NSObject *> *arrayVal = (NSArray<NSObject *> *)value;
             
-            if (arrayVal.count > 0 && ([[arrayVal objectAtIndex:0] isKindOfClass:SDLRPCStruct.class])) {
+            if (arrayVal.count > 0 && ([arrayVal.firstObject isKindOfClass:SDLRPCStruct.class])) {
                 NSMutableArray<NSDictionary<NSString *, id> *> *serializedList = [NSMutableArray arrayWithCapacity:arrayVal.count];
                 for (SDLRPCStruct *serializeable in arrayVal) {
                     [serializedList addObject:[serializeable serializeAsDictionary:version]];
                 }
-                [ret setObject:serializedList forKey:key];
+                ret[key] = serializedList;
             } else {
-                [ret setObject:value forKey:key];
+                ret[key] = value;
             }
         } else {
-            [ret setObject:value forKey:key];
+            ret[key] = value;
         }
     }
     return ret;
 }
 
--(id)copyWithZone:(nullable NSZone *)zone {
+- (id)copyWithZone:(nullable NSZone *)zone {
     SDLRPCStruct *newStruct = [[[self class] allocWithZone:zone] init];
-    newStruct->store = [self->store copy];
+    newStruct->store = [self->store mutableCopy];
 
     return newStruct;
 }

@@ -22,6 +22,7 @@
 #import "SDLFile.h"
 #import "SDLFileManager.h"
 #import "SDLFileManagerConfiguration.h"
+#import "SDLGlobals.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLifecycleConfigurationUpdate.h"
 #import "SDLLockScreenConfiguration.h"
@@ -281,6 +282,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                 }
 
                 weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
+                [SDLGlobals sharedGlobals].rpcVersion = weakSelf.registerResponse.syncMsgVersion;
                 [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
             });
         }];

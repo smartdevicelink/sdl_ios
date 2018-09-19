@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLRPCMessage : SDLRPCStruct {
+@interface SDLRPCMessage : SDLRPCStruct <NSCopying> {
     NSMutableDictionary<NSString *, id> *function;
     NSMutableDictionary<NSString *, id> *parameters;
     NSString *messageType;
