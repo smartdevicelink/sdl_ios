@@ -74,7 +74,7 @@ describe(@"sending asynchronous requests", ^{
             }
         });
 
-        fit(@"should fail correctly", ^{
+        it(@"should fail correctly", ^{
             testOperation = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:testConnectionManager requests:[sendRequests copy] progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
                 expect(percentComplete).to(beCloseTo(0));
                 expect(response).to(beNil());
