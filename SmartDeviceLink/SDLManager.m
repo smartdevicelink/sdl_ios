@@ -50,7 +50,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _lifecycleManager = [[SDLLifecycleManager alloc] initWithConfiguration:configuration delegate:delegate];
-    _localization = _lifecycleManager.localization;
 
     return self;
 }
@@ -92,6 +91,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SDLSystemCapabilityManager *)systemCapabilityManager {
     return self.lifecycleManager.systemCapabilityManager;
+}
+
+- (SDLLocalization *)localization {
+    return self.lifecycleManager.localization;
 }
 
 - (nullable SDLRegisterAppInterfaceResponse *)registerResponse {
