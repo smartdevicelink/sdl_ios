@@ -135,7 +135,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLVehicleType *)vehicleType {
-    return [parameters sdl_objectForName:SDLNameVehicleType ofClass:SDLVehicleType.class];
+    return [parameters sdl_objectForName:SDLNameVehicleType ofClass:[SDLVehicleType class]];
 }
 
 - (void)setSupportedDiagModes:(nullable NSArray<NSNumber<SDLInt> *> *)supportedDiagModes {

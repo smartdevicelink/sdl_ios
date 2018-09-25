@@ -192,6 +192,7 @@ SDLName const SDLNameFuelLevel = @"fuelLevel";
 SDLName const SDLNameFuelLevelState = @"fuelLevel_State";
 SDLName const SDLNameFuelMaintenanceMode = @"fuelMaintenanceMode";
 SDLName const SDLNameFuelRange = @"fuelRange";
+SDLName const SDLNameFullAppID = @"fullAppID";
 SDLName const SDLNameGenericResponse = @"GenericResponse";
 SDLName const SDLNameGetDTCs = @"GetDTCs";
 SDLName const SDLNameGetInteriorVehicleData = @"GetInteriorVehicleData";

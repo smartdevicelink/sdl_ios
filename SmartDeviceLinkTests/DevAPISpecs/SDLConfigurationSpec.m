@@ -31,7 +31,7 @@ describe(@"a configuration", ^{
             someBackgroundColor = [UIColor blueColor];
             someImage = [UIImage imageNamed:@"testImagePNG" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
             
-            someLifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:someAppName appId:someAppId];
+            someLifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:someAppName fullAppId:someAppId];
             someLockscreenConfig = [SDLLockScreenConfiguration enabledConfigurationWithAppIcon:someImage backgroundColor:someBackgroundColor];
             someLogConfig = [SDLLogConfiguration defaultConfiguration];
             someStreamingConfig  = [SDLStreamingMediaConfiguration insecureConfiguration];
@@ -86,7 +86,7 @@ describe(@"a configuration", ^{
 
         describe(@"streaming media config", ^{
             beforeEach(^{
-                someLifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:someAppName appId:someAppId];
+                someLifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:someAppName fullAppId:someAppId];
                 someLifecycleConfig.appType = SDLAppHMITypeNavigation;
             });
 
