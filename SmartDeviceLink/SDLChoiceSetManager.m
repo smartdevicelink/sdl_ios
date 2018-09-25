@@ -434,9 +434,7 @@ UInt16 const ChoiceCellIdMin = 1;
         self.transactionQueue.suspended = YES;
     }
 
-    if (([oldSystemContext isEqualToEnum:SDLSystemContextHMIObscured] || [oldSystemContext isEqualToEnum:SDLSystemContextAlert])
-        && [self.currentSystemContext isEqualToEnum:SDLSystemContextMain]
-        && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
+    if ([self.currentSystemContext isEqualToEnum:SDLSystemContextMain] && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
         self.transactionQueue.suspended = NO;
     }
 }
