@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) SDLStreamingAudioLifecycleManager *audioLifecycleManager;
 @property (strong, nonatomic) SDLStreamingVideoLifecycleManager *videoLifecycleManager;
+@property (assign, nonatomic) BOOL audioStarted;
+@property (assign, nonatomic) BOOL videoStarted;
 
 @end
 
@@ -45,13 +47,33 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)startWithProtocol:(SDLProtocol *)protocol {
+    [self startAudioWithProtocol:protocol];
+    [self startVideoWithProtocol:protocol];
+}
+
+- (void)startAudioWithProtocol:(SDLProtocol *)protocol {
     [self.audioLifecycleManager startWithProtocol:protocol];
+    self.audioStarted = YES;
+}
+
+- (void)startVideoWithProtocol:(SDLProtocol *)protocol {
     [self.videoLifecycleManager startWithProtocol:protocol];
+    self.videoStarted = YES;
 }
 
 - (void)stop {
+    [self stopAudio];
+    [self stopVideo];
+}
+
+- (void)stopAudio {
     [self.audioLifecycleManager stop];
+    self.audioStarted = NO;
+}
+
+- (void)stopVideo {
     [self.videoLifecycleManager stop];
+    self.videoStarted = NO;
 }
 
 - (BOOL)sendVideoData:(CVImageBufferRef)imageBuffer {
@@ -86,7 +108,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)isStreamingSupported {
-    return self.videoLifecycleManager.isStreamingSupported;
+    // both audio and video lifecycle managers checks the param in Register App Interface response,
+    // hence the flag should be same between two managers if they are started
+    if (self.videoStarted) {
+        return self.videoLifecycleManager.isStreamingSupported;
+    } else if (self.audioStarted) {
+        return self.audioLifecycleManager.isStreamingSupported;
+    }
+    return NO;
 }
 
 - (BOOL)isAudioConnected {
@@ -126,6 +155,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLStreamingEncryptionFlag)requestedEncryptionType {
+    // both audio and video managers should have same type
     return self.videoLifecycleManager.requestedEncryptionType;
 }
 

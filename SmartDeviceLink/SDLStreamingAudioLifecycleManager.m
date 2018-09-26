@@ -93,9 +93,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startWithProtocol:(SDLProtocol *)protocol {
     _protocol = protocol;
 
-    if (![self.protocol.protocolDelegateTable containsObject:self]) {
-        [self.protocol.protocolDelegateTable addObject:self];
+    @synchronized(self.protocol.protocolDelegateTable) {
+        if (![self.protocol.protocolDelegateTable containsObject:self]) {
+            [self.protocol.protocolDelegateTable addObject:self];
+        }
     }
+
+    // attempt to start streaming since we may already have necessary conditions met
+    [self sdl_startAudioSession];
 }
 
 - (void)stop {
@@ -292,6 +297,9 @@ NS_ASSUME_NONNULL_BEGIN
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus*)notification.notification;
     SDLLogD(@"HMI level changed from level %@ to level %@", self.hmiLevel, hmiStatus.hmiLevel);
     self.hmiLevel = hmiStatus.hmiLevel;
+
+    // if startWithProtocol has not been called yet, abort here
+    if (!self.protocol) { return; }
 
     if (self.isHmiStateAudioStreamCapable) {
         [self sdl_startAudioSession];

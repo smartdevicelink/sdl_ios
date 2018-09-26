@@ -126,9 +126,29 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startWithProtocol:(SDLProtocol *)protocol;
 
 /**
+ *  Start the audio feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
+ */
+- (void)startAudioWithProtocol:(SDLProtocol *)protocol;
+
+/**
+ *  Start the video feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
+ */
+- (void)startVideoWithProtocol:(SDLProtocol *)protocol;
+
+/**
  *  Stop the manager. This method is used internally.
  */
 - (void)stop;
+
+/**
+ *  Stop the audio feature of the manager. This method is used internally.
+ */
+- (void)stopAudio;
+
+/**
+ *  Stop the video feature of the manager. This method is used internally.
+ */
+- (void)stopVideo;
 
 /**
  *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.

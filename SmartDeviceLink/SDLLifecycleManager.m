@@ -45,11 +45,13 @@
 #import "SDLResponseDispatcher.h"
 #import "SDLResult.h"
 #import "SDLScreenManager.h"
+#import "SDLSecondaryTransportManager.h"
 #import "SDLSequentialRPCRequestOperation.h"
 #import "SDLSetAppIcon.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManager.h"
+#import "SDLStreamingProtocolDelegate.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLUnregisterAppInterface.h"
 
@@ -70,7 +72,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 #pragma mark - SDLManager Private Interface
 
-@interface SDLLifecycleManager () <SDLConnectionManagerType>
+@interface SDLLifecycleManager () <SDLConnectionManagerType, SDLStreamingProtocolDelegate>
 
 // Readonly public properties
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
@@ -79,6 +81,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
 
 // Private properties
+@property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
 
@@ -205,11 +208,18 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (self.configuration.lifecycleConfig.tcpDebugMode) {
+        // secondary transport manager is not used
+        self.secondaryTransportManager = nil;
         self.proxy = [SDLProxy tcpProxyWithListener:self.notificationDispatcher
                                        tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress
-                                            tcpPort:@(self.configuration.lifecycleConfig.tcpDebugPort).stringValue];
+                                            tcpPort:@(self.configuration.lifecycleConfig.tcpDebugPort).stringValue
+                          secondaryTransportManager:self.secondaryTransportManager];
     } else {
-        self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher];
+        // we reuse our queue to run secondary transport manager's state machine
+        self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:self
+                                                                                                     serialQueue:self.lifecycleQueue];
+        self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher
+                          secondaryTransportManager:self.secondaryTransportManager];
     }
 #pragma clang diagnostic pop
 }
@@ -229,7 +239,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.permissionManager stop];
     [self.lockScreenManager stop];
     [self.screenManager stop];
-    [self.streamManager stop];
+    if (self.secondaryTransportManager != nil) {
+        [self.secondaryTransportManager stop];
+    } else {
+        [self audioServiceProtocolDidUpdateFromOldProtocol:self.proxy.protocol toNewProtocol:nil];
+        [self videoServiceProtocolDidUpdateFromOldProtocol:self.proxy.protocol toNewProtocol:nil];
+    }
     [self.systemCapabilityManager stop];
     [self.responseDispatcher clear];
 
@@ -361,8 +376,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         dispatch_group_leave(managerGroup);
     }];
 
-	if (self.streamManager != nil) {
-        [self.streamManager startWithProtocol:self.proxy.protocol];
+    // if secondary transport manager is used, streaming media manager will be started through onAudioServiceProtocolUpdated and onVideoServiceProtocolUpdated
+    if (self.secondaryTransportManager == nil && self.streamManager != nil) {
+        [self audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
+        [self videoServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
     }
 
 	dispatch_group_enter(managerGroup);
@@ -692,6 +709,34 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
     } else {
         [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReconnecting];
+    }
+}
+
+#pragma mark Streaming protocol listener
+
+- (void)audioServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol {
+    if ((oldProtocol == nil && newProtocol == nil) || (oldProtocol == newProtocol)) {
+        return;
+    }
+
+    if (oldProtocol != nil) {
+        [self.streamManager stopAudio];
+    }
+    if (newProtocol != nil) {
+        [self.streamManager startAudioWithProtocol:newProtocol];
+    }
+}
+
+- (void)videoServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol {
+    if ((oldProtocol == nil && newProtocol == nil) || (oldProtocol == newProtocol)) {
+        return;
+    }
+
+    if (oldProtocol != nil) {
+        [self.streamManager stopVideo];
+    }
+    if (newProtocol != nil) {
+        [self.streamManager startVideoWithProtocol:newProtocol];
     }
 }
 

@@ -148,9 +148,14 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)startWithProtocol:(SDLProtocol *)protocol {
     _protocol = protocol;
 
-    if (![self.protocol.protocolDelegateTable containsObject:self]) {
-        [self.protocol.protocolDelegateTable addObject:self];
+    @synchronized(self.protocol.protocolDelegateTable) {
+        if (![self.protocol.protocolDelegateTable containsObject:self]) {
+            [self.protocol.protocolDelegateTable addObject:self];
+        }
     }
+
+    // attempt to start streaming since we may already have necessary conditions met
+    [self sdl_startVideoSession];
 }
 
 - (void)stop {
@@ -555,6 +560,9 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         SDLLogD(@"Video streaming state changed from %@ to %@", self.videoStreamingState, hmiStatus.videoStreamingState);
         self.videoStreamingState = newState;
     }
+
+    // if startWithProtocol has not been called yet, abort here
+    if (!self.protocol) { return; }
 
     if (self.isHmiStateVideoStreamCapable) {
         [self sdl_startVideoSession];

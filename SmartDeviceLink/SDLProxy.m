@@ -29,6 +29,7 @@
 #import "SDLRPCResponse.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLRequestType.h"
+#import "SDLSecondaryTransportManager.h"
 #import "SDLStreamingMediaManager.h"
 #import "SDLSubscribeButton.h"
 #import "SDLSystemContext.h"
@@ -69,7 +70,7 @@ static float DefaultConnectionTimeout = 45.0;
 @implementation SDLProxy
 
 #pragma mark - Object lifecycle
-- (instancetype)initWithTransport:(id<SDLTransportType>)transport delegate:(id<SDLProxyListener>)delegate {
+- (instancetype)initWithTransport:(id<SDLTransportType>)transport delegate:(id<SDLProxyListener>)delegate secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager {
     if (self = [super init]) {
         SDLLogD(@"Framework Version: %@", self.proxyVersion);
         _lsm = [[SDLLockScreenStatusManager alloc] init];
@@ -83,6 +84,11 @@ static float DefaultConnectionTimeout = 45.0;
 
         [_protocol.protocolDelegateTable addObject:self];
         _protocol.transport = transport;
+
+        // make sure that secondary transport manager is started prior to starting protocol
+        if (secondaryTransportManager != nil) {
+            [secondaryTransportManager startWithPrimaryProtocol:_protocol];
+        }
 
         [self.transport connect];
 
@@ -101,17 +107,17 @@ static float DefaultConnectionTimeout = 45.0;
     return self;
 }
 
-+ (SDLProxy *)iapProxyWithListener:(id<SDLProxyListener>)delegate {
++ (SDLProxy *)iapProxyWithListener:(id<SDLProxyListener>)delegate secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager {
     SDLIAPTransport *transport = [[SDLIAPTransport alloc] init];
-    SDLProxy *ret = [[SDLProxy alloc] initWithTransport:transport delegate:delegate];
+    SDLProxy *ret = [[SDLProxy alloc] initWithTransport:transport delegate:delegate secondaryTransportManager:secondaryTransportManager];
 
     return ret;
 }
 
-+ (SDLProxy *)tcpProxyWithListener:(id<SDLProxyListener>)delegate tcpIPAddress:(NSString *)ipaddress tcpPort:(NSString *)port {
++ (SDLProxy *)tcpProxyWithListener:(id<SDLProxyListener>)delegate tcpIPAddress:(NSString *)ipaddress tcpPort:(NSString *)port secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager {
     SDLTCPTransport *transport = [[SDLTCPTransport alloc] initWithHostName:ipaddress portNumber:port];
 
-    SDLProxy *ret = [[SDLProxy alloc] initWithTransport:transport delegate:delegate];
+    SDLProxy *ret = [[SDLProxy alloc] initWithTransport:transport delegate:delegate secondaryTransportManager:secondaryTransportManager];
 
     return ret;
 }

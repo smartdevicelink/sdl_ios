@@ -4,6 +4,7 @@
 @class SDLProtocol;
 @class SDLPutFile;
 @class SDLRPCMessage;
+@class SDLSecondaryTransportManager;
 @class SDLStreamingMediaManager;
 @class SDLTimer;
 
@@ -48,29 +49,32 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Convenience init.
  *
- *  @param transport   The type of network connection
- *  @param delegate    The subscriber
- *  @return            A SDLProxy object
+ *  @param transport                   The type of network connection
+ *  @param delegate                    The subscriber
+ *  @param secondaryTransportManager   The secondary transport manager
+ *  @return                            A SDLProxy object
  */
-- (id)initWithTransport:(id<SDLTransportType>)transport delegate:(id<SDLProxyListener>)delegate;
+- (id)initWithTransport:(id<SDLTransportType>)transport delegate:(id<SDLProxyListener>)delegate secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager;
 
 /**
  *  Creates a SDLProxy object with an iap (USB / Bluetooth) transport network connection.
  *
- *  @param delegate    The subscriber
- *  @return            A SDLProxy object
+ *  @param delegate                    The subscriber
+ *  @param secondaryTransportManager   The secondary transport manager
+ *  @return                            A SDLProxy object
  */
-+ (SDLProxy *)iapProxyWithListener:(id<SDLProxyListener>)delegate;
++ (SDLProxy *)iapProxyWithListener:(id<SDLProxyListener>)delegate secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager;
 
 /**
  *  Creates a SDLProxy object with a TCP (WiFi) transport network connection.
  *
- *  @param delegate    The subscriber
- *  @param ipaddress   The IP address of Core
- *  @param port        The port address of Core
- *  @return            A SDLProxy object
+ *  @param delegate                    The subscriber
+ *  @param ipaddress                   The IP address of Core
+ *  @param port                        The port address of Core
+ *  @param secondaryTransportManager   The secondary transport manager
+ *  @return                            A SDLProxy object
  */
-+ (SDLProxy *)tcpProxyWithListener:(id<SDLProxyListener>)delegate tcpIPAddress:(NSString *)ipaddress tcpPort:(NSString *)port;
++ (SDLProxy *)tcpProxyWithListener:(id<SDLProxyListener>)delegate tcpIPAddress:(NSString *)ipaddress tcpPort:(NSString *)port secondaryTransportManager:(nullable SDLSecondaryTransportManager *)secondaryTransportManager;
 
 /**
  *  Adds a delegate.
