@@ -25,11 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameFilenames];
 }
 
-- (void)setSpaceAvailable:(NSNumber<SDLInt> *)spaceAvailable {
+- (void)setSpaceAvailable:(nullable NSNumber<SDLInt> *)spaceAvailable {
     [parameters sdl_setObject:spaceAvailable forName:SDLNameSpaceAvailable];
 }
 
-- (NSNumber<SDLInt> *)spaceAvailable {
+- (nullable NSNumber<SDLInt> *)spaceAvailable {
     return [parameters sdl_objectForName:SDLNameSpaceAvailable];
 }
 

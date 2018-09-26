@@ -427,16 +427,13 @@ UInt16 const ChoiceCellIdMin = 1;
     }
 
     // We need to check for this to make sure we can currently present the dialog. If the current context is HMI_OBSCURED or ALERT, we have to wait for MAIN to present
-    SDLSystemContext oldSystemContext = self.currentSystemContext;
     self.currentSystemContext = hmiStatus.systemContext;
 
     if ([self.currentSystemContext isEqualToEnum:SDLSystemContextHMIObscured] || [self.currentSystemContext isEqualToEnum:SDLSystemContextAlert]) {
         self.transactionQueue.suspended = YES;
     }
 
-    if (([oldSystemContext isEqualToEnum:SDLSystemContextHMIObscured] || [oldSystemContext isEqualToEnum:SDLSystemContextAlert])
-        && [self.currentSystemContext isEqualToEnum:SDLSystemContextMain]
-        && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
+    if ([self.currentSystemContext isEqualToEnum:SDLSystemContextMain] && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
         self.transactionQueue.suspended = NO;
     }
 }

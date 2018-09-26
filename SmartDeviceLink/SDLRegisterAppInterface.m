@@ -8,6 +8,7 @@
 #import "SDLAppHMIType.h"
 #import "SDLAppInfo.h"
 #import "SDLDeviceInfo.h"
+#import "SDLGlobals.h"
 #import "SDLLanguage.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLNames.h"
@@ -18,6 +19,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLRegisterAppInterface
+
+#pragma mark - Lifecycle
 
 - (instancetype)init {
     if (self = [super initWithName:SDLNameRegisterAppInterface]) {
@@ -30,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     return [self initWithAppName:lifecycleConfiguration.appName
                            appId:lifecycleConfiguration.appId
+                       fullAppId:lifecycleConfiguration.fullAppId
                  languageDesired:lifecycleConfiguration.language
                       isMediaApp:lifecycleConfiguration.isMedia
                         appTypes:allHMITypes
@@ -47,18 +51,23 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return nil;
     }
-    
+
     self.appName = appName;
     self.appID = appId;
+    self.fullAppID = nil;
     self.languageDesired = languageDesired;
+
     self.hmiDisplayLanguageDesired = languageDesired;
-    
-    self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:5 minorVersion:0 patchVersion:0];
+
+    UInt8 majorVersion = (UInt8)[SDLMaxProxyRPCVersion substringWithRange:NSMakeRange(0, 1)].intValue;
+    UInt8 minorVersion = (UInt8)[SDLMaxProxyRPCVersion substringWithRange:NSMakeRange(2, 1)].intValue;
+    UInt8 patchVersion = (UInt8)[SDLMaxProxyRPCVersion substringWithRange:NSMakeRange(4, 1)].intValue;
+    self.syncMsgVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:majorVersion minorVersion:minorVersion patchVersion:patchVersion];
     self.appInfo = [SDLAppInfo currentAppInfo];
     self.deviceInfo = [SDLDeviceInfo currentDevice];
     self.correlationID = @1;
     self.isMediaApplication = @NO;
-    
+
     return self;
 }
 
@@ -89,19 +98,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
-    self = [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName];
+- (instancetype)initWithAppName:(NSString *)appName appId:(NSString *)appId fullAppId:(nullable NSString *)fullAppId languageDesired:(SDLLanguage)languageDesired isMediaApp:(BOOL)isMediaApp appTypes:(NSArray<SDLAppHMIType> *)appTypes shortAppName:(nullable NSString *)shortAppName ttsName:(nullable NSArray<SDLTTSChunk *> *)ttsName vrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms hmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired resumeHash:(nullable NSString *)resumeHash dayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
+    self = [self initWithAppName:appName appId:appId languageDesired:languageDesired isMediaApp:isMediaApp appTypes:appTypes shortAppName:shortAppName ttsName:ttsName vrSynonyms:vrSynonyms hmiDisplayLanguageDesired:hmiDisplayLanguageDesired resumeHash:resumeHash];
     if (!self) { return nil; }
 
-    self.ttsName = [ttsName copy];
-    self.vrSynonyms = [vrSynonyms copy];
-    self.hmiDisplayLanguageDesired = hmiDisplayLanguageDesired;
-    self.hashID = resumeHash;
+    self.fullAppID = fullAppId;
     self.dayColorScheme = dayColorScheme;
     self.nightColorScheme = nightColorScheme;
 
     return self;
 }
+
+#pragma mark - Getters and Setters
 
 - (void)setSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
     [parameters sdl_setObject:syncMsgVersion forName:SDLNameSyncMessageVersion];
@@ -197,6 +205,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString *)appID {
     return [parameters sdl_objectForName:SDLNameAppId];
+}
+
+- (void)setFullAppID:(nullable NSString *)fullAppID {
+    [parameters sdl_setObject:fullAppID forName:SDLNameFullAppID];
+}
+
+- (nullable NSString *)fullAppID {
+    return [parameters sdl_objectForName:SDLNameFullAppID];
 }
 
 - (void)setAppInfo:(nullable SDLAppInfo *)appInfo {

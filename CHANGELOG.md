@@ -1,3 +1,8 @@
+# 6.0.2
+
+### Bug Fixes
+* Video streaming apps put into a phone background state can now properly stop the video streaming when it leaves a streamable HMI state. (#1047)
+
 # 6.0.1
 
 ### Bug Fixes

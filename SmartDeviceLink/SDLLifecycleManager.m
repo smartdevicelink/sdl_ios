@@ -22,6 +22,7 @@
 #import "SDLFile.h"
 #import "SDLFileManager.h"
 #import "SDLFileManagerConfiguration.h"
+#import "SDLGlobals.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLifecycleConfigurationUpdate.h"
 #import "SDLLockScreenConfiguration.h"
@@ -92,7 +93,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 #pragma mark Lifecycle
 
 - (instancetype)init {
-    return [self initWithConfiguration:[SDLConfiguration configurationWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"SDL APP" appId:@"001"] lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration]] delegate:nil];
+    return [self initWithConfiguration:[SDLConfiguration configurationWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"SDL APP" fullAppId:@"001"] lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration]] delegate:nil];
 }
 
 - (instancetype)initWithConfiguration:(SDLConfiguration *)configuration delegate:(nullable id<SDLManagerDelegate>)delegate {
@@ -296,6 +297,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                 }
 
                 weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
+                [SDLGlobals sharedGlobals].rpcVersion = weakSelf.registerResponse.syncMsgVersion;
                 [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
             });
         }];

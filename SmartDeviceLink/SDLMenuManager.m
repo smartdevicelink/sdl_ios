@@ -117,13 +117,25 @@ UInt32 const MenuCellIdMin = 1;
 
     self.waitingOnHMIUpdate = NO;
 
-    // Check for duplicate titles
     NSMutableSet *titleCheckSet = [NSMutableSet set];
+    NSMutableSet<NSString *> *allMenuVoiceCommands = [NSMutableSet set];
+    NSUInteger voiceCommandCount = 0;
     for (SDLMenuCell *cell in menuCells) {
         [titleCheckSet addObject:cell.title];
+        if (cell.voiceCommands == nil) { continue; }
+        [allMenuVoiceCommands addObjectsFromArray:cell.voiceCommands];
+        voiceCommandCount += cell.voiceCommands.count;
     }
+
+    // Check for duplicate titles
     if (titleCheckSet.count != menuCells.count) {
         SDLLogE(@"Not all cell titles are unique. The menu will not be set.");
+        return;
+    }
+
+    // Check for duplicate voice recognition commands
+    if (allMenuVoiceCommands.count != voiceCommandCount) {
+        SDLLogE(@"Attempted to create a menu with duplicate voice commands. Voice commands must be unique. The menu will not be set.");
         return;
     }
 

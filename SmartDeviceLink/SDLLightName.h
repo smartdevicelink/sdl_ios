@@ -90,14 +90,14 @@ extern SDLLightName const SDLLightNameRearLeftTailLight;
 extern SDLLightName const SDLLightNameRearRightTailLight;
 
 /**
- * @abstract Represents the Light with name REAR_LEFT_BREAK_LIGHT
+ * @abstract Represents the Light with name REAR_LEFT_BRAKE_LIGHT
  */
-extern SDLLightName const SDLLightNameRearLeftBreakLight;
+extern SDLLightName const SDLLightNameRearLeftBrakeLight;
 
 /**
- * @abstract Represents the Light with name REAR_RIGHT_BREAK_LIGHT
+ * @abstract Represents the Light with name REAR_RIGHT_BRAKE_LIGHT
  */
-extern SDLLightName const SDLLightNameRearRightBreakLight;
+extern SDLLightName const SDLLightNameRearRightBrakeLight;
 
 /**
  * @abstract Represents the Light with name REAR_LEFT_TURN_LIGHT

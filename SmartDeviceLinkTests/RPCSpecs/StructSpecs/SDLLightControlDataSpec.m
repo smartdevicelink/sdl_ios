@@ -26,7 +26,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should set and get correctly", ^ {
-        SDLLightControlData* testStruct = [[SDLLightControlData alloc] initWithLightStateArray:[@[someLightState] copy]];
+        SDLLightControlData* testStruct = [[SDLLightControlData alloc] initWithLightStates:[@[someLightState] copy]];
         expect(testStruct.lightState).to(equal([@[someLightState] copy]));
     });
 

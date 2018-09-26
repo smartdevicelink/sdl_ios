@@ -1,11 +1,12 @@
 //  SDLLightState.h
 //
+#import <UIKit/UIKit.h>
 
 #import "SDLRPCMessage.h"
 #import "SDLLightName.h"
 #import "SDLLightStatus.h"
 
-@class SDLSRGBColor;
+@class SDLRGBColor;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,10 +27,21 @@ NS_ASSUME_NONNULL_BEGIN
  @param id The name of a light or a group of lights
  @param status Reflects the status of Light.
  @param density Reflects the density of Light.
- @param sRGBColor Reflects the color of Light.
+ @param color Reflects the color of Light.
  @return An instance of the SDLLightState class
  */
-- (instancetype)initWithId:(SDLLightName)id status:(SDLLightStatus)status density:(double)density sRGBColor:(SDLSRGBColor *)sRGBColor;
+- (instancetype)initWithId:(SDLLightName)id status:(SDLLightStatus)status density:(double)density color:(SDLRGBColor *)color;
+
+/**
+ Constructs a newly allocated SDLLightState object with given parameters
+
+ @param id The name of a light or a group of lights
+ @param lightStatus Reflects the status of Light.
+ @param lightDensity Reflects the density of Light.
+ @param lightColor Reflects the color of Light.
+ @return An instance of the SDLLightState class
+ */
+- (instancetype)initWithId:(SDLLightName)id lightStatus:(SDLLightStatus)lightStatus lightDensity:(double)lightDensity lightColor:(UIColor *)lightColor;
 
 /**
  * @abstract The name of a light or a group of lights
@@ -57,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Optional, SDLLightStatus
  */
-@property (nullable, strong, nonatomic) SDLSRGBColor *sRGBColor;
+@property (nullable, strong, nonatomic) SDLRGBColor *color;
 
 @end
 

@@ -23,6 +23,7 @@ typedef NSString SDLFileManagerState;
 SDLFileManagerState *const SDLFileManagerStateShutdown = @"Shutdown";
 SDLFileManagerState *const SDLFileManagerStateFetchingInitialList = @"FetchingInitialList";
 SDLFileManagerState *const SDLFileManagerStateReady = @"Ready";
+SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
 
 @interface SDLFileManager ()
 @property (strong, nonatomic) NSOperationQueue *transactionQueue;
@@ -123,6 +124,31 @@ describe(@"SDLFileManager", ^{
             });
         });
 
+        describe(@"after receiving a ListFiles error", ^{
+            __block SDLListFilesResponse *testListFilesResponse = nil;
+            __block NSSet<NSString *> *testInitialFileNames = nil;
+            __block NSUInteger initialBytesAvailable = 0;
+
+            beforeEach(^{
+                testInitialFileNames = [NSSet setWithArray:@[@"testFile1", @"testFile2", @"testFile3"]];
+                initialBytesAvailable = testFileManager.bytesAvailable;
+
+                testListFilesResponse = [[SDLListFilesResponse alloc] init];
+                testListFilesResponse.success = @NO;
+                testListFilesResponse.spaceAvailable = nil;
+                testListFilesResponse.filenames = nil;
+                [testConnectionManager respondToLastRequestWithResponse:testListFilesResponse];
+            });
+
+            it(@"should handle the error properly", ^{
+                [testConnectionManager respondToLastRequestWithResponse:testListFilesResponse];
+
+                expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateStartupError));
+                expect(testFileManager.remoteFileNames).toEventually(beEmpty());
+                expect(@(testFileManager.bytesAvailable)).toEventually(equal(initialBytesAvailable));
+            });
+        });
+
         describe(@"after receiving a ListFiles response", ^{
             __block SDLListFilesResponse *testListFilesResponse = nil;
             __block NSSet<NSString *> *testInitialFileNames = nil;
@@ -208,6 +234,40 @@ describe(@"SDLFileManager", ^{
                         expect(testFileManager.remoteFileNames).toNot(contain(someKnownFileName));
                     });
                 });
+
+                context(@"when the request returns an error", ^{
+                    __block NSUInteger initialSpaceAvailable = 0;
+                    __block NSString *someKnownFileName = nil;
+                    __block BOOL completionSuccess = NO;
+                    __block NSUInteger completionBytesAvailable = 0;
+                    __block NSError *completionError = nil;
+
+                    beforeEach(^{
+                        initialSpaceAvailable = testFileManager.bytesAvailable;
+                        someKnownFileName = [testInitialFileNames anyObject];
+                        [testFileManager deleteRemoteFileWithName:someKnownFileName completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
+                            completionSuccess = success;
+                            completionBytesAvailable = bytesAvailable;
+                            completionError = error;
+                        }];
+
+                        SDLDeleteFileResponse *deleteResponse = [[SDLDeleteFileResponse alloc] init];
+                        deleteResponse.success = @NO;
+                        deleteResponse.spaceAvailable = nil;
+
+                        [NSThread sleepForTimeInterval:0.1];
+
+                        [testConnectionManager respondToLastRequestWithResponse:deleteResponse];;
+                    });
+
+                    it(@"should handle the error properly", ^{
+                        expect(testFileManager.currentState).toEventually(match(SDLFileManagerStateReady));
+                        expect(completionSuccess).toEventually(beFalse());
+                        expect(completionBytesAvailable).toEventually(equal(2000000000));
+                        expect(completionError).toNot(beNil());
+                        expect(@(testFileManager.bytesAvailable)).toEventually(equal(@(initialSpaceAvailable)));
+                    });
+                });
             });
 
             describe(@"uploading a new file", ^{
@@ -285,16 +345,11 @@ describe(@"SDLFileManager", ^{
 
                         context(@"when the connection returns failure", ^{
                             __block SDLPutFileResponse *testResponse = nil;
-                            __block NSNumber *testResponseBytesAvailable = nil;
-                            __block NSNumber *testResponseSuccess = nil;
 
                             beforeEach(^{
-                                testResponseBytesAvailable = @750;
-                                testResponseSuccess = @NO;
-
                                 testResponse = [[SDLPutFileResponse alloc] init];
-                                testResponse.spaceAvailable = testResponseBytesAvailable;
-                                testResponse.success = testResponseSuccess;
+                                testResponse.spaceAvailable = nil;
+                                testResponse.success = @NO;
 
                                 [testConnectionManager respondToLastRequestWithResponse:testResponse];
                             });
@@ -307,8 +362,8 @@ describe(@"SDLFileManager", ^{
                             });
 
                             it(@"should call the completion handler with the correct data", ^{
-                                expect(@(completionBytesAvailable)).to(equal(@0));
-                                expect(@(completionSuccess)).to(equal(testResponseSuccess));
+                                expect(completionBytesAvailable).to(equal(2000000000));
+                                expect(@(completionSuccess)).to(equal(@NO));
                                 expect(completionError).toEventuallyNot(beNil());
                             });
 
@@ -454,7 +509,7 @@ describe(@"SDLFileManager", ^{
                         });
 
                         it(@"should call the completion handler with the correct data", ^{
-                            expect(@(completionBytesAvailable)).to(equal(@0));
+                            expect(@(completionBytesAvailable)).to(equal(@2000000000));
                             expect(@(completionSuccess)).to(equal(testResponseSuccess));
                             expect(completionError).toEventuallyNot(beNil());
                         });

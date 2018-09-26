@@ -34,10 +34,13 @@ NS_ASSUME_NONNULL_BEGIN
             }
         }
         if (messageType != nil) {
-            function = [[store objectForKey:messageType] mutableCopy];
-            parameters = [[function objectForKey:SDLNameParameters] mutableCopy];
+            store[messageType] = [store[messageType] mutableCopy];
+            function = store[messageType];
+
+            function[SDLNameParameters] = [function[SDLNameParameters] mutableCopy];
+            parameters = function[SDLNameParameters];
         }
-        self.bulkData = [dict objectForKey:SDLNameBulkData];
+        self.bulkData = dict[SDLNameBulkData];
     }
     
     return self;
@@ -67,6 +70,12 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableString *description = [NSMutableString stringWithFormat:@"%@ (%@)\n%@", self.name, self.messageType, self->parameters];
 
     return description;
+}
+
+- (id)copyWithZone:(nullable NSZone *)zone {
+    SDLRPCMessage *newMessage = [[self.class allocWithZone:zone] initWithDictionary:self->store];
+
+    return newMessage;
 }
 
 @end

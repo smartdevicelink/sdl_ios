@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param lightState An array of LightNames and their current or desired status
  @return An instance of the SDLLightControlData class
  */
-- (instancetype)initWithLightStateArray:(NSArray<SDLLightState *> *)lightState;
+- (instancetype)initWithLightStates:(NSArray<SDLLightState *> *)lightState;
 
 /**
  * @abstract An array of LightNames and their current or desired status.

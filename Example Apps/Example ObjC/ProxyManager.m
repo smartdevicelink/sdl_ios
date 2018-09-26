@@ -105,11 +105,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLLifecycleConfiguration *)sdlex_iapLifecycleConfiguration {
-    return [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:ExampleAppName appId:ExampleAppId]];
+    return [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId]];
 }
 
 + (SDLLifecycleConfiguration *)sdlex_tcpLifecycleConfiguration {
-    return [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:ExampleAppName appId:ExampleAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
+    return [self.class sdlex_setLifecycleConfigurationPropertiesOnConfiguration:[SDLLifecycleConfiguration debugConfigurationWithAppName:ExampleAppName fullAppId:ExampleFullAppId ipAddress:[Preferences sharedPreferences].ipAddress port:[Preferences sharedPreferences].port]];
 }
 
 - (void)sdlex_setupConfigurationWithLifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
@@ -129,7 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
     config.ttsName = [SDLTTSChunk textChunksFromString:ExampleAppName];
     config.language = SDLLanguageEnUs;
     config.languagesSupported = @[SDLLanguageEnUs, SDLLanguageFrCa, SDLLanguageEsMx];
-    config.appType = SDLAppHMITypeDefault;
+    config.appType = SDLAppHMITypeMedia;
 
     SDLRGBColor *green = [[SDLRGBColor alloc] initWithRed:126 green:188 blue:121];
     SDLRGBColor *white = [[SDLRGBColor alloc] initWithRed:249 green:251 blue:254];

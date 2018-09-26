@@ -36,8 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
     // Create the inner dictionary with the RPC properties
     NSMutableDictionary <NSString *, id> *innerDictionary = [[NSMutableDictionary alloc] init];
     NSString *functionName = [[SDLFunctionID sharedInstance] functionNameForId:rpcPayload.functionID];
-    [innerDictionary setObject:functionName forKey:SDLNameOperationName];
-    [innerDictionary setObject:[NSNumber numberWithUnsignedInt:rpcPayload.correlationID] forKey:SDLNameCorrelationId];
+    innerDictionary[SDLNameOperationName] = functionName;
+    innerDictionary[SDLNameCorrelationId] = @(rpcPayload.correlationID);
 
     // Get the json data from the struct
     if (rpcPayload.jsonData) {

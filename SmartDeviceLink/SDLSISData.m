@@ -4,7 +4,7 @@
 #import "SDLSISData.h"
 
 #import "SDLStationIDNumber.h"
-#import "SDLGPSLocation.h"
+#import "SDLGPSData.h"
 #import "SDLNames.h"
 #import "NSMutableDictionary+Store.h"
 
@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSISData
 
-- (instancetype)initWithStationShortName:(nullable NSString *)stationShortName stationIDNumber:(nullable SDLStationIDNumber *)stationIDNumber stationLongName:(nullable NSString *)stationLongName stationLocation:(nullable SDLGPSLocation *)stationLocation stationMessage:(nullable NSString *)stationMessage {
+- (instancetype)initWithStationShortName:(nullable NSString *)stationShortName stationIDNumber:(nullable SDLStationIDNumber *)stationIDNumber stationLongName:(nullable NSString *)stationLongName stationLocation:(nullable SDLGPSData *)stationLocation stationMessage:(nullable NSString *)stationMessage {
     self = [self init];
     if(!self) {
         return nil;
@@ -51,12 +51,12 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameStationLongName];
 }
 
-- (void)setStationLocation:(nullable SDLGPSLocation *)stationLocation {
+- (void)setStationLocation:(nullable SDLGPSData *)stationLocation {
     [store sdl_setObject:stationLocation forName:SDLNameStationLocation];
 }
 
-- (nullable SDLGPSLocation *)stationLocation {
-    return [store sdl_objectForName:SDLNameStationLocation ofClass:SDLGPSLocation.class];
+- (nullable SDLGPSData *)stationLocation {
+    return [store sdl_objectForName:SDLNameStationLocation ofClass:SDLGPSData.class];
 }
 
 - (void)setStationMessage:(nullable NSString *)stationMessage {
