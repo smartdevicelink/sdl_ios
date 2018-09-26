@@ -30,7 +30,7 @@
 }
 
 + (SDLLogFileModule *)sdl_transportModule {
-    return [SDLLogFileModule moduleWithName:@"Transport" files:[NSSet setWithArray:@[@"SDLIAPSession", @"SDLIAPTransport", @"SDLStreamDelegate", @"SDLTCPTransport"]]];
+    return [SDLLogFileModule moduleWithName:@"Transport" files:[NSSet setWithArray:@[@"SDLIAPSession", @"SDLIAPTransport", @"SDLSecondaryTransportManager", @"SDLSecondaryTransportPrimaryProtocolHandler", @"SDLStreamDelegate", @"SDLTCPTransport"]]];
 }
 
 + (SDLLogFileModule *)sdl_proxyModule {
