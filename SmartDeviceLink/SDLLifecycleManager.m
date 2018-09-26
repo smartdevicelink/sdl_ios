@@ -602,7 +602,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(self.lifecycleQueue)) == 0) {
         [self.lifecycleStateMachine transitionToState:state];
     } else {
-        dispatch_async(self.lifecycleQueue, ^{
+        // once this method returns, the transition is completed
+        dispatch_sync(self.lifecycleQueue, ^{
             [self.lifecycleStateMachine transitionToState:state];
         });
     }
