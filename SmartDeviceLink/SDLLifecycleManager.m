@@ -161,14 +161,16 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)stop {
-    dispatch_sync(_lifecycleQueue, ^{
-        SDLLogD(@"Lifecycle manager stopped");
-        if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
-        } else {
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
-        }
-    });
+    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReconnecting]) {
+        dispatch_sync(_lifecycleQueue, ^{
+            SDLLogD(@"Lifecycle manager stopped");
+            if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
+                [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
+            } else {
+                [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+            }
+        });
+    }
 }
 
 
