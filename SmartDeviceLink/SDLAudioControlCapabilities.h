@@ -43,6 +43,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *sourceAvailable;
 
 /**
+ Availability of the keepContext parameter.
+
+ Optional, Boolean
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *keepContextAvailable;
+
+/**
  * @abstract Availability of the control of audio volume.
  *
  * Optional, Boolean

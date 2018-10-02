@@ -275,6 +275,7 @@ extern SDLName const SDLNameIsHighlighted;
 extern SDLName const SDLNameIsMediaApplication;
 extern SDLName const SDLNameIsSubscribed;
 extern SDLName const SDLNameKeepContext;
+extern SDLName const SDLNameKeepContextAvailable;
 extern SDLName const SDLNameKeyboardLayout;
 extern SDLName const SDLNameKeyboardProperties;
 extern SDLName const SDLNameKeypressMode;
