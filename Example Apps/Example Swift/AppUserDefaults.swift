@@ -10,6 +10,7 @@ class AppUserDefaults {
     struct Keys {
         static let ipAddress = "ipAddress"
         static let port = "port"
+        static let lastUsedSegment = "lastUsedSegment"
     }
 
     static let shared = AppUserDefaults()
@@ -19,6 +20,7 @@ class AppUserDefaults {
 
         defaults[Keys.ipAddress] = String()
         defaults[Keys.port] = String()
+        defaults[Keys.lastUsedSegment] = 0
 
         UserDefaults.standard.register(defaults: defaults)
     }
@@ -38,6 +40,15 @@ class AppUserDefaults {
         }
         set {
             UserDefaults.standard.setValue(newValue!, forKeyPath: Keys.port)
+        }
+    }
+
+    var lastUsedSegment: Int? {
+        get {
+            return UserDefaults.standard.integer(forKey: Keys.lastUsedSegment)
+        }
+        set {
+            UserDefaults.standard.set(newValue!, forKey: Keys.lastUsedSegment)
         }
     }
 }

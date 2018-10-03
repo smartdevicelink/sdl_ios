@@ -22,8 +22,9 @@ class ConnectionContainerViewController: UIViewController {
         viewControllers.append(tcpController)
         viewControllers.append(iapController)
 
-        segmentedControl.selectedSegmentIndex = 0
-        loadChildViewController(index: 0)
+        let defaultSegment = AppUserDefaults.shared.lastUsedSegment!
+        segmentedControl.selectedSegmentIndex = defaultSegment
+        loadChildViewController(index: defaultSegment)
 
         let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(slideToLeftWithGestureRecognizer(gestureRecognizer:)))
         let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(slideToRightWithGestureRecognizer(gestureRecognizer:)))
