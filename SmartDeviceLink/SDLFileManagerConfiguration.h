@@ -36,11 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)defaultConfiguration;
 
 /**
- *  Creates a file manager configuration.
- *
- *  @return The configuration
+ Use `defaultConfiguration` instead
  */
-- (instancetype)init;
+- (instancetype)init NS_UNAVAILABLE;
 
 /**
  *  Creates a file manager configuration with customized upload retry counts.
