@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param equalizerMaxChannelID Equalizer channel ID (between 1-100).
  @return An instance of the SDLAudioControlCapabilities class.
  */
-- (instancetype)initWithModuleName:(NSString *)name sourceAvailable:(nullable NSNumber<SDLBool> *)sourceAvailable volueAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable equalizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable equalizerMaxChannelID:(nullable NSNumber<SDLInt> *)equalizerMaxChannelID;
+- (instancetype)initWithModuleName:(NSString *)name sourceAvailable:(nullable NSNumber<SDLBool> *)sourceAvailable keepContextAvailable:(nullable NSNumber<SDLBool> *)keepContextAvailable volumeAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable equalizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable equalizerMaxChannelID:(nullable NSNumber<SDLInt> *)equalizerMaxChannelID;
 
 /**
  * @abstract The short friendly name of the audio control module.
@@ -41,6 +41,13 @@ NS_ASSUME_NONNULL_BEGIN
  * Optional, Boolean
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *sourceAvailable;
+
+/**
+ Availability of the keepContext parameter.
+
+ Optional, Boolean
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *keepContextAvailable;
 
 /**
  * @abstract Availability of the control of audio volume.

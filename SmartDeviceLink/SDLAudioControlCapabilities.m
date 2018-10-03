@@ -19,13 +19,14 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithModuleName:(NSString *)name sourceAvailable:(nullable NSNumber<SDLBool> *)sourceAvailable volueAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable equalizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable equalizerMaxChannelID:(nullable NSNumber<SDLInt> *)equalizerMaxChannelID {
+- (instancetype)initWithModuleName:(NSString *)name sourceAvailable:(nullable NSNumber<SDLBool> *)sourceAvailable keepContextAvailable:(nullable NSNumber<SDLBool> *)keepContextAvailable volumeAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable equalizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable equalizerMaxChannelID:(nullable NSNumber<SDLInt> *)equalizerMaxChannelID {
     self = [self init];
     if (!self) {
         return nil;
     }
     self.moduleName = name;
     self.sourceAvailable = sourceAvailable;
+    self.keepContextAvailable = keepContextAvailable;
     self.volumeAvailable = volumeAvailable;
     self.equalizerAvailable = equalizerAvailable;
     self.equalizerMaxChannelId = equalizerMaxChannelID;
@@ -47,6 +48,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSNumber<SDLBool> *)sourceAvailable {
     return [store sdl_objectForName:SDLNameSourceAvailable];
+}
+
+- (void)setKeepContextAvailable:(nullable NSNumber<SDLBool> *)keepContextAvailable {
+    [store sdl_setObject:keepContextAvailable forName:SDLNameKeepContextAvailable];
+}
+
+- (nullable NSNumber<SDLBool> *)keepContextAvailable {
+    return [store sdl_objectForName:SDLNameKeepContextAvailable];
 }
 
 - (void)setVolumeAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable {

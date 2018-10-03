@@ -272,6 +272,7 @@ SDLName const SDLNameIsHighlighted = @"isHighlighted";
 SDLName const SDLNameIsMediaApplication = @"isMediaApplication";
 SDLName const SDLNameIsSubscribed = @"isSubscribed";
 SDLName const SDLNameKeepContext = @"keepContext";
+SDLName const SDLNameKeepContextAvailable = @"keepContextAvailable";
 SDLName const SDLNameKeyboardLayout = @"keyboardLayout";
 SDLName const SDLNameKeyboardProperties = @"keyboardProperties";
 SDLName const SDLNameKeypressMode = @"keypressMode";
