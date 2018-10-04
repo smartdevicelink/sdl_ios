@@ -1243,6 +1243,7 @@
 		88802FF520853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */; };
 		88802FF620853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8886EB982111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */; };
+		88A1CF1E21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */; };
 		88A795D22106787400056542 /* SDLStaticIconName.h in Headers */ = {isa = PBXBuildFile; fileRef = 88A795D02106787400056542 /* SDLStaticIconName.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88A795D32106787400056542 /* SDLStaticIconName.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A795D12106787400056542 /* SDLStaticIconName.m */; };
 		88A795D5210678E000056542 /* SDLStaticIconNameSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A795D4210678E000056542 /* SDLStaticIconNameSpec.m */; };
@@ -2741,6 +2742,7 @@
 		8877F5F01F34AA2D00DC128A /* SDLSendHapticDataResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponseSpec.m; sourceTree = "<group>"; };
 		88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartDeviceLinkSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLFileManagerConfigurationSpec.m; sourceTree = "<group>"; };
+		88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLifecycleConfigurationUpdateSpec.m; sourceTree = "<group>"; };
 		88A795D02106787400056542 /* SDLStaticIconName.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLStaticIconName.h; sourceTree = "<group>"; };
 		88A795D12106787400056542 /* SDLStaticIconName.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLStaticIconName.m; sourceTree = "<group>"; };
 		88A795D4210678E000056542 /* SDLStaticIconNameSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLStaticIconNameSpec.m; sourceTree = "<group>"; };
@@ -3460,6 +3462,7 @@
 				5D1654551D3E754F00554D93 /* SDLLifecycleManagerSpec.m */,
 				5D60DF23202B7A80001EDA01 /* SDLAsynchronousRPCRequestOperationSpec.m */,
 				5D60DF25202B7A97001EDA01 /* SDLSequentialRPCRequestOperationSpec.m */,
+				88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */,
 			);
 			name = Lifecycle;
 			sourceTree = "<group>";
@@ -6994,6 +6997,7 @@
 				162E83761A9BDE8B00906325 /* SDLChoiceSpec.m in Sources */,
 				162E83571A9BDE8B00906325 /* SDLGetDTCsResponseSpec.m in Sources */,
 				5D4346471E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m in Sources */,
+				88A1CF1E21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m in Sources */,
 				1EE8C4581F387ABD00FDC2CF /* SDLButtonPressResponseSpec.m in Sources */,
 				5DA23FF61F2FAA31009C0313 /* SDLControlFramePayloadRPCStartServiceSpec.m in Sources */,
 				162E83201A9BDE8B00906325 /* SDLOnVehicleDataSpec.m in Sources */,
