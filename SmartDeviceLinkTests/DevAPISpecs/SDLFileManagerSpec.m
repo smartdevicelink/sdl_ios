@@ -1607,7 +1607,7 @@ describe(@"SDLFileManager reupload failed files", ^{
         __block SDLFileManagerConfiguration *testFileManagerConfiguration = nil;
 
         it(@"should set the max upload attempts to 2 if the configuration properties are not set", ^{
-            testFileManagerConfiguration = [[SDLFileManagerConfiguration alloc] init];
+            testFileManagerConfiguration = [SDLFileManagerConfiguration defaultConfiguration];
             testFileManager = [[SDLFileManager alloc] initWithConnectionManager:testConnectionManager configuration:testFileManagerConfiguration];
 
             expect(testFileManager.maxFileUploadAttempts).to(equal(2));
