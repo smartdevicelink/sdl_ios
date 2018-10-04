@@ -74,3 +74,4 @@ describe(@"A lifecycle configuration update", ^{
 });
 
 QuickSpecEnd
+

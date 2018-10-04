@@ -313,7 +313,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     BOOL delegateCanUpdateLifecycle = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:)];
     
     // language mismatch? but actual language is a supported language? and delegate has implemented method?
-    if (actualLanguage != desiredLanguage && [supportedLanguages containsObject:actualLanguage] && delegateCanUpdateLifecycle) {
+    if (![actualLanguage isEqualToEnum:desiredLanguage] && [supportedLanguages containsObject:actualLanguage] && delegateCanUpdateLifecycle) {
         [self sdl_transitionToState:SDLLifecycleStateUpdatingConfiguration];
     } else {
         [self sdl_transitionToState:SDLLifecycleStateSettingUpManagers];
