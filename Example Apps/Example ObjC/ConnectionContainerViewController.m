@@ -8,7 +8,7 @@
 #import "ConnectionIAPTableViewController.h"
 #import "ConnectionTransitionContext.h"
 #import "ConnectionAnimatedTransition.h"
-
+#import "Preferences.h"
 
 
 @interface ConnectionContainerViewController ()
@@ -42,13 +42,13 @@
     [self.view addGestureRecognizer:self.panGestureRecognizer];
     
     // Setup initial view controller state
-    self.connectionTypeSegmentedControl.selectedSegmentIndex = 0;
+    self.connectionTypeSegmentedControl.selectedSegmentIndex = [Preferences sharedPreferences].lastUsedSegment;
     [self loadInitialChildViewController];
 }
 
 - (void)loadInitialChildViewController {
     // On the initial load, we just add the new child VC with no animation
-    UIViewController *initialViewController = self.viewControllers[0];
+    UIViewController *initialViewController = self.viewControllers[[Preferences sharedPreferences].lastUsedSegment];
     [self addChildViewController:initialViewController];
     [self.view addSubview:initialViewController.view];
     [initialViewController didMoveToParentViewController:self];
@@ -60,6 +60,7 @@
 #pragma mark - IBActions
 
 - (IBAction)connectionTypeSegmentedControlSelectedIndexDidChange:(UISegmentedControl *)sender {
+    [Preferences sharedPreferences].lastUsedSegment = sender.selectedSegmentIndex;
     [self transitionToViewControllerForSelectedIndex:sender.selectedSegmentIndex];
 }
 

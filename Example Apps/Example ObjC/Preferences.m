@@ -7,20 +7,13 @@
 
 NSString *const IPAddressPreferencesKey = @"SDLExampleAppIPAddress";
 NSString *const PortPreferencesKey = @"SDLExampleAppPort";
+NSString *const LastUsedSegmentPreferencesKey = @"SDLExampleLastSegment";
 
 NSString *const DefaultIPAddressValue = @"192.168.1.1";
 UInt16 const DefaultPortValue = 12345;
-
-
-
-@interface Preferences ()
-
-@end
-
-
+UInt8 const DefaultSegment = 0;
 
 @implementation Preferences
-
 
 #pragma mark - Singleton / Initializers
 
@@ -53,6 +46,7 @@ UInt16 const DefaultPortValue = 12345;
 - (void)resetPreferences {
     self.ipAddress = DefaultIPAddressValue;
     self.port = DefaultPortValue;
+    self.lastUsedSegment = DefaultSegment;
 }
 
 
@@ -72,6 +66,14 @@ UInt16 const DefaultPortValue = 12345;
 
 - (void)setPort:(UInt16)port {
     [self setInteger:port forKey:PortPreferencesKey];
+}
+
+- (UInt8)lastUsedSegment {
+    return (UInt8)[self integerForKey:LastUsedSegmentPreferencesKey];
+}
+
+- (void)setLastUsedSegment:(UInt8)lastUsedSegment {
+    [self setInteger:lastUsedSegment forKey:LastUsedSegmentPreferencesKey];
 }
 
 

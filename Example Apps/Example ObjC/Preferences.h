@@ -16,6 +16,7 @@
 // Connection
 @property (strong, nonatomic) NSString *ipAddress;
 @property (assign, nonatomic) UInt16 port;
+@property (assign, nonatomic) UInt8 lastUsedSegment;
 
 + (instancetype)sharedPreferences;
 
