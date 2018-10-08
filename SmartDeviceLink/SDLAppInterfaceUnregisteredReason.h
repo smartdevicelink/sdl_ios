@@ -43,7 +43,7 @@ extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReason
 extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonDriverDistractionViolation;
 
 /**
- *  The user performed a language change on the SDL platform, causing the application to need to be reregistered for the new language.
+ * The user performed a language change on the SDL platform, causing the application to need to be reregistered for the new language.
  */
 extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonLanguageChange;
 
@@ -58,8 +58,15 @@ extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReason
 extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonFactoryDefaults;
 
 /**
- * The app is not being authorized to be connected to SDL.
+ * The app is not authorized to be connected to SDL.
  *
  * @since SDL 2.0
  */
 extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonAppUnauthorized;
+
+/**
+ * The app has committed a protocol violation.
+ *
+ * @since SDL 4.0
+ */
+extern SDLAppInterfaceUnregisteredReason const SDLAppInterfaceUnregisteredReasonProtocolViolation;
