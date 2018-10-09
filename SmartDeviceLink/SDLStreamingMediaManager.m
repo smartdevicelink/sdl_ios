@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self.audioLifecycleManager.audioManager;
 }
 
-- (UIViewController *)rootViewController {
+- (nullable UIViewController *)rootViewController {
     return self.videoLifecycleManager.rootViewController;
 }
 
@@ -160,7 +160,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Setters
-- (void)setRootViewController:(UIViewController *)rootViewController {
+- (void)setRootViewController:(nullable UIViewController *)rootViewController {
     self.videoLifecycleManager.rootViewController = rootViewController;
 }
 

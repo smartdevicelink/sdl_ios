@@ -139,24 +139,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Custom Accessors
 - (void)setRootViewController:(nullable UIViewController *)rootViewController {
-    if (rootViewController == nil || !self.isVideoStreamStarted) {
-        _rootViewController = rootViewController;
-        return;
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (rootViewController == nil || !self.isVideoStreamStarted) {
+            self->_rootViewController = rootViewController;
+            return;
+        }
 
-    if (!self.allowMultipleOrientations
-        && !(rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskPortrait ||
-             rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskLandscapeLeft ||
-             rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskLandscapeRight)) {
-        @throw [NSException sdl_carWindowOrientationException];
-    }
+        if (!self.allowMultipleOrientations
+            && !(rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskPortrait ||
+                 rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskLandscapeLeft ||
+                 rootViewController.supportedInterfaceOrientations == UIInterfaceOrientationMaskLandscapeRight)) {
+                @throw [NSException sdl_carWindowOrientationException];
+            }
 
-    if (self.streamManager.screenSize.width != 0) {
-        rootViewController.view.frame = CGRectMake(0, 0, self.streamManager.screenSize.width, self.streamManager.screenSize.height);
-        rootViewController.view.bounds = rootViewController.view.frame;
-    }
+        if (self.streamManager.screenSize.width != 0) {
+            rootViewController.view.frame = CGRectMake(0, 0, self.streamManager.screenSize.width, self.streamManager.screenSize.height);
+            rootViewController.view.bounds = rootViewController.view.frame;
+        }
 
-    _rootViewController = rootViewController;
+        self->_rootViewController = rootViewController;
+    });
 }
 
 #pragma mark - Private Helpers
