@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Touch Manager responsible for providing touch event notifications.
  */
 @property (nonatomic, strong, readonly) SDLTouchManager *touchManager;
-@property (nonatomic, strong) UIViewController *rootViewController;
+@property (nonatomic, strong, nullable) UIViewController *rootViewController;
 @property (strong, nonatomic, readonly, nullable) SDLCarWindow *carWindow;
 
 /**

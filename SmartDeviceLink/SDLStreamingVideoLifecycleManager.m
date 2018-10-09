@@ -734,13 +734,21 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 #pragma mark Setters / Getters
 
-- (void)setRootViewController:(UIViewController *)rootViewController {
+- (void)setRootViewController:(nullable UIViewController *)rootViewController {
     if (self.focusableItemManager != nil) {
         self.focusableItemManager.viewController = rootViewController;
     }
 
     if (self.carWindow != nil) {
         self.carWindow.rootViewController = rootViewController;
+    }
+}
+
+- (nullable UIViewController *)rootViewController {
+    if (self.carWindow != nil) {
+        return self.carWindow.rootViewController;
+    } else {
+        return nil;
     }
 }
 

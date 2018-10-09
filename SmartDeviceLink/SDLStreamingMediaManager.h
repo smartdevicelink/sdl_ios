@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  This property is used for SDLCarWindow, the ability to stream any view controller. To start, you must set an initial view controller on `SDLStreamingMediaConfiguration` `rootViewController`. After streaming begins, you can replace that view controller with a new root by placing the new view controller into this property.
  */
-@property (nonatomic, strong) UIViewController *rootViewController;
+@property (nonatomic, strong, nullable) UIViewController *rootViewController;
 
 /**
  A haptic interface that can be updated to reparse views within the window you've provided. Send a `SDLDidUpdateProjectionView` notification or call the `updateInterfaceLayout` method to reparse. The "output" of this haptic interface occurs in the `touchManager` property where it will call the delegate.
