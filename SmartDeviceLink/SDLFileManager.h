@@ -18,8 +18,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString SDLFileName;
-
 typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__nullable error);
 
 
