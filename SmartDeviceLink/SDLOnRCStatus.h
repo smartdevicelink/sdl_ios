@@ -1,7 +1,7 @@
 //  SDLOnRCStatus.h
 //
 
-#import <SmartDeviceLink/SmartDeviceLink.h>
+#import "SDLRPCNotification.h"
 
 @class SDLModuleData;
 
