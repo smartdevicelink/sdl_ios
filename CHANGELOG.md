@@ -26,6 +26,9 @@
 * Swift Cocoapods subspec will now properly download lock screen assets [#1026](https://github.com/smartdevicelink/sdl_ios/issues/1026).
 * The `SDLLockScreenConfiguration` `showInOptionalState` being `true` was not properly preventing dismissal of the lock screen [#1070](https://github.com/smartdevicelink/sdl_ios/issues/1070).
 * Fix possible crashes in SDLAsynchronousRPCOperation on cancellation of operations [#1076](https://github.com/smartdevicelink/sdl_ios/issues/1076).
+* Fix can't get CarWindow `rootViewController` [#1100](https://github.com/smartdevicelink/sdl_ios/issues/1100).
+* Fix setting CarWindow `rootViewController` not on main thread [#1101](https://github.com/smartdevicelink/sdl_ios/issues/1101).
+* Add audio transcode files to default log module map [#1103](https://github.com/smartdevicelink/sdl_ios/issues/1103).
 
 # 6.0.2
 

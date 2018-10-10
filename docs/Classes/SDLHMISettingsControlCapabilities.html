@@ -1,0 +1,167 @@
+<h1>SDLHMISettingsControlCapabilities Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithModuleName:">-initWithModuleName:</a></li>
+  <li><a href="#section--initWithModuleName:distanceUnitAvailable:temperatureUnitAvailable:displayModeUnitAvailable:">-initWithModuleName:distanceUnitAvailable:temperatureUnitAvailable:displayModeUnitAvailable:</a></li>
+  <li><a href="#section-moduleName">moduleName</a></li>
+  <li><a href="#section-distanceUnitAvailable">distanceUnitAvailable</a></li>
+  <li><a href="#section-temperatureUnitAvailable">temperatureUnitAvailable</a></li>
+  <li><a href="#section-displayModeUnitAvailable">displayModeUnitAvailable</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithModuleName:">
+      -initWithModuleName:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLHMISettingsControlCapabilities object with moduleName</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">moduleName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>moduleName</dt>
+      <dd><p>The short friendly name of the hmi setting module</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLHMISettingsControlCapabilities class</p>
+  </div>
+  
+  <h3 id="section--initWithModuleName:distanceUnitAvailable:temperatureUnitAvailable:displayModeUnitAvailable:">
+      -initWithModuleName:distanceUnitAvailable:temperatureUnitAvailable:displayModeUnitAvailable:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLHMISettingsControlCapabilities object with given parameters</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleName</span>
+                     <span class="nf">distanceUnitAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">distanceUnitAvailable</span>
+                  <span class="nf">temperatureUnitAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">temperatureUnitAvailable</span>
+                  <span class="nf">displayModeUnitAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">displayModeUnitAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">moduleName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">distanceUnitAvailable</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">temperatureUnitAvailable</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">displayModeUnitAvailable</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>moduleName</dt>
+      <dd><p>The short friendly name of the hmi setting module</p></dd>
+      <dt>distanceUnitAvailable</dt>
+      <dd><p>Availability of the control of distance unit.</p></dd>
+      <dt>temperatureUnitAvailable</dt>
+      <dd><p>Availability of the control of temperature unit.</p></dd>
+      <dt>displayModeUnitAvailable</dt>
+      <dd><p>Availability of the control of displayMode unit.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLHMISettingsControlCapabilities class</p>
+  </div>
+  
+  <h3 id="section-moduleName">
+      moduleName
+  </h3>
+  
+  <p>@abstract The short friendly name of the hmi setting module.
+ It should not be used to identify a module by mobile application.</p>
+
+<p>Required, Max String length 100 chars</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">moduleName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">moduleName</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-distanceUnitAvailable">
+      distanceUnitAvailable
+  </h3>
+  
+  <p>@abstract Availability of the control of distance unit.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">distanceUnitAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">distanceUnitAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-temperatureUnitAvailable">
+      temperatureUnitAvailable
+  </h3>
+  
+  <p>@abstract Availability of the control of temperature unit.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">temperatureUnitAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">temperatureUnitAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-displayModeUnitAvailable">
+      displayModeUnitAvailable
+  </h3>
+  
+  <p>@abstract  Availability of the control of HMI display mode.</p>
+
+<p>Optional, Boolean</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">displayModeUnitAvailable</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">displayModeUnitAvailable</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

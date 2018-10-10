@@ -1,0 +1,177 @@
+<h1>SDLKeyboardDelegate Protocol Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--userDidSubmitInput:withEvent:">-userDidSubmitInput:withEvent:</a></li>
+  <li><a href="#section--keyboardDidAbortWithReason:">-keyboardDidAbortWithReason:</a></li>
+  <li><a href="#section--customKeyboardConfiguration">-customKeyboardConfiguration</a></li>
+  <li><a href="#section--updateAutocompleteWithInput:completionHandler:">-updateAutocompleteWithInput:completionHandler:</a></li>
+  <li><a href="#section--updateCharacterSetWithInput:completionHandler:">-updateCharacterSetWithInput:completionHandler:</a></li>
+  <li><a href="#section--keyboardDidSendEvent:text:">-keyboardDidSendEvent:text:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--userDidSubmitInput:withEvent:">
+      -userDidSubmitInput:withEvent:
+  </h3>
+  
+  <p>The keyboard session completed with some input.</p>
+
+<p>This will be sent upon ENTRY_SUBMITTED or ENTRY_VOICE. If the event is ENTRY_VOICE, the user requested to start a voice session in order to submit input to this keyboard. This MUST be handled by you. Start an Audio Pass Thru session if supported.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">userDidSubmitInput</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">inputText</span>
+                 <span class="nf">withEvent</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span><span class="p">)</span><span class="nv">source</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">userDidSubmitInput</span><span class="p">(</span><span class="n">_</span> <span class="nv">inputText</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">withEvent</span> <span class="nv">source</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>inputText</dt>
+      <dd><p>The submitted input text on the keyboard</p></dd>
+      <dt>source</dt>
+      <dd><p>ENTRY_SUBMITTED if the user pressed the submit button on the keyboard, ENTRY_VOICE if the user requested that a voice session begin</p></dd>
+  </dl>
+  
+  <h3 id="section--keyboardDidAbortWithReason:">
+      -keyboardDidAbortWithReason:
+  </h3>
+  
+  <p>The keyboard session aborted.</p>
+
+<p>This will be sent if the keyboard event ENTRY_CANCELLED or ENTRY_ABORTED is sent</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">keyboardDidAbortWithReason</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span><span class="p">)</span><span class="nv">event</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">keyboardDidAbort</span><span class="p">(</span><span class="n">withReason</span> <span class="nv">event</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>event</dt>
+      <dd><p>ENTRY_CANCELLED if the user cancelled the keyboard input, or ENTRY_ABORTED if the system aborted the input due to a higher priority event</p></dd>
+  </dl>
+  
+  <h3 id="section--customKeyboardConfiguration">
+      -customKeyboardConfiguration
+  </h3>
+  
+  <p>Implement this in order to provide a custom keyboard configuration to just this keyboard. To apply default settings to all keyboards, see SDLScreenManager.keyboardConfiguration</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLKeyboardProperties.html">SDLKeyboardProperties</a></span> <span class="o">*</span><span class="p">)</span><span class="n">customKeyboardConfiguration</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">customKeyboardConfiguration</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/SDLKeyboardProperties.html">SDLKeyboardProperties</a></span></code></pre>
+
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>The custom keyboard configuration to use.</p>
+  </div>
+  
+  <h3 id="section--updateAutocompleteWithInput:completionHandler:">
+      -updateAutocompleteWithInput:completionHandler:
+  </h3>
+  
+  <p>Implement this if you wish to update the KeyboardProperties.autoCompleteText as the user updates their input. This is called upon a KEYPRESS event.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateAutocompleteWithInput</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span>
+                  <span class="nf">completionHandler</span><span class="p">:</span>
+                      <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardAutocompleteCompletionHandler">SDLKeyboardAutocompleteCompletionHandler</a></span><span class="p">)</span>
+                          <span class="n">completionHandler</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">updateAutocomplete</span><span class="p">(</span><span class="n">withInput</span> <span class="nv">currentInputText</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardAutocompleteCompletionHandler">SDLKeyboardAutocompleteCompletionHandler</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>currentInputText</dt>
+      <dd><p>The user&rsquo;s full current input text</p></dd>
+      <dt>completionHandler</dt>
+      <dd><p>A completion handler to update the autoCompleteText</p></dd>
+  </dl>
+  
+  <h3 id="section--updateCharacterSetWithInput:completionHandler:">
+      -updateCharacterSetWithInput:completionHandler:
+  </h3>
+  
+  <p>Implement this if you wish to update the limitedCharacterSet as the user updates their input. This is called upon a KEYPRESS event.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">updateCharacterSetWithInput</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span>
+                  <span class="nf">completionHandler</span><span class="p">:</span>
+                      <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardCharacterSetCompletionHandler">SDLKeyboardCharacterSetCompletionHandler</a></span><span class="p">)</span>
+                          <span class="n">completionHandler</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">updateCharacterSet</span><span class="p">(</span><span class="n">withInput</span> <span class="nv">currentInputText</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLKeyboardDelegate.h@T@SDLKeyboardCharacterSetCompletionHandler">SDLKeyboardCharacterSetCompletionHandler</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>currentInputText</dt>
+      <dd><p>The user&rsquo;s full current input text</p></dd>
+      <dt>completionHandler</dt>
+      <dd><p>A completion handler to update the limitedCharacterSet</p></dd>
+  </dl>
+  
+  <h3 id="section--keyboardDidSendEvent:text:">
+      -keyboardDidSendEvent:text:
+  </h3>
+  
+  <p>Implement this to be notified of all events occurring on the keyboard</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">keyboardDidSendEvent</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span><span class="p">)</span><span class="nv">event</span>
+                        <span class="nf">text</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">currentInputText</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">keyboardDidSendEvent</span><span class="p">(</span><span class="n">_</span> <span class="nv">event</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLKeyboardEvent.h@T@SDLKeyboardEvent">SDLKeyboardEvent</a></span><span class="p">,</span> <span class="n">text</span> <span class="nv">currentInputText</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>event</dt>
+      <dd><p>The event that occurred</p></dd>
+      <dt>currentInputText</dt>
+      <dd><p>The user&rsquo;s full current input text</p></dd>
+  </dl>
+  
+</section>

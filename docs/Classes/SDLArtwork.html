@@ -3,6 +3,7 @@
 <h3>Section Contents</h3>
 
 <ul>
+  <li><a href="#section-isTemplate">isTemplate</a></li>
   <li><a href="#section-+artworkWithImage:name:asImageFormat:">+artworkWithImage:name:asImageFormat:</a></li>
   <li><a href="#section-+artworkWithImage:asImageFormat:">+artworkWithImage:asImageFormat:</a></li>
   <li><a href="#section-+persistentArtworkWithImage:name:asImageFormat:">+persistentArtworkWithImage:name:asImageFormat:</a></li>
@@ -17,11 +18,31 @@
 
 
 <section class="section task-group-section">
+  <h3 id="section-isTemplate">
+      isTemplate
+  </h3>
+  
+  <p>Describes whether or not the image is a template that can be (re)colored by the SDL HMI. To make the artwork a template, set the <code>UIImage</code>s rendering mode to <code>UIImageRenderingModeAlwaysTemplate</code>. In order for templates to work successfully, the icon must be one solid color with a clear background. The artwork should be created using the PNG image format.</p>
+
+<p>@discussion An image should be templated if it is intended to be used as an icon in a button or menu.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">isTemplate</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">isTemplate</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section-+artworkWithImage:name:asImageFormat:">
       +artworkWithImage:name:asImageFormat:
   </h3>
   
-  <p>Convenience Helper to create an ephemeral artwork from an image.</p>
+  <p>Convenience helper to create an ephemeral artwork from an image.</p>
 
 <p>This is an ephemeral file, it will not be persisted through sessions / ignition cycles. Any files that you do not <em>know</em> you will use in future sessions should be created through this method. For example, album / artist artwork should be ephemeral.</p>
 
@@ -60,7 +81,7 @@
       +artworkWithImage:asImageFormat:
   </h3>
   
-  <p>Convenience Helper to create an ephemeral artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image&rsquo;s data which is created by hashing the data using the MD5 algorithm.</p>
+  <p>Convenience helper to create an ephemeral artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image&rsquo;s data which is created by hashing the data using the MD5 algorithm.</p>
 
 <p>This is an ephemeral file, it will not be persisted through sessions / ignition cycles. Any files that you do not <em>know</em> you will use in future sessions should be created through this method. For example, album / artist artwork should be ephemeral.</p>
 
@@ -96,7 +117,7 @@
       +persistentArtworkWithImage:name:asImageFormat:
   </h3>
   
-  <p>Convenience Helper to create a persistent artwork from an image.</p>
+  <p>Convenience helper to create a persistent artwork from an image.</p>
 
 <p>This is a persistent file, it will be persisted through sessions / ignition cycles. You will only have a limited space for all files, so be sure to only persist files that are required for all or most sessions. For example, menu artwork should be persistent.</p>
 
@@ -136,7 +157,7 @@
       +persistentArtworkWithImage:asImageFormat:
   </h3>
   
-  <p>Convenience Helper to create a persistent artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image&rsquo;s data which is created by hashing the data using the MD5 algorithm.</p>
+  <p>Convenience helper to create a persistent artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image&rsquo;s data which is created by hashing the data using the MD5 algorithm.</p>
 
 <p>This is a persistent file, it will be persisted through sessions / ignition cycles. You will only have a limited space for all files, so be sure to only persist files that are required for all or most sessions. For example, menu artwork should be persistent.</p>
 
