@@ -86,6 +86,10 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
      *  The file data is nil or empty.
      */
     SDLFileManagerErrorFileDataMissing = -9,
+    /*
+     *  The file is a static icon, which cannot be uploaded
+     */
+    SDLFileManagerErrorStaticIcon = -10,
 };
 
 /**

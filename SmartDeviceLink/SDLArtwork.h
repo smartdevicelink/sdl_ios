@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "SDLFile.h"
+#import "SDLStaticIconName.h"
 
 typedef NS_ENUM(NSUInteger, SDLArtworkImageFormat) {
     SDLArtworkImageFormatPNG,
@@ -58,6 +59,15 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return An instance of this class to be passed to the file manager.
  */
 + (instancetype)artworkWithImage:(UIImage *)image asImageFormat:(SDLArtworkImageFormat)imageFormat NS_SWIFT_UNAVAILABLE("Use the standard initializer and set persistant to false");
+
+/**
+ Create an SDLArtwork that represents a static icon. This can only be passed to the screen manager; passing this directly to the file manager will fail.
+
+ @param staticIcon The static icon to be shown on the remote system.
+
+ @return An instance of this class to be passed to a screen manager.
+ */
++ (instancetype)artworkWithStaticIcon:(SDLStaticIconName)staticIcon NS_SWIFT_UNAVAILABLE("Use the standard initializer");
 
 /**
  *  Convenience helper to create a persistent artwork from an image.
@@ -114,6 +124,15 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return An instance of this class to be passed to the file manager.
  */
 - (instancetype)initWithImage:(UIImage *)image persistent:(BOOL)persistent asImageFormat:(SDLArtworkImageFormat)imageFormat;
+
+/**
+ Create an SDLArtwork that represents a static icon. This can only be passed to the screen manager; passing this directly to the file manager will fail.
+
+ @param staticIcon The static icon to be shown on the remote system.
+
+ @return An instance of this class to be passed to a screen manager.
+ */
+- (instancetype)initWithStaticIcon:(SDLStaticIconName)staticIcon;
 
 @end
 

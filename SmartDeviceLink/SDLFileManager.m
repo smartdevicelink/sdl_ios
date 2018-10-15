@@ -351,6 +351,13 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
         return;
     }
 
+    if (file.isStaticIcon) {
+        if (handler != nil) {
+            handler(NO, self.bytesAvailable, [NSError sdl_fileManager_staticIconError]);
+        }
+        return;
+    }
+
     // Make sure we are able to send files
     if (![self.currentState isEqualToString:SDLFileManagerStateReady]) {
         if (handler != nil) {

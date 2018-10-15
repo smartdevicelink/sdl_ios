@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) UIImage *image;
 @property (assign, nonatomic, readwrite) BOOL isTemplate;
+@property (assign, nonatomic, readwrite) BOOL isStaticIcon;
 
 @end
 
@@ -35,6 +36,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)artworkWithImage:(UIImage *)image asImageFormat:(SDLArtworkImageFormat)imageFormat {
     return [[self alloc] initWithImage:image persistent:NO asImageFormat:imageFormat];
+}
+
++ (instancetype)artworkWithStaticIcon:(SDLStaticIconName)staticIcon {
+    return [[self alloc] initWithStaticIcon:staticIcon];
 }
 
 + (instancetype)persistentArtworkWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat {
@@ -58,6 +63,13 @@ NS_ASSUME_NONNULL_BEGIN
     NSData *imageData = [self.class sdl_dataForUIImage:image imageFormat:imageFormat];
     NSString *imageName = [self.class sdl_md5HashFromNSData:imageData];
     return [super initWithData:[self.class sdl_dataForUIImage:image imageFormat:imageFormat] name:(imageName != nil ? imageName : @"") fileExtension:[self.class sdl_fileExtensionForImageFormat:imageFormat] persistent:persistent];
+}
+
+- (instancetype)initWithStaticIcon:(SDLStaticIconName)staticIcon {
+    self = [super initWithData:[staticIcon dataUsingEncoding:NSASCIIStringEncoding] name:staticIcon fileExtension:@"" persistent:NO];
+    self.isStaticIcon = true;
+
+    return self;
 }
 
 /**
