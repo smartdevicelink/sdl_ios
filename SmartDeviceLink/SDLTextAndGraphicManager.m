@@ -263,21 +263,13 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     if ([self sdl_shouldUpdatePrimaryImage]) {
-        show.graphic = [self sdl_imageFromArtwork:self.primaryGraphic];
+        show.graphic = self.primaryGraphic.imageRPC;
     }
     if ([self sdl_shouldUpdateSecondaryImage]) {
-        show.secondaryGraphic = [self sdl_imageFromArtwork:self.secondaryGraphic];
+        show.secondaryGraphic = self.secondaryGraphic.imageRPC;
     }
 
     return show;
-}
-
-- (SDLImage *)sdl_imageFromArtwork:(SDLArtwork *)artwork {
-    if (artwork.isStaticIcon) {
-        return [[SDLImage alloc] initWithStaticIconName:artwork.name];
-    } else {
-        return [[SDLImage alloc] initWithName:self.primaryGraphic.name ofType:SDLImageTypeDynamic isTemplate:artwork.isTemplate];
-    }
 }
 
 #pragma mark Text
