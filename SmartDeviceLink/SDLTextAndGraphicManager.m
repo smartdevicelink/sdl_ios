@@ -688,11 +688,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
+
+    if (!response.success.boolValue) { return; }
+
     self.displayCapabilities = response.displayCapabilities;
 }
 
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
+
+    if (!response.success.boolValue) { return; }
+
     self.displayCapabilities = response.displayCapabilities;
 
     // Auto-send an updated show
