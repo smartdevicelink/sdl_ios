@@ -11,6 +11,8 @@
 #import "SDLFile.h"
 #import "SDLStaticIconName.h"
 
+@class SDLImage;
+
 typedef NS_ENUM(NSUInteger, SDLArtworkImageFormat) {
     SDLArtworkImageFormatPNG,
     SDLArtworkImageFormatJPG
@@ -26,6 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  @discussion An image should be templated if it is intended to be used as an icon in a button or menu.
  */
 @property (assign, nonatomic, readonly) BOOL isTemplate;
+
+/**
+ The Image RPC representing this artwork. Generally for use internally, you should instead pass an artwork to a Screen Manager method.
+ */
+@property (strong, nonatomic, readonly) SDLImage *imageRPC;
 
 /**
  *  Convenience helper to create an ephemeral artwork from an image.

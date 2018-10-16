@@ -268,7 +268,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableArray<SDLArtwork *> *initialStatesToBeUploaded = [NSMutableArray array];
     // Upload all soft button images, the initial state images first, then the other states. We need to send updates when the initial state is ready.
     for (SDLSoftButtonObject *object in self.softButtonObjects) {
-        if (![self sdl_isArtworkUploadedOrNonExistent:object.currentState.artwork]) {
+        if (![self sdl_artworkNeedsUpload:object.currentState.artwork]) {
             [initialStatesToBeUploaded addObject:object.currentState.artwork];
         }
     }
@@ -293,7 +293,7 @@ NS_ASSUME_NONNULL_BEGIN
     for (SDLSoftButtonObject *object in self.softButtonObjects) {
         for (SDLSoftButtonState *state in object.states) {
             if ([state.name isEqualToString:object.currentState.name]) { continue; }
-            if (![self sdl_isArtworkUploadedOrNonExistent:object.currentState.artwork]) {
+            if (![self sdl_artworkNeedsUpload:object.currentState.artwork]) {
                 [otherStatesToBeUploaded addObject:state.artwork];
             }
         }
@@ -313,7 +313,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (BOOL)sdl_isArtworkUploadedOrNonExistent:(SDLArtwork *)artwork {
+- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
     return (!artwork || [self.fileManager hasUploadedFile:artwork] || artwork.isStaticIcon);
 }
 

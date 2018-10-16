@@ -6,27 +6,29 @@
 //  Copyright © 2015 smartdevicelink. All rights reserved.
 //
 
-#import "SDLArtwork.h"
-#import "SDLFileType.h"
 #import <CommonCrypto/CommonDigest.h>
 
+#import "SDLArtwork.h"
+#import "SDLFileType.h"
+#import "SDLImage.h"
+
 NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLFile ()
+
+@property (assign, nonatomic, readwrite) BOOL isStaticIcon;
+
+@end
 
 @interface SDLArtwork ()
 
 @property (strong, nonatomic) UIImage *image;
 @property (assign, nonatomic, readwrite) BOOL isTemplate;
-@property (assign, nonatomic, readwrite) BOOL isStaticIcon;
 
 @end
 
 
 @implementation SDLArtwork
-
-- (void)setImage:(UIImage *)image {
-    _image = image;
-    _isTemplate = (image.renderingMode == UIImageRenderingModeAlwaysTemplate);
-}
 
 #pragma mark - Lifecycle
 
@@ -71,6 +73,23 @@ NS_ASSUME_NONNULL_BEGIN
 
     return self;
 }
+
+#pragma mark - Setters and Getters
+
+- (void)setImage:(UIImage *)image {
+    _image = image;
+    _isTemplate = (image.renderingMode == UIImageRenderingModeAlwaysTemplate);
+}
+
+- (SDLImage *)imageRPC {
+    if (self.isStaticIcon) {
+        return [[SDLImage alloc] initWithStaticIconName:self.name];
+    } else {
+        return [[SDLImage alloc] initWithName:self.name isTemplate:self.isTemplate];
+    }
+}
+
+#pragma mark - Helper Methods
 
 /**
  * Returns the JPG or PNG image data for a UIImage.

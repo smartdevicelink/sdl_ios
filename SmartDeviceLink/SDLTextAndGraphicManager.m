@@ -162,7 +162,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogV(@"No images to send, sending text");
         // If there are no images to update, just send the text
         self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
-    } else if ([self sdl_isArtworkUploadedOrNonExistent:self.primaryGraphic] && [self sdl_isArtworkUploadedOrNonExistent:self.secondaryGraphic]) {
+    } else if ([self sdl_artworkNeedsUpload:self.primaryGraphic] && [self sdl_artworkNeedsUpload:self.secondaryGraphic]) {
         SDLLogV(@"Images already uploaded, sending full update");
         // The files to be updated are already uploaded, send the full show immediately
         self.inProgressUpdate = fullShow;
@@ -471,8 +471,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLShow *)sdl_createImageOnlyShowWithPrimaryArtwork:(nullable SDLArtwork *)primaryArtwork secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork  {
     SDLShow *newShow = [[SDLShow alloc] init];
-    newShow.graphic = [self sdl_isArtworkUploadedOrNonExistent:primaryArtwork] ? [self sdl_imageFromArtwork:primaryArtwork] : nil;
-    newShow.secondaryGraphic = [self sdl_isArtworkUploadedOrNonExistent:secondaryArtwork] ? [self sdl_imageFromArtwork:secondaryArtwork] : nil;
+    newShow.graphic = [self sdl_artworkNeedsUpload:primaryArtwork] ? [self sdl_imageFromArtwork:primaryArtwork] : nil;
+    newShow.secondaryGraphic = [self sdl_artworkNeedsUpload:secondaryArtwork] ? [self sdl_imageFromArtwork:secondaryArtwork] : nil;
 
     if (newShow.graphic == nil && newShow.secondaryGraphic == nil) {
         SDLLogV(@"No graphics to upload");
@@ -503,7 +503,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param artwork     The artwork to be uploaded to Core
  *  @return            True if the artwork does not need to be uploaded to Core; false if artwork stills needs to be sent to Core.
  */
-- (BOOL)sdl_isArtworkUploadedOrNonExistent:(SDLArtwork *)artwork {
+- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
     return (!artwork || [self.fileManager hasUploadedFile:artwork] || artwork.isStaticIcon);
 }
 

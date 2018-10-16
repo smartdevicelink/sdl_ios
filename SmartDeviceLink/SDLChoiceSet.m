@@ -129,6 +129,10 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     return [NSString stringWithFormat:@"SDLChoiceSet: \"%@\", layout: %@", _title, (_layout == SDLChoiceSetLayoutList ? @"List" : @"Tiles")];
 }
 
+- (NSString *)debugDescription {
+    return [NSString stringWithFormat:@"SDLChoiceSet: Title: \"%@\", layout: %@, timeout: %@, initial prompt: \"%@\", timeout prompt: \"%@\", help prompt: \"%@\", help list: %@, choices: %@", _title, (_layout == SDLChoiceSetLayoutList ? @"List" : @"Tiles"), @(_timeout), _initialPrompt, _timeoutPrompt, _helpPrompt, _helpList, _choices];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END
