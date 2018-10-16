@@ -80,17 +80,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @implementation SDLStreamingVideoLifecycleManager
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingMediaConfiguration:(SDLStreamingMediaConfiguration *)streamingMediaConfiguration lifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
-    self = [self initWithConnectionManager:connectionManager configuration:streamingMediaConfiguration];
-    if (!self) {
-        return nil;
-    }
-
-    _appName = lifecycleConfiguration.appName;
-
-    return self;
-}
-
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration {
     self = [super init];
     if (!self) {
         return nil;
@@ -98,26 +87,27 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     SDLLogV(@"Creating StreamingLifecycleManager");
 
+    _appName = lifecycleConfiguration.appName;
     _connectionManager = connectionManager;
-    _videoEncoderSettings = configuration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
+    _videoEncoderSettings = streamingMediaConfiguration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
 
-    if (configuration.rootViewController != nil) {
-        NSAssert(configuration.enableForcedFramerateSync, @"When using CarWindow (rootViewController != nil), forceFrameRateSync must be YES");
+    if (streamingMediaConfiguration.rootViewController != nil) {
+        NSAssert(streamingMediaConfiguration.enableForcedFramerateSync, @"When using CarWindow (rootViewController != nil), forceFrameRateSync must be YES");
         if (@available(iOS 9.0, *)) {
             SDLLogD(@"Initializing focusable item locator");
-            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:configuration.rootViewController connectionManager:_connectionManager];
+            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:streamingMediaConfiguration.rootViewController connectionManager:_connectionManager];
         }
 
         SDLLogD(@"Initializing CarWindow");
-        _carWindow = [[SDLCarWindow alloc] initWithStreamManager:self configuration:configuration];
-        _carWindow.rootViewController = configuration.rootViewController;
+        _carWindow = [[SDLCarWindow alloc] initWithStreamManager:self configuration:streamingMediaConfiguration];
+        _carWindow.rootViewController = streamingMediaConfiguration.rootViewController;
     }
 
     _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager];
 
-    _requestedEncryptionType = configuration.maximumDesiredEncryption;
-    _dataSource = configuration.dataSource;
-    _useDisplayLink = configuration.enableForcedFramerateSync;
+    _requestedEncryptionType = streamingMediaConfiguration.maximumDesiredEncryption;
+    _dataSource = streamingMediaConfiguration.dataSource;
+    _useDisplayLink = streamingMediaConfiguration.enableForcedFramerateSync;
     _screenSize = SDLDefaultScreenSize;
     _backgroundingPixelBuffer = NULL;
     _preferredFormatIndex = 0;
@@ -127,20 +117,20 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _videoStreamingState = SDLVideoStreamingStateNotStreamable;
 
     NSMutableArray<NSString *> *tempMakeArray = [NSMutableArray array];
-    for (Class securityManagerClass in configuration.securityManagers) {
+    for (Class securityManagerClass in streamingMediaConfiguration.securityManagers) {
         [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
     }
     _secureMakes = [tempMakeArray copy];
 
     SDLAppState *initialState = SDLAppStateInactive;
     switch ([[UIApplication sharedApplication] applicationState]) {
-        case UIApplicationStateActive: {
-            initialState = SDLAppStateActive;
-        } break;
-        case UIApplicationStateInactive: // fallthrough
-        case UIApplicationStateBackground: {
-            initialState = SDLAppStateInactive;
-        } break;
+            case UIApplicationStateActive: {
+                initialState = SDLAppStateActive;
+            } break;
+            case UIApplicationStateInactive: // fallthrough
+            case UIApplicationStateBackground: {
+                initialState = SDLAppStateInactive;
+            } break;
         default: break;
     }
 
@@ -156,6 +146,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _lastPresentationTimestamp = kCMTimeInvalid;
 
     return self;
+}
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration {
+    return [self initWithConnectionManager:connectionManager streamingMediaConfiguration:configuration lifecycleConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"" fullAppId:@""]];
 }
 
 - (void)startWithProtocol:(SDLProtocol *)protocol {
