@@ -175,7 +175,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         // Start uploading the images
         __block SDLShow *thisUpdate = fullShow;
-        [self sdl_uploadImagesWithCompletionHandler:^(NSError * _Nonnull error) {
+        [self sdl_uploadImagesWithCompletionHandler:^(NSError *_Nullable error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
 
             if (error != nil) {
@@ -463,8 +463,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLShow *)sdl_createImageOnlyShowWithPrimaryArtwork:(nullable SDLArtwork *)primaryArtwork secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork  {
     SDLShow *newShow = [[SDLShow alloc] init];
-    newShow.graphic = [self sdl_artworkNeedsUpload:primaryArtwork] ? [self sdl_imageFromArtwork:primaryArtwork] : nil;
-    newShow.secondaryGraphic = [self sdl_artworkNeedsUpload:secondaryArtwork] ? [self sdl_imageFromArtwork:secondaryArtwork] : nil;
+    newShow.graphic = [self sdl_artworkNeedsUpload:primaryArtwork] ? primaryArtwork.imageRPC : nil;
+    newShow.secondaryGraphic = [self sdl_artworkNeedsUpload:secondaryArtwork] ? secondaryArtwork.imageRPC : nil;
 
     if (newShow.graphic == nil && newShow.secondaryGraphic == nil) {
         SDLLogV(@"No graphics to upload");
