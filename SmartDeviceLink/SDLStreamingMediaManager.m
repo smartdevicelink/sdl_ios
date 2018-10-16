@@ -10,6 +10,7 @@
 
 #import "SDLAudioStreamManager.h"
 #import "SDLConnectionManagerType.h"
+#import "SDLLifecycleConfiguration.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManagerDataSource.h"
 #import "SDLStreamingAudioLifecycleManager.h"
@@ -42,6 +43,18 @@ NS_ASSUME_NONNULL_BEGIN
     
     _audioLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
     _videoLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
+
+    return self;
+}
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingMediaConfiguration:(SDLStreamingMediaConfiguration *)streamingMediaConfiguration lifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+
+    _audioLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:streamingMediaConfiguration];
+    _videoLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:connectionManager streamingMediaConfiguration:streamingMediaConfiguration lifecycleConfiguration:lifecycleConfiguration];
 
     return self;
 }

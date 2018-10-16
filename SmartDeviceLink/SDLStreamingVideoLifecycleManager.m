@@ -25,6 +25,7 @@
 #import "SDLHMICapabilities.h"
 #import "SDLHMILevel.h"
 #import "SDLImageResolution.h"
+#import "SDLLifecycleConfiguration.h"
 #import "SDLLogMacros.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLProtocol.h"
@@ -65,6 +66,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (copy, nonatomic) NSDictionary<NSString *, id> *videoEncoderSettings;
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
 @property (copy, nonatomic) NSString *connectedVehicleMake;
+@property (copy, nonatomic) NSString *appName;
 
 @property (assign, nonatomic) CV_NULLABLE CVPixelBufferRef backgroundingPixelBuffer;
 
@@ -76,6 +78,17 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @end
 
 @implementation SDLStreamingVideoLifecycleManager
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingMediaConfiguration:(SDLStreamingMediaConfiguration *)streamingMediaConfiguration lifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
+    self = [self initWithConnectionManager:connectionManager configuration:streamingMediaConfiguration];
+    if (!self) {
+        return nil;
+    }
+
+    _appName = lifecycleConfiguration.appName;
+
+    return self;
+}
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration {
     self = [super init];
@@ -376,7 +389,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
         if (!self.backgroundingPixelBuffer) {
             CVPixelBufferRef backgroundingPixelBuffer = [self.videoEncoder newPixelBuffer];
-            if (CVPixelBufferAddText(backgroundingPixelBuffer, @"") == NO) {
+            NSString *videoStreamBackgroundedString = [NSString stringWithFormat:@"%@ must be open on the phone in order to work. When it is safe to do so, open %@ on phone", self.appName, self.appName];
+            if (CVPixelBufferAddText(backgroundingPixelBuffer, videoStreamBackgroundedString) == NO) {
                 SDLLogE(@"Could not create a backgrounding frame");
                 [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
                 return;
