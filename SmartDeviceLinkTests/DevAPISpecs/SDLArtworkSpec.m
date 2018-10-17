@@ -12,7 +12,7 @@
 
 QuickSpecBegin(SDLArtworkSpec)
 
-fdescribe(@"SDLArtwork Tests", ^{
+describe(@"SDLArtwork Tests", ^{
     __block SDLArtwork *expectedArtwork = nil;
     __block SDLImage *expectedImage = nil;
     __block NSData *expectedImageData = nil;

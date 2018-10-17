@@ -47,6 +47,7 @@ describe(@"text and graphic manager", ^{
     __block NSString *testString = @"some string";
     __block NSString *testArtworkName = @"some artwork name";
     __block SDLArtwork *testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:testArtworkName fileExtension:@"png" persistent:NO];
+    __block SDLArtwork *testStaticIcon = [SDLArtwork artworkWithStaticIcon:SDLStaticIconNameDate];
 
     beforeEach(^{
         mockFileManager = OCMClassMock([SDLFileManager class]);
@@ -762,6 +763,20 @@ describe(@"text and graphic manager", ^{
                     expect(testManager.inProgressUpdate.graphic.value).to(equal(testArtworkName));
                     expect(testManager.inProgressUpdate.secondaryGraphic.value).to(equal(testArtworkName));
                     expect(testManager.inProgressUpdate.mainField1).to(equal(testTextFieldText));
+                });
+            });
+
+            context(@"when the image is a static icon", ^{
+                beforeEach(^{
+                    testManager.primaryGraphic = testStaticIcon;
+                    testManager.batchUpdates = NO;
+                    [testManager updateWithCompletionHandler:nil];
+                });
+
+                it(@"should immediately update without uploading the images", ^{
+                    OCMReject([mockFileManager uploadArtwork:[OCMArg any] completionHandler:[OCMArg any]]);
+                    expect(testManager.inProgressUpdate.mainField1).to(equal(testTextFieldText));
+                    expect(testManager.inProgressUpdate.graphic.value).toNot(beNil());
                 });
             });
 
