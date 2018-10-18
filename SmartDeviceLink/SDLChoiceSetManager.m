@@ -407,7 +407,7 @@ UInt16 const ChoiceCellIdMin = 1;
 
     if (!response.success.boolValue) { return; }
     if (response.displayCapabilities == nil) {
-        SDLLogW(@"RegisterAppInterface succeeded but didn't send a display capabilities. A lot of things will probably break.");
+        SDLLogE(@"RegisterAppInterface succeeded but didn't send a display capabilities. A lot of things will probably break.");
         return;
     }
 
@@ -419,7 +419,7 @@ UInt16 const ChoiceCellIdMin = 1;
 
     if (!response.success.boolValue) { return; }
     if (response.displayCapabilities == nil) {
-        SDLLogW(@"SetDisplayLayout succeeded but didn't send a display capabilities. A lot of things will probably break.");
+        SDLLogE(@"SetDisplayLayout succeeded but didn't send a display capabilities. A lot of things will probably break.");
         return;
     }
 
