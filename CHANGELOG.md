@@ -1,4 +1,8 @@
-# 6.1.0
+# 6.1.0 Release Candidate 2
+### Bug Fixes
+* If a RegisterAppInterface or SetDisplayLayout fail, don't set displayCapabilities to nil in the screen manager [#1108](https://github.com/smartdevicelink/sdl_ios/issues/1108).
+
+# 6.1.0 Release Candidate 1
 ### Enhancements
 * `PlayPause` button name has been added for subscription [#246](https://github.com/smartdevicelink/sdl_ios/issues/246).
 * Added the ability to play an audio file (such as a jingle) through `TTSChunk`, which may be used in an `Alert` or `Speak` RPC, for example [SDL-0014] [#524](https://github.com/smartdevicelink/sdl_ios/issues/524).
@@ -31,12 +35,10 @@
 * Add audio transcode files to default log module map [#1103](https://github.com/smartdevicelink/sdl_ios/issues/1103).
 
 # 6.0.2
-
 ### Bug Fixes
 * Video streaming apps put into a phone background state can now properly stop the video streaming when it leaves a streamable HMI state. [#1047](https://github.com/smartdevicelink/sdl_ios/issues/1047)
 
 # 6.0.1
-
 ### Bug Fixes
 * Fixed a crash that could occur in development circumstances if the head unit returns "-1" for an enum
 * Fixed manually sent Show RPCs causing issues when changing layouts.
