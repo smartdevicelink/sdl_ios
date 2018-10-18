@@ -676,6 +676,10 @@ NS_ASSUME_NONNULL_BEGIN
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
 
     if (!response.success.boolValue) { return; }
+    if (response.displayCapabilities == nil) {
+        SDLLogW(@"RegisterAppInterface succeeded but didn't send a display capabilities. A lot of things will probably break.");
+        return;
+    }
 
     self.displayCapabilities = response.displayCapabilities;
 }
@@ -684,6 +688,11 @@ NS_ASSUME_NONNULL_BEGIN
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
 
     if (!response.success.boolValue) { return; }
+    if (!response.success.boolValue) { return; }
+    if (response.displayCapabilities == nil) {
+        SDLLogW(@"SetDisplayLayout succeeded but didn't send a display capabilities. A lot of things will probably break.");
+        return;
+    }
 
     self.displayCapabilities = response.displayCapabilities;
 
