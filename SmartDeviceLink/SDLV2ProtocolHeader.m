@@ -97,6 +97,8 @@ const int ProtocolV2HeaderByteSize = 12;
         if (self.frameData >= 0 && self.frameData <= 5) {
             NSArray *controlFrameDataNames = @[@"Heartbeat", @"StartSession", @"StartSessionACK", @"StartSessionNACK", @"EndSession", @"EndSessionACK", @"EndSessionNACK"];
             frameDataString = controlFrameDataNames[self.frameData];
+        } else if (self.frameData == SDLFrameInfoTransportEventUpdate) {
+            frameDataString = @"TransportEventUpdate";
         } else {
             frameDataString = @"Reserved";
         }

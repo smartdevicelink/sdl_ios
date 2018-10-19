@@ -13,6 +13,7 @@ SDLImageFieldName const SDLImageFieldNameMenuIcon = @"menuIcon";
 SDLImageFieldName const SDLImageFieldNameCommandIcon = @"cmdIcon";
 SDLImageFieldName const SDLImageFieldNameAppIcon = @"appIcon";
 SDLImageFieldName const SDLImageFieldNameGraphic = @"graphic";
+SDLImageFieldName const SDLImageFieldNameSecondaryGraphic = @"secondaryGraphic";
 SDLImageFieldName const SDLImageFieldNameShowConstantTBTIcon = @"showConstantTBTIcon";
 SDLImageFieldName const SDLImageFieldNameShowConstantTBTNextTurnIcon = @"showConstantTBTNextTurnIcon";
 SDLImageFieldName const SDLImageFieldNameLocationImage = @"locationImage";

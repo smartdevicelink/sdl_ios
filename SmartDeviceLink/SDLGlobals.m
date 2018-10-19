@@ -13,21 +13,22 @@
 NS_ASSUME_NONNULL_BEGIN
 
 // VERSION DEPENDENT CODE
-NSString *const SDLMaxProxyProtocolVersion = @"5.0.0";
+NSString *const SDLMaxProxyProtocolVersion = @"5.1.0";
+NSString *const SDLMaxProxyRPCVersion =  @"5.0.0";
 
 NSUInteger const SDLDefaultMTUSize = UINT32_MAX;
 NSUInteger const SDLV1MTUSize = 1024;
 NSUInteger const SDLV3MTUSize = 131024;
 
 
-typedef NSNumber* ServiceTypeBox;
-typedef NSNumber* MTUBox;
+typedef NSNumber *ServiceTypeBox;
+typedef NSNumber *MTUBox;
 
 
 @interface SDLGlobals ()
 
 @property (strong, nonatomic) NSMutableDictionary<ServiceTypeBox, MTUBox> *dynamicMTUDict;
-@property (strong, nonatomic, readwrite) NSString *protocolVersion;
+@property (copy, nonatomic, readwrite) NSString *protocolVersion;
 
 @end
 
@@ -52,6 +53,7 @@ typedef NSNumber* MTUBox;
 
     _protocolVersion = @"1.0.0";
     _maxHeadUnitVersion = @"0.0.0";
+    _rpcVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:1 minorVersion:0 patchVersion:0];
     _dynamicMTUDict = [NSMutableDictionary dictionary];
 
     return self;

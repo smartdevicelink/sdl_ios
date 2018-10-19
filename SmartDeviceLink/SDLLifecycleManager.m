@@ -13,6 +13,7 @@
 #import "NSMapTable+Subscripting.h"
 #import "SDLAsynchronousRPCRequestOperation.h"
 #import "SDLChangeRegistration.h"
+#import "SDLChoiceSetManager.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLLogMacros.h"
@@ -20,6 +21,8 @@
 #import "SDLError.h"
 #import "SDLFile.h"
 #import "SDLFileManager.h"
+#import "SDLFileManagerConfiguration.h"
+#import "SDLGlobals.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLLifecycleConfigurationUpdate.h"
 #import "SDLLockScreenConfiguration.h"
@@ -42,11 +45,13 @@
 #import "SDLResponseDispatcher.h"
 #import "SDLResult.h"
 #import "SDLScreenManager.h"
+#import "SDLSecondaryTransportManager.h"
 #import "SDLSequentialRPCRequestOperation.h"
 #import "SDLSetAppIcon.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
 #import "SDLStreamingMediaManager.h"
+#import "SDLStreamingProtocolDelegate.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLUnregisterAppInterface.h"
 
@@ -67,7 +72,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 #pragma mark - SDLManager Private Interface
 
-@interface SDLLifecycleManager () <SDLConnectionManagerType>
+@interface SDLLifecycleManager () <SDLConnectionManagerType, SDLStreamingProtocolDelegate>
 
 // Readonly public properties
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
@@ -76,6 +81,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
 
 // Private properties
+@property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
 
@@ -87,7 +93,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 #pragma mark Lifecycle
 
 - (instancetype)init {
-    return [self initWithConfiguration:[SDLConfiguration configurationWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"SDL APP" appId:@"001"] lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration]] delegate:nil];
+    return [self initWithConfiguration:[SDLConfiguration configurationWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"SDL APP" fullAppId:@"001"] lockScreen:[SDLLockScreenConfiguration disabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration]] delegate:nil];
 }
 
 - (instancetype)initWithConfiguration:(SDLConfiguration *)configuration delegate:(nullable id<SDLManagerDelegate>)delegate {
@@ -118,7 +124,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     _lifecycleQueue = dispatch_queue_create("com.sdl.lifecycle", DISPATCH_QUEUE_SERIAL);
 
     // Managers
-    _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self];
+    _fileManager = [[SDLFileManager alloc] initWithConnectionManager:self configuration:_configuration.fileManagerConfig];
     _permissionManager = [[SDLPermissionManager alloc] init];
     _lockScreenManager = [[SDLLockScreenManager alloc] initWithConfiguration:_configuration.lockScreenConfig notificationDispatcher:_notificationDispatcher presenter:[[SDLLockScreenPresenter alloc] init]];
     _screenManager = [[SDLScreenManager alloc] initWithConnectionManager:self fileManager:_fileManager];
@@ -157,16 +163,16 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLLogD(@"Starting lifecycle manager");
     self.readyHandler = [readyHandler copy];
 
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
+    [self sdl_transitionToState:SDLLifecycleStateStarted];
 }
 
 - (void)stop {
     dispatch_sync(_lifecycleQueue, ^{
         SDLLogD(@"Lifecycle manager stopped");
         if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUnregistering];
+            [self sdl_transitionToState:SDLLifecycleStateUnregistering];
         } else {
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+            [self sdl_transitionToState:SDLLifecycleStateStopped];
         }
     });
 }
@@ -202,17 +208,20 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (self.configuration.lifecycleConfig.tcpDebugMode) {
+        // secondary transport manager is not used
+        self.secondaryTransportManager = nil;
         self.proxy = [SDLProxy tcpProxyWithListener:self.notificationDispatcher
                                        tcpIPAddress:self.configuration.lifecycleConfig.tcpDebugIPAddress
-                                            tcpPort:@(self.configuration.lifecycleConfig.tcpDebugPort).stringValue];
+                                            tcpPort:@(self.configuration.lifecycleConfig.tcpDebugPort).stringValue
+                          secondaryTransportManager:self.secondaryTransportManager];
     } else {
-        self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher];
+        // we reuse our queue to run secondary transport manager's state machine
+        self.secondaryTransportManager = [[SDLSecondaryTransportManager alloc] initWithStreamingProtocolDelegate:self
+                                                                                                     serialQueue:self.lifecycleQueue];
+        self.proxy = [SDLProxy iapProxyWithListener:self.notificationDispatcher
+                          secondaryTransportManager:self.secondaryTransportManager];
     }
 #pragma clang diagnostic pop
-
-    if (self.streamManager != nil) {
-        [self.streamManager startWithProtocol:self.proxy.protocol];
-    }
 }
 
 - (void)didEnterStateStopped {
@@ -230,7 +239,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.permissionManager stop];
     [self.lockScreenManager stop];
     [self.screenManager stop];
-    [self.streamManager stop];
+    if (self.secondaryTransportManager != nil) {
+        [self.secondaryTransportManager stop];
+    } else {
+        [self audioServiceProtocolDidUpdateFromOldProtocol:self.proxy.protocol toNewProtocol:nil];
+        [self videoServiceProtocolDidUpdateFromOldProtocol:self.proxy.protocol toNewProtocol:nil];
+    }
     [self.systemCapabilityManager stop];
     [self.responseDispatcher clear];
 
@@ -247,10 +261,13 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     // Apple Bug ID #30059457
     __weak typeof(self) weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [weakSelf.delegate managerDidDisconnect];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) { return; }
+
+        [strongSelf.delegate managerDidDisconnect];
 
         if (shouldRestart) {
-            [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStarted];
+            [strongSelf sdl_transitionToState:SDLLifecycleStateStarted];
         }
     });
 }
@@ -276,14 +293,15 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                     weakSelf.readyHandler(NO, error);
 
                     if (weakSelf.lifecycleState != SDLLifecycleStateReconnecting) {
-                        [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+                        [weakSelf sdl_transitionToState:SDLLifecycleStateStopped];
                     }
 
                     return;
                 }
 
                 weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
-                [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateRegistered];
+                [SDLGlobals sharedGlobals].rpcVersion = weakSelf.registerResponse.syncMsgVersion;
+                [weakSelf sdl_transitionToState:SDLLifecycleStateRegistered];
             });
         }];
 }
@@ -295,10 +313,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     BOOL delegateCanUpdateLifecycle = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:)];
     
     // language mismatch? but actual language is a supported language? and delegate has implemented method?
-    if (actualLanguage != desiredLanguage && [supportedLanguages containsObject:actualLanguage] && delegateCanUpdateLifecycle) {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateUpdatingConfiguration];
+    if (![actualLanguage isEqualToEnum:desiredLanguage] && [supportedLanguages containsObject:actualLanguage] && delegateCanUpdateLifecycle) {
+        [self sdl_transitionToState:SDLLifecycleStateUpdatingConfiguration];
     } else {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpManagers];
+        [self sdl_transitionToState:SDLLifecycleStateSettingUpManagers];
     }
 }
 
@@ -332,7 +350,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         [self sendConnectionManagerRequest:changeRegistration withResponseHandler:nil];
     }
     
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpManagers];
+    [self sdl_transitionToState:SDLLifecycleStateSettingUpManagers];
 }
 
 - (void)didEnterStateSettingUpManagers {
@@ -361,6 +379,21 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         dispatch_group_leave(managerGroup);
     }];
 
+    // if secondary transport manager is used, streaming media manager will be started through onAudioServiceProtocolUpdated and onVideoServiceProtocolUpdated
+    if (self.secondaryTransportManager == nil && self.streamManager != nil) {
+        [self audioServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
+        [self videoServiceProtocolDidUpdateFromOldProtocol:nil toNewProtocol:self.proxy.protocol];
+    }
+
+	dispatch_group_enter(managerGroup);
+    [self.screenManager startWithCompletionHandler:^(NSError * _Nullable error) {
+        if (error != nil) {
+            SDLLogW(@"Screen Manager was unable to start; error: %@", error);
+        }
+
+        dispatch_group_leave(managerGroup);
+    }];
+
     // We're done synchronously calling all startup methods, so we can now wait.
     dispatch_group_leave(managerGroup);
 
@@ -368,19 +401,24 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     dispatch_group_notify(managerGroup, self.lifecycleQueue, ^{
         // We could have been shut down while waiting for the completion of starting file manager and permission manager.
         if (self.lifecycleState == SDLLifecycleStateSettingUpManagers) {
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpAppIcon];
+            [self sdl_transitionToState:SDLLifecycleStateSettingUpAppIcon];
         }
     });
 }
 
 - (void)didEnterStateSettingUpAppIcon {
+    if (self.registerResponse.iconResumed.boolValue) {
+        [self sdl_transitionToState:SDLLifecycleStateSettingUpHMI];
+        return;
+    }
+
     // We only want to send the app icon when the file manager is complete, and when that's done, wait for hmi status to be ready
     __weak typeof(self) weakself = self;
     [self sdl_sendAppIcon:self.configuration.lifecycleConfig.appIcon withCompletion:^() {
         dispatch_async(weakself.lifecycleQueue, ^{
             // We could have been shut down while setting up the app icon, make sure we still want to continue or we could crash
             if (weakself.lifecycleState == SDLLifecycleStateSettingUpAppIcon) {
-                [weakself.lifecycleStateMachine transitionToState:SDLLifecycleStateSettingUpHMI];
+                [weakself sdl_transitionToState:SDLLifecycleStateSettingUpHMI];
             }
         });
    }];
@@ -394,7 +432,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     // We are sure to have a HMIStatus, set state to ready
-    [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
+    [self sdl_transitionToState:SDLLifecycleStateReady];
 }
 
 - (void)didEnterStateReady {
@@ -435,7 +473,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                 SDLLogE(@"SDL Error unregistering, we are going to hard disconnect: %@, response: %@", error, response);
             }
 
-            [weakSelf.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+            [weakSelf sdl_transitionToState:SDLLifecycleStateStopped];
         }];
 }
 
@@ -576,6 +614,18 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     return YES;
 }
 
+// this is to make sure that the transition happens on the dedicated queue
+- (void)sdl_transitionToState:(SDLState *)state {
+    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(self.lifecycleQueue)) == 0) {
+        [self.lifecycleStateMachine transitionToState:state];
+    } else {
+        // once this method returns, the transition is completed
+        dispatch_sync(self.lifecycleQueue, ^{
+            [self.lifecycleStateMachine transitionToState:state];
+        });
+    }
+}
+
 
 #pragma mark SDL notification observers
 
@@ -583,7 +633,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLLogD(@"Transport connected");
 
     dispatch_async(self.lifecycleQueue, ^{
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateConnected];
+        [self sdl_transitionToState:SDLLifecycleStateConnected];
     });
 }
 
@@ -592,9 +642,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     dispatch_async(self.lifecycleQueue, ^{
         if (self.lifecycleState == SDLLifecycleStateUnregistering || self.lifecycleState == SDLLifecycleStateStopped) {
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+            [self sdl_transitionToState:SDLLifecycleStateStopped];
         } else {
-            [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReconnecting];
+            [self sdl_transitionToState:SDLLifecycleStateReconnecting];
         }
     });
 }
@@ -624,7 +674,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLLogD(@"Audio streaming state changed from %@ to %@", oldStreamingState, self.audioStreamingState);
 
     if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateSettingUpHMI]) {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReady];
+        [self sdl_transitionToState:SDLLifecycleStateReady];
     }
 
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
@@ -666,14 +716,42 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLLogE(@"Remote Device forced unregistration for reason: %@", appUnregisteredNotification.reason);
 
     if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateUnregistering]) {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+        [self sdl_transitionToState:SDLLifecycleStateStopped];
     } else if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateStopped]) {
         return;
     } else if ([appUnregisteredNotification.reason isKindOfClass:[NSString class]] && [appUnregisteredNotification.reason isEqualToEnum:SDLAppInterfaceUnregisteredReasonAppUnauthorized]) {
         // HAX: The string check is due to a core "feature" that could cause -1 to be sent as the enum value, which will crash here.
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateStopped];
+        [self sdl_transitionToState:SDLLifecycleStateStopped];
     } else {
-        [self.lifecycleStateMachine transitionToState:SDLLifecycleStateReconnecting];
+        [self sdl_transitionToState:SDLLifecycleStateReconnecting];
+    }
+}
+
+#pragma mark Streaming protocol listener
+
+- (void)audioServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol {
+    if ((oldProtocol == nil && newProtocol == nil) || (oldProtocol == newProtocol)) {
+        return;
+    }
+
+    if (oldProtocol != nil) {
+        [self.streamManager stopAudio];
+    }
+    if (newProtocol != nil) {
+        [self.streamManager startAudioWithProtocol:newProtocol];
+    }
+}
+
+- (void)videoServiceProtocolDidUpdateFromOldProtocol:(nullable SDLProtocol *)oldProtocol toNewProtocol:(nullable SDLProtocol *)newProtocol {
+    if ((oldProtocol == nil && newProtocol == nil) || (oldProtocol == newProtocol)) {
+        return;
+    }
+
+    if (oldProtocol != nil) {
+        [self.streamManager stopVideo];
+    }
+    if (newProtocol != nil) {
+        [self.streamManager startVideoWithProtocol:newProtocol];
     }
 }
 

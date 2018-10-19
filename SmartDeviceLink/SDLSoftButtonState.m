@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable SDLImage *)image {
     if (self.artwork == nil) { return nil; }
 
-    return [[SDLImage alloc] initWithName:self.artwork.name ofType:SDLImageTypeDynamic];
+    return [[SDLImage alloc] initWithName:self.artwork.name ofType:SDLImageTypeDynamic isTemplate:self.artwork.isTemplate];
 }
 
 - (NSString *)description {

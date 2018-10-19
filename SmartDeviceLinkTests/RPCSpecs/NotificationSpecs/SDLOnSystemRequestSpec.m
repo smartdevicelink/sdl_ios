@@ -21,6 +21,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLOnSystemRequest* testNotification = [[SDLOnSystemRequest alloc] init];
         
         testNotification.requestType = SDLRequestTypeFileResume;
+        testNotification.requestSubType = @"subtype";
         testNotification.url = [@[@"www.google.com"] mutableCopy];
         testNotification.timeout = @52345;
         testNotification.fileType = SDLFileTypePNG;
@@ -28,6 +29,7 @@ describe(@"Getter/Setter Tests", ^ {
         testNotification.length = @50000000000;
         
         expect(testNotification.requestType).to(equal(SDLRequestTypeFileResume));
+        expect(testNotification.requestSubType).to(equal(@"subtype"));
         expect(testNotification.url).to(equal([@[@"www.google.com"] mutableCopy]));
         expect(testNotification.timeout).to(equal(@52345));
         expect(testNotification.fileType).to(equal(SDLFileTypePNG));
@@ -39,6 +41,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{SDLNameNotification:
                                            @{SDLNameParameters:
                                                  @{SDLNameRequestType:SDLRequestTypeFileResume,
+                                                   SDLNameRequestSubType: @"subtype",
                                                    SDLNameURL:[@[@"www.google.com"] mutableCopy],
                                                    SDLNameTimeout:@52345,
                                                    SDLNameFileType:SDLFileTypePNG,
@@ -48,6 +51,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLOnSystemRequest* testNotification = [[SDLOnSystemRequest alloc] initWithDictionary:dict];
         
         expect(testNotification.requestType).to(equal(SDLRequestTypeFileResume));
+        expect(testNotification.requestSubType).to(equal(@"subtype"));
         expect(testNotification.url).to(equal([@[@"www.google.com"] mutableCopy]));
         expect(testNotification.timeout).to(equal(@52345));
         expect(testNotification.fileType).to(equal(SDLFileTypePNG));
@@ -59,6 +63,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLOnSystemRequest* testNotification = [[SDLOnSystemRequest alloc] init];
         
         expect(testNotification.requestType).to(beNil());
+        expect(testNotification.requestSubType).to(beNil());
         expect(testNotification.url).to(beNil());
         expect(testNotification.timeout).to(beNil());
         expect(testNotification.fileType).to(beNil());

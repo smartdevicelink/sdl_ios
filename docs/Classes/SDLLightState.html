@@ -1,0 +1,203 @@
+<h1>SDLLightState Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithId:status:">-initWithId:status:</a></li>
+  <li><a href="#section--initWithId:status:density:color:">-initWithId:status:density:color:</a></li>
+  <li><a href="#section--initWithId:lightStatus:lightDensity:lightColor:">-initWithId:lightStatus:lightDensity:lightColor:</a></li>
+  <li><a href="#section-id">id</a></li>
+  <li><a href="#section-status">status</a></li>
+  <li><a href="#section-density">density</a></li>
+  <li><a href="#section-color">color</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithId:status:">
+      -initWithId:status:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLLightState object with given parameters</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">id</span>
+                            <span class="nf">status</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span><span class="p">)</span><span class="nv">status</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">,</span> <span class="nv">status</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>id</dt>
+      <dd><p>The name of a light or a group of lights</p></dd>
+      <dt>status</dt>
+      <dd><p>Reflects the status of Light.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLLightState class</p>
+  </div>
+  
+  <h3 id="section--initWithId:status:density:color:">
+      -initWithId:status:density:color:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLLightState object with given parameters</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">id</span>
+                            <span class="nf">status</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span><span class="p">)</span><span class="nv">status</span>
+                           <span class="nf">density</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">density</span>
+                             <span class="nf">color</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">color</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">,</span> <span class="nv">status</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span><span class="p">,</span> <span class="nv">density</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="nv">color</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRGBColor.html">SDLRGBColor</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>id</dt>
+      <dd><p>The name of a light or a group of lights</p></dd>
+      <dt>status</dt>
+      <dd><p>Reflects the status of Light.</p></dd>
+      <dt>density</dt>
+      <dd><p>Reflects the density of Light.</p></dd>
+      <dt>color</dt>
+      <dd><p>Reflects the color of Light.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLLightState class</p>
+  </div>
+  
+  <h3 id="section--initWithId:lightStatus:lightDensity:lightColor:">
+      -initWithId:lightStatus:lightDensity:lightColor:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLLightState object with given parameters</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">id</span>
+                       <span class="nf">lightStatus</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span><span class="p">)</span><span class="nv">lightStatus</span>
+                      <span class="nf">lightDensity</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">lightDensity</span>
+                        <span class="nf">lightColor</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">lightColor</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">,</span> <span class="nv">lightStatus</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span><span class="p">,</span> <span class="nv">lightDensity</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="nv">lightColor</span><span class="p">:</span> <span class="kt">UIColor</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>id</dt>
+      <dd><p>The name of a light or a group of lights</p></dd>
+      <dt>lightStatus</dt>
+      <dd><p>Reflects the status of Light.</p></dd>
+      <dt>lightDensity</dt>
+      <dd><p>Reflects the density of Light.</p></dd>
+      <dt>lightColor</dt>
+      <dd><p>Reflects the color of Light.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLLightState class</p>
+  </div>
+  
+  <h3 id="section-id">
+      id
+  </h3>
+  
+  <p>@abstract The name of a light or a group of lights</p>
+
+<p>Required, SDLLightName</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span> <span class="n">_Nonnull</span> <span class="n">id</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">id</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-status">
+      status
+  </h3>
+  
+  <p>@abstract Reflects the status of Light.</p>
+
+<p>Required, SDLLightStatus</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span> <span class="n">_Nonnull</span> <span class="n">status</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">status</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-density">
+      density
+  </h3>
+  
+  <p>@abstract Reflects the density of Light.</p>
+
+<p>Optional, Float type with minValue: 0 maxValue:1</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">density</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">density</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-color">
+      color
+  </h3>
+  
+  <p>@abstract Reflects the color of Light.</p>
+
+<p>Optional, SDLLightStatus</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="n">color</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">color</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRGBColor.html">SDLRGBColor</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

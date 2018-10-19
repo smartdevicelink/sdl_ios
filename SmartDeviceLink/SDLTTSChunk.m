@@ -39,15 +39,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (NSArray<SDLTTSChunk *> *)silenceChunks {
-    return [self sdl_chunksFromString:nil type:SDLSpeechCapabilitiesSilence];
+    return [self sdl_chunksFromString:@"" type:SDLSpeechCapabilitiesSilence];
+}
+
++ (NSArray<SDLTTSChunk *> *)fileChunksWithName:(NSString *)fileName {
+    return [self sdl_chunksFromString:fileName type:SDLSpeechCapabilitiesFile];
 }
 
 + (nullable NSArray<SDLTTSChunk *> *)sdl_chunksFromString:(nullable NSString *)string type:(SDLSpeechCapabilities)type {
-    if (string.length == 0) {
+    if (string == nil) {
         return nil;
     }
 
-    return [NSArray arrayWithObject:[[[self class] alloc] initWithText:string type:type]];
+    return @[[[SDLTTSChunk alloc] initWithText:string type:type]];
 }
 
 - (void)setText:(NSString *)text {

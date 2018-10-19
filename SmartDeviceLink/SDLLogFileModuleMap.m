@@ -22,11 +22,16 @@
                                  [self sdl_lifecycleManagerModule],
                                  [self sdl_lockscreenManagerModule],
                                  [self sdl_streamingMediaManagerModule],
-                                 [self sdl_screenManagerModule]]];
+                                 [self sdl_streamingMediaAudioTranscoderModule],
+                                 [self sdl_screenManagerModule],
+                                 [self sdl_screenManagerTextAndGraphicModule],
+                                 [self sdl_screenManagerSoftButtonModule],
+                                 [self sdl_screenManagerMenuModule],
+                                 [self sdl_screenManagerChoiceSetModule]]];
 }
 
 + (SDLLogFileModule *)sdl_transportModule {
-    return [SDLLogFileModule moduleWithName:@"Transport" files:[NSSet setWithArray:@[@"SDLIAPSession", @"SDLIAPTransport", @"SDLStreamDelegate", @"SDLTCPTransport"]]];
+    return [SDLLogFileModule moduleWithName:@"Transport" files:[NSSet setWithArray:@[@"SDLIAPSession", @"SDLIAPTransport", @"SDLSecondaryTransportManager", @"SDLSecondaryTransportPrimaryProtocolHandler", @"SDLStreamDelegate", @"SDLTCPTransport"]]];
 }
 
 + (SDLLogFileModule *)sdl_proxyModule {
@@ -61,11 +66,31 @@
 }
 
 + (SDLLogFileModule *)sdl_streamingMediaManagerModule {
-    return [SDLLogFileModule moduleWithName:@"Streaming" files:[NSSet setWithArray:@[@"SDLH264VideoEncoder", @"SDLRAWH264Packetizer", @"SDLRTPH264Packetizer", @"SDLStreamingMediaManager", @"SDLStreamingMediaLifecycleManager", @"SDLTouchManager", @"SDLCarWindow"]]];
+    return [SDLLogFileModule moduleWithName:@"Streaming" files:[NSSet setWithArray:@[@"SDLH264VideoEncoder", @"SDLRAWH264Packetizer", @"SDLRTPH264Packetizer", @"SDLStreamingMediaManager", @"SDLStreamingAudioLifecycleManager", @"SDLStreamingVideoLifecycleManager", @"SDLTouchManager", @"SDLCarWindow"]]];
+}
+
++ (SDLLogFileModule *)sdl_streamingMediaAudioTranscoderModule {
+    return [SDLLogFileModule moduleWithName:@"Streaming/Audio Transcode" files:[NSSet setWithArray:@[@"SDLAudioStreamManager", @"SDLPCMAudioConverter"]]];
 }
 
 + (SDLLogFileModule *)sdl_screenManagerModule {
-    return [SDLLogFileModule moduleWithName:@"Screen" files:[NSSet setWithArray:@[@"SDLTextAndGraphicManager", @"SDLSoftButtonManager", @"SDLScreenManager", @"SDLSoftButtonObject", @"SDLSoftButtonState", @"SDLMenuManager", @"SDLVoiceCommandManager"]]];
+    return [SDLLogFileModule moduleWithName:@"Screen" files:[NSSet setWithArray:@[@"SDLScreenManager"]]];
+}
+
++ (SDLLogFileModule *)sdl_screenManagerTextAndGraphicModule {
+    return [SDLLogFileModule moduleWithName:@"Screen/TextAndGraphic" files:[NSSet setWithArray:@[@"SDLTextAndGraphicManager"]]];
+}
+
++ (SDLLogFileModule *)sdl_screenManagerSoftButtonModule {
+    return [SDLLogFileModule moduleWithName:@"Screen/SoftButton" files:[NSSet setWithArray:@[@"SDLSoftButtonManager", @"SDLSoftButtonObject", @"SDLSoftButtonState"]]];
+}
+
++ (SDLLogFileModule *)sdl_screenManagerMenuModule {
+    return [SDLLogFileModule moduleWithName:@"Screen/Menu" files:[NSSet setWithArray:@[@"SDLMenuManager", @"SDLVoiceCommandManager"]]];
+}
+
++ (SDLLogFileModule *)sdl_screenManagerChoiceSetModule {
+    return [SDLLogFileModule moduleWithName:@"Screen/ChoiceSet" files:[NSSet setWithArray:@[@"SDLChoiceSetManager", @"SDLCheckChoiceVROptionalOperation", @"SDLDeleteChoicesOperation", @"SDLPreloadChoicesOperation", @"SDLPresentChoiceSetOperation", @"SDLPresentKeyboardOperation", @"SDLChoiceSet"]]];
 }
 
 

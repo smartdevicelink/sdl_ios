@@ -3,11 +3,13 @@
 <h3>Section Contents</h3>
 
 <ul>
+  <li><a href="#section--initWithUpdateMode:hours:minutes:seconds:audioStreamingIndicator:">-initWithUpdateMode:hours:minutes:seconds:audioStreamingIndicator:</a></li>
   <li><a href="#section--initWithUpdateMode:hours:minutes:seconds:">-initWithUpdateMode:hours:minutes:seconds:</a></li>
   <li><a href="#section--initWithUpdateMode:">-initWithUpdateMode:</a></li>
   <li><a href="#section-startTime">startTime</a></li>
   <li><a href="#section-endTime">endTime</a></li>
   <li><a href="#section-updateMode">updateMode</a></li>
+  <li><a href="#section-audioStreamingIndicator">audioStreamingIndicator</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -23,6 +25,24 @@
 
 
 <section class="section task-group-section">
+  <h3 id="section--initWithUpdateMode:hours:minutes:seconds:audioStreamingIndicator:">
+      -initWithUpdateMode:hours:minutes:seconds:audioStreamingIndicator:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUpdateMode</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">)</span><span class="nv">updateMode</span> <span class="nf">hours</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">hours</span> <span class="nf">minutes</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">minutes</span> <span class="nf">seconds</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">seconds</span> <span class="nf">audioStreamingIndicator</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span><span class="nv">audioStreamingIndicator</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">updateMode</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span><span class="p">,</span> <span class="nv">hours</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">minutes</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">seconds</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">audioStreamingIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  
   <h3 id="section--initWithUpdateMode:hours:minutes:seconds:">
       -initWithUpdateMode:hours:minutes:seconds:
   </h3>
@@ -130,6 +150,29 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">updateMode</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLUpdateMode.h@T@SDLUpdateMode">SDLUpdateMode</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-audioStreamingIndicator">
+      audioStreamingIndicator
+  </h3>
+  
+  <p>The audio streaming indicator used for a play/pause button.</p>
+
+<p>@discussion Set the indicator icon of a play/pause button depending on the
+ current audio playback. This parameter is optional. If omitted the last indicator sent
+ will not change.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span> <span class="n">audioStreamingIndicator</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">audioStreamingIndicator</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAudioStreamingIndicator.h@T@SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

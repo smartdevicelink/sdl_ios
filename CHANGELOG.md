@@ -1,10 +1,51 @@
-# 6.0.2
+# 6.1.0 (Since RC 2)
+### Versions
+* Supports [SDL RPC Spec 5.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/5.0.0) and [SDL Protocol Spec 5.1.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.1.0).
+
+### Changes
+* None
+
+# 6.1.0 Release Candidate 2
+### Bug Fixes
+* If a RegisterAppInterface or SetDisplayLayout fail, don't set displayCapabilities to nil in the screen manager [#1108](https://github.com/smartdevicelink/sdl_ios/issues/1108).
+
+# 6.1.0 Release Candidate 1
+### Enhancements
+* `PlayPause` button name has been added for subscription [#246](https://github.com/smartdevicelink/sdl_ios/issues/246).
+* Added the ability to play an audio file (such as a jingle) through `TTSChunk`, which may be used in an `Alert` or `Speak` RPC, for example [SDL-0014] [#524](https://github.com/smartdevicelink/sdl_ios/issues/524).
+* Added CRC checksums to data transfers (such as images or files) and automatic retrying of failed transfers, customizable via a new `SDLFileManagerConfiguration` [SDL-0037] [#599](https://github.com/smartdevicelink/sdl_ios/issues/599) [#1013](https://github.com/smartdevicelink/sdl_ios/issues/1013) [SDL-0191] [#1043](https://github.com/smartdevicelink/sdl_ios/issues/1043).
+* Added the ability for app icons to appear on the head unit without data being transferred after the first connection [SDL-0041] [#600](https://github.com/smartdevicelink/sdl_ios/issues/600).
+* Added the ability to send an image as "template", this is a single color image that can be re-colored by the head unit automatically to fit with the background. e.g. on a white background the image will appear black, and on a black background, white [SDL-0062] [#626](https://github.com/smartdevicelink/sdl_ios/issues/626).
+* Added a `displayName` parameter to `displayCapabilities` and deprecate `displayType` [SDL-0063] [#627](https://github.com/smartdevicelink/sdl_ios/issues/627).
+* Added new vehicle data: Fuel Range [SDL-0072] [#641](https://github.com/smartdevicelink/sdl_ios/issues/641), Engine Oil Life [SDL-0082] [#706](https://github.com/smartdevicelink/sdl_ios/issues/706), Electronic Park Brake Status [SDL-0102] [#761](https://github.com/smartdevicelink/sdl_ios/issues/761), Tire Pressure [SDL-0097] [#748](https://github.com/smartdevicelink/sdl_ios/issues/748), and Turn Signal [SDL-0107] [#791](https://github.com/smartdevicelink/sdl_ios/issues/791).
+* Add the ability for submenu menu cells to have icons [SDL-0085] [#719](https://github.com/smartdevicelink/sdl_ios/issues/719).
+* Add new vehicle capabilities that can be remotely controlled by an application: Seat Controls [SDL-0105] [#792](https://github.com/smartdevicelink/sdl_ios/issues/792), lights, display settings, and additional audio capabilities [SDL-0099] [#755](https://github.com/smartdevicelink/sdl_ios/issues/755), [SDL-0165] [#954](https://github.com/smartdevicelink/sdl_ios/issues/954), [SDL-0182] [#1022](https://github.com/smartdevicelink/sdl_ios/issues/1022).
+* Add the ability to check the status of remote control modules [SDL-0106] [#800](https://github.com/smartdevicelink/sdl_ios/issues/800), [SDL-0172] [#990](https://github.com/smartdevicelink/sdl_ios/issues/990).
+* Add the ability to modify the play / pause button to show either play, pause, stop, or play / pause [SDL-0109] [#892](https://github.com/smartdevicelink/sdl_ios/issues/892).
+* Allow apps to alter template primary, secondary, and tertiary colors while connected to a supported head unit through the RegisterAppInterface and SetDisplayLayout APIs [SDL-0147] [#909](https://github.com/smartdevicelink/sdl_ios/issues/909).
+* Allow checking for the availability of a secondary graphic [SDL-0151] [#917](https://github.com/smartdevicelink/sdl_ios/issues/917).
+* Support short and full appIds [SDL-0153] [#942](https://github.com/smartdevicelink/sdl_ios/issues/942).
+* Allow Perform Interaction Choice Set Choices to not include voice commands [SDL-0064] [#943](https://github.com/smartdevicelink/sdl_ios/issues/943).
+* Add a choice set manager to assist in presenting choice set menus and keyboard interactions [SDL-0157] [#970](https://github.com/smartdevicelink/sdl_ios/issues/970).
+* Add an enum for static icons [SDL-0159] [#944](https://github.com/smartdevicelink/sdl_ios/issues/944).
+* Update TCP transport for production [#946](https://github.com/smartdevicelink/sdl_ios/issues/946).
+* Separate SDL example app code better [#1056](https://github.com/smartdevicelink/sdl_ios/issues/1056).
 
 ### Bug Fixes
-* Video streaming apps put into a phone background state can now properly stop the video streaming when it leaves a streamable HMI state. (#1047)
+* TCP transport failure is now reported via a notification [#911](https://github.com/smartdevicelink/sdl_ios/issues/911).
+* The Obj-C and Swift example apps can now run without crashing without cleaning [#981](https://github.com/smartdevicelink/sdl_ios/issues/981).
+* Swift Cocoapods subspec will now properly download lock screen assets [#1026](https://github.com/smartdevicelink/sdl_ios/issues/1026).
+* The `SDLLockScreenConfiguration` `showInOptionalState` being `true` was not properly preventing dismissal of the lock screen [#1070](https://github.com/smartdevicelink/sdl_ios/issues/1070).
+* Fix possible crashes in SDLAsynchronousRPCOperation on cancellation of operations [#1076](https://github.com/smartdevicelink/sdl_ios/issues/1076).
+* Fix can't get CarWindow `rootViewController` [#1100](https://github.com/smartdevicelink/sdl_ios/issues/1100).
+* Fix setting CarWindow `rootViewController` not on main thread [#1101](https://github.com/smartdevicelink/sdl_ios/issues/1101).
+* Add audio transcode files to default log module map [#1103](https://github.com/smartdevicelink/sdl_ios/issues/1103).
+
+# 6.0.2
+### Bug Fixes
+* Video streaming apps put into a phone background state can now properly stop the video streaming when it leaves a streamable HMI state. [#1047](https://github.com/smartdevicelink/sdl_ios/issues/1047)
 
 # 6.0.1
-
 ### Bug Fixes
 * Fixed a crash that could occur in development circumstances if the head unit returns "-1" for an enum
 * Fixed manually sent Show RPCs causing issues when changing layouts.

@@ -14,6 +14,8 @@
   <li><a href="#section-SDLAlertResponse">SDLAlertResponse</a></li>
   <li><a href="#section-SDLAppInfo">SDLAppInfo</a></li>
   <li><a href="#section-SDLArtwork">SDLArtwork</a></li>
+  <li><a href="#section-SDLAudioControlCapabilities">SDLAudioControlCapabilities</a></li>
+  <li><a href="#section-SDLAudioControlData">SDLAudioControlData</a></li>
   <li><a href="#section-SDLAudioPassThruCapabilities">SDLAudioPassThruCapabilities</a></li>
   <li><a href="#section-SDLAudioStreamManager">SDLAudioStreamManager</a></li>
   <li><a href="#section-SDLBeltStatus">SDLBeltStatus</a></li>
@@ -25,6 +27,8 @@
   <li><a href="#section-SDLChangeRegistration">SDLChangeRegistration</a></li>
   <li><a href="#section-SDLChangeRegistrationResponse">SDLChangeRegistrationResponse</a></li>
   <li><a href="#section-SDLChoice">SDLChoice</a></li>
+  <li><a href="#section-SDLChoiceCell">SDLChoiceCell</a></li>
+  <li><a href="#section-SDLChoiceSet">SDLChoiceSet</a></li>
   <li><a href="#section-SDLClimateControlCapabilities">SDLClimateControlCapabilities</a></li>
   <li><a href="#section-SDLClimateControlData">SDLClimateControlData</a></li>
   <li><a href="#section-SDLClusterModeStatus">SDLClusterModeStatus</a></li>
@@ -54,8 +58,11 @@
   <li><a href="#section-SDLEncodedSyncPDataResponse">SDLEncodedSyncPDataResponse</a></li>
   <li><a href="#section-SDLEndAudioPassThru">SDLEndAudioPassThru</a></li>
   <li><a href="#section-SDLEndAudioPassThruResponse">SDLEndAudioPassThruResponse</a></li>
+  <li><a href="#section-SDLEqualizerSettings">SDLEqualizerSettings</a></li>
   <li><a href="#section-SDLFile">SDLFile</a></li>
   <li><a href="#section-SDLFileManager">SDLFileManager</a></li>
+  <li><a href="#section-SDLFileManagerConfiguration">SDLFileManagerConfiguration</a></li>
+  <li><a href="#section-SDLFuelRange">SDLFuelRange</a></li>
   <li><a href="#section-SDLGPSData">SDLGPSData</a></li>
   <li><a href="#section-SDLGenericResponse">SDLGenericResponse</a></li>
   <li><a href="#section-SDLGetDTCs">SDLGetDTCs</a></li>
@@ -70,6 +77,8 @@
   <li><a href="#section-SDLGetWayPointsResponse">SDLGetWayPointsResponse</a></li>
   <li><a href="#section-SDLHMICapabilities">SDLHMICapabilities</a></li>
   <li><a href="#section-SDLHMIPermissions">SDLHMIPermissions</a></li>
+  <li><a href="#section-SDLHMISettingsControlCapabilities">SDLHMISettingsControlCapabilities</a></li>
+  <li><a href="#section-SDLHMISettingsControlData">SDLHMISettingsControlData</a></li>
   <li><a href="#section-SDLHapticRect">SDLHapticRect</a></li>
   <li><a href="#section-SDLHeadLampStatus">SDLHeadLampStatus</a></li>
   <li><a href="#section-SDLImage">SDLImage</a></li>
@@ -78,6 +87,10 @@
   <li><a href="#section-SDLKeyboardProperties">SDLKeyboardProperties</a></li>
   <li><a href="#section-SDLLifecycleConfiguration">SDLLifecycleConfiguration</a></li>
   <li><a href="#section-SDLLifecycleConfigurationUpdate">SDLLifecycleConfigurationUpdate</a></li>
+  <li><a href="#section-SDLLightCapabilities">SDLLightCapabilities</a></li>
+  <li><a href="#section-SDLLightControlCapabilities">SDLLightControlCapabilities</a></li>
+  <li><a href="#section-SDLLightControlData">SDLLightControlData</a></li>
+  <li><a href="#section-SDLLightState">SDLLightState</a></li>
   <li><a href="#section-SDLListFiles">SDLListFiles</a></li>
   <li><a href="#section-SDLListFilesResponse">SDLListFilesResponse</a></li>
   <li><a href="#section-SDLLocationCoordinate">SDLLocationCoordinate</a></li>
@@ -92,6 +105,8 @@
   <li><a href="#section-SDLLogTargetFile">SDLLogTargetFile</a></li>
   <li><a href="#section-SDLLogTargetOSLog">SDLLogTargetOSLog</a></li>
   <li><a href="#section-SDLManager">SDLManager</a></li>
+  <li><a href="#section-SDLMassageCushionFirmness">SDLMassageCushionFirmness</a></li>
+  <li><a href="#section-SDLMassageModeData">SDLMassageModeData</a></li>
   <li><a href="#section-SDLMenuCell">SDLMenuCell</a></li>
   <li><a href="#section-SDLMenuParams">SDLMenuParams</a></li>
   <li><a href="#section-SDLMetadataTags">SDLMetadataTags</a></li>
@@ -114,6 +129,7 @@
   <li><a href="#section-SDLOnLanguageChange">SDLOnLanguageChange</a></li>
   <li><a href="#section-SDLOnLockScreenStatus">SDLOnLockScreenStatus</a></li>
   <li><a href="#section-SDLOnPermissionsChange">SDLOnPermissionsChange</a></li>
+  <li><a href="#section-SDLOnRCStatus">SDLOnRCStatus</a></li>
   <li><a href="#section-SDLOnSyncPData">SDLOnSyncPData</a></li>
   <li><a href="#section-SDLOnSystemRequest">SDLOnSystemRequest</a></li>
   <li><a href="#section-SDLOnTBTClientState">SDLOnTBTClientState</a></li>
@@ -133,6 +149,7 @@
   <li><a href="#section-SDLPutFile">SDLPutFile</a></li>
   <li><a href="#section-SDLPutFileResponse">SDLPutFileResponse</a></li>
   <li><a href="#section-SDLRDSData">SDLRDSData</a></li>
+  <li><a href="#section-SDLRGBColor">SDLRGBColor</a></li>
   <li><a href="#section-SDLRPCMessage">SDLRPCMessage</a></li>
   <li><a href="#section-SDLRPCNotification">SDLRPCNotification</a></li>
   <li><a href="#section-SDLRPCNotificationNotification">SDLRPCNotificationNotification</a></li>
@@ -150,10 +167,14 @@
   <li><a href="#section-SDLRemoteControlCapabilities">SDLRemoteControlCapabilities</a></li>
   <li><a href="#section-SDLResetGlobalProperties">SDLResetGlobalProperties</a></li>
   <li><a href="#section-SDLResetGlobalPropertiesResponse">SDLResetGlobalPropertiesResponse</a></li>
+  <li><a href="#section-SDLSISData">SDLSISData</a></li>
   <li><a href="#section-SDLScreenManager">SDLScreenManager</a></li>
   <li><a href="#section-SDLScreenParams">SDLScreenParams</a></li>
   <li><a href="#section-SDLScrollableMessage">SDLScrollableMessage</a></li>
   <li><a href="#section-SDLScrollableMessageResponse">SDLScrollableMessageResponse</a></li>
+  <li><a href="#section-SDLSeatControlCapabilities">SDLSeatControlCapabilities</a></li>
+  <li><a href="#section-SDLSeatControlData">SDLSeatControlData</a></li>
+  <li><a href="#section-SDLSeatMemoryAction">SDLSeatMemoryAction</a></li>
   <li><a href="#section-SDLSendHapticData">SDLSendHapticData</a></li>
   <li><a href="#section-SDLSendHapticDataResponse">SDLSendHapticDataResponse</a></li>
   <li><a href="#section-SDLSendLocation">SDLSendLocation</a></li>
@@ -182,6 +203,7 @@
   <li><a href="#section-SDLSpeak">SDLSpeak</a></li>
   <li><a href="#section-SDLSpeakResponse">SDLSpeakResponse</a></li>
   <li><a href="#section-SDLStartTime">SDLStartTime</a></li>
+  <li><a href="#section-SDLStationIDNumber">SDLStationIDNumber</a></li>
   <li><a href="#section-SDLStreamingMediaConfiguration">SDLStreamingMediaConfiguration</a></li>
   <li><a href="#section-SDLStreamingMediaManager">SDLStreamingMediaManager</a></li>
   <li><a href="#section-SDLSubscribeButton">SDLSubscribeButton</a></li>
@@ -197,6 +219,7 @@
   <li><a href="#section-SDLSystemCapabilityManager">SDLSystemCapabilityManager</a></li>
   <li><a href="#section-SDLTTSChunk">SDLTTSChunk</a></li>
   <li><a href="#section-SDLTemperature">SDLTemperature</a></li>
+  <li><a href="#section-SDLTemplateColorScheme">SDLTemplateColorScheme</a></li>
   <li><a href="#section-SDLTextField">SDLTextField</a></li>
   <li><a href="#section-SDLTireStatus">SDLTireStatus</a></li>
   <li><a href="#section-SDLTouch">SDLTouch</a></li>
@@ -233,29 +256,28 @@
       SDLAddCommand
   </h3>
   
-  <p>This class will add a command to the application&rsquo;s Command Menu SDLMenuParams</p>
+  <p>This class will add a command to the application&rsquo;s Command Menu</p>
 
-<p>A command will be added to the end of the list of elements in
- the Command Menu under the following conditions:
- <li>When a SDLCommand is added with no SDLMenuParams value provided</li>
- <li>When a SDLMenuParams value is provided with a SDLMenuParam.position value
- greater than or equal to the number of menu items currently defined in the
- menu specified by the SDLMenuParam.parentID value</li></p>
+<p>A command will be added to the end of the list of elements in the Command Menu under the following conditions:</p>
 
-<p>The set of choices which the application builds using SDLAddCommand can be a
- mixture of:
- <li>Choices having only VR synonym definitions, but no SDLMenuParams definitions
- </li>
- <li>Choices having only SDLMenuParams definitions, but no VR synonym definitions
- </li>
- <li>Choices having both SDLMenuParams and VR synonym definitions</li></p>
+<ol>
+<li>When a SDLAddCommand is added with no SDLMenuParams value provided.</li>
+<li>When a SDLMenuParams value is provided with a SDLMenuParam.position value greater than or equal to the number of menu items currently defined in the menu specified by the SDLMenuParam.parentID value.</li>
+</ol>
 
-<p>HMILevel needs to be FULL, LIMITED or BACKGROUD</p>
+<p>The set of choices which the application builds using SDLAddCommand can be a mixture of:</p>
 
-<p>@since SDL 1.0</p>
+<ol>
+<li>Choices having only VR synonym definitions, but no SDLMenuParams definitions</li>
+<li>Choices having only SDLMenuParams definitions, but no VR synonym definitions</li>
+<li>Choices having both SDLMenuParams and VR synonym definitions</li>
+</ol>
+
+<p>HMILevel needs to be FULL, LIMITED or BACKGROUD
+  @since SDL 1.0</p>
 <div class="aside aside-see">
     <p class="aside-title">See</p>
-    SDLDeleteCommand SDLAddSubMenu SDLDeleteSubMenu
+    SDLDeleteCommand, SDLAddSubMenu, SDLDeleteSubMenu
 
 </div>
 
@@ -498,7 +520,14 @@
   <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLArtwork</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLFile.html">SDLFile</a></span>
 
 <span class="cm">/**
- *  Convenience Helper to create an ephemeral artwork from an image.
+ *  Describes whether or not the image is a template that can be (re)colored by the SDL HMI. To make the artwork a template, set the `UIImage`s rendering mode to `UIImageRenderingModeAlwaysTemplate`. In order for templates to work successfully, the icon must be one solid color with a clear background. The artwork should be created using the PNG image format.
+ *
+ *  @discussion An image should be templated if it is intended to be used as an icon in a button or menu.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">isTemplate</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Convenience helper to create an ephemeral artwork from an image.
  *
  *  This is an ephemeral file, it will not be persisted through sessions / ignition cycles. Any files that you do not *know* you will use in future sessions should be created through this method. For example, album / artist artwork should be ephemeral.
  *
@@ -515,7 +544,7 @@
 <span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">artworkWithImage</span><span class="p">:(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">name</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="nf">asImageFormat</span><span class="p">:(</span><span class="n"><a href="Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span><span class="nv">imageFormat</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use the standard initializer and set persistant to false"</span><span class="p">);</span>
 
 <span class="cm">/**
- *  Convenience Helper to create an ephemeral artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image's data which is created by hashing the data using the MD5 algorithm.
+ *  Convenience helper to create an ephemeral artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image's data which is created by hashing the data using the MD5 algorithm.
  *
  *  This is an ephemeral file, it will not be persisted through sessions / ignition cycles. Any files that you do not *know* you will use in future sessions should be created through this method. For example, album / artist artwork should be ephemeral.
  *
@@ -531,7 +560,7 @@
 <span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">artworkWithImage</span><span class="p">:(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">asImageFormat</span><span class="p">:(</span><span class="n"><a href="Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span><span class="nv">imageFormat</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use the standard initializer and set persistant to false"</span><span class="p">);</span>
 
 <span class="cm">/**
- *  Convenience Helper to create a persistent artwork from an image.
+ *  Convenience helper to create a persistent artwork from an image.
  *
  *  This is a persistent file, it will be persisted through sessions / ignition cycles. You will only have a limited space for all files, so be sure to only persist files that are required for all or most sessions. For example, menu artwork should be persistent.
  *
@@ -548,7 +577,7 @@
 <span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">persistentArtworkWithImage</span><span class="p">:(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nv">image</span> <span class="nf">name</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="nf">asImageFormat</span><span class="p">:(</span><span class="n"><a href="Enums/SDLArtworkImageFormat.html">SDLArtworkImageFormat</a></span><span class="p">)</span><span class="nv">imageFormat</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use the standard initializer and set persistant to true"</span><span class="p">);</span>
 
 <span class="cm">/**
- *  Convenience Helper to create a persistent artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image's data which is created by hashing the data using the MD5 algorithm.
+ *  Convenience helper to create a persistent artwork from an image. A unique name will be assigned to the image. This name is a string representation of the image's data which is created by hashing the data using the MD5 algorithm.
  *
  *  This is a persistent file, it will be persisted through sessions / ignition cycles. You will only have a limited space for all files, so be sure to only persist files that are required for all or most sessions. For example, menu artwork should be persistent.
  *
@@ -591,6 +620,159 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLArtwork</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLFile.html">SDLFile</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAudioControlCapabilities">
+      SDLAudioControlCapabilities
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLAudioControlCapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLAudioControlCapabilities</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="cm">/**
+ Constructs a newly allocated SDLAudioControlCapabilities object with audio control module name (max 100 chars)
+
+ @param name The short friendly name of the audio control module.
+ @return An instance of the SDLAudioControlCapabilities class.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span><span class="p">;</span>
+
+<span class="cm">/**
+  Constructs a newly allocated SDLAudioControlCapabilities object with given parameters
+
+ @param name The short friendly name of the audio control module.
+ @param sourceAvailable Availability of the control of audio source.
+ @param volumeAvailable Availability of the volume of audio source.
+ @param equalizerAvailable Availability of the equalizer of audio source.
+ @param equalizerMaxChannelID Equalizer channel ID (between 1-100).
+ @return An instance of the SDLAudioControlCapabilities class.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="nf">sourceAvailable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">sourceAvailable</span> <span class="nf">keepContextAvailable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">keepContextAvailable</span> <span class="nf">volumeAvailable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">volumeAvailable</span> <span class="nf">equalizerAvailable</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">equalizerAvailable</span> <span class="nf">equalizerMaxChannelID</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">equalizerMaxChannelID</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract The short friendly name of the audio control module.
+ * It should not be used to identify a module by mobile application.
+ *
+ * Required, Max String length 100 chars
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">moduleName</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract Availability of the control of audio source.
+ *
+ * Optional, Boolean
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">sourceAvailable</span><span class="p">;</span>
+
+<span class="cm">/**
+ Availability of the keepContext parameter.
+
+ Optional, Boolean
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">keepContextAvailable</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract Availability of the control of audio volume.
+ *
+ * Optional, Boolean
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">volumeAvailable</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract Availability of the control of Equalizer Settings.
+ *
+ * Optional, Boolean
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">equalizerAvailable</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract Must be included if equalizerAvailable=true,
+ * and assume all IDs starting from 1 to this value are valid
+ *
+ * Optional, Integer 1 - 100
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">equalizerMaxChannelId</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLAudioControlCapabilities</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAudioControlData">
+      SDLAudioControlData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLAudioControlData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLAudioControlData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+
+<span class="cm">/**
+ Constructs a newly allocated SDLAudioControlData object with given parameters
+
+ @param source current primary audio source of the system.
+ @param keepContext Whether or not application's context is changed.
+ @param volume Reflects the volume of audio.
+ @param equalizerSettings list of supported Equalizer channels.
+ @return An instance of the SDLAudioControlData class.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithSource</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLPrimaryAudioSource.h@T@SDLPrimaryAudioSource">SDLPrimaryAudioSource</a></span><span class="p">)</span><span class="nv">source</span> <span class="nf">keepContext</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">keepContext</span> <span class="nf">volume</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">volume</span> <span class="nf">equalizerSettings</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLEqualizerSettings.html">SDLEqualizerSettings</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">equalizerSettings</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract   In a getter response or a notification,
+ * it is the current primary audio source of the system.
+ * In a setter request, it is the target audio source that the system shall switch to.
+ * If the value is MOBILE_APP, the system shall switch to the mobile media app that issues the setter RPC.
+ *
+ * Optional, SDLPrimaryAudioSource
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLPrimaryAudioSource.h@T@SDLPrimaryAudioSource">SDLPrimaryAudioSource</a></span> <span class="n">source</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract This parameter shall not be present in any getter responses or notifications.
+ * This parameter is optional in a setter request. The default value is false.
+ * If it is true, the system not only changes the audio source but also brings the default
+ * infotainment system UI associated with the audio source to foreground and set the application to background.
+ * If it is false, the system changes the audio source, but keeps the current application's context.
+ *
+ * Optional, Boolean
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">keepContext</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract Reflects the volume of audio, from 0%-100%.
+ *
+ * Required, Integer 1 - 100
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">volume</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract Defines the list of supported channels (band) and their current/desired settings on HMI
+ *
+ * Required, Array of SDLEqualizerSettings with minSize:1 maxSize:100
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLEqualizerSettings.html">SDLEqualizerSettings</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">equalizerSettings</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLAudioControlData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   
@@ -869,6 +1051,217 @@
   
   
   
+  <h3 id="section-SDLChoiceCell">
+      SDLChoiceCell
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLChoiceCell.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLChoiceCell</span><span class="p">:</span> <span class="nc">NSObject</span>
+
+<span class="cm">/**
+ Maps to Choice.menuName. The primary text of the cell. Duplicates within an `SDLChoiceSet` are not permitted and will result in the `SDLChoiceSet` failing to initialize.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">text</span><span class="p">;</span>
+
+<span class="cm">/**
+ Maps to Choice.secondaryText. Optional secondary text of the cell, if available. Duplicates within an `SDLChoiceSet` are permitted.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">secondaryText</span><span class="p">;</span>
+
+<span class="cm">/**
+ Maps to Choice.tertiaryText. Optional tertitary text of the cell, if available. Duplicates within an `SDLChoiceSet` are permitted.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">tertiaryText</span><span class="p">;</span>
+
+<span class="cm">/**
+ Maps to Choice.vrCommands. Optional voice commands the user can speak to activate the cell. If not set and the head unit requires it, this will be set to the number in the list that this item appears. However, this would be a very poor experience for a user if the choice set is presented as a voice only interaction or both interaction mode. Therefore, consider not setting this only when you know the choice set will be presented as a touch only interaction.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">voiceCommands</span><span class="p">;</span>
+
+<span class="cm">/**
+ Maps to Choice.image. Optional image for the cell. This will be uploaded before the cell is used when the cell is preloaded or presented for the first time.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="n">artwork</span><span class="p">;</span>
+
+<span class="cm">/**
+ Maps to Choice.secondaryImage. Optional secondary image for the cell. This will be uploaded before the cell is used when the cell is preloaded or presented for the first time.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="n">secondaryArtwork</span><span class="p">;</span>
+
+<span class="cm">/**
+ Initialize the cell with nothing. This is unavailable
+
+ @return A crash, probably
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_UNAVAILABLE</span><span class="p">;</span>
+
+<span class="cm">/**
+ Initialize the cell with text and nothing else.
+
+ @param text The primary text of the cell.
+ @return The cell
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span><span class="p">;</span>
+
+<span class="cm">/**
+ Initialize the cell with text, optional artwork, and optional voice commands
+
+ @param text The primary text of the cell
+ @param artwork The primary artwork of the cell
+ @param voiceCommands Strings that can be spoken by the user to activate this cell in a voice or both interaction mode
+ @return The cell
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span> <span class="nf">artwork</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">artwork</span> <span class="nf">voiceCommands</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">voiceCommands</span><span class="p">;</span>
+
+<span class="cm">/**
+ Initialize the cell with all optional items
+
+ @param text The primary text
+ @param secondaryText The secondary text
+ @param tertiaryText The tertiary text
+ @param voiceCommands Strings that can be spoken by the user to activate this cell in a voice or both interaction mode
+ @param artwork The primary artwork
+ @param secondaryArtwork The secondary artwork
+ @return The cell
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span> <span class="nf">secondaryText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">secondaryText</span> <span class="nf">tertiaryText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">tertiaryText</span> <span class="nf">voiceCommands</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">voiceCommands</span> <span class="nf">artwork</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">artwork</span> <span class="nf">secondaryArtwork</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">secondaryArtwork</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLChoiceCell</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLChoiceSet">
+      SDLChoiceSet
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLChoiceSet.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLChoiceSet</span><span class="p">:</span> <span class="nc">NSObject</span>
+
+<span class="cm">/**
+ Set this to change the default timeout for all choice sets. If a timeout is not set on an individual choice set object (or if it is set to 0.0), then it will use this timeout instead. See `timeout` for more details. If this is not set by you, it will default to 10 seconds.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">class</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSTimeInterval</span> <span class="n">defaultTimeout</span><span class="p">;</span>
+
+<span class="cm">/**
+ Set this to change the default layout for all choice sets. If a layout is not set on an individual choice set object, then it will use this layout instead. See `layout` for more details. If this is not set by you, it will default to `SDLChoiceSetLayoutList`.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">class</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Enums/SDLChoiceSetLayout.html">SDLChoiceSetLayout</a></span> <span class="n">defaultLayout</span><span class="p">;</span>
+
+<span class="cm">/**
+ Maps to PerformInteraction.initialText. The title of the choice set, and/or the initial text on a keyboard prompt.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">title</span><span class="p">;</span>
+
+<span class="cm">/**
+ Maps to PerformInteraction.initialPrompt. The initial prompt spoken to the user at the start of an interaction.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">initialPrompt</span><span class="p">;</span>
+
+<span class="cm">/**
+ Maps to PerformInteraction.interactionLayout. Whether the presented choices are arranged as a set of tiles or a list.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Enums/SDLChoiceSetLayout.html">SDLChoiceSetLayout</a></span> <span class="n">layout</span><span class="p">;</span>
+
+<span class="cm">/**
+ Maps to PerformInteraction.timeout. This applies only to a manual selection (not a voice selection, which has its timeout handled by the system). Defaults to `defaultTimeout`.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSTimeInterval</span> <span class="n">timeout</span><span class="p">;</span>
+
+<span class="cm">/**
+ Maps to PerformInteraction.timeoutPrompt. This text is spoken when a VR interaction times out. If this set is presented in a manual (non-voice) only interaction, this will be ignored.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">timeoutPrompt</span><span class="p">;</span>
+
+<span class="cm">/**
+ Maps to PerformInteraction.helpPrompt. This is the spoken string when a user speaks "help" when the interaction is occurring.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">helpPrompt</span><span class="p">;</span>
+
+<span class="cm">/**
+ Maps to PerformInteraction.vrHelp. This is a list of help text presented to the user when they are in a voice recognition interaction from your choice set of options. If this set is presented in a touch only interaction, this will be ignored.
+
+ @note that while SDLVRHelpItem's position will be automatically set based on position in the array, the image will need to uploaded by you before use using SDLFileManager.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">helpList</span><span class="p">;</span>
+
+<span class="cm">/**
+ The delegate of this choice set, called when the user interacts with it.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/SDLChoiceSetDelegate.html">SDLChoiceSetDelegate</a></span><span class="o">&gt;</span> <span class="n">delegate</span><span class="p">;</span>
+
+<span class="cm">/**
+ The choices to be displayed to the user within this choice set. These choices could match those already preloaded via `SDLScreenManager preloadChoices:withCompletionHandler:`.
+
+ This is limited to 100 items. If you attempt to set more than 100 items, the set will not have any items (this array will be empty).
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLChoiceCell.html">SDLChoiceCell</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">choices</span><span class="p">;</span>
+
+<span class="cm">/**
+ Initialize with a title, delegate, and choices. It will use the default timeout and layout, all other properties (such as prompts) will be `nil`.
+
+ @param title The choice set's title
+ @param delegate The choice set delegate called after the user has interacted with your choice set
+ @param choices The choices to be displayed to the user for interaction
+ @return The choice set
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTitle</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span> <span class="nf">delegate</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/SDLChoiceSetDelegate.html">SDLChoiceSetDelegate</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">delegate</span> <span class="nf">choices</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLChoiceCell.html">SDLChoiceCell</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">choices</span><span class="p">;</span>
+
+<span class="cm">/**
+ Initializer with all possible properties.
+
+ @param title The choice set's title
+ @param delegate The choice set delegate called after the user has interacted with your choice set
+ @param layout The layout of choice options (Manual/touch only)
+ @param timeout The timeout of a touch interaction (Manual/touch only)
+ @param initialPrompt A voice prompt spoken to the user when this set is displayed
+ @param timeoutPrompt A voice prompt spoken to the user when the set times out (Voice only)
+ @param helpPrompt A voice prompt spoken to the user when the user asks for "help"
+ @param helpList A table list of text and images shown to the user during a voice recognition session for this choice set (Voice only)
+ @param choices The list of choices presented to the user either as a manual/touch interaction or via the user's voice
+ @return The choice set
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTitle</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span> <span class="nf">delegate</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/SDLChoiceSetDelegate.html">SDLChoiceSetDelegate</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">delegate</span> <span class="nf">layout</span><span class="p">:(</span><span class="n"><a href="Enums/SDLChoiceSetLayout.html">SDLChoiceSetLayout</a></span><span class="p">)</span><span class="nv">layout</span> <span class="nf">timeout</span><span class="p">:(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">timeout</span> <span class="nf">initialPromptString</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialPrompt</span> <span class="nf">timeoutPromptString</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeoutPrompt</span> <span class="nf">helpPromptString</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpPrompt</span> <span class="nf">vrHelpList</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpList</span> <span class="nf">choices</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLChoiceCell.html">SDLChoiceCell</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">choices</span><span class="p">;</span>
+
+<span class="cm">/**
+ Initializer with all possible properties.
+
+ @param title The choice set's title
+ @param delegate The choice set delegate called after the user has interacted with your choice set
+ @param layout The layout of choice options (Manual/touch only)
+ @param timeout The timeout of a touch interaction (Manual/touch only)
+ @param initialPrompt A voice prompt spoken to the user when this set is displayed
+ @param timeoutPrompt A voice prompt spoken to the user when the set times out (Voice only)
+ @param helpPrompt A voice prompt spoken to the user when the user asks for "help"
+ @param helpList A table list of text and images shown to the user during a voice recognition session for this choice set (Voice only)
+ @param choices The list of choices presented to the user either as a manual/touch interaction or via the user's voice
+ @return The choice set
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTitle</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span> <span class="nf">delegate</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/SDLChoiceSetDelegate.html">SDLChoiceSetDelegate</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">delegate</span> <span class="nf">layout</span><span class="p">:(</span><span class="n"><a href="Enums/SDLChoiceSetLayout.html">SDLChoiceSetLayout</a></span><span class="p">)</span><span class="nv">layout</span> <span class="nf">timeout</span><span class="p">:(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nv">timeout</span> <span class="nf">initialPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialPrompt</span> <span class="nf">timeoutPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">timeoutPrompt</span> <span class="nf">helpPrompt</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLTTSChunk.html">SDLTTSChunk</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpPrompt</span> <span class="nf">vrHelpList</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLVRHelpItem.html">SDLVRHelpItem</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">helpList</span> <span class="nf">choices</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLChoiceCell.html">SDLChoiceCell</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">choices</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLChoiceSet</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLClimateControlCapabilities">
       SDLClimateControlCapabilities
   </h3>
@@ -949,56 +1342,107 @@
 <span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="n">lockScreenConfig</span><span class="p">;</span>
 
 <span class="cm">/**
- The log configuration.
+ *  The log configuration.
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="n">loggingConfig</span><span class="p">;</span>
 
 <span class="cm">/**
- The configuration
+ *  The streaming media configuration.
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="n">streamingMediaConfig</span><span class="p">;</span>
 
 <span class="cm">/**
- Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and logging configuration.
-
- @param lifecycleConfig The lifecycle configuration to be used.
- @param lockScreenConfig The lockscreen configuration to be used, or `enabledConfiguration` if nil.
- @param logConfig The logging configuration to be used, or `defaultConfiguration` if nil.
- @return The configuration
+ *  The file manager configuration.
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span> <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span> <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n"><a href="Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="n">fileManagerConfig</span><span class="p">;</span>
 
 <span class="cm">/**
- Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, and logging configuration.
-
- @param lifecycleConfig The lifecycle configuration to be used.
- @param lockScreenConfig The lockscreen configuration to be used, or `enabledConfiguration` if nil.
- @param logConfig The logging configuration to be used, or `defaultConfiguration` if nil.
- @return The configuration
+ *  Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen and logging configurations.
+ *
+ *  @param lifecycleConfig      The lifecycle configuration to be used.
+ *  @param lockScreenConfig     The lockscreen configuration to be used. If nil, the `enabledConfiguration` will be used.
+ *  @param logConfig            The logging configuration to be used. If nil, the `defaultConfiguration` will be used.
+ *  @return                     The configuration
  */</span>
-<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">configurationWithLifecycle</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span> <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span> <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use an initializer instead"</span><span class="p">);</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span> <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span> <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Use initWithLifecycle:lockScreen:logging:fileManager: instead"</span><span class="p">);</span>
 
 <span class="cm">/**
- Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, logging, and streaming media configuration.
-
- @param lifecycleConfig The lifecycle configuration to be used.
- @param lockScreenConfig The lockscreen configuration to be used, or `enabledConfiguration` if nil.
- @param logConfig The logging configuration to be used, or `defaultConfiguration` if nil.
- @param streamingMediaConfig The streaming media configuration to be used, or nil because it is not needed.
- @return The configuration
+ *  Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen, logging and file manager configurations.
+ *
+ *  @param lifecycleConfig      The lifecycle configuration to be used.
+ *  @param lockScreenConfig     The lockscreen configuration to be used. If nil, the `enabledConfiguration` will be used.
+ *  @param logConfig            The logging configuration to be used. If nil, the `defaultConfiguration` will be used.
+ *  @param fileManagerConfig    The file manager configuration to be used or `defaultConfiguration` if nil.
+ *  @return                     The configuration
  */</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span> <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span> <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span> <span class="nf">streamingMedia</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">streamingMediaConfig</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span> <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span> <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span> <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManagerConfig</span><span class="p">;</span>
 
 <span class="cm">/**
- Create a new configuration to be passed into SDLManager with a custom lifecycle, lock screen, logging, and streaming media configuration.
-
- @param lifecycleConfig The lifecycle configuration to be used.
- @param lockScreenConfig The lockscreen configuration to be used, or `enabledConfiguration` if nil.
- @param logConfig The logging configuration to be used, or `defaultConfiguration` if nil.
- @param streamingMediaConfig The streaming media configuration to be used, or nil because it is not needed.
- @return The configuration
+ *  Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen and logging configurations.
+ *
+ *  @param lifecycleConfig      The lifecycle configuration to be used.
+ *  @param lockScreenConfig     The lockscreen configuration to be used. If nil, the `enabledConfiguration` will be used.
+ *  @param logConfig            The logging configuration to be used. If nil, the `defaultConfiguration` will be used.
+ *  @return                     The configuration
  */</span>
-<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">configurationWithLifecycle</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span> <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span> <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span> <span class="nf">streamingMedia</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">streamingMediaConfig</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use an initializer instead"</span><span class="p">);</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">configurationWithLifecycle</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span> <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span> <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Use configurationWithLifecycle:lockScreen:logging:fileManager: instead"</span><span class="p">)</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use an initializer instead"</span><span class="p">);</span>
+
+<span class="cm">/**
+ *  Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen, logging and file manager configurations.
+ *
+ *  @param lifecycleConfig      The lifecycle configuration to be used.
+ *  @param lockScreenConfig     The lockscreen configuration to be used. If nil, the `enabledConfiguration` will be used.
+ *  @param logConfig            The logging configuration to be used. If nil, the `defaultConfiguration` will be used.
+ *  @param fileManagerConfig    The file manager configuration to be used or `defaultConfiguration` if nil.
+ *  @return                     The configuration
+ */</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">configurationWithLifecycle</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span> <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span> <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span> <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManagerConfig</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use an initializer instead"</span><span class="p">);</span>
+
+<span class="cm">/**
+ *  Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen, logging and streaming media configurations.
+ *
+ *  @param lifecycleConfig      The lifecycle configuration to be used.
+ *  @param lockScreenConfig     The lockscreen configuration to be used. If nil, the `enabledConfiguration` will be used.
+ *  @param logConfig            The logging configuration to be used. If nil, the `defaultConfiguration` will be used.
+ *  @param streamingMediaConfig The streaming media configuration to be used or nil if not used.
+ *  @return                     The configuration
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span> <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span> <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span> <span class="nf">streamingMedia</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">streamingMediaConfig</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Use initWithLifecycle:lockScreen:logging:streamingMedia:fileManager: instead"</span><span class="p">);</span>
+
+<span class="cm">/**
+ *  Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen, logging, streaming media and file manager configurations.
+ *
+ *  @param lifecycleConfig      The lifecycle configuration to be used.
+ *  @param lockScreenConfig     The lockscreen configuration to be used. If nil, the `enabledConfiguration` will be used.
+ *  @param logConfig            The logging configuration to be used. If nil, the `defaultConfiguration` will be used.
+ *  @param streamingMediaConfig The streaming media configuration to be used or nil if not used.
+ *  @param fileManagerConfig    The file manager configuration to be used or `defaultConfiguration` if nil.
+ *  @return                     The configuration
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLifecycle</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span> <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span> <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span> <span class="nf">streamingMedia</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">streamingMediaConfig</span> <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManagerConfig</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen, logging and streaming media configurations.
+ *
+ *  @param lifecycleConfig      The lifecycle configuration to be used.
+ *  @param lockScreenConfig     The lockscreen configuration to be used. If nil, the `enabledConfiguration` will be used.
+ *  @param logConfig            The logging configuration to be used. If nil, the `defaultConfiguration` will be used.
+ *  @param streamingMediaConfig The streaming media configuration to be used or nil if not used.
+ *  @return                     The configuration
+ */</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">configurationWithLifecycle</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span> <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span> <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span> <span class="nf">streamingMedia</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">streamingMediaConfig</span> <span class="n">__deprecated_msg</span><span class="p">(</span><span class="s">"Use configurationWithLifecycle:lockScreen:logging:streamingMedia:fileManager: instead"</span><span class="p">)</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use an initializer instead"</span><span class="p">);</span>
+
+<span class="cm">/**
+ *  Creates a new configuration to be passed to the SDLManager with custom lifecycle, lock screen, logging, streaming media and file manager configurations.
+ *
+ *  @param lifecycleConfig      The lifecycle configuration to be used.
+ *  @param lockScreenConfig     The lockscreen configuration to be used. If nil, the `enabledConfiguration` will be used.
+ *  @param logConfig            The logging configuration to be used. If nil, the `defaultConfiguration` will be used.
+ *  @param streamingMediaConfig The streaming media configuration to be used or nil if not used.
+ *  @param fileManagerConfig    The file manager configuration to be used or `defaultConfiguration` if nil.
+ *  @return                     The configuration
+ */</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">configurationWithLifecycle</span><span class="p">:(</span><span class="n"><a href="Classes/SDLLifecycleConfiguration.html">SDLLifecycleConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lifecycleConfig</span> <span class="nf">lockScreen</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLockScreenConfiguration.html">SDLLockScreenConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lockScreenConfig</span> <span class="nf">logging</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLLogConfiguration.html">SDLLogConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">logConfig</span> <span class="nf">streamingMedia</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLStreamingMediaConfiguration.html">SDLStreamingMediaConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">streamingMediaConfig</span> <span class="nf">fileManager</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLFileManagerConfiguration.html">SDLFileManagerConfiguration</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManagerConfig</span> <span class="n">NS_SWIFT_UNAVAILABLE</span><span class="p">(</span><span class="s">"Use an initializer instead"</span><span class="p">);</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -1569,6 +2013,25 @@ see SDLPerformAudioPassThru</p>
   
   
   
+  <h3 id="section-SDLEqualizerSettings">
+      SDLEqualizerSettings
+  </h3>
+  
+  <p>Defines the each Equalizer channel settings.</p>
+
+  <a href="Classes/SDLEqualizerSettings.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLEqualizerSettings</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLEqualizerSettings</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLFile">
       SDLFile
   </h3>
@@ -1728,6 +2191,79 @@ see SDLPerformAudioPassThru</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLFileManager</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFileManagerConfiguration">
+      SDLFileManagerConfiguration
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLFileManagerConfiguration.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLFileManagerConfiguration</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span>
+
+<span class="cm">/**
+ *  Defines the number of times the file manager will attempt to reupload `SDLArtwork` files in the event of a failed upload to Core.
+ *
+ *  Defaults to 1. To disable reuploads, set to 0.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">UInt8</span> <span class="n">artworkRetryCount</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Defines the number of times the file manager will attempt to reupload general `SDLFile`s in the event of a failed upload to Core.
+ *
+ *  Defaults to 1. To disable reuploads, set to 0.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">UInt8</span> <span class="n">fileRetryCount</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Creates a default file manager configuration.
+ *
+ *  @return A default configuration that may be customized.
+ */</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">defaultConfiguration</span><span class="p">;</span>
+
+<span class="cm">/**
+ Use `defaultConfiguration` instead
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span> <span class="n">NS_UNAVAILABLE</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Creates a file manager configuration with customized upload retry counts.
+ *
+ *  @return The configuration
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithArtworkRetryCount</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">artworkRetryCount</span> <span class="nf">fileRetryCount</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">fileRetryCount</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLFileManagerConfiguration</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLFuelRange">
+      SDLFuelRange
+  </h3>
+  
+  <p>Describes the distance a vehicle can travel with the current level of fuel.</p>
+
+  <a href="Classes/SDLFuelRange.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLFuelRange</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLFuelRange</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   
@@ -1912,15 +2448,12 @@ whenever new data is available for the module.</p>
       SDLGetVehicleData
   </h3>
   
-  <p>Requests surrent values of specific published vehicle data items.
- <p>
- Function Group: Location, VehicleInfo and DrivingChara
- <p>
- <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
- </p></p>
+  <p>Requests current values of specific published vehicle data items.</p>
 
-<p>Since SmartDeviceLink 2.0<br/>
- See SDLSubscribeVehicleData SDLUnsubscribeVehicleData</p>
+<p>Function Group: Location, VehicleInfo and DrivingChara
+  HMILevel needs to be FULL, LIMITED or BACKGROUND
+  Since SmartDeviceLink 2.0
+  See SDLSubscribeVehicleData, SDLUnsubscribeVehicleData</p>
 
   <a href="Classes/SDLGetVehicleData.html" class="slightly-smaller">See more</a>
   
@@ -2065,6 +2598,96 @@ whenever new data is available for the module.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLHMIPermissions</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLHMISettingsControlCapabilities">
+      SDLHMISettingsControlCapabilities
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLHMISettingsControlCapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLHMISettingsControlCapabilities</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="cm">/**
+ Constructs a newly allocated SDLHMISettingsControlCapabilities object with moduleName
+
+ @param moduleName The short friendly name of the hmi setting module
+
+ @return An instance of the SDLHMISettingsControlCapabilities class
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleName</span><span class="p">;</span>
+
+<span class="cm">/**
+ Constructs a newly allocated SDLHMISettingsControlCapabilities object with given parameters
+
+ @param moduleName The short friendly name of the hmi setting module
+ @param distanceUnitAvailable Availability of the control of distance unit.
+ @param temperatureUnitAvailable Availability of the control of temperature unit.
+ @param displayModeUnitAvailable Availability of the control of displayMode unit.
+
+ @return An instance of the SDLHMISettingsControlCapabilities class
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleName</span> <span class="nf">distanceUnitAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">distanceUnitAvailable</span> <span class="nf">temperatureUnitAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">temperatureUnitAvailable</span> <span class="nf">displayModeUnitAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">displayModeUnitAvailable</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract The short friendly name of the hmi setting module.
+ * It should not be used to identify a module by mobile application.
+ *
+ * Required, Max String length 100 chars
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">moduleName</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract Availability of the control of distance unit.
+ *
+ * Optional, Boolean
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">distanceUnitAvailable</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract Availability of the control of temperature unit.
+ *
+ * Optional, Boolean
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">temperatureUnitAvailable</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract  Availability of the control of HMI display mode.
+ *
+ * Optional, Boolean
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">displayModeUnitAvailable</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLHMISettingsControlCapabilities</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLHMISettingsControlData">
+      SDLHMISettingsControlData
+  </h3>
+  
+  <p>Corresponds to <q>HMI_SETTINGS</q> ModuleType</p>
+
+  <a href="Classes/SDLHMISettingsControlData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLHMISettingsControlData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLHMISettingsControlData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   
@@ -2224,6 +2847,240 @@ cases the language of the head unit changes or does not match the app language.<
   
   
   
+  <h3 id="section-SDLLightCapabilities">
+      SDLLightCapabilities
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLLightCapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLLightCapabilities</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="cm">/**
+ Constructs a newly allocated SDLLightCapabilities object with the name of the light or group of lights
+
+ @param name The name of a light or a group of lights
+ @return An instance of the SDLLightCapabilities class
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">name</span><span class="p">;</span>
+
+<span class="cm">/**
+ Constructs a newly allocated SDLLightCapabilities object with given parameters
+
+ @param name The name of a light or a group of lights
+ @param densityAvailable light's density can be set remotely
+ @param colorAvailable Light's color can be set remotely by using the RGB color space
+ @param statusAvailable whether status is available
+
+ @return An instance of the SDLLightCapabilities class
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">name</span> <span class="nf">densityAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">densityAvailable</span> <span class="nf">colorAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">colorAvailable</span> <span class="nf">statusAvailable</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">statusAvailable</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract The name of a light or a group of lights
+ *
+ * Required, SDLLightName
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span> <span class="n">name</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract  Indicates if the light's density can be set remotely (similar to a dimmer).
+ *
+ * Optional, Boolean
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">densityAvailable</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract Indicates if the light's color can be set remotely by using the RGB color space.
+ *
+ * Optional, Boolean
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">colorAvailable</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract Indicates if the status (ON/OFF) can be set remotely.
+ * App shall not use read-only values (RAMP_UP/RAMP_DOWN/UNKNOWN/INVALID) in a setInteriorVehicleData request.
+ *
+ * Optional, Boolean
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">statusAvailable</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLLightCapabilities</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLLightControlCapabilities">
+      SDLLightControlCapabilities
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLLightControlCapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLLightControlCapabilities</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="cm">/**
+ Constructs a newly allocated SDLLightControlCapabilities object with given parameters
+
+
+ @param moduleName friendly name of the light control module
+ @param supportedLights array of available LightCapabilities
+ @return An instance of the SDLLightControlCapabilities class
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithModuleName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">moduleName</span> <span class="nf">supportedLights</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLLightCapabilities.html">SDLLightCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">supportedLights</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract  The short friendly name of the light control module.
+ * It should not be used to identify a module by mobile application.
+ *
+ * Required, Max String length 100 chars
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">moduleName</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract  An array of available LightCapabilities that are controllable.
+ *
+ * Required, NSArray of type SDLLightCapabilities minsize="1" maxsize="100"
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLLightCapabilities.html">SDLLightCapabilities</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">supportedLights</span><span class="p">;</span>
+
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLLightControlCapabilities</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLLightControlData">
+      SDLLightControlData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLLightControlData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLLightControlData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="cm">/**
+ Constructs a newly allocated SDLLightControlData object with lightState
+
+ @param lightState An array of LightNames and their current or desired status
+ @return An instance of the SDLLightControlData class
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLightStates</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLLightState.html">SDLLightState</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">lightState</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract An array of LightNames and their current or desired status.
+ * Status of the LightNames that are not listed in the array shall remain unchanged.
+ *
+ * Required, NSArray of type SDLLightState minsize="1" maxsize="100"
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLLightState.html">SDLLightState</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">lightState</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLLightControlData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLLightState">
+      SDLLightState
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLLightState.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLLightState</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="cm">/**
+ Constructs a newly allocated SDLLightState object with given parameters
+
+ @param id The name of a light or a group of lights
+ @param status Reflects the status of Light.
+ @return An instance of the SDLLightState class
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">id</span> <span class="nf">status</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span><span class="p">)</span><span class="nv">status</span><span class="p">;</span>
+
+<span class="cm">/**
+ Constructs a newly allocated SDLLightState object with given parameters
+
+ @param id The name of a light or a group of lights
+ @param status Reflects the status of Light.
+ @param density Reflects the density of Light.
+ @param color Reflects the color of Light.
+ @return An instance of the SDLLightState class
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">id</span> <span class="nf">status</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span><span class="p">)</span><span class="nv">status</span> <span class="nf">density</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">density</span> <span class="nf">color</span><span class="p">:(</span><span class="n"><a href="Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">color</span><span class="p">;</span>
+
+<span class="cm">/**
+ Constructs a newly allocated SDLLightState object with given parameters
+
+ @param id The name of a light or a group of lights
+ @param lightStatus Reflects the status of Light.
+ @param lightDensity Reflects the density of Light.
+ @param lightColor Reflects the color of Light.
+ @return An instance of the SDLLightState class
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithId</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span><span class="p">)</span><span class="nv">id</span> <span class="nf">lightStatus</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span><span class="p">)</span><span class="nv">lightStatus</span> <span class="nf">lightDensity</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">lightDensity</span> <span class="nf">lightColor</span><span class="p">:(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">lightColor</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract The name of a light or a group of lights
+ *
+ * Required, SDLLightName
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLLightName.h@T@SDLLightName">SDLLightName</a></span> <span class="n">id</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract Reflects the status of Light.
+ *
+ * Required, SDLLightStatus
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLLightStatus.h@T@SDLLightStatus">SDLLightStatus</a></span> <span class="n">status</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract Reflects the density of Light.
+ *
+ * Optional, Float type with minValue: 0 maxValue:1
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">density</span><span class="p">;</span>
+
+<span class="cm">/**
+ * @abstract Reflects the color of Light.
+ *
+ * Optional, SDLLightStatus
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nullable</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="n">color</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLLightState</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLListFiles">
       SDLListFiles
   </h3>
@@ -2318,7 +3175,13 @@ cases the language of the head unit changes or does not match the app language.<
   <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLLockScreenConfiguration</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span>
 
 <span class="cm">/**
- *  Whether or not the lock screen should be shown in the "lock screen optional" state. Defaults to 'NO'.
+ *  Whether or not the lock screen should be shown in the "lock screen optional" state. Defaults to false.
+ *
+ *  @discussion In order for the "lock screen optional" state to occur, the following must be true:
+ *  1. The app should have received at least 1 driver distraction notification (i.e. a `OnDriverDistraction` notification) from SDL Core. Older versions of Core did not send a notification immediately on connection.
+ *  2. The driver is not distracted (i.e. the last `OnDriverDistraction` notification received was for a driver distraction state off).
+ *  3. The `hmiLevel` can not be `NONE`.
+ *  4. If the `hmiLevel` is currently `BACKGROUND` then the previous `hmiLevel` should have been `FULL` or `LIMITED` (i.e. the user should have interacted with app before it was backgrounded).
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">showInOptionalState</span><span class="p">;</span>
 
@@ -2900,6 +3763,44 @@ cases the language of the head unit changes or does not match the app language.<
   
   
   
+  <h3 id="section-SDLMassageCushionFirmness">
+      SDLMassageCushionFirmness
+  </h3>
+  
+  <p>The intensity or firmness of a cushion.</p>
+
+  <a href="Classes/SDLMassageCushionFirmness.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLMassageCushionFirmness</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLMassageCushionFirmness</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLMassageModeData">
+      SDLMassageModeData
+  </h3>
+  
+  <p>Specify the mode of a massage zone.</p>
+
+  <a href="Classes/SDLMassageModeData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLMassageModeData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLMassageModeData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLMenuCell">
       SDLMenuCell
   </h3>
@@ -2937,8 +3838,35 @@ cases the language of the head unit changes or does not match the app language.<
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">SDLMenuCell</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">subCells</span><span class="p">;</span>
 
+<span class="cm">/**
+ Create a menu cell that has no subcells.
+
+ @param title The cell's primary text
+ @param icon The cell's image
+ @param voiceCommands Voice commands that will activate the menu cell
+ @param handler The code that will be run when the menu cell is selected
+ @return The menu cell
+ */</span>
 <span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTitle</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span> <span class="nf">icon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">icon</span> <span class="nf">voiceCommands</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">voiceCommands</span> <span class="nf">handler</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLMenuCell.h@T@SDLMenuCellSelectionHandler">SDLMenuCellSelectionHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span>
-<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTitle</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span> <span class="nf">subCells</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">SDLMenuCell</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">subCells</span><span class="p">;</span>
+
+<span class="cm">/**
+ Create a menu cell that has subcells and when selected will go into a deeper part of the menu
+
+ @param title The cell's primary text
+ @param subCells The subcells that will appear when the cell is selected
+ @return The menu cell
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTitle</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span> <span class="nf">subCells</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">SDLMenuCell</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">subCells</span> <span class="n">__deprecated_msg</span><span class="p">((</span><span class="s">"Use initWithTitle:icon:subcells: instead"</span><span class="p">));</span>
+
+<span class="cm">/**
+ Create a menu cell that has subcells and when selected will go into a deeper part of the menu
+
+ @param title The cell's primary text
+ @param icon The cell's image
+ @param subCells The subcells that will appear when the cell is selected
+ @return The menu cell
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTitle</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span> <span class="nf">icon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">icon</span> <span class="nf">subCells</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">SDLMenuCell</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">subCells</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -3518,6 +4446,28 @@ the application has subscribed.</p>
   
   
   
+  <h3 id="section-SDLOnRCStatus">
+      SDLOnRCStatus
+  </h3>
+  
+  <p>OnRCStatus notifications to all registered mobile applications and the HMI whenever
+ (1) SDL allocates a module to an application or
+ (2) it de-allocates a module from an application, or
+ (3) an application registers with SDL</p>
+
+  <a href="Classes/SDLOnRCStatus.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLOnRCStatus</span> <span class="p">:</span> <span class="nc"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLOnRCStatus</span> <span class="p">:</span> <span class="kt"><a href="Classes.html#/c:objc(cs)SDLRPCNotification">SDLRPCNotification</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLOnSyncPData">
       SDLOnSyncPData
   </h3>
@@ -3992,18 +4942,12 @@ the application has subscribed.</p>
       SDLPutFile
   </h3>
   
-  <p>Used to push a binary data onto the SDL module from a mobile device, such as
- icons and album art</p>
+  <p>Used to push a binary data onto the SDL module from a mobile device, such as icons and album art.</p>
 
 <p>Since SmartDeviceLink 2.0</p>
 <div class="aside aside-see">
     <p class="aside-title">See</p>
-    SDLDeleteFile
-
-</div>
-<div class="aside aside-see">
-    <p class="aside-title">See</p>
-    SDLListFiles
+    SDLDeleteFile, SDLListFiles
 
 </div>
 
@@ -4060,6 +5004,65 @@ the application has subscribed.</p>
   
   
   
+  <h3 id="section-SDLRGBColor">
+      SDLRGBColor
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLRGBColor.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLRGBColor</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="cm">/**
+ Create an SDL color object with red / green / blue values between 0-255
+
+ @param red The red value of the color
+ @param green The green value of the color
+ @param blue The blue value of the color
+ @return The color
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithRed</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">red</span> <span class="nf">green</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">green</span> <span class="nf">blue</span><span class="p">:(</span><span class="n">UInt8</span><span class="p">)</span><span class="nv">blue</span><span class="p">;</span>
+
+<span class="cm">/**
+ Create an SDL color object with a UIColor object.
+
+ @warning The alpha color of the UIColor object will be ignored
+
+ @param color The UIColor object to base this color on
+ @return The color
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithColor</span><span class="p">:(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">color</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The red value of the RGB color
+ *  Required, Integer, 0-255
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">red</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The green value of the RGB color
+ *  Required, Integer, 0-255
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">green</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  The blue value of the RGB color
+ *  Required, Integer, 0-255
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">blue</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLRGBColor</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLRPCMessage">
       SDLRPCMessage
   </h3>
@@ -4070,7 +5073,7 @@ the application has subscribed.</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLRPCMessage</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span> <span class="p">{</span>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLRPCMessage</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span> <span class="o">&lt;</span><span class="n">NSCopying</span><span class="o">&gt;</span> <span class="p">{</span>
     <span class="n">NSMutableDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">function</span><span class="p">;</span>
     <span class="n">NSMutableDictionary</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*</span><span class="p">,</span> <span class="n">id</span><span class="o">&gt;</span> <span class="o">*</span><span class="n">parameters</span><span class="p">;</span>
     <span class="n">NSString</span> <span class="o">*</span><span class="n">messageType</span><span class="p">;</span>
@@ -4141,7 +5144,7 @@ the application has subscribed.</p>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLRPCMessage</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLRPCMessage</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
 
   
   
@@ -4425,76 +5428,18 @@ the application has subscribed.</p>
       SDLRegisterAppInterface
   </h3>
   
-  <p>Registers the application&rsquo;s interface with SDL&reg;, declaring properties of
- the registration, including the messaging interface version, the app name,
- etc. The mobile application must establish its interface registration with
- SDL before any other interaction with SDL&reg; can take place. The
- registration lasts until it is terminated either by the application calling
- the <i> SDLUnregisterAppInterface</i> method, or by SDL&reg;
- sending an <i> SDLOnAppInterfaceUnregistered</i> notification, or
- by loss of the underlying transport connection, or closing of the underlying
- message transmission protocol RPC session
- <p>
- Until the application receives its first <i>SDLOnHMIStatus</i>
- Notification, its HMI Status is assumed to be: <i>
- SDLHMILevel</i>=NONE, <i>
- SDLAudioStreamingState
- </i>=NOT_AUDIBLE, <i>
- SDLSystemContext</i>=MAIN
- <p>
- All SDL&reg; resources which the application creates or uses (e.g. Choice
- Sets, Command Menu, etc.) are associated with the application&rsquo;s interface
- registration. Therefore, when the interface registration ends, the SDL&reg;
- resources associated with the application are disposed of. As a result, even
- though the application itself may continue to run on its host platform (e.g.
- mobile device) after the interface registration terminates, the application
- will not be able to use the SDL&reg; HMI without first establishing a new
- interface registration and re-creating its required SDL&reg; resources. That
- is, SDL&reg; resources created by (or on behalf of) an application do not
- persist beyond the life-span of the interface registration
- <p>
- Resources and settings whose lifespan is tied to the duration of an
- application&rsquo;s interface registration:<br/>
- <ul>
- <li>Choice Sets</li>
- <li>Command Menus (built by successive calls to <i>SDLAddCommand
- </i>)</li>
- <li>Media clock timer display value</li>
- <li>Media clock timer display value</li>
- <li>Media clock timer display value</li>
- </ul>
- <p>
- The autoActivateID is used to grant an application the HMILevel and
- AudioStreamingState it had when it last disconnected
- <p>
- <b>Notes: </b>The autoActivateID parameter, and associated behavior, is
- currently ignored by SDL&reg;
- <p>
- When first calling this method (i.e. first time within life cycle of mobile
- app), an autoActivateID should not be included. After successfully
- registering an interface, an autoActivateID is returned to the mobile
- application for it to use in subsequent connections. If the connection
- between SDL&reg; and the mobile application is lost, such as the vehicle is
- turned off while the application is running, the autoActivateID can then be
- passed in another call to RegisterAppInterface to re-acquire <i>
- SDLHMILevel</i>=FULL
- <p>
- If the application intends to stream audio it is important to indicate so via
- the isMediaApp parameter. When set to true, audio will reliably stream
- without any configuration required by the user. When not set, audio may
- stream, depending on what the user might have manually configured as a media
- source on SDL&reg;
- <p>
- There is no time limit for how long the autoActivateID is <q>valid</q> (i.e. would
- confer focus and opt-in)
- <p>
- <b>HMILevel is not defined before registering</b><br/>
- </p></p>
+  <p>Registers the application&rsquo;s interface with SDL. The <code>RegisterAppInterface</code> RPC declares the properties of the app, including the messaging interface version, the app name, etc. The mobile application must establish its interface registration with SDL before any other interaction with SDL can take place. The registration lasts until it is terminated either by the application calling the <code><a href="Classes.html#/c:objc(cs)SDLUnregisterAppInterface">SDLUnregisterAppInterface</a></code> method, or by SDL sending an <code><a href="Classes/SDLOnAppInterfaceUnregistered.html">SDLOnAppInterfaceUnregistered</a></code> notification, or by loss of the underlying transport connection, or closing of the underlying message transmission protocol RPC session.</p>
+
+<p>Until the application receives its first <code><a href="Classes/SDLOnHMIStatus.html">SDLOnHMIStatus</a></code> notification, its <code><a href="Type Definitions.html#/c:SDLHMILevel.h@T@SDLHMILevel">SDLHMILevel</a></code> is assumed to be <code>NONE</code>, the <code><a href="Type Definitions.html#/c:SDLAudioStreamingState.h@T@SDLAudioStreamingState">SDLAudioStreamingState</a></code> is assumed to be <code>NOT_AUDIBLE</code>, and the <code><a href="Type Definitions.html#/c:SDLSystemContext.h@T@SDLSystemContext">SDLSystemContext</a></code> is assumed to be <code>MAIN</code>.</p>
+
+<p>All SDL resources which the application creates or uses (e.g. choice sets, command menu, etc.) are associated with the application&rsquo;s interface registration. Therefore, when the interface registration ends, the SDL resources associated with the application are disposed of. As a result, even though the application itself may continue to run on its host platform (e.g. mobile device) after the interface registration terminates, the application will not be able to use the SDL HMI without first establishing a new interface registration and re-creating its required SDL resources. That is, SDL resources created by (or on behalf of) an application do not persist beyond the life-span of the interface registration. Resources and settings whose lifespan is tied to the duration of an application&rsquo;s interface registration include: choice sets, command menus, and the media clock timer display value</p>
+
+<p>If the application intends to stream audio it is important to indicate so via the <code>isMediaApp</code> parameter. When set to true, audio will reliably stream without any configuration required by the user. When not set, audio may stream, depending on what the user might have manually configured as a media source on SDL.</p>
 
 <p>@since SDL 1.0</p>
 <div class="aside aside-see">
     <p class="aside-title">See</p>
-    SDLUnregisterAppInterface SDLOnAppInterfaceUnregistered
+    SDLUnregisterAppInterface, SDLOnAppInterfaceUnregistered
 
 </div>
 
@@ -4603,6 +5548,25 @@ the application has subscribed.</p>
   
   
   
+  <h3 id="section-SDLSISData">
+      SDLSISData
+  </h3>
+  
+  <p>HD radio Station Information Service (SIS) data.</p>
+
+  <a href="Classes/SDLSISData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSISData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSISData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLScreenManager">
       SDLScreenManager
   </h3>
@@ -4615,6 +5579,8 @@ the application has subscribed.</p>
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLScreenManager</span> <span class="p">:</span> <span class="nc">NSObject</span>
 
+<span class="cp">#pragma mark Text and Graphics
+</span>
 <span class="cm">/**
  The top text field within a template layout
  */</span>
@@ -4675,11 +5641,15 @@ the application has subscribed.</p>
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Type Definitions.html#/c:SDLMetadataType.h@T@SDLMetadataType">SDLMetadataType</a></span> <span class="n">textField4Type</span><span class="p">;</span>
 
+<span class="cp">#pragma mark Soft Buttons
+</span>
 <span class="cm">/**
  The current list of soft buttons within a template layout. Set this array to change the displayed soft buttons.
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">softButtonObjects</span><span class="p">;</span>
 
+<span class="cp">#pragma mark Menu
+</span>
 <span class="cm">/**
  The current list of menu cells displayed in the app's menu.
  */</span>
@@ -4690,6 +5660,23 @@ the application has subscribed.</p>
  */</span>
 <span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLVoiceCommand.html">SDLVoiceCommand</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">voiceCommands</span><span class="p">;</span>
 
+<span class="cp">#pragma mark Choice Sets
+</span>
+<span class="cm">/**
+ The default keyboard configuration, this can be additionally customized by each SDLKeyboardDelegate.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">null_resettable</span><span class="p">)</span> <span class="n"><a href="Classes/SDLKeyboardProperties.html">SDLKeyboardProperties</a></span> <span class="o">*</span><span class="n">keyboardConfiguration</span><span class="p">;</span>
+
+<span class="cm">/**
+ Cells will be hashed by their text, image names, and VR command text. When assembling an SDLChoiceSet, you can pull objects from here, or recreate them. The preloaded versions will be used so long as their text, image names, and VR commands are the same.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span> <span class="n">NSSet</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLChoiceCell.html">SDLChoiceCell</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">preloadedChoices</span><span class="p">;</span>
+
+
+<span class="cp">#pragma mark - Methods
+</span>
+<span class="cp">#pragma mark Lifecycle
+</span>
 <span class="cm">/**
  Initialize a screen manager
 
@@ -4699,7 +5686,15 @@ the application has subscribed.</p>
  @param fileManager The file manager used to upload files
  @return The screen manager
  */</span>
+
 <span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithConnectionManager</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">SDLConnectionManagerType</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">connectionManager</span> <span class="nf">fileManager</span><span class="p">:(</span><span class="n"><a href="Classes/SDLFileManager.html">SDLFileManager</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">fileManager</span><span class="p">;</span>
+
+<span class="cm">/**
+ Starts the manager and all sub-managers
+
+ @param handler The handler called when setup is complete
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startWithCompletionHandler</span><span class="p">:(</span><span class="kt">void</span><span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSError</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="n">error</span><span class="p">))</span><span class="nv">handler</span><span class="p">;</span>
 
 <span class="cm">/**
  Stops the manager.
@@ -4708,10 +5703,28 @@ the application has subscribed.</p>
  */</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stop</span><span class="p">;</span>
 
-<span class="cm">/**
+<span class="cp">#pragma mark Text and Graphic
+</span><span class="cm">/**
  Delays all screen updates until endUpdatesWithCompletionHandler: is called.
  */</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">beginUpdates</span><span class="p">;</span>
+
+<span class="cm">/**
+ Update text fields with new text set into the text field properties. Pass an empty string `\@""` to clear the text field.
+
+ If the system does not support a full 4 fields, this will automatically be concatenated and properly send the field available.
+
+ If 3 lines are available: [field1, field2, field3 - field 4]
+
+ If 2 lines are available: [field1 - field2, field3 - field4]
+
+ If 1 line is available: [field1 - field2 - field3 - field4]
+
+ Also updates the primary and secondary images with new image(s) if new one(s) been set. This method will take care of naming the files (based on a hash). This is assumed to be a non-persistant image.
+
+ If it needs to be uploaded, it will be. Once the upload is complete, the on-screen graphic will be updated.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">endUpdates</span><span class="p">;</span>
 
 <span class="cm">/**
  Update text fields with new text set into the text field properties. Pass an empty string `\@""` to clear the text field.
@@ -4732,13 +5745,61 @@ the application has subscribed.</p>
  */</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">endUpdatesWithCompletionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLScreenManager.h@T@SDLScreenManagerUpdateCompletionHandler">SDLScreenManagerUpdateCompletionHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span>
 
-<span class="cm">/**
- Find a current soft button object with a specific name
-
- @param name The name of the soft button object to find
- @return The soft button object or nil if there isn't one with that name
- */</span>
+<span class="cp">#pragma mark Soft Button
+</span>
 <span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="Classes/SDLSoftButtonObject.html">SDLSoftButtonObject</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">softButtonObjectNamed</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span><span class="p">;</span>
+
+<span class="cp">#pragma mark Choice Sets
+</span>
+<span class="cm">/**
+ Preload cells to the head unit. This will *greatly* reduce the time taken to present a choice set. Any already matching a choice already on the head unit will be ignored. You *do not* need to wait until the completion handler is called to present a choice set containing choices being loaded. The choice set will wait until the preload completes and then immediately present.
+
+ @param choices The choices to be preloaded.
+ @param handler The handler to be called when complete.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">preloadChoices</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLChoiceCell.html">SDLChoiceCell</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">choices</span> <span class="nf">withCompletionHandler</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="Type Definitions.html#/c:SDLScreenManager.h@T@SDLPreloadChoiceCompletionHandler">SDLPreloadChoiceCompletionHandler</a></span><span class="p">)</span><span class="nv">handler</span><span class="p">;</span>
+
+<span class="cm">/**
+ Delete loaded cells from the head unit. If the cells don't exist on the head unit they will be ignored.
+
+ @param choices The choices to be deleted. These will be matched via a hash of the text, image name(s), and VR commands.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">deleteChoices</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Classes/SDLChoiceCell.html">SDLChoiceCell</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">choices</span><span class="p">;</span>
+
+<span class="cm">/**
+ Present a choice set on the head unit with a certain interaction mode. You should present in VR only if the user reached this choice set by using their voice, in Manual only if the user used touch to reach this choice set. Use Both if you're lazy...for real though, it's kind of confusing to the user and isn't recommended.
+
+ If the cells in the set are not already preloaded, they will be preloaded before the presentation occurs; this could take a while depending on the contents of the cells.
+
+ If the cells have voice commands and images attached, this could take upwards of 10 seconds. If there are no cells on the set, this will fail, calling `choiceSet:didReceiveError:` on the choice set delegate.
+
+ @param choiceSet The set to be displayed
+ @param mode If the set should be presented for the user to interact via voice, touch, or both
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">presentChoiceSet</span><span class="p">:(</span><span class="n"><a href="Classes/SDLChoiceSet.html">SDLChoiceSet</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">choiceSet</span> <span class="nf">mode</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">)</span><span class="nv">mode</span><span class="p">;</span>
+
+<span class="cm">/**
+ Present a choice set on the head unit with a certain interaction mode. You should present in VR only if the user reached this choice set by using their voice, in Manual only if the user used touch to reach this choice set. Use Both if you're lazy...for real though, it's kind of confusing to the user and isn't recommended.
+
+ This presents the choice set as searchable when in a touch interaction. The user, when not in a distracted state, will have a keyboard available for searching this set. The user's input in the keyboard will be available in the SDLKeyboardDelegate.
+
+ If the cells in the set are not already preloaded, they will be preloaded before the presentation occurs; this could take a while depending on the contents of the cells.
+
+ If the cells have voice commands and images attached, this could take upwards of 10 seconds. If there are no cells on the set, this will fail, calling `choiceSet:didReceiveError:` on the choice set delegate.
+
+ @param choiceSet The set to be displayed
+ @param mode If the set should be presented for the user to interact via voice, touch, or both
+ @param delegate The keyboard delegate called when the user interacts with the search field of the choice set
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">presentSearchableChoiceSet</span><span class="p">:(</span><span class="n"><a href="Classes/SDLChoiceSet.html">SDLChoiceSet</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">choiceSet</span> <span class="nf">mode</span><span class="p">:(</span><span class="n"><a href="Type Definitions.html#/c:SDLInteractionMode.h@T@SDLInteractionMode">SDLInteractionMode</a></span><span class="p">)</span><span class="nv">mode</span> <span class="nf">withKeyboardDelegate</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/SDLKeyboardDelegate.html">SDLKeyboardDelegate</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">delegate</span><span class="p">;</span>
+
+<span class="cm">/**
+ Present a keyboard-only interface to the user and receive input. The user will be able to input text in the keyboard when in a non-driver distraction situation.
+
+ @param initialText The initial text within the keyboard input field. It will disappear once the user selects the field in order to enter text
+ @param delegate The keyboard delegate called when the user interacts with the keyboard
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">presentKeyboardWithInitialText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">initialText</span> <span class="nf">delegate</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/SDLKeyboardDelegate.html">SDLKeyboardDelegate</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">delegate</span><span class="p">;</span>
 
 <span class="k">@end</span></code></pre>
 
@@ -4809,6 +5870,63 @@ Function Group: ScrollableMessage
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLScrollableMessageResponse</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCResponse.html">SDLRPCResponse</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSeatControlCapabilities">
+      SDLSeatControlCapabilities
+  </h3>
+  
+  <p>Include information about a seat control capabilities.</p>
+
+  <a href="Classes/SDLSeatControlCapabilities.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSeatControlCapabilities</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSeatControlCapabilities</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSeatControlData">
+      SDLSeatControlData
+  </h3>
+  
+  <p>Seat control data corresponds to <q>SEAT</q> ModuleType.</p>
+
+  <a href="Classes/SDLSeatControlData.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSeatControlData</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSeatControlData</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLSeatMemoryAction">
+      SDLSeatMemoryAction
+  </h3>
+  
+  <p>Specify the action to be performed.</p>
+
+  <a href="Classes/SDLSeatMemoryAction.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLSeatMemoryAction</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLSeatMemoryAction</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   
@@ -5567,6 +6685,27 @@ change the settings of a specific remote control module.</p>
   
   
   
+  <h3 id="section-SDLStationIDNumber">
+      SDLStationIDNumber
+  </h3>
+  
+  <p>Describes the hour, minute and second values used to set the media clock.</p>
+
+<p>@since SDL 1.0</p>
+
+  <a href="Classes/SDLStationIDNumber.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLStationIDNumber</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLStationIDNumber</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLStreamingMediaConfiguration">
       SDLStreamingMediaConfiguration
   </h3>
@@ -5725,7 +6864,7 @@ change the settings of a specific remote control module.</p>
 <span class="cm">/**
  This property is used for SDLCarWindow, the ability to stream any view controller. To start, you must set an initial view controller on `SDLStreamingMediaConfiguration` `rootViewController`. After streaming begins, you can replace that view controller with a new root by placing the new view controller into this property.
  */</span>
-<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">UIViewController</span> <span class="o">*</span><span class="n">rootViewController</span><span class="p">;</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">UIViewController</span> <span class="o">*</span><span class="n">rootViewController</span><span class="p">;</span>
 
 <span class="cm">/**
  A haptic interface that can be updated to reparse views within the window you've provided. Send a `SDLDidUpdateProjectionView` notification or call the `updateInterfaceLayout` method to reparse. The "output" of this haptic interface occurs in the `touchManager` property where it will call the delegate.
@@ -5811,9 +6950,29 @@ change the settings of a specific remote control module.</p>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startWithProtocol</span><span class="p">:(</span><span class="n">SDLProtocol</span> <span class="o">*</span><span class="p">)</span><span class="nv">protocol</span><span class="p">;</span>
 
 <span class="cm">/**
+ *  Start the audio feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startAudioWithProtocol</span><span class="p">:(</span><span class="n">SDLProtocol</span> <span class="o">*</span><span class="p">)</span><span class="nv">protocol</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Start the video feature of the manager. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">startVideoWithProtocol</span><span class="p">:(</span><span class="n">SDLProtocol</span> <span class="o">*</span><span class="p">)</span><span class="nv">protocol</span><span class="p">;</span>
+
+<span class="cm">/**
  *  Stop the manager. This method is used internally.
  */</span>
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stop</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Stop the audio feature of the manager. This method is used internally.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stopAudio</span><span class="p">;</span>
+
+<span class="cm">/**
+ *  Stop the video feature of the manager. This method is used internally.
+ */</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">stopVideo</span><span class="p">;</span>
 
 <span class="cm">/**
  *  This method receives raw image data and will run iOS8+'s hardware video encoder to turn the data into a video stream, which will then be passed to the connected head unit.
@@ -5943,19 +7102,17 @@ change the settings of a specific remote control module.</p>
       SDLSubscribeVehicleData
   </h3>
   
-  <p>Subscribes for specific published vehicle data items. The data will be only
- sent, if it has changed. The application will be notified by the
- onVehicleData notification whenever new data is available. The update rate is
- very much dependent on sensors, vehicle architecture and vehicle type. Be
- also prepared for the situation that a signal is not available on a vehicle
- <p>
- Function Group: Location, VehicleInfo and DrivingChara
- <p>
- <b>HMILevel needs to be FULL, LIMITED or BACKGROUND</b>
- </p></p>
+  <p>Subscribes to specific published vehicle data items. The data will be only sent if it has changed. The application will be notified by the <code>onVehicleData</code> notification whenever new data is available. The update rate is dependent on sensors, vehicle architecture and vehicle type.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    A vehicle may only support a subset of the vehicle data items. Be prepared for the situation where a signal is not available on a vehicle.
 
-<p>Since SmartDeviceLink 2.0<br/>
- See SDLUnsubscribeVehicleData SDLGetVehicleData</p>
+</div>
+
+<p>Function Group: Location, VehicleInfo and DrivingChara
+  HMILevel needs to be FULL, LIMITED or BACKGROUND
+  Since SmartDeviceLink 2.0
+  See SDLUnsubscribeVehicleData, SDLGetVehicleData</p>
 
   <a href="Classes/SDLSubscribeVehicleData.html" class="slightly-smaller">See more</a>
   
@@ -6323,6 +7480,45 @@ change the settings of a specific remote control module.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLTemperature</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTemplateColorScheme">
+      SDLTemplateColorScheme
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Classes/SDLTemplateColorScheme.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@interface</span> <span class="nc">SDLTemplateColorScheme</span> <span class="p">:</span> <span class="nc"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithPrimaryRGBColor</span><span class="p">:(</span><span class="n"><a href="Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">primaryColor</span> <span class="nf">secondaryRGBColor</span><span class="p">:(</span><span class="n"><a href="Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">secondaryColor</span> <span class="nf">backgroundRGBColor</span><span class="p">:(</span><span class="n"><a href="Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">backgroundColor</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithPrimaryColor</span><span class="p">:(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">primaryColor</span> <span class="nf">secondaryColor</span><span class="p">:(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">secondaryColor</span> <span class="nf">backgroundColor</span><span class="p">:(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">backgroundColor</span><span class="p">;</span>
+
+<span class="cm">/**
+ The "primary" color. This must always be your primary brand color. If the OEM only uses one color, this will be the color. It is recommended to the OEMs that the primaryColor should change the `mediaClockTimer` bar and the highlight color of soft buttons.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="n">primaryColor</span><span class="p">;</span>
+
+<span class="cm">/**
+ The "secondary" color. This may be an accent or complimentary color to your primary brand color. If the OEM uses this color, they must also use the primary color. It is recommended to the OEMs that the secondaryColor should change the background color of buttons, such as soft buttons.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="n">secondaryColor</span><span class="p">;</span>
+
+<span class="cm">/**
+ The background color to be used on the template. If the OEM does not support this parameter, assume on "dayColorScheme" that this will be a light color, and on "nightColorScheme" a dark color. You should do the same for your custom schemes.
+ */</span>
+<span class="k">@property</span> <span class="p">(</span><span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="n">backgroundColor</span><span class="p">;</span>
+
+<span class="k">@end</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SDLTemplateColorScheme</span> <span class="p">:</span> <span class="kt"><a href="Classes/SDLRPCStruct.html">SDLRPCStruct</a></span></code></pre>
 
   
   

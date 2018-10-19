@@ -5,11 +5,14 @@
 <ul>
   <li><a href="#section-SDLArtworkImageFormat">SDLArtworkImageFormat</a></li>
   <li><a href="#section-SDLAudioStreamManagerError">SDLAudioStreamManagerError</a></li>
+  <li><a href="#section-SDLChoiceSetLayout">SDLChoiceSetLayout</a></li>
   <li><a href="#section-SDLManagerError">SDLManagerError</a></li>
   <li><a href="#section-SDLFileManagerError">SDLFileManagerError</a></li>
   <li><a href="#section-SDLTextAndGraphicManagerError">SDLTextAndGraphicManagerError</a></li>
   <li><a href="#section-SDLSoftButtonManagerError">SDLSoftButtonManagerError</a></li>
   <li><a href="#section-SDLMenuManagerError">SDLMenuManagerError</a></li>
+  <li><a href="#section-SDLChoiceSetManagerError">SDLChoiceSetManagerError</a></li>
+  <li><a href="#section-SDLTransportError">SDLTransportError</a></li>
   <li><a href="#section-SDLLogBytesDirection">SDLLogBytesDirection</a></li>
   <li><a href="#section-SDLLogFlag">SDLLogFlag</a></li>
   <li><a href="#section-SDLLogLevel">SDLLogLevel</a></li>
@@ -67,6 +70,28 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLAudioStreamManagerError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLChoiceSetLayout">
+      SDLChoiceSetLayout
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Enums/SDLChoiceSetLayout.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">NSUInteger</span><span class="p">,</span> <span class="n">SDLChoiceSetLayout</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SDLChoiceSetLayoutList</span><span class="p">,</span>
+    <span class="n">SDLChoiceSetLayoutTiles</span><span class="p">,</span>
+<span class="p">}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLChoiceSetLayout</span> <span class="p">:</span> <span class="kt">UInt</span></code></pre>
 
   
   
@@ -174,6 +199,48 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLMenuManagerError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLChoiceSetManagerError">
+      SDLChoiceSetManagerError
+  </h3>
+  
+  <p>Undocumented</p>
+
+  <a href="Enums/SDLChoiceSetManagerError.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="n">NS_ENUM</span><span class="p">(</span><span class="n">NSInteger</span><span class="p">,</span> <span class="n">SDLChoiceSetManagerError</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">SDLChoiceSetManagerErrorPendingPresentationDeleted</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">SDLChoiceSetManagerErrorDeletionFailed</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">SDLChoiceSetManagerErrorUploadFailed</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span>
+<span class="p">}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLChoiceSetManagerError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLTransportError">
+      SDLTransportError
+  </h3>
+  
+  <p>Errors associated with transport.</p>
+
+  <a href="Enums/SDLTransportError.html" class="slightly-smaller">See more</a>
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">enum</span> <span class="n">SDLTransportError</span> <span class="p">{}</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">SDLTransportError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
 
   
   

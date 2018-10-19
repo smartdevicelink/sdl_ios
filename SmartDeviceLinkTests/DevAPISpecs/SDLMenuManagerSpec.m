@@ -52,13 +52,23 @@ describe(@"menu manager", ^{
     __block TestConnectionManager *mockConnectionManager = nil;
     __block SDLFileManager *mockFileManager = nil;
 
-    __block SDLArtwork *testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name" fileExtension:@"png" persistent:NO];
+    __block SDLArtwork *testArtwork = nil;
+    __block SDLArtwork *testArtwork2 = nil;
 
-    __block SDLMenuCell *textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-    __block SDLMenuCell *textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
-    __block SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" subCells:@[textOnlyCell, textAndImageCell]];
+    __block SDLMenuCell *textOnlyCell = nil;
+    __block SDLMenuCell *textAndImageCell = nil;
+    __block SDLMenuCell *submenuCell = nil;
+    __block SDLMenuCell *submenuImageCell = nil;
 
     beforeEach(^{
+        testArtwork = [[SDLArtwork alloc] initWithData:[@"Test data" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name" fileExtension:@"png" persistent:NO];
+        testArtwork2 = [[SDLArtwork alloc] initWithData:[@"Test data 2" dataUsingEncoding:NSUTF8StringEncoding] name:@"some artwork name 2" fileExtension:@"png" persistent:NO];
+
+        textOnlyCell = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+        textAndImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 2" icon:testArtwork voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+        submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil subCells:@[textOnlyCell, textAndImageCell]];
+        submenuImageCell = [[SDLMenuCell alloc] initWithTitle:@"Test 4" icon:testArtwork2 subCells:@[textOnlyCell]];
+
         mockConnectionManager = [[TestConnectionManager alloc] init];
         mockFileManager = OCMClassMock([SDLFileManager class]);
         testManager = [[SDLMenuManager alloc] initWithConnectionManager:mockConnectionManager fileManager:mockFileManager];
@@ -156,10 +166,21 @@ describe(@"menu manager", ^{
             testManager.displayCapabilities.graphicSupported = @YES;
         });
 
-        it(@"should fail with a duplicate title", ^{
-            testManager.menuCells = @[textOnlyCell, textOnlyCell];
+        context(@"duplicate titles", ^{
+            it(@"should fail with a duplicate title", ^{
+                testManager.menuCells = @[textOnlyCell, textOnlyCell];
+                expect(testManager.menuCells).to(beEmpty());
+            });
+        });
 
-            expect(testManager.menuCells).to(beEmpty());
+        context(@"duplicate VR commands", ^{
+            __block SDLMenuCell *textAndVRCell1 = [[SDLMenuCell alloc] initWithTitle:@"Test 1" icon:nil voiceCommands:@[@"Cat", @"Turtle"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+            __block SDLMenuCell *textAndVRCell2 = [[SDLMenuCell alloc] initWithTitle:@"Test 3" icon:nil voiceCommands:@[@"Cat", @"Dog"] handler:^(SDLTriggerSource  _Nonnull triggerSource) {}];
+
+            it(@"should fail when menu items have duplicate vr commands", ^{
+                testManager.menuCells = @[textAndVRCell1, textAndVRCell2];
+                expect(testManager.menuCells).to(beEmpty());
+            });
         });
 
         it(@"should properly update a text cell", ^{
@@ -174,44 +195,9 @@ describe(@"menu manager", ^{
             expect(add).toNot(beEmpty());
         });
 
-        describe(@"updating with an image", ^{
-            context(@"when the image is already on the head unit", ^{
-                beforeEach(^{
-                    OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
-                });
-
-                it(@"should properly update an image cell", ^{
-                    testManager.menuCells = @[textAndImageCell];
-
-                    NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
-                    NSArray *add = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
-                    SDLAddCommand *sentCommand = add.firstObject;
-
-                    expect(add).to(haveCount(1));
-                    expect(sentCommand.cmdIcon.value).to(equal(testArtwork.name));
-                });
-            });
-
-            context(@"when the image is not on the head unit", ^{
-                beforeEach(^{
-                    OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
-                });
-
-                it(@"should immediately attempt to update without the image", ^{
-                    testManager.menuCells = @[textAndImageCell];
-                    
-                    NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
-                    NSArray *add = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
-                    SDLAddCommand *sentCommand = add.firstObject;
-
-                    expect(add).to(haveCount(1));
-                    expect(sentCommand.cmdIcon.value).to(beNil());
-                });
-            });
-        });
-
         it(@"should properly update with subcells", ^{
             testManager.menuCells = @[submenuCell];
+            [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES];
 
             NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
             NSArray *adds = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
@@ -223,18 +209,69 @@ describe(@"menu manager", ^{
             expect(submenus).to(haveCount(1));
         });
 
-        context(@"when a menu already exists", ^{
+        describe(@"updating with an image", ^{
+            context(@"when the image is already on the head unit", ^{
+                beforeEach(^{
+                    OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(YES);
+                });
+
+                it(@"should properly update an image cell", ^{
+                    testManager.menuCells = @[textAndImageCell, submenuImageCell];
+
+                    NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
+                    NSArray *add = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+                    SDLAddCommand *sentCommand = add.firstObject;
+
+                    NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddSubMenu class]];
+                    NSArray *submenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
+                    SDLAddSubMenu *sentSubmenu = submenu.firstObject;
+
+                    expect(add).to(haveCount(1));
+                    expect(submenu).to(haveCount(1));
+                    expect(sentCommand.cmdIcon.value).to(equal(testArtwork.name));
+                    expect(sentSubmenu.menuIcon.value).to(equal(testArtwork2.name));
+                });
+            });
+
+            context(@"when the image is not on the head unit", ^{
+                beforeEach(^{
+                    OCMStub([mockFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
+                });
+
+                it(@"should immediately attempt to update without the image", ^{
+                    testManager.menuCells = @[textAndImageCell, submenuImageCell];
+                    
+                    NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
+                    NSArray *add = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
+                    SDLAddCommand *sentCommand = add.firstObject;
+
+                    NSPredicate *addSubmenuPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddSubMenu class]];
+                    NSArray *submenu = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addSubmenuPredicate];
+                    SDLAddSubMenu *sentSubmenu = submenu.firstObject;
+
+                    expect(add).to(haveCount(1));
+                    expect(submenu).to(haveCount(1));
+                    expect(sentCommand.cmdIcon.value).to(beNil());
+                    expect(sentSubmenu.menuIcon.value).to(beNil());
+                });
+            });
+        });
+
+        describe(@"updating when a menu already exists", ^{
             beforeEach(^{
                 testManager.menuCells = @[textOnlyCell];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // Adds
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // Submenu
+
+                testManager.menuCells = @[textAndImageCell];
+                [mockConnectionManager respondToLastMultipleRequestsWithSuccess:YES]; // Deletes
             });
 
             it(@"should send deletes first", ^{
-                testManager.menuCells = @[textAndImageCell];
-
-                NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLDeleteCommand class]];
+                NSPredicate *deleteCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLDeleteCommand class]];
                 NSArray *deletes = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:deleteCommandPredicate];
 
-                NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass: %@", [SDLAddCommand class]];
+                NSPredicate *addCommandPredicate = [NSPredicate predicateWithFormat:@"self isMemberOfClass:%@", [SDLAddCommand class]];
                 NSArray *adds = [[mockConnectionManager.receivedRequests copy] filteredArrayUsingPredicate:addCommandPredicate];
 
                 expect(deletes).to(haveCount(1));
@@ -292,7 +329,7 @@ describe(@"menu manager", ^{
                     testTriggerSource = triggerSource;
                 }];
 
-                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" subCells:@[cellWithHandler]];
+                SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:@"Submenu" icon:nil subCells:@[cellWithHandler]];
 
                 testManager.menuCells = @[submenuCell];
             });
