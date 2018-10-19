@@ -22,6 +22,7 @@
 * Add new vehicle capabilities that can be remotely controlled by an application: Seat Controls [SDL-0105] [#792](https://github.com/smartdevicelink/sdl_ios/issues/792), lights, display settings, and additional audio capabilities [SDL-0099] [#755](https://github.com/smartdevicelink/sdl_ios/issues/755), [SDL-0165] [#954](https://github.com/smartdevicelink/sdl_ios/issues/954), [SDL-0182] [#1022](https://github.com/smartdevicelink/sdl_ios/issues/1022).
 * Add the ability to check the status of remote control modules [SDL-0106] [#800](https://github.com/smartdevicelink/sdl_ios/issues/800), [SDL-0172] [#990](https://github.com/smartdevicelink/sdl_ios/issues/990).
 * Add the ability to modify the play / pause button to show either play, pause, stop, or play / pause [SDL-0109] [#892](https://github.com/smartdevicelink/sdl_ios/issues/892).
+* Support both USB / BT and WiFi transports simultaneously when streaming video on supported head units [SDL-0141] [#900](https://github.com/smartdevicelink/sdl_ios/issues/900).
 * Allow apps to alter template primary, secondary, and tertiary colors while connected to a supported head unit through the RegisterAppInterface and SetDisplayLayout APIs [SDL-0147] [#909](https://github.com/smartdevicelink/sdl_ios/issues/909).
 * Allow checking for the availability of a secondary graphic [SDL-0151] [#917](https://github.com/smartdevicelink/sdl_ios/issues/917).
 * Support short and full appIds [SDL-0153] [#942](https://github.com/smartdevicelink/sdl_ios/issues/942).
