@@ -1,3 +1,10 @@
+# 6.1.0 (Since RC 2)
+### Versions
+* Supports [SDL RPC Spec 5.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/5.0.0) and [SDL Protocol Spec 5.1.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.1.0).
+
+### Changes
+* None
+
 # 6.1.0 Release Candidate 2
 ### Bug Fixes
 * If a RegisterAppInterface or SetDisplayLayout fail, don't set displayCapabilities to nil in the screen manager [#1108](https://github.com/smartdevicelink/sdl_ios/issues/1108).
