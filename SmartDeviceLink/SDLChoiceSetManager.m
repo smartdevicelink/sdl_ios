@@ -410,6 +410,10 @@ UInt16 const ChoiceCellIdMin = 1;
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
 
     if (!response.success.boolValue) { return; }
+    if (response.displayCapabilities == nil) {
+        SDLLogE(@"RegisterAppInterface succeeded but didn't send a display capabilities. A lot of things will probably break.");
+        return;
+    }
 
     self.displayCapabilities = response.displayCapabilities;
 }
@@ -418,6 +422,10 @@ UInt16 const ChoiceCellIdMin = 1;
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
 
     if (!response.success.boolValue) { return; }
+    if (response.displayCapabilities == nil) {
+        SDLLogE(@"SetDisplayLayout succeeded but didn't send a display capabilities. A lot of things will probably break.");
+        return;
+    }
 
     self.displayCapabilities = response.displayCapabilities;
 }
