@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLChoiceCell *> *)cells {
-    SDLChoiceCell *firstChoice = [[SDLChoiceCell alloc] initWithText:PICSFirstChoice];
+    SDLChoiceCell *firstChoice = [[SDLChoiceCell alloc] initWithText:PICSFirstChoice artwork:[SDLArtwork artworkWithStaticIcon:SDLStaticIconNameKey] voiceCommands:nil];
     SDLChoiceCell *secondChoice = [[SDLChoiceCell alloc] initWithText:PICSSecondChoice];
     SDLChoiceCell *thirdChoice = [[SDLChoiceCell alloc] initWithText:PICSThirdChoice];
 

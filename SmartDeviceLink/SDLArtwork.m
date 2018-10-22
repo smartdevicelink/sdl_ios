@@ -177,6 +177,10 @@ NS_ASSUME_NONNULL_BEGIN
     return haveEqualNames && haveEqualData && haveEqualFormats;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"SDLArtwork name: %@, image: %@, isTemplate: %@, isStaticIcon: %@", self.name, self.image, (self.isTemplate ? @"YES" : @"NO"), (self.isStaticIcon ? @"YES" : @"NO")];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

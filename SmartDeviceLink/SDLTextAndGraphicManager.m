@@ -162,7 +162,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogV(@"No images to send, sending text");
         // If there are no images to update, just send the text
         self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
-    } else if ([self sdl_artworkNeedsUpload:self.primaryGraphic] && [self sdl_artworkNeedsUpload:self.secondaryGraphic]) {
+    } else if (![self sdl_artworkNeedsUpload:self.primaryGraphic] && ![self sdl_artworkNeedsUpload:self.secondaryGraphic]) {
         SDLLogV(@"Images already uploaded, sending full update");
         // The files to be updated are already uploaded, send the full show immediately
         self.inProgressUpdate = fullShow;
@@ -463,8 +463,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLShow *)sdl_createImageOnlyShowWithPrimaryArtwork:(nullable SDLArtwork *)primaryArtwork secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork  {
     SDLShow *newShow = [[SDLShow alloc] init];
-    newShow.graphic = [self sdl_artworkNeedsUpload:primaryArtwork] ? primaryArtwork.imageRPC : nil;
-    newShow.secondaryGraphic = [self sdl_artworkNeedsUpload:secondaryArtwork] ? secondaryArtwork.imageRPC : nil;
+    newShow.graphic = ![self sdl_artworkNeedsUpload:primaryArtwork] ? primaryArtwork.imageRPC : nil;
+    newShow.secondaryGraphic = ![self sdl_artworkNeedsUpload:secondaryArtwork] ? secondaryArtwork.imageRPC : nil;
 
     if (newShow.graphic == nil && newShow.secondaryGraphic == nil) {
         SDLLogV(@"No graphics to upload");
@@ -489,14 +489,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Helpers
 
-/**
- *  Checks if an artwork needs to be uploaded to Core.
- *
- *  @param artwork     The artwork to be uploaded to Core
- *  @return            True if the artwork does not need to be uploaded to Core; false if artwork stills needs to be sent to Core.
- */
 - (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
-    return (!artwork || [self.fileManager hasUploadedFile:artwork] || artwork.isStaticIcon);
+    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon);
 }
 
 - (BOOL)sdl_shouldUpdatePrimaryImage {
