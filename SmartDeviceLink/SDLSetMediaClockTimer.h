@@ -23,11 +23,114 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSetMediaClockTimer : SDLRPCRequest
 
-- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode hours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds audioStreamingIndicator:(SDLAudioStreamingIndicator)audioStreamingIndicator;
+/**
+ Create a media clock timer that counts up, e.g from 0:00 to 4:18.
 
-- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode hours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds;
+ This will fail if startTime is greater than endTime
 
-- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode;
+ @param startTime The start time interval, e.g. (0) 0:00
+ @param endTime The end time interval, e.g. (258) 4:18
+ @param playPauseIndicator An optional audio indicator to change the play/pause button
+ @return An object of SetMediaClockTimer
+ */
++ (instancetype)countUpFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(countUp(from:to:playPauseIndicator:));
+
+/**
+ Create a media clock timer that counts up, e.g from 0:00 to 4:18.
+
+ This will fail if startTime is greater than endTime
+
+ @param startTime The start time interval, e.g. 0:00
+ @param endTime The end time interval, e.g. 4:18
+ @param playPauseIndicator An optional audio indicator to change the play/pause button
+ @return An object of SetMediaClockTimer
+ */
++ (instancetype)countUpFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(countUp(from:to:playPauseIndicator:));
+
+/**
+ Create a media clock timer that counts down, e.g. from 4:18 to 0:00
+
+ This will fail if endTime is greater than startTime
+
+ @param startTime The start time interval, e.g. (258) 4:18
+ @param endTime The end time interval, e.g. (0) 0:00
+ @param playPauseIndicator An optional audio indicator to change the play/pause button
+ @return An object of SetMediaClockTimer
+ */
++ (instancetype)countDownFromStartTimeInterval:(NSTimeInterval)startTime toEndTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(countDown(from:to:playPauseIndicator:));
+
+/**
+ Create a media clock timer that counts down, e.g. from 4:18 to 0:00
+
+ This will fail if endTime is greater than startTime
+
+ @param startTime The start time interval, e.g. 4:18
+ @param endTime The end time interval, e.g. 0:00
+ @param playPauseIndicator An optional audio indicator to change the play/pause button
+ @return An object of SetMediaClockTimer
+ */
++ (instancetype)countDownFromStartTime:(SDLStartTime *)startTime toEndTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(countDown(from:to:playPauseIndicator:));
+
+/**
+ Pause an existing (counting up / down) media clock timer
+
+ @param playPauseIndicator An optional audio indicator to change the play/pause button
+ @return An object of SetMediaClockTimer
+ */
++ (instancetype)pauseWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(pause(playPauseIndicator:));
+
+/**
+ Update a pause time (or pause and update the time) on a media clock timer
+
+ @param startTime The new start time interval
+ @param endTime The new end time interval
+ @param playPauseIndicator An optional audio indicator to change the play/pause button
+ @return An object of SetMediaClockTimer
+ */
++ (instancetype)updatePauseWithNewStartTimeInterval:(NSTimeInterval)startTime endTimeInterval:(NSTimeInterval)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(pause(newStart:newEnd:playPauseIndicator:));
+
+/**
+ Update a pause time (or pause and update the time) on a media clock timer
+
+ @param startTime The new start time
+ @param endTime The new end time
+ @param playPauseIndicator An optional audio indicator to change the play/pause button
+ @return An object of SetMediaClockTimer
+ */
++ (instancetype)updatePauseWithNewStartTime:(SDLStartTime *)startTime endTime:(SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(pause(newStart:newEnd:playPauseIndicator:));
+
+/**
+ Resume a paused media clock timer. It resumes at the same time at which it was paused.
+
+ @param playPauseIndicator An optional audio indicator to change the play/pause button
+ @return An object of SetMediaClockTimer
+ */
++ (instancetype)resumeWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(resume(playPauseIndicator:));
+
+/**
+ Remove a media clock timer from the screen
+
+ @param playPauseIndicator An optional audio indicator to change the play/pause button
+ @return An object of SetMediaClockTimer
+ */
++ (instancetype)clearWithPlayPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(clear(playPauseIndicator:));
+
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode hours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds audioStreamingIndicator:(SDLAudioStreamingIndicator)audioStreamingIndicator __deprecated_msg("Use a specific initializer");
+
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode hours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds __deprecated_msg("Use a specific initializer");
+
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode __deprecated_msg("Use a specific initializer");
+
+/**
+ Create a SetMediaClockTimer RPC with all available parameters. It's recommended to use the specific initializers above.
+
+ @param updateMode The type of SetMediaClockTimer RPC
+ @param startTime The start time. Only valid in some updateModes.
+ @param endTime The end time. Only valid in some updateModes.
+ @param playPauseIndicator The display of the play/pause button
+ @return An object of SetMediaClockTimer
+ */
+- (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode startTime:(nullable SDLStartTime *)startTime endTime:(nullable SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator NS_SWIFT_NAME(init(updateMode:startTime:endTime:playPauseIndicator:));
 
 /**
  * A Start Time with specifying hour, minute, second values
@@ -71,7 +174,6 @@ NS_ASSUME_NONNULL_BEGIN
  * will not change.
  */
 @property (strong, nonatomic, nullable) SDLAudioStreamingIndicator audioStreamingIndicator;
-
 
 @end
 

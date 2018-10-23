@@ -11,6 +11,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLStartTime
 
+- (instancetype)initWithTimeInterval:(NSTimeInterval)timeInterval {
+    self = [self init];
+    if (!self) { return nil; }
+
+    // https://stackoverflow.com/a/15304826/1221798
+    long seconds = lround(timeInterval);
+    self.hours = @(seconds / 3600);
+    self.minutes = @((seconds % 3600) / 60);
+    self.seconds = @(seconds % 60);
+
+    return self;
+}
+
 - (instancetype)initWithHours:(UInt8)hours minutes:(UInt8)minutes seconds:(UInt8)seconds {
     self = [self init];
     if (!self) {
