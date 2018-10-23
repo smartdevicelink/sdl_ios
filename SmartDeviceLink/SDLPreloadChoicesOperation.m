@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
             [artworksToUpload addObject:cell.artwork];
         }
         if ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage]
-            && [self sdl_artworkNeedsUpload:cell.artwork]) {
+            && [self sdl_artworkNeedsUpload:cell.secondaryArtwork]) {
             [artworksToUpload addObject:cell.secondaryArtwork];
         }
     }
