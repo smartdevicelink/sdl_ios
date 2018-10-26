@@ -23,7 +23,7 @@ UIFont * _Nullable sdl_findFontSizeToFitText(CGSize size, NSString *text) {
             break;
         }
         
-        fontSize -= 10.0;
+        fontSize -= 30.0;
     } while (fontSize > 0.0);
 
     return (fontSize > 0) ? [UIFont boldSystemFontOfSize:fontSize] : nil;
@@ -46,7 +46,7 @@ UIImage * _Nullable sdl_createTextImage(NSString *text, CGSize size) {
     CGContextSaveGState(context);
     
     NSMutableParagraphStyle* textStyle = NSMutableParagraphStyle.defaultParagraphStyle.mutableCopy;
-    textStyle.alignment = NSTextAlignmentCenter;
+    textStyle.alignment = NSTextAlignmentLeft;
     
     NSDictionary* textAttributes = @{
                                      NSFontAttributeName: font,
@@ -57,10 +57,11 @@ UIImage * _Nullable sdl_createTextImage(NSString *text, CGSize size) {
                                           options:NSStringDrawingUsesLineFragmentOrigin
                                        attributes:textAttributes
                                           context:nil];
-    
-    CGRect textInset = CGRectMake(0,
+
+    CGFloat padding = 50;
+    CGRect textInset = CGRectMake(0 + padding,
                                   (frame.size.height - CGRectGetHeight(textFrame)) / 2.0,
-                                  frame.size.width,
+                                  frame.size.width - (2 * padding),
                                   frame.size.height);
     
     [text drawInRect:textInset
