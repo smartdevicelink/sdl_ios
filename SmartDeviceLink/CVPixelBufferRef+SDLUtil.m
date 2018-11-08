@@ -10,23 +10,27 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// Video stream string message padding is 5% of the screen size. Padding is added to the message so the text is not flush with the edge of the screen.
+CGFloat const SDLVideoStringMessagePadding = .05;
+
 UIFont * _Nullable sdl_findFontSizeToFitText(CGSize size, NSString *text) {
-    CGFloat fontSize = 100;
-    
+    CGFloat fontSize = 300;
+
     do {
-        CGSize textSize = [text boundingRectWithSize:CGSizeMake(size.width, CGFLOAT_MAX)
+        CGFloat padding = SDLVideoStringMessagePadding * size.width * 2;
+        CGSize textSize = [text boundingRectWithSize:CGSizeMake((size.width - padding), CGFLOAT_MAX)
                                              options:NSStringDrawingUsesLineFragmentOrigin
-                                          attributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:fontSize]}
+                                          attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:fontSize]}
                                              context:nil].size;
-        
-        if (textSize.height <= size.height) {
+
+        if (textSize.height <= (size.height - padding)) {
             break;
         }
         
-        fontSize -= 30.0;
+        fontSize -= 10.0;
     } while (fontSize > 0.0);
 
-    return (fontSize > 0) ? [UIFont boldSystemFontOfSize:fontSize] : nil;
+    return (fontSize > 0) ? [UIFont systemFontOfSize:fontSize] : nil;
 }
 
 UIImage * _Nullable sdl_createTextImage(NSString *text, CGSize size) {
@@ -58,11 +62,11 @@ UIImage * _Nullable sdl_createTextImage(NSString *text, CGSize size) {
                                        attributes:textAttributes
                                           context:nil];
 
-    CGFloat padding = 50;
+    CGFloat padding = SDLVideoStringMessagePadding * size.width;
     CGRect textInset = CGRectMake(0 + padding,
                                   (frame.size.height - CGRectGetHeight(textFrame)) / 2.0,
-                                  frame.size.width - (2 * padding),
-                                  frame.size.height);
+                                  frame.size.width - (padding * 2),
+                                  frame.size.height - (padding * 2));
     
     [text drawInRect:textInset
       withAttributes:textAttributes];

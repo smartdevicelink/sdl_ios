@@ -383,7 +383,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
         if (!self.backgroundingPixelBuffer) {
             CVPixelBufferRef backgroundingPixelBuffer = [self.videoEncoder newPixelBuffer];
-            NSString *videoStreamBackgroundedString = [NSString stringWithFormat:@"%@ must be open on the phone in order to work. When it is safe to do so, open %@ on phone", self.appName, self.appName];
+            NSString *videoStreamBackgroundedString = [NSString stringWithFormat:@"When it is safe to do so, open %@ on phone", self.appName];
             if (CVPixelBufferAddText(backgroundingPixelBuffer, videoStreamBackgroundedString) == NO) {
                 SDLLogE(@"Could not create a backgrounding frame");
                 [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
