@@ -1,4 +1,15 @@
-# 6.1.0
+# 6.1.0 (Since RC 2)
+### Versions
+* Supports [SDL RPC Spec 5.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/5.0.0) and [SDL Protocol Spec 5.1.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.1.0).
+
+### Changes
+* None
+
+# 6.1.0 Release Candidate 2
+### Bug Fixes
+* If a RegisterAppInterface or SetDisplayLayout fail, don't set displayCapabilities to nil in the screen manager [#1108](https://github.com/smartdevicelink/sdl_ios/issues/1108).
+
+# 6.1.0 Release Candidate 1
 ### Enhancements
 * `PlayPause` button name has been added for subscription [#246](https://github.com/smartdevicelink/sdl_ios/issues/246).
 * Added the ability to play an audio file (such as a jingle) through `TTSChunk`, which may be used in an `Alert` or `Speak` RPC, for example [SDL-0014] [#524](https://github.com/smartdevicelink/sdl_ios/issues/524).
@@ -11,6 +22,7 @@
 * Add new vehicle capabilities that can be remotely controlled by an application: Seat Controls [SDL-0105] [#792](https://github.com/smartdevicelink/sdl_ios/issues/792), lights, display settings, and additional audio capabilities [SDL-0099] [#755](https://github.com/smartdevicelink/sdl_ios/issues/755), [SDL-0165] [#954](https://github.com/smartdevicelink/sdl_ios/issues/954), [SDL-0182] [#1022](https://github.com/smartdevicelink/sdl_ios/issues/1022).
 * Add the ability to check the status of remote control modules [SDL-0106] [#800](https://github.com/smartdevicelink/sdl_ios/issues/800), [SDL-0172] [#990](https://github.com/smartdevicelink/sdl_ios/issues/990).
 * Add the ability to modify the play / pause button to show either play, pause, stop, or play / pause [SDL-0109] [#892](https://github.com/smartdevicelink/sdl_ios/issues/892).
+* Support both USB / BT and WiFi transports simultaneously when streaming video on supported head units [SDL-0141] [#900](https://github.com/smartdevicelink/sdl_ios/issues/900).
 * Allow apps to alter template primary, secondary, and tertiary colors while connected to a supported head unit through the RegisterAppInterface and SetDisplayLayout APIs [SDL-0147] [#909](https://github.com/smartdevicelink/sdl_ios/issues/909).
 * Allow checking for the availability of a secondary graphic [SDL-0151] [#917](https://github.com/smartdevicelink/sdl_ios/issues/917).
 * Support short and full appIds [SDL-0153] [#942](https://github.com/smartdevicelink/sdl_ios/issues/942).
@@ -31,12 +43,10 @@
 * Add audio transcode files to default log module map [#1103](https://github.com/smartdevicelink/sdl_ios/issues/1103).
 
 # 6.0.2
-
 ### Bug Fixes
 * Video streaming apps put into a phone background state can now properly stop the video streaming when it leaves a streamable HMI state. [#1047](https://github.com/smartdevicelink/sdl_ios/issues/1047)
 
 # 6.0.1
-
 ### Bug Fixes
 * Fixed a crash that could occur in development circumstances if the head unit returns "-1" for an enum
 * Fixed manually sent Show RPCs causing issues when changing layouts.

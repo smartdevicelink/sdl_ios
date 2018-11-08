@@ -47,7 +47,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     if (!self) { return nil; }
 
     if (choices.count == 0 || choices.count > 100) {
-        SDLLogW(@"Attempted to create a choice set with %lu choices; Only 1 - 100 choices are valid", choices.count);
+        SDLLogW(@"Attempted to create a choice set with %lu choices; Only 1 - 100 choices are valid", (unsigned long)choices.count);
         return nil;
     }
 
@@ -57,7 +57,7 @@ static SDLChoiceSetLayout _defaultLayout = SDLChoiceSetLayoutList;
     }
 
     if (title.length == 0 || title.length > 500) {
-        SDLLogW(@"Attempted to create a choice set with a %lu length. Only 500 characters are supported", title.length);
+        SDLLogW(@"Attempted to create a choice set with a %lu length. Only 500 characters are supported", (unsigned long)title.length);
         return nil;
     }
 
