@@ -16,6 +16,7 @@
 #import "SDLGlobals.h"
 #import "SDLHMILevel.h"
 #import "SDLImageResolution.h"
+#import "SDLLifecycleConfiguration.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLProtocol.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -39,8 +40,9 @@ describe(@"the streaming video manager", ^{
     __block SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
     __block SDLCarWindowViewController *testViewController = [[SDLCarWindowViewController alloc] init];
     __block SDLFakeStreamingManagerDataSource *testDataSource = [[SDLFakeStreamingManagerDataSource alloc] init];
-    __block NSString *someBackgroundTitleString = nil;
     __block TestConnectionManager *testConnectionManager = nil;
+    __block NSString *testAppName = @"Test App";
+    __block SDLLifecycleConfiguration * testLifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName fullAppId:@""];
 
     __block void (^sendNotificationForHMILevel)(SDLHMILevel hmiLevel, SDLVideoStreamingState streamState) = ^(SDLHMILevel hmiLevel, SDLVideoStreamingState streamState) {
         SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] init];
@@ -58,9 +60,9 @@ describe(@"the streaming video manager", ^{
                                                          };
         testConfiguration.dataSource = testDataSource;
         testConfiguration.rootViewController = testViewController;
-        someBackgroundTitleString = @"Open Test App";
         testConnectionManager = [[TestConnectionManager alloc] init];
-        streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration];
+
+        streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager streamingMediaConfiguration:testConfiguration lifecycleConfiguration:testLifecycleConfiguration];
     });
 
     it(@"should initialize properties", ^{
