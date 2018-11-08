@@ -549,11 +549,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     }
 
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus*)notification.notification;
-
-    if (![self.hmiLevel isEqualToEnum:hmiStatus.hmiLevel]) {
-        SDLLogD(@"HMI level changed from level %@ to level %@", self.hmiLevel, hmiStatus.hmiLevel);
-        self.hmiLevel = hmiStatus.hmiLevel;
-    }
+    self.hmiLevel = hmiStatus.hmiLevel;
 
     SDLVideoStreamingState newState = hmiStatus.videoStreamingState ?: SDLVideoStreamingStateStreamable;
     if (![self.videoStreamingState isEqualToEnum:newState]) {
