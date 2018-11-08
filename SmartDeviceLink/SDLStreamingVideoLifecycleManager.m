@@ -66,8 +66,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (copy, nonatomic) NSDictionary<NSString *, id> *videoEncoderSettings;
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
 @property (copy, nonatomic) NSString *connectedVehicleMake;
-@property (copy, nonatomic) NSString *appName;
 
+@property (copy, nonatomic) NSString *appName;
 @property (assign, nonatomic) CV_NULLABLE CVPixelBufferRef backgroundingPixelBuffer;
 
 @property (strong, nonatomic, nullable) CADisplayLink *displayLink;
@@ -383,8 +383,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
         if (!self.backgroundingPixelBuffer) {
             CVPixelBufferRef backgroundingPixelBuffer = [self.videoEncoder newPixelBuffer];
-            NSString *videoStreamBackgroundedString = [NSString stringWithFormat:@"When it is safe to do so, open %@ on phone", self.appName];
-            if (CVPixelBufferAddText(backgroundingPixelBuffer, videoStreamBackgroundedString) == NO) {
+            if (CVPixelBufferAddText(backgroundingPixelBuffer, [self videoStreamBackgroundString]) == NO) {
                 SDLLogE(@"Could not create a backgrounding frame");
                 [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
                 return;
@@ -774,6 +773,10 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     SDLVideoStreamingFormat *h264rtp = [[SDLVideoStreamingFormat alloc] initWithCodec:SDLVideoStreamingCodecH264 protocol:SDLVideoStreamingProtocolRTP];
 
     return @[h264raw, h264rtp];
+}
+
+- (NSString *)videoStreamBackgroundString {
+    return [NSString stringWithFormat:@"When it is safe to do so, open %@ on phone", self.appName];
 }
 
 @end

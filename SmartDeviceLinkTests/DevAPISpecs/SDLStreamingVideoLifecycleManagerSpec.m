@@ -33,6 +33,11 @@
 #import "SDLVideoStreamingState.h"
 #import "TestConnectionManager.h"
 
+@interface SDLStreamingVideoLifecycleManager ()
+@property (copy, nonatomic) NSString *appName;
+- (NSString *)videoStreamBackgroundString;
+@end
+
 QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec)
 
 describe(@"the streaming video manager", ^{
@@ -650,6 +655,14 @@ describe(@"the streaming video manager", ^{
                     expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
                 });
             });
+        });
+    });
+
+    describe(@"Creating a background video stream string", ^{
+        __block NSString *expectedVideoStreamBackgroundString = [NSString stringWithFormat:@"When it is safe to do so, open %@ on phone", testAppName];
+
+        it(@"Should return the correct video stream background string for the screen size", ^{
+            expect([streamingLifecycleManager videoStreamBackgroundString]).to(match(expectedVideoStreamBackgroundString));
         });
     });
 });
