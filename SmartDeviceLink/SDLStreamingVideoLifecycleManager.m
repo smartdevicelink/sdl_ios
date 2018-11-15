@@ -290,6 +290,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
              };
 }
 
+- (void)disposeDisplayLink {
+    if (self.displayLink != nil) {
+        [self.displayLink invalidate];
+        self.displayLink = nil;
+    }
+}
+
 - (void)didEnterStateVideoStreamStopped {
     SDLLogD(@"Video stream stopped");
     _videoEncrypted = NO;
@@ -300,8 +307,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         _videoEncoder = nil;
     }
 
-    self.displayLink.paused = YES;
-    [self.displayLink invalidate];
+    [self disposeDisplayLink];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamDidStopNotification object:nil];
 }
@@ -361,11 +367,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
         self.videoEncoder = nil;
     }
         
-    if (self.displayLink != nil) {
-        self.displayLink.paused = YES;
-        [self.displayLink invalidate];
-        self.displayLink = nil;
-    }
+    [self disposeDisplayLink];
 
     if (self.videoEncoder == nil) {
         NSError* error = nil;
@@ -416,11 +418,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 - (void)didEnterStateVideoStreamSuspended {
     SDLLogD(@"Video stream suspended");
 
-    if (self.displayLink != nil) {
-        self.displayLink.paused = YES;
-        [self.displayLink invalidate];
-        self.displayLink = nil;
-    }
+    [self disposeDisplayLink];
         
     [[NSNotificationCenter defaultCenter] postNotificationName:SDLVideoStreamSuspendedNotification object:nil];
 }
