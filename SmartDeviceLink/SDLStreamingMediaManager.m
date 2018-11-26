@@ -46,6 +46,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (void)dealloc {
+    [_audioLifecycleManager stop];
+    [_videoLifecycleManager stop];
+}
+
 - (void)startWithProtocol:(SDLProtocol *)protocol {
     [self startAudioWithProtocol:protocol];
     [self startVideoWithProtocol:protocol];
