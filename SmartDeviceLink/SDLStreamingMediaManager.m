@@ -36,14 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Lifecycle
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration {
-    self = [self initWithConnectionManager:connectionManager streamingMediaConfiguration:configuration lifecycleConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"" fullAppId:@""]];
-    if (!self) {
-        return nil;
-    }
-    
-    _videoLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
-
-    return self;
+    return [self initWithConnectionManager:connectionManager streamingMediaConfiguration:configuration lifecycleConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"" fullAppId:@""]];
 }
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingMediaConfiguration:(SDLStreamingMediaConfiguration *)streamingMediaConfiguration lifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
@@ -56,6 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
     _videoLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:connectionManager streamingMediaConfiguration:streamingMediaConfiguration lifecycleConfiguration:lifecycleConfiguration];
 
     return self;
+}
+
+- (void)dealloc {
+    [_audioLifecycleManager stop];
+    [_videoLifecycleManager stop];
 }
 
 - (void)startWithProtocol:(SDLProtocol *)protocol {

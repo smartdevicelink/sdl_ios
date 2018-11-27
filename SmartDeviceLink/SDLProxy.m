@@ -395,6 +395,9 @@ static float DefaultConnectionTimeout = 45.0;
     NSString *functionClassName = [NSString stringWithFormat:@"SDL%@", functionName];
     SDLRPCMessage *newMessage = [[NSClassFromString(functionClassName) alloc] initWithDictionary:[dict mutableCopy]];
 
+    // Log the RPC message
+    SDLLogV(@"Message received: %@", newMessage);
+
     // Intercept and handle several messages ourselves
     if ([functionName isEqualToString:SDLNameOnAppInterfaceUnregistered] || [functionName isEqualToString:SDLNameUnregisterAppInterface]) {
         [self handleRPCUnregistered:dict];

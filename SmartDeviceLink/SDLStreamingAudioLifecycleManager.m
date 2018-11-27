@@ -295,7 +295,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus*)notification.notification;
-    SDLLogD(@"HMI level changed from level %@ to level %@", self.hmiLevel, hmiStatus.hmiLevel);
     self.hmiLevel = hmiStatus.hmiLevel;
 
     // if startWithProtocol has not been called yet, abort here

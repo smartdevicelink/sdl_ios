@@ -670,8 +670,17 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     SDLSystemContext oldSystemContext = self.systemContext;
     self.systemContext = hmiStatusNotification.systemContext;
 
-    SDLLogD(@"HMI level changed from %@ to %@", oldHMILevel, self.hmiLevel);
-    SDLLogD(@"Audio streaming state changed from %@ to %@", oldStreamingState, self.audioStreamingState);
+    if (![oldHMILevel isEqualToEnum:self.hmiLevel]) {
+        SDLLogD(@"HMI level changed from %@ to %@", oldHMILevel, self.hmiLevel);
+    }
+
+    if (![oldStreamingState isEqualToEnum:self.audioStreamingState]) {
+        SDLLogD(@"Audio streaming state changed from %@ to %@", oldStreamingState, self.audioStreamingState);
+    }
+
+    if (![oldSystemContext isEqualToEnum:self.systemContext]) {
+        SDLLogD(@"System context changed from %@ to %@", oldSystemContext, self.systemContext);
+    }
 
     if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateSettingUpHMI]) {
         [self sdl_transitionToState:SDLLifecycleStateReady];
