@@ -1,3 +1,12 @@
+# 6.1.2
+### Bug Fixes
+* Fix external accessories never reconnecting if connected over both Bluetooth and USB when one transport is disconnected (https://github.com/smartdevicelink/sdl_ios/issues/1113).
+
+# 6.1.1
+### Bug Fixes
+* Fix possible crash when checking text fields in the screen manager (https://github.com/smartdevicelink/sdl_ios/issues/1122).
+* Fix possible crash when checking language field of `RegisterAppInterfaceResponse` in `SDLLifecycleManager` (https://github.com/smartdevicelink/sdl_ios/issues/1127).
+
 # 6.1.0 (Since RC 2)
 ### Versions
 * Supports [SDL RPC Spec 5.0.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/5.0.0) and [SDL Protocol Spec 5.1.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.1.0).
