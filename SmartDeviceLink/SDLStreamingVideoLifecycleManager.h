@@ -136,15 +136,6 @@ NS_ASSUME_NONNULL_BEGIN
  Create a new streaming media manager for navigation and VPM apps with a specified configuration
 
  @param connectionManager The pass-through for RPCs
- @param configuration The configuration of this streaming media session
- @return A new streaming manager
- */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration __deprecated_msg("Use initWithConnectionManager:streamingMediaConfiguration:lifecycleConfiguration: instead");
-
-/**
- Create a new streaming media manager for navigation and VPM apps with a specified configuration
-
- @param connectionManager The pass-through for RPCs
  @param configuration This session's configuration
  @return A new streaming manager
  */

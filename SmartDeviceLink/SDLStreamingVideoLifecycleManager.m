@@ -85,11 +85,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 @implementation SDLStreamingVideoLifecycleManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration {
-    SDLConfiguration *defaultConfig = [SDLConfiguration configurationWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"" fullAppId:@""] lockScreen:SDLLockScreenConfiguration.enabledConfiguration logging:SDLLogConfiguration.debugConfiguration streamingMedia:configuration fileManager:SDLFileManagerConfiguration.defaultConfiguration];
-    return [self initWithConnectionManager:connectionManager config:defaultConfig];
-}
-
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager config:(SDLConfiguration *)configuration {
     self = [super init];
     if (!self) {
