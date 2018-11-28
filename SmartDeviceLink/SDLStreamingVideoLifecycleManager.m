@@ -75,6 +75,8 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 @property (assign, nonatomic) CMTime lastPresentationTimestamp;
 
+@property (copy, nonatomic, getter=getVideoStreamBackgroundString) NSString *videoStreamBackgroundString;
+
 @end
 
 @implementation SDLStreamingVideoLifecycleManager
@@ -391,7 +393,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
         if (!self.backgroundingPixelBuffer) {
             CVPixelBufferRef backgroundingPixelBuffer = [self.videoEncoder newPixelBuffer];
-            if (CVPixelBufferAddText(backgroundingPixelBuffer, [self videoStreamBackgroundString]) == NO) {
+            if (CVPixelBufferAddText(backgroundingPixelBuffer, self.videoStreamBackgroundString) == NO) {
                 SDLLogE(@"Could not create a backgrounding frame");
                 [self.videoStreamStateMachine transitionToState:SDLVideoStreamManagerStateStopped];
                 return;
@@ -781,7 +783,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     return @[h264raw, h264rtp];
 }
 
-- (NSString *)videoStreamBackgroundString {
+- (NSString *)getVideoStreamBackgroundString {
     return [NSString stringWithFormat:@"When it is safe to do so, open %@ on your phone", self.appName];
 }
 
