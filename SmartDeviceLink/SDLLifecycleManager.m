@@ -134,7 +134,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         [configuration.lifecycleConfig.appType isEqualToEnum:SDLAppHMITypeProjection] ||
         [configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeNavigation] ||
         [configuration.lifecycleConfig.additionalAppTypes containsObject:SDLAppHMITypeProjection]) {
-        _streamManager = [[SDLStreamingMediaManager alloc] initWithConnectionManager:self streamingMediaConfiguration:configuration.streamingMediaConfig lifecycleConfiguration:configuration.lifecycleConfig];
+        _streamManager = [[SDLStreamingMediaManager alloc] initWithConnectionManager:self config:configuration];
     } else {
         SDLLogV(@"Skipping StreamingMediaManager setup due to app type");
     }

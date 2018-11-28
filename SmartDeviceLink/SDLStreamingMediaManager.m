@@ -9,6 +9,7 @@
 #import "SDLStreamingMediaManager.h"
 
 #import "SDLAudioStreamManager.h"
+#import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLStreamingMediaConfiguration.h"
@@ -36,17 +37,25 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Lifecycle
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration {
-    return [self initWithConnectionManager:connectionManager streamingMediaConfiguration:configuration lifecycleConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"" fullAppId:@""]];
-}
-
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingMediaConfiguration:(SDLStreamingMediaConfiguration *)streamingMediaConfiguration lifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
     self = [super init];
     if (!self) {
         return nil;
     }
 
-    _audioLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:streamingMediaConfiguration];
-    _videoLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:connectionManager streamingMediaConfiguration:streamingMediaConfiguration lifecycleConfiguration:lifecycleConfiguration];
+    _audioLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
+    _videoLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:connectionManager streamingMediaConfiguration:configuration lifecycleConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"" fullAppId:@""]];
+
+    return self;
+}
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager config:(SDLConfiguration *)configuration {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+
+    _audioLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration.streamingMediaConfig];
+    _videoLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:connectionManager streamingMediaConfiguration:configuration.streamingMediaConfig lifecycleConfiguration:configuration.lifecycleConfig];
 
     return self;
 }
