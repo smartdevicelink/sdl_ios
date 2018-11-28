@@ -16,8 +16,8 @@
 #import "SDLVideoStreamingState.h"
 
 @class SDLCarWindow;
+@class SDLConfiguration;
 @class SDLImageResolution;
-@class SDLLifecycleConfiguration;
 @class SDLProtocol;
 @class SDLStateMachine;
 @class SDLStreamingMediaConfiguration;
@@ -145,11 +145,10 @@ NS_ASSUME_NONNULL_BEGIN
  Create a new streaming media manager for navigation and VPM apps with a specified configuration
 
  @param connectionManager The pass-through for RPCs
- @param streamingMediaConfiguration The configuration of this streaming media session
- @param lifecycleConfiguration The lifecycle configuration of the app
+ @param configuration This session's configuration
  @return A new streaming manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingMediaConfiguration:(SDLStreamingMediaConfiguration *)streamingMediaConfiguration lifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager config:(SDLConfiguration *)configuration;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.

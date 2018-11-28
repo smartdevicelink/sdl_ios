@@ -128,7 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param configuration This session's configuration
  @return A new streaming manager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager config:(SDLConfiguration *)configuration;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager config:(SDLConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Start the manager with a completion block that will be called when startup completes. This is used internally. To use an SDLStreamingMediaManager, you should use the manager found on `SDLManager`.

@@ -10,12 +10,14 @@
 
 #import "CVPixelBufferRef+SDLUtil.h"
 #import "SDLCarWindow.h"
+#import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLControlFramePayloadConstants.h"
 #import "SDLControlFramePayloadNak.h"
 #import "SDLControlFramePayloadVideoStartService.h"
 #import "SDLControlFramePayloadVideoStartServiceAck.h"
 #import "SDLDisplayCapabilities.h"
+#import "SDLFileManagerConfiguration.h"
 #import "SDLFocusableItemLocator.h"
 #import "SDLGenericResponse.h"
 #import "SDLGetSystemCapability.h"
@@ -26,6 +28,8 @@
 #import "SDLHMILevel.h"
 #import "SDLImageResolution.h"
 #import "SDLLifecycleConfiguration.h"
+#import "SDLLockScreenConfiguration.h"
+#import "SDLLogConfiguration.h"
 #import "SDLLogMacros.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLProtocol.h"
@@ -81,7 +85,12 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 @implementation SDLStreamingVideoLifecycleManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager streamingMediaConfiguration:(SDLStreamingMediaConfiguration *)streamingMediaConfiguration lifecycleConfiguration:(SDLLifecycleConfiguration *)lifecycleConfiguration {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration {
+    SDLConfiguration *defaultConfig = [SDLConfiguration configurationWithLifecycle:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"" fullAppId:@""] lockScreen:SDLLockScreenConfiguration.enabledConfiguration logging:SDLLogConfiguration.debugConfiguration streamingMedia:configuration fileManager:SDLFileManagerConfiguration.defaultConfiguration];
+    return [self initWithConnectionManager:connectionManager config:defaultConfig];
+}
+
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager config:(SDLConfiguration *)configuration {
     self = [super init];
     if (!self) {
         return nil;
@@ -89,27 +98,27 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
     SDLLogV(@"Creating StreamingLifecycleManager");
 
-    _appName = lifecycleConfiguration.appName;
+    _appName = configuration.lifecycleConfig.appName;
     _connectionManager = connectionManager;
-    _videoEncoderSettings = streamingMediaConfiguration.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
+    _videoEncoderSettings = configuration.streamingMediaConfig.customVideoEncoderSettings ?: SDLH264VideoEncoder.defaultVideoEncoderSettings;
 
-    if (streamingMediaConfiguration.rootViewController != nil) {
-        NSAssert(streamingMediaConfiguration.enableForcedFramerateSync, @"When using CarWindow (rootViewController != nil), forceFrameRateSync must be YES");
+    if (configuration.streamingMediaConfig.rootViewController != nil) {
+        NSAssert(configuration.streamingMediaConfig.enableForcedFramerateSync, @"When using CarWindow (rootViewController != nil), forceFrameRateSync must be YES");
         if (@available(iOS 9.0, *)) {
             SDLLogD(@"Initializing focusable item locator");
-            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:streamingMediaConfiguration.rootViewController connectionManager:_connectionManager];
+            _focusableItemManager = [[SDLFocusableItemLocator alloc] initWithViewController:configuration.streamingMediaConfig.rootViewController connectionManager:_connectionManager];
         }
 
         SDLLogD(@"Initializing CarWindow");
-        _carWindow = [[SDLCarWindow alloc] initWithStreamManager:self configuration:streamingMediaConfiguration];
-        _carWindow.rootViewController = streamingMediaConfiguration.rootViewController;
+        _carWindow = [[SDLCarWindow alloc] initWithStreamManager:self configuration:configuration.streamingMediaConfig];
+        _carWindow.rootViewController = configuration.streamingMediaConfig.rootViewController;
     }
 
     _touchManager = [[SDLTouchManager alloc] initWithHitTester:(id)_focusableItemManager];
 
-    _requestedEncryptionType = streamingMediaConfiguration.maximumDesiredEncryption;
-    _dataSource = streamingMediaConfiguration.dataSource;
-    _useDisplayLink = streamingMediaConfiguration.enableForcedFramerateSync;
+    _requestedEncryptionType = configuration.streamingMediaConfig.maximumDesiredEncryption;
+    _dataSource = configuration.streamingMediaConfig.dataSource;
+    _useDisplayLink = configuration.streamingMediaConfig.enableForcedFramerateSync;
     _screenSize = SDLDefaultScreenSize;
     _backgroundingPixelBuffer = NULL;
     _preferredFormatIndex = 0;
@@ -119,20 +128,20 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _videoStreamingState = SDLVideoStreamingStateNotStreamable;
 
     NSMutableArray<NSString *> *tempMakeArray = [NSMutableArray array];
-    for (Class securityManagerClass in streamingMediaConfiguration.securityManagers) {
+    for (Class securityManagerClass in configuration.streamingMediaConfig.securityManagers) {
         [tempMakeArray addObjectsFromArray:[securityManagerClass availableMakes].allObjects];
     }
     _secureMakes = [tempMakeArray copy];
 
     SDLAppState *initialState = SDLAppStateInactive;
     switch ([[UIApplication sharedApplication] applicationState]) {
-            case UIApplicationStateActive: {
-                initialState = SDLAppStateActive;
-            } break;
-            case UIApplicationStateInactive: // fallthrough
-            case UIApplicationStateBackground: {
-                initialState = SDLAppStateInactive;
-            } break;
+        case UIApplicationStateActive: {
+            initialState = SDLAppStateActive;
+        } break;
+        case UIApplicationStateInactive: // fallthrough
+        case UIApplicationStateBackground: {
+            initialState = SDLAppStateInactive;
+        } break;
         default: break;
     }
 
@@ -148,10 +157,6 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     _lastPresentationTimestamp = kCMTimeInvalid;
 
     return self;
-}
-
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLStreamingMediaConfiguration *)configuration {
-    return [self initWithConnectionManager:connectionManager streamingMediaConfiguration:configuration lifecycleConfiguration:[SDLLifecycleConfiguration defaultConfigurationWithAppName:@"" fullAppId:@""]];
 }
 
 - (void)startWithProtocol:(SDLProtocol *)protocol {
