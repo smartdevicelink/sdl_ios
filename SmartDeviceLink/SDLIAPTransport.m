@@ -564,7 +564,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
             strongSelf.session.streamDelegate = nil;
             strongSelf.session = nil;
             
-            // We don't call sdl_retryEstablishSession here because the stream end event usually fires when the accessory is disconnected
+            [strongSelf sdl_retryEstablishSession];
         });
         
         // To prevent deadlocks the handler must return to the runloop and not block the thread
