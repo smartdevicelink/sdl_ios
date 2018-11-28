@@ -3,12 +3,14 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLCarWindowViewController.h"
+#import "SDLConfiguration.h"
 #import "SDLControlFramePayloadConstants.h"
 #import "SDLControlFramePayloadNak.h"
 #import "SDLControlFramePayloadVideoStartService.h"
 #import "SDLControlFramePayloadVideoStartServiceAck.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLFakeStreamingManagerDataSource.h"
+#import "SDLFileManagerConfiguration.h"
 #import "SDLFocusableItemLocator.h"
 #import "SDLGetSystemCapability.h"
 #import "SDLGetSystemCapabilityResponse.h"
@@ -17,6 +19,8 @@
 #import "SDLHMILevel.h"
 #import "SDLImageResolution.h"
 #import "SDLLifecycleConfiguration.h"
+#import "SDLLockScreenConfiguration.h"
+#import "SDLLogConfiguration.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLProtocol.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -49,6 +53,8 @@ describe(@"the streaming video manager", ^{
     __block NSString *testAppName = @"Test App";
     __block SDLLifecycleConfiguration * testLifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName fullAppId:@""];
 
+    __block SDLConfiguration *testConfig = nil;
+
     __block void (^sendNotificationForHMILevel)(SDLHMILevel hmiLevel, SDLVideoStreamingState streamState) = ^(SDLHMILevel hmiLevel, SDLVideoStreamingState streamState) {
         SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] init];
         hmiStatus.hmiLevel = hmiLevel;
@@ -67,7 +73,11 @@ describe(@"the streaming video manager", ^{
         testConfiguration.rootViewController = testViewController;
         testConnectionManager = [[TestConnectionManager alloc] init];
 
-        streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager streamingMediaConfiguration:testConfiguration lifecycleConfiguration:testLifecycleConfiguration];
+        testLifecycleConfiguration.appType = SDLAppHMITypeNavigation;
+
+        testConfig = [SDLConfiguration configurationWithLifecycle:testLifecycleConfiguration lockScreen:SDLLockScreenConfiguration.enabledConfiguration logging:SDLLogConfiguration.debugConfiguration streamingMedia:testConfiguration fileManager:SDLFileManagerConfiguration.defaultConfiguration];
+
+        streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig];
     });
 
     it(@"should initialize properties", ^{
@@ -659,10 +669,10 @@ describe(@"the streaming video manager", ^{
     });
 
     describe(@"Creating a background video stream string", ^{
-        __block NSString *expectedVideoStreamBackgroundString = [NSString stringWithFormat:@"When it is safe to do so, open %@ on phone", testAppName];
+        __block NSString *expectedVideoStreamBackgroundString = [NSString stringWithFormat:@"When it is safe to do so, open %@ on your phone", testAppName];
 
         it(@"Should return the correct video stream background string for the screen size", ^{
-            expect([streamingLifecycleManager videoStreamBackgroundString]).to(match(expectedVideoStreamBackgroundString));
+            expect(streamingLifecycleManager.videoStreamBackgroundString).to(match(expectedVideoStreamBackgroundString));
         });
     });
 });

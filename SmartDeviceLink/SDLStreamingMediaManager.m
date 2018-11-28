@@ -11,12 +11,6 @@
 #import "SDLAudioStreamManager.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
-#import "SDLFileManagerConfiguration.h"
-#import "SDLLifecycleConfiguration.h"
-#import "SDLLockScreenConfiguration.h"
-#import "SDLLogConfiguration.h"
-#import "SDLStreamingMediaConfiguration.h"
-#import "SDLStreamingMediaManagerDataSource.h"
 #import "SDLStreamingAudioLifecycleManager.h"
 #import "SDLStreamingVideoLifecycleManager.h"
 #import "SDLTouchManager.h"
@@ -39,14 +33,14 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Public
 #pragma mark Lifecycle
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager config:(SDLConfiguration *)configuration {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration {
     self = [super init];
     if (!self) {
         return nil;
     }
 
     _audioLifecycleManager = [[SDLStreamingAudioLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration.streamingMediaConfig];
-    _videoLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:connectionManager config:configuration];
+    _videoLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:connectionManager configuration:configuration];
 
     return self;
 }

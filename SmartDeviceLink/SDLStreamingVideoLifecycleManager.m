@@ -17,7 +17,6 @@
 #import "SDLControlFramePayloadVideoStartService.h"
 #import "SDLControlFramePayloadVideoStartServiceAck.h"
 #import "SDLDisplayCapabilities.h"
-#import "SDLFileManagerConfiguration.h"
 #import "SDLFocusableItemLocator.h"
 #import "SDLGenericResponse.h"
 #import "SDLGetSystemCapability.h"
@@ -28,8 +27,6 @@
 #import "SDLHMILevel.h"
 #import "SDLImageResolution.h"
 #import "SDLLifecycleConfiguration.h"
-#import "SDLLockScreenConfiguration.h"
-#import "SDLLogConfiguration.h"
 #import "SDLLogMacros.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLProtocol.h"
@@ -79,13 +76,13 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 @property (assign, nonatomic) CMTime lastPresentationTimestamp;
 
-@property (copy, nonatomic, getter=getVideoStreamBackgroundString) NSString *videoStreamBackgroundString;
+@property (copy, nonatomic) NSString *videoStreamBackgroundString;
 
 @end
 
 @implementation SDLStreamingVideoLifecycleManager
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager config:(SDLConfiguration *)configuration {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager configuration:(SDLConfiguration *)configuration {
     self = [super init];
     if (!self) {
         return nil;
@@ -783,7 +780,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
     return @[h264raw, h264rtp];
 }
 
-- (NSString *)getVideoStreamBackgroundString {
+- (NSString *)videoStreamBackgroundString {
     return [NSString stringWithFormat:@"When it is safe to do so, open %@ on your phone", self.appName];
 }
 
