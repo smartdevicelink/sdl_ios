@@ -7,6 +7,7 @@
 //
 
 #import "CVPixelBufferRef+SDLUtil.h"
+#import "SDLLogMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -37,7 +38,7 @@ UIImage * _Nullable sdl_createTextImage(NSString *text, CGSize size) {
     UIFont *font = sdl_findFontSizeToFitText(size, text);
     
     if (!font) {
-        NSLog(@"Text cannot fit inside frame");
+        SDLLogW(@"Text cannot fit inside frame");
         return nil;
     }
 
@@ -83,7 +84,7 @@ Boolean CVPixelBufferAddText(CVPixelBufferRef CV_NONNULL pixelBuffer, NSString *
     
     UIImage *image = sdl_createTextImage(text, CGSizeMake(width, height));
     if (!image) {
-        NSLog(@"Could not create text image.");
+        SDLLogE(@"Could not create text image.");
         return false;
     }
     
