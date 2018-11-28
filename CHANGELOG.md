@@ -1,3 +1,7 @@
+# 6.1.2
+### Bug Fixes
+* Fix external accessories never reconnecting if connected over both Bluetooth and USB when one transport is disconnected (https://github.com/smartdevicelink/sdl_ios/issues/1113).
+
 # 6.1.1
 ### Bug Fixes
 * Fix possible crash when checking text fields in the screen manager (https://github.com/smartdevicelink/sdl_ios/issues/1122).
