@@ -782,7 +782,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 }
 
 - (NSString *)videoStreamBackgroundString {
-    return [NSString stringWithFormat:@"When it is safe to do so, open %@ on phone", self.appName];
+    return [NSString stringWithFormat:@"When it is safe to do so, open %@ on your phone", self.appName];
 }
 
 @end
