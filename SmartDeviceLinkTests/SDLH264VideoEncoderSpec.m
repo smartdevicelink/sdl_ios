@@ -23,6 +23,7 @@ QuickSpecBegin(SDLH264VideoEncoderSpec)
 describe(@"a video encoder", ^{
     __block SDLH264VideoEncoder *testVideoEncoder = nil;
     __block CGSize testSize = CGSizeZero;
+    __block UInt32 testSSRC = 234;
     __block id videoEncoderDelegateMock = OCMProtocolMock(@protocol(SDLVideoEncoderDelegate));
     __block NSError *testError = nil;
     __block SDLVideoStreamingProtocol testProtocol = nil;
@@ -35,7 +36,7 @@ describe(@"a video encoder", ^{
     
     context(@"if using default video encoder settings", ^{
         beforeEach(^{
-            testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize properties:SDLH264VideoEncoder.defaultVideoEncoderSettings delegate:videoEncoderDelegateMock error:&testError];
+            testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize ssrc:testSSRC properties:SDLH264VideoEncoder.defaultVideoEncoderSettings delegate:videoEncoderDelegateMock error:&testError];
         });
         
         it(@"should initialize properties", ^{
@@ -70,7 +71,7 @@ describe(@"a video encoder", ^{
                                  (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate : @1
                                  };
 
-                testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize properties:testSettings delegate:videoEncoderDelegateMock error:&testError];
+                testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize ssrc:testSSRC properties:testSettings delegate:videoEncoderDelegateMock error:&testError];
             });
             
             it(@"should initialize properties", ^{
@@ -90,7 +91,7 @@ describe(@"a video encoder", ^{
                 testSettings = @{
                                  @"Bad" : @"Property"
                                  };
-                testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize properties:testSettings delegate:videoEncoderDelegateMock error:&testError];
+                testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize ssrc:testSSRC properties:testSettings delegate:videoEncoderDelegateMock error:&testError];
             });
             
             it(@"should not be initialized", ^{
@@ -103,7 +104,7 @@ describe(@"a video encoder", ^{
     context(@"using an unknown protocol", ^{
         beforeEach(^{
             testProtocol = SDLVideoStreamingProtocolRTSP;
-            testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize properties:SDLH264VideoEncoder.defaultVideoEncoderSettings delegate:videoEncoderDelegateMock error:&testError];
+            testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize ssrc:testSSRC properties:SDLH264VideoEncoder.defaultVideoEncoderSettings delegate:videoEncoderDelegateMock error:&testError];
         });
 
         it(@"should not be initialized", ^{
@@ -116,7 +117,7 @@ describe(@"a video encoder", ^{
     context(@"creating with RTP H264 Protocol", ^{
         beforeEach(^{
             testProtocol = SDLVideoStreamingProtocolRTP;
-            testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize properties:SDLH264VideoEncoder.defaultVideoEncoderSettings delegate:videoEncoderDelegateMock error:&testError];
+            testVideoEncoder = [[SDLH264VideoEncoder alloc] initWithProtocol:testProtocol dimensions:testSize ssrc:testSSRC properties:SDLH264VideoEncoder.defaultVideoEncoderSettings delegate:videoEncoderDelegateMock error:&testError];
         });
 
         it(@"should create an RTP packetizer", ^{

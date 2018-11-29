@@ -11,6 +11,14 @@
 #import <Nimble/Nimble.h>
 #import "SDLRTPH264Packetizer.h"
 
+@interface SDLRTPH264Packetizer ()
+
+@property (assign, nonatomic) UInt32 initialTimestamp;
+@property (assign, nonatomic) UInt16 sequenceNum;
+@property (assign, nonatomic) UInt32 ssrc;
+
+@end
+
 // read 2-byte in network byte order and convert it to a UInt16
 static inline UInt16 sdl_readShortInNetworkByteOrder(const UInt8 *buffer) {
     return (buffer[0] << 8) | buffer[1];
@@ -226,40 +234,21 @@ describe(@"a RTP H264 packetizer", ^{
     });
 
     describe(@"the SSRC field in the header of the RTP packet", ^{
-        context(@"when it is not configured", ^{
-            it(@"is a random number", ^{
-                // No way to test a random number. We only check that it is shared among packets.
-                NSArray<NSData *> *nalUnits1 = @[iframe];
-                NSArray<NSData *> *results = [packetizer createPackets:nalUnits1 presentationTimestamp:0.0];
-                const UInt8 *header = results[0].bytes;
-                UInt32 ssrc = sdl_readLongInNetworkByteOrder(&header[FrameLengthLen+8]);
+        it(@"is same as the given number", ^{
+            UInt32 expectedSSRC = 0xFEDCBA98;
+            packetizer.ssrc = expectedSSRC;
 
-                NSArray<NSData *> *nalUnits2 = @[pframe];
-                results = [packetizer createPackets:nalUnits2 presentationTimestamp:1.0/30];
-                header = results[0].bytes;
-                UInt32 ssrc2 = sdl_readLongInNetworkByteOrder(&header[FrameLengthLen+8]);
+            NSArray<NSData *> *nalUnits1 = @[iframe];
+            NSArray<NSData *> *results = [packetizer createPackets:nalUnits1 presentationTimestamp:0.0];
+            const UInt8 *header = results[0].bytes;
+            UInt32 ssrc = sdl_readLongInNetworkByteOrder(&header[FrameLengthLen+8]);
+            expect(@(ssrc)).to(equal(@(expectedSSRC)));
 
-                expect(@(ssrc)).to(equal(@(ssrc2)));
-            });
-        });
-
-        context(@"when it is explicitly configured", ^{
-            it(@"is same as the given number", ^{
-                UInt32 expectedSSRC = 0xFEDCBA98;
-                packetizer.ssrc = expectedSSRC;
-
-                NSArray<NSData *> *nalUnits1 = @[iframe];
-                NSArray<NSData *> *results = [packetizer createPackets:nalUnits1 presentationTimestamp:0.0];
-                const UInt8 *header = results[0].bytes;
-                UInt32 ssrc = sdl_readLongInNetworkByteOrder(&header[FrameLengthLen+8]);
-                expect(@(ssrc)).to(equal(@(expectedSSRC)));
-
-                NSArray<NSData *> *nalUnits2 = @[pframe];
-                results = [packetizer createPackets:nalUnits2 presentationTimestamp:1.0/30];
-                header = results[0].bytes;
-                ssrc = sdl_readLongInNetworkByteOrder(&header[FrameLengthLen+8]);
-                expect(@(ssrc)).to(equal(@(expectedSSRC)));
-            });
+            NSArray<NSData *> *nalUnits2 = @[pframe];
+            results = [packetizer createPackets:nalUnits2 presentationTimestamp:1.0/30];
+            header = results[0].bytes;
+            ssrc = sdl_readLongInNetworkByteOrder(&header[FrameLengthLen+8]);
+            expect(@(ssrc)).to(equal(@(expectedSSRC)));
         });
     });
 
