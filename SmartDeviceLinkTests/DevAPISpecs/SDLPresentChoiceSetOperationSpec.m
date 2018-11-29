@@ -310,8 +310,8 @@ describe(@"present choice operation", ^{
                     });
 
                     it(@"should be finished", ^{
-                        expect(hasCalledOperationCompletionHandler).to(beTrue());
-                        expect(testOp.isFinished).to(beTrue());
+                        expect(hasCalledOperationCompletionHandler).toEventually(beTrue());
+                        expect(testOp.isFinished).toEventually(beTrue());
                     });
                 });
             });
