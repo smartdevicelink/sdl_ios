@@ -177,6 +177,15 @@ SDLErrorDomain *const SDLErrorDomainTransport = @"com.sdl.transport.error";
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorFileDataMissing userInfo:userInfo];
 }
 
++ (NSError *)sdl_fileManager_staticIconError {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"The file upload was canceled", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The file is a static icon, which cannot be uploaded", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Stop trying to upload a static icon, set it via the screen manager or create an SDLImage instead", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorStaticIcon userInfo:userInfo];
+}
+
 #pragma mark SDLUploadFileOperation
 
 + (NSError *)sdl_fileManager_fileDoesNotExistError {

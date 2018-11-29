@@ -52,6 +52,7 @@ describe(@"a preload choices operation", ^{
 
         context(@"with artworks", ^{
             __block NSSet<SDLChoiceCell *> *cellsWithArtwork = nil;
+            __block NSSet<SDLChoiceCell *> *cellsWithStaticIcon = nil;
             __block NSString *art1Name = @"Art1Name";
             __block NSString *art2Name = @"Art2Name";
 
@@ -62,7 +63,11 @@ describe(@"a preload choices operation", ^{
                 SDLArtwork *cell2Art = [[SDLArtwork alloc] initWithData:cellArtData name:art2Name fileExtension:@"png" persistent:NO];
                 SDLChoiceCell *cell2WithArtAndSecondary = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:nil tertiaryText:nil voiceCommands:nil artwork:cell2Art secondaryArtwork:cell2Art];
 
+                SDLArtwork *staticIconArt = [SDLArtwork artworkWithStaticIcon:SDLStaticIconNameDate];
+                SDLChoiceCell *cellWithStaticIcon = [[SDLChoiceCell alloc] initWithText:@"Static Icon" secondaryText:nil tertiaryText:nil voiceCommands:nil artwork:staticIconArt secondaryArtwork:nil];
+
                 cellsWithArtwork = [NSSet setWithArray:@[cell1WithArt, cell2WithArtAndSecondary]];
+                cellsWithStaticIcon = [NSSet setWithArray:@[cellWithStaticIcon]];
             });
 
             context(@"disallowed display capabilities", ^{
@@ -120,6 +125,17 @@ describe(@"a preload choices operation", ^{
                             return (artworks.count == 2);
                         }] completionHandler:[OCMArg any]]);
                         expect(@(testOp.currentState)).to(equal(SDLPreloadChoicesOperationStatePreloadingChoices));
+                    });
+                });
+
+                context(@"when artworks are static icons", ^{
+                    beforeEach(^{
+                        testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithStaticIcon];
+                        [testOp start];
+                    });
+
+                    it(@"should skip uploading artwork", ^{
+                        OCMReject([testFileManager uploadArtwork:[OCMArg any] completionHandler:[OCMArg any]]);
                     });
                 });
 

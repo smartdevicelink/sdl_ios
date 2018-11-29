@@ -71,6 +71,9 @@ describe(@"a soft button manager", ^{
     __block SDLSoftButtonState *object2State1 = [[SDLSoftButtonState alloc] initWithStateName:object2State1Name text:object2State1Text artwork:object2State1Art];
     __block SDLSoftButtonState *object2State2 = [[SDLSoftButtonState alloc] initWithStateName:object2State2Name text:object2State2Text image:nil];
 
+    __block SDLArtwork *staticIconArt = [SDLArtwork artworkWithStaticIcon:SDLStaticIconNameDate];
+    __block SDLSoftButtonState *staticIconState = [[SDLSoftButtonState alloc] initWithStateName:@"Static State" text:nil artwork:staticIconArt];
+
     beforeEach(^{
         testFileManager = OCMClassMock([SDLFileManager class]);
         testConnectionManager = [[TestConnectionManager alloc] init];
@@ -181,6 +184,17 @@ describe(@"a soft button manager", ^{
             SDLSoftButtonCapabilities *softButtonImagesSupported = [[SDLSoftButtonCapabilities alloc] init];
             softButtonImagesSupported.imageSupported = @YES;
             testManager.softButtonCapabilities = softButtonImagesSupported;
+        });
+
+        context(@"when button artworks are static icons", ^{
+            beforeEach(^{
+                testObject1 = [[SDLSoftButtonObject alloc] initWithName:object1Name state:staticIconState handler:nil];
+                testManager.softButtonObjects = @[testObject1];
+            });
+
+            it(@"should not have attempted to upload any artworks", ^{
+                OCMReject([testFileManager uploadArtwork:[OCMArg any] completionHandler:[OCMArg any]]);
+            });
         });
 
         context(@"when button artworks are already on the file system", ^{

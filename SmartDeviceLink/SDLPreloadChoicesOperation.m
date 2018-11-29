@@ -81,11 +81,13 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
-        if ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage]) {
-            cell.artwork != nil ? [artworksToUpload addObject:cell.artwork] : nil;
+        if ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage]
+            && [self sdl_artworkNeedsUpload:cell.artwork]) {
+            [artworksToUpload addObject:cell.artwork];
         }
-        if ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage]) {
-            cell.secondaryArtwork != nil ? [artworksToUpload addObject:cell.secondaryArtwork] : nil;
+        if ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage]
+            && [self sdl_artworkNeedsUpload:cell.secondaryArtwork]) {
+            [artworksToUpload addObject:cell.secondaryArtwork];
         }
     }
 
@@ -107,6 +109,10 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
+    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon);
+}
+
 - (void)sdl_preloadCells {
     _currentState = SDLPreloadChoicesOperationStatePreloadingChoices;
 
@@ -123,7 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
     } completionHandler:^(BOOL success) {
         if (!success) {
-            SDLLogW(@"Error preloading choice cells: %@", errors);
+            SDLLogE(@"Error preloading choice cells: %@", errors);
             weakSelf.internalError = [NSError sdl_choiceSetManager_choiceUploadFailed:errors];
         }
 
@@ -147,8 +153,8 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *secondaryText = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameSecondaryText] ? cell.secondaryText : nil;
     NSString *tertiaryText = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameTertiaryText] ? cell.tertiaryText : nil;
 
-    SDLImage *image = ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage] && cell.artwork != nil) ? [[SDLImage alloc] initWithName:cell.artwork.name isTemplate:cell.artwork.isTemplate] : nil;
-    SDLImage *secondaryImage = ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] && cell.secondaryArtwork != nil) ? [[SDLImage alloc] initWithName:cell.secondaryArtwork.name isTemplate:cell.secondaryArtwork.isTemplate] : nil;
+    SDLImage *image = ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceImage] && cell.artwork != nil) ? cell.artwork.imageRPC : nil;
+    SDLImage *secondaryImage = ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameChoiceSecondaryImage] && cell.secondaryArtwork != nil) ? cell.secondaryArtwork.imageRPC : nil;
 
     SDLChoice *choice = [[SDLChoice alloc] initWithId:cell.choiceId menuName:(NSString *_Nonnull)menuName vrCommands:(NSArray<NSString *> * _Nonnull)vrCommands image:image secondaryText:secondaryText secondaryImage:secondaryImage tertiaryText:tertiaryText];
 
