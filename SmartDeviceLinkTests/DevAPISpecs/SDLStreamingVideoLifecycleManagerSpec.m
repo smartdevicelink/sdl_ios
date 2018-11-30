@@ -3,12 +3,14 @@
 #import <OCMock/OCMock.h>
 
 #import "SDLCarWindowViewController.h"
+#import "SDLConfiguration.h"
 #import "SDLControlFramePayloadConstants.h"
 #import "SDLControlFramePayloadNak.h"
 #import "SDLControlFramePayloadVideoStartService.h"
 #import "SDLControlFramePayloadVideoStartServiceAck.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLFakeStreamingManagerDataSource.h"
+#import "SDLFileManagerConfiguration.h"
 #import "SDLFocusableItemLocator.h"
 #import "SDLGetSystemCapability.h"
 #import "SDLGetSystemCapabilityResponse.h"
@@ -16,6 +18,9 @@
 #import "SDLGlobals.h"
 #import "SDLHMILevel.h"
 #import "SDLImageResolution.h"
+#import "SDLLifecycleConfiguration.h"
+#import "SDLLockScreenConfiguration.h"
+#import "SDLLogConfiguration.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLProtocol.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -32,6 +37,11 @@
 #import "SDLVideoStreamingState.h"
 #import "TestConnectionManager.h"
 
+@interface SDLStreamingVideoLifecycleManager ()
+@property (copy, nonatomic, readonly) NSString *appName;
+@property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
+@end
+
 QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec)
 
 describe(@"the streaming video manager", ^{
@@ -39,8 +49,11 @@ describe(@"the streaming video manager", ^{
     __block SDLStreamingMediaConfiguration *testConfiguration = [SDLStreamingMediaConfiguration insecureConfiguration];
     __block SDLCarWindowViewController *testViewController = [[SDLCarWindowViewController alloc] init];
     __block SDLFakeStreamingManagerDataSource *testDataSource = [[SDLFakeStreamingManagerDataSource alloc] init];
-    __block NSString *someBackgroundTitleString = nil;
     __block TestConnectionManager *testConnectionManager = nil;
+    __block NSString *testAppName = @"Test App";
+    __block SDLLifecycleConfiguration * testLifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:testAppName fullAppId:@""];
+
+    __block SDLConfiguration *testConfig = nil;
 
     __block void (^sendNotificationForHMILevel)(SDLHMILevel hmiLevel, SDLVideoStreamingState streamState) = ^(SDLHMILevel hmiLevel, SDLVideoStreamingState streamState) {
         SDLOnHMIStatus *hmiStatus = [[SDLOnHMIStatus alloc] init];
@@ -58,9 +71,13 @@ describe(@"the streaming video manager", ^{
                                                          };
         testConfiguration.dataSource = testDataSource;
         testConfiguration.rootViewController = testViewController;
-        someBackgroundTitleString = @"Open Test App";
         testConnectionManager = [[TestConnectionManager alloc] init];
-        streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfiguration];
+
+        testLifecycleConfiguration.appType = SDLAppHMITypeNavigation;
+
+        testConfig = [SDLConfiguration configurationWithLifecycle:testLifecycleConfiguration lockScreen:SDLLockScreenConfiguration.enabledConfiguration logging:SDLLogConfiguration.debugConfiguration streamingMedia:testConfiguration fileManager:SDLFileManagerConfiguration.defaultConfiguration];
+
+        streamingLifecycleManager = [[SDLStreamingVideoLifecycleManager alloc] initWithConnectionManager:testConnectionManager configuration:testConfig];
     });
 
     it(@"should initialize properties", ^{
@@ -648,6 +665,14 @@ describe(@"the streaming video manager", ^{
                     expect(streamingLifecycleManager.currentVideoStreamState).to(equal(SDLVideoStreamManagerStateStopped));
                 });
             });
+        });
+    });
+
+    describe(@"Creating a background video stream string", ^{
+        __block NSString *expectedVideoStreamBackgroundString = [NSString stringWithFormat:@"When it is safe to do so, open %@ on your phone", testAppName];
+
+        it(@"Should return the correct video stream background string for the screen size", ^{
+            expect(streamingLifecycleManager.videoStreamBackgroundString).to(match(expectedVideoStreamBackgroundString));
         });
     });
 });
