@@ -68,7 +68,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 @property (copy, nonatomic) NSArray<NSString *> *secureMakes;
 @property (copy, nonatomic) NSString *connectedVehicleMake;
 
-@property (copy, nonatomic) NSString *appName;
+@property (copy, nonatomic, readonly) NSString *appName;
 @property (assign, nonatomic) CV_NULLABLE CVPixelBufferRef backgroundingPixelBuffer;
 
 @property (strong, nonatomic, nullable) CADisplayLink *displayLink;
@@ -76,7 +76,7 @@ typedef void(^SDLVideoCapabilityResponseHandler)(SDLVideoStreamingCapability *_N
 
 @property (assign, nonatomic) CMTime lastPresentationTimestamp;
 
-@property (copy, nonatomic) NSString *videoStreamBackgroundString;
+@property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
 
 @end
 

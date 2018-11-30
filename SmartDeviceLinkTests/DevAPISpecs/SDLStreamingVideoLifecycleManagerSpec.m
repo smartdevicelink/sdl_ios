@@ -38,8 +38,8 @@
 #import "TestConnectionManager.h"
 
 @interface SDLStreamingVideoLifecycleManager ()
-@property (copy, nonatomic) NSString *appName;
-- (NSString *)videoStreamBackgroundString;
+@property (copy, nonatomic, readonly) NSString *appName;
+@property (copy, nonatomic, readonly) NSString *videoStreamBackgroundString;
 @end
 
 QuickSpecBegin(SDLStreamingVideoLifecycleManagerSpec)
