@@ -28,15 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic) UInt8 payloadType;
 
-/**
- * SSRC of RTP header field.
- *
- * SSRC field identifies the source of a stream and it should be
- * chosen randomly (see section 3 and 5.1 in RFC 3550).
- *
- * @note A random value is generated and used as default.
- */
-@property (assign, nonatomic) UInt32 ssrc;
+- (instancetype)initWithSSRC:(UInt32)ssrc;
 
 @end
 
