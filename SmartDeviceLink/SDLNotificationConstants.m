@@ -16,6 +16,7 @@ SDLNotificationUserInfoKey const SDLNotificationUserInfoObject = @"SDLNotificati
 #pragma mark - General notifications
 SDLNotificationName const SDLTransportDidDisconnect = @"com.sdl.transport.disconnect";
 SDLNotificationName const SDLTransportDidConnect = @"com.sdl.transport.connect";
+SDLNotificationName const SDLTransportConnectError = @"com.sdl.transport.connectError";
 SDLNotificationName const SDLDidReceiveError = @"com.sdl.general.error";
 SDLNotificationName const SDLDidReceiveLockScreenIcon = @"com.sdl.general.lockscreenIconReceived";
 SDLNotificationName const SDLDidBecomeReady = @"com.sdl.notification.managerReady";
@@ -89,6 +90,7 @@ SDLNotificationName const SDLDidChangeLockScreenStatusNotification = @"com.sdl.n
 SDLNotificationName const SDLDidReceiveNewHashNotification = @"com.sdl.notification.newHash";
 SDLNotificationName const SDLDidChangePermissionsNotification = @"com.sdl.notification.changePermission";
 SDLNotificationName const SDLDidReceiveSystemRequestNotification = @"com.sdl.notification.receiveSystemRequest";
+SDLNotificationName const SDLDidReceiveRemoteControlStatusNotification = @"com.sdl.notification.rcStatus";
 SDLNotificationName const SDLDidChangeTurnByTurnStateNotification = @"com.sdl.notification.changeTurnByTurnState";
 SDLNotificationName const SDLDidReceiveTouchEventNotification = @"com.sdl.notification.touchEvent";
 SDLNotificationName const SDLDidReceiveVehicleDataNotification = @"com.sdl.notification.vehicleData";

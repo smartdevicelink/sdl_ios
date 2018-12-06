@@ -9,7 +9,7 @@
 #import "SDLPutFileResponse.h"
 #import "SDLUploadFileOperation.h"
 #import "TestConnectionManager.h"
-
+#import <zlib.h>
 
 QuickSpecBegin(SDLUploadFileOperationSpec)
 
@@ -106,11 +106,14 @@ describe(@"Streaming upload of data", ^{
                     SDLPutFile *putFile = putFiles[index];
 
                     NSUInteger mtuSize = [[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeBulkData];
+                    NSData *testBulkFileData = [testFileData subdataWithRange:NSMakeRange((index * mtuSize), MIN(putFile.length.unsignedIntegerValue, mtuSize))];
+                    unsigned long testBulkFileDataCrc = crc32(0, testBulkFileData.bytes, (uInt)testBulkFileData.length);
 
                     expect(putFile.offset).to(equal(@(index * mtuSize)));
                     expect(putFile.persistentFile).to(equal(@NO));
                     expect(putFile.syncFileName).to(equal(testFileName));
-                    expect(putFile.bulkData).to(equal([testFileData subdataWithRange:NSMakeRange((index * mtuSize), MIN(putFile.length.unsignedIntegerValue, mtuSize))]));
+                    expect(putFile.bulkData).to(equal(testBulkFileData));
+                    expect(putFile.crc).to(equal([NSNumber numberWithUnsignedLong:testBulkFileDataCrc]));
 
                     // Length is used to inform the SDL Core of the total incoming packet size
                     if (index == 0) {

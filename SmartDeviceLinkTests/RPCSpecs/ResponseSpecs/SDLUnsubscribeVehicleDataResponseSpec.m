@@ -26,6 +26,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.rpm = vehicleDataResult;
         testResponse.fuelLevel = vehicleDataResult;
         testResponse.fuelLevel_State = vehicleDataResult;
+        testResponse.fuelRange = vehicleDataResult;
         testResponse.instantFuelConsumption = vehicleDataResult;
         testResponse.externalTemperature = vehicleDataResult;
         testResponse.prndl = vehicleDataResult;
@@ -37,6 +38,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.driverBraking = vehicleDataResult;
         testResponse.wiperStatus = vehicleDataResult;
         testResponse.headLampStatus = vehicleDataResult;
+        testResponse.engineOilLife = vehicleDataResult;
         testResponse.engineTorque = vehicleDataResult;
         testResponse.accPedalPosition = vehicleDataResult;
         testResponse.steeringWheelAngle = vehicleDataResult;
@@ -45,12 +47,15 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.emergencyEvent = vehicleDataResult;
         testResponse.clusterModes = vehicleDataResult;
         testResponse.myKey = vehicleDataResult;
+        testResponse.electronicParkBrakeStatus = vehicleDataResult;
+        testResponse.turnSignal = vehicleDataResult;
         
         expect(testResponse.gps).to(equal(vehicleDataResult));
         expect(testResponse.speed).to(equal(vehicleDataResult));
         expect(testResponse.rpm).to(equal(vehicleDataResult));
         expect(testResponse.fuelLevel).to(equal(vehicleDataResult));
         expect(testResponse.fuelLevel_State).to(equal(vehicleDataResult));
+        expect(testResponse.fuelRange).to(equal(vehicleDataResult));
         expect(testResponse.instantFuelConsumption).to(equal(vehicleDataResult));
         expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
         expect(testResponse.prndl).to(equal(vehicleDataResult));
@@ -62,6 +67,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.driverBraking).to(equal(vehicleDataResult));
         expect(testResponse.wiperStatus).to(equal(vehicleDataResult));
         expect(testResponse.headLampStatus).to(equal(vehicleDataResult));
+        expect(testResponse.engineOilLife).to(equal(vehicleDataResult));
         expect(testResponse.engineTorque).to(equal(vehicleDataResult));
         expect(testResponse.accPedalPosition).to(equal(vehicleDataResult));
         expect(testResponse.steeringWheelAngle).to(equal(vehicleDataResult));
@@ -70,6 +76,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.emergencyEvent).to(equal(vehicleDataResult));
         expect(testResponse.clusterModes).to(equal(vehicleDataResult));
         expect(testResponse.myKey).to(equal(vehicleDataResult));
+        expect(testResponse.electronicParkBrakeStatus).to(equal(vehicleDataResult));
+        expect(testResponse.turnSignal).to(equal(vehicleDataResult));
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -80,6 +88,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameRPM:vehicleDataResult,
                                                                    SDLNameFuelLevel:vehicleDataResult,
                                                                    SDLNameFuelLevelState:vehicleDataResult,
+                                                                   SDLNameFuelRange:vehicleDataResult,
                                                                    SDLNameInstantFuelConsumption:vehicleDataResult,
                                                                    SDLNameExternalTemperature:vehicleDataResult,
                                                                    SDLNamePRNDL:vehicleDataResult,
@@ -91,6 +100,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameDriverBraking:vehicleDataResult,
                                                                    SDLNameWiperStatus:vehicleDataResult,
                                                                    SDLNameHeadLampStatus:vehicleDataResult,
+                                                                   SDLNameEngineOilLife:vehicleDataResult,
                                                                    SDLNameEngineTorque:vehicleDataResult,
                                                                    SDLNameAccelerationPedalPosition:vehicleDataResult,
                                                                    SDLNameSteeringWheelAngle:vehicleDataResult,
@@ -98,7 +108,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameAirbagStatus:vehicleDataResult,
                                                                    SDLNameEmergencyEvent:vehicleDataResult,
                                                                    SDLNameClusterModes:vehicleDataResult,
-                                                                   SDLNameMyKey:vehicleDataResult},
+                                                                   SDLNameMyKey:vehicleDataResult,
+                                                                   SDLNameElectronicParkBrakeStatus:vehicleDataResult,
+                                                                   SDLNameTurnSignal:vehicleDataResult,
+                                                                   },
                                                              SDLNameOperationName:SDLNameUnsubscribeVehicleData}} mutableCopy];
         SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] initWithDictionary:dict];
         
@@ -107,6 +120,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.rpm).to(equal(vehicleDataResult));
         expect(testResponse.fuelLevel).to(equal(vehicleDataResult));
         expect(testResponse.fuelLevel_State).to(equal(vehicleDataResult));
+        expect(testResponse.fuelRange).to(equal(vehicleDataResult));
         expect(testResponse.instantFuelConsumption).to(equal(vehicleDataResult));
         expect(testResponse.externalTemperature).to(equal(vehicleDataResult));
         expect(testResponse.prndl).to(equal(vehicleDataResult));
@@ -118,6 +132,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.driverBraking).to(equal(vehicleDataResult));
         expect(testResponse.wiperStatus).to(equal(vehicleDataResult));
         expect(testResponse.headLampStatus).to(equal(vehicleDataResult));
+        expect(testResponse.engineOilLife).to(equal(vehicleDataResult));
         expect(testResponse.engineTorque).to(equal(vehicleDataResult));
         expect(testResponse.accPedalPosition).to(equal(vehicleDataResult));
         expect(testResponse.steeringWheelAngle).to(equal(vehicleDataResult));
@@ -126,6 +141,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.emergencyEvent).to(equal(vehicleDataResult));
         expect(testResponse.clusterModes).to(equal(vehicleDataResult));
         expect(testResponse.myKey).to(equal(vehicleDataResult));
+        expect(testResponse.electronicParkBrakeStatus).to(equal(vehicleDataResult));
+        expect(testResponse.turnSignal).to(equal(vehicleDataResult));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -136,6 +153,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.rpm).to(beNil());
         expect(testResponse.fuelLevel).to(beNil());
         expect(testResponse.fuelLevel_State).to(beNil());
+        expect(testResponse.fuelRange).to(beNil());
         expect(testResponse.instantFuelConsumption).to(beNil());
         expect(testResponse.externalTemperature).to(beNil());
         expect(testResponse.prndl).to(beNil());
@@ -147,6 +165,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.driverBraking).to(beNil());
         expect(testResponse.wiperStatus).to(beNil());
         expect(testResponse.headLampStatus).to(beNil());
+        expect(testResponse.engineOilLife).to(beNil());
         expect(testResponse.engineTorque).to(beNil());
         expect(testResponse.accPedalPosition).to(beNil());
         expect(testResponse.steeringWheelAngle).to(beNil());
@@ -155,6 +174,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.emergencyEvent).to(beNil());
         expect(testResponse.clusterModes).to(beNil());
         expect(testResponse.myKey).to(beNil());
+        expect(testResponse.electronicParkBrakeStatus).to(beNil());
+        expect(testResponse.turnSignal).to(beNil());
     });
 });
 

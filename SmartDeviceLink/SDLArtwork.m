@@ -6,15 +6,24 @@
 //  Copyright © 2015 smartdevicelink. All rights reserved.
 //
 
-#import "SDLArtwork.h"
-#import "SDLFileType.h"
 #import <CommonCrypto/CommonDigest.h>
 
+#import "SDLArtwork.h"
+#import "SDLFileType.h"
+#import "SDLImage.h"
+
 NS_ASSUME_NONNULL_BEGIN
+
+@interface SDLFile ()
+
+@property (assign, nonatomic, readwrite) BOOL isStaticIcon;
+
+@end
 
 @interface SDLArtwork ()
 
 @property (strong, nonatomic) UIImage *image;
+@property (assign, nonatomic, readwrite) BOOL isTemplate;
 
 @end
 
@@ -31,6 +40,10 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initWithImage:image persistent:NO asImageFormat:imageFormat];
 }
 
++ (instancetype)artworkWithStaticIcon:(SDLStaticIconName)staticIcon {
+    return [[self alloc] initWithStaticIcon:staticIcon];
+}
+
 + (instancetype)persistentArtworkWithImage:(UIImage *)image name:(NSString *)name asImageFormat:(SDLArtworkImageFormat)imageFormat {
     return [[self alloc] initWithImage:image name:name persistent:YES asImageFormat:imageFormat];
 }
@@ -43,14 +56,40 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Private Lifecycle
 
 - (instancetype)initWithImage:(UIImage *)image name:(NSString *)name persistent:(BOOL)persistent asImageFormat:(SDLArtworkImageFormat)imageFormat {
+    self.image = image;
     return [super initWithData:[self.class sdl_dataForUIImage:image imageFormat:imageFormat] name:name fileExtension:[self.class sdl_fileExtensionForImageFormat:imageFormat] persistent:persistent];
 }
 
 - (instancetype)initWithImage:(UIImage *)image persistent:(BOOL)persistent asImageFormat:(SDLArtworkImageFormat)imageFormat {
+    self.image = image;
     NSData *imageData = [self.class sdl_dataForUIImage:image imageFormat:imageFormat];
     NSString *imageName = [self.class sdl_md5HashFromNSData:imageData];
     return [super initWithData:[self.class sdl_dataForUIImage:image imageFormat:imageFormat] name:(imageName != nil ? imageName : @"") fileExtension:[self.class sdl_fileExtensionForImageFormat:imageFormat] persistent:persistent];
 }
+
+- (instancetype)initWithStaticIcon:(SDLStaticIconName)staticIcon {
+    self = [super initWithData:[staticIcon dataUsingEncoding:NSASCIIStringEncoding] name:staticIcon fileExtension:@"" persistent:NO];
+    self.isStaticIcon = true;
+
+    return self;
+}
+
+#pragma mark - Setters and Getters
+
+- (void)setImage:(UIImage *)image {
+    _image = image;
+    _isTemplate = (image.renderingMode == UIImageRenderingModeAlwaysTemplate);
+}
+
+- (SDLImage *)imageRPC {
+    if (self.isStaticIcon) {
+        return [[SDLImage alloc] initWithStaticIconName:self.name];
+    } else {
+        return [[SDLImage alloc] initWithName:self.name isTemplate:self.isTemplate];
+    }
+}
+
+#pragma mark - Helper Methods
 
 /**
  * Returns the JPG or PNG image data for a UIImage.
@@ -136,6 +175,10 @@ NS_ASSUME_NONNULL_BEGIN
     BOOL haveEqualFormats = [self.fileType isEqualToEnum:artwork.fileType];
 
     return haveEqualNames && haveEqualData && haveEqualFormats;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"SDLArtwork name: %@, image: %@, isTemplate: %@, isStaticIcon: %@", self.name, self.image, (self.isTemplate ? @"YES" : @"NO"), (self.isStaticIcon ? @"YES" : @"NO")];
 }
 
 @end

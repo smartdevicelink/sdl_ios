@@ -549,28 +549,33 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 - (SDLStreamEndHandler)sdl_dataStreamEndedHandler {
     __weak typeof(self) weakSelf = self;
-    
     return ^(NSStream *stream) {
+        NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
         __strong typeof(weakSelf) strongSelf = weakSelf;
+
         SDLLogD(@"Data stream ended");
-        if (strongSelf.session != nil) {
-            // The handler will be called on the IO thread, but the session stop method must be called on the main thread and we need to wait for the session to stop before nil'ing it out. To do this, we use dispatch_sync() on the main thread.
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                [strongSelf.session stop];
-            });
+        if (strongSelf.session == nil) {
+            SDLLogD(@"Data session is nil");
+            return;
+        }
+        // The handler will be called on the IO thread, but the session stop method must be called on the main thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [strongSelf.session stop];
             strongSelf.session.streamDelegate = nil;
             strongSelf.session = nil;
-        }
-        // We don't call sdl_retryEstablishSession here because the stream end event usually fires when the accessory is disconnected
+            
+            [strongSelf sdl_retryEstablishSession];
+        });
+        
+        // To prevent deadlocks the handler must return to the runloop and not block the thread
     };
 }
 
 - (SDLStreamHasBytesHandler)sdl_dataStreamHasBytesHandler {
     __weak typeof(self) weakSelf = self;
-    
     return ^(NSInputStream *istream) {
+        NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        
         uint8_t buf[[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
         while (istream.streamStatus == NSStreamStatusOpen && istream.hasBytesAvailable) {
             // It is necessary to check the stream status and whether there are bytes available because the dataStreamHasBytesHandler is executed on the IO thread and the accessory disconnect notification arrives on the main thread, causing data to be passed to the delegate while the main thread is tearing down the transport.
@@ -597,18 +602,20 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 - (SDLStreamErrorHandler)sdl_dataStreamErroredHandler {
     __weak typeof(self) weakSelf = self;
-    
     return ^(NSStream *stream) {
+        NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogE(@"Data stream error");
-        dispatch_sync(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             [strongSelf.session stop];
+            strongSelf.session.streamDelegate = nil;
+            strongSelf.session = nil;
+            if (![LegacyProtocolString isEqualToString:strongSelf.session.protocol]) {
+                [strongSelf sdl_retryEstablishSession];
+            }
         });
-        strongSelf.session.streamDelegate = nil;
-        strongSelf.session = nil;
-        if (![LegacyProtocolString isEqualToString:strongSelf.session.protocol]) {
-            [strongSelf sdl_retryEstablishSession];
-        }
+        
+        // To prevent deadlocks the handler must return to the runloop and not block the thread
     };
 }
 

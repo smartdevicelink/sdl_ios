@@ -154,6 +154,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, strong, nonatomic) NSString *systemSoftwareVersion;
 
+/**
+ Whether or not the app's icon already existed on the system and was resumed. That means that the icon does not need to be sent by the app.
+ */
+@property (nullable, strong, nonatomic) NSNumber<SDLBool> *iconResumed;
 
 @end
 

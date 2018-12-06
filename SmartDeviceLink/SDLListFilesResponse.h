@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Provides the total local space available on the module for the registered app.
  */
-@property (strong, nonatomic) NSNumber<SDLInt> *spaceAvailable;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *spaceAvailable;
 
 @end
 

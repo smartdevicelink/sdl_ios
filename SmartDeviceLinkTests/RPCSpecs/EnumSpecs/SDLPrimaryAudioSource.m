@@ -21,6 +21,11 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLPrimaryAudioSourceLineIn).to(equal(@"LINE_IN"));
         expect(SDLPrimaryAudioSourceIpod).to(equal(@"IPOD"));
         expect(SDLPrimaryAudioSourceMobileApp).to(equal(@"MOBILE_APP"));
+        expect(SDLPrimaryAudioSourceCD).to(equal(@"CD"));
+        expect(SDLPrimaryAudioSourceAM).to(equal(@"AM"));
+        expect(SDLPrimaryAudioSourceFM).to(equal(@"FM"));
+        expect(SDLPrimaryAudioSourceXM).to(equal(@"XM"));
+        expect(SDLPrimaryAudioSourceDAB).to(equal(@"DAB"));
     });
 });
 

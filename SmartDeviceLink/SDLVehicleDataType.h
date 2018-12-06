@@ -85,6 +85,11 @@ extern SDLVehicleDataType const SDLVehicleDataTypeDeviceStatus;
 extern SDLVehicleDataType const SDLVehicleDataTypeECallInfo;
 
 /**
+ Vehicle fuel range data
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeFuelRange;
+
+/**
  Vehicle airbag status data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeAirbagStatus;
@@ -125,6 +130,11 @@ extern SDLVehicleDataType const SDLVehicleDataTypeHeadlampStatus;
 extern SDLVehicleDataType const SDLVehicleDataTypeBatteryVoltage;
 
 /**
+ Vehicle engine oil life data
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeEngineOilLife;
+
+/**
  Vehicle engine torque data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeEngineTorque;
@@ -138,3 +148,13 @@ extern SDLVehicleDataType const SDLVehicleDataTypeAccelerationPedal;
  Vehicle steering wheel data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeSteeringWheel;
+
+/**
+ Vehicle electronic parking brake status data
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeElectronicParkBrakeStatus;
+
+/**
+ Vehicle turn signal data
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeTurnSignal;

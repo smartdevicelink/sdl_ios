@@ -106,6 +106,7 @@ extern SDLNotificationUserInfoKey const SDLNotificationUserInfoObject;
 #pragma mark - General notifications
 extern SDLNotificationName const SDLTransportDidDisconnect;
 extern SDLNotificationName const SDLTransportDidConnect;
+extern SDLNotificationName const SDLTransportConnectError;
 extern SDLNotificationName const SDLDidReceiveError;
 extern SDLNotificationName const SDLDidReceiveLockScreenIcon;
 extern SDLNotificationName const SDLDidBecomeReady;
@@ -184,6 +185,7 @@ extern SDLNotificationName const SDLDidChangeLockScreenStatusNotification;
 extern SDLNotificationName const SDLDidReceiveNewHashNotification;
 extern SDLNotificationName const SDLDidReceiveVehicleIconNotification;
 extern SDLNotificationName const SDLDidChangePermissionsNotification;
+extern SDLNotificationName const SDLDidReceiveRemoteControlStatusNotification;
 extern SDLNotificationName const SDLDidReceiveSystemRequestNotification;
 extern SDLNotificationName const SDLDidChangeTurnByTurnStateNotification;
 extern SDLNotificationName const SDLDidReceiveTouchEventNotification;

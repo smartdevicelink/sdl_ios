@@ -1,0 +1,109 @@
+<h1>SDLTemplateColorScheme Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithPrimaryRGBColor:secondaryRGBColor:backgroundRGBColor:">-initWithPrimaryRGBColor:secondaryRGBColor:backgroundRGBColor:</a></li>
+  <li><a href="#section--initWithPrimaryColor:secondaryColor:backgroundColor:">-initWithPrimaryColor:secondaryColor:backgroundColor:</a></li>
+  <li><a href="#section-primaryColor">primaryColor</a></li>
+  <li><a href="#section-secondaryColor">secondaryColor</a></li>
+  <li><a href="#section-backgroundColor">backgroundColor</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithPrimaryRGBColor:secondaryRGBColor:backgroundRGBColor:">
+      -initWithPrimaryRGBColor:secondaryRGBColor:backgroundRGBColor:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithPrimaryRGBColor</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">primaryColor</span> <span class="nf">secondaryRGBColor</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">secondaryColor</span> <span class="nf">backgroundRGBColor</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">backgroundColor</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">primaryRGBColor</span> <span class="nv">primaryColor</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRGBColor.html">SDLRGBColor</a></span><span class="p">,</span> <span class="n">secondaryRGBColor</span> <span class="nv">secondaryColor</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRGBColor.html">SDLRGBColor</a></span><span class="p">,</span> <span class="n">backgroundRGBColor</span> <span class="nv">backgroundColor</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRGBColor.html">SDLRGBColor</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--initWithPrimaryColor:secondaryColor:backgroundColor:">
+      -initWithPrimaryColor:secondaryColor:backgroundColor:
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithPrimaryColor</span><span class="p">:(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">primaryColor</span> <span class="nf">secondaryColor</span><span class="p">:(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">secondaryColor</span> <span class="nf">backgroundColor</span><span class="p">:(</span><span class="n">UIColor</span> <span class="o">*</span><span class="p">)</span><span class="nv">backgroundColor</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">primaryColor</span><span class="p">:</span> <span class="kt">UIColor</span><span class="p">,</span> <span class="nv">secondaryColor</span><span class="p">:</span> <span class="kt">UIColor</span><span class="p">,</span> <span class="nv">backgroundColor</span><span class="p">:</span> <span class="kt">UIColor</span><span class="p">)</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-primaryColor">
+      primaryColor
+  </h3>
+  
+  <p>The <q>primary</q> color. This must always be your primary brand color. If the OEM only uses one color, this will be the color. It is recommended to the OEMs that the primaryColor should change the <code>mediaClockTimer</code> bar and the highlight color of soft buttons.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="n">primaryColor</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">primaryColor</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRGBColor.html">SDLRGBColor</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-secondaryColor">
+      secondaryColor
+  </h3>
+  
+  <p>The <q>secondary</q> color. This may be an accent or complimentary color to your primary brand color. If the OEM uses this color, they must also use the primary color. It is recommended to the OEMs that the secondaryColor should change the background color of buttons, such as soft buttons.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="n">secondaryColor</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">secondaryColor</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRGBColor.html">SDLRGBColor</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-backgroundColor">
+      backgroundColor
+  </h3>
+  
+  <p>The background color to be used on the template. If the OEM does not support this parameter, assume on <q>dayColorScheme</q> that this will be a light color, and on <q>nightColorScheme</q> a dark color. You should do the same for your custom schemes.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLRGBColor.html">SDLRGBColor</a></span> <span class="o">*</span><span class="n">backgroundColor</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">backgroundColor</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLRGBColor.html">SDLRGBColor</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

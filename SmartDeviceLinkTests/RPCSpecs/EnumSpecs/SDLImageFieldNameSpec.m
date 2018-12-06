@@ -23,6 +23,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLImageFieldNameCommandIcon).to(equal(@"cmdIcon"));
         expect(SDLImageFieldNameAppIcon).to(equal(@"appIcon"));
         expect(SDLImageFieldNameGraphic).to(equal(@"graphic"));
+        expect(SDLImageFieldNameSecondaryGraphic).to(equal(@"secondaryGraphic"));
         expect(SDLImageFieldNameShowConstantTBTIcon).to(equal(@"showConstantTBTIcon"));
         expect(SDLImageFieldNameShowConstantTBTNextTurnIcon).to(equal(@"showConstantTBTNextTurnIcon"));
         expect(SDLImageFieldNameLocationImage).to(equal(@"locationImage"));

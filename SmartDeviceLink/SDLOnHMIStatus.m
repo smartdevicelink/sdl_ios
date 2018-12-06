@@ -37,6 +37,14 @@ NS_ASSUME_NONNULL_BEGIN
     return (SDLAudioStreamingState)obj;
 }
 
+- (void)setVideoStreamingState:(nullable SDLVideoStreamingState)videoStreamingState {
+    [parameters sdl_setObject:videoStreamingState forName:SDLNameVideoStreamingState];
+}
+
+- (nullable SDLVideoStreamingState)videoStreamingState {
+    return [parameters sdl_objectForName:SDLNameVideoStreamingState];
+}
+
 - (void)setSystemContext:(SDLSystemContext)systemContext {
     [parameters sdl_setObject:systemContext forName:SDLNameSystemContext];
 }

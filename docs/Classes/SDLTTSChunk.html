@@ -9,6 +9,7 @@
   <li><a href="#section-+lhPlusChunksFromString:">+lhPlusChunksFromString:</a></li>
   <li><a href="#section-+prerecordedChunksFromString:">+prerecordedChunksFromString:</a></li>
   <li><a href="#section-+silenceChunks">+silenceChunks</a></li>
+  <li><a href="#section-+fileChunksWithName:">+fileChunksWithName:</a></li>
   <li><a href="#section-text">text</a></li>
   <li><a href="#section-type">type</a></li>
 </ul>
@@ -189,11 +190,39 @@
     <p>The RPC</p>
   </div>
   
+  <h3 id="section-+fileChunksWithName:">
+      +fileChunksWithName:
+  </h3>
+  
+  <p>Create <q>TTS</q> to play an audio file previously uploaded to the system.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">SDLTTSChunk</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nf">fileChunksWithName</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileName</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">fileChunks</span><span class="p">(</span><span class="n">withName</span> <span class="nv">fileName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">SDLTTSChunk</span><span class="p">]</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>fileName</dt>
+      <dd><p>The name of the file used in the SDLFile or PutFile that was uploaded</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The RPC</p>
+  </div>
+  
   <h3 id="section-text">
       text
   </h3>
   
-  <p>Text to be spoken, or a phoneme specification, or the name of a pre-recorded sound. The contents of this field are indicated by the <q>type</q> field.</p>
+  <p>Text to be spoken, a phoneme specification, or the name of a pre-recorded / pre-uploaded sound. The contents of this field are indicated by the <q>type</q> field.</p>
 
 <p>Required, Max length 500</p>
 

@@ -6,6 +6,8 @@
 
 #import "SDLPredefinedLayout.h"
 
+@class SDLTemplateColorScheme;
+
 /**
  * Used to set an alternate display layout. If not sent, default screen for
  * given platform will be shown
@@ -21,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithLayout:(NSString *)displayLayout;
 
+- (instancetype)initWithPredefinedLayout:(SDLPredefinedLayout)predefinedLayout dayColorScheme:(SDLTemplateColorScheme *)dayColorScheme nightColorScheme:(SDLTemplateColorScheme *)nightColorScheme;
+
 
 /**
  * A display layout. Predefined or dynamically created screen layout.
@@ -29,6 +33,20 @@ NS_ASSUME_NONNULL_BEGIN
  * presets. Currently defined for GEN2
  */
 @property (strong, nonatomic) NSString *displayLayout;
+
+/**
+ The color scheme to be used on a head unit using a "light" or "day" color scheme. The OEM may only support this theme if their head unit only has a light color scheme.
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLTemplateColorScheme *dayColorScheme;
+
+/**
+ The color scheme to be used on a head unit using a "dark" or "night" color scheme. The OEM may only support this theme if their head unit only has a dark color scheme.
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLTemplateColorScheme *nightColorScheme;
 
 @end
 

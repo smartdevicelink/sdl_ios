@@ -59,6 +59,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postNotificationName:SDLTransportDidDisconnect infoObject:nil];
 }
 
+- (void)onTransportError:(NSError *)error {
+    [self postNotificationName:SDLTransportConnectError infoObject:error];
+}
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wincompatible-pointer-types"
 
@@ -323,6 +327,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onOnPermissionsChange:(SDLOnPermissionsChange *)notification {
     [self postRPCNotificationNotification:SDLDidChangePermissionsNotification notification:notification];
+}
+
+- (void)onOnRCStatus:(SDLOnRCStatus *)notification {
+    [self postRPCNotificationNotification:SDLDidReceiveRemoteControlStatusNotification notification:notification];
 }
 
 - (void)onOnSyncPData:(SDLOnSyncPData *)notification {
