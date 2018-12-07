@@ -5,9 +5,17 @@
 <ul>
   <li><a href="#section--initWithRadioControlData:">-initWithRadioControlData:</a></li>
   <li><a href="#section--initWithClimateControlData:">-initWithClimateControlData:</a></li>
+  <li><a href="#section--initWithAudioControlData:">-initWithAudioControlData:</a></li>
+  <li><a href="#section--initWithLightControlData:">-initWithLightControlData:</a></li>
+  <li><a href="#section--initWithHMISettingsControlData:">-initWithHMISettingsControlData:</a></li>
+  <li><a href="#section--initWithSeatControlData:">-initWithSeatControlData:</a></li>
   <li><a href="#section-moduleType">moduleType</a></li>
   <li><a href="#section-radioControlData">radioControlData</a></li>
   <li><a href="#section-climateControlData">climateControlData</a></li>
+  <li><a href="#section-seatControlData">seatControlData</a></li>
+  <li><a href="#section-audioControlData">audioControlData</a></li>
+  <li><a href="#section-lightControlData">lightControlData</a></li>
+  <li><a href="#section-hmiSettingsControlData">hmiSettingsControlData</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -20,12 +28,13 @@
       -initWithRadioControlData:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Constructs a newly allocated SDLModuleData object with radio control data</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithRadioControlData</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLRadioControlData.html">SDLRadioControlData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">radioControlData</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithRadioControlData</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLRadioControlData.html">SDLRadioControlData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">radioControlData</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -33,17 +42,27 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>radioControlData</dt>
+      <dd><p>The radio control data</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLModuleData class</p>
+  </div>
   
   <h3 id="section--initWithClimateControlData:">
       -initWithClimateControlData:
   </h3>
   
-  <p>Undocumented</p>
+  <p>Constructs a newly allocated SDLModuleData object with climate control data</p>
 
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithClimateControlData</span><span class="p">:(</span><span class="n"><a href="../Classes/SDLClimateControlData.html">SDLClimateControlData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">climateControlData</span><span class="p">;</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithClimateControlData</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLClimateControlData.html">SDLClimateControlData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">climateControlData</span><span class="p">;</span></code></pre>
 
   
   <h4>Swift</h4>
@@ -51,6 +70,127 @@
 
   
   
+  <h4>Parameters</h4>
+  <dl>
+      <dt>climateControlData</dt>
+      <dd><p>The climate control data</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLModuleData class</p>
+  </div>
+  
+  <h3 id="section--initWithAudioControlData:">
+      -initWithAudioControlData:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLModuleData object with audio control data</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAudioControlData</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLAudioControlData.html">SDLAudioControlData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">audioControlData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">audioControlData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAudioControlData.html">SDLAudioControlData</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>audioControlData</dt>
+      <dd><p>The audio control data</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLModuleData class</p>
+  </div>
+  
+  <h3 id="section--initWithLightControlData:">
+      -initWithLightControlData:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLModuleData object with light control data</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLightControlData</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLightControlData.html">SDLLightControlData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">lightControlData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">lightControlData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLightControlData.html">SDLLightControlData</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>lightControlData</dt>
+      <dd><p>The light control data</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLModuleData class</p>
+  </div>
+  
+  <h3 id="section--initWithHMISettingsControlData:">
+      -initWithHMISettingsControlData:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLModuleData object with hmi settings data</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithHMISettingsControlData</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLHMISettingsControlData.html">SDLHMISettingsControlData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">hmiSettingsControlData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">hmiSettingsControlData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLHMISettingsControlData.html">SDLHMISettingsControlData</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>hmiSettingsControlData</dt>
+      <dd><p>The hmi settings data</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLModuleData class</p>
+  </div>
+  
+  <h3 id="section--initWithSeatControlData:">
+      -initWithSeatControlData:
+  </h3>
+  
+  <p>Constructs a newly allocated SDLModuleData object with seat control data</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithSeatControlData</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLSeatControlData.html">SDLSeatControlData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">seatControlData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">seatControlData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeatControlData.html">SDLSeatControlData</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>seatControlData</dt>
+      <dd><p>The seat control data</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>An instance of the SDLModuleData class</p>
+  </div>
   
   <h3 id="section-moduleType">
       moduleType
@@ -112,6 +252,90 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">climateControlData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLClimateControlData.html">SDLClimateControlData</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-seatControlData">
+      seatControlData
+  </h3>
+  
+  <p>The seat control data</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLSeatControlData.html">SDLSeatControlData</a></span> <span class="o">*</span><span class="n">seatControlData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">seatControlData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLSeatControlData.html">SDLSeatControlData</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-audioControlData">
+      audioControlData
+  </h3>
+  
+  <p>The audio control data</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLAudioControlData.html">SDLAudioControlData</a></span> <span class="o">*</span><span class="n">audioControlData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">audioControlData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAudioControlData.html">SDLAudioControlData</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-lightControlData">
+      lightControlData
+  </h3>
+  
+  <p>The light control data</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLLightControlData.html">SDLLightControlData</a></span> <span class="o">*</span><span class="n">lightControlData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">lightControlData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLightControlData.html">SDLLightControlData</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-hmiSettingsControlData">
+      hmiSettingsControlData
+  </h3>
+  
+  <p>The hmi control data</p>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLHMISettingsControlData.html">SDLHMISettingsControlData</a></span> <span class="o">*</span><span class="n">hmiSettingsControlData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">hmiSettingsControlData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLHMISettingsControlData.html">SDLHMISettingsControlData</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
   
   

@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLChoice
 
-- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray<NSString *> *)vrCommands image:(nullable SDLImage *)image secondaryText:(nullable NSString *)secondaryText secondaryImage:(nullable SDLImage *)secondaryImage tertiaryText:(nullable NSString *)tertiaryText {
+- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(nullable NSArray<NSString *> *)vrCommands image:(nullable SDLImage *)image secondaryText:(nullable NSString *)secondaryText secondaryImage:(nullable SDLImage *)secondaryImage tertiaryText:(nullable NSString *)tertiaryText {
     self = [self initWithId:choiceId menuName:menuName vrCommands:vrCommands];
     if (!self) {
         return nil;
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(NSArray<NSString *> *)vrCommands {
+- (instancetype)initWithId:(UInt16)choiceId menuName:(NSString *)menuName vrCommands:(nullable NSArray<NSString *> *)vrCommands {
     self = [self init];
     if (!self) {
         return nil;
@@ -54,11 +54,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameMenuName];
 }
 
-- (void)setVrCommands:(NSArray<NSString *> *)vrCommands {
+- (void)setVrCommands:(nullable NSArray<NSString *> *)vrCommands {
     [store sdl_setObject:vrCommands forName:SDLNameVRCommands];
 }
 
-- (NSArray<NSString *> *)vrCommands {
+- (nullable NSArray<NSString *> *)vrCommands {
     return [store sdl_objectForName:SDLNameVRCommands];
 }
 

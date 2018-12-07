@@ -34,6 +34,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLRequestTypeEmergency).to(equal(@"EMERGENCY"));
         expect(SDLRequestTypeMedia).to(equal(@"MEDIA"));
         expect(SDLRequestTypeFOTA).to(equal(@"FOTA"));
+        expect(SDLRequestTypeOEMSpecific).to(equal(@"OEM_SPECIFIC"));
     });
 });
 

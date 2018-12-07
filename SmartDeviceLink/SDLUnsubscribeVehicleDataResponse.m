@@ -58,6 +58,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameFuelLevelState ofClass:SDLVehicleDataResult.class];
 }
 
+- (void)setFuelRange:(nullable SDLVehicleDataResult *)fuelRange {
+    [parameters sdl_setObject:fuelRange forName:SDLNameFuelRange];
+}
+
+- (nullable SDLVehicleDataResult *)fuelRange {
+    return [parameters sdl_objectForName:SDLNameFuelRange ofClass:SDLVehicleDataResult.class];
+}
+
 - (void)setInstantFuelConsumption:(nullable SDLVehicleDataResult *)instantFuelConsumption {
     [parameters sdl_setObject:instantFuelConsumption forName:SDLNameInstantFuelConsumption];
 }
@@ -146,6 +154,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameHeadLampStatus ofClass:SDLVehicleDataResult.class];
 }
 
+- (void)setEngineOilLife:(nullable SDLVehicleDataResult *)engineOilLife {
+    [parameters sdl_setObject:engineOilLife forName:SDLNameEngineOilLife];
+}
+
+- (nullable SDLVehicleDataResult *)engineOilLife {
+    return [parameters sdl_objectForName:SDLNameEngineOilLife];
+}
+
 - (void)setEngineTorque:(nullable SDLVehicleDataResult *)engineTorque {
     [parameters sdl_setObject:engineTorque forName:SDLNameEngineTorque];
 }
@@ -210,6 +226,21 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameMyKey ofClass:SDLVehicleDataResult.class];
 }
 
+- (void)setElectronicParkBrakeStatus:(nullable SDLVehicleDataResult *)electronicParkBrakeStatus {
+    [parameters sdl_setObject:electronicParkBrakeStatus forName:SDLNameElectronicParkBrakeStatus];
+}
+
+- (nullable SDLVehicleDataResult *)electronicParkBrakeStatus {
+    return [parameters sdl_objectForName:SDLNameElectronicParkBrakeStatus ofClass:[SDLVehicleDataResult class]];
+}
+
+- (void)setTurnSignal:(nullable SDLVehicleDataResult *)turnSignal {
+    [parameters sdl_setObject:turnSignal forName:SDLNameTurnSignal];
+}
+
+- (nullable SDLVehicleDataResult *)turnSignal {
+    return [parameters sdl_objectForName:SDLNameTurnSignal ofClass:SDLVehicleDataResult.class];
+}
 
 @end
 

@@ -1,0 +1,256 @@
+<h1>SDLChoiceCell Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-text">text</a></li>
+  <li><a href="#section-secondaryText">secondaryText</a></li>
+  <li><a href="#section-tertiaryText">tertiaryText</a></li>
+  <li><a href="#section-voiceCommands">voiceCommands</a></li>
+  <li><a href="#section-artwork">artwork</a></li>
+  <li><a href="#section-secondaryArtwork">secondaryArtwork</a></li>
+  <li><a href="#section--init">-init</a></li>
+  <li><a href="#section--initWithText:">-initWithText:</a></li>
+  <li><a href="#section--initWithText:artwork:voiceCommands:">-initWithText:artwork:voiceCommands:</a></li>
+  <li><a href="#section--initWithText:secondaryText:tertiaryText:voiceCommands:artwork:secondaryArtwork:">-initWithText:secondaryText:tertiaryText:voiceCommands:artwork:secondaryArtwork:</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-text">
+      text
+  </h3>
+  
+  <p>Maps to Choice.menuName. The primary text of the cell. Duplicates within an <code><a href="../Classes/SDLChoiceSet.html">SDLChoiceSet</a></code> are not permitted and will result in the <code><a href="../Classes/SDLChoiceSet.html">SDLChoiceSet</a></code> failing to initialize.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">text</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-secondaryText">
+      secondaryText
+  </h3>
+  
+  <p>Maps to Choice.secondaryText. Optional secondary text of the cell, if available. Duplicates within an <code><a href="../Classes/SDLChoiceSet.html">SDLChoiceSet</a></code> are permitted.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">secondaryText</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">secondaryText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-tertiaryText">
+      tertiaryText
+  </h3>
+  
+  <p>Maps to Choice.tertiaryText. Optional tertitary text of the cell, if available. Duplicates within an <code><a href="../Classes/SDLChoiceSet.html">SDLChoiceSet</a></code> are permitted.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">tertiaryText</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">tertiaryText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-voiceCommands">
+      voiceCommands
+  </h3>
+  
+  <p>Maps to Choice.vrCommands. Optional voice commands the user can speak to activate the cell. If not set and the head unit requires it, this will be set to the number in the list that this item appears. However, this would be a very poor experience for a user if the choice set is presented as a voice only interaction or both interaction mode. Therefore, consider not setting this only when you know the choice set will be presented as a touch only interaction.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">voiceCommands</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">voiceCommands</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-artwork">
+      artwork
+  </h3>
+  
+  <p>Maps to Choice.image. Optional image for the cell. This will be uploaded before the cell is used when the cell is preloaded or presented for the first time.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="n">artwork</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">artwork</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-secondaryArtwork">
+      secondaryArtwork
+  </h3>
+  
+  <p>Maps to Choice.secondaryImage. Optional secondary image for the cell. This will be uploaded before the cell is used when the cell is preloaded or presented for the first time.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="n">secondaryArtwork</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">secondaryArtwork</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section--init">
+      -init
+  </h3>
+  
+  <p>Initialize the cell with nothing. This is unavailable</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+
+  
+  
+  
+  <div>
+    <h4>Return Value</h4>
+    <p>A crash, probably</p>
+  </div>
+  
+  <h3 id="section--initWithText:">
+      -initWithText:
+  </h3>
+  
+  <p>Initialize the cell with text and nothing else.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>text</dt>
+      <dd><p>The primary text of the cell.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The cell</p>
+  </div>
+  
+  <h3 id="section--initWithText:artwork:voiceCommands:">
+      -initWithText:artwork:voiceCommands:
+  </h3>
+  
+  <p>Initialize the cell with text, optional artwork, and optional voice commands</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span>
+                             <span class="nf">artwork</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">artwork</span>
+                       <span class="nf">voiceCommands</span><span class="p">:</span>
+                           <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">voiceCommands</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">artwork</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span><span class="p">?,</span> <span class="nv">voiceCommands</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>text</dt>
+      <dd><p>The primary text of the cell</p></dd>
+      <dt>artwork</dt>
+      <dd><p>The primary artwork of the cell</p></dd>
+      <dt>voiceCommands</dt>
+      <dd><p>Strings that can be spoken by the user to activate this cell in a voice or both interaction mode</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The cell</p>
+  </div>
+  
+  <h3 id="section--initWithText:secondaryText:tertiaryText:voiceCommands:artwork:secondaryArtwork:">
+      -initWithText:secondaryText:tertiaryText:voiceCommands:artwork:secondaryArtwork:
+  </h3>
+  
+  <p>Initialize the cell with all optional items</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span>
+                       <span class="nf">secondaryText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">secondaryText</span>
+                        <span class="nf">tertiaryText</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">tertiaryText</span>
+                       <span class="nf">voiceCommands</span><span class="p">:</span>
+                           <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">voiceCommands</span>
+                             <span class="nf">artwork</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">artwork</span>
+                    <span class="nf">secondaryArtwork</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">secondaryArtwork</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">secondaryText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">tertiaryText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">voiceCommands</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">artwork</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span><span class="p">?,</span> <span class="nv">secondaryArtwork</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLArtwork.html">SDLArtwork</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>text</dt>
+      <dd><p>The primary text</p></dd>
+      <dt>secondaryText</dt>
+      <dd><p>The secondary text</p></dd>
+      <dt>tertiaryText</dt>
+      <dd><p>The tertiary text</p></dd>
+      <dt>voiceCommands</dt>
+      <dd><p>Strings that can be spoken by the user to activate this cell in a voice or both interaction mode</p></dd>
+      <dt>artwork</dt>
+      <dd><p>The primary artwork</p></dd>
+      <dt>secondaryArtwork</dt>
+      <dd><p>The secondary artwork</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>The cell</p>
+  </div>
+  
+</section>

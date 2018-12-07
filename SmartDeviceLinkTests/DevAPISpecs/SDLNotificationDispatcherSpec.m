@@ -53,6 +53,7 @@ describe(@"a notification dispatcher", ^{
         expect(@([testDispatcher respondsToSelector:@selector(onOnLanguageChange:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnLockScreenNotification:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnSyncPData:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onOnRCStatus:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnSystemRequest:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnTBTClientState:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnTouchEvent:)])).to(beTruthy());

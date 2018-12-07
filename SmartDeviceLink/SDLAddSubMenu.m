@@ -3,6 +3,7 @@
 #import "SDLAddSubMenu.h"
 
 #import "NSMutableDictionary+Store.h"
+#import "SDLImage.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -15,16 +16,18 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-
-- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName position:(UInt8)position {
+- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName menuIcon:(nullable SDLImage *)icon position:(UInt8)position {
     self = [self initWithId:menuId menuName:menuName];
-    if (!self) {
-        return nil;
-    }
+    if (!self) { return nil; }
 
     self.position = @(position);
+    self.menuIcon = icon;
 
     return self;
+}
+
+- (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName position:(UInt8)position {
+    return [self initWithId:menuId menuName:menuName menuIcon:nil position:position];
 }
 
 - (instancetype)initWithId:(UInt32)menuId menuName:(NSString *)menuName {
@@ -61,6 +64,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString *)menuName {
     return [parameters sdl_objectForName:SDLNameMenuName];
+}
+
+- (void)setMenuIcon:(nullable SDLImage *)menuIcon {
+    [parameters sdl_setObject:menuIcon forName:SDLNameMenuIcon];
+}
+
+- (nullable SDLImage *)menuIcon {
+    return [parameters sdl_objectForName:SDLNameMenuIcon ofClass:[SDLImage class]];
 }
 
 @end

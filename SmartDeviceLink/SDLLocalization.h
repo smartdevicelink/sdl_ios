@@ -27,17 +27,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Returns an array of bundles used by this localization object.
  */
-@property (nonatomic, copy, readonly) NSArray *bundles;
+@property (nonatomic, copy, readonly) NSArray<NSBundle *> *bundles;
 
 /**
  Returns an array of locales used by this localization object.
  */
-@property (nonatomic, copy, readonly) NSArray *locales;
+@property (nonatomic, copy, readonly) NSArray<NSLocale *> *locales;
 
 /**
  Returns an array of language ID strings used by this localization object.
  */
-@property (nonatomic, copy, readonly) NSArray *localizations;
+@property (nonatomic, copy, readonly) NSArray<NSString *> *localizations;
 
 /**
  Returns the shared default localization object using the preferred localizations of the apps main bundle.
@@ -45,27 +45,34 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)defaultLocalization;
 
 /**
- Creates a localization object using the provided language code.
- The language code will be used as the single preferred localization. It will be
- - [0] {language}
+ Creates a localization object using the preferred language.
+ @param language The preferred language.
+ @return A localization object based on the preferred language.
  */
 + (instancetype)localizationForLanguage:(NSString *)language;
 
 /**
- Creates a localization object using the provided language and region.
- The localization object will be created by generating the following list from the provided parameters
- - [0] {language}-{region}  if region is not nil
+ Creates a localization object using the preferred language and region.
+ The localization object will be created by generating the following array
+ - [0] {language}-{region}
  - [1] {language}
+ @param language The preferred language.
+ @param region The preferred region.
+ @return A localization object based on the preferred language and region.
  */
-+ (instancetype)localizationForLanguage:(NSString *)language region:(NSString *)region;
++ (instancetype)localizationForLanguage:(NSString *)language region:(NSString * _Nullable)region;
 
 /**
- Creates a localization object using the provided language, region and script.
- The localization object will be created by generating the following list from the provided parameters
- - [0] {language}-{script}-{region} if script and region are not nil
- - [1] {language}-{script}          if script is not nil
- - [2] {language}-{region}          if region is not nil
+ Creates a localization object using the preferred language, region and script.
+ The localization object will be created by generating the following array
+ - [0] {language}-{script}-{region}
+ - [1] {language}-{script}
+ - [2] {language}-{region}
  - [3] {language}
+ @param language The preferred language.
+ @param region The preferred region.
+ @param script The preferred script.
+ @return A localization object based on the preferred language, region and script.
  */
 + (instancetype)localizationForLanguage:(NSString *)language region:(NSString * _Nullable)region script:(NSString * _Nullable)script;
 
@@ -79,33 +86,33 @@ NS_ASSUME_NONNULL_BEGIN
  In case no localization exist for any preferred localization the object will be created
  using the preferred localizations of the apps main bundle.
  */
-- (instancetype)initWithPreferredLocalizations:(NSArray *)preferredLocalizations;
+- (instancetype)initWithPreferredLocalizations:(NSArray<NSString *> *)preferredLocalizations;
 
 /**
  Returns the localized string from the default table for the specified key.
- If no localization was found for the key it returns the key.
  This method supports plural rules (see stringsDict files).
+ @return A localized string. If no localization was found for the key it returns the key.
  */
 - (NSString *)stringForKey:(NSString *)key, ...;
 
 /**
  Returns the localized string from the default table for the specified key.
- If no localization was found for the key it returns the key.
  This method supports plural rules (see stringsDict files).
+ @return A localized string. If no localization was found for the key it returns the key.
  */
 - (NSString *)stringForKey:(NSString *)key arguments:(va_list)args;
 
 /**
  Returns the localized string for the specified table and key.
- If no localization was found for the key it returns the key.
  This method supports plural rules (see stringsDict files).
+ @return A localized string. If no localization was found for the key it returns the key.
  */
-- (NSString *)stringForKey:(NSString *)key table:(NSString *)table, ...;
+- (NSString *)stringForKey:(NSString *)key table:(NSString * _Nullable)table, ...;
 
 /**
  Returns the localized string for the specified table and key.
- If no localization was found for the key it returns the key.
  This method supports plural rules (see stringsDict files).
+ @return A localized string. If no localization was found for the key it returns the key.
  */
 - (NSString *)stringForKey:(NSString *)key table:(NSString * _Nullable)table arguments:(va_list)args;
 

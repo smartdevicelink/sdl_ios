@@ -29,12 +29,31 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithProprietaryType:(NSString *)proprietaryType fileName:(nullable NSString *)fileName {
+    self = [self init];
+    if (!self) { return nil; }
+
+    self.requestType = SDLRequestTypeOEMSpecific;
+    self.requestSubType = proprietaryType;
+    self.fileName = fileName;
+
+    return self;
+}
+
 - (void)setRequestType:(SDLRequestType)requestType {
     [parameters sdl_setObject:requestType forName:SDLNameRequestType];
 }
 
 - (SDLRequestType)requestType {
     return [parameters sdl_objectForName:SDLNameRequestType];
+}
+
+- (void)setRequestSubType:(nullable NSString *)requestSubType {
+    [parameters sdl_setObject:requestSubType forName:SDLNameRequestSubType];
+}
+
+- (nullable NSString *)requestSubType {
+    return [parameters sdl_objectForName:SDLNameRequestSubType];
 }
 
 - (void)setFileName:(nullable NSString *)fileName {

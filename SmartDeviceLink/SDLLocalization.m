@@ -3,17 +3,20 @@
 
 
 #import "SDLLocalization.h"
+#import "SDLLogMacros.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark- Private declaration area
 
 /** Private definition extending setter for the properties. */
 @interface SDLLocalization ()
 
-@property (nonatomic, copy, readwrite) NSArray *bundles;
+@property (nonatomic, copy, readwrite) NSArray<NSBundle *> *bundles;
 
-@property (nonatomic, copy, readwrite) NSArray *locales;
+@property (nonatomic, copy, readwrite) NSArray<NSLocale *> *locales;
 
-@property (nonatomic, copy, readwrite) NSArray *localizations;
+@property (nonatomic, copy, readwrite) NSArray<NSString *> *localizations;
 
 @end
 
@@ -36,149 +39,126 @@
     return [self localizationForLanguage:language region:nil script:nil];
 }
 
-+ (instancetype)localizationForLanguage:(NSString *)language region:(NSString *)region {
++ (instancetype)localizationForLanguage:(NSString *)language region:(NSString * _Nullable)region {
     return [self localizationForLanguage:language region:region script:nil];
 }
 
 + (instancetype)localizationForLanguage:(NSString *)language region:(NSString * _Nullable)region script:(NSString * _Nullable)script {
-    NSMutableArray *preferredLocalizations = [NSMutableArray array];
+    NSMutableArray<NSString *> *preferredLocalizations = [NSMutableArray arrayWithCapacity:4];
+    // making sure the keys match format requirements
+    language = language.lowercaseString;
+    region = region.uppercaseString;
+    script = script.capitalizedString;
     
-    if (language != nil && script != nil && region != nil) {
-        NSString *s = [NSString stringWithFormat:@"%@-%@-%@",
-                       [language lowercaseString], [script capitalizedString], [region uppercaseString]];
+    if (script != nil && region != nil) {
+        NSString *s = [NSString stringWithFormat:@"%@-%@-%@", language, script, region];
         [preferredLocalizations addObject:s];
     }
     
-    if (language != nil && script != nil) {
-        NSString *s = [NSString stringWithFormat:@"%@-%@",
-                       [language lowercaseString], [script capitalizedString]];
+    if (script != nil) {
+        NSString *s = [NSString stringWithFormat:@"%@-%@", language, script];
         [preferredLocalizations addObject:s];
     }
     
-    if (language != nil && region != nil) {
-        NSString *s = [NSString stringWithFormat:@"%@-%@",
-                       [language lowercaseString], [region uppercaseString]];
+    if (region != nil) {
+        NSString *s = [NSString stringWithFormat:@"%@-%@", language, region];
         [preferredLocalizations addObject:s];
     }
     
-    if (language != nil) {
-        [preferredLocalizations addObject:[language lowercaseString]];
-    }
+    [preferredLocalizations addObject:language.lowercaseString];
     
-    SDLLocalization *object = [[self alloc] initWithPreferredLocalizations:preferredLocalizations];
-    
-    return object;
+    return [[self alloc] initWithPreferredLocalizations:preferredLocalizations];
 }
 
 #pragma mark- Init area
 
-- (instancetype)init {
-    // call the init method using the preferred localizations.
-    return [self initWithPreferredLocalizations:[[NSBundle mainBundle] preferredLocalizations]];
-}
-
-- (instancetype)initWithPreferredLocalizations:(NSArray *)preferredLocalizations {
-    // create arrays that will be used by this localization object
-    NSMutableArray *bundles = [NSMutableArray arrayWithCapacity:[preferredLocalizations count]];
-    NSMutableArray *locales = [NSMutableArray arrayWithCapacity:[preferredLocalizations count]];
-    NSMutableArray *localizations = [NSMutableArray arrayWithCapacity:[preferredLocalizations count]];
+- (NSString *)bundleLocalizationMatchingPreferredLocalization:(NSString *)preferredLocalization forceScriptMatch:(BOOL)forceScriptMatch {
+    NSArray<NSString *> *bundleLocalizations = NSBundle.mainBundle.localizations;
     
-    // get all available localizations from the app
-    NSArray *bundleLocalizations = [[NSBundle mainBundle] localizations];
+    // if a bundle localization fully matches the preferred localization... return it
+    if ([bundleLocalizations containsObject:preferredLocalization]) {
+        return preferredLocalization;
+    }
     
-    // only execute when localization bundles exist
-    if ([bundleLocalizations count] > 0) {
-        for (NSString *preferredLocalization in preferredLocalizations) {
-            NSString *localization = nil;
-            // does the bundle contain the exact localization?
-            if ([bundleLocalizations containsObject:preferredLocalization]) {
-                // yes it does so we going to use it
-                localization = preferredLocalization;
-            } else {
-                // no it doesn't. Now try if the localizations match language (and country) only
-                
-                // split the preferred localization up to its components
-                NSDictionary *preferredComponents = [NSLocale componentsFromLocaleIdentifier:preferredLocalization];
-                NSString *preferredLanguage = [preferredComponents objectForKey:NSLocaleLanguageCode];
-                NSString *preferredCountry = [preferredComponents objectForKey:NSLocaleCountryCode];
-                NSString *preferredScript = [preferredComponents objectForKey:NSLocaleScriptCode];
-                
-                // loop through all bundle localization strings
-                for (NSString *bundleLocalization in bundleLocalizations) {
-                    // split the bundle localization up to its components
-                    NSDictionary *bundleComponents = [NSLocale componentsFromLocaleIdentifier:bundleLocalization];
-                    NSString *bundleLanguage = [bundleComponents objectForKey:NSLocaleLanguageCode];
-                    NSString *bundleCountry = [bundleComponents objectForKey:NSLocaleCountryCode];
-                    NSString *bundleScript = [bundleComponents objectForKey:NSLocaleScriptCode];
-                    
-                    // both language match? (nil is not allowed for languages)
-                    BOOL matchLanguage = [preferredLanguage isEqualToString:bundleLanguage];
-                    
-                    // Either both country strings are nil or they match
-                    BOOL matchCountry = (preferredCountry == nil && bundleCountry == nil) ||
-                    [preferredCountry isEqualToString:bundleCountry];
-                    
-                    // Either both scripts are nil or they match
-                    BOOL matchScript = (preferredScript == nil && bundleScript == nil) ||
-                    [preferredScript isEqualToString:bundleScript];
-                    
-                    // if no localization was found and preferred localization covers no script
-                    if (bundles.count == 0 && preferredScript == nil) {
-                        // statically set that script matches
-                        matchScript = YES;
-                    }
-                    
-                    // does it match at least for language and or country?
-                    if (matchLanguage && matchScript && matchCountry) {
-                        // yes it does so we going to use it
-                        localization = bundleLocalization;
-                        
-                        // stop to loop through the bundle localizations
-                        break;
-                    }
-                }
-            }
-            
-            // create the objects when localization was set to someting valid
-            if (localization != nil) {
-                NSString *path = [[NSBundle mainBundle] pathForResource:localization ofType:@"lproj"];
-                
-                if (path != nil) {
-                    [bundles addObject:[NSBundle bundleWithPath:path]];
-                    [locales addObject:[NSLocale localeWithLocaleIdentifier:localization]];
-                    [localizations addObject:localization];
-                } else {
-                    NSLog(@"SDLLocalization: Warning: the bundle for localization of '%@' was not found.", localization);
-                }
-            }
+    NSDictionary<NSString *, NSString *> *preferredComponents = [NSLocale componentsFromLocaleIdentifier:preferredLocalization];
+    NSString *preferredLanguage = preferredComponents[NSLocaleLanguageCode];
+    NSString *preferredCountry = preferredComponents[NSLocaleCountryCode];
+    NSString *preferredScript = preferredComponents[NSLocaleScriptCode];
+    
+    for (NSString *bundleLocalization in bundleLocalizations) {
+        NSDictionary<NSString *, NSString *> *bundleComponents = [NSLocale componentsFromLocaleIdentifier:bundleLocalization];
+        NSString *bundleLanguage = bundleComponents[NSLocaleLanguageCode];
+        NSString *bundleCountry = bundleComponents[NSLocaleCountryCode];
+        NSString *bundleScript = bundleComponents[NSLocaleScriptCode];
+        
+        BOOL matchLanguage = [preferredLanguage isEqualToString:bundleLanguage];
+        BOOL matchCountry = [preferredCountry isEqualToString:bundleCountry] || (preferredCountry == nil && bundleCountry == nil);
+        BOOL matchScript =  [preferredScript isEqualToString:bundleScript] || (preferredScript == nil && (bundleScript == nil || !forceScriptMatch));
+        
+        // does it match at least for language and or country?
+        if (matchLanguage && matchScript && matchCountry) {
+            // yes it does so we going to use it
+            return bundleLocalization;
         }
     }
     
-    if (bundles.count > 0 || [preferredLocalizations isEqualToArray:[[NSBundle mainBundle] preferredLocalizations]]) {
+    // there's no localization from the bundle localizations matching preferred localization
+    return nil;
+}
+
+- (instancetype)init {
+    // call the init method using the preferred localizations.
+    return [self initWithPreferredLocalizations:NSBundle.mainBundle.preferredLocalizations];
+}
+
+- (instancetype)initWithPreferredLocalizations:(NSArray<NSString *> *)preferredLocalizations {
+    NSUInteger capacity = preferredLocalizations.count;
+    NSMutableArray<NSBundle *> *bundles = [NSMutableArray arrayWithCapacity:capacity];
+    NSMutableArray<NSLocale *> *locales = [NSMutableArray arrayWithCapacity:capacity];
+    NSMutableArray<NSString *> *localizations = [NSMutableArray arrayWithCapacity:capacity];
+    
+    // only execute when localization bundles exist
+    if (NSBundle.mainBundle.localizations.count > 0) {
+        for (NSString *preferredLocalization in preferredLocalizations) {
+            // get the localization out of bundle localizations that matches best to preferred localization
+            // force script match if we already found a localization bundle
+            NSString *localization = [self bundleLocalizationMatchingPreferredLocalization:preferredLocalization forceScriptMatch:(bundles.count > 0)];
+            if (localization == nil) {
+                continue;
+            }
+            
+            // create the objects when localization was set to someting valid
+            NSString *path = [NSBundle.mainBundle pathForResource:localization ofType:@"lproj"];
+            if (path == nil) {
+                SDLLogW(@"SDLLocalization: Warning: the bundle for localization of '%@' was not found.", localization);
+                continue;
+            }
+            
+            [bundles addObject:[NSBundle bundleWithPath:path]];
+            [locales addObject:[NSLocale localeWithLocaleIdentifier:localization]];
+            [localizations addObject:localization];
+        }
+    }
+    
+    if (bundles.count > 0 || [preferredLocalizations isEqualToArray:NSBundle.mainBundle.preferredLocalizations]) {
         // in case we dont have bundle objects but at least tried with default preferred localizations
         if (bundles.count == 0) {
-            // get the most preferred localization string
-            NSString *localization = [[[NSBundle mainBundle] preferredLocalizations] objectAtIndex:0];
-            // get the main bundle to cover the very basic localization (or nothing)
-            [bundles addObject:[NSBundle mainBundle]];
-            // create a new locale object for this purpose
+            NSString *localization = NSBundle.mainBundle.preferredLocalizations[0];
+            [bundles addObject:NSBundle.mainBundle];
             [locales addObject:[NSLocale localeWithLocaleIdentifier:localization]];
-            // save that we are going to use this one language.
             [localizations addObject:localization];
         }
         
-        // we found localizations so finish up here
         if (self = [super init]) {
             self.bundles = bundles;
             self.locales = locales;
             self.localizations = localizations;
         }
+        
+        return self;
     } else {
-        // no localizations but we were not using the default preferred localizations
-        return [self initWithPreferredLocalizations:[[NSBundle mainBundle] preferredLocalizations]];
+        return [self initWithPreferredLocalizations:NSBundle.mainBundle.preferredLocalizations];
     }
-    
-    return self;
 }
 
 #pragma mark- Localizing area
@@ -195,7 +175,7 @@
     return [self stringForKey:key table:nil arguments:args];
 }
 
-- (NSString *)stringForKey:(NSString *)key table:(NSString *)table, ... {
+- (NSString *)stringForKey:(NSString *)key table:(NSString * _Nullable)table, ... {
     va_list args;
     va_start(args, table);
     NSString *string = [self stringForKey:key table:table arguments:args];
@@ -206,32 +186,29 @@
 - (NSString *)stringForKey:(NSString *)key table:(NSString * _Nullable)table arguments:(va_list)args {
     NSString *string = nil;
     
-    // we will now loop through all bundles from top to bottom to find a localized string
-    for (NSUInteger i = 0; i < [[self bundles] count]; i++) {
-        // get the bundle and the locale of the current position
-        NSBundle *bundle = [[self bundles] objectAtIndex:i];
-        NSLocale *locale = [[self locales] objectAtIndex:i];
+    // loop through all bundles from top to bottom to find a localized string
+    for (NSUInteger i = 0; i < self.bundles.count; i++) {
+        NSBundle *bundle = self.bundles[i];
+        NSLocale *locale = self.locales[i];
         
-        // get a format string from the bundle
         NSString *format = [bundle localizedStringForKey:key value:key table:table];
         
-        // was this successful? (format may be nil in old versions of iOS or key is returned on newer iOS versions)
-        if (format != nil && [format isEqualToString:key] == NO) {
-            // We received a string from the bundle. Try to apply plural rules to it.
+        // If we received a format string from the bundle try to apply plural rules to it.
+        // format may be nil in old versions of iOS or key is returned on newer iOS versions
+        if (format != nil && ![format isEqualToString:key]) {
             string = [[NSString alloc] initWithFormat:format locale:locale arguments:args];
-            
-            // now we can stop here and return the key with potentially plural rule applied
             break;
         }
     }
     
     // in case no bundle contains the key we set the string to the key.
     if (string == nil) {
-        string = key;
+        return key;
     }
     
-    //return the localized string (or the key if it failed).
     return string;
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -12,12 +12,11 @@
 #import "SDLFileManagerConstants.h"
 
 @class SDLFile;
+@class SDLFileManagerConfiguration;
 @protocol SDLConnectionManagerType;
 
 
 NS_ASSUME_NONNULL_BEGIN
-
-typedef NSString SDLFileName;
 
 typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__nullable error);
 
@@ -66,7 +65,17 @@ typedef void (^SDLFileManagerStartupCompletionHandler)(BOOL success, NSError *__
  *
  *  @return An instance of SDLFileManager
  */
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager __deprecated_msg("Use initWithConnectionManager:configuration: instead");
+
+/**
+ *  Creates a new file manager with a specified connection manager and configuration
+ *
+ *  @param manager          A connection manager to use to forward on RPCs
+ *  @param configuration    A configuration for this file manager session
+ *
+ *  @return An instance of SDLFileManager
+ */
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)manager configuration:(SDLFileManagerConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
 
 /**
  *  The manager stars up and attempts to fetch its initial list and transfer initial files.

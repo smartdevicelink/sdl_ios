@@ -1,0 +1,94 @@
+<h1>SDLOnRCStatus Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section-allocatedModules">allocatedModules</a></li>
+  <li><a href="#section-freeModules">freeModules</a></li>
+  <li><a href="#section-allowed">allowed</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>OnRCStatus notifications to all registered mobile applications and the HMI whenever
+ (1) SDL allocates a module to an application or
+ (2) it de-allocates a module from an application, or
+ (3) an application registers with SDL</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section-allocatedModules">
+      allocatedModules
+  </h3>
+  
+  <p>@abstract Contains a list (zero or more) of module types that
+ are allocated to the application.</p>
+
+<p>Required, Array of SDLModuleData, Array size 0 - 100</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLPermissionItem
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLModuleData.html">SDLModuleData</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">allocatedModules</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">allocatedModules</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLModuleData.html">SDLModuleData</a></span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-freeModules">
+      freeModules
+  </h3>
+  
+  <p>@abstract Contains a list (zero or more) of module types that are free to access for the application.</p>
+
+<p>Required, Array of SDLModuleData, Array size 0 - 100</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLPermissionItem
+
+</div>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLModuleData.html">SDLModuleData</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">freeModules</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">freeModules</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLModuleData.html">SDLModuleData</a></span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-allowed">
+      allowed
+  </h3>
+  
+  <p>Issued by SDL to notify the application about remote control status change on SDL
+If <q>true</q> - RC is allowed; if <q>false</q> - RC is disallowed.</p>
+
+<p>optional, Boolean, default Value = false</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">allowed</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">allowed</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

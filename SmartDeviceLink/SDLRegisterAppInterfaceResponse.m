@@ -135,7 +135,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLVehicleType *)vehicleType {
-    return [parameters sdl_objectForName:SDLNameVehicleType ofClass:SDLVehicleType.class];
+    return [parameters sdl_objectForName:SDLNameVehicleType ofClass:[SDLVehicleType class]];
 }
 
 - (void)setSupportedDiagModes:(nullable NSArray<NSNumber<SDLInt> *> *)supportedDiagModes {
@@ -168,6 +168,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSString *)systemSoftwareVersion {
     return [parameters sdl_objectForName:SDLNameSystemSoftwareVersion];
+}
+
+- (void)setIconResumed:(nullable NSNumber<SDLBool> *)iconResumed {
+    [parameters sdl_setObject:iconResumed forName:SDLNameIconResumed];
+}
+
+- (nullable NSNumber<SDLBool> *)iconResumed {
+    return [parameters sdl_objectForName:SDLNameIconResumed];
 }
 
 @end

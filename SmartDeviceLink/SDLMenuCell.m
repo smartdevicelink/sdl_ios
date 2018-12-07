@@ -37,10 +37,15 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithTitle:(NSString *)title subCells:(NSArray<SDLMenuCell *> *)subCells {
+    return [self initWithTitle:title icon:nil subCells:subCells];
+}
+
+- (instancetype)initWithTitle:(NSString *)title icon:(nullable SDLArtwork *)icon subCells:(NSArray<SDLMenuCell *> *)subCells {
     self = [super init];
     if (!self) { return nil; }
 
     _title = title;
+    _icon = icon;
     _subCells = subCells;
 
     _cellId = UINT32_MAX;

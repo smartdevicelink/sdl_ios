@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType {
     NSObject *obj = [self sdl_objectForName:name];
-    if (obj == nil || [obj isKindOfClass:classType.class]) {
+    if (obj == nil || [obj isKindOfClass:classType]) {
         return obj;
     } else {
         return [[classType alloc] initWithDictionary:(NSDictionary *)obj];
@@ -37,12 +37,12 @@ NS_ASSUME_NONNULL_BEGIN
     NSArray *array = [self sdl_objectForName:name];
     if ([array isEqual:[NSNull null]]) {
         return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isMemberOfClass:classType.class]) {
+    } else if (array.count < 1 || [array.firstObject isMemberOfClass:classType]) {
         // It's an array of the actual class type, just return
         return array;
     } else {
         // It's an array of dictionaries, make them into their class type
-        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:[array count]];
+        NSMutableArray *newList = [NSMutableArray arrayWithCapacity:array.count];
         for (NSDictionary<NSString *, id> *dict in array) {
             [newList addObject:[[classType alloc] initWithDictionary:dict]];
         }

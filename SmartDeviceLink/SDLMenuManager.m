@@ -117,13 +117,25 @@ UInt32 const MenuCellIdMin = 1;
 
     self.waitingOnHMIUpdate = NO;
 
-    // Check for duplicate titles
     NSMutableSet *titleCheckSet = [NSMutableSet set];
+    NSMutableSet<NSString *> *allMenuVoiceCommands = [NSMutableSet set];
+    NSUInteger voiceCommandCount = 0;
     for (SDLMenuCell *cell in menuCells) {
         [titleCheckSet addObject:cell.title];
+        if (cell.voiceCommands == nil) { continue; }
+        [allMenuVoiceCommands addObjectsFromArray:cell.voiceCommands];
+        voiceCommandCount += cell.voiceCommands.count;
     }
+
+    // Check for duplicate titles
     if (titleCheckSet.count != menuCells.count) {
         SDLLogE(@"Not all cell titles are unique. The menu will not be set.");
+        return;
+    }
+
+    // Check for duplicate voice recognition commands
+    if (allMenuVoiceCommands.count != voiceCommandCount) {
+        SDLLogE(@"Attempted to create a menu with duplicate voice commands. Voice commands must be unique. The menu will not be set.");
         return;
     }
 
@@ -271,7 +283,7 @@ UInt32 const MenuCellIdMin = 1;
 
     NSMutableSet<SDLArtwork *> *mutableArtworks = [NSMutableSet set];
     for (SDLMenuCell *cell in cells) {
-        if (cell.icon != nil && ![self.fileManager hasUploadedFile:cell.icon]) {
+        if ([self sdl_artworkNeedsUpload:cell.icon]) {
             [mutableArtworks addObject:cell.icon];
         }
 
@@ -281,6 +293,10 @@ UInt32 const MenuCellIdMin = 1;
     }
 
     return [mutableArtworks allObjects];
+}
+
+- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
+    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon);
 }
 
 #pragma mark IDs
@@ -318,7 +334,7 @@ UInt32 const MenuCellIdMin = 1;
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
     [cells enumerateObjectsUsingBlock:^(SDLMenuCell * _Nonnull cell, NSUInteger index, BOOL * _Nonnull stop) {
         if (cell.subCells.count > 0) {
-            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell position:(UInt16)index]];
+            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell withArtwork:shouldHaveArtwork position:(UInt16)index]];
         } else {
             [mutableCommands addObject:[self sdl_commandForMenuCell:cell withArtwork:shouldHaveArtwork position:(UInt16)index]];
         }
@@ -342,7 +358,7 @@ UInt32 const MenuCellIdMin = 1;
     NSMutableArray<SDLRPCRequest *> *mutableCommands = [NSMutableArray array];
     [cells enumerateObjectsUsingBlock:^(SDLMenuCell * _Nonnull cell, NSUInteger index, BOOL * _Nonnull stop) {
         if (cell.subCells.count > 0) {
-            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell position:(UInt16)index]];
+            [mutableCommands addObject:[self sdl_subMenuCommandForMenuCell:cell withArtwork:shouldHaveArtwork position:(UInt16)index]];
             [mutableCommands addObjectsFromArray:[self sdl_allCommandsForCells:cell.subCells withArtwork:shouldHaveArtwork]];
         } else {
             [mutableCommands addObject:[self sdl_commandForMenuCell:cell withArtwork:shouldHaveArtwork position:(UInt16)index]];
@@ -362,17 +378,15 @@ UInt32 const MenuCellIdMin = 1;
 
     command.menuParams = params;
     command.vrCommands = cell.voiceCommands;
-    command.cmdIcon = (cell.icon && shouldHaveArtwork) ? [[SDLImage alloc] initWithName:cell.icon.name] : nil;
+    command.cmdIcon = (cell.icon && shouldHaveArtwork) ? cell.icon.imageRPC : nil;
     command.cmdID = @(cell.cellId);
 
     return command;
 }
 
-- (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell position:(UInt16)position {
-    SDLAddSubMenu *submenu = [[SDLAddSubMenu alloc] initWithId:cell.cellId menuName:cell.title];
-    submenu.position = @(position);
-
-    return submenu;
+- (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell withArtwork:(BOOL)shouldHaveArtwork position:(UInt16)position {
+    SDLImage *icon = (shouldHaveArtwork && (cell.icon.name != nil)) ? cell.icon.imageRPC : nil;
+    return [[SDLAddSubMenu alloc] initWithId:cell.cellId menuName:cell.title menuIcon:icon position:(UInt8)position];
 }
 
 #pragma mark - Calling handlers
@@ -403,11 +417,25 @@ UInt32 const MenuCellIdMin = 1;
 
 - (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
     SDLRegisterAppInterfaceResponse *response = (SDLRegisterAppInterfaceResponse *)notification.response;
+
+    if (!response.success.boolValue) { return; }
+    if (response.displayCapabilities == nil) {
+        SDLLogE(@"RegisterAppInterface succeeded but didn't send a display capabilities. A lot of things will probably break.");
+        return;
+    }
+
     self.displayCapabilities = response.displayCapabilities;
 }
 
 - (void)sdl_displayLayoutResponse:(SDLRPCResponseNotification *)notification {
     SDLSetDisplayLayoutResponse *response = (SDLSetDisplayLayoutResponse *)notification.response;
+
+    if (!response.success.boolValue) { return; }
+    if (response.displayCapabilities == nil) {
+        SDLLogE(@"SetDisplayLayout succeeded but didn't send a display capabilities. A lot of things will probably break.");
+        return;
+    }
+
     self.displayCapabilities = response.displayCapabilities;
 }
 
@@ -430,7 +458,9 @@ UInt32 const MenuCellIdMin = 1;
     SDLSystemContext oldSystemContext = self.currentSystemContext;
     self.currentSystemContext = hmiStatus.systemContext;
 
-    if ([oldSystemContext isEqualToEnum:SDLSystemContextMenu] && ![self.currentSystemContext isEqualToEnum:SDLSystemContextMenu] && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
+    if ([oldSystemContext isEqualToEnum:SDLSystemContextMenu]
+        && ![self.currentSystemContext isEqualToEnum:SDLSystemContextMenu]
+        && ![self.currentHMILevel isEqualToEnum:SDLHMILevelNone]) {
         if (self.waitingOnHMIUpdate) {
             [self setMenuCells:self.waitingUpdateMenuCells];
             self.waitingUpdateMenuCells = @[];

@@ -13,20 +13,20 @@ describe(@"The SDLGlobals class", ^{
     });
     
     describe(@"when just initialized", ^{
-        it(@"should properly set protocol version", ^{
+        it(@"should properly set parameters", ^{
             expect(testGlobals.protocolVersion).to(equal(@"1.0.0"));
-        });
-
-        it(@"should properly set the major protocol version", ^{
             expect(testGlobals.majorProtocolVersion).to(equal(1));
-        });
-        
-        it(@"should properly set max head unit version", ^{
             expect(testGlobals.maxHeadUnitVersion).to(equal(@"0.0.0"));
-        });
-        
-        it(@"should give the v1 MTU size", ^{
             expect([testGlobals mtuSizeForServiceType:SDLServiceTypeRPC]).to(equal(SDLV1MTUSize));
+            expect(testGlobals.rpcVersion).to(equal([[SDLSyncMsgVersion alloc] initWithMajorVersion:1 minorVersion:0 patchVersion:0]));
+        });
+    });
+
+    describe(@"setting the RPC version", ^{
+        it(@"should properly set", ^{
+            testGlobals.rpcVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:4 minorVersion:2 patchVersion:3];
+
+            expect(testGlobals.rpcVersion).to(equal([[SDLSyncMsgVersion alloc] initWithMajorVersion:4 minorVersion:2 patchVersion:3]));
         });
     });
     
