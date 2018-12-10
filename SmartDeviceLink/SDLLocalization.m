@@ -7,22 +7,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#pragma mark- Private declaration area
+#pragma mark - Private declaration area
 
-/** Private definition extending setter for the properties. */
 @interface SDLLocalization ()
 
 @property (nonatomic, copy, readwrite) NSArray<NSBundle *> *bundles;
-
 @property (nonatomic, copy, readwrite) NSArray<NSLocale *> *locales;
-
 @property (nonatomic, copy, readwrite) NSArray<NSString *> *localizations;
 
 @end
 
 @implementation SDLLocalization
 
-#pragma mark- Localization creation area
+#pragma mark - Localization creation area
 
 + (instancetype)defaultLocalization {
     static SDLLocalization *object = nil;
@@ -39,11 +36,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [self localizationForLanguage:language region:nil script:nil];
 }
 
-+ (instancetype)localizationForLanguage:(NSString *)language region:(NSString * _Nullable)region {
++ (instancetype)localizationForLanguage:(NSString *)language region:(nullable NSString *)region {
     return [self localizationForLanguage:language region:region script:nil];
 }
 
-+ (instancetype)localizationForLanguage:(NSString *)language region:(NSString * _Nullable)region script:(NSString * _Nullable)script {
++ (instancetype)localizationForLanguage:(NSString *)language region:(nullable NSString *)region script:(nullable NSString *)script {
     NSMutableArray<NSString *> *preferredLocalizations = [NSMutableArray arrayWithCapacity:4];
     // making sure the keys match format requirements
     language = language.lowercaseString;
@@ -70,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [[self alloc] initWithPreferredLocalizations:preferredLocalizations];
 }
 
-#pragma mark- Init area
+#pragma mark - Init area
 
 - (NSString *)bundleLocalizationMatchingPreferredLocalization:(NSString *)preferredLocalization forceScriptMatch:(BOOL)forceScriptMatch {
     NSArray<NSString *> *bundleLocalizations = NSBundle.mainBundle.localizations;
@@ -97,7 +94,6 @@ NS_ASSUME_NONNULL_BEGIN
         
         // does it match at least for language and or country?
         if (matchLanguage && matchScript && matchCountry) {
-            // yes it does so we going to use it
             return bundleLocalization;
         }
     }
@@ -107,7 +103,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)init {
-    // call the init method using the preferred localizations.
     return [self initWithPreferredLocalizations:NSBundle.mainBundle.preferredLocalizations];
 }
 
@@ -127,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
                 continue;
             }
             
-            // create the objects when localization was set to someting valid
+            // create the objects when localization was set to something valid
             NSString *path = [NSBundle.mainBundle pathForResource:localization ofType:@"lproj"];
             if (path == nil) {
                 SDLLogW(@"SDLLocalization: Warning: the bundle for localization of '%@' was not found.", localization);
@@ -140,28 +135,29 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
     
-    if (bundles.count > 0 || [preferredLocalizations isEqualToArray:NSBundle.mainBundle.preferredLocalizations]) {
-        // in case we dont have bundle objects but at least tried with default preferred localizations
-        if (bundles.count == 0) {
-            NSString *localization = NSBundle.mainBundle.preferredLocalizations[0];
-            [bundles addObject:NSBundle.mainBundle];
-            [locales addObject:[NSLocale localeWithLocaleIdentifier:localization]];
-            [localizations addObject:localization];
-        }
-        
-        if (self = [super init]) {
-            self.bundles = bundles;
-            self.locales = locales;
-            self.localizations = localizations;
-        }
-        
-        return self;
-    } else {
+    // repeat the init process but with main bundles preferred localizations if no match with app preferences were found
+    if (bundles.count == 0 && ![preferredLocalizations isEqualToArray:NSBundle.mainBundle.preferredLocalizations]) {
         return [self initWithPreferredLocalizations:NSBundle.mainBundle.preferredLocalizations];
     }
+    
+    // in case we dont have bundle objects but at least tried with default preferred localizations
+    if (bundles.count == 0) {
+        NSString *localization = NSBundle.mainBundle.preferredLocalizations[0];
+        [bundles addObject:NSBundle.mainBundle];
+        [locales addObject:[NSLocale localeWithLocaleIdentifier:localization]];
+        [localizations addObject:localization];
+    }
+        
+    if (self = [super init]) {
+        self.bundles = bundles;
+        self.locales = locales;
+        self.localizations = localizations;
+    }
+    
+    return self;
 }
 
-#pragma mark- Localizing area
+#pragma mark - Localizing string for key area
 
 - (NSString *)stringForKey:(NSString *)key, ... {
     va_list args;
@@ -175,7 +171,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [self stringForKey:key table:nil arguments:args];
 }
 
-- (NSString *)stringForKey:(NSString *)key table:(NSString * _Nullable)table, ... {
+- (NSString *)stringForKey:(NSString *)key table:(nullable NSString *)table, ... {
     va_list args;
     va_start(args, table);
     NSString *string = [self stringForKey:key table:table arguments:args];
@@ -183,7 +179,7 @@ NS_ASSUME_NONNULL_BEGIN
     return string;
 }
 
-- (NSString *)stringForKey:(NSString *)key table:(NSString * _Nullable)table arguments:(va_list)args {
+- (NSString *)stringForKey:(NSString *)key table:(nullable NSString *)table arguments:(va_list)args {
     NSString *string = nil;
     
     // loop through all bundles from top to bottom to find a localized string

@@ -4,6 +4,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Provides localization features fully compatible to the existing localization structure of iOS.
  
@@ -19,9 +21,6 @@
  
  The class is fully plural rule enabled using the existing strucutre of stringsdict files.
  */
-
-NS_ASSUME_NONNULL_BEGIN
-
 @interface SDLLocalization : NSObject
 
 /**
@@ -53,18 +52,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Creates a localization object using the preferred language and region.
- The localization object will be created by generating the following array
+ The localization object will be created based on the following locale array:
  - [0] {language}-{region}
  - [1] {language}
  @param language The preferred language.
  @param region The preferred region.
  @return A localization object based on the preferred language and region.
  */
-+ (instancetype)localizationForLanguage:(NSString *)language region:(NSString * _Nullable)region;
++ (instancetype)localizationForLanguage:(NSString *)language region:(nullable NSString *)region;
 
 /**
  Creates a localization object using the preferred language, region and script.
- The localization object will be created by generating the following array
+ The localization object will be created based on the following locale array:
  - [0] {language}-{script}-{region}
  - [1] {language}-{script}
  - [2] {language}-{region}
@@ -74,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param script The preferred script.
  @return A localization object based on the preferred language, region and script.
  */
-+ (instancetype)localizationForLanguage:(NSString *)language region:(NSString * _Nullable)region script:(NSString * _Nullable)script;
++ (instancetype)localizationForLanguage:(NSString *)language region:(nullable NSString *)region script:(nullable NSString *)script;
 
 /**
  Creates a localization object using the preferred localizations of the apps main bundle.
@@ -107,14 +106,14 @@ NS_ASSUME_NONNULL_BEGIN
  This method supports plural rules (see stringsDict files).
  @return A localized string. If no localization was found for the key it returns the key.
  */
-- (NSString *)stringForKey:(NSString *)key table:(NSString * _Nullable)table, ...;
+- (NSString *)stringForKey:(NSString *)key table:(nullable NSString *)table, ...;
 
 /**
  Returns the localized string for the specified table and key.
  This method supports plural rules (see stringsDict files).
  @return A localized string. If no localization was found for the key it returns the key.
  */
-- (NSString *)stringForKey:(NSString *)key table:(NSString * _Nullable)table arguments:(va_list)args;
+- (NSString *)stringForKey:(NSString *)key table:(nullable NSString *)table arguments:(va_list)args;
 
 @end
 
