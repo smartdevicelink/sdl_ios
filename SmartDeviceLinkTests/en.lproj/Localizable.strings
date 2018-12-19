@@ -1,0 +1,10 @@
+/* 
+  TestStrings.strings
+  SmartDeviceLink-iOS
+
+  Created by Kujtim Shala (Ford) on 19.12.18.
+  Copyright © 2018 smartdevicelink. All rights reserved.
+*/
+
+"test_string" = "english test";
+"test_plural_rule" = "english plural(s)";

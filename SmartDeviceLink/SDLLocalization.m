@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Init area
 
-- (NSString *)bundleLocalizationMatchingPreferredLocalization:(NSString *)preferredLocalization forceScriptMatch:(BOOL)forceScriptMatch {
+- (nullable NSString *)bundleLocalizationMatchingPreferredLocalization:(NSString *)preferredLocalization forceScriptMatch:(BOOL)forceScriptMatch {
     NSArray<NSString *> *bundleLocalizations = NSBundle.mainBundle.localizations;
     
     // if a bundle localization fully matches the preferred localization... return it
@@ -93,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
         BOOL matchScript =  [preferredScript isEqualToString:bundleScript] || (preferredScript == nil && (bundleScript == nil || !forceScriptMatch));
         
         // does it match at least for language and or country?
-        if (matchLanguage && matchScript && matchCountry) {
+        if (matchLanguage && (matchScript || matchCountry)) {
             return bundleLocalization;
         }
     }
@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
             // get the localization out of bundle localizations that matches best to preferred localization
             // force script match if we already found a localization bundle
             NSString *localization = [self bundleLocalizationMatchingPreferredLocalization:preferredLocalization forceScriptMatch:(bundles.count > 0)];
-            if (localization == nil) {
+            if (localization == nil || [localizations containsObject:localization]) {
                 continue;
             }
             

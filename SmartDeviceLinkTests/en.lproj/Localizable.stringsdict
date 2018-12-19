@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>test_plural_rule</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%1#@name@</string>
+		<key>name</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>english zero</string>
+			<key>one</key>
+			<string>english one</string>
+			<key>two</key>
+			<string>english two</string>
+			<key>few</key>
+			<string>english few</string>
+			<key>many</key>
+			<string>english many</string>
+			<key>other</key>
+			<string>english other</string>
+		</dict>
+	</dict>
+</dict>
+</plist>
