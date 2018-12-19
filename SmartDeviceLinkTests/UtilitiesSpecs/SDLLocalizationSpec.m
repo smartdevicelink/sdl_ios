@@ -159,4 +159,88 @@ describe(@"Create localization", ^{
     });
 });
 
+describe(@"read localized strings", ^{
+    beforeEach(^{
+        for (NSBundle *bundle in NSBundle.allBundles) {
+            if (![bundle.bundlePath hasSuffix:@"xctest"]) {
+                continue;
+            }
+            mockClassBundle = OCMClassMock([NSBundle class]);
+            OCMStub(ClassMethod([mockClassBundle mainBundle])).andReturn(bundle);
+        }
+    });
+    
+    it(@"should return english translation", ^{
+        SDLLocalization *object = [SDLLocalization localizationForLanguage:@"en"];
+        expect(object.bundles.count).to(equal(1));
+        expect(object.bundles[0].bundlePath).to(endWith(@"en.lproj"));
+        
+        NSString *string = [object stringForKey:@"test_string"];
+        expect(string).to(equal(@"english test"));
+        
+        string = [object stringForKey:@"test_plural_rule", 0];
+        expect(string).to(equal(@"english zero"));
+        
+        string = [object stringForKey:@"test_plural_rule", 1];
+        expect(string).to(equal(@"english one"));
+        
+        string = [object stringForKey:@"test_plural_rule", 2];
+        expect(string).to(equal(@"english other"));
+    });
+    
+    it(@"should return german translation", ^{
+        SDLLocalization *object = [SDLLocalization localizationForLanguage:@"de"];
+        expect(object.bundles.count).to(equal(1));
+        expect(object.bundles[0].bundlePath).to(endWith(@"de.lproj"));
+        
+        NSString *string = [object stringForKey:@"test_string"];
+        expect(string).to(equal(@"german test"));
+        
+        string = [object stringForKey:@"test_plural_rule", 0];
+        expect(string).to(equal(@"german zero"));
+        
+        string = [object stringForKey:@"test_plural_rule", 1];
+        expect(string).to(equal(@"german one"));
+        
+        string = [object stringForKey:@"test_plural_rule", 2];
+        expect(string).to(equal(@"german other"));
+    });
+    
+    it(@"should return chinese simplified translation", ^{
+        SDLLocalization *object = [SDLLocalization localizationForLanguage:@"zh" region:nil script:@"Hans"];
+        expect(object.bundles.count).to(equal(1));
+        expect(object.bundles[0].bundlePath).to(endWith(@"zh-Hans.lproj"));
+        
+        NSString *string = [object stringForKey:@"test_string"];
+        expect(string).to(equal(@"chinese (simplified) test"));
+        
+        string = [object stringForKey:@"test_plural_rule", 0];
+        expect(string).to(equal(@"chinese (simplified) zero"));
+        
+        string = [object stringForKey:@"test_plural_rule", 1];
+        expect(string).to(equal(@"chinese (simplified) other"));
+        
+        string = [object stringForKey:@"test_plural_rule", 2];
+        expect(string).to(equal(@"chinese (simplified) other"));
+    });
+    
+    it(@"should return chinese China translation", ^{
+        SDLLocalization *object = [SDLLocalization localizationForLanguage:@"zh" region:@"CN"];
+        expect(object.bundles.count).to(equal(1));
+        expect(object.bundles[0].bundlePath).to(endWith(@"zh-Hans.lproj"));
+        
+        NSString *string = [object stringForKey:@"test_string"];
+        expect(string).to(equal(@"chinese (simplified) test"));
+        
+        string = [object stringForKey:@"test_plural_rule", 0];
+        expect(string).to(equal(@"chinese (simplified) zero"));
+        
+        string = [object stringForKey:@"test_plural_rule", 1];
+        expect(string).to(equal(@"chinese (simplified) other"));
+        
+        string = [object stringForKey:@"test_plural_rule", 2];
+        expect(string).to(equal(@"chinese (simplified) other"));
+    });
+});
+
 QuickSpecEnd
