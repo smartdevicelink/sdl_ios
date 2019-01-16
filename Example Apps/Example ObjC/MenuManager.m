@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
              [self sdlex_menuCellShowPerformInteractionWithManager:manager performManager:performManager],
              [self sdlex_menuCellRecordInCarMicrophoneAudioWithManager:manager],
              [self sdlex_menuCellDialNumberWithManager:manager],
+             [self sdlex_menuCellChangeTemplateWithManager:manager],
              [self sdlex_menuCellWithSubmenuWithManager:manager]];
 }
 
@@ -84,6 +85,34 @@ NS_ASSUME_NONNULL_BEGIN
 
         [VehicleDataManager checkPhoneCallCapabilityWithManager:manager phoneNumber:@"555-555-5555"];
     }];
+}
+
++ (SDLMenuCell *)sdlex_menuCellChangeTemplateWithManager:(SDLManager *)manager {
+    NSMutableArray *submenuItems = [NSMutableArray array];
+    
+    // Non - Media
+    SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:@"Non - Media (Default)" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        SDLSetDisplayLayout* display = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia];
+        [manager sendRequest:display withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
+            if ([response.resultCode isEqualToEnum:SDLResultSuccess]) {
+                // The template has been set successfully
+            }
+        }];
+    }];
+    [submenuItems addObject:cell];
+    
+    // Graphic With Text
+    SDLMenuCell *cell2 = [[SDLMenuCell alloc] initWithTitle:@"Graphic With Text" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+        SDLSetDisplayLayout* display = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutGraphicWithText];
+        [manager sendRequest:display withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
+            if ([response.resultCode isEqualToEnum:SDLResultSuccess]) {
+                // The template has been set successfully
+            }
+        }];
+    }];
+    [submenuItems addObject:cell2];
+    
+    return [[SDLMenuCell alloc] initWithTitle:ACSubmenuTemplateMenuName icon:nil subCells:[submenuItems copy]];
 }
 
 + (SDLMenuCell *)sdlex_menuCellWithSubmenuWithManager:(SDLManager *)manager {
