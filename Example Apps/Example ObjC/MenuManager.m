@@ -88,14 +88,17 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (SDLMenuCell *)sdlex_menuCellChangeTemplateWithManager:(SDLManager *)manager {
+    
+    /// Lets give an example of 2 templates
     NSMutableArray *submenuItems = [NSMutableArray array];
+    NSString *errorMessage = @"Changing the template failed";
     
     // Non - Media
     SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:@"Non - Media (Default)" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         SDLSetDisplayLayout* display = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutNonMedia];
         [manager sendRequest:display withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
-            if ([response.resultCode isEqualToEnum:SDLResultSuccess]) {
-                // The template has been set successfully
+            if (![response.resultCode isEqualToEnum:SDLResultSuccess]) {
+                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:errorMessage textField2:nil]];
             }
         }];
     }];
@@ -105,8 +108,8 @@ NS_ASSUME_NONNULL_BEGIN
     SDLMenuCell *cell2 = [[SDLMenuCell alloc] initWithTitle:@"Graphic With Text" icon:nil voiceCommands:nil handler:^(SDLTriggerSource  _Nonnull triggerSource) {
         SDLSetDisplayLayout* display = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutGraphicWithText];
         [manager sendRequest:display withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
-            if ([response.resultCode isEqualToEnum:SDLResultSuccess]) {
-                // The template has been set successfully
+            if (![response.resultCode isEqualToEnum:SDLResultSuccess]) {
+                [manager sendRequest:[AlertManager alertWithMessageAndCloseButton:errorMessage textField2:nil]];
             }
         }];
     }];
