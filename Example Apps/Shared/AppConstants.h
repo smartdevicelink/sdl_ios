@@ -73,6 +73,7 @@ extern NSString * const ACRecordInCarMicrophoneAudioMenuName;
 extern NSString * const ACDialPhoneNumberMenuName;
 extern NSString * const ACSubmenuMenuName;
 extern NSString * const ACSubmenuItemMenuName;
+extern NSString * const ACSubmenuTemplateMenuName;
 
 extern NSString * const ACAccelerationPedalPositionMenuName;
 extern NSString * const ACAirbagStatusMenuName;

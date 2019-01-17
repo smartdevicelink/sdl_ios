@@ -71,6 +71,7 @@ NSString * const ACRecordInCarMicrophoneAudioMenuName = @"Record In-Car Micropho
 NSString * const ACDialPhoneNumberMenuName = @"Dial Phone Number";
 NSString * const ACSubmenuMenuName = @"Submenu";
 NSString * const ACSubmenuItemMenuName = @"Item";
+NSString * const ACSubmenuTemplateMenuName = @"Change Template";
 
 NSString * const ACAccelerationPedalPositionMenuName = @"Acceleration Pedal Position";
 NSString * const ACAirbagStatusMenuName = @"Airbag Status";
