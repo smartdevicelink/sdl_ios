@@ -58,7 +58,6 @@ int const ProtocolIndexTimeoutSeconds = 10;
         
         // Wait for setup to complete before scanning for accessories
     }
-    
     return self;
 }
 
@@ -324,14 +323,13 @@ int const ProtocolIndexTimeoutSeconds = 10;
 }
 
 /**
- *  Attept to establish a session with an accessory, or if nil is passed, to scan for one.
+ *  Attempt to establish a session with an accessory, or if nil is passed, to scan for one.
  *
  *  @param accessory The accessory to try to establish a session with, or nil to scan all connected accessories.
  */
 - (void)sdl_establishSessionWithAccessory:(nullable EAAccessory *)accessory {
     SDLLogD(@"Attempting to connect");
     if (self.retryCounter < CreateSessionRetries) {
-        // We should be attempting to connect
         self.retryCounter++;
         
         EAAccessory *sdlAccessory = accessory;
@@ -360,9 +358,9 @@ int const ProtocolIndexTimeoutSeconds = 10;
             SDLLogV(@"No accessory supporting SDL was found, dismissing setup");
             self.sessionSetupInProgress = NO;
         }
-        
+
     } else {
-        // We are beyond the number of retries allowed
+        // We have surpassed the number of retries allowed
         SDLLogW(@"Surpassed allowed retry attempts");
         self.sessionSetupInProgress = NO;
     }
