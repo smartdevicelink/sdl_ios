@@ -293,6 +293,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLResult.h"
 #import "SDLSamplingRate.h"
 #import "SDLSeatMemoryActionType.h"
+#import "SDLServiceUpdateReason.h"
 #import "SDLSupportedSeat.h"
 #import "SDLSoftButtonType.h"
 #import "SDLSpeechCapabilities.h"

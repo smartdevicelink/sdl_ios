@@ -276,6 +276,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLSendHapticDataResponse.h',
 'SmartDeviceLink/SDLSendLocation.h',
 'SmartDeviceLink/SDLSendLocationResponse.h',
+'SmartDeviceLink/SDLServiceUpdateReason.h',
 'SmartDeviceLink/SDLSetAppIcon.h',
 'SmartDeviceLink/SDLSetAppIconResponse.h',
 'SmartDeviceLink/SDLSetDisplayLayout.h',

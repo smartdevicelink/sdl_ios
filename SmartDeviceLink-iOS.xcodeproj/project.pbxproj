@@ -1236,6 +1236,8 @@
 		884E702021FB983F008D53BA /* SDLAppServiceManifest.m in Sources */ = {isa = PBXBuildFile; fileRef = 884E701E21FB983F008D53BA /* SDLAppServiceManifest.m */; };
 		884E702321FBA952008D53BA /* SDLAppServiceType.h in Headers */ = {isa = PBXBuildFile; fileRef = 884E702121FBA952008D53BA /* SDLAppServiceType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		884E702421FBA952008D53BA /* SDLAppServiceType.m in Sources */ = {isa = PBXBuildFile; fileRef = 884E702221FBA952008D53BA /* SDLAppServiceType.m */; };
+		884E702721FBAC5B008D53BA /* SDLServiceUpdateReason.h in Headers */ = {isa = PBXBuildFile; fileRef = 884E702521FBAC5B008D53BA /* SDLServiceUpdateReason.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		884E702821FBAC5B008D53BA /* SDLServiceUpdateReason.m in Sources */ = {isa = PBXBuildFile; fileRef = 884E702621FBAC5B008D53BA /* SDLServiceUpdateReason.m */; };
 		8850DB601F4475D30053A48D /* TestMultipleFilesConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */; };
 		8877F5EB1F34A3BE00DC128A /* SDLSendHapticDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */; };
 		8877F5EE1F34A72200DC128A /* SDLSendHapticDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2746,6 +2748,8 @@
 		884E701E21FB983F008D53BA /* SDLAppServiceManifest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServiceManifest.m; sourceTree = "<group>"; };
 		884E702121FBA952008D53BA /* SDLAppServiceType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAppServiceType.h; sourceTree = "<group>"; };
 		884E702221FBA952008D53BA /* SDLAppServiceType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServiceType.m; sourceTree = "<group>"; };
+		884E702521FBAC5B008D53BA /* SDLServiceUpdateReason.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLServiceUpdateReason.h; sourceTree = "<group>"; };
+		884E702621FBAC5B008D53BA /* SDLServiceUpdateReason.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLServiceUpdateReason.m; sourceTree = "<group>"; };
 		8850DB5E1F4475D30053A48D /* TestMultipleFilesConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestMultipleFilesConnectionManager.h; sourceTree = "<group>"; };
 		8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestMultipleFilesConnectionManager.m; sourceTree = "<group>"; };
 		8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataSpec.m; sourceTree = "<group>"; };
@@ -4327,6 +4331,8 @@
 				5D61FB8B1A84238B00846EE7 /* SDLSamplingRate.m */,
 				1EB59CB1202D9B5F00343A61 /* SDLSeatMemoryActionType.h */,
 				1EB59CB2202D9B5F00343A61 /* SDLSeatMemoryActionType.m */,
+				884E702521FBAC5B008D53BA /* SDLServiceUpdateReason.h */,
+				884E702621FBAC5B008D53BA /* SDLServiceUpdateReason.m */,
 				5D61FBB61A84238B00846EE7 /* SDLSoftButtonType.h */,
 				5D61FBB71A84238B00846EE7 /* SDLSoftButtonType.m */,
 				5D61FBBC1A84238B00846EE7 /* SDLSpeechCapabilities.h */,
@@ -5746,6 +5752,7 @@
 				5D61FC391A84238C00846EE7 /* SDLAlertManeuver.h in Headers */,
 				5D61FC861A84238C00846EE7 /* SDLDeviceStatus.h in Headers */,
 				DA0C46AF1DCD41E30001F2A8 /* SDLMacros.h in Headers */,
+				884E702721FBAC5B008D53BA /* SDLServiceUpdateReason.h in Headers */,
 				5D61FCC71A84238C00846EE7 /* SDLIAPTransport.h in Headers */,
 				5D61FC6D1A84238C00846EE7 /* SDLCreateInteractionChoiceSetResponse.h in Headers */,
 				5D8204221BCEA89A00D0A41B /* SDLFileManager.h in Headers */,
@@ -6499,6 +6506,7 @@
 				5D92937920B6FB6200FCC775 /* SDLPresentChoiceSetOperation.m in Sources */,
 				8B7B31A71F2F875200BDC38D /* SDLVideoStreamingCapability.m in Sources */,
 				5DA3F35B1BC448480026F2D0 /* SDLError.m in Sources */,
+				884E702821FBAC5B008D53BA /* SDLServiceUpdateReason.m in Sources */,
 				5D61FD781A84238C00846EE7 /* SDLSamplingRate.m in Sources */,
 				1EAA472A2034388D000FE74B /* SDLAudioControlData.m in Sources */,
 				5D61FC681A84238C00846EE7 /* SDLComponentVolumeStatus.m in Sources */,
