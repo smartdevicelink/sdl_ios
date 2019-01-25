@@ -1234,6 +1234,8 @@
 		884E701C21FB8D0F008D53BA /* SDLPublishAppService.m in Sources */ = {isa = PBXBuildFile; fileRef = 884E701A21FB8D0F008D53BA /* SDLPublishAppService.m */; };
 		884E701F21FB983F008D53BA /* SDLAppServiceManifest.h in Headers */ = {isa = PBXBuildFile; fileRef = 884E701D21FB983F008D53BA /* SDLAppServiceManifest.h */; };
 		884E702021FB983F008D53BA /* SDLAppServiceManifest.m in Sources */ = {isa = PBXBuildFile; fileRef = 884E701E21FB983F008D53BA /* SDLAppServiceManifest.m */; };
+		884E702321FBA952008D53BA /* SDLAppServiceType.h in Headers */ = {isa = PBXBuildFile; fileRef = 884E702121FBA952008D53BA /* SDLAppServiceType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		884E702421FBA952008D53BA /* SDLAppServiceType.m in Sources */ = {isa = PBXBuildFile; fileRef = 884E702221FBA952008D53BA /* SDLAppServiceType.m */; };
 		8850DB601F4475D30053A48D /* TestMultipleFilesConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */; };
 		8877F5EB1F34A3BE00DC128A /* SDLSendHapticDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */; };
 		8877F5EE1F34A72200DC128A /* SDLSendHapticDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2742,6 +2744,8 @@
 		884E701A21FB8D0F008D53BA /* SDLPublishAppService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPublishAppService.m; sourceTree = "<group>"; };
 		884E701D21FB983F008D53BA /* SDLAppServiceManifest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAppServiceManifest.h; sourceTree = "<group>"; };
 		884E701E21FB983F008D53BA /* SDLAppServiceManifest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServiceManifest.m; sourceTree = "<group>"; };
+		884E702121FBA952008D53BA /* SDLAppServiceType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAppServiceType.h; sourceTree = "<group>"; };
+		884E702221FBA952008D53BA /* SDLAppServiceType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServiceType.m; sourceTree = "<group>"; };
 		8850DB5E1F4475D30053A48D /* TestMultipleFilesConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestMultipleFilesConnectionManager.h; sourceTree = "<group>"; };
 		8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestMultipleFilesConnectionManager.m; sourceTree = "<group>"; };
 		8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataSpec.m; sourceTree = "<group>"; };
@@ -4198,6 +4202,8 @@
 				5D61FA551A84238A00846EE7 /* SDLAppHMIType.m */,
 				5D61FA561A84238A00846EE7 /* SDLAppInterfaceUnregisteredReason.h */,
 				5D61FA571A84238A00846EE7 /* SDLAppInterfaceUnregisteredReason.m */,
+				884E702121FBA952008D53BA /* SDLAppServiceType.h */,
+				884E702221FBA952008D53BA /* SDLAppServiceType.m */,
 				2BF2F84D20ED004000A26EF2 /* SDLAudioStreamingIndicator.h */,
 				2BF2F84E20ED004000A26EF2 /* SDLAudioStreamingIndicator.m */,
 				5D61FA5A1A84238A00846EE7 /* SDLAudioStreamingState.h */,
@@ -5701,6 +5707,7 @@
 				5DB92D321AC9C8BA00C15BB0 /* SDLRPCStruct.h in Headers */,
 				5D61FD151A84238C00846EE7 /* SDLOnLockScreenStatus.h in Headers */,
 				5D61FD291A84238C00846EE7 /* SDLPerformInteraction.h in Headers */,
+				884E702321FBA952008D53BA /* SDLAppServiceType.h in Headers */,
 				DAC572571D1067270004288B /* SDLTouchManager.h in Headers */,
 				5D61FE0D1A84238C00846EE7 /* SDLVrCapabilities.h in Headers */,
 				EEB1932E205028B700A8940C /* SDLControlFramePayloadTransportEventUpdate.h in Headers */,
@@ -6587,6 +6594,7 @@
 				5D61FDBC1A84238C00846EE7 /* SDLSystemAction.m in Sources */,
 				5D61FC381A84238C00846EE7 /* SDLAlert.m in Sources */,
 				884E701C21FB8D0F008D53BA /* SDLPublishAppService.m in Sources */,
+				884E702421FBA952008D53BA /* SDLAppServiceType.m in Sources */,
 				5D61FD2C1A84238C00846EE7 /* SDLPerformInteractionResponse.m in Sources */,
 				5D00AC7C1F15287E004000D9 /* SDLPhoneCapability.m in Sources */,
 				5D61FDF21A84238C00846EE7 /* SDLUpdateTurnList.m in Sources */,
