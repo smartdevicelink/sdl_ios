@@ -65,14 +65,14 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
     } else {
         SDLLogD(@"Created session object");
         __strong typeof(self) strongSelf = weakSelf;
-        strongSelf.streamDelegate.streamErrorHandler = [self streamErroredHandler];
-        strongSelf.streamDelegate.streamOpenHandler = [self streamOpenedHandler];
-        if (self.isDataSession) {
-            self.streamDelegate.streamHasSpaceHandler = [self sdl_streamHasSpaceHandler];
+        strongSelf.streamDelegate.streamErrorHandler = [strongSelf streamErroredHandler];
+        strongSelf.streamDelegate.streamOpenHandler = [strongSelf streamOpenedHandler];
+        if (strongSelf.isDataSession) {
+            strongSelf.streamDelegate.streamHasSpaceHandler = [strongSelf sdl_streamHasSpaceHandler];
             // Start I/O event loop processing events in iAP channel
-            self.ioStreamThread = [[NSThread alloc] initWithTarget:self selector:@selector(sdl_accessoryEventLoop) object:nil];
-            [self.ioStreamThread setName:IOStreamThreadName];
-            [self.ioStreamThread start];
+            strongSelf.ioStreamThread = [[NSThread alloc] initWithTarget:strongSelf selector:@selector(sdl_accessoryEventLoop) object:nil];
+            [strongSelf.ioStreamThread setName:IOStreamThreadName];
+            [strongSelf.ioStreamThread start];
         } else {
             // Set up control session -- no need for its own thread
             [self startStream:self.easession.outputStream];
@@ -96,12 +96,14 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
     NSAssert(NSThread.isMainThread, @"%@ must only be called on the main thread", NSStringFromSelector(_cmd));
     if (self.isDataSession) {
         [self.ioStreamThread cancel];
+        __weak typeof(self) weakSelf = self;
         [self sdl_isIOThreadCanceled:self.canceledSemaphore completionHandler:^(BOOL success) {
+            __strong typeof(self) strongSelf = weakSelf;
             if (success == NO) {
                 SDLLogE(@"Things are going to go seriously wrong");
             }
-            self.ioStreamThread = nil;
-            self.isDataSession = NO;
+            strongSelf.ioStreamThread = nil;
+            strongSelf.isDataSession = NO;
         }];
     } else {
         // Stop control session

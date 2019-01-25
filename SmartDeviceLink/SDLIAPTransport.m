@@ -148,7 +148,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
         return;
     }
 
-    double retryDelay = self.retryDelay;
+    double retryDelay = self.sdl_retryDelay;
     SDLLogD(@"Accessory Connected (%@), Opening in %0.03fs", notification.userInfo[EAAccessoryKey], retryDelay);
     
     if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
@@ -637,7 +637,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     };
 }
 
-- (double)retryDelay {
+- (double)sdl_retryDelay {
     const double MinRetrySeconds = 1.5;
     const double MaxRetrySeconds = 9.5;
     double RetryRangeSeconds = MaxRetrySeconds - MinRetrySeconds;

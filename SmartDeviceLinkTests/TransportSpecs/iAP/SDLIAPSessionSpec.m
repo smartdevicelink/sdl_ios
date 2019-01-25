@@ -11,7 +11,6 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
-#import <ExternalAccessory/ExternalAccessory.h>
 #import "EAAccessory+OCMock.m"
 #import "SDLIAPSession.h"
 #import "SDLMutableDataQueue.h"
@@ -37,7 +36,7 @@ describe(@"SDLIAPSession", ^{
 
     describe(@"Initialization", ^{
         beforeEach(^{
-            mockAccessory = [OCMockObject mockForClass:[EAAccessory class]];
+            mockAccessory = [EAAccessory.class sdlCoreMock];
         });
 
         it(@"Should init correctly with a control protocol string", ^{
@@ -79,7 +78,7 @@ describe(@"SDLIAPSession", ^{
         });
     });
 
-    describe(@"Starting a session", ^{
+    describe(@"When starting a session", ^{
         __block SDLStreamDelegate *streamDelegate = nil;
         __block NSInputStream *inputStream = nil;
         __block NSOutputStream *outputStream = nil;
@@ -96,13 +95,19 @@ describe(@"SDLIAPSession", ^{
             it(@"the start method should return false if a session cannot be created", ^{
                 BOOL success = [iapSession sdl_startWithSession:nil];
                 expect(success).to(beFalse());
+                expect(iapSession.ioStreamThread).to(beNil());
                 expect(iapSession.isInputStreamOpen).to(beFalse());
                 expect(iapSession.isOutputStreamOpen).to(beFalse());
             });
         });
 
-        describe(@"starting a session successfully", ^{
-            xcontext(@"control session", ^{
+        describe(@"successfully", ^{
+            beforeEach(^{
+                inputStream = OCMClassMock([NSInputStream class]);
+                outputStream = OCMClassMock([NSOutputStream class]);
+            });
+
+            context(@"if creating a control session", ^{
                 beforeEach(^{
                     protocol = @"com.smartdevicelink.prot0";
                     mockAccessory = [EAAccessory.class sdlCoreMock];
@@ -113,9 +118,7 @@ describe(@"SDLIAPSession", ^{
                     expect(iapSession.isDataSession).to(beFalse());
                 });
 
-                it(@"the start method should return true if a session can be created", ^{
-                    inputStream = OCMClassMock([NSInputStream class]);
-                    outputStream = OCMClassMock([NSOutputStream class]);
+                it(@"the control session should be established", ^{
                     EASession *mockSession = [EASession.class mockSessionWithAccessory:mockAccessory protocolString:protocol inputStream:inputStream outputStream:outputStream];
                     iapSession.easession = mockSession;
 
@@ -125,9 +128,18 @@ describe(@"SDLIAPSession", ^{
                     expect(iapSession.easession.inputStream).toNot(beNil());
                     expect(iapSession.easession.outputStream).toNot(beNil());
                 });
+
+                it(@"should be closed successfully", ^ {
+                    [iapSession stop];
+
+                    [NSThread sleepForTimeInterval:0.1];
+
+                    expect(iapSession.easession).to(beNil());
+                    expect(iapSession.ioStreamThread).to(beNil());
+                });
             });
 
-            xcontext(@"data session", ^{
+            context(@"if creating a data session", ^{
                 beforeEach(^{
                     protocol = @"com.smartdevicelink.multisession";
                     mockAccessory = [EAAccessory.class sdlCoreMock];
@@ -138,19 +150,25 @@ describe(@"SDLIAPSession", ^{
                     expect(iapSession.isDataSession).to(beTrue());
                 });
 
-                it(@"the start method should return true if a session can be created", ^{
-                    EASession *mockSession = [EASession.class mockSessionWithAccessory:mockAccessory protocolString:protocol inputStream:nil outputStream:nil];
+                it(@"the data session should be established", ^{
+                    EASession *mockSession = [EASession.class mockSessionWithAccessory:mockAccessory protocolString:protocol inputStream:inputStream outputStream:outputStream];
                     iapSession.easession = mockSession;
                     BOOL success = [iapSession sdl_startWithSession:mockSession];
                     expect(success).to(beTrue());
                     expect(iapSession.ioStreamThread).toNot(beNil());
+                    // The streams are opened in the `sdl_streamHasSpaceHandler` method
+                    expect(iapSession.easession.inputStream).toNot(beNil());
+                    expect(iapSession.easession.outputStream).toNot(beNil());
                 });
-            });
 
-            afterEach(^{
-                [iapSession stop];
-                expect(iapSession.easession).to(beNil());
-                expect(iapSession.ioStreamThread).to(beNil());
+                it(@"should be closed successfully", ^ {
+                    [iapSession stop];
+
+                    [NSThread sleepForTimeInterval:0.1];
+
+                    expect(iapSession.easession).to(beNil());
+                    expect(iapSession.ioStreamThread).to(beNil());
+                });
             });
         });
     });
