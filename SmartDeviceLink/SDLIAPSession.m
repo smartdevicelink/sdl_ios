@@ -116,7 +116,7 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
 - (void)sdl_isIOThreadCanceled:(dispatch_semaphore_t)canceledSemaphore completionHandler:(void (^)(BOOL success))completionHandler {
     long lWait = dispatch_semaphore_wait(canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(StreamThreadWaitSecs * NSEC_PER_SEC)));
     if (lWait == 0) {
-        SDLLogD(@"Stream thread cancelled successfully");
+        SDLLogD(@"Stream thread canceled successfully");
         return completionHandler(YES);
     } else {
         SDLLogE(@"Failed to cancel stream thread");

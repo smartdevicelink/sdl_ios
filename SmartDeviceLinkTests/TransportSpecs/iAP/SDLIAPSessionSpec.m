@@ -118,7 +118,7 @@ describe(@"SDLIAPSession", ^{
                     expect(iapSession.isDataSession).to(beFalse());
                 });
 
-                it(@"the control session should be established", ^{
+                it(@"should establish a control session ", ^{
                     EASession *mockSession = [EASession.class mockSessionWithAccessory:mockAccessory protocolString:protocol inputStream:inputStream outputStream:outputStream];
                     iapSession.easession = mockSession;
 
@@ -127,15 +127,6 @@ describe(@"SDLIAPSession", ^{
                     expect(iapSession.ioStreamThread).to(beNil());
                     expect(iapSession.easession.inputStream).toNot(beNil());
                     expect(iapSession.easession.outputStream).toNot(beNil());
-                });
-
-                it(@"should be closed successfully", ^ {
-                    [iapSession stop];
-
-                    [NSThread sleepForTimeInterval:0.1];
-
-                    expect(iapSession.easession).to(beNil());
-                    expect(iapSession.ioStreamThread).to(beNil());
                 });
             });
 
@@ -150,7 +141,7 @@ describe(@"SDLIAPSession", ^{
                     expect(iapSession.isDataSession).to(beTrue());
                 });
 
-                it(@"the data session should be established", ^{
+                it(@"should establish a data session ", ^{
                     EASession *mockSession = [EASession.class mockSessionWithAccessory:mockAccessory protocolString:protocol inputStream:inputStream outputStream:outputStream];
                     iapSession.easession = mockSession;
                     BOOL success = [iapSession sdl_startWithSession:mockSession];
@@ -160,16 +151,16 @@ describe(@"SDLIAPSession", ^{
                     expect(iapSession.easession.inputStream).toNot(beNil());
                     expect(iapSession.easession.outputStream).toNot(beNil());
                 });
-
-                it(@"should be closed successfully", ^ {
-                    [iapSession stop];
-
-                    [NSThread sleepForTimeInterval:0.1];
-
-                    expect(iapSession.easession).to(beNil());
-                    expect(iapSession.ioStreamThread).to(beNil());
-                });
             });
+        });
+
+        afterEach(^{
+            [iapSession stop];
+
+            [NSThread sleepForTimeInterval:0.1];
+
+            expect(iapSession.easession).to(beNil());
+            expect(iapSession.ioStreamThread).to(beNil());
         });
     });
 });

@@ -18,7 +18,7 @@ static id coreMockDelegate = nil;
 + (EAAccessory *)sdlCoreMock {
     id mockEAAccessory = OCMClassMock([EAAccessory class]);
     OCMStub([mockEAAccessory protocolStrings]).andReturn(@[@"com.smartdevicelink.multisession"]);
-    OCMStub([mockEAAccessory manufacturer]).andReturn(@"SDL");
+    [[mockEAAccessory stub] andReturnValue:OCMOCK_VALUE((NSString *)@"SDLTestHeadUnit")];
     OCMStub([mockEAAccessory name]).andReturn(@"SDLHeadUnit");
     OCMStub([mockEAAccessory modelNumber]).andReturn(@"0.0.0");
     OCMStub([mockEAAccessory serialNumber]).andReturn(@"123456");
@@ -30,7 +30,7 @@ static id coreMockDelegate = nil;
         return YES;
     }]]);
     OCMStub([mockEAAccessory delegate]).andCall(self, @selector(coreDelegate));
-    OCMStub([mockEAAccessory connectionID]).andReturn(OCMOCK_VALUE(1));
+    [[mockEAAccessory stub] andReturnValue:OCMOCK_VALUE((NSUInteger){5})];
 
     return mockEAAccessory;
 }
