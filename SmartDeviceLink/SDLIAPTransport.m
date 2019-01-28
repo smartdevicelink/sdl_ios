@@ -177,7 +177,9 @@ int const ProtocolIndexTimeoutSeconds = 10;
     if (accessory.connectionID != self.session.accessory.connectionID) {
         SDLLogV(@"Accessory disconnected during control session (%@)", accessory);
         self.retryCounter = 0;
-    } else if ([accessory.serialNumber isEqualToString:self.session.accessory.serialNumber]) {
+    }
+
+    if ([accessory.serialNumber isEqualToString:self.session.accessory.serialNumber]) {
         SDLLogV(@"Accessory disconnected during data session (%@)", accessory);
         [self sdl_destroySession];
     }
@@ -361,8 +363,8 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
     } else {
         // We have surpassed the number of retries allowed
-        SDLLogW(@"Surpassed allowed retry attempts...Destroying the session");
-        [self sdl_destroySession];
+        SDLLogW(@"Surpassed allowed retry attempts.");
+        self.sessionSetupInProgress = NO;
     }
 }
 

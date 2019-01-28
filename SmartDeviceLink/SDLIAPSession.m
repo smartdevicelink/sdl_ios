@@ -64,11 +64,11 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
         strongSelf.streamDelegate.streamErrorHandler = [strongSelf streamErroredHandler];
         strongSelf.streamDelegate.streamOpenHandler = [strongSelf streamOpenedHandler];
         if (strongSelf.isDataSession) {
-            strongSelf.streamDelegate.streamHasSpaceHandler = [strongSelf sdl_streamHasSpaceHandler];
+            self.streamDelegate.streamHasSpaceHandler = [self sdl_streamHasSpaceHandler];
             // Start I/O event loop processing events in iAP channel
-            strongSelf.ioStreamThread = [[NSThread alloc] initWithTarget:strongSelf selector:@selector(sdl_accessoryEventLoop) object:nil];
-            [strongSelf.ioStreamThread setName:IOStreamThreadName];
-            [strongSelf.ioStreamThread start];
+            self.ioStreamThread = [[NSThread alloc] initWithTarget:self selector:@selector(sdl_accessoryEventLoop) object:nil];
+            [self.ioStreamThread setName:IOStreamThreadName];
+            [self.ioStreamThread start];
         } else {
             // Set up control session -- no need for its own thread
             [self startStream:self.easession.outputStream];
@@ -92,14 +92,12 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
     NSAssert(NSThread.isMainThread, @"%@ must only be called on the main thread", NSStringFromSelector(_cmd));
     if (self.isDataSession) {
         [self.ioStreamThread cancel];
-        __weak typeof(self) weakSelf = self;
         [self sdl_isIOThreadCanceled:self.canceledSemaphore completionHandler:^(BOOL success) {
-            __strong typeof(self) strongSelf = weakSelf;
             if (success == NO) {
                 SDLLogE(@"Things are going to go seriously wrong");
             }
-            strongSelf.ioStreamThread = nil;
-            strongSelf.isDataSession = NO;
+            self.ioStreamThread = nil;
+            self.isDataSession = NO;
         }];
     } else {
         // Stop control session
