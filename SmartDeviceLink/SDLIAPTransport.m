@@ -68,6 +68,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
  */
 - (void)sdl_backgroundTaskStart {
     if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
+        SDLLogV(@"A background task is already running. No need to start a background task. Returning...");
         return;
     }
 
@@ -78,6 +79,8 @@ int const ProtocolIndexTimeoutSeconds = 10;
         SDLLogD(@"Background task expired");
         [strongSelf sdl_backgroundTaskEnd];
     }];
+
+    SDLLogD(@"Started a background task with id: %lu", (unsigned long)self.backgroundTaskId);
 }
 
 /**
@@ -85,6 +88,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
  */
 - (void)sdl_backgroundTaskEnd {
     if (self.backgroundTaskId == UIBackgroundTaskInvalid) {
+        SDLLogV(@"No background task running. No need to stop the background task. Returning...");
         return;
     }
     
@@ -171,23 +175,21 @@ int const ProtocolIndexTimeoutSeconds = 10;
         self.accessoryConnectDuringActiveSession = NO;
     }
 
-    // FIXME: might be an issue on head units that do not support multisession
     EAAccessory *accessory = [notification.userInfo objectForKey:EAAccessoryKey];
     if (accessory.connectionID != self.session.accessory.connectionID) {
         SDLLogV(@"Accessory disconnected during control session (%@)", accessory);
-        self.retryCounter = 0;
-        self.sessionSetupInProgress = NO;
-        [self disconnect];
-        [self.delegate onTransportDisconnected];
-    }
-
-    if ([accessory.serialNumber isEqualToString:self.session.accessory.serialNumber]) {
+    } else if ([accessory.serialNumber isEqualToString:self.session.accessory.serialNumber]) {
         SDLLogV(@"Accessory disconnected during data session (%@)", accessory);
-        self.retryCounter = 0;
-        self.sessionSetupInProgress = NO;
-        [self disconnect];
-        [self.delegate onTransportDisconnected];
     }
+    
+    [self sdl_destroySession];
+}
+
+- (void)sdl_destroySession {
+    self.retryCounter = 0;
+    self.sessionSetupInProgress = NO;
+    [self disconnect];
+    [self.delegate onTransportDisconnected];
 }
 
 #pragma mark App Lifecycle Notifications
@@ -361,8 +363,8 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
     } else {
         // We have surpassed the number of retries allowed
-        SDLLogW(@"Surpassed allowed retry attempts");
-        self.sessionSetupInProgress = NO;
+        SDLLogW(@"Surpassed allowed retry attempts...Destroying the session");
+        [self sdl_destroySession];
     }
 }
 
