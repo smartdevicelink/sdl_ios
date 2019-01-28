@@ -47,10 +47,6 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
 
 
 #pragma mark - Public Stream Lifecycle
-- (EASession *)newEASessionWithAccessory:(EAAccessory *)accessory protocol:(NSString *)protocol {
-    return [[EASession alloc] initWithAccessory:accessory forProtocol:protocol];
-}
-
 - (BOOL)start {
     SDLLogD(@"Opening EASession withAccessory:%@ forProtocol:%@", _accessory.name, _protocol);
     self.easession = [[EASession alloc] initWithAccessory:self.accessory forProtocol:self.protocol];

@@ -73,11 +73,9 @@ int const ProtocolIndexTimeoutSeconds = 10;
     }
 
     SDLLogD(@"Starting background task");
-    __weak typeof(self) weakSelf = self;
     self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:BackgroundTaskName expirationHandler:^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogD(@"Background task expired");
-        [strongSelf sdl_backgroundTaskEnd];
+        [self sdl_backgroundTaskEnd];
     }];
 
     SDLLogD(@"Started a background task with id: %lu", (unsigned long)self.backgroundTaskId);
@@ -178,11 +176,11 @@ int const ProtocolIndexTimeoutSeconds = 10;
     EAAccessory *accessory = [notification.userInfo objectForKey:EAAccessoryKey];
     if (accessory.connectionID != self.session.accessory.connectionID) {
         SDLLogV(@"Accessory disconnected during control session (%@)", accessory);
+        self.retryCounter = 0;
     } else if ([accessory.serialNumber isEqualToString:self.session.accessory.serialNumber]) {
         SDLLogV(@"Accessory disconnected during data session (%@)", accessory);
+        [self sdl_destroySession];
     }
-    
-    [self sdl_destroySession];
 }
 
 - (void)sdl_destroySession {
@@ -330,7 +328,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
  *  @param accessory The accessory to try to establish a session with, or nil to scan all connected accessories.
  */
 - (void)sdl_establishSessionWithAccessory:(nullable EAAccessory *)accessory {
-    SDLLogD(@"Attempting to connect");
+    SDLLogD(@"Attempting to connect. Retry count: %d", self.retryCounter);
     if (self.retryCounter < CreateSessionRetries) {
         self.retryCounter++;
         
