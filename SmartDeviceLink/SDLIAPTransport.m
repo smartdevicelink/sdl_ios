@@ -35,7 +35,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 @property (assign, nonatomic) BOOL sessionSetupInProgress;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskId;
 @property (nullable, strong, nonatomic) SDLTimer *protocolIndexTimer;
-
+@property (assign, nonatomic) BOOL accessoryConnectDuringActiveSession;
 @end
 
 
@@ -50,6 +50,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
         _controlSession = nil;
         _retryCounter = 0;
         _protocolIndexTimer = nil;
+        _accessoryConnectDuringActiveSession = NO;
         
         // Get notifications if an accessory connects in future
         [self sdl_startEventListening];
@@ -139,6 +140,12 @@ int const ProtocolIndexTimeoutSeconds = 10;
  *  @param notification Contains information about the connected accessory
  */
 - (void)sdl_accessoryConnected:(NSNotification *)notification {
+    if (self.session != nil) {
+        SDLLogD(@"Switching transports from Bluetooth to USB. Waiting for disconnect notification from the accessory");
+        self.accessoryConnectDuringActiveSession = YES;
+        return;
+    }
+
     double retryDelay = self.retryDelay;
     SDLLogD(@"Accessory Connected (%@), Opening in %0.03fs", notification.userInfo[EAAccessoryKey], retryDelay);
     
@@ -157,6 +164,11 @@ int const ProtocolIndexTimeoutSeconds = 10;
  *  @param notification Contains information about the connected accessory
  */
 - (void)sdl_accessoryDisconnected:(NSNotification *)notification {
+    if (self.accessoryConnectDuringActiveSession == YES) {
+        SDLLogD(@"Switching transports from Bluetooth to USB. Received disconnect notification from the accessory");
+        self.accessoryConnectDuringActiveSession = NO;
+    }
+
     EAAccessory *accessory = [notification.userInfo objectForKey:EAAccessoryKey];
     if (accessory.connectionID != self.session.accessory.connectionID) {
         SDLLogV(@"Accessory disconnected during control session (%@)", accessory);
@@ -668,6 +680,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
         self.session = nil;
         self.delegate = nil;
         self.sessionSetupInProgress = NO;
+        self.accessoryConnectDuringActiveSession = NO;
     }
 }
 
