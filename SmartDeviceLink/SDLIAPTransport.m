@@ -140,8 +140,10 @@ int const ProtocolIndexTimeoutSeconds = 10;
  *  @param notification Contains information about the connected accessory
  */
 - (void)sdl_accessoryConnected:(NSNotification *)notification {
-    if (self.session != nil) {
-        SDLLogD(@"Switching transports from Bluetooth to USB. Waiting for disconnect notification from the accessory");
+    EAAccessory *newAccessory = [notification.userInfo objectForKey:EAAccessoryKey];
+
+    if ((self.session != nil) && (self.session.accessory.connectionID != newAccessory.connectionID)) {
+        SDLLogD(@"Switching transports from Bluetooth to USB. Waiting for disconnect notification.");
         self.accessoryConnectDuringActiveSession = YES;
         return;
     }
@@ -164,23 +166,34 @@ int const ProtocolIndexTimeoutSeconds = 10;
  *  @param notification Contains information about the connected accessory
  */
 - (void)sdl_accessoryDisconnected:(NSNotification *)notification {
+    EAAccessory *accessory = [notification.userInfo objectForKey:EAAccessoryKey];
+    SDLLogD(@"Accessory with serial number %@ and connectionID %lu disconnecting.", accessory.serialNumber, (unsigned long)accessory.connectionID);
+
     if (self.accessoryConnectDuringActiveSession == YES) {
-        SDLLogD(@"Switching transports from Bluetooth to USB. Received disconnect notification from the accessory");
+        SDLLogD(@"Switching transports from Bluetooth to USB.");
         self.accessoryConnectDuringActiveSession = NO;
+        // return;
     }
 
-    EAAccessory *accessory = [notification.userInfo objectForKey:EAAccessoryKey];
-    if (accessory.connectionID != self.session.accessory.connectionID) {
-        SDLLogV(@"Accessory disconnected during control session (%@)", accessory);
-        self.retryCounter = 0;
+    if (self.controlSession == nil && self.session == nil) {
+        SDLLogV(@"Accessory (%@), disconnected, but no session is in progress", accessory.serialNumber);
+        return;
+    } else if (accessory.connectionID == self.controlSession.accessory.connectionID) {
+        SDLLogV(@"Accessory (%@) disconnected during a control session", accessory.serialNumber);
+    } else if (accessory.connectionID == self.session.accessory.connectionID) {
+        SDLLogV(@"Accessory (%@) disconnected during a data session", accessory.serialNumber);
+    } else {
+        SDLLogV(@"Accessory (%@) disconnecting", accessory.serialNumber);
     }
-    if ([accessory.serialNumber isEqualToString:self.session.accessory.serialNumber]) {
-        SDLLogV(@"Accessory disconnected during data session (%@)", accessory);
-        self.retryCounter = 0;
-        self.sessionSetupInProgress = NO;
-        [self disconnect];
-        [self.delegate onTransportDisconnected];
-    }
+
+    [self sdl_destroySession];
+}
+
+- (void)sdl_destroySession {
+    self.retryCounter = 0;
+    self.sessionSetupInProgress = NO;
+    [self disconnect];
+    [self.delegate onTransportDisconnected];
 }
 
 #pragma mark App Lifecycle Notifications
@@ -244,14 +257,15 @@ int const ProtocolIndexTimeoutSeconds = 10;
  *  Cleans up after a disconnected accessory by closing any open input streams.
  */
 - (void)disconnect {
-    SDLLogD(@"Disconnecting IAP data session");
     // Stop event listening here so that even if the transport is disconnected by the proxy we unregister for accessory local notifications
     [self sdl_stopEventListening];
     if (self.controlSession != nil) {
+        SDLLogD(@"Disconnecting control session");
         [self.controlSession stop];
         self.controlSession.streamDelegate = nil;
         self.controlSession = nil;
     } else if (self.session != nil) {
+        SDLLogD(@"Disconnecting data session");
         [self.session stop];
         self.session.streamDelegate = nil;
         self.session = nil;
@@ -321,7 +335,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
  *  @param accessory The accessory to try to establish a session with, or nil to scan all connected accessories.
  */
 - (void)sdl_establishSessionWithAccessory:(nullable EAAccessory *)accessory {
-    SDLLogD(@"Attempting to connect");
+    SDLLogD(@"Attempting to connect accessory: %@", accessory.name);
     if (self.retryCounter < CreateSessionRetries) {
         // We should be attempting to connect
         self.retryCounter++;
@@ -330,6 +344,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
         // If we are being called from sdl_connectAccessory, the EAAccessoryDidConnectNotification will contain the SDL accessory to connect to and we can connect without searching the accessory manager's connected accessory list. Otherwise, we fall through to a search.
         if (sdlAccessory != nil && [self sdl_connectAccessory:sdlAccessory]) {
             // Connection underway, exit
+            SDLLogV(@"Connection already underway");
             return;
         }
 
@@ -352,10 +367,9 @@ int const ProtocolIndexTimeoutSeconds = 10;
             SDLLogV(@"No accessory supporting SDL was found, dismissing setup");
             self.sessionSetupInProgress = NO;
         }
-        
     } else {
         // We are beyond the number of retries allowed
-        SDLLogW(@"Surpassed allowed retry attempts");
+        SDLLogW(@"Surpassed allowed retry attempts (%d), dismissing setup", CreateSessionRetries);
         self.sessionSetupInProgress = NO;
     }
 }
