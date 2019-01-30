@@ -1231,6 +1231,8 @@
 		88295693207CF68800EF056C /* SmartDeviceLink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		882C42CE2108CDB100A44B58 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		8831FA392201E3D100B8FFB7 /* SDLAppServiceManifestSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831FA382201E3D100B8FFB7 /* SDLAppServiceManifestSpec.m */; };
+		8831FA3D220207DA00B8FFB7 /* SDLServiceUpdateReasonSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831FA3C220207DA00B8FFB7 /* SDLServiceUpdateReasonSpec.m */; };
+		8831FA3F2202227000B8FFB7 /* SDLAppServiceTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831FA3E2202227000B8FFB7 /* SDLAppServiceTypeSpec.m */; };
 		884E701B21FB8D0F008D53BA /* SDLPublishAppService.h in Headers */ = {isa = PBXBuildFile; fileRef = 884E701921FB8D0F008D53BA /* SDLPublishAppService.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		884E701C21FB8D0F008D53BA /* SDLPublishAppService.m in Sources */ = {isa = PBXBuildFile; fileRef = 884E701A21FB8D0F008D53BA /* SDLPublishAppService.m */; };
 		884E701F21FB983F008D53BA /* SDLAppServiceManifest.h in Headers */ = {isa = PBXBuildFile; fileRef = 884E701D21FB983F008D53BA /* SDLAppServiceManifest.h */; };
@@ -2747,6 +2749,8 @@
 		8818ADDC2100FE0C007D6F19 /* SDLTurnSignalSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTurnSignalSpec.m; sourceTree = "<group>"; };
 		88295697207CF68800EF056C /* SDL Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "SDL Example.app"; path = "SDL Example Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8831FA382201E3D100B8FFB7 /* SDLAppServiceManifestSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServiceManifestSpec.m; sourceTree = "<group>"; };
+		8831FA3C220207DA00B8FFB7 /* SDLServiceUpdateReasonSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLServiceUpdateReasonSpec.m; sourceTree = "<group>"; };
+		8831FA3E2202227000B8FFB7 /* SDLAppServiceTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServiceTypeSpec.m; sourceTree = "<group>"; };
 		884E701921FB8D0F008D53BA /* SDLPublishAppService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPublishAppService.h; sourceTree = "<group>"; };
 		884E701A21FB8D0F008D53BA /* SDLPublishAppService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPublishAppService.m; sourceTree = "<group>"; };
 		884E701D21FB983F008D53BA /* SDLAppServiceManifest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAppServiceManifest.h; sourceTree = "<group>"; };
@@ -2979,6 +2983,7 @@
 				162E81E21A9BDE8A00906325 /* SDLAmbientLightStatusSpec.m */,
 				162E81E31A9BDE8A00906325 /* SDLAppHMITypeSpec.m */,
 				162E81E41A9BDE8A00906325 /* SDLAppInterfaceUnregisteredReasonSpec.m */,
+				8831FA3E2202227000B8FFB7 /* SDLAppServiceTypeSpec.m */,
 				2BF2F85120ED068200A26EF2 /* SDLAudioStreamingIndicatorSpec.m */,
 				162E81E51A9BDE8A00906325 /* SDLAudioStreamingStateSpec.m */,
 				162E81E61A9BDE8A00906325 /* SDLAudioTypeSpec.m */,
@@ -3021,6 +3026,7 @@
 				162E82041A9BDE8A00906325 /* SDLLockScreenStatusSpec.m */,
 				162E82051A9BDE8A00906325 /* SDLMaintenanceModeStatusSpec.m */,
 				1EB59CCD202DC97900343A61 /* SDLMassageCushionSpec.m */,
+				1EB59CD1202DCA9B00343A61 /* SDLMassageModeSpec.m */,
 				1EB59CC9202DC8E300343A61 /* SDLMassageZoneSpec.m */,
 				162E82061A9BDE8A00906325 /* SDLMediaClockFormatSpec.m */,
 				8BBEA6081F324832003EEA26 /* SDLMetadataTypeSpec.m */,
@@ -3036,6 +3042,7 @@
 				162E820E1A9BDE8A00906325 /* SDLRequestTypeSpec.m */,
 				162E820F1A9BDE8A00906325 /* SDLResultSpec.m */,
 				162E82111A9BDE8A00906325 /* SDLSamplingRateSpec.m */,
+				8831FA3C220207DA00B8FFB7 /* SDLServiceUpdateReasonSpec.m */,
 				162E82121A9BDE8A00906325 /* SDLSoftButtonTypeSpec.m */,
 				162E82131A9BDE8A00906325 /* SDLSpeechCapabilitiesSpec.m */,
 				1EB59CCF202DC9F200343A61 /* SDLSupportedSeatSpec.m */,
@@ -3067,7 +3074,6 @@
 				1EE8C43B1F347EAE00FDC2CF /* SDLTemperatureUnitSpec.m */,
 				1EE8C43D1F347F0500FDC2CF /* SDLVentilationModeSpec.m */,
 				5D64FE6C20DA9CE600792F9F /* SDLVideoStreamingStateSpec.m */,
-				1EB59CD1202DCA9B00343A61 /* SDLMassageModeSpec.m */,
 			);
 			path = EnumSpecs;
 			sourceTree = "<group>";
@@ -6980,6 +6986,7 @@
 				162E83521A9BDE8B00906325 /* SDLDeleteSubMenuResponseSpec.m in Sources */,
 				162E82E91A9BDE8B00906325 /* SDLKeypressModeSpec.m in Sources */,
 				162E83211A9BDE8B00906325 /* SDLRPCPayloadSpec.m in Sources */,
+				8831FA3F2202227000B8FFB7 /* SDLAppServiceTypeSpec.m in Sources */,
 				162E83851A9BDE8B00906325 /* SDLMyKeySpec.m in Sources */,
 				162E83941A9BDE8B00906325 /* SDLTTSChunkSpec.m in Sources */,
 				1EAA47702036AE89000FE74B /* SDLLightStatusSpec.m in Sources */,
@@ -7088,6 +7095,7 @@
 				1EE8C4461F3837D200FDC2CF /* SDLModuleDataSpec.m in Sources */,
 				EEA41D45210BA8CF0006CB6E /* TestTCPServer.m in Sources */,
 				1E89B0DE2031636000A47992 /* SDLSeatControlDataSpec.m in Sources */,
+				8831FA3D220207DA00B8FFB7 /* SDLServiceUpdateReasonSpec.m in Sources */,
 				162E831A1A9BDE8B00906325 /* SDLOnLockScreenStatusSpec.m in Sources */,
 				162E83431A9BDE8B00906325 /* SDLSyncPDataSpec.m in Sources */,
 				167ED9461A9BCE5D00797BE5 /* SwiftSpec.swift in Sources */,
