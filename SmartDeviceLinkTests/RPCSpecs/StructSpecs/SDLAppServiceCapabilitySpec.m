@@ -30,7 +30,6 @@ describe(@"Getter/Setter Tests", ^{
 
         expect(testStruct.updateReason).to(equal(testUpdateReason));
         expect(testStruct.updatedAppServiceRecord).to(equal(testUpdatedAppServiceRecord));
-
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
