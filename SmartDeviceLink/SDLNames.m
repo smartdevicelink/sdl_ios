@@ -505,6 +505,7 @@ SDLName const SDLNameServiceId = @"serviceId";
 SDLName const SDLNameServiceManifest = @"serviceManifest";
 SDLName const SDLNameServiceName = @"serviceName";
 SDLName const SDLNameServicePublished = @"servicePublished";
+SDLName const SDLNameServiceType = @"serviceType";
 SDLName const SDLNameSetAppIcon = @"SetAppIcon";
 SDLName const SDLNameSetDisplayLayout = @"SetDisplayLayout";
 SDLName const SDLNameDisplayName = @"displayName";

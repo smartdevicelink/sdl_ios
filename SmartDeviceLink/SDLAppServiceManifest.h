@@ -6,9 +6,10 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import "SDLRPCRequest.h"
+#import "SDLAppServiceType.h"
 #import "SDLFileType.h"
 #import "SDLFunctionID.h"
+#import "SDLRPCRequest.h"
 #import "SDLSyncMsgVersion.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -19,13 +20,18 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLAppServiceManifest : SDLRPCStruct
 
 /**
- *  Unique name of this service
+ *  Unique name of this service.
  *
  *  String, Optional
  */
 @property (nullable, strong, nonatomic) NSString *serviceName;
 
-// TODO: Add serviceType when AppServiceType struct has been added
+/**
+ *  The type of service that is to be offered by this app.
+ *
+ *  String, Required
+ */
+@property (strong, nonatomic) SDLAppServiceType serviceType;
 
 /**
  *  The file name of the icon to be associated with this service. Most likely the same as the appIcon.

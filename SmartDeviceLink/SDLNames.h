@@ -511,6 +511,7 @@ extern SDLName const SDLNameServiceId;
 extern SDLName const SDLNameServiceManifest;
 extern SDLName const SDLNameServiceName;
 extern SDLName const SDLNameServicePublished;
+extern SDLName const SDLNameServiceType;
 extern SDLName const SDLNameSetAppIcon;
 extern SDLName const SDLNameSetDisplayLayout;
 extern SDLName const SDLNameSetGlobalProperties;

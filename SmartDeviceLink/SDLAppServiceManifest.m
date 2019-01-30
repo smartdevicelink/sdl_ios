@@ -10,54 +10,66 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLAppServiceManifest
 
-- (void)setServiceName:(NSString *)serviceName {
+- (void)setServiceName:(nullable NSString *)serviceName {
     [store sdl_setObject:serviceName forName:SDLNameServiceName];
 }
 
-- (NSString *)serviceName {
+- (nullable NSString *)serviceName {
     return [store sdl_objectForName:SDLNameServiceName];
 }
 
-- (void)setServiceIcon:(NSString *)serviceIcon {
+- (void)setServiceType:(SDLAppServiceType)serviceType {
+    [store sdl_setObject:serviceType forName:SDLNameServiceType];
+}
+
+- (SDLAppServiceType)serviceType {
+    return [store sdl_objectForName:SDLNameServiceType];
+}
+
+- (void)setServiceIcon:(nullable  NSString *)serviceIcon {
     [store sdl_setObject:serviceIcon forName:SDLNameServiceIcon];
 }
 
-- (NSString *)serviceIcon {
+- (nullable NSString *)serviceIcon {
     return [store sdl_objectForName:SDLNameServiceIcon];
 }
 
-- (void)setAllowAppConsumers:(NSNumber<SDLBool> *)allowAppConsumers {
+- (void)setAllowAppConsumers:(nullable  NSNumber<SDLBool> *)allowAppConsumers {
     [store sdl_setObject:allowAppConsumers forName:SDLNameAllowAppConsumers];
 }
 
-- (NSNumber<SDLBool> *)allowAppConsumers {
+- (nullable NSNumber<SDLBool> *)allowAppConsumers {
     return [store sdl_objectForName:SDLNameAllowAppConsumers];
 }
 
-- (void)setUriPrefix:(NSString *)uriPrefix {
+- (void)setUriPrefix:(nullable NSString *)uriPrefix {
     [store sdl_setObject:uriPrefix forName:SDLNameURIPrefix];
 }
 
-- (NSString *)uriPrefix {
+- (nullable NSString *)uriPrefix {
     return [store sdl_objectForName:SDLNameURIPrefix];
 }
 
-- (void)setRpcSpecVersion:(SDLSyncMsgVersion *)rpcSpecVersion {
+- (void)setRpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion {
     [store sdl_setObject:rpcSpecVersion forName:SDLNameRPCSpecVersion];
 }
 
-- (SDLSyncMsgVersion *)rpcSpecVersion {
+- (nullable SDLSyncMsgVersion *)rpcSpecVersion {
     return [store sdl_objectForName:SDLNameRPCSpecVersion ofClass:SDLSyncMsgVersion.class];
 }
 
-- (void)setHandledRPCs:(NSArray<SDLFunctionID *> *)handledRPCs {
+- (void)setHandledRPCs:(nullable NSArray<SDLFunctionID *> *)handledRPCs {
     [store sdl_setObject:handledRPCs forName:SDLNameHandledRPCs];
 }
 
-- (NSArray<SDLFunctionID *> *)handledRPCs {
+- (nullable NSArray<SDLFunctionID *> *)handledRPCs {
     return [store sdl_objectsForName:SDLNameHandledRPCs ofClass:SDLFunctionID.class];
 }
 
 @end
+
+NS_ASSUME_NONNULL_END
