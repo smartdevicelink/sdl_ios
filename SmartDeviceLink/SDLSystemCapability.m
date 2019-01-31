@@ -9,6 +9,7 @@
 #import "SDLSystemCapability.h"
 
 #import "NSMutableDictionary+Store.h"
+#import "SDLAppServicesCapabilities.h"
 #import "SDLNames.h"
 #import "SDLNavigationCapability.h"
 #import "SDLPhoneCapability.h"
@@ -19,6 +20,18 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSystemCapability
+
+- (instancetype)initWithAppServicesCapabilities:(SDLAppServicesCapabilities *)capability {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.systemCapabilityType = SDLSystemCapabilityTypeAppServices;
+    self.appServicesCapabilities = capability;
+
+    return self;
+}
 
 - (instancetype)initWithPhoneCapability:(SDLPhoneCapability *)capability {
     self = [self init];
@@ -76,7 +89,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameSystemCapabilityType];
 }
 
-// TODO: Nav / Phone Capability
+
+-(void)setAppServicesCapabilities:(nullable SDLAppServicesCapabilities *)appServicesCapabilities {
+    [store sdl_setObject:appServicesCapabilities forName:SDLNameAppServicesCapabilities];
+}
+
+-(nullable SDLAppServicesCapabilities *)appServicesCapabilities {
+    return [store sdl_objectForName:SDLNameAppServicesCapabilities ofClass:SDLNameAppServicesCapabilities.class];
+}
 
 - (void)setNavigationCapability:(nullable SDLNavigationCapability *)navigationCapability {
     [store sdl_setObject:navigationCapability forName:SDLNameNavigationCapability];

@@ -6,11 +6,10 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 #import "SDLRPCStruct.h"
 #import "SDLSystemCapabilityType.h"
 
+@class SDLAppServicesCapabilities;
 @class SDLPhoneCapability;
 @class SDLNavigationCapability;
 @class SDLVideoStreamingCapability;
@@ -25,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLSystemCapability : SDLRPCStruct
 
+- (instancetype)initWithAppServicesCapabilities:(SDLAppServicesCapabilities *)capability;
+
 - (instancetype)initWithNavigationCapability:(SDLNavigationCapability *)capability;
 
 - (instancetype)initWithPhoneCapability:(SDLPhoneCapability *)capability;
@@ -34,27 +35,42 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithRemoteControlCapability:(SDLRemoteControlCapabilities *)capability;
 
 /**
- Used as a descriptor of what data to expect in this struct. The corresponding param to this enum should be included and the only other parameter included.
+ *  Used as a descriptor of what data to expect in this struct. The corresponding param to this enum should be included and the only other parameter included.
  */
 @property (strong, nonatomic) SDLSystemCapabilityType systemCapabilityType;
 
 /**
- Describes extended capabilities for onboard navigation system
+ *  Describes the capabilities of app services including what service types are supported and the current state of services.
+ *
+ *  Optional
+ */
+@property (nullable, strong, nonatomic) SDLAppServicesCapabilities *appServicesCapabilities;
+
+/**
+ *  Describes the extended capabilities of the onboard navigation system
+ *
+ *  Optional
  */
 @property (nullable, strong, nonatomic) SDLNavigationCapability *navigationCapability;
 
 /**
- Describes extended capabilities of the module's phone feature
+ *  Describes the extended capabilities of the module's phone feature
+ *
+ *  Optional
  */
 @property (nullable, strong, nonatomic) SDLPhoneCapability *phoneCapability;
 
 /**
- Describes extended capabilities of the module's phone feature
+ *  Describes the  capabilities of the module's video streaming feature
+ *
+ *  Optional
  */
 @property (nullable, strong, nonatomic) SDLVideoStreamingCapability *videoStreamingCapability;
 
 /**
- Describes extended capabilities of the module's phone feature
+ *  Describes the extended capabilities of the module's remote control feature
+ *
+ *  Optional
  */
 @property (nullable, strong, nonatomic) SDLRemoteControlCapabilities *remoteControlCapability;
 

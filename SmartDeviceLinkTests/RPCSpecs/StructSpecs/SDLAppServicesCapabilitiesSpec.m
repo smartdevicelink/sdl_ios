@@ -33,6 +33,13 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.appServices).to(equal(testAppServices));
     });
 
+    it(@"Should set and get with initWithServicesSupported:appServices:", ^{
+        SDLAppServicesCapabilities *testStruct = [[SDLAppServicesCapabilities alloc] initWithServicesSupported:testServicesSupported appServices:testAppServices];
+
+        expect(testStruct.servicesSupported).to(equal(testServicesSupported));
+        expect(testStruct.appServices).to(equal(testAppServices));
+    });
+
     it(@"Should get correctly when initialized with a dictionary", ^{
         NSDictionary *dict = @{SDLNameServicesSupported:testServicesSupported,
                                SDLNameAppServices:testAppServices

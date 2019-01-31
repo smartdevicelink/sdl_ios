@@ -5,6 +5,7 @@
 
 #import "SDLSystemCapability.h"
 
+#import "SDLAppServicesCapabilities.h"
 #import "SDLImageResolution.h"
 #import "SDLNavigationCapability.h"
 #import "SDLPhoneCapability.h"
@@ -26,6 +27,8 @@ describe(@"Getter/Setter Tests", ^ {
         SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] init];
 
         testStruct.systemCapabilityType = SDLSystemCapabilityTypeNavigation;
+        testStruct.appServicesCapabilities = nil;
+        // [[SDLAppServicesCapabilities alloc] initWithServicesSupported:@[SDLAppServiceTypeTTS, SDLAppServiceTypeMedia] appServices:@[[[SDLAppServiceRecord alloc] initWithDictionary:@{SDLNameServiceId:@"1234", SDLNameServicePublished:@YES}]]];
         testStruct.navigationCapability = [[SDLNavigationCapability alloc] initWithSendLocation:YES waypoints:NO];
         testStruct.phoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
         testStruct.remoteControlCapability = someRemoteControlCapabilities;

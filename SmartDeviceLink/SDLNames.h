@@ -41,6 +41,7 @@ extern SDLName const SDLNameAppId;
 extern SDLName const SDLNameAppInfo;
 extern SDLName const SDLNameAppName;
 extern SDLName const SDLNameAppServices;
+extern SDLName const SDLNameAppServicesCapabilities;
 extern SDLName const SDLNameAppVersion;
 extern SDLName const SDLNameAudioControlCapabilities;
 extern SDLName const SDLNameAudioControlData;
