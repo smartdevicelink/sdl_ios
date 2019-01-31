@@ -170,20 +170,18 @@ int const ProtocolIndexTimeoutSeconds = 10;
     SDLLogD(@"Accessory with serial number %@ and connectionID %lu disconnecting.", accessory.serialNumber, (unsigned long)accessory.connectionID);
 
     if (self.accessoryConnectDuringActiveSession == YES) {
-        SDLLogD(@"Switching transports from Bluetooth to USB.");
+        SDLLogD(@"Switching transports from Bluetooth to USB. Will reconnect over Bluetooth after disconnecting the USB session.");
         self.accessoryConnectDuringActiveSession = NO;
-        // return;
     }
 
     if (self.controlSession == nil && self.session == nil) {
         SDLLogV(@"Accessory (%@), disconnected, but no session is in progress", accessory.serialNumber);
-        return;
     } else if (accessory.connectionID == self.controlSession.accessory.connectionID) {
         SDLLogV(@"Accessory (%@) disconnected during a control session", accessory.serialNumber);
     } else if (accessory.connectionID == self.session.accessory.connectionID) {
         SDLLogV(@"Accessory (%@) disconnected during a data session", accessory.serialNumber);
     } else {
-        SDLLogV(@"Accessory (%@) disconnecting", accessory.serialNumber);
+        SDLLogV(@"Accessory (%@) disconnecting during an unknown session", accessory.serialNumber);
     }
 
     [self sdl_destroySession];
