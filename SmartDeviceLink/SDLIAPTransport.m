@@ -68,14 +68,16 @@ int const ProtocolIndexTimeoutSeconds = 10;
  */
 - (void)sdl_backgroundTaskStart {
     if (self.backgroundTaskId != UIBackgroundTaskInvalid) {
+        SDLLogV(@"A background task is already running. No need to start a background task. Returning...");
         return;
     }
 
-    SDLLogD(@"Starting background task");
     self.backgroundTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithName:BackgroundTaskName expirationHandler:^{
         SDLLogD(@"Background task expired");
         [self sdl_backgroundTaskEnd];
     }];
+
+    SDLLogD(@"Started a background task with id: %lu", (unsigned long)self.backgroundTaskId);
 }
 
 /**
@@ -83,10 +85,11 @@ int const ProtocolIndexTimeoutSeconds = 10;
  */
 - (void)sdl_backgroundTaskEnd {
     if (self.backgroundTaskId == UIBackgroundTaskInvalid) {
+        SDLLogV(@"No background task running. No need to stop the background task. Returning...");
         return;
     }
     
-    SDLLogD(@"Ending background task");
+    SDLLogD(@"Ending background task with id: %lu", (unsigned long)self.backgroundTaskId);
     [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskId];
     self.backgroundTaskId = UIBackgroundTaskInvalid;
 }
@@ -142,13 +145,12 @@ int const ProtocolIndexTimeoutSeconds = 10;
 - (void)sdl_accessoryConnected:(NSNotification *)notification {
     EAAccessory *newAccessory = [notification.userInfo objectForKey:EAAccessoryKey];
 
-    if ((self.session != nil) && (self.session.accessory.connectionID != newAccessory.connectionID)) {
-        SDLLogD(@"Switching transports from Bluetooth to USB. Waiting for disconnect notification.");
+    if ([self sdl_isSessionActive:self.session newAccessory:newAccessory]) {
         self.accessoryConnectDuringActiveSession = YES;
         return;
     }
 
-    double retryDelay = self.retryDelay;
+    double retryDelay = self.sdl_retryDelay;
     SDLLogD(@"Accessory Connected (%@), Opening in %0.03fs", notification.userInfo[EAAccessoryKey], retryDelay);
     
     if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
@@ -158,6 +160,22 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
     self.retryCounter = 0;
     [self performSelector:@selector(sdl_connect:) withObject:nil afterDelay:retryDelay];
+}
+
+/**
+ *  Checks if the newly connected accessory connected while a data session is already opened. This can happen when a session is established over bluetooth and then the user connects to the same head unit with a USB cord.
+ *
+ *  @param session      The current data session, which may be nil
+ *  @param newAccessory The newly connected accessory
+ *  @return             True if the accessory connected while a data session is already in progress; false if not
+ */
+- (BOOL)sdl_isSessionActive:(SDLIAPSession *)session newAccessory:(EAAccessory *)newAccessory {
+    if ((session != nil) && (session.accessory.connectionID != newAccessory.connectionID)) {
+        SDLLogD(@"Switching transports from Bluetooth to USB. Waiting for disconnect notification.");
+        return YES;
+    }
+
+    return NO;
 }
 
 /**
@@ -328,14 +346,13 @@ int const ProtocolIndexTimeoutSeconds = 10;
 }
 
 /**
- *  Attept to establish a session with an accessory, or if nil is passed, to scan for one.
+ *  Attempt to establish a session with an accessory, or if nil is passed, to scan for one.
  *
  *  @param accessory The accessory to try to establish a session with, or nil to scan all connected accessories.
  */
 - (void)sdl_establishSessionWithAccessory:(nullable EAAccessory *)accessory {
     SDLLogD(@"Attempting to connect accessory: %@", accessory.name);
     if (self.retryCounter < CreateSessionRetries) {
-        // We should be attempting to connect
         self.retryCounter++;
         
         EAAccessory *sdlAccessory = accessory;
@@ -366,7 +383,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
             self.sessionSetupInProgress = NO;
         }
     } else {
-        // We are beyond the number of retries allowed
+        // We have surpassed the number of retries allowed
         SDLLogW(@"Surpassed allowed retry attempts (%d), dismissing setup", CreateSessionRetries);
         self.sessionSetupInProgress = NO;
     }
@@ -643,7 +660,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     };
 }
 
-- (double)retryDelay {
+- (double)sdl_retryDelay {
     const double MinRetrySeconds = 1.5;
     const double MaxRetrySeconds = 9.5;
     double RetryRangeSeconds = MaxRetrySeconds - MinRetrySeconds;
