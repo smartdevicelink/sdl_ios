@@ -32,6 +32,13 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.updatedAppServiceRecord).to(equal(testUpdatedAppServiceRecord));
     });
 
+    it(@"Should initWithUpdateReason:updatedAppServiceRecord correctly", ^{
+        SDLAppServiceCapability *testStruct = [[SDLAppServiceCapability alloc] initWithUpdateReason:testUpdateReason updatedAppServiceRecord:testUpdatedAppServiceRecord];
+
+        expect(testStruct.updateReason).to(equal(testUpdateReason));
+        expect(testStruct.updatedAppServiceRecord).to(equal(testUpdatedAppServiceRecord));
+    });
+
     it(@"Should get correctly when initialized with a dictionary", ^{
         NSDictionary *dict = @{SDLNameUpdateReason:testUpdateReason,
                                SDLNameUpdatedAppServiceRecord:testUpdatedAppServiceRecord
