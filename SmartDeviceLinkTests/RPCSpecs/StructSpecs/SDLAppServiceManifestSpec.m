@@ -52,6 +52,18 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.handledRPCs).to(equal(testHandledRPCs));
     });
 
+    it(@"Should init correctly", ^{
+        SDLAppServiceManifest *testStruct = [[SDLAppServiceManifest alloc] initWithServiceName:testServiceName serviceType:testServiceType serviceIcon:testServiceIcon allowAppConsumers:false uriPrefix:testURIPrefix rpcSpecVersion:testRPCSpecVersion handledRPCs:testHandledRPCs];
+
+        expect(testStruct.serviceName).to(match(testServiceName));
+        expect(testStruct.serviceType).to(equal(testServiceType));
+        expect(testStruct.serviceIcon).to(match(testServiceIcon));
+        expect(testStruct.allowAppConsumers).to(beFalse());
+        expect(testStruct.uriPrefix).to(match(testURIPrefix));
+        expect(testStruct.rpcSpecVersion).to(equal(testRPCSpecVersion));
+        expect(testStruct.handledRPCs).to(equal(testHandledRPCs));
+    });
+
     it(@"Should get correctly when initialized with a dictionary", ^{
         NSDictionary *dict = @{SDLNameServiceName:testServiceName,
                                SDLNameServiceType:testServiceType,

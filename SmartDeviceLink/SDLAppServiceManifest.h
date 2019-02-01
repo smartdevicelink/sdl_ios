@@ -19,6 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLAppServiceManifest : SDLRPCStruct
 
+// TODO - add missing parameters to the convenience init
+- (instancetype)initWithServiceName:(NSString *)serviceName serviceType:(SDLAppServiceType)serviceType serviceIcon:(NSString *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers uriPrefix:(NSString *)uriPrefix rpcSpecVersion:(SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(NSArray<SDLFunctionID *> *)handledRPCs;
+
 /**
  *  Unique name of this service.
  *

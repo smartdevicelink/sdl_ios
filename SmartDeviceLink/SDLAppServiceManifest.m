@@ -14,6 +14,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAppServiceManifest
 
+- (instancetype)initWithServiceName:(NSString *)serviceName serviceType:(SDLAppServiceType)serviceType serviceIcon:(NSString *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers uriPrefix:(NSString *)uriPrefix rpcSpecVersion:(SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(NSArray<SDLFunctionID *> *)handledRPCs {
+    self = [self init];
+    if (!self) {
+        return self;
+    }
+
+    self.serviceName = serviceName;
+    self.serviceType = serviceType;
+    self.serviceIcon = serviceIcon;
+    self.allowAppConsumers = @(allowAppConsumers);
+    self.uriPrefix = uriPrefix;
+    self.rpcSpecVersion = rpcSpecVersion;
+    self.handledRPCs = handledRPCs;
+
+    return self;
+}
+
 - (void)setServiceName:(nullable NSString *)serviceName {
     [store sdl_setObject:serviceName forName:SDLNameServiceName];
 }
