@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 -(nullable SDLAppServicesCapabilities *)appServicesCapabilities {
-    return [store sdl_objectForName:SDLNameAppServicesCapabilities ofClass:SDLNameAppServicesCapabilities.class];
+    return [store sdl_objectForName:SDLNameAppServicesCapabilities ofClass:SDLAppServicesCapabilities.class];
 }
 
 - (void)setNavigationCapability:(nullable SDLNavigationCapability *)navigationCapability {
