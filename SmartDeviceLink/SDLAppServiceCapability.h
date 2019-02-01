@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLAppServiceCapability : SDLRPCStruct
 
-- (instancetype)initWithUpdateReason:(SDLServiceUpdateReason)updateReason updatedAppServiceRecord:(SDLAppServiceRecord *)updatedAppServiceRecord;
+- (instancetype)initWithUpdateReason:(nullable SDLServiceUpdateReason)updateReason updatedAppServiceRecord:(SDLAppServiceRecord *)updatedAppServiceRecord;
 
 /**
  *  Only included in OnSystemCapbilityUpdated. Update reason for this service record.
