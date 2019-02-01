@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLAppServiceRecord : SDLRPCStruct
 
+- (instancetype)initWithServiceId:(NSString *)serviceId serviceManifest:(SDLAppServiceManifest *)serviceManifest servicePublished:(BOOL)servicePublished serviceActive:(BOOL)serviceActive;
+
 /**
  *  A unique ID tied to this specific service record. The ID is supplied by the module that services publish themselves.
  *

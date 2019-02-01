@@ -43,6 +43,15 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.serviceActive).to(equal(testServiceActive));
     });
 
+    it(@"Should initWithServiceId:serviceManifest:servicePublished:serviceActive: correctly", ^{
+        SDLAppServiceRecord *testStruct = [[SDLAppServiceRecord alloc] initWithServiceId:testServiceId serviceManifest:testAppServiceManifest servicePublished:false serviceActive:true];
+
+        expect(testStruct.serviceId).to(match(testServiceId));
+        expect(testStruct.serviceManifest).to(equal(testAppServiceManifest));
+        expect(testStruct.servicePublished).to(equal(testServicePublished));
+        expect(testStruct.serviceActive).to(equal(testServiceActive));
+    });
+
     it(@"Should get correctly when initialized with a dictionary", ^{
         NSDictionary *dict = @{SDLNameServiceId:testServiceId,
                                SDLNameServiceManifest:testAppServiceManifest,
