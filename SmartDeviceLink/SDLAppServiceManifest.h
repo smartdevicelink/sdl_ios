@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The type of service that is to be offered by this app.
  *
- *  String, Required
+ *  SDLAppServiceType, Required
  */
 @property (strong, nonatomic) SDLAppServiceType serviceType;
 
