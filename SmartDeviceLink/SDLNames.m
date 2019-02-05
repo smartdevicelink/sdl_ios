@@ -37,6 +37,7 @@ SDLName const SDLNameAppHMIType = @"appHMIType";
 SDLName const SDLNameAppId = @"appID";
 SDLName const SDLNameAppInfo = @"appInfo";
 SDLName const SDLNameAppName = @"appName";
+SDLName const SDLNameAppServiceManifest = @"appServiceManifest";
 SDLName const SDLNameAppServices = @"appServices";
 SDLName const SDLNameAppServicesCapabilities = @"appServicesCapabilities";
 SDLName const SDLNameAppDisplayName = @"appDisplayName";

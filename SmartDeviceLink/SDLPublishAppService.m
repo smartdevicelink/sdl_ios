@@ -7,7 +7,22 @@
 //
 
 #import "SDLPublishAppService.h"
+#import "NSMutableDictionary+Store.h"
+#import "SDLNames.h"
+
+
+NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPublishAppService
 
+- (void)setAppServiceManifest:(SDLAppServiceManifest *)appServiceManifest {
+    [store sdl_setObject:appServiceManifest forName:SDLNameAppServiceManifest];
+}
+
+- (SDLAppServiceManifest *)appServiceManifest {
+    return [store sdl_objectForName:SDLNameAppServiceManifest ofClass:SDLAppServiceManifest.class];
+}
+
 @end
+
+NS_ASSUME_NONNULL_END

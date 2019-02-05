@@ -40,6 +40,7 @@ extern SDLName const SDLNameAppHMIType;
 extern SDLName const SDLNameAppId;
 extern SDLName const SDLNameAppInfo;
 extern SDLName const SDLNameAppName;
+extern SDLName const SDLNameAppServiceManifest;
 extern SDLName const SDLNameAppServices;
 extern SDLName const SDLNameAppServicesCapabilities;
 extern SDLName const SDLNameAppVersion;
