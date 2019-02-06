@@ -21,7 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable id)sdl_objectForName:(SDLName)name {
-    return self[name];
+    id object = self[name];
+    if ([object isKindOfClass:NSNull.class]) {
+        return nil;
+    }
+    return object;
 }
 
 - (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType {
