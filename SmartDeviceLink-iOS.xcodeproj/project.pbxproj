@@ -1254,6 +1254,9 @@
 		884E702B21FBB151008D53BA /* SDLAppServiceRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 884E702921FBB151008D53BA /* SDLAppServiceRecord.h */; };
 		884E702C21FBB151008D53BA /* SDLAppServiceRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 884E702A21FBB151008D53BA /* SDLAppServiceRecord.m */; };
 		8850DB601F4475D30053A48D /* TestMultipleFilesConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */; };
+		88665B69220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 88665B67220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.h */; };
+		88665B6A220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88665B68220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.m */; };
+		88665B6C220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88665B6B220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m */; };
 		8877F5EB1F34A3BE00DC128A /* SDLSendHapticDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */; };
 		8877F5EE1F34A72200DC128A /* SDLSendHapticDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8877F5EF1F34A72200DC128A /* SDLSendHapticDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */; };
@@ -2799,6 +2802,9 @@
 		884E702A21FBB151008D53BA /* SDLAppServiceRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServiceRecord.m; sourceTree = "<group>"; };
 		8850DB5E1F4475D30053A48D /* TestMultipleFilesConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestMultipleFilesConnectionManager.h; sourceTree = "<group>"; };
 		8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestMultipleFilesConnectionManager.m; sourceTree = "<group>"; };
+		88665B67220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPerformAppServiceInteractionResponse.h; sourceTree = "<group>"; };
+		88665B68220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPerformAppServiceInteractionResponse.m; sourceTree = "<group>"; };
+		88665B6B220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPerformAppServiceInteractionResponseSpec.m; sourceTree = "<group>"; };
 		8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataSpec.m; sourceTree = "<group>"; };
 		8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSendHapticDataResponse.h; sourceTree = "<group>"; };
 		8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponse.m; sourceTree = "<group>"; };
@@ -3253,6 +3259,7 @@
 				162E82751A9BDE8A00906325 /* SDLGetVehicleDataResponseSpec.m */,
 				DA9F7EA71DCC060B00ACAE48 /* SDLGetWaypointsResponseSpec.m */,
 				162E82761A9BDE8A00906325 /* SDLListFilesResponseSpec.m */,
+				88665B6B220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m */,
 				162E82771A9BDE8A00906325 /* SDLPerformAudioPassThruResponseSpec.m */,
 				162E82781A9BDE8A00906325 /* SDLPerformInteractionResponseSpec.m */,
 				88EEC5BD220A3B8B005AA2F9 /* SDLPublishAppServiceResponseSpec.m */,
@@ -4048,6 +4055,8 @@
 				DA9F7E721DCC004C00ACAE48 /* SDLGetWayPointsResponse.m */,
 				5D61FB011A84238A00846EE7 /* SDLListFilesResponse.h */,
 				5D61FB021A84238A00846EE7 /* SDLListFilesResponse.m */,
+				88665B67220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.h */,
+				88665B68220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.m */,
 				5D61FB3A1A84238B00846EE7 /* SDLPerformAudioPassThruResponse.h */,
 				5D61FB3B1A84238B00846EE7 /* SDLPerformAudioPassThruResponse.m */,
 				5D61FB3E1A84238B00846EE7 /* SDLPerformInteractionResponse.h */,
@@ -6056,6 +6065,7 @@
 				5D61FCF41A84238C00846EE7 /* SDLMaintenanceModeStatus.h in Headers */,
 				5D61FC571A84238C00846EE7 /* SDLButtonPressMode.h in Headers */,
 				5D3E487B1D6F888E0000BFEF /* SDLRPCResponseNotification.h in Headers */,
+				88665B69220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.h in Headers */,
 				5D92934D20AF4BEF00FCC775 /* SDLRGBColor.h in Headers */,
 				5D61FC471A84238C00846EE7 /* SDLAudioStreamingState.h in Headers */,
 				5D61FE071A84238C00846EE7 /* SDLVehicleDataStatus.h in Headers */,
@@ -6619,6 +6629,7 @@
 				5D61FC681A84238C00846EE7 /* SDLComponentVolumeStatus.m in Sources */,
 				5D61FDB61A84238C00846EE7 /* SDLSyncMsgVersion.m in Sources */,
 				5D61FC501A84238C00846EE7 /* SDLBodyInformation.m in Sources */,
+				88665B6A220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.m in Sources */,
 				5D79A03C1CE36F030035797B /* SDLUploadFileOperation.m in Sources */,
 				5D61FD901A84238C00846EE7 /* SDLShow.m in Sources */,
 				5D8204271BCEA8A600D0A41B /* SDLPermissionManager.m in Sources */,
@@ -7216,6 +7227,7 @@
 				162E83741A9BDE8B00906325 /* SDLBodyInformationSpec.m in Sources */,
 				1EAA477A2036BD46000FE74B /* SDLSISDataSpec.m in Sources */,
 				5D64FE6D20DA9CE600792F9F /* SDLVideoStreamingStateSpec.m in Sources */,
+				88665B6C220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m in Sources */,
 				162E83641A9BDE8B00906325 /* SDLSetMediaClockTimerResponseSpec.m in Sources */,
 				162E839C1A9BDE8B00906325 /* SDLRPCRequestSpec.m in Sources */,
 				DA4353E31D2720A30099B8C4 /* SDLPinchGestureSpec.m in Sources */,
