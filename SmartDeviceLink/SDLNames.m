@@ -507,6 +507,7 @@ SDLName const SDLNameSendHapticDataResponse = @"SendHapticDataResponse";
 SDLName const SDLNameSendLocation = @"SendLocation";
 SDLName const SDLNameSendLocationEnabled = @"sendLocationEnabled";
 SDLName const SDLNameServiceActive = @"serviceActive";
+SDLName const SDLNameServiceData = @"serviceData";
 SDLName const SDLNameServiceIcon = @"serviceIcon";
 SDLName const SDLNameServiceId = @"serviceId";
 SDLName const SDLNameServiceManifest = @"serviceManifest";

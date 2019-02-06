@@ -7,7 +7,6 @@
 //
 
 #import "SDLRPCResponse.h"
-
 #import "SDLAppServiceRecord.h"
 
 NS_ASSUME_NONNULL_BEGIN

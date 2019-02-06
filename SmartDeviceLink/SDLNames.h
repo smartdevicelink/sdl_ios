@@ -513,6 +513,7 @@ extern SDLName const SDLNameSendHapticDataResponse;
 extern SDLName const SDLNameSendLocation;
 extern SDLName const SDLNameSendLocationEnabled;
 extern SDLName const SDLNameServiceActive;
+extern SDLName const SDLNameServiceData;
 extern SDLName const SDLNameServiceIcon;
 extern SDLName const SDLNameServiceId;
 extern SDLName const SDLNameServiceManifest;
