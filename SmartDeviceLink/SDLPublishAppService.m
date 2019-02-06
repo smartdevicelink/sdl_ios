@@ -15,12 +15,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPublishAppService
 
+
+- (instancetype)init {
+    if (self = [super initWithName:SDLNamePublishAppService]) {
+    }
+    return self;
+}
+
+- (instancetype)initWithAppServiceManifest:(SDLAppServiceManifest *)appServiceManifest {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.appServiceManifest = appServiceManifest;
+
+    return self;
+}
+
 - (void)setAppServiceManifest:(SDLAppServiceManifest *)appServiceManifest {
-    [store sdl_setObject:appServiceManifest forName:SDLNameAppServiceManifest];
+    [parameters sdl_setObject:appServiceManifest forName:SDLNameAppServiceManifest];
 }
 
 - (SDLAppServiceManifest *)appServiceManifest {
-    return [store sdl_objectForName:SDLNameAppServiceManifest ofClass:SDLAppServiceManifest.class];
+    return [parameters sdl_objectForName:SDLNameAppServiceManifest ofClass:SDLAppServiceManifest.class];
 }
 
 @end

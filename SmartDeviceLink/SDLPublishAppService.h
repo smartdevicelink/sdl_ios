@@ -18,6 +18,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLPublishAppService : SDLRPCRequest
 
 /**
+ *  Convenience init for creating a PublishAppService request with a app service manifest.
+ *
+ *  @param appServiceManifest   The app service manifest
+ *  @return                     A SDLPublishAppService object
+ */
+- (instancetype)initWithAppServiceManifest:(SDLAppServiceManifest *)appServiceManifest;
+
+/**
  *  The manifest of the service that wishes to be published.
  *
  *  SDLAppServiceManifest, Required
