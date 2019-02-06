@@ -1257,6 +1257,8 @@
 		88665B69220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 88665B67220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.h */; };
 		88665B6A220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88665B68220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.m */; };
 		88665B6C220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88665B6B220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m */; };
+		88665B73220B80F400D9DA77 /* SDLWeatherAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 88665B71220B80F400D9DA77 /* SDLWeatherAlert.h */; };
+		88665B74220B80F400D9DA77 /* SDLWeatherAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 88665B72220B80F400D9DA77 /* SDLWeatherAlert.m */; };
 		8877F5EB1F34A3BE00DC128A /* SDLSendHapticDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */; };
 		8877F5EE1F34A72200DC128A /* SDLSendHapticDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8877F5EF1F34A72200DC128A /* SDLSendHapticDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */; };
@@ -2805,6 +2807,8 @@
 		88665B67220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPerformAppServiceInteractionResponse.h; sourceTree = "<group>"; };
 		88665B68220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPerformAppServiceInteractionResponse.m; sourceTree = "<group>"; };
 		88665B6B220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPerformAppServiceInteractionResponseSpec.m; sourceTree = "<group>"; };
+		88665B71220B80F400D9DA77 /* SDLWeatherAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLWeatherAlert.h; sourceTree = "<group>"; };
+		88665B72220B80F400D9DA77 /* SDLWeatherAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWeatherAlert.m; sourceTree = "<group>"; };
 		8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataSpec.m; sourceTree = "<group>"; };
 		8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSendHapticDataResponse.h; sourceTree = "<group>"; };
 		8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponse.m; sourceTree = "<group>"; };
@@ -4296,6 +4300,8 @@
 				8B7B31A11F2F7FEA00BDC38D /* SDLVideoStreamingFormat.m */,
 				8B7B31A41F2F875200BDC38D /* SDLVideoStreamingCapability.h */,
 				8B7B31A51F2F875200BDC38D /* SDLVideoStreamingCapability.m */,
+				88665B71220B80F400D9DA77 /* SDLWeatherAlert.h */,
+				88665B72220B80F400D9DA77 /* SDLWeatherAlert.m */,
 			);
 			name = Structs;
 			sourceTree = "<group>";
@@ -5772,6 +5778,7 @@
 			files = (
 				1EB59CBF202DA26000343A61 /* SDLSeatControlData.h in Headers */,
 				1EB59CB3202D9B5F00343A61 /* SDLSeatMemoryActionType.h in Headers */,
+				88665B73220B80F400D9DA77 /* SDLWeatherAlert.h in Headers */,
 				1EB59CC3202DB40400343A61 /* SDLSeatControlCapabilities.h in Headers */,
 				1EB59CB7202D9C8100343A61 /* SDLSeatMemoryAction.h in Headers */,
 				1EB59CBB202DA1B400343A61 /* SDLSupportedSeat.h in Headers */,
@@ -6876,6 +6883,7 @@
 				5DA3F3551BC448060026F2D0 /* NSMapTable+Subscripting.m in Sources */,
 				5D61FCD61A84238C00846EE7 /* SDLImageType.m in Sources */,
 				5D4D67AD1D2ED37A00468B4A /* SDLNotificationDispatcher.m in Sources */,
+				88665B74220B80F400D9DA77 /* SDLWeatherAlert.m in Sources */,
 				88EED8391F33AE1700E6C42E /* SDLHapticRect.m in Sources */,
 				DA9F7E9C1DCC052C00ACAE48 /* SDLLocationDetails.m in Sources */,
 				5D61FD7A1A84238C00846EE7 /* SDLScreenParams.m in Sources */,
