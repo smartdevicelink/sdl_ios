@@ -391,6 +391,7 @@ SDLName const SDLNameOnPermissionsChange = @"OnPermissionsChange";
 SDLName const SDLNameOnRCStatus = @"OnRCStatus";
 SDLName const SDLNameOnScreenPresetsAvailable = @"onScreenPresetsAvailable";
 SDLName const SDLNameOnSyncPData = @"OnSyncPData";
+SDLName const SDLNameOnSystemCapabilityUpdated = @"OnSystemCapabilityUpdated";
 SDLName const SDLNameOnSystemRequest = @"OnSystemRequest";
 SDLName const SDLNameOnTBTClientState = @"OnTBTClientState";
 SDLName const SDLNameOnTouchEvent = @"OnTouchEvent";

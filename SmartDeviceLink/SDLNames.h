@@ -398,6 +398,7 @@ extern SDLName const SDLNameOnPermissionsChange;
 extern SDLName const SDLNameOnRCStatus;
 extern SDLName const SDLNameOnScreenPresetsAvailable;
 extern SDLName const SDLNameOnSyncPData;
+extern SDLName const SDLNameOnSystemCapabilityUpdated;
 extern SDLName const SDLNameOnSystemRequest;
 extern SDLName const SDLNameOnTBTClientState;
 extern SDLName const SDLNameOnTouchEvent;
