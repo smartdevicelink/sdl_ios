@@ -1240,6 +1240,7 @@
 		8831FA48220235B000B8FFB7 /* SDLAppServicesCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 8831FA46220235B000B8FFB7 /* SDLAppServicesCapabilities.h */; };
 		8831FA49220235B000B8FFB7 /* SDLAppServicesCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831FA47220235B000B8FFB7 /* SDLAppServicesCapabilities.m */; };
 		8831FA4B2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831FA4A2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m */; };
+		884AF94C220B3FCC00E22928 /* SDLGetSystemCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 884AF94B220B3FCC00E22928 /* SDLGetSystemCapabilitySpec.m */; };
 		884E701B21FB8D0F008D53BA /* SDLPublishAppService.h in Headers */ = {isa = PBXBuildFile; fileRef = 884E701921FB8D0F008D53BA /* SDLPublishAppService.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		884E701C21FB8D0F008D53BA /* SDLPublishAppService.m in Sources */ = {isa = PBXBuildFile; fileRef = 884E701A21FB8D0F008D53BA /* SDLPublishAppService.m */; };
 		884E701F21FB983F008D53BA /* SDLAppServiceManifest.h in Headers */ = {isa = PBXBuildFile; fileRef = 884E701D21FB983F008D53BA /* SDLAppServiceManifest.h */; };
@@ -2771,6 +2772,7 @@
 		8831FA46220235B000B8FFB7 /* SDLAppServicesCapabilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAppServicesCapabilities.h; sourceTree = "<group>"; };
 		8831FA47220235B000B8FFB7 /* SDLAppServicesCapabilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServicesCapabilities.m; sourceTree = "<group>"; };
 		8831FA4A2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServicesCapabilitiesSpec.m; sourceTree = "<group>"; };
+		884AF94B220B3FCC00E22928 /* SDLGetSystemCapabilitySpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetSystemCapabilitySpec.m; sourceTree = "<group>"; };
 		884E701921FB8D0F008D53BA /* SDLPublishAppService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPublishAppService.h; sourceTree = "<group>"; };
 		884E701A21FB8D0F008D53BA /* SDLPublishAppService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPublishAppService.m; sourceTree = "<group>"; };
 		884E701D21FB983F008D53BA /* SDLAppServiceManifest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAppServiceManifest.h; sourceTree = "<group>"; };
@@ -3160,6 +3162,7 @@
 				162E824A1A9BDE8A00906325 /* SDLEndAudioPassThruSpec.m */,
 				162E824B1A9BDE8A00906325 /* SDLGetDTCsSpec.m */,
 				1EE8C4591F387BBB00FDC2CF /* SDLGetInteriorVehicleDataSpec.m */,
+				884AF94B220B3FCC00E22928 /* SDLGetSystemCapabilitySpec.m */,
 				5D0A9F991F15636800CC80DD /* SDLGetSystemCapabilitiesSpec.m */,
 				162E824C1A9BDE8A00906325 /* SDLGetVehicleDataSpec.m */,
 				DA9F7EA11DCC05E100ACAE48 /* SDLGetWaypointsSpec.m */,
@@ -6967,6 +6970,7 @@
 				1EE8C4441F34A1B900FDC2CF /* SDLClimateControlDataSpec.m in Sources */,
 				162E83701A9BDE8B00906325 /* SDLUpdateTurnListResponseSpec.m in Sources */,
 				162E833B1A9BDE8B00906325 /* SDLSetGlobalPropertiesSpec.m in Sources */,
+				884AF94C220B3FCC00E22928 /* SDLGetSystemCapabilitySpec.m in Sources */,
 				162E82F11A9BDE8B00906325 /* SDLPowerModeStatusSpec.m in Sources */,
 				162E83881A9BDE8B00906325 /* SDLPresetBankCapabilitiesSpec.m in Sources */,
 				162E837E1A9BDE8B00906325 /* SDLGPSDataSpec.m in Sources */,

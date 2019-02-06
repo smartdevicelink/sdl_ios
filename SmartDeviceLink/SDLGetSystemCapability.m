@@ -33,12 +33,31 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithType:(SDLSystemCapabilityType)type subscribe:(BOOL)subscribe {
+    self = [self initWithType:type];
+    if (!self) {
+        return nil;
+    }
+
+    self.subscribe = @(subscribe);
+
+    return self;
+}
+
 - (void)setSystemCapabilityType:(SDLSystemCapabilityType)type {
     [parameters sdl_setObject:type forName:SDLNameSystemCapabilityType];
 }
 
 - (SDLSystemCapabilityType)systemCapabilityType {
     return [parameters sdl_objectForName:SDLNameSystemCapabilityType];
+}
+
+- (void)setSubscribe:(nullable NSNumber<SDLBool> *)subscribe {
+    [parameters sdl_setObject:subscribe forName:SDLNameSubscribe];
+}
+
+- (nullable NSNumber<SDLBool> *)subscribe {
+    return [parameters sdl_objectForName:SDLNameSubscribe];
 }
 
 @end
