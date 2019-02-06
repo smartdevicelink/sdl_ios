@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPublishAppService
 
-
 - (instancetype)init {
     if (self = [super initWithName:SDLNamePublishAppService]) {
     }

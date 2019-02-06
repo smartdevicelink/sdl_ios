@@ -9,16 +9,15 @@
 #import "SDLRPCRequest.h"
 #import "SDLAppServiceManifest.h"
 
-/**
- *  Registers a service offered by this app on the module
- */
-
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  Registers a service offered by this app on the module.
+ */
 @interface SDLPublishAppService : SDLRPCRequest
 
 /**
- *  Convenience init for creating a PublishAppService request with a app service manifest.
+ *  Convenience init.
  *
  *  @param appServiceManifest   The app service manifest
  *  @return                     A SDLPublishAppService object

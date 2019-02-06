@@ -15,14 +15,14 @@
 
 QuickSpecBegin(SDLPublishAppServiceSpec)
 
-describe(@"Getter/Setter Tests", ^ {
+describe(@"Getter/Setter Tests", ^{
     __block SDLAppServiceManifest *testAppServiceManifest = nil;
 
     beforeEach(^{
         testAppServiceManifest = [[SDLAppServiceManifest alloc] initWithServiceName:@"serviceName" serviceType:SDLAppServiceTypeMedia serviceIcon:nil allowAppConsumers:true uriPrefix:nil rpcSpecVersion:nil handledRPCs:nil];
     });
 
-    it(@"Should set and get correctly", ^ {
+    it(@"Should set and get correctly", ^{
         SDLPublishAppService *testRequest = [[SDLPublishAppService alloc] init];
         testRequest.appServiceManifest = testAppServiceManifest;
 

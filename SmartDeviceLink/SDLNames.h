@@ -203,6 +203,7 @@ extern SDLName const SDLNameFuelMaintenanceMode;
 extern SDLName const SDLNameFuelRange;
 extern SDLName const SDLNameFullAppID;
 extern SDLName const SDLNameGenericResponse;
+extern SDLName const SDLNameGetAppServiceData;
 extern SDLName const SDLNameGetDTCs;
 extern SDLName const SDLNameGetInteriorVehicleData;
 extern SDLName const SDLNameGetSystemCapability;
