@@ -21,6 +21,7 @@ typedef NSString* SDLEnum SDL_SWIFT_ENUM;
 - (nullable id)sdl_objectForName:(SDLName)name;
 - (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType;
 - (NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType;
+- (void)sdl_removeNullOccurrences;
 
 @end
 

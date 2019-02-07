@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation NSMutableDictionary (Store)
 
 - (void)sdl_setObject:(NSObject *)object forName:(SDLName)name {
-    if (object != nil) {
+    if (object != nil && ![object isEqual:[NSNull null]]) {
         self[name] = object;
     } else {
         [self removeObjectForKey:name];
@@ -21,7 +21,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable id)sdl_objectForName:(SDLName)name {
-    return self[name];
+    id object = self[name];
+    if (object != nil && ![object isEqual:[NSNull null]]) {
+        return object;
+    } else {
+        return nil;
+    }
 }
 
 - (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType {
@@ -35,9 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType {
     NSArray *array = [self sdl_objectForName:name];
-    if ([array isEqual:[NSNull null]]) {
-        return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isMemberOfClass:classType]) {
+    if (array.count < 1 || [array.firstObject isMemberOfClass:classType]) {
         // It's an array of the actual class type, just return
         return array;
     } else {
@@ -47,6 +50,13 @@ NS_ASSUME_NONNULL_BEGIN
             [newList addObject:[[classType alloc] initWithDictionary:dict]];
         }
         return [newList copy];
+    }
+}
+
+- (void)sdl_removeNullOccurrences {
+    NSArray<NSString *> *keys = [self allKeysForObject:[NSNull null]];
+    if (keys != nil && keys.count > 0) {
+        [self removeObjectsForKeys:keys];
     }
 }
 

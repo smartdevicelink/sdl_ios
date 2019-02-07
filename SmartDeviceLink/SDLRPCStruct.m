@@ -14,7 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)initWithDictionary:(NSDictionary<NSString *, id> *)dict {
     if (self = [super init]) {
         if (dict != nil) {
-            store = [dict mutableCopy];
+            NSMutableDictionary *mutableDict = [dict mutableCopy];
+            [mutableDict sdl_removeNullOccurrences];
+            store = mutableDict;
         } else {
             store = [NSMutableDictionary dictionary];
         }
