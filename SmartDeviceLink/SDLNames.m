@@ -386,6 +386,7 @@ SDLName const SDLNameNumberTicks = @"numTicks";
 SDLName const SDLNameOdometer = @"odometer";
 SDLName const SDLNameOffset = @"offset";
 SDLName const SDLNameOnAppInterfaceUnregistered = @"OnAppInterfaceUnregistered";
+SDLName const SDLNameOnAppServiceData = @"OnAppServiceData";
 SDLName const SDLNameOnAudioPassThru = @"OnAudioPassThru";
 SDLName const SDLNameOnButtonEvent = @"OnButtonEvent";
 SDLName const SDLNameOnButtonPress = @"OnButtonPress";

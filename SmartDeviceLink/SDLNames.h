@@ -393,6 +393,7 @@ extern SDLName const SDLNameNumberTicks;
 extern SDLName const SDLNameOdometer;
 extern SDLName const SDLNameOffset;
 extern SDLName const SDLNameOnAppInterfaceUnregistered;
+extern SDLName const SDLNameOnAppServiceData;
 extern SDLName const SDLNameOnAudioPassThru;
 extern SDLName const SDLNameOnButtonEvent;
 extern SDLName const SDLNameOnButtonPress;
