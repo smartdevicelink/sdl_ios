@@ -207,6 +207,7 @@ SDLName const SDLNameFullAppID = @"fullAppID";
 SDLName const SDLNameGetAppServiceData = @"GetAppServiceData";
 SDLName const SDLNameGenericResponse = @"GenericResponse";
 SDLName const SDLNameGetDTCs = @"GetDTCs";
+SDLName const SDLNameGetFile = @"GetFile";
 SDLName const SDLNameGetInteriorVehicleData = @"GetInteriorVehicleData";
 SDLName const SDLNameGetSystemCapability = @"GetSystemCapability";
 SDLName const SDLNameGetVehicleData = @"GetVehicleData";
