@@ -1312,6 +1312,9 @@
 		88D2AAE41F682BB20078D5B2 /* SDLLogConstantsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */; };
 		88D5EB37220CD95000EC3782 /* SDLWeatherServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88D5EB35220CD95000EC3782 /* SDLWeatherServiceData.h */; };
 		88D5EB38220CD95000EC3782 /* SDLWeatherServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D5EB36220CD95000EC3782 /* SDLWeatherServiceData.m */; };
+		88E6F1A7220E1588006156F9 /* SDLMediaType.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E6F1A5220E1588006156F9 /* SDLMediaType.h */; };
+		88E6F1A8220E1588006156F9 /* SDLMediaType.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E6F1A6220E1588006156F9 /* SDLMediaType.m */; };
+		88E6F1AA220E1720006156F9 /* SDLMediaTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E6F1A9220E1720006156F9 /* SDLMediaTypeSpec.m */; };
 		88EEC5B8220A2144005AA2F9 /* SDLPublishAppServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EEC5B7220A2144005AA2F9 /* SDLPublishAppServiceSpec.m */; };
 		88EEC5BB220A327B005AA2F9 /* SDLPublishAppServiceResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 88EEC5B9220A327B005AA2F9 /* SDLPublishAppServiceResponse.h */; };
 		88EEC5BC220A327B005AA2F9 /* SDLPublishAppServiceResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EEC5BA220A327B005AA2F9 /* SDLPublishAppServiceResponse.m */; };
@@ -2877,6 +2880,9 @@
 		88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLogConstantsSpec.m; sourceTree = "<group>"; };
 		88D5EB35220CD95000EC3782 /* SDLWeatherServiceData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLWeatherServiceData.h; sourceTree = "<group>"; };
 		88D5EB36220CD95000EC3782 /* SDLWeatherServiceData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWeatherServiceData.m; sourceTree = "<group>"; };
+		88E6F1A5220E1588006156F9 /* SDLMediaType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMediaType.h; sourceTree = "<group>"; };
+		88E6F1A6220E1588006156F9 /* SDLMediaType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMediaType.m; sourceTree = "<group>"; };
+		88E6F1A9220E1720006156F9 /* SDLMediaTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMediaTypeSpec.m; sourceTree = "<group>"; };
 		88EEC5B7220A2144005AA2F9 /* SDLPublishAppServiceSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPublishAppServiceSpec.m; sourceTree = "<group>"; };
 		88EEC5B9220A327B005AA2F9 /* SDLPublishAppServiceResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPublishAppServiceResponse.h; sourceTree = "<group>"; };
 		88EEC5BA220A327B005AA2F9 /* SDLPublishAppServiceResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPublishAppServiceResponse.m; sourceTree = "<group>"; };
@@ -3129,6 +3135,7 @@
 				1EB59CD1202DCA9B00343A61 /* SDLMassageModeSpec.m */,
 				1EB59CC9202DC8E300343A61 /* SDLMassageZoneSpec.m */,
 				162E82061A9BDE8A00906325 /* SDLMediaClockFormatSpec.m */,
+				88E6F1A9220E1720006156F9 /* SDLMediaTypeSpec.m */,
 				8BBEA6081F324832003EEA26 /* SDLMetadataTypeSpec.m */,
 				1EB59CC7202DC86A00343A61 /* SDLModuleTypeSpec.m */,
 				162E82071A9BDE8A00906325 /* SDLPermissionStatusSpec.m */,
@@ -4464,6 +4471,8 @@
 				1EB59C9E202D925500343A61 /* SDLMassageZone.m */,
 				5D61FB091A84238A00846EE7 /* SDLMediaClockFormat.h */,
 				5D61FB0A1A84238A00846EE7 /* SDLMediaClockFormat.m */,
+				88E6F1A5220E1588006156F9 /* SDLMediaType.h */,
+				88E6F1A6220E1588006156F9 /* SDLMediaType.m */,
 				1E5AD0461F1F773E0029B8AF /* SDLModuleType.h */,
 				1E5AD0471F1F773E0029B8AF /* SDLModuleType.m */,
 				8BBEA6041F324165003EEA26 /* SDLMetadataType.h */,
@@ -6121,6 +6130,7 @@
 				88EED83E1F33C5A400E6C42E /* SDLSendHapticData.h in Headers */,
 				5D61FCD31A84238C00846EE7 /* SDLImageResolution.h in Headers */,
 				8B7B319E1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.h in Headers */,
+				88E6F1A7220E1588006156F9 /* SDLMediaType.h in Headers */,
 				5D61FD541A84238C00846EE7 /* SDLProxyListener.h in Headers */,
 				88A5E7FD220B642200495E8A /* SDLGetAppServiceDataResponse.h in Headers */,
 				5D61FC5D1A84238C00846EE7 /* SDLChangeRegistrationResponse.h in Headers */,
@@ -6760,6 +6770,7 @@
 				5DD67CB91E661C4A009CD394 /* SDLLogTargetFile.m in Sources */,
 				5D61FCBE1A84238C00846EE7 /* SDLHeadLampStatus.m in Sources */,
 				5D61FD921A84238C00846EE7 /* SDLShowConstantTBT.m in Sources */,
+				88E6F1A8220E1588006156F9 /* SDLMediaType.m in Sources */,
 				5D61FC4E1A84238C00846EE7 /* SDLBitsPerSample.m in Sources */,
 				5D00AC701F1511B9004000D9 /* SDLGetSystemCapability.m in Sources */,
 				5D61FDEA1A84238C00846EE7 /* SDLUnsubscribeButtonResponse.m in Sources */,
@@ -7158,6 +7169,7 @@
 				88AF11D9220B66FD00A59985 /* SDLGetAppServiceDataResponseSpec.m in Sources */,
 				162E839D1A9BDE8B00906325 /* SDLRPCResponseSpec.m in Sources */,
 				EE460E082066B5F20006EDD3 /* SDLControlFramePayloadTransportEventUpdateSpec.m in Sources */,
+				88E6F1AA220E1720006156F9 /* SDLMediaTypeSpec.m in Sources */,
 				1EE8C4521F38657D00FDC2CF /* SDLTemperatureSpec.m in Sources */,
 				5DB1BCDF1D243DD3002FFC37 /* SDLLockScreenConfigurationSpec.m in Sources */,
 				162E82E51A9BDE8B00906325 /* SDLImageTypeSpec.m in Sources */,
