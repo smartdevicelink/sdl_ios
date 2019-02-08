@@ -87,6 +87,13 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectsForName:SDLNameHandledRPCs ofClass:SDLFunctionID.class];
 }
 
+- (void)setWeatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest {
+    [store sdl_setObject:weatherServiceManifest forName:SDLNameWeatherServiceManifest];
+}
+
+- (nullable SDLWeatherServiceManifest *)weatherServiceManifest {
+    return [store sdl_objectForName:SDLNameWeatherServiceManifest ofClass:SDLWeatherServiceManifest.class];
+}
 @end
 
 NS_ASSUME_NONNULL_END

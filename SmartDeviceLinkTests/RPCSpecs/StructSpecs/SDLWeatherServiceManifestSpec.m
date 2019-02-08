@@ -57,6 +57,16 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.weatherForLocationSupported).to(equal(testWeatherForLocationSupported));
     });
 
+    it(@"Should initialize correctly with initWithCurrentForecastSupported:maxMultidayForecastAmount:maxHourlyForecastAmount:maxMinutelyForecastAmount:weatherForLocationSupported:", ^{
+        SDLWeatherServiceManifest *testStruct = [[SDLWeatherServiceManifest alloc] initWithCurrentForecastSupported:testCurrentForecastSupported maxMultidayForecastAmount:testMaxMultidayForecastAmount maxHourlyForecastAmount:testMaxHourlyForecastAmount maxMinutelyForecastAmount:testMaxMinutelyForecastAmount weatherForLocationSupported:testWeatherForLocationSupported];
+
+        expect(testStruct.currentForecastSupported).to(equal(testCurrentForecastSupported));
+        expect(testStruct.maxMultidayForecastAmount).to(equal(testMaxMultidayForecastAmount));
+        expect(testStruct.maxHourlyForecastAmount).to(equal(testMaxHourlyForecastAmount));
+        expect(testStruct.maxMinutelyForecastAmount).to(equal(testMaxMinutelyForecastAmount));
+        expect(testStruct.weatherForLocationSupported).to(equal(testWeatherForLocationSupported));
+    });
+
     it(@"Should return nil if not set", ^{
         SDLWeatherServiceManifest *testStruct = [[SDLWeatherServiceManifest alloc] init];
 

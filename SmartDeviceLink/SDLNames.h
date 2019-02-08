@@ -705,6 +705,7 @@ extern SDLName const SDLNameWayPoints;
 extern SDLName const SDLNameWayPointType;
 extern SDLName const SDLNameWeatherForLocationSupported;
 extern SDLName const SDLNameWeatherIconImageName;
+extern SDLName const SDLNameWeatherServiceManifest;
 extern SDLName const SDLNameWeatherSummary;
 extern SDLName const SDLNameWidth;
 extern SDLName const SDLNameWindBearing;

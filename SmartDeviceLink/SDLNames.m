@@ -700,6 +700,7 @@ SDLName const SDLNameWayPoints = @"wayPoints";
 SDLName const SDLNameWayPointType = @"wayPointType";
 SDLName const SDLNameWeatherForLocationSupported = @"weatherForLocationSupported";
 SDLName const SDLNameWeatherIconImageName = @"weatherIconImageName";
+SDLName const SDLNameWeatherServiceManifest = @"weatherServiceManifest";
 SDLName const SDLNameWeatherSummary = @"weatherSummary";
 SDLName const SDLNameWidth = @"width";
 SDLName const SDLNameWindBearing = @"windBearing";

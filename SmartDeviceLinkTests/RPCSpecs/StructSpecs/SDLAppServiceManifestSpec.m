@@ -11,6 +11,7 @@
 
 #import "SDLAppServiceManifest.h"
 #import "SDLNames.h"
+#import "SDLWeatherServiceManifest.h"
 
 QuickSpecBegin(SDLAppServiceManifestSpec)
 
@@ -22,6 +23,7 @@ describe(@"Getter/Setter Tests", ^ {
     __block NSString *testURIPrefix = nil;
     __block SDLSyncMsgVersion *testRPCSpecVersion = nil;
     __block NSArray<SDLFunctionID *> *testHandledRPCs = nil;
+    __block SDLWeatherServiceManifest *testWeatherServiceManifest = nil;
 
     beforeEach(^{
         testServiceName = @"testService";
@@ -31,6 +33,7 @@ describe(@"Getter/Setter Tests", ^ {
         testURIPrefix = @"testURIPrefix";
         testRPCSpecVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:5 minorVersion:2 patchVersion:1];
         testHandledRPCs = @[SDLFunctionID.sharedInstance];
+        testWeatherServiceManifest = [[SDLWeatherServiceManifest alloc] initWithCurrentForecastSupported:true maxMultidayForecastAmount:3 maxHourlyForecastAmount:0 maxMinutelyForecastAmount:0 weatherForLocationSupported:false];
     });
 
     it(@"Should set and get correctly", ^{
@@ -42,6 +45,7 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.uriPrefix = testURIPrefix;
         testStruct.rpcSpecVersion = testRPCSpecVersion;
         testStruct.handledRPCs = testHandledRPCs;
+        testStruct.weatherServiceManifest = testWeatherServiceManifest;
 
         expect(testStruct.serviceName).to(match(testServiceName));
         expect(testStruct.serviceType).to(equal(testServiceType));
@@ -50,6 +54,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.uriPrefix).to(match(testURIPrefix));
         expect(testStruct.rpcSpecVersion).to(equal(testRPCSpecVersion));
         expect(testStruct.handledRPCs).to(equal(testHandledRPCs));
+        expect(testStruct.weatherServiceManifest).to(equal(testWeatherServiceManifest));
     });
 
     it(@"Should init correctly", ^{
@@ -62,6 +67,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.uriPrefix).to(match(testURIPrefix));
         expect(testStruct.rpcSpecVersion).to(equal(testRPCSpecVersion));
         expect(testStruct.handledRPCs).to(equal(testHandledRPCs));
+        // expect(testStruct.weatherServiceManifest).to(equal(testWeatherServiceManifest));
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
@@ -71,7 +77,8 @@ describe(@"Getter/Setter Tests", ^ {
                                SDLNameAllowAppConsumers:testAllowAppConsumers,
                                SDLNameURIPrefix:testURIPrefix,
                                SDLNameRPCSpecVersion:testRPCSpecVersion,
-                               SDLNameHandledRPCs:testHandledRPCs
+                               SDLNameHandledRPCs:testHandledRPCs,
+                               SDLNameWeatherServiceManifest:testWeatherServiceManifest
                                };
         SDLAppServiceManifest *testStruct = [[SDLAppServiceManifest alloc] initWithDictionary:dict];
 
@@ -82,6 +89,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.uriPrefix).to(match(testURIPrefix));
         expect(testStruct.rpcSpecVersion).to(equal(testRPCSpecVersion));
         expect(testStruct.handledRPCs).to(equal(testHandledRPCs));
+        expect(testStruct.weatherServiceManifest).to(equal(testWeatherServiceManifest));
     });
 
     it(@"Should return nil if not set", ^{
@@ -94,6 +102,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.uriPrefix).to(beNil());
         expect(testStruct.rpcSpecVersion).to(beNil());
         expect(testStruct.handledRPCs).to(beNil());
+        expect(testStruct.weatherServiceManifest).to(beNil());
     });
 });
 

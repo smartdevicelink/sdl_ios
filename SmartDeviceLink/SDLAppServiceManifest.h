@@ -11,6 +11,7 @@
 #import "SDLFunctionID.h"
 #import "SDLRPCRequest.h"
 #import "SDLSyncMsgVersion.h"
+#import "SDLWeatherServiceManifest.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -76,9 +77,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 // TODO: add service manifests
 // mediaServiceManifest
-// weatherServiceManifest
 // navigationServiceManifest
 // voiceAssistantServiceManifest
+
+/**
+ *  The weather service manifest.
+ *
+ *  SDLWeatherServiceManifest, Optional
+ */
+@property (nullable, strong, nonatomic) SDLWeatherServiceManifest *weatherServiceManifest;
 
 @end
 

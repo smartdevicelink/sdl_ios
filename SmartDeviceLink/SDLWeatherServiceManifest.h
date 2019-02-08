@@ -16,6 +16,18 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLWeatherServiceManifest : SDLRPCStruct
 
 /**
+ *  Convenience init.
+ *
+ *  @param currentForecastSupported     Whether or not the current forcast is supported.
+ *  @param maxMultidayForecastAmount    The maximum number of day-by-day forecasts.
+ *  @param maxHourlyForecastAmount      The maximum number of hour-by-hour forecasts.
+ *  @param maxMinutelyForecastAmount    The maximum number of minute-by-minute forecasts.
+ *  @param weatherForLocationSupported  Whether or not the weather for location is supported.
+ *  @return                             A SDLWeatherServiceManifest object
+ */
+- (instancetype)initWithCurrentForecastSupported:(BOOL)currentForecastSupported maxMultidayForecastAmount:(UInt32)maxMultidayForecastAmount maxHourlyForecastAmount:(UInt32)maxHourlyForecastAmount maxMinutelyForecastAmount:(UInt32)maxMinutelyForecastAmount weatherForLocationSupported:(BOOL)weatherForLocationSupported;
+
+/**
  *  Whether or not the current forcast is supported.
  *
  *  Boolean, Optional
