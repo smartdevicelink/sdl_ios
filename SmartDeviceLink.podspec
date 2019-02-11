@@ -229,6 +229,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLOnVehicleData.h',
 'SmartDeviceLink/SDLOnWayPointChange.h',
 'SmartDeviceLink/SDLParameterPermissions.h',
+'SmartDeviceLink/SDLPerformAppServiceInteraction.h',
 'SmartDeviceLink/SDLPerformAudioPassThru.h',
 'SmartDeviceLink/SDLPerformAudioPassThruResponse.h',
 'SmartDeviceLink/SDLPerformInteraction.h',
