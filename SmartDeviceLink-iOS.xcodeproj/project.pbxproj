@@ -1292,7 +1292,7 @@
 		88A795D22106787400056542 /* SDLStaticIconName.h in Headers */ = {isa = PBXBuildFile; fileRef = 88A795D02106787400056542 /* SDLStaticIconName.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88A795D32106787400056542 /* SDLStaticIconName.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A795D12106787400056542 /* SDLStaticIconName.m */; };
 		88A795D5210678E000056542 /* SDLStaticIconNameSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A795D4210678E000056542 /* SDLStaticIconNameSpec.m */; };
-		88A7A3C6220CCEA100A9E435 /* SDLGetFileResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 88A7A3C4220CCEA100A9E435 /* SDLGetFileResponse.h */; };
+		88A7A3C6220CCEA100A9E435 /* SDLGetFileResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 88A7A3C4220CCEA100A9E435 /* SDLGetFileResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88A7A3C7220CCEA100A9E435 /* SDLGetFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A7A3C5220CCEA100A9E435 /* SDLGetFileResponse.m */; };
 		88A81F6C2200FD4A00A691A9 /* SDLAppServiceRecordSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A81F6B2200FD4A00A691A9 /* SDLAppServiceRecordSpec.m */; };
 		88AAD4BC2211B76800F1E6D7 /* SDLMediaServiceManifest.h in Headers */ = {isa = PBXBuildFile; fileRef = 88AAD4BA2211B76800F1E6D7 /* SDLMediaServiceManifest.h */; settings = {ATTRIBUTES = (Public, ); }; };
