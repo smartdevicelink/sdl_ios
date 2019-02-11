@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAppServiceManifest
 
-- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(SDLAppServiceType)serviceType serviceIcon:(nullable NSString *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers uriPrefix:(nullable NSString *)uriPrefix rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<SDLFunctionID *> *)handledRPCs {
+- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(SDLAppServiceType)serviceType serviceIcon:(nullable NSString *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers uriPrefix:(nullable NSString *)uriPrefix rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<SDLFunctionID *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest weatherServiceManifest:(SDLWeatherServiceManifest *)weatherServiceManifest {
     self = [self init];
     if (!self) {
         return self;
@@ -27,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
     self.uriPrefix = uriPrefix;
     self.rpcSpecVersion = rpcSpecVersion;
     self.handledRPCs = handledRPCs;
+    self.mediaServiceManifest = mediaServiceManifest;
+    self.weatherServiceManifest = weatherServiceManifest;
 
     return self;
 }
@@ -94,6 +96,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable SDLWeatherServiceManifest *)weatherServiceManifest {
     return [store sdl_objectForName:SDLNameWeatherServiceManifest ofClass:SDLWeatherServiceManifest.class];
 }
+
+- (void)setMediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest {
+    [store sdl_setObject:mediaServiceManifest forName:SDLNameMediaServiceManifest];
+}
+
+- (nullable SDLMediaServiceManifest *)mediaServiceManifest {
+    return [store sdl_objectForName:SDLNameMediaServiceManifest ofClass:SDLMediaServiceManifest.class];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

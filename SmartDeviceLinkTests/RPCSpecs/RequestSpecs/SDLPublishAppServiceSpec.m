@@ -19,7 +19,7 @@ describe(@"Getter/Setter Tests", ^{
     __block SDLAppServiceManifest *testAppServiceManifest = nil;
 
     beforeEach(^{
-        testAppServiceManifest = [[SDLAppServiceManifest alloc] initWithServiceName:@"serviceName" serviceType:SDLAppServiceTypeMedia serviceIcon:nil allowAppConsumers:true uriPrefix:nil rpcSpecVersion:nil handledRPCs:nil];
+        testAppServiceManifest = [[SDLAppServiceManifest alloc] init];
     });
 
     it(@"Should set and get correctly", ^{

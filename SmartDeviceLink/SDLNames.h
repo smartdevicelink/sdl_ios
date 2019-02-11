@@ -356,6 +356,7 @@ extern SDLName const SDLNameMediaAlbum;
 extern SDLName const SDLNameMediaArtist;
 extern SDLName const SDLNameMediaClock;
 extern SDLName const SDLNameMediaClockFormats;
+extern SDLName const SDLNameMediaServiceManifest;
 extern SDLName const SDLNameMediaTitle;
 extern SDLName const SDLNameMediaTrack;
 extern SDLName const SDLNameMediaType;

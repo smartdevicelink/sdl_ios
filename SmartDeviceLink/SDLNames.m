@@ -348,6 +348,7 @@ SDLName const SDLNameMediaAlbum = @"mediaAlbum";
 SDLName const SDLNameMediaArtist = @"mediaArtist";
 SDLName const SDLNameMediaClock = @"mediaClock";
 SDLName const SDLNameMediaClockFormats = @"mediaClockFormats";
+SDLName const SDLNameMediaServiceManifest = @"mediaServiceManifest";
 SDLName const SDLNameMediaTitle = @"mediaTitle";
 SDLName const SDLNameMediaTrack = @"mediaTrack";
 SDLName const SDLNameMediaType = @"mediaType";
