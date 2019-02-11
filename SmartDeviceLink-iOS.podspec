@@ -379,6 +379,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLVrHelpItem.h',
 'SmartDeviceLink/SDLWarningLightStatus.h',
 'SmartDeviceLink/SDLWayPointType.h',
+'SmartDeviceLink/SDLWeatherServiceManifest.h',
 'SmartDeviceLink/SDLWiperStatus.h',
 'SmartDeviceLink/SmartDeviceLink.h',
 ]

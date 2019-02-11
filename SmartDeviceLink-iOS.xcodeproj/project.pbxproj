@@ -1222,7 +1222,7 @@
 		880245A420F79C3400ED195B /* SDLFileManagerConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 880245A220F79C3400ED195B /* SDLFileManagerConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		880245A520F79C3400ED195B /* SDLFileManagerConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 880245A320F79C3400ED195B /* SDLFileManagerConfiguration.m */; };
 		880D267A220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 880D2679220DDD1000B3F496 /* SDLWeatherServiceDataSpec.m */; };
-		880D267D220DE5DF00B3F496 /* SDLWeatherServiceManifest.h in Headers */ = {isa = PBXBuildFile; fileRef = 880D267B220DE5DF00B3F496 /* SDLWeatherServiceManifest.h */; };
+		880D267D220DE5DF00B3F496 /* SDLWeatherServiceManifest.h in Headers */ = {isa = PBXBuildFile; fileRef = 880D267B220DE5DF00B3F496 /* SDLWeatherServiceManifest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		880D267E220DE5DF00B3F496 /* SDLWeatherServiceManifest.m in Sources */ = {isa = PBXBuildFile; fileRef = 880D267C220DE5DF00B3F496 /* SDLWeatherServiceManifest.m */; };
 		880D2680220E038800B3F496 /* SDLWeatherServiceManifestSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 880D267F220E038800B3F496 /* SDLWeatherServiceManifestSpec.m */; };
 		880E35B42088F75A00181259 /* SDLSystemCapabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 880E35B22088F75A00181259 /* SDLSystemCapabilityManager.m */; };
