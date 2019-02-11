@@ -87,6 +87,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLEncodedSyncPDataResponse.h"
 #import "SDLEndAudioPassThruResponse.h"
 #import "SDLGenericResponse.h"
+#import "SDLGetAppServiceDataResponse.h"
 #import "SDLGetDTCsResponse.h"
 #import "SDLGetInteriorVehicleDataResponse.h"
 #import "SDLGetSystemCapabilityResponse.h"
