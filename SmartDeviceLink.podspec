@@ -205,6 +205,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLNotificationConstants.h',
 'SmartDeviceLink/SDLOasisAddress.h',
 'SmartDeviceLink/SDLOnAppInterfaceUnregistered.h',
+'SmartDeviceLink/SDLOnAppServiceData.h',
 'SmartDeviceLink/SDLOnAudioPassThru.h',
 'SmartDeviceLink/SDLOnButtonEvent.h',
 'SmartDeviceLink/SDLOnButtonPress.h',

@@ -1259,7 +1259,7 @@
 		884E702C21FBB151008D53BA /* SDLAppServiceRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 884E702A21FBB151008D53BA /* SDLAppServiceRecord.m */; };
 		8850DB601F4475D30053A48D /* TestMultipleFilesConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */; };
 		8855F9E0220C93B700A5C897 /* SDLWeatherDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8855F9DF220C93B700A5C897 /* SDLWeatherDataSpec.m */; };
-		8855F9E3220CB04000A5C897 /* SDLOnAppServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8855F9E1220CB04000A5C897 /* SDLOnAppServiceData.h */; };
+		8855F9E3220CB04000A5C897 /* SDLOnAppServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8855F9E1220CB04000A5C897 /* SDLOnAppServiceData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8855F9E4220CB04000A5C897 /* SDLOnAppServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 8855F9E2220CB04000A5C897 /* SDLOnAppServiceData.m */; };
 		8855F9E6220CB60700A5C897 /* SDLOnAppServiceDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8855F9E5220CB60700A5C897 /* SDLOnAppServiceDataSpec.m */; };
 		8855F9E9220CBA9200A5C897 /* SDLGetFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 8855F9E7220CBA9200A5C897 /* SDLGetFile.h */; };

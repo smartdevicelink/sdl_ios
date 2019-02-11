@@ -125,6 +125,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 
 // Notifications
 #import "SDLOnAppInterfaceUnregistered.h"
+#import "SDLOnAppServiceData.h"
 #import "SDLOnAudioPassThru.h"
 #import "SDLOnButtonEvent.h"
 #import "SDLOnButtonPress.h"
