@@ -228,6 +228,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLVideoStreamingCapability.h"
 #import "SDLVideoStreamingFormat.h"
 #import "SDLVrHelpItem.h"
+#import "SDLWeatherServiceData.h"
 #import "SDLWeatherServiceManifest.h"
 
 // Enums
