@@ -1318,7 +1318,7 @@
 		88E6F1A7220E1588006156F9 /* SDLMediaType.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E6F1A5220E1588006156F9 /* SDLMediaType.h */; };
 		88E6F1A8220E1588006156F9 /* SDLMediaType.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E6F1A6220E1588006156F9 /* SDLMediaType.m */; };
 		88E6F1AA220E1720006156F9 /* SDLMediaTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E6F1A9220E1720006156F9 /* SDLMediaTypeSpec.m */; };
-		88E6F1AD220E19DF006156F9 /* SDLMediaServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E6F1AB220E19DF006156F9 /* SDLMediaServiceData.h */; };
+		88E6F1AD220E19DF006156F9 /* SDLMediaServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E6F1AB220E19DF006156F9 /* SDLMediaServiceData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88E6F1AE220E19DF006156F9 /* SDLMediaServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E6F1AC220E19DF006156F9 /* SDLMediaServiceData.m */; };
 		88E6F1B0220E25B2006156F9 /* SDLMediaServiceDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E6F1AF220E25B2006156F9 /* SDLMediaServiceDataSpec.m */; };
 		88EEC5B8220A2144005AA2F9 /* SDLPublishAppServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EEC5B7220A2144005AA2F9 /* SDLPublishAppServiceSpec.m */; };
