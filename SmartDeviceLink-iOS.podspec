@@ -29,6 +29,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLAlertManeuverResponse.h',
 'SmartDeviceLink/SDLAlertResponse.h',
 'SmartDeviceLink/SDLAppServiceData.h',
+'SmartDeviceLink/SDLAppServiceRecord.h',
 'SmartDeviceLink/SDLAppServiceType.h',
 'SmartDeviceLink/SDLButtonPressResponse.h',
 'SmartDeviceLink/SDLAmbientLightStatus.h',
