@@ -156,6 +156,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLAppInfo.h"
 #import "SDLAppServiceCapability.h"
 #import "SDLAppServiceData.h"
+#import "SDLAppServiceManifest.h"
 #import "SDLAppServiceRecord.h"
 #import "SDLAppServicesCapabilities.h"
 #import "SDLAudioControlData.h"

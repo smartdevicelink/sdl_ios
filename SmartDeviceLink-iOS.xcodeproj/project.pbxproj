@@ -1249,7 +1249,7 @@
 		884AF950220B488900E22928 /* SDLOnSystemCapabilityUpdated.m in Sources */ = {isa = PBXBuildFile; fileRef = 884AF94E220B488900E22928 /* SDLOnSystemCapabilityUpdated.m */; };
 		884E701B21FB8D0F008D53BA /* SDLPublishAppService.h in Headers */ = {isa = PBXBuildFile; fileRef = 884E701921FB8D0F008D53BA /* SDLPublishAppService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		884E701C21FB8D0F008D53BA /* SDLPublishAppService.m in Sources */ = {isa = PBXBuildFile; fileRef = 884E701A21FB8D0F008D53BA /* SDLPublishAppService.m */; };
-		884E701F21FB983F008D53BA /* SDLAppServiceManifest.h in Headers */ = {isa = PBXBuildFile; fileRef = 884E701D21FB983F008D53BA /* SDLAppServiceManifest.h */; };
+		884E701F21FB983F008D53BA /* SDLAppServiceManifest.h in Headers */ = {isa = PBXBuildFile; fileRef = 884E701D21FB983F008D53BA /* SDLAppServiceManifest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		884E702021FB983F008D53BA /* SDLAppServiceManifest.m in Sources */ = {isa = PBXBuildFile; fileRef = 884E701E21FB983F008D53BA /* SDLAppServiceManifest.m */; };
 		884E702321FBA952008D53BA /* SDLAppServiceType.h in Headers */ = {isa = PBXBuildFile; fileRef = 884E702121FBA952008D53BA /* SDLAppServiceType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		884E702421FBA952008D53BA /* SDLAppServiceType.m in Sources */ = {isa = PBXBuildFile; fileRef = 884E702221FBA952008D53BA /* SDLAppServiceType.m */; };
