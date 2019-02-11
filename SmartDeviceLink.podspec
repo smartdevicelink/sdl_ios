@@ -30,6 +30,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLAlertResponse.h',
 'SmartDeviceLink/SDLAppServiceData.h',
 'SmartDeviceLink/SDLAppServiceRecord.h',
+'SmartDeviceLink/SDLAppServicesCapabilities.h',
 'SmartDeviceLink/SDLAppServiceType.h',
 'SmartDeviceLink/SDLButtonPressResponse.h',
 'SmartDeviceLink/SDLAmbientLightStatus.h',
