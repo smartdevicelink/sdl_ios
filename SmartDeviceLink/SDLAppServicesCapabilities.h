@@ -17,6 +17,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLAppServicesCapabilities : SDLRPCStruct
 
+/**
+ *  Convenience init
+ *
+ *  @param servicesSupported    An array of supported app service types.
+ *  @param appServices          An array of currently available services.
+ *  @return                     A SDLAppServicesCapabilities object
+ */
 - (instancetype)initWithServicesSupported:(NSArray<SDLAppServiceType> *)servicesSupported appServices:(nullable NSArray<SDLAppServiceCapability *> *)appServices;
 
 /**
