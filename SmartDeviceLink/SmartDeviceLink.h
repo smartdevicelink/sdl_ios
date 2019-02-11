@@ -145,6 +145,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 // Structs
 #import "SDLAirbagStatus.h"
 #import "SDLAppInfo.h"
+#import "SDLAppServiceData.h"
 #import "SDLAudioControlData.h"
 #import "SDLAudioControlCapabilities.h"
 #import "SDLAudioPassThruCapabilities.h"
