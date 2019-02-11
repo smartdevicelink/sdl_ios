@@ -1317,6 +1317,7 @@
 		88E6F1AA220E1720006156F9 /* SDLMediaTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E6F1A9220E1720006156F9 /* SDLMediaTypeSpec.m */; };
 		88E6F1AD220E19DF006156F9 /* SDLMediaServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E6F1AB220E19DF006156F9 /* SDLMediaServiceData.h */; };
 		88E6F1AE220E19DF006156F9 /* SDLMediaServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E6F1AC220E19DF006156F9 /* SDLMediaServiceData.m */; };
+		88E6F1B0220E25B2006156F9 /* SDLMediaServiceDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E6F1AF220E25B2006156F9 /* SDLMediaServiceDataSpec.m */; };
 		88EEC5B8220A2144005AA2F9 /* SDLPublishAppServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EEC5B7220A2144005AA2F9 /* SDLPublishAppServiceSpec.m */; };
 		88EEC5BB220A327B005AA2F9 /* SDLPublishAppServiceResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 88EEC5B9220A327B005AA2F9 /* SDLPublishAppServiceResponse.h */; };
 		88EEC5BC220A327B005AA2F9 /* SDLPublishAppServiceResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EEC5BA220A327B005AA2F9 /* SDLPublishAppServiceResponse.m */; };
@@ -2887,6 +2888,7 @@
 		88E6F1A9220E1720006156F9 /* SDLMediaTypeSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMediaTypeSpec.m; sourceTree = "<group>"; };
 		88E6F1AB220E19DF006156F9 /* SDLMediaServiceData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMediaServiceData.h; sourceTree = "<group>"; };
 		88E6F1AC220E19DF006156F9 /* SDLMediaServiceData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMediaServiceData.m; sourceTree = "<group>"; };
+		88E6F1AF220E25B2006156F9 /* SDLMediaServiceDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMediaServiceDataSpec.m; sourceTree = "<group>"; };
 		88EEC5B7220A2144005AA2F9 /* SDLPublishAppServiceSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPublishAppServiceSpec.m; sourceTree = "<group>"; };
 		88EEC5B9220A327B005AA2F9 /* SDLPublishAppServiceResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLPublishAppServiceResponse.h; sourceTree = "<group>"; };
 		88EEC5BA220A327B005AA2F9 /* SDLPublishAppServiceResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPublishAppServiceResponse.m; sourceTree = "<group>"; };
@@ -3397,6 +3399,7 @@
 				DA9F7EAE1DCC063400ACAE48 /* SDLLocationDetailsSpec.m */,
 				1EB59CD7202DCCD500343A61 /* SDLMassageCushionFirmnessSpec.m */,
 				1EB59CD3202DCAE900343A61 /* SDLMassageModeDataSpec.m */,
+				88E6F1AF220E25B2006156F9 /* SDLMediaServiceDataSpec.m */,
 				162E82A21A9BDE8A00906325 /* SDLMenuParamsSpec.m */,
 				1EE8C4451F3837D200FDC2CF /* SDLModuleDataSpec.m */,
 				8B9376DA1F33656C009605C4 /* SDLMetadataTagsSpec.m */,
@@ -7396,6 +7399,7 @@
 				8B7B31AF1F2FBA0200BDC38D /* SDLVideoStreamingCapabilitySpec.m in Sources */,
 				162E839B1A9BDE8B00906325 /* SDLRPCNotificationSpec.m in Sources */,
 				162E83581A9BDE8B00906325 /* SDLGetVehicleDataResponseSpec.m in Sources */,
+				88E6F1B0220E25B2006156F9 /* SDLMediaServiceDataSpec.m in Sources */,
 				1EB59CCA202DC8E300343A61 /* SDLMassageZoneSpec.m in Sources */,
 				8B7B31B11F2FBD9500BDC38D /* SDLVideoStreamingFormatSpec.m in Sources */,
 				162E831D1A9BDE8B00906325 /* SDLOnSystemRequestSpec.m in Sources */,
