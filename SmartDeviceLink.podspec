@@ -188,6 +188,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLMediaClockFormat.h',
 'SmartDeviceLink/SDLMediaServiceData.h',
 'SmartDeviceLink/SDLMediaServiceManifest.h',
+'SmartDeviceLink/SDLMediaType.h',
 'SmartDeviceLink/SDLMenuCell.h',
 'SmartDeviceLink/SDLMenuParams.h',
 'SmartDeviceLink/SDLMetadataTags.h',

@@ -1315,7 +1315,7 @@
 		88D2AAE41F682BB20078D5B2 /* SDLLogConstantsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */; };
 		88D5EB37220CD95000EC3782 /* SDLWeatherServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88D5EB35220CD95000EC3782 /* SDLWeatherServiceData.h */; };
 		88D5EB38220CD95000EC3782 /* SDLWeatherServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D5EB36220CD95000EC3782 /* SDLWeatherServiceData.m */; };
-		88E6F1A7220E1588006156F9 /* SDLMediaType.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E6F1A5220E1588006156F9 /* SDLMediaType.h */; };
+		88E6F1A7220E1588006156F9 /* SDLMediaType.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E6F1A5220E1588006156F9 /* SDLMediaType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88E6F1A8220E1588006156F9 /* SDLMediaType.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E6F1A6220E1588006156F9 /* SDLMediaType.m */; };
 		88E6F1AA220E1720006156F9 /* SDLMediaTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E6F1A9220E1720006156F9 /* SDLMediaTypeSpec.m */; };
 		88E6F1AD220E19DF006156F9 /* SDLMediaServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88E6F1AB220E19DF006156F9 /* SDLMediaServiceData.h */; settings = {ATTRIBUTES = (Public, ); }; };
