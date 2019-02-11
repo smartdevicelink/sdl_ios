@@ -30,6 +30,22 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameServiceId];
 }
 
+- (void)setWeatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData {
+    [store sdl_setObject:weatherServiceData forName:SDLNameWeatherServiceData];
+}
+
+- (nullable SDLWeatherServiceData *)weatherServiceData {
+    return [store sdl_objectForName:SDLNameWeatherServiceData ofClass:SDLWeatherServiceData.class];
+}
+
+- (void)setMediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData {
+    [store sdl_setObject:mediaServiceData forName:SDLNameMediaServiceData];
+}
+
+- (nullable SDLMediaServiceData *)mediaServiceData {
+    return [store sdl_objectForName:SDLNameMediaServiceData ofClass:SDLMediaServiceData.class];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

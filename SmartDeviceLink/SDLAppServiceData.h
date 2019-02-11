@@ -7,7 +7,9 @@
 //
 
 #import "SDLAppServiceType.h"
+#import "SDLMediaServiceData.h"
 #import "SDLRPCRequest.h"
+#import "SDLWeatherServiceData.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,13 +32,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic) NSString *serviceId;
 
-// TODO: Add when created
-/*
- <param name="mediaServiceData" type="MediaServiceData" mandatory="false"/>
- <param name="weatherServiceData" type="WeatherServiceData" mandatory="false"/>
- <param name="navigationServiceData" type="NavigationServiceData" mandatory="false"/>
- <param name="voiceAssistantServiceData" type="MediaServiceData" mandatory="false"/>
-*/
+/**
+ *  The media service data.
+ *
+ *  SDLMediaServiceData, Optional
+ */
+@property (nullable, strong, nonatomic) SDLMediaServiceData *mediaServiceData;
+
+/**
+ *  The weather service data.
+ *
+ *  SDLWeatherServiceData, Optional
+ */
+@property (nullable, strong, nonatomic) SDLWeatherServiceData *weatherServiceData;
 
 @end
 
