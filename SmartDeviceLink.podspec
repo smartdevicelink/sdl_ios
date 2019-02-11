@@ -391,6 +391,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLVrHelpItem.h',
 'SmartDeviceLink/SDLWarningLightStatus.h',
 'SmartDeviceLink/SDLWayPointType.h',
+'SmartDeviceLink/SDLWeatherAlert.h',
 'SmartDeviceLink/SDLWeatherData.h',
 'SmartDeviceLink/SDLWeatherServiceData.h',
 'SmartDeviceLink/SDLWeatherServiceManifest.h',

@@ -1268,7 +1268,7 @@
 		88665B69220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 88665B67220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88665B6A220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88665B68220B771A00D9DA77 /* SDLPerformAppServiceInteractionResponse.m */; };
 		88665B6C220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88665B6B220B796A00D9DA77 /* SDLPerformAppServiceInteractionResponseSpec.m */; };
-		88665B73220B80F400D9DA77 /* SDLWeatherAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 88665B71220B80F400D9DA77 /* SDLWeatherAlert.h */; };
+		88665B73220B80F400D9DA77 /* SDLWeatherAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 88665B71220B80F400D9DA77 /* SDLWeatherAlert.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88665B74220B80F400D9DA77 /* SDLWeatherAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 88665B72220B80F400D9DA77 /* SDLWeatherAlert.m */; };
 		8877F5EB1F34A3BE00DC128A /* SDLSendHapticDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */; };
 		8877F5EE1F34A72200DC128A /* SDLSendHapticDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
