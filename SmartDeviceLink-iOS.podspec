@@ -239,6 +239,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLPresetBankCapabilities.h',
 'SmartDeviceLink/SDLPrimaryAudioSource.h',
 'SmartDeviceLink/SDLPRNDL.h',
+'SmartDeviceLink/SDLPublishAppService.h',
 'SmartDeviceLink/SDLPutFile.h',
 'SmartDeviceLink/SDLPutFileResponse.h',
 'SmartDeviceLink/SDLRadioBand.h',

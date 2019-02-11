@@ -42,6 +42,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLListFiles.h"
 #import "SDLPerformAudioPassThru.h"
 #import "SDLPerformInteraction.h"
+#import "SDLPublishAppService.h"
 #import "SDLPutFile.h"
 #import "SDLReadDID.h"
 #import "SDLRegisterAppInterface.h"
