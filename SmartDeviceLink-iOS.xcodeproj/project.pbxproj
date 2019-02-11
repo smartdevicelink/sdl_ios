@@ -1322,7 +1322,7 @@
 		88E6F1AE220E19DF006156F9 /* SDLMediaServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E6F1AC220E19DF006156F9 /* SDLMediaServiceData.m */; };
 		88E6F1B0220E25B2006156F9 /* SDLMediaServiceDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88E6F1AF220E25B2006156F9 /* SDLMediaServiceDataSpec.m */; };
 		88EEC5B8220A2144005AA2F9 /* SDLPublishAppServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EEC5B7220A2144005AA2F9 /* SDLPublishAppServiceSpec.m */; };
-		88EEC5BB220A327B005AA2F9 /* SDLPublishAppServiceResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 88EEC5B9220A327B005AA2F9 /* SDLPublishAppServiceResponse.h */; };
+		88EEC5BB220A327B005AA2F9 /* SDLPublishAppServiceResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 88EEC5B9220A327B005AA2F9 /* SDLPublishAppServiceResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88EEC5BC220A327B005AA2F9 /* SDLPublishAppServiceResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EEC5BA220A327B005AA2F9 /* SDLPublishAppServiceResponse.m */; };
 		88EEC5BE220A3B8B005AA2F9 /* SDLPublishAppServiceResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EEC5BD220A3B8B005AA2F9 /* SDLPublishAppServiceResponseSpec.m */; };
 		88EED8381F33AE1700E6C42E /* SDLHapticRect.h in Headers */ = {isa = PBXBuildFile; fileRef = 88EED8361F33AE1700E6C42E /* SDLHapticRect.h */; settings = {ATTRIBUTES = (Public, ); }; };

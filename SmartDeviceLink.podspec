@@ -240,6 +240,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLPrimaryAudioSource.h',
 'SmartDeviceLink/SDLPRNDL.h',
 'SmartDeviceLink/SDLPublishAppService.h',
+'SmartDeviceLink/SDLPublishAppServiceResponse.h',
 'SmartDeviceLink/SDLPutFile.h',
 'SmartDeviceLink/SDLPutFileResponse.h',
 'SmartDeviceLink/SDLRadioBand.h',

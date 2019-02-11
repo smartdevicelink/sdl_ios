@@ -94,6 +94,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLListFilesResponse.h"
 #import "SDLPerformAudioPassThruResponse.h"
 #import "SDLPerformInteractionResponse.h"
+#import "SDLPublishAppServiceResponse.h"
 #import "SDLPutFileResponse.h"
 #import "SDLReadDIDResponse.h"
 #import "SDLRegisterAppInterfaceResponse.h"
