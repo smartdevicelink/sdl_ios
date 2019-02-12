@@ -33,7 +33,7 @@ describe(@"Getter/Setter Tests", ^ {
         testAllowAppConsumers = @YES;
         testURIPrefix = @"testURIPrefix";
         testRPCSpecVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:5 minorVersion:2 patchVersion:1];
-        testHandledRPCs = @[SDLFunctionID.sharedInstance];
+        testHandledRPCs = @[];
         testWeatherServiceManifest = [[SDLWeatherServiceManifest alloc] initWithCurrentForecastSupported:true maxMultidayForecastAmount:3 maxHourlyForecastAmount:0 maxMinutelyForecastAmount:0 weatherForLocationSupported:false];
         testMediaServiceManifest = [[SDLMediaServiceManifest alloc] init];
     });

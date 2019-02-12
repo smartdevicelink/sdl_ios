@@ -8,11 +8,12 @@
 
 #import "SDLAppServiceType.h"
 #import "SDLFileType.h"
-#import "SDLFunctionID.h"
 #import "SDLMediaServiceManifest.h"
 #import "SDLRPCRequest.h"
 #import "SDLSyncMsgVersion.h"
 #import "SDLWeatherServiceManifest.h"
+
+@class SDLFunctionID;
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -8,6 +8,7 @@
 
 #import "SDLAppServiceManifest.h"
 #import "NSMutableDictionary+Store.h"
+#import "SDLFunctionID.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
