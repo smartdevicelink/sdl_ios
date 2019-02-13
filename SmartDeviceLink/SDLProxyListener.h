@@ -50,6 +50,7 @@
 @class SDLOnWayPointChange;
 @class SDLPerformAudioPassThruResponse;
 @class SDLPerformInteractionResponse;
+@class SDLPublishAppService;
 @class SDLPutFileResponse;
 @class SDLReadDIDResponse;
 @class SDLRegisterAppInterfaceResponse;
@@ -427,6 +428,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param response A SDLPerformInteractionResponse object
  */
 - (void)onPerformInteractionResponse:(SDLPerformInteractionResponse *)response;
+
+/**
+ *  Called when a Publish App Service Response is received from Core
+ *
+ *  @param response A SDLPublishAppService object
+ */
+- (void)onPublishAppService:(SDLPublishAppService *)response;
 
 /**
  *  Called when a Put File Response is received from Core

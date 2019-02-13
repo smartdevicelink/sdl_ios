@@ -79,6 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
                          @47: SDLNameUnsubscribeWayPoints,
                          @48: SDLNameGetSystemCapability,
                          @49: SDLNameSendHapticData,
+                         @52: SDLNamePublishAppService,
                          @32768: SDLNameOnHMIStatus,
                          @32769: SDLNameOnAppInterfaceUnregistered,
                          @32786: SDLNameOnAppServiceData,

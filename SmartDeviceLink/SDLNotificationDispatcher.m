@@ -181,6 +181,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceivePerformInteractionResponse response:response];
 }
 
+- (void)onPublishAppService:(SDLPublishAppService *)response {
+    [self postRPCResponseNotification:SDLDidReceivePublishAppServiceResponse response:response];
+}
+
 - (void)onPutFileResponse:(SDLPutFileResponse *)response {
     [self postRPCResponseNotification:SDLDidReceivePutFileResponse response:response];
 }

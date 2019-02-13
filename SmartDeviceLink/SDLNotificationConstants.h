@@ -140,6 +140,7 @@ extern SDLNotificationName const SDLDidReceiveGetWaypointsResponse;
 extern SDLNotificationName const SDLDidReceiveListFilesResponse;
 extern SDLNotificationName const SDLDidReceivePerformAudioPassThruResponse;
 extern SDLNotificationName const SDLDidReceivePerformInteractionResponse;
+extern SDLNotificationName const SDLDidReceivePublishAppServiceResponse;
 extern SDLNotificationName const SDLDidReceivePutFileResponse;
 extern SDLNotificationName const SDLDidReceiveReadDIDResponse;
 extern SDLNotificationName const SDLDidReceiveRegisterAppInterfaceResponse;

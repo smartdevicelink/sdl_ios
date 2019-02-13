@@ -48,6 +48,7 @@ SDLNotificationName const SDLDidReceiveGetWaypointsResponse = @"com.sdl.response
 SDLNotificationName const SDLDidReceiveListFilesResponse = @"com.sdl.response.listFiles";
 SDLNotificationName const SDLDidReceivePerformAudioPassThruResponse = @"com.sdl.response.performAudioPassThru";
 SDLNotificationName const SDLDidReceivePerformInteractionResponse = @"com.sdl.response.performInteraction";
+SDLNotificationName const SDLDidReceivePublishAppServiceResponse = @"com.sdl.response.publishAppService";
 SDLNotificationName const SDLDidReceivePutFileResponse = @"com.sdl.response.putFile";
 SDLNotificationName const SDLDidReceiveReadDIDResponse = @"com.sdl.response.readDID";
 SDLNotificationName const SDLDidReceiveRegisterAppInterfaceResponse = @"com.sdl.response.registerAppInterface";
@@ -125,6 +126,7 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
              SDLDidReceiveListFilesResponse,
              SDLDidReceivePerformAudioPassThruResponse,
              SDLDidReceivePerformInteractionResponse,
+             SDLDidReceivePublishAppServiceResponse,
              SDLDidReceivePutFileResponse,
              SDLDidReceiveReadDIDResponse,
              SDLDidReceiveRegisterAppInterfaceResponse,
