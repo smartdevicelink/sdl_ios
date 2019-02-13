@@ -44,6 +44,7 @@ describe(@"a notification dispatcher", ^{
         expect(@([testDispatcher respondsToSelector:@selector(onGetWayPointsResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onReceivedLockScreenIcon:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnAppInterfaceUnregistered:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onOnAppServiceData:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnAudioPassThru:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnButtonEvent:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnButtonPress:)])).to(beTruthy());

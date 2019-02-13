@@ -285,6 +285,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCNotificationNotification:SDLDidReceiveAppUnregisteredNotification notification:notification];
 }
 
+- (void)onOnAppServiceData:(SDLOnAppServiceData *)notification {
+    [self postRPCNotificationNotification:SDLDidReceiveAppServiceDataNotification notification:notification];
+}
+
 - (void)onOnAudioPassThru:(SDLOnAudioPassThru *)notification {
     [self postRPCNotificationNotification:SDLDidReceiveAudioPassThruNotification notification:notification];
 }

@@ -172,8 +172,9 @@ extern SDLNotificationName const SDLDidReceiveUnsubscribeWaypointsResponse;
 #pragma mark - RPC Notifications
 extern SDLNotificationName const SDLDidChangeDriverDistractionStateNotification;
 extern SDLNotificationName const SDLDidChangeHMIStatusNotification;
-extern SDLNotificationName const SDLDidReceiveAudioPassThruNotification;
+extern SDLNotificationName const SDLDidReceiveAppServiceDataNotification;
 extern SDLNotificationName const SDLDidReceiveAppUnregisteredNotification;
+extern SDLNotificationName const SDLDidReceiveAudioPassThruNotification;
 extern SDLNotificationName const SDLDidReceiveButtonEventNotification;
 extern SDLNotificationName const SDLDidReceiveButtonPressNotification;
 extern SDLNotificationName const SDLDidReceiveCommandNotification;
@@ -197,9 +198,17 @@ extern SDLNotificationName const SDLDidReceiveWaypointNotification;
 /**
  All of the possible SDL RPC Response notification names
 
- @return The names
+ @return All response notification names
  */
 + (NSArray<SDLNotificationName> *)allResponseNames;
+
+
+/**
+ All of the possible SDL RPC Request notification names
+
+ @return All request notification names
+ */
++ (NSArray<SDLNotificationName> *)allRequestNames;
 
 /**
  All of the possible SDL Button event notification names

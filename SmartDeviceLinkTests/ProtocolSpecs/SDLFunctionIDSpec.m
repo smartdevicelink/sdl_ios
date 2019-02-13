@@ -79,6 +79,7 @@ describe(@"GetFunctionName Tests", ^ {
         expect([functionID functionNameForId:32782]).to(equal(SDLNameOnHashChange));
         expect([functionID functionNameForId:32784]).to(equal(SDLNameOnWayPointChange));
         expect([functionID functionNameForId:32785]).to(equal(SDLNameOnRCStatus));
+        expect([functionID functionNameForId:32786]).to(equal(SDLNameOnAppServiceData));
 
         //Not listed in Spec
         expect([functionID functionNameForId:65536]).to(equal(SDLNameEncodedSyncPData));

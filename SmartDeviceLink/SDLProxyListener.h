@@ -26,6 +26,7 @@
 @class SDLGetWaypointsResponse;
 @class SDLListFilesResponse;
 @class SDLOnAppInterfaceUnregistered;
+@class SDLOnAppServiceData;
 @class SDLOnAudioPassThru;
 @class SDLOnButtonEvent;
 @class SDLOnButtonPress;
@@ -279,6 +280,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param notification A SDLOnAppInterfaceUnregistered object
  */
 - (void)onOnAppInterfaceUnregistered:(SDLOnAppInterfaceUnregistered *)notification;
+
+/**
+ *  Called when an On App Service Data notification is received from Core
+ *
+ *  @param notification A SDLOnAppServiceData object
+ */
+- (void)onOnAppServiceData:(SDLOnAppServiceData *)notification;
 
 /**
  *  Called when an On Audio Pass Thru notification is received from Core
