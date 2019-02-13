@@ -157,6 +157,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveGetDTCsResponse response:response];
 }
 
+- (void)onGetFileResponse:(SDLGetFileResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveGetFileResponse response:response];
+}
+
 - (void)onGetInteriorVehicleDataResponse:(SDLGetInteriorVehicleDataResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveGetInteriorVehicleDataResponse response:response];
 }

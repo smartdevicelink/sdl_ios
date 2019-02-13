@@ -134,6 +134,7 @@ extern SDLNotificationName const SDLDidReceiveEndAudioPassThruResponse;
 extern SDLNotificationName const SDLDidReceiveGenericResponse;
 extern SDLNotificationName const SDLDidReceiveGetAppServiceDataResponse;
 extern SDLNotificationName const SDLDidReceiveGetDTCsResponse;
+extern SDLNotificationName const SDLDidReceiveGetFileResponse;
 extern SDLNotificationName const SDLDidReceiveGetInteriorVehicleDataResponse;
 extern SDLNotificationName const SDLDidReceiveGetSystemCapabilitiesResponse;
 extern SDLNotificationName const SDLDidReceiveGetVehicleDataResponse;

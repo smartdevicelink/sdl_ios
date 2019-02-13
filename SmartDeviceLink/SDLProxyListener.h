@@ -21,6 +21,7 @@
 @class SDLGenericResponse;
 @class SDLGetAppServiceDataResponse;
 @class SDLGetDTCsResponse;
+@class SDLGetFileResponse;
 @class SDLGetInteriorVehicleDataResponse;
 @class SDLGetSystemCapabilityResponse;
 @class SDLGetVehicleDataResponse;
@@ -240,6 +241,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param response A SDLGetDTCsResponse object
  */
 - (void)onGetDTCsResponse:(SDLGetDTCsResponse *)response;
+
+/**
+ *  Called when a Get File Response is received from Core
+ *
+ *  @param response A SDLGetFileResponse object
+ */
+- (void)onGetFileResponse:(SDLGetFileResponse *)response;
 
 /**
  *  Called when a Get Interior Vehicle Data Response is received from Core

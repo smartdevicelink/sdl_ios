@@ -42,6 +42,7 @@ SDLNotificationName const SDLDidReceiveEndAudioPassThruResponse = @"com.sdl.resp
 SDLNotificationName const SDLDidReceiveGenericResponse = @"com.sdl.response.generic";
 SDLNotificationName const SDLDidReceiveGetAppServiceDataResponse = @"com.sdl.response.getAppServiceData";
 SDLNotificationName const SDLDidReceiveGetDTCsResponse = @"com.sdl.response.getDTCs";
+SDLNotificationName const SDLDidReceiveGetFileResponse = @"com.sdl.response.getFile";
 SDLNotificationName const SDLDidReceiveGetInteriorVehicleDataResponse = @"com.sdl.response.getInteriorVehicleData";
 SDLNotificationName const SDLDidReceiveGetSystemCapabilitiesResponse = @"com.sdl.response.getSystemCapabilities";
 SDLNotificationName const SDLDidReceiveGetVehicleDataResponse = @"com.sdl.response.getVehicleData";
@@ -121,6 +122,7 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
              SDLDidReceiveGenericResponse,
              SDLDidReceiveGetAppServiceDataResponse,
              SDLDidReceiveGetDTCsResponse,
+             SDLDidReceiveGetFileResponse,
              SDLDidReceiveGetInteriorVehicleDataResponse,
              SDLDidReceiveGetSystemCapabilitiesResponse,
              SDLDidReceiveGetVehicleDataResponse,
