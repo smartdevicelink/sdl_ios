@@ -19,6 +19,7 @@
 @class SDLEncodedSyncPDataResponse;
 @class SDLEndAudioPassThruResponse;
 @class SDLGenericResponse;
+@class SDLGetAppServiceDataResponse;
 @class SDLGetDTCsResponse;
 @class SDLGetInteriorVehicleDataResponse;
 @class SDLGetSystemCapabilityResponse;
@@ -225,6 +226,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param response A SDLGenericResponse object
  */
 - (void)onGenericResponse:(SDLGenericResponse *)response;
+
+/**
+ *  Called when a Get App Service Data Response is received from Core
+ *
+ *  @param response A SDLGetAppServiceDataResponse object
+ */
+- (void)onGetAppServiceDataResponse:(SDLGetAppServiceDataResponse *)response;
 
 /**
  *  Called when a Get DTCs Response is received from Core

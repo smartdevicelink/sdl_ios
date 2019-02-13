@@ -80,6 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
                          @48: SDLNameGetSystemCapability,
                          @49: SDLNameSendHapticData,
                          @52: SDLNamePublishAppService,
+                         @53: SDLNameGetAppServiceData,
                          @32768: SDLNameOnHMIStatus,
                          @32769: SDLNameOnAppInterfaceUnregistered,
                          @32786: SDLNameOnAppServiceData,

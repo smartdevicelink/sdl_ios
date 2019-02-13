@@ -149,6 +149,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveGenericResponse response:response];
 }
 
+- (void)onGetAppServiceDataResponse:(SDLGetAppServiceDataResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveGetAppServiceDataResponse response:response];
+}
+
 - (void)onGetDTCsResponse:(SDLGetDTCsResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveGetDTCsResponse response:response];
 }
