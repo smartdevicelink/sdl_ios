@@ -181,6 +181,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveListFilesResponse response:response];
 }
 
+- (void)onPerformAppServiceInteractionResponse:(SDLPerformAppServiceInteractionResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceivePerformAppServiceInteractionResponse response:response];
+}
+
 - (void)onPerformAudioPassThruResponse:(SDLPerformAudioPassThruResponse *)response {
     [self postRPCResponseNotification:SDLDidReceivePerformAudioPassThruResponse response:response];
 }

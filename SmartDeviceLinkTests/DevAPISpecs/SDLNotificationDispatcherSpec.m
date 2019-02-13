@@ -62,6 +62,7 @@ describe(@"a notification dispatcher", ^{
         expect(@([testDispatcher respondsToSelector:@selector(onOnTouchEvent:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnVehicleData:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnWayPointChange:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onPerformAppServiceInteractionResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onPerformAudioPassThruResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onPerformInteractionResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onPublishAppService:)])).to(beTruthy());

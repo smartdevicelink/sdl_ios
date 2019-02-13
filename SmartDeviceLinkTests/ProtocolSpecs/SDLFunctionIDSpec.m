@@ -65,6 +65,7 @@ describe(@"GetFunctionName Tests", ^ {
         expect([functionID functionNameForId:52]).to(equal(SDLNamePublishAppService));
         expect([functionID functionNameForId:53]).to(equal(SDLNameGetAppServiceData));
         expect([functionID functionNameForId:54]).to(equal(SDLNameGetFile));
+        expect([functionID functionNameForId:55]).to(equal(SDLNamePerformAppServiceInteraction));
         expect([functionID functionNameForId:32768]).to(equal(SDLNameOnHMIStatus));
         expect([functionID functionNameForId:32769]).to(equal(SDLNameOnAppInterfaceUnregistered));
         expect([functionID functionNameForId:32770]).to(equal(SDLNameOnButtonEvent));

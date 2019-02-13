@@ -50,6 +50,7 @@
 @class SDLOnTouchEvent;
 @class SDLOnVehicleData;
 @class SDLOnWayPointChange;
+@class SDLPerformAppServiceInteractionResponse;
 @class SDLPerformAudioPassThruResponse;
 @class SDLPerformInteractionResponse;
 @class SDLPublishAppService;
@@ -430,6 +431,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param notification A SDLOnWayPointChange object
  */
 - (void)onOnWayPointChange:(SDLOnWayPointChange *)notification;
+
+/**
+ *  Called when a Perform App Service Interaction Response is received from Core
+ *
+ *  @param response A SDLPerformAppServiceInteractionResponse object
+ */
+- (void)onPerformAppServiceInteractionResponse:(SDLPerformAppServiceInteractionResponse *)response;
 
 /**
  *  Called when a Perform Audio Pass Thru Response is received from Core

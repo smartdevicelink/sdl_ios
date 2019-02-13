@@ -82,6 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
                          @52: SDLNamePublishAppService,
                          @53: SDLNameGetAppServiceData,
                          @54: SDLNameGetFile,
+                         @55: SDLNamePerformAppServiceInteraction,
                          @32768: SDLNameOnHMIStatus,
                          @32769: SDLNameOnAppInterfaceUnregistered,
                          @32786: SDLNameOnAppServiceData,
