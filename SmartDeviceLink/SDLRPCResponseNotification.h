@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLRPCResponseNotification : NSNotification
 
 /**
- *  The response within the userinfo dictionary
+ *  The response to be included within the userinfo dictionary
  */
 @property (copy, nonatomic, readonly) __kindof SDLRPCResponse *response;
 
