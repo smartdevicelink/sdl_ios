@@ -1336,6 +1336,7 @@
 		88F65137220C74FD00CAF321 /* SDLWeatherData.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F65135220C74FD00CAF321 /* SDLWeatherData.m */; };
 		88FF4E762215FB8200A71361 /* SDLRPCRequestNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 88FF4E742215FB8200A71361 /* SDLRPCRequestNotification.h */; };
 		88FF4E772215FB8200A71361 /* SDLRPCRequestNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 88FF4E752215FB8200A71361 /* SDLRPCRequestNotification.m */; };
+		88FF4E7C2215FEEA00A71361 /* SDLRPCRequestNotificationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88FF4E7B2215FEEA00A71361 /* SDLRPCRequestNotificationSpec.m */; };
 		8B7B319A1F2F7B5700BDC38D /* SDLVideoStreamingCodec.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B31981F2F7B5700BDC38D /* SDLVideoStreamingCodec.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8B7B319B1F2F7B5700BDC38D /* SDLVideoStreamingCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B7B31991F2F7B5700BDC38D /* SDLVideoStreamingCodec.m */; };
 		8B7B319E1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B319C1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2733,8 +2734,8 @@
 		5DB9965B1F268F97002D8795 /* SDLControlFramePayloadVideoStartService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLControlFramePayloadVideoStartService.m; sourceTree = "<group>"; };
 		5DB9965E1F28C6ED002D8795 /* SDLControlFramePayloadVideoStartServiceAck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLControlFramePayloadVideoStartServiceAck.h; sourceTree = "<group>"; };
 		5DB9965F1F28C6ED002D8795 /* SDLControlFramePayloadVideoStartServiceAck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLControlFramePayloadVideoStartServiceAck.m; sourceTree = "<group>"; };
-		5DBAE0AA1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLNotificationDispatcherSpec.m; path = DevAPISpecs/SDLNotificationDispatcherSpec.m; sourceTree = "<group>"; };
-		5DBAE0AC1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLResponseDispatcherSpec.m; path = DevAPISpecs/SDLResponseDispatcherSpec.m; sourceTree = "<group>"; };
+		5DBAE0AA1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLNotificationDispatcherSpec.m; sourceTree = "<group>"; };
+		5DBAE0AC1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLResponseDispatcherSpec.m; sourceTree = "<group>"; };
 		5DBEFA531F434B9E009EE295 /* SDLStreamingMediaConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLStreamingMediaConfigurationSpec.m; path = DevAPISpecs/SDLStreamingMediaConfigurationSpec.m; sourceTree = "<group>"; };
 		5DBEFA561F436132009EE295 /* SDLFakeSecurityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDLFakeSecurityManager.h; path = DevAPISpecs/SDLFakeSecurityManager.h; sourceTree = "<group>"; };
 		5DBEFA571F436132009EE295 /* SDLFakeSecurityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLFakeSecurityManager.m; path = DevAPISpecs/SDLFakeSecurityManager.m; sourceTree = "<group>"; };
@@ -2912,6 +2913,7 @@
 		88F65135220C74FD00CAF321 /* SDLWeatherData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWeatherData.m; sourceTree = "<group>"; };
 		88FF4E742215FB8200A71361 /* SDLRPCRequestNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLRPCRequestNotification.h; sourceTree = "<group>"; };
 		88FF4E752215FB8200A71361 /* SDLRPCRequestNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRPCRequestNotification.m; sourceTree = "<group>"; };
+		88FF4E7B2215FEEA00A71361 /* SDLRPCRequestNotificationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRPCRequestNotificationSpec.m; sourceTree = "<group>"; };
 		8B7B31981F2F7B5700BDC38D /* SDLVideoStreamingCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLVideoStreamingCodec.h; sourceTree = "<group>"; };
 		8B7B31991F2F7B5700BDC38D /* SDLVideoStreamingCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLVideoStreamingCodec.m; sourceTree = "<group>"; };
 		8B7B319C1F2F7CF700BDC38D /* SDLVideoStreamingProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLVideoStreamingProtocol.h; sourceTree = "<group>"; };
@@ -5422,8 +5424,8 @@
 		5DBAE0A91D35888D00CE00BF /* Dispatchers */ = {
 			isa = PBXGroup;
 			children = (
-				5DBAE0AA1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m */,
-				5DBAE0AC1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m */,
+				88FF4E7A2215FEC200A71361 /* Requests */,
+				88FF4E792215FEAF00A71361 /* Notifications */,
 			);
 			name = Dispatchers;
 			sourceTree = "<group>";
@@ -5735,6 +5737,23 @@
 			children = (
 				88FF4E742215FB8200A71361 /* SDLRPCRequestNotification.h */,
 				88FF4E752215FB8200A71361 /* SDLRPCRequestNotification.m */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		88FF4E792215FEAF00A71361 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				5DBAE0AA1D3588AC00CE00BF /* SDLNotificationDispatcherSpec.m */,
+				5DBAE0AC1D368D1A00CE00BF /* SDLResponseDispatcherSpec.m */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		88FF4E7A2215FEC200A71361 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				88FF4E7B2215FEEA00A71361 /* SDLRPCRequestNotificationSpec.m */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -7336,6 +7355,7 @@
 				1EE8C4461F3837D200FDC2CF /* SDLModuleDataSpec.m in Sources */,
 				EEA41D45210BA8CF0006CB6E /* TestTCPServer.m in Sources */,
 				1E89B0DE2031636000A47992 /* SDLSeatControlDataSpec.m in Sources */,
+				88FF4E7C2215FEEA00A71361 /* SDLRPCRequestNotificationSpec.m in Sources */,
 				8831FA3D220207DA00B8FFB7 /* SDLServiceUpdateReasonSpec.m in Sources */,
 				162E831A1A9BDE8B00906325 /* SDLOnLockScreenStatusSpec.m in Sources */,
 				162E83431A9BDE8B00906325 /* SDLSyncPDataSpec.m in Sources */,
