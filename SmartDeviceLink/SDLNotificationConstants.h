@@ -174,7 +174,7 @@ extern SDLNotificationName const SDLDidReceiveUnsubscribeWaypointsResponse;
  *  NSNotification names associated with specific RPC requests.
  */
 #pragma mark - RPC requests
-extern SDLNotificationName const SDLDidReceivePublishAppServiceRequest;
+extern SDLNotificationName const SDLDidReceivePerformAppServiceInteractionRequest;
 extern SDLNotificationName const SDLDidReceiveGetAppServiceDataRequest;
 
 /**

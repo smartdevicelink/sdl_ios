@@ -194,11 +194,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)onPerformAppServiceInteractionRequest:(SDLPerformAppServiceInteraction *)request {
-    [self postRPCRequestNotification:SDLDidReceivePublishAppServiceRequest request:request];
+    [self postRPCRequestNotification:SDLDidReceivePerformAppServiceInteractionRequest request:request];
 }
 
 - (void)onPerformAppServiceInteractionResponse:(SDLPerformAppServiceInteractionResponse *)response {
-    [self postRPCResponseNotification:SDLDidReceivePerformInteractionResponse response:response];
+    [self postRPCResponseNotification:SDLDidReceivePerformAppServiceInteractionResponse response:response];
 }
 
 - (void)onPerformAudioPassThruResponse:(SDLPerformAudioPassThruResponse *)response {

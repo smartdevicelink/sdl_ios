@@ -79,7 +79,7 @@ SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataResponse = @"com.sd
 SDLNotificationName const SDLDidReceiveUnsubscribeWaypointsResponse = @"com.sdl.response.unsubscribeWaypoints";
 
 #pragma mark - RPC Requests
-SDLNotificationName const SDLDidReceivePublishAppServiceRequest = @"com.sdl.request.publishAppService";
+SDLNotificationName const SDLDidReceivePerformAppServiceInteractionRequest = @"com.sdl.request.performAppServiceInteraction";
 SDLNotificationName const SDLDidReceiveGetAppServiceDataRequest = @"com.sdl.request.getAppServiceData";
 
 #pragma mark - RPC Notifications
@@ -165,7 +165,7 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
 }
 
 + (NSArray<SDLNotificationName> *)allRequestNames {
-    return @[SDLDidReceivePublishAppServiceRequest,
+    return @[SDLDidReceivePerformAppServiceInteractionRequest,
              SDLDidReceiveGetAppServiceDataRequest];
 }
 
