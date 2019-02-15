@@ -10,6 +10,7 @@
 
 #import "SDLProxyListener.h"
 
+@class SDLRPCRequest;
 @class SDLRPCResponse;
 @class SDLRPCNotification;
 
@@ -28,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param info The object to be send along in the `userInfo` dictionary.
  */
 - (void)postNotificationName:(NSString *)name infoObject:(nullable id)info;
+
+- (void)postRPCRequestNotification:(NSString *)name request:(__kindof SDLRPCRequest *)request;
 - (void)postRPCResponseNotification:(NSString *)name response:(__kindof SDLRPCResponse *)response;
 - (void)postRPCNotificationNotification:(NSString *)name notification:(__kindof SDLRPCNotification *)rpcNotification;
 

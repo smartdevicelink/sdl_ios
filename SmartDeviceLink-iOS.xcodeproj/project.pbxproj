@@ -1334,7 +1334,7 @@
 		88F65133220C6DC300CAF321 /* SDLWeatherAlertSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F65132220C6DC300CAF321 /* SDLWeatherAlertSpec.m */; };
 		88F65136220C74FD00CAF321 /* SDLWeatherData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F65134220C74FD00CAF321 /* SDLWeatherData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88F65137220C74FD00CAF321 /* SDLWeatherData.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F65135220C74FD00CAF321 /* SDLWeatherData.m */; };
-		88FF4E762215FB8200A71361 /* SDLRPCRequestNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 88FF4E742215FB8200A71361 /* SDLRPCRequestNotification.h */; };
+		88FF4E762215FB8200A71361 /* SDLRPCRequestNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 88FF4E742215FB8200A71361 /* SDLRPCRequestNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88FF4E772215FB8200A71361 /* SDLRPCRequestNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 88FF4E752215FB8200A71361 /* SDLRPCRequestNotification.m */; };
 		88FF4E7C2215FEEA00A71361 /* SDLRPCRequestNotificationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88FF4E7B2215FEEA00A71361 /* SDLRPCRequestNotificationSpec.m */; };
 		8B7B319A1F2F7B5700BDC38D /* SDLVideoStreamingCodec.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B7B31981F2F7B5700BDC38D /* SDLVideoStreamingCodec.h */; settings = {ATTRIBUTES = (Public, ); }; };

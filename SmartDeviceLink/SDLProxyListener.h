@@ -19,6 +19,7 @@
 @class SDLEncodedSyncPDataResponse;
 @class SDLEndAudioPassThruResponse;
 @class SDLGenericResponse;
+@class SDLGetAppServiceData;
 @class SDLGetAppServiceDataResponse;
 @class SDLGetDTCsResponse;
 @class SDLGetFileResponse;
@@ -50,10 +51,11 @@
 @class SDLOnTouchEvent;
 @class SDLOnVehicleData;
 @class SDLOnWayPointChange;
+@class SDLPerformAppServiceInteraction;
 @class SDLPerformAppServiceInteractionResponse;
 @class SDLPerformAudioPassThruResponse;
 @class SDLPerformInteractionResponse;
-@class SDLPublishAppService;
+@class SDLPublishAppServiceResponse;
 @class SDLPutFileResponse;
 @class SDLReadDIDResponse;
 @class SDLRegisterAppInterfaceResponse;
@@ -228,6 +230,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param response A SDLGenericResponse object
  */
 - (void)onGenericResponse:(SDLGenericResponse *)response;
+
+/**
+ *  Called when a Get App Service Data Request is received from Core
+ *
+ *  @param request A SDLGetAppServiceData object
+ */
+- (void)onGetAppServiceDataRequest:(SDLGetAppServiceData *)request;
 
 /**
  *  Called when a Get App Service Data Response is received from Core
@@ -433,6 +442,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onOnWayPointChange:(SDLOnWayPointChange *)notification;
 
 /**
+ *  Called when a Perform App Service Interaction Request is received from Core
+ *
+ *  @param request A SDLPerformAppServiceInteraction object
+ */
+- (void)onPerformAppServiceInteractionRequest:(SDLPerformAppServiceInteraction *)request;
+
+/**
  *  Called when a Perform App Service Interaction Response is received from Core
  *
  *  @param response A SDLPerformAppServiceInteractionResponse object
@@ -458,7 +474,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param response A SDLPublishAppService object
  */
-- (void)onPublishAppService:(SDLPublishAppService *)response;
+- (void)onPublishAppServiceResponse:(SDLPublishAppServiceResponse *)response;
 
 /**
  *  Called when a Put File Response is received from Core
