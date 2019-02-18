@@ -23,11 +23,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setServiceId:(NSString *)serviceId {
-    [store sdl_setObject:serviceId forName:SDLNameServiceId];
+    [store sdl_setObject:serviceId forName:SDLNameServiceID];
 }
 
 -(NSString *)serviceId {
-    return [store sdl_objectForName:SDLNameServiceId];
+    return [store sdl_objectForName:SDLNameServiceID];
 }
 
 - (void)setWeatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData {

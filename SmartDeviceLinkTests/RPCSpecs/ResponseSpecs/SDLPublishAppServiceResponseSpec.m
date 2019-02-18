@@ -20,7 +20,7 @@ describe(@"Getter/Setter Tests", ^{
 
     beforeEach(^{
         testAppServiceRecord = [[SDLAppServiceRecord alloc] init];
-        testAppServiceRecord.serviceId = @"testServiceId";
+        testAppServiceRecord.serviceID = @"testServiceId";
     });
 
     it(@"Should set and get correctly", ^{

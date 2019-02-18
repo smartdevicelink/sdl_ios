@@ -45,7 +45,7 @@ describe(@"Getter/Setter Tests", ^{
 
     it(@"Should get correctly when initialized with a dictionary", ^{
         NSDictionary *dict = @{SDLNameServiceType:testServiceType,
-                               SDLNameServiceId:testServiceId,
+                               SDLNameServiceID:testServiceId,
                                SDLNameMediaServiceData:testMediaServiceData,
                                SDLNameWeatherServiceData:testWeatherServiceData
                                };

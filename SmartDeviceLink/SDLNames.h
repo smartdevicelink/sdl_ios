@@ -557,7 +557,7 @@ extern SDLName const SDLNameSendLocationEnabled;
 extern SDLName const SDLNameServiceActive;
 extern SDLName const SDLNameServiceData;
 extern SDLName const SDLNameServiceIcon;
-extern SDLName const SDLNameServiceId;
+extern SDLName const SDLNameServiceID;
 extern SDLName const SDLNameServiceManifest;
 extern SDLName const SDLNameServiceName;
 extern SDLName const SDLNameServicePublished;

@@ -16,13 +16,13 @@
 QuickSpecBegin(SDLAppServiceRecordSpec)
 
 describe(@"Getter/Setter Tests", ^{
-    __block NSString *testServiceId = nil;
+    __block NSString *testServiceID = nil;
     __block SDLAppServiceManifest *testAppServiceManifest = nil;
     __block NSNumber<SDLBool> *testServicePublished = nil;
     __block NSNumber<SDLBool> *testServiceActive = nil;
 
     beforeEach(^{
-        testServiceId = @"12345";
+        testServiceID = @"12345";
         testAppServiceManifest = [[SDLAppServiceManifest alloc] initWithDictionary:@{SDLNameAllowAppConsumers:@NO}];
         testServicePublished = @NO;
         testServiceActive = @YES;
@@ -30,35 +30,35 @@ describe(@"Getter/Setter Tests", ^{
 
     it(@"Should set and get correctly", ^{
         SDLAppServiceRecord *testStruct = [[SDLAppServiceRecord alloc] init];
-        testStruct.serviceId = testServiceId;
+        testStruct.serviceID = testServiceID;
         testStruct.serviceManifest = testAppServiceManifest;
         testStruct.servicePublished = testServicePublished;
         testStruct.serviceActive = testServiceActive;
 
-        expect(testStruct.serviceId).to(match(testServiceId));
+        expect(testStruct.serviceID).to(match(testServiceID));
         expect(testStruct.serviceManifest).to(equal(testAppServiceManifest));
         expect(testStruct.servicePublished).to(equal(testServicePublished));
         expect(testStruct.serviceActive).to(equal(testServiceActive));
     });
 
     it(@"Should initWithServiceId:serviceManifest:servicePublished:serviceActive: correctly", ^{
-        SDLAppServiceRecord *testStruct = [[SDLAppServiceRecord alloc] initWithServiceId:testServiceId serviceManifest:testAppServiceManifest servicePublished:false serviceActive:true];
+        SDLAppServiceRecord *testStruct = [[SDLAppServiceRecord alloc] initWithServiceID:testServiceID serviceManifest:testAppServiceManifest servicePublished:false serviceActive:true];
 
-        expect(testStruct.serviceId).to(match(testServiceId));
+        expect(testStruct.serviceID).to(match(testServiceID));
         expect(testStruct.serviceManifest).to(equal(testAppServiceManifest));
         expect(testStruct.servicePublished).to(equal(testServicePublished));
         expect(testStruct.serviceActive).to(equal(testServiceActive));
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameServiceId:testServiceId,
+        NSDictionary *dict = @{SDLNameServiceID:testServiceID,
                                SDLNameServiceManifest:testAppServiceManifest,
                                SDLNameServicePublished:testServicePublished,
                                SDLNameServiceActive:testServiceActive
                                     };
         SDLAppServiceRecord *testStruct = [[SDLAppServiceRecord alloc] initWithDictionary:dict];
 
-        expect(testStruct.serviceId).to(match(testServiceId));
+        expect(testStruct.serviceID).to(match(testServiceID));
         expect(testStruct.serviceManifest).to(equal(testAppServiceManifest));
         expect(testStruct.servicePublished).to(equal(testServicePublished));
         expect(testStruct.serviceActive).to(equal(testServiceActive));
@@ -67,7 +67,7 @@ describe(@"Getter/Setter Tests", ^{
     it(@"Should return nil if not set", ^{
         SDLAppServiceRecord *testStruct = [[SDLAppServiceRecord alloc] init];
 
-        expect(testStruct.serviceId).to(beNil());
+        expect(testStruct.serviceID).to(beNil());
         expect(testStruct.serviceManifest).to(beNil());
         expect(testStruct.servicePublished).to(beNil());
         expect(testStruct.serviceActive).to(beNil());
