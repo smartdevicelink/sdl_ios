@@ -28,7 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
     __block NSString *testURIPrefix = nil;
     __block NSString *testURIScheme = nil;
     __block SDLSyncMsgVersion *testRPCSpecVersion = nil;
-    __block NSArray<SDLFunctionID *> *testHandledRPCs = nil;
+    __block NSArray<NSNumber<SDLInt> *> *testHandledRPCs = nil;
     __block SDLWeatherServiceManifest *testWeatherServiceManifest = nil;
     __block SDLMediaServiceManifest *testMediaServiceManifest = nil;
 
@@ -40,7 +40,7 @@ describe(@"Getter/Setter Tests", ^ {
         testURIPrefix = @"testURIPrefix";
         testURIScheme = @"testURIScheme";
         testRPCSpecVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:5 minorVersion:2 patchVersion:1];
-        testHandledRPCs = @[];
+        testHandledRPCs = [[NSArray alloc] initWithObjects:[SDLFunctionID.sharedInstance functionIdForName:SDLNameAddCommand], [SDLFunctionID.sharedInstance functionIdForName:SDLNameCreateInteractionChoiceSet], nil];
         testWeatherServiceManifest = [[SDLWeatherServiceManifest alloc] initWithCurrentForecastSupported:true maxMultidayForecastAmount:3 maxHourlyForecastAmount:0 maxMinutelyForecastAmount:0 weatherForLocationSupported:false];
         testMediaServiceManifest = [[SDLMediaServiceManifest alloc] init];
     });

@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAppServiceManifest
 
-- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers uriPrefix:(nullable NSString *)uriPrefix uriScheme:(nullable NSString *)uriScheme rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<SDLFunctionID *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest {
+- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers uriPrefix:(nullable NSString *)uriPrefix uriScheme:(nullable NSString *)uriScheme rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest {
     self = [self init];
     if (!self) {
         return self;
@@ -96,12 +96,12 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameRPCSpecVersion ofClass:SDLSyncMsgVersion.class];
 }
 
-- (void)setHandledRPCs:(nullable NSArray<SDLFunctionID *> *)handledRPCs {
+- (void)setHandledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs {
     [store sdl_setObject:handledRPCs forName:SDLNameHandledRPCs];
 }
 
-- (nullable NSArray<SDLFunctionID *> *)handledRPCs {
-    return [store sdl_objectsForName:SDLNameHandledRPCs ofClass:SDLFunctionID.class];
+- (nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs {
+    return [store sdl_objectForName:SDLNameHandledRPCs];
 }
 
 - (void)setWeatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest {
