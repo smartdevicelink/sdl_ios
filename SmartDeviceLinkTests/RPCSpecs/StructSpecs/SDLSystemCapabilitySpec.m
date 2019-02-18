@@ -22,14 +22,14 @@
 QuickSpecBegin(SDLSystemCapabilitySpec)
 
 describe(@"Getter/Setter Tests", ^ {
-    __block SDLAppServicesCapabilities *testAppServicesCapabilities = nil;
+    __block SDLAppServicesCapabilities *testAppServiceCapability = nil;
     __block SDLNavigationCapability *testNavigationCapability = nil;
     __block SDLPhoneCapability *testPhoneCapability = nil;
     __block SDLRemoteControlCapabilities *testRemoteControlCapabilities = nil;
     __block SDLVideoStreamingCapability *testVideoStreamingCapability = nil;
 
     beforeEach(^{
-        testAppServicesCapabilities = [[SDLAppServicesCapabilities alloc] initWithServicesSupported:@[SDLAppServiceTypeTTS, SDLAppServiceTypeMedia] appServices:nil];
+        testAppServiceCapability = [[SDLAppServicesCapabilities alloc] initWithServicesSupported:@[SDLAppServiceTypeTTS, SDLAppServiceTypeMedia] appServices:nil];
         testNavigationCapability = [[SDLNavigationCapability alloc] initWithSendLocation:YES waypoints:NO];
         testPhoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
         testRemoteControlCapabilities = [[SDLRemoteControlCapabilities alloc] initWithClimateControlCapabilities:nil radioControlCapabilities:nil buttonCapabilities:nil seatControlCapabilities:nil audioControlCapabilities:nil hmiSettingsControlCapabilities:nil lightControlCapabilities:nil];
@@ -39,14 +39,14 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] init];
         testStruct.systemCapabilityType = SDLSystemCapabilityTypeNavigation;
-        testStruct.appServicesCapabilities = testAppServicesCapabilities;
+        testStruct.appServiceCapability = testAppServiceCapability;
         testStruct.navigationCapability = testNavigationCapability;
         testStruct.phoneCapability = testPhoneCapability;
         testStruct.videoStreamingCapability = testVideoStreamingCapability;
         testStruct.remoteControlCapability = testRemoteControlCapabilities;
 
         expect(testStruct.systemCapabilityType).to(equal(SDLSystemCapabilityTypeNavigation));
-        expect(testStruct.appServicesCapabilities).to(equal(testAppServicesCapabilities));
+        expect(testStruct.appServiceCapability).to(equal(testAppServiceCapability));
         expect(testStruct.navigationCapability).to(equal(testNavigationCapability));
         expect(testStruct.phoneCapability).to(equal(testPhoneCapability));
         expect(testStruct.videoStreamingCapability).to(equal(testVideoStreamingCapability));
@@ -72,7 +72,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] init];
 
         expect(testStruct.systemCapabilityType).to(beNil());
-        expect(testStruct.appServicesCapabilities).to(beNil());
+        expect(testStruct.appServiceCapability).to(beNil());
         expect(testStruct.navigationCapability).to(beNil());
         expect(testStruct.phoneCapability).to(beNil());
         expect(testStruct.videoStreamingCapability).to(beNil());
@@ -80,10 +80,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"should initialize correctly with initWithAppServicesCapabilities:", ^{
-        SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] initWithAppServicesCapabilities:testAppServicesCapabilities];
+        SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] initWithAppServicesCapabilities:testAppServiceCapability];
 
         expect(testStruct.systemCapabilityType).to(equal(SDLSystemCapabilityTypeAppServices));
-        expect(testStruct.appServicesCapabilities).to(equal(testAppServicesCapabilities));
+        expect(testStruct.appServiceCapability).to(equal(testAppServiceCapability));
         expect(testStruct.navigationCapability).to(beNil());
         expect(testStruct.phoneCapability).to(beNil());
         expect(testStruct.remoteControlCapability).to(beNil());
@@ -95,7 +95,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] initWithPhoneCapability:testPhoneStruct];
 
         expect(testStruct.systemCapabilityType).to(equal(SDLSystemCapabilityTypePhoneCall));
-        expect(testStruct.appServicesCapabilities).to(beNil());
+        expect(testStruct.appServiceCapability).to(beNil());
         expect(testStruct.navigationCapability).to(beNil());
         expect(testStruct.phoneCapability).to(equal(testPhoneStruct));
         expect(testStruct.remoteControlCapability).to(beNil());
@@ -107,7 +107,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] initWithNavigationCapability:testNavStruct];
 
         expect(testStruct.systemCapabilityType).to(equal(SDLSystemCapabilityTypeNavigation));
-        expect(testStruct.appServicesCapabilities).to(beNil());
+        expect(testStruct.appServiceCapability).to(beNil());
         expect(testStruct.navigationCapability).to(equal(testNavStruct));
         expect(testStruct.phoneCapability).to(beNil());
         expect(testStruct.remoteControlCapability).to(beNil());
@@ -136,7 +136,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] initWithVideoStreamingCapability:testVidStruct];
 
         expect(testStruct.systemCapabilityType).to(equal(SDLSystemCapabilityTypeVideoStreaming));
-        expect(testStruct.appServicesCapabilities).to(beNil());
+        expect(testStruct.appServiceCapability).to(beNil());
         expect(testStruct.navigationCapability).to(beNil());
         expect(testStruct.phoneCapability).to(beNil());
         expect(testStruct.remoteControlCapability).to(beNil());
@@ -147,7 +147,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] initWithRemoteControlCapability:testRemoteControlCapabilities];
         
         expect(testStruct.systemCapabilityType).to(equal(SDLSystemCapabilityTypeRemoteControl));
-        expect(testStruct.appServicesCapabilities).to(beNil());
+        expect(testStruct.appServiceCapability).to(beNil());
         expect(testStruct.navigationCapability).to(beNil());
         expect(testStruct.phoneCapability).to(beNil());
         expect(testStruct.remoteControlCapability).to(equal(testRemoteControlCapabilities));
