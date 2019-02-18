@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLAppServiceManifest : SDLRPCStruct
 
-- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable NSString *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers uriPrefix:(nullable NSString *)uriPrefix rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<SDLFunctionID *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest;
+- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers uriPrefix:(nullable NSString *)uriPrefix uriScheme:(nullable NSString *)uriScheme rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<SDLFunctionID *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest;
 
 /**
  *  Unique name of this service.
@@ -53,14 +53,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *allowAppConsumers;
 
 /**
- *  The URI prefix for this service. If provided, all PerformAppServiceInteraction requests must start with it.
+ *  The URI prefix for this service. If provided, all `PerformAppServiceInteraction` requests must start with it.
  *
  *  String, Optional
  */
 @property (nullable, strong, nonatomic) NSString *uriPrefix;
 
-
-// TODO: uriScheme need to figure out what JSONObject is
+/**
+ *  This is a custom schema for this service. SDL will not do any verification on this param past that it has a correctly formated JSON Object as its base. The `uriScheme` should contain all available actions to be taken through a `PerformAppServiceInteraction` request from an app service consumer.
+ *
+ *  String, Optional
+ */
+@property (nullable, strong, nonatomic) NSString *uriScheme;
 
 /**
  *  This is the max RPC Spec version the app service understands. This is important during the RPC passthrough functionality. If not included, it is assumed the max version of the module is acceptable.

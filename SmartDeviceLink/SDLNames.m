@@ -678,6 +678,7 @@ SDLName const SDLNameUpdateReason= @"updateReason";
 SDLName const SDLNameUpdateTurnList = @"UpdateTurnList";
 SDLName const SDLNameUpDownAvailable = @"upDownAvailable";
 SDLName const SDLNameURIPrefix = @"uriPrefix";
+SDLName const SDLNameURIScheme = @"uriScheme";
 SDLName const SDLNameURL = @"url";
 SDLName const SDLNameURLUppercase = @"URL";
 SDLName const SDLNameUserDisallowed = @"userDisallowed";

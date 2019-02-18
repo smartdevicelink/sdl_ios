@@ -683,6 +683,7 @@ extern SDLName const SDLNameUpdateReason;
 extern SDLName const SDLNameUpdateTurnList;
 extern SDLName const SDLNameUpDownAvailable;
 extern SDLName const SDLNameURIPrefix;
+extern SDLName const SDLNameURIScheme;
 extern SDLName const SDLNameURL;
 extern SDLName const SDLNameURLUppercase;
 extern SDLName const SDLNameUserDisallowed;
