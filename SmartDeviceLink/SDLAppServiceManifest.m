@@ -8,14 +8,19 @@
 
 #import "SDLAppServiceManifest.h"
 #import "NSMutableDictionary+Store.h"
-#import "SDLFunctionID.h"
 #import "SDLNames.h"
+
+#import "SDLFunctionID.h"
+#import "SDLImage.h"
+#import "SDLMediaServiceManifest.h"
+#import "SDLSyncMsgVersion.h"
+#import "SDLWeatherServiceManifest.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAppServiceManifest
 
-- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable NSString *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers uriPrefix:(nullable NSString *)uriPrefix rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<SDLFunctionID *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest {
+- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers uriPrefix:(nullable NSString *)uriPrefix rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<SDLFunctionID *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest {
     self = [self init];
     if (!self) {
         return self;
@@ -50,12 +55,12 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameServiceType];
 }
 
-- (void)setServiceIcon:(nullable  NSString *)serviceIcon {
+- (void)setServiceIcon:(nullable SDLImage *)serviceIcon {
     [store sdl_setObject:serviceIcon forName:SDLNameServiceIcon];
 }
 
-- (nullable NSString *)serviceIcon {
-    return [store sdl_objectForName:SDLNameServiceIcon];
+- (nullable SDLImage *)serviceIcon {
+    return [store sdl_objectForName:SDLNameServiceIcon ofClass:SDLImage.class];
 }
 
 - (void)setAllowAppConsumers:(nullable  NSNumber<SDLBool> *)allowAppConsumers {

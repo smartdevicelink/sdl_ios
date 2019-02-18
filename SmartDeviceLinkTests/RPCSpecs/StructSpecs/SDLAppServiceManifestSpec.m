@@ -10,7 +10,12 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLAppServiceManifest.h"
+#import "SDLAppServiceType.h"
+#import "SDLFunctionID.h"
+#import "SDLImage.h"
+#import "SDLMediaServiceManifest.h"
 #import "SDLNames.h"
+#import "SDLSyncMsgVersion.h"
 #import "SDLWeatherServiceManifest.h"
 
 QuickSpecBegin(SDLAppServiceManifestSpec)
@@ -18,7 +23,7 @@ QuickSpecBegin(SDLAppServiceManifestSpec)
 describe(@"Getter/Setter Tests", ^ {
     __block NSString *testServiceName = nil;
     __block NSString *testServiceType = nil;
-    __block NSString *testServiceIcon = nil;
+    __block SDLImage *testServiceIcon = nil;
     __block NSNumber<SDLBool> *testAllowAppConsumers = nil;
     __block NSString *testURIPrefix = nil;
     __block SDLSyncMsgVersion *testRPCSpecVersion = nil;
@@ -29,7 +34,7 @@ describe(@"Getter/Setter Tests", ^ {
     beforeEach(^{
         testServiceName = @"testService";
         testServiceType = SDLAppServiceTypeMedia;
-        testServiceIcon = @"testIcon";
+        testServiceIcon = [[SDLImage alloc] initWithName:@"testImage" isTemplate:false];
         testAllowAppConsumers = @YES;
         testURIPrefix = @"testURIPrefix";
         testRPCSpecVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:5 minorVersion:2 patchVersion:1];
@@ -51,8 +56,8 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.mediaServiceManifest = testMediaServiceManifest;
 
         expect(testStruct.serviceName).to(match(testServiceName));
-        expect(testStruct.serviceType).to(equal(testServiceType));
-        expect(testStruct.serviceIcon).to(match(testServiceIcon));
+        expect(testStruct.serviceType).to(match(testServiceType));
+        expect(testStruct.serviceIcon).to(equal(testServiceIcon));
         expect(testStruct.allowAppConsumers).to(beTrue());
         expect(testStruct.uriPrefix).to(match(testURIPrefix));
         expect(testStruct.rpcSpecVersion).to(equal(testRPCSpecVersion));
@@ -65,8 +70,8 @@ describe(@"Getter/Setter Tests", ^ {
         SDLAppServiceManifest *testStruct = [[SDLAppServiceManifest alloc] initWithServiceName:testServiceName serviceType:testServiceType serviceIcon:testServiceIcon allowAppConsumers:false uriPrefix:testURIPrefix rpcSpecVersion:testRPCSpecVersion handledRPCs:testHandledRPCs mediaServiceManifest:testMediaServiceManifest weatherServiceManifest:testWeatherServiceManifest];
 
         expect(testStruct.serviceName).to(match(testServiceName));
-        expect(testStruct.serviceType).to(equal(testServiceType));
-        expect(testStruct.serviceIcon).to(match(testServiceIcon));
+        expect(testStruct.serviceType).to(match(testServiceType));
+        expect(testStruct.serviceIcon).to(equal(testServiceIcon));
         expect(testStruct.allowAppConsumers).to(beFalse());
         expect(testStruct.uriPrefix).to(match(testURIPrefix));
         expect(testStruct.rpcSpecVersion).to(equal(testRPCSpecVersion));
@@ -90,7 +95,7 @@ describe(@"Getter/Setter Tests", ^ {
 
         expect(testStruct.serviceName).to(match(testServiceName));
         expect(testStruct.serviceType).to(equal(testServiceType));
-        expect(testStruct.serviceIcon).to(match(testServiceIcon));
+        expect(testStruct.serviceIcon).to(equal(testServiceIcon));
         expect(testStruct.allowAppConsumers).to(beTrue());
         expect(testStruct.uriPrefix).to(match(testURIPrefix));
         expect(testStruct.rpcSpecVersion).to(equal(testRPCSpecVersion));

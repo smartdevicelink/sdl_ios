@@ -6,14 +6,14 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import "SDLAppServiceType.h"
-#import "SDLFileType.h"
-#import "SDLMediaServiceManifest.h"
 #import "SDLRPCRequest.h"
-#import "SDLSyncMsgVersion.h"
-#import "SDLWeatherServiceManifest.h"
 
 @class SDLFunctionID;
+@class SDLImage;
+@class SDLMediaServiceManifest;
+@class SDLSyncMsgVersion;
+@class SDLWeatherServiceManifest;
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  String, Optional
  */
-@property (nullable, strong, nonatomic) NSString *serviceIcon;
+@property (nullable, strong, nonatomic) SDLImage *serviceIcon;
 
 /**
  *  If true, app service consumers beyond the IVI system will be able to access this service. If false, only the IVI system will be able consume the service. If not provided, it is assumed to be false.
