@@ -17,7 +17,7 @@ QuickSpecBegin(SDLAppServiceManifestSpec)
 
 describe(@"Getter/Setter Tests", ^ {
     __block NSString *testServiceName = nil;
-    __block SDLAppServiceType testServiceType = nil;
+    __block NSString *testServiceType = nil;
     __block NSString *testServiceIcon = nil;
     __block NSNumber<SDLBool> *testAllowAppConsumers = nil;
     __block NSString *testURIPrefix = nil;
