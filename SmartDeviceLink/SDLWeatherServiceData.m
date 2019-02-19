@@ -15,6 +15,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLWeatherServiceData
 
+- (instancetype)initWithLocation:(SDLLocationDetails *)location currentForecast:(nullable SDLWeatherData *)currentForecast minuteForecast:(nullable NSArray<SDLWeatherData *> *)minuteForecast hourlyForecast:(NSArray<SDLWeatherData *> *)hourlyForecast multidayForecast:(nullable NSArray<SDLWeatherData *> *)multidayForecast alerts:(NSArray<SDLWeatherAlert *> *)alerts {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.location = location;
+    self.currentForecast = currentForecast;
+    self.minuteForecast = minuteForecast;
+    self.hourlyForecast = hourlyForecast;
+    self.multidayForecast = multidayForecast;
+    self.alerts = alerts;
+
+    return self;
+}
+
 - (void)setLocation:(SDLLocationDetails *)location {
     [store sdl_setObject:location forName:SDLNameLocation];
 }
