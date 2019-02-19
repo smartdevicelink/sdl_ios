@@ -29,12 +29,12 @@ NS_ASSUME_NONNULL_BEGIN
  *  Convenience init.
  *
  *  @param serviceUri              The service URI
- *  @param appServiceId            The app service ID
+ *  @param serviceID            The app service ID
  *  @param originApp               The origin app
  *  @param requestServiceActive    Whether or not the service is active
  *  @return                        A SDLPerformAppServiceInteraction object
  */
-- (instancetype)initWithServiceUri:(NSString *)serviceUri appServiceId:(NSString *)appServiceId originApp:(NSString *)originApp requestServiceActive:(BOOL)requestServiceActive;
+- (instancetype)initWithServiceUri:(NSString *)serviceUri serviceID:(NSString *)serviceID originApp:(NSString *)originApp requestServiceActive:(BOOL)requestServiceActive;
 
 /**
  *  Fully qualified URI based on the URI prefix and URI scheme the app service provided. SDL makes no gurantee that this URI is correct.
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  String, Required
  */
-@property (strong, nonatomic) NSString *appServiceId;
+@property (strong, nonatomic) NSString *serviceID;
 
 /**
  *  This string is the appID of the app requesting the app service provider take the specific action.
