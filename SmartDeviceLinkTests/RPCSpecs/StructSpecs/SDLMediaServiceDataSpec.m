@@ -97,6 +97,23 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.queueTotalTrackCount).to(equal(testQueueTotalTrackCount));
     });
 
+    it(@"Should get correctly when initialized with initWithMediaType:mediaTitle:mediaArtist:mediaAlbum:playlistName:isExplicit:trackPlaybackProgress:trackPlaybackDuration:queuePlaybackProgess:queuePlaybackDuration:queueCurrentTrackNumber:queueTotalTrackCount:", ^{
+        SDLMediaServiceData *testStruct = [[SDLMediaServiceData alloc] initWithMediaType:testMediaType mediaTitle:testMediaTitle mediaArtist:testMediaArtist mediaAlbum:testMediaAlbum playlistName:testPlaylistName isExplicit:testIsExplicit trackPlaybackProgress:testTrackPlaybackProgress trackPlaybackDuration:testTrackPlaybackDuration queuePlaybackProgess:testQueuePlaybackProgress queuePlaybackDuration:testQueuePlaybackDuration queueCurrentTrackNumber:testQueueCurrentTrackNumber queueTotalTrackCount:testQueueTotalTrackCount];
+
+        expect(testStruct.mediaType).to(equal(testMediaType));
+        expect(testStruct.mediaTitle).to(equal(testMediaTitle));
+        expect(testStruct.mediaArtist).to(equal(testMediaArtist));
+        expect(testStruct.mediaAlbum).to(equal(testMediaAlbum));
+        expect(testStruct.playlistName).to(equal(testPlaylistName));
+        expect(testStruct.isExplicit).to(equal(testIsExplicit));
+        expect(testStruct.trackPlaybackProgress).to(equal(testTrackPlaybackProgress));
+        expect(testStruct.trackPlaybackDuration).to(equal(testTrackPlaybackDuration));
+        expect(testStruct.queuePlaybackProgess).to(equal(testQueuePlaybackProgress));
+        expect(testStruct.queuePlaybackDuration).to(equal(testQueuePlaybackDuration));
+        expect(testStruct.queueCurrentTrackNumber).to(equal(testQueueCurrentTrackNumber));
+        expect(testStruct.queueTotalTrackCount).to(equal(testQueueTotalTrackCount));
+    });
+
     it(@"Should return nil if not set", ^{
         SDLMediaServiceData *testStruct = [[SDLMediaServiceData alloc] init];
 

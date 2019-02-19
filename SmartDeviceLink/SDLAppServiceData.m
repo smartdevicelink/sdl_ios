@@ -17,6 +17,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAppServiceData
 
+- (instancetype)initWithServiceType:(NSString *)serviceType serviceId:(NSString *)serviceId mediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData weatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.serviceType = serviceType;
+    self.serviceId = serviceId;
+    self.mediaServiceData = mediaServiceData;
+    self.weatherServiceData = weatherServiceData;
+
+    return self;
+}
+
 - (void)setServiceType:(NSString *)serviceType {
     [store sdl_setObject:serviceType forName:SDLNameServiceType];
 }

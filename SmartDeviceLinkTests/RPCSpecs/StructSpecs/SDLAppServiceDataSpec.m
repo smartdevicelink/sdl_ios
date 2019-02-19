@@ -57,6 +57,15 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.weatherServiceData).to(equal(testWeatherServiceData));
     });
 
+    it(@"Should get correctly when initialized with initWithServiceType:serviceId:mediaServiceData:weatherServiceData:", ^{
+        SDLAppServiceData *testStruct = [[SDLAppServiceData alloc] initWithServiceType:testServiceType serviceId:testServiceId mediaServiceData:testMediaServiceData weatherServiceData:testWeatherServiceData];
+
+        expect(testStruct.serviceType).to(equal(testServiceType));
+        expect(testStruct.serviceId).to(equal(testServiceId));
+        expect(testStruct.mediaServiceData).to(equal(testMediaServiceData));
+        expect(testStruct.weatherServiceData).to(equal(testWeatherServiceData));
+    });
+
     it(@"Should return nil if not set", ^{
         SDLAppServiceData *testStruct = [[SDLAppServiceData alloc] init];
 

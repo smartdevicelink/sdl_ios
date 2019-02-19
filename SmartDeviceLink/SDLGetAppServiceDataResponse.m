@@ -20,6 +20,17 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithAppServiceData:(SDLAppServiceData *)serviceData {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.serviceData = serviceData;
+    
+    return self;
+}
+
 - (void)setServiceData:(SDLAppServiceData *)serviceData {
     [parameters sdl_setObject:serviceData forName:SDLNameServiceData];
 }

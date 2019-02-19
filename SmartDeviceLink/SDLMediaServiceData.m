@@ -15,6 +15,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLMediaServiceData
 
+- (instancetype)initWithMediaType:(nullable SDLMediaType)mediaType mediaTitle:(nullable NSString *)mediaTitle mediaArtist:(nullable NSString *)mediaArtist mediaAlbum:(nullable NSString *)mediaAlbum playlistName:(nullable NSString *)playlistName isExplicit:(BOOL)isExplicit trackPlaybackProgress:(UInt32)trackPlaybackProgress trackPlaybackDuration:(UInt32)trackPlaybackDuration queuePlaybackProgess:(UInt32)queuePlaybackProgess queuePlaybackDuration:(UInt32)queuePlaybackDuration queueCurrentTrackNumber:(UInt32)queueCurrentTrackNumber queueTotalTrackCount:(UInt32)queueTotalTrackCount {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.mediaType = mediaType;
+    self.mediaTitle = mediaTitle;
+    self.mediaArtist = mediaArtist;
+    self.mediaAlbum = mediaAlbum;
+    self.playlistName = playlistName;
+    self.isExplicit = @(isExplicit);
+    self.trackPlaybackProgress = @(trackPlaybackProgress);
+    self.trackPlaybackDuration = @(trackPlaybackDuration);
+    self.queuePlaybackProgess = @(queuePlaybackProgess);
+    self.queuePlaybackDuration = @(queuePlaybackDuration);
+    self.queueCurrentTrackNumber = @(queueCurrentTrackNumber);
+    self.queueTotalTrackCount = @(queueTotalTrackCount);
+    
+    return self;
+}
+
 - (void)setMediaType:(nullable SDLMediaType)mediaType {
     [store sdl_setObject:mediaType forName:SDLNameMediaType];
 }

@@ -37,7 +37,7 @@ describe(@"a notification dispatcher", ^{
         expect(@([testDispatcher respondsToSelector:@selector(onEndAudioPassThruResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onError:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGenericResponse:)])).to(beTruthy());
-        expect(@([testDispatcher respondsToSelector:@selector(onGetAppServiceDataRequest:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onGetAppServiceData:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGetAppServiceDataResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGetDTCsResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGetFileResponse:)])).to(beTruthy());
