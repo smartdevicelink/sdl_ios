@@ -15,6 +15,7 @@
 @class SDLProxy;
 @class SDLPutFile;
 @class SDLRegisterAppInterfaceResponse;
+@class SDLRPCMessage;
 @class SDLRPCNotification;
 @class SDLRPCRequest;
 @class SDLRPCResponse;
@@ -132,6 +133,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 #pragma mark Manually Send RPC Requests
 
+- (void)sendRPC:(__kindof SDLRPCMessage *)rpc;
 /**
  *  Send an RPC request and don't bother with the response or error. If you need the response or error, call sendRequest:withCompletionHandler: instead.
  *

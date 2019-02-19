@@ -119,12 +119,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark SDLConnectionManager Protocol
 
+- (void)sendRPC:(__kindof SDLRPCMessage *)rpc {
+    [self.lifecycleManager sendRequest:rpc];
+}
+
 - (void)sendRequest:(SDLRPCRequest *)request {
     [self sendRequest:request withResponseHandler:nil];
 }
 
-- (void)sendRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    [self.lifecycleManager sendRequest:request withResponseHandler:handler];
+- (void)sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    [self.lifecycleManager sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:handler];
 }
 
 - (void)sendRequests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {

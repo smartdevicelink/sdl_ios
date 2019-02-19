@@ -520,12 +520,13 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 #pragma mark Sending Requests
 
-- (void)sendRequest:(SDLRPCRequest *)request {
+- (void)sendRequest:(__kindof SDLRPCMessage *)request {
     [self sendRequest:request withResponseHandler:nil];
 }
 
-- (void)sendRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self request:request responseHandler:handler];
+- (void)sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self rpc:request responseHandler:handler];
+//    SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self request:request responseHandler:handler];
     [self.rpcOperationQueue addOperation:op];
 }
 
@@ -549,7 +550,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.rpcOperationQueue addOperation:op];
 }
 
-- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+- (void)sendConnectionRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         SDLLogW(@"Manager not ready, message not sent (%@)", request);
         if (handler) {
@@ -567,13 +568,13 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 // Managers need to avoid state checking. Part of <SDLConnectionManagerType>.
-- (void)sendConnectionManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+- (void)sendConnectionManagerRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     dispatch_async(_lifecycleQueue, ^{
         [self sdl_sendRequest:request withResponseHandler:handler];
     });
 }
 
-- (void)sdl_sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+- (void)sdl_sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     // We will allow things to be sent in a "SDLLifecycleStateConnected" state in the private method, but block it in the public method sendRequest:withCompletionHandler: so that the lifecycle manager can complete its setup without being bothered by developer error
     NSParameterAssert(request != nil);
 
@@ -590,11 +591,24 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 
     // Add a correlation ID to the request
-    NSNumber *corrID = [self sdl_getNextCorrelationId];
-    request.correlationID = corrID;
+    SDLRPCRequest *test = [request isKindOfClass:[SDLRPCRequest class]] ? (SDLRPCRequest *)request : nil;
+    if (test != nil) {
+        NSNumber *corrID = [self sdl_getNextCorrelationId];
+        test.correlationID = corrID;
 
-    [self.responseDispatcher storeRequest:request handler:handler];
-    [self.proxy sendRPC:request];
+        [self.responseDispatcher storeRequest:test handler:handler];
+        [self.proxy sendRPC:test];
+    }
+
+    SDLRPCResponse *testResponse = [request isKindOfClass:[SDLRPCResponse class]] ? (SDLRPCResponse *)request : nil;
+    if (testResponse != nil) {
+        [self.proxy sendRPC:testResponse];
+    }
+
+    SDLRPCNotification *testNotification = [request isKindOfClass:[SDLRPCNotification class]] ? (SDLRPCNotification *)request : nil;
+    if (testNotification != nil) {
+        [self.proxy sendRPC:testNotification];
+    }
 }
 
 

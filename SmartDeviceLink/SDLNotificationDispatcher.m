@@ -157,7 +157,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveGenericResponse response:response];
 }
 
-- (void)onGetAppServiceDataRequest:(SDLGetAppServiceData *)request {
+- (void)onGetAppServiceData:(SDLGetAppServiceData *)request {
     [self postRPCRequestNotification:SDLDidReceiveGetAppServiceDataRequest request:request];
 }
 

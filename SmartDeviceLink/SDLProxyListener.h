@@ -236,7 +236,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param request A SDLGetAppServiceData object
  */
-- (void)onGetAppServiceDataRequest:(SDLGetAppServiceData *)request;
+- (void)onGetAppServiceData:(SDLGetAppServiceData *)request;
 
 /**
  *  Called when a Get App Service Data Response is received from Core
