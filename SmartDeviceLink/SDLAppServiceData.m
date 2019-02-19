@@ -10,6 +10,9 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+#import "SDLMediaServiceData.h"
+#import "SDLWeatherServiceData.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAppServiceData

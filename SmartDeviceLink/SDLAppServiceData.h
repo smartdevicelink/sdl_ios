@@ -6,10 +6,11 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import "SDLAppServiceType.h"
-#import "SDLMediaServiceData.h"
 #import "SDLRPCRequest.h"
-#import "SDLWeatherServiceData.h"
+
+@class SDLMediaServiceData;
+@class SDLWeatherServiceData;
+
 
 NS_ASSUME_NONNULL_BEGIN
 

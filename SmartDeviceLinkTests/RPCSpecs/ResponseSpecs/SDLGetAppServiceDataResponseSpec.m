@@ -10,6 +10,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLAppServiceData.h"
+#import "SDLAppServiceType.h"
 #import "SDLGetAppServiceDataResponse.h"
 #import "SDLNames.h"
 
