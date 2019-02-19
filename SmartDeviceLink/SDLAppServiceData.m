@@ -14,11 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAppServiceData
 
-- (void)setServiceType:(SDLAppServiceType)serviceType {
+- (void)setServiceType:(NSString *)serviceType {
     [store sdl_setObject:serviceType forName:SDLNameServiceType];
 }
 
-- (SDLAppServiceType)serviceType {
+- (NSString *)serviceType {
     return [store sdl_objectForName:SDLNameServiceType];
 }
 

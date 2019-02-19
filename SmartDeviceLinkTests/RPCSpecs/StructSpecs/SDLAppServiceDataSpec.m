@@ -18,7 +18,7 @@
 QuickSpecBegin(SDLAppServiceDataSpec)
 
 describe(@"Getter/Setter Tests", ^{
-    __block SDLAppServiceType testServiceType = nil;
+    __block NSString *testServiceType = nil;
     __block NSString *testServiceId = nil;
     __block SDLMediaServiceData *testMediaServiceData = nil;
     __block SDLWeatherServiceData *testWeatherServiceData = nil;
