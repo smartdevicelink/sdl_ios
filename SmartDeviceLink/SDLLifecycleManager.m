@@ -282,8 +282,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
     // If the negotiated protocol version is greater than the minimum allowable version, we need to end service and disconnect
     if ([self.configuration.lifecycleConfig.minimumProtocolVersion isGreaterThanVersion:[SDLGlobals sharedGlobals].protocolVersion]) {
+        SDLLogW(@"Failed to connect to head unit, protocol version %@ is greater than configured minimum version %@", [SDLGlobals sharedGlobals].protocolVersion.stringVersion, self.configuration.lifecycleConfig.minimumProtocolVersion.stringVersion);
         [self.proxy.protocol endServiceWithType:SDLServiceTypeRPC];
-        [self stop];
+        [self sdl_transitionToState:SDLLifecycleStateStopped];
         return;
     }
 
@@ -319,6 +320,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 - (void)didEnterStateRegistered {
     // If the negotiated RPC version is greater than the minimum allowable version, we need to unregister and disconnect
     if ([self.configuration.lifecycleConfig.minimumRPCVersion isGreaterThanVersion:[SDLGlobals sharedGlobals].rpcVersion]) {
+        SDLLogW(@"Failed to connect to head unit, RPC version %@ is greater than configured minimum version %@", [SDLGlobals sharedGlobals].rpcVersion.stringVersion, self.configuration.lifecycleConfig.minimumRPCVersion.stringVersion);
         [self sdl_transitionToState:SDLLifecycleStateUnregistering];
         return;
     }

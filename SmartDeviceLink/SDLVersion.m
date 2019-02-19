@@ -111,4 +111,9 @@
     return self.stringVersion;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    SDLVersion *new = [[SDLVersion alloc] initWithMajor:_major minor:_minor patch:_patch];
+    return new;
+}
+
 @end

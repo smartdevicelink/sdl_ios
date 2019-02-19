@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLVersion : NSObject
+@interface SDLVersion : NSObject <NSCopying>
 
 @property (nonatomic, assign) NSUInteger major;
 @property (nonatomic, assign) NSUInteger minor;
