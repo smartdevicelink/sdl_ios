@@ -363,6 +363,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLVehicleDataType.h',
 'SmartDeviceLink/SDLVentilationMode.h',
 'SmartDeviceLink/SDLVehicleType.h',
+'SmartDeviceLink/SDLVersion.h',
 'SmartDeviceLink/SDLVideoStreamingCapability.h',
 'SmartDeviceLink/SDLVideoStreamingCodec.h',
 'SmartDeviceLink/SDLVideoStreamingFormat.h',
