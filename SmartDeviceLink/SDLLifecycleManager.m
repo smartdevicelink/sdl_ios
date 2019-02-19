@@ -280,8 +280,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         [self.proxy addSecurityManagers:self.configuration.streamingMediaConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
     }
 
-    if ([self.configuration.lifecycleConfig.minimumProtocolVersion compare:[SDLGlobals sharedGlobals].protocolVersion]) {
-
+    // If the negotiated protocol version is greater than the minimum allowable version, we need to end service and disconnect
+    if ([self.configuration.lifecycleConfig.minimumProtocolVersion isGreaterThanVersion:[SDLGlobals sharedGlobals].protocolVersion]) {
+        [self.proxy.protocol endServiceWithType:SDLServiceTypeRPC];
+        [self stop];
+        return;
     }
 
     // Build a register app interface request with the configuration data
@@ -314,6 +317,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateRegistered {
+    // If the negotiated RPC version is greater than the minimum allowable version, we need to unregister and disconnect
+    if ([self.configuration.lifecycleConfig.minimumRPCVersion isGreaterThanVersion:[SDLGlobals sharedGlobals].rpcVersion]) {
+        [self sdl_transitionToState:SDLLifecycleStateUnregistering];
+        return;
+    }
+
     NSArray<SDLLanguage> *supportedLanguages = self.configuration.lifecycleConfig.languagesSupported;
     SDLLanguage desiredLanguage = self.configuration.lifecycleConfig.language;
     SDLLanguage actualLanguage = self.registerResponse.language;

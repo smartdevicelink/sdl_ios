@@ -90,10 +90,6 @@ typedef NSNumber *MTUBox;
 
 #pragma mark - Helpers
 
-- (BOOL)sdl_isVersion:(NSString *)version1 greaterThanVersion:(NSString *)version2 {
-    return ([version1 compare:version2 options:NSNumericSearch] == NSOrderedDescending);
-}
-
 - (NSUInteger)sdl_defaultMaxMTUSize {
     // VERSION DEPENDENT CODE
     switch (self.protocolVersion.major) {
@@ -106,7 +102,7 @@ typedef NSNumber *MTUBox;
         case 4: // fallthrough
         case 5: {
             // If the head unit isn't running v3/4, but that's the connection scheme we're using, then we have to know that they could be running an MTU that's not 128k, so we default back to the v1/2 MTU for safety.
-            if ([self sdl_isVersion:self.maxHeadUnitProtocolVersion greaterThanVersion:SDLMaxProxyProtocolVersion]) {
+            if ([self.maxHeadUnitProtocolVersion isGreaterThanVersion:[SDLVersion versionWithString:SDLMaxProxyProtocolVersion]]) {
                 return SDLV1MTUSize;
             } else {
                 return SDLV3MTUSize;

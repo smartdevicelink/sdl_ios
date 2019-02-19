@@ -67,8 +67,8 @@ static NSUInteger const AppIdCharacterCount = 10;
     _shortAppName = nil;
     _ttsName = nil;
     _voiceRecognitionCommandNames = nil;
-    _minimumProtocolVersion = [[SDLVersion alloc] initWithVersion:@"1.0.0"];
-    _minimumRPCVersion = [[SDLVersion alloc] initWithVersion:@"1.0.0"];
+    _minimumProtocolVersion = [SDLVersion versionWithString:@"1.0.0"];
+    _minimumRPCVersion = [SDLVersion versionWithString:@"1.0.0"];
 
     _fullAppId = fullAppId;
     _appId = fullAppId != nil ? [self.class sdlex_shortAppIdFromFullAppId:fullAppId] : appId;
