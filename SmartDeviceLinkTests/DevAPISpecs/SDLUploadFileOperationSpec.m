@@ -8,6 +8,7 @@
 #import "SDLPutFile.h"
 #import "SDLPutFileResponse.h"
 #import "SDLUploadFileOperation.h"
+#import "SDLVersion.h"
 #import "TestConnectionManager.h"
 #import <zlib.h>
 
@@ -28,7 +29,7 @@ describe(@"Streaming upload of data", ^{
     __block NSError *errorResult = nil;
 
     beforeEach(^{
-        [SDLGlobals sharedGlobals].maxHeadUnitVersion = @"2.0.0";
+        [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithString:@"2.0.0"];
 
         testFileName = nil;
         testFileData = nil;
