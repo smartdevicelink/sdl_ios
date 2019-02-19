@@ -18,13 +18,13 @@
 QuickSpecBegin(SDLAppServiceDataSpec)
 
 describe(@"Getter/Setter Tests", ^{
-    __block SDLAppServiceType testServiceType = nil;
+    __block NSString *testServiceType = nil;
     __block NSString *testServiceId = nil;
     __block SDLMediaServiceData *testMediaServiceData = nil;
     __block SDLWeatherServiceData *testWeatherServiceData = nil;
 
     beforeEach(^{
-        testServiceType = SDLAppServiceTypeGeneric;
+        testServiceType = SDLAppServiceTypeMedia;
         testServiceId = @"a1*54z";
         testMediaServiceData = [[SDLMediaServiceData alloc] init];
         testWeatherServiceData = [[SDLWeatherServiceData alloc] init];
@@ -45,7 +45,7 @@ describe(@"Getter/Setter Tests", ^{
 
     it(@"Should get correctly when initialized with a dictionary", ^{
         NSDictionary *dict = @{SDLNameServiceType:testServiceType,
-                               SDLNameServiceId:testServiceId,
+                               SDLNameServiceID:testServiceId,
                                SDLNameMediaServiceData:testMediaServiceData,
                                SDLNameWeatherServiceData:testWeatherServiceData
                                };

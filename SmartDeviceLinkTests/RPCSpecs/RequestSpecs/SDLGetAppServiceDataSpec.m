@@ -9,13 +9,14 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLAppServiceType.h"
 #import "SDLGetAppServiceData.h"
 #import "SDLNames.h"
 
 QuickSpecBegin(SDLGetAppServiceDataSpec)
 
 describe(@"Getter/Setter Tests", ^{
-    __block SDLAppServiceType testAppServiceType = nil;
+    __block NSString *testAppServiceType = nil;
     __block BOOL testSubscribe = nil;
 
     beforeEach(^{

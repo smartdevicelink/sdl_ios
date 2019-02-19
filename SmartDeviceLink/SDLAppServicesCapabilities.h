@@ -20,18 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Convenience init
  *
- *  @param servicesSupported    An array of supported app service types.
  *  @param appServices          An array of currently available services.
  *  @return                     A SDLAppServicesCapabilities object
  */
-- (instancetype)initWithServicesSupported:(NSArray<SDLAppServiceType> *)servicesSupported appServices:(nullable NSArray<SDLAppServiceCapability *> *)appServices;
-
-/**
- *  An array of supported app service types.
- *
- *  Array of SDLAppServiceType, Required
- */
-@property (strong, nonatomic) NSArray<SDLAppServiceType> *servicesSupported;
+- (instancetype)initWithAppServices:(nullable NSArray<SDLAppServiceCapability *> *)appServices;
 
 /**
  *  An array of currently available services. If this is an update to the capability the affected services will include an update reason in that item.

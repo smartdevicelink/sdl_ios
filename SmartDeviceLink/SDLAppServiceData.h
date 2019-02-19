@@ -6,10 +6,11 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import "SDLAppServiceType.h"
-#import "SDLMediaServiceData.h"
 #import "SDLRPCRequest.h"
-#import "SDLWeatherServiceData.h"
+
+@class SDLMediaServiceData;
+@class SDLWeatherServiceData;
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,11 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLAppServiceData : SDLRPCStruct
 
 /**
- *  The type of service that is to be offered by this app.
+ *  The type of service that is to be offered by this app. See AppServiceType.
  *
- *  SDLAppServiceType, Required
+ *  String, See `SDLAppServiceType`, Required
  */
-@property (strong, nonatomic) SDLAppServiceType serviceType;
+@property (strong, nonatomic) NSString *serviceType;
 
 /**
  *   A unique ID tied to this specific service record. The ID is supplied by the module that services publish themselves.

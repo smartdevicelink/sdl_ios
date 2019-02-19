@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithServiceType:(SDLAppServiceType)serviceType subscribe:(BOOL)subscribe {
+- (instancetype)initWithServiceType:(NSString *)serviceType subscribe:(BOOL)subscribe {
     self = [self init];
     if (!self) {
         return nil;
@@ -32,11 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setServiceType:(__strong SDLAppServiceType)serviceType {
+- (void)setServiceType:(NSString *)serviceType {
     [parameters sdl_setObject:serviceType forName:SDLNameServiceType];
 }
 
-- (SDLAppServiceType)serviceType {
+- (NSString *)serviceType {
     return [parameters sdl_objectForName:SDLNameServiceType];
 }
 

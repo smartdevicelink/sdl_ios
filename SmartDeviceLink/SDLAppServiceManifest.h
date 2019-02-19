@@ -6,23 +6,23 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import "SDLAppServiceType.h"
-#import "SDLFileType.h"
-#import "SDLMediaServiceManifest.h"
 #import "SDLRPCRequest.h"
-#import "SDLSyncMsgVersion.h"
-#import "SDLWeatherServiceManifest.h"
 
 @class SDLFunctionID;
+@class SDLImage;
+@class SDLMediaServiceManifest;
+@class SDLSyncMsgVersion;
+@class SDLWeatherServiceManifest;
+
 
 NS_ASSUME_NONNULL_BEGIN
 
 /*
- *  This manifest contains all the information necessary for the service to be published, activated, and consumers able to interact with it.
+ *  This manifest contains all the information necessary for the service to be published, activated, and allow consumers to interact with it
  */
 @interface SDLAppServiceManifest : SDLRPCStruct
 
-- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(SDLAppServiceType)serviceType serviceIcon:(nullable NSString *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers uriPrefix:(nullable NSString *)uriPrefix rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<SDLFunctionID *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest;
+- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers uriPrefix:(nullable NSString *)uriPrefix uriScheme:(nullable NSString *)uriScheme rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest;
 
 /**
  *  Unique name of this service.
@@ -32,18 +32,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSString *serviceName;
 
 /**
- *  The type of service that is to be offered by this app.
+ *  The type of service that is to be offered by this app. See AppServiceType.
  *
- *  SDLAppServiceType, Required
+ *  String, See `SDLAppServiceType`, Required
  */
-@property (strong, nonatomic) SDLAppServiceType serviceType;
+@property (strong, nonatomic) NSString *serviceType;
 
 /**
  *  The file name of the icon to be associated with this service. Most likely the same as the appIcon.
  *
  *  String, Optional
  */
-@property (nullable, strong, nonatomic) NSString *serviceIcon;
+@property (nullable, strong, nonatomic) SDLImage *serviceIcon;
 
 /**
  *  If true, app service consumers beyond the IVI system will be able to access this service. If false, only the IVI system will be able consume the service. If not provided, it is assumed to be false.
@@ -53,14 +53,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLBool> *allowAppConsumers;
 
 /**
- *  The URI prefix for this service. If provided, all PerformAppServiceInteraction requests must start with it.
+ *  The URI prefix for this service. If provided, all `PerformAppServiceInteraction` requests must start with it.
  *
  *  String, Optional
  */
 @property (nullable, strong, nonatomic) NSString *uriPrefix;
 
-
-// TODO: uriScheme need to figure out what JSONObject is
+/**
+ *  This is a custom schema for this service. SDL will not do any verification on this param past that it has a correctly formated JSON Object as its base. The `uriScheme` should contain all available actions to be taken through a `PerformAppServiceInteraction` request from an app service consumer.
+ *
+ *  String, Optional
+ */
+@property (nullable, strong, nonatomic) NSString *uriScheme;
 
 /**
  *  This is the max RPC Spec version the app service understands. This is important during the RPC passthrough functionality. If not included, it is assumed the max version of the module is acceptable.
@@ -70,11 +74,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLSyncMsgVersion *rpcSpecVersion;
 
 /**
- *  This field contains the Function IDs for the RPCs that this service intends to handle correctly. This means the service will provide meaningful responses.
+ *  This field contains the Function IDs for the RPCs that this service intends to handle correctly. This means the service will provide meaningful responses. See FunctionID.
  *
- *  Array of SDLFunctionIDs, Optional
+ *  Array of Integers, See `SDLFunctionID`, Optional
  */
-@property (nullable, strong, nonatomic) NSArray<SDLFunctionID *> *handledRPCs;
+@property (nullable, strong, nonatomic) NSArray<NSNumber<SDLInt> *> *handledRPCs;
 
 /**
  *  The media service manifest.

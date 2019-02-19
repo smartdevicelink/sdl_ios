@@ -10,6 +10,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLAppServiceData.h"
+#import "SDLAppServiceType.h"
 #import "SDLGetAppServiceDataResponse.h"
 #import "SDLNames.h"
 
@@ -20,7 +21,7 @@ describe(@"Getter/Setter Tests", ^{
 
     beforeEach(^{
         testAppServiceData = [[SDLAppServiceData alloc] init];
-        testAppServiceData.serviceType = SDLAppServiceTypeMessaging;
+        testAppServiceData.serviceType = SDLAppServiceTypeMedia;
     });
 
     it(@"Should set and get correctly", ^{

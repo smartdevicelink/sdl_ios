@@ -14,24 +14,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAppServicesCapabilities
 
-- (instancetype)initWithServicesSupported:(NSArray<SDLAppServiceType> *)servicesSupported appServices:(nullable NSArray<SDLAppServiceCapability *> *)appServices {
+- (instancetype)initWithAppServices:(nullable NSArray<SDLAppServiceCapability *> *)appServices {
     self = [self init];
     if (!self) {
         return self;
     }
 
-    self.servicesSupported = servicesSupported;
     self.appServices = appServices;
 
     return self;
-}
-
-- (void)setServicesSupported:(NSArray<SDLAppServiceType> *)servicesSupported {
-    [store sdl_setObject:servicesSupported forName:SDLNameServicesSupported];
-}
-
-- (NSArray<SDLAppServiceType> *)servicesSupported {
-    return [store sdl_objectForName:SDLNameServicesSupported];
 }
 
 - (void)setAppServices:(nullable NSArray<SDLAppServiceCapability *> *)appServices {

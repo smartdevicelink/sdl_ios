@@ -16,13 +16,13 @@ QuickSpecBegin(SDLPerformAppServiceInteractionSpec)
 
 describe(@"Getter/Setter Tests", ^{
     __block NSString *testServiceUri = nil;
-    __block NSString *testAppServiceId = nil;
+    __block NSString *testServiceID = nil;
     __block NSString *testOriginApp = nil;
     __block BOOL testRequestServiceActive = nil;
 
     beforeEach(^{
         testServiceUri = @"testServiceUri";
-        testAppServiceId = @"testAppServiceId";
+        testServiceID = @"testServiceID";
         testOriginApp = @"testOriginApp";
         testRequestServiceActive = true;
     });
@@ -30,12 +30,12 @@ describe(@"Getter/Setter Tests", ^{
     it(@"Should set and get correctly", ^{
         SDLPerformAppServiceInteraction *testRequest = [[SDLPerformAppServiceInteraction alloc] init];
         testRequest.serviceUri = testServiceUri;
-        testRequest.appServiceId = testAppServiceId;
+        testRequest.serviceID = testServiceID;
         testRequest.originApp = testOriginApp;
         testRequest.requestServiceActive = @(testRequestServiceActive);
 
         expect(testRequest.serviceUri).to(equal(testServiceUri));
-        expect(testRequest.appServiceId).to(equal(testAppServiceId));
+        expect(testRequest.serviceID).to(equal(testServiceID));
         expect(testRequest.originApp).to(equal(testOriginApp));
         expect(testRequest.requestServiceActive).to(beTrue());
     });
@@ -44,7 +44,7 @@ describe(@"Getter/Setter Tests", ^{
         SDLPerformAppServiceInteraction *testRequest = [[SDLPerformAppServiceInteraction alloc] init];
 
         expect(testRequest.serviceUri).to(beNil());
-        expect(testRequest.appServiceId).to(beNil());
+        expect(testRequest.serviceID).to(beNil());
         expect(testRequest.originApp).to(beNil());
         expect(testRequest.requestServiceActive).to(beNil());
     });
@@ -54,7 +54,7 @@ describe(@"Getter/Setter Tests", ^{
             NSDictionary *dict = @{SDLNameRequest:@{
                                            SDLNameParameters:@{
                                                    SDLNameServiceUri:testServiceUri,
-                                                   SDLNameAppServiceId:testAppServiceId,
+                                                   SDLNameServiceID:testServiceID,
                                                    SDLNameOriginApp:testOriginApp,
                                                    SDLNameRequestServiceActive:@(testRequestServiceActive)
                                                    },
@@ -62,16 +62,16 @@ describe(@"Getter/Setter Tests", ^{
             SDLPerformAppServiceInteraction *testRequest = [[SDLPerformAppServiceInteraction alloc] initWithDictionary:dict];
 
             expect(testRequest.serviceUri).to(equal(testServiceUri));
-            expect(testRequest.appServiceId).to(equal(testAppServiceId));
+            expect(testRequest.serviceID).to(equal(testServiceID));
             expect(testRequest.originApp).to(equal(testOriginApp));
             expect(testRequest.requestServiceActive).to(beTrue());
         });
 
         it(@"Should initialize correctly with initWithServiceUri:appServiceId:originApp:requestServiceActive:", ^{
-            SDLPerformAppServiceInteraction *testRequest = [[SDLPerformAppServiceInteraction alloc] initWithServiceUri:testServiceUri appServiceId:testAppServiceId originApp:testOriginApp requestServiceActive:testRequestServiceActive];
+            SDLPerformAppServiceInteraction *testRequest = [[SDLPerformAppServiceInteraction alloc] initWithServiceUri:testServiceUri serviceID:testServiceID originApp:testOriginApp requestServiceActive:testRequestServiceActive];
 
             expect(testRequest.serviceUri).to(equal(testServiceUri));
-            expect(testRequest.appServiceId).to(equal(testAppServiceId));
+            expect(testRequest.serviceID).to(equal(testServiceID));
             expect(testRequest.originApp).to(equal(testOriginApp));
             expect(testRequest.requestServiceActive).to(beTrue());
         });

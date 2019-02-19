@@ -7,7 +7,6 @@
 //
 
 #import "SDLRPCRequest.h"
-#import "SDLAppServiceType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,14 +22,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param subscribe        Whether or not to subcribe to updates
  *  @return                 A SDLGetAppServiceData object
  */
-- (instancetype)initWithServiceType:(SDLAppServiceType)serviceType subscribe:(BOOL)subscribe;
+- (instancetype)initWithServiceType:(NSString *)serviceType subscribe:(BOOL)subscribe;
 
 /**
- *  The app service type
+ *  The app service type. See `AppServiceType`.
  *
- *  SDLAppServiceType, Required
+ *  String, See `SDLAppServiceType`, Required
  */
-@property (strong, nonatomic) SDLAppServiceType serviceType;
+@property (strong, nonatomic) NSString *serviceType;
 
 /**
  *  If true, the consumer is requesting to subscribe to all future updates from the service publisher. If false, the consumer doesn't wish to subscribe and should be unsubscribed if it was previously subscribed.

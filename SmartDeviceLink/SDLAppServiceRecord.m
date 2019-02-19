@@ -14,13 +14,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAppServiceRecord
 
-- (instancetype)initWithServiceId:(NSString *)serviceId serviceManifest:(SDLAppServiceManifest *)serviceManifest servicePublished:(BOOL)servicePublished serviceActive:(BOOL)serviceActive {
+- (instancetype)initWithServiceID:(NSString *)serviceID serviceManifest:(SDLAppServiceManifest *)serviceManifest servicePublished:(BOOL)servicePublished serviceActive:(BOOL)serviceActive {
     self = [self init];
     if (!self) {
         return self;
     }
 
-    self.serviceId = serviceId;
+    self.serviceID = serviceID;
     self.serviceManifest = serviceManifest;
     self.servicePublished = @(servicePublished);
     self.serviceActive = @(serviceActive);
@@ -28,12 +28,12 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setServiceId:(NSString *)serviceId {
-    [store sdl_setObject:serviceId forName:SDLNameServiceId];
+- (void)setServiceID:(NSString *)serviceID {
+    [store sdl_setObject:serviceID forName:SDLNameServiceID];
 }
 
-- (NSString *)serviceId {
-    return [store sdl_objectForName:SDLNameServiceId];
+- (NSString *)serviceID {
+    return [store sdl_objectForName:SDLNameServiceID];
 }
 
 - (void)setServiceManifest:(SDLAppServiceManifest *)serviceManifest {

@@ -20,7 +20,7 @@ describe(@"Getter/Setter Tests", ^{
 
     beforeEach(^{
         testUpdateReason = SDLServiceUpdateActivated;
-        testUpdatedAppServiceRecord = [[SDLAppServiceRecord alloc] initWithDictionary:@{SDLNameServiceId:@"1234", SDLNameServicePublished:@YES}];
+        testUpdatedAppServiceRecord = [[SDLAppServiceRecord alloc] initWithDictionary:@{SDLNameServiceID:@"1234", SDLNameServicePublished:@YES}];
     });
 
     it(@"Should set and get correctly", ^{

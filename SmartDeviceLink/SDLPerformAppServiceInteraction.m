@@ -21,14 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithServiceUri:(NSString *)serviceUri appServiceId:(NSString *)appServiceId originApp:(NSString *)originApp requestServiceActive:(BOOL)requestServiceActive {
+- (instancetype)initWithServiceUri:(NSString *)serviceUri serviceID:(NSString *)serviceID originApp:(NSString *)originApp requestServiceActive:(BOOL)requestServiceActive {
     self = [self init];
     if (!self) {
         return nil;
     }
 
     self.serviceUri = serviceUri;
-    self.appServiceId = appServiceId;
+    self.serviceID = serviceID;
     self.originApp = originApp;
     self.requestServiceActive = @(requestServiceActive);
 
@@ -43,12 +43,12 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameServiceUri];
 }
 
-- (void)setAppServiceId:(NSString *)appServiceId {
-    [parameters sdl_setObject:appServiceId forName:SDLNameAppServiceId];
+- (void)setServiceID:(NSString *)serviceID {
+    [parameters sdl_setObject:serviceID forName:SDLNameServiceID];
 }
 
-- (NSString *)appServiceId {
-    return [parameters sdl_objectForName:SDLNameAppServiceId];
+- (NSString *)serviceID {
+    return [parameters sdl_objectForName:SDLNameServiceID];
 }
 
 - (void)setOriginApp:(NSString *)originApp {

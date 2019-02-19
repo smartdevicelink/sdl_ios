@@ -19,11 +19,6 @@ describe(@"Individual Enum Value Tests", ^{
         expect(SDLAppServiceTypeMedia).to(equal(@"MEDIA"));
         expect(SDLAppServiceTypeWeather).to(equal(@"WEATHER"));
         expect(SDLAppServiceTypeNavigation).to(equal(@"NAVIGATION"));
-        expect(SDLAppServiceTypeVoiceAssistant).to(equal(@"VOICE_ASSISTANT"));
-        expect(SDLAppServiceTypeGeneric).to(equal(@"GENERIC"));
-        expect(SDLAppServiceTypeCommunicationVOIP).to(equal(@"COMMUNICATION_VOIP"));
-        expect(SDLAppServiceTypeMessaging).to(equal(@"MESSAGING"));
-        expect(SDLAppServiceTypeTTS).to(equal(@"TTS"));
     });
 });
 

@@ -36,28 +36,28 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  A minute-by-minute array of forecasts.
  *
- *  Array of SDLWeatherData, Optional, minSize="15" maxSize="60"
+ *  Array of SDLWeatherData, Optional, minsize="15" maxsize="60"
  */
 @property (nullable, strong, nonatomic) NSArray<SDLWeatherData *> *minuteForecast;
 
 /**
  *  An hour-by-hour array of forecasts.
  *
- *  Array of SDLWeatherData, Optional, minsize="1" maxSize="96"
+ *  Array of SDLWeatherData, Optional, minsize="1" maxsize="96"
  */
 @property (nullable, strong, nonatomic) NSArray<SDLWeatherData *> *hourlyForecast;
 
 /**
  *  An day-by-day array of forecasts.
  *
- *  Array of SDLWeatherData, Optional, minsize="1" maxSize="30"
+ *  Array of SDLWeatherData, Optional, minsize="1" maxsize="30"
  */
 @property (nullable, strong, nonatomic) NSArray<SDLWeatherData *> *multidayForecast;
 
 /**
  *  An array of weather alerts. This array should be ordered with the first object being the current day.
  *
- *  Array of SDLWeatherData, Optional, minsize="1" maxSize="10"
+ *  Array of SDLWeatherData, Optional, minsize="1" maxsize="10"
  */
 @property (nullable, strong, nonatomic) NSArray<SDLWeatherAlert *> *alerts;
 
