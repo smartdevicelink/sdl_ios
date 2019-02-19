@@ -29,7 +29,7 @@ describe(@"Getter/Setter Tests", ^ {
     __block SDLVideoStreamingCapability *testVideoStreamingCapability = nil;
 
     beforeEach(^{
-        testAppServiceCapability = [[SDLAppServicesCapabilities alloc] initWithServicesSupported:@[SDLAppServiceTypeTTS, SDLAppServiceTypeMedia] appServices:nil];
+        testAppServiceCapability = [[SDLAppServicesCapabilities alloc] initWithServicesSupported:@[SDLAppServiceTypeNavigation, SDLAppServiceTypeMedia] appServices:nil];
         testNavigationCapability = [[SDLNavigationCapability alloc] initWithSendLocation:YES waypoints:NO];
         testPhoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
         testRemoteControlCapabilities = [[SDLRemoteControlCapabilities alloc] initWithClimateControlCapabilities:nil radioControlCapabilities:nil buttonCapabilities:nil seatControlCapabilities:nil audioControlCapabilities:nil hmiSettingsControlCapabilities:nil lightControlCapabilities:nil];

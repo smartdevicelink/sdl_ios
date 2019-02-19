@@ -20,7 +20,7 @@ describe(@"Getter/Setter Tests", ^{
     __block NSArray<SDLAppServiceCapability *> *testAppServices = nil;
 
     beforeEach(^{
-        testServicesSupported = @[SDLAppServiceTypeTTS, SDLAppServiceTypeWeather];
+        testServicesSupported = @[SDLAppServiceTypeMedia, SDLAppServiceTypeWeather];
         testAppServices = @[[[SDLAppServiceCapability alloc] initWithDictionary:@{SDLNameUpdateReason:SDLServiceUpdateRemoved}]];
     });
 

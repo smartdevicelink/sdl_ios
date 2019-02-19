@@ -11,9 +11,3 @@
 SDLAppServiceType const SDLAppServiceTypeMedia = @"MEDIA";
 SDLAppServiceType const SDLAppServiceTypeWeather = @"WEATHER";
 SDLAppServiceType const SDLAppServiceTypeNavigation = @"NAVIGATION";
-SDLAppServiceType const SDLAppServiceTypeVoiceAssistant = @"VOICE_ASSISTANT";
-SDLAppServiceType const SDLAppServiceTypeGeneric = @"GENERIC";
-SDLAppServiceType const SDLAppServiceTypeCommunicationVOIP = @"COMMUNICATION_VOIP";
-SDLAppServiceType const SDLAppServiceTypeMessaging = @"MESSAGING";
-SDLAppServiceType const SDLAppServiceTypeTTS = @"TTS";
-

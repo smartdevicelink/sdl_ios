@@ -27,28 +27,3 @@ extern SDLAppServiceType const SDLAppServiceTypeWeather;
  * The app will have a service type of navigation.
  */
 extern SDLAppServiceType const SDLAppServiceTypeNavigation;
-
-/**
- * The app will have a service type of voice assistant.
- */
-extern SDLAppServiceType const SDLAppServiceTypeVoiceAssistant;
-
-/**
- * The app will have a service type of generic.
- */
-extern SDLAppServiceType const SDLAppServiceTypeGeneric;
-
-/**
- * The app will have a service type of communication VOIP.
- */
-extern SDLAppServiceType const SDLAppServiceTypeCommunicationVOIP;
-
-/**
- * The app will have a service type of messaging.
- */
-extern SDLAppServiceType const SDLAppServiceTypeMessaging;
-
-/**
- * The app will have a service type of TTS.
- */
-extern SDLAppServiceType const SDLAppServiceTypeTTS;

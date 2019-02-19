@@ -24,7 +24,7 @@ describe(@"Getter/Setter Tests", ^{
     __block SDLWeatherServiceData *testWeatherServiceData = nil;
 
     beforeEach(^{
-        testServiceType = SDLAppServiceTypeGeneric;
+        testServiceType = SDLAppServiceTypeMedia;
         testServiceId = @"a1*54z";
         testMediaServiceData = [[SDLMediaServiceData alloc] init];
         testWeatherServiceData = [[SDLWeatherServiceData alloc] init];
