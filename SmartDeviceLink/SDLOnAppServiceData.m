@@ -10,6 +10,8 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+#import "SDLAppServiceData.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnAppServiceData
@@ -17,6 +19,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init {
     if (self = [super initWithName:SDLNameOnAppServiceData]) {
     }
+    return self;
+}
+
+- (instancetype)initWithServiceData:(SDLAppServiceData *)serviceData {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.serviceData = serviceData;
+
     return self;
 }
 

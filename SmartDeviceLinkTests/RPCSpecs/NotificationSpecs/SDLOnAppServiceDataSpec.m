@@ -9,6 +9,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLAppServiceData.h"
 #import "SDLOnAppServiceData.h"
 #import "SDLNames.h"
 
@@ -36,6 +37,12 @@ describe(@"Getter/Setter Tests", ^{
                                                },
                                        SDLNameOperationName:SDLNameOnAppServiceData}};
         SDLOnAppServiceData *testNotification = [[SDLOnAppServiceData alloc] initWithDictionary:dict];
+
+        expect(testNotification.serviceData).to(equal(testAppServiceData));
+    });
+
+    it(@"Should get correctly when initialized with initWithServiceData:", ^{
+        SDLOnAppServiceData *testNotification = [[SDLOnAppServiceData alloc] initWithServiceData:testAppServiceData];
 
         expect(testNotification.serviceData).to(equal(testAppServiceData));
     });
