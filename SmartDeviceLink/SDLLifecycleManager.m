@@ -521,12 +521,21 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 #pragma mark Sending Requests
 
 - (void)sendRequest:(__kindof SDLRPCMessage *)request {
-    [self sendRequest:request withResponseHandler:nil];
+    // Add a correlation ID to the request
+    if ([request isKindOfClass:[SDLRPCRequest class]]) {
+        SDLRPCRequest *requestRPC = (SDLRPCRequest *)request;
+        [self sendRequest:requestRPC withResponseHandler:nil];
+    } else if ([request isKindOfClass:[SDLRPCResponse class]] || [request isKindOfClass:[SDLRPCNotification class]]) {
+
+    } else {
+        SDLLogE(@"Sending an unknown RPC type. The request should be of type request, response or notification");
+    }
+
+    // [self sendRequest:request withResponseHandler:nil];
 }
 
-- (void)sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self rpc:request responseHandler:handler];
-//    SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self request:request responseHandler:handler];
+- (void)sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    SDLAsynchronousRPCRequestOperation *op = [[SDLAsynchronousRPCRequestOperation alloc] initWithConnectionManager:self request:request responseHandler:handler];
     [self.rpcOperationQueue addOperation:op];
 }
 

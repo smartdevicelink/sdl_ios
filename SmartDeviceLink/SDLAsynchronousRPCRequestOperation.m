@@ -11,8 +11,6 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLError.h"
 #import "SDLGlobals.h"
-#import "SDLRPCMessage.h"
-#import "SDLRPCRequest.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -51,33 +49,25 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager rpcs:(NSArray<__kindof SDLRPCMessage *> *)rpcs progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager requests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     self = [self init];
 
     _connectionManager = connectionManager;
-    _rpcs = rpcs;
+    _requests = requests;
     _progressHandler = progressHandler;
     _completionHandler = completionHandler;
 
     return self;
 }
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager rpc:(__kindof SDLRPCMessage *)rpc responseHandler:(nullable SDLResponseHandler)responseHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager request:(SDLRPCRequest *)request responseHandler:(nullable SDLResponseHandler)responseHandler {
     self = [self init];
 
     _connectionManager = connectionManager;
-    _rpcs = @[rpc];
+    _requests = @[request];
     _responseHandler = responseHandler;
 
     return self;
-}
-
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager requests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
-    return [self initWithConnectionManager:connectionManager rpcs:requests progressHandler:progressHandler completionHandler:completionHandler];
-}
-
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager request:(SDLRPCRequest *)request responseHandler:(nullable SDLResponseHandler)responseHandler {
-    return [self initWithConnectionManager:connectionManager rpc:request responseHandler:responseHandler];
 }
 
 - (void)start {
@@ -87,9 +77,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_sendRequests {
-    for (id request in self.rpcs) {
+    for (SDLRPCRequest *request in self.requests) {
         if (self.isCancelled) {
-            // FIXME: Deal with aborted responses
             [self sdl_abortOperationWithRequest:request];
             return;
         }
@@ -99,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)sdl_sendRequest:(__kindof SDLRPCMessage *)request {
+- (void)sdl_sendRequest:(SDLRPCRequest *)request {
     __weak typeof(self) weakSelf = self;
     [self.connectionManager sendConnectionRequest:request withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(self) strongSelf = weakSelf;
@@ -123,7 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
 
         // If we've received responses for all requests, call the completion handler.
-        if (strongSelf.requestsComplete >= strongSelf.rpcs.count) {
+        if (strongSelf.requestsComplete >= strongSelf.requests.count) {
             [strongSelf finishOperation];
         }
     }];
@@ -132,12 +121,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sdl_abortOperationWithRequest:(SDLRPCRequest *)request {
     self.requestFailed = YES;
 
-    for (NSUInteger i = self.requestsComplete; i < self.rpcs.count; i++) {
+    for (NSUInteger i = self.requestsComplete; i < self.requests.count; i++) {
         if (self.progressHandler != NULL) {
-            id rpc = self.rpcs[i];
-            SDLRPCRequest *abortedRequest = [rpc isMemberOfClass:[SDLRPCRequest class]] ? (SDLRPCRequest *)rpc : nil;
-            // FIXME: first param is not nullable
-            self.progressHandler(abortedRequest, nil, [NSError sdl_lifecycle_multipleRequestsCancelled], self.percentComplete);
+            self.progressHandler(self.requests[i], nil, [NSError sdl_lifecycle_multipleRequestsCancelled], self.percentComplete);
         }
 
         if (self.responseHandler != NULL) {
@@ -155,7 +141,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Getters
 
 - (float)percentComplete {
-    return (float)self.requestsComplete / (float)self.rpcs.count;
+    return (float)self.requestsComplete / (float)self.requests.count;
 }
 
 #pragma mark - Property Overrides
@@ -177,13 +163,14 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@, request count=%lu, requests started=%lu, finished=%lu, failed=%@", self.name, (unsigned long)self.rpcs.count, (unsigned long)self.requestsStarted, (unsigned long)self.requestsComplete, (self.requestFailed ? @"YES": @"NO")];
+    return [NSString stringWithFormat:@"%@, request count=%lu, requests started=%lu, finished=%lu, failed=%@", self.name, (unsigned long)self.requests.count, (unsigned long)self.requestsStarted, (unsigned long)self.requestsComplete, (self.requestFailed ? @"YES": @"NO")];
 }
 
 - (NSString *)debugDescription {
-    return [NSString stringWithFormat:@"%@, request count=%lu, requests started=%lu, finished=%lu, failed=%@, requests=%@", self.name, (unsigned long)self.rpcs.count, (unsigned long)self.requestsStarted, (unsigned long)self.requestsComplete, (self.requestFailed ? @"YES": @"NO"), self.rpcs];
+    return [NSString stringWithFormat:@"%@, request count=%lu, requests started=%lu, finished=%lu, failed=%@, requests=%@", self.name, (unsigned long)self.requests.count, (unsigned long)self.requestsStarted, (unsigned long)self.requestsComplete, (self.requestFailed ? @"YES": @"NO"), self.requests];
 }
 
 @end
 
 NS_ASSUME_NONNULL_END
+
