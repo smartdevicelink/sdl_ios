@@ -54,6 +54,7 @@
 #import "SDLStreamingProtocolDelegate.h"
 #import "SDLSystemCapabilityManager.h"
 #import "SDLUnregisterAppInterface.h"
+#import "SDLVersion.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -279,6 +280,10 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         [self.proxy addSecurityManagers:self.configuration.streamingMediaConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
     }
 
+    if ([self.configuration.lifecycleConfig.minimumProtocolVersion compare:[SDLGlobals sharedGlobals].protocolVersion]) {
+
+    }
+
     // Build a register app interface request with the configuration data
     SDLRegisterAppInterface *regRequest = [[SDLRegisterAppInterface alloc] initWithLifecycleConfiguration:self.configuration.lifecycleConfig];
 
@@ -302,7 +307,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                 }
 
                 weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
-                [SDLGlobals sharedGlobals].rpcVersion = weakSelf.registerResponse.syncMsgVersion;
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithSyncMsgVersion:weakSelf.registerResponse.syncMsgVersion];
                 [weakSelf sdl_transitionToState:SDLLifecycleStateRegistered];
             });
         }];

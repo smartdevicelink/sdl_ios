@@ -1185,6 +1185,8 @@
 		5DCF76FA1ACDD7CD00BB647B /* SDLSendLocationResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCF76F81ACDD7CD00BB647B /* SDLSendLocationResponse.m */; };
 		5DCF76FC1ACDDB4200BB647B /* SDLSendLocationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCF76FB1ACDDB4200BB647B /* SDLSendLocationSpec.m */; };
 		5DCF76FE1ACDDB5A00BB647B /* SDLSendLocationResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DCF76FD1ACDDB5A00BB647B /* SDLSendLocationResponseSpec.m */; };
+		5DD60D98221C5D7D00A82A4F /* SDLVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DD60D96221C5D7D00A82A4F /* SDLVersion.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5DD60D99221C5D7D00A82A4F /* SDLVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DD60D97221C5D7D00A82A4F /* SDLVersion.m */; };
 		5DD67CB01E65DDB7009CD394 /* SDLLogTargetAppleSystemLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DD67CAE1E65DDB7009CD394 /* SDLLogTargetAppleSystemLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DD67CB11E65DDB7009CD394 /* SDLLogTargetAppleSystemLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DD67CAF1E65DDB7009CD394 /* SDLLogTargetAppleSystemLog.m */; };
 		5DD67CB81E661C4A009CD394 /* SDLLogTargetFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DD67CB61E661C4A009CD394 /* SDLLogTargetFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2690,6 +2692,8 @@
 		5DCF76F81ACDD7CD00BB647B /* SDLSendLocationResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendLocationResponse.m; sourceTree = "<group>"; };
 		5DCF76FB1ACDDB4200BB647B /* SDLSendLocationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendLocationSpec.m; sourceTree = "<group>"; };
 		5DCF76FD1ACDDB5A00BB647B /* SDLSendLocationResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendLocationResponseSpec.m; sourceTree = "<group>"; };
+		5DD60D96221C5D7D00A82A4F /* SDLVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLVersion.h; sourceTree = "<group>"; };
+		5DD60D97221C5D7D00A82A4F /* SDLVersion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLVersion.m; sourceTree = "<group>"; };
 		5DD67CAE1E65DDB7009CD394 /* SDLLogTargetAppleSystemLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLogTargetAppleSystemLog.h; sourceTree = "<group>"; };
 		5DD67CAF1E65DDB7009CD394 /* SDLLogTargetAppleSystemLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLLogTargetAppleSystemLog.m; sourceTree = "<group>"; };
 		5DD67CB61E661C4A009CD394 /* SDLLogTargetFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLLogTargetFile.h; sourceTree = "<group>"; };
@@ -4904,6 +4908,8 @@
 				5DA3F35C1BC4484B0026F2D0 /* Notifications */,
 				5DA3F3571BC448160026F2D0 /* Categories */,
 				5D6008871BE3ED470094A505 /* State Machine */,
+				5DD60D96221C5D7D00A82A4F /* SDLVersion.h */,
+				5DD60D97221C5D7D00A82A4F /* SDLVersion.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -5940,6 +5946,7 @@
 				5D60088A1BE3ED540094A505 /* SDLStateMachine.h in Headers */,
 				5D61FC721A84238C00846EE7 /* SDLDeleteCommand.h in Headers */,
 				5D61FC821A84238C00846EE7 /* SDLDeviceInfo.h in Headers */,
+				5DD60D98221C5D7D00A82A4F /* SDLVersion.h in Headers */,
 				5D61FCA91A84238C00846EE7 /* SDLFileType.h in Headers */,
 				8877F5EE1F34A72200DC128A /* SDLSendHapticDataResponse.h in Headers */,
 				DA8966F21E56973700413EAB /* SDLStreamingMediaManagerConstants.h in Headers */,
@@ -6702,6 +6709,7 @@
 				5D61FDD61A84238C00846EE7 /* SDLTouchEventCapabilities.m in Sources */,
 				5DA49CE61F1EA83300E65FC5 /* SDLControlFramePayloadRPCStartService.m in Sources */,
 				5DA102A51D4122C700C15826 /* NSMutableDictionary+SafeRemove.m in Sources */,
+				5DD60D99221C5D7D00A82A4F /* SDLVersion.m in Sources */,
 				5D61FCF11A84238C00846EE7 /* SDLLockScreenStatusManager.m in Sources */,
 				5D61FDAC1A84238C00846EE7 /* SDLStartTime.m in Sources */,
 				5D61FDA01A84238C00846EE7 /* SDLSoftButton.m in Sources */,
