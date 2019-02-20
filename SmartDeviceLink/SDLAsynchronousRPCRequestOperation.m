@@ -11,6 +11,7 @@
 #import "SDLConnectionManagerType.h"
 #import "SDLError.h"
 #import "SDLGlobals.h"
+#import "SDLRPCRequest.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -49,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager requests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager requests:(NSArray<__kindof SDLRPCMessage *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     self = [self init];
 
     _connectionManager = connectionManager;
@@ -60,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager request:(SDLRPCRequest *)request responseHandler:(nullable SDLResponseHandler)responseHandler {
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager request:(__kindof SDLRPCMessage *)request responseHandler:(nullable SDLResponseHandler)responseHandler {
     self = [self init];
 
     _connectionManager = connectionManager;
@@ -122,8 +123,14 @@ NS_ASSUME_NONNULL_BEGIN
     self.requestFailed = YES;
 
     for (NSUInteger i = self.requestsComplete; i < self.requests.count; i++) {
+        if (![self.requests[i] isKindOfClass:[SDLRPCRequest class]]) {
+            // Responses and notifications sent to Core do not get responses from Core
+            continue;
+        }
+
         if (self.progressHandler != NULL) {
-            self.progressHandler(self.requests[i], nil, [NSError sdl_lifecycle_multipleRequestsCancelled], self.percentComplete);
+            SDLRPCRequest *sentRequest = (SDLRPCRequest *)self.requests[i];
+            self.progressHandler(sentRequest, nil, [NSError sdl_lifecycle_multipleRequestsCancelled], self.percentComplete);
         }
 
         if (self.responseHandler != NULL) {
@@ -173,4 +180,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-

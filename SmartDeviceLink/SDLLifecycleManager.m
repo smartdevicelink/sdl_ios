@@ -528,7 +528,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     } else if ([request isKindOfClass:[SDLRPCResponse class]] || [request isKindOfClass:[SDLRPCNotification class]]) {
 
     } else {
-        SDLLogE(@"Sending an unknown RPC type. The request should be of type request, response or notification");
+        SDLLogE(@"Attempting to send an RPC with unknown type. The request should be of type request, response or notification. Returning...");
     }
 
     // [self sendRequest:request withResponseHandler:nil];
@@ -564,7 +564,11 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         SDLLogW(@"Manager not ready, message not sent (%@)", request);
         if (handler) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
+                if ([request isKindOfClass:[SDLRPCRequest class]]) {
+                    handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
+                } else {
+                    handler(nil, nil, [NSError sdl_lifecycle_notReadyError]);
+                }
             });
         }
 
@@ -599,24 +603,21 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
-    // Add a correlation ID to the request
-    SDLRPCRequest *test = [request isKindOfClass:[SDLRPCRequest class]] ? (SDLRPCRequest *)request : nil;
-    if (test != nil) {
+    if ([request isKindOfClass:[SDLRPCRequest class]]) {
+        // Generate and add a correlation ID to the request. When a response for the request is returned from Core, it will have the same correlation ID
+        SDLRPCRequest *requestRPC = (SDLRPCRequest *)request;
         NSNumber *corrID = [self sdl_getNextCorrelationId];
-        test.correlationID = corrID;
-
-        [self.responseDispatcher storeRequest:test handler:handler];
-        [self.proxy sendRPC:test];
-    }
-
-    SDLRPCResponse *testResponse = [request isKindOfClass:[SDLRPCResponse class]] ? (SDLRPCResponse *)request : nil;
-    if (testResponse != nil) {
-        [self.proxy sendRPC:testResponse];
-    }
-
-    SDLRPCNotification *testNotification = [request isKindOfClass:[SDLRPCNotification class]] ? (SDLRPCNotification *)request : nil;
-    if (testNotification != nil) {
-        [self.proxy sendRPC:testNotification];
+        requestRPC.correlationID = corrID;
+        [self.responseDispatcher storeRequest:requestRPC handler:handler];
+        [self.proxy sendRPC:requestRPC];
+    } else if ([request isKindOfClass:[SDLRPCResponse class]] || [request isKindOfClass:[SDLRPCNotification class]]) {
+        [self.proxy sendRPC:request];
+        if (handler) {
+            // Responses and notifications sent to Core do not get a response from Core so just call the handler
+            handler(nil, nil, nil);
+        }
+    } else {
+        SDLLogE(@"Attempting to send an RPC with unknown type. The request should be of type request, response or notification. Returning...");
     }
 }
 
