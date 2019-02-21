@@ -127,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self sendRequest:request withResponseHandler:nil];
 }
 
-- (void)sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+- (void)sendRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     [self.lifecycleManager sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:handler];
 }
 

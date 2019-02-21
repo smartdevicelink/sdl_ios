@@ -164,11 +164,6 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
              SDLDidReceiveUnsubscribeWaypointsResponse];
 }
 
-+ (NSArray<SDLNotificationName> *)allRequestNames {
-    return @[SDLDidReceivePerformAppServiceInteractionRequest,
-             SDLDidReceiveGetAppServiceDataRequest];
-}
-
 + (NSArray<SDLNotificationName> *)allButtonEventNotifications {
     return @[SDLDidReceiveButtonEventNotification,
              SDLDidReceiveButtonPressNotification];

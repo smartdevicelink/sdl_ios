@@ -213,14 +213,6 @@ extern SDLNotificationName const SDLDidReceiveWaypointNotification;
  */
 + (NSArray<SDLNotificationName> *)allResponseNames;
 
-
-/**
- All of the possible SDL RPC Request notification names
-
- @return All request notification names
- */
-+ (NSArray<SDLNotificationName> *)allRequestNames;
-
 /**
  All of the possible SDL Button event notification names
 
