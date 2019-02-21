@@ -43,6 +43,7 @@
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResponseDispatcher.h"
+#import "SDLRPCResponseOperation.h"
 #import "SDLResult.h"
 #import "SDLScreenManager.h"
 #import "SDLSecondaryTransportManager.h"
@@ -521,17 +522,19 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 #pragma mark Sending Requests
 
 - (void)sendRequest:(__kindof SDLRPCMessage *)request {
-    // Add a correlation ID to the request
-    if ([request isKindOfClass:[SDLRPCRequest class]]) {
+    if ([request isKindOfClass:SDLRPCRequest.class]) {
         SDLRPCRequest *requestRPC = (SDLRPCRequest *)request;
         [self sendRequest:requestRPC withResponseHandler:nil];
-    } else if ([request isKindOfClass:[SDLRPCResponse class]] || [request isKindOfClass:[SDLRPCNotification class]]) {
-
+    } else if ([request isKindOfClass:SDLRPCResponse.class] || [request isKindOfClass:SDLRPCNotification.class]) {
+        [self sdl_sendRPC:request];
     } else {
-        SDLLogE(@"Attempting to send an RPC with unknown type. The request should be of type request, response or notification. Returning...");
+        NSAssert(false, @"The request should be of type `Request`, `Response` or `Notification");
     }
+}
 
-    // [self sendRequest:request withResponseHandler:nil];
+- (void)sdl_sendRPC:(__kindof SDLRPCMessage *)rpc {
+    SDLRPCResponseOperation *op = [[SDLRPCResponseOperation alloc] initWithConnectionManager:self rpc:rpc];
+    [self.rpcOperationQueue addOperation:op];
 }
 
 - (void)sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
@@ -559,16 +562,16 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.rpcOperationQueue addOperation:op];
 }
 
+- (void)sendConnectionRPC:(__kindof SDLRPCMessage *)rpc {
+    [self sendConnectionRequest:rpc withResponseHandler:nil];
+}
+
 - (void)sendConnectionRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         SDLLogW(@"Manager not ready, message not sent (%@)", request);
-        if (handler) {
+        if (handler && [request isKindOfClass:SDLRPCRequest.class]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                if ([request isKindOfClass:[SDLRPCRequest class]]) {
-                    handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
-                } else {
-                    handler(nil, nil, [NSError sdl_lifecycle_notReadyError]);
-                }
+                handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
             });
         }
 
@@ -603,21 +606,17 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         return;
     }
 
-    if ([request isKindOfClass:[SDLRPCRequest class]]) {
+    if ([request isKindOfClass:SDLRPCRequest.class]) {
         // Generate and add a correlation ID to the request. When a response for the request is returned from Core, it will have the same correlation ID
         SDLRPCRequest *requestRPC = (SDLRPCRequest *)request;
         NSNumber *corrID = [self sdl_getNextCorrelationId];
         requestRPC.correlationID = corrID;
         [self.responseDispatcher storeRequest:requestRPC handler:handler];
         [self.proxy sendRPC:requestRPC];
-    } else if ([request isKindOfClass:[SDLRPCResponse class]] || [request isKindOfClass:[SDLRPCNotification class]]) {
+    } else if ([request isKindOfClass:SDLRPCResponse.class] || [request isKindOfClass:SDLRPCNotification.class]) {
         [self.proxy sendRPC:request];
-        if (handler) {
-            // Responses and notifications sent to Core do not get a response from Core so just call the handler
-            handler(nil, nil, nil);
-        }
     } else {
-        SDLLogE(@"Attempting to send an RPC with unknown type. The request should be of type request, response or notification. Returning...");
+        SDLLogE(@"Attempting to send an RPC with unknown type, %@. The request should be of type request, response or notification. Returning...", request.class);
     }
 }
 
