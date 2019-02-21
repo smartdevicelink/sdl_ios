@@ -49,15 +49,19 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
 #pragma mark - Public Stream Lifecycle
 
 - (BOOL)start {
-    __weak typeof(self) weakSelf = self;
     SDLLogD(@"Opening EASession withAccessory:%@ forProtocol:%@", _accessory.name, _protocol);
+    self.easession = [[EASession alloc] initWithAccessory:self.accessory forProtocol:self.protocol];
+    return [self sdl_startWithSession:self.easession];
+}
 
-    // TODO: This assignment should be broken out of the if and the if / else should be flipped.
-    if ((self.easession = [[EASession alloc] initWithAccessory:self.accessory forProtocol:self.protocol])) {
+- (BOOL)sdl_startWithSession:(EASession *)session {
+    __weak typeof(self) weakSelf = self;
+    if (session == nil) {
+        SDLLogE(@"Error creating the session object");
+        return NO;
+    } else {
+        SDLLogD(@"Created the session object successfully");
         __strong typeof(self) strongSelf = weakSelf;
-
-        SDLLogD(@"Created Session Object");
-
         strongSelf.streamDelegate.streamErrorHandler = [self streamErroredHandler];
         strongSelf.streamDelegate.streamOpenHandler = [self streamOpenedHandler];
         if (self.isDataSession) {
@@ -72,10 +76,6 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
             [self startStream:self.easession.inputStream];
         }
         return YES;
-
-    } else {
-        SDLLogE(@"Error: Could Not Create Session Object");
-        return NO;
     }
 }
 
@@ -94,20 +94,30 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
     if (self.isDataSession) {
         [self.ioStreamThread cancel];
 
-        long lWait = dispatch_semaphore_wait(self.canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(StreamThreadWaitSecs * NSEC_PER_SEC)));
-        if (lWait == 0) {
-            SDLLogW(@"Stream thread cancelled");
-        } else {
-            SDLLogE(@"Failed to cancel stream thread");
-        }
-        self.ioStreamThread = nil;
-        self.isDataSession = NO;
+        [self sdl_isIOThreadCanceled:self.canceledSemaphore completionHandler:^(BOOL success) {
+            if (success == NO) {
+                SDLLogE(@"About to destroy a thread that has not yet closed.");
+            }
+            self.ioStreamThread = nil;
+            self.isDataSession = NO;
+        }];
     } else {
         // Stop control session
         [self stopStream:self.easession.outputStream];
         [self stopStream:self.easession.inputStream];
     }
     self.easession = nil;
+}
+
+- (void)sdl_isIOThreadCanceled:(dispatch_semaphore_t)canceledSemaphore completionHandler:(void (^)(BOOL success))completionHandler {
+    long lWait = dispatch_semaphore_wait(canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(StreamThreadWaitSecs * NSEC_PER_SEC)));
+    if (lWait == 0) {
+        SDLLogD(@"Stream thread canceled successfully");
+        return completionHandler(YES);
+    } else {
+        SDLLogE(@"Failed to cancel stream thread");
+        return completionHandler(NO);
+    }
 }
 
 - (BOOL)isStopped {

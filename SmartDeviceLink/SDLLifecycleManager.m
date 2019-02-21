@@ -290,7 +290,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                 // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
                 if (error != nil || ![response.success boolValue]) {
                     SDLLogE(@"Failed to register the app. Error: %@, Response: %@", error, response);
-                    weakSelf.readyHandler(NO, error);
+                    if (weakSelf.readyHandler) {
+                        weakSelf.readyHandler(NO, error);
+                    }
 
                     if (weakSelf.lifecycleState != SDLLifecycleStateReconnecting) {
                         [weakSelf sdl_transitionToState:SDLLifecycleStateStopped];
