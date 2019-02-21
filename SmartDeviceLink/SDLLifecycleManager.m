@@ -562,10 +562,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.rpcOperationQueue addOperation:op];
 }
 
-- (void)sendConnectionRPC:(__kindof SDLRPCMessage *)rpc {
-    [self sendConnectionRequest:rpc withResponseHandler:nil];
-}
-
 - (void)sendConnectionRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         SDLLogW(@"Manager not ready, message not sent (%@)", request);

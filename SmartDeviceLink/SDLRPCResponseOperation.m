@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
-    [self.connectionManager sendConnectionRPC:rpc];
+    [self.connectionManager sendConnectionRequest:rpc withResponseHandler:nil];
     [self finishOperation];
 }
 

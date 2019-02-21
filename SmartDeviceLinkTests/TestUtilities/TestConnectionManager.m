@@ -26,14 +26,15 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)sendConnectionRPC:(__kindof SDLRPCMessage *)rpc {
-    [self.receivedRequests addObject:rpc];
-}
-
-- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+- (void)sendConnectionRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     self.lastRequestBlock = handler;
-    request.correlationID = [self test_nextCorrelationID];
-    [self.receivedRequests addObject:request];
+    if ([request isKindOfClass:SDLRPCRequest.class]) {
+        SDLRPCRequest *requestRPC = (SDLRPCRequest *)request;
+        requestRPC.correlationID = [self test_nextCorrelationID];
+        [self.receivedRequests addObject:requestRPC];
+    } else {
+        [self.receivedRequests addObject:request];
+    }
 }
 
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
