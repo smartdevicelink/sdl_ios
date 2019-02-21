@@ -446,7 +446,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param request A SDLPerformAppServiceInteraction object
  */
-- (void)onPerformAppServiceInteractionRequest:(SDLPerformAppServiceInteraction *)request;
+- (void)onPerformAppServiceInteraction:(SDLPerformAppServiceInteraction *)request;
 
 /**
  *  Called when a Perform App Service Interaction Response is received from Core

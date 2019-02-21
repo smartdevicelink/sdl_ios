@@ -193,7 +193,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveListFilesResponse response:response];
 }
 
-- (void)onPerformAppServiceInteractionRequest:(SDLPerformAppServiceInteraction *)request {
+- (void)onPerformAppServiceInteraction:(SDLPerformAppServiceInteraction *)request {
     [self postRPCRequestNotification:SDLDidReceivePerformAppServiceInteractionRequest request:request];
 }
 
