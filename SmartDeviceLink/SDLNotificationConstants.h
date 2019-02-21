@@ -171,6 +171,13 @@ extern SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataResponse;
 extern SDLNotificationName const SDLDidReceiveUnsubscribeWaypointsResponse;
 
 /**
+ *  NSNotification names associated with specific RPC requests.
+ */
+#pragma mark - RPC requests
+extern SDLNotificationName const SDLDidReceivePerformAppServiceInteractionRequest;
+extern SDLNotificationName const SDLDidReceiveGetAppServiceDataRequest;
+
+/**
  *  NSNotification names associated with specific RPC notifications.
  */
 #pragma mark - RPC Notifications
@@ -205,14 +212,6 @@ extern SDLNotificationName const SDLDidReceiveWaypointNotification;
  @return All response notification names
  */
 + (NSArray<SDLNotificationName> *)allResponseNames;
-
-
-/**
- All of the possible SDL RPC Request notification names
-
- @return All request notification names
- */
-+ (NSArray<SDLNotificationName> *)allRequestNames;
 
 /**
  All of the possible SDL Button event notification names

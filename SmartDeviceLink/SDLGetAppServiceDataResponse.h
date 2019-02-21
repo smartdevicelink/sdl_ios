@@ -17,6 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLGetAppServiceDataResponse : SDLRPCResponse
 
 /**
+ * Convenience init.
+ *
+ *  @param serviceData  Contains all the current data of the app service
+ *  @return             A SDLGetAppServiceDataResponse object
+ */
+- (instancetype)initWithAppServiceData:(SDLAppServiceData *)serviceData;
+
+/**
  *  Contains all the current data of the app service.
  *
  *  SDLAppServiceData, Required

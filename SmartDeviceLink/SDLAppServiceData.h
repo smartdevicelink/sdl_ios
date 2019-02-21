@@ -20,6 +20,17 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLAppServiceData : SDLRPCStruct
 
 /**
+ * Convenience init.
+ *
+ *  @param serviceType          The type of service that is to be offered by this app.
+ *  @param serviceId            A unique ID tied to this specific service record.
+ *  @param mediaServiceData     The media service data
+ *  @param weatherServiceData   The weather service data
+ *  @return                     A SDLAppServiceData object
+ */
+- (instancetype)initWithServiceType:(NSString *)serviceType serviceId:(NSString *)serviceId mediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData weatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData;
+
+/**
  *  The type of service that is to be offered by this app. See AppServiceType.
  *
  *  String, See `SDLAppServiceType`, Required

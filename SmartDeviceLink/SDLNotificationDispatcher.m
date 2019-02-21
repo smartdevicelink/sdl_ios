@@ -12,6 +12,7 @@
 #import "SDLNotificationConstants.h"
 #import "SDLRPCNotification.h"
 #import "SDLRPCNotificationNotification.h"
+#import "SDLRPCRequestNotification.h"
 #import "SDLRPCResponseNotification.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -33,6 +34,13 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Runs on `com.sdl.rpcProcessingQueue`
     [[NSNotificationCenter defaultCenter] postNotificationName:name object:self userInfo:userInfo];
+}
+
+- (void)postRPCRequestNotification:(NSString *)name request:(__kindof SDLRPCRequest *)request {
+    SDLRPCRequestNotification *notification = [[SDLRPCRequestNotification alloc] initWithName:name object:self rpcRequest:request];
+
+    // Runs on `com.sdl.rpcProcessingQueue`
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 - (void)postRPCResponseNotification:(NSString *)name response:(__kindof SDLRPCResponse *)response {
@@ -149,6 +157,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveGenericResponse response:response];
 }
 
+- (void)onGetAppServiceData:(SDLGetAppServiceData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetAppServiceDataRequest request:request];
+}
+
 - (void)onGetAppServiceDataResponse:(SDLGetAppServiceDataResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveGetAppServiceDataResponse response:response];
 }
@@ -181,6 +193,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveListFilesResponse response:response];
 }
 
+- (void)onPerformAppServiceInteraction:(SDLPerformAppServiceInteraction *)request {
+    [self postRPCRequestNotification:SDLDidReceivePerformAppServiceInteractionRequest request:request];
+}
+
 - (void)onPerformAppServiceInteractionResponse:(SDLPerformAppServiceInteractionResponse *)response {
     [self postRPCResponseNotification:SDLDidReceivePerformAppServiceInteractionResponse response:response];
 }
@@ -193,7 +209,7 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceivePerformInteractionResponse response:response];
 }
 
-- (void)onPublishAppService:(SDLPublishAppService *)response {
+- (void)onPublishAppServiceResponse:(SDLPublishAppServiceResponse *)response {
     [self postRPCResponseNotification:SDLDidReceivePublishAppServiceResponse response:response];
 }
 

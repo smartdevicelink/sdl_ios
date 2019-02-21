@@ -42,6 +42,12 @@ describe(@"Getter/Setter Tests", ^{
         expect(testResponse.serviceData).to(equal(testAppServiceData));
     });
 
+    it(@"Should get correctly when initialized with initWithAppServiceData:", ^{
+        SDLGetAppServiceDataResponse *testResponse = [[SDLGetAppServiceDataResponse alloc] initWithAppServiceData:testAppServiceData];
+
+        expect(testResponse.serviceData).to(equal(testAppServiceData));
+    });
+
     it(@"Should return nil if not set", ^{
         SDLGetAppServiceDataResponse *testResponse = [[SDLGetAppServiceDataResponse alloc] init];
 

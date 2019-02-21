@@ -7,7 +7,8 @@
 //
 
 #import "SDLRPCNotification.h"
-#import "SDLAppServiceData.h"
+
+@class SDLAppServiceData;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,6 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
  *   This notification includes the data that is updated from the specific service.
  */
 @interface SDLOnAppServiceData : SDLRPCNotification
+
+/**
+ *  Convenience init
+ *
+ *  @param serviceData  The updated app service data
+ *  @return             A SDLOnAppServiceData object
+ */
+- (instancetype)initWithServiceData:(SDLAppServiceData *)serviceData;
 
 /**
  *  The updated app service data.

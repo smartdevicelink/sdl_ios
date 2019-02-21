@@ -26,6 +26,7 @@
 @class SDLPutFile;
 @class SDLRegisterAppInterfaceResponse;
 @class SDLResponseDispatcher;
+@class SDLRPCMessage;
 @class SDLRPCNotification;
 @class SDLRPCRequest;
 @class SDLRPCResponse;
@@ -121,7 +122,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *
  *  @param request The RPC request to send
  */
-- (void)sendRequest:(SDLRPCRequest *)request;
+- (void)sendRequest:(__kindof SDLRPCMessage *)request;
 
 /**
  *  Send an RPC request and set a completion handler that will be called with the response when the response returns.
@@ -129,7 +130,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
  *  @param request The RPC request to send
  *  @param handler The handler that will be called when the response returns
  */
-- (void)sendRequest:(SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler;
+- (void)sendRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler;
 
 /**
  Send all of the requests given as quickly as possible, but in order. Call the completionHandler after all requests have either failed or given a response.

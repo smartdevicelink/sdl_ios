@@ -21,15 +21,20 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    _receivedRequests = [NSMutableArray<__kindof SDLRPCRequest *> array];
+    _receivedRequests = [NSMutableArray<__kindof SDLRPCMessage *> array];
 
     return self;
 }
 
-- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+- (void)sendConnectionRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     self.lastRequestBlock = handler;
-    request.correlationID = [self test_nextCorrelationID];
-    [self.receivedRequests addObject:request];
+    if ([request isKindOfClass:SDLRPCRequest.class]) {
+        SDLRPCRequest *requestRPC = (SDLRPCRequest *)request;
+        requestRPC.correlationID = [self test_nextCorrelationID];
+        [self.receivedRequests addObject:requestRPC];
+    } else {
+        [self.receivedRequests addObject:request];
+    }
 }
 
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
@@ -98,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)reset {
-    _receivedRequests = [NSMutableArray<__kindof SDLRPCRequest *> array];
+    _receivedRequests = [NSMutableArray<__kindof SDLRPCMessage *> array];
     _lastRequestBlock = nil;
 }
 

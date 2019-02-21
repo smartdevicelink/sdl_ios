@@ -76,6 +76,17 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.alerts).to(equal(testAlerts));
     });
 
+    it(@"Should get correctly when initialized with initWithLocation:currentForecast:currentForecast minuteForecast:hourlyForecast:multidayForecast:alerts:", ^{
+        SDLWeatherServiceData *testStruct = [[SDLWeatherServiceData alloc] initWithLocation:testLocation currentForecast:testCurrentForecast minuteForecast:testMinuteForecast hourlyForecast:testHourlyForecast multidayForecast:testMultidayForecast alerts:testAlerts];
+
+        expect(testStruct.location).to(equal(testLocation));
+        expect(testStruct.currentForecast).to(equal(testCurrentForecast));
+        expect(testStruct.minuteForecast).to(equal(testMinuteForecast));
+        expect(testStruct.hourlyForecast).to(equal(testHourlyForecast));
+        expect(testStruct.multidayForecast).to(equal(testMultidayForecast));
+        expect(testStruct.alerts).to(equal(testAlerts));
+    });
+
     it(@"Should return nil if not set", ^{
         SDLWeatherServiceData *testStruct = [[SDLWeatherServiceData alloc] init];
         

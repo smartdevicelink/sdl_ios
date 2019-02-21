@@ -275,6 +275,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLRPCNotification.h',
 'SmartDeviceLink/SDLRPCNotificationNotification.h',
 'SmartDeviceLink/SDLRPCRequest.h',
+'SmartDeviceLink/SDLRPCRequestNotification.h',
 'SmartDeviceLink/SDLRPCResponse.h',
 'SmartDeviceLink/SDLRPCResponseNotification.h',
 'SmartDeviceLink/SDLRPCStruct.h',

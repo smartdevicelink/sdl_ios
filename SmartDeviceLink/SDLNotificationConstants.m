@@ -78,6 +78,10 @@ SDLNotificationName const SDLDidReceiveUnsubscribeButtonResponse = @"com.sdl.res
 SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataResponse = @"com.sdl.response.unsubscribeVehicleData";
 SDLNotificationName const SDLDidReceiveUnsubscribeWaypointsResponse = @"com.sdl.response.unsubscribeWaypoints";
 
+#pragma mark - RPC Requests
+SDLNotificationName const SDLDidReceivePerformAppServiceInteractionRequest = @"com.sdl.request.performAppServiceInteraction";
+SDLNotificationName const SDLDidReceiveGetAppServiceDataRequest = @"com.sdl.request.getAppServiceData";
+
 #pragma mark - RPC Notifications
 SDLNotificationName const SDLDidChangeDriverDistractionStateNotification = @"com.sdl.notification.changeDriverDistractionStateNotification";
 SDLNotificationName const SDLDidChangeHMIStatusNotification = @"com.sdl.notification.changeHMIStatus";
@@ -158,10 +162,6 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
              SDLDidReceiveUnsubscribeButtonResponse,
              SDLDidReceiveUnsubscribeVehicleDataResponse,
              SDLDidReceiveUnsubscribeWaypointsResponse];
-}
-
-+ (NSArray<SDLNotificationName> *)allRequestNames {
-    return @[];
 }
 
 + (NSArray<SDLNotificationName> *)allButtonEventNotifications {

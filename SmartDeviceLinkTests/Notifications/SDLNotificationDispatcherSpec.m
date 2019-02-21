@@ -37,6 +37,7 @@ describe(@"a notification dispatcher", ^{
         expect(@([testDispatcher respondsToSelector:@selector(onEndAudioPassThruResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onError:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGenericResponse:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onGetAppServiceData:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGetAppServiceDataResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGetDTCsResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onGetFileResponse:)])).to(beTruthy());
@@ -62,10 +63,11 @@ describe(@"a notification dispatcher", ^{
         expect(@([testDispatcher respondsToSelector:@selector(onOnTouchEvent:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnVehicleData:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnWayPointChange:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onPerformAppServiceInteraction:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onPerformAppServiceInteractionResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onPerformAudioPassThruResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onPerformInteractionResponse:)])).to(beTruthy());
-        expect(@([testDispatcher respondsToSelector:@selector(onPublishAppService:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onPublishAppServiceResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onPutFileResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onReadDIDResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onRegisterAppInterfaceResponse:)])).to(beTruthy());
@@ -96,7 +98,6 @@ describe(@"a notification dispatcher", ^{
     describe(@"when told to post a notification", ^{
         __block NSString *testNotificationName = nil;
         __block NSString *testUserInfo = nil;
-        
         __block NSNotification *returnNotification = nil;
         
         beforeEach(^{

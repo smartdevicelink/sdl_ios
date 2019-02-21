@@ -20,6 +20,19 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLWeatherServiceData : SDLRPCStruct
 
 /**
+ *  Convenience init.
+ *
+ *  @param location         The location
+ *  @param currentForecast  The current forecast
+ *  @param minuteForecast   A minute-by-minute array of forecasts
+ *  @param hourlyForecast   An hour-by-hour array of forecasts
+ *  @param multidayForecast A day-by-day array of forecasts
+ *  @param alerts           An array of weather alerts
+ *  @return                 A SDLWeatherServiceData object
+ */
+- (instancetype)initWithLocation:(SDLLocationDetails *)location currentForecast:(nullable SDLWeatherData *)currentForecast minuteForecast:(nullable NSArray<SDLWeatherData *> *)minuteForecast hourlyForecast:(NSArray<SDLWeatherData *> *)hourlyForecast multidayForecast:(nullable NSArray<SDLWeatherData *> *)multidayForecast alerts:(NSArray<SDLWeatherAlert *> *)alerts;
+
+/**
  *  The location.
  *
  *  SDLLocationDetails, Required
@@ -48,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<SDLWeatherData *> *hourlyForecast;
 
 /**
- *  An day-by-day array of forecasts.
+ *  A day-by-day array of forecasts.
  *
  *  Array of SDLWeatherData, Optional, minsize="1" maxsize="30"
  */
