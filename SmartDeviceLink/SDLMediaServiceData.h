@@ -29,13 +29,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param isExplicit               Whether or not the content currently playing contains explicit content
  *  @param trackPlaybackProgress    The current progress of the track
  *  @param trackPlaybackDuration    The total duration of the track
- *  @param queuePlaybackProgess     The current progress of the playback queue in seconds
+ *  @param queuePlaybackProgress     The current progress of the playback queue in seconds
  *  @param queuePlaybackDuration    The total duration of the playback queue in seconds
  *  @param queueCurrentTrackNumber  The current number (1 based) of the track in the playback queue
  *  @param queueTotalTrackCount     The total number of tracks in the playback queue
  *  @return                         A SDLMediaServiceData object
  */
-- (instancetype)initWithMediaType:(nullable SDLMediaType)mediaType mediaTitle:(nullable NSString *)mediaTitle mediaArtist:(nullable NSString *)mediaArtist mediaAlbum:(nullable NSString *)mediaAlbum playlistName:(nullable NSString *)playlistName isExplicit:(BOOL)isExplicit trackPlaybackProgress:(UInt32)trackPlaybackProgress trackPlaybackDuration:(UInt32)trackPlaybackDuration queuePlaybackProgess:(UInt32)queuePlaybackProgess queuePlaybackDuration:(UInt32)queuePlaybackDuration queueCurrentTrackNumber:(UInt32)queueCurrentTrackNumber queueTotalTrackCount:(UInt32)queueTotalTrackCount;
+- (instancetype)initWithMediaType:(nullable SDLMediaType)mediaType mediaTitle:(nullable NSString *)mediaTitle mediaArtist:(nullable NSString *)mediaArtist mediaAlbum:(nullable NSString *)mediaAlbum playlistName:(nullable NSString *)playlistName isExplicit:(BOOL)isExplicit trackPlaybackProgress:(UInt32)trackPlaybackProgress trackPlaybackDuration:(UInt32)trackPlaybackDuration queuePlaybackProgress:(UInt32)queuePlaybackProgress queuePlaybackDuration:(UInt32)queuePlaybackDuration queueCurrentTrackNumber:(UInt32)queueCurrentTrackNumber queueTotalTrackCount:(UInt32)queueTotalTrackCount;
 
 /**
  *  The type of the currently playing or paused track.
@@ -112,7 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Integer, Optional
  */
-@property (nullable, strong, nonatomic) NSNumber<SDLInt> *queuePlaybackProgess;
+@property (nullable, strong, nonatomic) NSNumber<SDLInt> *queuePlaybackProgress;
 
 /**
  *  Music: The total duration of the playback queue in seconds

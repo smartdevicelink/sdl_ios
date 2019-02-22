@@ -48,7 +48,7 @@ describe(@"Getter/Setter Tests", ^{
         testStruct.isExplicit = @(testIsExplicit);
         testStruct.trackPlaybackProgress = @(testTrackPlaybackProgress);
         testStruct.trackPlaybackDuration = @(testTrackPlaybackDuration);
-        testStruct.queuePlaybackProgess = @(testQueuePlaybackProgress);
+        testStruct.queuePlaybackProgress = @(testQueuePlaybackProgress);
         testStruct.queuePlaybackDuration = @(testQueuePlaybackDuration);
         testStruct.queueCurrentTrackNumber = @(testQueueCurrentTrackNumber);
         testStruct.queueTotalTrackCount = @(testQueueTotalTrackCount);
@@ -61,7 +61,7 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.isExplicit).to(equal(testIsExplicit));
         expect(testStruct.trackPlaybackProgress).to(equal(testTrackPlaybackProgress));
         expect(testStruct.trackPlaybackDuration).to(equal(testTrackPlaybackDuration));
-        expect(testStruct.queuePlaybackProgess).to(equal(testQueuePlaybackProgress));
+        expect(testStruct.queuePlaybackProgress).to(equal(testQueuePlaybackProgress));
         expect(testStruct.queuePlaybackDuration).to(equal(testQueuePlaybackDuration));
         expect(testStruct.queueCurrentTrackNumber).to(equal(testQueueCurrentTrackNumber));
         expect(testStruct.queueTotalTrackCount).to(equal(testQueueTotalTrackCount));
@@ -76,7 +76,7 @@ describe(@"Getter/Setter Tests", ^{
                                SDLNameIsExplicit:@(testIsExplicit),
                                SDLNameTrackPlaybackProgress:@(testTrackPlaybackProgress),
                                SDLNameTrackPlaybackDuration:@(testTrackPlaybackDuration),
-                               SDLNameQueuePlaybackProgess:@(testQueuePlaybackProgress),
+                               SDLNameQueuePlaybackProgress:@(testQueuePlaybackProgress),
                                SDLNameQueuePlaybackDuration:@(testQueuePlaybackDuration),
                                SDLNameQueueCurrentTrackNumber:@(testQueueCurrentTrackNumber),
                                SDLNameQueueTotalTrackCount:@(testQueueTotalTrackCount)
@@ -91,14 +91,14 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.isExplicit).to(equal(testIsExplicit));
         expect(testStruct.trackPlaybackProgress).to(equal(testTrackPlaybackProgress));
         expect(testStruct.trackPlaybackDuration).to(equal(testTrackPlaybackDuration));
-        expect(testStruct.queuePlaybackProgess).to(equal(testQueuePlaybackProgress));
+        expect(testStruct.queuePlaybackProgress).to(equal(testQueuePlaybackProgress));
         expect(testStruct.queuePlaybackDuration).to(equal(testQueuePlaybackDuration));
         expect(testStruct.queueCurrentTrackNumber).to(equal(testQueueCurrentTrackNumber));
         expect(testStruct.queueTotalTrackCount).to(equal(testQueueTotalTrackCount));
     });
 
-    it(@"Should get correctly when initialized with initWithMediaType:mediaTitle:mediaArtist:mediaAlbum:playlistName:isExplicit:trackPlaybackProgress:trackPlaybackDuration:queuePlaybackProgess:queuePlaybackDuration:queueCurrentTrackNumber:queueTotalTrackCount:", ^{
-        SDLMediaServiceData *testStruct = [[SDLMediaServiceData alloc] initWithMediaType:testMediaType mediaTitle:testMediaTitle mediaArtist:testMediaArtist mediaAlbum:testMediaAlbum playlistName:testPlaylistName isExplicit:testIsExplicit trackPlaybackProgress:testTrackPlaybackProgress trackPlaybackDuration:testTrackPlaybackDuration queuePlaybackProgess:testQueuePlaybackProgress queuePlaybackDuration:testQueuePlaybackDuration queueCurrentTrackNumber:testQueueCurrentTrackNumber queueTotalTrackCount:testQueueTotalTrackCount];
+    it(@"Should get correctly when initialized with initWithMediaType:mediaTitle:mediaArtist:mediaAlbum:playlistName:isExplicit:trackPlaybackProgress:trackPlaybackDuration:queuePlaybackProgress:queuePlaybackDuration:queueCurrentTrackNumber:queueTotalTrackCount:", ^{
+        SDLMediaServiceData *testStruct = [[SDLMediaServiceData alloc] initWithMediaType:testMediaType mediaTitle:testMediaTitle mediaArtist:testMediaArtist mediaAlbum:testMediaAlbum playlistName:testPlaylistName isExplicit:testIsExplicit trackPlaybackProgress:testTrackPlaybackProgress trackPlaybackDuration:testTrackPlaybackDuration queuePlaybackProgress:testQueuePlaybackProgress queuePlaybackDuration:testQueuePlaybackDuration queueCurrentTrackNumber:testQueueCurrentTrackNumber queueTotalTrackCount:testQueueTotalTrackCount];
 
         expect(testStruct.mediaType).to(equal(testMediaType));
         expect(testStruct.mediaTitle).to(equal(testMediaTitle));
@@ -108,7 +108,7 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.isExplicit).to(equal(testIsExplicit));
         expect(testStruct.trackPlaybackProgress).to(equal(testTrackPlaybackProgress));
         expect(testStruct.trackPlaybackDuration).to(equal(testTrackPlaybackDuration));
-        expect(testStruct.queuePlaybackProgess).to(equal(testQueuePlaybackProgress));
+        expect(testStruct.queuePlaybackProgress).to(equal(testQueuePlaybackProgress));
         expect(testStruct.queuePlaybackDuration).to(equal(testQueuePlaybackDuration));
         expect(testStruct.queueCurrentTrackNumber).to(equal(testQueueCurrentTrackNumber));
         expect(testStruct.queueTotalTrackCount).to(equal(testQueueTotalTrackCount));
@@ -125,7 +125,7 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.isExplicit).to(beNil());
         expect(testStruct.trackPlaybackProgress).to(beNil());
         expect(testStruct.trackPlaybackDuration).to(beNil());
-        expect(testStruct.queuePlaybackProgess).to(beNil());
+        expect(testStruct.queuePlaybackProgress).to(beNil());
         expect(testStruct.queuePlaybackDuration).to(beNil());
         expect(testStruct.queueCurrentTrackNumber).to(beNil());
         expect(testStruct.queueTotalTrackCount).to(beNil());

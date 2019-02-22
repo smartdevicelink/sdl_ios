@@ -491,7 +491,7 @@ extern SDLName const SDLNamePublishAppService;
 extern SDLName const SDLNamePutFile;
 extern SDLName const SDLNameQueueCurrentTrackNumber;
 extern SDLName const SDLNameQueuePlaybackDuration;
-extern SDLName const SDLNameQueuePlaybackProgess;
+extern SDLName const SDLNameQueuePlaybackProgress;
 extern SDLName const SDLNameQueueTotalTrackCount;
 extern SDLName const SDLNameRadioBandAvailable;
 extern SDLName const SDLNameRadioControlCapabilities;
