@@ -15,9 +15,9 @@ describe(@"The SDLGlobals class", ^{
     
     describe(@"when just initialized", ^{
         it(@"should properly set parameters", ^{
-            expect(testGlobals.protocolVersion).to(equal(@"1.0.0"));
+            expect(testGlobals.protocolVersion.stringVersion).to(equal(@"1.0.0"));
             expect(testGlobals.protocolVersion.major).to(equal(1));
-            expect(testGlobals.maxHeadUnitProtocolVersion).to(equal(@"0.0.0"));
+            expect(testGlobals.maxHeadUnitProtocolVersion.stringVersion).to(equal(@"0.0.0"));
             expect([testGlobals mtuSizeForServiceType:SDLServiceTypeRPC]).to(equal(SDLV1MTUSize));
             expect(testGlobals.rpcVersion).to(equal([[SDLVersion alloc] initWithMajor:1 minor:0 patch:0]));
         });
@@ -67,7 +67,7 @@ describe(@"The SDLGlobals class", ^{
             
             describe(@"when the max proxy version is lower than max head unit version", ^{
                 beforeEach(^{
-                    NSString *someVersionHigherThanMaxProxyVersion = [SDLVersion versionWithString:@"1000.0.0"];
+                    SDLVersion *someVersionHigherThanMaxProxyVersion = [SDLVersion versionWithString:@"1000.0.0"];
                     testGlobals.maxHeadUnitProtocolVersion = someVersionHigherThanMaxProxyVersion;
                 });
                 

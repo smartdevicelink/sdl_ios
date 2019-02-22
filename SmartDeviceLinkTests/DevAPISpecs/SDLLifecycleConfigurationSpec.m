@@ -14,6 +14,7 @@
 #import "SDLLifecycleConfigurationUpdate.h"
 #import "SDLSpeechCapabilities.h"
 #import "SDLTTSChunk.h"
+#import "SDLVersion.h"
 
 
 @interface SDLLifecycleConfiguration()
@@ -31,9 +32,11 @@ describe(@"A lifecycle configuration", ^{
     __block NSString *testAppId = @"00542596";
     __block NSString *testFullAppId = @"-ab--987-adfa651kj-212346h3kjkaju";
     __block NSString *expectedGeneratedAppId = @"ab987adfa6";
+    __block SDLVersion *baseVersion = nil;
 
     beforeEach(^{
         testConfig = nil;
+        baseVersion = [SDLVersion versionWithMajor:1 minor:0 patch:0];
     });
 
     context(@"created with a default configuration", ^{
@@ -69,6 +72,8 @@ describe(@"A lifecycle configuration", ^{
                 expect(testConfig.ttsName).to(beNil());
                 expect(testConfig.voiceRecognitionCommandNames).to(beNil());
                 expect(testConfig.resumeHash).to(beNil());
+                expect(testConfig.minimumProtocolVersion).to(equal(baseVersion));
+                expect(testConfig.minimumRPCVersion).to(equal(baseVersion));
             });
         });
 
@@ -98,6 +103,8 @@ describe(@"A lifecycle configuration", ^{
                 testConfig.ttsName = testTTSName;
                 testConfig.voiceRecognitionCommandNames = testSynonyms;
                 testConfig.resumeHash = testResumeHashString;
+                testConfig.minimumProtocolVersion = [SDLVersion versionWithString:@"1.0.0"];
+                testConfig.minimumRPCVersion = [SDLVersion versionWithString:@"2.0.0"];
             });
 
             afterEach(^{
@@ -117,6 +124,8 @@ describe(@"A lifecycle configuration", ^{
                 expect(testConfig.ttsName).to(haveCount(@1));
                 expect(testConfig.voiceRecognitionCommandNames).to(haveCount(@(testSynonyms.count)));
                 expect(testConfig.resumeHash).to(match(testResumeHashString));
+                expect(testConfig.minimumProtocolVersion.stringVersion).to(equal(@"1.0.0"));
+                expect(testConfig.minimumRPCVersion.stringVersion).to(equal(@"2.0.0"));
             });
         });
     });
@@ -161,6 +170,8 @@ describe(@"A lifecycle configuration", ^{
                 expect(testConfig.ttsName).to(beNil());
                 expect(testConfig.voiceRecognitionCommandNames).to(beNil());
                 expect(testConfig.resumeHash).to(beNil());
+                expect(testConfig.minimumProtocolVersion).to(equal(baseVersion));
+                expect(testConfig.minimumRPCVersion).to(equal(baseVersion));
             });
         });
 
@@ -170,6 +181,7 @@ describe(@"A lifecycle configuration", ^{
             __block NSArray<SDLTTSChunk *> *testTTSName = nil;
             __block NSArray<NSString *> *testSynonyms = nil;
             __block NSString *testResumeHashString = nil;
+            __block SDLVersion *testVersion = nil;
 
             beforeEach(^{
                 testConfig = [SDLLifecycleConfiguration debugConfigurationWithAppName:testAppName fullAppId:testFullAppId ipAddress:testIPAddress port:testPort];
@@ -181,6 +193,7 @@ describe(@"A lifecycle configuration", ^{
                 testTTSName = @[testTTSChunk];
                 testSynonyms = @[@"Test 1", @"Test 2", @"Test 3", @"Test 4"];
                 testResumeHashString = @"testing";
+                testVersion = [SDLVersion versionWithMajor:1 minor:0 patch:0];
 
                 testConfig.appType = SDLAppHMITypeInformation;
                 testConfig.additionalAppTypes = @[SDLAppHMITypeProjection];
@@ -190,6 +203,8 @@ describe(@"A lifecycle configuration", ^{
                 testConfig.ttsName = testTTSName;
                 testConfig.voiceRecognitionCommandNames = testSynonyms;
                 testConfig.resumeHash = testResumeHashString;
+                testConfig.minimumRPCVersion = testVersion;
+                testConfig.minimumProtocolVersion = testVersion;
             });
 
             afterEach(^{
@@ -209,6 +224,8 @@ describe(@"A lifecycle configuration", ^{
                 expect(testConfig.ttsName).to(haveCount(@1));
                 expect(testConfig.voiceRecognitionCommandNames).to(haveCount(@(testSynonyms.count)));
                 expect(testConfig.resumeHash).to(match(testResumeHashString));
+                expect(testConfig.minimumRPCVersion).to(equal(testVersion));
+                expect(testConfig.minimumProtocolVersion).to(equal(testVersion));
             });
         });
     });

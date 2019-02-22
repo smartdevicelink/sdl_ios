@@ -6,7 +6,7 @@
 
 QuickSpecBegin(SDLVersionSpec)
 
-fdescribe(@"a version object", ^{
+describe(@"a version object", ^{
     __block SDLVersion *testVersion = nil;
     __block NSUInteger major = 5; __block NSUInteger minor = 4; __block NSUInteger patch = 0;
 
