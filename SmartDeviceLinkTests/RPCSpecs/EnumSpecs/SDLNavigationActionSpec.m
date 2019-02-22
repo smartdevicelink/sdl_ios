@@ -15,6 +15,13 @@ QuickSpecBegin(SDLNavigationActionSpec)
 
 describe(@"Individual Enum Value Tests", ^ {
     it(@"Should match internal values", ^ {
+        expect(SDLNavigationActionTurn).to(equal(@"TURN"));
+        expect(SDLNavigationActionExit).to(equal(@"EXIT"));
+        expect(SDLNavigationActionStay).to(equal(@"STAY"));
+        expect(SDLNavigationActionMerge).to(equal(@"MERGE"));
+        expect(SDLNavigationActionFerry).to(equal(@"FERRY"));
+        expect(SDLNavigationActionCarShuttleTrain).to(equal(@"CAR_SHUTTLE_TRAIN"));
+        expect(SDLNavigationActionWaypoint).to(equal(@"WAYPOINT"));
     });
 });
 
