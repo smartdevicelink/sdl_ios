@@ -9,7 +9,7 @@
 #import "SDLEnum.h"
 
 /*
- *  The navigation junction type.
+ *  A navigation junction type.
  */
 typedef SDLEnum SDLNavigationJunction SDL_SWIFT_ENUM;
 

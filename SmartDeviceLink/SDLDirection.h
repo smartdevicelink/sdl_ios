@@ -9,7 +9,7 @@
 #import "SDLEnum.h"
 
 /*
- *  The navigation direction.
+ *  A navigation direction.
  */
 typedef SDLEnum SDLDirection SDL_SWIFT_ENUM;
 
