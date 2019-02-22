@@ -1281,6 +1281,8 @@
 		88802FF420853BED00E9EBC6 /* SmartDeviceLinkSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D4346631E6F38E600B639C6 /* SmartDeviceLinkSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88802FF520853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */; };
 		88802FF620853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8880D24722205B1B00964F6A /* SDLNavigationInstruction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8880D24522205B1B00964F6A /* SDLNavigationInstruction.h */; };
+		8880D24822205B1B00964F6A /* SDLNavigationInstruction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8880D24622205B1B00964F6A /* SDLNavigationInstruction.m */; };
 		8886EB982111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */; };
 		888F86FE221DEE200052FE4C /* SDLRPCResponseOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 888F86FD221DEE1F0052FE4C /* SDLRPCResponseOperation.m */; };
 		888F8700221DF4880052FE4C /* SDLRPCResponseOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 888F86FF221DF4880052FE4C /* SDLRPCResponseOperationSpec.m */; };
@@ -2871,6 +2873,8 @@
 		8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponse.m; sourceTree = "<group>"; };
 		8877F5F01F34AA2D00DC128A /* SDLSendHapticDataResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponseSpec.m; sourceTree = "<group>"; };
 		88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartDeviceLinkSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8880D24522205B1B00964F6A /* SDLNavigationInstruction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLNavigationInstruction.h; sourceTree = "<group>"; };
+		8880D24622205B1B00964F6A /* SDLNavigationInstruction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationInstruction.m; sourceTree = "<group>"; };
 		8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLFileManagerConfigurationSpec.m; sourceTree = "<group>"; };
 		888F86FD221DEE1F0052FE4C /* SDLRPCResponseOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCResponseOperation.m; sourceTree = "<group>"; };
 		888F86FF221DF4880052FE4C /* SDLRPCResponseOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRPCResponseOperationSpec.m; sourceTree = "<group>"; };
@@ -4342,6 +4346,8 @@
 				5D61FB0E1A84238A00846EE7 /* SDLMyKey.m */,
 				5D00AC751F15283E004000D9 /* SDLNavigationCapability.h */,
 				5D00AC761F15283E004000D9 /* SDLNavigationCapability.m */,
+				8880D24522205B1B00964F6A /* SDLNavigationInstruction.h */,
+				8880D24622205B1B00964F6A /* SDLNavigationInstruction.m */,
 				DA9F7E651DCBFAD400ACAE48 /* SDLOasisAddress.h */,
 				DA9F7E661DCBFAD400ACAE48 /* SDLOasisAddress.m */,
 				5D61FB361A84238B00846EE7 /* SDLParameterPermissions.h */,
@@ -6310,6 +6316,7 @@
 				5D61FCCF1A84238C00846EE7 /* SDLImageField.h in Headers */,
 				5D535DC51B72473800CF7760 /* SDLGlobals.h in Headers */,
 				5D79A03B1CE36F030035797B /* SDLUploadFileOperation.h in Headers */,
+				8880D24722205B1B00964F6A /* SDLNavigationInstruction.h in Headers */,
 				DA9F7E6F1DCBFFDB00ACAE48 /* SDLGetWayPoints.h in Headers */,
 				5D61FD231A84238C00846EE7 /* SDLParameterPermissions.h in Headers */,
 				5D61FCB91A84238C00846EE7 /* SDLGlobalProperty.h in Headers */,
@@ -7091,6 +7098,7 @@
 				88665B74220B80F400D9DA77 /* SDLWeatherAlert.m in Sources */,
 				88EED8391F33AE1700E6C42E /* SDLHapticRect.m in Sources */,
 				DA9F7E9C1DCC052C00ACAE48 /* SDLLocationDetails.m in Sources */,
+				8880D24822205B1B00964F6A /* SDLNavigationInstruction.m in Sources */,
 				5D61FD7A1A84238C00846EE7 /* SDLScreenParams.m in Sources */,
 				1EAA47122033FE80000FE74B /* SDLStationIDNumber.m in Sources */,
 				5D61FC831A84238C00846EE7 /* SDLDeviceInfo.m in Sources */,
