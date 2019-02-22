@@ -8,6 +8,5 @@
 
 #import "SDLDirection.h"
 
-@implementation SDLDirection
-
-@end
+SDLDirection const SDLDirectionLeft = @"LEFT";
+SDLDirection const SDLDirectionRight = @"RIGHT";

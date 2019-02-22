@@ -6,12 +6,21 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "SDLEnum.h"
 
-NS_ASSUME_NONNULL_BEGIN
+/*
+ *  The navigation direction.
+ */
+typedef SDLEnum SDLDirection SDL_SWIFT_ENUM;
 
-@interface SDLDirection : NSObject
+/*
+ *  Direction left
+ */
+extern SDLDirection const SDLDirectionLeft;
 
-@end
+/*
+ *  Direction right
+ */
+extern SDLDirection const SDLDirectionRight;
 
-NS_ASSUME_NONNULL_END
+
