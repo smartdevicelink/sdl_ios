@@ -25,6 +25,21 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLNavigationInstruction : SDLRPCStruct
 
 /**
+ *  Convenience init
+ *
+ *  @param locationDetails The location details
+ *  @param action The navigation action
+ *  @param eta The estimated time of arrival
+ *  @param bearing The angle at which this instruction takes place
+ *  @param junctionType The navigation junction type
+ *  @param drivingSide Used to infer which side of the road this instruction takes place
+ *  @param details This is a string representation of this instruction, used to display instructions to the users
+ *  @param image An image representation of this instruction
+ *  @return A SDLNavigationInstruction object
+ */
+- (instancetype)initWithLocationDetails:(SDLLocationDetails *)locationDetails action:(SDLNavigationAction)action eta:(nullable SDLDateTime *)eta bearing:(UInt16)bearing junctionType:(nullable SDLNavigationJunction)junctionType drivingSide:(nullable SDLDirection)drivingSide details:(nullable NSString *)details image:(nullable SDLImage *)image;
+
+/**
  *  The location details.
  *
  *  SDLLocationDetails, Required
