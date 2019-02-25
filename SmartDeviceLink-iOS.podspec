@@ -206,6 +206,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLModuleType.h',
 'SmartDeviceLink/SDLMyKey.h',
 'SmartDeviceLink/SDLNavigationCapability.h',
+'SmartDeviceLink/SDLNavigationJunction.h',
 'SmartDeviceLink/SDLNotificationConstants.h',
 'SmartDeviceLink/SDLOasisAddress.h',
 'SmartDeviceLink/SDLOnAppInterfaceUnregistered.h',
