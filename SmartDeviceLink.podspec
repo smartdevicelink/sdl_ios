@@ -94,6 +94,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLDialNumberResponse.h',
 'SmartDeviceLink/SDLDIDResult.h',
 'SmartDeviceLink/SDLDimension.h',
+'SmartDeviceLink/SDLDirection.h',
 'SmartDeviceLink/SDLDisplayCapabilities.h',
 'SmartDeviceLink/SDLDisplayMode.h',
 'SmartDeviceLink/SDLDisplayType.h',

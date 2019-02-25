@@ -266,6 +266,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLDeliveryMode.h"
 #import "SDLDeviceLevelStatus.h"
 #import "SDLDimension.h"
+#import "SDLDirection.h"
 #import "SDLDisplayMode.h"
 #import "SDLDisplayType.h"
 #import "SDLDistanceUnit.h"

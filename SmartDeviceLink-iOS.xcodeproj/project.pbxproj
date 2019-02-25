@@ -1318,7 +1318,7 @@
 		88B3BF9D20DA8BBC00943565 /* SDLFuelRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B3BF9B20DA8BBC00943565 /* SDLFuelRange.m */; };
 		88B3BFA020DA8FD000943565 /* SDLFuelTypeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B3BF9F20DA8FD000943565 /* SDLFuelTypeSpec.m */; };
 		88B3BFA220DA911E00943565 /* SDLFuelRangeSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B3BFA120DA911E00943565 /* SDLFuelRangeSpec.m */; };
-		88B58DBA222040FF0011B063 /* SDLDirection.h in Headers */ = {isa = PBXBuildFile; fileRef = 88B58DB8222040FF0011B063 /* SDLDirection.h */; };
+		88B58DBA222040FF0011B063 /* SDLDirection.h in Headers */ = {isa = PBXBuildFile; fileRef = 88B58DB8222040FF0011B063 /* SDLDirection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88B58DBB222040FF0011B063 /* SDLDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B58DB9222040FF0011B063 /* SDLDirection.m */; };
 		88B58DBD222042500011B063 /* SDLDirectionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B58DBC222042500011B063 /* SDLDirectionSpec.m */; };
 		88B58DC0222045320011B063 /* SDLNavigationJunction.h in Headers */ = {isa = PBXBuildFile; fileRef = 88B58DBE222045320011B063 /* SDLNavigationJunction.h */; };
