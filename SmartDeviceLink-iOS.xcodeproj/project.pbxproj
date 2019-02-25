@@ -1324,7 +1324,7 @@
 		88B58DC0222045320011B063 /* SDLNavigationJunction.h in Headers */ = {isa = PBXBuildFile; fileRef = 88B58DBE222045320011B063 /* SDLNavigationJunction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88B58DC1222045320011B063 /* SDLNavigationJunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B58DBF222045320011B063 /* SDLNavigationJunction.m */; };
 		88B58DC3222047F50011B063 /* SDLNavigationJunctionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B58DC2222047F50011B063 /* SDLNavigationJunctionSpec.m */; };
-		88B58DC622204AF10011B063 /* SDLNavigationAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 88B58DC422204AF10011B063 /* SDLNavigationAction.h */; };
+		88B58DC622204AF10011B063 /* SDLNavigationAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 88B58DC422204AF10011B063 /* SDLNavigationAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88B58DC722204AF10011B063 /* SDLNavigationAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B58DC522204AF10011B063 /* SDLNavigationAction.m */; };
 		88B58DC922204C9E0011B063 /* SDLNavigationActionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B58DC822204C9E0011B063 /* SDLNavigationActionSpec.m */; };
 		88B848C31F45E1A600DED768 /* TestResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B848C21F45E1A600DED768 /* TestResponse.m */; };

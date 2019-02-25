@@ -301,6 +301,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLMediaType.h"
 #import "SDLMetadataType.h"
 #import "SDLModuleType.h"
+#import "SDLNavigationAction.h"
 #import "SDLNavigationJunction.h"
 #import "SDLPRNDL.h"
 #import "SDLPermissionStatus.h"

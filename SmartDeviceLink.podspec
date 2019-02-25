@@ -205,6 +205,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLModuleData.h',
 'SmartDeviceLink/SDLModuleType.h',
 'SmartDeviceLink/SDLMyKey.h',
+'SmartDeviceLink/SDLNavigationAction.h',
 'SmartDeviceLink/SDLNavigationCapability.h',
 'SmartDeviceLink/SDLNavigationJunction.h',
 'SmartDeviceLink/SDLNotificationConstants.h',
