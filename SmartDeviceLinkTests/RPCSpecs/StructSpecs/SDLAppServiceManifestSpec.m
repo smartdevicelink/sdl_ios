@@ -25,8 +25,6 @@ describe(@"Getter/Setter Tests", ^ {
     __block NSString *testServiceType = nil;
     __block SDLImage *testServiceIcon = nil;
     __block NSNumber<SDLBool> *testAllowAppConsumers = nil;
-    __block NSString *testURIPrefix = nil;
-    __block NSString *testURIScheme = nil;
     __block SDLSyncMsgVersion *testRPCSpecVersion = nil;
     __block NSArray<NSNumber<SDLInt> *> *testHandledRPCs = nil;
     __block SDLWeatherServiceManifest *testWeatherServiceManifest = nil;
@@ -37,8 +35,6 @@ describe(@"Getter/Setter Tests", ^ {
         testServiceType = SDLAppServiceTypeMedia;
         testServiceIcon = [[SDLImage alloc] initWithName:@"testImage" isTemplate:false];
         testAllowAppConsumers = @YES;
-        testURIPrefix = @"testURIPrefix";
-        testURIScheme = @"testURIScheme";
         testRPCSpecVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:5 minorVersion:2 patchVersion:1];
         testHandledRPCs = [[NSArray alloc] initWithObjects:[SDLFunctionID.sharedInstance functionIdForName:SDLNameAddCommand], [SDLFunctionID.sharedInstance functionIdForName:SDLNameCreateInteractionChoiceSet], nil];
         testWeatherServiceManifest = [[SDLWeatherServiceManifest alloc] initWithCurrentForecastSupported:true maxMultidayForecastAmount:3 maxHourlyForecastAmount:0 maxMinutelyForecastAmount:0 weatherForLocationSupported:false];
@@ -51,8 +47,6 @@ describe(@"Getter/Setter Tests", ^ {
         testStruct.serviceType = testServiceType;
         testStruct.serviceIcon = testServiceIcon;
         testStruct.allowAppConsumers = testAllowAppConsumers;
-        testStruct.uriPrefix = testURIPrefix;
-        testStruct.uriScheme = testURIScheme;
         testStruct.rpcSpecVersion = testRPCSpecVersion;
         testStruct.handledRPCs = testHandledRPCs;
         testStruct.weatherServiceManifest = testWeatherServiceManifest;
@@ -62,8 +56,6 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.serviceType).to(match(testServiceType));
         expect(testStruct.serviceIcon).to(equal(testServiceIcon));
         expect(testStruct.allowAppConsumers).to(beTrue());
-        expect(testStruct.uriPrefix).to(match(testURIPrefix));
-        expect(testStruct.uriScheme).to(match(testURIScheme));
         expect(testStruct.rpcSpecVersion).to(equal(testRPCSpecVersion));
         expect(testStruct.handledRPCs).to(equal(testHandledRPCs));
         expect(testStruct.weatherServiceManifest).to(equal(testWeatherServiceManifest));
@@ -71,14 +63,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should init correctly", ^{
-        SDLAppServiceManifest *testStruct = [[SDLAppServiceManifest alloc] initWithServiceName:testServiceName serviceType:testServiceType serviceIcon:testServiceIcon allowAppConsumers:false uriPrefix:testURIPrefix uriScheme:testURIScheme rpcSpecVersion:testRPCSpecVersion handledRPCs:testHandledRPCs mediaServiceManifest:testMediaServiceManifest weatherServiceManifest:testWeatherServiceManifest];
+        SDLAppServiceManifest *testStruct = [[SDLAppServiceManifest alloc] initWithServiceName:testServiceName serviceType:testServiceType serviceIcon:testServiceIcon allowAppConsumers:false rpcSpecVersion:testRPCSpecVersion handledRPCs:testHandledRPCs mediaServiceManifest:testMediaServiceManifest weatherServiceManifest:testWeatherServiceManifest];
 
         expect(testStruct.serviceName).to(match(testServiceName));
         expect(testStruct.serviceType).to(match(testServiceType));
         expect(testStruct.serviceIcon).to(equal(testServiceIcon));
         expect(testStruct.allowAppConsumers).to(beFalse());
-        expect(testStruct.uriPrefix).to(match(testURIPrefix));
-        expect(testStruct.uriScheme).to(match(testURIScheme));
         expect(testStruct.rpcSpecVersion).to(equal(testRPCSpecVersion));
         expect(testStruct.handledRPCs).to(equal(testHandledRPCs));
         expect(testStruct.weatherServiceManifest).to(equal(testWeatherServiceManifest));
@@ -90,8 +80,6 @@ describe(@"Getter/Setter Tests", ^ {
                                SDLNameServiceType:testServiceType,
                                SDLNameServiceIcon:testServiceIcon,
                                SDLNameAllowAppConsumers:testAllowAppConsumers,
-                               SDLNameURIPrefix:testURIPrefix,
-                               SDLNameURIScheme:testURIScheme,
                                SDLNameRPCSpecVersion:testRPCSpecVersion,
                                SDLNameHandledRPCs:testHandledRPCs,
                                SDLNameWeatherServiceManifest:testWeatherServiceManifest,
@@ -103,8 +91,6 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.serviceType).to(equal(testServiceType));
         expect(testStruct.serviceIcon).to(equal(testServiceIcon));
         expect(testStruct.allowAppConsumers).to(beTrue());
-        expect(testStruct.uriPrefix).to(match(testURIPrefix));
-        expect(testStruct.uriScheme).to(match(testURIScheme));
         expect(testStruct.rpcSpecVersion).to(equal(testRPCSpecVersion));
         expect(testStruct.handledRPCs).to(equal(testHandledRPCs));
         expect(testStruct.weatherServiceManifest).to(equal(testWeatherServiceManifest));
@@ -118,8 +104,6 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.serviceType).to(beNil());
         expect(testStruct.serviceIcon).to(beNil());
         expect(testStruct.allowAppConsumers).to(beNil());
-        expect(testStruct.uriPrefix).to(beNil());
-        expect(testStruct.uriScheme).to(beNil());
         expect(testStruct.rpcSpecVersion).to(beNil());
         expect(testStruct.handledRPCs).to(beNil());
         expect(testStruct.weatherServiceManifest).to(beNil());
