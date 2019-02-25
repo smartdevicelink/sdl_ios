@@ -1287,7 +1287,7 @@
 		88802FF420853BED00E9EBC6 /* SmartDeviceLinkSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D4346631E6F38E600B639C6 /* SmartDeviceLinkSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88802FF520853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */; };
 		88802FF620853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8880D24722205B1B00964F6A /* SDLNavigationInstruction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8880D24522205B1B00964F6A /* SDLNavigationInstruction.h */; };
+		8880D24722205B1B00964F6A /* SDLNavigationInstruction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8880D24522205B1B00964F6A /* SDLNavigationInstruction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8880D24822205B1B00964F6A /* SDLNavigationInstruction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8880D24622205B1B00964F6A /* SDLNavigationInstruction.m */; };
 		8886EB982111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */; };
 		888F86FE221DEE200052FE4C /* SDLRPCResponseOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 888F86FD221DEE1F0052FE4C /* SDLRPCResponseOperation.m */; };
