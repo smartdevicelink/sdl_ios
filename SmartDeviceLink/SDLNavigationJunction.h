@@ -36,7 +36,7 @@ extern SDLNavigationJunction const SDLNavigationJunctionRoundabout;
 /*
  *  Similar to a roundabout, however the center of the roundabout is fully traversable. Also known as a mini-roundabout.
  */
-extern SDLNavigationJunction const SDLNavigationJunctionTravesableRoundabout;
+extern SDLNavigationJunction const SDLNavigationJunctionTraversableRoundabout;
 
 /*
  *  A junction where lefts diverge to the right, then curve to the left, converting a left turn to a crossing maneuver.

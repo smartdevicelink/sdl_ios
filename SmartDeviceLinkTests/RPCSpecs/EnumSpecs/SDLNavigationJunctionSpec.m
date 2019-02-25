@@ -19,7 +19,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLNavigationJunctionBifurcation).to(equal(@"BIFURCATION"));
         expect(SDLNavigationJunctionMultiCarriageway).to(equal(@"MULTI_CARRIAGEWAY"));
         expect(SDLNavigationJunctionRoundabout).to(equal(@"ROUNDABOUT"));
-        expect(SDLNavigationJunctionTravesableRoundabout).to(equal(@"TRAVESABLE_ROUNDABOUT"));
+        expect(SDLNavigationJunctionTraversableRoundabout).to(equal(@"TRAVERSABLE_ROUNDABOUT"));
         expect(SDLNavigationJunctionJughandle).to(equal(@"JUGHANDLE"));
         expect(SDLNavigationJunctionAllWayYield).to(equal(@"ALL_WAY_YIELD"));
         expect(SDLNavigationJunctionTurnAround).to(equal(@"TURN_AROUND"));
