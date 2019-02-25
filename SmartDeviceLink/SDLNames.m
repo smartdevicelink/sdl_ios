@@ -11,6 +11,7 @@ SDLName const SDLNameACEnableAvailable = @"acEnableAvailable";
 SDLName const SDLNameACMaxEnable = @"acMaxEnable";
 SDLName const SDLNameACMaxEnableAvailable = @"acMaxEnableAvailable";
 SDLName const SDLNameAccelerationPedalPosition = @"accPedalPosition";
+SDLName const SDLNameAcceptsWayPoints = @"acceptsWayPoints";
 SDLName const SDLNameAction = @"action";
 SDLName const SDLNameActual = @"actual";
 SDLName const SDLNameAddCommand = @"AddCommand";

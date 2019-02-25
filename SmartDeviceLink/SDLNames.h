@@ -13,6 +13,7 @@ extern SDLName const SDLNameACEnableAvailable;
 extern SDLName const SDLNameACMaxEnable;
 extern SDLName const SDLNameACMaxEnableAvailable;
 extern SDLName const SDLNameAccelerationPedalPosition;
+extern SDLName const SDLNameAcceptsWayPoints;
 extern SDLName const SDLNameAction;
 extern SDLName const SDLNameActual;
 extern SDLName const SDLNameAddCommand;

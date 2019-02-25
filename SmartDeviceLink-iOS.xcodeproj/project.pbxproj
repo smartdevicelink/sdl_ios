@@ -1247,6 +1247,9 @@
 		8831FA48220235B000B8FFB7 /* SDLAppServicesCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 8831FA46220235B000B8FFB7 /* SDLAppServicesCapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8831FA49220235B000B8FFB7 /* SDLAppServicesCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831FA47220235B000B8FFB7 /* SDLAppServicesCapabilities.m */; };
 		8831FA4B2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831FA4A2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m */; };
+		884554AC222453A800BAFB6C /* SDLNavigationServiceManifest.h in Headers */ = {isa = PBXBuildFile; fileRef = 884554AA222453A800BAFB6C /* SDLNavigationServiceManifest.h */; };
+		884554AD222453A800BAFB6C /* SDLNavigationServiceManifest.m in Sources */ = {isa = PBXBuildFile; fileRef = 884554AB222453A800BAFB6C /* SDLNavigationServiceManifest.m */; };
+		884554AF2224554300BAFB6C /* SDLNavigationServiceManifestSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 884554AE2224554300BAFB6C /* SDLNavigationServiceManifestSpec.m */; };
 		884AF94C220B3FCC00E22928 /* SDLGetSystemCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 884AF94B220B3FCC00E22928 /* SDLGetSystemCapabilitySpec.m */; };
 		884AF94F220B488900E22928 /* SDLOnSystemCapabilityUpdated.h in Headers */ = {isa = PBXBuildFile; fileRef = 884AF94D220B488900E22928 /* SDLOnSystemCapabilityUpdated.h */; };
 		884AF950220B488900E22928 /* SDLOnSystemCapabilityUpdated.m in Sources */ = {isa = PBXBuildFile; fileRef = 884AF94E220B488900E22928 /* SDLOnSystemCapabilityUpdated.m */; };
@@ -2848,6 +2851,9 @@
 		8831FA46220235B000B8FFB7 /* SDLAppServicesCapabilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAppServicesCapabilities.h; sourceTree = "<group>"; };
 		8831FA47220235B000B8FFB7 /* SDLAppServicesCapabilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServicesCapabilities.m; sourceTree = "<group>"; };
 		8831FA4A2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServicesCapabilitiesSpec.m; sourceTree = "<group>"; };
+		884554AA222453A800BAFB6C /* SDLNavigationServiceManifest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLNavigationServiceManifest.h; sourceTree = "<group>"; };
+		884554AB222453A800BAFB6C /* SDLNavigationServiceManifest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationServiceManifest.m; sourceTree = "<group>"; };
+		884554AE2224554300BAFB6C /* SDLNavigationServiceManifestSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationServiceManifestSpec.m; sourceTree = "<group>"; };
 		884AF94B220B3FCC00E22928 /* SDLGetSystemCapabilitySpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetSystemCapabilitySpec.m; sourceTree = "<group>"; };
 		884AF94D220B488900E22928 /* SDLOnSystemCapabilityUpdated.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLOnSystemCapabilityUpdated.h; sourceTree = "<group>"; };
 		884AF94E220B488900E22928 /* SDLOnSystemCapabilityUpdated.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLOnSystemCapabilityUpdated.m; sourceTree = "<group>"; };
@@ -3465,6 +3471,7 @@
 				5D0A9F921F15560B00CC80DD /* SDLNavigationCapabilitySpec.m */,
 				8816772822208B82001FACFF /* SDLNavigationInstructionSpec.m */,
 				88A4A0F922242AB400C6F01D /* SDLNavigationServiceDataSpec.m */,
+				884554AE2224554300BAFB6C /* SDLNavigationServiceManifestSpec.m */,
 				DA9F7EB51DCC086A00ACAE48 /* SDLOasisAddressSpec.m */,
 				162E82A41A9BDE8A00906325 /* SDLParameterPermissionsSpec.m */,
 				162E82A51A9BDE8A00906325 /* SDLPermissionItemSpec.m */,
@@ -4360,6 +4367,8 @@
 				8880D24622205B1B00964F6A /* SDLNavigationInstruction.m */,
 				8816772A222097C3001FACFF /* SDLNavigationServiceData.h */,
 				8816772B222097C3001FACFF /* SDLNavigationServiceData.m */,
+				884554AA222453A800BAFB6C /* SDLNavigationServiceManifest.h */,
+				884554AB222453A800BAFB6C /* SDLNavigationServiceManifest.m */,
 				DA9F7E651DCBFAD400ACAE48 /* SDLOasisAddress.h */,
 				DA9F7E661DCBFAD400ACAE48 /* SDLOasisAddress.m */,
 				5D61FB361A84238B00846EE7 /* SDLParameterPermissions.h */,
@@ -6358,6 +6367,7 @@
 				1E5AD04C1F1F79640029B8AF /* SDLDefrostZone.h in Headers */,
 				1E5AD0601F207AB10029B8AF /* SDLRadioState.h in Headers */,
 				1E5AD0801F20B73E0029B8AF /* SDLButtonPress.h in Headers */,
+				884554AC222453A800BAFB6C /* SDLNavigationServiceManifest.h in Headers */,
 				8816772C222097C3001FACFF /* SDLNavigationServiceData.h in Headers */,
 				1E5AD05C1F2064A80029B8AF /* SDLRDSData.h in Headers */,
 				1E5AD0341F1F3AA30029B8AF /* SDLRemoteControlCapabilities.h in Headers */,
@@ -6825,6 +6835,7 @@
 				1EAA472E20344108000FE74B /* SDLLightStatus.m in Sources */,
 				1E5AD0351F1F3AA30029B8AF /* SDLRemoteControlCapabilities.m in Sources */,
 				5D61FC8F1A84238C00846EE7 /* SDLDimension.m in Sources */,
+				884554AD222453A800BAFB6C /* SDLNavigationServiceManifest.m in Sources */,
 				5D61FC9B1A84238C00846EE7 /* SDLEmergencyEvent.m in Sources */,
 				5D61FDFE1A84238C00846EE7 /* SDLVehicleDataActiveStatus.m in Sources */,
 				1E5AD0411F1F58480029B8AF /* SDLVentilationMode.m in Sources */,
@@ -7410,6 +7421,7 @@
 				5D4346471E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m in Sources */,
 				88A1CF1E21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m in Sources */,
 				1EE8C4581F387ABD00FDC2CF /* SDLButtonPressResponseSpec.m in Sources */,
+				884554AF2224554300BAFB6C /* SDLNavigationServiceManifestSpec.m in Sources */,
 				5DA23FF61F2FAA31009C0313 /* SDLControlFramePayloadRPCStartServiceSpec.m in Sources */,
 				162E83201A9BDE8B00906325 /* SDLOnVehicleDataSpec.m in Sources */,
 				1EAA47762036B847000FE74B /* SDLEqualizerSettingsSpec.m in Sources */,
