@@ -205,6 +205,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLMyKey.h"
 #import "SDLNavigationCapability.h"
 #import "SDLNavigationInstruction.h"
+#import "SDLNavigationServiceData.h"
 #import "SDLOasisAddress.h"
 #import "SDLParameterPermissions.h"
 #import "SDLPermissionItem.h"

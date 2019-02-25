@@ -1229,7 +1229,7 @@
 		880E35B52088F75A00181259 /* SDLSystemCapabilityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 880E35B32088F75A00181259 /* SDLSystemCapabilityManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		880E35B82088F78E00181259 /* SDLSystemCapabilityManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 880E35B72088F78E00181259 /* SDLSystemCapabilityManagerSpec.m */; };
 		8816772922208B82001FACFF /* SDLNavigationInstructionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8816772822208B82001FACFF /* SDLNavigationInstructionSpec.m */; };
-		8816772C222097C3001FACFF /* SDLNavigationServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8816772A222097C3001FACFF /* SDLNavigationServiceData.h */; };
+		8816772C222097C3001FACFF /* SDLNavigationServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8816772A222097C3001FACFF /* SDLNavigationServiceData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8816772D222097C3001FACFF /* SDLNavigationServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 8816772B222097C3001FACFF /* SDLNavigationServiceData.m */; };
 		8818ADD82100FC18007D6F19 /* SDLTurnSignal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8818ADD62100FC18007D6F19 /* SDLTurnSignal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8818ADD92100FC18007D6F19 /* SDLTurnSignal.m in Sources */ = {isa = PBXBuildFile; fileRef = 8818ADD72100FC18007D6F19 /* SDLTurnSignal.m */; };
