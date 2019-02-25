@@ -3,30 +3,52 @@
 
 #import <UIKit/UIKit.h>
 
+@class SDLAddCommand;
 @class SDLAddCommandResponse;
+@class SDLAddSubMenu;
 @class SDLAddSubMenuResponse;
+@class SDLAlert;
+@class SDLAlertManeuver;
 @class SDLAlertManeuverResponse;
 @class SDLAlertResponse;
+@class SDLButtonPress;
 @class SDLButtonPressResponse;
+@class SDLChangeRegistration;
 @class SDLChangeRegistrationResponse;
+@class SDLCreateInteractionChoiceSet;
 @class SDLCreateInteractionChoiceSetResponse;
+@class SDLDeleteCommand;
 @class SDLDeleteCommandResponse;
+@class SDLDeleteFile;
 @class SDLDeleteFileResponse;
+@class SDLDeleteInteractionChoiceSet;
 @class SDLDeleteInteractionChoiceSetResponse;
+@class SDLDeleteSubMenu;
 @class SDLDeleteSubMenuResponse;
+@class SDLDiagnosticMessage;
 @class SDLDiagnosticMessageResponse;
+@class SDLDialNumber;
 @class SDLDialNumberResponse;
+@class SDLEncodedSyncPData;
 @class SDLEncodedSyncPDataResponse;
+@class SDLEndAudioPassThru;
 @class SDLEndAudioPassThruResponse;
 @class SDLGenericResponse;
 @class SDLGetAppServiceData;
 @class SDLGetAppServiceDataResponse;
+@class SDLGetDTCs;
 @class SDLGetDTCsResponse;
+@class SDLGetFile;
 @class SDLGetFileResponse;
+@class SDLGetInteriorVehicleData;
 @class SDLGetInteriorVehicleDataResponse;
+@class SDLGetSystemCapability;
 @class SDLGetSystemCapabilityResponse;
+@class SDLGetVehicleData;
 @class SDLGetVehicleDataResponse;
-@class SDLGetWaypointsResponse;
+@class SDLGetWayPoints;
+@class SDLGetWayPointsResponse;
+@class SDLListFiles;
 @class SDLListFilesResponse;
 @class SDLOnAppInterfaceUnregistered;
 @class SDLOnAppServiceData;
@@ -46,41 +68,68 @@
 @class SDLOnRCStatus;
 @class SDLOnSyncPData;
 @class SDLOnSystemRequest;
-@class SDLOnVehicleData;
 @class SDLOnTBTClientState;
 @class SDLOnTouchEvent;
 @class SDLOnVehicleData;
 @class SDLOnWayPointChange;
 @class SDLPerformAppServiceInteraction;
 @class SDLPerformAppServiceInteractionResponse;
+@class SDLPerformAudioPassThru;
 @class SDLPerformAudioPassThruResponse;
+@class SDLPerformInteraction;
 @class SDLPerformInteractionResponse;
+@class SDLPublishAppService;
 @class SDLPublishAppServiceResponse;
+@class SDLPutFile;
 @class SDLPutFileResponse;
+@class SDLReadDID;
 @class SDLReadDIDResponse;
+@class SDLRegisterAppInterface;
 @class SDLRegisterAppInterfaceResponse;
+@class SDLResetGlobalProperties;
 @class SDLResetGlobalPropertiesResponse;
+@class SDLScrollableMessage;
 @class SDLScrollableMessageResponse;
+@class SDLSendHapticData;
 @class SDLSendHapticDataResponse;
+@class SDLSendLocation;
 @class SDLSendLocationResponse;
+@class SDLSetAppIcon;
 @class SDLSetAppIconResponse;
+@class SDLSetDisplayLayout;
 @class SDLSetDisplayLayoutResponse;
+@class SDLSetGlobalProperties;
 @class SDLSetGlobalPropertiesResponse;
+@class SDLSetInteriorVehicleData;
 @class SDLSetInteriorVehicleDataResponse;
+@class SDLSetMediaClockTimer;
 @class SDLSetMediaClockTimerResponse;
+@class SDLShow;
+@class SDLShowConstantTBT;
 @class SDLShowConstantTBTResponse;
 @class SDLShowResponse;
+@class SDLSlider;
 @class SDLSliderResponse;
+@class SDLSpeak;
 @class SDLSpeakResponse;
+@class SDLSubscribeButton;
 @class SDLSubscribeButtonResponse;
+@class SDLSubscribeVehicleData;
 @class SDLSubscribeVehicleDataResponse;
+@class SDLSubscribeWayPoints;
 @class SDLSubscribeWayPointsResponse;
+@class SDLSyncPData;
 @class SDLSyncPDataResponse;
-@class SDLUpdateTurnListResponse;
+@class SDLUnregisterAppInterface;
 @class SDLUnregisterAppInterfaceResponse;
+@class SDLUnsubscribeButton;
 @class SDLUnsubscribeButtonResponse;
+@class SDLUnsubscribeVehicleData;
 @class SDLUnsubscribeVehicleDataResponse;
+@class SDLUnsubscribeWayPoints;
 @class SDLUnsubscribeWayPointsResponse;
+@class SDLUpdateTurnList;
+@class SDLUpdateTurnListResponse;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -111,6 +160,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onProxyOpened;
 
 @optional
+
+#pragma mark - Responses
 
 /**
  *  Called when an Add Command Response is received from Core
@@ -218,25 +269,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onEndAudioPassThruResponse:(SDLEndAudioPassThruResponse *)response;
 
 /**
- *  Called when an Error message is received from Core
- *
- *  @param e An exception message
- */
-- (void)onError:(NSException *)e;
-
-/**
  *  Called when a Generic Response is received from Core
  *
  *  @param response A SDLGenericResponse object
  */
 - (void)onGenericResponse:(SDLGenericResponse *)response;
-
-/**
- *  Called when a Get App Service Data Request is received from Core
- *
- *  @param request A SDLGetAppServiceData object
- */
-- (void)onGetAppServiceData:(SDLGetAppServiceData *)request;
 
 /**
  *  Called when a Get App Service Data Response is received from Core
@@ -285,7 +322,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param response A SDLGetWaypointsResponse object
  */
-- (void)onGetWayPointsResponse:(SDLGetWaypointsResponse *)response;
+- (void)onGetWayPointsResponse:(SDLGetWayPointsResponse *)response;
 
 /**
  *  Called when a List Files Response is received from Core
@@ -300,153 +337,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param icon An image
  */
 - (void)onReceivedLockScreenIcon:(UIImage *)icon;
-
-/**
- *  Called when an On App Interface Unregistered notification is received from Core
- *
- *  @param notification A SDLOnAppInterfaceUnregistered object
- */
-- (void)onOnAppInterfaceUnregistered:(SDLOnAppInterfaceUnregistered *)notification;
-
-/**
- *  Called when an On App Service Data notification is received from Core
- *
- *  @param notification A SDLOnAppServiceData object
- */
-- (void)onOnAppServiceData:(SDLOnAppServiceData *)notification;
-
-/**
- *  Called when an On Audio Pass Thru notification is received from Core
- *
- *  @param notification A SDLOnAudioPassThru object
- */
-- (void)onOnAudioPassThru:(SDLOnAudioPassThru *)notification;
-
-/**
- *  Called when an On Button Event notification is received from Core
- *
- *  @param notification A SDLOnButtonEvent object
- */
-- (void)onOnButtonEvent:(SDLOnButtonEvent *)notification;
-
-/**
- *  Called when an On Button Press notification is received from Core
- *
- *  @param notification A SDLOnButtonPress object
- */
-- (void)onOnButtonPress:(SDLOnButtonPress *)notification;
-
-/**
- *  Called when an On Command notification is received from Core
- *
- *  @param notification A SDLOnCommand object
- */
-- (void)onOnCommand:(SDLOnCommand *)notification;
-
-/**
- *  Called when an On Encoded Sync P Data notification is received from Core
- *
- *  @param notification A SDLOnEncodedSyncPData object
- */
-- (void)onOnEncodedSyncPData:(SDLOnEncodedSyncPData *)notification;
-
-/**
- *  Called when an On Hash Change notification is received from Core
- *
- *  @param notification A SDLOnHashChange object
- */
-- (void)onOnHashChange:(SDLOnHashChange *)notification;
-
-/**
- *  Called when an On Interior Vehicle Data notification is received from Core
- *
- *  @param notification A SDLOnInteriorVehicleData object
- */
-- (void)onOnInteriorVehicleData:(SDLOnInteriorVehicleData *)notification;
-
-/**
- *  Called when an On Keyboard Input notification is received from Core
- *
- *  @param notification A SDLOnKeyboardInput object
- */
-- (void)onOnKeyboardInput:(SDLOnKeyboardInput *)notification;
-
-/**
- *  Called when an On Language Change notification is received from Core
- *
- *  @param notification A SDLOnLanguageChange object
- */
-- (void)onOnLanguageChange:(SDLOnLanguageChange *)notification;
-
-/**
- *  Called when an On Lock Screen notification is received from Core
- *
- *  @param notification A SDLOnLockScreenStatus object
- */
-- (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification;
-
-/**
- *  Called when an On Permissions Change notification is received from Core
- *
- *  @param notification A SDLOnPermissionsChange object
- */
-- (void)onOnPermissionsChange:(SDLOnPermissionsChange *)notification;
-
-/**
- *  Called when an On RC Change notification is received from Core
- *
- *  @param notification A SDLOnRCStatus object
- */
-- (void)onOnRCStatus:(SDLOnRCStatus *)notification;
-
-/**
- *  Called when an On Sync P notification is received from Core
- *
- *  @param notification A SDLOnSyncPData object
- */
-- (void)onOnSyncPData:(SDLOnSyncPData *)notification;
-
-/**
- *  Called when an On System Request notification is received from Core
- *
- *  @param notification A SDLOnSystemRequest object
- */
-- (void)onOnSystemRequest:(SDLOnSystemRequest *)notification;
-
-/**
- *  Called when an On TBT Client State notification is received from Core
- *
- *  @param notification A SDLOnTBTClientState object
- */
-- (void)onOnTBTClientState:(SDLOnTBTClientState *)notification;
-
-/**
- *  Called when an On Touch Event notification is received from Core
- *
- *  @param notification A SDLOnTouchEvent object
- */
-- (void)onOnTouchEvent:(SDLOnTouchEvent *)notification;
-
-/**
- *  Called when an On Vehicle Data notification is received from Core
- *
- *  @param notification A SDLOnVehicleData object
- */
-- (void)onOnVehicleData:(SDLOnVehicleData *)notification;
-
-/**
- *  Called when an On Way Point Change notification is received from Core
- *
- *  @param notification A SDLOnWayPointChange object
- */
-- (void)onOnWayPointChange:(SDLOnWayPointChange *)notification;
-
-/**
- *  Called when a Perform App Service Interaction Request is received from Core
- *
- *  @param request A SDLPerformAppServiceInteraction object
- */
-- (void)onPerformAppServiceInteraction:(SDLPerformAppServiceInteraction *)request;
 
 /**
  *  Called when a Perform App Service Interaction Response is received from Core
@@ -650,6 +540,523 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param response A SDLUnsubscribeWayPointsResponse object
  */
 - (void)onUnsubscribeWayPointsResponse:(SDLUnsubscribeWayPointsResponse *)response;
+
+#pragma mark - Requests
+/**
+ *  Called when a `AddCommand` request is received from Core
+ *
+ *  @param request A SDLAddCommand object
+ */
+- (void)onAddCommand:(SDLAddCommand *)request;
+
+/**
+ *  Called when a `AddSubMenu` request is received from Core
+ *
+ *  @param request A SDLAddSubMenu object
+ */
+- (void)onAddSubMenu:(SDLAddSubMenu *)request;
+
+/**
+ *  Called when a `Alert` request is received from Core
+ *
+ *  @param request A SDLAlert object
+ */
+- (void)onAlert:(SDLAlert *)request;
+
+/**
+ *  Called when a `AlertManeuver` request is received from Core
+ *
+ *  @param request A SDLAlertManeuver object
+ */
+- (void)onAlertManeuver:(SDLAlertManeuver *)request;
+
+/**
+ *  Called when a `ButtonPress` request is received from Core
+ *
+ *  @param request A SDLButtonPress object
+ */
+- (void)onButtonPress:(SDLButtonPress *)request;
+
+/**
+ *  Called when a `ChangeRegistration` request is received from Core
+ *
+ *  @param request A SDLChangeRegistration object
+ */
+- (void)onChangeRegistration:(SDLChangeRegistration *)request;
+
+/**
+ *  Called when a `CreateInteractionChoiceSet` request is received from Core
+ *
+ *  @param request A SDLCreateInteractionChoiceSet object
+ */
+- (void)onCreateInteractionChoiceSet:(SDLCreateInteractionChoiceSet *)request;
+
+/**
+ *  Called when a `DeleteCommand` request is received from Core
+ *
+ *  @param request A SDLDeleteCommand object
+ */
+- (void)onDeleteCommand:(SDLDeleteCommand *)request;
+
+/**
+ *  Called when a `DeleteFile` request is received from Core
+ *
+ *  @param request A SDLDeleteFile object
+ */
+- (void)onDeleteFile:(SDLDeleteFile *)request;
+
+/**
+ *  Called when a `DeleteInteractionChoiceSet` request is received from Core
+ *
+ *  @param request A SDLDeleteInteractionChoiceSet object
+ */
+- (void)onDeleteInteractionChoiceSet:(SDLDeleteInteractionChoiceSet *)request;
+
+/**
+ *  Called when a `DeleteSubMenu` request is received from Core
+ *
+ *  @param request A SDLDeleteSubMenu object
+ */
+- (void)onDeleteSubMenu:(SDLDeleteSubMenu *)request;
+
+/**
+ *  Called when a `DiagnosticMessage` request is received from Core
+ *
+ *  @param request A SDLDiagnosticMessage object
+ */
+- (void)onDiagnosticMessage:(SDLDiagnosticMessage *)request;
+
+/**
+ *  Called when a `DialNumber` request is received from Core
+ *
+ *  @param request A SDLDialNumber object
+ */
+- (void)onDialNumber:(SDLDialNumber *)request;
+
+/**
+ *  Called when a `EncodedSyncPData` request is received from Core
+ *
+ *  @param request A SDLEncodedSyncPData object
+ */
+- (void)onEncodedSyncPData:(SDLEncodedSyncPData *)request;
+
+/**
+ *  Called when a `EndAudioPassThru` request is received from Core
+ *
+ *  @param request A SDLEndAudioPassThru object
+ */
+- (void)onEndAudioPassThru:(SDLEndAudioPassThru *)request;
+
+/**
+ *  Called when a `GetAppServiceData` request is received from Core
+ *
+ *  @param request A SDLGetAppServiceData object
+ */
+- (void)onGetAppServiceData:(SDLGetAppServiceData *)request;
+
+/**
+ *  Called when a `GetDTCs` request is received from Core
+ *
+ *  @param request A SDLGetDTCs object
+ */
+- (void)onGetDTCs:(SDLGetDTCs *)request;
+
+/**
+ *  Called when a `GetFile` request is received from Core
+ *
+ *  @param request A SDLGetFile object
+ */
+- (void)onGetFile:(SDLGetFile *)request;
+
+/**
+ *  Called when a `GetInteriorVehicleData` request is received from Core
+ *
+ *  @param request A SDLGetInteriorVehicleData object
+ */
+- (void)onGetInteriorVehicleData:(SDLGetInteriorVehicleData *)request;
+
+/**
+ *  Called when a `GetSystemCapability` request is received from Core
+ *
+ *  @param request A SDLGetSystemCapability object
+ */
+- (void)onGetSystemCapability:(SDLGetSystemCapability *)request;
+
+/**
+ *  Called when a `GetVehicleData` request is received from Core
+ *
+ *  @param request A SDLGetVehicleData object
+ */
+- (void)onGetVehicleData:(SDLGetVehicleData *)request;
+
+/**
+ *  Called when a `GetWayPoints` request is received from Core
+ *
+ *  @param request A SDLGetWayPoints object
+ */
+- (void)onGetWayPoints:(SDLGetWayPoints *)request;
+
+/**
+ *  Called when a `ListFiles` request is received from Core
+ *
+ *  @param request A SDLListFiles object
+ */
+- (void)onListFiles:(SDLListFiles *)request;
+
+/**
+ *  Called when a `PerformAppServiceInteraction` request is received from Core
+ *
+ *  @param request A SDLPerformAppServiceInteraction object
+ */
+- (void)onPerformAppServiceInteraction:(SDLPerformAppServiceInteraction *)request;
+
+/**
+ *  Called when a `PerformAudioPassThru` request is received from Core
+ *
+ *  @param request A SDLPerformAudioPassThru object
+ */
+- (void)onPerformAudioPassThru:(SDLPerformAudioPassThru *)request;
+
+/**
+ *  Called when a `PerformInteraction` request is received from Core
+ *
+ *  @param request A SDLPerformInteraction object
+ */
+- (void)onPerformInteraction:(SDLPerformInteraction *)request;
+
+/**
+ *  Called when a `PublishAppService` request is received from Core
+ *
+ *  @param request A SDLPublishAppService object
+ */
+- (void)onPublishAppService:(SDLPublishAppService *)request;
+
+/**
+ *  Called when a `PutFile` request is received from Core
+ *
+ *  @param request A SDLPutFile object
+ */
+- (void)onPutFile:(SDLPutFile *)request;
+
+/**
+ *  Called when a `ReadDID` request is received from Core
+ *
+ *  @param request A SDLReadDID object
+ */
+- (void)onReadDID:(SDLReadDID *)request;
+
+/**
+ *  Called when a `RegisterAppInterface` request is received from Core
+ *
+ *  @param request A SDLRegisterAppInterface object
+ */
+- (void)onRegisterAppInterface:(SDLRegisterAppInterface *)request;
+
+/**
+ *  Called when a `ResetGlobalProperties` request is received from Core
+ *
+ *  @param request A SDLResetGlobalProperties object
+ */
+- (void)onResetGlobalProperties:(SDLResetGlobalProperties *)request;
+
+/**
+ *  Called when a `ScrollableMessage` request is received from Core
+ *
+ *  @param request A SDLScrollableMessage object
+ */
+- (void)onScrollableMessage:(SDLScrollableMessage *)request;
+
+/**
+ *  Called when a `SendHapticData` request is received from Core
+ *
+ *  @param request A SDLSendHapticData object
+ */
+- (void)onSendHapticData:(SDLSendHapticData *)request;
+
+/**
+ *  Called when a `SendLocation` request is received from Core
+ *
+ *  @param request A SDLSendLocation object
+ */
+- (void)onSendLocation:(SDLSendLocation *)request;
+
+/**
+ *  Called when a `SetAppIcon` request is received from Core
+ *
+ *  @param request A SDLSetAppIcon object
+ */
+- (void)onSetAppIcon:(SDLSetAppIcon *)request;
+
+/**
+ *  Called when a `SetDisplayLayout` request is received from Core
+ *
+ *  @param request A SDLSetDisplayLayout object
+ */
+- (void)onSetDisplayLayout:(SDLSetDisplayLayout *)request;
+
+/**
+ *  Called when a `SetGlobalProperties` request is received from Core
+ *
+ *  @param request A SDLSetGlobalProperties object
+ */
+- (void)onSetGlobalProperties:(SDLSetGlobalProperties *)request;
+
+/**
+ *  Called when a `SetInteriorVehicleData` request is received from Core
+ *
+ *  @param request A SDLSetInteriorVehicleData object
+ */
+- (void)onSetInteriorVehicleData:(SDLSetInteriorVehicleData *)request;
+
+/**
+ *  Called when a `SetMediaClockTimer` request is received from Core
+ *
+ *  @param request A SDLSetMediaClockTimer object
+ */
+- (void)onSetMediaClockTimer:(SDLSetMediaClockTimer *)request;
+
+/**
+ *  Called when a `Show` request is received from Core
+ *
+ *  @param request A SDLShow object
+ */
+- (void)onShow:(SDLShow *)request;
+
+/**
+ *  Called when a `ShowConstantTBT` request is received from Core
+ *
+ *  @param request A SDLShowConstantTBT object
+ */
+- (void)onShowConstantTBT:(SDLShowConstantTBT *)request;
+
+/**
+ *  Called when a `Slider` request is received from Core
+ *
+ *  @param request A SDLSlider object
+ */
+- (void)onSlider:(SDLSlider *)request;
+
+/**
+ *  Called when a `Speak` request is received from Core
+ *
+ *  @param request A SDLSpeak object
+ */
+- (void)onSpeak:(SDLSpeak *)request;
+
+/**
+ *  Called when a `SubscribeButton` request is received from Core
+ *
+ *  @param request A SDLSubscribeButton object
+ */
+- (void)onSubscribeButton:(SDLSubscribeButton *)request;
+
+/**
+ *  Called when a `SubscribeVehicleData` request is received from Core
+ *
+ *  @param request A SDLSubscribeVehicleData object
+ */
+- (void)onSubscribeVehicleData:(SDLSubscribeVehicleData *)request;
+
+/**
+ *  Called when a `SubscribeWayPoints` request is received from Core
+ *
+ *  @param request A SDLSubscribeWayPoints object
+ */
+- (void)onSubscribeWayPoints:(SDLSubscribeWayPoints *)request;
+
+/**
+ *  Called when a `SyncPData` request is received from Core
+ *
+ *  @param request A SDLSyncPData object
+ */
+- (void)onSyncPData:(SDLSyncPData *)request;
+
+/**
+ *  Called when a `UnregisterAppInterface` request is received from Core
+ *
+ *  @param request A SDLUnregisterAppInterface object
+ */
+- (void)onUnregisterAppInterface:(SDLUnregisterAppInterface *)request;
+
+/**
+ *  Called when a `UnsubscribeButton` request is received from Core
+ *
+ *  @param request A SDLUnsubscribeButton object
+ */
+- (void)onUnsubscribeButton:(SDLUnsubscribeButton *)request;
+
+/**
+ *  Called when a `UnsubscribeVehicleData` request is received from Core
+ *
+ *  @param request A SDLUnsubscribeVehicleData object
+ */
+- (void)onUnsubscribeVehicleData:(SDLUnsubscribeVehicleData *)request;
+
+/**
+ *  Called when a `UnsubscribeWayPoints` request is received from Core
+ *
+ *  @param request A SDLUnsubscribeWayPoints object
+ */
+- (void)onUnsubscribeWayPoints:(SDLUnsubscribeWayPoints *)request;
+
+/**
+ *  Called when a `UpdateTurnList` request is received from Core
+ *
+ *  @param request A SDLUpdateTurnList object
+ */
+- (void)onUpdateTurnList:(SDLUpdateTurnList *)request;
+
+
+#pragma mark - Notifications
+
+/**
+ *  Called when an On App Interface Unregistered notification is received from Core
+ *
+ *  @param notification A SDLOnAppInterfaceUnregistered object
+ */
+- (void)onOnAppInterfaceUnregistered:(SDLOnAppInterfaceUnregistered *)notification;
+
+/**
+ *  Called when an On App Service Data notification is received from Core
+ *
+ *  @param notification A SDLOnAppServiceData object
+ */
+- (void)onOnAppServiceData:(SDLOnAppServiceData *)notification;
+
+/**
+ *  Called when an On Audio Pass Thru notification is received from Core
+ *
+ *  @param notification A SDLOnAudioPassThru object
+ */
+- (void)onOnAudioPassThru:(SDLOnAudioPassThru *)notification;
+
+/**
+ *  Called when an On Button Event notification is received from Core
+ *
+ *  @param notification A SDLOnButtonEvent object
+ */
+- (void)onOnButtonEvent:(SDLOnButtonEvent *)notification;
+
+/**
+ *  Called when an On Button Press notification is received from Core
+ *
+ *  @param notification A SDLOnButtonPress object
+ */
+- (void)onOnButtonPress:(SDLOnButtonPress *)notification;
+
+/**
+ *  Called when an On Command notification is received from Core
+ *
+ *  @param notification A SDLOnCommand object
+ */
+- (void)onOnCommand:(SDLOnCommand *)notification;
+
+/**
+ *  Called when an On Encoded Sync P Data notification is received from Core
+ *
+ *  @param notification A SDLOnEncodedSyncPData object
+ */
+- (void)onOnEncodedSyncPData:(SDLOnEncodedSyncPData *)notification;
+
+/**
+ *  Called when an On Hash Change notification is received from Core
+ *
+ *  @param notification A SDLOnHashChange object
+ */
+- (void)onOnHashChange:(SDLOnHashChange *)notification;
+
+/**
+ *  Called when an On Interior Vehicle Data notification is received from Core
+ *
+ *  @param notification A SDLOnInteriorVehicleData object
+ */
+- (void)onOnInteriorVehicleData:(SDLOnInteriorVehicleData *)notification;
+
+/**
+ *  Called when an On Keyboard Input notification is received from Core
+ *
+ *  @param notification A SDLOnKeyboardInput object
+ */
+- (void)onOnKeyboardInput:(SDLOnKeyboardInput *)notification;
+
+/**
+ *  Called when an On Language Change notification is received from Core
+ *
+ *  @param notification A SDLOnLanguageChange object
+ */
+- (void)onOnLanguageChange:(SDLOnLanguageChange *)notification;
+
+/**
+ *  Called when an On Lock Screen notification is received from Core
+ *
+ *  @param notification A SDLOnLockScreenStatus object
+ */
+- (void)onOnLockScreenNotification:(SDLOnLockScreenStatus *)notification;
+
+/**
+ *  Called when an On Permissions Change notification is received from Core
+ *
+ *  @param notification A SDLOnPermissionsChange object
+ */
+- (void)onOnPermissionsChange:(SDLOnPermissionsChange *)notification;
+
+/**
+ *  Called when an On RC Change notification is received from Core
+ *
+ *  @param notification A SDLOnRCStatus object
+ */
+- (void)onOnRCStatus:(SDLOnRCStatus *)notification;
+
+/**
+ *  Called when an On Sync P notification is received from Core
+ *
+ *  @param notification A SDLOnSyncPData object
+ */
+- (void)onOnSyncPData:(SDLOnSyncPData *)notification;
+
+/**
+ *  Called when an On System Request notification is received from Core
+ *
+ *  @param notification A SDLOnSystemRequest object
+ */
+- (void)onOnSystemRequest:(SDLOnSystemRequest *)notification;
+
+/**
+ *  Called when an On TBT Client State notification is received from Core
+ *
+ *  @param notification A SDLOnTBTClientState object
+ */
+- (void)onOnTBTClientState:(SDLOnTBTClientState *)notification;
+
+/**
+ *  Called when an On Touch Event notification is received from Core
+ *
+ *  @param notification A SDLOnTouchEvent object
+ */
+- (void)onOnTouchEvent:(SDLOnTouchEvent *)notification;
+
+/**
+ *  Called when an On Vehicle Data notification is received from Core
+ *
+ *  @param notification A SDLOnVehicleData object
+ */
+- (void)onOnVehicleData:(SDLOnVehicleData *)notification;
+
+/**
+ *  Called when an On Way Point Change notification is received from Core
+ *
+ *  @param notification A SDLOnWayPointChange object
+ */
+- (void)onOnWayPointChange:(SDLOnWayPointChange *)notification;
+
+#pragma mark - Other
+
+/**
+ *  Called when an Error message is received from Core
+ *
+ *  @param e An exception message
+ */
+- (void)onError:(NSException *)e;
 
 @end
 

@@ -89,6 +89,8 @@ NS_ASSUME_NONNULL_BEGIN
     [self postNotificationName:SDLDidReceiveError infoObject:error];
 }
 
+# pragma mark - Responses
+
 - (void)onReceivedLockScreenIcon:(UIImage *)icon {
     [self postNotificationName:SDLDidReceiveLockScreenIcon infoObject:icon];
 }
@@ -157,10 +159,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveGenericResponse response:response];
 }
 
-- (void)onGetAppServiceData:(SDLGetAppServiceData *)request {
-    [self postRPCRequestNotification:SDLDidReceiveGetAppServiceDataRequest request:request];
-}
-
 - (void)onGetAppServiceDataResponse:(SDLGetAppServiceDataResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveGetAppServiceDataResponse response:response];
 }
@@ -185,16 +183,12 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveGetVehicleDataResponse response:response];
 }
 
-- (void)onGetWayPointsResponse:(SDLGetWaypointsResponse *)response {
+- (void)onGetWayPointsResponse:(SDLGetWayPointsResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveGetWaypointsResponse response:response];
 }
 
 - (void)onListFilesResponse:(SDLListFilesResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveListFilesResponse response:response];
-}
-
-- (void)onPerformAppServiceInteraction:(SDLPerformAppServiceInteraction *)request {
-    [self postRPCRequestNotification:SDLDidReceivePerformAppServiceInteractionRequest request:request];
 }
 
 - (void)onPerformAppServiceInteractionResponse:(SDLPerformAppServiceInteractionResponse *)response {
@@ -312,6 +306,218 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onUnsubscribeWayPointsResponse:(SDLUnsubscribeWayPointsResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveUnsubscribeWaypointsResponse response:response];
 }
+
+# pragma mark - Requests
+
+- (void)onAddCommand:(SDLAddCommand *)request {
+    [self postRPCRequestNotification:SDLDidReceiveAddCommandRequest request:request];
+}
+
+- (void)onAddSubMenu:(SDLAddSubMenu *)request {
+    [self postRPCRequestNotification:SDLDidReceiveAddSubMenuRequest request:request];
+}
+
+- (void)onAlert:(SDLAlert *)request {
+    [self postRPCRequestNotification:SDLDidReceiveAlertRequest request:request];
+}
+
+- (void)onAlertManeuver:(SDLAlertManeuver *)request {
+    [self postRPCRequestNotification:SDLDidReceiveAlertManeuverRequest request:request];
+}
+
+- (void)onButtonPress:(SDLButtonPress *)request {
+    [self postRPCRequestNotification:SDLDidReceiveButtonPressRequest request:request];
+}
+
+- (void)onChangeRegistration:(SDLChangeRegistration *)request {
+    [self postRPCRequestNotification:SDLDidReceiveChangeRegistrationRequest request:request];
+}
+
+- (void)onCreateInteractionChoiceSet:(SDLCreateInteractionChoiceSet *)request {
+    [self postRPCRequestNotification:SDLDidReceiveCreateInteractionChoiceSetRequest request:request];
+}
+
+- (void)onDeleteCommand:(SDLDeleteCommand *)request {
+    [self postRPCRequestNotification:SDLDidReceiveDeleteCommandRequest request:request];
+}
+
+- (void)onDeleteFile:(SDLDeleteFile *)request {
+    [self postRPCRequestNotification:SDLDidReceiveDeleteFileRequest request:request];
+}
+
+- (void)onDeleteInteractionChoiceSet:(SDLDeleteInteractionChoiceSet *)request {
+    [self postRPCRequestNotification:SDLDidReceiveDeleteInteractionChoiceSetRequest request:request];
+}
+
+- (void)onDeleteSubMenu:(SDLDeleteSubMenu *)request {
+    [self postRPCRequestNotification:SDLDidReceiveDeleteSubMenuRequest request:request];
+}
+
+- (void)onDiagnosticMessage:(SDLDiagnosticMessage *)request {
+    [self postRPCRequestNotification:SDLDidReceiveDiagnosticMessageRequest request:request];
+}
+
+- (void)onDialNumber:(SDLDialNumber *)request {
+    [self postRPCRequestNotification:SDLDidReceiveDialNumberRequest request:request];
+}
+
+- (void)onEncodedSyncPData:(SDLEncodedSyncPData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveEncodedSyncPDataRequest request:request];
+}
+
+- (void)onEndAudioPassThru:(SDLEndAudioPassThru *)request {
+    [self postRPCRequestNotification:SDLDidReceiveEndAudioPassThruRequest request:request];
+}
+
+- (void)onGetAppServiceData:(SDLGetAppServiceData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetAppServiceDataRequest request:request];
+}
+
+- (void)onGetDTCs:(SDLGetDTCs *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetDTCsRequest request:request];
+}
+
+- (void)onGetFile:(SDLGetFile *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetFileRequest request:request];
+}
+
+- (void)onGetInteriorVehicleData:(SDLGetInteriorVehicleData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetInteriorVehicleDataRequest request:request];
+}
+
+- (void)onGetSystemCapability:(SDLGetSystemCapability *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetSystemCapabilityRequest request:request];
+}
+
+- (void)onGetVehicleData:(SDLGetVehicleData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetVehicleDataRequest request:request];
+}
+
+- (void)onGetWayPoints:(SDLGetWayPoints *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetWayPointsRequest request:request];
+}
+
+- (void)onListFiles:(SDLListFiles *)request {
+    [self postRPCRequestNotification:SDLDidReceiveListFilesRequest request:request];
+}
+
+- (void)onPerformAppServiceInteraction:(SDLPerformAppServiceInteraction *)request {
+    [self postRPCRequestNotification:SDLDidReceivePerformAppServiceInteractionRequest request:request];
+}
+
+- (void)onPerformAudioPassThru:(SDLPerformAudioPassThru *)request {
+    [self postRPCRequestNotification:SDLDidReceivePerformAudioPassThruRequest request:request];
+}
+
+- (void)onPerformInteraction:(SDLPerformInteraction *)request {
+    [self postRPCRequestNotification:SDLDidReceivePerformInteractionRequest request:request];
+}
+
+- (void)onPublishAppService:(SDLPublishAppService *)request {
+    [self postRPCRequestNotification:SDLDidReceivePublishAppServiceRequest request:request];
+}
+
+- (void)onPutFile:(SDLPutFile *)request {
+    [self postRPCRequestNotification:SDLDidReceivePutFileRequest request:request];
+}
+
+- (void)onReadDID:(SDLReadDID *)request {
+    [self postRPCRequestNotification:SDLDidReceiveReadDIDRequest request:request];
+}
+
+- (void)onRegisterAppInterface:(SDLRegisterAppInterface *)request {
+    [self postRPCRequestNotification:SDLDidReceiveRegisterAppInterfaceRequest request:request];
+}
+
+- (void)onResetGlobalProperties:(SDLResetGlobalProperties *)request {
+    [self postRPCRequestNotification:SDLDidReceiveResetGlobalPropertiesRequest request:request];
+}
+
+- (void)onScrollableMessage:(SDLScrollableMessage *)request {
+    [self postRPCRequestNotification:SDLDidReceiveScrollableMessageRequest request:request];
+}
+
+- (void)onSendHapticData:(SDLSendHapticData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSendHapticDataRequest request:request];
+}
+
+- (void)onSendLocation:(SDLSendLocation *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSendLocationRequest request:request];
+}
+
+- (void)onSetAppIcon:(SDLSetAppIcon *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSetAppIconRequest request:request];
+}
+
+- (void)onSetDisplayLayout:(SDLSetDisplayLayout *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSetDisplayLayoutRequest request:request];
+}
+
+- (void)onSetGlobalProperties:(SDLSetGlobalProperties *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSetGlobalPropertiesRequest request:request];
+}
+
+- (void)onSetInteriorVehicleData:(SDLSetInteriorVehicleData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSetInteriorVehicleDataRequest request:request];
+}
+
+- (void)onSetMediaClockTimer:(SDLSetMediaClockTimer *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSetMediaClockTimerRequest request:request];
+}
+
+- (void)onShow:(SDLShow *)request {
+    [self postRPCRequestNotification:SDLDidReceiveShowRequest request:request];
+}
+
+- (void)onShowConstantTBT:(SDLShowConstantTBT *)request {
+    [self postRPCRequestNotification:SDLDidReceiveShowConstantTBTRequest request:request];
+}
+
+- (void)onSlider:(SDLSlider *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSliderRequest request:request];
+}
+
+- (void)onSpeak:(SDLSpeak *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSpeakRequest request:request];
+}
+
+- (void)onSubscribeButton:(SDLSubscribeButton *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSubscribeButtonRequest request:request];
+}
+
+- (void)onSubscribeVehicleData:(SDLSubscribeVehicleData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSubscribeVehicleDataRequest request:request];
+}
+
+- (void)onSubscribeWayPoints:(SDLSubscribeWayPoints *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSubscribeWayPointsRequest request:request];
+}
+
+- (void)onSyncPData:(SDLSyncPData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSyncPDataRequest request:request];
+}
+
+- (void)onUnregisterAppInterface:(SDLUnregisterAppInterface *)request {
+    [self postRPCRequestNotification:SDLDidReceiveUnregisterAppInterfaceRequest request:request];
+}
+
+- (void)onUnsubscribeButton:(SDLUnsubscribeButton *)request {
+    [self postRPCRequestNotification:SDLDidReceiveUnsubscribeButtonRequest request:request];
+}
+
+- (void)onUnsubscribeVehicleData:(SDLUnsubscribeVehicleData *)request {
+    [self postRPCRequestNotification:SDLDidReceiveUnsubscribeVehicleDataRequest request:request];
+}
+
+- (void)onUnsubscribeWayPoints:(SDLUnsubscribeWayPoints *)request {
+    [self postRPCRequestNotification:SDLDidReceiveUnsubscribeWayPointsRequest request:request];
+}
+
+- (void)onUpdateTurnList:(SDLUpdateTurnList *)request {
+    [self postRPCRequestNotification:SDLDidReceiveUpdateTurnListRequest request:request];
+}
+
+# pragma mark - Notifications
 
 - (void)onOnAppInterfaceUnregistered:(SDLOnAppInterfaceUnregistered *)notification {
     [self postRPCNotificationNotification:SDLDidReceiveAppUnregisteredNotification notification:notification];
