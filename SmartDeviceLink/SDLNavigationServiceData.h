@@ -20,6 +20,22 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLNavigationServiceData : SDLRPCStruct
 
 /**
+ *  Convenience init
+ *
+ *  @param timestamp Timestamp of when the data was generated
+ *  @param origin The start location
+ *  @param destination The final destination location
+ *  @param destinationETA The estimated time of arrival at the final destination location
+ *  @param instructions Array ordered with all remaining instructions
+ *  @param nextInstructionETA The estimated time of arrival at the next destination
+ *  @param nextInstructionDistance The distance to this instruction from current location
+ *  @param nextInstructionDistanceScale Distance till next maneuver (starting from) from previous maneuver
+ *  @param prompt This is a prompt message that should be conveyed to the user through either display or voice (TTS)
+ *  @return A SDLNavigationServiceData object
+ */
+- (instancetype)initWithTimestamp:(SDLDateTime *)timestamp origin:(nullable SDLLocationDetails *)origin destination:(nullable SDLLocationDetails *)destination destinationETA:(nullable SDLDateTime *)destinationETA instructions:(nullable NSArray<SDLNavigationInstruction *> *)instructions nextInstructionETA:(nullable SDLDateTime *)nextInstructionETA nextInstructionDistance:(nullable NSNumber<SDLFloat> *)nextInstructionDistance nextInstructionDistanceScale:(NSNumber<SDLFloat> *)nextInstructionDistanceScale prompt:(nullable NSString *)prompt;
+
+/**
  *  This is the timestamp of when the data was generated. This is to ensure any time or distance given in the data can accurately be adjusted if necessary.
  *
  *  SDLDateTime, Required

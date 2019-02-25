@@ -173,7 +173,7 @@ describe(@"Send Location RPC", ^{
                                                            SDLNamePhoneNumber: somePhoneNumber,
                                                            SDLNameLocationImage: someImage,
                                                            SDLNameDeliveryMode: someDeliveryMode,
-                                                           SDLNameLocationTimeStamp: someTime,
+                                                           SDLNameTimeStamp: someTime,
                                                            SDLNameAddress: someAddress
                                                            }
                                                    }

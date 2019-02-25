@@ -1290,6 +1290,7 @@
 		888F86FE221DEE200052FE4C /* SDLRPCResponseOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 888F86FD221DEE1F0052FE4C /* SDLRPCResponseOperation.m */; };
 		888F8700221DF4880052FE4C /* SDLRPCResponseOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 888F86FF221DF4880052FE4C /* SDLRPCResponseOperationSpec.m */; };
 		88A1CF1E21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */; };
+		88A4A0FA22242AB400C6F01D /* SDLNavigationServiceDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A4A0F922242AB400C6F01D /* SDLNavigationServiceDataSpec.m */; };
 		88A5E7F4220B57F900495E8A /* SDLOnSystemCapabilityUpdatedSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A5E7F3220B57F900495E8A /* SDLOnSystemCapabilityUpdatedSpec.m */; };
 		88A5E7F7220B5BBC00495E8A /* SDLGetAppServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88A5E7F5220B5BBC00495E8A /* SDLGetAppServiceData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88A5E7F8220B5BBC00495E8A /* SDLGetAppServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A5E7F6220B5BBC00495E8A /* SDLGetAppServiceData.m */; };
@@ -2885,6 +2886,7 @@
 		888F86FD221DEE1F0052FE4C /* SDLRPCResponseOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRPCResponseOperation.m; sourceTree = "<group>"; };
 		888F86FF221DF4880052FE4C /* SDLRPCResponseOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRPCResponseOperationSpec.m; sourceTree = "<group>"; };
 		88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLifecycleConfigurationUpdateSpec.m; sourceTree = "<group>"; };
+		88A4A0F922242AB400C6F01D /* SDLNavigationServiceDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationServiceDataSpec.m; sourceTree = "<group>"; };
 		88A5E7F3220B57F900495E8A /* SDLOnSystemCapabilityUpdatedSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLOnSystemCapabilityUpdatedSpec.m; sourceTree = "<group>"; };
 		88A5E7F5220B5BBC00495E8A /* SDLGetAppServiceData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLGetAppServiceData.h; sourceTree = "<group>"; };
 		88A5E7F6220B5BBC00495E8A /* SDLGetAppServiceData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetAppServiceData.m; sourceTree = "<group>"; };
@@ -3462,6 +3464,7 @@
 				162E82A31A9BDE8A00906325 /* SDLMyKeySpec.m */,
 				5D0A9F921F15560B00CC80DD /* SDLNavigationCapabilitySpec.m */,
 				8816772822208B82001FACFF /* SDLNavigationInstructionSpec.m */,
+				88A4A0F922242AB400C6F01D /* SDLNavigationServiceDataSpec.m */,
 				DA9F7EB51DCC086A00ACAE48 /* SDLOasisAddressSpec.m */,
 				162E82A41A9BDE8A00906325 /* SDLParameterPermissionsSpec.m */,
 				162E82A51A9BDE8A00906325 /* SDLPermissionItemSpec.m */,
@@ -7450,6 +7453,7 @@
 				EEA41D45210BA8CF0006CB6E /* TestTCPServer.m in Sources */,
 				1E89B0DE2031636000A47992 /* SDLSeatControlDataSpec.m in Sources */,
 				88FF4E7C2215FEEA00A71361 /* SDLRPCRequestNotificationSpec.m in Sources */,
+				88A4A0FA22242AB400C6F01D /* SDLNavigationServiceDataSpec.m in Sources */,
 				8831FA3D220207DA00B8FFB7 /* SDLServiceUpdateReasonSpec.m in Sources */,
 				162E831A1A9BDE8B00906325 /* SDLOnLockScreenStatusSpec.m in Sources */,
 				162E83431A9BDE8B00906325 /* SDLSyncPDataSpec.m in Sources */,

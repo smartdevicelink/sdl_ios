@@ -21,11 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setTimeStamp:(NSArray<NSNumber<SDLInt> *> *)timeStamp {
-    [store sdl_setObject:timeStamp forName:SDLNameTimestamp];
+    [store sdl_setObject:timeStamp forName:SDLNameTS];
 }
 
 - (NSArray<NSNumber<SDLInt> *> *)timeStamp {
-    return [store sdl_objectForName:SDLNameTimestamp];
+    return [store sdl_objectForName:SDLNameTS];
 }
 
 - (void)setCoord:(NSArray<SDLTouchCoord *> *)coord {

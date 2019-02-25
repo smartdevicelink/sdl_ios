@@ -109,11 +109,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setTimeStamp:(nullable SDLDateTime *)timeStamp {
-    [parameters sdl_setObject:timeStamp forName:SDLNameLocationTimeStamp];
+    [parameters sdl_setObject:timeStamp forName:SDLNameTimeStamp];
 }
 
 - (nullable SDLDateTime *)timeStamp {
-    return [parameters sdl_objectForName:SDLNameLocationTimeStamp ofClass:SDLDateTime.class];
+    return [parameters sdl_objectForName:SDLNameTimeStamp ofClass:SDLDateTime.class];
 }
 
 - (void)setAddress:(nullable SDLOasisAddress *)address {

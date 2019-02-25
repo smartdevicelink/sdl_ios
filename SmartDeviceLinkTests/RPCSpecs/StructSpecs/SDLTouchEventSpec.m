@@ -31,7 +31,7 @@ describe(@"Getter/Setter Tests", ^ {
     
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameId:@3,
-                                                       SDLNameTimestamp:[@[@23, @52, @41345234] mutableCopy],
+                                                       SDLNameTS:[@[@23, @52, @41345234] mutableCopy],
                                                        SDLNameCoordinate:[@[coord] mutableCopy]} mutableCopy];
         SDLTouchEvent* testStruct = [[SDLTouchEvent alloc] initWithDictionary:dict];
         
