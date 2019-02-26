@@ -199,6 +199,7 @@ SDLName const SDLNameFuelRange = @"fuelRange";
 SDLName const SDLNameFullAppID = @"fullAppID";
 SDLName const SDLNameGenericResponse = @"GenericResponse";
 SDLName const SDLNameGetDTCs = @"GetDTCs";
+SDLName const SDLNameGetCloudAppProperties = @"GetCloudAppProperties";
 SDLName const SDLNameGetInteriorVehicleData = @"GetInteriorVehicleData";
 SDLName const SDLNameGetSystemCapability = @"GetSystemCapability";
 SDLName const SDLNameGetVehicleData = @"GetVehicleData";
