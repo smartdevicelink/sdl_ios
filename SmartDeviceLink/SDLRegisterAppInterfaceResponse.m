@@ -39,7 +39,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLLanguage)language {
-    return [parameters sdl_objectForName:SDLNameLanguage];
+    id value = [parameters sdl_objectForName:SDLNameLanguage];
+    if (![value isKindOfClass:SDLLanguageEnUs.class]) {
+        return nil;
+    }
+    return value;
 }
 
 - (void)setHmiDisplayLanguage:(nullable SDLLanguage)hmiDisplayLanguage {
@@ -47,7 +51,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLLanguage)hmiDisplayLanguage {
-    return [parameters sdl_objectForName:SDLNameHMIDisplayLanguage];
+    id value = [parameters sdl_objectForName:SDLNameHMIDisplayLanguage];
+    if (![value isKindOfClass:SDLLanguageEnUs.class]) {
+        return nil;
+    }
+    return value;
 }
 
 - (void)setDisplayCapabilities:(nullable SDLDisplayCapabilities *)displayCapabilities {
