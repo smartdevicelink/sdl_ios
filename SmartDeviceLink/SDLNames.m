@@ -502,6 +502,7 @@ SDLName const SDLNameSendHapticDataResponse = @"SendHapticDataResponse";
 SDLName const SDLNameSendLocation = @"SendLocation";
 SDLName const SDLNameSendLocationEnabled = @"sendLocationEnabled";
 SDLName const SDLNameSetAppIcon = @"SetAppIcon";
+SDLName const SDLNameSetCloudAppProperties = @"SetCloudAppProperties";
 SDLName const SDLNameSetDisplayLayout = @"SetDisplayLayout";
 SDLName const SDLNameDisplayName = @"displayName";
 SDLName const SDLNameSetGlobalProperties = @"SetGlobalProperties";

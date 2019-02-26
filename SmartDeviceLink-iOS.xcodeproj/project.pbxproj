@@ -1248,6 +1248,9 @@
 		88802FF420853BED00E9EBC6 /* SmartDeviceLinkSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D4346631E6F38E600B639C6 /* SmartDeviceLinkSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88802FF520853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */; };
 		88802FF620853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8881AFAC2225D61900EA870B /* SDLSetCloudAppProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 8881AFAA2225D61900EA870B /* SDLSetCloudAppProperties.h */; };
+		8881AFAD2225D61900EA870B /* SDLSetCloudAppProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFAB2225D61900EA870B /* SDLSetCloudAppProperties.m */; };
+		8881AFAF2225D8EB00EA870B /* SDLSetCloudAppPropertiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFAE2225D8EB00EA870B /* SDLSetCloudAppPropertiesSpec.m */; };
 		8886EB982111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */; };
 		88A1CF1E21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */; };
 		88A795D22106787400056542 /* SDLStaticIconName.h in Headers */ = {isa = PBXBuildFile; fileRef = 88A795D02106787400056542 /* SDLStaticIconName.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2756,6 +2759,9 @@
 		8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponse.m; sourceTree = "<group>"; };
 		8877F5F01F34AA2D00DC128A /* SDLSendHapticDataResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponseSpec.m; sourceTree = "<group>"; };
 		88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartDeviceLinkSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8881AFAA2225D61900EA870B /* SDLSetCloudAppProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSetCloudAppProperties.h; sourceTree = "<group>"; };
+		8881AFAB2225D61900EA870B /* SDLSetCloudAppProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSetCloudAppProperties.m; sourceTree = "<group>"; };
+		8881AFAE2225D8EB00EA870B /* SDLSetCloudAppPropertiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSetCloudAppPropertiesSpec.m; sourceTree = "<group>"; };
 		8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLFileManagerConfigurationSpec.m; sourceTree = "<group>"; };
 		88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLifecycleConfigurationUpdateSpec.m; sourceTree = "<group>"; };
 		88A795D02106787400056542 /* SDLStaticIconName.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLStaticIconName.h; sourceTree = "<group>"; };
@@ -3136,6 +3142,7 @@
 				162E82541A9BDE8A00906325 /* SDLScrollableMessageSpec.m */,
 				5DCF76FB1ACDDB4200BB647B /* SDLSendLocationSpec.m */,
 				162E82551A9BDE8A00906325 /* SDLSetAppIconSpec.m */,
+				8881AFAE2225D8EB00EA870B /* SDLSetCloudAppPropertiesSpec.m */,
 				162E82561A9BDE8A00906325 /* SDLSetDisplayLayoutSpec.m */,
 				162E82571A9BDE8A00906325 /* SDLSetGlobalPropertiesSpec.m */,
 				162E82581A9BDE8A00906325 /* SDLSetMediaClockTimerSpec.m */,
@@ -3879,6 +3886,8 @@
 				5DCF76F41ACDBAD300BB647B /* SDLSendLocation.m */,
 				5D61FB921A84238B00846EE7 /* SDLSetAppIcon.h */,
 				5D61FB931A84238B00846EE7 /* SDLSetAppIcon.m */,
+				8881AFAA2225D61900EA870B /* SDLSetCloudAppProperties.h */,
+				8881AFAB2225D61900EA870B /* SDLSetCloudAppProperties.m */,
 				5D61FB961A84238B00846EE7 /* SDLSetDisplayLayout.h */,
 				5D61FB971A84238B00846EE7 /* SDLSetDisplayLayout.m */,
 				5D61FB9A1A84238B00846EE7 /* SDLSetGlobalProperties.h */,
@@ -5832,6 +5841,7 @@
 				DA318C1F1DD0F06C00C035AC /* NSMutableDictionary+Store.h in Headers */,
 				5D61FD7F1A84238C00846EE7 /* SDLSetAppIcon.h in Headers */,
 				5D61FDD11A84238C00846EE7 /* SDLTouchCoord.h in Headers */,
+				8881AFAC2225D61900EA870B /* SDLSetCloudAppProperties.h in Headers */,
 				5D61FC7E1A84238C00846EE7 /* SDLDeleteSubMenu.h in Headers */,
 				1EE48E901F2F0EE700B98D08 /* SDLTemperatureUnit.h in Headers */,
 				5D61FC451A84238C00846EE7 /* SDLAudioPassThruCapabilities.h in Headers */,
@@ -6784,6 +6794,7 @@
 				5D60088B1BE3ED540094A505 /* SDLStateMachine.m in Sources */,
 				8877F5EF1F34A72200DC128A /* SDLSendHapticDataResponse.m in Sources */,
 				5D61FD181A84238C00846EE7 /* SDLOnPermissionsChange.m in Sources */,
+				8881AFAD2225D61900EA870B /* SDLSetCloudAppProperties.m in Sources */,
 				1EB59CAC202D96A200343A61 /* SDLMassageCushion.m in Sources */,
 				5D61FD3E1A84238C00846EE7 /* SDLPrimaryAudioSource.m in Sources */,
 				1E5AD0851F20B9290029B8AF /* SDLButtonPressResponse.m in Sources */,
@@ -7043,6 +7054,7 @@
 				162E836A1A9BDE8B00906325 /* SDLSubscribeVehicleDataResponseSpec.m in Sources */,
 				5D43465B1E6F154400B639C6 /* SDLLogConfigurationSpec.m in Sources */,
 				1EAA475E2035B177000FE74B /* SDLDisplayModeSpec.m in Sources */,
+				8881AFAF2225D8EB00EA870B /* SDLSetCloudAppPropertiesSpec.m in Sources */,
 				162E83761A9BDE8B00906325 /* SDLChoiceSpec.m in Sources */,
 				162E83571A9BDE8B00906325 /* SDLGetDTCsResponseSpec.m in Sources */,
 				5D4346471E6F0BDA00B639C6 /* SDLLogFileModuleSpec.m in Sources */,

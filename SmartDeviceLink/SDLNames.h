@@ -508,6 +508,7 @@ extern SDLName const SDLNameSendHapticDataResponse;
 extern SDLName const SDLNameSendLocation;
 extern SDLName const SDLNameSendLocationEnabled;
 extern SDLName const SDLNameSetAppIcon;
+extern SDLName const SDLNameSetCloudAppProperties;
 extern SDLName const SDLNameSetDisplayLayout;
 extern SDLName const SDLNameSetGlobalProperties;
 extern SDLName const SDLNameSetInteriorVehicleData;
