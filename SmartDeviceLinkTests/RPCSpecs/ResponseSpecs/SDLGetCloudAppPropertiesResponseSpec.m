@@ -1,5 +1,5 @@
 //
-//  SDLSetCloudAppPropertiesSpec.m
+//  SDLGetCloudAppPropertiesResponseSpec.m
 //  SmartDeviceLinkTests
 //
 //  Created by Nicole on 2/26/19.
@@ -10,10 +10,10 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLCloudAppProperties.h"
+#import "SDLGetCloudAppPropertiesResponse.h"
 #import "SDLNames.h"
-#import "SDLSetCloudAppProperties.h"
 
-QuickSpecBegin(SDLSetCloudAppPropertiesSpec)
+QuickSpecBegin(SDLGetCloudAppPropertiesResponseSpec)
 
 describe(@"Getter/Setter Tests", ^{
     __block SDLCloudAppProperties *testProperties = nil;
@@ -23,33 +23,33 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should set and get correctly", ^{
-        SDLSetCloudAppProperties *testRequest = [[SDLSetCloudAppProperties alloc] init];
-        testRequest.properties = testProperties;
+        SDLGetCloudAppPropertiesResponse *testResponse = [[SDLGetCloudAppPropertiesResponse alloc] init];
+        testResponse.properties = testProperties;
 
-        expect(testRequest.properties).to(equal(testProperties));
+        expect(testResponse.properties).to(equal(testProperties));
     });
 
     it(@"Should initialize correctly with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameRequest:@{
+        NSDictionary *dict = @{SDLNameResponse:@{
                                        SDLNameParameters:@{
                                                SDLNameProperties:testProperties
                                                },
                                        SDLNameOperationName:SDLNameSetCloudAppProperties}};
-        SDLSetCloudAppProperties *testRequest = [[SDLSetCloudAppProperties alloc] initWithDictionary:dict];
+        SDLGetCloudAppPropertiesResponse *testResponse = [[SDLGetCloudAppPropertiesResponse alloc] initWithDictionary:dict];
 
-        expect(testRequest.properties).to(equal(testProperties));
+        expect(testResponse.properties).to(equal(testProperties));
     });
 
     it(@"Should initialize correctly with the convenience init", ^{
-        SDLSetCloudAppProperties *testRequest = [[SDLSetCloudAppProperties alloc] initWithProperties:testProperties];
+        SDLGetCloudAppPropertiesResponse *testResponse = [[SDLGetCloudAppPropertiesResponse alloc] initWithProperties:testProperties];
 
-        expect(testRequest.properties).to(equal(testProperties));
+        expect(testResponse.properties).to(equal(testProperties));
     });
 
     it(@"Should return nil if not set", ^{
-        SDLSetCloudAppProperties *testRequest = [[SDLSetCloudAppProperties alloc] init];
+        SDLGetCloudAppPropertiesResponse *testResponse = [[SDLGetCloudAppPropertiesResponse alloc] init];
 
-        expect(testRequest.properties).to(beNil());
+        expect(testResponse.properties).to(beNil());
     });
 });
 

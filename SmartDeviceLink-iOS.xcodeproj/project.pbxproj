@@ -1257,6 +1257,9 @@
 		8881AFB82225E5EE00EA870B /* SDLGetCloudAppProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 8881AFB62225E5EE00EA870B /* SDLGetCloudAppProperties.h */; };
 		8881AFB92225E5EE00EA870B /* SDLGetCloudAppProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFB72225E5EE00EA870B /* SDLGetCloudAppProperties.m */; };
 		8881AFBB2225E7FA00EA870B /* SDLGetCloudAppPropertiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFBA2225E7FA00EA870B /* SDLGetCloudAppPropertiesSpec.m */; };
+		8881AFBE2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8881AFBC2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.h */; };
+		8881AFBF2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFBD2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.m */; };
+		8881AFC12225EB9300EA870B /* SDLGetCloudAppPropertiesResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFC02225EB9300EA870B /* SDLGetCloudAppPropertiesResponseSpec.m */; };
 		8886EB982111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */; };
 		88A1CF1E21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */; };
 		88A795D22106787400056542 /* SDLStaticIconName.h in Headers */ = {isa = PBXBuildFile; fileRef = 88A795D02106787400056542 /* SDLStaticIconName.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2774,6 +2777,9 @@
 		8881AFB62225E5EE00EA870B /* SDLGetCloudAppProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLGetCloudAppProperties.h; sourceTree = "<group>"; };
 		8881AFB72225E5EE00EA870B /* SDLGetCloudAppProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetCloudAppProperties.m; sourceTree = "<group>"; };
 		8881AFBA2225E7FA00EA870B /* SDLGetCloudAppPropertiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetCloudAppPropertiesSpec.m; sourceTree = "<group>"; };
+		8881AFBC2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLGetCloudAppPropertiesResponse.h; sourceTree = "<group>"; };
+		8881AFBD2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetCloudAppPropertiesResponse.m; sourceTree = "<group>"; };
+		8881AFC02225EB9300EA870B /* SDLGetCloudAppPropertiesResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetCloudAppPropertiesResponseSpec.m; sourceTree = "<group>"; };
 		8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLFileManagerConfigurationSpec.m; sourceTree = "<group>"; };
 		88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLifecycleConfigurationUpdateSpec.m; sourceTree = "<group>"; };
 		88A795D02106787400056542 /* SDLStaticIconName.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLStaticIconName.h; sourceTree = "<group>"; };
@@ -3198,6 +3204,7 @@
 				162E82711A9BDE8A00906325 /* SDLEncodedSyncPDataResponseSpec.m */,
 				162E82721A9BDE8A00906325 /* SDLEndAudioPassThruResponseSpec.m */,
 				162E82731A9BDE8A00906325 /* SDLGenericResponseSpec.m */,
+				8881AFC02225EB9300EA870B /* SDLGetCloudAppPropertiesResponseSpec.m */,
 				162E82741A9BDE8A00906325 /* SDLGetDTCsResponseSpec.m */,
 				1EE8C45C1F387D1C00FDC2CF /* SDLGetInteriorVehicleDataResponseSpec.m */,
 				5D0A9F9B1F1565EB00CC80DD /* SDLGetSystemCapabilityResponseSpec.m */,
@@ -3979,6 +3986,8 @@
 				5D61FAB91A84238A00846EE7 /* SDLEndAudioPassThruResponse.m */,
 				5D61FAC21A84238A00846EE7 /* SDLGenericResponse.h */,
 				5D61FAC31A84238A00846EE7 /* SDLGenericResponse.m */,
+				8881AFBC2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.h */,
+				8881AFBD2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.m */,
 				5D61FAC61A84238A00846EE7 /* SDLGetDTCsResponse.h */,
 				5D61FAC71A84238A00846EE7 /* SDLGetDTCsResponse.m */,
 				1E5AD08A1F20BC320029B8AF /* SDLGetInteriorVehicleDataResponse.h */,
@@ -5794,6 +5803,7 @@
 				5D1665C81CF8CA3D00CC4CA1 /* SDLPermissionFilter.h in Headers */,
 				E9C32B911AB20BA200F283AF /* SDLIAPSession.h in Headers */,
 				5D61FCD71A84238C00846EE7 /* SDLInteractionMode.h in Headers */,
+				8881AFBE2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.h in Headers */,
 				5D61FC391A84238C00846EE7 /* SDLAlertManeuver.h in Headers */,
 				5D61FC861A84238C00846EE7 /* SDLDeviceStatus.h in Headers */,
 				DA0C46AF1DCD41E30001F2A8 /* SDLMacros.h in Headers */,
@@ -6520,6 +6530,7 @@
 				5D61FCC81A84238C00846EE7 /* SDLIAPTransport.m in Sources */,
 				5D61FE101A84238C00846EE7 /* SDLVrHelpItem.m in Sources */,
 				5D07C0322044AD0C00D1ECDC /* SDLAsynchronousRPCRequestOperation.m in Sources */,
+				8881AFBF2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.m in Sources */,
 				1E5AD0691F2080B50029B8AF /* SDLRadioControlData.m in Sources */,
 				5D61FCC01A84238C00846EE7 /* SDLHexUtility.m in Sources */,
 				5DB9964F1F26886C002D8795 /* SDLControlFramePayloadEndService.m in Sources */,
@@ -7277,6 +7288,7 @@
 				162E82D81A9BDE8A00906325 /* SDLDimensionSpec.m in Sources */,
 				162E83731A9BDE8B00906325 /* SDLBeltStatusSpec.m in Sources */,
 				162E83551A9BDE8B00906325 /* SDLEndAudioPassThruResponseSpec.m in Sources */,
+				8881AFC12225EB9300EA870B /* SDLGetCloudAppPropertiesResponseSpec.m in Sources */,
 				162E83251A9BDE8B00906325 /* SDLAlertSpec.m in Sources */,
 				2BF2F85220ED068200A26EF2 /* SDLAudioStreamingIndicatorSpec.m in Sources */,
 				5D6035D2202CD46200A429C9 /* SDLSpecUtilities.m in Sources */,
