@@ -47,6 +47,11 @@ describe(@"a version object", ^{
                 expect(testVersion.minor).to(equal(minor));
                 expect(testVersion.patch).to(equal(patch));
             });
+
+            fit(@"should fail with negative numbers", ^{
+                testVersion = [[SDLVersion alloc] initWithString:@"-1.-2.-3"];
+                expect(testVersion.major).toNot(equal(major));
+            });
         });
 
         context(@"created from a SyncMsgVersion object", ^{

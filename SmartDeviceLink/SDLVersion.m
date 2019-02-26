@@ -10,6 +10,8 @@
 
 #import "SDLSyncMsgVersion.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation SDLVersion
 
 #pragma mark - Initializers
@@ -29,21 +31,29 @@
     return [[self alloc] initWithMajor:major minor:minor patch:patch];
 }
 
-- (instancetype)initWithString:(NSString *)versionString {
+- (nullable instancetype)initWithString:(NSString *)versionString {
     self = [super init];
     if (!self) { return nil; }
 
     NSArray<NSString *> *splitVersions = [versionString componentsSeparatedByString:@"."];
     NSAssert(splitVersions.count == 3, @"Splitting a version string must result in major, minor, and patch. The format must be 'X.X.X'");
+    NSInteger majorInt = splitVersions[0].integerValue;
+    NSInteger minorInt = splitVersions[0].integerValue;
+    NSInteger patchInt = splitVersions[0].integerValue;
 
-    _major = (NSUInteger)splitVersions[0].integerValue;
-    _minor = (NSUInteger)splitVersions[1].integerValue;
-    _patch = (NSUInteger)splitVersions[2].integerValue;
+    if (majorInt < 0 || minorInt < 0 || patchInt < 0) {
+        NSAssert(NO, @"Attempted to parse invalid SDLVersion: %@", splitVersions);
+        return nil;
+    }
+
+    _major = (NSUInteger)majorInt;
+    _minor = (NSUInteger)minorInt;
+    _patch = (NSUInteger)patchInt;
 
     return self;
 }
 
-+ (instancetype)versionWithString:(NSString *)versionString {
++ (nullable instancetype)versionWithString:(NSString *)versionString {
     return [[self alloc] initWithString:versionString];
 }
 
@@ -117,3 +127,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

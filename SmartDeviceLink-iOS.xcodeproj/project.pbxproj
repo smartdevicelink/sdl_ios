@@ -2634,10 +2634,6 @@
 		5DADA7771F4E059E0084D17D /* SDLRectangleSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLRectangleSpec.m; sourceTree = "<group>"; };
 		5DAE06721BDEC6C000F9B498 /* SDLFileSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLFileSpec.m; path = DevAPISpecs/SDLFileSpec.m; sourceTree = "<group>"; };
 		5DAE06741BDEC6D600F9B498 /* SDLArtworkSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLArtworkSpec.m; path = DevAPISpecs/SDLArtworkSpec.m; sourceTree = "<group>"; };
-		5DB16142202115FC00F310DF /* SDLAsynchronousRPCRequestOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLAsynchronousRPCRequestOperation.h; sourceTree = "<group>"; };
-		5DB16143202115FC00F310DF /* SDLAsynchronousRPCRequestOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAsynchronousRPCRequestOperation.m; sourceTree = "<group>"; };
-		5DB1616A2022276A00F310DF /* SDLSequentialRPCRequestOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSequentialRPCRequestOperation.h; sourceTree = "<group>"; };
-		5DB1616B2022276A00F310DF /* SDLSequentialRPCRequestOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSequentialRPCRequestOperation.m; sourceTree = "<group>"; };
 		5DB1BCD01D243A8E002FFC37 /* SDLDeleteFileOperationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLDeleteFileOperationSpec.m; path = DevAPISpecs/SDLDeleteFileOperationSpec.m; sourceTree = "<group>"; };
 		5DB1BCD11D243A8E002FFC37 /* SDLListFilesOperationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLListFilesOperationSpec.m; path = DevAPISpecs/SDLListFilesOperationSpec.m; sourceTree = "<group>"; };
 		5DB1BCD21D243A8E002FFC37 /* SDLUploadFileOperationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDLUploadFileOperationSpec.m; path = DevAPISpecs/SDLUploadFileOperationSpec.m; sourceTree = "<group>"; };
@@ -3381,17 +3377,6 @@
 			name = Connection;
 			sourceTree = "<group>";
 		};
-		5D07C02A2044963400D1ECDC /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				5DB1616B2022276A00F310DF /* SDLSequentialRPCRequestOperation.m */,
-				5DB16143202115FC00F310DF /* SDLAsynchronousRPCRequestOperation.m */,
-				5DB16142202115FC00F310DF /* SDLAsynchronousRPCRequestOperation.h */,
-				5DB1616A2022276A00F310DF /* SDLSequentialRPCRequestOperation.h */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		5D07C0342044AD1900D1ECDC /* Request Operations */ = {
 			isa = PBXGroup;
 			children = (
@@ -3583,7 +3568,6 @@
 				5D61FA2C1A84237100846EE7 /* SmartDeviceLinkTests */,
 				5D4346621E6F38E600B639C6 /* SmartDeviceLinkSwift */,
 				5D4019B01A76EC350006B0C2 /* Products */,
-				5D07C02A2044963400D1ECDC /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};

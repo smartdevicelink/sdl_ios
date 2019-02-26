@@ -22,8 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithMajor:(NSUInteger)major minor:(NSUInteger)minor patch:(NSUInteger)patch;
 + (instancetype)versionWithMajor:(NSUInteger)major minor:(NSUInteger)minor patch:(NSUInteger)patch;
-- (instancetype)initWithString:(NSString *)versionString;
-+ (instancetype)versionWithString:(NSString *)versionString;
+- (nullable instancetype)initWithString:(NSString *)versionString;
++ (nullable instancetype)versionWithString:(NSString *)versionString;
 - (instancetype)initWithSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion;
 + (instancetype)versionWithSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion;
 
