@@ -38,11 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (![array isKindOfClass:NSArray.class]) {
         // as of objc nature array can contain dict objects without crashing.
         // the hotfix wraps the dict object into an array as the car missed to do it in the first place.
-        if ([array isKindOfClass:NSDictionary.class]) {
-            array = @[array];
-        } else {
-            return nil;
-        }
+        array = @[array];
     }
     if (array.count < 1 || [array.firstObject isMemberOfClass:classType]) {
         // It's an array of the actual class type, just return
