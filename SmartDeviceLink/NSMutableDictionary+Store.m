@@ -35,9 +35,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType {
     NSArray *array = [self sdl_objectForName:name];
-    if ([array isEqual:[NSNull null]]) {
-        return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isMemberOfClass:classType]) {
+    if (![array isKindOfClass:NSArray.class]) {
+        // as of objc nature array can contain dict objects without crashing.
+        // the hotfix wraps the dict object into an array as the car missed to do it in the first place.
+        if ([array isKindOfClass:NSDictionary.class]) {
+            array = @[array];
+        } else {
+            return nil;
+        }
+    }
+    if (array.count < 1 || [array.firstObject isMemberOfClass:classType]) {
         // It's an array of the actual class type, just return
         return array;
     } else {
