@@ -1234,6 +1234,9 @@
 		8854682F2225BDAE00994D8D /* SDLHybridAppPreference.h in Headers */ = {isa = PBXBuildFile; fileRef = 8854682D2225BDAE00994D8D /* SDLHybridAppPreference.h */; };
 		885468302225BDAE00994D8D /* SDLHybridAppPreference.m in Sources */ = {isa = PBXBuildFile; fileRef = 8854682E2225BDAE00994D8D /* SDLHybridAppPreference.m */; };
 		885468322225BF2800994D8D /* SDLHybridAppPreferenceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 885468312225BF2800994D8D /* SDLHybridAppPreferenceSpec.m */; };
+		885468352225C1F800994D8D /* SDLCloudAppProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 885468332225C1F800994D8D /* SDLCloudAppProperties.h */; };
+		885468362225C1F800994D8D /* SDLCloudAppProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 885468342225C1F800994D8D /* SDLCloudAppProperties.m */; };
+		885468382225CBA400994D8D /* SDLCloudAppPropertiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 885468372225CBA400994D8D /* SDLCloudAppPropertiesSpec.m */; };
 		8877F5EB1F34A3BE00DC128A /* SDLSendHapticDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */; };
 		8877F5EE1F34A72200DC128A /* SDLSendHapticDataResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8877F5EF1F34A72200DC128A /* SDLSendHapticDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */; };
@@ -2745,6 +2748,9 @@
 		8854682D2225BDAE00994D8D /* SDLHybridAppPreference.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLHybridAppPreference.h; sourceTree = "<group>"; };
 		8854682E2225BDAE00994D8D /* SDLHybridAppPreference.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLHybridAppPreference.m; sourceTree = "<group>"; };
 		885468312225BF2800994D8D /* SDLHybridAppPreferenceSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLHybridAppPreferenceSpec.m; sourceTree = "<group>"; };
+		885468332225C1F800994D8D /* SDLCloudAppProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLCloudAppProperties.h; sourceTree = "<group>"; };
+		885468342225C1F800994D8D /* SDLCloudAppProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCloudAppProperties.m; sourceTree = "<group>"; };
+		885468372225CBA400994D8D /* SDLCloudAppPropertiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLCloudAppPropertiesSpec.m; sourceTree = "<group>"; };
 		8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataSpec.m; sourceTree = "<group>"; };
 		8877F5EC1F34A72200DC128A /* SDLSendHapticDataResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSendHapticDataResponse.h; sourceTree = "<group>"; };
 		8877F5ED1F34A72200DC128A /* SDLSendHapticDataResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponse.m; sourceTree = "<group>"; };
@@ -3224,6 +3230,7 @@
 				162E82941A9BDE8A00906325 /* SDLChoiceSpec.m */,
 				1EE8C43F1F348D3200FDC2CF /* SDLClimateControlCapabilitiesSpec.m */,
 				1EE8C4431F34A1B900FDC2CF /* SDLClimateControlDataSpec.m */,
+				885468372225CBA400994D8D /* SDLCloudAppPropertiesSpec.m */,
 				162E82951A9BDE8A00906325 /* SDLClusterModeStatusSpec.m */,
 				DA9F7EB31DCC086400ACAE48 /* SDLDateTimeSpec.m */,
 				162E82961A9BDE8A00906325 /* SDLDeviceInfoSpec.m */,
@@ -4044,6 +4051,8 @@
 				1E5AD0371F1F4E390029B8AF /* SDLClimateControlCapabilities.m */,
 				1E5AD06A1F208BAB0029B8AF /* SDLClimateControlData.h */,
 				1E5AD06B1F208BAB0029B8AF /* SDLClimateControlData.m */,
+				885468332225C1F800994D8D /* SDLCloudAppProperties.h */,
+				885468342225C1F800994D8D /* SDLCloudAppProperties.m */,
 				5D61FA761A84238A00846EE7 /* SDLClusterModeStatus.h */,
 				5D61FA771A84238A00846EE7 /* SDLClusterModeStatus.m */,
 				DA9F7E611DCBFAC800ACAE48 /* SDLDateTime.h */,
@@ -5832,6 +5841,7 @@
 				DAA41D551DF66B2000BC7337 /* SDLH264VideoEncoder.h in Headers */,
 				8B7B319A1F2F7B5700BDC38D /* SDLVideoStreamingCodec.h in Headers */,
 				5D61FCAF1A84238C00846EE7 /* SDLGenericResponse.h in Headers */,
+				885468352225C1F800994D8D /* SDLCloudAppProperties.h in Headers */,
 				5D61FC4F1A84238C00846EE7 /* SDLBodyInformation.h in Headers */,
 				5D61FDAB1A84238C00846EE7 /* SDLStartTime.h in Headers */,
 				5D61FD071A84238C00846EE7 /* SDLOnCommand.h in Headers */,
@@ -6401,6 +6411,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				885468362225C1F800994D8D /* SDLCloudAppProperties.m in Sources */,
 				1E4920B31F6A6463008F2CC3 /* SDLOnInteriorVehicleData.m in Sources */,
 				1E4920B21F6A6455008F2CC3 /* SDLGetInteriorVehicleDataResponse.m in Sources */,
 				1EB59CB8202D9C8100343A61 /* SDLSeatMemoryAction.m in Sources */,
@@ -7174,6 +7185,7 @@
 				162E82D41A9BDE8A00906325 /* SDLCharacterSetSpec.m in Sources */,
 				162E830F1A9BDE8B00906325 /* SDLOnAppInterfaceUnregisteredSpec.m in Sources */,
 				162E83971A9BDE8B00906325 /* SDLVehicleTypeSpec.m in Sources */,
+				885468382225CBA400994D8D /* SDLCloudAppPropertiesSpec.m in Sources */,
 				88A795D5210678E000056542 /* SDLStaticIconNameSpec.m in Sources */,
 				1680B1131A9CD7AD00DBD79E /* SDLProtocolHeaderSpec.m in Sources */,
 				162E82D01A9BDE8A00906325 /* SDLButtonEventModeSpec.m in Sources */,
