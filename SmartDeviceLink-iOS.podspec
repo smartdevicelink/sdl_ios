@@ -278,6 +278,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLSetAppIcon.h',
 'SmartDeviceLink/SDLSetAppIconResponse.h',
 'SmartDeviceLink/SDLSetCloudAppProperties.h',
+'SmartDeviceLink/SDLSetCloudAppPropertiesResponse.h',
 'SmartDeviceLink/SDLSetDisplayLayout.h',
 'SmartDeviceLink/SDLSetDisplayLayoutResponse.h',
 'SmartDeviceLink/SDLSetGlobalProperties.h',

@@ -102,6 +102,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLSendHapticDataResponse.h"
 #import "SDLSendLocationResponse.h"
 #import "SDLSetAppIconResponse.h"
+#import "SDLSetCloudAppPropertiesResponse.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLSetGlobalPropertiesResponse.h"
 #import "SDLSetInteriorVehicleDataResponse.h"
