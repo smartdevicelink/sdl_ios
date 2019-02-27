@@ -136,6 +136,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLHMISettingsControlCapabilities.h',
 'SmartDeviceLink/SDLHMISettingsControlData.h',
 'SmartDeviceLink/SDLHMIZoneCapabilities.h',
+'SmartDeviceLink/SDLHybridAppPreference.h',
 'SmartDeviceLink/SDLIgnitionStableStatus.h',
 'SmartDeviceLink/SDLIgnitionStatus.h',
 'SmartDeviceLink/SDLImage.h',

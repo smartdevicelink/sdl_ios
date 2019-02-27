@@ -1231,7 +1231,7 @@
 		88295693207CF68800EF056C /* SmartDeviceLink.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		882C42CE2108CDB100A44B58 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		8850DB601F4475D30053A48D /* TestMultipleFilesConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8850DB5F1F4475D30053A48D /* TestMultipleFilesConnectionManager.m */; };
-		8854682F2225BDAE00994D8D /* SDLHybridAppPreference.h in Headers */ = {isa = PBXBuildFile; fileRef = 8854682D2225BDAE00994D8D /* SDLHybridAppPreference.h */; };
+		8854682F2225BDAE00994D8D /* SDLHybridAppPreference.h in Headers */ = {isa = PBXBuildFile; fileRef = 8854682D2225BDAE00994D8D /* SDLHybridAppPreference.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		885468302225BDAE00994D8D /* SDLHybridAppPreference.m in Sources */ = {isa = PBXBuildFile; fileRef = 8854682E2225BDAE00994D8D /* SDLHybridAppPreference.m */; };
 		885468322225BF2800994D8D /* SDLHybridAppPreferenceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 885468312225BF2800994D8D /* SDLHybridAppPreferenceSpec.m */; };
 		885468352225C1F800994D8D /* SDLCloudAppProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 885468332225C1F800994D8D /* SDLCloudAppProperties.h */; };

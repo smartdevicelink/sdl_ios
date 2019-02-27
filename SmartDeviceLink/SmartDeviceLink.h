@@ -262,6 +262,7 @@ FOUNDATION_EXPORT const unsigned char SmartDeviceLinkVersionString[];
 #import "SDLGlobalProperty.h"
 #import "SDLHMILevel.h"
 #import "SDLHMIZoneCapabilities.h"
+#import "SDLHybridAppPreference.h"
 #import "SDLIgnitionStableStatus.h"
 #import "SDLIgnitionStatus.h"
 #import "SDLImageFieldName.h"
