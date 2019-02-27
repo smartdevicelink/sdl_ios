@@ -158,3 +158,8 @@ extern SDLVehicleDataType const SDLVehicleDataTypeElectronicParkBrakeStatus;
  Vehicle turn signal data
  */
 extern SDLVehicleDataType const SDLVehicleDataTypeTurnSignal;
+
+/**
+ The cloud application vehicle id. Used by cloud apps to identify a head unit
+ */
+extern SDLVehicleDataType const SDLVehicleDataTypeCloudAppVehicleID;
