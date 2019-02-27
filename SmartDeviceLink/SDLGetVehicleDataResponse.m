@@ -261,6 +261,14 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameTurnSignal];
 }
 
+- (void)setCloudAppVehicleID:(nullable NSString *)cloudAppVehicleID {
+    [parameters sdl_setObject:cloudAppVehicleID forName:SDLNameCloudAppVehicleID];
+}
+
+- (nullable NSString *)cloudAppVehicleID {
+    return [parameters sdl_objectForName:SDLNameCloudAppVehicleID];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

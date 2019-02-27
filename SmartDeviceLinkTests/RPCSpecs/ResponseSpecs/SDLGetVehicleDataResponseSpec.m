@@ -14,20 +14,22 @@
 
 QuickSpecBegin(SDLGetVehicleDataResponseSpec)
 
-SDLGPSData* gps = [[SDLGPSData alloc] init];
-SDLTireStatus* tires = [[SDLTireStatus alloc] init];
-SDLBeltStatus* belt = [[SDLBeltStatus alloc] init];
-SDLBodyInformation* body = [[SDLBodyInformation alloc] init];
-SDLDeviceStatus* device = [[SDLDeviceStatus alloc] init];
-SDLHeadLampStatus* headLamp = [[SDLHeadLampStatus alloc] init];
-SDLECallInfo* eCall = [[SDLECallInfo alloc] init];
-SDLAirbagStatus* airbag = [[SDLAirbagStatus alloc] init];
-SDLEmergencyEvent* event = [[SDLEmergencyEvent alloc] init];
-SDLClusterModeStatus* clusterMode = [[SDLClusterModeStatus alloc] init];
-SDLMyKey* myKey = [[SDLMyKey alloc] init];
-SDLFuelRange* fuelRange = [[SDLFuelRange alloc] init];
-
 describe(@"Getter/Setter Tests", ^ {
+    __block SDLGPSData* gps = [[SDLGPSData alloc] init];
+    __block SDLTireStatus* tires = [[SDLTireStatus alloc] init];
+    __block SDLBeltStatus* belt = [[SDLBeltStatus alloc] init];
+    __block SDLBodyInformation* body = [[SDLBodyInformation alloc] init];
+    __block SDLDeviceStatus* device = [[SDLDeviceStatus alloc] init];
+    __block SDLHeadLampStatus* headLamp = [[SDLHeadLampStatus alloc] init];
+    __block SDLECallInfo* eCall = [[SDLECallInfo alloc] init];
+    __block SDLAirbagStatus* airbag = [[SDLAirbagStatus alloc] init];
+    __block SDLEmergencyEvent* event = [[SDLEmergencyEvent alloc] init];
+    __block SDLClusterModeStatus* clusterMode = [[SDLClusterModeStatus alloc] init];
+    __block SDLMyKey* myKey = [[SDLMyKey alloc] init];
+    __block SDLFuelRange* fuelRange = [[SDLFuelRange alloc] init];
+    __block NSString* vin = @"6574839201a";
+    __block NSString* cloudAppVehicleID = @"cloudAppVehicleID";
+
     it(@"Should set and get correctly", ^ {
         SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] init];
 
@@ -35,6 +37,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.airbagStatus = airbag;
         testResponse.beltStatus = belt;
         testResponse.bodyInformation = body;
+        testResponse.cloudAppVehicleID = cloudAppVehicleID;
         testResponse.clusterModeStatus = clusterMode;
         testResponse.deviceStatus = device;
         testResponse.driverBraking = SDLVehicleDataEventStatusNoEvent;
@@ -58,13 +61,14 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.steeringWheelAngle = @-1500;
         testResponse.tirePressure = tires;
         testResponse.turnSignal = SDLTurnSignalBoth;
-        testResponse.vin = @"6574839201";
+        testResponse.vin = vin;
         testResponse.wiperStatus = SDLWiperStatusAutomaticHigh;
 
         expect(testResponse.accPedalPosition).to(equal(@0));
         expect(testResponse.airbagStatus).to(equal(airbag));
         expect(testResponse.beltStatus).to(equal(belt));
         expect(testResponse.bodyInformation).to(equal(body));
+        expect(testResponse.cloudAppVehicleID).to(equal(cloudAppVehicleID));
         expect(testResponse.clusterModeStatus).to(equal(clusterMode));
         expect(testResponse.deviceStatus).to(equal(device));
         expect(testResponse.driverBraking).to(equal(SDLVehicleDataEventStatusNoEvent));
@@ -88,7 +92,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.steeringWheelAngle).to(equal(@-1500));
         expect(testResponse.tirePressure).to(equal(tires));
         expect(testResponse.turnSignal).to(equal(SDLTurnSignalBoth));
-        expect(testResponse.vin).to(equal(@"6574839201"));
+        expect(testResponse.vin).to(equal(vin));
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
     });
     
@@ -100,6 +104,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                      SDLNameAirbagStatus:airbag,
                                                      SDLNameBeltStatus:belt,
                                                      SDLNameBodyInformation:body,
+                                                     SDLNameCloudAppVehicleID:cloudAppVehicleID,
                                                      SDLNameClusterModeStatus:clusterMode,
                                                      SDLNameDeviceStatus:device,
                                                      SDLNameDriverBraking:SDLVehicleDataEventStatusNoEvent,
@@ -123,7 +128,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                      SDLNameSteeringWheelAngle:@-1500,
                                                      SDLNameTirePressure:tires,
                                                      SDLNameTurnSignal:SDLTurnSignalOff,
-                                                     SDLNameVIN:@"6574839201",
+                                                     SDLNameVIN:vin,
                                                      SDLNameWiperStatus:SDLWiperStatusAutomaticHigh},
                                              SDLNameOperationName:SDLNameGetVehicleData}} mutableCopy];
         SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] initWithDictionary:dict];
@@ -132,6 +137,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.airbagStatus).to(equal(airbag));
         expect(testResponse.beltStatus).to(equal(belt));
         expect(testResponse.bodyInformation).to(equal(body));
+        expect(testResponse.cloudAppVehicleID).to(equal(cloudAppVehicleID));
         expect(testResponse.clusterModeStatus).to(equal(clusterMode));
         expect(testResponse.deviceStatus).to(equal(device));
         expect(testResponse.driverBraking).to(equal(SDLVehicleDataEventStatusNoEvent));
@@ -155,7 +161,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.steeringWheelAngle).to(equal(@-1500));
         expect(testResponse.tirePressure).to(equal(tires));
         expect(testResponse.turnSignal).to(equal(SDLTurnSignalOff));
-        expect(testResponse.vin).to(equal(@"6574839201"));
+        expect(testResponse.vin).to(equal(vin));
         expect(testResponse.wiperStatus).to(equal(SDLWiperStatusAutomaticHigh));
     });
     
@@ -166,6 +172,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.airbagStatus).to(beNil());
         expect(testResponse.beltStatus).to(beNil());
         expect(testResponse.bodyInformation).to(beNil());
+        expect(testResponse.cloudAppVehicleID).to(beNil());
         expect(testResponse.clusterModeStatus).to(beNil());
         expect(testResponse.deviceStatus).to(beNil());
         expect(testResponse.driverBraking).to(beNil());
