@@ -277,6 +277,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLSendLocationResponse.h',
 'SmartDeviceLink/SDLSetAppIcon.h',
 'SmartDeviceLink/SDLSetAppIconResponse.h',
+'SmartDeviceLink/SDLSetCloudAppProperties.h',
 'SmartDeviceLink/SDLSetDisplayLayout.h',
 'SmartDeviceLink/SDLSetDisplayLayoutResponse.h',
 'SmartDeviceLink/SDLSetGlobalProperties.h',
