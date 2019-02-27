@@ -1254,7 +1254,7 @@
 		8881AFB22225DED900EA870B /* SDLSetCloudAppPropertiesResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8881AFB02225DED900EA870B /* SDLSetCloudAppPropertiesResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8881AFB32225DED900EA870B /* SDLSetCloudAppPropertiesResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFB12225DED900EA870B /* SDLSetCloudAppPropertiesResponse.m */; };
 		8881AFB52225E37800EA870B /* SDLSetCloudAppPropertiesResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFB42225E37800EA870B /* SDLSetCloudAppPropertiesResponseSpec.m */; };
-		8881AFB82225E5EE00EA870B /* SDLGetCloudAppProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 8881AFB62225E5EE00EA870B /* SDLGetCloudAppProperties.h */; };
+		8881AFB82225E5EE00EA870B /* SDLGetCloudAppProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 8881AFB62225E5EE00EA870B /* SDLGetCloudAppProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8881AFB92225E5EE00EA870B /* SDLGetCloudAppProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFB72225E5EE00EA870B /* SDLGetCloudAppProperties.m */; };
 		8881AFBB2225E7FA00EA870B /* SDLGetCloudAppPropertiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFBA2225E7FA00EA870B /* SDLGetCloudAppPropertiesSpec.m */; };
 		8881AFBE2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8881AFBC2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.h */; };

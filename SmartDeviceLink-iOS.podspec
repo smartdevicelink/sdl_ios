@@ -114,6 +114,7 @@ ss.public_header_files = [
 'SmartDeviceLink/SDLFuelRange.h',
 'SmartDeviceLink/SDLFuelType.h',
 'SmartDeviceLink/SDLGenericResponse.h',
+'SmartDeviceLink/SDLGetCloudAppProperties.h',
 'SmartDeviceLink/SDLGetDTCs.h',
 'SmartDeviceLink/SDLGetInteriorVehicleData.h',
 'SmartDeviceLink/SDLGetDTCsResponse.h',
