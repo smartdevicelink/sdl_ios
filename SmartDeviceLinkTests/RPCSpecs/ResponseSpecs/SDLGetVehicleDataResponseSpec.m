@@ -15,20 +15,37 @@
 QuickSpecBegin(SDLGetVehicleDataResponseSpec)
 
 describe(@"Getter/Setter Tests", ^ {
-    __block SDLGPSData* gps = [[SDLGPSData alloc] init];
-    __block SDLTireStatus* tires = [[SDLTireStatus alloc] init];
-    __block SDLBeltStatus* belt = [[SDLBeltStatus alloc] init];
-    __block SDLBodyInformation* body = [[SDLBodyInformation alloc] init];
-    __block SDLDeviceStatus* device = [[SDLDeviceStatus alloc] init];
-    __block SDLHeadLampStatus* headLamp = [[SDLHeadLampStatus alloc] init];
-    __block SDLECallInfo* eCall = [[SDLECallInfo alloc] init];
-    __block SDLAirbagStatus* airbag = [[SDLAirbagStatus alloc] init];
-    __block SDLEmergencyEvent* event = [[SDLEmergencyEvent alloc] init];
-    __block SDLClusterModeStatus* clusterMode = [[SDLClusterModeStatus alloc] init];
-    __block SDLMyKey* myKey = [[SDLMyKey alloc] init];
-    __block SDLFuelRange* fuelRange = [[SDLFuelRange alloc] init];
-    __block NSString* vin = @"6574839201a";
-    __block NSString* cloudAppVehicleID = @"cloudAppVehicleID";
+    __block SDLGPSData* gps = nil;
+    __block SDLTireStatus* tires = nil;
+    __block SDLBeltStatus* belt = nil;
+    __block SDLBodyInformation* body = nil;
+    __block SDLDeviceStatus* device = nil;
+    __block SDLHeadLampStatus* headLamp = nil;
+    __block SDLECallInfo* eCall = nil;
+    __block SDLAirbagStatus* airbag = nil;
+    __block SDLEmergencyEvent* event = nil;
+    __block SDLClusterModeStatus* clusterMode = nil;
+    __block SDLMyKey* myKey = nil;
+    __block SDLFuelRange* fuelRange = nil;
+    __block NSString* vin = nil;
+    __block NSString* cloudAppVehicleID = nil;
+
+    beforeEach(^{
+        gps = [[SDLGPSData alloc] init];
+        tires = [[SDLTireStatus alloc] init];
+        belt = [[SDLBeltStatus alloc] init];
+        body = [[SDLBodyInformation alloc] init];
+        device = [[SDLDeviceStatus alloc] init];
+        headLamp = [[SDLHeadLampStatus alloc] init];
+        eCall = [[SDLECallInfo alloc] init];
+        airbag = [[SDLAirbagStatus alloc] init];
+        event = [[SDLEmergencyEvent alloc] init];
+        clusterMode = [[SDLClusterModeStatus alloc] init];
+        myKey = [[SDLMyKey alloc] init];
+        fuelRange = [[SDLFuelRange alloc] init];
+        vin = @"6574839201a";
+        cloudAppVehicleID = @"cloudAppVehicleID";
+    });
 
     it(@"Should set and get correctly", ^ {
         SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] init];

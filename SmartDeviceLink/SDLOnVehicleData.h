@@ -181,6 +181,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nullable, strong, nonatomic) SDLTurnSignal turnSignal;
 
+/**
+ The cloud app vehicle ID
+ */
+@property (nullable, strong, nonatomic) NSString *cloudAppVehicleID;
+
 @end
 
 NS_ASSUME_NONNULL_END
