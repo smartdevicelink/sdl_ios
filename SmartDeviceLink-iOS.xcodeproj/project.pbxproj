@@ -1234,7 +1234,7 @@
 		8854682F2225BDAE00994D8D /* SDLHybridAppPreference.h in Headers */ = {isa = PBXBuildFile; fileRef = 8854682D2225BDAE00994D8D /* SDLHybridAppPreference.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		885468302225BDAE00994D8D /* SDLHybridAppPreference.m in Sources */ = {isa = PBXBuildFile; fileRef = 8854682E2225BDAE00994D8D /* SDLHybridAppPreference.m */; };
 		885468322225BF2800994D8D /* SDLHybridAppPreferenceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 885468312225BF2800994D8D /* SDLHybridAppPreferenceSpec.m */; };
-		885468352225C1F800994D8D /* SDLCloudAppProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 885468332225C1F800994D8D /* SDLCloudAppProperties.h */; };
+		885468352225C1F800994D8D /* SDLCloudAppProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 885468332225C1F800994D8D /* SDLCloudAppProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		885468362225C1F800994D8D /* SDLCloudAppProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 885468342225C1F800994D8D /* SDLCloudAppProperties.m */; };
 		885468382225CBA400994D8D /* SDLCloudAppPropertiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 885468372225CBA400994D8D /* SDLCloudAppPropertiesSpec.m */; };
 		8877F5EB1F34A3BE00DC128A /* SDLSendHapticDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8877F5EA1F34A3BE00DC128A /* SDLSendHapticDataSpec.m */; };
