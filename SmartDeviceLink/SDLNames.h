@@ -104,6 +104,7 @@ extern SDLName const SDLNameCountryName;
 extern SDLName const SDLNameCRC;
 extern SDLName const SDLNameCreateInteractionChoiceSet;
 extern SDLName const SDLNameClockText;
+extern SDLName const SDLNameCloudAppVehicleID;
 extern SDLName const SDLNameCloudTransportType;
 extern SDLName const SDLNameCurrentTemperature;
 extern SDLName const SDLNameCushion;

@@ -102,6 +102,7 @@ SDLName const SDLNameCountryName = @"countryName";
 SDLName const SDLNameCRC = @"crc";
 SDLName const SDLNameCreateInteractionChoiceSet = @"CreateInteractionChoiceSet";
 SDLName const SDLNameClockText = @"CT";
+SDLName const SDLNameCloudAppVehicleID = @"cloudAppVehicleID";
 SDLName const SDLNameCloudTransportType = @"cloudTransportType";
 SDLName const SDLNameCurrentTemperature = @"currentTemperature";
 SDLName const SDLNameCushion = @"cushion";
