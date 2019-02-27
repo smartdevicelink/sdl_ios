@@ -63,6 +63,7 @@ describe(@"GetFunctionName Tests", ^ {
         expect([functionID functionNameForId:48]).to(equal(SDLNameGetSystemCapability));
         expect([functionID functionNameForId:49]).to(equal(SDLNameSendHapticData));
         expect([functionID functionNameForId:50]).to(equal(SDLNameSetCloudAppProperties));
+        expect([functionID functionNameForId:51]).to(equal(SDLNameGetCloudAppProperties));
         expect([functionID functionNameForId:32768]).to(equal(SDLNameOnHMIStatus));
         expect([functionID functionNameForId:32769]).to(equal(SDLNameOnAppInterfaceUnregistered));
         expect([functionID functionNameForId:32770]).to(equal(SDLNameOnButtonEvent));

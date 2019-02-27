@@ -19,6 +19,7 @@
 @class SDLEncodedSyncPDataResponse;
 @class SDLEndAudioPassThruResponse;
 @class SDLGenericResponse;
+@class SDLGetCloudAppPropertiesResponse;
 @class SDLGetDTCsResponse;
 @class SDLGetInteriorVehicleDataResponse;
 @class SDLGetSystemCapabilityResponse;
@@ -225,6 +226,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param response A SDLGenericResponse object
  */
 - (void)onGenericResponse:(SDLGenericResponse *)response;
+
+/**
+ *  Called when a GetCloudAppPropertiesResponse Response is received from Core
+ *
+ *  @param response A SDLGetCloudAppPropertiesResponse object
+ */
+- (void)onGetCloudAppPropertiesResponse:(SDLGetCloudAppPropertiesResponse *)response;
 
 /**
  *  Called when a Get DTCs Response is received from Core
@@ -479,9 +487,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onSetAppIconResponse:(SDLSetAppIconResponse *)response;
 
 /**
- *  Called when a Set App Icon Response is received from Core
+ *  Called when a SetCloudAppPropertiesResponse is received from Core
  *
- *  @param response A SDLSetAppIconResponse object
+ *  @param response A SDLSetCloudAppPropertiesResponse object
  */
 - (void)onSetCloudAppPropertiesResponse:(SDLSetCloudAppPropertiesResponse *)response;
 

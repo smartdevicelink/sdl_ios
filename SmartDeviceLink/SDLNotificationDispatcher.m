@@ -149,6 +149,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveGenericResponse response:response];
 }
 
+- (void)onGetCloudAppPropertiesResponse:(SDLGetCloudAppPropertiesResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveGetCloudAppPropertiesResponse response:response];
+}
+
 - (void)onGetDTCsResponse:(SDLGetDTCsResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveGetDTCsResponse response:response];
 }
