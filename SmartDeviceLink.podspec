@@ -116,6 +116,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLGenericResponse.h',
 'SmartDeviceLink/SDLGetDTCs.h',
 'SmartDeviceLink/SDLGetCloudAppProperties.h',
+'SmartDeviceLink/SDLGetCloudAppPropertiesResponse.h',
 'SmartDeviceLink/SDLGetInteriorVehicleData.h',
 'SmartDeviceLink/SDLGetDTCsResponse.h',
 'SmartDeviceLink/SDLGetInteriorVehicleDataResponse.h',
