@@ -25,6 +25,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.airbagStatus = vehicleDataResult;
         testResponse.beltStatus = vehicleDataResult;
         testResponse.bodyInformation = vehicleDataResult;
+        testResponse.cloudAppVehicleID = vehicleDataResult;
         testResponse.clusterModes = vehicleDataResult;
         testResponse.deviceStatus = vehicleDataResult;
         testResponse.driverBraking = vehicleDataResult;
@@ -54,6 +55,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.airbagStatus).to(equal(vehicleDataResult));
         expect(testResponse.beltStatus).to(equal(vehicleDataResult));
         expect(testResponse.bodyInformation).to(equal(vehicleDataResult));
+        expect(testResponse.cloudAppVehicleID).to(equal(vehicleDataResult));
         expect(testResponse.clusterModes).to(equal(vehicleDataResult));
         expect(testResponse.deviceStatus).to(equal(vehicleDataResult));
         expect(testResponse.driverBraking).to(equal(vehicleDataResult));
@@ -87,6 +89,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameAirbagStatus:vehicleDataResult,
                                                                    SDLNameBeltStatus:vehicleDataResult,
                                                                    SDLNameBodyInformation:vehicleDataResult,
+                                                                   SDLNameCloudAppVehicleID:vehicleDataResult,
                                                                    SDLNameClusterModes:vehicleDataResult,
                                                                    SDLNameDeviceStatus:vehicleDataResult,
                                                                    SDLNameDriverBraking:vehicleDataResult,
@@ -118,6 +121,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.airbagStatus).to(equal(vehicleDataResult));
         expect(testResponse.beltStatus).to(equal(vehicleDataResult));
         expect(testResponse.bodyInformation).to(equal(vehicleDataResult));
+        expect(testResponse.cloudAppVehicleID).to(equal(vehicleDataResult));
         expect(testResponse.clusterModes).to(equal(vehicleDataResult));
         expect(testResponse.deviceStatus).to(equal(vehicleDataResult));
         expect(testResponse.driverBraking).to(equal(vehicleDataResult));
@@ -151,6 +155,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.airbagStatus).to(beNil());
         expect(testResponse.beltStatus).to(beNil());
         expect(testResponse.bodyInformation).to(beNil());
+        expect(testResponse.cloudAppVehicleID).to(beNil());
         expect(testResponse.clusterModes).to(beNil());
         expect(testResponse.deviceStatus).to(beNil());
         expect(testResponse.driverBraking).to(beNil());
