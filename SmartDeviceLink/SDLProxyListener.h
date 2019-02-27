@@ -57,6 +57,8 @@
 @class SDLSendHapticDataResponse;
 @class SDLSendLocationResponse;
 @class SDLSetAppIconResponse;
+@class SDLSetCloudAppProperties;
+@class SDLSetCloudAppPropertiesResponse;
 @class SDLSetDisplayLayoutResponse;
 @class SDLSetGlobalPropertiesResponse;
 @class SDLSetInteriorVehicleDataResponse;
@@ -475,6 +477,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param response A SDLSetAppIconResponse object
  */
 - (void)onSetAppIconResponse:(SDLSetAppIconResponse *)response;
+
+/**
+ *  Called when a Set App Icon Response is received from Core
+ *
+ *  @param response A SDLSetAppIconResponse object
+ */
+- (void)onSetCloudAppPropertiesResponse:(SDLSetCloudAppPropertiesResponse *)response;
 
 /**
  *  Called when a Set Display Layout Response is received from Core

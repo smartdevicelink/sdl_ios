@@ -56,6 +56,7 @@ SDLNotificationName const SDLDidReceiveScrollableMessageResponse = @"com.sdl.res
 SDLNotificationName const SDLDidReceiveSendHapticDataResponse = @"com.sdl.response.sendHapticData";
 SDLNotificationName const SDLDidReceiveSendLocationResponse = @"com.sdl.response.sendLocation";
 SDLNotificationName const SDLDidReceiveSetAppIconResponse = @"com.sdl.response.setAppIcon";
+SDLNotificationName const SDLDidReceiveSetCloudAppPropertiesResponse = @"com.sdl.response.setCloudAppProperties";
 SDLNotificationName const SDLDidReceiveSetDisplayLayoutResponse = @"com.sdl.response.setDisplayLayout";
 SDLNotificationName const SDLDidReceiveSetGlobalPropertiesResponse = @"com.sdl.response.setGlobalProperties";
 SDLNotificationName const SDLDidReceiveSetInteriorVehicleDataResponse = @"com.sdl.response.setInteriorVehicleData";
@@ -132,6 +133,7 @@ SDLNotificationName const SDLDidReceiveWaypointNotification = @"com.sdl.notifica
              SDLDidReceiveSendHapticDataResponse,
              SDLDidReceiveSendLocationResponse,
              SDLDidReceiveSetAppIconResponse,
+             SDLDidReceiveSetCloudAppPropertiesResponse,
              SDLDidReceiveSetDisplayLayoutResponse,
              SDLDidReceiveSetGlobalPropertiesResponse,
              SDLDidReceiveSetInteriorVehicleDataResponse,

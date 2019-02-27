@@ -213,6 +213,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveSetAppIconResponse response:response];
 }
 
+- (void)onSetCloudAppPropertiesResponse:(SDLSetCloudAppPropertiesResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveSetCloudAppPropertiesResponse response:response];
+}
+
 - (void)onSetDisplayLayoutResponse:(SDLSetDisplayLayoutResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveSetDisplayLayoutResponse response:response];
 }

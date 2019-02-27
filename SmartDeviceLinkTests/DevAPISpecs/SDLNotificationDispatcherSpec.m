@@ -69,6 +69,7 @@ describe(@"a notification dispatcher", ^{
         expect(@([testDispatcher respondsToSelector:@selector(onSendHapticDataResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSendLocationResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSetAppIconResponse:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onSetCloudAppPropertiesResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSetDisplayLayoutResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSetGlobalPropertiesResponse:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSetInteriorVehicleDataResponse:)])).to(beTruthy());
