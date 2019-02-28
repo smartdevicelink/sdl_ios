@@ -56,7 +56,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     _hashId = SDLControlFrameInt32NotFound;
     _mtu = SDLControlFrameInt64NotFound;
-    _authToken = nil;
 
     if (data.length > 0) {
         [self sdl_parse:data];

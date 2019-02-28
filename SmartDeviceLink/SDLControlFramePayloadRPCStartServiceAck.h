@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly) int64_t mtu;
 
 /**
- *  A token to be used to authenticate a websocket connection on app activation.
+ *  A token used to authenticate a websocket connection on app activation.
  *
  *  @Since SDL 5.2
  */
