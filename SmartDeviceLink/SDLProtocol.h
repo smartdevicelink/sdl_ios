@@ -56,6 +56,13 @@ extern NSString *const SDLProtocolSecurityErrorDomain;
  */
 @property (nonatomic, copy) NSString *appId;
 
+/**
+ *  The auth token, if any, returned with the `StartServiceACK` for the RPC service from the module.
+ *
+ *  @since SDL 5.2
+ */
+@property (strong, nonatomic, readonly, nullable) NSString *authToken;
+
 #pragma mark - Sending
 
 /**

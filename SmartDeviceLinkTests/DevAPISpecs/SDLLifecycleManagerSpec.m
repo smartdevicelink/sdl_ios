@@ -129,6 +129,7 @@ describe(@"a lifecycle manager", ^{
         expect(testManager.streamManager).toNot(beNil());
         expect(testManager.systemCapabilityManager).toNot(beNil());
         expect(@([testManager conformsToProtocol:@protocol(SDLConnectionManagerType)])).to(equal(@YES));
+        expect(testManager.authToken).to(beNil());
     });
     
     itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });

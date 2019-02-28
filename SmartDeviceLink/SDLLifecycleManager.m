@@ -76,6 +76,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 // Readonly public properties
 @property (copy, nonatomic, readwrite) SDLConfiguration *configuration;
+@property (strong, nonatomic, readwrite, nullable) NSString *authToken;
 @property (strong, nonatomic, readwrite) SDLNotificationDispatcher *notificationDispatcher;
 @property (strong, nonatomic, readwrite) SDLResponseDispatcher *responseDispatcher;
 @property (strong, nonatomic, readwrite) SDLStateMachine *lifecycleStateMachine;
@@ -630,6 +631,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     }
 }
 
+/**
+ *  Gets the authentication token returned by the `StartServiceACK` header
+ *
+ *  @return An authentication token
+ */
+- (nullable NSString *)authToken {
+    return self.proxy.protocol.authToken;
+}
 
 #pragma mark SDL notification observers
 
