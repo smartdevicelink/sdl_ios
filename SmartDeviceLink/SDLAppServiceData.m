@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithNavigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData serviceId:(NSString *)serviceId {
+- (instancetype)initWithNavigationServiceData:(SDLNavigationServiceData *)navigationServiceData serviceId:(NSString *)serviceId {
     self = [self initWithServiceType:SDLAppServiceTypeNavigation serviceId:serviceId];
     if (!self) {
         return nil;

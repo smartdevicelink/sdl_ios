@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param serviceId                A unique ID tied to this specific service record.
  *  @return                         A SDLAppServiceData object
  */
-- (instancetype)initWithNavigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData serviceId:(NSString *)serviceId;
+- (instancetype)initWithNavigationServiceData:(SDLNavigationServiceData *)navigationServiceData serviceId:(NSString *)serviceId;
 
 /**
  *  Convenience init for all parameters.
