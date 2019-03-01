@@ -16,6 +16,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLAppServiceRecord : SDLRPCStruct
 
+/**
+ *  Convenience init for all parameters.
+ *
+ *  @param serviceID            A unique ID tied to this specific service record
+ *  @param serviceManifest      Manifest for the service that this record is for
+ *  @param servicePublished     If true, the service is published and available. If false, the service has likely just been unpublished, and should be considered unavailable
+ *  @param serviceActive        If true, the service is the active primary service of the supplied service type.
+ *  @return                     A SDLAppServiceRecord object
+ */
 - (instancetype)initWithServiceID:(NSString *)serviceID serviceManifest:(SDLAppServiceManifest *)serviceManifest servicePublished:(BOOL)servicePublished serviceActive:(BOOL)serviceActive;
 
 /**
