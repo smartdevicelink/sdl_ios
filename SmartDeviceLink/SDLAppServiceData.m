@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
     [store sdl_setObject:serviceId forName:SDLNameServiceID];
 }
 
--(NSString *)serviceId {
+- (NSString *)serviceId {
     return [store sdl_objectForName:SDLNameServiceID];
 }
 
