@@ -10,6 +10,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLAppServiceCapability.h"
+#import "SDLAppServiceRecord.h"
 #import "SDLNames.h"
 
 QuickSpecBegin(SDLAppServiceCapabilitySpec)
@@ -32,19 +33,26 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.updatedAppServiceRecord).to(equal(testUpdatedAppServiceRecord));
     });
 
-    it(@"Should initWithUpdateReason:updatedAppServiceRecord correctly", ^{
-        SDLAppServiceCapability *testStruct = [[SDLAppServiceCapability alloc] initWithUpdateReason:testUpdateReason updatedAppServiceRecord:testUpdatedAppServiceRecord];
-
-        expect(testStruct.updateReason).to(equal(testUpdateReason));
-        expect(testStruct.updatedAppServiceRecord).to(equal(testUpdatedAppServiceRecord));
-    });
-
     it(@"Should get correctly when initialized with a dictionary", ^{
         NSDictionary *dict = @{SDLNameUpdateReason:testUpdateReason,
                                SDLNameUpdatedAppServiceRecord:testUpdatedAppServiceRecord
                                };
 
         SDLAppServiceCapability *testStruct = [[SDLAppServiceCapability alloc] initWithDictionary:dict];
+        expect(testStruct.updateReason).to(equal(testUpdateReason));
+        expect(testStruct.updatedAppServiceRecord).to(equal(testUpdatedAppServiceRecord));
+    });
+
+    it(@"Should get correctly when initialized with initWithUpdatedAppServiceRecord:", ^{
+        SDLAppServiceCapability *testStruct = [[SDLAppServiceCapability alloc] initWithUpdatedAppServiceRecord:testUpdatedAppServiceRecord];
+
+        expect(testStruct.updateReason).to(beNil());
+        expect(testStruct.updatedAppServiceRecord).to(equal(testUpdatedAppServiceRecord));
+    });
+
+    it(@"Should get correctly when initialized with initWithUpdateReason:updatedAppServiceRecord", ^{
+        SDLAppServiceCapability *testStruct = [[SDLAppServiceCapability alloc] initWithUpdateReason:testUpdateReason updatedAppServiceRecord:testUpdatedAppServiceRecord];
+
         expect(testStruct.updateReason).to(equal(testUpdateReason));
         expect(testStruct.updatedAppServiceRecord).to(equal(testUpdatedAppServiceRecord));
     });

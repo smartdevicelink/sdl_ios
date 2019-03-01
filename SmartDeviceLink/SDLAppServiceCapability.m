@@ -7,8 +7,11 @@
 //
 
 #import "SDLAppServiceCapability.h"
+
 #import "NSMutableDictionary+Store.h"
+#import "SDLAppServiceRecord.h"
 #import "SDLNames.h"
+#import "SDLServiceUpdateReason.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

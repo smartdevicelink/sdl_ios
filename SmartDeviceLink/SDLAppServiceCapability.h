@@ -7,8 +7,9 @@
 //
 
 #import "SDLRPCRequest.h"
-#import "SDLAppServiceRecord.h"
 #import "SDLServiceUpdateReason.h"
+
+@class SDLAppServiceRecord;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,22 +21,22 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Convenience init for required parameters.
  *
- *  @param updatedAppServiceRecord Service record for a specific app service provider
- *  @return A SDLAppServiceCapability object
+ *  @param updatedAppServiceRecord  Service record for a specific app service provider
+ *  @return                         A SDLAppServiceCapability object
  */
 - (instancetype)initWithUpdatedAppServiceRecord:(SDLAppServiceRecord *)updatedAppServiceRecord NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Convenience init for all parameters.
  *
- *  @param updateReason Update reason for this service record
- *  @param updatedAppServiceRecord Service record for a specific app service provider
- *  @return A SDLAppServiceCapability object
+ *  @param updateReason             Update reason for this service record
+ *  @param updatedAppServiceRecord  Service record for a specific app service provider
+ *  @return                         A SDLAppServiceCapability object
  */
 - (instancetype)initWithUpdateReason:(nullable SDLServiceUpdateReason)updateReason updatedAppServiceRecord:(SDLAppServiceRecord *)updatedAppServiceRecord;
 
 /**
- *  Only included in OnSystemCapbilityUpdated. Update reason for this service record.
+ *  Only included in `OnSystemCapbilityUpdated`. Update reason for this service record.
  *
  *  SDLServiceUpdateReason, Optional
  */
@@ -44,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Service record for a specific app service provider.
  *
- *  SDLServiceUpdateReason, Required
+ *  SDLAppServiceRecord, Required
  */
 @property (strong, nonatomic) SDLAppServiceRecord *updatedAppServiceRecord;
 
