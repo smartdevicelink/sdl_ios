@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLAppServiceData : SDLRPCStruct
 
 /**
- * Convenience init.
+ *  Convenience init.
  *
  *  @param serviceType          The type of service that is to be offered by this app.
  *  @param serviceId            A unique ID tied to this specific service record.

@@ -13,6 +13,7 @@
 #import "SDLFunctionID.h"
 #import "SDLImage.h"
 #import "SDLMediaServiceManifest.h"
+#import "SDLNavigationServiceManifest.h"
 #import "SDLSyncMsgVersion.h"
 #import "SDLWeatherServiceManifest.h"
 
@@ -20,20 +21,43 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAppServiceManifest
 
-- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest {
-    self = [self init];
+- (instancetype)initWithServiceType:(NSString *)serviceType {
+    self = [super init];
+    if (!self) {
+        return self;
+    }
+
+    self.serviceType = serviceType;
+
+    return self;
+}
+
+- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest {
+    return [self initWithServiceName:serviceName serviceType:serviceType serviceIcon:serviceIcon allowAppConsumers:allowAppConsumers rpcSpecVersion:rpcSpecVersion handledRPCs:handledRPCs mediaServiceManifest:mediaServiceManifest weatherServiceManifest:nil navigationServiceManifest:nil];
+}
+
+- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest {
+    return [self initWithServiceName:serviceName serviceType:serviceType serviceIcon:serviceIcon allowAppConsumers:allowAppConsumers rpcSpecVersion:rpcSpecVersion handledRPCs:handledRPCs mediaServiceManifest:nil weatherServiceManifest:weatherServiceManifest navigationServiceManifest:nil];
+}
+
+- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs navigationServiceManifest:(nullable SDLNavigationServiceManifest *)navigationServiceManifest {
+    return [self initWithServiceName:serviceName serviceType:serviceType serviceIcon:serviceIcon allowAppConsumers:allowAppConsumers rpcSpecVersion:rpcSpecVersion handledRPCs:handledRPCs mediaServiceManifest:nil weatherServiceManifest:nil navigationServiceManifest:navigationServiceManifest];
+}
+
+- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest navigationServiceManifest:(nullable SDLNavigationServiceManifest *)navigationServiceManifest {
+    self = [self initWithServiceType:serviceType];
     if (!self) {
         return self;
     }
 
     self.serviceName = serviceName;
-    self.serviceType = serviceType;
     self.serviceIcon = serviceIcon;
     self.allowAppConsumers = @(allowAppConsumers);
     self.rpcSpecVersion = rpcSpecVersion;
     self.handledRPCs = handledRPCs;
     self.mediaServiceManifest = mediaServiceManifest;
     self.weatherServiceManifest = weatherServiceManifest;
+    self.navigationServiceManifest = navigationServiceManifest;
 
     return self;
 }
@@ -100,6 +124,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLMediaServiceManifest *)mediaServiceManifest {
     return [store sdl_objectForName:SDLNameMediaServiceManifest ofClass:SDLMediaServiceManifest.class];
+}
+
+- (void)setNavigationServiceManifest:(nullable SDLNavigationServiceManifest *)navigationServiceManifest {
+    [store sdl_setObject:navigationServiceManifest forName:SDLNameNavigationServiceManifest];
+}
+
+- (nullable SDLNavigationServiceManifest *)navigationServiceManifest {
+    return [store sdl_objectForName:SDLNameNavigationServiceManifest ofClass:SDLNavigationServiceManifest.class];
 }
 
 @end

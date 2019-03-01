@@ -11,6 +11,7 @@
 @class SDLFunctionID;
 @class SDLImage;
 @class SDLMediaServiceManifest;
+@class SDLNavigationServiceManifest;
 @class SDLSyncMsgVersion;
 @class SDLWeatherServiceManifest;
 
@@ -22,7 +23,71 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLAppServiceManifest : SDLRPCStruct
 
-- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest;
+/**
+ *  Convenience init for required parameters only.
+ *
+ *  @param serviceType  The type of service that is to be offered by this app.
+ *  @return             A SDLAppServiceManifest object
+ */
+- (instancetype)initWithServiceType:(NSString *)serviceType NS_DESIGNATED_INITIALIZER;
+
+/**
+ *  Convenience init for a media service manifest.
+ *
+ *  @param serviceName              Unique name of this service
+ *  @param serviceType              The type of service that is to be offered by this app
+ *  @param serviceIcon              The file name of the icon to be associated with this service
+ *  @param allowAppConsumers        If true, app service consumers beyond the IVI system will be able to access this service. If false, only the IVI system will be able consume the service. If not provided, it is assumed to be false
+ *  @param rpcSpecVersion           This is the max RPC Spec version the app service understands
+ *  @param handledRPCs              This field contains the Function IDs for the RPCs that this service intends to handle correctly
+ *  @param mediaServiceManifest     A media service manifest
+ *  @return                         A SDLAppServiceManifest object
+ */
+- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest;
+
+/**
+ *  Convenience init for a weather service manifest.
+ *
+ *  @param serviceName              Unique name of this service
+ *  @param serviceType              The type of service that is to be offered by this app
+ *  @param serviceIcon              The file name of the icon to be associated with this service
+ *  @param allowAppConsumers        If true, app service consumers beyond the IVI system will be able to access this service. If false, only the IVI system will be able consume the service. If not provided, it is assumed to be false
+ *  @param rpcSpecVersion           This is the max RPC Spec version the app service understands
+ *  @param handledRPCs              This field contains the Function IDs for the RPCs that this service intends to handle correctly
+ *  @param weatherServiceManifest   A weather service manifest
+ *  @return                         A SDLAppServiceManifest object
+ */
+- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest;
+
+/**
+ *  Convenience init for a navigation service manifest.
+ *
+ *  @param serviceName                  Unique name of this service
+ *  @param serviceType                  The type of service that is to be offered by this app
+ *  @param serviceIcon                  The file name of the icon to be associated with this service
+ *  @param allowAppConsumers            If true, app service consumers beyond the IVI system will be able to access this service. If false, only the IVI system will be able consume the service. If not provided, it is assumed to be false
+ *  @param rpcSpecVersion               This is the max RPC Spec version the app service understands
+ *  @param handledRPCs                  This field contains the Function IDs for the RPCs that this service intends to handle correctly
+ *  @param navigationServiceManifest    A navigation service manifest
+ *  @return                             A SDLAppServiceManifest object
+ */
+- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs navigationServiceManifest:(nullable SDLNavigationServiceManifest *)navigationServiceManifest;
+
+/**
+ *  Convenience init for all service manifests.
+ *
+ *  @param serviceName                  Unique name of this service
+ *  @param serviceType                  The type of service that is to be offered by this app
+ *  @param serviceIcon                  The file name of the icon to be associated with this service
+ *  @param allowAppConsumers            If true, app service consumers beyond the IVI system will be able to access this service. If false, only the IVI system will be able consume the service. If not provided, it is assumed to be false
+ *  @param rpcSpecVersion               This is the max RPC Spec version the app service understands
+ *  @param handledRPCs                  This field contains the Function IDs for the RPCs that this service intends to handle correctly
+ *  @param mediaServiceManifest         A media service manifest
+ *  @param weatherServiceManifest       A weather service manifest
+ *  @param navigationServiceManifest    A navigation service manifest
+ *  @return                             A SDLAppServiceManifest object
+ */
+- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest navigationServiceManifest:(nullable SDLNavigationServiceManifest *)navigationServiceManifest;
 
 /**
  *  Unique name of this service.
@@ -67,18 +132,25 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSArray<NSNumber<SDLInt> *> *handledRPCs;
 
 /**
- *  The media service manifest.
+ *  A media service manifest.
  *
  *  SDLMediaServiceManifest, Optional
  */
 @property (nullable, strong, nonatomic) SDLMediaServiceManifest *mediaServiceManifest;
 
 /**
- *  The weather service manifest.
+ *  A weather service manifest.
  *
  *  SDLWeatherServiceManifest, Optional
  */
 @property (nullable, strong, nonatomic) SDLWeatherServiceManifest *weatherServiceManifest;
+
+/**
+ *  A navigation service manifest.
+ *
+ *  SDLNavigationServiceManifest, Optional
+ */
+@property (nullable, strong, nonatomic) SDLNavigationServiceManifest *navigationServiceManifest;
 
 @end
 
