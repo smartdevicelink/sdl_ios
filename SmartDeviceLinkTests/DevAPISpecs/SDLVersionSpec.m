@@ -48,7 +48,7 @@ describe(@"a version object", ^{
                 expect(testVersion.patch).to(equal(patch));
             });
 
-            fit(@"should fail with negative numbers", ^{
+            it(@"should fail with negative numbers", ^{
                 testVersion = [[SDLVersion alloc] initWithString:@"-1.-2.-3"];
                 expect(testVersion.major).toNot(equal(major));
             });
