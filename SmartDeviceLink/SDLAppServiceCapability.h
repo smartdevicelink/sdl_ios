@@ -17,6 +17,21 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SDLAppServiceCapability : SDLRPCStruct
 
+/**
+ *  Convenience init for required parameters.
+ *
+ *  @param updatedAppServiceRecord Service record for a specific app service provider
+ *  @return A SDLAppServiceCapability object
+ */
+- (instancetype)initWithUpdatedAppServiceRecord:(SDLAppServiceRecord *)updatedAppServiceRecord NS_DESIGNATED_INITIALIZER;
+
+/**
+ *  Convenience init for all parameters.
+ *
+ *  @param updateReason Update reason for this service record
+ *  @param updatedAppServiceRecord Service record for a specific app service provider
+ *  @return A SDLAppServiceCapability object
+ */
 - (instancetype)initWithUpdateReason:(nullable SDLServiceUpdateReason)updateReason updatedAppServiceRecord:(SDLAppServiceRecord *)updatedAppServiceRecord;
 
 /**

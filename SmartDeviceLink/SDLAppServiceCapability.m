@@ -14,14 +14,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAppServiceCapability
 
+- (instancetype)initWithUpdatedAppServiceRecord:(SDLAppServiceRecord *)updatedAppServiceRecord {
+    self = [super init];
+    if (!self) {
+        return self;
+    }
+
+    self.updatedAppServiceRecord = updatedAppServiceRecord;
+
+    return self;
+}
+
 - (instancetype)initWithUpdateReason:(nullable SDLServiceUpdateReason)updateReason updatedAppServiceRecord:(SDLAppServiceRecord *)updatedAppServiceRecord {
-    self = [self init];
+    self = [self initWithUpdatedAppServiceRecord:updatedAppServiceRecord];
     if (!self) {
         return self;
     }
 
     self.updateReason = updateReason;
-    self.updatedAppServiceRecord = updatedAppServiceRecord;
 
     return self;
 }
