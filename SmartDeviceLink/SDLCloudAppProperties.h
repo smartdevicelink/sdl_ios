@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLCloudAppProperties : SDLRPCStruct
 
 /**
- *  Convenience init.
+ *  Convenience init for required properties.
  *
  *  @param appName  The name of the cloud app
  *  @param appID    The id of the cloud app
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithAppName:(NSString *)appName appID:(NSString *)appID NS_DESIGNATED_INITIALIZER;
 
 /**
- *  Convenience init.
+ *  Convenience init for all properties.
  *
  *  @param appName              The name of the cloud app
  *  @param appID                The id of the cloud app
