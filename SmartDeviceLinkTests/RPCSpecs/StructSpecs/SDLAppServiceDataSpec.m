@@ -12,6 +12,7 @@
 #import "SDLAppServiceData.h"
 #import "SDLAppServiceType.h"
 #import "SDLMediaServiceData.h"
+#import "SDLNavigationServiceData.h"
 #import "SDLNames.h"
 #import "SDLWeatherServiceData.h"
 
@@ -22,12 +23,14 @@ describe(@"Getter/Setter Tests", ^{
     __block NSString *testServiceId = nil;
     __block SDLMediaServiceData *testMediaServiceData = nil;
     __block SDLWeatherServiceData *testWeatherServiceData = nil;
+    __block SDLNavigationServiceData *testNavigationServiceData = nil;
 
     beforeEach(^{
         testServiceType = SDLAppServiceTypeMedia;
         testServiceId = @"a1*54z";
         testMediaServiceData = [[SDLMediaServiceData alloc] init];
         testWeatherServiceData = [[SDLWeatherServiceData alloc] init];
+        testNavigationServiceData = [[SDLNavigationServiceData alloc] init];
     });
 
     it(@"Should set and get correctly", ^{
@@ -36,18 +39,21 @@ describe(@"Getter/Setter Tests", ^{
         testStruct.serviceId = testServiceId;
         testStruct.mediaServiceData = testMediaServiceData;
         testStruct.weatherServiceData = testWeatherServiceData;
+        testStruct.navigationServiceData = testNavigationServiceData;
 
         expect(testStruct.serviceType).to(equal(testServiceType));
         expect(testStruct.serviceId).to(equal(testServiceId));
         expect(testStruct.mediaServiceData).to(equal(testMediaServiceData));
         expect(testStruct.weatherServiceData).to(equal(testWeatherServiceData));
+        expect(testStruct.navigationServiceData).to(equal(testNavigationServiceData));
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
         NSDictionary *dict = @{SDLNameServiceType:testServiceType,
                                SDLNameServiceID:testServiceId,
                                SDLNameMediaServiceData:testMediaServiceData,
-                               SDLNameWeatherServiceData:testWeatherServiceData
+                               SDLNameWeatherServiceData:testWeatherServiceData,
+                               SDLNameNavigationServiceData:testNavigationServiceData
                                };
         SDLAppServiceData *testStruct = [[SDLAppServiceData alloc] initWithDictionary:dict];
 
@@ -55,15 +61,57 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.serviceId).to(equal(testServiceId));
         expect(testStruct.mediaServiceData).to(equal(testMediaServiceData));
         expect(testStruct.weatherServiceData).to(equal(testWeatherServiceData));
+        expect(testStruct.navigationServiceData).to(equal(testNavigationServiceData));
     });
 
-    it(@"Should get correctly when initialized with initWithServiceType:serviceId:mediaServiceData:weatherServiceData:", ^{
-        SDLAppServiceData *testStruct = [[SDLAppServiceData alloc] initWithServiceType:testServiceType serviceId:testServiceId mediaServiceData:testMediaServiceData weatherServiceData:testWeatherServiceData];
+    it(@"Should get correctly when initialized with initWithServiceType:serviceId:", ^{
+        SDLAppServiceData *testStruct = [[SDLAppServiceData alloc] initWithServiceType:testServiceType serviceId:testServiceId];
+
+        expect(testStruct.serviceType).to(equal(testServiceType));
+        expect(testStruct.serviceId).to(equal(testServiceId));
+        expect(testStruct.mediaServiceData).to(beNil());
+        expect(testStruct.weatherServiceData).to(beNil());
+        expect(testStruct.navigationServiceData).to(beNil());
+    });
+
+    it(@"Should get correctly when initialized with initWithMediaServiceData:serviceId:", ^{
+        SDLAppServiceData *testStruct = [[SDLAppServiceData alloc] initWithMediaServiceData:testMediaServiceData serviceId:testServiceId];
+
+        expect(testStruct.serviceType).to(equal(SDLAppServiceTypeMedia));
+        expect(testStruct.serviceId).to(equal(testServiceId));
+        expect(testStruct.mediaServiceData).to(equal(testMediaServiceData));
+        expect(testStruct.weatherServiceData).to(beNil());
+        expect(testStruct.navigationServiceData).to(beNil());
+    });
+
+    it(@"Should get correctly when initialized with initWithWeatherServiceData:serviceId:", ^{
+        SDLAppServiceData *testStruct = [[SDLAppServiceData alloc] initWithWeatherServiceData:testWeatherServiceData serviceId:testServiceId];
+
+        expect(testStruct.serviceType).to(equal(SDLAppServiceTypeWeather));
+        expect(testStruct.serviceId).to(equal(testServiceId));
+        expect(testStruct.mediaServiceData).to(beNil());
+        expect(testStruct.weatherServiceData).to(equal(testWeatherServiceData));
+        expect(testStruct.navigationServiceData).to(beNil());
+    });
+
+    it(@"Should get correctly when initialized with initWithNavigationServiceData:serviceId:", ^{
+        SDLAppServiceData *testStruct = [[SDLAppServiceData alloc] initWithNavigationServiceData:testNavigationServiceData serviceId:testServiceId];
+
+        expect(testStruct.serviceType).to(equal(SDLAppServiceTypeNavigation));
+        expect(testStruct.serviceId).to(equal(testServiceId));
+        expect(testStruct.mediaServiceData).to(beNil());
+        expect(testStruct.weatherServiceData).to(beNil());
+        expect(testStruct.navigationServiceData).to(equal(testNavigationServiceData));
+    });
+
+    it(@"Should get correctly when initialized with initWithServiceType:serviceId:mediaServiceData:weatherServiceData:navigationServiceData:", ^{
+        SDLAppServiceData *testStruct = [[SDLAppServiceData alloc] initWithServiceType:testServiceType serviceId:testServiceId mediaServiceData:testMediaServiceData weatherServiceData:testWeatherServiceData navigationServiceData:testNavigationServiceData];
 
         expect(testStruct.serviceType).to(equal(testServiceType));
         expect(testStruct.serviceId).to(equal(testServiceId));
         expect(testStruct.mediaServiceData).to(equal(testMediaServiceData));
         expect(testStruct.weatherServiceData).to(equal(testWeatherServiceData));
+        expect(testStruct.navigationServiceData).to(equal(testNavigationServiceData));
     });
 
     it(@"Should return nil if not set", ^{
@@ -73,6 +121,7 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.serviceId).to(beNil());
         expect(testStruct.mediaServiceData).to(beNil());
         expect(testStruct.weatherServiceData).to(beNil());
+        expect(testStruct.navigationServiceData).to(beNil());
     });
 });
 

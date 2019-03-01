@@ -32,29 +32,29 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Convenience init for media service data.
  *
- *  @param serviceId                A unique ID tied to this specific service record.
  *  @param mediaServiceData         The media service data
+ *  @param serviceId                A unique ID tied to this specific service record.
  *  @return                         A SDLAppServiceData object
  */
-- (instancetype)initWithServiceId:(NSString *)serviceId mediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData;
+- (instancetype)initWithMediaServiceData:(SDLMediaServiceData *)mediaServiceData serviceId:(NSString *)serviceId;
 
 /**
  *  Convenience init for weather service data.
  *
- *  @param serviceId                A unique ID tied to this specific service record.
  *  @param weatherServiceData       The weather service data
+ *  @param serviceId                A unique ID tied to this specific service record.
  *  @return                         A SDLAppServiceData object
  */
-- (instancetype)initWithServiceId:(NSString *)serviceId weatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData;
+- (instancetype)initWithWeatherServiceData:(SDLWeatherServiceData *)weatherServiceData serviceId:(NSString *)serviceId;
 
 /**
  *  Convenience init for navigation service data.
  *
- *  @param serviceId                A unique ID tied to this specific service record.
  *  @param navigationServiceData    The navigation service data
+ *  @param serviceId                A unique ID tied to this specific service record.
  *  @return                         A SDLAppServiceData object
  */
-- (instancetype)initWithServiceId:(NSString *)serviceId navigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData;
+- (instancetype)initWithNavigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData serviceId:(NSString *)serviceId;
 
 /**
  *  Convenience init for all parameters.
