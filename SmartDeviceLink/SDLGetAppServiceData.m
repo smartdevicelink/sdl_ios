@@ -20,13 +20,23 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithServiceType:(NSString *)serviceType subscribe:(BOOL)subscribe {
+- (instancetype)initWithServiceType:(NSString *)serviceType {
     self = [self init];
     if (!self) {
         return nil;
     }
 
     self.serviceType = serviceType;
+
+    return self;
+}
+
+- (instancetype)initWithServiceType:(NSString *)serviceType subscribe:(BOOL)subscribe {
+    self = [self initWithServiceType:serviceType];
+    if (!self) {
+        return nil;
+    }
+
     self.subscribe = @(subscribe);
 
     return self;
