@@ -10,23 +10,69 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
+#import "SDLAppServiceType.h"
 #import "SDLMediaServiceData.h"
+#import "SDLNavigationServiceData.h"
 #import "SDLWeatherServiceData.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAppServiceData
 
-- (instancetype)initWithServiceType:(NSString *)serviceType serviceId:(NSString *)serviceId mediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData weatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData {
-    self = [self init];
+- (instancetype)initWithServiceType:(NSString *)serviceType serviceId:(NSString *)serviceId {
+    self = [super init];
     if (!self) {
         return nil;
     }
 
     self.serviceType = serviceType;
     self.serviceId = serviceId;
+
+    return self;
+}
+
+- (instancetype)initWithServiceId:(NSString *)serviceId mediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData {
+    self = [self initWithServiceType:SDLAppServiceTypeMedia serviceId:serviceId];
+    if (!self) {
+        return nil;
+    }
+
+    self.mediaServiceData = mediaServiceData;
+
+    return self;
+}
+
+- (instancetype)initWithServiceId:(NSString *)serviceId weatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData {
+    self = [self initWithServiceType:SDLAppServiceTypeWeather serviceId:serviceId];
+    if (!self) {
+        return nil;
+    }
+
+    self.weatherServiceData = weatherServiceData;
+
+    return self;
+}
+
+- (instancetype)initWithServiceId:(NSString *)serviceId navigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData {
+    self = [self initWithServiceType:SDLAppServiceTypeNavigation serviceId:serviceId];
+    if (!self) {
+        return nil;
+    }
+
+    self.navigationServiceData = navigationServiceData;
+
+    return self;
+}
+
+- (instancetype)initWithServiceType:(NSString *)serviceType serviceId:(NSString *)serviceId mediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData weatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData navigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData {
+    self = [self initWithServiceType:serviceType serviceId:serviceId];
+    if (!self) {
+        return nil;
+    }
+
     self.mediaServiceData = mediaServiceData;
     self.weatherServiceData = weatherServiceData;
+    self.navigationServiceData = navigationServiceData;
 
     return self;
 }
@@ -61,6 +107,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLMediaServiceData *)mediaServiceData {
     return [store sdl_objectForName:SDLNameMediaServiceData ofClass:SDLMediaServiceData.class];
+}
+
+- (void)setNavigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData {
+    [store sdl_setObject:navigationServiceData forName:SDLNameNavigationServiceData];
+}
+
+- (nullable SDLNavigationServiceData *)navigationServiceData {
+    return [store sdl_objectForName:SDLNameNavigationServiceData ofClass:SDLNavigationServiceData.class];
 }
 
 @end

@@ -404,6 +404,7 @@ extern SDLName const SDLNameMyKey;
 extern SDLName const SDLNameName;
 extern SDLName const SDLNameNavigation;
 extern SDLName const SDLNameNavigationCapability;
+extern SDLName const SDLNameNavigationServiceData;
 extern SDLName const SDLNameNavigationServiceManifest;
 extern SDLName const SDLNameNavigationText;
 extern SDLName const SDLNameNavigationText1;

@@ -9,6 +9,7 @@
 #import "SDLRPCRequest.h"
 
 @class SDLMediaServiceData;
+@class SDLNavigationServiceData;
 @class SDLWeatherServiceData;
 
 
@@ -20,15 +21,52 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLAppServiceData : SDLRPCStruct
 
 /**
- *  Convenience init.
+ *  Convenience init for required parameters.
  *
- *  @param serviceType          The type of service that is to be offered by this app.
- *  @param serviceId            A unique ID tied to this specific service record.
- *  @param mediaServiceData     The media service data
- *  @param weatherServiceData   The weather service data
- *  @return                     A SDLAppServiceData object
+ *  @param serviceType              The type of service that is to be offered by this app.
+ *  @param serviceId                A unique ID tied to this specific service record.
+ *  @return                         A SDLAppServiceData object
  */
-- (instancetype)initWithServiceType:(NSString *)serviceType serviceId:(NSString *)serviceId mediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData weatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData;
+- (instancetype)initWithServiceType:(NSString *)serviceType serviceId:(NSString *)serviceId NS_DESIGNATED_INITIALIZER;
+
+/**
+ *  Convenience init for media service data.
+ *
+ *  @param serviceId                A unique ID tied to this specific service record.
+ *  @param mediaServiceData         The media service data
+ *  @return                         A SDLAppServiceData object
+ */
+- (instancetype)initWithServiceId:(NSString *)serviceId mediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData;
+
+/**
+ *  Convenience init for weather service data.
+ *
+ *  @param serviceId                A unique ID tied to this specific service record.
+ *  @param weatherServiceData       The weather service data
+ *  @return                         A SDLAppServiceData object
+ */
+- (instancetype)initWithServiceId:(NSString *)serviceId weatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData;
+
+/**
+ *  Convenience init for navigation service data.
+ *
+ *  @param serviceId                A unique ID tied to this specific service record.
+ *  @param navigationServiceData    The navigation service data
+ *  @return                         A SDLAppServiceData object
+ */
+- (instancetype)initWithServiceId:(NSString *)serviceId navigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData;
+
+/**
+ *  Convenience init for all parameters.
+ *
+ *  @param serviceType              The type of service that is to be offered by this app.
+ *  @param serviceId                A unique ID tied to this specific service record.
+ *  @param mediaServiceData         The media service data
+ *  @param weatherServiceData       The weather service data
+ *  @param navigationServiceData    The navigation service data
+ *  @return                         A SDLAppServiceData object
+ */
+- (instancetype)initWithServiceType:(NSString *)serviceType serviceId:(NSString *)serviceId mediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData weatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData navigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData;
 
 /**
  *  The type of service that is to be offered by this app. See AppServiceType.
@@ -38,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *serviceType;
 
 /**
- *   A unique ID tied to this specific service record. The ID is supplied by the module that services publish themselves.
+ *  A unique ID tied to this specific service record. The ID is supplied by the module that services publish themselves.
  *
  *  String, Required
  */
@@ -57,6 +95,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  SDLWeatherServiceData, Optional
  */
 @property (nullable, strong, nonatomic) SDLWeatherServiceData *weatherServiceData;
+
+/**
+ *  The navigation service data.
+ *
+ *  SDLNavigationServiceData, Optional
+ */
+@property (nullable, strong, nonatomic) SDLNavigationServiceData *navigationServiceData;
 
 @end
 

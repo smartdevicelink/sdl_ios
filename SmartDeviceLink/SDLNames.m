@@ -397,6 +397,7 @@ SDLName const SDLNameMyKey = @"myKey";
 SDLName const SDLNameName = @"name";
 SDLName const SDLNameNavigation = @"navigation";
 SDLName const SDLNameNavigationCapability = @"navigationCapability";
+SDLName const SDLNameNavigationServiceData = @"navigationServiceData";
 SDLName const SDLNameNavigationServiceManifest = @"navigationServiceManifest";
 SDLName const SDLNameNavigationText = @"navigationText";
 SDLName const SDLNameNavigationText1 = @"navigationText1";
