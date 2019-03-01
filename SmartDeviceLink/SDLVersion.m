@@ -36,10 +36,14 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) { return nil; }
 
     NSArray<NSString *> *splitVersions = [versionString componentsSeparatedByString:@"."];
-    NSAssert(splitVersions.count == 3, @"Splitting a version string must result in major, minor, and patch. The format must be 'X.X.X'");
+    if (splitVersions.count != 3) {
+        NSAssert(splitVersions.count == 3, @"Splitting a version string must result in major, minor, and patch. The format must be 'X.X.X'");
+        return nil;
+    }
+
     NSInteger majorInt = splitVersions[0].integerValue;
-    NSInteger minorInt = splitVersions[0].integerValue;
-    NSInteger patchInt = splitVersions[0].integerValue;
+    NSInteger minorInt = splitVersions[1].integerValue;
+    NSInteger patchInt = splitVersions[2].integerValue;
 
     if (majorInt < 0 || minorInt < 0 || patchInt < 0) {
         NSAssert(NO, @"Attempted to parse invalid SDLVersion: %@", splitVersions);
@@ -122,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    SDLVersion *new = [[SDLVersion alloc] initWithMajor:_major minor:_minor patch:_patch];
+    SDLVersion *new = [[SDLVersion allocWithZone:zone] initWithMajor:_major minor:_minor patch:_patch];
     return new;
 }
 

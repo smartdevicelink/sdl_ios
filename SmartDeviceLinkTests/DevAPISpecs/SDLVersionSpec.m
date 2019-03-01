@@ -49,8 +49,9 @@ describe(@"a version object", ^{
             });
 
             it(@"should fail with negative numbers", ^{
-                testVersion = [[SDLVersion alloc] initWithString:@"-1.-2.-3"];
-                expect(testVersion.major).toNot(equal(major));
+                expectAction(^{
+                    testVersion = [[SDLVersion alloc] initWithString:@"-1.-2.-3"];
+                }).to(raiseException());
             });
         });
 
