@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)sendConnectionRequest:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+- (void)sendConnectionRPC:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     self.lastRequestBlock = handler;
     if ([request isKindOfClass:SDLRPCRequest.class]) {
         SDLRPCRequest *requestRPC = (SDLRPCRequest *)request;
@@ -38,12 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sendConnectionManagerRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    [self sendConnectionRequest:request withResponseHandler:handler];
+    [self sendConnectionRPC:request withResponseHandler:handler];
 }
 
 - (void)sendRequests:(nonnull NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     [requests enumerateObjectsUsingBlock:^(SDLRPCRequest * _Nonnull request, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self sendConnectionRequest:request withResponseHandler:nil];
+        [self sendConnectionRPC:request withResponseHandler:nil];
 
         if (progressHandler != nil) {
             progressHandler(request, nil, nil, (double)idx / (double)requests.count);
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sendSequentialRequests:(nonnull NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleSequentialRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler {
     [requests enumerateObjectsUsingBlock:^(SDLRPCRequest * _Nonnull request, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self sendConnectionRequest:request withResponseHandler:nil];
+        [self sendConnectionRPC:request withResponseHandler:nil];
         progressHandler(request, nil, nil, (double)idx / (double)requests.count);
     }];
 

@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)sdl_sendRequest:(SDLRPCRequest *)request {
     __weak typeof(self) weakSelf = self;
-    [self.connectionManager sendConnectionRequest:(__kindof SDLRPCMessage *)request withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRPC:(__kindof SDLRPCMessage *)request withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         __strong typeof(self) strongSelf = weakSelf;
 
         if (strongSelf.isCancelled) {
