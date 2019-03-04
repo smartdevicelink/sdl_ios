@@ -42,6 +42,12 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testNotification.systemCapability).to(equal(testSystemCapability));
     });
 
+    it(@"Should get correctly when initialized with initWithSystemCapability:", ^{
+        SDLOnSystemCapabilityUpdated *testNotification = [[SDLOnSystemCapabilityUpdated alloc] initWithSystemCapability:testSystemCapability];
+
+        expect(testNotification.systemCapability).to(equal(testSystemCapability));
+    });
+
     it(@"Should return nil if not set", ^{
         SDLOnSystemCapabilityUpdated *testNotification = [[SDLOnSystemCapabilityUpdated alloc] init];
 

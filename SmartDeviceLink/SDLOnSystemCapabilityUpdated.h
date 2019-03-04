@@ -7,7 +7,8 @@
 //
 
 #import "SDLRPCNotification.h"
-#import "SDLSystemCapability.h"
+
+@class SDLSystemCapability;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,6 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  A notification to inform the connected device that a specific system capability has changed.
  */
 @interface SDLOnSystemCapabilityUpdated : SDLRPCNotification
+
+/**
+ * Convenience init for required parameters
+ *
+ *  @param systemCapability    The system capability that has been updated
+ *  @return                    A SDLOnSystemCapabilityUpdated object
+ */
+- (instancetype)initWithSystemCapability:(SDLSystemCapability *)systemCapability;
 
 /**
  *  The system capability that has been updated.
