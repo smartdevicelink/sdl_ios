@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameExpires ofClass:SDLDateTime.class];
 }
 
-- (void)setRegions:(nullable  NSArray<NSString *> *)regions {
+- (void)setRegions:(nullable NSArray<NSString *> *)regions {
     [store sdl_setObject:regions forName:SDLNameRegions];
 }
 
