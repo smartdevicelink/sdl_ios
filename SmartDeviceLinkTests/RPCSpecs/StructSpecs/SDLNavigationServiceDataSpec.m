@@ -86,7 +86,21 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.prompt).to(equal(testPrompt));
     });
 
-    it(@"Should initialize correctly with convenience init", ^{
+    it(@"Should initialize correctly with initWithTimestamp:", ^{
+        SDLNavigationServiceData *testStruct = [[SDLNavigationServiceData alloc] initWithTimestamp:testTimestamp];
+
+        expect(testStruct.timestamp).to(equal(testTimestamp));
+        expect(testStruct.origin).to(beNil());
+        expect(testStruct.destination).to(beNil());
+        expect(testStruct.destinationETA).to(beNil());
+        expect(testStruct.instructions).to(beNil());
+        expect(testStruct.nextInstructionETA).to(beNil());
+        expect(testStruct.nextInstructionDistance).to(beNil());
+        expect(testStruct.nextInstructionDistanceScale).to(beNil());
+        expect(testStruct.prompt).to(beNil());
+    });
+
+    it(@"Should initialize correctly with initWithTimestamp:origin:destination:destinationETA:instructions:nextInstructionETA:nextInstructionDistance:nextInstructionDistanceScale:prompt:", ^{
         SDLNavigationServiceData *testStruct = [[SDLNavigationServiceData alloc] initWithTimestamp:testTimestamp origin:testOrigin destination:testDestination destinationETA:testDestinationETA instructions:testInstructions nextInstructionETA:testNextInstructionETA nextInstructionDistance:testNextInstructionDistance nextInstructionDistanceScale:testNextInstructionDistanceScale prompt:testPrompt];
 
         expect(testStruct.timestamp).to(equal(testTimestamp));

@@ -18,13 +18,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLNavigationServiceData
 
-- (instancetype)initWithTimestamp:(SDLDateTime *)timestamp origin:(nullable SDLLocationDetails *)origin destination:(nullable SDLLocationDetails *)destination destinationETA:(nullable SDLDateTime *)destinationETA instructions:(nullable NSArray<SDLNavigationInstruction *> *)instructions nextInstructionETA:(nullable SDLDateTime *)nextInstructionETA nextInstructionDistance:(float)nextInstructionDistance nextInstructionDistanceScale:(float)nextInstructionDistanceScale prompt:(nullable NSString *)prompt {
-    self = [self init];
+- (instancetype)initWithTimestamp:(SDLDateTime *)timestamp {
+    self = [super init];
     if (!self) {
         return nil;
     }
 
     self.timestamp = timestamp;
+
+    return self;
+}
+
+- (instancetype)initWithTimestamp:(SDLDateTime *)timestamp origin:(nullable SDLLocationDetails *)origin destination:(nullable SDLLocationDetails *)destination destinationETA:(nullable SDLDateTime *)destinationETA instructions:(nullable NSArray<SDLNavigationInstruction *> *)instructions nextInstructionETA:(nullable SDLDateTime *)nextInstructionETA nextInstructionDistance:(float)nextInstructionDistance nextInstructionDistanceScale:(float)nextInstructionDistanceScale prompt:(nullable NSString *)prompt {
+    self = [self initWithTimestamp:timestamp];
+    if (!self) {
+        return nil;
+    }
+
     self.origin = origin;
     self.destination = destination;
     self.destinationETA = destinationETA;
