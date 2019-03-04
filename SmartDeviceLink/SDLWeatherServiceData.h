@@ -20,7 +20,15 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLWeatherServiceData : SDLRPCStruct
 
 /**
- *  Convenience init.
+ *  Convenience init for required parameters.
+ *
+ *  @param location         The location
+ *  @return                 A SDLWeatherServiceData object
+ */
+- (instancetype)initWithLocation:(SDLLocationDetails *)location NS_DESIGNATED_INITIALIZER;
+
+/**
+ *  Convenience init for all parameters.
  *
  *  @param location         The location
  *  @param currentForecast  The current forecast
