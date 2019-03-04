@@ -7,8 +7,7 @@
 //
 
 #import "SDLRPCRequest.h"
-
-@class SDLFileType;
+#import "SDLFileType.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

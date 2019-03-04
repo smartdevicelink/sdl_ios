@@ -9,7 +9,6 @@
 #import "SDLGetFile.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLFileType.h"
 #import "SDLNames.h"
 
 
