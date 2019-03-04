@@ -43,6 +43,55 @@ describe(@"Getter/Setter Tests", ^{
         expect(testRequest.length).to(equal(testLength));
     });
 
+    it(@"Should initialize correctly with a dictionary", ^{
+        NSDictionary *dict = @{SDLNameRequest:@{
+                                       SDLNameParameters:@{
+                                               SDLNameFilename:testFileName,
+                                               SDLNameAppServiceId:testAppServiceId,
+                                               SDLNameFileType:testFileType,
+                                               SDLNameOffset:@(testOffset),
+                                               SDLNameLength:@(testLength)
+                                               },
+                                       SDLNameOperationName:SDLNameGetFile}};
+        SDLGetFile *testRequest = [[SDLGetFile alloc] initWithDictionary:dict];
+
+        expect(testRequest.fileName).to(equal(testFileName));
+        expect(testRequest.appServiceId).to(equal(testAppServiceId));
+        expect(testRequest.fileType).to(equal(testFileType));
+        expect(testRequest.offset).to(equal(testOffset));
+        expect(testRequest.length).to(equal(testLength));
+    });
+
+    it(@"Should initialize correctly with initWithFileName:", ^{
+        SDLGetFile *testRequest = [[SDLGetFile alloc] initWithFileName:testFileName];
+
+        expect(testRequest.fileName).to(equal(testFileName));
+        expect(testRequest.appServiceId).to(beNil());
+        expect(testRequest.fileType).to(beNil());
+        expect(testRequest.offset).to(beNil());
+        expect(testRequest.length).to(beNil());
+    });
+
+    it(@"Should initialize correctly with initWithFileName:appServiceId:fileType:", ^{
+        SDLGetFile *testRequest = [[SDLGetFile alloc] initWithFileName:testFileName appServiceId:testAppServiceId fileType:testFileType];
+
+        expect(testRequest.fileName).to(equal(testFileName));
+        expect(testRequest.appServiceId).to(equal(testAppServiceId));
+        expect(testRequest.fileType).to(equal(testFileType));
+        expect(testRequest.offset).to(beNil());
+        expect(testRequest.length).to(beNil());
+    });
+
+    it(@"Should initialize correctly with initWithFileName:appServiceId:fileType:offset:length:", ^{
+        SDLGetFile *testRequest = [[SDLGetFile alloc] initWithFileName:testFileName appServiceId:testAppServiceId fileType:testFileType offset:testOffset length:testLength];
+
+        expect(testRequest.fileName).to(equal(testFileName));
+        expect(testRequest.appServiceId).to(equal(testAppServiceId));
+        expect(testRequest.fileType).to(equal(testFileType));
+        expect(testRequest.offset).to(equal(testOffset));
+        expect(testRequest.length).to(equal(testLength));
+    });
+
     it(@"Should return nil if not set", ^{
         SDLGetFile *testRequest = [[SDLGetFile alloc] init];
 
@@ -51,47 +100,6 @@ describe(@"Getter/Setter Tests", ^{
         expect(testRequest.fileType).to(beNil());
         expect(testRequest.offset).to(beNil());
         expect(testRequest.length).to(beNil());
-    });
-
-    describe(@"initializing", ^{
-        it(@"Should initialize correctly with a dictionary", ^{
-            NSDictionary *dict = @{SDLNameRequest:@{
-                                           SDLNameParameters:@{
-                                                   SDLNameFilename:testFileName,
-                                                   SDLNameAppServiceId:testAppServiceId,
-                                                   SDLNameFileType:testFileType,
-                                                   SDLNameOffset:@(testOffset),
-                                                   SDLNameLength:@(testLength)
-                                                   },
-                                           SDLNameOperationName:SDLNameGetFile}};
-            SDLGetFile *testRequest = [[SDLGetFile alloc] initWithDictionary:dict];
-
-            expect(testRequest.fileName).to(equal(testFileName));
-            expect(testRequest.appServiceId).to(equal(testAppServiceId));
-            expect(testRequest.fileType).to(equal(testFileType));
-            expect(testRequest.offset).to(equal(testOffset));
-            expect(testRequest.length).to(equal(testLength));
-        });
-
-        it(@"Should initialize correctly with initWithFileName:appServiceId:fileType:", ^{
-            SDLGetFile *testRequest = [[SDLGetFile alloc] initWithFileName:testFileName appServiceId:testAppServiceId fileType:testFileType];
-
-            expect(testRequest.fileName).to(equal(testFileName));
-            expect(testRequest.appServiceId).to(equal(testAppServiceId));
-            expect(testRequest.fileType).to(equal(testFileType));
-            expect(testRequest.offset).to(beNil());
-            expect(testRequest.length).to(beNil());
-        });
-
-        it(@"Should initialize correctly with initWithFileName:appServiceId:fileType:offset:length:", ^{
-            SDLGetFile *testRequest = [[SDLGetFile alloc] initWithFileName:testFileName appServiceId:testAppServiceId fileType:testFileType offset:testOffset length:testLength];
-
-            expect(testRequest.fileName).to(equal(testFileName));
-            expect(testRequest.appServiceId).to(equal(testAppServiceId));
-            expect(testRequest.fileType).to(equal(testFileType));
-            expect(testRequest.offset).to(equal(testOffset));
-            expect(testRequest.length).to(equal(testLength));
-        });
     });
 });
 

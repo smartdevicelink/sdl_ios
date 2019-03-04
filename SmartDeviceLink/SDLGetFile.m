@@ -20,20 +20,30 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithFileName:(NSString *)fileName appServiceId:(NSString *)appServiceId fileType:(nullable SDLFileType)fileType {
+- (instancetype)initWithFileName:(NSString *)fileName {
     self = [self init];
     if (!self) {
         return nil;
     }
 
     self.fileName = fileName;
+
+    return self;
+}
+
+- (instancetype)initWithFileName:(NSString *)fileName appServiceId:(nullable NSString *)appServiceId fileType:(nullable SDLFileType)fileType {
+    self = [self initWithFileName:fileName];
+    if (!self) {
+        return nil;
+    }
+
     self.appServiceId = appServiceId;
     self.fileType = fileType;
 
     return self;
 }
 
-- (instancetype)initWithFileName:(NSString *)fileName appServiceId:(NSString *)appServiceId fileType:(nullable SDLFileType)fileType offset:(UInt32)offset length:(UInt32)length {
+- (instancetype)initWithFileName:(NSString *)fileName appServiceId:(nullable NSString *)appServiceId fileType:(nullable SDLFileType)fileType offset:(UInt32)offset length:(UInt32)length {
     self = [self initWithFileName:fileName appServiceId:appServiceId fileType:fileType];
     if (!self) {
         return nil;
@@ -53,11 +63,11 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLNameFilename];
 }
 
-- (void)setAppServiceId:(NSString *)appServiceId {
+- (void)setAppServiceId:(nullable NSString *)appServiceId {
     [parameters sdl_setObject:appServiceId forName:SDLNameAppServiceId];
 }
 
-- (NSString *)appServiceId {
+- (nullable NSString *)appServiceId {
     return [parameters sdl_objectForName:SDLNameAppServiceId];
 }
 

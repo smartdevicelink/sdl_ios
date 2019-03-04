@@ -18,17 +18,25 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLGetFile : SDLRPCRequest
 
 /**
- *  Convenience init.
+ *  Convenience init for required parameters.
+ *
+ *  @param fileName     File name that should be retrieved.
+ *  @return             A SDLGetFile object
+ */
+- (instancetype)initWithFileName:(NSString *)fileName;
+
+/**
+ *  Convenience init for sending a small file.
  *
  *  @param fileName     File name that should be retrieved.
  *  @param appServiceId ID of the service that should have uploaded the requested file
  *  @param fileType     Selected file type
  *  @return             A SDLGetFile object
  */
-- (instancetype)initWithFileName:(NSString *)fileName appServiceId:(NSString *)appServiceId fileType:(nullable SDLFileType)fileType;
+- (instancetype)initWithFileName:(NSString *)fileName appServiceId:(nullable NSString *)appServiceId fileType:(nullable SDLFileType)fileType;
 
 /**
- *  Convenience init.
+ *  Convenience init for sending a large file in multiple data chunks.
  *
  *  @param fileName     File name that should be retrieved.
  *  @param appServiceId ID of the service that should have uploaded the requested file
@@ -37,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param length       Length in bytes for resuming partial data chunks
  *  @return             A SDLGetFile object
  */
-- (instancetype)initWithFileName:(NSString *)fileName appServiceId:(NSString *)appServiceId fileType:(nullable SDLFileType)fileType offset:(UInt32)offset length:(UInt32)length;
+- (instancetype)initWithFileName:(NSString *)fileName appServiceId:(nullable NSString *)appServiceId fileType:(nullable SDLFileType)fileType offset:(UInt32)offset length:(UInt32)length;
 
 /**
  *  File name that should be retrieved.
@@ -49,9 +57,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  ID of the service that should have uploaded the requested file.
  *
- *  String, Required
+ *  String, Optional
  */
-@property (strong, nonatomic) NSString *appServiceId;
+@property (nullable, strong, nonatomic) NSString *appServiceId;
 
 /**
  *  Selected file type.
