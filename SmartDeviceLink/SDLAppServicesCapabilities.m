@@ -7,6 +7,8 @@
 //
 
 #import "SDLAppServicesCapabilities.h"
+
+#import "SDLAppServiceCapability.h"
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 

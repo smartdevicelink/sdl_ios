@@ -9,8 +9,8 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLAppServicesCapabilities.h"
 #import "SDLAppServiceCapability.h"
+#import "SDLAppServicesCapabilities.h"
 #import "SDLNames.h"
 
 QuickSpecBegin(SDLAppServicesCapabilitiesSpec)

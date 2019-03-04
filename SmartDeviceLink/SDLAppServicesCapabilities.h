@@ -7,8 +7,8 @@
 //
 
 #import "SDLRPCRequest.h"
-#import "SDLAppServiceCapability.h"
-#import "SDLAppServiceType.h"
+
+@class SDLAppServiceCapability;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLAppServicesCapabilities : SDLRPCStruct
 
 /**
- *  Convenience init
+ *  Convenience init.
  *
  *  @param appServices          An array of currently available services.
  *  @return                     A SDLAppServicesCapabilities object
