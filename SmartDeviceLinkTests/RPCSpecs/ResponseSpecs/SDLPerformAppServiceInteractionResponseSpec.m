@@ -39,6 +39,12 @@ describe(@"Getter/Setter Tests", ^{
         expect(testResponse.serviceSpecificResult).to(equal(testServiceSpecificResult));
     });
 
+    it(@"Should get correctly when initialized with initWithServiceSpecificResult:", ^{
+        SDLPerformAppServiceInteractionResponse *testResponse = [[SDLPerformAppServiceInteractionResponse alloc] initWithServiceSpecificResult:testServiceSpecificResult];
+
+        expect(testResponse.serviceSpecificResult).to(equal(testServiceSpecificResult));
+    });
+
     it(@"Should return nil if not set", ^{
         SDLPerformAppServiceInteractionResponse *testResponse = [[SDLPerformAppServiceInteractionResponse alloc] init];
 

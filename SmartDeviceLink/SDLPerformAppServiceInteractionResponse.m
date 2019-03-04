@@ -20,6 +20,17 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithServiceSpecificResult:(NSString *)serviceSpecificResult {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.serviceSpecificResult = serviceSpecificResult;
+
+    return self;
+}
+
 - (void)setServiceSpecificResult:(nullable NSString *)serviceSpecificResult {
     [parameters sdl_setObject:serviceSpecificResult forName:SDLNameServiceSpecificResult];
 }

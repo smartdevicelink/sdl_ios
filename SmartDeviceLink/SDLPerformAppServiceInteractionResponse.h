@@ -17,6 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLPerformAppServiceInteractionResponse : SDLRPCResponse
 
 /**
+ *  Convenience init for all parameters.
+ *
+ *  @param serviceSpecificResult    The service can provide specific result strings to the consumer through this param. These results should be described in the URI schema set in the Service Manifest
+ *  @return                         A SDLPerformAppServiceInteractionResponse object
+ */
+- (instancetype)initWithServiceSpecificResult:(NSString *)serviceSpecificResult;
+
+/**
  *  The service can provide specific result strings to the consumer through this param. These results should be described in the URI schema set in the Service Manifest.
  *
  *  String, Optional
