@@ -43,7 +43,7 @@
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResponseDispatcher.h"
-#import "SDLRPCResponseOperation.h"
+#import "SDLAsynchronousRPCOperation.h"
 #import "SDLResult.h"
 #import "SDLScreenManager.h"
 #import "SDLSecondaryTransportManager.h"
@@ -535,7 +535,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)sdl_sendRPC:(__kindof SDLRPCMessage *)rpc {
-    SDLRPCResponseOperation *op = [[SDLRPCResponseOperation alloc] initWithConnectionManager:self rpc:rpc];
+    SDLAsynchronousRPCOperation *op = [[SDLAsynchronousRPCOperation alloc] initWithConnectionManager:self rpc:rpc];
     [self.rpcOperationQueue addOperation:op];
 }
 

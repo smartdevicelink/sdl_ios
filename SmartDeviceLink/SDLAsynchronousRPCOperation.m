@@ -1,12 +1,12 @@
 //
-//  SDLRPCResponseOperation.m
+//  SDLAsynchronousRPCOperation.m
 //  SmartDeviceLink
 //
 //  Created by Nicole on 2/20/19.
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import "SDLRPCResponseOperation.h"
+#import "SDLAsynchronousRPCOperation.h"
 
 #import "SDLConnectionManagerType.h"
 #import "SDLError.h"
@@ -14,14 +14,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLRPCResponseOperation ()
+@interface SDLAsynchronousRPCOperation ()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 @property (strong, nonatomic) NSUUID *operationId;
 
 @end
 
-@implementation SDLRPCResponseOperation {
+@implementation SDLAsynchronousRPCOperation {
     BOOL executing;
     BOOL finished;
 }

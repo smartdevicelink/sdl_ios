@@ -1,5 +1,5 @@
 //
-//  SDLRPCResponseOperation.h
+//  SDLAsynchronousRPCOperation.h
 //  SmartDeviceLink
 //
 //  Created by Nicole on 2/20/19.
@@ -15,7 +15,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLRPCResponseOperation : SDLAsynchronousOperation
+@interface SDLAsynchronousRPCOperation : SDLAsynchronousOperation
 
 @property (copy, nonatomic) __kindof SDLRPCMessage *rpc;
 

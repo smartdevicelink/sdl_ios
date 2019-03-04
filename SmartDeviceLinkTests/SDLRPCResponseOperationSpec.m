@@ -11,14 +11,14 @@
 
 #import "SDLGetAppServiceDataResponse.h"
 #import "SDLOnAppServiceData.h"
-#import "SDLRPCResponseOperation.h"
+#import "SDLAsynchronousRPCOperation.h"
 #import "TestConnectionManager.h"
 
 QuickSpecBegin(SDLRPCResponseOperationSpec)
 
 describe(@"sending responses and notifications", ^{
     __block TestConnectionManager *testConnectionManager = nil;
-    __block SDLRPCResponseOperation *testOperation = nil;
+    __block SDLAsynchronousRPCOperation *testOperation = nil;
     __block NSOperationQueue *testOperationQueue = nil;
 
     beforeEach(^{
@@ -38,7 +38,7 @@ describe(@"sending responses and notifications", ^{
         });
 
         it(@"should correctly send the rpc", ^{
-            testOperation = [[SDLRPCResponseOperation alloc] initWithConnectionManager:testConnectionManager rpc:sendRPC];
+            testOperation = [[SDLAsynchronousRPCOperation alloc] initWithConnectionManager:testConnectionManager rpc:sendRPC];
 
             [testOperationQueue addOperation:testOperation];
             [NSThread sleepForTimeInterval:0.1];
@@ -60,7 +60,7 @@ describe(@"sending responses and notifications", ^{
 
         it(@"should correctly send all of the rpcs", ^{
             for (int i = 0; i < rpcCount; i += 1) {
-                testOperation = [[SDLRPCResponseOperation alloc] initWithConnectionManager:testConnectionManager rpc:sendRPCs[i]];
+                testOperation = [[SDLAsynchronousRPCOperation alloc] initWithConnectionManager:testConnectionManager rpc:sendRPCs[i]];
                 [testOperationQueue addOperation:testOperation];
             }
 
@@ -79,7 +79,7 @@ describe(@"sending responses and notifications", ^{
         });
 
         it(@"should not send the rpc", ^{
-            testOperation = [[SDLRPCResponseOperation alloc] initWithConnectionManager:testConnectionManager rpc:sendRPC];
+            testOperation = [[SDLAsynchronousRPCOperation alloc] initWithConnectionManager:testConnectionManager rpc:sendRPC];
 
             [testOperationQueue addOperation:testOperation];
             [testOperationQueue cancelAllOperations];
