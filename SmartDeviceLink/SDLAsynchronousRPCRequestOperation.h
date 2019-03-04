@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLAsynchronousRPCRequestOperation : SDLAsynchronousOperation
 
-@property (copy, nonatomic) NSArray<SDLRPCRequest *> *requests;
+@property (strong, nonatomic) NSArray<SDLRPCRequest *> *requests;
 
 - (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager requests:(NSArray<SDLRPCRequest *> *)requests progressHandler:(nullable SDLMultipleAsyncRequestProgressHandler)progressHandler completionHandler:(nullable SDLMultipleRequestCompletionHandler)completionHandler;
 
