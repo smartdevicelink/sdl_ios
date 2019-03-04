@@ -25,7 +25,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLNavigationInstruction : SDLRPCStruct
 
 /**
- *  Convenience init
+ *  Convenience init for required parameters
+ *
+ *  @param locationDetails The location details
+ *  @param action The navigation action
+ *  @return A SDLNavigationInstruction object
+ */
+- (instancetype)initWithLocationDetails:(SDLLocationDetails *)locationDetails action:(SDLNavigationAction)action NS_DESIGNATED_INITIALIZER;
+
+/**
+ *  Convenience init for all parameters.
  *
  *  @param locationDetails The location details
  *  @param action The navigation action

@@ -80,6 +80,19 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.image).to(equal(testImage));
     });
 
+    it(@"Should initialize correctly with initWithLocationDetails:action:", ^{
+        SDLNavigationInstruction *testStruct = [[SDLNavigationInstruction alloc] initWithLocationDetails:testLocationDetails action:testAction];
+
+        expect(testStruct.locationDetails).to(equal(testLocationDetails));
+        expect(testStruct.action).to(equal(testAction));
+        expect(testStruct.eta).to(beNil());
+        expect(testStruct.bearing).to(beNil());
+        expect(testStruct.junctionType).to(beNil());
+        expect(testStruct.drivingSide).to(beNil());
+        expect(testStruct.details).to(beNil());
+        expect(testStruct.image).to(beNil());
+    });
+
     it(@"Should initialize correctly with initWithLocationDetails:action:eta:bearing:junctionType:drivingSide:details:details image:", ^{
         SDLNavigationInstruction *testStruct = [[SDLNavigationInstruction alloc] initWithLocationDetails:testLocationDetails action:testAction eta:testETA bearing:testBearing junctionType:testJunctionType drivingSide:testDrivingSide details:testDetails image:testImage];
 

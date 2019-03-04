@@ -19,14 +19,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLNavigationInstruction
 
-- (instancetype)initWithLocationDetails:(SDLLocationDetails *)locationDetails action:(SDLNavigationAction)action eta:(nullable SDLDateTime *)eta bearing:(UInt16)bearing junctionType:(nullable SDLNavigationJunction)junctionType drivingSide:(nullable SDLDirection)drivingSide details:(nullable NSString *)details image:(nullable SDLImage *)image {
-    self = [self init];
+- (instancetype)initWithLocationDetails:(SDLLocationDetails *)locationDetails action:(SDLNavigationAction)action {
+    self = [super init];
     if (!self) {
         return nil;
     }
 
     self.locationDetails = locationDetails;
     self.action = action;
+
+    return self;
+}
+
+- (instancetype)initWithLocationDetails:(SDLLocationDetails *)locationDetails action:(SDLNavigationAction)action eta:(nullable SDLDateTime *)eta bearing:(UInt16)bearing junctionType:(nullable SDLNavigationJunction)junctionType drivingSide:(nullable SDLDirection)drivingSide details:(nullable NSString *)details image:(nullable SDLImage *)image {
+    self = [self initWithLocationDetails:locationDetails action:action];
+    if (!self) {
+        return nil;
+    }
+
     self.eta = eta;
     self.bearing = @(bearing);
     self.junctionType = junctionType;
