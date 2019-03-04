@@ -523,12 +523,12 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 #pragma mark Sending Requests
 
-- (void)sendRequest:(__kindof SDLRPCMessage *)request {
-    if ([request isKindOfClass:SDLRPCRequest.class]) {
-        SDLRPCRequest *requestRPC = (SDLRPCRequest *)request;
+- (void)sendRPC:(__kindof SDLRPCMessage *)rpc {
+    if ([rpc isKindOfClass:SDLRPCRequest.class]) {
+        SDLRPCRequest *requestRPC = (SDLRPCRequest *)rpc;
         [self sendRequest:requestRPC withResponseHandler:nil];
-    } else if ([request isKindOfClass:SDLRPCResponse.class] || [request isKindOfClass:SDLRPCNotification.class]) {
-        [self sdl_sendRPC:request];
+    } else if ([rpc isKindOfClass:SDLRPCResponse.class] || [rpc isKindOfClass:SDLRPCNotification.class]) {
+        [self sdl_sendRPC:rpc];
     } else {
         NSAssert(false, @"The request should be of type `Request`, `Response` or `Notification");
     }

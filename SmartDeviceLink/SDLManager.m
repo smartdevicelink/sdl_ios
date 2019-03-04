@@ -120,7 +120,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark SDLConnectionManager Protocol
 
 - (void)sendRPC:(__kindof SDLRPCMessage *)rpc {
-    [self.lifecycleManager sendRequest:rpc];
+    [self.lifecycleManager sendRPC:rpc];
 }
 
 - (void)sendRequest:(SDLRPCRequest *)request {

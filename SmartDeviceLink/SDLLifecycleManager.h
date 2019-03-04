@@ -118,11 +118,11 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 #pragma mark Send RPC Requests
 
 /**
- *  Send an RPC request and don't bother with the response or error. If you need the response or error, call sendRequest:withCompletionHandler: instead.
+ *  Send an RPC of type `Response`, `Notification` or `Request`. Responses and notifications sent to Core do not a response back from Core. Each request sent to Core does get a response, so if you need the response and/or error, call sendRequest:withCompletionHandler: instead.
  *
- *  @param request The RPC request to send
+ *  @param rpc  An RPC of type `SDLRPCRequest`, `SDLRPCResponse`, or `SDLRPCNotification` to send
  */
-- (void)sendRequest:(__kindof SDLRPCMessage *)request;
+- (void)sendRPC:(__kindof SDLRPCMessage *)rpc;
 
 /**
  *  Send an RPC request and set a completion handler that will be called with the response when the response returns.

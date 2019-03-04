@@ -448,7 +448,7 @@ describe(@"a lifecycle manager", ^{
 
             it(@"can send an RPC of type Request", ^{
                 SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil alignment:nil];
-                [testManager sendRequest:testShow];
+                [testManager sendRPC:testShow];
 
                 [NSThread sleepForTimeInterval:0.1];
 
@@ -457,7 +457,7 @@ describe(@"a lifecycle manager", ^{
 
             it(@"can send an RPC of type Response", ^{
                 SDLPerformAppServiceInteractionResponse *testResponse = [[SDLPerformAppServiceInteractionResponse alloc] init];
-                [testManager sendRequest:testResponse];
+                [testManager sendRPC:testResponse];
                 testResponse.correlationID = @(2);
                 testResponse.success = @(true);
                 testResponse.resultCode = SDLResultSuccess;
@@ -470,7 +470,7 @@ describe(@"a lifecycle manager", ^{
 
             it(@"can send an RPC of type Notification", ^{
                 SDLOnAppServiceData *testNotification = [[SDLOnAppServiceData alloc] initWithServiceData:[[SDLAppServiceData alloc] init]];
-                [testManager sendRequest:testNotification];
+                [testManager sendRPC:testNotification];
 
                 [NSThread sleepForTimeInterval:0.1];
 
@@ -480,7 +480,7 @@ describe(@"a lifecycle manager", ^{
             it(@"should throw an exception if the RPC is not of type `Request`, `Response` or `Notification`", ^{
                 SDLRPCMessage *testMessage = [[SDLRPCMessage alloc] init];
                 expectAction(^{
-                    [testManager sendRequest:testMessage];
+                    [testManager sendRPC:testMessage];
                 }).to(raiseException());
             });
 
