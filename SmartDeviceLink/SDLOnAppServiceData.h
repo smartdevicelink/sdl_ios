@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLOnAppServiceData : SDLRPCNotification
 
 /**
- *  Convenience init
+ *  Convenience init for all parameters.
  *
  *  @param serviceData  The updated app service data
  *  @return             A SDLOnAppServiceData object
