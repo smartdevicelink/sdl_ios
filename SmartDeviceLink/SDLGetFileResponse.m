@@ -7,6 +7,7 @@
 //
 
 #import "SDLGetFileResponse.h"
+
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
 
@@ -17,6 +18,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init {
     if (self = [super initWithName:SDLNameGetFile]) {
     }
+    return self;
+}
+
+- (instancetype)initWithOffset:(UInt32)offset length:(UInt32)length fileType:(nullable SDLFileType)fileType crc:(UInt32)crc {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.offset = @(offset);
+    self.length = @(length);
+    self.fileType = fileType;
+    self.crc = @(crc);
+
     return self;
 }
 

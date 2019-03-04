@@ -9,8 +9,8 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLAppServiceData.h"
 #import "SDLGetAppServiceDataResponse.h"
-#import "SDLOnAppServiceData.h"
 #import "SDLAsynchronousRPCOperation.h"
 #import "TestConnectionManager.h"
 

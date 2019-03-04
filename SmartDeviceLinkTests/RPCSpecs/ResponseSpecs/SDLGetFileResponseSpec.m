@@ -19,7 +19,7 @@ describe(@"Getter/Setter Tests", ^{
     __block int testOffset = 34;
     __block int testLength = 2;
     __block SDLFileType testFileType = nil;
-    __block long testCrc = 4294967295;
+    __block int testCrc = 2267295;
 
     beforeEach(^{
         testFileType = SDLFileTypeJPEG;
@@ -48,6 +48,15 @@ describe(@"Getter/Setter Tests", ^{
                                                },
                                        SDLNameOperationName:SDLNameGetFile}};
         SDLGetFileResponse *testResponse = [[SDLGetFileResponse alloc] initWithDictionary:dict];
+
+        expect(testResponse.offset).to(equal(testOffset));
+        expect(testResponse.length).to(equal(testLength));
+        expect(testResponse.fileType).to(equal(testFileType));
+        expect(testResponse.crc).to(equal(testCrc));
+    });
+
+    it(@"Should get correctly when initialized with initWithOffset:length:fileType:crc:", ^{
+        SDLGetFileResponse *testResponse = [[SDLGetFileResponse alloc] initWithOffset:testOffset length:testLength fileType:testFileType crc:testCrc];
 
         expect(testResponse.offset).to(equal(testOffset));
         expect(testResponse.length).to(equal(testLength));

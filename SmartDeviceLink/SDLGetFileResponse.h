@@ -6,12 +6,25 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import "SDLFileType.h"
 #import "SDLRPCResponse.h"
+
+#import "SDLFileType.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLGetFileResponse : SDLRPCResponse
+
+/**
+ *  Convenience init for all parameters.
+ *
+ *  @param offset      Optional offset in bytes for resuming partial data chunks
+ *  @param length      Optional length in bytes for resuming partial data chunks if offset is set to 0, then length is the total length of the file to be downloaded
+ *  @param fileType    File type that is being sent in response
+ *  @param crc         Additional CRC32 checksum to protect data integrity up to 512 Mbits
+ *  @return            A SDLGetFileResponse object
+ */
+- (instancetype)initWithOffset:(UInt32)offset length:(UInt32)length fileType:(nullable SDLFileType)fileType crc:(UInt32)crc;
 
 /**
  *  Optional offset in bytes for resuming partial data chunks.
