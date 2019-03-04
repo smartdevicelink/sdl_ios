@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Sends an RPC of type `SDLRPCRequest`, `SDLRPCResponse`, or `SDLRPCNotification` without bypassing the block on RPC sends before managers complete setup.
  *
- *  @param rpc  The RPC request to be sent to the remote head unit.
+ *  @param rpc      An RPC of type `SDLRPCRequest`, `SDLRPCResponse`, or `SDLRPCNotification` to be sent to the remote head unit.
  *  @param handler  A completion block called when the response is received.
  */
 - (void)sendConnectionRPC:(__kindof SDLRPCMessage *)rpc withResponseHandler:(nullable SDLResponseHandler)handler;
