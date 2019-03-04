@@ -7,7 +7,9 @@
 //
 
 #import "SDLRPCRequest.h"
-#import "SDLAppServiceManifest.h"
+
+@class SDLAppServiceManifest;
+
 
 NS_ASSUME_NONNULL_BEGIN
 

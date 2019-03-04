@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLWeatherServiceManifest : SDLRPCStruct
 
 /**
- *  Convenience init.
+ *  Convenience init for all parameters.
  *
  *  @param currentForecastSupported     Whether or not the current forcast is supported.
  *  @param maxMultidayForecastAmount    The maximum number of day-by-day forecasts.
