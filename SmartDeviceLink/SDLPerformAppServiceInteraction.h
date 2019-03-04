@@ -26,13 +26,23 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLPerformAppServiceInteraction : SDLRPCRequest
 
 /**
- *  Convenience init.
+ *  Convenience init for required parameters.
  *
- *  @param serviceUri              The service URI
- *  @param serviceID            The app service ID
- *  @param originApp               The origin app
- *  @param requestServiceActive    Whether or not the service is active
- *  @return                        A SDLPerformAppServiceInteraction object
+ *  @param serviceUri               The service URI
+ *  @param serviceID                The app service ID
+ *  @param originApp                The origin app
+ *  @return                         A SDLPerformAppServiceInteraction object
+ */
+- (instancetype)initWithServiceUri:(NSString *)serviceUri serviceID:(NSString *)serviceID originApp:(NSString *)originApp;
+
+/**
+ *  Convenience init for all parameters.
+ *
+ *  @param serviceUri               The service URI
+ *  @param serviceID                The app service ID
+ *  @param originApp                The origin app
+ *  @param requestServiceActive     Whether or not the service is active
+ *  @return                         A SDLPerformAppServiceInteraction object
  */
 - (instancetype)initWithServiceUri:(NSString *)serviceUri serviceID:(NSString *)serviceID originApp:(NSString *)originApp requestServiceActive:(BOOL)requestServiceActive;
 
