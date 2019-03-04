@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  Optional
  */
-@property (nullable, strong, nonatomic) SDLAppServicesCapabilities *appServiceCapability;
+@property (nullable, strong, nonatomic) SDLAppServicesCapabilities *appServicesCapabilities;
 
 /**
  *  Describes the extended capabilities of the onboard navigation system

@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     self.systemCapabilityType = SDLSystemCapabilityTypeAppServices;
-    self.appServiceCapability = capability;
+    self.appServicesCapabilities = capability;
 
     return self;
 }
@@ -89,12 +89,12 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLNameSystemCapabilityType];
 }
 
-- (void)setAppServiceCapability:(nullable SDLAppServicesCapabilities *)appServiceCapability {
-    [store sdl_setObject:appServiceCapability forName:SDLNameAppServiceCapability];
+- (void)setAppServicesCapabilities:(nullable SDLAppServicesCapabilities *)appServicesCapabilities {
+    [store sdl_setObject:appServicesCapabilities forName:SDLNameAppServicesCapabilities];
 }
 
-- (nullable SDLAppServicesCapabilities *)appServiceCapability {
-    return [store sdl_objectForName:SDLNameAppServiceCapability ofClass:SDLAppServicesCapabilities.class];
+- (nullable SDLAppServicesCapabilities *)appServicesCapabilities {
+    return [store sdl_objectForName:SDLNameAppServicesCapabilities ofClass:SDLAppServicesCapabilities.class];
 }
 
 - (void)setNavigationCapability:(nullable SDLNavigationCapability *)navigationCapability {

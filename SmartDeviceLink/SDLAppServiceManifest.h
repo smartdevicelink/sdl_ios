@@ -97,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSString *serviceName;
 
 /**
- *  The type of service that is to be offered by this app. See AppServiceType.
+ *  The type of service that is to be offered by this app. See AppServiceType for known enum equivalent types. Parameter is a string to allow for new service types to be used by apps on older versions of SDL Core.
  *
  *  String, See `SDLAppServiceType`, Required
  */
@@ -125,7 +125,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLSyncMsgVersion *rpcSpecVersion;
 
 /**
- *  This field contains the Function IDs for the RPCs that this service intends to handle correctly. This means the service will provide meaningful responses. See FunctionID.
+ *  This field contains the Function IDs for the RPCs that this service intends to handle correctly. This means the service will provide meaningful responses. See FunctionID for enum equivalent values. This parameter is an integer to allow for new function IDs to be used by apps on older versions of SDL Core.
  *
  *  Array of Integers, See `SDLFunctionID`, Optional
  */
