@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSString *weatherSummary;
 
 /**
- *  The time.
+ *  The time this data refers to.
  *
  *  SDLDateTime, Optional
  */
