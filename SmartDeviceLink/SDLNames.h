@@ -577,7 +577,6 @@ extern SDLName const SDLNameServiceManifest;
 extern SDLName const SDLNameServiceName;
 extern SDLName const SDLNameServicePublished;
 extern SDLName const SDLNameServiceSpecificResult;
-extern SDLName const SDLNameServicesSupported;
 extern SDLName const SDLNameServiceType;
 extern SDLName const SDLNameServiceUri;
 extern SDLName const SDLNameSetAppIcon;

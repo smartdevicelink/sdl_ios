@@ -571,7 +571,6 @@ SDLName const SDLNameServiceManifest = @"serviceManifest";
 SDLName const SDLNameServiceName = @"serviceName";
 SDLName const SDLNameServicePublished = @"servicePublished";
 SDLName const SDLNameServiceSpecificResult = @"serviceSpecificResult";
-SDLName const SDLNameServicesSupported = @"servicesSupported";
 SDLName const SDLNameServiceType = @"serviceType";
 SDLName const SDLNameServiceUri = @"serviceUri";
 SDLName const SDLNameSetAppIcon = @"SetAppIcon";
