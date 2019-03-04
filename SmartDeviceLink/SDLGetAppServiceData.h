@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithServiceType:(NSString *)serviceType subscribe:(BOOL)subscribe;
 
 /**
- *  The app service type. See `AppServiceType`.
+ *  The type of service that is to be offered by this app. See `AppServiceType` for known enum equivalent types. Parameter is a string to allow for new service types to be used by apps on older versions of SDL Core.
  *
  *  String, See `SDLAppServiceType`, Required
  */
