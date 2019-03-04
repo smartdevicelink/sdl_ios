@@ -41,6 +41,12 @@ describe(@"Getter/Setter Tests", ^{
         expect(testResponse.appServiceRecord).to(equal(testAppServiceRecord));
     });
 
+    it(@"Should get correctly when initialized with initWithAppServiceRecord:", ^{
+        SDLPublishAppServiceResponse *testResponse = [[SDLPublishAppServiceResponse alloc] initWithAppServiceRecord:testAppServiceRecord];
+
+        expect(testResponse.appServiceRecord).to(equal(testAppServiceRecord));
+    });
+
     it(@"Should return nil if not set", ^{
         SDLPublishAppServiceResponse *testResponse = [[SDLPublishAppServiceResponse alloc] init];
 

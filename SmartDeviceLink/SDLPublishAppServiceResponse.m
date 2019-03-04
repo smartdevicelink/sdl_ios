@@ -7,7 +7,9 @@
 //
 
 #import "SDLPublishAppServiceResponse.h"
+
 #import "NSMutableDictionary+Store.h"
+#import "SDLAppServiceRecord.h"
 #import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,6 +19,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init {
     if (self = [super initWithName:SDLNamePublishAppService]) {
     }
+    return self;
+}
+
+- (instancetype)initWithAppServiceRecord:(SDLAppServiceRecord *)appServiceRecord {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.appServiceRecord = appServiceRecord;
+
     return self;
 }
 
