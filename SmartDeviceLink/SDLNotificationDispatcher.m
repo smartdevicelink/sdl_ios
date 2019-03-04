@@ -579,6 +579,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCNotificationNotification:SDLDidReceiveSystemRequestNotification notification:notification];
 }
 
+- (void)onOnSystemCapabilityUpdated:(SDLOnSystemCapabilityUpdated *)notification {
+    [self postRPCNotificationNotification:SDLDidReceiveSystemCapabilityUpdatedNotification notification:notification];
+}
+
 - (void)onOnSystemRequest:(SDLOnSystemRequest *)notification {
     [self postRPCNotificationNotification:SDLDidReceiveSystemRequestNotification notification:notification];
 }

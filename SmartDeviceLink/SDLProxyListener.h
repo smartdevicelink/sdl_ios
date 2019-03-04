@@ -67,6 +67,7 @@
 @class SDLOnPermissionsChange;
 @class SDLOnRCStatus;
 @class SDLOnSyncPData;
+@class SDLOnSystemCapabilityUpdated;
 @class SDLOnSystemRequest;
 @class SDLOnTBTClientState;
 @class SDLOnTouchEvent;
@@ -1013,6 +1014,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param notification A SDLOnSyncPData object
  */
 - (void)onOnSyncPData:(SDLOnSyncPData *)notification;
+
+/**
+ *  Called when an `OnSystemCapabilityUpdated` notification is received from Core
+ *
+ *  @param notification A SDLOnSystemCapabilityUpdated object
+ */
+- (void)onOnSystemCapabilityUpdated:(SDLOnSystemCapabilityUpdated *)notification;
 
 /**
  *  Called when an On System Request notification is received from Core

@@ -1251,7 +1251,7 @@
 		884554AD222453A800BAFB6C /* SDLNavigationServiceManifest.m in Sources */ = {isa = PBXBuildFile; fileRef = 884554AB222453A800BAFB6C /* SDLNavigationServiceManifest.m */; };
 		884554AF2224554300BAFB6C /* SDLNavigationServiceManifestSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 884554AE2224554300BAFB6C /* SDLNavigationServiceManifestSpec.m */; };
 		884AF94C220B3FCC00E22928 /* SDLGetSystemCapabilitySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 884AF94B220B3FCC00E22928 /* SDLGetSystemCapabilitySpec.m */; };
-		884AF94F220B488900E22928 /* SDLOnSystemCapabilityUpdated.h in Headers */ = {isa = PBXBuildFile; fileRef = 884AF94D220B488900E22928 /* SDLOnSystemCapabilityUpdated.h */; };
+		884AF94F220B488900E22928 /* SDLOnSystemCapabilityUpdated.h in Headers */ = {isa = PBXBuildFile; fileRef = 884AF94D220B488900E22928 /* SDLOnSystemCapabilityUpdated.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		884AF950220B488900E22928 /* SDLOnSystemCapabilityUpdated.m in Sources */ = {isa = PBXBuildFile; fileRef = 884AF94E220B488900E22928 /* SDLOnSystemCapabilityUpdated.m */; };
 		884E701B21FB8D0F008D53BA /* SDLPublishAppService.h in Headers */ = {isa = PBXBuildFile; fileRef = 884E701921FB8D0F008D53BA /* SDLPublishAppService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		884E701C21FB8D0F008D53BA /* SDLPublishAppService.m in Sources */ = {isa = PBXBuildFile; fileRef = 884E701A21FB8D0F008D53BA /* SDLPublishAppService.m */; };
