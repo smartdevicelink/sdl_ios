@@ -15,6 +15,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLWeatherAlert
 
+- (instancetype)initWithTitle:(nullable NSString *)title summary:(nullable NSString *)summary expires:(nullable SDLDateTime *)expires regions:(nullable NSArray<NSString *> *)regions severity:(nullable NSString *)severity timeIssued:(nullable SDLDateTime *)timeIssued {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.title = title;
+    self.summary = summary;
+    self.expires = expires;
+    self.regions = regions;
+    self.severity = severity;
+    self.timeIssued = timeIssued;
+
+    return self;
+}
+
 - (void)setTitle:(nullable NSString *)title {
     [store sdl_setObject:title forName:SDLNameTitle];
 }

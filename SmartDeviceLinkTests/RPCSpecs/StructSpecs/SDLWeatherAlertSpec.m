@@ -67,6 +67,17 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.timeIssued).to(equal(testTimeIssued));
     });
 
+    it(@"Should get correctly when initialized with a convenience init", ^{
+        SDLWeatherAlert *testStruct = [[SDLWeatherAlert alloc] initWithTitle:testTitle summary:testSummary expires:testExpires regions:testRegions severity:testSeverity timeIssued:testTimeIssued];
+
+        expect(testStruct.title).to(equal(testTitle));
+        expect(testStruct.summary).to(equal(testSummary));
+        expect(testStruct.expires).to(equal(testExpires));
+        expect(testStruct.regions).to(equal(testRegions));
+        expect(testStruct.severity).to(equal(testSeverity));
+        expect(testStruct.timeIssued).to(equal(testTimeIssued));
+    });
+
     it(@"Should return nil if not set", ^{
         SDLWeatherAlert *testStruct = [[SDLWeatherAlert alloc] init];
 
