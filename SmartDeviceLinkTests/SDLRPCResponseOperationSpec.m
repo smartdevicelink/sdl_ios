@@ -64,7 +64,7 @@ describe(@"sending responses and notifications", ^{
                 [testOperationQueue addOperation:testOperation];
             }
 
-            [NSThread sleepForTimeInterval:0.25];
+            [NSThread sleepForTimeInterval:0.5];
 
             expect(testConnectionManager.receivedRequests.count).toEventually(equal(rpcCount));
             expect(testConnectionManager.receivedRequests).toEventually(equal(sendRPCs));
