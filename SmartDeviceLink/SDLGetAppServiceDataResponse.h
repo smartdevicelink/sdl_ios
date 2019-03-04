@@ -7,7 +7,8 @@
 //
 
 #import "SDLRPCResponse.h"
-#import "SDLAppServiceData.h"
+
+@class SDLAppServiceData;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLGetAppServiceDataResponse : SDLRPCResponse
 
 /**
- * Convenience init.
+ *  Convenience init.
  *
  *  @param serviceData  Contains all the current data of the app service
  *  @return             A SDLGetAppServiceDataResponse object
