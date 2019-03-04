@@ -567,7 +567,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 - (void)sendConnectionRPC:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
         SDLLogW(@"Manager not ready, message not sent (%@)", request);
-        if (handler && [request isKindOfClass:SDLRPCRequest.class]) {
+        if (handler) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 handler(request, nil, [NSError sdl_lifecycle_notReadyError]);
             });
