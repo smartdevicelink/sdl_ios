@@ -152,6 +152,34 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.weatherIconImageName).to(equal(testWeatherIconImageName));
     });
 
+    it(@"Should get correctly when initialized with a convenience init", ^{
+        SDLWeatherData *testStruct = [[SDLWeatherData alloc] initWithCurrentTemperature:testCurrentTemp temperatureHigh:testTempHigh temperatureLow:testTempLow apparentTemperature:testApparentTemp apparentTemperatureHigh:testApparentTempHigh apparentTemperatureLow:testApparentTempLow weatherSummary:testWeatherSummary time:testTime humidity:@(testHumidity) cloudCover:@(testCloudCover) moonPhase:@(testMoonPhase) windBearing:@(testWindBearing) windGust:@(testWindGust) windSpeed:@(testWindSpeed) nearestStormBearing:@(testNearestStormBearing) nearestStormDistance:@(testNearestStormDistance) precipAccumulation:@(testPrecipAccumulation) precipIntensity:@(testPrecipIntensity) precipProbability:@(testPrecipProbability) precipType:testPrecipType visibility:@(testVisibility) weatherIconImageName:testWeatherIconImageName];
+
+        expect(testStruct.currentTemperature).to(equal(testCurrentTemp));
+        expect(testStruct.temperatureHigh).to(equal(testTempHigh));
+        expect(testStruct.temperatureLow).to(equal(testTempLow));
+        expect(testStruct.apparentTemperature).to(equal(testApparentTemp));
+        expect(testStruct.apparentTemperatureHigh).to(equal(testApparentTempHigh));
+        expect(testStruct.apparentTemperatureLow).to(equal(testApparentTempLow));
+        expect(testStruct.weatherSummary).to(equal(testWeatherSummary));
+        expect(testStruct.time).to(equal(testTime));
+        expect(testStruct.humidity).to(equal(testHumidity));
+        expect(testStruct.cloudCover).to(equal(testCloudCover));
+        expect(testStruct.moonPhase).to(equal(testMoonPhase));
+        expect(testStruct.windBearing).to(equal(testWindBearing));
+        expect(testStruct.windGust).to(equal(testWindGust));
+        expect(testStruct.windSpeed).to(equal(testWindSpeed));
+        expect(testStruct.nearestStormBearing).to(equal(testNearestStormBearing));
+        expect(testStruct.nearestStormDistance).to(equal(testNearestStormDistance));
+        expect(testStruct.precipAccumulation).to(equal(testPrecipAccumulation));
+        expect(testStruct.precipIntensity).to(equal(testPrecipIntensity));
+        expect(testStruct.precipProbability).to(equal(testPrecipProbability));
+        expect(testStruct.precipType).to(equal(testPrecipType));
+        expect(testStruct.visibility).to(equal(testVisibility));
+        expect(testStruct.weatherIconImageName).to(equal(testWeatherIconImageName));
+    });
+
+
     it(@"Should return nil if not set", ^{
         SDLWeatherData *testStruct = [[SDLWeatherData alloc] init];
 

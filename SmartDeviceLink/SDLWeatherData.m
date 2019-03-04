@@ -9,11 +9,45 @@
 #import "SDLWeatherData.h"
 
 #import "NSMutableDictionary+Store.h"
+#import "SDLDateTime.h"
 #import "SDLNames.h"
+#import "SDLTemperature.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLWeatherData
+
+- (instancetype)initWithCurrentTemperature:(nullable SDLTemperature *)currentTemperature temperatureHigh:(nullable SDLTemperature *)temperatureHigh temperatureLow:(nullable SDLTemperature *)temperatureLow apparentTemperature:(nullable SDLTemperature *)apparentTemperature apparentTemperatureHigh:(nullable SDLTemperature *)apparentTemperatureHigh apparentTemperatureLow:(nullable SDLTemperature *)apparentTemperatureLow weatherSummary:(nullable NSString *)weatherSummary time:(nullable SDLDateTime *)time humidity:(nullable NSNumber<SDLFloat> *)humidity cloudCover:(nullable NSNumber<SDLFloat> *)cloudCover moonPhase:(nullable NSNumber<SDLFloat> *)moonPhase windBearing:(nullable NSNumber<SDLInt> *)windBearing windGust:(nullable NSNumber<SDLFloat> *)windGust windSpeed:(nullable NSNumber<SDLFloat> *)windSpeed nearestStormBearing:(nullable NSNumber<SDLInt> *)nearestStormBearing nearestStormDistance:(nullable NSNumber<SDLInt> *)nearestStormDistance precipAccumulation:(nullable NSNumber<SDLFloat> *)precipAccumulation precipIntensity:(nullable NSNumber<SDLFloat> *)precipIntensity precipProbability:(nullable NSNumber<SDLFloat> *)precipProbability precipType:(nullable NSString *)precipType visibility:(nullable NSNumber<SDLFloat> *)visibility weatherIconImageName:(nullable NSString *)weatherIconImageName {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.currentTemperature = currentTemperature;
+    self.temperatureHigh = temperatureHigh;
+    self.temperatureLow = temperatureLow;
+    self.apparentTemperature = apparentTemperature;
+    self.apparentTemperatureHigh = apparentTemperatureHigh;
+    self.apparentTemperatureLow = apparentTemperatureLow;
+    self.weatherSummary = weatherSummary;
+    self.time = time;
+    self.humidity = humidity;
+    self.cloudCover = cloudCover;
+    self.moonPhase = moonPhase;
+    self.windBearing = windBearing;
+    self.windGust = windGust;
+    self.windSpeed = windSpeed;
+    self.nearestStormBearing = nearestStormBearing;
+    self.nearestStormDistance = nearestStormDistance;
+    self.precipAccumulation = precipAccumulation;
+    self.precipIntensity = precipIntensity;
+    self.precipProbability = precipProbability;
+    self.precipType = precipType;
+    self.visibility = visibility;
+    self.weatherIconImageName = weatherIconImageName;
+
+    return self;
+}
 
 - (void)setCurrentTemperature:(nullable SDLTemperature *)currentTemperature {
     [store sdl_setObject:currentTemperature forName:SDLNameCurrentTemperature];
