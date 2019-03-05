@@ -4,7 +4,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLPhoneCapability.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLPhoneCapabilitySpec)
 
@@ -20,7 +20,7 @@ describe(@"Getter/Setter Tests", ^ {
 
 describe(@"Initialization tests", ^{
     it(@"Should get correctly when initialized with a dictionary", ^ {
-        NSDictionary *dict = @{SDLNameDialNumberEnabled: @(YES)};
+        NSDictionary *dict = @{SDLRPCParameterNameDialNumberEnabled: @(YES)};
         SDLPhoneCapability *testStruct = [[SDLPhoneCapability alloc] initWithDictionary:dict];
 
         expect(testStruct.dialNumberEnabled).to(equal(YES));

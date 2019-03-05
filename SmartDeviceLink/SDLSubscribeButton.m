@@ -5,7 +5,7 @@
 #import "SDLSubscribeButton.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -42,11 +42,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setButtonName:(SDLButtonName)buttonName {
-    [parameters sdl_setObject:buttonName forName:SDLNameButtonName];
+    [parameters sdl_setObject:buttonName forName:SDLRPCParameterNameButtonName];
 }
 
 - (SDLButtonName)buttonName {
-    return [parameters sdl_objectForName:SDLNameButtonName];
+    return [parameters sdl_objectForName:SDLRPCParameterNameButtonName];
 }
 
 -(id)copyWithZone:(nullable NSZone *)zone {

@@ -9,7 +9,7 @@
 #import "SDLWeatherAlert.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -32,51 +32,51 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setTitle:(nullable NSString *)title {
-    [store sdl_setObject:title forName:SDLNameTitle];
+    [store sdl_setObject:title forName:SDLRPCParameterNameTitle];
 }
 
 - (nullable NSString *)title {
-    return [store sdl_objectForName:SDLNameTitle];
+    return [store sdl_objectForName:SDLRPCParameterNameTitle];
 }
 
 - (void)setSummary:(nullable NSString *)summary {
-    [store sdl_setObject:summary forName:SDLNameSummary];
+    [store sdl_setObject:summary forName:SDLRPCParameterNameSummary];
 }
 
 - (nullable NSString *)summary {
-    return [store sdl_objectForName:SDLNameSummary];
+    return [store sdl_objectForName:SDLRPCParameterNameSummary];
 }
 
 - (void)setExpires:(nullable SDLDateTime *)expires {
-    [store sdl_setObject:expires forName:SDLNameExpires];
+    [store sdl_setObject:expires forName:SDLRPCParameterNameExpires];
 }
 
 - (nullable SDLDateTime *)expires {
-    return [store sdl_objectForName:SDLNameExpires ofClass:SDLDateTime.class];
+    return [store sdl_objectForName:SDLRPCParameterNameExpires ofClass:SDLDateTime.class];
 }
 
 - (void)setRegions:(nullable NSArray<NSString *> *)regions {
-    [store sdl_setObject:regions forName:SDLNameRegions];
+    [store sdl_setObject:regions forName:SDLRPCParameterNameRegions];
 }
 
 - (nullable NSArray<NSString *> *)regions {
-    return [store sdl_objectForName:SDLNameRegions];
+    return [store sdl_objectForName:SDLRPCParameterNameRegions];
 }
 
 - (void)setSeverity:(nullable NSString *)severity {
-    [store sdl_setObject:severity forName:SDLNameSeverity];
+    [store sdl_setObject:severity forName:SDLRPCParameterNameSeverity];
 }
 
 - (nullable NSString *)severity {
-    return [store sdl_objectForName:SDLNameSeverity];
+    return [store sdl_objectForName:SDLRPCParameterNameSeverity];
 }
 
 - (void)setTimeIssued:(nullable SDLDateTime *)timeIssued {
-    [store sdl_setObject:timeIssued forName:SDLNameTimeIssued];
+    [store sdl_setObject:timeIssued forName:SDLRPCParameterNameTimeIssued];
 }
 
 - (nullable SDLDateTime *)timeIssued {
-    return [store sdl_objectForName:SDLNameTimeIssued ofClass:SDLDateTime.class];
+    return [store sdl_objectForName:SDLRPCParameterNameTimeIssued ofClass:SDLDateTime.class];
 }
 
 @end

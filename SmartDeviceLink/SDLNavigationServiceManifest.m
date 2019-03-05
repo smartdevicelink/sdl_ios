@@ -9,7 +9,7 @@
 #import "SDLNavigationServiceManifest.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,11 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setAcceptsWayPoints:(nullable NSNumber<SDLBool> *)acceptsWayPoints {
-    [store sdl_setObject:acceptsWayPoints forName:SDLNameAcceptsWayPoints];
+    [store sdl_setObject:acceptsWayPoints forName:SDLRPCParameterNameAcceptsWayPoints];
 }
 
 - (nullable NSNumber<SDLBool> *)acceptsWayPoints {
-    return [store sdl_objectForName:SDLNameAcceptsWayPoints];
+    return [store sdl_objectForName:SDLRPCParameterNameAcceptsWayPoints];
 }
 
 @end

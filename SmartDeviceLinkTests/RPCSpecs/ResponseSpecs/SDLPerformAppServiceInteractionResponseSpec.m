@@ -10,7 +10,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLPerformAppServiceInteractionResponse.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLPerformAppServiceInteractionResponseSpec)
@@ -30,11 +30,11 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameResponse:@{
-                                       SDLNameParameters:@{
-                                               SDLNameServiceSpecificResult:testServiceSpecificResult
+        NSDictionary *dict = @{SDLRPCParameterNameResponse:@{
+                                       SDLRPCParameterNameParameters:@{
+                                               SDLRPCParameterNameServiceSpecificResult:testServiceSpecificResult
                                                },
-                                       SDLNameOperationName:SDLRPCFunctionNamePublishAppService}};
+                                       SDLRPCParameterNameOperationName:SDLRPCFunctionNamePublishAppService}};
         SDLPerformAppServiceInteractionResponse *testResponse = [[SDLPerformAppServiceInteractionResponse alloc] initWithDictionary:dict];
 
         expect(testResponse.serviceSpecificResult).to(equal(testServiceSpecificResult));

@@ -13,7 +13,7 @@
 #import "SDLImage.h"
 #import "SDLLocationDetails.h"
 #import "SDLNavigationInstruction.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLNavigationInstructionSpec)
 
@@ -59,14 +59,14 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameLocationDetails:testLocationDetails,
-                               SDLNameAction:testAction,
-                               SDLNameETA:testETA,
-                               SDLNameBearing:@(testBearing),
-                               SDLNameJunctionType:testJunctionType,
-                               SDLNameDrivingSide:testDrivingSide,
-                               SDLNameDetails:testDetails,
-                               SDLNameImage:testImage
+        NSDictionary *dict = @{SDLRPCParameterNameLocationDetails:testLocationDetails,
+                               SDLRPCParameterNameAction:testAction,
+                               SDLRPCParameterNameETA:testETA,
+                               SDLRPCParameterNameBearing:@(testBearing),
+                               SDLRPCParameterNameJunctionType:testJunctionType,
+                               SDLRPCParameterNameDrivingSide:testDrivingSide,
+                               SDLRPCParameterNameDetails:testDetails,
+                               SDLRPCParameterNameImage:testImage
                                };
         SDLNavigationInstruction *testStruct = [[SDLNavigationInstruction alloc] initWithDictionary:dict];
 

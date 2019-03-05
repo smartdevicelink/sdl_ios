@@ -11,7 +11,7 @@
 
 #import "SDLGetFile.h"
 #import "SDLFileType.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLGetFileSpec)
@@ -45,15 +45,15 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should initialize correctly with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameRequest:@{
-                                       SDLNameParameters:@{
-                                               SDLNameFilename:testFileName,
-                                               SDLNameAppServiceId:testAppServiceId,
-                                               SDLNameFileType:testFileType,
-                                               SDLNameOffset:@(testOffset),
-                                               SDLNameLength:@(testLength)
+        NSDictionary *dict = @{SDLRPCParameterNameRequest:@{
+                                       SDLRPCParameterNameParameters:@{
+                                               SDLRPCParameterNameFilename:testFileName,
+                                               SDLRPCParameterNameAppServiceId:testAppServiceId,
+                                               SDLRPCParameterNameFileType:testFileType,
+                                               SDLRPCParameterNameOffset:@(testOffset),
+                                               SDLRPCParameterNameLength:@(testLength)
                                                },
-                                       SDLNameOperationName:SDLRPCFunctionNameGetFile}};
+                                       SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetFile}};
         SDLGetFile *testRequest = [[SDLGetFile alloc] initWithDictionary:dict];
 
         expect(testRequest.fileName).to(equal(testFileName));

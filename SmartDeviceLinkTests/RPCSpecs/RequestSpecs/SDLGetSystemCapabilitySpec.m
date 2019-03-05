@@ -10,7 +10,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLGetSystemCapability.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLSystemCapabilityType.h"
 
@@ -43,12 +43,12 @@ describe(@"Getter/Setter Tests", ^ {
 
     describe(@"initializing", ^{
         it(@"Should initialize correctly with a dictionary", ^{
-            NSDictionary *dict = @{SDLNameRequest:@{
-                                           SDLNameParameters:@{
-                                                   SDLNameSystemCapabilityType:testSystemCapabilityType,
-                                                   SDLNameSubscribe:@(testSubcribe)
+            NSDictionary *dict = @{SDLRPCParameterNameRequest:@{
+                                           SDLRPCParameterNameParameters:@{
+                                                   SDLRPCParameterNameSystemCapabilityType:testSystemCapabilityType,
+                                                   SDLRPCParameterNameSubscribe:@(testSubcribe)
                                                    },
-                                           SDLNameOperationName:SDLRPCFunctionNameGetSystemCapability}};
+                                           SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetSystemCapability}};
             SDLGetSystemCapability *testRequest = [[SDLGetSystemCapability alloc] initWithDictionary:dict];
 
             expect(testRequest.systemCapabilityType).to(equal(testSystemCapabilityType));

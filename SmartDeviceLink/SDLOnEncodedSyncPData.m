@@ -4,7 +4,7 @@
 #import "SDLOnEncodedSyncPData.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,27 +18,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setData:(NSArray<NSString *> *)data {
-    [parameters sdl_setObject:data forName:SDLNameData];
+    [parameters sdl_setObject:data forName:SDLRPCParameterNameData];
 }
 
 - (NSArray<NSString *> *)data {
-    return [parameters sdl_objectForName:SDLNameData];
+    return [parameters sdl_objectForName:SDLRPCParameterNameData];
 }
 
 - (void)setURL:(nullable NSString *)URL {
-    [parameters sdl_setObject:URL forName:SDLNameURLUppercase];
+    [parameters sdl_setObject:URL forName:SDLRPCParameterNameURLUppercase];
 }
 
 - (nullable NSString *)URL {
-    return [parameters sdl_objectForName:SDLNameURLUppercase];
+    return [parameters sdl_objectForName:SDLRPCParameterNameURLUppercase];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)Timeout {
-    [parameters sdl_setObject:Timeout forName:SDLNameTimeoutCapitalized];
+    [parameters sdl_setObject:Timeout forName:SDLRPCParameterNameTimeoutCapitalized];
 }
 
 - (nullable NSNumber<SDLInt> *)Timeout {
-    return [parameters sdl_objectForName:SDLNameTimeoutCapitalized];
+    return [parameters sdl_objectForName:SDLRPCParameterNameTimeoutCapitalized];
 }
 
 @end

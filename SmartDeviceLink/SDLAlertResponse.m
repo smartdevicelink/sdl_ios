@@ -4,7 +4,7 @@
 #import "SDLAlertResponse.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,10 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setTryAgainTime:(nullable NSNumber<SDLInt> *)tryAgainTime {
-    [parameters sdl_setObject:tryAgainTime forName:SDLNameTryAgainTime];}
+    [parameters sdl_setObject:tryAgainTime forName:SDLRPCParameterNameTryAgainTime];}
 
 - (nullable NSNumber<SDLInt> *)tryAgainTime {
-    return [parameters sdl_objectForName:SDLNameTryAgainTime];
+    return [parameters sdl_objectForName:SDLRPCParameterNameTryAgainTime];
 }
 
 @end

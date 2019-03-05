@@ -8,7 +8,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLSISData.h"
 #import "SDLStationIDNumber.h"
 #import "SDLGPSData.h"
@@ -48,11 +48,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameStationShortName:@"short",
-                                       SDLNameStationLongName:@"long",
-                                       SDLNameStationLocation:someLocation,
-                                       SDLNameStationIDNumber:someID,
-                                       SDLNameStationMessage:@"message"
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameStationShortName:@"short",
+                                       SDLRPCParameterNameStationLongName:@"long",
+                                       SDLRPCParameterNameStationLocation:someLocation,
+                                       SDLRPCParameterNameStationIDNumber:someID,
+                                       SDLRPCParameterNameStationMessage:@"message"
                                        } mutableCopy];
 
         SDLSISData* testStruct = [[SDLSISData alloc] initWithDictionary:dict];

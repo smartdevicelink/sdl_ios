@@ -5,7 +5,7 @@
 
 #import "SDLGetSystemCapabilityResponse.h"
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLNavigationCapability.h"
 #import "SDLSystemCapability.h"
@@ -29,16 +29,16 @@ describe(@"Getter/Setter Tests", ^ {
 describe(@"Initialization tests", ^{
     it(@"Should get correctly when initialized with a dictionary", ^ {
         NSDictionary *dict = @{
-                               SDLNameResponse: @{
-                                       SDLNameParameters: @{
-                                               SDLNameSystemCapability: @{
-                                                       SDLNameSystemCapabilityType: @"NAVIGATION",
-                                                       SDLNameNavigationCapability: @{
-                                                               SDLNameGetWayPointsEnabled: @(NO),
-                                                               SDLNameSendLocationEnabled: @(YES)}
+                               SDLRPCParameterNameResponse: @{
+                                       SDLRPCParameterNameParameters: @{
+                                               SDLRPCParameterNameSystemCapability: @{
+                                                       SDLRPCParameterNameSystemCapabilityType: @"NAVIGATION",
+                                                       SDLRPCParameterNameNavigationCapability: @{
+                                                               SDLRPCParameterNameGetWayPointsEnabled: @(NO),
+                                                               SDLRPCParameterNameSendLocationEnabled: @(YES)}
                                                        }
                                                },
-                                       SDLNameOperationName:SDLRPCFunctionNameGetSystemCapability
+                                       SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetSystemCapability
                                        }
                                };
         SDLGetSystemCapabilityResponse *testResponse = [[SDLGetSystemCapabilityResponse alloc] initWithDictionary:dict];

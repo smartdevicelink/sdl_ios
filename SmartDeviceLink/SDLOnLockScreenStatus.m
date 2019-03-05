@@ -8,7 +8,7 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLHMILevel.h"
 #import "SDLLockScreenStatus.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -22,35 +22,35 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setLockScreenStatus:(SDLLockScreenStatus)lockScreenStatus {
-    [parameters sdl_setObject:lockScreenStatus forName:SDLNameOnLockScreenStatus];
+    [parameters sdl_setObject:lockScreenStatus forName:SDLRPCParameterNameOnLockScreenStatus];
 }
 
 - (SDLLockScreenStatus)lockScreenStatus {
-    return [parameters sdl_objectForName:SDLNameOnLockScreenStatus];
+    return [parameters sdl_objectForName:SDLRPCParameterNameOnLockScreenStatus];
 }
 
 - (void)setHmiLevel:(SDLHMILevel)hmiLevel {
-    [parameters sdl_setObject:hmiLevel forName:SDLNameHMILevel];
+    [parameters sdl_setObject:hmiLevel forName:SDLRPCParameterNameHMILevel];
 }
 
 - (SDLHMILevel)hmiLevel {
-    return [parameters sdl_objectForName:SDLNameHMILevel];
+    return [parameters sdl_objectForName:SDLRPCParameterNameHMILevel];
 }
 
 - (void)setUserSelected:(NSNumber<SDLBool> *)userSelected {
-    [parameters sdl_setObject:userSelected forName:SDLNameUserSelected];
+    [parameters sdl_setObject:userSelected forName:SDLRPCParameterNameUserSelected];
 }
 
 - (NSNumber<SDLBool> *)userSelected {
-    return [parameters sdl_objectForName:SDLNameUserSelected];
+    return [parameters sdl_objectForName:SDLRPCParameterNameUserSelected];
 }
 
 - (void)setDriverDistractionStatus:(NSNumber<SDLBool> *)driverDistractionStatus {
-    [parameters sdl_setObject:driverDistractionStatus forName:SDLNameDriverDistractionStatus];
+    [parameters sdl_setObject:driverDistractionStatus forName:SDLRPCParameterNameDriverDistractionStatus];
 }
 
 - (NSNumber<SDLBool> *)driverDistractionStatus {
-    return [parameters sdl_objectForName:SDLNameDriverDistractionStatus];
+    return [parameters sdl_objectForName:SDLRPCParameterNameDriverDistractionStatus];
 }
 
 @end

@@ -11,7 +11,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLImageResolution.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLVideoStreamingCodec.h"
@@ -39,10 +39,10 @@ describe(@"Initialization tests", ^{
 
         NSArray<SDLVideoStreamingFormat *> *formatArray = @[format1, format2];
 
-        NSMutableDictionary* dict = [@{SDLNamePreferredResolution: resolution,
-                                       SDLNameMaxBitrate: maxBitrate,
-                                       SDLNameSupportedFormats: formatArray,
-                                       SDLNameHapticSpatialDataSupported: hapticDataSupported} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNamePreferredResolution: resolution,
+                                       SDLRPCParameterNameMaxBitrate: maxBitrate,
+                                       SDLRPCParameterNameSupportedFormats: formatArray,
+                                       SDLRPCParameterNameHapticSpatialDataSupported: hapticDataSupported} mutableCopy];
 
         SDLVideoStreamingCapability* testStruct = [[SDLVideoStreamingCapability alloc] initWithDictionary:dict];
 

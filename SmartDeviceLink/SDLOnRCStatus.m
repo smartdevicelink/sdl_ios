@@ -5,7 +5,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLModuleData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -19,28 +19,28 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)allowed {
-    return [parameters sdl_objectForName:SDLNameAllowed];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAllowed];
 }
 
 - (void)setAllowed:(nullable NSNumber<SDLBool> *)allowed {
-    [parameters sdl_setObject:allowed forName:SDLNameAllowed];
+    [parameters sdl_setObject:allowed forName:SDLRPCParameterNameAllowed];
 }
 
 - (void)setAllocatedModules:(NSArray<SDLModuleData *> *)allocatedModules {
-    [parameters sdl_setObject:allocatedModules forName:SDLNameAllocatedModules];
+    [parameters sdl_setObject:allocatedModules forName:SDLRPCParameterNameAllocatedModules];
 
 }
 
 - (NSArray<SDLModuleData *> *)allocatedModules {
-    return [parameters sdl_objectsForName:SDLNameAllocatedModules ofClass:SDLModuleData.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameAllocatedModules ofClass:SDLModuleData.class];
 }
 
 - (void)setFreeModules:(NSArray<SDLModuleData *> *)freeModules {
-    [parameters sdl_setObject:freeModules forName:SDLNameFreeModules];
+    [parameters sdl_setObject:freeModules forName:SDLRPCParameterNameFreeModules];
 }
 
 - (NSArray<SDLModuleData *> *)freeModules {
-    return [parameters sdl_objectsForName:SDLNameFreeModules ofClass:SDLModuleData.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameFreeModules ofClass:SDLModuleData.class];
 }
 
 @end

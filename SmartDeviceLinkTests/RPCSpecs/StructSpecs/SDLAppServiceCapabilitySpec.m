@@ -11,7 +11,7 @@
 
 #import "SDLAppServiceCapability.h"
 #import "SDLAppServiceRecord.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLAppServiceCapabilitySpec)
 
@@ -21,7 +21,7 @@ describe(@"Getter/Setter Tests", ^{
 
     beforeEach(^{
         testUpdateReason = SDLServiceUpdateActivated;
-        testUpdatedAppServiceRecord = [[SDLAppServiceRecord alloc] initWithDictionary:@{SDLNameServiceID:@"1234", SDLNameServicePublished:@YES}];
+        testUpdatedAppServiceRecord = [[SDLAppServiceRecord alloc] initWithDictionary:@{SDLRPCParameterNameServiceID:@"1234", SDLRPCParameterNameServicePublished:@YES}];
     });
 
     it(@"Should set and get correctly", ^{
@@ -34,8 +34,8 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameUpdateReason:testUpdateReason,
-                               SDLNameUpdatedAppServiceRecord:testUpdatedAppServiceRecord
+        NSDictionary *dict = @{SDLRPCParameterNameUpdateReason:testUpdateReason,
+                               SDLRPCParameterNameUpdatedAppServiceRecord:testUpdatedAppServiceRecord
                                };
 
         SDLAppServiceCapability *testStruct = [[SDLAppServiceCapability alloc] initWithDictionary:dict];

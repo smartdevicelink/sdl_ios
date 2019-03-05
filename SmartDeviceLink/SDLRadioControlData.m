@@ -3,7 +3,7 @@
 //
 
 #import "SDLRadioControlData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRDSData.h"
 #import "SDLSISData.h"
 #import "NSMutableDictionary+Store.h"
@@ -44,99 +44,99 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setFrequencyInteger:(nullable NSNumber<SDLInt> *)frequencyInteger {
-    [store sdl_setObject:frequencyInteger forName:SDLNameFrequencyInteger];
+    [store sdl_setObject:frequencyInteger forName:SDLRPCParameterNameFrequencyInteger];
 }
 
 - (nullable NSNumber<SDLInt> *)frequencyInteger {
-    return [store sdl_objectForName:SDLNameFrequencyInteger];
+    return [store sdl_objectForName:SDLRPCParameterNameFrequencyInteger];
 }
 
 - (void)setFrequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction {
-    [store sdl_setObject:frequencyFraction forName:SDLNameFrequencyFraction];
+    [store sdl_setObject:frequencyFraction forName:SDLRPCParameterNameFrequencyFraction];
 }
 
 - (nullable NSNumber<SDLInt> *)frequencyFraction {
-    return [store sdl_objectForName:SDLNameFrequencyFraction];
+    return [store sdl_objectForName:SDLRPCParameterNameFrequencyFraction];
 }
 
 - (void)setBand:(nullable SDLRadioBand)band {
-    [store sdl_setObject:band forName:SDLNameBand];
+    [store sdl_setObject:band forName:SDLRPCParameterNameBand];
 }
 
 - (nullable SDLRadioBand)band{
-    return [store sdl_objectForName:SDLNameBand];
+    return [store sdl_objectForName:SDLRPCParameterNameBand];
 }
 
 - (void)setRdsData:(nullable SDLRDSData *)rdsData {
-    [store sdl_setObject:rdsData forName:SDLNameRDSData];
+    [store sdl_setObject:rdsData forName:SDLRPCParameterNameRDSData];
 }
 
 - (nullable SDLRDSData *)rdsData {
-    return [store sdl_objectForName:SDLNameRDSData ofClass:SDLRDSData.class];
+    return [store sdl_objectForName:SDLRPCParameterNameRDSData ofClass:SDLRDSData.class];
 }
 
 - (void)setAvailableHDs:(nullable NSNumber<SDLInt> *)availableHDs {
-    [store sdl_setObject:availableHDs forName:SDLNameAvailableHDs];
+    [store sdl_setObject:availableHDs forName:SDLRPCParameterNameAvailableHDs];
 }
 
 - (nullable NSNumber<SDLInt> *)availableHDs {
-    return [store sdl_objectForName:SDLNameAvailableHDs];
+    return [store sdl_objectForName:SDLRPCParameterNameAvailableHDs];
 }
 
 - (void)setHdChannel:(nullable NSNumber<SDLInt> *)hdChannel {
-    [store sdl_setObject:hdChannel forName:SDLNameHDChannel];
+    [store sdl_setObject:hdChannel forName:SDLRPCParameterNameHDChannel];
 }
 
 - (nullable NSNumber<SDLInt> *)hdChannel {
-    return [store sdl_objectForName:SDLNameHDChannel];
+    return [store sdl_objectForName:SDLRPCParameterNameHDChannel];
 }
 
 - (void)setSignalStrength:(nullable NSNumber<SDLInt> *)signalStrength {
-    [store sdl_setObject:signalStrength forName:SDLNameSignalStrength];
+    [store sdl_setObject:signalStrength forName:SDLRPCParameterNameSignalStrength];
 }
 
 - (nullable NSNumber<SDLInt> *)signalStrength {
-    return [store sdl_objectForName:SDLNameSignalStrength];
+    return [store sdl_objectForName:SDLRPCParameterNameSignalStrength];
 }
 
 - (void)setSignalChangeThreshold:(nullable NSNumber<SDLInt> *)signalChangeThreshold {
-    [store sdl_setObject:signalChangeThreshold forName:SDLNameSignalChangeThreshold];
+    [store sdl_setObject:signalChangeThreshold forName:SDLRPCParameterNameSignalChangeThreshold];
 }
 
 - (nullable NSNumber<SDLInt> *)signalChangeThreshold {
-    return [store sdl_objectForName:SDLNameSignalChangeThreshold];
+    return [store sdl_objectForName:SDLRPCParameterNameSignalChangeThreshold];
 }
 
 - (void)setRadioEnable:(nullable NSNumber<SDLBool> *)radioEnable {
-    [store sdl_setObject:radioEnable forName:SDLNameRadioEnable];
+    [store sdl_setObject:radioEnable forName:SDLRPCParameterNameRadioEnable];
 }
 
 - (nullable NSNumber<SDLBool> *)radioEnable {
-    return [store sdl_objectForName:SDLNameRadioEnable];
+    return [store sdl_objectForName:SDLRPCParameterNameRadioEnable];
 }
 
 - (void)setState:(nullable SDLRadioState)state {
-    [store sdl_setObject:state forName:SDLNameState];
+    [store sdl_setObject:state forName:SDLRPCParameterNameState];
 }
 
 - (nullable SDLRadioState)state {
-    return [store sdl_objectForName:SDLNameState];
+    return [store sdl_objectForName:SDLRPCParameterNameState];
 }
 
 - (void)setHdRadioEnable:(nullable NSNumber<SDLBool> *)hdRadioEnable {
-    [store sdl_setObject:hdRadioEnable forName:SDLNameHDRadioEnable];
+    [store sdl_setObject:hdRadioEnable forName:SDLRPCParameterNameHDRadioEnable];
 }
 
 - (nullable NSNumber<SDLBool> *)hdRadioEnable {
-    return [store sdl_objectForName:SDLNameHDRadioEnable];
+    return [store sdl_objectForName:SDLRPCParameterNameHDRadioEnable];
 }
 
 - (void)setSisData:(nullable SDLSISData *)sisData {
-    [store sdl_setObject:sisData forName:SDLNameSISData];
+    [store sdl_setObject:sisData forName:SDLRPCParameterNameSISData];
 }
 
 - (nullable SDLSISData *)sisData {
-    return [store sdl_objectForName:SDLNameSISData ofClass:SDLSISData.class];
+    return [store sdl_objectForName:SDLRPCParameterNameSISData ofClass:SDLSISData.class];
 }
 
 @end

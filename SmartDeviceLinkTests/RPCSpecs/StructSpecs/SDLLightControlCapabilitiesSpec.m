@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLLightControlCapabilities.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLLightCapabilities.h"
 
 QuickSpecBegin( SDLLightControlCapabilitiesSpec)
@@ -37,8 +37,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameModuleName:@"moduleName",
-                                       SDLNameSupportedLights:[@[somelightCapabilities] copy]
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameModuleName:@"moduleName",
+                                       SDLRPCParameterNameSupportedLights:[@[somelightCapabilities] copy]
                                        } mutableCopy];
 
         SDLLightControlCapabilities* testStruct = [[SDLLightControlCapabilities alloc] initWithDictionary:dict];

@@ -8,7 +8,7 @@
 
 #import "SDLAppServiceManifest.h"
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 #import "SDLFunctionID.h"
 #import "SDLImage.h"
@@ -63,75 +63,75 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setServiceName:(nullable NSString *)serviceName {
-    [store sdl_setObject:serviceName forName:SDLNameServiceName];
+    [store sdl_setObject:serviceName forName:SDLRPCParameterNameServiceName];
 }
 
 - (nullable NSString *)serviceName {
-    return [store sdl_objectForName:SDLNameServiceName];
+    return [store sdl_objectForName:SDLRPCParameterNameServiceName];
 }
 
 - (void)setServiceType:(NSString *)serviceType {
-    [store sdl_setObject:serviceType forName:SDLNameServiceType];
+    [store sdl_setObject:serviceType forName:SDLRPCParameterNameServiceType];
 }
 
 - (NSString *)serviceType {
-    return [store sdl_objectForName:SDLNameServiceType];
+    return [store sdl_objectForName:SDLRPCParameterNameServiceType];
 }
 
 - (void)setServiceIcon:(nullable SDLImage *)serviceIcon {
-    [store sdl_setObject:serviceIcon forName:SDLNameServiceIcon];
+    [store sdl_setObject:serviceIcon forName:SDLRPCParameterNameServiceIcon];
 }
 
 - (nullable SDLImage *)serviceIcon {
-    return [store sdl_objectForName:SDLNameServiceIcon ofClass:SDLImage.class];
+    return [store sdl_objectForName:SDLRPCParameterNameServiceIcon ofClass:SDLImage.class];
 }
 
 - (void)setAllowAppConsumers:(nullable  NSNumber<SDLBool> *)allowAppConsumers {
-    [store sdl_setObject:allowAppConsumers forName:SDLNameAllowAppConsumers];
+    [store sdl_setObject:allowAppConsumers forName:SDLRPCParameterNameAllowAppConsumers];
 }
 
 - (nullable NSNumber<SDLBool> *)allowAppConsumers {
-    return [store sdl_objectForName:SDLNameAllowAppConsumers];
+    return [store sdl_objectForName:SDLRPCParameterNameAllowAppConsumers];
 }
 
 - (void)setRpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion {
-    [store sdl_setObject:rpcSpecVersion forName:SDLNameRPCSpecVersion];
+    [store sdl_setObject:rpcSpecVersion forName:SDLRPCParameterNameRPCSpecVersion];
 }
 
 - (nullable SDLSyncMsgVersion *)rpcSpecVersion {
-    return [store sdl_objectForName:SDLNameRPCSpecVersion ofClass:SDLSyncMsgVersion.class];
+    return [store sdl_objectForName:SDLRPCParameterNameRPCSpecVersion ofClass:SDLSyncMsgVersion.class];
 }
 
 - (void)setHandledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs {
-    [store sdl_setObject:handledRPCs forName:SDLNameHandledRPCs];
+    [store sdl_setObject:handledRPCs forName:SDLRPCParameterNameHandledRPCs];
 }
 
 - (nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs {
-    return [store sdl_objectForName:SDLNameHandledRPCs];
+    return [store sdl_objectForName:SDLRPCParameterNameHandledRPCs];
 }
 
 - (void)setWeatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest {
-    [store sdl_setObject:weatherServiceManifest forName:SDLNameWeatherServiceManifest];
+    [store sdl_setObject:weatherServiceManifest forName:SDLRPCParameterNameWeatherServiceManifest];
 }
 
 - (nullable SDLWeatherServiceManifest *)weatherServiceManifest {
-    return [store sdl_objectForName:SDLNameWeatherServiceManifest ofClass:SDLWeatherServiceManifest.class];
+    return [store sdl_objectForName:SDLRPCParameterNameWeatherServiceManifest ofClass:SDLWeatherServiceManifest.class];
 }
 
 - (void)setMediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest {
-    [store sdl_setObject:mediaServiceManifest forName:SDLNameMediaServiceManifest];
+    [store sdl_setObject:mediaServiceManifest forName:SDLRPCParameterNameMediaServiceManifest];
 }
 
 - (nullable SDLMediaServiceManifest *)mediaServiceManifest {
-    return [store sdl_objectForName:SDLNameMediaServiceManifest ofClass:SDLMediaServiceManifest.class];
+    return [store sdl_objectForName:SDLRPCParameterNameMediaServiceManifest ofClass:SDLMediaServiceManifest.class];
 }
 
 - (void)setNavigationServiceManifest:(nullable SDLNavigationServiceManifest *)navigationServiceManifest {
-    [store sdl_setObject:navigationServiceManifest forName:SDLNameNavigationServiceManifest];
+    [store sdl_setObject:navigationServiceManifest forName:SDLRPCParameterNameNavigationServiceManifest];
 }
 
 - (nullable SDLNavigationServiceManifest *)navigationServiceManifest {
-    return [store sdl_objectForName:SDLNameNavigationServiceManifest ofClass:SDLNavigationServiceManifest.class];
+    return [store sdl_objectForName:SDLRPCParameterNameNavigationServiceManifest ofClass:SDLNavigationServiceManifest.class];
 }
 
 @end

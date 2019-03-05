@@ -8,7 +8,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLButtonPress.h"
 #import "SDLModuleType.h"
@@ -32,12 +32,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized with a dictionary", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameModuleType : SDLModuleTypeClimate,
-                                                                   SDLNameButtonName : SDLButtonNameAC,
-                                                                   SDLNameButtonPressMode : SDLButtonPressModeShort},
-                                                             SDLNameOperationName:SDLRPCFunctionNameButtonPress}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameModuleType : SDLModuleTypeClimate,
+                                                                   SDLRPCParameterNameButtonName : SDLButtonNameAC,
+                                                                   SDLRPCParameterNameButtonPressMode : SDLButtonPressModeShort},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameButtonPress}} mutableCopy];
         SDLButtonPress* testRequest = [[SDLButtonPress alloc] initWithDictionary:dict];
 
         expect(testRequest.moduleType).to(equal(SDLModuleTypeClimate));

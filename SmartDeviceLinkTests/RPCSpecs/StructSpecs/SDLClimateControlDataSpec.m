@@ -12,7 +12,7 @@
 #import "SDLTemperature.h"
 #import "SDLDefrostZone.h"
 #import "SDLVentilationMode.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLClimateControlDataSpec)
 
@@ -100,20 +100,20 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameFanSpeed : @43,
-                                                       SDLNameCurrentTemperature : currentTemp,
-                                                       SDLNameDesiredTemperature : desiredTemp,
-                                                       SDLNameACEnable : @YES,
-                                                       SDLNameCirculateAirEnable : @YES,
-                                                       SDLNameAutoModeEnable : @NO,
-                                                       SDLNameDefrostZone : SDLDefrostZoneFront,
-                                                       SDLNameDualModeEnable : @NO,
-                                                       SDLNameACMaxEnable : @YES,
-                                                       SDLNameVentilationMode :SDLVentilationModeBoth,
-                                                       SDLNameHeatedSteeringWheelEnable:@NO,
-                                                       SDLNameHeatedWindshieldEnable:@YES,
-                                                       SDLNameHeatedRearWindowEnable:@NO,
-                                                       SDLNameHeatedMirrorsEnable:@YES,
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameFanSpeed : @43,
+                                                       SDLRPCParameterNameCurrentTemperature : currentTemp,
+                                                       SDLRPCParameterNameDesiredTemperature : desiredTemp,
+                                                       SDLRPCParameterNameACEnable : @YES,
+                                                       SDLRPCParameterNameCirculateAirEnable : @YES,
+                                                       SDLRPCParameterNameAutoModeEnable : @NO,
+                                                       SDLRPCParameterNameDefrostZone : SDLDefrostZoneFront,
+                                                       SDLRPCParameterNameDualModeEnable : @NO,
+                                                       SDLRPCParameterNameACMaxEnable : @YES,
+                                                       SDLRPCParameterNameVentilationMode :SDLVentilationModeBoth,
+                                                       SDLRPCParameterNameHeatedSteeringWheelEnable:@NO,
+                                                       SDLRPCParameterNameHeatedWindshieldEnable:@YES,
+                                                       SDLRPCParameterNameHeatedRearWindowEnable:@NO,
+                                                       SDLRPCParameterNameHeatedMirrorsEnable:@YES,
                                                        } mutableCopy];
         
         SDLClimateControlData* testStruct = [[SDLClimateControlData alloc] initWithDictionary:dict];

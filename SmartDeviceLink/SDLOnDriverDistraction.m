@@ -4,7 +4,7 @@
 #import "SDLOnDriverDistraction.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLDriverDistractionState.h"
 
@@ -19,11 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setState:(SDLDriverDistractionState)state {
-    [parameters sdl_setObject:state forName:SDLNameState];
+    [parameters sdl_setObject:state forName:SDLRPCParameterNameState];
 }
 
 - (SDLDriverDistractionState)state {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameState];
+    NSObject *obj = [parameters sdl_objectForName:SDLRPCParameterNameState];
     return (SDLDriverDistractionState)obj;
 }
 

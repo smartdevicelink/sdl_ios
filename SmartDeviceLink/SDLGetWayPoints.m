@@ -4,7 +4,7 @@
 #import "SDLGetWayPoints.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -30,11 +30,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setWaypointType:(nullable SDLWayPointType)waypointType {
-    [parameters sdl_setObject:waypointType forName:SDLNameWayPointType];
+    [parameters sdl_setObject:waypointType forName:SDLRPCParameterNameWayPointType];
 }
 
 - (nullable SDLWayPointType)waypointType {
-    return [parameters sdl_objectForName:SDLNameWayPointType];
+    return [parameters sdl_objectForName:SDLRPCParameterNameWayPointType];
 }
 
 @end

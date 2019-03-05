@@ -14,7 +14,7 @@
 #import "SDLDeviceInfo.h"
 #import "SDLLanguage.h"
 #import "SDLLifecycleConfiguration.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLSyncMsgVersion.h"
@@ -93,26 +93,26 @@ describe(@"RegisterAppInterface Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^ {
-        NSDictionary* dict = @{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameSyncMessageVersion:version,
-                                                   SDLNameAppName:appName,
-                                                   SDLNameTTSName:[@[chunk] mutableCopy],
-                                                   SDLNameNGNMediaScreenAppName:shortAppName,
-                                                   SDLNameVRSynonyms:@[vrSynonyms],
-                                                   SDLNameIsMediaApplication:isMediaApp,
-                                                   SDLNameLanguageDesired:SDLLanguageNoNo,
-                                                   SDLNameHMIDisplayLanguageDesired:SDLLanguagePtPt,
-                                                   SDLNameAppHMIType:appTypes,
-                                                   SDLNameHashId:resumeHash,
-                                                   SDLNameDeviceInfo:info,
-                                                   SDLNameFullAppID:fullAppId,
-                                                   SDLNameAppId:appId,
-                                                   SDLNameAppInfo:appInfo,
-                                                   SDLNameDayColorScheme: colorScheme,
-                                                   SDLNameNightColorScheme: colorScheme,
+        NSDictionary* dict = @{SDLRPCParameterNameRequest:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameSyncMessageVersion:version,
+                                                   SDLRPCParameterNameAppName:appName,
+                                                   SDLRPCParameterNameTTSName:[@[chunk] mutableCopy],
+                                                   SDLRPCParameterNameNGNMediaScreenAppName:shortAppName,
+                                                   SDLRPCParameterNameVRSynonyms:@[vrSynonyms],
+                                                   SDLRPCParameterNameIsMediaApplication:isMediaApp,
+                                                   SDLRPCParameterNameLanguageDesired:SDLLanguageNoNo,
+                                                   SDLRPCParameterNameHMIDisplayLanguageDesired:SDLLanguagePtPt,
+                                                   SDLRPCParameterNameAppHMIType:appTypes,
+                                                   SDLRPCParameterNameHashId:resumeHash,
+                                                   SDLRPCParameterNameDeviceInfo:info,
+                                                   SDLRPCParameterNameFullAppID:fullAppId,
+                                                   SDLRPCParameterNameAppId:appId,
+                                                   SDLRPCParameterNameAppInfo:appInfo,
+                                                   SDLRPCParameterNameDayColorScheme: colorScheme,
+                                                   SDLRPCParameterNameNightColorScheme: colorScheme,
                                                    },
-                                             SDLNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
         SDLRegisterAppInterface* testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithDictionary:dict];
 
         expect(testRegisterAppInterface.syncMsgVersion).to(equal(version));

@@ -5,7 +5,7 @@
 #import "SDLReadDID.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -31,19 +31,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setEcuName:(NSNumber<SDLInt> *)ecuName {
-    [parameters sdl_setObject:ecuName forName:SDLNameECUName];
+    [parameters sdl_setObject:ecuName forName:SDLRPCParameterNameECUName];
 }
 
 - (NSNumber<SDLInt> *)ecuName {
-    return [parameters sdl_objectForName:SDLNameECUName];
+    return [parameters sdl_objectForName:SDLRPCParameterNameECUName];
 }
 
 - (void)setDidLocation:(NSArray<NSNumber<SDLInt> *> *)didLocation {
-    [parameters sdl_setObject:didLocation forName:SDLNameDIDLocation];
+    [parameters sdl_setObject:didLocation forName:SDLRPCParameterNameDIDLocation];
 }
 
 - (NSArray<NSNumber<SDLInt> *> *)didLocation {
-    return [parameters sdl_objectForName:SDLNameDIDLocation];
+    return [parameters sdl_objectForName:SDLRPCParameterNameDIDLocation];
 }
 
 @end

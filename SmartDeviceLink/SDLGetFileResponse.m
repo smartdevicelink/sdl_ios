@@ -9,7 +9,7 @@
 #import "SDLGetFileResponse.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -37,35 +37,35 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setOffset:(nullable NSNumber<SDLUInt> *)offset {
-    [parameters sdl_setObject:offset forName:SDLNameOffset];
+    [parameters sdl_setObject:offset forName:SDLRPCParameterNameOffset];
 }
 
 - (nullable NSNumber<SDLUInt> *)offset {
-    return [parameters sdl_objectForName:SDLNameOffset];
+    return [parameters sdl_objectForName:SDLRPCParameterNameOffset];
 }
 
 - (void)setLength:(nullable NSNumber<SDLUInt> *)length {
-    [parameters sdl_setObject:length forName:SDLNameLength];
+    [parameters sdl_setObject:length forName:SDLRPCParameterNameLength];
 }
 
 - (nullable NSNumber<SDLUInt> *)length {
-    return [parameters sdl_objectForName:SDLNameLength];
+    return [parameters sdl_objectForName:SDLRPCParameterNameLength];
 }
 
 - (void)setFileType:(nullable SDLFileType)fileType {
-    [parameters sdl_setObject:fileType forName:SDLNameFileType];
+    [parameters sdl_setObject:fileType forName:SDLRPCParameterNameFileType];
 }
 
 - (nullable SDLFileType)fileType {
-    return [parameters sdl_objectForName:SDLNameFileType];
+    return [parameters sdl_objectForName:SDLRPCParameterNameFileType];
 }
 
 - (void)setCrc:(nullable NSNumber<SDLUInt> *)crc {
-    [parameters sdl_setObject:crc forName:SDLNameCRC];
+    [parameters sdl_setObject:crc forName:SDLRPCParameterNameCRC];
 }
 
 - (nullable NSNumber<SDLUInt> *)crc {
-    return [parameters sdl_objectForName:SDLNameCRC];
+    return [parameters sdl_objectForName:SDLRPCParameterNameCRC];
 }
 
 @end

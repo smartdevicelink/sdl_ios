@@ -9,7 +9,7 @@
 #import "SDLMediaServiceData.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -38,99 +38,99 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMediaType:(nullable SDLMediaType)mediaType {
-    [store sdl_setObject:mediaType forName:SDLNameMediaType];
+    [store sdl_setObject:mediaType forName:SDLRPCParameterNameMediaType];
 }
 
 - (nullable SDLMediaType)mediaType {
-    return [store sdl_objectForName:SDLNameMediaType];
+    return [store sdl_objectForName:SDLRPCParameterNameMediaType];
 }
 
 - (void)setMediaTitle:(nullable NSString *)mediaTitle {
-    [store sdl_setObject:mediaTitle forName:SDLNameMediaTitle];
+    [store sdl_setObject:mediaTitle forName:SDLRPCParameterNameMediaTitle];
 }
 
 - (nullable NSString *)mediaTitle {
-    return [store sdl_objectForName:SDLNameMediaTitle];
+    return [store sdl_objectForName:SDLRPCParameterNameMediaTitle];
 }
 
 - (void)setMediaArtist:(nullable NSString *)mediaArtist {
-    [store sdl_setObject:mediaArtist forName:SDLNameMediaArtist];
+    [store sdl_setObject:mediaArtist forName:SDLRPCParameterNameMediaArtist];
 }
 
 - (nullable NSString *)mediaArtist {
-    return [store sdl_objectForName:SDLNameMediaArtist];
+    return [store sdl_objectForName:SDLRPCParameterNameMediaArtist];
 }
 
 - (void)setMediaAlbum:(nullable NSString *)mediaAlbum {
-    [store sdl_setObject:mediaAlbum forName:SDLNameMediaAlbum];
+    [store sdl_setObject:mediaAlbum forName:SDLRPCParameterNameMediaAlbum];
 }
 
 - (nullable NSString *)mediaAlbum {
-    return [store sdl_objectForName:SDLNameMediaAlbum];
+    return [store sdl_objectForName:SDLRPCParameterNameMediaAlbum];
 }
 
 - (void)setPlaylistName:(nullable NSString *)playlistName {
-    [store sdl_setObject:playlistName forName:SDLNamePlaylistName];
+    [store sdl_setObject:playlistName forName:SDLRPCParameterNamePlaylistName];
 }
 
 - (nullable NSString *)playlistName {
-    return [store sdl_objectForName:SDLNamePlaylistName];
+    return [store sdl_objectForName:SDLRPCParameterNamePlaylistName];
 }
 
 - (void)setIsExplicit:(nullable NSNumber<SDLBool> *)isExplicit {
-    [store sdl_setObject:isExplicit forName:SDLNameIsExplicit];
+    [store sdl_setObject:isExplicit forName:SDLRPCParameterNameIsExplicit];
 }
 
 - (nullable NSNumber<SDLBool> *)isExplicit {
-    return [store sdl_objectForName:SDLNameIsExplicit];
+    return [store sdl_objectForName:SDLRPCParameterNameIsExplicit];
 }
 
 - (void)setTrackPlaybackProgress:(nullable NSNumber<SDLInt> *)trackPlaybackProgress {
-    [store sdl_setObject:trackPlaybackProgress forName:SDLNameTrackPlaybackProgress];
+    [store sdl_setObject:trackPlaybackProgress forName:SDLRPCParameterNameTrackPlaybackProgress];
 }
 
 - (nullable NSNumber<SDLInt> *)trackPlaybackProgress {
-    return [store sdl_objectForName:SDLNameTrackPlaybackProgress];
+    return [store sdl_objectForName:SDLRPCParameterNameTrackPlaybackProgress];
 }
 
 - (void)setTrackPlaybackDuration:(nullable NSNumber<SDLInt> *)trackPlaybackDuration {
-    [store sdl_setObject:trackPlaybackDuration forName:SDLNameTrackPlaybackDuration];
+    [store sdl_setObject:trackPlaybackDuration forName:SDLRPCParameterNameTrackPlaybackDuration];
 }
 
 - (nullable NSNumber<SDLInt> *)trackPlaybackDuration {
-    return [store sdl_objectForName:SDLNameTrackPlaybackDuration];
+    return [store sdl_objectForName:SDLRPCParameterNameTrackPlaybackDuration];
 }
 
 - (void)setQueuePlaybackProgress:(nullable NSNumber<SDLInt> *)queuePlaybackProgress {
-    [store sdl_setObject:queuePlaybackProgress forName:SDLNameQueuePlaybackProgress];
+    [store sdl_setObject:queuePlaybackProgress forName:SDLRPCParameterNameQueuePlaybackProgress];
 }
 
 - (nullable NSNumber<SDLInt> *)queuePlaybackProgress {
-    return [store sdl_objectForName:SDLNameQueuePlaybackProgress];
+    return [store sdl_objectForName:SDLRPCParameterNameQueuePlaybackProgress];
 }
 
 - (void)setQueuePlaybackDuration:(nullable NSNumber<SDLInt> *)queuePlaybackDuration {
-    [store sdl_setObject:queuePlaybackDuration forName:SDLNameQueuePlaybackDuration];
+    [store sdl_setObject:queuePlaybackDuration forName:SDLRPCParameterNameQueuePlaybackDuration];
 }
 
 - (nullable NSNumber<SDLInt> *)queuePlaybackDuration {
-    return [store sdl_objectForName:SDLNameQueuePlaybackDuration];
+    return [store sdl_objectForName:SDLRPCParameterNameQueuePlaybackDuration];
 }
 
 - (void)setQueueCurrentTrackNumber:(nullable NSNumber<SDLInt> *)queueCurrentTrackNumber {
-    [store sdl_setObject:queueCurrentTrackNumber forName:SDLNameQueueCurrentTrackNumber];
+    [store sdl_setObject:queueCurrentTrackNumber forName:SDLRPCParameterNameQueueCurrentTrackNumber];
 }
 
 - (nullable NSNumber<SDLInt> *)queueCurrentTrackNumber {
-    return [store sdl_objectForName:SDLNameQueueCurrentTrackNumber];
+    return [store sdl_objectForName:SDLRPCParameterNameQueueCurrentTrackNumber];
 }
 
 - (void)setQueueTotalTrackCount:(nullable NSNumber<SDLInt> *)queueTotalTrackCount {
-    [store sdl_setObject:queueTotalTrackCount forName:SDLNameQueueTotalTrackCount];
+    [store sdl_setObject:queueTotalTrackCount forName:SDLRPCParameterNameQueueTotalTrackCount];
 }
 
 - (nullable NSNumber<SDLInt> *)queueTotalTrackCount {
-    return [store sdl_objectForName:SDLNameQueueTotalTrackCount];
+    return [store sdl_objectForName:SDLRPCParameterNameQueueTotalTrackCount];
 }
 
 @end

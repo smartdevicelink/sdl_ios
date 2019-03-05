@@ -11,7 +11,7 @@
 
 #import "SDLAppServiceCapability.h"
 #import "SDLAppServicesCapabilities.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLAppServicesCapabilitiesSpec)
 
@@ -19,7 +19,7 @@ describe(@"Getter/Setter Tests", ^{
     __block NSArray<SDLAppServiceCapability *> *testAppServices = nil;
 
     beforeEach(^{
-        testAppServices = @[[[SDLAppServiceCapability alloc] initWithDictionary:@{SDLNameUpdateReason:SDLServiceUpdateRemoved}]];
+        testAppServices = @[[[SDLAppServiceCapability alloc] initWithDictionary:@{SDLRPCParameterNameUpdateReason:SDLServiceUpdateRemoved}]];
     });
 
     it(@"Should set and get correctly", ^{
@@ -36,7 +36,7 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameAppServices:testAppServices
+        NSDictionary *dict = @{SDLRPCParameterNameAppServices:testAppServices
                                };
         SDLAppServicesCapabilities *testStruct = [[SDLAppServicesCapabilities alloc] initWithDictionary:dict];
 

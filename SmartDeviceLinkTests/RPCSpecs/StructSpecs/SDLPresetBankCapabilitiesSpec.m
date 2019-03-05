@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLPresetBankCapabilities.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLPresetBankCapabilitiesSpec)
 
@@ -23,7 +23,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameOnScreenPresetsAvailable:@YES} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameOnScreenPresetsAvailable:@YES} mutableCopy];
         SDLPresetBankCapabilities* testStruct = [[SDLPresetBankCapabilities alloc] initWithDictionary:dict];
         
         expect(testStruct.onScreenPresetsAvailable).to(equal(@YES));

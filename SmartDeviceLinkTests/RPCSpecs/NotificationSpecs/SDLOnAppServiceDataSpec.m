@@ -11,7 +11,7 @@
 
 #import "SDLAppServiceData.h"
 #import "SDLOnAppServiceData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnAppServiceDataSpec)
@@ -32,11 +32,11 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameNotification:@{
-                                       SDLNameParameters:@{
-                                               SDLNameServiceData:testAppServiceData
+        NSDictionary *dict = @{SDLRPCParameterNameNotification:@{
+                                       SDLRPCParameterNameParameters:@{
+                                               SDLRPCParameterNameServiceData:testAppServiceData
                                                },
-                                       SDLNameOperationName:SDLRPCFunctionNameOnAppServiceData}};
+                                       SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnAppServiceData}};
         SDLOnAppServiceData *testNotification = [[SDLOnAppServiceData alloc] initWithDictionary:dict];
 
         expect(testNotification.serviceData).to(equal(testAppServiceData));

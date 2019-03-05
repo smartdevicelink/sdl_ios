@@ -11,7 +11,7 @@
 
 #import "SDLAppServiceManifest.h"
 #import "SDLPublishAppService.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLPublishAppServiceSpec)
@@ -38,11 +38,11 @@ describe(@"Getter/Setter Tests", ^{
 
     describe(@"initializing", ^{
         it(@"Should initialize correctly with a dictionary", ^{
-            NSDictionary *dict = @{SDLNameRequest:@{
-                                           SDLNameParameters:@{
-                                                   SDLNameAppServiceManifest:testAppServiceManifest
+            NSDictionary *dict = @{SDLRPCParameterNameRequest:@{
+                                           SDLRPCParameterNameParameters:@{
+                                                   SDLRPCParameterNameAppServiceManifest:testAppServiceManifest
                                                    },
-                                           SDLNameOperationName:SDLRPCFunctionNamePublishAppService}};
+                                           SDLRPCParameterNameOperationName:SDLRPCFunctionNamePublishAppService}};
             SDLPublishAppService *testRequest = [[SDLPublishAppService alloc] initWithDictionary:dict];
 
             expect(testRequest.appServiceManifest).to(equal(testAppServiceManifest));

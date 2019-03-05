@@ -12,7 +12,7 @@
 #import "SDLClusterModeStatus.h"
 #import "SDLPowerModeQualificationStatus.h"
 #import "SDLPowerModeStatus.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLClusterModeStatusSpec)
 
@@ -32,10 +32,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNamePowerModeActive:@NO,
-                                       SDLNamePowerModeQualificationStatus:SDLPowerModeQualificationStatusOk,
-                                       SDLNameCarModeStatus:SDLCarModeStatusCrash,
-                                       SDLNamePowerModeStatus:SDLPowerModeStatusKeyOut} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNamePowerModeActive:@NO,
+                                       SDLRPCParameterNamePowerModeQualificationStatus:SDLPowerModeQualificationStatusOk,
+                                       SDLRPCParameterNameCarModeStatus:SDLCarModeStatusCrash,
+                                       SDLRPCParameterNamePowerModeStatus:SDLPowerModeStatusKeyOut} mutableCopy];
         SDLClusterModeStatus* testStruct = [[SDLClusterModeStatus alloc] initWithDictionary:dict];
         
         expect(testStruct.powerModeActive).to(equal(@NO));

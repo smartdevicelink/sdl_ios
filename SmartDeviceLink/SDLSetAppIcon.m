@@ -5,7 +5,7 @@
 #import "SDLSetAppIcon.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 @implementation SDLSetAppIcon
@@ -28,11 +28,11 @@
 }
 
 - (void)setSyncFileName:(NSString *)syncFileName {
-    [parameters sdl_setObject:syncFileName forName:SDLNameSyncFileName];
+    [parameters sdl_setObject:syncFileName forName:SDLRPCParameterNameSyncFileName];
 }
 
 - (NSString *)syncFileName {
-    return [parameters sdl_objectForName:SDLNameSyncFileName];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSyncFileName];
 }
 
 @end

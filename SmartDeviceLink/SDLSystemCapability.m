@@ -10,7 +10,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLAppServicesCapabilities.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLNavigationCapability.h"
 #import "SDLPhoneCapability.h"
 #import "SDLSystemCapabilityType.h"
@@ -82,51 +82,51 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setSystemCapabilityType:(SDLSystemCapabilityType)type {
-    [store sdl_setObject:type forName:SDLNameSystemCapabilityType];
+    [store sdl_setObject:type forName:SDLRPCParameterNameSystemCapabilityType];
 }
 
 - (SDLSystemCapabilityType)systemCapabilityType {
-    return [store sdl_objectForName:SDLNameSystemCapabilityType];
+    return [store sdl_objectForName:SDLRPCParameterNameSystemCapabilityType];
 }
 
 - (void)setAppServicesCapabilities:(nullable SDLAppServicesCapabilities *)appServicesCapabilities {
-    [store sdl_setObject:appServicesCapabilities forName:SDLNameAppServicesCapabilities];
+    [store sdl_setObject:appServicesCapabilities forName:SDLRPCParameterNameAppServicesCapabilities];
 }
 
 - (nullable SDLAppServicesCapabilities *)appServicesCapabilities {
-    return [store sdl_objectForName:SDLNameAppServicesCapabilities ofClass:SDLAppServicesCapabilities.class];
+    return [store sdl_objectForName:SDLRPCParameterNameAppServicesCapabilities ofClass:SDLAppServicesCapabilities.class];
 }
 
 - (void)setNavigationCapability:(nullable SDLNavigationCapability *)navigationCapability {
-    [store sdl_setObject:navigationCapability forName:SDLNameNavigationCapability];
+    [store sdl_setObject:navigationCapability forName:SDLRPCParameterNameNavigationCapability];
 }
 
 - (nullable SDLNavigationCapability *)navigationCapability {
-    return [store sdl_objectForName:SDLNameNavigationCapability ofClass:SDLNavigationCapability.class];
+    return [store sdl_objectForName:SDLRPCParameterNameNavigationCapability ofClass:SDLNavigationCapability.class];
 }
 
 - (void)setPhoneCapability:(nullable SDLPhoneCapability *)phoneCapability {
-    [store sdl_setObject:phoneCapability forName:SDLNamePhoneCapability];
+    [store sdl_setObject:phoneCapability forName:SDLRPCParameterNamePhoneCapability];
 }
 
 - (nullable SDLPhoneCapability *)phoneCapability {
-    return [store sdl_objectForName:SDLNamePhoneCapability ofClass:SDLPhoneCapability.class];
+    return [store sdl_objectForName:SDLRPCParameterNamePhoneCapability ofClass:SDLPhoneCapability.class];
 }
 
 - (void)setVideoStreamingCapability:(nullable SDLVideoStreamingCapability *)videoStreamingCapability {
-    [store sdl_setObject:videoStreamingCapability forName:SDLNameVideoStreamingCapability];
+    [store sdl_setObject:videoStreamingCapability forName:SDLRPCParameterNameVideoStreamingCapability];
 }
 
 - (nullable SDLVideoStreamingCapability *)videoStreamingCapability {
-    return [store sdl_objectForName:SDLNameVideoStreamingCapability ofClass:SDLVideoStreamingCapability.class];
+    return [store sdl_objectForName:SDLRPCParameterNameVideoStreamingCapability ofClass:SDLVideoStreamingCapability.class];
 }
 
 - (void)setRemoteControlCapability:(nullable SDLRemoteControlCapabilities *)remoteControlCapability {
-    [store sdl_setObject:remoteControlCapability forName:SDLNameRemoteControlCapability];
+    [store sdl_setObject:remoteControlCapability forName:SDLRPCParameterNameRemoteControlCapability];
 }
 
 - (nullable SDLRemoteControlCapabilities *)remoteControlCapability {
-    return [store sdl_objectForName:SDLNameRemoteControlCapability ofClass:SDLRemoteControlCapabilities.class];
+    return [store sdl_objectForName:SDLRPCParameterNameRemoteControlCapability ofClass:SDLRemoteControlCapabilities.class];
 }
 
 @end

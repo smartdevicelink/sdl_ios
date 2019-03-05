@@ -11,7 +11,7 @@
 #import "SDLRPCRequest.h"
 #import "SDLPutFile.h"
 #import "SDLPutFileResponse.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "TestResponse.h"
 

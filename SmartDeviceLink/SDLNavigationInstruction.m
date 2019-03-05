@@ -12,7 +12,7 @@
 #import "SDLDateTime.h"
 #import "SDLImage.h"
 #import "SDLLocationDetails.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -48,67 +48,67 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setLocationDetails:(SDLLocationDetails *)locationDetails {
-    [store sdl_setObject:locationDetails forName:SDLNameLocationDetails];
+    [store sdl_setObject:locationDetails forName:SDLRPCParameterNameLocationDetails];
 }
 
 - (SDLLocationDetails *)locationDetails {
-    return [store sdl_objectForName:SDLNameLocationDetails ofClass:SDLLocationDetails.class];
+    return [store sdl_objectForName:SDLRPCParameterNameLocationDetails ofClass:SDLLocationDetails.class];
 }
 
 - (void)setAction:(SDLNavigationAction)action {
-    [store sdl_setObject:action forName:SDLNameAction];
+    [store sdl_setObject:action forName:SDLRPCParameterNameAction];
 }
 
 - (SDLNavigationAction)action {
-    return [store sdl_objectForName:SDLNameAction];
+    return [store sdl_objectForName:SDLRPCParameterNameAction];
 }
 
 - (void)setEta:(nullable SDLDateTime *)eta {
-    [store sdl_setObject:eta forName:SDLNameETA];
+    [store sdl_setObject:eta forName:SDLRPCParameterNameETA];
 }
 
 - (nullable SDLDateTime *)eta {
-    return [store sdl_objectForName:SDLNameETA ofClass:SDLDateTime.class];
+    return [store sdl_objectForName:SDLRPCParameterNameETA ofClass:SDLDateTime.class];
 }
 
 - (void)setBearing:(nullable NSNumber<SDLInt> *)bearing {
-    [store sdl_setObject:bearing forName:SDLNameBearing];
+    [store sdl_setObject:bearing forName:SDLRPCParameterNameBearing];
 }
 
 - (nullable NSNumber<SDLInt> *)bearing {
-    return [store sdl_objectForName:SDLNameBearing];
+    return [store sdl_objectForName:SDLRPCParameterNameBearing];
 }
 
 - (void)setJunctionType:(nullable SDLNavigationJunction)junctionType {
-    [store sdl_setObject:junctionType forName:SDLNameJunctionType];
+    [store sdl_setObject:junctionType forName:SDLRPCParameterNameJunctionType];
 }
 
 - (nullable SDLNavigationJunction)junctionType {
-    return [store sdl_objectForName:SDLNameJunctionType];
+    return [store sdl_objectForName:SDLRPCParameterNameJunctionType];
 }
 
 - (void)setDrivingSide:(nullable SDLDirection)drivingSide {
-    [store sdl_setObject:drivingSide forName:SDLNameDrivingSide];
+    [store sdl_setObject:drivingSide forName:SDLRPCParameterNameDrivingSide];
 }
 
 - (nullable SDLDirection)drivingSide {
-    return [store sdl_objectForName:SDLNameDrivingSide];
+    return [store sdl_objectForName:SDLRPCParameterNameDrivingSide];
 }
 
 - (void)setDetails:(nullable NSString *)details {
-    [store sdl_setObject:details forName:SDLNameDetails];
+    [store sdl_setObject:details forName:SDLRPCParameterNameDetails];
 }
 
 - (nullable NSString *)details {
-    return [store sdl_objectForName:SDLNameDetails];
+    return [store sdl_objectForName:SDLRPCParameterNameDetails];
 }
 
 - (void)setImage:(nullable SDLImage *)image {
-    [store sdl_setObject:image forName:SDLNameImage];
+    [store sdl_setObject:image forName:SDLRPCParameterNameImage];
 }
 
 - (nullable SDLImage *)image {
-    return [store sdl_objectForName:SDLNameImage ofClass:SDLImage.class];
+    return [store sdl_objectForName:SDLRPCParameterNameImage ofClass:SDLImage.class];
 }
 
 @end

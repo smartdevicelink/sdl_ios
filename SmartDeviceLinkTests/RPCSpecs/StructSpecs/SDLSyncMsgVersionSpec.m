@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLSyncMsgVersion.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLSyncMsgVersionSpec)
 
@@ -27,9 +27,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameMajorVersion:@4,
-                                       SDLNameMinorVersion:@532,
-                                       SDLNamePatchVersion:@12} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameMajorVersion:@4,
+                                       SDLRPCParameterNameMinorVersion:@532,
+                                       SDLRPCParameterNamePatchVersion:@12} mutableCopy];
         SDLSyncMsgVersion* testStruct = [[SDLSyncMsgVersion alloc] initWithDictionary:dict];
 
         expect(testStruct.majorVersion).to(equal(@4));

@@ -4,7 +4,7 @@
 #import "SDLTTSChunk.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -55,19 +55,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setText:(NSString *)text {
-    [store sdl_setObject:text forName:SDLNameText];
+    [store sdl_setObject:text forName:SDLRPCParameterNameText];
 }
 
 - (NSString *)text {
-    return [store sdl_objectForName:SDLNameText];
+    return [store sdl_objectForName:SDLRPCParameterNameText];
 }
 
 - (void)setType:(SDLSpeechCapabilities)type {
-    [store sdl_setObject:type forName:SDLNameType];
+    [store sdl_setObject:type forName:SDLRPCParameterNameType];
 }
 
 - (SDLSpeechCapabilities)type {
-    return [store sdl_objectForName:SDLNameType];
+    return [store sdl_objectForName:SDLRPCParameterNameType];
 }
 
 @end

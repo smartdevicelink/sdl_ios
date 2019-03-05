@@ -5,7 +5,7 @@
 #import "SDLSetMediaClockTimer.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLStartTime.h"
 
@@ -110,35 +110,35 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setStartTime:(nullable SDLStartTime *)startTime {
-    [parameters sdl_setObject:startTime forName:SDLNameStartTime];
+    [parameters sdl_setObject:startTime forName:SDLRPCParameterNameStartTime];
 }
 
 - (nullable SDLStartTime *)startTime {
-    return [parameters sdl_objectForName:SDLNameStartTime ofClass:SDLStartTime.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameStartTime ofClass:SDLStartTime.class];
 }
 
 - (void)setEndTime:(nullable SDLStartTime *)endTime {
-    [parameters sdl_setObject:endTime forName:SDLNameEndTime];
+    [parameters sdl_setObject:endTime forName:SDLRPCParameterNameEndTime];
 }
 
 - (nullable SDLStartTime *)endTime {
-    return [parameters sdl_objectForName:SDLNameEndTime ofClass:SDLStartTime.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameEndTime ofClass:SDLStartTime.class];
 }
 
 - (void)setUpdateMode:(SDLUpdateMode)updateMode {
-    [parameters sdl_setObject:updateMode forName:SDLNameUpdateMode];
+    [parameters sdl_setObject:updateMode forName:SDLRPCParameterNameUpdateMode];
 }
 
 - (SDLUpdateMode)updateMode {
-    return [parameters sdl_objectForName:SDLNameUpdateMode];
+    return [parameters sdl_objectForName:SDLRPCParameterNameUpdateMode];
 }
 
 - (void)setAudioStreamingIndicator:(nullable SDLAudioStreamingIndicator)audioStreamingIndicator {
-    [parameters sdl_setObject:audioStreamingIndicator forName:SDLNameAudioStreamingIndicator];
+    [parameters sdl_setObject:audioStreamingIndicator forName:SDLRPCParameterNameAudioStreamingIndicator];
 }
 
 - (nullable SDLAudioStreamingIndicator)audioStreamingIndicator {
-    return [parameters sdl_objectForName:SDLNameAudioStreamingIndicator];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAudioStreamingIndicator];
 }
 
 @end

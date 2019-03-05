@@ -4,7 +4,7 @@
 #import "SDLKeyboardProperties.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,43 +26,43 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setLanguage:(nullable SDLLanguage)language {
-    [store sdl_setObject:language forName:SDLNameLanguage];
+    [store sdl_setObject:language forName:SDLRPCParameterNameLanguage];
 }
 
 - (nullable SDLLanguage)language {
-    return [store sdl_objectForName:SDLNameLanguage];
+    return [store sdl_objectForName:SDLRPCParameterNameLanguage];
 }
 
 - (void)setKeyboardLayout:(nullable SDLKeyboardLayout)keyboardLayout {
-    [store sdl_setObject:keyboardLayout forName:SDLNameKeyboardLayout];
+    [store sdl_setObject:keyboardLayout forName:SDLRPCParameterNameKeyboardLayout];
 }
 
 - (nullable SDLKeyboardLayout)keyboardLayout {
-    return [store sdl_objectForName:SDLNameKeyboardLayout];
+    return [store sdl_objectForName:SDLRPCParameterNameKeyboardLayout];
 }
 
 - (void)setKeypressMode:(nullable SDLKeypressMode)keypressMode {
-    [store sdl_setObject:keypressMode forName:SDLNameKeypressMode];
+    [store sdl_setObject:keypressMode forName:SDLRPCParameterNameKeypressMode];
 }
 
 - (nullable SDLKeypressMode)keypressMode {
-    return [store sdl_objectForName:SDLNameKeypressMode];
+    return [store sdl_objectForName:SDLRPCParameterNameKeypressMode];
 }
 
 - (void)setLimitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList {
-    [store sdl_setObject:limitedCharacterList forName:SDLNameLimitedCharacterList];
+    [store sdl_setObject:limitedCharacterList forName:SDLRPCParameterNameLimitedCharacterList];
 }
 
 - (nullable NSArray<NSString *> *)limitedCharacterList {
-    return [store sdl_objectForName:SDLNameLimitedCharacterList];
+    return [store sdl_objectForName:SDLRPCParameterNameLimitedCharacterList];
 }
 
 - (void)setAutoCompleteText:(nullable NSString *)autoCompleteText {
-    [store sdl_setObject:autoCompleteText forName:SDLNameAutoCompleteText];
+    [store sdl_setObject:autoCompleteText forName:SDLRPCParameterNameAutoCompleteText];
 }
 
 - (nullable NSString *)autoCompleteText {
-    return [store sdl_objectForName:SDLNameAutoCompleteText];
+    return [store sdl_objectForName:SDLRPCParameterNameAutoCompleteText];
 }
 
 @end

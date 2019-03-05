@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLAlertResponse.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLAlertResponseSpec)
 

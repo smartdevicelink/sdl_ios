@@ -4,7 +4,7 @@
 #import "SDLPutFile.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 #import <zlib.h>
@@ -84,59 +84,59 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Getters and Setters
 
 - (void)setSyncFileName:(NSString *)syncFileName {
-    [parameters sdl_setObject:syncFileName forName:SDLNameSyncFileName];
+    [parameters sdl_setObject:syncFileName forName:SDLRPCParameterNameSyncFileName];
 }
 
 - (NSString *)syncFileName {
-    return [parameters sdl_objectForName:SDLNameSyncFileName];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSyncFileName];
 }
 
 - (void)setFileType:(SDLFileType)fileType {
-    [parameters sdl_setObject:fileType forName:SDLNameFileType];
+    [parameters sdl_setObject:fileType forName:SDLRPCParameterNameFileType];
 }
 
 - (SDLFileType)fileType {
-    return [parameters sdl_objectForName:SDLNameFileType];
+    return [parameters sdl_objectForName:SDLRPCParameterNameFileType];
 }
 
 - (void)setPersistentFile:(nullable NSNumber<SDLBool> *)persistentFile {
-    [parameters sdl_setObject:persistentFile forName:SDLNamePersistentFile];
+    [parameters sdl_setObject:persistentFile forName:SDLRPCParameterNamePersistentFile];
 }
 
 - (nullable NSNumber<SDLBool> *)persistentFile {
-    return [parameters sdl_objectForName:SDLNamePersistentFile];
+    return [parameters sdl_objectForName:SDLRPCParameterNamePersistentFile];
 }
 
 - (void)setSystemFile:(nullable NSNumber<SDLBool> *)systemFile {
-    [parameters sdl_setObject:systemFile forName:SDLNameSystemFile];
+    [parameters sdl_setObject:systemFile forName:SDLRPCParameterNameSystemFile];
 }
 
 - (nullable NSNumber<SDLBool> *)systemFile {
-    return [parameters sdl_objectForName:SDLNameSystemFile];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSystemFile];
 }
 
 - (void)setOffset:(nullable NSNumber<SDLUInt> *)offset {
-    [parameters sdl_setObject:offset forName:SDLNameOffset];
+    [parameters sdl_setObject:offset forName:SDLRPCParameterNameOffset];
 }
 
 - (nullable NSNumber<SDLUInt> *)offset {
-    return [parameters sdl_objectForName:SDLNameOffset];
+    return [parameters sdl_objectForName:SDLRPCParameterNameOffset];
 }
 
 - (void)setLength:(nullable NSNumber<SDLUInt> *)length {
-    [parameters sdl_setObject:length forName:SDLNameLength];
+    [parameters sdl_setObject:length forName:SDLRPCParameterNameLength];
 }
 
 - (nullable NSNumber<SDLUInt> *)length {
-    return [parameters sdl_objectForName:SDLNameLength];
+    return [parameters sdl_objectForName:SDLRPCParameterNameLength];
 }
 
 - (void)setCrc:(nullable NSNumber<SDLUInt> *)crc {
-    [parameters sdl_setObject:crc forName:SDLNameCRC];
+    [parameters sdl_setObject:crc forName:SDLRPCParameterNameCRC];
 }
 
 - (nullable NSNumber<SDLUInt> *)crc {
-    return [parameters sdl_objectForName:SDLNameCRC];
+    return [parameters sdl_objectForName:SDLRPCParameterNameCRC];
 }
 
 #pragma mark - Helpers

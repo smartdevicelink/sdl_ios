@@ -8,7 +8,7 @@
 
 #import "SDLAppServiceData.h"
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 #import "SDLAppServiceType.h"
 #import "SDLMediaServiceData.h"
@@ -78,43 +78,43 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setServiceType:(NSString *)serviceType {
-    [store sdl_setObject:serviceType forName:SDLNameServiceType];
+    [store sdl_setObject:serviceType forName:SDLRPCParameterNameServiceType];
 }
 
 - (NSString *)serviceType {
-    return [store sdl_objectForName:SDLNameServiceType];
+    return [store sdl_objectForName:SDLRPCParameterNameServiceType];
 }
 
 - (void)setServiceId:(NSString *)serviceId {
-    [store sdl_setObject:serviceId forName:SDLNameServiceID];
+    [store sdl_setObject:serviceId forName:SDLRPCParameterNameServiceID];
 }
 
 - (NSString *)serviceId {
-    return [store sdl_objectForName:SDLNameServiceID];
+    return [store sdl_objectForName:SDLRPCParameterNameServiceID];
 }
 
 - (void)setWeatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData {
-    [store sdl_setObject:weatherServiceData forName:SDLNameWeatherServiceData];
+    [store sdl_setObject:weatherServiceData forName:SDLRPCParameterNameWeatherServiceData];
 }
 
 - (nullable SDLWeatherServiceData *)weatherServiceData {
-    return [store sdl_objectForName:SDLNameWeatherServiceData ofClass:SDLWeatherServiceData.class];
+    return [store sdl_objectForName:SDLRPCParameterNameWeatherServiceData ofClass:SDLWeatherServiceData.class];
 }
 
 - (void)setMediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData {
-    [store sdl_setObject:mediaServiceData forName:SDLNameMediaServiceData];
+    [store sdl_setObject:mediaServiceData forName:SDLRPCParameterNameMediaServiceData];
 }
 
 - (nullable SDLMediaServiceData *)mediaServiceData {
-    return [store sdl_objectForName:SDLNameMediaServiceData ofClass:SDLMediaServiceData.class];
+    return [store sdl_objectForName:SDLRPCParameterNameMediaServiceData ofClass:SDLMediaServiceData.class];
 }
 
 - (void)setNavigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData {
-    [store sdl_setObject:navigationServiceData forName:SDLNameNavigationServiceData];
+    [store sdl_setObject:navigationServiceData forName:SDLRPCParameterNameNavigationServiceData];
 }
 
 - (nullable SDLNavigationServiceData *)navigationServiceData {
-    return [store sdl_objectForName:SDLNameNavigationServiceData ofClass:SDLNavigationServiceData.class];
+    return [store sdl_objectForName:SDLRPCParameterNameNavigationServiceData ofClass:SDLNavigationServiceData.class];
 }
 
 @end

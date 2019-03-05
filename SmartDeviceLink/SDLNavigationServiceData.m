@@ -11,7 +11,7 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLDateTime.h"
 #import "SDLLocationDetails.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLNavigationInstruction.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -48,75 +48,75 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setTimestamp:(SDLDateTime *)timestamp {
-    [store sdl_setObject:timestamp forName:SDLNameTimeStamp];
+    [store sdl_setObject:timestamp forName:SDLRPCParameterNameTimeStamp];
 }
 
 - (SDLDateTime *)timestamp {
-    return [store sdl_objectForName:SDLNameTimeStamp ofClass:SDLDateTime.class];
+    return [store sdl_objectForName:SDLRPCParameterNameTimeStamp ofClass:SDLDateTime.class];
 }
 
 - (void)setOrigin:(nullable SDLLocationDetails *)origin {
-    [store sdl_setObject:origin forName:SDLNameOrigin];
+    [store sdl_setObject:origin forName:SDLRPCParameterNameOrigin];
 }
 
 - (nullable SDLLocationDetails *)origin {
-    return [store sdl_objectForName:SDLNameOrigin ofClass:SDLLocationDetails.class];
+    return [store sdl_objectForName:SDLRPCParameterNameOrigin ofClass:SDLLocationDetails.class];
 }
 
 - (void)setDestination:(nullable SDLLocationDetails *)destination {
-    [store sdl_setObject:destination forName:SDLNameDestination];
+    [store sdl_setObject:destination forName:SDLRPCParameterNameDestination];
 }
 
 - (nullable SDLLocationDetails *)destination {
-    return [store sdl_objectForName:SDLNameDestination ofClass:SDLLocationDetails.class];
+    return [store sdl_objectForName:SDLRPCParameterNameDestination ofClass:SDLLocationDetails.class];
 }
 
 - (void)setDestinationETA:(nullable SDLDateTime *)destinationETA {
-    [store sdl_setObject:destinationETA forName:SDLNameDestinationETA];
+    [store sdl_setObject:destinationETA forName:SDLRPCParameterNameDestinationETA];
 }
 
 - (nullable SDLDateTime *)destinationETA {
-    return [store sdl_objectForName:SDLNameDestinationETA ofClass:SDLDateTime.class];
+    return [store sdl_objectForName:SDLRPCParameterNameDestinationETA ofClass:SDLDateTime.class];
 }
 
 - (void)setInstructions:(nullable NSArray<SDLNavigationInstruction *> *)instructions {
-    [store sdl_setObject:instructions forName:SDLNameInstructions];
+    [store sdl_setObject:instructions forName:SDLRPCParameterNameInstructions];
 }
 
 - (nullable NSArray<SDLNavigationInstruction *> *)instructions {
-    return [store sdl_objectsForName:SDLNameInstructions ofClass:SDLNavigationInstruction.class];
+    return [store sdl_objectsForName:SDLRPCParameterNameInstructions ofClass:SDLNavigationInstruction.class];
 }
 
 - (void)setNextInstructionETA:(nullable SDLDateTime *)nextInstructionETA {
-    [store sdl_setObject:nextInstructionETA forName:SDLNameNextInstructionETA];
+    [store sdl_setObject:nextInstructionETA forName:SDLRPCParameterNameNextInstructionETA];
 }
 
 - (nullable SDLDateTime *)nextInstructionETA {
-    return [store sdl_objectForName:SDLNameNextInstructionETA ofClass:SDLDateTime.class];
+    return [store sdl_objectForName:SDLRPCParameterNameNextInstructionETA ofClass:SDLDateTime.class];
 }
 
 - (void)setNextInstructionDistance:(nullable NSNumber<SDLFloat> *)nextInstructionDistance {
-    [store sdl_setObject:nextInstructionDistance forName:SDLNameNextInstructionDistance];
+    [store sdl_setObject:nextInstructionDistance forName:SDLRPCParameterNameNextInstructionDistance];
 }
 
 - (nullable NSNumber<SDLFloat> *)nextInstructionDistance {
-    return [store sdl_objectForName:SDLNameNextInstructionDistance];
+    return [store sdl_objectForName:SDLRPCParameterNameNextInstructionDistance];
 }
 
 - (void)setNextInstructionDistanceScale:(nullable NSNumber<SDLFloat> *)nextInstructionDistanceScale {
-    [store sdl_setObject:nextInstructionDistanceScale forName:SDLNameNextInstructionDistanceScale];
+    [store sdl_setObject:nextInstructionDistanceScale forName:SDLRPCParameterNameNextInstructionDistanceScale];
 }
 
 - (nullable NSNumber<SDLFloat> *)nextInstructionDistanceScale {
-    return [store sdl_objectForName:SDLNameNextInstructionDistanceScale];
+    return [store sdl_objectForName:SDLRPCParameterNameNextInstructionDistanceScale];
 }
 
 - (void)setPrompt:(nullable NSString *)prompt {
-    [store sdl_setObject:prompt forName:SDLNamePrompt];
+    [store sdl_setObject:prompt forName:SDLRPCParameterNamePrompt];
 }
 
 - (nullable NSString *)prompt {
-    return [store sdl_objectForName:SDLNamePrompt];
+    return [store sdl_objectForName:SDLRPCParameterNamePrompt];
 }
 
 @end

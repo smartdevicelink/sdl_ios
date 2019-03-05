@@ -3,7 +3,7 @@
 //
 
 #import "SDLTemperature.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "NSMutableDictionary+Store.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -23,19 +23,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setUnit:(SDLTemperatureUnit)unit {
-    [store sdl_setObject:unit forName:SDLNameUnit];
+    [store sdl_setObject:unit forName:SDLRPCParameterNameUnit];
 }
 
 - (SDLTemperatureUnit)unit {
-    return [store sdl_objectForName:SDLNameUnit];
+    return [store sdl_objectForName:SDLRPCParameterNameUnit];
 }
 
 - (void)setValue:(NSNumber<SDLFloat> *)value {
-    [store sdl_setObject:value forName:SDLNameValue];
+    [store sdl_setObject:value forName:SDLRPCParameterNameValue];
 }
 
 - (NSNumber<SDLFloat> *)value {
-    return [store sdl_objectForName:SDLNameValue];
+    return [store sdl_objectForName:SDLRPCParameterNameValue];
 }
 
 @end

@@ -40,7 +40,7 @@
 #import "SDLUnsubscribeButton.h"
 #import "SDLVehicleType.h"
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -387,7 +387,7 @@ static float DefaultConnectionTimeout = 45.0;
     NSString *messageType = [message messageType];
 
     // If it's a response, append response
-    if ([messageType isEqualToString:SDLNameResponse]) {
+    if ([messageType isEqualToString:SDLRPCParameterNameResponse]) {
         BOOL notGenericResponseMessage = ![functionName isEqualToString:@"GenericResponse"];
         if (notGenericResponseMessage) {
             functionName = [NSString stringWithFormat:@"%@Response", functionName];
@@ -610,7 +610,7 @@ static float DefaultConnectionTimeout = 45.0;
 
 #pragma mark Handle Post-Invoke of Delegate Methods
 - (void)handleAfterHMIStatus:(SDLRPCMessage *)message {
-    SDLHMILevel hmiLevel = (SDLHMILevel)[message getParameters:SDLNameHMILevel];
+    SDLHMILevel hmiLevel = (SDLHMILevel)[message getParameters:SDLRPCParameterNameHMILevel];
     _lsm.hmiLevel = hmiLevel;
 
     SEL callbackSelector = NSSelectorFromString(@"onOnLockScreenNotification:");
@@ -618,7 +618,7 @@ static float DefaultConnectionTimeout = 45.0;
 }
 
 - (void)handleAfterDriverDistraction:(SDLRPCMessage *)message {
-    NSString *stateString = (NSString *)[message getParameters:SDLNameState];
+    NSString *stateString = (NSString *)[message getParameters:SDLRPCParameterNameState];
     BOOL state = [stateString isEqualToString:@"DD_ON"] ? YES : NO;
     _lsm.driverDistracted = state;
 

@@ -7,7 +7,7 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
 #import "SDLMenuParams.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -103,35 +103,35 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Getters / Setters
 
 - (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
-    [parameters sdl_setObject:cmdID forName:SDLNameCommandId];
+    [parameters sdl_setObject:cmdID forName:SDLRPCParameterNameCommandId];
 }
 
 - (NSNumber<SDLInt> *)cmdID {
-    return [parameters sdl_objectForName:SDLNameCommandId];
+    return [parameters sdl_objectForName:SDLRPCParameterNameCommandId];
 }
 
 - (void)setMenuParams:(nullable SDLMenuParams *)menuParams {
-    [parameters sdl_setObject:menuParams forName:SDLNameMenuParams];
+    [parameters sdl_setObject:menuParams forName:SDLRPCParameterNameMenuParams];
 }
 
 - (nullable SDLMenuParams *)menuParams {
-    return [parameters sdl_objectForName:SDLNameMenuParams ofClass:SDLMenuParams.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMenuParams ofClass:SDLMenuParams.class];
 }
 
 - (void)setVrCommands:(nullable NSArray<NSString *> *)vrCommands {
-    [parameters sdl_setObject:vrCommands forName:SDLNameVRCommands];
+    [parameters sdl_setObject:vrCommands forName:SDLRPCParameterNameVRCommands];
 }
 
 - (nullable NSArray<NSString *> *)vrCommands {
-    return [parameters sdl_objectForName:SDLNameVRCommands];
+    return [parameters sdl_objectForName:SDLRPCParameterNameVRCommands];
 }
 
 - (void)setCmdIcon:(nullable SDLImage *)cmdIcon {
-    [parameters sdl_setObject:cmdIcon forName:SDLNameCommandIcon];
+    [parameters sdl_setObject:cmdIcon forName:SDLRPCParameterNameCommandIcon];
 }
 
 - (nullable SDLImage *)cmdIcon {
-    return [parameters sdl_objectForName:SDLNameCommandIcon ofClass:SDLImage.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameCommandIcon ofClass:SDLImage.class];
 }
 
 -(id)copyWithZone:(nullable NSZone *)zone {

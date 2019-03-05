@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLCharacterSet.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLTextField.h"
 #import "SDLTextFieldName.h"
 
@@ -32,10 +32,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameName:SDLTextFieldNameTertiaryText,
-                                       SDLNameCharacterSet:SDLCharacterSetType5,
-                                       SDLNameWidth:@111,
-                                       SDLNameRows:@4} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameName:SDLTextFieldNameTertiaryText,
+                                       SDLRPCParameterNameCharacterSet:SDLCharacterSetType5,
+                                       SDLRPCParameterNameWidth:@111,
+                                       SDLRPCParameterNameRows:@4} mutableCopy];
         SDLTextField* testStruct = [[SDLTextField alloc] initWithDictionary:dict];
         
         expect(testStruct.name).to(equal(SDLTextFieldNameTertiaryText));

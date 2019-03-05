@@ -15,7 +15,7 @@
 #import "SDLImage.h"
 #import "SDLNavigationServiceManifest.h"
 #import "SDLMediaServiceManifest.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLSyncMsgVersion.h"
 #import "SDLWeatherServiceManifest.h"
@@ -69,15 +69,15 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameServiceName:testServiceName,
-                               SDLNameServiceType:testServiceType,
-                               SDLNameServiceIcon:testServiceIcon,
-                               SDLNameAllowAppConsumers:testAllowAppConsumers,
-                               SDLNameRPCSpecVersion:testRPCSpecVersion,
-                               SDLNameHandledRPCs:testHandledRPCs,
-                               SDLNameWeatherServiceManifest:testWeatherServiceManifest,
-                               SDLNameMediaServiceManifest:testMediaServiceManifest,
-                               SDLNameNavigationServiceManifest:testNavigationServiceManifest
+        NSDictionary *dict = @{SDLRPCParameterNameServiceName:testServiceName,
+                               SDLRPCParameterNameServiceType:testServiceType,
+                               SDLRPCParameterNameServiceIcon:testServiceIcon,
+                               SDLRPCParameterNameAllowAppConsumers:testAllowAppConsumers,
+                               SDLRPCParameterNameRPCSpecVersion:testRPCSpecVersion,
+                               SDLRPCParameterNameHandledRPCs:testHandledRPCs,
+                               SDLRPCParameterNameWeatherServiceManifest:testWeatherServiceManifest,
+                               SDLRPCParameterNameMediaServiceManifest:testMediaServiceManifest,
+                               SDLRPCParameterNameNavigationServiceManifest:testNavigationServiceManifest
                                };
         SDLAppServiceManifest *testStruct = [[SDLAppServiceManifest alloc] initWithDictionary:dict];
 

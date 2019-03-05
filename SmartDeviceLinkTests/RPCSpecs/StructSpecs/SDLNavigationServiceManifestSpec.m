@@ -9,7 +9,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLNavigationServiceManifest.h"
 
 QuickSpecBegin(SDLNavigationServiceManifestSpec)
@@ -29,7 +29,7 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameAcceptsWayPoints:@(testAcceptsWayPoints)};
+        NSDictionary *dict = @{SDLRPCParameterNameAcceptsWayPoints:@(testAcceptsWayPoints)};
         SDLNavigationServiceManifest *testStruct = [[SDLNavigationServiceManifest alloc] initWithDictionary:dict];
 
         expect(testStruct.acceptsWayPoints).to(equal(testAcceptsWayPoints));

@@ -10,7 +10,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLAppServiceManifest.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 
@@ -36,11 +36,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setAppServiceManifest:(SDLAppServiceManifest *)appServiceManifest {
-    [parameters sdl_setObject:appServiceManifest forName:SDLNameAppServiceManifest];
+    [parameters sdl_setObject:appServiceManifest forName:SDLRPCParameterNameAppServiceManifest];
 }
 
 - (SDLAppServiceManifest *)appServiceManifest {
-    return [parameters sdl_objectForName:SDLNameAppServiceManifest ofClass:SDLAppServiceManifest.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAppServiceManifest ofClass:SDLAppServiceManifest.class];
 }
 
 @end

@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SmartDeviceLink.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 
@@ -94,38 +94,38 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSDictionary* dict = @{SDLNameNotification:
-                                   @{SDLNameParameters:
-                                         @{SDLNameAccelerationPedalPosition:@99.99999999,
-                                           SDLNameAirbagStatus:airbag,
-                                           SDLNameBeltStatus:belt,
-                                           SDLNameBodyInformation:body,
-                                           SDLNameClusterModeStatus:clusterMode,
-                                           SDLNameDeviceStatus:device,
-                                           SDLNameDriverBraking:SDLVehicleDataEventStatusYes,
-                                           SDLNameECallInfo:eCall,
-                                           SDLNameElectronicParkBrakeStatus:SDLElectronicParkBrakeStatusDriveActive,
-                                           SDLNameEmergencyEvent:event,
-                                           SDLNameEngineOilLife:@45.1,
-                                           SDLNameEngineTorque:@-200.124,
-                                           SDLNameExternalTemperature:@-10,
-                                           SDLNameFuelLevel:@10.3,
-                                           SDLNameFuelLevelState:SDLComponentVolumeStatusAlert,
-                                           SDLNameFuelRange:@[fuelRange],
-                                           SDLNameGPS:gps,
-                                           SDLNameHeadLampStatus:headLamp,
-                                           SDLNameInstantFuelConsumption:@4000.63,
-                                           SDLNameMyKey:myKey,
-                                           SDLNameOdometer:@100050,
-                                           SDLNamePRNDL:SDLPRNDLDrive,
-                                           SDLNameRPM:@4242,
-                                           SDLNameSpeed:@70.1,
-                                           SDLNameSteeringWheelAngle:@0.000000001,
-                                           SDLNameTirePressure:tires,
-                                           SDLNameTurnSignal:SDLTurnSignalOff,
-                                           SDLNameVIN:@"222222222722",
-                                           SDLNameWiperStatus:SDLWiperStatusStalled},
-                                     SDLNameOperationName:SDLRPCFunctionNameOnVehicleData}};
+        NSDictionary* dict = @{SDLRPCParameterNameNotification:
+                                   @{SDLRPCParameterNameParameters:
+                                         @{SDLRPCParameterNameAccelerationPedalPosition:@99.99999999,
+                                           SDLRPCParameterNameAirbagStatus:airbag,
+                                           SDLRPCParameterNameBeltStatus:belt,
+                                           SDLRPCParameterNameBodyInformation:body,
+                                           SDLRPCParameterNameClusterModeStatus:clusterMode,
+                                           SDLRPCParameterNameDeviceStatus:device,
+                                           SDLRPCParameterNameDriverBraking:SDLVehicleDataEventStatusYes,
+                                           SDLRPCParameterNameECallInfo:eCall,
+                                           SDLRPCParameterNameElectronicParkBrakeStatus:SDLElectronicParkBrakeStatusDriveActive,
+                                           SDLRPCParameterNameEmergencyEvent:event,
+                                           SDLRPCParameterNameEngineOilLife:@45.1,
+                                           SDLRPCParameterNameEngineTorque:@-200.124,
+                                           SDLRPCParameterNameExternalTemperature:@-10,
+                                           SDLRPCParameterNameFuelLevel:@10.3,
+                                           SDLRPCParameterNameFuelLevelState:SDLComponentVolumeStatusAlert,
+                                           SDLRPCParameterNameFuelRange:@[fuelRange],
+                                           SDLRPCParameterNameGPS:gps,
+                                           SDLRPCParameterNameHeadLampStatus:headLamp,
+                                           SDLRPCParameterNameInstantFuelConsumption:@4000.63,
+                                           SDLRPCParameterNameMyKey:myKey,
+                                           SDLRPCParameterNameOdometer:@100050,
+                                           SDLRPCParameterNamePRNDL:SDLPRNDLDrive,
+                                           SDLRPCParameterNameRPM:@4242,
+                                           SDLRPCParameterNameSpeed:@70.1,
+                                           SDLRPCParameterNameSteeringWheelAngle:@0.000000001,
+                                           SDLRPCParameterNameTirePressure:tires,
+                                           SDLRPCParameterNameTurnSignal:SDLTurnSignalOff,
+                                           SDLRPCParameterNameVIN:@"222222222722",
+                                           SDLRPCParameterNameWiperStatus:SDLWiperStatusStalled},
+                                     SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnVehicleData}};
         SDLOnVehicleData* testNotification = [[SDLOnVehicleData alloc] initWithDictionary:dict];
         
         expect(testNotification.accPedalPosition).to(equal(@99.99999999));

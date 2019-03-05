@@ -13,7 +13,7 @@
 #import "SDLAppServiceType.h"
 #import "SDLMediaServiceData.h"
 #import "SDLNavigationServiceData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLWeatherServiceData.h"
 
 QuickSpecBegin(SDLAppServiceDataSpec)
@@ -49,11 +49,11 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameServiceType:testServiceType,
-                               SDLNameServiceID:testServiceId,
-                               SDLNameMediaServiceData:testMediaServiceData,
-                               SDLNameWeatherServiceData:testWeatherServiceData,
-                               SDLNameNavigationServiceData:testNavigationServiceData
+        NSDictionary *dict = @{SDLRPCParameterNameServiceType:testServiceType,
+                               SDLRPCParameterNameServiceID:testServiceId,
+                               SDLRPCParameterNameMediaServiceData:testMediaServiceData,
+                               SDLRPCParameterNameWeatherServiceData:testWeatherServiceData,
+                               SDLRPCParameterNameNavigationServiceData:testNavigationServiceData
                                };
         SDLAppServiceData *testStruct = [[SDLAppServiceData alloc] initWithDictionary:dict];
 

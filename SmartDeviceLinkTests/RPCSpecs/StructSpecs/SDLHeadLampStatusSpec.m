@@ -10,7 +10,7 @@
 
 #import "SDLAmbientLightStatus.h"
 #import "SDLHeadLampStatus.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin(SDLHeadLampStatusSpec)
@@ -29,9 +29,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameLowBeamsOn:@YES,
-                                       SDLNameHighBeamsOn:@NO,
-                                       SDLNameAmbientLightSensorStatus:SDLAmbientLightStatusTwilight3} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameLowBeamsOn:@YES,
+                                       SDLRPCParameterNameHighBeamsOn:@NO,
+                                       SDLRPCParameterNameAmbientLightSensorStatus:SDLAmbientLightStatusTwilight3} mutableCopy];
         SDLHeadLampStatus* testStruct = [[SDLHeadLampStatus alloc] initWithDictionary:dict];
         
         expect(testStruct.lowBeamsOn).to(equal(@YES));

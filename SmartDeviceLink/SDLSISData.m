@@ -5,7 +5,7 @@
 
 #import "SDLStationIDNumber.h"
 #import "SDLGPSData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "NSMutableDictionary+Store.h"
 
 
@@ -28,43 +28,43 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setStationShortName:(nullable NSString *)stationShortName {
-    [store sdl_setObject:stationShortName forName:SDLNameStationShortName];
+    [store sdl_setObject:stationShortName forName:SDLRPCParameterNameStationShortName];
 }
 
 - (nullable NSString *)stationShortName {
-    return [store sdl_objectForName:SDLNameStationShortName];
+    return [store sdl_objectForName:SDLRPCParameterNameStationShortName];
 }
 
 - (void)setStationIDNumber:(nullable SDLStationIDNumber *)stationIDNumber {
-    [store sdl_setObject:stationIDNumber forName:SDLNameStationIDNumber];
+    [store sdl_setObject:stationIDNumber forName:SDLRPCParameterNameStationIDNumber];
 }
 
 - (nullable SDLStationIDNumber *)stationIDNumber {
-    return [store sdl_objectForName:SDLNameStationIDNumber ofClass:SDLStationIDNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameStationIDNumber ofClass:SDLStationIDNumber.class];
 }
 
 - (void)setStationLongName:(nullable NSString *)stationLongName {
-    [store sdl_setObject:stationLongName forName:SDLNameStationLongName];
+    [store sdl_setObject:stationLongName forName:SDLRPCParameterNameStationLongName];
 }
 
 - (nullable NSString *)stationLongName {
-    return [store sdl_objectForName:SDLNameStationLongName];
+    return [store sdl_objectForName:SDLRPCParameterNameStationLongName];
 }
 
 - (void)setStationLocation:(nullable SDLGPSData *)stationLocation {
-    [store sdl_setObject:stationLocation forName:SDLNameStationLocation];
+    [store sdl_setObject:stationLocation forName:SDLRPCParameterNameStationLocation];
 }
 
 - (nullable SDLGPSData *)stationLocation {
-    return [store sdl_objectForName:SDLNameStationLocation ofClass:SDLGPSData.class];
+    return [store sdl_objectForName:SDLRPCParameterNameStationLocation ofClass:SDLGPSData.class];
 }
 
 - (void)setStationMessage:(nullable NSString *)stationMessage {
-    [store sdl_setObject:stationMessage forName:SDLNameStationMessage];
+    [store sdl_setObject:stationMessage forName:SDLRPCParameterNameStationMessage];
 }
 
 - (nullable NSString *)stationMessage {
-    return [store sdl_objectForName:SDLNameStationMessage];
+    return [store sdl_objectForName:SDLRPCParameterNameStationMessage];
 }
 
 @end

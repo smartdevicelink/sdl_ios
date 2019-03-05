@@ -11,7 +11,7 @@
 #import "SDLGlobals.h"
 #import "SDLLanguage.h"
 #import "SDLLifecycleConfiguration.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLSyncMsgVersion.h"
 #import "SDLTemplateColorScheme.h"
@@ -117,131 +117,131 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Getters and Setters
 
 - (void)setSyncMsgVersion:(SDLSyncMsgVersion *)syncMsgVersion {
-    [parameters sdl_setObject:syncMsgVersion forName:SDLNameSyncMessageVersion];
+    [parameters sdl_setObject:syncMsgVersion forName:SDLRPCParameterNameSyncMessageVersion];
 }
 
 - (SDLSyncMsgVersion *)syncMsgVersion {
-    return [parameters sdl_objectForName:SDLNameSyncMessageVersion ofClass:SDLSyncMsgVersion.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSyncMessageVersion ofClass:SDLSyncMsgVersion.class];
 }
 
 - (void)setAppName:(NSString *)appName {
-    [parameters sdl_setObject:appName forName:SDLNameAppName];
+    [parameters sdl_setObject:appName forName:SDLRPCParameterNameAppName];
 }
 
 - (NSString *)appName {
-    return [parameters sdl_objectForName:SDLNameAppName];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAppName];
 }
 
 - (void)setTtsName:(nullable NSArray<SDLTTSChunk *> *)ttsName {
-    [parameters sdl_setObject:ttsName forName:SDLNameTTSName];
+    [parameters sdl_setObject:ttsName forName:SDLRPCParameterNameTTSName];
 }
 
 - (nullable NSArray<SDLTTSChunk *> *)ttsName {
-    return [parameters sdl_objectsForName:SDLNameTTSName ofClass:SDLTTSChunk.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameTTSName ofClass:SDLTTSChunk.class];
 }
 
 - (void)setNgnMediaScreenAppName:(nullable NSString *)ngnMediaScreenAppName {
-    [parameters sdl_setObject:ngnMediaScreenAppName forName:SDLNameNGNMediaScreenAppName];
+    [parameters sdl_setObject:ngnMediaScreenAppName forName:SDLRPCParameterNameNGNMediaScreenAppName];
 }
 
 - (nullable NSString *)ngnMediaScreenAppName {
-    return [parameters sdl_objectForName:SDLNameNGNMediaScreenAppName];
+    return [parameters sdl_objectForName:SDLRPCParameterNameNGNMediaScreenAppName];
 }
 
 - (void)setVrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms {
-    [parameters sdl_setObject:vrSynonyms forName:SDLNameVRSynonyms];
+    [parameters sdl_setObject:vrSynonyms forName:SDLRPCParameterNameVRSynonyms];
 }
 
 - (nullable NSArray<NSString *> *)vrSynonyms {
-    return [parameters sdl_objectForName:SDLNameVRSynonyms];
+    return [parameters sdl_objectForName:SDLRPCParameterNameVRSynonyms];
 }
 
 - (void)setIsMediaApplication:(NSNumber<SDLBool> *)isMediaApplication {
-    [parameters sdl_setObject:isMediaApplication forName:SDLNameIsMediaApplication];
+    [parameters sdl_setObject:isMediaApplication forName:SDLRPCParameterNameIsMediaApplication];
 }
 
 - (NSNumber<SDLBool> *)isMediaApplication {
-    return [parameters sdl_objectForName:SDLNameIsMediaApplication];
+    return [parameters sdl_objectForName:SDLRPCParameterNameIsMediaApplication];
 }
 
 - (void)setLanguageDesired:(SDLLanguage)languageDesired {
-    [parameters sdl_setObject:languageDesired forName:SDLNameLanguageDesired];
+    [parameters sdl_setObject:languageDesired forName:SDLRPCParameterNameLanguageDesired];
 }
 
 - (SDLLanguage)languageDesired {
-    return [parameters sdl_objectForName:SDLNameLanguageDesired];
+    return [parameters sdl_objectForName:SDLRPCParameterNameLanguageDesired];
 }
 
 - (void)setHmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired {
-    [parameters sdl_setObject:hmiDisplayLanguageDesired forName:SDLNameHMIDisplayLanguageDesired];
+    [parameters sdl_setObject:hmiDisplayLanguageDesired forName:SDLRPCParameterNameHMIDisplayLanguageDesired];
 }
 
 - (SDLLanguage)hmiDisplayLanguageDesired {
-    return [parameters sdl_objectForName:SDLNameHMIDisplayLanguageDesired];
+    return [parameters sdl_objectForName:SDLRPCParameterNameHMIDisplayLanguageDesired];
 }
 
 - (void)setAppHMIType:(nullable NSArray<SDLAppHMIType> *)appHMIType {
-    [parameters sdl_setObject:appHMIType forName:SDLNameAppHMIType];
+    [parameters sdl_setObject:appHMIType forName:SDLRPCParameterNameAppHMIType];
 }
 
 - (nullable NSArray<SDLAppHMIType> *)appHMIType {
-    return [parameters sdl_objectForName:SDLNameAppHMIType];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAppHMIType];
 }
 
 - (void)setHashID:(nullable NSString *)hashID {
-    [parameters sdl_setObject:hashID forName:SDLNameHashId];
+    [parameters sdl_setObject:hashID forName:SDLRPCParameterNameHashId];
 }
 
 - (nullable NSString *)hashID {
-    return [parameters sdl_objectForName:SDLNameHashId];
+    return [parameters sdl_objectForName:SDLRPCParameterNameHashId];
 }
 
 - (void)setDeviceInfo:(nullable SDLDeviceInfo *)deviceInfo {
-    [parameters sdl_setObject:deviceInfo forName:SDLNameDeviceInfo];
+    [parameters sdl_setObject:deviceInfo forName:SDLRPCParameterNameDeviceInfo];
 }
 
 - (nullable SDLDeviceInfo *)deviceInfo {
-    return [parameters sdl_objectForName:SDLNameDeviceInfo ofClass:SDLDeviceInfo.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameDeviceInfo ofClass:SDLDeviceInfo.class];
 }
 
 - (void)setAppID:(NSString *)appID {
-    [parameters sdl_setObject:appID forName:SDLNameAppId];
+    [parameters sdl_setObject:appID forName:SDLRPCParameterNameAppId];
 }
 
 - (NSString *)appID {
-    return [parameters sdl_objectForName:SDLNameAppId];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAppId];
 }
 
 - (void)setFullAppID:(nullable NSString *)fullAppID {
-    [parameters sdl_setObject:fullAppID forName:SDLNameFullAppID];
+    [parameters sdl_setObject:fullAppID forName:SDLRPCParameterNameFullAppID];
 }
 
 - (nullable NSString *)fullAppID {
-    return [parameters sdl_objectForName:SDLNameFullAppID];
+    return [parameters sdl_objectForName:SDLRPCParameterNameFullAppID];
 }
 
 - (void)setAppInfo:(nullable SDLAppInfo *)appInfo {
-    [parameters sdl_setObject:appInfo forName:SDLNameAppInfo];
+    [parameters sdl_setObject:appInfo forName:SDLRPCParameterNameAppInfo];
 }
 
 - (nullable SDLAppInfo *)appInfo {
-    return [parameters sdl_objectForName:SDLNameAppInfo ofClass:SDLAppInfo.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAppInfo ofClass:SDLAppInfo.class];
 }
 
 - (void)setDayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme {
-    [parameters sdl_setObject:dayColorScheme forName:SDLNameDayColorScheme];
+    [parameters sdl_setObject:dayColorScheme forName:SDLRPCParameterNameDayColorScheme];
 }
 
 - (nullable SDLTemplateColorScheme *)dayColorScheme {
-    return [parameters sdl_objectForName:SDLNameDayColorScheme ofClass:[SDLTemplateColorScheme class]];
+    return [parameters sdl_objectForName:SDLRPCParameterNameDayColorScheme ofClass:[SDLTemplateColorScheme class]];
 }
 
 - (void)setNightColorScheme:(nullable SDLTemplateColorScheme *)nightColorScheme {
-    [parameters sdl_setObject:nightColorScheme forName:SDLNameNightColorScheme];
+    [parameters sdl_setObject:nightColorScheme forName:SDLRPCParameterNameNightColorScheme];
 }
 
 - (nullable SDLTemplateColorScheme *)nightColorScheme {
-    return [parameters sdl_objectForName:SDLNameNightColorScheme ofClass:[SDLTemplateColorScheme class]];
+    return [parameters sdl_objectForName:SDLRPCParameterNameNightColorScheme ofClass:[SDLTemplateColorScheme class]];
 }
 
 @end

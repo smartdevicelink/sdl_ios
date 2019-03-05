@@ -4,7 +4,7 @@
 #import "SDLOnSystemRequest.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,59 +18,59 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setRequestType:(SDLRequestType)requestType {
-    [parameters sdl_setObject:requestType forName:SDLNameRequestType];
+    [parameters sdl_setObject:requestType forName:SDLRPCParameterNameRequestType];
 }
 
 - (SDLRequestType)requestType {
-    return [parameters sdl_objectForName:SDLNameRequestType];
+    return [parameters sdl_objectForName:SDLRPCParameterNameRequestType];
 }
 
 - (void)setRequestSubType:(nullable NSString *)requestSubType {
-    [parameters sdl_setObject:requestSubType forName:SDLNameRequestSubType];
+    [parameters sdl_setObject:requestSubType forName:SDLRPCParameterNameRequestSubType];
 }
 
 - (nullable NSString *)requestSubType {
-    return [parameters sdl_objectForName:SDLNameRequestSubType];
+    return [parameters sdl_objectForName:SDLRPCParameterNameRequestSubType];
 }
 
 - (void)setUrl:(nullable NSString *)url {
-    [parameters sdl_setObject:url forName:SDLNameURL];
+    [parameters sdl_setObject:url forName:SDLRPCParameterNameURL];
 }
 
 - (nullable NSString *)url {
-    return [parameters sdl_objectForName:SDLNameURL];
+    return [parameters sdl_objectForName:SDLRPCParameterNameURL];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
-    [parameters sdl_setObject:timeout forName:SDLNameTimeout];
+    [parameters sdl_setObject:timeout forName:SDLRPCParameterNameTimeout];
 }
 
 - (nullable NSNumber<SDLInt> *)timeout {
-    return [parameters sdl_objectForName:SDLNameTimeout];
+    return [parameters sdl_objectForName:SDLRPCParameterNameTimeout];
 }
 
 - (void)setFileType:(nullable SDLFileType)fileType {
-    [parameters sdl_setObject:fileType forName:SDLNameFileType];
+    [parameters sdl_setObject:fileType forName:SDLRPCParameterNameFileType];
 }
 
 - (nullable SDLFileType)fileType {
-    return [parameters sdl_objectForName:SDLNameFileType];
+    return [parameters sdl_objectForName:SDLRPCParameterNameFileType];
 }
 
 - (void)setOffset:(nullable NSNumber<SDLInt> *)offset {
-    [parameters sdl_setObject:offset forName:SDLNameOffset];
+    [parameters sdl_setObject:offset forName:SDLRPCParameterNameOffset];
 }
 
 - (nullable NSNumber<SDLInt> *)offset {
-    return [parameters sdl_objectForName:SDLNameOffset];
+    return [parameters sdl_objectForName:SDLRPCParameterNameOffset];
 }
 
 - (void)setLength:(nullable NSNumber<SDLInt> *)length {
-    [parameters sdl_setObject:length forName:SDLNameLength];
+    [parameters sdl_setObject:length forName:SDLRPCParameterNameLength];
 }
 
 - (nullable NSNumber<SDLInt> *)length {
-    return [parameters sdl_objectForName:SDLNameLength];
+    return [parameters sdl_objectForName:SDLRPCParameterNameLength];
 }
 
 @end

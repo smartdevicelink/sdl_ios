@@ -8,7 +8,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLSeatMemoryAction.h"
 
 QuickSpecBegin(SDLSeatMemoryActionSpec)
@@ -37,9 +37,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameId:@54,
-                                       SDLNameLabel:@"none",
-                                       SDLNameAction: SDLSeatMemoryActionTypeNone
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameId:@54,
+                                       SDLRPCParameterNameLabel:@"none",
+                                       SDLRPCParameterNameAction: SDLSeatMemoryActionTypeNone
                                        } mutableCopy];
         SDLSeatMemoryAction *testStruct = [[SDLSeatMemoryAction alloc] initWithDictionary:dict];
 

@@ -5,7 +5,7 @@
 #import "SDLSendLocation.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -46,83 +46,83 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setLongitudeDegrees:(nullable NSNumber<SDLFloat> *)longitudeDegrees {
-    [parameters sdl_setObject:longitudeDegrees forName:SDLNameLongitudeDegrees];
+    [parameters sdl_setObject:longitudeDegrees forName:SDLRPCParameterNameLongitudeDegrees];
 }
 
 - (nullable NSNumber<SDLFloat> *)longitudeDegrees {
-    return [parameters sdl_objectForName:SDLNameLongitudeDegrees];
+    return [parameters sdl_objectForName:SDLRPCParameterNameLongitudeDegrees];
 }
 
 - (void)setLatitudeDegrees:(nullable NSNumber<SDLFloat> *)latitudeDegrees {
-    [parameters sdl_setObject:latitudeDegrees forName:SDLNameLatitudeDegrees];
+    [parameters sdl_setObject:latitudeDegrees forName:SDLRPCParameterNameLatitudeDegrees];
 }
 
 - (nullable NSNumber<SDLFloat> *)latitudeDegrees {
-    return [parameters sdl_objectForName:SDLNameLatitudeDegrees];
+    return [parameters sdl_objectForName:SDLRPCParameterNameLatitudeDegrees];
 }
 
 - (void)setLocationName:(nullable NSString *)locationName {
-    [parameters sdl_setObject:locationName forName:SDLNameLocationName];
+    [parameters sdl_setObject:locationName forName:SDLRPCParameterNameLocationName];
 }
 
 - (nullable NSString *)locationName {
-    return [parameters sdl_objectForName:SDLNameLocationName];
+    return [parameters sdl_objectForName:SDLRPCParameterNameLocationName];
 }
 
 - (void)setAddressLines:(nullable NSArray<NSString *> *)addressLines {
-    [parameters sdl_setObject:addressLines forName:SDLNameAddressLines];
+    [parameters sdl_setObject:addressLines forName:SDLRPCParameterNameAddressLines];
 }
 
 - (nullable NSString *)locationDescription {
-    return [parameters sdl_objectForName:SDLNameLocationDescription];
+    return [parameters sdl_objectForName:SDLRPCParameterNameLocationDescription];
 }
 
 - (void)setLocationDescription:(nullable NSString *)locationDescription {
-    [parameters sdl_setObject:locationDescription forName:SDLNameLocationDescription];
+    [parameters sdl_setObject:locationDescription forName:SDLRPCParameterNameLocationDescription];
 }
 
 - (nullable NSArray<NSString *> *)addressLines {
-    return [parameters sdl_objectForName:SDLNameAddressLines];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAddressLines];
 }
 
 - (void)setPhoneNumber:(nullable NSString *)phoneNumber {
-    [parameters sdl_setObject:phoneNumber forName:SDLNamePhoneNumber];
+    [parameters sdl_setObject:phoneNumber forName:SDLRPCParameterNamePhoneNumber];
 }
 
 - (nullable NSString *)phoneNumber {
-    return [parameters sdl_objectForName:SDLNamePhoneNumber];
+    return [parameters sdl_objectForName:SDLRPCParameterNamePhoneNumber];
 }
 
 - (void)setLocationImage:(nullable SDLImage *)locationImage {
-    [parameters sdl_setObject:locationImage forName:SDLNameLocationImage];
+    [parameters sdl_setObject:locationImage forName:SDLRPCParameterNameLocationImage];
 }
 
 - (nullable SDLImage *)locationImage {
-    return [parameters sdl_objectForName:SDLNameLocationImage ofClass:SDLImage.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameLocationImage ofClass:SDLImage.class];
 }
 
 - (void)setDeliveryMode:(nullable SDLDeliveryMode)deliveryMode {
-    [parameters sdl_setObject:deliveryMode forName:SDLNameDeliveryMode];
+    [parameters sdl_setObject:deliveryMode forName:SDLRPCParameterNameDeliveryMode];
 }
 
 - (nullable SDLDeliveryMode)deliveryMode {
-    return [parameters sdl_objectForName:SDLNameDeliveryMode];
+    return [parameters sdl_objectForName:SDLRPCParameterNameDeliveryMode];
 }
 
 - (void)setTimeStamp:(nullable SDLDateTime *)timeStamp {
-    [parameters sdl_setObject:timeStamp forName:SDLNameTimeStamp];
+    [parameters sdl_setObject:timeStamp forName:SDLRPCParameterNameTimeStamp];
 }
 
 - (nullable SDLDateTime *)timeStamp {
-    return [parameters sdl_objectForName:SDLNameTimeStamp ofClass:SDLDateTime.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameTimeStamp ofClass:SDLDateTime.class];
 }
 
 - (void)setAddress:(nullable SDLOasisAddress *)address {
-    [parameters sdl_setObject:address forName:SDLNameAddress];
+    [parameters sdl_setObject:address forName:SDLRPCParameterNameAddress];
 }
 
 - (nullable SDLOasisAddress *)address {
-    return [parameters sdl_objectForName:SDLNameAddress ofClass:SDLOasisAddress.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAddress ofClass:SDLOasisAddress.class];
 }
 
 @end

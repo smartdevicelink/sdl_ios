@@ -10,7 +10,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLDateTime.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLTemperature.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -50,179 +50,179 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setCurrentTemperature:(nullable SDLTemperature *)currentTemperature {
-    [store sdl_setObject:currentTemperature forName:SDLNameCurrentTemperature];
+    [store sdl_setObject:currentTemperature forName:SDLRPCParameterNameCurrentTemperature];
 }
 
 - (nullable SDLTemperature *)currentTemperature {
-    return [store sdl_objectForName:SDLNameCurrentTemperature ofClass:SDLTemperature.class];
+    return [store sdl_objectForName:SDLRPCParameterNameCurrentTemperature ofClass:SDLTemperature.class];
 }
 
 - (void)setTemperatureHigh:(nullable SDLTemperature *)temperatureHigh {
-    [store sdl_setObject:temperatureHigh forName:SDLNameTemperatureHigh];
+    [store sdl_setObject:temperatureHigh forName:SDLRPCParameterNameTemperatureHigh];
 }
 
 - (nullable SDLTemperature *)temperatureHigh {
-    return [store sdl_objectForName:SDLNameTemperatureHigh ofClass:SDLTemperature.class];
+    return [store sdl_objectForName:SDLRPCParameterNameTemperatureHigh ofClass:SDLTemperature.class];
 }
 
 - (void)setTemperatureLow:(nullable SDLTemperature *)temperatureLow {
-    [store sdl_setObject:temperatureLow forName:SDLNameTemperatureLow];
+    [store sdl_setObject:temperatureLow forName:SDLRPCParameterNameTemperatureLow];
 }
 
 - (nullable SDLTemperature *)temperatureLow {
-    return [store sdl_objectForName:SDLNameTemperatureLow ofClass:SDLTemperature.class];
+    return [store sdl_objectForName:SDLRPCParameterNameTemperatureLow ofClass:SDLTemperature.class];
 }
 
 - (void)setApparentTemperature:(nullable SDLTemperature *)apparentTemperature {
-    [store sdl_setObject:apparentTemperature forName:SDLNameApparentTemperature];
+    [store sdl_setObject:apparentTemperature forName:SDLRPCParameterNameApparentTemperature];
 }
 
 - (nullable SDLTemperature *)apparentTemperature {
-    return [store sdl_objectForName:SDLNameApparentTemperature ofClass:SDLTemperature.class];
+    return [store sdl_objectForName:SDLRPCParameterNameApparentTemperature ofClass:SDLTemperature.class];
 }
 
 - (void)setApparentTemperatureHigh:(nullable SDLTemperature *)apparentTemperatureHigh {
-    [store sdl_setObject:apparentTemperatureHigh forName:SDLNameApparentTemperatureHigh];
+    [store sdl_setObject:apparentTemperatureHigh forName:SDLRPCParameterNameApparentTemperatureHigh];
 }
 
 - (nullable SDLTemperature *)apparentTemperatureHigh {
-    return [store sdl_objectForName:SDLNameApparentTemperatureHigh ofClass:SDLTemperature.class];
+    return [store sdl_objectForName:SDLRPCParameterNameApparentTemperatureHigh ofClass:SDLTemperature.class];
 }
 
 - (void)setApparentTemperatureLow:(nullable SDLTemperature *)apparentTemperatureLow {
-    [store sdl_setObject:apparentTemperatureLow forName:SDLNameApparentTemperatureLow];
+    [store sdl_setObject:apparentTemperatureLow forName:SDLRPCParameterNameApparentTemperatureLow];
 }
 
 - (nullable SDLTemperature *)apparentTemperatureLow {
-    return [store sdl_objectForName:SDLNameApparentTemperatureLow ofClass:SDLTemperature.class];
+    return [store sdl_objectForName:SDLRPCParameterNameApparentTemperatureLow ofClass:SDLTemperature.class];
 }
 
 - (void)setWeatherSummary:(nullable NSString *)weatherSummary {
-    [store sdl_setObject:weatherSummary forName:SDLNameWeatherSummary];
+    [store sdl_setObject:weatherSummary forName:SDLRPCParameterNameWeatherSummary];
 }
 
 - (nullable NSString *)weatherSummary {
-    return [store sdl_objectForName:SDLNameWeatherSummary];
+    return [store sdl_objectForName:SDLRPCParameterNameWeatherSummary];
 }
 
 - (void)setTime:(nullable SDLDateTime *)time {
-    [store sdl_setObject:time forName:SDLNameTime];
+    [store sdl_setObject:time forName:SDLRPCParameterNameTime];
 }
 
 - (nullable SDLDateTime *)time {
-    return [store sdl_objectForName:SDLNameTime ofClass:SDLDateTime.class];
+    return [store sdl_objectForName:SDLRPCParameterNameTime ofClass:SDLDateTime.class];
 }
 
 - (void)setHumidity:(nullable NSNumber<SDLFloat> *)humidity {
-    [store sdl_setObject:humidity forName:SDLNameHumidity];
+    [store sdl_setObject:humidity forName:SDLRPCParameterNameHumidity];
 }
 
 - (nullable NSNumber<SDLFloat> *)humidity {
-    return [store sdl_objectForName:SDLNameHumidity];
+    return [store sdl_objectForName:SDLRPCParameterNameHumidity];
 }
 
 - (void)setCloudCover:(nullable NSNumber<SDLFloat> *)cloudCover {
-    [store sdl_setObject:cloudCover forName:SDLNameCloudCover];
+    [store sdl_setObject:cloudCover forName:SDLRPCParameterNameCloudCover];
 }
 
 - (nullable NSNumber<SDLFloat> *)cloudCover {
-    return [store sdl_objectForName:SDLNameCloudCover];
+    return [store sdl_objectForName:SDLRPCParameterNameCloudCover];
 }
 
 - (void)setMoonPhase:(nullable NSNumber<SDLFloat> *)moonPhase {
-    [store sdl_setObject:moonPhase forName:SDLNameMoonPhase];
+    [store sdl_setObject:moonPhase forName:SDLRPCParameterNameMoonPhase];
 }
 
 - (nullable NSNumber<SDLFloat> *)moonPhase {
-    return [store sdl_objectForName:SDLNameMoonPhase];
+    return [store sdl_objectForName:SDLRPCParameterNameMoonPhase];
 }
 
 - (void)setWindBearing:(nullable NSNumber<SDLInt> *)windBearing {
-    [store sdl_setObject:windBearing forName:SDLNameWindBearing];
+    [store sdl_setObject:windBearing forName:SDLRPCParameterNameWindBearing];
 }
 
 - (nullable NSNumber<SDLInt> *)windBearing {
-    return [store sdl_objectForName:SDLNameWindBearing];
+    return [store sdl_objectForName:SDLRPCParameterNameWindBearing];
 }
 
 - (void)setWindGust:(nullable NSNumber<SDLFloat> *)windGust {
-    [store sdl_setObject:windGust forName:SDLNameWindGust];
+    [store sdl_setObject:windGust forName:SDLRPCParameterNameWindGust];
 }
 
 - (nullable NSNumber<SDLFloat> *)windGust {
-    return [store sdl_objectForName:SDLNameWindGust];
+    return [store sdl_objectForName:SDLRPCParameterNameWindGust];
 }
 
 - (void)setWindSpeed:(nullable NSNumber<SDLFloat> *)windSpeed {
-    [store sdl_setObject:windSpeed forName:SDLNameWindSpeed];
+    [store sdl_setObject:windSpeed forName:SDLRPCParameterNameWindSpeed];
 }
 
 - (nullable NSNumber<SDLFloat> *)windSpeed {
-    return [store sdl_objectForName:SDLNameWindSpeed];
+    return [store sdl_objectForName:SDLRPCParameterNameWindSpeed];
 }
 
 - (void)setNearestStormBearing:(nullable NSNumber<SDLInt> *)nearestStormBearing {
-    [store sdl_setObject:nearestStormBearing forName:SDLNameNearestStormBearing];
+    [store sdl_setObject:nearestStormBearing forName:SDLRPCParameterNameNearestStormBearing];
 }
 
 - (nullable NSNumber<SDLInt> *)nearestStormBearing {
-    return [store sdl_objectForName:SDLNameNearestStormBearing];
+    return [store sdl_objectForName:SDLRPCParameterNameNearestStormBearing];
 }
 
 - (void)setNearestStormDistance:(nullable NSNumber<SDLInt> *)nearestStormDistance {
-    [store sdl_setObject:nearestStormDistance forName:SDLNameNearestStormDistance];
+    [store sdl_setObject:nearestStormDistance forName:SDLRPCParameterNameNearestStormDistance];
 }
 
 - (nullable NSNumber<SDLInt> *)nearestStormDistance {
-    return [store sdl_objectForName:SDLNameNearestStormDistance];
+    return [store sdl_objectForName:SDLRPCParameterNameNearestStormDistance];
 }
 
 - (void)setPrecipAccumulation:(nullable NSNumber<SDLFloat> *)precipAccumulation {
-    [store sdl_setObject:precipAccumulation forName:SDLNamePrecipAccumulation];
+    [store sdl_setObject:precipAccumulation forName:SDLRPCParameterNamePrecipAccumulation];
 }
 
 - (nullable NSNumber<SDLFloat> *)precipAccumulation {
-    return [store sdl_objectForName:SDLNamePrecipAccumulation];
+    return [store sdl_objectForName:SDLRPCParameterNamePrecipAccumulation];
 }
 
 - (void)setPrecipIntensity:(nullable NSNumber<SDLFloat> *)precipIntensity {
-    [store sdl_setObject:precipIntensity forName:SDLNamePrecipIntensity];
+    [store sdl_setObject:precipIntensity forName:SDLRPCParameterNamePrecipIntensity];
 }
 
 - (nullable NSNumber<SDLFloat> *)precipIntensity {
-    return [store sdl_objectForName:SDLNamePrecipIntensity];
+    return [store sdl_objectForName:SDLRPCParameterNamePrecipIntensity];
 }
 
 - (void)setPrecipProbability:(nullable NSNumber<SDLFloat> *)precipProbability {
-    [store sdl_setObject:precipProbability forName:SDLNamePrecipProbability];
+    [store sdl_setObject:precipProbability forName:SDLRPCParameterNamePrecipProbability];
 }
 
 - (nullable NSNumber<SDLFloat> *)precipProbability {
-    return [store sdl_objectForName:SDLNamePrecipProbability];
+    return [store sdl_objectForName:SDLRPCParameterNamePrecipProbability];
 }
 
 - (void)setPrecipType:(nullable NSString *)precipType {
-    [store sdl_setObject:precipType forName:SDLNamePrecipType];
+    [store sdl_setObject:precipType forName:SDLRPCParameterNamePrecipType];
 }
 
 - (nullable NSString *)precipType {
-    return [store sdl_objectForName:SDLNamePrecipType];
+    return [store sdl_objectForName:SDLRPCParameterNamePrecipType];
 }
 
 - (void)setVisibility:(nullable NSNumber<SDLFloat> *)visibility {
-    [store sdl_setObject:visibility forName:SDLNameVisibility];
+    [store sdl_setObject:visibility forName:SDLRPCParameterNameVisibility];
 }
 
 - (nullable NSNumber<SDLFloat> *)visibility {
-    return [store sdl_objectForName:SDLNameVisibility];
+    return [store sdl_objectForName:SDLRPCParameterNameVisibility];
 }
 
 - (void)setWeatherIconImageName:(nullable NSString *)weatherIconImageName {
-    [store sdl_setObject:weatherIconImageName forName:SDLNameWeatherIconImageName];
+    [store sdl_setObject:weatherIconImageName forName:SDLRPCParameterNameWeatherIconImageName];
 }
 
 - (nullable NSString *)weatherIconImageName {
-    return [store sdl_objectForName:SDLNameWeatherIconImageName];
+    return [store sdl_objectForName:SDLRPCParameterNameWeatherIconImageName];
 }
 
 @end

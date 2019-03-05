@@ -9,7 +9,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLWeatherServiceManifest.h"
 
 QuickSpecBegin(SDLWeatherServiceManifestSpec)
@@ -42,11 +42,11 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameCurrentForecastSupported:@(testCurrentForecastSupported),
-                               SDLNameMaxMultidayForecastAmount:@(testMaxMultidayForecastAmount),
-                               SDLNameMaxHourlyForecastAmount:@(testMaxHourlyForecastAmount),
-                               SDLNameMaxMinutelyForecastAmount:@(testMaxMinutelyForecastAmount),
-                               SDLNameWeatherForLocationSupported:@(testWeatherForLocationSupported)
+        NSDictionary *dict = @{SDLRPCParameterNameCurrentForecastSupported:@(testCurrentForecastSupported),
+                               SDLRPCParameterNameMaxMultidayForecastAmount:@(testMaxMultidayForecastAmount),
+                               SDLRPCParameterNameMaxHourlyForecastAmount:@(testMaxHourlyForecastAmount),
+                               SDLRPCParameterNameMaxMinutelyForecastAmount:@(testMaxMinutelyForecastAmount),
+                               SDLRPCParameterNameWeatherForLocationSupported:@(testWeatherForLocationSupported)
                                };
         SDLWeatherServiceManifest *testStruct = [[SDLWeatherServiceManifest alloc] initWithDictionary:dict];
 

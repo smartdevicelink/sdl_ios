@@ -8,7 +8,7 @@
 #import "SDLImage.h"
 #import "SDLMetadataTags.h"
 #import "SDLMetadataType.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLSoftButton.h"
 
@@ -98,107 +98,107 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMainField1:(nullable NSString *)mainField1 {
-    [parameters sdl_setObject:mainField1 forName:SDLNameMainField1];
+    [parameters sdl_setObject:mainField1 forName:SDLRPCParameterNameMainField1];
 }
 
 - (nullable NSString *)mainField1 {
-    return [parameters sdl_objectForName:SDLNameMainField1];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMainField1];
 }
 
 - (void)setMainField2:(nullable NSString *)mainField2 {
-    [parameters sdl_setObject:mainField2 forName:SDLNameMainField2];
+    [parameters sdl_setObject:mainField2 forName:SDLRPCParameterNameMainField2];
 }
 
 - (nullable NSString *)mainField2 {
-    return [parameters sdl_objectForName:SDLNameMainField2];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMainField2];
 }
 
 - (void)setMainField3:(nullable NSString *)mainField3 {
-    [parameters sdl_setObject:mainField3 forName:SDLNameMainField3];
+    [parameters sdl_setObject:mainField3 forName:SDLRPCParameterNameMainField3];
 }
 
 - (nullable NSString *)mainField3 {
-    return [parameters sdl_objectForName:SDLNameMainField3];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMainField3];
 }
 
 - (void)setMainField4:(nullable NSString *)mainField4 {
-    [parameters sdl_setObject:mainField4 forName:SDLNameMainField4];
+    [parameters sdl_setObject:mainField4 forName:SDLRPCParameterNameMainField4];
 }
 
 - (nullable NSString *)mainField4 {
-    return [parameters sdl_objectForName:SDLNameMainField4];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMainField4];
 }
 
 - (void)setAlignment:(nullable SDLTextAlignment)alignment {
-    [parameters sdl_setObject:alignment forName:SDLNameAlignment];
+    [parameters sdl_setObject:alignment forName:SDLRPCParameterNameAlignment];
 }
 
 - (nullable SDLTextAlignment)alignment {
-    return [parameters sdl_objectForName:SDLNameAlignment];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAlignment];
 }
 
 - (void)setStatusBar:(nullable NSString *)statusBar {
-    [parameters sdl_setObject:statusBar forName:SDLNameStatusBar];
+    [parameters sdl_setObject:statusBar forName:SDLRPCParameterNameStatusBar];
 }
 
 - (nullable NSString *)statusBar {
-    return [parameters sdl_objectForName:SDLNameStatusBar];
+    return [parameters sdl_objectForName:SDLRPCParameterNameStatusBar];
 }
 
 - (void)setMediaClock:(nullable NSString *)mediaClock {
-    [parameters sdl_setObject:mediaClock forName:SDLNameMediaClock];
+    [parameters sdl_setObject:mediaClock forName:SDLRPCParameterNameMediaClock];
 }
 
 - (nullable NSString *)mediaClock {
-    return [parameters sdl_objectForName:SDLNameMediaClock];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMediaClock];
 }
 
 - (void)setMediaTrack:(nullable NSString *)mediaTrack {
-    [parameters sdl_setObject:mediaTrack forName:SDLNameMediaTrack];
+    [parameters sdl_setObject:mediaTrack forName:SDLRPCParameterNameMediaTrack];
 }
 
 - (nullable NSString *)mediaTrack {
-    return [parameters sdl_objectForName:SDLNameMediaTrack];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMediaTrack];
 }
 
 - (void)setGraphic:(nullable SDLImage *)graphic {
-    [parameters sdl_setObject:graphic forName:SDLNameGraphic];
+    [parameters sdl_setObject:graphic forName:SDLRPCParameterNameGraphic];
 }
 
 - (nullable SDLImage *)graphic {
-    return [parameters sdl_objectForName:SDLNameGraphic ofClass:SDLImage.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameGraphic ofClass:SDLImage.class];
 }
 
 - (void)setSecondaryGraphic:(nullable SDLImage *)secondaryGraphic {
-    [parameters sdl_setObject:secondaryGraphic forName:SDLNameSecondaryGraphic];
+    [parameters sdl_setObject:secondaryGraphic forName:SDLRPCParameterNameSecondaryGraphic];
 }
 
 - (nullable SDLImage *)secondaryGraphic {
-    return [parameters sdl_objectForName:SDLNameSecondaryGraphic ofClass:SDLImage.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSecondaryGraphic ofClass:SDLImage.class];
 }
 
 - (void)setSoftButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
-    [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
+    [parameters sdl_setObject:softButtons forName:SDLRPCParameterNameSoftButtons];
 }
 
 - (nullable NSArray<SDLSoftButton *> *)softButtons {
-    return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameSoftButtons ofClass:SDLSoftButton.class];
 }
 
 - (void)setCustomPresets:(nullable NSArray<NSString *> *)customPresets {
-    [parameters sdl_setObject:customPresets forName:SDLNameCustomPresets];
+    [parameters sdl_setObject:customPresets forName:SDLRPCParameterNameCustomPresets];
 }
 
 - (nullable NSArray<NSString *> *)customPresets {
-    return [parameters sdl_objectForName:SDLNameCustomPresets];
+    return [parameters sdl_objectForName:SDLRPCParameterNameCustomPresets];
 }
 
 - (void)setMetadataTags:(nullable SDLMetadataTags *)metadataTags {
-    [parameters sdl_setObject:metadataTags forName:SDLNameMetadataTags];
+    [parameters sdl_setObject:metadataTags forName:SDLRPCParameterNameMetadataTags];
 }
 
 - (nullable SDLMetadataTags *)metadataTags {
-    return [parameters sdl_objectForName:SDLNameMetadataTags ofClass:SDLMetadataTags.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMetadataTags ofClass:SDLMetadataTags.class];
 }
 
 @end

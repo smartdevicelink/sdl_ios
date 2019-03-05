@@ -4,7 +4,7 @@
 #import "SDLOnKeyboardInput.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,20 +18,20 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setEvent:(SDLKeyboardEvent)event {
-    [parameters sdl_setObject:event forName:SDLNameEvent];
+    [parameters sdl_setObject:event forName:SDLRPCParameterNameEvent];
 }
 
 - (SDLKeyboardEvent)event {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameEvent];
+    NSObject *obj = [parameters sdl_objectForName:SDLRPCParameterNameEvent];
     return (SDLKeyboardEvent)obj;
 }
 
 - (void)setData:(nullable NSString *)data {
-    [parameters sdl_setObject:data forName:SDLNameData];
+    [parameters sdl_setObject:data forName:SDLRPCParameterNameData];
 }
 
 - (nullable NSString *)data {
-    return [parameters sdl_objectForName:SDLNameData];
+    return [parameters sdl_objectForName:SDLRPCParameterNameData];
 }
 
 @end

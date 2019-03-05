@@ -9,7 +9,7 @@
 #import "SDLWeatherServiceManifest.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -31,43 +31,43 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setCurrentForecastSupported:(nullable NSNumber<SDLBool> *)currentForecastSupported {
-    [store sdl_setObject:currentForecastSupported forName:SDLNameCurrentForecastSupported];
+    [store sdl_setObject:currentForecastSupported forName:SDLRPCParameterNameCurrentForecastSupported];
 }
 
 - (nullable NSNumber<SDLBool> *)currentForecastSupported {
-    return [store sdl_objectForName:SDLNameCurrentForecastSupported];
+    return [store sdl_objectForName:SDLRPCParameterNameCurrentForecastSupported];
 }
 
 - (void)setMaxMultidayForecastAmount:(nullable NSNumber<SDLInt> *)maxMultidayForecastAmount {
-    [store sdl_setObject:maxMultidayForecastAmount forName:SDLNameMaxMultidayForecastAmount];
+    [store sdl_setObject:maxMultidayForecastAmount forName:SDLRPCParameterNameMaxMultidayForecastAmount];
 }
 
 - (nullable NSNumber<SDLInt> *)maxMultidayForecastAmount {
-    return [store sdl_objectForName:SDLNameMaxMultidayForecastAmount];
+    return [store sdl_objectForName:SDLRPCParameterNameMaxMultidayForecastAmount];
 }
 
 - (void)setMaxHourlyForecastAmount:(nullable NSNumber<SDLInt> *)maxHourlyForecastAmount {
-    [store sdl_setObject:maxHourlyForecastAmount forName:SDLNameMaxHourlyForecastAmount];
+    [store sdl_setObject:maxHourlyForecastAmount forName:SDLRPCParameterNameMaxHourlyForecastAmount];
 }
 
 - (nullable NSNumber<SDLInt> *)maxHourlyForecastAmount {
-    return [store sdl_objectForName:SDLNameMaxHourlyForecastAmount];
+    return [store sdl_objectForName:SDLRPCParameterNameMaxHourlyForecastAmount];
 }
 
 - (void)setMaxMinutelyForecastAmount:(nullable NSNumber<SDLInt> *)maxMinutelyForecastAmount {
-    [store sdl_setObject:maxMinutelyForecastAmount forName:SDLNameMaxMinutelyForecastAmount];
+    [store sdl_setObject:maxMinutelyForecastAmount forName:SDLRPCParameterNameMaxMinutelyForecastAmount];
 }
 
 - (nullable NSNumber<SDLInt> *)maxMinutelyForecastAmount {
-    return [store sdl_objectForName:SDLNameMaxMinutelyForecastAmount];
+    return [store sdl_objectForName:SDLRPCParameterNameMaxMinutelyForecastAmount];
 }
 
 - (void)setWeatherForLocationSupported:(nullable NSNumber<SDLBool> *)weatherForLocationSupported {
-    [store sdl_setObject:weatherForLocationSupported forName:SDLNameWeatherForLocationSupported];
+    [store sdl_setObject:weatherForLocationSupported forName:SDLRPCParameterNameWeatherForLocationSupported];
 }
 
 - (nullable NSNumber<SDLBool> *)weatherForLocationSupported {
-    return [store sdl_objectForName:SDLNameWeatherForLocationSupported];
+    return [store sdl_objectForName:SDLRPCParameterNameWeatherForLocationSupported];
 }
 
 @end

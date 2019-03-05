@@ -5,7 +5,7 @@
 #import "SDLTouchEvent.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLTouchCoord.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -13,27 +13,27 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLTouchEvent
 
 - (void)setTouchEventId:(NSNumber<SDLInt> *)touchEventId {
-    [store sdl_setObject:touchEventId forName:SDLNameId];
+    [store sdl_setObject:touchEventId forName:SDLRPCParameterNameId];
 }
 
 - (NSNumber<SDLInt> *)touchEventId {
-    return [store sdl_objectForName:SDLNameId];
+    return [store sdl_objectForName:SDLRPCParameterNameId];
 }
 
 - (void)setTimeStamp:(NSArray<NSNumber<SDLInt> *> *)timeStamp {
-    [store sdl_setObject:timeStamp forName:SDLNameTS];
+    [store sdl_setObject:timeStamp forName:SDLRPCParameterNameTS];
 }
 
 - (NSArray<NSNumber<SDLInt> *> *)timeStamp {
-    return [store sdl_objectForName:SDLNameTS];
+    return [store sdl_objectForName:SDLRPCParameterNameTS];
 }
 
 - (void)setCoord:(NSArray<SDLTouchCoord *> *)coord {
-    [store sdl_setObject:coord forName:SDLNameCoordinate];
+    [store sdl_setObject:coord forName:SDLRPCParameterNameCoordinate];
 }
 
 - (NSArray<SDLTouchCoord *> *)coord {
-    return [store sdl_objectsForName:SDLNameCoordinate ofClass:SDLTouchCoord.class];
+    return [store sdl_objectsForName:SDLRPCParameterNameCoordinate ofClass:SDLTouchCoord.class];
 }
 
 @end

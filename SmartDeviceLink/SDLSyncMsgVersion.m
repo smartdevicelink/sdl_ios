@@ -5,7 +5,7 @@
 #import "SDLSyncMsgVersion.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,27 +25,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMajorVersion:(NSNumber<SDLInt> *)majorVersion {
-    [store sdl_setObject:majorVersion forName:SDLNameMajorVersion];
+    [store sdl_setObject:majorVersion forName:SDLRPCParameterNameMajorVersion];
 }
 
 - (NSNumber<SDLInt> *)majorVersion {
-    return [store sdl_objectForName:SDLNameMajorVersion];
+    return [store sdl_objectForName:SDLRPCParameterNameMajorVersion];
 }
 
 - (void)setMinorVersion:(NSNumber<SDLInt> *)minorVersion {
-    [store sdl_setObject:minorVersion forName:SDLNameMinorVersion];
+    [store sdl_setObject:minorVersion forName:SDLRPCParameterNameMinorVersion];
 }
 
 - (NSNumber<SDLInt> *)minorVersion {
-    return [store sdl_objectForName:SDLNameMinorVersion];
+    return [store sdl_objectForName:SDLRPCParameterNameMinorVersion];
 }
 
 - (void)setPatchVersion:(nullable NSNumber<SDLInt> *)patchVersion {
-    [store sdl_setObject:patchVersion forName:SDLNamePatchVersion];
+    [store sdl_setObject:patchVersion forName:SDLRPCParameterNamePatchVersion];
 }
 
 - (nullable NSNumber<SDLInt> *)patchVersion {
-    return [store sdl_objectForName:SDLNamePatchVersion];
+    return [store sdl_objectForName:SDLRPCParameterNamePatchVersion];
 }
 
 - (NSString *)description {

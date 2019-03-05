@@ -4,7 +4,7 @@
 #import "SDLOnCommand.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,19 +18,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
-    [parameters sdl_setObject:cmdID forName:SDLNameCommandId];
+    [parameters sdl_setObject:cmdID forName:SDLRPCParameterNameCommandId];
 }
 
 - (NSNumber<SDLInt> *)cmdID {
-    return [parameters sdl_objectForName:SDLNameCommandId];
+    return [parameters sdl_objectForName:SDLRPCParameterNameCommandId];
 }
 
 - (void)setTriggerSource:(SDLTriggerSource)triggerSource {
-    [parameters sdl_setObject:triggerSource forName:SDLNameTriggerSource];
+    [parameters sdl_setObject:triggerSource forName:SDLRPCParameterNameTriggerSource];
 }
 
 - (SDLTriggerSource)triggerSource {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameTriggerSource];
+    NSObject *obj = [parameters sdl_objectForName:SDLRPCParameterNameTriggerSource];
     return (SDLTriggerSource)obj;
 }
 

@@ -2,7 +2,7 @@
 //
 
 #import "SDLHMISettingsControlCapabilities.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "NSMutableDictionary+Store.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -33,36 +33,36 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setModuleName:(NSString *)moduleName {
-    [store sdl_setObject:moduleName forName:SDLNameModuleName];
+    [store sdl_setObject:moduleName forName:SDLRPCParameterNameModuleName];
 }
 
 - (NSString *)moduleName {
-    return [store sdl_objectForName:SDLNameModuleName];
+    return [store sdl_objectForName:SDLRPCParameterNameModuleName];
 }
 
 
 - (void)setDistanceUnitAvailable:(nullable NSNumber<SDLBool> *)distanceUnitAvailable {
-    [store sdl_setObject:distanceUnitAvailable forName:SDLNameDistanceUnitAvailable];
+    [store sdl_setObject:distanceUnitAvailable forName:SDLRPCParameterNameDistanceUnitAvailable];
 }
 
 - (nullable NSNumber<SDLBool> *)distanceUnitAvailable {
-    return [store sdl_objectForName:SDLNameDistanceUnitAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameDistanceUnitAvailable];
 }
 
 - (void)setTemperatureUnitAvailable:(nullable NSNumber<SDLBool> *)temperatureUnitAvailable {
-    [store sdl_setObject:temperatureUnitAvailable forName:SDLNameTemperatureUnitAvailable];
+    [store sdl_setObject:temperatureUnitAvailable forName:SDLRPCParameterNameTemperatureUnitAvailable];
 }
 
 - (nullable NSNumber<SDLBool> *)temperatureUnitAvailable {
-    return [store sdl_objectForName:SDLNameTemperatureUnitAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameTemperatureUnitAvailable];
 }
 
 - (void)setDisplayModeUnitAvailable:(nullable NSNumber<SDLBool> *)displayModeUnitAvailable {
-    [store sdl_setObject:displayModeUnitAvailable forName:SDLNameDisplayModeUnitAvailable];
+    [store sdl_setObject:displayModeUnitAvailable forName:SDLRPCParameterNameDisplayModeUnitAvailable];
 }
 
 - (nullable NSNumber<SDLBool> *)displayModeUnitAvailable {
-    return [store sdl_objectForName:SDLNameDisplayModeUnitAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameDisplayModeUnitAvailable];
 }
 
 @end

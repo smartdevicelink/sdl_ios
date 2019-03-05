@@ -5,7 +5,7 @@
 #import "SDLDialNumber.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 @implementation SDLDialNumber
@@ -28,11 +28,11 @@
 }
 
 - (void)setNumber:(NSString *)number {
-    [parameters sdl_setObject:number forName:SDLNameNumber];
+    [parameters sdl_setObject:number forName:SDLRPCParameterNameNumber];
 }
 
 - (NSString *)number {
-    return [parameters sdl_objectForName:SDLNameNumber];
+    return [parameters sdl_objectForName:SDLRPCParameterNameNumber];
 }
 
 @end

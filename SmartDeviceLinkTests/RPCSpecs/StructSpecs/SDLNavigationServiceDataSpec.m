@@ -11,7 +11,7 @@
 
 #import "SDLDateTime.h"
 #import "SDLLocationDetails.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLNavigationInstruction.h"
 #import "SDLNavigationServiceData.h"
 
@@ -63,15 +63,15 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameTimeStamp:testTimestamp,
-                               SDLNameOrigin:testOrigin,
-                               SDLNameDestination:testDestination,
-                               SDLNameDestinationETA:testDestinationETA,
-                               SDLNameInstructions:testInstructions,
-                               SDLNameNextInstructionETA:testNextInstructionETA,
-                               SDLNameNextInstructionDistance:@(testNextInstructionDistance),
-                               SDLNameNextInstructionDistanceScale:@(testNextInstructionDistanceScale),
-                               SDLNamePrompt:testPrompt
+        NSDictionary *dict = @{SDLRPCParameterNameTimeStamp:testTimestamp,
+                               SDLRPCParameterNameOrigin:testOrigin,
+                               SDLRPCParameterNameDestination:testDestination,
+                               SDLRPCParameterNameDestinationETA:testDestinationETA,
+                               SDLRPCParameterNameInstructions:testInstructions,
+                               SDLRPCParameterNameNextInstructionETA:testNextInstructionETA,
+                               SDLRPCParameterNameNextInstructionDistance:@(testNextInstructionDistance),
+                               SDLRPCParameterNameNextInstructionDistanceScale:@(testNextInstructionDistanceScale),
+                               SDLRPCParameterNamePrompt:testPrompt
                                };
         SDLNavigationServiceData *testStruct = [[SDLNavigationServiceData alloc] initWithDictionary:dict];
 

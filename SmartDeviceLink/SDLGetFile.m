@@ -9,7 +9,7 @@
 #import "SDLGetFile.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 
@@ -59,43 +59,43 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setFileName:(NSString *)fileName {
-    [parameters sdl_setObject:fileName forName:SDLNameFilename];
+    [parameters sdl_setObject:fileName forName:SDLRPCParameterNameFilename];
 }
 
 - (NSString *)fileName {
-    return [parameters sdl_objectForName:SDLNameFilename];
+    return [parameters sdl_objectForName:SDLRPCParameterNameFilename];
 }
 
 - (void)setAppServiceId:(nullable NSString *)appServiceId {
-    [parameters sdl_setObject:appServiceId forName:SDLNameAppServiceId];
+    [parameters sdl_setObject:appServiceId forName:SDLRPCParameterNameAppServiceId];
 }
 
 - (nullable NSString *)appServiceId {
-    return [parameters sdl_objectForName:SDLNameAppServiceId];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAppServiceId];
 }
 
 - (void)setFileType:(nullable SDLFileType)fileType {
-    [parameters sdl_setObject:fileType forName:SDLNameFileType];
+    [parameters sdl_setObject:fileType forName:SDLRPCParameterNameFileType];
 }
 
 - (nullable SDLFileType)fileType {
-    return [parameters sdl_objectForName:SDLNameFileType];
+    return [parameters sdl_objectForName:SDLRPCParameterNameFileType];
 }
 
 - (void)setOffset:(nullable NSNumber<SDLUInt> *)offset {
-    [parameters sdl_setObject:offset forName:SDLNameOffset];
+    [parameters sdl_setObject:offset forName:SDLRPCParameterNameOffset];
 }
 
 - (nullable NSNumber<SDLUInt> *)offset {
-    return [parameters sdl_objectForName:SDLNameOffset];
+    return [parameters sdl_objectForName:SDLRPCParameterNameOffset];
 }
 
 - (void)setLength:(nullable NSNumber<SDLUInt> *)length {
-    [parameters sdl_setObject:length forName:SDLNameLength];
+    [parameters sdl_setObject:length forName:SDLRPCParameterNameLength];
 }
 
 - (nullable NSNumber<SDLUInt> *)length {
-    return [parameters sdl_objectForName:SDLNameLength];
+    return [parameters sdl_objectForName:SDLRPCParameterNameLength];
 }
 
 @end

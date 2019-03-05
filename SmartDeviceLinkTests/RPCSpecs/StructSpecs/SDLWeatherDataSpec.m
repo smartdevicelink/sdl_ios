@@ -10,7 +10,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLDateTime.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLTemperature.h"
 #import "SDLWeatherData.h"
 
@@ -103,28 +103,28 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameCurrentTemperature:testCurrentTemp,
-                               SDLNameTemperatureHigh:testTempHigh,
-                               SDLNameTemperatureLow:testTempLow,
-                               SDLNameApparentTemperature:testApparentTemp,
-                               SDLNameApparentTemperatureHigh:testApparentTempHigh,
-                               SDLNameApparentTemperatureLow:testApparentTempLow,
-                               SDLNameWeatherSummary:testWeatherSummary,
-                               SDLNameTime:testTime,
-                               SDLNameHumidity:@(testHumidity),
-                               SDLNameCloudCover:@(testCloudCover),
-                               SDLNameMoonPhase:@(testMoonPhase),
-                               SDLNameWindBearing:@(testWindBearing),
-                               SDLNameWindGust:@(testWindGust),
-                               SDLNameWindSpeed:@(testWindSpeed),
-                               SDLNameNearestStormBearing:@(testNearestStormBearing),
-                               SDLNameNearestStormDistance:@(testNearestStormDistance),
-                               SDLNamePrecipAccumulation:@(testPrecipAccumulation),
-                               SDLNamePrecipIntensity:@(testPrecipIntensity),
-                               SDLNamePrecipProbability:@(testPrecipProbability),
-                               SDLNamePrecipType:testPrecipType,
-                               SDLNameVisibility:@(testVisibility),
-                               SDLNameWeatherIconImageName:testWeatherIconImageName
+        NSDictionary *dict = @{SDLRPCParameterNameCurrentTemperature:testCurrentTemp,
+                               SDLRPCParameterNameTemperatureHigh:testTempHigh,
+                               SDLRPCParameterNameTemperatureLow:testTempLow,
+                               SDLRPCParameterNameApparentTemperature:testApparentTemp,
+                               SDLRPCParameterNameApparentTemperatureHigh:testApparentTempHigh,
+                               SDLRPCParameterNameApparentTemperatureLow:testApparentTempLow,
+                               SDLRPCParameterNameWeatherSummary:testWeatherSummary,
+                               SDLRPCParameterNameTime:testTime,
+                               SDLRPCParameterNameHumidity:@(testHumidity),
+                               SDLRPCParameterNameCloudCover:@(testCloudCover),
+                               SDLRPCParameterNameMoonPhase:@(testMoonPhase),
+                               SDLRPCParameterNameWindBearing:@(testWindBearing),
+                               SDLRPCParameterNameWindGust:@(testWindGust),
+                               SDLRPCParameterNameWindSpeed:@(testWindSpeed),
+                               SDLRPCParameterNameNearestStormBearing:@(testNearestStormBearing),
+                               SDLRPCParameterNameNearestStormDistance:@(testNearestStormDistance),
+                               SDLRPCParameterNamePrecipAccumulation:@(testPrecipAccumulation),
+                               SDLRPCParameterNamePrecipIntensity:@(testPrecipIntensity),
+                               SDLRPCParameterNamePrecipProbability:@(testPrecipProbability),
+                               SDLRPCParameterNamePrecipType:testPrecipType,
+                               SDLRPCParameterNameVisibility:@(testVisibility),
+                               SDLRPCParameterNameWeatherIconImageName:testWeatherIconImageName
                                };
         SDLWeatherData *testStruct = [[SDLWeatherData alloc] initWithDictionary:dict];
 

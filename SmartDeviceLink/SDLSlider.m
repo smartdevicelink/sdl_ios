@@ -5,7 +5,7 @@
 #import "SDLSlider.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -53,43 +53,43 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setNumTicks:(NSNumber<SDLInt> *)numTicks {
-    [parameters sdl_setObject:numTicks forName:SDLNameNumberTicks];
+    [parameters sdl_setObject:numTicks forName:SDLRPCParameterNameNumberTicks];
 }
 
 - (NSNumber<SDLInt> *)numTicks {
-    return [parameters sdl_objectForName:SDLNameNumberTicks];
+    return [parameters sdl_objectForName:SDLRPCParameterNameNumberTicks];
 }
 
 - (void)setPosition:(NSNumber<SDLInt> *)position {
-    [parameters sdl_setObject:position forName:SDLNamePosition];
+    [parameters sdl_setObject:position forName:SDLRPCParameterNamePosition];
 }
 
 - (NSNumber<SDLInt> *)position {
-    return [parameters sdl_objectForName:SDLNamePosition];
+    return [parameters sdl_objectForName:SDLRPCParameterNamePosition];
 }
 
 - (void)setSliderHeader:(NSString *)sliderHeader {
-    [parameters sdl_setObject:sliderHeader forName:SDLNameSliderHeader];
+    [parameters sdl_setObject:sliderHeader forName:SDLRPCParameterNameSliderHeader];
 }
 
 - (NSString *)sliderHeader {
-    return [parameters sdl_objectForName:SDLNameSliderHeader];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSliderHeader];
 }
 
 - (void)setSliderFooter:(nullable NSArray<NSString *> *)sliderFooter {
-    [parameters sdl_setObject:sliderFooter forName:SDLNameSliderFooter];
+    [parameters sdl_setObject:sliderFooter forName:SDLRPCParameterNameSliderFooter];
 }
 
 - (nullable NSArray<NSString *> *)sliderFooter {
-    return [parameters sdl_objectForName:SDLNameSliderFooter];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSliderFooter];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
-    [parameters sdl_setObject:timeout forName:SDLNameTimeout];
+    [parameters sdl_setObject:timeout forName:SDLRPCParameterNameTimeout];
 }
 
 - (nullable NSNumber<SDLInt> *)timeout {
-    return [parameters sdl_objectForName:SDLNameTimeout];
+    return [parameters sdl_objectForName:SDLRPCParameterNameTimeout];
 }
 
 @end

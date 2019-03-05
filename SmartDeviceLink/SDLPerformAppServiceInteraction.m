@@ -9,7 +9,7 @@
 #import "SDLPerformAppServiceInteraction.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 
@@ -48,35 +48,35 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setServiceUri:(NSString *)serviceUri {
-    [parameters sdl_setObject:serviceUri forName:SDLNameServiceUri];
+    [parameters sdl_setObject:serviceUri forName:SDLRPCParameterNameServiceUri];
 }
 
 - (NSString *)serviceUri {
-    return [parameters sdl_objectForName:SDLNameServiceUri];
+    return [parameters sdl_objectForName:SDLRPCParameterNameServiceUri];
 }
 
 - (void)setServiceID:(NSString *)serviceID {
-    [parameters sdl_setObject:serviceID forName:SDLNameServiceID];
+    [parameters sdl_setObject:serviceID forName:SDLRPCParameterNameServiceID];
 }
 
 - (NSString *)serviceID {
-    return [parameters sdl_objectForName:SDLNameServiceID];
+    return [parameters sdl_objectForName:SDLRPCParameterNameServiceID];
 }
 
 - (void)setOriginApp:(NSString *)originApp {
-    [parameters sdl_setObject:originApp forName:SDLNameOriginApp];
+    [parameters sdl_setObject:originApp forName:SDLRPCParameterNameOriginApp];
 }
 
 - (NSString *)originApp {
-    return [parameters sdl_objectForName:SDLNameOriginApp];
+    return [parameters sdl_objectForName:SDLRPCParameterNameOriginApp];
 }
 
 - (void)setRequestServiceActive:(nullable NSNumber<SDLBool> *)requestServiceActive {
-    [parameters sdl_setObject:requestServiceActive forName:SDLNameRequestServiceActive];
+    [parameters sdl_setObject:requestServiceActive forName:SDLRPCParameterNameRequestServiceActive];
 }
 
 - (nullable NSNumber<SDLBool> *)requestServiceActive {
-    return [parameters sdl_objectForName:SDLNameRequestServiceActive];
+    return [parameters sdl_objectForName:SDLRPCParameterNameRequestServiceActive];
 }
 @end
 

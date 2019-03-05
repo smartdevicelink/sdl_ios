@@ -5,7 +5,7 @@
 #import "SDLSliderResponse.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -19,11 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setSliderPosition:(nullable NSNumber<SDLInt> *)sliderPosition {
-    [parameters sdl_setObject:sliderPosition forName:SDLNameSliderPosition];
+    [parameters sdl_setObject:sliderPosition forName:SDLRPCParameterNameSliderPosition];
 }
 
 - (nullable NSNumber<SDLInt> *)sliderPosition {
-    return [parameters sdl_objectForName:SDLNameSliderPosition];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSliderPosition];
 }
 
 @end

@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLGetVehicleData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLGetVehicleDataSpec)
@@ -78,37 +78,37 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSDictionary<NSString *, id> *dict = @{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameAccelerationPedalPosition:@YES,
-                                                                   SDLNameAirbagStatus:@YES,
-                                                                   SDLNameBeltStatus:@YES,
-                                                                   SDLNameBodyInformation:@YES,
-                                                                   SDLNameClusterModeStatus:@YES,
-                                                                   SDLNameDeviceStatus:@YES,
-                                                                   SDLNameDriverBraking:@YES,
-                                                                   SDLNameECallInfo:@YES,
-                                                                   SDLNameElectronicParkBrakeStatus:@YES,
-                                                                   SDLNameEmergencyEvent:@NO,
-                                                                   SDLNameEngineOilLife:@YES,
-                                                                   SDLNameEngineTorque:@YES,
-                                                                   SDLNameExternalTemperature:@NO,
-                                                                   SDLNameFuelLevel:@YES,
-                                                                   SDLNameFuelLevelState:@YES,
-                                                                   SDLNameFuelRange:@YES,
-                                                                   SDLNameGPS:@YES,
-                                                                   SDLNameHeadLampStatus:@YES,
-                                                                   SDLNameInstantFuelConsumption:@YES,
-                                                                   SDLNameMyKey:@YES,
-                                                                   SDLNameOdometer:@YES,
-                                                                   SDLNamePRNDL:@YES,
-                                                                   SDLNameRPM:@YES,
-                                                                   SDLNameSpeed:@YES,
-                                                                   SDLNameSteeringWheelAngle:@NO,
-                                                                   SDLNameTirePressure:@YES,
-                                                                   SDLNameTurnSignal:@NO,
-                                                                   SDLNameWiperStatus:@YES},
-                                                             SDLNameOperationName:SDLRPCFunctionNameGetVehicleData}};
+        NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameRequest:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameAccelerationPedalPosition:@YES,
+                                                                   SDLRPCParameterNameAirbagStatus:@YES,
+                                                                   SDLRPCParameterNameBeltStatus:@YES,
+                                                                   SDLRPCParameterNameBodyInformation:@YES,
+                                                                   SDLRPCParameterNameClusterModeStatus:@YES,
+                                                                   SDLRPCParameterNameDeviceStatus:@YES,
+                                                                   SDLRPCParameterNameDriverBraking:@YES,
+                                                                   SDLRPCParameterNameECallInfo:@YES,
+                                                                   SDLRPCParameterNameElectronicParkBrakeStatus:@YES,
+                                                                   SDLRPCParameterNameEmergencyEvent:@NO,
+                                                                   SDLRPCParameterNameEngineOilLife:@YES,
+                                                                   SDLRPCParameterNameEngineTorque:@YES,
+                                                                   SDLRPCParameterNameExternalTemperature:@NO,
+                                                                   SDLRPCParameterNameFuelLevel:@YES,
+                                                                   SDLRPCParameterNameFuelLevelState:@YES,
+                                                                   SDLRPCParameterNameFuelRange:@YES,
+                                                                   SDLRPCParameterNameGPS:@YES,
+                                                                   SDLRPCParameterNameHeadLampStatus:@YES,
+                                                                   SDLRPCParameterNameInstantFuelConsumption:@YES,
+                                                                   SDLRPCParameterNameMyKey:@YES,
+                                                                   SDLRPCParameterNameOdometer:@YES,
+                                                                   SDLRPCParameterNamePRNDL:@YES,
+                                                                   SDLRPCParameterNameRPM:@YES,
+                                                                   SDLRPCParameterNameSpeed:@YES,
+                                                                   SDLRPCParameterNameSteeringWheelAngle:@NO,
+                                                                   SDLRPCParameterNameTirePressure:@YES,
+                                                                   SDLRPCParameterNameTurnSignal:@NO,
+                                                                   SDLRPCParameterNameWiperStatus:@YES},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}};
         SDLGetVehicleData* testRequest = [[SDLGetVehicleData alloc] initWithDictionary:dict];
         
         expect(testRequest.accPedalPosition).to(equal(@YES));

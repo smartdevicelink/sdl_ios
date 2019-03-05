@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLRadioControlCapabilities.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLRadioControlCapabilitiesSpec)
 
@@ -36,19 +36,19 @@ describe(@"Initialization tests", ^{
     
     it(@"should properly initialize initWithDictionary", ^{
         
-        NSMutableDictionary* dict = [@{SDLNameModuleName : @"someName",
-                                       SDLNameRadioEnableAvailable : @YES,
-                                       SDLNameRadioBandAvailable : @YES,
-                                       SDLNameRadioFrequencyAvailable : @YES,
-                                       SDLNameHDChannelAvailable : @NO,
-                                       SDLNameRDSDataAvailable : @NO,
-                                       SDLNameAvailableHDsAvailable : @NO,
-                                       SDLNameStateAvailable : @YES,
-                                       SDLNameSignalStrengthAvailable : @YES,
-                                       SDLNameSignalChangeThresholdAvailable : @NO,
-                                       SDLNameHDRadioEnableAvailable : @YES,
-                                       SDLNameSiriusXMRadioAvailable : @NO,
-                                       SDLNameSISDataAvailable:@YES
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameModuleName : @"someName",
+                                       SDLRPCParameterNameRadioEnableAvailable : @YES,
+                                       SDLRPCParameterNameRadioBandAvailable : @YES,
+                                       SDLRPCParameterNameRadioFrequencyAvailable : @YES,
+                                       SDLRPCParameterNameHDChannelAvailable : @NO,
+                                       SDLRPCParameterNameRDSDataAvailable : @NO,
+                                       SDLRPCParameterNameAvailableHDsAvailable : @NO,
+                                       SDLRPCParameterNameStateAvailable : @YES,
+                                       SDLRPCParameterNameSignalStrengthAvailable : @YES,
+                                       SDLRPCParameterNameSignalChangeThresholdAvailable : @NO,
+                                       SDLRPCParameterNameHDRadioEnableAvailable : @YES,
+                                       SDLRPCParameterNameSiriusXMRadioAvailable : @NO,
+                                       SDLRPCParameterNameSISDataAvailable:@YES
                                        } mutableCopy];
         SDLRadioControlCapabilities* testStruct = [[SDLRadioControlCapabilities alloc] initWithDictionary:dict];
         

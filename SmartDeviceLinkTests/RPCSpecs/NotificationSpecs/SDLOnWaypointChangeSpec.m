@@ -11,7 +11,7 @@
 #import "SDLImage.h"
 #import "SDLLocationCoordinate.h"
 #import "SDLLocationDetails.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLOasisAddress.h"
 
@@ -64,12 +64,12 @@ describe(@"Getter/Setter Tests", ^ {
                 
                 someWaypoints = @[someLocation];
                 
-                NSDictionary *initDict = @{SDLNameNotification : @{
-                                                   SDLNameParameters: @{
-                                                           SDLNameWayPoints: someWaypoints
+                NSDictionary *initDict = @{SDLRPCParameterNameNotification : @{
+                                                   SDLRPCParameterNameParameters: @{
+                                                           SDLRPCParameterNameWayPoints: someWaypoints
                                                            }
                                                    },
-                                           SDLNameOperationName:SDLRPCFunctionNameOnWayPointChange
+                                           SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnWayPointChange
                                            };
                 
                 testNotification = [[SDLOnWayPointChange alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
@@ -85,8 +85,8 @@ describe(@"Getter/Setter Tests", ^ {
         context(@"when parameters are not set", ^{
             beforeEach(^{
                 NSDictionary *initDict = @{
-                                           SDLNameNotification: @{
-                                                   SDLNameParameters: @{}
+                                           SDLRPCParameterNameNotification: @{
+                                                   SDLRPCParameterNameParameters: @{}
                                                    }
                                            };
                 

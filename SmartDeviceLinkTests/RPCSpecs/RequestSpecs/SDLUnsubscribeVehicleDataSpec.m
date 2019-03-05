@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLUnsubscribeVehicleData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLUnsubscribeVehicleDataSpec)
@@ -78,37 +78,37 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSDictionary<NSString *, id> *dict = @{SDLNameRequest:
-                                                   @{SDLNameParameters:
-                                                         @{SDLNameAccelerationPedalPosition:@YES,
-                                                           SDLNameAirbagStatus:@YES,
-                                                           SDLNameBeltStatus:@YES,
-                                                           SDLNameBodyInformation:@YES,
-                                                           SDLNameClusterModeStatus:@YES,
-                                                           SDLNameDeviceStatus:@YES,
-                                                           SDLNameDriverBraking:@YES,
-                                                           SDLNameECallInfo:@YES,
-                                                           SDLNameElectronicParkBrakeStatus: @YES,
-                                                           SDLNameEmergencyEvent:@YES,
-                                                           SDLNameEngineOilLife:@YES,
-                                                           SDLNameEngineTorque:@YES,
-                                                           SDLNameExternalTemperature:@YES,
-                                                           SDLNameFuelLevel:@YES,
-                                                           SDLNameFuelLevelState:@YES,
-                                                           SDLNameFuelRange:@YES,
-                                                           SDLNameGPS:@YES,
-                                                           SDLNameHeadLampStatus:@YES,
-                                                           SDLNameInstantFuelConsumption:@YES,
-                                                           SDLNameMyKey:@YES,
-                                                           SDLNameOdometer:@YES,
-                                                           SDLNamePRNDL:@YES,
-                                                           SDLNameRPM:@YES,
-                                                           SDLNameSpeed:@YES,
-                                                           SDLNameSteeringWheelAngle:@YES,
-                                                           SDLNameTirePressure:@YES,
-                                                           SDLNameTurnSignal:@YES,
-                                                           SDLNameWiperStatus:@YES},
-                                                     SDLNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}};
+        NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameRequest:
+                                                   @{SDLRPCParameterNameParameters:
+                                                         @{SDLRPCParameterNameAccelerationPedalPosition:@YES,
+                                                           SDLRPCParameterNameAirbagStatus:@YES,
+                                                           SDLRPCParameterNameBeltStatus:@YES,
+                                                           SDLRPCParameterNameBodyInformation:@YES,
+                                                           SDLRPCParameterNameClusterModeStatus:@YES,
+                                                           SDLRPCParameterNameDeviceStatus:@YES,
+                                                           SDLRPCParameterNameDriverBraking:@YES,
+                                                           SDLRPCParameterNameECallInfo:@YES,
+                                                           SDLRPCParameterNameElectronicParkBrakeStatus: @YES,
+                                                           SDLRPCParameterNameEmergencyEvent:@YES,
+                                                           SDLRPCParameterNameEngineOilLife:@YES,
+                                                           SDLRPCParameterNameEngineTorque:@YES,
+                                                           SDLRPCParameterNameExternalTemperature:@YES,
+                                                           SDLRPCParameterNameFuelLevel:@YES,
+                                                           SDLRPCParameterNameFuelLevelState:@YES,
+                                                           SDLRPCParameterNameFuelRange:@YES,
+                                                           SDLRPCParameterNameGPS:@YES,
+                                                           SDLRPCParameterNameHeadLampStatus:@YES,
+                                                           SDLRPCParameterNameInstantFuelConsumption:@YES,
+                                                           SDLRPCParameterNameMyKey:@YES,
+                                                           SDLRPCParameterNameOdometer:@YES,
+                                                           SDLRPCParameterNamePRNDL:@YES,
+                                                           SDLRPCParameterNameRPM:@YES,
+                                                           SDLRPCParameterNameSpeed:@YES,
+                                                           SDLRPCParameterNameSteeringWheelAngle:@YES,
+                                                           SDLRPCParameterNameTirePressure:@YES,
+                                                           SDLRPCParameterNameTurnSignal:@YES,
+                                                           SDLRPCParameterNameWiperStatus:@YES},
+                                                     SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}};
         SDLUnsubscribeVehicleData* testRequest = [[SDLUnsubscribeVehicleData alloc] initWithDictionary:dict];
         
         expect(testRequest.accPedalPosition).to(equal(@YES));

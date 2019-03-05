@@ -10,7 +10,7 @@
 
 #import "SDLImage.h"
 #import "SDLLocationCoordinate.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLOasisAddress.h"
 
 QuickSpecBegin(SDLLocationDetailsSpec)
@@ -99,13 +99,13 @@ describe(@"Getter/Setter Tests", ^ {
                 someImage = [[SDLImage alloc] init];
                 someAddress = [[SDLOasisAddress alloc] initWithSubThoroughfare:@"test" thoroughfare:@"1" locality:@"local" administrativeArea:@"admin" postalCode:@"48067" countryCode:@"12345"];
                 NSDictionary *initDict = @{
-                                           SDLNameLocationCoordinate: someCoordinate,
-                                           SDLNameLocationName: someLocation,
-                                           SDLNameLocationDescription: someLocationDescription,
-                                           SDLNameAddressLines: someAddressLines,
-                                           SDLNamePhoneNumber: somePhoneNumber,
-                                           SDLNameLocationImage: someImage,
-                                           SDLNameSearchAddress: someAddress
+                                           SDLRPCParameterNameLocationCoordinate: someCoordinate,
+                                           SDLRPCParameterNameLocationName: someLocation,
+                                           SDLRPCParameterNameLocationDescription: someLocationDescription,
+                                           SDLRPCParameterNameAddressLines: someAddressLines,
+                                           SDLRPCParameterNamePhoneNumber: somePhoneNumber,
+                                           SDLRPCParameterNameLocationImage: someImage,
+                                           SDLRPCParameterNameSearchAddress: someAddress
                                            };
                 
                 testStruct = [[SDLLocationDetails alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];
@@ -151,8 +151,8 @@ describe(@"Getter/Setter Tests", ^ {
         context(@"when parameters are not set", ^{
             beforeEach(^{
                 NSDictionary *initDict = @{
-                                           SDLNameRequest: @{
-                                                   SDLNameParameters: @{}
+                                           SDLRPCParameterNameRequest: @{
+                                                   SDLRPCParameterNameParameters: @{}
                                                    }
                                            };
                 

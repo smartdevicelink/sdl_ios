@@ -4,7 +4,7 @@
 #import "SDLOnPermissionsChange.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLPermissionItem.h"
 
@@ -19,11 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setPermissionItem:(NSArray<SDLPermissionItem *> *)permissionItem {
-    [parameters sdl_setObject:permissionItem forName:SDLNamePermissionItem];
+    [parameters sdl_setObject:permissionItem forName:SDLRPCParameterNamePermissionItem];
 }
 
 - (NSArray<SDLPermissionItem *> *)permissionItem {
-    return [parameters sdl_objectsForName:SDLNamePermissionItem ofClass:SDLPermissionItem.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNamePermissionItem ofClass:SDLPermissionItem.class];
 }
 
 @end

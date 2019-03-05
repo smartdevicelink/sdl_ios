@@ -3,7 +3,7 @@
 //
 
 #import "SDLGetInteriorVehicleData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "NSMutableDictionary+Store.h"
 
@@ -53,19 +53,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setModuleType:(SDLModuleType)moduleType {
-    [parameters sdl_setObject:moduleType forName:SDLNameModuleType];
+    [parameters sdl_setObject:moduleType forName:SDLRPCParameterNameModuleType];
 }
 
 - (SDLModuleType)moduleType {
-    return [parameters sdl_objectForName:SDLNameModuleType];
+    return [parameters sdl_objectForName:SDLRPCParameterNameModuleType];
 }
 
 - (void)setSubscribe:(nullable NSNumber<SDLBool> *)subscribe {
-    [parameters sdl_setObject:subscribe forName:SDLNameSubscribe];
+    [parameters sdl_setObject:subscribe forName:SDLRPCParameterNameSubscribe];
 }
 
 - (nullable NSNumber<SDLBool> *)subscribe {
-    return [parameters sdl_objectForName:SDLNameSubscribe];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSubscribe];
 }
 
 @end

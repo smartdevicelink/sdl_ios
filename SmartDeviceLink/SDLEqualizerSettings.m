@@ -2,7 +2,7 @@
 //
 
 #import "SDLEqualizerSettings.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "NSMutableDictionary+Store.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -22,27 +22,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setChannelId:(NSNumber<SDLInt> *)channelId {
-    [store sdl_setObject:channelId forName:SDLNameChannelId];
+    [store sdl_setObject:channelId forName:SDLRPCParameterNameChannelId];
 }
 
 - (NSNumber<SDLInt> *)channelId {
-    return [store sdl_objectForName:SDLNameChannelId];
+    return [store sdl_objectForName:SDLRPCParameterNameChannelId];
 }
 
 - (void)setChannelName:(nullable NSString *)channelName {
-    [store sdl_setObject:channelName forName:SDLNameChannelName];
+    [store sdl_setObject:channelName forName:SDLRPCParameterNameChannelName];
 }
 
 - (nullable NSString *)channelName {
-    return [store sdl_objectForName:SDLNameChannelName];
+    return [store sdl_objectForName:SDLRPCParameterNameChannelName];
 }
 
 - (void)setChannelSetting:(NSNumber<SDLInt> *)channelSetting {
-    [store sdl_setObject:channelSetting forName:SDLNameChannelSetting];
+    [store sdl_setObject:channelSetting forName:SDLRPCParameterNameChannelSetting];
 }
 
 - (NSNumber<SDLInt> *)channelSetting {
-    return [store sdl_objectForName:SDLNameChannelSetting];
+    return [store sdl_objectForName:SDLRPCParameterNameChannelSetting];
 }
 
 @end

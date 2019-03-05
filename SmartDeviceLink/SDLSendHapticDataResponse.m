@@ -7,7 +7,7 @@
 //  Copyright © 2017 smartdevicelink. All rights reserved.
 //
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLSendHapticDataResponse.h"
 

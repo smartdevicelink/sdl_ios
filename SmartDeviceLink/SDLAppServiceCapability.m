@@ -10,7 +10,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLAppServiceRecord.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLServiceUpdateReason.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -40,19 +40,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setUpdateReason:(nullable SDLServiceUpdateReason)updateReason {
-    [store sdl_setObject:updateReason forName:SDLNameUpdateReason];
+    [store sdl_setObject:updateReason forName:SDLRPCParameterNameUpdateReason];
 }
 
 - (nullable SDLServiceUpdateReason)updateReason {
-    return [store sdl_objectForName:SDLNameUpdateReason];
+    return [store sdl_objectForName:SDLRPCParameterNameUpdateReason];
 }
 
 - (void)setUpdatedAppServiceRecord:(SDLAppServiceRecord *)updatedAppServiceRecord {
-    [store sdl_setObject:updatedAppServiceRecord forName:SDLNameUpdatedAppServiceRecord];
+    [store sdl_setObject:updatedAppServiceRecord forName:SDLRPCParameterNameUpdatedAppServiceRecord];
 }
 
 - (SDLAppServiceRecord *)updatedAppServiceRecord {
-    return [store sdl_objectForName:SDLNameUpdatedAppServiceRecord ofClass:SDLAppServiceRecord.class];
+    return [store sdl_objectForName:SDLRPCParameterNameUpdatedAppServiceRecord ofClass:SDLAppServiceRecord.class];
 }
 
 @end

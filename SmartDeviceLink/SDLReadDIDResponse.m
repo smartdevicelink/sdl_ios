@@ -6,7 +6,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLDIDResult.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -20,11 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setDidResult:(nullable NSArray<SDLDIDResult *> *)didResult {
-    [parameters sdl_setObject:didResult forName:SDLNameDIDResult];
+    [parameters sdl_setObject:didResult forName:SDLRPCParameterNameDIDResult];
 }
 
 - (nullable NSArray<SDLDIDResult *> *)didResult {
-    return [parameters sdl_objectsForName:SDLNameDIDResult ofClass:SDLDIDResult.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameDIDResult ofClass:SDLDIDResult.class];
 }
 
 @end

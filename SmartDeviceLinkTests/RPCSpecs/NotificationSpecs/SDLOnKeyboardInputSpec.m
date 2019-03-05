@@ -10,7 +10,7 @@
 
 #import "SDLKeyboardEvent.h"
 #import "SDLOnKeyboardInput.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnKeyboardInputSpec)
@@ -27,11 +27,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameEvent:SDLKeyboardEventSubmitted,
-                                                   SDLNameData:@"qwertyg"},
-                                             SDLNameOperationName:SDLRPCFunctionNameOnKeyboardInput}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameEvent:SDLKeyboardEventSubmitted,
+                                                   SDLRPCParameterNameData:@"qwertyg"},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnKeyboardInput}} mutableCopy];
         SDLOnKeyboardInput* testNotification = [[SDLOnKeyboardInput alloc] initWithDictionary:dict];
         
         expect(testNotification.event).to(equal(SDLKeyboardEventSubmitted));

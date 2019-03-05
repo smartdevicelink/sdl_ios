@@ -10,7 +10,7 @@
 
 #import "SDLAppServiceCapability.h"
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,11 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setAppServices:(nullable NSArray<SDLAppServiceCapability *> *)appServices {
-    [store sdl_setObject:appServices forName:SDLNameAppServices];
+    [store sdl_setObject:appServices forName:SDLRPCParameterNameAppServices];
 }
 
 - (nullable NSArray<SDLAppServiceCapability *> *)appServices {
-    return [store sdl_objectsForName:SDLNameAppServices ofClass:SDLAppServiceCapability.class];
+    return [store sdl_objectsForName:SDLRPCParameterNameAppServices ofClass:SDLAppServiceCapability.class];
 }
 
 @end

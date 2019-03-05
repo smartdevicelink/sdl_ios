@@ -4,7 +4,7 @@
 #import "SDLDateTime.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 @implementation SDLDateTime
 
@@ -59,75 +59,75 @@
 }
 
 - (void)setMillisecond:(NSNumber<SDLInt> *)millisecond {
-    [store sdl_setObject:millisecond forName:SDLNameMillisecond];
+    [store sdl_setObject:millisecond forName:SDLRPCParameterNameMillisecond];
 }
 
 - (NSNumber<SDLInt> *)millisecond {
-    return [store sdl_objectForName:SDLNameMillisecond];
+    return [store sdl_objectForName:SDLRPCParameterNameMillisecond];
 }
 
 - (void)setSecond:(NSNumber<SDLInt> *)second {
-    [store sdl_setObject:second forName:SDLNameSecond];
+    [store sdl_setObject:second forName:SDLRPCParameterNameSecond];
 }
 
 - (NSNumber<SDLInt> *)second {
-    return [store sdl_objectForName:SDLNameSecond];
+    return [store sdl_objectForName:SDLRPCParameterNameSecond];
 }
 
 - (void)setMinute:(NSNumber<SDLInt> *)minute {
-    [store sdl_setObject:minute forName:SDLNameMinute];
+    [store sdl_setObject:minute forName:SDLRPCParameterNameMinute];
 }
 
 - (NSNumber<SDLInt> *)minute {
-    return [store sdl_objectForName:SDLNameMinute];
+    return [store sdl_objectForName:SDLRPCParameterNameMinute];
 }
 
 - (void)setHour:(NSNumber<SDLInt> *)hour {
-    [store sdl_setObject:hour forName:SDLNameHour];
+    [store sdl_setObject:hour forName:SDLRPCParameterNameHour];
 }
 
 - (NSNumber<SDLInt> *)hour {
-    return [store sdl_objectForName:SDLNameHour];
+    return [store sdl_objectForName:SDLRPCParameterNameHour];
 }
 
 - (void)setDay:(NSNumber<SDLInt> *)day {
-    [store sdl_setObject:day forName:SDLNameDay];
+    [store sdl_setObject:day forName:SDLRPCParameterNameDay];
 }
 
 - (NSNumber<SDLInt> *)day {
-    return [store sdl_objectForName:SDLNameDay];
+    return [store sdl_objectForName:SDLRPCParameterNameDay];
 }
 
 - (void)setMonth:(NSNumber<SDLInt> *)month {
-    [store sdl_setObject:month forName:SDLNameMonth];
+    [store sdl_setObject:month forName:SDLRPCParameterNameMonth];
 }
 
 - (NSNumber<SDLInt> *)month {
-    return [store sdl_objectForName:SDLNameMonth];
+    return [store sdl_objectForName:SDLRPCParameterNameMonth];
 }
 
 - (void)setYear:(NSNumber<SDLInt> *)year {
-    [store sdl_setObject:year forName:SDLNameYear];
+    [store sdl_setObject:year forName:SDLRPCParameterNameYear];
 }
 
 - (NSNumber<SDLInt> *)year {
-    return [store sdl_objectForName:SDLNameYear];
+    return [store sdl_objectForName:SDLRPCParameterNameYear];
 }
 
 - (void)setTimezoneMinuteOffset:(NSNumber<SDLInt> *)timezoneMinuteOffset {
-    [store sdl_setObject:timezoneMinuteOffset forName:SDLNameTimezoneMinuteOffset];
+    [store sdl_setObject:timezoneMinuteOffset forName:SDLRPCParameterNameTimezoneMinuteOffset];
 }
 
 - (NSNumber<SDLInt> *)timezoneMinuteOffset {
-    return [store sdl_objectForName:SDLNameTimezoneMinuteOffset];
+    return [store sdl_objectForName:SDLRPCParameterNameTimezoneMinuteOffset];
 }
 
 - (void)setTimezoneHourOffset:(NSNumber<SDLInt> *)timezoneHourOffset {
-    [store sdl_setObject:timezoneHourOffset forName:SDLNameTimezoneHourOffset];
+    [store sdl_setObject:timezoneHourOffset forName:SDLRPCParameterNameTimezoneHourOffset];
 }
 
 - (NSNumber<SDLInt> *)timezoneHourOffset {
-    return [store sdl_objectForName:SDLNameTimezoneHourOffset];
+    return [store sdl_objectForName:SDLRPCParameterNameTimezoneHourOffset];
 }
 
 @end

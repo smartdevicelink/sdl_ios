@@ -11,7 +11,7 @@
 
 #import "SDLMediaServiceData.h"
 #import "SDLMediaType.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLMediaServiceDataSpec)
 
@@ -68,18 +68,18 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameMediaType:testMediaType,
-                               SDLNameMediaTitle:testMediaTitle,
-                               SDLNameMediaArtist:testMediaArtist,
-                               SDLNameMediaAlbum:testMediaAlbum,
-                               SDLNamePlaylistName:testPlaylistName,
-                               SDLNameIsExplicit:@(testIsExplicit),
-                               SDLNameTrackPlaybackProgress:@(testTrackPlaybackProgress),
-                               SDLNameTrackPlaybackDuration:@(testTrackPlaybackDuration),
-                               SDLNameQueuePlaybackProgress:@(testQueuePlaybackProgress),
-                               SDLNameQueuePlaybackDuration:@(testQueuePlaybackDuration),
-                               SDLNameQueueCurrentTrackNumber:@(testQueueCurrentTrackNumber),
-                               SDLNameQueueTotalTrackCount:@(testQueueTotalTrackCount)
+        NSDictionary *dict = @{SDLRPCParameterNameMediaType:testMediaType,
+                               SDLRPCParameterNameMediaTitle:testMediaTitle,
+                               SDLRPCParameterNameMediaArtist:testMediaArtist,
+                               SDLRPCParameterNameMediaAlbum:testMediaAlbum,
+                               SDLRPCParameterNamePlaylistName:testPlaylistName,
+                               SDLRPCParameterNameIsExplicit:@(testIsExplicit),
+                               SDLRPCParameterNameTrackPlaybackProgress:@(testTrackPlaybackProgress),
+                               SDLRPCParameterNameTrackPlaybackDuration:@(testTrackPlaybackDuration),
+                               SDLRPCParameterNameQueuePlaybackProgress:@(testQueuePlaybackProgress),
+                               SDLRPCParameterNameQueuePlaybackDuration:@(testQueuePlaybackDuration),
+                               SDLRPCParameterNameQueueCurrentTrackNumber:@(testQueueCurrentTrackNumber),
+                               SDLRPCParameterNameQueueTotalTrackCount:@(testQueueTotalTrackCount)
                                };
         SDLMediaServiceData *testStruct = [[SDLMediaServiceData alloc] initWithDictionary:dict];
 

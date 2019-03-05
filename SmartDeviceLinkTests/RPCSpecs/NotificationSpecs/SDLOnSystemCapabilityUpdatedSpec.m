@@ -11,7 +11,7 @@
 
 #import "SDLOnSystemCapabilityUpdated.h"
 #import "SDLPhoneCapability.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLSystemCapability.h"
 
@@ -33,11 +33,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameNotification:@{
-                                       SDLNameParameters:@{
-                                               SDLNameSystemCapability:testSystemCapability
+        NSDictionary *dict = @{SDLRPCParameterNameNotification:@{
+                                       SDLRPCParameterNameParameters:@{
+                                               SDLRPCParameterNameSystemCapability:testSystemCapability
                                                },
-                                       SDLNameOperationName:SDLRPCFunctionNameOnSystemCapabilityUpdated}};
+                                       SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnSystemCapabilityUpdated}};
         SDLOnSystemCapabilityUpdated *testNotification = [[SDLOnSystemCapabilityUpdated alloc] initWithDictionary:dict];
 
         expect(testNotification.systemCapability).to(equal(testSystemCapability));

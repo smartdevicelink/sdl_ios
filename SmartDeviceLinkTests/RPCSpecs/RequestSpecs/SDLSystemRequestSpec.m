@@ -10,7 +10,7 @@
 
 #import "SDLSystemRequest.h"
 #import "SDLRequestType.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLSystemRequestSpec)
@@ -22,12 +22,12 @@ describe(@"Getter/Setter Tests", ^ {
 
     describe(@"initializers", ^{
         it(@"should get correctly when initialized with dictionary", ^ {
-            NSMutableDictionary* dict = [@{SDLNameRequest:
-                                               @{SDLNameParameters:
-                                                     @{SDLNameRequestType:SDLRequestTypeAuthenticationRequest,
-                                                       SDLNameRequestSubType: testSubType,
-                                                       SDLNameFilename:testFileName},
-                                                 SDLNameOperationName:SDLRPCFunctionNameSystemRequest}} mutableCopy];
+            NSMutableDictionary* dict = [@{SDLRPCParameterNameRequest:
+                                               @{SDLRPCParameterNameParameters:
+                                                     @{SDLRPCParameterNameRequestType:SDLRequestTypeAuthenticationRequest,
+                                                       SDLRPCParameterNameRequestSubType: testSubType,
+                                                       SDLRPCParameterNameFilename:testFileName},
+                                                 SDLRPCParameterNameOperationName:SDLRPCFunctionNameSystemRequest}} mutableCopy];
             SDLSystemRequest* testRequest = [[SDLSystemRequest alloc] initWithDictionary:dict];
 
             expect(testRequest.requestType).to(equal(testRequestType));

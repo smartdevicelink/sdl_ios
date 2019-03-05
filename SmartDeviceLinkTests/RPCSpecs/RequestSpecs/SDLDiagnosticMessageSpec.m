@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLDiagnosticMessage.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLDiagnosticMessageSpec)
@@ -28,12 +28,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameTargetId:@3562,
-                                                                   SDLNameMessageLength:@55555,
-                                                                   SDLNameMessageData:[@[@1, @4, @16, @64] mutableCopy]},
-                                                             SDLNameOperationName:SDLRPCFunctionNameDiagnosticMessage}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameTargetId:@3562,
+                                                                   SDLRPCParameterNameMessageLength:@55555,
+                                                                   SDLRPCParameterNameMessageData:[@[@1, @4, @16, @64] mutableCopy]},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameDiagnosticMessage}} mutableCopy];
         SDLDiagnosticMessage* testRequest = [[SDLDiagnosticMessage alloc] initWithDictionary:dict];
         
         expect(testRequest.targetID).to(equal(@3562));

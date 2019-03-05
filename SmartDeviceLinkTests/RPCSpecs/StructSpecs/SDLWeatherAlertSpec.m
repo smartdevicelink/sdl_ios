@@ -10,7 +10,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLDateTime.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLWeatherAlert.h"
 
 QuickSpecBegin(SDLWeatherAlertSpec)
@@ -50,12 +50,12 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameTitle:testTitle,
-                               SDLNameSummary:testSummary,
-                               SDLNameExpires:testExpires,
-                               SDLNameRegions:testRegions,
-                               SDLNameSeverity:testSeverity,
-                               SDLNameTimeIssued:testTimeIssued
+        NSDictionary *dict = @{SDLRPCParameterNameTitle:testTitle,
+                               SDLRPCParameterNameSummary:testSummary,
+                               SDLRPCParameterNameExpires:testExpires,
+                               SDLRPCParameterNameRegions:testRegions,
+                               SDLRPCParameterNameSeverity:testSeverity,
+                               SDLRPCParameterNameTimeIssued:testTimeIssued
                                };
         SDLWeatherAlert *testStruct = [[SDLWeatherAlert alloc] initWithDictionary:dict];
 

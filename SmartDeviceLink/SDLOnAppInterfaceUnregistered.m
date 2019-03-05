@@ -4,7 +4,7 @@
 #import "SDLOnAppInterfaceUnregistered.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,11 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setReason:(SDLAppInterfaceUnregisteredReason)reason {
-    [parameters sdl_setObject:reason forName:SDLNameReason];
+    [parameters sdl_setObject:reason forName:SDLRPCParameterNameReason];
 }
 
 - (SDLAppInterfaceUnregisteredReason)reason {
-    return [parameters sdl_objectForName:SDLNameReason];
+    return [parameters sdl_objectForName:SDLRPCParameterNameReason];
 }
 
 @end

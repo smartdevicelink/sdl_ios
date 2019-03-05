@@ -11,7 +11,7 @@
 
 #import "SDLAppServiceManifest.h"
 #import "SDLAppServiceRecord.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLAppServiceRecordSpec)
 
@@ -23,7 +23,7 @@ describe(@"Getter/Setter Tests", ^{
 
     beforeEach(^{
         testServiceID = @"12345";
-        testAppServiceManifest = [[SDLAppServiceManifest alloc] initWithDictionary:@{SDLNameAllowAppConsumers:@NO}];
+        testAppServiceManifest = [[SDLAppServiceManifest alloc] initWithDictionary:@{SDLRPCParameterNameAllowAppConsumers:@NO}];
         testServicePublished = @NO;
         testServiceActive = @YES;
     });
@@ -51,10 +51,10 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameServiceID:testServiceID,
-                               SDLNameServiceManifest:testAppServiceManifest,
-                               SDLNameServicePublished:testServicePublished,
-                               SDLNameServiceActive:testServiceActive
+        NSDictionary *dict = @{SDLRPCParameterNameServiceID:testServiceID,
+                               SDLRPCParameterNameServiceManifest:testAppServiceManifest,
+                               SDLRPCParameterNameServicePublished:testServicePublished,
+                               SDLRPCParameterNameServiceActive:testServiceActive
                                     };
         SDLAppServiceRecord *testStruct = [[SDLAppServiceRecord alloc] initWithDictionary:dict];
 

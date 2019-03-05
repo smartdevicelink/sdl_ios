@@ -5,7 +5,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLHMIPermissions.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLParameterPermissions.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -13,27 +13,27 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLPermissionItem
 
 - (void)setRpcName:(NSString *)rpcName {
-    [store sdl_setObject:rpcName forName:SDLNameRPCName];
+    [store sdl_setObject:rpcName forName:SDLRPCParameterNameRPCName];
 }
 
 - (NSString *)rpcName {
-    return [store sdl_objectForName:SDLNameRPCName];
+    return [store sdl_objectForName:SDLRPCParameterNameRPCName];
 }
 
 - (void)setHmiPermissions:(SDLHMIPermissions *)hmiPermissions {
-    [store sdl_setObject:hmiPermissions forName:SDLNameHMIPermissions];
+    [store sdl_setObject:hmiPermissions forName:SDLRPCParameterNameHMIPermissions];
 }
 
 - (SDLHMIPermissions *)hmiPermissions {
-    return [store sdl_objectForName:SDLNameHMIPermissions ofClass:SDLHMIPermissions.class];
+    return [store sdl_objectForName:SDLRPCParameterNameHMIPermissions ofClass:SDLHMIPermissions.class];
 }
 
 - (void)setParameterPermissions:(SDLParameterPermissions *)parameterPermissions {
-    [store sdl_setObject:parameterPermissions forName:SDLNameParameterPermissions];
+    [store sdl_setObject:parameterPermissions forName:SDLRPCParameterNameParameterPermissions];
 }
 
 - (SDLParameterPermissions *)parameterPermissions {
-    return [store sdl_objectForName:SDLNameParameterPermissions ofClass:SDLParameterPermissions.class];
+    return [store sdl_objectForName:SDLRPCParameterNameParameterPermissions ofClass:SDLParameterPermissions.class];
 }
 
 @end

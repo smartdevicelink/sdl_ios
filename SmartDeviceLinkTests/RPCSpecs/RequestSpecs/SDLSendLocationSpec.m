@@ -5,7 +5,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLSendLocation.h"
 
@@ -164,20 +164,20 @@ describe(@"Send Location RPC", ^{
                 someTime = [[SDLDateTime alloc] init];
                 someAddress = [[SDLOasisAddress alloc] init];
                 NSDictionary *initDict = @{
-                                           SDLNameRequest: @{
-                                                   SDLNameParameters: @{
-                                                           SDLNameLongitudeDegrees: someLongitude,
-                                                           SDLNameLatitudeDegrees: someLatitude,
-                                                           SDLNameLocationName: someLocation,
-                                                           SDLNameLocationDescription: someLocationDescription,
-                                                           SDLNameAddressLines: someAddressLines,
-                                                           SDLNamePhoneNumber: somePhoneNumber,
-                                                           SDLNameLocationImage: someImage,
-                                                           SDLNameDeliveryMode: someDeliveryMode,
-                                                           SDLNameTimeStamp: someTime,
-                                                           SDLNameAddress: someAddress
+                                           SDLRPCParameterNameRequest: @{
+                                                   SDLRPCParameterNameParameters: @{
+                                                           SDLRPCParameterNameLongitudeDegrees: someLongitude,
+                                                           SDLRPCParameterNameLatitudeDegrees: someLatitude,
+                                                           SDLRPCParameterNameLocationName: someLocation,
+                                                           SDLRPCParameterNameLocationDescription: someLocationDescription,
+                                                           SDLRPCParameterNameAddressLines: someAddressLines,
+                                                           SDLRPCParameterNamePhoneNumber: somePhoneNumber,
+                                                           SDLRPCParameterNameLocationImage: someImage,
+                                                           SDLRPCParameterNameDeliveryMode: someDeliveryMode,
+                                                           SDLRPCParameterNameTimeStamp: someTime,
+                                                           SDLRPCParameterNameAddress: someAddress
                                                            },
-                                                   SDLNameOperationName:SDLRPCFunctionNameSendLocation
+                                                   SDLRPCParameterNameOperationName:SDLRPCFunctionNameSendLocation
                                                    }
                                            };
                 
@@ -239,8 +239,8 @@ describe(@"Send Location RPC", ^{
         context(@"when parameters are not set", ^{
             beforeEach(^{
                 NSDictionary<NSString *, id> *initDict = @{
-                                           SDLNameRequest: @{
-                                                   SDLNameParameters: @{}
+                                           SDLRPCParameterNameRequest: @{
+                                                   SDLRPCParameterNameParameters: @{}
                                                    }
                                            };
                 

@@ -10,7 +10,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLLocationDetails.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLWeatherData.h"
 #import "SDLWeatherAlert.h"
 #import "SDLWeatherServiceData.h"
@@ -29,15 +29,15 @@ describe(@"Getter/Setter Tests", ^{
         testLocation = [[SDLLocationDetails alloc] init];
         testLocation.locationName = @"testLocationName";
 
-        SDLWeatherData *testWeatherDataA = [[SDLWeatherData alloc] initWithDictionary:@{SDLNameWeatherSummary:@"testWeatherDataA"}];
-        SDLWeatherData *testWeatherDataB = [[SDLWeatherData alloc] initWithDictionary:@{SDLNameWeatherSummary:@"testWeatherDataB"}];
-        SDLWeatherData *testWeatherDataC = [[SDLWeatherData alloc] initWithDictionary:@{SDLNameWeatherSummary:@"testWeatherDataC"}];
+        SDLWeatherData *testWeatherDataA = [[SDLWeatherData alloc] initWithDictionary:@{SDLRPCParameterNameWeatherSummary:@"testWeatherDataA"}];
+        SDLWeatherData *testWeatherDataB = [[SDLWeatherData alloc] initWithDictionary:@{SDLRPCParameterNameWeatherSummary:@"testWeatherDataB"}];
+        SDLWeatherData *testWeatherDataC = [[SDLWeatherData alloc] initWithDictionary:@{SDLRPCParameterNameWeatherSummary:@"testWeatherDataC"}];
         testCurrentForecast = testWeatherDataA;
         testMinuteForecast = @[testWeatherDataA];
         testHourlyForecast = @[testWeatherDataB, testWeatherDataA];
         testMultidayForecast = @[testWeatherDataA, testWeatherDataC];
 
-        SDLWeatherAlert *testWeatherAlertA = [[SDLWeatherAlert alloc] initWithDictionary:@{SDLNameTitle:@"testWeatherAlertA"}];
+        SDLWeatherAlert *testWeatherAlertA = [[SDLWeatherAlert alloc] initWithDictionary:@{SDLRPCParameterNameTitle:@"testWeatherAlertA"}];
         testAlerts = @[testWeatherAlertA];
     });
 
@@ -59,12 +59,12 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameLocation:testLocation,
-                               SDLNameCurrentForecast:testCurrentForecast,
-                               SDLNameMinuteForecast:testMinuteForecast,
-                               SDLNameHourlyForecast:testHourlyForecast,
-                               SDLNameMultidayForecast:testMultidayForecast,
-                               SDLNameAlerts:testAlerts
+        NSDictionary *dict = @{SDLRPCParameterNameLocation:testLocation,
+                               SDLRPCParameterNameCurrentForecast:testCurrentForecast,
+                               SDLRPCParameterNameMinuteForecast:testMinuteForecast,
+                               SDLRPCParameterNameHourlyForecast:testHourlyForecast,
+                               SDLRPCParameterNameMultidayForecast:testMultidayForecast,
+                               SDLRPCParameterNameAlerts:testAlerts
                                };
         SDLWeatherServiceData *testStruct = [[SDLWeatherServiceData alloc] initWithDictionary:dict];
 

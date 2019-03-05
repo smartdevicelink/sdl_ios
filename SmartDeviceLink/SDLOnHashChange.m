@@ -5,7 +5,7 @@
 #import "SDLOnHashChange.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -19,11 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setHashID:(NSString *)hashID {
-    [parameters sdl_setObject:hashID forName:SDLNameHashId];
+    [parameters sdl_setObject:hashID forName:SDLRPCParameterNameHashId];
 }
 
 - (NSString *)hashID {
-    return [parameters sdl_objectForName:SDLNameHashId];
+    return [parameters sdl_objectForName:SDLRPCParameterNameHashId];
 }
 
 @end

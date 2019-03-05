@@ -11,13 +11,13 @@
 #import "SDLPhoneCapability.h"
 #import "SDLSystemCapabilityType.h"
 #import "SDLRemoteControlCapabilities.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLVideoStreamingCapability.h"
 #import "SDLVideoStreamingCodec.h"
 #import "SDLVideoStreamingFormat.h"
 #import "SDLVideoStreamingProtocol.h"
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLSystemCapabilitySpec)
 
@@ -55,12 +55,12 @@ describe(@"Getter/Setter Tests", ^ {
 
     it(@"Should get correctly when initialized with a dictionary", ^ {
         NSDictionary *dict = @{
-                               SDLNameSystemCapabilityType:SDLSystemCapabilityTypeNavigation,
-                               SDLNameAppServicesCapabilities:testAppServicesCapabilities,
-                               SDLNameNavigationCapability:testNavigationCapability,
-                               SDLNamePhoneCapability:testPhoneCapability,
-                               SDLNameRemoteControlCapability:testRemoteControlCapabilities,
-                               SDLNameVideoStreamingCapability:testVideoStreamingCapability
+                               SDLRPCParameterNameSystemCapabilityType:SDLSystemCapabilityTypeNavigation,
+                               SDLRPCParameterNameAppServicesCapabilities:testAppServicesCapabilities,
+                               SDLRPCParameterNameNavigationCapability:testNavigationCapability,
+                               SDLRPCParameterNamePhoneCapability:testPhoneCapability,
+                               SDLRPCParameterNameRemoteControlCapability:testRemoteControlCapabilities,
+                               SDLRPCParameterNameVideoStreamingCapability:testVideoStreamingCapability
                                };
         SDLSystemCapability *testStruct = [[SDLSystemCapability alloc] initWithDictionary:dict];
 

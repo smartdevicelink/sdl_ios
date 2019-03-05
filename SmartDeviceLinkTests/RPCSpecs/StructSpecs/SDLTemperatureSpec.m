@@ -10,7 +10,7 @@
 
 #import "SDLTemperature.h"
 #import "SDLTemperatureUnit.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLTemperatureSpec)
 
@@ -25,8 +25,8 @@ describe(@"Initialization tests", ^{
     
     it(@"should properly initialize initWithDictionary", ^{
         
-        NSMutableDictionary* dict = [@{SDLNameUnit : SDLTemperatureUnitCelsius ,
-                                           SDLNameValue:@30 } mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameUnit : SDLTemperatureUnitCelsius ,
+                                           SDLRPCParameterNameValue:@30 } mutableCopy];
         SDLTemperature* testStruct = [[SDLTemperature alloc] initWithDictionary:dict];
         
         expect(testStruct.unit).to(equal(SDLTemperatureUnitCelsius));

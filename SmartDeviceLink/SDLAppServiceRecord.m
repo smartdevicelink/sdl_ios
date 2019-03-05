@@ -10,7 +10,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLAppServiceManifest.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -31,35 +31,35 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setServiceID:(NSString *)serviceID {
-    [store sdl_setObject:serviceID forName:SDLNameServiceID];
+    [store sdl_setObject:serviceID forName:SDLRPCParameterNameServiceID];
 }
 
 - (NSString *)serviceID {
-    return [store sdl_objectForName:SDLNameServiceID];
+    return [store sdl_objectForName:SDLRPCParameterNameServiceID];
 }
 
 - (void)setServiceManifest:(SDLAppServiceManifest *)serviceManifest {
-    [store sdl_setObject:serviceManifest forName:SDLNameServiceManifest];
+    [store sdl_setObject:serviceManifest forName:SDLRPCParameterNameServiceManifest];
 }
 
 - (SDLAppServiceManifest *)serviceManifest {
-    return [store sdl_objectForName:SDLNameServiceManifest ofClass:SDLAppServiceManifest.class];
+    return [store sdl_objectForName:SDLRPCParameterNameServiceManifest ofClass:SDLAppServiceManifest.class];
 }
 
 - (void)setServicePublished:(NSNumber<SDLBool> *)servicePublished {
-    [store sdl_setObject:servicePublished forName:SDLNameServicePublished];
+    [store sdl_setObject:servicePublished forName:SDLRPCParameterNameServicePublished];
 }
 
 - (NSNumber<SDLBool> *)servicePublished {
-    return [store sdl_objectForName:SDLNameServicePublished];
+    return [store sdl_objectForName:SDLRPCParameterNameServicePublished];
 }
 
 - (void)setServiceActive:(NSNumber<SDLBool> *)serviceActive {
-    [store sdl_setObject:serviceActive forName:SDLNameServiceActive];
+    [store sdl_setObject:serviceActive forName:SDLRPCParameterNameServiceActive];
 }
 
 - (NSNumber<SDLBool> *)serviceActive {
-    return [store sdl_objectForName:SDLNameServiceActive];
+    return [store sdl_objectForName:SDLRPCParameterNameServiceActive];
 }
 
 @end

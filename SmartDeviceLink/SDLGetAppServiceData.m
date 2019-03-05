@@ -9,7 +9,7 @@
 #import "SDLGetAppServiceData.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -45,19 +45,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setServiceType:(NSString *)serviceType {
-    [parameters sdl_setObject:serviceType forName:SDLNameServiceType];
+    [parameters sdl_setObject:serviceType forName:SDLRPCParameterNameServiceType];
 }
 
 - (NSString *)serviceType {
-    return [parameters sdl_objectForName:SDLNameServiceType];
+    return [parameters sdl_objectForName:SDLRPCParameterNameServiceType];
 }
 
 - (void)setSubscribe:(nullable NSNumber<SDLBool> *)subscribe {
-    [parameters sdl_setObject:subscribe forName:SDLNameSubscribe];
+    [parameters sdl_setObject:subscribe forName:SDLRPCParameterNameSubscribe];
 }
 
 - (nullable NSNumber<SDLBool> *)subscribe {
-    return [parameters sdl_objectForName:SDLNameSubscribe];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSubscribe];
 }
 
 @end

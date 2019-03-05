@@ -9,7 +9,7 @@
 #import "SDLPerformAppServiceInteractionResponse.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -34,11 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setServiceSpecificResult:(nullable NSString *)serviceSpecificResult {
-    [parameters sdl_setObject:serviceSpecificResult forName:SDLNameServiceSpecificResult];
+    [parameters sdl_setObject:serviceSpecificResult forName:SDLRPCParameterNameServiceSpecificResult];
 }
 
 - (nullable NSString *)serviceSpecificResult {
-    return [parameters sdl_objectForName:SDLNameServiceSpecificResult];
+    return [parameters sdl_objectForName:SDLRPCParameterNameServiceSpecificResult];
 }
 
 @end

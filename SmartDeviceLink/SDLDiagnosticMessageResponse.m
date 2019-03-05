@@ -4,7 +4,7 @@
 #import "SDLDiagnosticMessageResponse.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,11 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMessageDataResult:(NSArray<NSNumber<SDLInt> *> *)messageDataResult {
-    [parameters sdl_setObject:messageDataResult forName:SDLNameMessageDataResult];
+    [parameters sdl_setObject:messageDataResult forName:SDLRPCParameterNameMessageDataResult];
 }
 
 - (NSArray<NSNumber<SDLInt> *> *)messageDataResult {
-    return [parameters sdl_objectForName:SDLNameMessageDataResult];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMessageDataResult];
 }
 
 @end

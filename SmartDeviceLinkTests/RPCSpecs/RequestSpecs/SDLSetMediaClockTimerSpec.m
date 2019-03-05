@@ -8,7 +8,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLSetMediaClockTimer.h"
 #import "SDLStartTime.h"
@@ -27,14 +27,14 @@ describe(@"SetMediaClocktimer Spec", ^ {
 
     describe(@"when initialized", ^{
         it(@"should properly initialize with initWithDictionary:", ^{
-            NSMutableDictionary* dict = [@{SDLNameRequest:
-                                               @{SDLNameParameters:
-                                                     @{SDLNameStartTime:time1,
-                                                       SDLNameEndTime:time2,
-                                                       SDLNameUpdateMode:testUpdateMode,
-                                                       SDLNameAudioStreamingIndicator:testIndicator
+            NSMutableDictionary* dict = [@{SDLRPCParameterNameRequest:
+                                               @{SDLRPCParameterNameParameters:
+                                                     @{SDLRPCParameterNameStartTime:time1,
+                                                       SDLRPCParameterNameEndTime:time2,
+                                                       SDLRPCParameterNameUpdateMode:testUpdateMode,
+                                                       SDLRPCParameterNameAudioStreamingIndicator:testIndicator
                                                        },
-                                                 SDLNameOperationName:SDLRPCFunctionNameSetMediaClockTimer}} mutableCopy];
+                                                 SDLRPCParameterNameOperationName:SDLRPCFunctionNameSetMediaClockTimer}} mutableCopy];
             SDLSetMediaClockTimer* testRequest = [[SDLSetMediaClockTimer alloc] initWithDictionary:dict];
 
             expect(testRequest.startTime).to(equal(time1));

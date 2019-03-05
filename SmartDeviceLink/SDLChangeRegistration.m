@@ -5,7 +5,7 @@
 #import "SDLChangeRegistration.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 #import "SDLTTSChunk.h"
 
@@ -45,51 +45,51 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setLanguage:(SDLLanguage)language {
-    [parameters sdl_setObject:language forName:SDLNameLanguage];
+    [parameters sdl_setObject:language forName:SDLRPCParameterNameLanguage];
 }
 
 - (SDLLanguage)language {
-    return [parameters sdl_objectForName:SDLNameLanguage];
+    return [parameters sdl_objectForName:SDLRPCParameterNameLanguage];
 }
 
 - (void)setHmiDisplayLanguage:(SDLLanguage )hmiDisplayLanguage {
-    [parameters sdl_setObject:hmiDisplayLanguage forName:SDLNameHMIDisplayLanguage];
+    [parameters sdl_setObject:hmiDisplayLanguage forName:SDLRPCParameterNameHMIDisplayLanguage];
 }
 
 - (SDLLanguage)hmiDisplayLanguage {
-    return [parameters sdl_objectForName:SDLNameHMIDisplayLanguage];
+    return [parameters sdl_objectForName:SDLRPCParameterNameHMIDisplayLanguage];
 }
 
 - (void)setAppName:(nullable NSString *)appName {
-    [parameters sdl_setObject:appName forName:SDLNameAppName];
+    [parameters sdl_setObject:appName forName:SDLRPCParameterNameAppName];
 }
 
 - (nullable NSString *)appName {
-    return [[parameters sdl_objectForName:SDLNameAppName] copy];
+    return [[parameters sdl_objectForName:SDLRPCParameterNameAppName] copy];
 }
 
 - (void)setTtsName:(nullable NSArray<SDLTTSChunk *> *)ttsName {
-    [parameters sdl_setObject:ttsName forName:SDLNameTTSName];
+    [parameters sdl_setObject:ttsName forName:SDLRPCParameterNameTTSName];
 }
 
 - (nullable NSArray<SDLTTSChunk *> *)ttsName {
-    return [parameters sdl_objectsForName:SDLNameTTSName ofClass:SDLTTSChunk.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameTTSName ofClass:SDLTTSChunk.class];
 }
 
 - (void)setNgnMediaScreenAppName:(nullable NSString *)ngnMediaScreenAppName {
-    [parameters sdl_setObject:ngnMediaScreenAppName forName:SDLNameNGNMediaScreenAppName];
+    [parameters sdl_setObject:ngnMediaScreenAppName forName:SDLRPCParameterNameNGNMediaScreenAppName];
 }
 
 - (nullable NSString *)ngnMediaScreenAppName {
-    return [parameters sdl_objectForName:SDLNameNGNMediaScreenAppName];
+    return [parameters sdl_objectForName:SDLRPCParameterNameNGNMediaScreenAppName];
 }
 
 - (void)setVrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms {
-    [parameters sdl_setObject:vrSynonyms forName:SDLNameVRSynonyms];
+    [parameters sdl_setObject:vrSynonyms forName:SDLRPCParameterNameVRSynonyms];
 }
 
 - (nullable NSArray<NSString *> *)vrSynonyms {
-    return [parameters sdl_objectForName:SDLNameVRSynonyms];
+    return [parameters sdl_objectForName:SDLRPCParameterNameVRSynonyms];
 }
 
 @end

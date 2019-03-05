@@ -6,7 +6,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLGlobalProperty.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -31,11 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setProperties:(NSArray<SDLGlobalProperty> *)properties {
-    [parameters sdl_setObject:properties forName:SDLNameProperties];
+    [parameters sdl_setObject:properties forName:SDLRPCParameterNameProperties];
 }
 
 - (NSArray<SDLGlobalProperty> *)properties {
-    return [parameters sdl_objectForName:SDLNameProperties];
+    return [parameters sdl_objectForName:SDLRPCParameterNameProperties];
 }
 
 @end

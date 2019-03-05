@@ -5,7 +5,7 @@
 #import "SDLPutFileResponse.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -19,11 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setSpaceAvailable:(nullable NSNumber<SDLInt> *)spaceAvailable {
-    [parameters sdl_setObject:spaceAvailable forName:SDLNameSpaceAvailable];
+    [parameters sdl_setObject:spaceAvailable forName:SDLRPCParameterNameSpaceAvailable];
 }
 
 - (nullable NSNumber<SDLInt> *)spaceAvailable {
-    return [parameters sdl_objectForName:SDLNameSpaceAvailable];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSpaceAvailable];
 }
 
 @end

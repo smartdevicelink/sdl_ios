@@ -11,7 +11,7 @@
 
 #import "SDLFileType.h"
 #import "SDLGetFileResponse.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLGetFileResponseSpec)
@@ -40,14 +40,14 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameResponse:@{
-                                       SDLNameParameters:@{
-                                               SDLNameOffset:@(testOffset),
-                                               SDLNameLength:@(testLength),
-                                               SDLNameFileType:testFileType,
-                                               SDLNameCRC:@(testCrc)
+        NSDictionary *dict = @{SDLRPCParameterNameResponse:@{
+                                       SDLRPCParameterNameParameters:@{
+                                               SDLRPCParameterNameOffset:@(testOffset),
+                                               SDLRPCParameterNameLength:@(testLength),
+                                               SDLRPCParameterNameFileType:testFileType,
+                                               SDLRPCParameterNameCRC:@(testCrc)
                                                },
-                                       SDLNameOperationName:SDLRPCFunctionNameGetFile}};
+                                       SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetFile}};
         SDLGetFileResponse *testResponse = [[SDLGetFileResponse alloc] initWithDictionary:dict];
 
         expect(testResponse.offset).to(equal(testOffset));

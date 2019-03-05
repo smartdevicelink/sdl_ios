@@ -8,7 +8,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRPCPayload.h"
 #import "SDLRPCMessageType.h"
 #import "SDLRPCFunctionNames.h"
@@ -16,9 +16,9 @@
 QuickSpecBegin(SDLRPCPayloadSpec)
 
 __block SDLRPCPayload* testPayload;
-__block NSDictionary* dict = @{SDLNameResponse:
-                                   @{SDLNameParameters:@{},
-                                     SDLNameOperationName:SDLRPCFunctionNameDeleteCommand}};
+__block NSDictionary* dict = @{SDLRPCParameterNameResponse:
+                                   @{SDLRPCParameterNameParameters:@{},
+                                     SDLRPCParameterNameOperationName:SDLRPCFunctionNameDeleteCommand}};
 
 NSData* (^testData)(void) = ^NSData* {
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:0];

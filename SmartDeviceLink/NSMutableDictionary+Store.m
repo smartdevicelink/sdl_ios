@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation NSMutableDictionary (Store)
 
-- (void)sdl_setObject:(NSObject *)object forName:(SDLName)name {
+- (void)sdl_setObject:(NSObject *)object forName:(SDLRPCParameterName)name {
     if (object != nil) {
         self[name] = object;
     } else {
@@ -20,11 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (nullable id)sdl_objectForName:(SDLName)name {
+- (nullable id)sdl_objectForName:(SDLRPCParameterName)name {
     return self[name];
 }
 
-- (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType {
+- (nullable id)sdl_objectForName:(SDLRPCParameterName)name ofClass:(Class)classType {
     NSObject *obj = [self sdl_objectForName:name];
     if (obj == nil || [obj isKindOfClass:classType]) {
         return obj;
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType {
+- (NSArray *)sdl_objectsForName:(SDLRPCParameterName)name ofClass:(Class)classType {
     NSArray *array = [self sdl_objectForName:name];
     if ([array isEqual:[NSNull null]]) {
         return [NSMutableArray array];
