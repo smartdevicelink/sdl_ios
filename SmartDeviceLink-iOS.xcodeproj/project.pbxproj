@@ -655,7 +655,7 @@
 		5D61FCAA1A84238C00846EE7 /* SDLFileType.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FABD1A84238A00846EE7 /* SDLFileType.m */; };
 		5D61FCAB1A84238C00846EE7 /* SDLFuelCutoffStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FABE1A84238A00846EE7 /* SDLFuelCutoffStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FCAC1A84238C00846EE7 /* SDLFuelCutoffStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FABF1A84238A00846EE7 /* SDLFuelCutoffStatus.m */; };
-		5D61FCAD1A84238C00846EE7 /* SDLFunctionID.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FAC01A84238A00846EE7 /* SDLFunctionID.h */; };
+		5D61FCAD1A84238C00846EE7 /* SDLFunctionID.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FAC01A84238A00846EE7 /* SDLFunctionID.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FCAE1A84238C00846EE7 /* SDLFunctionID.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FAC11A84238A00846EE7 /* SDLFunctionID.m */; };
 		5D61FCAF1A84238C00846EE7 /* SDLGenericResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FAC21A84238A00846EE7 /* SDLGenericResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FCB01A84238C00846EE7 /* SDLGenericResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FAC31A84238A00846EE7 /* SDLGenericResponse.m */; };

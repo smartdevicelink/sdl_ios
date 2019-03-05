@@ -120,6 +120,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLFuelCutoffStatus.h',
 'SmartDeviceLink/SDLFuelRange.h',
 'SmartDeviceLink/SDLFuelType.h',
+'SmartDeviceLink/SDLFunctionID.h',
 'SmartDeviceLink/SDLGenericResponse.h',
 'SmartDeviceLink/SDLGetAppServiceData.h',
 'SmartDeviceLink/SDLGetAppServiceDataResponse.h',
