@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SDLProtocolHeader.h"
-#import "SDLSyncMsgVersion.h"
+#import "SDLProtocolConstants.h"
+
+@class SDLProtocolHeader;
+@class SDLSyncMsgVersion;
+@class SDLVersion;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,10 +29,9 @@ extern NSUInteger const SDLV3MTUSize;
 
 @interface SDLGlobals : NSObject
 
-@property (copy, nonatomic, readonly) NSString *protocolVersion;
-@property (assign, nonatomic, readonly) NSInteger majorProtocolVersion;
-@property (strong, nonatomic) SDLSyncMsgVersion *rpcVersion;
-@property (copy, nonatomic) NSString *maxHeadUnitVersion;
+@property (copy, nonatomic, readonly) SDLVersion *protocolVersion;
+@property (strong, nonatomic) SDLVersion *rpcVersion;
+@property (copy, nonatomic) SDLVersion *maxHeadUnitProtocolVersion;
 
 + (instancetype)sharedGlobals;
 

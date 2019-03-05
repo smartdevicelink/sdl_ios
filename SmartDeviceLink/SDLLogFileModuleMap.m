@@ -20,6 +20,7 @@
                                  [self sdl_dispatcherModule],
                                  [self sdl_fileManagerModule],
                                  [self sdl_lifecycleManagerModule],
+                                 [self sdl_systemCapabilityModule],
                                  [self sdl_lockscreenManagerModule],
                                  [self sdl_streamingMediaManagerModule],
                                  [self sdl_streamingMediaAudioTranscoderModule],
@@ -59,6 +60,10 @@
 
 + (SDLLogFileModule *)sdl_lifecycleManagerModule {
     return [SDLLogFileModule moduleWithName:@"Lifecycle" files:[NSSet setWithArray:@[@"SDLLifecycleManager", @"SDLManager"]]];
+}
+
++ (SDLLogFileModule *)sdl_systemCapabilityModule {
+    return [SDLLogFileModule moduleWithName:@"System Capability" files:[NSSet setWithArray:@[@"SDLSystemCapabilityManager"]]];
 }
 
 + (SDLLogFileModule *)sdl_lockscreenManagerModule {
