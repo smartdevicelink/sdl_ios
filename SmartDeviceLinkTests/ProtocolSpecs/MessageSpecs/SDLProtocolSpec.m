@@ -22,7 +22,7 @@
 #import "SDLV2ProtocolMessage.h"
 #import "SDLV1ProtocolHeader.h"
 #import "SDLV2ProtocolHeader.h"
-
+#import "SDLVersion.h"
 
 QuickSpecBegin(SDLProtocolSpec)
 
@@ -39,7 +39,7 @@ describe(@"Send StartService Tests", ^ {
         it(@"Should send the correct data", ^ {
             // Reset max protocol version before test. (This test case expects V1 header. If other test ran
             // prior to this one, SDLGlobals would keep the max protocol version and this test case would fail.)
-            [[SDLGlobals sharedGlobals] setMaxHeadUnitVersion:@"1.0.0"];
+            [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithString:@"1.0.0"];
 
             SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
             
@@ -65,7 +65,7 @@ describe(@"Send StartService Tests", ^ {
 
         it(@"Should reuse stored header of RPC service when starting other service", ^{
             // reset max protocol version before test
-            [[SDLGlobals sharedGlobals] setMaxHeadUnitVersion:@"2.0.0"];
+            [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithString:@"2.0.0"];
 
             SDLServiceType serviceTypeToStart = SDLServiceTypeVideo;
 

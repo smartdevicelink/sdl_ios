@@ -36,6 +36,7 @@
 #import "SDLTTSChunk.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnregisterAppInterfaceResponse.h"
+#import "SDLVersion.h"
 
 
 // Ignore the deprecated proxy methods
@@ -259,6 +260,20 @@ describe(@"a lifecycle manager", ^{
                 });
             });
         });
+
+        describe(@"in the connected state when the minimum protocol version is in effect", ^{
+            beforeEach(^{
+                SDLVersion *oldVersion = [SDLVersion versionWithMajor:0 minor:0 patch:0];
+                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                OCMStub([globalMock protocolVersion]).andReturn(oldVersion);
+                OCMExpect([protocolMock endServiceWithType:SDLServiceTypeRPC]);
+                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateConnected fromOldState:nil callEnterTransition:YES];
+            });
+
+            it(@"should disconnect", ^{
+                OCMVerifyAll(protocolMock);
+            });
+        });
         
         describe(@"in the connected state", ^{
             beforeEach(^{
@@ -314,6 +329,20 @@ describe(@"a lifecycle manager", ^{
                 it(@"should enter the stopped state", ^{
                     expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
                 });
+            });
+        });
+
+        describe(@"transitioning to the registered state when the minimum RPC version is in effect", ^{
+            beforeEach(^{
+                SDLVersion *oldVersion = [SDLVersion versionWithMajor:0 minor:0 patch:0];
+                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                OCMStub([globalMock rpcVersion]).andReturn(oldVersion);
+
+                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateRegistered fromOldState:nil callEnterTransition:YES];
+            });
+
+            it(@"should disconnect", ^{
+                expect(testManager.lifecycleState).to(equal(SDLLifecycleStateUnregistering));
             });
         });
         

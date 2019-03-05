@@ -14,6 +14,7 @@
 @class SDLFile;
 @class SDLTemplateColorScheme;
 @class SDLTTSChunk;
+@class SDLVersion;
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -166,6 +167,16 @@ NS_ASSUME_NONNULL_BEGIN
  *  The color scheme to use when the head unit is in a dark / night situation.
  */
 @property (copy, nonatomic, nullable) SDLTemplateColorScheme *nightColorScheme;
+
+/**
+ The minimum protocol version that will be permitted to connect. This defaults to 1.0.0. If the protocol version of the head unit connected is below this version, the app will disconnect with an EndService protocol message and will not register.
+ */
+@property (strong, nonatomic) SDLVersion *minimumProtocolVersion;
+
+/**
+ The minimum RPC version that will be permitted to connect. This defaults to 1.0.0. If the RPC version of the head unit connected is below this version, an UnregisterAppInterface will be sent.
+ */
+@property (strong, nonatomic) SDLVersion *minimumRPCVersion;
 
 @end
 

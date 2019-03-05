@@ -39,6 +39,7 @@
 #import "SDLTransportType.h"
 #import "SDLUnsubscribeButton.h"
 #import "SDLVehicleType.h"
+#import "SDLVersion.h"
 
 #import "SDLRPCParameterNames.h"
 #import "SDLRPCFunctionNames.h"
@@ -299,7 +300,7 @@ static float DefaultConnectionTimeout = 45.0;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (BOOL)sdl_adaptButtonSubscribeMessage:(SDLSubscribeButton *)message {
-    if ([SDLGlobals sharedGlobals].rpcVersion.majorVersion.intValue >= 5) {
+    if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
         if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
             SDLSubscribeButton *playPauseMessage = [message copy];
             playPauseMessage.buttonName = SDLButtonNamePlayPause;
@@ -336,7 +337,7 @@ static float DefaultConnectionTimeout = 45.0;
 }
 
 - (BOOL)sdl_adaptButtonUnsubscribeMessage:(SDLUnsubscribeButton *)message {
-    if ([SDLGlobals sharedGlobals].rpcVersion.majorVersion.intValue >= 5) {
+    if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
         if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
             SDLUnsubscribeButton *playPauseMessage = [message copy];
             playPauseMessage.buttonName = SDLButtonNamePlayPause;
@@ -425,7 +426,7 @@ static float DefaultConnectionTimeout = 45.0;
 
     if ([functionName isEqualToString:@"OnButtonPress"]) {
         SDLOnButtonPress *message = (SDLOnButtonPress *)newMessage;
-        if ([SDLGlobals sharedGlobals].rpcVersion.majorVersion.intValue >= 5) {
+        if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
             BOOL handledRPC = [self sdl_handleOnButtonPressPostV5:message];
             if (handledRPC) { return; }
         } else { // RPC version of 4 or less (connected to an old head unit)
@@ -436,7 +437,7 @@ static float DefaultConnectionTimeout = 45.0;
 
     if ([functionName isEqualToString:@"OnButtonEvent"]) {
         SDLOnButtonEvent *message = (SDLOnButtonEvent *)newMessage;
-        if ([SDLGlobals sharedGlobals].rpcVersion.majorVersion.intValue >= 5) {
+        if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
             BOOL handledRPC = [self sdl_handleOnButtonEventPostV5:message];
             if (handledRPC) { return; }
         } else {
@@ -481,7 +482,7 @@ static float DefaultConnectionTimeout = 45.0;
         self.protocol.securityManager.appId = self.appId;
     }
 
-    if ([SDLGlobals sharedGlobals].majorProtocolVersion >= 4) {
+    if ([SDLGlobals sharedGlobals].protocolVersion.major >= 4) {
         [self sendMobileHMIState];
         // Send SDL updates to application state
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendMobileHMIState) name:UIApplicationDidBecomeActiveNotification object:nil];

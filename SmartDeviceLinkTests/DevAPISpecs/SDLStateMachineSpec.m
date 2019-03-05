@@ -22,7 +22,6 @@ describe(@"A state machine", ^{
     
     beforeEach(^{
         testTarget = [[TestStateMachineTarget alloc] init];
-        
         testStateMachine = [[SDLStateMachine alloc] initWithTarget:testTarget initialState:initialState states:allowableStateTransitions];
     });
     
