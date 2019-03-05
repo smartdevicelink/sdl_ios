@@ -10,6 +10,7 @@
 
 #import "SDLButtonName.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLUnsubscribeButton.h"
 
 
@@ -28,7 +29,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{SDLNameRequest:
                                            @{SDLNameParameters:
                                                  @{SDLNameButtonName:SDLButtonNamePreset0},
-                                             SDLNameOperationName:SDLNameUnsubscribeButton}} mutableCopy];
+                                             SDLNameOperationName:SDLRPCFunctionNameUnsubscribeButton}} mutableCopy];
         SDLUnsubscribeButton* testRequest = [[SDLUnsubscribeButton alloc] initWithDictionary:dict];
         
         expect(testRequest.buttonName).to(equal(SDLButtonNamePreset0));

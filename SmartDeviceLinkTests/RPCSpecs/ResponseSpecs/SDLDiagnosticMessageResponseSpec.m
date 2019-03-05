@@ -10,6 +10,7 @@
 
 #import "SDLDiagnosticMessageResponse.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLDiagnosticMessageResponseSpec)
 
@@ -26,7 +27,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameResponse:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameMessageDataResult:@[@3, @9, @27, @81]},
-                                                             SDLNameOperationName:SDLNameDiagnosticMessage}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameDiagnosticMessage}} mutableCopy];
         SDLDiagnosticMessageResponse* testResponse = [[SDLDiagnosticMessageResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.messageDataResult).to(equal(@[@3, @9, @27, @81]));

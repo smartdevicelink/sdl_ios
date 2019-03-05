@@ -5,6 +5,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLTouchEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -12,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLOnTouchEvent
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnTouchEvent]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnTouchEvent]) {
     }
     return self;
 }

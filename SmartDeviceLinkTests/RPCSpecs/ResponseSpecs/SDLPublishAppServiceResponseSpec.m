@@ -12,6 +12,7 @@
 #import "SDLPublishAppServiceResponse.h"
 #import "SDLAppServiceRecord.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLPublishAppServiceResponseSpec)
 
@@ -35,7 +36,7 @@ describe(@"Getter/Setter Tests", ^{
                                        SDLNameParameters:@{
                                                SDLNameAppServiceRecord:testAppServiceRecord
                                                },
-                                       SDLNameOperationName:SDLNamePublishAppService}};
+                                       SDLNameOperationName:SDLRPCFunctionNamePublishAppService}};
         SDLPublishAppServiceResponse *testResponse = [[SDLPublishAppServiceResponse alloc] initWithDictionary:dict];
 
         expect(testResponse.appServiceRecord).to(equal(testAppServiceRecord));

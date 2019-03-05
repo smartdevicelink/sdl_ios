@@ -11,6 +11,7 @@
 #import "SDLCreateInteractionChoiceSet.h"
 #import "SDLChoice.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLCreateInteractionChoiceSetSpec)
 
@@ -32,7 +33,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLNameParameters:
                                                                  @{SDLNameInteractionChoiceSetId:@141414,
                                                                    SDLNameChoiceSet:[@[choice] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameCreateInteractionChoiceSet}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameCreateInteractionChoiceSet}} mutableCopy];
         SDLCreateInteractionChoiceSet* testRequest = [[SDLCreateInteractionChoiceSet alloc] initWithDictionary:dict];
 
         expect(testRequest.interactionChoiceSetID).to(equal(@141414));

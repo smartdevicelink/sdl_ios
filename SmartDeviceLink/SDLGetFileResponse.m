@@ -10,13 +10,14 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLGetFileResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameGetFile]) {
+    if (self = [super initWithName:SDLRPCFunctionNameGetFile]) {
     }
     return self;
 }

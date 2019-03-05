@@ -6,13 +6,14 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLLocationDetails.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnWayPointChange
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnWayPointChange]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnWayPointChange]) {
     }
     return self;
 }

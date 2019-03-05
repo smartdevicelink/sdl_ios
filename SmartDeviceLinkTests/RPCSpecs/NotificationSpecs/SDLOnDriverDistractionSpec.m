@@ -11,6 +11,7 @@
 #import "SDLDriverDistractionState.h"
 #import "SDLOnDriverDistraction.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnDriverDistractionSpec)
 
@@ -27,7 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{SDLNameNotification:
                                            @{SDLNameParameters:
                                                  @{SDLNameState:SDLDriverDistractionStateOn},
-                                             SDLNameOperationName:SDLNameOnDriverDistraction}} mutableCopy];
+                                             SDLNameOperationName:SDLRPCFunctionNameOnDriverDistraction}} mutableCopy];
         SDLOnDriverDistraction* testNotification = [[SDLOnDriverDistraction alloc] initWithDictionary:dict];
         
         expect(testNotification.state).to(equal(SDLDriverDistractionStateOn));

@@ -5,6 +5,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 #import <zlib.h>
 
@@ -13,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLPutFile
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNamePutFile]) {
+    if (self = [super initWithName:SDLRPCFunctionNamePutFile]) {
     }
     return self;
 }

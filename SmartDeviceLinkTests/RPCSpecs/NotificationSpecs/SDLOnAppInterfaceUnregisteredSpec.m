@@ -11,6 +11,7 @@
 #import "SDLAppInterfaceUnregisteredReason.h"
 #import "SDLOnAppInterfaceUnregistered.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnAppInterfaceUnregisteredSpec)
 
@@ -27,7 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{SDLNameNotification:
                                            @{SDLNameParameters:
                                                  @{SDLNameReason:SDLAppInterfaceUnregisteredReasonAppUnauthorized},
-                                             SDLNameOperationName:SDLNameOnAppInterfaceUnregistered}} mutableCopy];
+                                             SDLNameOperationName:SDLRPCFunctionNameOnAppInterfaceUnregistered}} mutableCopy];
         SDLOnAppInterfaceUnregistered* testNotification = [[SDLOnAppInterfaceUnregistered alloc] initWithDictionary:dict];
         
         expect(testNotification.reason).to(equal(SDLAppInterfaceUnregisteredReasonAppUnauthorized));

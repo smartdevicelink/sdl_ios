@@ -11,6 +11,7 @@
 #import "SDLReadDIDResponse.h"
 #import "SDLDIDResult.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLReadDIDResponseSpec)
 
@@ -29,7 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameResponse:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameDIDResult:[@[result] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameReadDID}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameReadDID}} mutableCopy];
         SDLReadDIDResponse* testResponse = [[SDLReadDIDResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.didResult).to(equal([@[result] mutableCopy]));

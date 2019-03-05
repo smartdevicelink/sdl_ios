@@ -12,6 +12,7 @@
 #import "SDLFileType.h"
 #import "SDLGetFileResponse.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLGetFileResponseSpec)
 
@@ -46,7 +47,7 @@ describe(@"Getter/Setter Tests", ^{
                                                SDLNameFileType:testFileType,
                                                SDLNameCRC:@(testCrc)
                                                },
-                                       SDLNameOperationName:SDLNameGetFile}};
+                                       SDLNameOperationName:SDLRPCFunctionNameGetFile}};
         SDLGetFileResponse *testResponse = [[SDLGetFileResponse alloc] initWithDictionary:dict];
 
         expect(testResponse.offset).to(equal(testOffset));

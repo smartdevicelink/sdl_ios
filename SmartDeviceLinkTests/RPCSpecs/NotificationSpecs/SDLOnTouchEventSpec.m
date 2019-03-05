@@ -10,6 +10,7 @@
 
 #import "SDLOnTouchEvent.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLTouchEvent.h"
 #import "SDLTouchType.h"
 
@@ -34,7 +35,7 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{SDLNameParameters:
                                                  @{SDLNameType:SDLTouchTypeBegin,
                                                    SDLNameEvent:[@[event] mutableCopy]},
-                                             SDLNameOperationName:SDLNameOnTouchEvent}} mutableCopy];
+                                             SDLNameOperationName:SDLRPCFunctionNameOnTouchEvent}} mutableCopy];
         SDLOnTouchEvent* testNotification = [[SDLOnTouchEvent alloc] initWithDictionary:dict];
         
         expect(testNotification.type).to(equal(SDLTouchTypeBegin));

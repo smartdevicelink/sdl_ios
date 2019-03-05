@@ -11,6 +11,7 @@
 #import "SDLAddSubMenu.h"
 #import "SDLImage.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLAddSubMenuSpec)
 
@@ -78,7 +79,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                            SDLNameValue: @"Test"
                                                                            }
                                                                    },
-                                                             SDLNameOperationName:SDLNameAddSubMenu}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameAddSubMenu}} mutableCopy];
         SDLAddSubMenu* testRequest = [[SDLAddSubMenu alloc] initWithDictionary:dict];
 
         expect(testRequest.menuID).to(equal(@(menuId)));

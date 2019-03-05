@@ -8,6 +8,7 @@
 #import "SDLButtonCapabilities.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLPresetBankCapabilities.h"
 #import "SDLSoftButtonCapabilities.h"
 
@@ -16,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLSetDisplayLayoutResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameSetDisplayLayout]) {
+    if (self = [super initWithName:SDLRPCFunctionNameSetDisplayLayout]) {
     }
     return self;
 }

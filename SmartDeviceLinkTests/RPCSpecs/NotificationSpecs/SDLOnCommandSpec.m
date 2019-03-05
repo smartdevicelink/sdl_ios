@@ -9,6 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLOnCommand.h"
 #import "SDLTriggerSource.h"
 
@@ -30,7 +31,7 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{SDLNameParameters:
                                                  @{SDLNameCommandId:@5676544,
                                                    SDLNameTriggerSource:SDLTriggerSourceKeyboard},
-                                             SDLNameOperationName:SDLNameOnCommand}} mutableCopy];
+                                             SDLNameOperationName:SDLRPCFunctionNameOnCommand}} mutableCopy];
         SDLOnCommand* testNotification = [[SDLOnCommand alloc] initWithDictionary:dict];
         
         expect(testNotification.cmdID).to(equal(@5676544));

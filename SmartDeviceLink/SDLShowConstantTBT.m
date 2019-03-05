@@ -7,6 +7,7 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSoftButton.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -14,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLShowConstantTBT
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameShowConstantTBT]) {
+    if (self = [super initWithName:SDLRPCFunctionNameShowConstantTBT]) {
     }
     return self;
 }

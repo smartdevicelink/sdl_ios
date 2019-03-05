@@ -6,6 +6,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSoftButton.h"
 #import "SDLTTSChunk.h"
 
@@ -14,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLAlertManeuver
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameAlertManeuver]) {
+    if (self = [super initWithName:SDLRPCFunctionNameAlertManeuver]) {
     }
     return self;
 }

@@ -6,13 +6,14 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeleteInteractionChoiceSet
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameDeleteInteractionChoiceSet]) {
+    if (self = [super initWithName:SDLRPCFunctionNameDeleteInteractionChoiceSet]) {
     }
     return self;
 }

@@ -10,6 +10,7 @@
 
 #import "SDLPutFileResponse.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLPutFileResponseSpec)
 
@@ -27,7 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLNameParameters:
                                                                  @{SDLNameSpaceAvailable:@1248,
                                                                    },
-                                                             SDLNameOperationName:SDLNamePutFile}};
+                                                             SDLNameOperationName:SDLRPCFunctionNamePutFile}};
         SDLPutFileResponse* testResponse = [[SDLPutFileResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.spaceAvailable).to(equal(@1248));

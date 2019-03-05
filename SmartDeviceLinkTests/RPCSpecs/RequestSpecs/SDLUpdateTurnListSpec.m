@@ -12,6 +12,7 @@
 #import "SDLTurn.h"
 #import "SDLSoftButton.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLUpdateTurnListSpec)
 
@@ -34,7 +35,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLNameParameters:
                                                                  @{SDLNameTurnList:[@[turn] mutableCopy],
                                                                    SDLNameSoftButtons:[@[button] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameUpdateTurnList}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameUpdateTurnList}} mutableCopy];
         SDLUpdateTurnList* testRequest = [[SDLUpdateTurnList alloc] initWithDictionary:dict];
         
         expect(testRequest.turnList).to(equal([@[turn] mutableCopy]));

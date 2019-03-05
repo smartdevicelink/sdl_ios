@@ -7,13 +7,14 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLDIDResult.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLReadDIDResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameReadDID]) {
+    if (self = [super initWithName:SDLRPCFunctionNameReadDID]) {
     }
     return self;
 }

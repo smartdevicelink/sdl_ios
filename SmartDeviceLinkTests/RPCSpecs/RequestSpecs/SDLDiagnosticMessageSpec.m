@@ -10,6 +10,7 @@
 
 #import "SDLDiagnosticMessage.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLDiagnosticMessageSpec)
 
@@ -32,7 +33,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                  @{SDLNameTargetId:@3562,
                                                                    SDLNameMessageLength:@55555,
                                                                    SDLNameMessageData:[@[@1, @4, @16, @64] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameDiagnosticMessage}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameDiagnosticMessage}} mutableCopy];
         SDLDiagnosticMessage* testRequest = [[SDLDiagnosticMessage alloc] initWithDictionary:dict];
         
         expect(testRequest.targetID).to(equal(@3562));

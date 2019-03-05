@@ -12,6 +12,7 @@
 #import "SDLLocationCoordinate.h"
 #import "SDLLocationDetails.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLOasisAddress.h"
 
 QuickSpecBegin(SDLOnWayPointChangeSpec)
@@ -68,7 +69,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            SDLNameWayPoints: someWaypoints
                                                            }
                                                    },
-                                           SDLNameOperationName:SDLNameOnWayPointChange
+                                           SDLNameOperationName:SDLRPCFunctionNameOnWayPointChange
                                            };
                 
                 testNotification = [[SDLOnWayPointChange alloc] initWithDictionary:[NSMutableDictionary dictionaryWithDictionary:initDict]];

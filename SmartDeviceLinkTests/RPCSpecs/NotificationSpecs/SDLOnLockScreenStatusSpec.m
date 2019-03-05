@@ -12,6 +12,7 @@
 #import "SDLHMILevel.h"
 #import "SDLLockScreenStatus.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnLockScreenStatusSpec)
 

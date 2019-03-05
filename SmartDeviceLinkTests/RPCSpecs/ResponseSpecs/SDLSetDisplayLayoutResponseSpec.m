@@ -11,6 +11,7 @@
 #import "SDLButtonCapabilities.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLPresetBankCapabilities.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLSoftButtonCapabilities.h"
@@ -45,7 +46,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameButtonCapabilities:[@[button] mutableCopy],
                                                                    SDLNameSoftButtonCapabilities:[@[softButton] mutableCopy],
                                                                    SDLNamePresetBankCapabilities:presetBank},
-                                                             SDLNameOperationName:SDLNameSetDisplayLayout}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameSetDisplayLayout}} mutableCopy];
         SDLSetDisplayLayoutResponse* testResponse = [[SDLSetDisplayLayoutResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.displayCapabilities).to(equal(info));

@@ -6,13 +6,14 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLLanguage.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnLanguageChange
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnLanguageChange]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnLanguageChange]) {
     }
     return self;
 }

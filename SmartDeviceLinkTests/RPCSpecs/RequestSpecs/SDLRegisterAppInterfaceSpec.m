@@ -15,6 +15,7 @@
 #import "SDLLanguage.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLSyncMsgVersion.h"
 #import "SDLTemplateColorScheme.h"
@@ -111,7 +112,7 @@ describe(@"RegisterAppInterface Tests", ^{
                                                    SDLNameDayColorScheme: colorScheme,
                                                    SDLNameNightColorScheme: colorScheme,
                                                    },
-                                             SDLNameOperationName:SDLNameRegisterAppInterface}};
+                                             SDLNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
         SDLRegisterAppInterface* testRegisterAppInterface = [[SDLRegisterAppInterface alloc] initWithDictionary:dict];
 
         expect(testRegisterAppInterface.syncMsgVersion).to(equal(version));

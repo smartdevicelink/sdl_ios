@@ -5,13 +5,14 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAddSubMenu
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameAddSubMenu]) {
+    if (self = [super initWithName:SDLRPCFunctionNameAddSubMenu]) {
     }
     return self;
 }

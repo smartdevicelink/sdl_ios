@@ -12,6 +12,7 @@
 #import "SDLHMILevel.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSystemContext.h"
 
 
@@ -39,7 +40,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameAudioStreamingState: SDLAudioStreamingStateAttenuated,
                                                    SDLNameSystemContext: SDLSystemContextHMIObscured,
                                                    SDLNameVideoStreamingState: SDLVideoStreamingStateStreamable},
-                                             SDLNameOperationName:SDLNameOnHMIStatus}} mutableCopy];
+                                             SDLNameOperationName:SDLRPCFunctionNameOnHMIStatus}} mutableCopy];
         SDLOnHMIStatus* testNotification = [[SDLOnHMIStatus alloc] initWithDictionary:dict];
         
         expect(testNotification.hmiLevel).to(equal(SDLHMILevelLimited));

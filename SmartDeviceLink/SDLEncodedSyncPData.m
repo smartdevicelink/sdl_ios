@@ -6,13 +6,14 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLEncodedSyncPData
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameEncodedSyncPData]) {
+    if (self = [super initWithName:SDLRPCFunctionNameEncodedSyncPData]) {
     }
     return self;
 }

@@ -10,6 +10,7 @@
 
 #import "SDLUnsubscribeVehicleData.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLUnsubscribeVehicleDataSpec)
 
@@ -107,7 +108,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            SDLNameTirePressure:@YES,
                                                            SDLNameTurnSignal:@YES,
                                                            SDLNameWiperStatus:@YES},
-                                                     SDLNameOperationName:SDLNameUnsubscribeVehicleData}};
+                                                     SDLNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}};
         SDLUnsubscribeVehicleData* testRequest = [[SDLUnsubscribeVehicleData alloc] initWithDictionary:dict];
         
         expect(testRequest.accPedalPosition).to(equal(@YES));

@@ -6,13 +6,14 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSendLocationResponse
 
 - (instancetype)init {
-    self = [super initWithName:SDLNameSendLocation];
+    self = [super initWithName:SDLRPCFunctionNameSendLocation];
     if (!self) {
         return nil;
     }

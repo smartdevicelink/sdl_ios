@@ -10,6 +10,7 @@
 
 #import "SDLSlider.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLSliderSpec)
 
@@ -56,7 +57,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                             SDLNameSliderHeader:testHeader,
                                                             SDLNameSliderFooter:testFooters,
                                                             SDLNameTimeout:@(testTimeout)},
-                                                      SDLNameOperationName:SDLNameSlider}};
+                                                      SDLNameOperationName:SDLRPCFunctionNameSlider}};
         testRequest = [[SDLSlider alloc] initWithDictionary:dict];
         
         expect(testRequest.numTicks).to(equal(testNumTicks));

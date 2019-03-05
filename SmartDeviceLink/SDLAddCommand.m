@@ -8,13 +8,14 @@
 #import "SDLImage.h"
 #import "SDLMenuParams.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAddCommand
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameAddCommand]) {
+    if (self = [super initWithName:SDLRPCFunctionNameAddCommand]) {
     }
     return self;
 }

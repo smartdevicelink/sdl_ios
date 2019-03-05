@@ -5,13 +5,14 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnButtonEvent
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnButtonEvent]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnButtonEvent]) {
     }
     return self;
 }

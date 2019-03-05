@@ -10,6 +10,7 @@
 
 #import "SDLDeleteFile.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLDeleteFileSpec)
 
@@ -26,7 +27,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameSyncFileName:@"synchro"},
-                                                             SDLNameOperationName:SDLNameDeleteFile}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameDeleteFile}} mutableCopy];
         SDLDeleteFile* testRequest = [[SDLDeleteFile alloc] initWithDictionary:dict];
         
         expect(testRequest.syncFileName).to(equal(@"synchro"));

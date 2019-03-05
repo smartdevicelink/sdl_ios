@@ -40,6 +40,9 @@
 #import "SDLUnsubscribeButton.h"
 #import "SDLVehicleType.h"
 
+#import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString SDLVehicleMake;
@@ -399,7 +402,7 @@ static float DefaultConnectionTimeout = 45.0;
     SDLLogV(@"Message received: %@", newMessage);
 
     // Intercept and handle several messages ourselves
-    if ([functionName isEqualToString:SDLNameOnAppInterfaceUnregistered] || [functionName isEqualToString:SDLNameUnregisterAppInterface]) {
+    if ([functionName isEqualToString:SDLRPCFunctionNameOnAppInterfaceUnregistered] || [functionName isEqualToString:SDLRPCFunctionNameUnregisterAppInterface]) {
         [self handleRPCUnregistered:dict];
     }
 

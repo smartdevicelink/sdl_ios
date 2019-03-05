@@ -11,6 +11,7 @@
 #import "SDLSpeak.h"
 #import "SDLTTSChunk.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLSpeakSpec)
 
@@ -29,7 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameTTSChunks:[@[chunk] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameSpeak}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameSpeak}} mutableCopy];
         SDLSpeak* testRequest = [[SDLSpeak alloc] initWithDictionary:dict];
         
         expect(testRequest.ttsChunks).to(equal([@[chunk] mutableCopy]));

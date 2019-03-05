@@ -10,6 +10,7 @@
 
 #import "SDLEncodedSyncPData.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLEncodedSyncPDataSpec)
 
@@ -26,7 +27,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameData:[@[@2, @2, @2] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameEncodedSyncPData}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameEncodedSyncPData}} mutableCopy];
         SDLEncodedSyncPData* testRequest = [[SDLEncodedSyncPData alloc] initWithDictionary:dict];
         
         expect(testRequest.data).to(equal([@[@2, @2, @2] mutableCopy]));

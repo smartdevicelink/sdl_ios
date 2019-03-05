@@ -10,6 +10,7 @@
 
 #import "SmartDeviceLink.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 
 QuickSpecBegin(SDLRegisterAppInterfaceResponseSpec)
@@ -91,7 +92,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameSystemSoftwareVersion: @"systemSoftwareVersion",
                                                    SDLNameIconResumed: @YES,
                                                    },
-                                             SDLNameOperationName:SDLNameRegisterAppInterface}};
+                                             SDLNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.syncMsgVersion).to(equal(version));

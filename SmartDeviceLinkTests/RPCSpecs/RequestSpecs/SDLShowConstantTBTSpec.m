@@ -10,6 +10,7 @@
 
 #import "SDLImage.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLShowConstantTBT.h"
 #import "SDLSoftButton.h"
 
@@ -63,7 +64,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameDistanceToManeuverScale:@4,
                                                                    SDLNameManeuverComplete:@NO,
                                                                    SDLNameSoftButtons:[@[button] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameShowConstantTBT}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameShowConstantTBT}} mutableCopy];
         SDLShowConstantTBT* testRequest = [[SDLShowConstantTBT alloc] initWithDictionary:dict];
         
         expect(testRequest.navigationText1).to(equal(@"nav1"));

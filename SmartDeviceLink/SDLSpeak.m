@@ -6,6 +6,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLTTSChunk.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -13,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLSpeak
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameSpeak]) {
+    if (self = [super initWithName:SDLRPCFunctionNameSpeak]) {
     }
     return self;
 }

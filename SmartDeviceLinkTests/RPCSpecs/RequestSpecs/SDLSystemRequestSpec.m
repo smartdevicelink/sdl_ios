@@ -11,6 +11,7 @@
 #import "SDLSystemRequest.h"
 #import "SDLRequestType.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLSystemRequestSpec)
 
@@ -26,7 +27,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                      @{SDLNameRequestType:SDLRequestTypeAuthenticationRequest,
                                                        SDLNameRequestSubType: testSubType,
                                                        SDLNameFilename:testFileName},
-                                                 SDLNameOperationName:SDLNameSystemRequest}} mutableCopy];
+                                                 SDLNameOperationName:SDLRPCFunctionNameSystemRequest}} mutableCopy];
             SDLSystemRequest* testRequest = [[SDLSystemRequest alloc] initWithDictionary:dict];
 
             expect(testRequest.requestType).to(equal(testRequestType));

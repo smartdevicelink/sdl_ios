@@ -7,13 +7,14 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLChoice.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLCreateInteractionChoiceSet
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameCreateInteractionChoiceSet]) {
+    if (self = [super initWithName:SDLRPCFunctionNameCreateInteractionChoiceSet]) {
     }
     return self;
 }

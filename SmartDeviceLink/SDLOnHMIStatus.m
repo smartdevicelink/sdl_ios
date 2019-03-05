@@ -7,6 +7,7 @@
 #import "SDLAudioStreamingState.h"
 #import "SDLHMILevel.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSystemContext.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -14,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLOnHMIStatus
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnHMIStatus]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnHMIStatus]) {
     }
     return self;
 }

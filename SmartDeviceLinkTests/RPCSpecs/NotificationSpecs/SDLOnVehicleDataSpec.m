@@ -10,6 +10,7 @@
 
 #import "SmartDeviceLink.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 
 QuickSpecBegin(SDLOnVehicleDataSpec)
@@ -124,7 +125,7 @@ describe(@"Getter/Setter Tests", ^ {
                                            SDLNameTurnSignal:SDLTurnSignalOff,
                                            SDLNameVIN:@"222222222722",
                                            SDLNameWiperStatus:SDLWiperStatusStalled},
-                                     SDLNameOperationName:SDLNameOnVehicleData}};
+                                     SDLNameOperationName:SDLRPCFunctionNameOnVehicleData}};
         SDLOnVehicleData* testNotification = [[SDLOnVehicleData alloc] initWithDictionary:dict];
         
         expect(testNotification.accPedalPosition).to(equal(@99.99999999));

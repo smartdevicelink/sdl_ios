@@ -10,6 +10,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLPerformAppServiceInteraction
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNamePerformAppServiceInteraction]) {
+    if (self = [super initWithName:SDLRPCFunctionNamePerformAppServiceInteraction]) {
     }
     return self;
 }

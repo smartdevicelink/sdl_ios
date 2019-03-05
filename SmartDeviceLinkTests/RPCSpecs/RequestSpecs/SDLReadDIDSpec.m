@@ -10,6 +10,7 @@
 
 #import "SDLReadDID.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLReadDIDSpec)
 
@@ -29,7 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLNameParameters:
                                                                  @{SDLNameECUName:@33112,
                                                                    SDLNameDIDLocation:[@[@200, @201, @205] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameEndAudioPassThru}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameEndAudioPassThru}} mutableCopy];
         SDLReadDID* testRequest = [[SDLReadDID alloc] initWithDictionary:dict];
         
         expect(testRequest.ecuName).to(equal(@33112));

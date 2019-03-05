@@ -11,6 +11,7 @@
 #import "SDLChangeRegistration.h"
 #import "SDLLanguage.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLTTSChunk.h"
 
 
@@ -120,7 +121,7 @@ describe(@"change registration", ^ {
                                                                            SDLNameTTSName:someTTSChunks,
                                                                            SDLNameNGNMediaScreenAppName:someNGNMediaAppName,
                                                                            SDLNameVRSynonyms:someVRSynonyms},
-                                                                     SDLNameOperationName:SDLNameChangeRegistration}} mutableCopy];
+                                                                     SDLNameOperationName:SDLRPCFunctionNameChangeRegistration}} mutableCopy];
                 
                 testRequest = [[SDLChangeRegistration alloc] initWithDictionary:dict];
             });

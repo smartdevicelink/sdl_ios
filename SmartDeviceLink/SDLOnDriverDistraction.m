@@ -5,6 +5,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLDriverDistractionState.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -12,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLOnDriverDistraction
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnDriverDistraction]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnDriverDistraction]) {
     }
     return self;
 }

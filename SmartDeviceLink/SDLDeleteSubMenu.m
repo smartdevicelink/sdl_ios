@@ -6,13 +6,14 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeleteSubMenu
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameDeleteSubMenu]) {
+    if (self = [super initWithName:SDLRPCFunctionNameDeleteSubMenu]) {
     }
     return self;
 }

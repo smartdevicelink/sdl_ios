@@ -14,6 +14,7 @@
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLPerformInteractionSpec)
 
@@ -59,7 +60,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameTimeout:@42000,
                                                    SDLNameVRHelp:[@[helpItem] mutableCopy],
                                                    SDLNameInteractionLayout:SDLLayoutModeIconWithSearch},
-                                             SDLNameOperationName:SDLNamePerformInteraction}} mutableCopy];
+                                             SDLNameOperationName:SDLRPCFunctionNamePerformInteraction}} mutableCopy];
         SDLPerformInteraction* testRequest = [[SDLPerformInteraction alloc] initWithDictionary:dict];
         
         expect(testRequest.initialText).to(equal(@"a"));

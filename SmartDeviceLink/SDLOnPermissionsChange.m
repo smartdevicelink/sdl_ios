@@ -5,6 +5,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLPermissionItem.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -12,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLOnPermissionsChange
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnPermissionsChange]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnPermissionsChange]) {
     }
     return self;
 }

@@ -16,7 +16,6 @@ extern SDLName const SDLNameAccelerationPedalPosition;
 extern SDLName const SDLNameAcceptsWayPoints;
 extern SDLName const SDLNameAction;
 extern SDLName const SDLNameActual;
-extern SDLName const SDLNameAddCommand;
 extern SDLName const SDLNameAddress;
 extern SDLName const SDLNameAddressLines;
 extern SDLName const SDLNameAdministrativeArea;

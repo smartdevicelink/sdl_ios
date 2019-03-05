@@ -10,6 +10,7 @@
 
 #import "SDLSetAppIcon.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLSetAppIconSpec)
 
@@ -26,7 +27,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameSyncFileName:@"A/File/Name"},
-                                                             SDLNameOperationName:SDLNameSetAppIcon}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameSetAppIcon}} mutableCopy];
         SDLSetAppIcon* testRequest = [[SDLSetAppIcon alloc] initWithDictionary:dict];
         
         expect(testRequest.syncFileName).to(equal(@"A/File/Name"));

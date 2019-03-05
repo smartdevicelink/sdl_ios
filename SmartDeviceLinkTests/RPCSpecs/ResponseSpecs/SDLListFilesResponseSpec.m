@@ -10,6 +10,7 @@
 
 #import "SDLListFilesResponse.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLListFilesResponseSpec)
 
@@ -29,7 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLNameParameters:
                                                                  @{SDLNameFilenames:[@[@"Music/music.mp3", @"Documents/document.txt", @"Downloads/format.exe"] mutableCopy],
                                                                    SDLNameSpaceAvailable:@500000000},
-                                                             SDLNameOperationName:SDLNameListFiles}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameListFiles}} mutableCopy];
         SDLListFilesResponse* testResponse = [[SDLListFilesResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.filenames).to(equal([@[@"Music/music.mp3", @"Documents/document.txt", @"Downloads/format.exe"] mutableCopy]));

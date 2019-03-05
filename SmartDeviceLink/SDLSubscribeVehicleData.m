@@ -6,13 +6,14 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSubscribeVehicleData
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameSubscribeVehicleData]) {
+    if (self = [super initWithName:SDLRPCFunctionNameSubscribeVehicleData]) {
     }
     return self;
 }

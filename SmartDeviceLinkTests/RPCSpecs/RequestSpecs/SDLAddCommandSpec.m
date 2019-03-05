@@ -12,6 +12,7 @@
 #import "SDLImage.h"
 #import "SDLMenuParams.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLAddCommandSpec)
 
@@ -40,7 +41,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                   SDLNameMenuParams:menu,
                                                                   SDLNameVRCommands:[@[@"name", @"anotherName"] mutableCopy],
                                                                   SDLNameCommandIcon:image},
-                                                            SDLNameOperationName:SDLNameAddCommand}} mutableCopy];
+                                                            SDLNameOperationName:SDLRPCFunctionNameAddCommand}} mutableCopy];
 
         SDLAddCommand* testRequest = [[SDLAddCommand alloc] initWithDictionary:dict];
         

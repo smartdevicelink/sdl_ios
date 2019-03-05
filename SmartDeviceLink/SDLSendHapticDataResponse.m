@@ -8,6 +8,7 @@
 //
 
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSendHapticDataResponse.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -15,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLSendHapticDataResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameSendHapticData]) {
+    if (self = [super initWithName:SDLRPCFunctionNameSendHapticData]) {
     }
     return self;
 }

@@ -9,13 +9,14 @@
 #import "SDLHMILevel.h"
 #import "SDLLockScreenStatus.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnLockScreenStatus
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnLockScreenStatus]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnLockScreenStatus]) {
     }
     return self;
 }

@@ -6,13 +6,14 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeleteFileResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameDeleteFile]) {
+    if (self = [super initWithName:SDLRPCFunctionNameDeleteFile]) {
     }
     return self;
 }

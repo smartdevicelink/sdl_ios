@@ -16,6 +16,7 @@
 #import "SDLNavigationServiceManifest.h"
 #import "SDLMediaServiceManifest.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSyncMsgVersion.h"
 #import "SDLWeatherServiceManifest.h"
 
@@ -38,7 +39,7 @@ describe(@"Getter/Setter Tests", ^ {
         testServiceIcon = [[SDLImage alloc] initWithName:@"testImage" isTemplate:false];
         testAllowAppConsumers = @YES;
         testRPCSpecVersion = [[SDLSyncMsgVersion alloc] initWithMajorVersion:5 minorVersion:2 patchVersion:1];
-        testHandledRPCs = [[NSArray alloc] initWithObjects:[SDLFunctionID.sharedInstance functionIdForName:SDLNameAddCommand], [SDLFunctionID.sharedInstance functionIdForName:SDLNameCreateInteractionChoiceSet], nil];
+        testHandledRPCs = [[NSArray alloc] initWithObjects:[SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameAddCommand], [SDLFunctionID.sharedInstance functionIdForName:SDLRPCFunctionNameCreateInteractionChoiceSet], nil];
         testWeatherServiceManifest = [[SDLWeatherServiceManifest alloc] initWithCurrentForecastSupported:true maxMultidayForecastAmount:3 maxHourlyForecastAmount:0 maxMinutelyForecastAmount:0 weatherForLocationSupported:false];
         testMediaServiceManifest = [[SDLMediaServiceManifest alloc] init];
         testNavigationServiceManifest = [[SDLNavigationServiceManifest alloc] init];

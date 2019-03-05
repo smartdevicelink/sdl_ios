@@ -5,13 +5,14 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnTBTClientState
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnTBTClientState]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnTBTClientState]) {
     }
     return self;
 }

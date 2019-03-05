@@ -10,6 +10,7 @@
 #import "SDLDisplayCapabilities.h"
 #import "SDLHMICapabilities.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLPresetBankCapabilities.h"
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLSyncMsgVersion.h"
@@ -21,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLRegisterAppInterfaceResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameRegisterAppInterface]) {
+    if (self = [super initWithName:SDLRPCFunctionNameRegisterAppInterface]) {
     }
     return self;
 }

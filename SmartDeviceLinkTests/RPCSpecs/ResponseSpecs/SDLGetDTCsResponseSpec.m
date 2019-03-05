@@ -10,6 +10,7 @@
 
 #import "SDLGetDTCsResponse.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLGetDTCsResponseSpec)
 
@@ -29,7 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                           @{SDLNameParameters:
                                                                 @{SDLNameECUHeader:@404,
                                                                   SDLNameDTC:[@[@"FFFF", @"FFFE", @"FFFD"] mutableCopy]},
-                                                            SDLNameOperationName:SDLNameGetDTCs}} mutableCopy];
+                                                            SDLNameOperationName:SDLRPCFunctionNameGetDTCs}} mutableCopy];
         SDLGetDTCsResponse* testResponse = [[SDLGetDTCsResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.ecuHeader).to(equal(@404));

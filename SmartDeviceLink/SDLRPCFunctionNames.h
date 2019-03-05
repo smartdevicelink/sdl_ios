@@ -13,6 +13,7 @@
  */
 typedef SDLEnum SDLRPCFunctionName SDL_SWIFT_ENUM;
 
+extern SDLRPCFunctionName const SDLRPCFunctionNameAddCommand;
 extern SDLRPCFunctionName const SDLRPCFunctionNameAddSubMenu;
 extern SDLRPCFunctionName const SDLRPCFunctionNameAlert;
 extern SDLRPCFunctionName const SDLRPCFunctionNameAlertManeuver;
@@ -49,6 +50,7 @@ extern SDLRPCFunctionName const SDLRPCFunctionNameOnHMIStatus;
 extern SDLRPCFunctionName const SDLRPCFunctionNameOnInteriorVehicleData;
 extern SDLRPCFunctionName const SDLRPCFunctionNameOnKeyboardInput;
 extern SDLRPCFunctionName const SDLRPCFunctionNameOnLanguageChange;
+extern SDLRPCFunctionName const SDLRPCFunctionNameOnLockScreenStatus;
 extern SDLRPCFunctionName const SDLRPCFunctionNameOnPermissionsChange;
 extern SDLRPCFunctionName const SDLRPCFunctionNameOnRCStatus;
 extern SDLRPCFunctionName const SDLRPCFunctionNameOnSyncPData;

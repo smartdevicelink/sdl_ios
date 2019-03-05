@@ -9,6 +9,7 @@
 #import "SDLOnRCStatus.h"
 #import "SDLModuleData.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnRCStatusSpec)
 SDLModuleData * allocatedModule = [[SDLModuleData alloc] init];
@@ -34,7 +35,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameFreeModules:[@[freeModule] copy],
                                                                    SDLNameAllowed:@YES
                                                                    },
-                                                             SDLNameOperationName:SDLNameOnRCStatus}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameOnRCStatus}} mutableCopy];
         SDLOnRCStatus* testNotification = [[SDLOnRCStatus alloc] initWithDictionary:dict];
 
         expect(testNotification.allowed).to(equal(@YES));

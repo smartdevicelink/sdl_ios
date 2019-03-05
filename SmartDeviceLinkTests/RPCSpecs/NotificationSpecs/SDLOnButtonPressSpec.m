@@ -12,6 +12,7 @@
 #import "SDLButtonPressMode.h"
 #import "SDLOnButtonPress.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 
 QuickSpecBegin(SDLOnButtonPressSpec)
@@ -35,7 +36,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                  @{SDLNameButtonName:SDLButtonNameCustomButton,
                                                    SDLNameButtonPressMode:SDLButtonPressModeLong,
                                                    SDLNameCustomButtonId:@5642},
-                                             SDLNameOperationName:SDLNameOnButtonPress}} mutableCopy];
+                                             SDLNameOperationName:SDLRPCFunctionNameOnButtonPress}} mutableCopy];
         SDLOnButtonPress* testNotification = [[SDLOnButtonPress alloc] initWithDictionary:dict];
         
         expect(testNotification.buttonName).to(equal(SDLButtonNameCustomButton));

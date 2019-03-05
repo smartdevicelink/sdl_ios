@@ -11,13 +11,14 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLAppServiceData.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLGetAppServiceDataResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameGetAppServiceData]) {
+    if (self = [super initWithName:SDLRPCFunctionNameGetAppServiceData]) {
     }
     return self;
 }

@@ -10,6 +10,7 @@
 
 #import "SDLFileType.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLOnSystemRequest.h"
 #import "SDLRequestType.h"
 
@@ -47,7 +48,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameFileType:SDLFileTypePNG,
                                                    SDLNameOffset:@2532678684,
                                                    SDLNameLength:@50000000000},
-                                             SDLNameOperationName:SDLNameOnSystemRequest}} mutableCopy];
+                                             SDLNameOperationName:SDLRPCFunctionNameOnSystemRequest}} mutableCopy];
         SDLOnSystemRequest* testNotification = [[SDLOnSystemRequest alloc] initWithDictionary:dict];
         
         expect(testNotification.requestType).to(equal(SDLRequestTypeFileResume));

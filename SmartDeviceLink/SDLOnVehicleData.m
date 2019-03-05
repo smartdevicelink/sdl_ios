@@ -16,6 +16,7 @@
 #import "SDLHeadLampStatus.h"
 #import "SDLMyKey.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLTireStatus.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -23,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLOnVehicleData
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnVehicleData]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnVehicleData]) {
     }
     return self;
 }

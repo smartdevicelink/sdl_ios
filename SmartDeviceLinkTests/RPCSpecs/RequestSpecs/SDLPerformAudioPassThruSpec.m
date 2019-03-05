@@ -11,6 +11,7 @@
 #import "SDLAudioType.h"
 #import "SDLBitsPerSample.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLPerformAudioPassThru.h"
 #import "SDLSamplingRate.h"
 
@@ -48,7 +49,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameBitsPerSample:SDLBitsPerSample16Bit,
                                                    SDLNameAudioType:SDLAudioTypePCM,
                                                    SDLNameMuteAudio:@NO},
-                                             SDLNameOperationName:SDLNamePerformAudioPassThru}} mutableCopy];
+                                             SDLNameOperationName:SDLRPCFunctionNamePerformAudioPassThru}} mutableCopy];
         SDLPerformAudioPassThru* testRequest = [[SDLPerformAudioPassThru alloc] initWithDictionary:dict];
         
         expect(testRequest.audioPassThruDisplayText1).to(equal(@"passthru#1"));

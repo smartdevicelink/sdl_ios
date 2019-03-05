@@ -278,6 +278,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLResetGlobalPropertiesResponse.h',
 'SmartDeviceLink/SDLResult.h',
 'SmartDeviceLink/SDLRGBColor.h',
+'SmartDeviceLink/SDLRPCFunctionNames.h',
 'SmartDeviceLink/SDLRPCMessage.h',
 'SmartDeviceLink/SDLRPCMessageType.h',
 'SmartDeviceLink/SDLRPCNotification.h',

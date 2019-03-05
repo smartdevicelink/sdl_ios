@@ -6,6 +6,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLStartTime.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -13,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLSetMediaClockTimer
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameSetMediaClockTimer]) {
+    if (self = [super initWithName:SDLRPCFunctionNameSetMediaClockTimer]) {
     }
     return self;
 }

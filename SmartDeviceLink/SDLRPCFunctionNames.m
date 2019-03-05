@@ -8,6 +8,7 @@
 
 #import "SDLRPCFunctionNames.h"
 
+SDLRPCFunctionName const SDLRPCFunctionNameAddCommand = @"AddCommand";
 SDLRPCFunctionName const SDLRPCFunctionNameAddSubMenu = @"AddSubMenu";
 SDLRPCFunctionName const SDLRPCFunctionNameAlert = @"Alert";
 SDLRPCFunctionName const SDLRPCFunctionNameAlertManeuver = @"AlertManeuver";
@@ -44,6 +45,7 @@ SDLRPCFunctionName const SDLRPCFunctionNameOnHMIStatus = @"OnHMIStatus";
 SDLRPCFunctionName const SDLRPCFunctionNameOnInteriorVehicleData = @"OnInteriorVehicleData";
 SDLRPCFunctionName const SDLRPCFunctionNameOnKeyboardInput = @"OnKeyboardInput";
 SDLRPCFunctionName const SDLRPCFunctionNameOnLanguageChange = @"OnLanguageChange";
+SDLRPCFunctionName const SDLRPCFunctionNameOnLockScreenStatus = @"OnLockScreenStatus";
 SDLRPCFunctionName const SDLRPCFunctionNameOnPermissionsChange = @"OnPermissionsChange";
 SDLRPCFunctionName const SDLRPCFunctionNameOnRCStatus = @"OnRCStatus";
 SDLRPCFunctionName const SDLRPCFunctionNameOnSyncPData = @"OnSyncPData";
@@ -60,7 +62,7 @@ SDLRPCFunctionName const SDLRPCFunctionNamePublishAppService = @"PublishAppServi
 SDLRPCFunctionName const SDLRPCFunctionNamePutFile = @"PutFile";
 SDLRPCFunctionName const SDLRPCFunctionNameReadDID = @"ReadDID";
 SDLRPCFunctionName const SDLRPCFunctionNameRegisterAppInterface = @"RegisterAppInterface";
-SDLRPCFunctionName const SDLRPCFunctionNameReserved = @"Reserved";
+SDLRPCFunctionName const SDLRPCFunctionNameReserved = @"reserved";
 SDLRPCFunctionName const SDLRPCFunctionNameResetGlobalProperties = @"ResetGlobalProperties";
 SDLRPCFunctionName const SDLRPCFunctionNameScrollableMessage = @"ScrollableMessage";
 SDLRPCFunctionName const SDLRPCFunctionNameSendHapticData = @"SendHapticData";

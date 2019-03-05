@@ -6,6 +6,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
 
@@ -14,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLPerformInteraction
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNamePerformInteraction]) {
+    if (self = [super initWithName:SDLRPCFunctionNamePerformInteraction]) {
     }
     return self;
 }

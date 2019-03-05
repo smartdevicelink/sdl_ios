@@ -5,13 +5,14 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnSystemRequest
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnSystemRequest]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnSystemRequest]) {
     }
     return self;
 }

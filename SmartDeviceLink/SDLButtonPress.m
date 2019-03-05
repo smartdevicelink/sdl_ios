@@ -4,6 +4,7 @@
 
 #import "SDLButtonPress.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "NSMutableDictionary+Store.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -11,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLButtonPress
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameButtonPress]) {
+    if (self = [super initWithName:SDLRPCFunctionNameButtonPress]) {
     }
     return self;
 }

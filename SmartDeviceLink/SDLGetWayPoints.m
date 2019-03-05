@@ -5,13 +5,14 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLGetWayPoints
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameGetWayPoints]) {
+    if (self = [super initWithName:SDLRPCFunctionNameGetWayPoints]) {
     }
     return self;
 }

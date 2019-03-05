@@ -6,6 +6,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSoftButton.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -13,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLScrollableMessage
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameScrollableMessage]) {
+    if (self = [super initWithName:SDLRPCFunctionNameScrollableMessage]) {
     }
     return self;
 }

@@ -10,6 +10,7 @@
 
 #import "SDLSetInteriorVehicleData.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLModuleData.h"
 
 
@@ -29,7 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameModuleData : someModuleData},
-                                                             SDLNameOperationName:SDLNameSetInteriorVehicleData}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameSetInteriorVehicleData}} mutableCopy];
         SDLSetInteriorVehicleData* testRequest = [[SDLSetInteriorVehicleData alloc] initWithDictionary:dict];
         
         expect(testRequest.moduleData).to(equal(someModuleData));

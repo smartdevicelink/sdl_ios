@@ -11,6 +11,7 @@
 
 #import "SDLGetSystemCapability.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSystemCapabilityType.h"
 
 QuickSpecBegin(SDLGetSystemCapabilitySpec)
@@ -47,7 +48,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameSystemCapabilityType:testSystemCapabilityType,
                                                    SDLNameSubscribe:@(testSubcribe)
                                                    },
-                                           SDLNameOperationName:SDLNameGetSystemCapability}};
+                                           SDLNameOperationName:SDLRPCFunctionNameGetSystemCapability}};
             SDLGetSystemCapability *testRequest = [[SDLGetSystemCapability alloc] initWithDictionary:dict];
 
             expect(testRequest.systemCapabilityType).to(equal(testSystemCapabilityType));

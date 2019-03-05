@@ -11,6 +11,7 @@
 #import "SDLImage.h"
 #import "SDLKeyboardProperties.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSetGlobalProperties.h"
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
@@ -55,7 +56,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameMenuTitle:@"TheNewMenu",
                                                                    SDLNameMenuIcon:image,
                                                                    SDLNameKeyboardProperties:keyboard},
-                                                             SDLNameOperationName:SDLNameSetGlobalProperties}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameSetGlobalProperties}} mutableCopy];
         SDLSetGlobalProperties* testRequest = [[SDLSetGlobalProperties alloc] initWithDictionary:dict];
         
         expect(testRequest.helpPrompt).to(equal([@[chunk1] mutableCopy]));

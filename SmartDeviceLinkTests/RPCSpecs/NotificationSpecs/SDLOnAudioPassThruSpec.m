@@ -10,6 +10,7 @@
 
 #import "SDLOnAudioPassThru.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnAudioPassThruSpec)
 

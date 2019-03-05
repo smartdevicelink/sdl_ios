@@ -9,6 +9,7 @@
 #import "SDLGetWaypoints.h"
 
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLWayPointType.h"
 
 QuickSpecBegin(SDLGetWaypointsSpec)
@@ -26,7 +27,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{SDLNameRequest:
                                            @{SDLNameParameters:
                                                  @{SDLNameWayPointType:SDLWayPointTypeAll},
-                                             SDLNameOperationName:SDLNameGetWayPoints}} mutableCopy];
+                                             SDLNameOperationName:SDLRPCFunctionNameGetWayPoints}} mutableCopy];
         SDLGetWayPoints* testRequest = [[SDLGetWayPoints alloc] initWithDictionary:dict];
         
         expect(testRequest.waypointType).to(equal(SDLWayPointTypeAll));

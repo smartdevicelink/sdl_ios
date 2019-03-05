@@ -9,6 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSubscribeVehicleDataResponse.h"
 #import "SDLVehicleDataResult.h"
 
@@ -111,7 +112,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameTirePressure:vehicleDataResult,
                                                                    SDLNameTurnSignal:vehicleDataResult,
                                                                    SDLNameWiperStatus:vehicleDataResult},
-                                                             SDLNameOperationName:SDLNameSubscribeVehicleData}};
+                                                             SDLNameOperationName:SDLRPCFunctionNameSubscribeVehicleData}};
         SDLSubscribeVehicleDataResponse* testResponse = [[SDLSubscribeVehicleDataResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.accPedalPosition).to(equal(vehicleDataResult));

@@ -10,6 +10,7 @@
 
 #import "SDLDeleteSubMenu.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLDeleteSubMenuSpec)
 
@@ -26,7 +27,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameMenuId:@25614},
-                                                             SDLNameOperationName:SDLNameDeleteSubMenu}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameDeleteSubMenu}} mutableCopy];
         SDLDeleteSubMenu* testRequest = [[SDLDeleteSubMenu alloc] initWithDictionary:dict];
         
         expect(testRequest.menuID).to(equal(@25614));

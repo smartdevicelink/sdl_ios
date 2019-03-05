@@ -10,6 +10,7 @@
 
 #import "SDLOnHashChange.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnHashChangeSpec)
 
@@ -26,7 +27,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameHashId:@"hash"},
-                                                             SDLNameOperationName:SDLNameOnHashChange}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameOnHashChange}} mutableCopy];
         SDLOnHashChange* testNotification = [[SDLOnHashChange alloc] initWithDictionary:dict];
         
         expect(testNotification.hashID).to(equal(@"hash"));

@@ -7,13 +7,14 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLGlobalProperty.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLResetGlobalProperties
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameResetGlobalProperties]) {
+    if (self = [super initWithName:SDLRPCFunctionNameResetGlobalProperties]) {
     }
     return self;
 }

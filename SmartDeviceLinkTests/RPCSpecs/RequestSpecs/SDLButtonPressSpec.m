@@ -9,6 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLButtonPress.h"
 #import "SDLModuleType.h"
 #import "SDLButtonName.h"
@@ -36,7 +37,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                  @{SDLNameModuleType : SDLModuleTypeClimate,
                                                                    SDLNameButtonName : SDLButtonNameAC,
                                                                    SDLNameButtonPressMode : SDLButtonPressModeShort},
-                                                             SDLNameOperationName:SDLNameButtonPress}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameButtonPress}} mutableCopy];
         SDLButtonPress* testRequest = [[SDLButtonPress alloc] initWithDictionary:dict];
 
         expect(testRequest.moduleType).to(equal(SDLModuleTypeClimate));

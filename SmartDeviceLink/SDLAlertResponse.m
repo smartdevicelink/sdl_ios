@@ -5,13 +5,14 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAlertResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameAlert]) {
+    if (self = [super initWithName:SDLRPCFunctionNameAlert]) {
     }
     return self;
 }

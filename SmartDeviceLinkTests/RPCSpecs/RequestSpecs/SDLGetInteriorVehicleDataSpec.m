@@ -11,6 +11,7 @@
 #import "SDLGetInteriorVehicleData.h"
 #import "SDLModuleType.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLGetInteriorVehicleDataSpec)
 
@@ -29,7 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLNameParameters:
                                                                  @{SDLNameModuleType : SDLModuleTypeRadio,
                                                                    SDLNameSubscribe : @YES},
-                                                             SDLNameOperationName:SDLNameGetInteriorVehicleData}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameGetInteriorVehicleData}} mutableCopy];
         SDLGetInteriorVehicleData* testRequest = [[SDLGetInteriorVehicleData alloc] initWithDictionary:dict];
 
         expect(testRequest.moduleType).to(equal(SDLModuleTypeRadio));

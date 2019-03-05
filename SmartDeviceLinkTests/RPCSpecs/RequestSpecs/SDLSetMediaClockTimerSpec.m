@@ -9,6 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSetMediaClockTimer.h"
 #import "SDLStartTime.h"
 #import "SDLUpdateMode.h"
@@ -33,7 +34,7 @@ describe(@"SetMediaClocktimer Spec", ^ {
                                                        SDLNameUpdateMode:testUpdateMode,
                                                        SDLNameAudioStreamingIndicator:testIndicator
                                                        },
-                                                 SDLNameOperationName:SDLNameSetMediaClockTimer}} mutableCopy];
+                                                 SDLNameOperationName:SDLRPCFunctionNameSetMediaClockTimer}} mutableCopy];
             SDLSetMediaClockTimer* testRequest = [[SDLSetMediaClockTimer alloc] initWithDictionary:dict];
 
             expect(testRequest.startTime).to(equal(time1));

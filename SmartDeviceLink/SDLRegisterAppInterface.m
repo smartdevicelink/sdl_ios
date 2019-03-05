@@ -12,6 +12,7 @@
 #import "SDLLanguage.h"
 #import "SDLLifecycleConfiguration.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSyncMsgVersion.h"
 #import "SDLTemplateColorScheme.h"
 #import "SDLTTSChunk.h"
@@ -23,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Lifecycle
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameRegisterAppInterface]) {
+    if (self = [super initWithName:SDLRPCFunctionNameRegisterAppInterface]) {
     }
     return self;
 }

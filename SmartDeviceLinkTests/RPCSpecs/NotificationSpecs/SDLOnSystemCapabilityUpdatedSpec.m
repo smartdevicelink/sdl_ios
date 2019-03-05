@@ -12,6 +12,7 @@
 #import "SDLOnSystemCapabilityUpdated.h"
 #import "SDLPhoneCapability.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSystemCapability.h"
 
 QuickSpecBegin(SDLOnSystemCapabilityUpdatedSpec)
@@ -36,7 +37,7 @@ describe(@"Getter/Setter Tests", ^ {
                                        SDLNameParameters:@{
                                                SDLNameSystemCapability:testSystemCapability
                                                },
-                                       SDLNameOperationName:SDLNameOnSystemCapabilityUpdated}};
+                                       SDLNameOperationName:SDLRPCFunctionNameOnSystemCapabilityUpdated}};
         SDLOnSystemCapabilityUpdated *testNotification = [[SDLOnSystemCapabilityUpdated alloc] initWithDictionary:dict];
 
         expect(testNotification.systemCapability).to(equal(testSystemCapability));

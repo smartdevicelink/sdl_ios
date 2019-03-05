@@ -6,13 +6,14 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnAudioPassThru
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnAudioPassThru]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnAudioPassThru]) {
     }
     return self;
 }

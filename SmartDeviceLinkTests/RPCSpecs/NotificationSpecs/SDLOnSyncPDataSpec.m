@@ -10,6 +10,7 @@
 
 #import "SDLOnSyncPData.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnSyncPDataSpec)
 
@@ -29,7 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLNameParameters:
                                                                  @{SDLNameURLUppercase:@"https://www.youtube.com/watch?v=ygr5AHufBN4",
                                                                    SDLNameTimeoutCapitalized:@8357},
-                                                             SDLNameOperationName:SDLNameOnSyncPData}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameOnSyncPData}} mutableCopy];
         SDLOnSyncPData* testNotification = [[SDLOnSyncPData alloc] initWithDictionary:dict];
         
         expect(testNotification.URL).to(equal(@"https://www.youtube.com/watch?v=ygr5AHufBN4"));

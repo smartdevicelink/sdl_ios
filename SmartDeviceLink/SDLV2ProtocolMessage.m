@@ -6,6 +6,7 @@
 #import "SDLLogMacros.h"
 #import "SDLProtocolHeader.h"
 #import "SDLRPCPayload.h"
+#import "SDLNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -10,6 +10,7 @@
 
 #import "SDLDeleteInteractionChoiceSet.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLDeleteInteractionChoiceSetSpec)
 
@@ -26,7 +27,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameInteractionChoiceSetId:@20314},
-                                                             SDLNameOperationName:SDLNameDeleteInteractionChoiceSet}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameDeleteInteractionChoiceSet}} mutableCopy];
         SDLDeleteInteractionChoiceSet* testRequest = [[SDLDeleteInteractionChoiceSet alloc] initWithDictionary:dict];
         
         expect(testRequest.interactionChoiceSetID).to(equal(@20314));

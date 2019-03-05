@@ -7,13 +7,14 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLButtonName.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLUnsubscribeButton
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameUnsubscribeButton]) {
+    if (self = [super initWithName:SDLRPCFunctionNameUnsubscribeButton]) {
     }
     return self;
 }

@@ -10,6 +10,7 @@
 
 #import "SDLDeleteCommand.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLDeleteCommandSpec)
 
@@ -26,7 +27,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameCommandId:@11223344},
-                                                             SDLNameOperationName:SDLNameDeleteCommand}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameDeleteCommand}} mutableCopy];
         SDLDeleteCommand* testRequest = [[SDLDeleteCommand alloc] initWithDictionary:dict];
         
         expect(testRequest.cmdID).to(equal(@11223344));

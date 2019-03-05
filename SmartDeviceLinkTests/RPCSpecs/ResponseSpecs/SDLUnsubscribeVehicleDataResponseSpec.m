@@ -10,6 +10,7 @@
 
 #import "SDLUnsubscribeVehicleDataResponse.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLVehicleDataResult.h"
 
 
@@ -112,7 +113,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNameElectronicParkBrakeStatus:vehicleDataResult,
                                                                    SDLNameTurnSignal:vehicleDataResult,
                                                                    },
-                                                             SDLNameOperationName:SDLNameUnsubscribeVehicleData}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}} mutableCopy];
         SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.gps).to(equal(vehicleDataResult));

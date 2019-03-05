@@ -12,6 +12,7 @@
 #import "SDLMetadataTags.h"
 #import "SDLMetadataType.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
 #import "SDLTextAlignment.h"
@@ -327,7 +328,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                        SDLNameSoftButtons:[@[button] mutableCopy],
                                                        SDLNameCustomPresets:[@[@"preset1", @"preset2"] mutableCopy],
                                                        SDLNameMetadataTags:testMetadata},
-                                                 SDLNameOperationName:SDLNameShow}} mutableCopy];
+                                                 SDLNameOperationName:SDLRPCFunctionNameShow}} mutableCopy];
             SDLShow* testRequest = [[SDLShow alloc] initWithDictionary:dict];
 
             expect(testRequest.mainField1).to(equal(@"field1"));

@@ -6,13 +6,14 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDialNumberResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameDialNumber]) {
+    if (self = [super initWithName:SDLRPCFunctionNameDialNumber]) {
     }
     return self;
 }

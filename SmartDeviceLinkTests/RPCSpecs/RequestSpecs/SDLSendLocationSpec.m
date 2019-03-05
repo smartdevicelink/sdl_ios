@@ -6,6 +6,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSendLocation.h"
 
 
@@ -175,7 +176,8 @@ describe(@"Send Location RPC", ^{
                                                            SDLNameDeliveryMode: someDeliveryMode,
                                                            SDLNameTimeStamp: someTime,
                                                            SDLNameAddress: someAddress
-                                                           }
+                                                           },
+                                                   SDLNameOperationName:SDLRPCFunctionNameSendLocation
                                                    }
                                            };
                 

@@ -8,6 +8,7 @@
 #import "SDLImage.h"
 #import "SDLKeyboardProperties.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
 
@@ -16,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLSetGlobalProperties
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameSetGlobalProperties]) {
+    if (self = [super initWithName:SDLRPCFunctionNameSetGlobalProperties]) {
     }
     return self;
 }

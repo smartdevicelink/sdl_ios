@@ -10,6 +10,7 @@
 
 #import "SDLFileType.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLPutFile.h"
 
 #import <zlib.h>
@@ -52,7 +53,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                     SDLNameOffset:@987654321,
                                                     SDLNameLength:@123456789,
                                                    SDLNameCRC:@0xffffffff},
-                                                    SDLNameOperationName:SDLNamePutFile}} mutableCopy];
+                                                    SDLNameOperationName:SDLRPCFunctionNamePutFile}} mutableCopy];
         SDLPutFile* testRequest = [[SDLPutFile alloc] initWithDictionary:dict];
         
         expect(testRequest.syncFileName).to(equal(@"fileName"));

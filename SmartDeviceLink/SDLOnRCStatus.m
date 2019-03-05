@@ -6,13 +6,14 @@
 #import "NSMutableDictionary+Store.h"
 #import "SDLModuleData.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnRCStatus
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnRCStatus]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnRCStatus]) {
     }
     return self;
 }

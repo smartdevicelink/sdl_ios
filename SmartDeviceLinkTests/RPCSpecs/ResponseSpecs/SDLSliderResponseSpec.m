@@ -11,6 +11,7 @@
 #import "SDLSliderResponse.h"
 #import "SDLDIDResult.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLSliderResponseSpec)
 
@@ -27,7 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameResponse:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameSliderPosition:@13},
-                                                             SDLNameOperationName:SDLNameSlider}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameSlider}} mutableCopy];
         SDLSliderResponse* testResponse = [[SDLSliderResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.sliderPosition).to(equal(@13));

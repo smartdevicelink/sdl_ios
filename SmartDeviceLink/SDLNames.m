@@ -14,7 +14,6 @@ SDLName const SDLNameAccelerationPedalPosition = @"accPedalPosition";
 SDLName const SDLNameAcceptsWayPoints = @"acceptsWayPoints";
 SDLName const SDLNameAction = @"action";
 SDLName const SDLNameActual = @"actual";
-SDLName const SDLNameAddCommand = @"AddCommand";
 SDLName const SDLNameAddress = @"address";
 SDLName const SDLNameAddressLines = @"addressLines";
 SDLName const SDLNameAdministrativeArea = @"administrativeArea";

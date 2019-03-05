@@ -12,6 +12,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLHapticRect.h"
 #import "SDLRectangle.h"
 #import "SDLSendHapticData.h"
@@ -39,7 +40,7 @@ describe(@"Initialization Tests", ^ {
             NSMutableDictionary* dict = [@{SDLNameRequest:
                                                @{SDLNameParameters:
                                                      @{SDLNameHapticRectData:@[testStruct]},
-                                                 SDLNameOperationName:SDLNameSendHapticData}} mutableCopy];
+                                                 SDLNameOperationName:SDLRPCFunctionNameSendHapticData}} mutableCopy];
             SDLSendHapticData *testRequest = [[SDLSendHapticData alloc] initWithDictionary:dict];
 
             expect(testRequest.hapticRectData).to(equal(@[testStruct]));

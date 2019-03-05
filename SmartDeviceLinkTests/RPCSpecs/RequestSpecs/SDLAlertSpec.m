@@ -12,6 +12,7 @@
 #import "SDLTTSChunk.h"
 #import "SDLSoftButton.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLAlertSpec)
 
@@ -52,7 +53,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLNamePlayTone:@YES,
                                                                    SDLNameProgressIndicator:@NO,
                                                                    SDLNameSoftButtons:[@[button] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameAlert}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameAlert}} mutableCopy];
         SDLAlert* testRequest = [[SDLAlert alloc] initWithDictionary:dict];
         
         expect(testRequest.alertText1).to(equal(@"alert#1"));
@@ -76,7 +77,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNamePlayTone:@YES,
                                                    SDLNameProgressIndicator:@NO,
                                                    SDLNameSoftButtons:[NSNull null]},
-                                             SDLNameOperationName:SDLNameAlert}} mutableCopy];
+                                             SDLNameOperationName:SDLRPCFunctionNameAlert}} mutableCopy];
         SDLAlert* testRequest = [[SDLAlert alloc] initWithDictionary:dict];
 
         expect(testRequest.softButtons).to(beEmpty());

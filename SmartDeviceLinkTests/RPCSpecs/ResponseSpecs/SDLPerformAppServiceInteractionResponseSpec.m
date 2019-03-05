@@ -11,6 +11,7 @@
 
 #import "SDLPerformAppServiceInteractionResponse.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLPerformAppServiceInteractionResponseSpec)
 
@@ -33,7 +34,7 @@ describe(@"Getter/Setter Tests", ^{
                                        SDLNameParameters:@{
                                                SDLNameServiceSpecificResult:testServiceSpecificResult
                                                },
-                                       SDLNameOperationName:SDLNamePublishAppService}};
+                                       SDLNameOperationName:SDLRPCFunctionNamePublishAppService}};
         SDLPerformAppServiceInteractionResponse *testResponse = [[SDLPerformAppServiceInteractionResponse alloc] initWithDictionary:dict];
 
         expect(testResponse.serviceSpecificResult).to(equal(testServiceSpecificResult));

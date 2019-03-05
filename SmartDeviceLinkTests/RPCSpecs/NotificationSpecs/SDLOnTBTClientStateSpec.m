@@ -10,6 +10,7 @@
 
 #import "SDLOnTBTClientState.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLTBTState.h"
 
 
@@ -28,7 +29,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{SDLNameNotification:
                                            @{SDLNameParameters:
                                                  @{SDLNameState:SDLTBTStateETARequest},
-                                             SDLNameOperationName:SDLNameOnTBTClientState}} mutableCopy];
+                                             SDLNameOperationName:SDLRPCFunctionNameOnTBTClientState}} mutableCopy];
         SDLOnTBTClientState* testNotification = [[SDLOnTBTClientState alloc] initWithDictionary:dict];
         
         expect(testNotification.state).to(equal(SDLTBTStateETARequest));

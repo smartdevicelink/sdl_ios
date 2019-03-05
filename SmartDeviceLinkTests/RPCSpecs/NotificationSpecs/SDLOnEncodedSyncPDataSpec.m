@@ -10,6 +10,7 @@
 
 #import "SDLOnEncodedSyncPData.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnEncodedSyncPDataSpec)
 
@@ -32,7 +33,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                  @{SDLNameData:[@[@0] mutableCopy],
                                                                    SDLNameURLUppercase:@"www.zombo.com",
                                                                    SDLNameTimeoutCapitalized:@564},
-                                                             SDLNameOperationName:SDLNameOnEncodedSyncPData}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameOnEncodedSyncPData}} mutableCopy];
         SDLOnEncodedSyncPData* testNotification = [[SDLOnEncodedSyncPData alloc] initWithDictionary:dict];
         
         expect(testNotification.data).to(equal([@[@0] mutableCopy]));

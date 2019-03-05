@@ -10,6 +10,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSystemCapabilityType.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLGetSystemCapability
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameGetSystemCapability]) {
+    if (self = [super initWithName:SDLRPCFunctionNameGetSystemCapability]) {
     }
     return self;
 }

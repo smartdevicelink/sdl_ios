@@ -727,7 +727,7 @@
 		5D61FCF91A84238C00846EE7 /* SDLMenuParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB0C1A84238A00846EE7 /* SDLMenuParams.m */; };
 		5D61FCFA1A84238C00846EE7 /* SDLMyKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB0D1A84238A00846EE7 /* SDLMyKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D61FCFB1A84238C00846EE7 /* SDLMyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB0E1A84238A00846EE7 /* SDLMyKey.m */; };
-		5D61FCFC1A84238C00846EE7 /* SDLNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB0F1A84238A00846EE7 /* SDLNames.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5D61FCFC1A84238C00846EE7 /* SDLNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB0F1A84238A00846EE7 /* SDLNames.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		5D61FCFD1A84238C00846EE7 /* SDLObjectWithPriority.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB101A84238A00846EE7 /* SDLObjectWithPriority.h */; };
 		5D61FCFE1A84238C00846EE7 /* SDLObjectWithPriority.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D61FB111A84238A00846EE7 /* SDLObjectWithPriority.m */; };
 		5D61FCFF1A84238C00846EE7 /* SDLOnAppInterfaceUnregistered.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D61FB121A84238B00846EE7 /* SDLOnAppInterfaceUnregistered.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1247,7 +1247,7 @@
 		8831FA48220235B000B8FFB7 /* SDLAppServicesCapabilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 8831FA46220235B000B8FFB7 /* SDLAppServicesCapabilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8831FA49220235B000B8FFB7 /* SDLAppServicesCapabilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831FA47220235B000B8FFB7 /* SDLAppServicesCapabilities.m */; };
 		8831FA4B2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8831FA4A2202402B00B8FFB7 /* SDLAppServicesCapabilitiesSpec.m */; };
-		883C22C8222ED84D00939C4C /* SDLRPCFunctionNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 883C22C6222ED84D00939C4C /* SDLRPCFunctionNames.h */; };
+		883C22C8222ED84D00939C4C /* SDLRPCFunctionNames.h in Headers */ = {isa = PBXBuildFile; fileRef = 883C22C6222ED84D00939C4C /* SDLRPCFunctionNames.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		883C22C9222ED84D00939C4C /* SDLRPCFunctionNames.m in Sources */ = {isa = PBXBuildFile; fileRef = 883C22C7222ED84D00939C4C /* SDLRPCFunctionNames.m */; };
 		883C22CB222EEF0900939C4C /* SDLRPCFunctionNamesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 883C22CA222EEF0900939C4C /* SDLRPCFunctionNamesSpec.m */; };
 		884554AC222453A800BAFB6C /* SDLNavigationServiceManifest.h in Headers */ = {isa = PBXBuildFile; fileRef = 884554AA222453A800BAFB6C /* SDLNavigationServiceManifest.h */; settings = {ATTRIBUTES = (Public, ); }; };

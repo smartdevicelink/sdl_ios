@@ -11,6 +11,7 @@
 #import "SDLButtonEventMode.h"
 #import "SDLButtonName.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLOnButtonEvent.h"
 
 
@@ -35,7 +36,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                  @{SDLNameButtonName:SDLButtonNameCustomButton,
                                                    SDLNameButtonEventMode:SDLButtonEventModeButtonDown,
                                                    SDLNameCustomButtonId:@4252},
-                                             SDLNameOperationName:SDLNameOnButtonEvent}} mutableCopy];
+                                             SDLNameOperationName:SDLRPCFunctionNameOnButtonEvent}} mutableCopy];
         SDLOnButtonEvent* testNotification = [[SDLOnButtonEvent alloc] initWithDictionary:dict];
         
         expect(testNotification.buttonName).to(equal(SDLButtonNameCustomButton));

@@ -6,11 +6,12 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 @implementation SDLSetAppIcon
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameSetAppIcon]) {
+    if (self = [super initWithName:SDLRPCFunctionNameSetAppIcon]) {
     }
     return self;
 }

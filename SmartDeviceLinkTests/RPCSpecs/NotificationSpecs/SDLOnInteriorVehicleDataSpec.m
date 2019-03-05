@@ -10,6 +10,7 @@
 
 #import "SDLOnInteriorVehicleData.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLModuleData.h"
 
 QuickSpecBegin(SDLOnInteriorVehicleDataSpec)
@@ -33,7 +34,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameModuleData:someModuleData},
-                                                             SDLNameOperationName:SDLNameOnInteriorVehicleData}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameOnInteriorVehicleData}} mutableCopy];
         SDLOnInteriorVehicleData* testNotification = [[SDLOnInteriorVehicleData alloc] initWithDictionary:dict];
         
         expect(testNotification.moduleData).to(equal(someModuleData));

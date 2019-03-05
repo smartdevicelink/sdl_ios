@@ -5,6 +5,7 @@
 #import "SDLGetInteriorVehicleDataResponse.h"
 #import "SDLModuleData.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "NSMutableDictionary+Store.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -13,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLGetInteriorVehicleDataResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameGetInteriorVehicleData]) {
+    if (self = [super initWithName:SDLRPCFunctionNameGetInteriorVehicleData]) {
     }
     return self;
 }

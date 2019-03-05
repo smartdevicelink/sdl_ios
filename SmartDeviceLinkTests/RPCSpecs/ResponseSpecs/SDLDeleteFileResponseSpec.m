@@ -10,6 +10,7 @@
 
 #import "SDLDeleteFileResponse.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLDeleteFileResponseSpec)
 
@@ -26,7 +27,7 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLNameResponse:
                                                            @{SDLNameParameters:
                                                                  @{SDLNameSpaceAvailable:@0},
-                                                             SDLNameOperationName:SDLNameDeleteFile}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameDeleteFile}} mutableCopy];
         SDLDeleteFileResponse* testResponse = [[SDLDeleteFileResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.spaceAvailable).to(equal(@0));

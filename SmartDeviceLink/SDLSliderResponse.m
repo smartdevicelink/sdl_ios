@@ -6,13 +6,14 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSliderResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameSlider]) {
+    if (self = [super initWithName:SDLRPCFunctionNameSlider]) {
     }
     return self;
 }

@@ -12,6 +12,7 @@
 #import "SDLTTSChunk.h"
 #import "SDLSoftButton.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLAlertManeuverSpec)
 
@@ -34,7 +35,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                            @{SDLNameParameters:
                                                                  @{SDLNameTTSChunks:[@[tts] mutableCopy],
                                                                    SDLNameSoftButtons:[@[button] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameAlertManeuver}} mutableCopy];
+                                                             SDLNameOperationName:SDLRPCFunctionNameAlertManeuver}} mutableCopy];
         SDLAlertManeuver* testRequest = [[SDLAlertManeuver alloc] initWithDictionary:dict];
         
         expect(testRequest.ttsChunks).to(equal([@[tts] mutableCopy]));

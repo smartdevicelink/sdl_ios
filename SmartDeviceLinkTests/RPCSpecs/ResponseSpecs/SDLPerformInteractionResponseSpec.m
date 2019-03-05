@@ -10,6 +10,7 @@
 
 #import "SDLPerformInteractionResponse.h"
 #import "SDLNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLTriggerSource.h"
 
 
@@ -34,7 +35,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                 @{SDLNameChoiceId:@25,
                                                   SDLNameManualTextEntry:@"entry",
                                                   SDLNameTriggerSource:SDLTriggerSourceKeyboard},
-                                            SDLNameOperationName:SDLNamePerformInteraction}} mutableCopy];
+                                            SDLNameOperationName:SDLRPCFunctionNamePerformInteraction}} mutableCopy];
         SDLPerformInteractionResponse* testResponse = [[SDLPerformInteractionResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.choiceID).to(equal(@25));
