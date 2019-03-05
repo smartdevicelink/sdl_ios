@@ -38,6 +38,7 @@ describe(@"Getter/Setter Tests", ^{
         SDLGetCloudAppPropertiesResponse *testResponse = [[SDLGetCloudAppPropertiesResponse alloc] initWithDictionary:dict];
 
         expect(testResponse.properties).to(equal(testProperties));
+        expect(testResponse.name).to(equal(SDLNameSetCloudAppProperties));
     });
 
     it(@"Should initialize correctly with the convenience init", ^{

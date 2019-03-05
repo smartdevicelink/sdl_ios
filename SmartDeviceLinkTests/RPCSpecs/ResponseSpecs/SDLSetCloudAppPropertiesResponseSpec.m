@@ -28,6 +28,7 @@ describe(@"Getter/Setter Tests", ^ {
         SDLSetCloudAppPropertiesResponse *testResponse = [[SDLSetCloudAppPropertiesResponse alloc] initWithDictionary:dict];
 
         expect(testResponse).toNot(beNil());
+        expect(testResponse.name).to(equal(SDLNameSetCloudAppProperties));
     });
 });
 
