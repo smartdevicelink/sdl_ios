@@ -15,13 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*
  *  The cloud application properties.
- *
- *  @since SDL 5.x
  */
 @interface SDLCloudAppProperties : SDLRPCStruct
 
 /**
- *  Convenience init forrequired parameters.
+ *  Convenience init for required parameters.
  *
  *  @param appName  The name of the cloud app
  *  @param appID    The id of the cloud app

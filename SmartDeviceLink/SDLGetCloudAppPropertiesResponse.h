@@ -15,8 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*
  *  The response to GetCloudAppProperties
- *
- *  @since SDL 5.x
  */
 @interface SDLGetCloudAppPropertiesResponse : SDLRPCResponse
 

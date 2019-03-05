@@ -12,8 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*
  *  RPC used to get the current properties of a cloud application.
- *
- *  @since SDL 5.x
  */
 @interface SDLGetCloudAppProperties : SDLRPCRequest
 
