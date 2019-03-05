@@ -168,6 +168,9 @@ extern SDLNotificationName const SDLDidReceiveUnsubscribeButtonResponse;
 extern SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataResponse;
 extern SDLNotificationName const SDLDidReceiveUnsubscribeWaypointsResponse;
 
+extern SDLNotificationName const SDLDidReceiveSetCloudAppPropertiesRequest;
+extern SDLNotificationName const SDLDidReceiveGetCloudAppPropertiesRequest;
+
 /**
  *  NSNotification names associated with specific RPC notifications.
  */

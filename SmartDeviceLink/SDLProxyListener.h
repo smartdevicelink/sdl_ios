@@ -19,6 +19,7 @@
 @class SDLEncodedSyncPDataResponse;
 @class SDLEndAudioPassThruResponse;
 @class SDLGenericResponse;
+@class SDLGetCloudAppProperties;
 @class SDLGetCloudAppPropertiesResponse;
 @class SDLGetDTCsResponse;
 @class SDLGetInteriorVehicleDataResponse;
@@ -107,6 +108,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onProxyOpened;
 
 @optional
+
+/**
+ *  Called when a `SetCloudAppProperties` request is received from Core
+ *
+ *  @param request A SDLSetCloudAppProperties object
+ */
+- (void)onSetCloudAppProperties:(SDLSetCloudAppProperties *)request;
+
+/**
+ *  Called when a `GetCloudAppProperties` request is received from Core
+ *
+ *  @param request A SDLGetCloudAppProperties object
+ */
+- (void)onGetCloudAppProperties:(SDLGetCloudAppProperties *)request;
 
 /**
  *  Called when an Add Command Response is received from Core

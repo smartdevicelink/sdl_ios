@@ -16,7 +16,10 @@ describe(@"a notification dispatcher", ^{
     
     it(@"should conform to SDLProxyListener", ^{
         expect(@([testDispatcher conformsToProtocol:@protocol(SDLProxyListener)])).to(beTruthy());
-        
+
+        expect(@([testDispatcher respondsToSelector:@selector(onSetCloudAppProperties:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onGetCloudAppProperties:)])).to(beTruthy());
+
         expect(@([testDispatcher respondsToSelector:@selector(onOnDriverDistraction:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onOnHMIStatus:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onProxyClosed)])).to(beTruthy());

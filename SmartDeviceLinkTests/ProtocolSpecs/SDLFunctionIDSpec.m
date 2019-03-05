@@ -138,6 +138,8 @@ describe(@"GetFunctionID Tests", ^ {
         expect([functionID functionIdForName:SDLNameUnsubscribeWayPoints]).to(equal(@47));
         expect([functionID functionIdForName:SDLNameGetSystemCapability]).to(equal(@48));
         expect([functionID functionIdForName:SDLNameSendHapticData]).to(equal(@49));
+        expect([functionID functionIdForName:SDLNameSetCloudAppProperties]).to(equal(@50));
+        expect([functionID functionIdForName:SDLNameGetCloudAppProperties]).to(equal(@51));
         expect([functionID functionIdForName:SDLNameOnHMIStatus]).to(equal(@32768));
         expect([functionID functionIdForName:SDLNameOnAppInterfaceUnregistered]).to(equal(@32769));
         expect([functionID functionIdForName:SDLNameOnButtonEvent]).to(equal(@32770));

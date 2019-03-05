@@ -76,6 +76,9 @@ SDLNotificationName const SDLDidReceiveUnsubscribeButtonResponse = @"com.sdl.res
 SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataResponse = @"com.sdl.response.unsubscribeVehicleData";
 SDLNotificationName const SDLDidReceiveUnsubscribeWaypointsResponse = @"com.sdl.response.unsubscribeWaypoints";
 
+SDLNotificationName const SDLDidReceiveSetCloudAppPropertiesRequest = @"com.sdl.request.setCloudAppProperties";
+SDLNotificationName const SDLDidReceiveGetCloudAppPropertiesRequest = @"com.sdl.request.getCloudAppProperties";
+
 #pragma mark - RPC Notifications
 SDLNotificationName const SDLDidChangeDriverDistractionStateNotification = @"com.sdl.notification.changeDriverDistractionStateNotification";
 SDLNotificationName const SDLDidChangeHMIStatusNotification = @"com.sdl.notification.changeHMIStatus";

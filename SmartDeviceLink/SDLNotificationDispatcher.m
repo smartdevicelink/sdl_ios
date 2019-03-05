@@ -76,6 +76,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Optional Methods
 
+- (void)onSetCloudAppProperties:(SDLSetCloudAppProperties *)request {
+    // TODO: need to be able to send request
+}
+
+- (void)onGetCloudAppProperties:(SDLGetCloudAppProperties *)request {
+    // TODO: need to be able to send request
+}
+
 - (void)onError:(NSException *)e {
     NSError *error = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:e.name andReason:e.reason];
     [self postNotificationName:SDLDidReceiveError infoObject:error];
