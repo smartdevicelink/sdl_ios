@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isLessThanVersion:(SDLVersion *)otherVersion;
 - (BOOL)isEqualToVersion:(SDLVersion *)otherVersion;
 - (BOOL)isGreaterThanVersion:(SDLVersion *)otherVersion;
+- (BOOL)isGreaterThanOrEqualVersion:(SDLVersion *)otherVersion;
 
 @end
 

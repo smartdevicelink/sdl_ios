@@ -110,6 +110,10 @@ NS_ASSUME_NONNULL_BEGIN
     return ([self compare:otherVersion] == NSOrderedDescending);
 }
 
+- (BOOL)isGreaterThanOrEqualVersion:(SDLVersion *)otherVersion {
+    return ([self isGreaterThanVersion:otherVersion] || [self isEqualToVersion:otherVersion]);
+}
+
 #pragma mark - NSObject overrides
 
 - (BOOL)isEqual:(id)object {

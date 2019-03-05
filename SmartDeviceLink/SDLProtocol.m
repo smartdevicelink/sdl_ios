@@ -485,11 +485,11 @@ NS_ASSUME_NONNULL_BEGIN
                 if (startServiceACKPayload.hashId != SDLControlFrameInt32NotFound) {
                     self.hashId = startServiceACKPayload.hashId;
                 }
-           
-                // FIXME: Add check for protocol version 5.2 or greater
-                self.authToken = startServiceACKPayload.authToken;
 
                 [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = (startServiceACKPayload.protocolVersion != nil) ? [SDLVersion versionWithString:startServiceACKPayload.protocolVersion] : [SDLVersion versionWithMajor:startServiceACK.header.version minor:0 patch:0];
+
+                self.authToken = [SDLGlobals.sharedGlobals.maxHeadUnitProtocolVersion isGreaterThanOrEqualVersion:[[SDLVersion alloc] initWithMajor:5 minor:2 patch:0]] ? startServiceACKPayload.authToken : nil;
+
                 // TODO: Hash id?
             } break;
             default:
