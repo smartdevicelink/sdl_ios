@@ -67,7 +67,7 @@ describe(@"Individual Enum Value Tests", ^ {
         expect(SDLRPCFunctionNamePutFile).to(equal(@"PutFile"));
         expect(SDLRPCFunctionNameReadDID).to(equal(@"ReadDID"));
         expect(SDLRPCFunctionNameRegisterAppInterface).to(equal(@"RegisterAppInterface"));
-        expect(SDLRPCFunctionNameReserved).to(equal(@"Reserved"));
+        expect(SDLRPCFunctionNameReserved).to(equal(@"reserved")); // TODO - double check
         expect(SDLRPCFunctionNameResetGlobalProperties).to(equal(@"ResetGlobalProperties"));
         expect(SDLRPCFunctionNameScrollableMessage).to(equal(@"ScrollableMessage"));
         expect(SDLRPCFunctionNameSendHapticData).to(equal(@"SendHapticData"));

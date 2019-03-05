@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLSendHapticDataResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameSendHapticDataResponse]) {
+    if (self = [super initWithName:SDLNameSendHapticData]) {
     }
     return self;
 }
