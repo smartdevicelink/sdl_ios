@@ -20,11 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Max transport unit to be used for this service
 @property (assign, nonatomic, readonly) int64_t mtu;
 
-/**
- *  A token used to authenticate a websocket connection on app activation.
- *
- *  @Since SDL 5.2
- */
+/// A token used to authenticate a websocket connection on app activation.
 @property (copy, nonatomic, readonly, nullable) NSString *authToken;
 
 /// The negotiated version of the protocol. Must be in the format "Major.Minor.Patch"
