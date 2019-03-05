@@ -497,6 +497,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCRequestNotification:SDLDidReceiveSyncPDataRequest request:request];
 }
 
+-(void)onSystemRequest:(SDLSystemRequest *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSystemRequestRequest request:request];
+}
+
 - (void)onUnregisterAppInterface:(SDLUnregisterAppInterface *)request {
     [self postRPCRequestNotification:SDLDidReceiveUnregisterAppInterfaceRequest request:request];
 }

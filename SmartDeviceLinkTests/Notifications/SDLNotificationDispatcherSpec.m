@@ -129,6 +129,7 @@ describe(@"a notification dispatcher", ^{
         expect(@([testDispatcher respondsToSelector:@selector(onSubscribeVehicleData:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSubscribeWayPoints:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onSyncPData:)])).to(beTruthy());
+        expect(@([testDispatcher respondsToSelector:@selector(onSystemRequest:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onUnregisterAppInterface:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onUnsubscribeButton:)])).to(beTruthy());
         expect(@([testDispatcher respondsToSelector:@selector(onUnsubscribeVehicleData:)])).to(beTruthy());

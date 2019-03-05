@@ -126,6 +126,7 @@ SDLNotificationName const SDLDidReceiveSubscribeButtonRequest = @"com.sdl.reques
 SDLNotificationName const SDLDidReceiveSubscribeVehicleDataRequest = @"com.sdl.request.subscribeVehicleData";
 SDLNotificationName const SDLDidReceiveSubscribeWayPointsRequest = @"com.sdl.request.subscribeWayPoints";
 SDLNotificationName const SDLDidReceiveSyncPDataRequest = @"com.sdl.request.syncPData";
+SDLNotificationName const SDLDidReceiveSystemRequestRequest = @"com.sdl.request.systemRequest";
 SDLNotificationName const SDLDidReceiveUnregisterAppInterfaceRequest = @"com.sdl.request.unregisterAppInterface";
 SDLNotificationName const SDLDidReceiveUnsubscribeButtonRequest = @"com.sdl.request.unsubscribeButton";
 SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataRequest = @"com.sdl.request.unsubscribeVehicleData";

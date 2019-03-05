@@ -121,6 +121,7 @@
 @class SDLSubscribeWayPointsResponse;
 @class SDLSyncPData;
 @class SDLSyncPDataResponse;
+@class SDLSystemRequest;
 @class SDLUnregisterAppInterface;
 @class SDLUnregisterAppInterfaceResponse;
 @class SDLUnsubscribeButton;
@@ -871,6 +872,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request A SDLSyncPData object
  */
 - (void)onSyncPData:(SDLSyncPData *)request;
+
+/**
+ *  Called when a `SystemRequest` request is received from Core
+ *
+ *  @param request A SDLSystemRequest object
+ */
+- (void)onSystemRequest:(SDLSystemRequest *)request;
 
 /**
  *  Called when a `UnregisterAppInterface` request is received from Core
