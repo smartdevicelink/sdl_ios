@@ -350,6 +350,7 @@ sdefault.public_header_files = [
 'SmartDeviceLink/SDLSystemCapabilityManager.h',
 'SmartDeviceLink/SDLSystemCapabilityType.h',
 'SmartDeviceLink/SDLSystemContext.h',
+'SmartDeviceLink/SDLSystemRequest.h',
 'SmartDeviceLink/SDLTBTState.h',
 'SmartDeviceLink/SDLTemperature.h',
 'SmartDeviceLink/SDLTemperatureUnit.h',
