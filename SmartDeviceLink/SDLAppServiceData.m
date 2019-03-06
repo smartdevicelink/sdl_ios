@@ -31,6 +31,10 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType serviceId:(NSString *)serviceId {
+    return [self initWithServiceType:serviceType serviceId:serviceId];
+}
+
 - (instancetype)initWithMediaServiceData:(SDLMediaServiceData *)mediaServiceData serviceId:(NSString *)serviceId {
     self = [self initWithServiceType:SDLAppServiceTypeMedia serviceId:serviceId];
     if (!self) {

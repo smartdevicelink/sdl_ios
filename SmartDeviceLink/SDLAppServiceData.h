@@ -8,6 +8,8 @@
 
 #import "SDLRPCRequest.h"
 
+#import "SDLAppServiceType.h"
+
 @class SDLMediaServiceData;
 @class SDLNavigationServiceData;
 @class SDLWeatherServiceData;
@@ -28,6 +30,15 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return                         A SDLAppServiceData object
  */
 - (instancetype)initWithServiceType:(NSString *)serviceType serviceId:(NSString *)serviceId NS_DESIGNATED_INITIALIZER;
+
+/**
+ *  Convenience init for service type and service id.
+ *
+ *  @param serviceType              The type of service that is to be offered by this app.
+ *  @param serviceId                A unique ID tied to this specific service record.
+ *  @return                         A SDLAppServiceData object
+ */
+- (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType serviceId:(NSString *)serviceId;
 
 /**
  *  Convenience init for media service data.

@@ -20,6 +20,7 @@ QuickSpecBegin(SDLAppServiceDataSpec)
 
 describe(@"Getter/Setter Tests", ^{
     __block NSString *testServiceType = nil;
+    __block SDLAppServiceType testAppServiceType = nil;
     __block NSString *testServiceId = nil;
     __block SDLMediaServiceData *testMediaServiceData = nil;
     __block SDLWeatherServiceData *testWeatherServiceData = nil;
@@ -27,6 +28,7 @@ describe(@"Getter/Setter Tests", ^{
 
     beforeEach(^{
         testServiceType = SDLAppServiceTypeMedia;
+        testAppServiceType = SDLAppServiceTypeNavigation;
         testServiceId = @"a1*54z";
         testMediaServiceData = [[SDLMediaServiceData alloc] init];
         testWeatherServiceData = [[SDLWeatherServiceData alloc] init];
@@ -68,6 +70,16 @@ describe(@"Getter/Setter Tests", ^{
         SDLAppServiceData *testStruct = [[SDLAppServiceData alloc] initWithServiceType:testServiceType serviceId:testServiceId];
 
         expect(testStruct.serviceType).to(equal(testServiceType));
+        expect(testStruct.serviceId).to(equal(testServiceId));
+        expect(testStruct.mediaServiceData).to(beNil());
+        expect(testStruct.weatherServiceData).to(beNil());
+        expect(testStruct.navigationServiceData).to(beNil());
+    });
+
+    it(@"Should get correctly when initialized with initWithAppServiceType:serviceId:", ^{
+        SDLAppServiceData *testStruct = [[SDLAppServiceData alloc] initWithAppServiceType:testAppServiceType serviceId:testServiceId];
+
+        expect(testStruct.serviceType).to(equal(testAppServiceType));
         expect(testStruct.serviceId).to(equal(testServiceId));
         expect(testStruct.mediaServiceData).to(beNil());
         expect(testStruct.weatherServiceData).to(beNil());
