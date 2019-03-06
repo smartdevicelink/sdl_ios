@@ -368,6 +368,7 @@ SDLName const SDLNameNavigationText1 = @"navigationText1";
 SDLName const SDLNameNavigationText2 = @"navigationText2";
 SDLName const SDLNameNextTurnIcon = @"nextTurnIcon";
 SDLName const SDLNameNGNMediaScreenAppName = @"ngnMediaScreenAppName";
+SDLName const SDLNameNicknames = @"nicknames";
 SDLName const SDLNameNightColorScheme = @"nightColorScheme";
 SDLName const SDLNameNotification = @"notification";
 SDLName const SDLNameNumber = @"number";

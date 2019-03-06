@@ -375,6 +375,7 @@ extern SDLName const SDLNameNavigationText1;
 extern SDLName const SDLNameNavigationText2;
 extern SDLName const SDLNameNextTurnIcon;
 extern SDLName const SDLNameNGNMediaScreenAppName;
+extern SDLName const SDLNameNicknames;
 extern SDLName const SDLNameNightColorScheme;
 extern SDLName const SDLNameNotification;
 extern SDLName const SDLNameNumber;

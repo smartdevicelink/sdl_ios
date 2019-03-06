@@ -16,24 +16,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLCloudAppProperties
 
-- (instancetype)initWithAppName:(NSString *)appName appID:(NSString *)appID {
+- (instancetype)initWithAppID:(NSString *)appID {
     self = [super init];
     if (!self) {
         return nil;
     }
 
-    self.appName = appName;
     self.appID = appID;
 
     return self;
 }
 
-- (instancetype)initWithAppName:(NSString *)appName appID:(NSString *)appID enabled:(BOOL)enabled authToken:(nullable NSString *)authToken cloudTransportType:(nullable NSString *)cloudTransportType hybridAppPreference:(nullable SDLHybridAppPreference)hybridAppPreference endpoint:(nullable NSString *)endpoint {
-    self = [self initWithAppName:appName appID:appID];
+- (instancetype)initWithNicknames:( NSArray<NSString *> *)nicknames appID:(NSString *)appID enabled:(BOOL)enabled authToken:(nullable NSString *)authToken cloudTransportType:(nullable NSString *)cloudTransportType hybridAppPreference:(nullable SDLHybridAppPreference)hybridAppPreference endpoint:(nullable NSString *)endpoint {
+    self = [self initWithAppID:appID];
     if (!self) {
         return nil;
     }
 
+    self.nicknames = nicknames;
     self.enabled = @(enabled);
     self.authToken = authToken;
     self.cloudTransportType = cloudTransportType;
@@ -43,12 +43,12 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setAppName:(NSString *)appName {
-    [store sdl_setObject:appName forName:SDLNameAppName];
+- (void)setNicknames:(nullable NSArray<NSString *> *)nicknames {
+    [store sdl_setObject:nicknames forName:SDLNameNicknames];
 }
 
-- (NSString *)appName {
-    return [store sdl_objectForName:SDLNameAppName];
+- (nullable NSArray<NSString *> *)nicknames {
+    return [store sdl_objectForName:SDLNameNicknames];
 }
 
 - (void)setAppID:(NSString *)appID {

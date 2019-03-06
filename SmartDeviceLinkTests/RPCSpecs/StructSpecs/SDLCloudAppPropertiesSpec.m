@@ -16,7 +16,7 @@
 QuickSpecBegin(SDLCloudAppPropertiesSpec)
 
 describe(@"Getter/Setter Tests", ^{
-    __block NSString *testAppName = nil;
+    __block NSArray<NSString *> *testNicknames = nil;
     __block NSString *testAppID = nil;
     __block BOOL testEnabled = nil;
     __block NSString *testAuthToken = nil;
@@ -25,7 +25,7 @@ describe(@"Getter/Setter Tests", ^{
     __block NSString *testEndpoint = nil;
 
     beforeEach(^{
-        testAppName = @"testAppName";
+        testNicknames = @[@"testNickname1", @"testNickname2", @"testNickname3"];
         testAppID = @"testAppID";
         testEnabled = false;
         testAuthToken = @"testAuthToken";
@@ -36,7 +36,7 @@ describe(@"Getter/Setter Tests", ^{
 
     it(@"Should set and get correctly", ^{
         SDLCloudAppProperties *testStruct = [[SDLCloudAppProperties alloc] init];
-        testStruct.appName = testAppName;
+        testStruct.nicknames = testNicknames;
         testStruct.appID = testAppID;
         testStruct.enabled = @(testEnabled);
         testStruct.authToken = testAuthToken;
@@ -44,7 +44,7 @@ describe(@"Getter/Setter Tests", ^{
         testStruct.hybridAppPreference = testHybridAppPreference;
         testStruct.endpoint = testEndpoint;
 
-        expect(testStruct.appName).to(equal(testAppName));
+        expect(testStruct.nicknames).to(equal(testNicknames));
         expect(testStruct.appID).to(equal(testAppID));
         expect(testStruct.enabled).to(equal(testEnabled));
         expect(testStruct.authToken).to(equal(testAuthToken));
@@ -54,7 +54,7 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameAppName:testAppName,
+        NSDictionary *dict = @{SDLNameNicknames:testNicknames,
                                SDLNameAppId:testAppID,
                                SDLNameEnabled:@(testEnabled),
                                SDLNameAuthToken:testAuthToken,
@@ -64,7 +64,7 @@ describe(@"Getter/Setter Tests", ^{
                                };
         SDLCloudAppProperties *testStruct = [[SDLCloudAppProperties alloc] initWithDictionary:dict];
 
-        expect(testStruct.appName).to(equal(testAppName));
+        expect(testStruct.nicknames).to(equal(testNicknames));
         expect(testStruct.appID).to(equal(testAppID));
         expect(testStruct.enabled).to(equal(testEnabled));
         expect(testStruct.authToken).to(equal(testAuthToken));
@@ -73,11 +73,11 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.endpoint).to(equal(testEndpoint));
     });
 
-    it(@"Should get correctly when initialized with initWithAppName:appID:", ^{
-        SDLCloudAppProperties *testStruct = [[SDLCloudAppProperties alloc] initWithAppName:testAppName appID:testAppID];
+    it(@"Should get correctly when initialized with initWithAppID:", ^{
+        SDLCloudAppProperties *testStruct = [[SDLCloudAppProperties alloc] initWithAppID:testAppID];
 
-        expect(testStruct.appName).to(equal(testAppName));
         expect(testStruct.appID).to(equal(testAppID));
+        expect(testStruct.nicknames).to(beNil());
         expect(testStruct.enabled).to(beNil());
         expect(testStruct.authToken).to(beNil());
         expect(testStruct.cloudTransportType).to(beNil());
@@ -86,9 +86,9 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with initWithAppName:appID:enabled:authToken:cloudTransportType: hybridAppPreference:endpoint:", ^{
-        SDLCloudAppProperties *testStruct = [[SDLCloudAppProperties alloc] initWithAppName:testAppName appID:testAppID enabled:testEnabled authToken:testAuthToken cloudTransportType:testCloudTransportType hybridAppPreference:testHybridAppPreference endpoint:testEndpoint];
+        SDLCloudAppProperties *testStruct = [[SDLCloudAppProperties alloc] initWithNicknames:testNicknames appID:testAppID enabled:testEnabled authToken:testAuthToken cloudTransportType:testCloudTransportType hybridAppPreference:testHybridAppPreference endpoint:testEndpoint];
 
-        expect(testStruct.appName).to(equal(testAppName));
+        expect(testStruct.nicknames).to(equal(testNicknames));
         expect(testStruct.appID).to(equal(testAppID));
         expect(testStruct.enabled).to(equal(testEnabled));
         expect(testStruct.authToken).to(equal(testAuthToken));
@@ -100,7 +100,7 @@ describe(@"Getter/Setter Tests", ^{
     it(@"Should return nil if not set", ^{
         SDLCloudAppProperties *testStruct = [[SDLCloudAppProperties alloc] init];
 
-        expect(testStruct.appName).to(beNil());
+        expect(testStruct.nicknames).to(beNil());
         expect(testStruct.appID).to(beNil());
         expect(testStruct.enabled).to(beNil());
         expect(testStruct.authToken).to(beNil());

@@ -19,7 +19,7 @@ describe(@"Getter/Setter Tests", ^{
     __block SDLCloudAppProperties *testProperties = nil;
 
     beforeEach(^{
-        testProperties = [[SDLCloudAppProperties alloc] initWithAppName:@"testAppName" appID:@"testAppID"];
+        testProperties = [[SDLCloudAppProperties alloc] initWithAppID:@"testAppID"];
     });
 
     it(@"Should set and get correctly", ^{

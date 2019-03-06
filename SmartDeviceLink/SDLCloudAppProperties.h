@@ -21,16 +21,15 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Convenience init for required parameters.
  *
- *  @param appName  The name of the cloud app
  *  @param appID    The id of the cloud app
  *  @return         A SDLCloudAppProperties object
  */
-- (instancetype)initWithAppName:(NSString *)appName appID:(NSString *)appID NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithAppID:(NSString *)appID NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Convenience init for all parameters.
  *
- *  @param appName              The name of the cloud app
+ *  @param nicknames              An array of app names a cloud app is allowed to register with
  *  @param appID                The id of the cloud app
  *  @param enabled              If true, cloud app will be included in HMI RPC UpdateAppList
  *  @param authToken            Used to authenticate websocket connection on app activation
@@ -39,14 +38,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param endpoint             The websocket endpoint
  *  @return                     A SDLCloudAppProperties object
  */
-- (instancetype)initWithAppName:(NSString *)appName appID:(NSString *)appID enabled:(BOOL)enabled authToken:(nullable NSString *)authToken cloudTransportType:(nullable NSString *)cloudTransportType hybridAppPreference:(nullable SDLHybridAppPreference)hybridAppPreference endpoint:(nullable NSString *)endpoint;
+- (instancetype)initWithNicknames:( NSArray<NSString *> *)nicknames appID:(NSString *)appID enabled:(BOOL)enabled authToken:(nullable NSString *)authToken cloudTransportType:(nullable NSString *)cloudTransportType hybridAppPreference:(nullable SDLHybridAppPreference)hybridAppPreference endpoint:(nullable NSString *)endpoint;
 
 /**
- *  The name of the cloud app.
+ *  An array of app names a cloud app is allowed to register with. If included in a `SetCloudAppProperties` request, this value will overwrite the existing "nicknames" field in the app policies section of the policy table.
  *
- *  String, Required, maxlength="100"
+ *  Array of Strings, Optional, String length: minlength="0" maxlength="100", Array size: minsize="0" maxsize="100"
  */
-@property (strong, nonatomic) NSString *appName;
+@property (nullable, strong, nonatomic) NSArray<NSString *> *nicknames;
 
 /**
  *  The id of the cloud app.
