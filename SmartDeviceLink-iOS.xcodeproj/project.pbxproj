@@ -1297,7 +1297,7 @@
 		8880D24822205B1B00964F6A /* SDLNavigationInstruction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8880D24622205B1B00964F6A /* SDLNavigationInstruction.m */; };
 		8886EB982111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */; };
 		888F86FE221DEE200052FE4C /* SDLAsynchronousRPCOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 888F86FD221DEE1F0052FE4C /* SDLAsynchronousRPCOperation.m */; };
-		888F8700221DF4880052FE4C /* SDLRPCResponseOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 888F86FF221DF4880052FE4C /* SDLRPCResponseOperationSpec.m */; };
+		888F8700221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 888F86FF221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m */; };
 		88A1CF1E21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */; };
 		88A4A0FA22242AB400C6F01D /* SDLNavigationServiceDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A4A0F922242AB400C6F01D /* SDLNavigationServiceDataSpec.m */; };
 		88A5E7F4220B57F900495E8A /* SDLOnSystemCapabilityUpdatedSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88A5E7F3220B57F900495E8A /* SDLOnSystemCapabilityUpdatedSpec.m */; };
@@ -2900,7 +2900,7 @@
 		8880D24622205B1B00964F6A /* SDLNavigationInstruction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationInstruction.m; sourceTree = "<group>"; };
 		8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLFileManagerConfigurationSpec.m; sourceTree = "<group>"; };
 		888F86FD221DEE1F0052FE4C /* SDLAsynchronousRPCOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAsynchronousRPCOperation.m; sourceTree = "<group>"; };
-		888F86FF221DF4880052FE4C /* SDLRPCResponseOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRPCResponseOperationSpec.m; sourceTree = "<group>"; };
+		888F86FF221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAsynchronousRPCOperationSpec.m; sourceTree = "<group>"; };
 		88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLLifecycleConfigurationUpdateSpec.m; sourceTree = "<group>"; };
 		88A4A0F922242AB400C6F01D /* SDLNavigationServiceDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationServiceDataSpec.m; sourceTree = "<group>"; };
 		88A5E7F3220B57F900495E8A /* SDLOnSystemCapabilityUpdatedSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLOnSystemCapabilityUpdatedSpec.m; sourceTree = "<group>"; };
@@ -3694,10 +3694,10 @@
 			isa = PBXGroup;
 			children = (
 				5D1654551D3E754F00554D93 /* SDLLifecycleManagerSpec.m */,
+				888F86FF221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m */,
 				5D60DF23202B7A80001EDA01 /* SDLAsynchronousRPCRequestOperationSpec.m */,
 				5D60DF25202B7A97001EDA01 /* SDLSequentialRPCRequestOperationSpec.m */,
 				88A1CF1D21669AC7001ACC75 /* SDLLifecycleConfigurationUpdateSpec.m */,
-				888F86FF221DF4880052FE4C /* SDLRPCResponseOperationSpec.m */,
 			);
 			name = Lifecycle;
 			sourceTree = "<group>";
@@ -7249,7 +7249,7 @@
 				5D6EB4CC1BF28DC600693731 /* NSMapTable+SubscriptingSpec.m in Sources */,
 				162E83051A9BDE8B00906325 /* SDLVehicleDataActiveStatusSpec.m in Sources */,
 				162E82E61A9BDE8B00906325 /* SDLInteractionModeSpec.m in Sources */,
-				888F8700221DF4880052FE4C /* SDLRPCResponseOperationSpec.m in Sources */,
+				888F8700221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m in Sources */,
 				162E83931A9BDE8B00906325 /* SDLTouchEventSpec.m in Sources */,
 				5DCF76FE1ACDDB5A00BB647B /* SDLSendLocationResponseSpec.m in Sources */,
 				162E837D1A9BDE8B00906325 /* SDLEmergencyEventSpec.m in Sources */,

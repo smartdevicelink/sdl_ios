@@ -19,8 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation TestMultipleFilesConnectionManager
 
-- (void)sendConnectionRPC:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
-    [super sendConnectionRPC:request withResponseHandler:handler];
+- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    [super sendConnectionRequest:request withResponseHandler:handler];
 
     if ([[request name] isEqualToString:SDLRPCFunctionNamePutFile]) {
         SDLPutFile *putfileRequest = (SDLPutFile *)request;

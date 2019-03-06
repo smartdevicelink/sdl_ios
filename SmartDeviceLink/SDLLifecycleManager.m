@@ -580,9 +580,22 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     [self.rpcOperationQueue addOperation:op];
 }
 
-- (void)sendConnectionRPC:(__kindof SDLRPCMessage *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+- (void)sendConnectionRPC:(__kindof SDLRPCMessage *)rpc {
+    NSAssert(([rpc isKindOfClass:SDLRPCResponse.class] || [rpc isKindOfClass:SDLRPCNotification.class]), @"Only RPCs of type `Response` or `Notfication` can be sent using this method. To send RPCs of type `Request` use sendConnectionRequest:withResponseHandler:.");
+
     if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
-        SDLLogW(@"Manager not ready, message not sent (%@)", request);
+        SDLLogW(@"Manager not ready, message not sent (%@)", rpc);
+        return;
+    }
+
+    dispatch_async(_lifecycleQueue, ^{
+        [self sdl_sendRequest:rpc withResponseHandler:nil];
+    });
+}
+
+- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    if (![self.lifecycleStateMachine isCurrentState:SDLLifecycleStateReady]) {
+        SDLLogW(@"Manager not ready, request not sent (%@)", request);
         if (handler) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 handler(request, nil, [NSError sdl_lifecycle_notReadyError]);

@@ -144,7 +144,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler {
     self.systemCapabilityHandler = handler;
     SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type];
-    [self.connectionManager sendConnectionRPC:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    [self.connectionManager sendConnectionRequest:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error == nil) { return; }
         // An error is returned if the request was unsuccessful or a Generic Response is returned
         handler(error, self);

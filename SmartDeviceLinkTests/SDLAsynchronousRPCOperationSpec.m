@@ -1,5 +1,5 @@
 //
-//  SDLRPCResponseOperationSpec.m
+//  SDLAsynchronousRPCOperationSpec.m
 //  SmartDeviceLinkTests
 //
 //  Created by Nicole on 2/20/19.
@@ -14,7 +14,7 @@
 #import "SDLAsynchronousRPCOperation.h"
 #import "TestConnectionManager.h"
 
-QuickSpecBegin(SDLRPCResponseOperationSpec)
+QuickSpecBegin(SDLAsynchronousRPCOperationSpec)
 
 describe(@"sending responses and notifications", ^{
     __block TestConnectionManager *testConnectionManager = nil;

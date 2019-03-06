@@ -24,8 +24,12 @@
     return self;
 }
 
-- (void)sendConnectionRPC:(__kindof SDLRPCRequest *)request withResponseHandler:(SDLResponseHandler)handler {
-    [super sendConnectionRPC:request withResponseHandler:handler];
+- (void)sendConnectionRPC:(__kindof SDLRPCMessage *)rpc {
+    [super sendConnectionRPC:rpc];
+}
+
+- (void)sendConnectionRequest:(__kindof SDLRPCRequest *)request withResponseHandler:(nullable SDLResponseHandler)handler {
+    [super sendConnectionRequest:request withResponseHandler:handler];
 
     NSAssert([request.name isEqualToString:SDLRPCFunctionNameAddCommand], @"The TestMultipleRequestsConnectionManager is only setup for SDLAddCommand");
 
