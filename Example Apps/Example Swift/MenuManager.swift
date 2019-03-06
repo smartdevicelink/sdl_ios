@@ -21,6 +21,7 @@ class MenuManager: NSObject {
                 menuCellShowPerformInteraction(with: manager, choiceSetManager: choiceSetManager),
                 menuCellRecordInCarMicrophoneAudio(with: manager),
                 menuCellDialNumber(with: manager),
+                menuCellChangeTemplate(with: manager),
                 menuCellWithSubmenu(with: manager)]
     }
 
@@ -112,6 +113,43 @@ private extension MenuManager {
 
             VehicleDataManager.checkPhoneCallCapability(manager: manager, phoneNumber:"555-555-5555")
         })
+    }
+    
+    /// Menu item that changes the default template
+    ///
+    /// - Parameter manager: The SDL Manager
+    /// - Returns: A SDLMenuCell object
+    class func menuCellChangeTemplate(with manager: SDLManager) -> SDLMenuCell {
+    
+        /// Lets give an example of 2 templates
+        var submenuItems = [SDLMenuCell]()
+        let errorMessage = "Changing the template failed"
+        
+        /// Non-Media
+        let submenuTitleNonMedia = "Non - Media (Default)"
+        submenuItems.append(SDLMenuCell(title: submenuTitleNonMedia, icon: nil, voiceCommands: nil, handler: { (triggerSource) in
+            let display = SDLSetDisplayLayout(predefinedLayout: .nonMedia)
+            manager.send(request: display) { (request, response, error) in
+                guard response?.resultCode == .success else {
+                    manager.send(AlertManager.alertWithMessageAndCloseButton(errorMessage))
+                    return
+                }
+            }
+        }))
+        
+        /// Graphic with Text
+        let submenuTitleGraphicText = "Graphic With Text"
+        submenuItems.append(SDLMenuCell(title: submenuTitleGraphicText, icon: nil, voiceCommands: nil, handler: { (triggerSource) in
+            let display = SDLSetDisplayLayout(predefinedLayout: .graphicWithText)
+            manager.send(request: display) { (request, response, error) in
+                guard response?.resultCode == .success else {
+                    manager.send(AlertManager.alertWithMessageAndCloseButton(errorMessage))
+                    return
+                }
+            }
+        }))
+        
+        return SDLMenuCell(title: ACSubmenuTemplateMenuName, icon: nil, subCells: submenuItems)
     }
 
     /// Menu item that opens a submenu when selected

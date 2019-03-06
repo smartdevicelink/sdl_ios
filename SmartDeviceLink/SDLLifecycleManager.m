@@ -55,6 +55,7 @@
 #import "SDLSystemCapabilityManager.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLLocalization.h"
+#import "SDLVersion.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -195,7 +196,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         SDLLifecycleStateStarted: @[SDLLifecycleStateConnected, SDLLifecycleStateStopped, SDLLifecycleStateReconnecting],
         SDLLifecycleStateReconnecting: @[SDLLifecycleStateStarted, SDLLifecycleStateStopped],
         SDLLifecycleStateConnected: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateRegistered],
-        SDLLifecycleStateRegistered: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpManagers, SDLLifecycleStateUpdatingConfiguration],
+        SDLLifecycleStateRegistered: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateUnregistering, SDLLifecycleStateSettingUpManagers, SDLLifecycleStateUpdatingConfiguration],
         SDLLifecycleStateUpdatingConfiguration: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpManagers],
         SDLLifecycleStateSettingUpManagers: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpAppIcon],
         SDLLifecycleStateSettingUpAppIcon: @[SDLLifecycleStateStopped, SDLLifecycleStateReconnecting, SDLLifecycleStateSettingUpHMI],
@@ -281,6 +282,14 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         [self.proxy addSecurityManagers:self.configuration.streamingMediaConfig.securityManagers forAppId:self.configuration.lifecycleConfig.appId];
     }
 
+    // If the negotiated protocol version is greater than the minimum allowable version, we need to end service and disconnect
+    if ([self.configuration.lifecycleConfig.minimumProtocolVersion isGreaterThanVersion:[SDLGlobals sharedGlobals].protocolVersion]) {
+        SDLLogW(@"Disconnecting from head unit, protocol version %@ is greater than configured minimum version %@", [SDLGlobals sharedGlobals].protocolVersion.stringVersion, self.configuration.lifecycleConfig.minimumProtocolVersion.stringVersion);
+        [self.proxy.protocol endServiceWithType:SDLServiceTypeRPC];
+        [self sdl_transitionToState:SDLLifecycleStateStopped];
+        return;
+    }
+
     // Build a register app interface request with the configuration data
     SDLRegisterAppInterface *regRequest = [[SDLRegisterAppInterface alloc] initWithLifecycleConfiguration:self.configuration.lifecycleConfig];
 
@@ -292,7 +301,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                 // If the success BOOL is NO or we received an error at this point, we failed. Call the ready handler and transition to the DISCONNECTED state.
                 if (error != nil || ![response.success boolValue]) {
                     SDLLogE(@"Failed to register the app. Error: %@, Response: %@", error, response);
-                    weakSelf.readyHandler(NO, error);
+                    if (weakSelf.readyHandler) {
+                        weakSelf.readyHandler(NO, error);
+                    }
 
                     if (weakSelf.lifecycleState != SDLLifecycleStateReconnecting) {
                         [weakSelf sdl_transitionToState:SDLLifecycleStateStopped];
@@ -302,13 +313,20 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
                 }
 
                 weakSelf.registerResponse = (SDLRegisterAppInterfaceResponse *)response;
-                [SDLGlobals sharedGlobals].rpcVersion = weakSelf.registerResponse.syncMsgVersion;
+                [SDLGlobals sharedGlobals].rpcVersion = [SDLVersion versionWithSyncMsgVersion:weakSelf.registerResponse.syncMsgVersion];
                 [weakSelf sdl_transitionToState:SDLLifecycleStateRegistered];
             });
         }];
 }
 
 - (void)didEnterStateRegistered {
+    // If the negotiated RPC version is greater than the minimum allowable version, we need to unregister and disconnect
+    if ([self.configuration.lifecycleConfig.minimumRPCVersion isGreaterThanVersion:[SDLGlobals sharedGlobals].rpcVersion]) {
+        SDLLogW(@"Disconnecting from head unit, RPC version %@ is greater than configured minimum version %@", [SDLGlobals sharedGlobals].rpcVersion.stringVersion, self.configuration.lifecycleConfig.minimumRPCVersion.stringVersion);
+        [self sdl_transitionToState:SDLLifecycleStateUnregistering];
+        return;
+    }
+
     NSArray<SDLLanguage> *supportedLanguages = self.configuration.lifecycleConfig.languagesSupported;
     SDLLanguage desiredLanguage = self.configuration.lifecycleConfig.language;
     SDLLanguage actualLanguage = self.registerResponse.language;
