@@ -104,21 +104,21 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  From 0 to 1, percentage humidity.
  *
- *  Float, Optional
+ *  Float, Optional, minvalue="0" maxvalue="1"
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *humidity;
 
 /**
  *  From 0 to 1, percentage cloud cover.
  *
- *  Float, Optional
+ *  Float, Optional, minvalue="0" maxvalue="1"
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *cloudCover;
 
 /**
  *  From 0 to 1, percentage of the moon seen, e.g. 0 = no moon, 0.25 = quarter moon
  *
- *  Float, Optional
+ *  Float, Optional, minvalue="0" maxvalue="1"
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *moonPhase;
 
@@ -174,7 +174,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  From 0 to 1, percentage chance.
  *
- *  Float, Optional
+ *  Float, Optional, minvalue="0" maxvalue="1"
  */
 @property (nullable, strong, nonatomic) NSNumber<SDLFloat> *precipProbability;
 
