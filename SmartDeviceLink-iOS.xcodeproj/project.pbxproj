@@ -1344,6 +1344,7 @@
 		88D2AAE41F682BB20078D5B2 /* SDLLogConstantsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */; };
 		88D5EB37220CD95000EC3782 /* SDLWeatherServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88D5EB35220CD95000EC3782 /* SDLWeatherServiceData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88D5EB38220CD95000EC3782 /* SDLWeatherServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D5EB36220CD95000EC3782 /* SDLWeatherServiceData.m */; };
+		88D6F1812231A1A000D4BFB3 /* SDLRPCRequestNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 88D6F17E22319FE000D4BFB3 /* SDLRPCRequestNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88DF998D22035CC600477AC1 /* EAAccessory+OCMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DF998C22035CC600477AC1 /* EAAccessory+OCMock.m */; };
 		88DF998F22035D1700477AC1 /* SDLIAPSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DF998E22035D1700477AC1 /* SDLIAPSessionSpec.m */; };
 		88DF999122035D5A00477AC1 /* SDLIAPTransportSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DF999022035D5A00477AC1 /* SDLIAPTransportSpec.m */; };
@@ -6356,6 +6357,7 @@
 				5D61FDB51A84238C00846EE7 /* SDLSyncMsgVersion.h in Headers */,
 				1E5AD08C1F20BC320029B8AF /* SDLGetInteriorVehicleDataResponse.h in Headers */,
 				1E5AD0701F209C880029B8AF /* SDLModuleData.h in Headers */,
+				88D6F1812231A1A000D4BFB3 /* SDLRPCRequestNotification.h in Headers */,
 				1E5AD0981F20C0FB0029B8AF /* SDLOnInteriorVehicleData.h in Headers */,
 				1E5AD0641F207DD50029B8AF /* SDLTemperature.h in Headers */,
 				1E5AD0901F20BE820029B8AF /* SDLSetInteriorVehicleData.h in Headers */,
