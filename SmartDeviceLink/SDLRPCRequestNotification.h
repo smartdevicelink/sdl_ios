@@ -33,14 +33,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithName:(NSString *)name object:(nullable id)object rpcRequest:(__kindof SDLRPCRequest *)request;
 
 /**
- *  Returns whether or not the containing response is equal to a class, not including subclasses.
+ *  Returns whether or not the containing request is equal to a class, not including subclasses.
  *
  *  @param aClass the class you are questioning
  */
 - (BOOL)isRequestMemberOfClass:(Class)aClass;
 
 /**
- *  Returns whether or not the containing response is a kind of class, including subclasses.
+ *  Returns whether or not the containing request is a kind of class, including subclasses.
  *
  *  @param aClass the class you are questioning
  */
