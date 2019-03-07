@@ -75,7 +75,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLNameDuration:@4357,
                                                    SDLNamePlayTone:@YES,
                                                    SDLNameProgressIndicator:@NO,
-                                                   SDLNameSoftButtons:[NSNull null]},
+                                                   SDLNameSoftButtons:@[[NSNull null]]},
                                              SDLNameOperationName:SDLNameAlert}} mutableCopy];
         SDLAlert* testRequest = [[SDLAlert alloc] initWithDictionary:dict];
 

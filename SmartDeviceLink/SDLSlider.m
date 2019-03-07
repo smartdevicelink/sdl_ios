@@ -56,7 +56,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)numTicks {
-    return [parameters sdl_objectForName:SDLNameNumberTicks];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameNumberTicks ofClass:NSNumber.class error:&error];
 }
 
 - (void)setPosition:(NSNumber<SDLInt> *)position {
@@ -64,7 +65,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)position {
-    return [parameters sdl_objectForName:SDLNamePosition];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNamePosition ofClass:NSNumber.class error:&error];
 }
 
 - (void)setSliderHeader:(NSString *)sliderHeader {
@@ -72,7 +74,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)sliderHeader {
-    return [parameters sdl_objectForName:SDLNameSliderHeader];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameSliderHeader ofClass:NSString.class error:&error];
 }
 
 - (void)setSliderFooter:(nullable NSArray<NSString *> *)sliderFooter {
@@ -80,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)sliderFooter {
-    return [parameters sdl_objectForName:SDLNameSliderFooter];
+    return [parameters sdl_objectsForName:SDLNameSliderFooter ofClass:NSString.class];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
@@ -88,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)timeout {
-    return [parameters sdl_objectForName:SDLNameTimeout];
+    return [parameters sdl_objectForName:SDLNameTimeout ofClass:NSNumber.class];
 }
 
 @end

@@ -42,7 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)moduleName {
-    return [store sdl_objectForName:SDLNameModuleName];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameModuleName ofClass:NSString.class error:&error];
 }
 
 - (void)setRadioEnableAvailable:(nullable NSNumber<SDLBool> *)radioEnableAvailable {
@@ -50,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)radioEnableAvailable {
-    return [store sdl_objectForName:SDLNameRadioEnableAvailable];
+    return [store sdl_objectForName:SDLNameRadioEnableAvailable ofClass:NSNumber.class];
 }
 
 - (void)setRadioBandAvailable:(nullable NSNumber<SDLBool> *)radioBandAvailable {
@@ -58,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)radioBandAvailable {
-    return [store sdl_objectForName:SDLNameRadioBandAvailable];
+    return [store sdl_objectForName:SDLNameRadioBandAvailable ofClass:NSNumber.class];
 }
 
 - (void)setRadioFrequencyAvailable:(nullable NSNumber<SDLBool> *)radioFrequencyAvailable {
@@ -66,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)radioFrequencyAvailable {
-    return [store sdl_objectForName:SDLNameRadioFrequencyAvailable];
+    return [store sdl_objectForName:SDLNameRadioFrequencyAvailable ofClass:NSNumber.class];
 }
 
 - (void)setHdChannelAvailable:(nullable NSNumber<SDLBool> *)hdChannelAvailable {
@@ -74,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)hdChannelAvailable {
-    return [store sdl_objectForName:SDLNameHDChannelAvailable];
+    return [store sdl_objectForName:SDLNameHDChannelAvailable ofClass:NSNumber.class];
 }
 
 - (void)setRdsDataAvailable:(nullable NSNumber<SDLBool> *)rdsDataAvailable {
@@ -82,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)rdsDataAvailable {
-    return [store sdl_objectForName:SDLNameRDSDataAvailable];
+    return [store sdl_objectForName:SDLNameRDSDataAvailable ofClass:NSNumber.class];
 }
 
 - (void)setAvailableHDsAvailable:(nullable NSNumber<SDLBool> *)availableHDsAvailable {
@@ -90,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)availableHDsAvailable {
-    return [store sdl_objectForName:SDLNameAvailableHDsAvailable];
+    return [store sdl_objectForName:SDLNameAvailableHDsAvailable ofClass:NSNumber.class];
 }
 
 - (void)setStateAvailable:(nullable NSNumber<SDLBool> *)stateAvailable {
@@ -98,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)stateAvailable {
-    return [store sdl_objectForName:SDLNameStateAvailable];
+    return [store sdl_objectForName:SDLNameStateAvailable ofClass:NSNumber.class];
 }
 
 - (void)setSignalStrengthAvailable:(nullable NSNumber<SDLBool> *)signalStrengthAvailable {
@@ -106,7 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)signalStrengthAvailable {
-    return [store sdl_objectForName:SDLNameSignalStrengthAvailable];
+    return [store sdl_objectForName:SDLNameSignalStrengthAvailable ofClass:NSNumber.class];
 }
 
 - (void)setSignalChangeThresholdAvailable:(nullable NSNumber<SDLBool> *)signalChangeThresholdAvailable {
@@ -114,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)signalChangeThresholdAvailable {
-    return [store sdl_objectForName:SDLNameSignalChangeThresholdAvailable];
+    return [store sdl_objectForName:SDLNameSignalChangeThresholdAvailable ofClass:NSNumber.class];
 }
 
 - (void)setHdRadioEnableAvailable:(nullable NSNumber<SDLBool> *)hdRadioEnableAvailable {
@@ -122,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)hdRadioEnableAvailable {
-    return [store sdl_objectForName:SDLNameHDRadioEnableAvailable];
+    return [store sdl_objectForName:SDLNameHDRadioEnableAvailable ofClass:NSNumber.class];
 }
 
 - (void)setSiriusXMRadioAvailable:(nullable NSNumber<SDLBool> *)siriusXMRadioAvailable {
@@ -130,7 +131,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)siriusXMRadioAvailable {
-    return [store sdl_objectForName:SDLNameSiriusXMRadioAvailable];
+    return [store sdl_objectForName:SDLNameSiriusXMRadioAvailable ofClass:NSNumber.class];
 }
 
 - (void)setSisDataAvailable:(nullable NSNumber<SDLBool> *)sisDataAvailable {
@@ -138,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)sisDataAvailable {
-    return [store sdl_objectForName:SDLNameSISDataAvailable];
+    return [store sdl_objectForName:SDLNameSISDataAvailable ofClass:NSNumber.class];
 }
 
 @end

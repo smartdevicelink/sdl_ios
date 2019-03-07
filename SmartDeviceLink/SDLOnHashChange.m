@@ -22,7 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)hashID {
-    return [parameters sdl_objectForName:SDLNameHashId];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameHashId ofClass:NSString.class error:&error];
 }
 
 @end

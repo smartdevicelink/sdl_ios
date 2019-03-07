@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)audioPassThruDisplayText1 {
-    return [parameters sdl_objectForName:SDLNameAudioPassThruDisplayText1];
+    return [parameters sdl_objectForName:SDLNameAudioPassThruDisplayText1 ofClass:NSString.class];
 }
 
 - (void)setAudioPassThruDisplayText2:(nullable NSString *)audioPassThruDisplayText2 {
@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)audioPassThruDisplayText2 {
-    return [parameters sdl_objectForName:SDLNameAudioPassThruDisplayText2];
+    return [parameters sdl_objectForName:SDLNameAudioPassThruDisplayText2 ofClass:NSString.class];
 }
 
 - (void)setSamplingRate:(SDLSamplingRate)samplingRate {
@@ -85,8 +85,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSamplingRate)samplingRate {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameSamplingRate];
-    return (SDLSamplingRate )obj;
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameSamplingRate error:&error];
 }
 
 - (void)setMaxDuration:(NSNumber<SDLInt> *)maxDuration {
@@ -94,7 +94,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)maxDuration {
-    return [parameters sdl_objectForName:SDLNameMaxDuration];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameMaxDuration ofClass:NSNumber.class error:&error];
 }
 
 - (void)setBitsPerSample:(SDLBitsPerSample)bitsPerSample {
@@ -102,7 +103,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLBitsPerSample)bitsPerSample {
-    return [parameters sdl_objectForName:SDLNameBitsPerSample];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameBitsPerSample error:&error];
 }
 
 - (void)setAudioType:(SDLAudioType)audioType {
@@ -110,7 +112,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLAudioType)audioType {
-    return [parameters sdl_objectForName:SDLNameAudioType];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameAudioType error:&error];
 }
 
 - (void)setMuteAudio:(nullable NSNumber<SDLBool> *)muteAudio {
@@ -118,7 +121,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)muteAudio {
-    return [parameters sdl_objectForName:SDLNameMuteAudio];
+    return [parameters sdl_objectForName:SDLNameMuteAudio ofClass:NSNumber.class];
 }
 
 @end

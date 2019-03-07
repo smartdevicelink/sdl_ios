@@ -101,7 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)mainField1 {
-    return [parameters sdl_objectForName:SDLNameMainField1];
+    return [parameters sdl_objectForName:SDLNameMainField1 ofClass:NSString.class];
 }
 
 - (void)setMainField2:(nullable NSString *)mainField2 {
@@ -109,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)mainField2 {
-    return [parameters sdl_objectForName:SDLNameMainField2];
+    return [parameters sdl_objectForName:SDLNameMainField2 ofClass:NSString.class];
 }
 
 - (void)setMainField3:(nullable NSString *)mainField3 {
@@ -117,7 +117,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)mainField3 {
-    return [parameters sdl_objectForName:SDLNameMainField3];
+    return [parameters sdl_objectForName:SDLNameMainField3 ofClass:NSString.class];
 }
 
 - (void)setMainField4:(nullable NSString *)mainField4 {
@@ -125,7 +125,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)mainField4 {
-    return [parameters sdl_objectForName:SDLNameMainField4];
+    return [parameters sdl_objectForName:SDLNameMainField4 ofClass:NSString.class];
 }
 
 - (void)setAlignment:(nullable SDLTextAlignment)alignment {
@@ -133,7 +133,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLTextAlignment)alignment {
-    return [parameters sdl_objectForName:SDLNameAlignment];
+    return [parameters sdl_enumForName:SDLNameAlignment];
 }
 
 - (void)setStatusBar:(nullable NSString *)statusBar {
@@ -141,7 +141,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)statusBar {
-    return [parameters sdl_objectForName:SDLNameStatusBar];
+    return [parameters sdl_objectForName:SDLNameStatusBar ofClass:NSString.class];
 }
 
 - (void)setMediaClock:(nullable NSString *)mediaClock {
@@ -149,7 +149,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)mediaClock {
-    return [parameters sdl_objectForName:SDLNameMediaClock];
+    return [parameters sdl_objectForName:SDLNameMediaClock ofClass:NSString.class];
 }
 
 - (void)setMediaTrack:(nullable NSString *)mediaTrack {
@@ -157,7 +157,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)mediaTrack {
-    return [parameters sdl_objectForName:SDLNameMediaTrack];
+    return [parameters sdl_objectForName:SDLNameMediaTrack ofClass:NSString.class];
 }
 
 - (void)setGraphic:(nullable SDLImage *)graphic {
@@ -189,7 +189,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)customPresets {
-    return [parameters sdl_objectForName:SDLNameCustomPresets];
+    return [parameters sdl_objectsForName:SDLNameCustomPresets ofClass:NSString.class];
 }
 
 - (void)setMetadataTags:(nullable SDLMetadataTags *)metadataTags {

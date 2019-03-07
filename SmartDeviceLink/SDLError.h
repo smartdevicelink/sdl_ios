@@ -24,6 +24,7 @@ extern SDLErrorDomain *const SDLErrorDomainSoftButtonManager;
 extern SDLErrorDomain *const SDLErrorDomainMenuManager;
 extern SDLErrorDomain *const SDLErrorDomainChoiceSetManager;
 extern SDLErrorDomain *const SDLErrorDomainTransport;
+extern SDLErrorDomain *const SDLErrorDomainStore;
 
 @interface NSError (SDLErrors)
 
@@ -72,6 +73,10 @@ extern SDLErrorDomain *const SDLErrorDomainTransport;
 + (NSError *)sdl_transport_connectionRefusedError;
 + (NSError *)sdl_transport_connectionTimedOutError;
 + (NSError *)sdl_transport_networkDownError;
+
+#pragma mark Store
+
++ (NSError *)sdl_store_wrongObject:(id)wrongObject expectedType:(Class)type;
 
 @end
 

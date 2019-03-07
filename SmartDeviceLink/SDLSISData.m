@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)stationShortName {
-    return [store sdl_objectForName:SDLNameStationShortName];
+    return [store sdl_objectForName:SDLNameStationShortName ofClass:NSString.class];
 }
 
 - (void)setStationIDNumber:(nullable SDLStationIDNumber *)stationIDNumber {
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)stationLongName {
-    return [store sdl_objectForName:SDLNameStationLongName];
+    return [store sdl_objectForName:SDLNameStationLongName ofClass:NSString.class];;
 }
 
 - (void)setStationLocation:(nullable SDLGPSData *)stationLocation {
@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)stationMessage {
-    return [store sdl_objectForName:SDLNameStationMessage];
+    return [store sdl_objectForName:SDLNameStationMessage ofClass:NSString.class];
 }
 
 @end

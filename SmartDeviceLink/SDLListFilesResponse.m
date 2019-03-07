@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)filenames {
-    return [parameters sdl_objectForName:SDLNameFilenames];
+    return [parameters sdl_objectsForName:SDLNameFilenames ofClass:NSString.class];
 }
 
 - (void)setSpaceAvailable:(nullable NSNumber<SDLInt> *)spaceAvailable {
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)spaceAvailable {
-    return [parameters sdl_objectForName:SDLNameSpaceAvailable];
+    return [parameters sdl_objectForName:SDLNameSpaceAvailable ofClass:NSNumber.class];
 }
 
 @end

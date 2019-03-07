@@ -38,7 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSystemCapabilityType)systemCapabilityType {
-    return [parameters sdl_objectForName:SDLNameSystemCapabilityType];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameSystemCapabilityType error:&error];
 }
 
 @end

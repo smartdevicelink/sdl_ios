@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLMetadataType> *)mainField1 {
-    return [store sdl_objectForName:SDLNameMainField1];
+    return [store sdl_enumsForName:SDLNameMainField1];
 }
 
 - (void)setMainField2:(nullable NSArray<SDLMetadataType> *)mainField2 {
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLMetadataType> *)mainField2 {
-    return [store sdl_objectForName:SDLNameMainField2];
+    return [store sdl_enumsForName:SDLNameMainField2];
 }
 
 - (void)setMainField3:(nullable NSArray<SDLMetadataType> *)mainField3 {
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLMetadataType> *)mainField3 {
-    return [store sdl_objectForName:SDLNameMainField3];
+    return [store sdl_enumsForName:SDLNameMainField3];
 }
 
 - (void)setMainField4:(nullable NSArray<SDLMetadataType> *)mainField4 {
@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLMetadataType> *)mainField4 {
-    return [store sdl_objectForName:SDLNameMainField4];
+    return [store sdl_enumsForName:SDLNameMainField4];
 }
 
 @end

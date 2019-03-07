@@ -17,7 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)rpcName {
-    return [store sdl_objectForName:SDLNameRPCName];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameRPCName ofClass:NSString.class error:&error];
 }
 
 - (void)setHmiPermissions:(SDLHMIPermissions *)hmiPermissions {
@@ -25,7 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLHMIPermissions *)hmiPermissions {
-    return [store sdl_objectForName:SDLNameHMIPermissions ofClass:SDLHMIPermissions.class];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameHMIPermissions ofClass:SDLHMIPermissions.class error:&error];
 }
 
 - (void)setParameterPermissions:(SDLParameterPermissions *)parameterPermissions {
@@ -33,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLParameterPermissions *)parameterPermissions {
-    return [store sdl_objectForName:SDLNameParameterPermissions ofClass:SDLParameterPermissions.class];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameParameterPermissions ofClass:SDLParameterPermissions.class error:&error];
 }
 
 @end

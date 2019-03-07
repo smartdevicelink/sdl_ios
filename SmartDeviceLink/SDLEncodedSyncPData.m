@@ -22,7 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<NSString *> *)data {
-    return [parameters sdl_objectForName:SDLNameData];
+    NSError *error;
+    return [parameters sdl_objectsForName:SDLNameData ofClass:NSString.class error:&error];
 }
 
 @end

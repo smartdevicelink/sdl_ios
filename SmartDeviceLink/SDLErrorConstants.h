@@ -145,3 +145,13 @@ typedef NS_ENUM(NSInteger, SDLTransportError) {
      */
     SDLTransportErrorNetworkDown = -4,
 };
+
+/**
+ *  Errors associated with store.
+ */
+typedef NS_ENUM(NSInteger, SDLStoreError) {
+    /**
+     *  In dictionary stored value with unexpected type
+     */
+    SDLStoreErrorWrongObject = -1,
+};

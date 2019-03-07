@@ -73,7 +73,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSystemCapabilityType)systemCapabilityType {
-    return [store sdl_objectForName:SDLNameSystemCapabilityType];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameSystemCapabilityType error:&error];
 }
 
 // TODO: Nav / Phone Capability

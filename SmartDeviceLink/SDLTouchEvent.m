@@ -17,7 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)touchEventId {
-    return [store sdl_objectForName:SDLNameId];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setTimeStamp:(NSArray<NSNumber<SDLInt> *> *)timeStamp {
@@ -25,7 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<NSNumber<SDLInt> *> *)timeStamp {
-    return [store sdl_objectForName:SDLNameTimestamp];
+    NSError *error;
+    return [store sdl_objectsForName:SDLNameTimestamp ofClass:NSNumber.class error:&error];
 }
 
 - (void)setCoord:(NSArray<SDLTouchCoord *> *)coord {
@@ -33,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLTouchCoord *> *)coord {
-    return [store sdl_objectsForName:SDLNameCoordinate ofClass:SDLTouchCoord.class];
+    NSError *error;
+    return [store sdl_objectsForName:SDLNameCoordinate ofClass:SDLTouchCoord.class error:&error];
 }
 
 @end

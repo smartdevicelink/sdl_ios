@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)countryCode {
-    return [store sdl_objectForName:SDLNameCountryCode];
+    return [store sdl_objectForName:SDLNameCountryCode ofClass:NSNumber.class];
 }
 
 
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)fccFacilityId {
-    return [store sdl_objectForName:SDLNameFCCFacilityId];
+    return [store sdl_objectForName:SDLNameFCCFacilityId ofClass:NSNumber.class];
 }
 
 @end

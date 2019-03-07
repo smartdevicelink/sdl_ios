@@ -25,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLLockScreenStatus)lockScreenStatus {
-    return [parameters sdl_objectForName:SDLNameOnLockScreenStatus];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameOnLockScreenStatus error:&error];
 }
 
 - (void)setHmiLevel:(SDLHMILevel)hmiLevel {
@@ -33,7 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLHMILevel)hmiLevel {
-    return [parameters sdl_objectForName:SDLNameHMILevel];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameHMILevel error:&error];
 }
 
 - (void)setUserSelected:(NSNumber<SDLBool> *)userSelected {
@@ -41,7 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)userSelected {
-    return [parameters sdl_objectForName:SDLNameUserSelected];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameUserSelected ofClass:NSNumber.class error:&error];
 }
 
 - (void)setDriverDistractionStatus:(NSNumber<SDLBool> *)driverDistractionStatus {
@@ -49,7 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)driverDistractionStatus {
-    return [parameters sdl_objectForName:SDLNameDriverDistractionStatus];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameDriverDistractionStatus ofClass:NSNumber.class error:&error];
 }
 
 @end

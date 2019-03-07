@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)getFunctionName {
-    return [function sdl_objectForName:SDLNameOperationName];
+    return [function sdl_objectForName:SDLNameOperationName ofClass:NSString.class];
 }
 
 - (void)setFunctionName:(nullable NSString *)functionName {
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSObject *)getParameters:(NSString *)functionName {
-    return [parameters sdl_objectForName:functionName];
+    return [parameters sdl_objectForName:functionName ofClass:NSObject.class];
 }
 
 - (void)setParameters:(NSString *)functionName value:(nullable NSObject *)value {

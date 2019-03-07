@@ -48,7 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)moduleName {
-    return [store sdl_objectForName:SDLNameModuleName];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameModuleName ofClass:NSString.class error:&error];
 }
 
 - (void)setHeatingEnabledAvailable:(nullable NSNumber<SDLBool> *)heatingEnabledAvailable {
@@ -56,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)heatingEnabledAvailable {
-    return [store sdl_objectForName:SDLNameHeatingEnabledAvailable];
+    return [store sdl_objectForName:SDLNameHeatingEnabledAvailable ofClass:NSNumber.class];
 }
 
 - (void)setCoolingEnabledAvailable:(nullable NSNumber<SDLBool> *)coolingEnabledAvailable {
@@ -65,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)coolingEnabledAvailable {
-    return [store sdl_objectForName:SDLNameCoolingEnabledAvailable];
+    return [store sdl_objectForName:SDLNameCoolingEnabledAvailable ofClass:NSNumber.class];
 
 }
 
@@ -75,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)heatingLevelAvailable {
-    return [store sdl_objectForName:SDLNameHeatingLevelAvailable];
+    return [store sdl_objectForName:SDLNameHeatingLevelAvailable ofClass:NSNumber.class];
 
 }
 
@@ -85,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)coolingLevelAvailable {
-    return [store sdl_objectForName:SDLNameCoolingLevelAvailable];
+    return [store sdl_objectForName:SDLNameCoolingLevelAvailable ofClass:NSNumber.class];
 
 }
 
@@ -95,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)horizontalPositionAvailable {
-    return [store sdl_objectForName:SDLNameHorizontalPositionAvailable];
+    return [store sdl_objectForName:SDLNameHorizontalPositionAvailable ofClass:NSNumber.class];
 
 }
 
@@ -105,7 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)verticalPositionAvailable {
-    return [store sdl_objectForName:SDLNameVerticalPositionAvailable];
+    return [store sdl_objectForName:SDLNameVerticalPositionAvailable ofClass:NSNumber.class];
 
 }
 
@@ -115,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)frontVerticalPositionAvailable {
-    return [store sdl_objectForName:SDLNameFrontVerticalPositionAvailable];
+    return [store sdl_objectForName:SDLNameFrontVerticalPositionAvailable ofClass:NSNumber.class];
 
 }
 
@@ -125,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)backVerticalPositionAvailable {
-    return [store sdl_objectForName:SDLNameBackVerticalPositionAvailable];
+    return [store sdl_objectForName:SDLNameBackVerticalPositionAvailable ofClass:NSNumber.class];
 
 }
 
@@ -135,7 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)backTiltAngleAvailable {
-    return [store sdl_objectForName:SDLNameBackTiltAngleAvailable];
+    return [store sdl_objectForName:SDLNameBackTiltAngleAvailable ofClass:NSNumber.class];
 
 }
 
@@ -145,7 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)headSupportHorizontalPositionAvailable {
-    return [store sdl_objectForName:SDLNameHeadSupportHorizontalPositionAvailable];
+    return [store sdl_objectForName:SDLNameHeadSupportHorizontalPositionAvailable ofClass:NSNumber.class];
 
 }
 
@@ -155,7 +156,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)headSupportVerticalPositionAvailable {
-    return [store sdl_objectForName:SDLNameHeadSupportVerticalPositionAvailable];
+    return [store sdl_objectForName:SDLNameHeadSupportVerticalPositionAvailable ofClass:NSNumber.class];
 
 }
 
@@ -165,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)massageEnabledAvailable {
-    return [store sdl_objectForName:SDLNameMassageEnabledAvailable];
+    return [store sdl_objectForName:SDLNameMassageEnabledAvailable ofClass:NSNumber.class];
 
 }
 
@@ -175,7 +176,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)massageModeAvailable {
-    return [store sdl_objectForName:SDLNameMassageModeAvailable];
+    return [store sdl_objectForName:SDLNameMassageModeAvailable ofClass:NSNumber.class];
 
 }
 
@@ -185,7 +186,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)massageCushionFirmnessAvailable {
-    return [store sdl_objectForName:SDLNameMassageCushionFirmnessAvailable];
+    return [store sdl_objectForName:SDLNameMassageCushionFirmnessAvailable ofClass:NSNumber.class];
 
 }
 
@@ -195,7 +196,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)memoryAvailable {
-    return [store sdl_objectForName:SDLNameMemoryAvailable];
+    return [store sdl_objectForName:SDLNameMemoryAvailable ofClass:NSNumber.class];
 }
 
 @end

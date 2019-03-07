@@ -34,7 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)interactionChoiceSetID {
-    return [parameters sdl_objectForName:SDLNameInteractionChoiceSetId];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameInteractionChoiceSetId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setChoiceSet:(NSArray<SDLChoice *> *)choiceSet {
@@ -42,7 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLChoice *> *)choiceSet {
-    return [parameters sdl_objectsForName:SDLNameChoiceSet ofClass:SDLChoice.class];
+    NSError *error;
+    return [parameters sdl_objectsForName:SDLNameChoiceSet ofClass:SDLChoice.class error:&error];
 }
 
 @end

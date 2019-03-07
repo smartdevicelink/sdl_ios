@@ -18,7 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLDisplayType)displayType {
-    return [store sdl_objectForName:SDLNameDisplayType];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameDisplayType error:&error];
 }
 
 - (void)setDisplayName:(nullable NSString *)displayName {
@@ -26,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)displayName {
-    return [store sdl_objectForName:SDLNameDisplayName];
+    return [store sdl_objectForName:SDLNameDisplayName ofClass:NSString.class];
 }
 
 - (void)setTextFields:(NSArray<SDLTextField *> *)textFields {
@@ -34,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLTextField *> *)textFields {
-    return [store sdl_objectsForName:SDLNameTextFields ofClass:SDLTextField.class];
+    NSError *error;
+    return [store sdl_objectsForName:SDLNameTextFields ofClass:SDLTextField.class error:&error];
 }
 
 - (void)setImageFields:(nullable NSArray<SDLImageField *> *)imageFields {
@@ -50,7 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLMediaClockFormat> *)mediaClockFormats {
-    return [store sdl_objectForName:SDLNameMediaClockFormats];
+    NSError *error;
+    return [store sdl_enumsForName:SDLNameMediaClockFormats error:&error];
 }
 
 - (void)setGraphicSupported:(NSNumber<SDLBool> *)graphicSupported {
@@ -58,7 +61,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)graphicSupported {
-    return [store sdl_objectForName:SDLNameGraphicSupported];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameGraphicSupported ofClass:NSNumber.class error:&error];
 }
 
 - (void)setTemplatesAvailable:(nullable NSArray<NSString *> *)templatesAvailable {
@@ -66,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)templatesAvailable {
-    return [store sdl_objectForName:SDLNameTemplatesAvailable];
+    return [store sdl_objectsForName:SDLNameTemplatesAvailable ofClass:NSString.class];
 }
 
 - (void)setScreenParams:(nullable SDLScreenParams *)screenParams {
@@ -82,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)numCustomPresetsAvailable {
-    return [store sdl_objectForName:SDLNameNumberCustomPresetsAvailable];
+    return [store sdl_objectForName:SDLNameNumberCustomPresetsAvailable ofClass:NSNumber.class];
 }
 
 @end

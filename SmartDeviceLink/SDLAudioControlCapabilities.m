@@ -39,7 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)moduleName {
-    return [store sdl_objectForName:SDLNameModuleName];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameModuleName ofClass:NSString.class error:&error];
 }
 
 - (void)setSourceAvailable:(nullable NSNumber<SDLBool> *)sourceAvailable {
@@ -47,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)sourceAvailable {
-    return [store sdl_objectForName:SDLNameSourceAvailable];
+    return [store sdl_objectForName:SDLNameSourceAvailable ofClass:NSNumber.class];
 }
 
 - (void)setKeepContextAvailable:(nullable NSNumber<SDLBool> *)keepContextAvailable {
@@ -55,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)keepContextAvailable {
-    return [store sdl_objectForName:SDLNameKeepContextAvailable];
+    return [store sdl_objectForName:SDLNameKeepContextAvailable ofClass:NSNumber.class];
 }
 
 - (void)setVolumeAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable {
@@ -63,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)volumeAvailable {
-    return [store sdl_objectForName:SDLNameVolumeAvailable];
+    return [store sdl_objectForName:SDLNameVolumeAvailable ofClass:NSNumber.class];
 }
 
 - (void)setEqualizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable {
@@ -71,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)equalizerAvailable {
-    return [store sdl_objectForName:SDLNameEqualizerAvailable];
+    return [store sdl_objectForName:SDLNameEqualizerAvailable ofClass:NSNumber.class];
 }
 
 - (void)setEqualizerMaxChannelId:(nullable NSNumber<SDLInt> *)equalizerMaxChannelId {
@@ -79,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)equalizerMaxChannelId {
-    return [store sdl_objectForName:SDLNameEqualizerMaxChannelId];
+    return [store sdl_objectForName:SDLNameEqualizerMaxChannelId ofClass:NSNumber.class];
 }
 
 @end

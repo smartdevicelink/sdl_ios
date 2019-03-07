@@ -56,7 +56,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLModuleType)moduleType {
-    return [parameters sdl_objectForName:SDLNameModuleType];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameModuleType error:&error];
 }
 
 - (void)setSubscribe:(nullable NSNumber<SDLBool> *)subscribe {
@@ -64,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)subscribe {
-    return [parameters sdl_objectForName:SDLNameSubscribe];
+    return [parameters sdl_objectForName:SDLNameSubscribe ofClass:NSNumber.class];
 }
 
 @end

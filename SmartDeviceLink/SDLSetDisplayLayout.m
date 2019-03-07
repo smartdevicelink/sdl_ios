@@ -48,7 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)displayLayout {
-    return [parameters sdl_objectForName:SDLNameDisplayLayout];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameDisplayLayout ofClass:NSString.class error:&error];
 }
 
 - (void)setDayColorScheme:(nullable SDLTemplateColorScheme *)dayColorScheme {

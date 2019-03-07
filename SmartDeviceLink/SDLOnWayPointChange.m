@@ -22,7 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLLocationDetails *> *)waypoints {
-    return [parameters sdl_objectsForName:SDLNameWayPoints ofClass:SDLLocationDetails.class];
+    NSError *error;
+    return [parameters sdl_objectsForName:SDLNameWayPoints ofClass:SDLLocationDetails.class error:&error];
 }
 
 @end

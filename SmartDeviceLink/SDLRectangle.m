@@ -33,7 +33,8 @@
 }
 
 - (NSNumber<SDLFloat> *)x {
-    return [store sdl_objectForName:SDLNameX];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameX ofClass:NSNumber.class error:&error];
 }
 
 - (void)setY:(NSNumber<SDLFloat> *)y {
@@ -41,7 +42,8 @@
 }
 
 - (NSNumber<SDLFloat> *)y {
-    return [store sdl_objectForName:SDLNameY];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameY ofClass:NSNumber.class error:&error];
 }
 
 - (void)setWidth:(NSNumber<SDLFloat> *)width {
@@ -49,7 +51,8 @@
 }
 
 - (NSNumber<SDLFloat> *)width {
-    return [store sdl_objectForName:SDLNameWidth];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameWidth ofClass:NSNumber.class error:&error];
 }
 
 - (void)setHeight:(NSNumber<SDLFloat> *)height {
@@ -57,7 +60,8 @@
 }
 
 - (NSNumber<SDLFloat> *)height {
-    return [store sdl_objectForName:SDLNameHeight];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameHeight ofClass:NSNumber.class error:&error];
 }
 
 @end

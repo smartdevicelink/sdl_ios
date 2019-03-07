@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)choiceID {
-    return [parameters sdl_objectForName:SDLNameChoiceId];
+    return [parameters sdl_objectForName:SDLNameChoiceId ofClass:NSNumber.class];
 }
 
 - (void)setManualTextEntry:(nullable NSString *)manualTextEntry {
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)manualTextEntry {
-    return [parameters sdl_objectForName:SDLNameManualTextEntry];
+    return [parameters sdl_objectForName:SDLNameManualTextEntry ofClass:NSString.class];
 }
 
 - (void)setTriggerSource:(nullable SDLTriggerSource)triggerSource {
@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLTriggerSource)triggerSource {
-    return [parameters sdl_objectForName:SDLNameTriggerSource];
+    return [parameters sdl_enumForName:SDLNameTriggerSource];
 }
 
 @end

@@ -93,7 +93,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLModuleType)moduleType {
-    return [store sdl_objectForName:SDLNameModuleType];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameModuleType error:&error];
 }
 
 - (void)setRadioControlData:(nullable SDLRadioControlData *)radioControlData {

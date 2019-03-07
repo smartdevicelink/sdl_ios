@@ -27,7 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)moduleName {
-    return [store sdl_objectForName:SDLNameModuleName];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameModuleName ofClass:NSString.class error:&error];
 }
 
 - (void)setSupportedLights:(NSArray<SDLLightCapabilities *> *)supportedLights {
@@ -36,7 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLLightCapabilities *> *)supportedLights {
-    return [store sdl_objectsForName:SDLNameSupportedLights ofClass:SDLLightCapabilities.class];
+    NSError *error;
+    return [store sdl_objectsForName:SDLNameSupportedLights ofClass:SDLLightCapabilities.class error:&error];
 }
 
 

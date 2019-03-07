@@ -95,7 +95,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)initialText {
-    return [parameters sdl_objectForName:SDLNameInitialText];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameInitialText ofClass:NSString.class error:&error];
 }
 
 - (void)setInitialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt {
@@ -111,7 +112,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLInteractionMode)interactionMode {
-    return [parameters sdl_objectForName:SDLNameInteractionMode];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameInteractionMode error:&error];
 }
 
 - (void)setInteractionChoiceSetIDList:(NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
@@ -119,7 +121,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
-    return [parameters sdl_objectForName:SDLNameInteractionChoiceSetIdList];
+    NSError *error;
+    return [parameters sdl_objectsForName:SDLNameInteractionChoiceSetIdList ofClass:NSNumber.class error:&error];
 }
 
 - (void)setHelpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt {
@@ -143,7 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)timeout {
-    return [parameters sdl_objectForName:SDLNameTimeout];
+    return [parameters sdl_objectForName:SDLNameTimeout ofClass:NSNumber.class];
 }
 
 - (void)setVrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp {
@@ -159,7 +162,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLLayoutMode)interactionLayout {
-    return [parameters sdl_objectForName:SDLNameInteractionLayout];
+    return [parameters sdl_enumForName:SDLNameInteractionLayout];
 }
 
 @end

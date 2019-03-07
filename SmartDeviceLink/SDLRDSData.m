@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)programService {
-    return [store sdl_objectForName:SDLNameProgramService];
+    return [store sdl_objectForName:SDLNameProgramService ofClass:NSString.class];
 }
 
 - (void)setRadioText:(nullable NSString *)radioText {
@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)radioText {
-    return [store sdl_objectForName:SDLNameRadioText];
+    return [store sdl_objectForName:SDLNameRadioText ofClass:NSString.class];
 }
 
 - (void)setClockText:(nullable NSString *)clockText {
@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)clockText {
-    return [store sdl_objectForName:SDLNameClockText];
+    return [store sdl_objectForName:SDLNameClockText ofClass:NSString.class];
 }
 
 - (void)setProgramIdentification:(nullable NSString *)programIdentification {
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)programIdentification {
-    return [store sdl_objectForName:SDLNameProgramIdentification];
+    return [store sdl_objectForName:SDLNameProgramIdentification ofClass:NSString.class];
 }
 
 - (void)setProgramType:(nullable NSNumber<SDLInt> *)programType {
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)programType {
-    return [store sdl_objectForName:SDLNameProgramType];
+    return [store sdl_objectForName:SDLNameProgramType ofClass:NSNumber.class];
 }
 
 - (void)setTrafficProgramIdentification:(nullable NSNumber<SDLBool> *)trafficProgramIdentification {
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)trafficProgramIdentification {
-    return [store sdl_objectForName:SDLNameTrafficProgramIdentification];
+    return [store sdl_objectForName:SDLNameTrafficProgramIdentification ofClass:NSNumber.class];
 }
 
 - (void)setTrafficAnnouncementIdentification:(nullable NSNumber<SDLBool> *)trafficAnnouncementIdentification {
@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)trafficAnnouncementIdentification {
-    return [store sdl_objectForName:SDLNameTrafficAnnouncementIdentification];
+    return [store sdl_objectForName:SDLNameTrafficAnnouncementIdentification ofClass:NSNumber.class];
 }
 
 - (void)setRegion:(nullable NSString *)region {
@@ -87,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)region {
-    return [store sdl_objectForName:SDLNameRegion];
+    return [store sdl_objectForName:SDLNameRegion ofClass:NSString.class];
 }
 
 @end

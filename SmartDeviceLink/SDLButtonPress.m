@@ -33,7 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLModuleType)moduleType {
-    return [parameters sdl_objectForName:SDLNameModuleType];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameModuleType error:&error];
 }
 
 - (void)setButtonName:(SDLButtonName)buttonName {
@@ -41,7 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLButtonName)buttonName {
-    return [parameters sdl_objectForName:SDLNameButtonName];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameButtonName error:&error];
 }
 
 - (void)setButtonPressMode:(SDLButtonPressMode)buttonPressMode {
@@ -49,7 +51,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLButtonPressMode)buttonPressMode {
-    return [parameters sdl_objectForName:SDLNameButtonPressMode];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameButtonPressMode error:&error];
 }
 
 @end

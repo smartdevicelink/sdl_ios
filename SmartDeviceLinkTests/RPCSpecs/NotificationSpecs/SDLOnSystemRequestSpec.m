@@ -22,7 +22,7 @@ describe(@"Getter/Setter Tests", ^ {
         
         testNotification.requestType = SDLRequestTypeFileResume;
         testNotification.requestSubType = @"subtype";
-        testNotification.url = [@[@"www.google.com"] mutableCopy];
+        testNotification.url = @"www.google.com";
         testNotification.timeout = @52345;
         testNotification.fileType = SDLFileTypePNG;
         testNotification.offset = @2532678684;
@@ -30,7 +30,7 @@ describe(@"Getter/Setter Tests", ^ {
         
         expect(testNotification.requestType).to(equal(SDLRequestTypeFileResume));
         expect(testNotification.requestSubType).to(equal(@"subtype"));
-        expect(testNotification.url).to(equal([@[@"www.google.com"] mutableCopy]));
+        expect(testNotification.url).to(equal(@"www.google.com"));
         expect(testNotification.timeout).to(equal(@52345));
         expect(testNotification.fileType).to(equal(SDLFileTypePNG));
         expect(testNotification.offset).to(equal(@2532678684));
@@ -42,7 +42,7 @@ describe(@"Getter/Setter Tests", ^ {
                                            @{SDLNameParameters:
                                                  @{SDLNameRequestType:SDLRequestTypeFileResume,
                                                    SDLNameRequestSubType: @"subtype",
-                                                   SDLNameURL:[@[@"www.google.com"] mutableCopy],
+                                                   SDLNameURL:@"www.google.com",
                                                    SDLNameTimeout:@52345,
                                                    SDLNameFileType:SDLFileTypePNG,
                                                    SDLNameOffset:@2532678684,
@@ -52,7 +52,7 @@ describe(@"Getter/Setter Tests", ^ {
         
         expect(testNotification.requestType).to(equal(SDLRequestTypeFileResume));
         expect(testNotification.requestSubType).to(equal(@"subtype"));
-        expect(testNotification.url).to(equal([@[@"www.google.com"] mutableCopy]));
+        expect(testNotification.url).to(equal([@"www.google.com" mutableCopy]));
         expect(testNotification.timeout).to(equal(@52345));
         expect(testNotification.fileType).to(equal(SDLFileTypePNG));
         expect(testNotification.offset).to(equal(@2532678684));

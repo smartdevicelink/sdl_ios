@@ -33,7 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)syncFileName {
-    return [parameters sdl_objectForName:SDLNameSyncFileName];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameSyncFileName ofClass:NSString.class error:&error];
 }
 
 @end

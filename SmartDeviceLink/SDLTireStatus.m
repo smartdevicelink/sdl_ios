@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLWarningLightStatus)pressureTelltale {
-    return [store sdl_objectForName:SDLNamePressureTelltale];
+    NSError *error;
+    return [store sdl_enumForName:SDLNamePressureTelltale error:&error];
 }
 
 - (void)setLeftFront:(SDLSingleTireStatus *)leftFront {
@@ -24,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSingleTireStatus *)leftFront {
-    return [store sdl_objectForName:SDLNameLeftFront ofClass:SDLSingleTireStatus.class];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameLeftFront ofClass:SDLSingleTireStatus.class error:&error];
 }
 
 - (void)setRightFront:(SDLSingleTireStatus *)rightFront {
@@ -32,7 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSingleTireStatus *)rightFront {
-    return [store sdl_objectForName:SDLNameRightFront ofClass:SDLSingleTireStatus.class];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameRightFront ofClass:SDLSingleTireStatus.class error:&error];
 }
 
 - (void)setLeftRear:(SDLSingleTireStatus *)leftRear {
@@ -40,7 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSingleTireStatus *)leftRear {
-    return [store sdl_objectForName:SDLNameLeftRear ofClass:SDLSingleTireStatus.class];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameLeftRear ofClass:SDLSingleTireStatus.class error:&error];
 }
 
 - (void)setRightRear:(SDLSingleTireStatus *)rightRear {
@@ -48,7 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSingleTireStatus *)rightRear {
-    return [store sdl_objectForName:SDLNameRightRear ofClass:SDLSingleTireStatus.class];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameRightRear ofClass:SDLSingleTireStatus.class error:&error];
 }
 
 - (void)setInnerLeftRear:(SDLSingleTireStatus *)innerLeftRear {
@@ -56,7 +61,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSingleTireStatus *)innerLeftRear {
-    return [store sdl_objectForName:SDLNameInnerLeftRear ofClass:SDLSingleTireStatus.class];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameInnerLeftRear ofClass:SDLSingleTireStatus.class error:&error];
 }
 
 - (void)setInnerRightRear:(SDLSingleTireStatus *)innerRightRear {
@@ -64,7 +70,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSingleTireStatus *)innerRightRear {
-    return [store sdl_objectForName:SDLNameInnerRightRear ofClass:SDLSingleTireStatus.class];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameInnerRightRear ofClass:SDLSingleTireStatus.class error:&error];
 }
 
 @end

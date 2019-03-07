@@ -45,7 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)red {
-    return [store sdl_objectForName:SDLNameRed];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameRed ofClass:NSNumber.class error:&error];
 }
 
 - (void)setGreen:(NSNumber<SDLInt> *)green {
@@ -53,7 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)green {
-    return [store sdl_objectForName:SDLNameGreen];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameGreen ofClass:NSNumber.class error:&error];
 }
 
 - (void)setBlue:(NSNumber<SDLInt> *)blue {
@@ -61,7 +63,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)blue {
-    return [store sdl_objectForName:SDLNameBlue];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameBlue ofClass:NSNumber.class error:&error];
 }
 
 @end

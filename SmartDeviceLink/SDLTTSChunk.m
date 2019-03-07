@@ -59,7 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)text {
-    return [store sdl_objectForName:SDLNameText];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameText ofClass:NSString.class error:&error];
 }
 
 - (void)setType:(SDLSpeechCapabilities)type {
@@ -67,7 +68,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSpeechCapabilities)type {
-    return [store sdl_objectForName:SDLNameType];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameType error:&error];
 }
 
 @end

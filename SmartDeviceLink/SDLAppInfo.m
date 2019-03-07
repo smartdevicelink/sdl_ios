@@ -31,7 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)appDisplayName {
-    return [store sdl_objectForName:SDLNameAppDisplayName];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameAppDisplayName ofClass:NSString.class error:&error];
 }
 
 - (void)setAppBundleID:(NSString *)appBundleID {
@@ -39,7 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)appBundleID {
-    return [store sdl_objectForName:SDLNameAppBundleId];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameAppBundleId ofClass:NSString.class error:&error];
 }
 
 - (void)setAppVersion:(NSString *)appVersion {
@@ -47,7 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)appVersion {
-    return [store sdl_objectForName:SDLNameAppVersion];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameAppVersion ofClass:NSString.class error:&error];
 }
 
 @end

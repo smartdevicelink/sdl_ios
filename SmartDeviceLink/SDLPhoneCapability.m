@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber *)dialNumberEnabled {
-    return [store sdl_objectForName:SDLNameDialNumberEnabled];
+    return [store sdl_objectForName:SDLNameDialNumberEnabled ofClass:NSNumber.class];
 }
 
 @end

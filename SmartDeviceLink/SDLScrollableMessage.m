@@ -46,7 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)scrollableMessageBody {
-    return [parameters sdl_objectForName:SDLNameScrollableMessageBody];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameScrollableMessageBody ofClass:NSString.class error:&error];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
@@ -54,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)timeout {
-    return [parameters sdl_objectForName:SDLNameTimeout];
+    return [parameters sdl_objectForName:SDLNameTimeout ofClass:NSNumber.class];
 }
 
 - (void)setSoftButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {

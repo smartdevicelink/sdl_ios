@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLFloat> *)longitudeDegrees {
-    return [store sdl_objectForName:SDLNameLongitudeDegrees];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameLongitudeDegrees ofClass:NSNumber.class error:&error];
 }
 
 - (void)setLatitudeDegrees:(NSNumber<SDLFloat> *)latitudeDegrees {
@@ -23,7 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLFloat> *)latitudeDegrees {
-    return [store sdl_objectForName:SDLNameLatitudeDegrees];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameLatitudeDegrees ofClass:NSNumber.class error:&error];
 }
 
 @end

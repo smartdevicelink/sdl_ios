@@ -37,7 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)correlationID {
-    return [function sdl_objectForName:SDLNameCorrelationId];
+    NSError *error;
+    return [function sdl_objectForName:SDLNameCorrelationId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {
@@ -49,7 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)success {
-    return [parameters sdl_objectForName:SDLNameSuccess];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameSuccess ofClass:NSNumber.class error:&error];
 }
 
 - (void)setResultCode:(SDLResult)resultCode {
@@ -57,7 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLResult)resultCode {
-    return [parameters sdl_objectForName:SDLNameResultCode];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameResultCode error:&error];
 }
 
 - (void)setInfo:(nullable NSString *)info {
@@ -65,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)info {
-    return [parameters sdl_objectForName:SDLNameInfo];
+    return [parameters sdl_objectForName:SDLNameInfo ofClass:NSString.class];
 }
 
 @end

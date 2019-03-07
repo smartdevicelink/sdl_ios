@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLHMILevel> *)allowed {
-    return [store sdl_objectForName:SDLNameAllowed];
+    NSError *error;
+    return [store sdl_enumsForName:SDLNameAllowed error:&error];
 }
 
 - (void)setUserDisallowed:(NSArray<SDLHMILevel> *)userDisallowed {
@@ -24,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLHMILevel> *)userDisallowed {
-    return [store sdl_objectForName:SDLNameUserDisallowed];
+    NSError *error;
+    return [store sdl_enumsForName:SDLNameUserDisallowed error:&error];
 }
 
 @end

@@ -128,7 +128,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)appName {
-    return [parameters sdl_objectForName:SDLNameAppName];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameAppName ofClass:NSString.class error:&error];
 }
 
 - (void)setTtsName:(nullable NSArray<SDLTTSChunk *> *)ttsName {
@@ -144,7 +145,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)ngnMediaScreenAppName {
-    return [parameters sdl_objectForName:SDLNameNGNMediaScreenAppName];
+    return [parameters sdl_objectForName:SDLNameNGNMediaScreenAppName ofClass:NSString.class];
 }
 
 - (void)setVrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms {
@@ -152,7 +153,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)vrSynonyms {
-    return [parameters sdl_objectForName:SDLNameVRSynonyms];
+    return [parameters sdl_objectsForName:SDLNameVRSynonyms ofClass:NSString.class];
 }
 
 - (void)setIsMediaApplication:(NSNumber<SDLBool> *)isMediaApplication {
@@ -160,7 +161,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)isMediaApplication {
-    return [parameters sdl_objectForName:SDLNameIsMediaApplication];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameIsMediaApplication ofClass:NSNumber.class error:&error];
 }
 
 - (void)setLanguageDesired:(SDLLanguage)languageDesired {
@@ -168,7 +170,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLLanguage)languageDesired {
-    return [parameters sdl_objectForName:SDLNameLanguageDesired];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameLanguageDesired error:&error];
 }
 
 - (void)setHmiDisplayLanguageDesired:(SDLLanguage)hmiDisplayLanguageDesired {
@@ -176,7 +179,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLLanguage)hmiDisplayLanguageDesired {
-    return [parameters sdl_objectForName:SDLNameHMIDisplayLanguageDesired];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameHMIDisplayLanguageDesired error:&error];
 }
 
 - (void)setAppHMIType:(nullable NSArray<SDLAppHMIType> *)appHMIType {
@@ -184,7 +188,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLAppHMIType> *)appHMIType {
-    return [parameters sdl_objectForName:SDLNameAppHMIType];
+    return [parameters sdl_enumsForName:SDLNameAppHMIType];
 }
 
 - (void)setHashID:(nullable NSString *)hashID {
@@ -192,7 +196,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)hashID {
-    return [parameters sdl_objectForName:SDLNameHashId];
+    return [parameters sdl_objectForName:SDLNameHashId ofClass:NSString.class];
 }
 
 - (void)setDeviceInfo:(nullable SDLDeviceInfo *)deviceInfo {
@@ -208,7 +212,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)appID {
-    return [parameters sdl_objectForName:SDLNameAppId];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameAppId ofClass:NSString.class error:&error];
 }
 
 - (void)setFullAppID:(nullable NSString *)fullAppID {
@@ -216,7 +221,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)fullAppID {
-    return [parameters sdl_objectForName:SDLNameFullAppID];
+    return [parameters sdl_objectForName:SDLNameFullAppID ofClass:NSString.class];
 }
 
 - (void)setAppInfo:(nullable SDLAppInfo *)appInfo {

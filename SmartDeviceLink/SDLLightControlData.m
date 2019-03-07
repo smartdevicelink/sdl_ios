@@ -25,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLLightState *> *)lightState {
-    return [store sdl_objectsForName:SDLNameLightState ofClass:SDLLightState.class];
+    NSError *error;
+    return [store sdl_objectsForName:SDLNameLightState ofClass:SDLLightState.class error:&error];
 }
 
 @end

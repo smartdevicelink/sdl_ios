@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)pressAvailable {
-    return [store sdl_objectForName:SDLNamePressAvailable];
+    NSError *error;
+    return [store sdl_objectForName:SDLNamePressAvailable ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMultiTouchAvailable:(NSNumber<SDLBool> *)multiTouchAvailable {
@@ -24,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)multiTouchAvailable {
-    return [store sdl_objectForName:SDLNameMultiTouchAvailable];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameMultiTouchAvailable ofClass:NSNumber.class error:&error];
 }
 
 - (void)setDoublePressAvailable:(NSNumber<SDLBool> *)doublePressAvailable {
@@ -32,7 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)doublePressAvailable {
-    return [store sdl_objectForName:SDLNameDoublePressAvailable];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameDoublePressAvailable ofClass:NSNumber.class error:&error];
 }
 
 @end

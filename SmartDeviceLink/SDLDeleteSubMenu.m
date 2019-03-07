@@ -33,7 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)menuID {
-    return [parameters sdl_objectForName:SDLNameMenuId];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameMenuId ofClass:NSNumber.class error:&error];
 }
 
 @end

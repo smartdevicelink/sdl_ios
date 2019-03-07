@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)alertText1 {
-    return [parameters sdl_objectForName:SDLNameAlertText1];
+    return [parameters sdl_objectForName:SDLNameAlertText1 ofClass:NSString.class];
 }
 
 - (void)setAlertText2:(nullable NSString *)alertText2 {
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)alertText2 {
-    return [parameters sdl_objectForName:SDLNameAlertText2];
+    return [parameters sdl_objectForName:SDLNameAlertText2 ofClass:NSString.class];
 }
 
 - (void)setAlertText3:(nullable NSString *)alertText3 {
@@ -94,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)alertText3 {
-    return [parameters sdl_objectForName:SDLNameAlertText3];
+    return [parameters sdl_objectForName:SDLNameAlertText3 ofClass:NSString.class];
 }
 
 - (void)setTtsChunks:(nullable NSArray<SDLTTSChunk *> *)ttsChunks {
@@ -110,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)duration {
-    return [parameters sdl_objectForName:SDLNameDuration];
+    return [parameters sdl_objectForName:SDLNameDuration ofClass:NSNumber.class];
 }
 
 - (void)setPlayTone:(nullable NSNumber<SDLBool> *)playTone {
@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)playTone {
-    return [parameters sdl_objectForName:SDLNamePlayTone];
+    return [parameters sdl_objectForName:SDLNamePlayTone ofClass:NSNumber.class];
 }
 
 - (void)setProgressIndicator:(nullable NSNumber<SDLBool> *)progressIndicator {
@@ -126,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)progressIndicator {
-    return [parameters sdl_objectForName:SDLNameProgressIndicator];
+    return [parameters sdl_objectForName:SDLNameProgressIndicator ofClass:NSNumber.class];
 }
 
 - (void)setSoftButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {

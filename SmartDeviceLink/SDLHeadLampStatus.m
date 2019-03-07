@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)lowBeamsOn {
-    return [store sdl_objectForName:SDLNameLowBeamsOn];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameLowBeamsOn ofClass:NSNumber.class error:&error];
 }
 
 - (void)setHighBeamsOn:(NSNumber<SDLBool> *)highBeamsOn {
@@ -24,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)highBeamsOn {
-    return [store sdl_objectForName:SDLNameHighBeamsOn];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameHighBeamsOn ofClass:NSNumber.class error:&error];
 }
 
 - (void)setAmbientLightSensorStatus:(nullable SDLAmbientLightStatus)ambientLightSensorStatus {
@@ -32,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLAmbientLightStatus)ambientLightSensorStatus {
-    return [store sdl_objectForName:SDLNameAmbientLightSensorStatus];
+    return [store sdl_enumForName:SDLNameAmbientLightSensorStatus];
 }
 
 @end

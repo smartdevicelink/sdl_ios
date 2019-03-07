@@ -87,7 +87,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)syncFileName {
-    return [parameters sdl_objectForName:SDLNameSyncFileName];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameSyncFileName ofClass:NSString.class error:&error];
 }
 
 - (void)setFileType:(SDLFileType)fileType {
@@ -95,7 +96,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLFileType)fileType {
-    return [parameters sdl_objectForName:SDLNameFileType];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameFileType error:&error];
 }
 
 - (void)setPersistentFile:(nullable NSNumber<SDLBool> *)persistentFile {
@@ -103,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)persistentFile {
-    return [parameters sdl_objectForName:SDLNamePersistentFile];
+    return [parameters sdl_objectForName:SDLNamePersistentFile ofClass:NSNumber.class];
 }
 
 - (void)setSystemFile:(nullable NSNumber<SDLBool> *)systemFile {
@@ -111,7 +113,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)systemFile {
-    return [parameters sdl_objectForName:SDLNameSystemFile];
+    return [parameters sdl_objectForName:SDLNameSystemFile ofClass:NSNumber.class];
 }
 
 - (void)setOffset:(nullable NSNumber<SDLUInt> *)offset {
@@ -119,7 +121,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLUInt> *)offset {
-    return [parameters sdl_objectForName:SDLNameOffset];
+    return [parameters sdl_objectForName:SDLNameOffset ofClass:NSNumber.class];
 }
 
 - (void)setLength:(nullable NSNumber<SDLUInt> *)length {
@@ -127,7 +129,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLUInt> *)length {
-    return [parameters sdl_objectForName:SDLNameLength];
+    return [parameters sdl_objectForName:SDLNameLength ofClass:NSNumber.class];
 }
 
 - (void)setCrc:(nullable NSNumber<SDLUInt> *)crc {
@@ -135,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLUInt> *)crc {
-    return [parameters sdl_objectForName:SDLNameCRC];
+    return [parameters sdl_objectForName:SDLNameCRC ofClass:NSNumber.class];
 }
 
 #pragma mark - Helpers

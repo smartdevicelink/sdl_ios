@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLEmergencyEventType)emergencyEventType {
-    return [store sdl_objectForName:SDLNameEmergencyEventType];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameEmergencyEventType error:&error];
 }
 
 - (void)setFuelCutoffStatus:(SDLFuelCutoffStatus)fuelCutoffStatus {
@@ -23,7 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLFuelCutoffStatus)fuelCutoffStatus {
-    return [store sdl_objectForName:SDLNameFuelCutoffStatus];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameFuelCutoffStatus error:&error];
 }
 
 - (void)setRolloverEvent:(SDLVehicleDataEventStatus)rolloverEvent {
@@ -31,7 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataEventStatus)rolloverEvent {
-    return [store sdl_objectForName:SDLNameRolloverEvent];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameRolloverEvent error:&error];
 }
 
 - (void)setMaximumChangeVelocity:(NSNumber<SDLInt> *)maximumChangeVelocity {
@@ -39,7 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)maximumChangeVelocity {
-    return [store sdl_objectForName:SDLNameMaximumChangeVelocity];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameMaximumChangeVelocity ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMultipleEvents:(SDLVehicleDataEventStatus)multipleEvents {
@@ -47,7 +51,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataEventStatus)multipleEvents {
-    return [store sdl_objectForName:SDLNameMultipleEvents];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameMultipleEvents error:&error];
 }
 
 @end

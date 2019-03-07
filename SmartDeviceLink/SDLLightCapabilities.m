@@ -37,7 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLLightName)name {
-    return [store sdl_objectForName:SDLNameName];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameName error:&error];
 }
 
 - (void)setDensityAvailable:(nullable NSNumber<SDLBool> *)densityAvailable {
@@ -45,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)densityAvailable {
-    return [store sdl_objectForName:SDLNameDensityAvailable];
+    return [store sdl_objectForName:SDLNameDensityAvailable ofClass:NSNumber.class];
 }
 
 - (void)setColorAvailable:(nullable NSNumber<SDLBool> *)colorAvailable {
@@ -53,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)colorAvailable {
-    return [store sdl_objectForName:SDLNameRGBColorSpaceAvailable];
+    return [store sdl_objectForName:SDLNameRGBColorSpaceAvailable ofClass:NSNumber.class];
 }
 
 - (void)setStatusAvailable:(nullable NSNumber<SDLBool> *)statusAvailable {
@@ -61,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)statusAvailable {
-    return [store sdl_objectForName:SDLNameStatusAvailable];
+    return [store sdl_objectForName:SDLNameStatusAvailable ofClass:NSNumber.class];
 }
 
 @end

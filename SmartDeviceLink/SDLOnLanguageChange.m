@@ -22,8 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLLanguage)language {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameLanguage];
-    return (SDLLanguage)obj;
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameLanguage error:&error];
 }
 
 - (void)setHmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage {
@@ -31,8 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLLanguage)hmiDisplayLanguage {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameHMIDisplayLanguage];
-    return (SDLLanguage)obj;
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameHMIDisplayLanguage error:&error];
 }
 
 

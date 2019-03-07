@@ -27,7 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLTemperatureUnit)unit {
-    return [store sdl_objectForName:SDLNameUnit];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameUnit error:&error];
 }
 
 - (void)setValue:(NSNumber<SDLFloat> *)value {
@@ -35,7 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLFloat> *)value {
-    return [store sdl_objectForName:SDLNameValue];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameValue ofClass:NSNumber.class error:&error];
 }
 
 @end

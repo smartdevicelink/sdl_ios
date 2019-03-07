@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)navigationText1 {
-    return [parameters sdl_objectForName:SDLNameNavigationText1];
+    return [parameters sdl_objectForName:SDLNameNavigationText1 ofClass:NSString.class];
 }
 
 - (void)setNavigationText2:(nullable NSString *)navigationText2 {
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)navigationText2 {
-    return [parameters sdl_objectForName:SDLNameNavigationText2];
+    return [parameters sdl_objectForName:SDLNameNavigationText2 ofClass:NSString.class];
 }
 
 - (void)setEta:(nullable NSString *)eta {
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)eta {
-    return [parameters sdl_objectForName:SDLNameETA];
+    return [parameters sdl_objectForName:SDLNameETA ofClass:NSString.class];
 }
 
 - (void)setTimeToDestination:(nullable NSString *)timeToDestination {
@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)timeToDestination {
-    return [parameters sdl_objectForName:SDLNameTimeToDestination];
+    return [parameters sdl_objectForName:SDLNameTimeToDestination ofClass:NSString.class];
 }
 
 - (void)setTotalDistance:(nullable NSString *)totalDistance {
@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)totalDistance {
-    return [parameters sdl_objectForName:SDLNameTotalDistance];
+    return [parameters sdl_objectForName:SDLNameTotalDistance ofClass:NSString.class];
 }
 
 - (void)setTurnIcon:(nullable SDLImage *)turnIcon {
@@ -101,7 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)distanceToManeuver {
-    return [parameters sdl_objectForName:SDLNameDistanceToManeuver];
+    return [parameters sdl_objectForName:SDLNameDistanceToManeuver ofClass:NSNumber.class];
 }
 
 - (void)setDistanceToManeuverScale:(nullable NSNumber<SDLFloat> *)distanceToManeuverScale {
@@ -109,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)distanceToManeuverScale {
-    return [parameters sdl_objectForName:SDLNameDistanceToManeuverScale];
+    return [parameters sdl_objectForName:SDLNameDistanceToManeuverScale ofClass:NSNumber.class];
 }
 
 - (void)setManeuverComplete:(nullable NSNumber<SDLBool> *)maneuverComplete {
@@ -117,7 +117,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)maneuverComplete {
-    return [parameters sdl_objectForName:SDLNameManeuverComplete];
+    return [parameters sdl_objectForName:SDLNameManeuverComplete ofClass:NSNumber.class];
 }
 
 - (void)setSoftButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {

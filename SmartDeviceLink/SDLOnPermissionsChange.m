@@ -22,7 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLPermissionItem *> *)permissionItem {
-    return [parameters sdl_objectsForName:SDLNamePermissionItem ofClass:SDLPermissionItem.class];
+    NSError *error;
+    return [parameters sdl_objectsForName:SDLNamePermissionItem ofClass:SDLPermissionItem.class error:&error];
 }
 
 @end

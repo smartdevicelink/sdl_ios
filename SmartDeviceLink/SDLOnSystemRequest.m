@@ -21,7 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLRequestType)requestType {
-    return [parameters sdl_objectForName:SDLNameRequestType];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameRequestType error:&error];
 }
 
 - (void)setRequestSubType:(nullable NSString *)requestSubType {
@@ -29,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)requestSubType {
-    return [parameters sdl_objectForName:SDLNameRequestSubType];
+    return [parameters sdl_objectForName:SDLNameRequestSubType ofClass:NSString.class];
 }
 
 - (void)setUrl:(nullable NSString *)url {
@@ -37,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)url {
-    return [parameters sdl_objectForName:SDLNameURL];
+    return [parameters sdl_objectForName:SDLNameURL ofClass:NSString.class];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
@@ -45,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)timeout {
-    return [parameters sdl_objectForName:SDLNameTimeout];
+    return [parameters sdl_objectForName:SDLNameTimeout ofClass:NSNumber.class];
 }
 
 - (void)setFileType:(nullable SDLFileType)fileType {
@@ -53,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLFileType)fileType {
-    return [parameters sdl_objectForName:SDLNameFileType];
+    return [parameters sdl_enumForName:SDLNameFileType];
 }
 
 - (void)setOffset:(nullable NSNumber<SDLInt> *)offset {
@@ -61,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)offset {
-    return [parameters sdl_objectForName:SDLNameOffset];
+    return [parameters sdl_objectForName:SDLNameOffset ofClass:NSNumber.class];
 }
 
 - (void)setLength:(nullable NSNumber<SDLInt> *)length {
@@ -69,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)length {
-    return [parameters sdl_objectForName:SDLNameLength];
+    return [parameters sdl_objectForName:SDLNameLength ofClass:NSNumber.class];
 }
 
 @end

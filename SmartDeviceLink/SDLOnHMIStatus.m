@@ -24,8 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLHMILevel)hmiLevel {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameHMILevel];
-    return (SDLHMILevel)obj;
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameHMILevel error:&error];
 }
 
 - (void)setAudioStreamingState:(SDLAudioStreamingState)audioStreamingState {
@@ -33,8 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLAudioStreamingState)audioStreamingState {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameAudioStreamingState];
-    return (SDLAudioStreamingState)obj;
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameAudioStreamingState error:&error];
 }
 
 - (void)setVideoStreamingState:(nullable SDLVideoStreamingState)videoStreamingState {
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLVideoStreamingState)videoStreamingState {
-    return [parameters sdl_objectForName:SDLNameVideoStreamingState];
+    return [parameters sdl_enumForName:SDLNameVideoStreamingState];
 }
 
 - (void)setSystemContext:(SDLSystemContext)systemContext {
@@ -50,8 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSystemContext)systemContext {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameSystemContext];
-    return (SDLSystemContext)obj;
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameSystemContext error:&error];
 }
 
 @end

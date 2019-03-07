@@ -21,7 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLAppInterfaceUnregisteredReason)reason {
-    return [parameters sdl_objectForName:SDLNameReason];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameReason error:&error];
 }
 
 @end

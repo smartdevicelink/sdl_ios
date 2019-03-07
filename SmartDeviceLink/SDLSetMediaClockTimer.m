@@ -72,7 +72,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLUpdateMode)updateMode {
-    return [parameters sdl_objectForName:SDLNameUpdateMode];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameUpdateMode error:&error];
 }
 
 - (void)setAudioStreamingIndicator:(nullable SDLAudioStreamingIndicator)audioStreamingIndicator {
@@ -80,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLAudioStreamingIndicator)audioStreamingIndicator {
-    return [parameters sdl_objectForName:SDLNameAudioStreamingIndicator];
+    return [parameters sdl_enumForName:SDLNameAudioStreamingIndicator];
 }
 
 @end

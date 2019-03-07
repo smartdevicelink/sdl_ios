@@ -26,7 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLMassageCushion)cushion {
-    return [store sdl_objectForName:SDLNameCushion];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameCushion error:&error];
 }
 
 - (void)setFirmness:(NSNumber<SDLInt> *)firmness {
@@ -34,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)firmness {
-    return [store sdl_objectForName:SDLNameFirmness];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameFirmness ofClass:NSNumber.class error:&error];
 }
 
 @end

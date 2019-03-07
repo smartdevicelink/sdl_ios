@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataNotificationStatus)eCallNotificationStatus {
-    return [store sdl_objectForName:SDLNameECallNotificationStatus];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameECallNotificationStatus error:&error];
 }
 
 - (void)setAuxECallNotificationStatus:(SDLVehicleDataNotificationStatus)auxECallNotificationStatus {
@@ -23,7 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataNotificationStatus)auxECallNotificationStatus {
-    return [store sdl_objectForName:SDLNameAuxECallNotificationStatus];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameAuxECallNotificationStatus error:&error];
 }
 
 - (void)setECallConfirmationStatus:(SDLECallConfirmationStatus)eCallConfirmationStatus {
@@ -31,7 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLECallConfirmationStatus)eCallConfirmationStatus {
-    return [store sdl_objectForName:SDLNameECallConfirmationStatus];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameECallConfirmationStatus error:&error];
 }
 
 @end

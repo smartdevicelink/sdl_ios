@@ -35,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)targetID {
-    return [parameters sdl_objectForName:SDLNameTargetId];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameTargetId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMessageLength:(NSNumber<SDLInt> *)messageLength {
@@ -43,7 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)messageLength {
-    return [parameters sdl_objectForName:SDLNameMessageLength];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameMessageLength ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMessageData:(NSArray<NSNumber<SDLInt> *> *)messageData {
@@ -51,7 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<NSNumber<SDLInt> *> *)messageData {
-    return [parameters sdl_objectForName:SDLNameMessageData];
+    NSError *error;
+    return [parameters sdl_objectsForName:SDLNameMessageData ofClass:NSNumber.class error:&error];
 }
 
 @end

@@ -17,7 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLTextFieldName)name {
-    return [store sdl_objectForName:SDLNameName];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameName error:&error];
 }
 
 - (void)setCharacterSet:(SDLCharacterSet)characterSet {
@@ -25,7 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLCharacterSet)characterSet {
-    return [store sdl_objectForName:SDLNameCharacterSet];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameCharacterSet error:&error];
 }
 
 - (void)setWidth:(NSNumber<SDLInt> *)width {
@@ -33,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)width {
-    return [store sdl_objectForName:SDLNameWidth];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameWidth ofClass:NSNumber.class error:&error];
 }
 
 - (void)setRows:(NSNumber<SDLInt> *)rows {
@@ -41,7 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)rows {
-    return [store sdl_objectForName:SDLNameRows];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameRows ofClass:NSNumber.class error:&error];
 }
 
 @end

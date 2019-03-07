@@ -33,7 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)cmdID {
-    return [parameters sdl_objectForName:SDLNameCommandId];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameCommandId ofClass:NSNumber.class error:&error];
 }
 
 @end

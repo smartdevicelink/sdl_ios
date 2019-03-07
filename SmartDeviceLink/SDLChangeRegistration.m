@@ -48,7 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLLanguage)language {
-    return [parameters sdl_objectForName:SDLNameLanguage];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameLanguage error:&error];
 }
 
 - (void)setHmiDisplayLanguage:(SDLLanguage )hmiDisplayLanguage {
@@ -56,7 +57,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLLanguage)hmiDisplayLanguage {
-    return [parameters sdl_objectForName:SDLNameHMIDisplayLanguage];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameHMIDisplayLanguage error:&error];
 }
 
 - (void)setAppName:(nullable NSString *)appName {
@@ -64,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)appName {
-    return [[parameters sdl_objectForName:SDLNameAppName] copy];
+    return [[parameters sdl_objectForName:SDLNameAppName ofClass:NSString.class] copy];
 }
 
 - (void)setTtsName:(nullable NSArray<SDLTTSChunk *> *)ttsName {
@@ -80,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)ngnMediaScreenAppName {
-    return [parameters sdl_objectForName:SDLNameNGNMediaScreenAppName];
+    return [parameters sdl_objectForName:SDLNameNGNMediaScreenAppName ofClass:NSString.class];
 }
 
 - (void)setVrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms {
@@ -88,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)vrSynonyms {
-    return [parameters sdl_objectForName:SDLNameVRSynonyms];
+    return [parameters sdl_objectsForName:SDLNameVRSynonyms ofClass:NSString.class];
 }
 
 @end

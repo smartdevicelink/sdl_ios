@@ -26,7 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLMassageMode)massageMode {
-    return [store sdl_objectForName:SDLNameMassageMode];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameMassageMode error:&error];
 }
 
 - (void)setMassageZone:(SDLMassageZone)massageZone {
@@ -34,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLMassageZone)massageZone {
-    return [store sdl_objectForName:SDLNameMassageZone];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameMassageZone error:&error];
 }
 
 @end

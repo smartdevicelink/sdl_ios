@@ -44,7 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)ecuName {
-    return [parameters sdl_objectForName:SDLNameECUName];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameECUName ofClass:NSNumber.class error:&error];
 }
 
 - (void)setDtcMask:(nullable NSNumber<SDLInt> *)dtcMask {
@@ -52,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)dtcMask {
-    return [parameters sdl_objectForName:SDLNameDTCMask];
+    return [parameters sdl_objectForName:SDLNameDTCMask ofClass:NSNumber.class];
 }
 
 @end

@@ -19,6 +19,7 @@ SDLErrorDomain *const SDLErrorDomainSoftButtonManager = @"com.sdl.softbuttonmana
 SDLErrorDomain *const SDLErrorDomainMenuManager = @"com.sdl.menumanager.error";
 SDLErrorDomain *const SDLErrorDomainChoiceSetManager = @"com.sdl.choicesetmanager.error";
 SDLErrorDomain *const SDLErrorDomainTransport = @"com.sdl.transport.error";
+SDLErrorDomain *const SDLErrorDomainStore = @"com.sdl.dictionary.store";
 
 @implementation NSError (SDLErrors)
 
@@ -254,6 +255,17 @@ SDLErrorDomain *const SDLErrorDomainTransport = @"com.sdl.transport.error";
                                                        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that the phone is connected to the Wi-Fi network that has the head unit on it. Also, make sure that correct IP address and TCP port number are specified.", nil)
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainTransport code:SDLTransportErrorNetworkDown userInfo:userInfo];
+}
+
+#pragma mark Store
+
++ (NSError *)sdl_store_wrongObject:(id)wrongObject expectedType:(Class)type {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Type of stored value doesn't match with requested", nil),
+                                                       NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:@"Requested %@ but returned %@", NSStringFromClass(type), NSStringFromClass([wrongObject class])],
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Check the expected object type", nil)
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainStore code:SDLStoreErrorWrongObject userInfo:userInfo];
 }
 
 @end

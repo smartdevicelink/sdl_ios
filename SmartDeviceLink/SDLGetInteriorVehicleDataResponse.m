@@ -23,7 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLModuleData *)moduleData {
-    return [parameters sdl_objectForName:SDLNameModuleData ofClass:SDLModuleData.class];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameModuleData ofClass:SDLModuleData.class error:&error];
 }
 
 - (void)setIsSubscribed:(nullable NSNumber<SDLBool> *)isSubscribed {
@@ -31,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)isSubscribed {
-    return [parameters sdl_objectForName:SDLNameIsSubscribed];
+    return [parameters sdl_objectForName:SDLNameIsSubscribed ofClass:NSNumber.class];
 }
 
 @end

@@ -21,8 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLButtonName)buttonName {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameButtonName];
-    return (SDLButtonName)obj;
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameButtonName error:&error];
 }
 
 - (void)setButtonEventMode:(SDLButtonEventMode)buttonEventMode {
@@ -30,8 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLButtonEventMode)buttonEventMode {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameButtonEventMode];
-    return (SDLButtonEventMode)obj;
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameButtonEventMode error:&error];
 }
 
 - (void)setCustomButtonID:(nullable NSNumber<SDLInt> *)customButtonID {
@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)customButtonID {
-    return [parameters sdl_objectForName:SDLNameCustomButtonId];
+    return [parameters sdl_objectForName:SDLNameCustomButtonId ofClass:NSNumber.class];
 }
 
 @end

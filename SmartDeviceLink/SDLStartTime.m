@@ -29,7 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)hours {
-    return [store sdl_objectForName:SDLNameHours];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameHours ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMinutes:(NSNumber<SDLInt> *)minutes {
@@ -37,7 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)minutes {
-    return [store sdl_objectForName:SDLNameMinutes];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameMinutes ofClass:NSNumber.class error:&error];
 }
 
 - (void)setSeconds:(NSNumber<SDLInt> *)seconds {
@@ -45,7 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)seconds {
-    return [store sdl_objectForName:SDLNameSeconds];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameSeconds ofClass:NSNumber.class error:&error];
 }
 
 @end

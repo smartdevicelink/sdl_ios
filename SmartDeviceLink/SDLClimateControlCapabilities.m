@@ -43,7 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)moduleName {
-    return [store sdl_objectForName:SDLNameModuleName];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameModuleName ofClass:NSString.class error:&error];
 }
 
 - (void)setFanSpeedAvailable:(nullable NSNumber<SDLBool> *)fanSpeedAvailable {
@@ -51,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)fanSpeedAvailable {
-    return [store sdl_objectForName:SDLNameFanSpeedAvailable];
+    return [store sdl_objectForName:SDLNameFanSpeedAvailable ofClass:NSNumber.class];
 }
 
 - (void)setDesiredTemperatureAvailable:(nullable NSNumber<SDLBool> *)desiredTemperatureAvailable {
@@ -59,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)desiredTemperatureAvailable {
-    return [store sdl_objectForName:SDLNameDesiredTemperatureAvailable];
+    return [store sdl_objectForName:SDLNameDesiredTemperatureAvailable ofClass:NSNumber.class];
 }
 
 - (void)setAcEnableAvailable:(nullable NSNumber<SDLBool> *)acEnableAvailable {
@@ -67,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)acEnableAvailable {
-    return [store sdl_objectForName:SDLNameACEnableAvailable];
+    return [store sdl_objectForName:SDLNameACEnableAvailable ofClass:NSNumber.class];
 }
 
 - (void)setAcMaxEnableAvailable:(nullable NSNumber<SDLBool> *)acMaxEnableAvailable {
@@ -75,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)acMaxEnableAvailable {
-    return [store sdl_objectForName:SDLNameACMaxEnableAvailable];
+    return [store sdl_objectForName:SDLNameACMaxEnableAvailable ofClass:NSNumber.class];
 }
 
 - (void)setCirculateAirEnableAvailable:(nullable NSNumber<SDLBool> *)circulateAirEnableAvailable {
@@ -83,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)circulateAirEnableAvailable {
-    return [store sdl_objectForName:SDLNameCirculateAirEnableAvailable];
+    return [store sdl_objectForName:SDLNameCirculateAirEnableAvailable ofClass:NSNumber.class];
 }
 
 - (void)setAutoModeEnableAvailable:(nullable NSNumber<SDLBool> *)autoModeEnableAvailable {
@@ -91,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)autoModeEnableAvailable {
-    return [store sdl_objectForName:SDLNameAutoModeEnableAvailable];
+    return [store sdl_objectForName:SDLNameAutoModeEnableAvailable ofClass:NSNumber.class];
 }
 
 - (void)setDualModeEnableAvailable:(nullable NSNumber<SDLBool> *)dualModeEnableAvailable {
@@ -99,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)dualModeEnableAvailable {
-    return [store sdl_objectForName:SDLNameDualModeEnableAvailable];
+    return [store sdl_objectForName:SDLNameDualModeEnableAvailable ofClass:NSNumber.class];
 }
 
 - (void)setDefrostZoneAvailable:(nullable NSNumber<SDLBool> *)defrostZoneAvailable {
@@ -107,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)defrostZoneAvailable {
-    return [store sdl_objectForName:SDLNameDefrostZoneAvailable];
+    return [store sdl_objectForName:SDLNameDefrostZoneAvailable ofClass:NSNumber.class];
 }
 
 - (void)setDefrostZone:(nullable NSArray <SDLDefrostZone>*)defrostZone {
@@ -115,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLDefrostZone> *)defrostZone {
-    return [store sdl_objectForName:SDLNameDefrostZone];
+    return [store sdl_enumsForName:SDLNameDefrostZone];
 }
 
 - (void)setVentilationModeAvailable:(nullable NSNumber<SDLBool> *)ventilationModeAvailable {
@@ -123,7 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)ventilationModeAvailable {
-    return [store sdl_objectForName:SDLNameVentilationModeAvailable];
+    return [store sdl_objectForName:SDLNameVentilationModeAvailable ofClass:NSNumber.class];
 }
 
 - (void)setVentilationMode:(nullable NSArray<SDLVentilationMode> *)ventilationMode {
@@ -131,7 +132,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLVentilationMode> *)ventilationMode {
-    return [store sdl_objectForName:SDLNameVentilationMode];
+    return [store sdl_enumsForName:SDLNameVentilationMode];
 }
 
 - (void)setHeatedSteeringWheelAvailable:(nullable NSNumber<SDLBool> *)heatedSteeringWheelAvailable {
@@ -139,7 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)heatedSteeringWheelAvailable {
-    return [store sdl_objectForName:SDLNameHeatedSteeringWheelAvailable];
+    return [store sdl_objectForName:SDLNameHeatedSteeringWheelAvailable ofClass:NSNumber.class];
 }
 
 - (void)setHeatedWindshieldAvailable:(nullable NSNumber<SDLBool> *)heatedWindshieldAvailable {
@@ -147,7 +148,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)heatedWindshieldAvailable {
-    return [store sdl_objectForName:SDLNameHeatedWindshieldAvailable];
+    return [store sdl_objectForName:SDLNameHeatedWindshieldAvailable ofClass:NSNumber.class];
 }
 
 - (void)setHeatedRearWindowAvailable:(nullable NSNumber<SDLBool> *)heatedRearWindowAvailable {
@@ -155,7 +156,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)heatedRearWindowAvailable {
-    return [store sdl_objectForName:SDLNameHeatedRearWindowAvailable];
+    return [store sdl_objectForName:SDLNameHeatedRearWindowAvailable ofClass:NSNumber.class];
 }
 
 - (void)setHeatedMirrorsAvailable:(nullable NSNumber<SDLBool> *)heatedMirrorsAvailable {
@@ -163,7 +164,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)heatedMirrorsAvailable {
-    return [store sdl_objectForName:SDLNameHeatedMirrorsAvailable];
+    return [store sdl_objectForName:SDLNameHeatedMirrorsAvailable ofClass:NSNumber.class];
 }
 
 @end

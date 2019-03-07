@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSamplingRate)samplingRate {
-    return [store sdl_objectForName:SDLNameSamplingRate];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameSamplingRate error:&error];
 }
 
 - (void)setBitsPerSample:(SDLBitsPerSample)bitsPerSample {
@@ -24,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLBitsPerSample)bitsPerSample {
-    return [store sdl_objectForName:SDLNameBitsPerSample];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameBitsPerSample error:&error];
 }
 
 - (void)setAudioType:(SDLAudioType)audioType {
@@ -32,7 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLAudioType)audioType {
-    return [store sdl_objectForName:SDLNameAudioType];
+    NSError *error;
+    return [store sdl_enumForName:SDLNameAudioType error:&error];
 }
 
 @end

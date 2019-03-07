@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLFuelType)type {
-    return [store sdl_objectForName:SDLNameType];
+    return [store sdl_enumForName:SDLNameType];
 }
 
 - (void)setRange:(nullable NSNumber<SDLFloat> *)range {
@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)range {
-    return [store sdl_objectForName:SDLNameRange];
+    return [store sdl_objectForName:SDLNameRange ofClass:NSNumber.class];
 }
 
 

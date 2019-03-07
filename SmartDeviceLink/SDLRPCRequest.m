@@ -12,7 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLRPCRequest
 
 - (NSNumber<SDLInt> *)correlationID {
-    return [function sdl_objectForName:SDLNameCorrelationId];
+    NSError *error;
+    return [function sdl_objectForName:SDLNameCorrelationId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {

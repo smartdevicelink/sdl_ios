@@ -63,7 +63,8 @@
 }
 
 - (NSNumber<SDLInt> *)millisecond {
-    return [store sdl_objectForName:SDLNameMillisecond];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameMillisecond ofClass:NSNumber.class error:&error];
 }
 
 - (void)setSecond:(NSNumber<SDLInt> *)second {
@@ -71,7 +72,8 @@
 }
 
 - (NSNumber<SDLInt> *)second {
-    return [store sdl_objectForName:SDLNameSecond];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameSecond ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMinute:(NSNumber<SDLInt> *)minute {
@@ -79,7 +81,8 @@
 }
 
 - (NSNumber<SDLInt> *)minute {
-    return [store sdl_objectForName:SDLNameMinute];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameMinute ofClass:NSNumber.class error:&error];
 }
 
 - (void)setHour:(NSNumber<SDLInt> *)hour {
@@ -87,7 +90,8 @@
 }
 
 - (NSNumber<SDLInt> *)hour {
-    return [store sdl_objectForName:SDLNameHour];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameHour ofClass:NSNumber.class error:&error];
 }
 
 - (void)setDay:(NSNumber<SDLInt> *)day {
@@ -95,7 +99,8 @@
 }
 
 - (NSNumber<SDLInt> *)day {
-    return [store sdl_objectForName:SDLNameDay];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameDay ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMonth:(NSNumber<SDLInt> *)month {
@@ -103,7 +108,8 @@
 }
 
 - (NSNumber<SDLInt> *)month {
-    return [store sdl_objectForName:SDLNameMonth];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameMonth ofClass:NSNumber.class error:&error];
 }
 
 - (void)setYear:(NSNumber<SDLInt> *)year {
@@ -111,7 +117,8 @@
 }
 
 - (NSNumber<SDLInt> *)year {
-    return [store sdl_objectForName:SDLNameYear];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameYear ofClass:NSNumber.class error:&error];
 }
 
 - (void)setTimezoneMinuteOffset:(NSNumber<SDLInt> *)timezoneMinuteOffset {
@@ -119,7 +126,8 @@
 }
 
 - (NSNumber<SDLInt> *)timezoneMinuteOffset {
-    return [store sdl_objectForName:SDLNameTimezoneMinuteOffset];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameTimezoneMinuteOffset ofClass:NSNumber.class error:&error];
 }
 
 - (void)setTimezoneHourOffset:(NSNumber<SDLInt> *)timezoneHourOffset {
@@ -127,7 +135,8 @@
 }
 
 - (NSNumber<SDLInt> *)timezoneHourOffset {
-    return [store sdl_objectForName:SDLNameTimezoneHourOffset];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameTimezoneHourOffset ofClass:NSNumber.class error:&error];
 }
 
 @end

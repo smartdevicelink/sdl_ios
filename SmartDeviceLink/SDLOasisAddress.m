@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)countryName {
-    return [store sdl_objectForName:SDLNameCountryName];
+    return [store sdl_objectForName:SDLNameCountryName ofClass:NSString.class];
 }
 
 - (void)setCountryCode:(nullable NSString *)countryCode {
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)countryCode {
-    return [store sdl_objectForName:SDLNameCountryCode];
+    return [store sdl_objectForName:SDLNameCountryCode ofClass:NSString.class];
 }
 
 - (void)setPostalCode:(nullable NSString *)postalCode {
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)postalCode {
-    return [store sdl_objectForName:SDLNamePostalCode];
+    return [store sdl_objectForName:SDLNamePostalCode ofClass:NSString.class];
 }
 
 - (void)setAdministrativeArea:(nullable NSString *)administrativeArea {
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)administrativeArea {
-    return [store sdl_objectForName:SDLNameAdministrativeArea];
+    return [store sdl_objectForName:SDLNameAdministrativeArea ofClass:NSString.class];
 }
 
 - (void)setSubAdministrativeArea:(nullable NSString *)subAdministrativeArea {
@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)subAdministrativeArea {
-    return [store sdl_objectForName:SDLNameSubAdministrativeArea];
+    return [store sdl_objectForName:SDLNameSubAdministrativeArea ofClass:NSString.class];
 }
 
 - (void)setLocality:(nullable NSString *)locality {
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)locality {
-    return [store sdl_objectForName:SDLNameLocality];
+    return [store sdl_objectForName:SDLNameLocality ofClass:NSString.class];
 }
 
 - (void)setSubLocality:(nullable NSString *)subLocality {
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)subLocality {
-    return [store sdl_objectForName:SDLNameSubLocality];
+    return [store sdl_objectForName:SDLNameSubLocality ofClass:NSString.class];
 }
 
 - (void)setThoroughfare:(nullable NSString *)thoroughfare {
@@ -94,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)thoroughfare {
-    return [store sdl_objectForName:SDLNameThoroughfare];
+    return [store sdl_objectForName:SDLNameThoroughfare ofClass:NSString.class];
 }
 
 - (void)setSubThoroughfare:(nullable NSString *)subThoroughfare {
@@ -102,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)subThoroughfare {
-    return [store sdl_objectForName:SDLNameSubThoroughfare];
+    return [store sdl_objectForName:SDLNameSubThoroughfare ofClass:NSString.class];
 }
 
 @end

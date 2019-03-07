@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber *)sendLocationEnabled {
-    return [store sdl_objectForName:SDLNameSendLocationEnabled];
+    return [store sdl_objectForName:SDLNameSendLocationEnabled ofClass:NSNumber.class];
 }
 
 - (void)setGetWayPointsEnabled:(nullable NSNumber *)getWayPointsEnabled {
@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber *)getWayPointsEnabled {
-    return [store sdl_objectForName:SDLNameGetWayPointsEnabled];
+    return [store sdl_objectForName:SDLNameGetWayPointsEnabled ofClass:NSNumber.class];
 }
 
 @end

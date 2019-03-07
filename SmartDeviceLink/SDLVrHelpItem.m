@@ -40,7 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)text {
-    return [store sdl_objectForName:SDLNameText];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameText ofClass:NSString.class error:&error];
 }
 
 - (void)setImage:(nullable SDLImage *)image {
@@ -56,7 +57,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)position {
-    return [store sdl_objectForName:SDLNamePosition];
+    NSError *error;
+    return [store sdl_objectForName:SDLNamePosition ofClass:NSNumber.class error:&error];
 }
 
 @end

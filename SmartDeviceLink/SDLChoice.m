@@ -43,7 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)choiceID {
-    return [store sdl_objectForName:SDLNameChoiceId];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameChoiceId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMenuName:(NSString *)menuName {
@@ -51,7 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)menuName {
-    return [store sdl_objectForName:SDLNameMenuName];
+    NSError *error;
+    return [store sdl_objectForName:SDLNameMenuName ofClass:NSString.class error:&error];
 }
 
 - (void)setVrCommands:(nullable NSArray<NSString *> *)vrCommands {
@@ -59,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)vrCommands {
-    return [store sdl_objectForName:SDLNameVRCommands];
+    return [store sdl_objectsForName:SDLNameVRCommands ofClass:NSString.class];
 }
 
 - (void)setImage:(nullable SDLImage *)image {
@@ -75,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)secondaryText {
-    return [store sdl_objectForName:SDLNameSecondaryText];
+    return [store sdl_objectForName:SDLNameSecondaryText ofClass:NSString.class];
 }
 
 - (void)setTertiaryText:(nullable NSString *)tertiaryText {
@@ -83,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)tertiaryText {
-    return [store sdl_objectForName:SDLNameTertiaryText];
+    return [store sdl_objectForName:SDLNameTertiaryText ofClass:NSString.class];
 }
 
 - (void)setSecondaryImage:(nullable SDLImage *)secondaryImage {

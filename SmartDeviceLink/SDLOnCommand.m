@@ -21,7 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)cmdID {
-    return [parameters sdl_objectForName:SDLNameCommandId];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameCommandId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setTriggerSource:(SDLTriggerSource)triggerSource {
@@ -29,8 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLTriggerSource)triggerSource {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameTriggerSource];
-    return (SDLTriggerSource)obj;
+    NSError *error;
+    return [parameters sdl_enumForName:SDLNameTriggerSource error:&error];
 }
 
 @end

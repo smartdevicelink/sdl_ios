@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)URL {
-    return [parameters sdl_objectForName:SDLNameURLUppercase];
+    return [parameters sdl_objectForName:SDLNameURLUppercase ofClass:NSString.class];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)Timeout {
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)Timeout {
-    return [parameters sdl_objectForName:SDLNameTimeoutCapitalized];
+    return [parameters sdl_objectForName:SDLNameTimeoutCapitalized ofClass:NSNumber.class];
 }
 
 @end

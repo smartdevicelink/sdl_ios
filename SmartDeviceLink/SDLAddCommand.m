@@ -106,7 +106,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)cmdID {
-    return [parameters sdl_objectForName:SDLNameCommandId];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLNameCommandId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMenuParams:(nullable SDLMenuParams *)menuParams {
@@ -122,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)vrCommands {
-    return [parameters sdl_objectForName:SDLNameVRCommands];
+    return [parameters sdl_objectsForName:SDLNameVRCommands ofClass:NSString.class];
 }
 
 - (void)setCmdIcon:(nullable SDLImage *)cmdIcon {
