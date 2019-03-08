@@ -33,6 +33,10 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType {
+    return [self initWithServiceType:serviceType];
+}
+
 - (instancetype)initWithServiceType:(NSString *)serviceType subscribe:(BOOL)subscribe {
     self = [self initWithServiceType:serviceType];
     if (!self) {

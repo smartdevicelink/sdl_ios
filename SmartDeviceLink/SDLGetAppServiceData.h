@@ -8,6 +8,9 @@
 
 #import "SDLRPCRequest.h"
 
+#import "SDLAppServiceType.h"
+
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -22,6 +25,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return                 A SDLGetAppServiceData object
  */
 - (instancetype)initWithServiceType:(NSString *)serviceType;
+
+/**
+ *  Convenience init for service type.
+ *
+ *  @param serviceType      The app service type
+ *  @return                 A SDLGetAppServiceData object
+ */
+- (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType;
 
 /**
  *  Convenience init for all parameters.

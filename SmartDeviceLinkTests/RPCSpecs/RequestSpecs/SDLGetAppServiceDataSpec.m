@@ -17,47 +17,56 @@
 QuickSpecBegin(SDLGetAppServiceDataSpec)
 
 describe(@"Getter/Setter Tests", ^{
-    __block NSString *testAppServiceType = nil;
+    __block NSString *testServiceType = nil;
+    __block SDLAppServiceType testAppServiceType = nil;
     __block BOOL testSubscribe = nil;
 
     beforeEach(^{
-        testAppServiceType = SDLAppServiceTypeWeather;
+        testServiceType = SDLAppServiceTypeWeather;
+        testAppServiceType = SDLAppServiceTypeMedia;
         testSubscribe = YES;
     });
 
     it(@"Should set and get correctly", ^{
         SDLGetAppServiceData *testRequest = [[SDLGetAppServiceData alloc] init];
-        testRequest.serviceType = testAppServiceType;
+        testRequest.serviceType = testServiceType;
         testRequest.subscribe = @(testSubscribe);
 
-        expect(testRequest.serviceType).to(equal(testAppServiceType));
+        expect(testRequest.serviceType).to(equal(testServiceType));
         expect(testRequest.subscribe).to(beTrue());
     });
 
     it(@"Should initialize correctly with a dictionary", ^{
         NSDictionary *dict = @{SDLRPCParameterNameRequest:@{
                                        SDLRPCParameterNameParameters:@{
-                                               SDLRPCParameterNameServiceType:testAppServiceType,
+                                               SDLRPCParameterNameServiceType:testServiceType,
                                                SDLRPCParameterNameSubscribe:@(testSubscribe)
                                                },
                                        SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetAppServiceData}};
         SDLGetAppServiceData *testRequest = [[SDLGetAppServiceData alloc] initWithDictionary:dict];
 
-        expect(testRequest.serviceType).to(equal(testAppServiceType));
+        expect(testRequest.serviceType).to(equal(testServiceType));
         expect(testRequest.subscribe).to(beTrue());
     });
 
     it(@"Should initialize correctly with initWithServiceType:", ^{
-        SDLGetAppServiceData *testRequest = [[SDLGetAppServiceData alloc] initWithServiceType:testAppServiceType];
+        SDLGetAppServiceData *testRequest = [[SDLGetAppServiceData alloc] initWithServiceType:testServiceType];
+
+        expect(testRequest.serviceType).to(equal(testServiceType));
+        expect(testRequest.subscribe).to(beNil());
+    });
+
+    it(@"Should initialize correctly with initWithAppServiceType:", ^{
+        SDLGetAppServiceData *testRequest = [[SDLGetAppServiceData alloc] initWithAppServiceType:testAppServiceType];
 
         expect(testRequest.serviceType).to(equal(testAppServiceType));
         expect(testRequest.subscribe).to(beNil());
     });
 
     it(@"Should initialize correctly with initWithServiceType:subscribe:", ^{
-        SDLGetAppServiceData *testRequest = [[SDLGetAppServiceData alloc] initWithServiceType:testAppServiceType subscribe:testSubscribe];
+        SDLGetAppServiceData *testRequest = [[SDLGetAppServiceData alloc] initWithServiceType:testServiceType subscribe:testSubscribe];
 
-        expect(testRequest.serviceType).to(equal(testAppServiceType));
+        expect(testRequest.serviceType).to(equal(testServiceType));
         expect(testRequest.subscribe).to(beTrue());
     });
 
