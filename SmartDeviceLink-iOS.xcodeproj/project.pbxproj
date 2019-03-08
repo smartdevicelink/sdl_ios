@@ -1231,6 +1231,9 @@
 		880E35B42088F75A00181259 /* SDLSystemCapabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 880E35B22088F75A00181259 /* SDLSystemCapabilityManager.m */; };
 		880E35B52088F75A00181259 /* SDLSystemCapabilityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 880E35B32088F75A00181259 /* SDLSystemCapabilityManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		880E35B82088F78E00181259 /* SDLSystemCapabilityManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 880E35B72088F78E00181259 /* SDLSystemCapabilityManagerSpec.m */; };
+		8815D0EF22330753000F24E6 /* SDLRPCRequestNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 88D6F17E22319FE000D4BFB3 /* SDLRPCRequestNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8815D0F022330765000F24E6 /* SDLRPCRequestNotificationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88C23E8522297BD500EA171F /* SDLRPCRequestNotificationSpec.m */; };
+		8815D0F122330781000F24E6 /* SDLRPCRequestNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D6F17D22319FE000D4BFB3 /* SDLRPCRequestNotification.m */; };
 		8816772922208B82001FACFF /* SDLNavigationInstructionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8816772822208B82001FACFF /* SDLNavigationInstructionSpec.m */; };
 		8816772C222097C3001FACFF /* SDLNavigationServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8816772A222097C3001FACFF /* SDLNavigationServiceData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8816772D222097C3001FACFF /* SDLNavigationServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 8816772B222097C3001FACFF /* SDLNavigationServiceData.m */; };
@@ -1335,7 +1338,6 @@
 		88B58DC922204C9E0011B063 /* SDLNavigationActionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B58DC822204C9E0011B063 /* SDLNavigationActionSpec.m */; };
 		88B848C31F45E1A600DED768 /* TestResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B848C21F45E1A600DED768 /* TestResponse.m */; };
 		88B848C91F462E3600DED768 /* TestFileProgressResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B848C81F462E3600DED768 /* TestFileProgressResponse.m */; };
-		88C23E8622297BD500EA171F /* SDLRPCRequestNotificationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88C23E8522297BD500EA171F /* SDLRPCRequestNotificationSpec.m */; };
 		88C23E8822297C6000EA171F /* SDLRPCResponseNotificationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88C23E8722297C6000EA171F /* SDLRPCResponseNotificationSpec.m */; };
 		88C23E8A22297DE400EA171F /* SDLRPCNotificationNotificationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88C23E8922297DE400EA171F /* SDLRPCNotificationNotificationSpec.m */; };
 		88C282CA220CD17200D02F90 /* SDLGetFileResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88C282C9220CD17200D02F90 /* SDLGetFileResponseSpec.m */; };
@@ -1344,7 +1346,6 @@
 		88D2AAE41F682BB20078D5B2 /* SDLLogConstantsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D2AAE31F682BB20078D5B2 /* SDLLogConstantsSpec.m */; };
 		88D5EB37220CD95000EC3782 /* SDLWeatherServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88D5EB35220CD95000EC3782 /* SDLWeatherServiceData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88D5EB38220CD95000EC3782 /* SDLWeatherServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D5EB36220CD95000EC3782 /* SDLWeatherServiceData.m */; };
-		88D6F1812231A1A000D4BFB3 /* SDLRPCRequestNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 88D6F17E22319FE000D4BFB3 /* SDLRPCRequestNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88DF998D22035CC600477AC1 /* EAAccessory+OCMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DF998C22035CC600477AC1 /* EAAccessory+OCMock.m */; };
 		88DF998F22035D1700477AC1 /* SDLIAPSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DF998E22035D1700477AC1 /* SDLIAPSessionSpec.m */; };
 		88DF999122035D5A00477AC1 /* SDLIAPTransportSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DF999022035D5A00477AC1 /* SDLIAPTransportSpec.m */; };
@@ -5473,7 +5474,7 @@
 		5DBAE0A71D355F0C00CE00BF /* Dispatchers */ = {
 			isa = PBXGroup;
 			children = (
-				88D6F1802231A07300D4BFB3 /* Requests */,
+				88A70C392233087500574CA4 /* Requests */,
 				5D3E48781D6F86EC0000BFEF /* Notifications */,
 				5D3E48821D74813B0000BFEF /* Responses */,
 			);
@@ -5498,7 +5499,7 @@
 		5DBAE0A91D35888D00CE00BF /* Dispatchers */ = {
 			isa = PBXGroup;
 			children = (
-				88C23E8422297BD500EA171F /* Responses */,
+				88C23E8422297BD500EA171F /* Notification Tests */,
 				88FF4E792215FEAF00A71361 /* Notifications */,
 			);
 			name = Dispatchers;
@@ -5793,6 +5794,15 @@
 			name = Storyboards;
 			sourceTree = "<group>";
 		};
+		88A70C392233087500574CA4 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				88D6F17E22319FE000D4BFB3 /* SDLRPCRequestNotification.h */,
+				88D6F17D22319FE000D4BFB3 /* SDLRPCRequestNotification.m */,
+			);
+			name = Requests;
+			sourceTree = "<group>";
+		};
 		88B848C41F45E20900DED768 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -5806,24 +5816,15 @@
 			name = Helpers;
 			sourceTree = "<group>";
 		};
-		88C23E8422297BD500EA171F /* Responses */ = {
+		88C23E8422297BD500EA171F /* Notification Tests */ = {
 			isa = PBXGroup;
 			children = (
 				88C23E8522297BD500EA171F /* SDLRPCRequestNotificationSpec.m */,
 				88C23E8722297C6000EA171F /* SDLRPCResponseNotificationSpec.m */,
 				88C23E8922297DE400EA171F /* SDLRPCNotificationNotificationSpec.m */,
 			);
-			name = Responses;
-			path = DevAPISpecs/Responses;
-			sourceTree = "<group>";
-		};
-		88D6F1802231A07300D4BFB3 /* Requests */ = {
-			isa = PBXGroup;
-			children = (
-				88D6F17E22319FE000D4BFB3 /* SDLRPCRequestNotification.h */,
-				88D6F17D22319FE000D4BFB3 /* SDLRPCRequestNotification.m */,
-			);
-			name = Requests;
+			name = "Notification Tests";
+			path = "DevAPISpecs/Notification Tests";
 			sourceTree = "<group>";
 		};
 		88DF998A22035CA400477AC1 /* TCP */ = {
@@ -6357,7 +6358,7 @@
 				5D61FDB51A84238C00846EE7 /* SDLSyncMsgVersion.h in Headers */,
 				1E5AD08C1F20BC320029B8AF /* SDLGetInteriorVehicleDataResponse.h in Headers */,
 				1E5AD0701F209C880029B8AF /* SDLModuleData.h in Headers */,
-				88D6F1812231A1A000D4BFB3 /* SDLRPCRequestNotification.h in Headers */,
+				8815D0EF22330753000F24E6 /* SDLRPCRequestNotification.h in Headers */,
 				1E5AD0981F20C0FB0029B8AF /* SDLOnInteriorVehicleData.h in Headers */,
 				1E5AD0641F207DD50029B8AF /* SDLTemperature.h in Headers */,
 				1E5AD0901F20BE820029B8AF /* SDLSetInteriorVehicleData.h in Headers */,
@@ -6891,6 +6892,7 @@
 				5D61FDE21A84238C00846EE7 /* SDLTurn.m in Sources */,
 				5D61FC5A1A84238C00846EE7 /* SDLCarModeStatus.m in Sources */,
 				5D82041B1BCD80BA00D0A41B /* SDLLockScreenConfiguration.m in Sources */,
+				8815D0F122330781000F24E6 /* SDLRPCRequestNotification.m in Sources */,
 				5D3E48CC1D7722FE0000BFEF /* NSBundle+SDLBundle.m in Sources */,
 				5D61FCBC1A84238C00846EE7 /* SDLGPSData.m in Sources */,
 				5D61FD341A84238C00846EE7 /* SDLPowerModeQualificationStatus.m in Sources */,
@@ -7318,6 +7320,7 @@
 				162E832D1A9BDE8B00906325 /* SDLEncodedSyncPDataSpec.m in Sources */,
 				1EE8C44C1F385C7100FDC2CF /* SDLRDSDataSpec.m in Sources */,
 				5DB92D241AC47B2C00C15BB0 /* SDLHexUtilitySpec.m in Sources */,
+				8815D0F022330765000F24E6 /* SDLRPCRequestNotificationSpec.m in Sources */,
 				162E83281A9BDE8B00906325 /* SDLDeleteCommandSpec.m in Sources */,
 				88A81F6C2200FD4A00A691A9 /* SDLAppServiceRecordSpec.m in Sources */,
 				162E83531A9BDE8B00906325 /* SDLDiagnosticMessageResponseSpec.m in Sources */,
@@ -7634,7 +7637,6 @@
 				162E82CF1A9BDE8A00906325 /* SDLBitsPerSampleSpec.m in Sources */,
 				162E831E1A9BDE8B00906325 /* SDLOnTBTClientStateSpec.m in Sources */,
 				162E83351A9BDE8B00906325 /* SDLReadDIDSpec.m in Sources */,
-				88C23E8622297BD500EA171F /* SDLRPCRequestNotificationSpec.m in Sources */,
 				5DF40B28208FDA9700DD6FDA /* SDLVoiceCommandManagerSpec.m in Sources */,
 				88B3BFA020DA8FD000943565 /* SDLFuelTypeSpec.m in Sources */,
 				162E836F1A9BDE8B00906325 /* SDLUnsubscribeVehicleDataResponseSpec.m in Sources */,
