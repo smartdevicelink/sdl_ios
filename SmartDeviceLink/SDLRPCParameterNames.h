@@ -620,8 +620,6 @@ extern SDLRPCParameterName const SDLRPCParameterNameUpdatedAppServiceRecord;
 extern SDLRPCParameterName const SDLRPCParameterNameUpdateMode;
 extern SDLRPCParameterName const SDLRPCParameterNameUpdateReason;
 extern SDLRPCParameterName const SDLRPCParameterNameUpDownAvailable;
-extern SDLRPCParameterName const SDLRPCParameterNameURIPrefix;
-extern SDLRPCParameterName const SDLRPCParameterNameURIScheme;
 extern SDLRPCParameterName const SDLRPCParameterNameURL;
 extern SDLRPCParameterName const SDLRPCParameterNameURLUppercase;
 extern SDLRPCParameterName const SDLRPCParameterNameUserDisallowed;
