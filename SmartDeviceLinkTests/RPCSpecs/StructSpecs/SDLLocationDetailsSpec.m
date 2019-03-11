@@ -87,6 +87,51 @@ describe(@"Getter/Setter Tests", ^ {
    
         });
     });
+
+    context(@"when initialized with a convenience init", ^{
+        __block SDLLocationCoordinate *testCoordinate = nil;
+        __block NSString *testLocationName = nil;
+        __block NSArray<NSString *> *testAddressLines = nil;
+        __block NSString *testLocationDescription = nil;
+        __block NSString *testPhoneNumber = nil;
+        __block SDLImage *testLocationImage = nil;
+        __block SDLOasisAddress *testSearchAddress = nil;
+
+        beforeEach(^{
+            testCoordinate = [[SDLLocationCoordinate alloc] init];
+            testLocationName = @"testLocationName";
+            testAddressLines = @[@"testAddressLines1", @"testAddressLines2"];
+            testLocationDescription = @"testLocationDescription";
+            testPhoneNumber = @"testPhoneNumber";
+            testLocationImage = [[SDLImage alloc] initWithStaticIconName:SDLStaticIconNameKey];
+            testSearchAddress = [[SDLOasisAddress alloc] init];
+        });
+
+        it(@"should init correctly with initWithCoordinate:", ^{
+            testStruct = [[SDLLocationDetails alloc] initWithCoordinate:testCoordinate];
+
+            expect(testStruct.coordinate).to(equal(testCoordinate));
+            expect(testStruct.locationName).to(beNil());
+            expect(testStruct.addressLines).to(beNil());
+            expect(testStruct.locationDescription).to(beNil());
+            expect(testStruct.phoneNumber).to(beNil());
+            expect(testStruct.locationImage).to(beNil());
+            expect(testStruct.searchAddress).to(beNil());
+        });
+
+        it(@"should init correctly with all parameters", ^{
+            testStruct = [[SDLLocationDetails alloc] initWithCoordinate:testCoordinate locationName:testLocationName addressLines:testAddressLines locationDescription:testLocationDescription phoneNumber:testPhoneNumber locationImage:testLocationImage searchAddress:testSearchAddress];
+
+            expect(testStruct.coordinate).to(equal(testCoordinate));
+            expect(testStruct.locationName).to(equal(testLocationName));
+            expect(testStruct.addressLines).to(equal(testAddressLines));
+            expect(testStruct.locationDescription).to(equal(testLocationDescription));
+            expect(testStruct.phoneNumber).to(equal(testPhoneNumber));
+            expect(testStruct.locationImage).to(equal(testLocationImage));
+            expect(testStruct.searchAddress).to(equal(testSearchAddress));
+        });
+
+    });
     
     describe(@"when initialized with a dictionary", ^{
         context(@"when parameters are set correctly", ^{

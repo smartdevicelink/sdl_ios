@@ -13,6 +13,33 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLLocationDetails
 
+- (instancetype)initWithCoordinate:(SDLLocationCoordinate *)coordinate {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+
+    self.coordinate = coordinate;
+
+    return self;
+}
+
+- (instancetype)initWithCoordinate:(SDLLocationCoordinate *)coordinate locationName:(nullable NSString *)locationName addressLines:(nullable NSArray<NSString *> *)addressLines locationDescription:(nullable NSString *)locationDescription phoneNumber:(nullable NSString*)phoneNumber locationImage:(nullable SDLImage *)locationImage searchAddress:(nullable SDLOasisAddress *)searchAddress {
+    self = [self initWithCoordinate:coordinate];
+    if (!self) {
+        return nil;
+    }
+
+    self.locationName = locationName;
+    self.addressLines = addressLines;
+    self.locationDescription = locationDescription;
+    self.phoneNumber = phoneNumber;
+    self.locationImage = locationImage;
+    self.searchAddress = searchAddress;
+
+    return self;
+}
+
 - (void)setCoordinate:(nullable SDLLocationCoordinate *)coordinate {
     [store sdl_setObject:coordinate forName:SDLRPCParameterNameLocationCoordinate];
 }
