@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param alerts           An array of weather alerts
  *  @return                 A SDLWeatherServiceData object
  */
-- (instancetype)initWithLocation:(SDLLocationDetails *)location currentForecast:(nullable SDLWeatherData *)currentForecast minuteForecast:(nullable NSArray<SDLWeatherData *> *)minuteForecast hourlyForecast:(NSArray<SDLWeatherData *> *)hourlyForecast multidayForecast:(nullable NSArray<SDLWeatherData *> *)multidayForecast alerts:(NSArray<SDLWeatherAlert *> *)alerts;
+- (instancetype)initWithLocation:(SDLLocationDetails *)location currentForecast:(nullable SDLWeatherData *)currentForecast minuteForecast:(nullable NSArray<SDLWeatherData *> *)minuteForecast hourlyForecast:(nullable NSArray<SDLWeatherData *> *)hourlyForecast multidayForecast:(nullable NSArray<SDLWeatherData *> *)multidayForecast alerts:(nullable NSArray<SDLWeatherAlert *> *)alerts;
 
 /**
  *  The location.
