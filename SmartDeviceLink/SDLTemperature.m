@@ -10,8 +10,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTemperature
 
+- (instancetype)initWithFahrenheitValue:(float)value {
+    return [self initWithUnit:SDLTemperatureUnitFahrenheit value:value];
+}
+
+- (instancetype)initWithCelsiusValue:(float)value {
+    return [self initWithUnit:SDLTemperatureUnitCelsius value:value];
+}
+
 - (instancetype)initWithUnit:(SDLTemperatureUnit)unit value:(float)value {
-    self = [self init];
+    self = [super init];
     if (!self) {
         return nil;
     }
