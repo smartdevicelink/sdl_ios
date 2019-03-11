@@ -20,7 +20,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
+/**
  *  This manifest contains all the information necessary for the service to be published, activated, and allow consumers to interact with it
  */
 @interface SDLAppServiceManifest : SDLRPCStruct
