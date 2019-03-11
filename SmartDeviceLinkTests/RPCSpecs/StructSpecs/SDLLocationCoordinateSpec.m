@@ -69,7 +69,18 @@ describe(@"Getter/Setter Tests", ^ {
                 expect(testStruct.latitudeDegrees).to(beIdenticalTo(someLatitude));
             });
         });
-        
+
+        context(@"when init with initWithLatitudeDegrees:longitudeDegrees", ^{
+            it(@"should get and set correctly", ^{
+                float testLatitude = 34.5;
+                float testLongitude = 120.345;
+                SDLLocationCoordinate *testStruct = [[SDLLocationCoordinate alloc] initWithLatitudeDegrees:testLatitude longitudeDegrees:testLongitude];
+
+                expect(testStruct.latitudeDegrees).to(equal(testLatitude));
+                expect(testStruct.longitudeDegrees).to(equal(testLongitude));
+            });
+        });
+
         context(@"when parameters are not set", ^{
             beforeEach(^{
                 NSDictionary *initDict = @{

@@ -10,6 +10,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLLocationCoordinate
 
+- (instancetype)initWithLatitudeDegrees:(float)latitudeDegrees longitudeDegrees:(float)longitudeDegrees {
+    self = [self init];
+    if (!self) {
+        return nil;
+    }
+
+    self.latitudeDegrees = @(latitudeDegrees);
+    self.longitudeDegrees = @(longitudeDegrees);
+
+    return self;
+}
+
 - (void)setLongitudeDegrees:(NSNumber<SDLFloat> *)longitudeDegrees {
     [store sdl_setObject:longitudeDegrees forName:SDLRPCParameterNameLongitudeDegrees];
 }
