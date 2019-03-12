@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Convenience init for all parameters.
  *
- *  @param nicknames              An array of app names a cloud app is allowed to register with
+ *  @param nicknames            An array of app names a cloud app is allowed to register with
  *  @param appID                The id of the cloud app
  *  @param enabled              If true, cloud app will be included in HMI RPC UpdateAppList
  *  @param authToken            Used to authenticate websocket connection on app activation
@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param endpoint             The websocket endpoint
  *  @return                     A SDLCloudAppProperties object
  */
-- (instancetype)initWithNicknames:( NSArray<NSString *> *)nicknames appID:(NSString *)appID enabled:(BOOL)enabled authToken:(nullable NSString *)authToken cloudTransportType:(nullable NSString *)cloudTransportType hybridAppPreference:(nullable SDLHybridAppPreference)hybridAppPreference endpoint:(nullable NSString *)endpoint;
+- (instancetype)initWithAppID:(NSString *)appID nicknames:(nullable NSArray<NSString *> *)nicknames enabled:(BOOL)enabled authToken:(nullable NSString *)authToken cloudTransportType:(nullable NSString *)cloudTransportType hybridAppPreference:(nullable SDLHybridAppPreference)hybridAppPreference endpoint:(nullable NSString *)endpoint;
 
 /**
  *  An array of app names a cloud app is allowed to register with. If included in a `SetCloudAppProperties` request, this value will overwrite the existing "nicknames" field in the app policies section of the policy table.

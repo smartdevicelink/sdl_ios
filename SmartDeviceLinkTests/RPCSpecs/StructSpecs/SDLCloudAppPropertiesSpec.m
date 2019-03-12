@@ -87,7 +87,7 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with initWithAppName:appID:enabled:authToken:cloudTransportType: hybridAppPreference:endpoint:", ^{
-        SDLCloudAppProperties *testStruct = [[SDLCloudAppProperties alloc] initWithNicknames:testNicknames appID:testAppID enabled:testEnabled authToken:testAuthToken cloudTransportType:testCloudTransportType hybridAppPreference:testHybridAppPreference endpoint:testEndpoint];
+        SDLCloudAppProperties *testStruct = [[SDLCloudAppProperties alloc] initWithAppID:testAppID nicknames:testNicknames enabled:testEnabled authToken:testAuthToken cloudTransportType:testCloudTransportType hybridAppPreference:testHybridAppPreference endpoint:testEndpoint];
 
         expect(testStruct.nicknames).to(equal(testNicknames));
         expect(testStruct.appID).to(equal(testAppID));
