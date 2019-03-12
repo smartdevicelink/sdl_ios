@@ -10,7 +10,7 @@
 
 #import "SDLImage.h"
 #import "SDLImageType.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin(SDLImageSpec)
@@ -47,9 +47,9 @@ describe(@"Getter/Setter Tests", ^{
             NSString *value = @"value";
             SDLImageType imageType = SDLImageTypeStatic;
 
-            NSDictionary* dict = [@{SDLNameValue:value,
-                                           SDLNameImageType:imageType,
-                                           SDLNameImageTemplate:@YES
+            NSDictionary* dict = [@{SDLRPCParameterNameValue:value,
+                                           SDLRPCParameterNameImageType:imageType,
+                                           SDLRPCParameterNameImageTemplate:@YES
                                            } mutableCopy];
             testSDLImage = [[SDLImage alloc] initWithDictionary:dict];
 

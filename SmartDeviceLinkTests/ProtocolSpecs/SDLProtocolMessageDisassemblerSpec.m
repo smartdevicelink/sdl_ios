@@ -13,7 +13,7 @@
 #import "SDLProtocolMessageDisassembler.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLV2ProtocolMessage.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLVersion.h"
 
 QuickSpecBegin(SDLProtocolMessageDisassemblerSpec)

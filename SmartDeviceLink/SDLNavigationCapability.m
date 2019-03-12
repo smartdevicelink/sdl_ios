@@ -9,7 +9,7 @@
 #import "SDLNavigationCapability.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,19 +28,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setSendLocationEnabled:(nullable NSNumber *)sendLocationEnabled {
-    [store sdl_setObject:sendLocationEnabled forName:SDLNameSendLocationEnabled];
+    [store sdl_setObject:sendLocationEnabled forName:SDLRPCParameterNameSendLocationEnabled];
 }
 
 - (nullable NSNumber *)sendLocationEnabled {
-    return [store sdl_objectForName:SDLNameSendLocationEnabled];
+    return [store sdl_objectForName:SDLRPCParameterNameSendLocationEnabled];
 }
 
 - (void)setGetWayPointsEnabled:(nullable NSNumber *)getWayPointsEnabled {
-    [store sdl_setObject:getWayPointsEnabled forName:SDLNameGetWayPointsEnabled];
+    [store sdl_setObject:getWayPointsEnabled forName:SDLRPCParameterNameGetWayPointsEnabled];
 }
 
 - (nullable NSNumber *)getWayPointsEnabled {
-    return [store sdl_objectForName:SDLNameGetWayPointsEnabled];
+    return [store sdl_objectForName:SDLRPCParameterNameGetWayPointsEnabled];
 }
 
 @end

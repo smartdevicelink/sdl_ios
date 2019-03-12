@@ -10,7 +10,7 @@
 
 #import "SDLDeviceLevelStatus.h"
 #import "SDLDeviceStatus.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLPrimaryAudioSource.h"
 
 
@@ -46,17 +46,17 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameVoiceRecognitionOn:@NO,
-                                       SDLNameBluetoothIconOn:@NO,
-                                       SDLNameCallActive:@YES,
-                                       SDLNamePhoneRoaming:@NO,
-                                       SDLNameTextMessageAvailable:@YES,
-                                       SDLNameBatteryLevelStatus:SDLDeviceLevelStatusFourBars,
-                                       SDLNameStereoAudioOutputMuted:@YES,
-                                       SDLNameMonoAudioOutputMuted:@YES,
-                                       SDLNameSignalLevelStatus:SDLDeviceLevelStatusTwoBars,
-                                       SDLNamePrimaryAudioSource:SDLPrimaryAudioSourceBluetoothStereo,
-                                       SDLNameECallEventActive:@NO} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameVoiceRecognitionOn:@NO,
+                                       SDLRPCParameterNameBluetoothIconOn:@NO,
+                                       SDLRPCParameterNameCallActive:@YES,
+                                       SDLRPCParameterNamePhoneRoaming:@NO,
+                                       SDLRPCParameterNameTextMessageAvailable:@YES,
+                                       SDLRPCParameterNameBatteryLevelStatus:SDLDeviceLevelStatusFourBars,
+                                       SDLRPCParameterNameStereoAudioOutputMuted:@YES,
+                                       SDLRPCParameterNameMonoAudioOutputMuted:@YES,
+                                       SDLRPCParameterNameSignalLevelStatus:SDLDeviceLevelStatusTwoBars,
+                                       SDLRPCParameterNamePrimaryAudioSource:SDLPrimaryAudioSourceBluetoothStereo,
+                                       SDLRPCParameterNameECallEventActive:@NO} mutableCopy];
         SDLDeviceStatus* testStruct = [[SDLDeviceStatus alloc] initWithDictionary:dict];
         
         expect(testStruct.voiceRecOn).to(equal(@NO));

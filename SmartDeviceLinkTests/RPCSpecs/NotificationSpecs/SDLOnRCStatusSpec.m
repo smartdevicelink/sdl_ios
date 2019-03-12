@@ -8,7 +8,8 @@
 
 #import "SDLOnRCStatus.h"
 #import "SDLModuleData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnRCStatusSpec)
 SDLModuleData * allocatedModule = [[SDLModuleData alloc] init];
@@ -28,13 +29,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameAllocatedModules:[@[allocatedModule] copy],
-                                                                   SDLNameFreeModules:[@[freeModule] copy],
-                                                                   SDLNameAllowed:@YES
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameNotification:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameAllocatedModules:[@[allocatedModule] copy],
+                                                                   SDLRPCParameterNameFreeModules:[@[freeModule] copy],
+                                                                   SDLRPCParameterNameAllowed:@YES
                                                                    },
-                                                             SDLNameOperationName:SDLNameOnRCStatus}} mutableCopy];
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnRCStatus}} mutableCopy];
         SDLOnRCStatus* testNotification = [[SDLOnRCStatus alloc] initWithDictionary:dict];
 
         expect(testNotification.allowed).to(equal(@YES));

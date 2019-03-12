@@ -8,7 +8,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLResult.h"
 #import "SDLRPCResponse.h"
 
@@ -31,19 +31,19 @@ describe(@"Getter/Setter Tests",  ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameResponse:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameSuccess:@YES,
-                                                   SDLNameResultCode:SDLNameSuccess,
-                                                   SDLNameInfo:@"Test Info"},
-                                             SDLNameCorrelationId:@1004,
-                                             SDLNameOperationName:SDLNameResponse}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameResponse:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameSuccess:@YES,
+                                                   SDLRPCParameterNameResultCode:SDLRPCParameterNameSuccess,
+                                                   SDLRPCParameterNameInfo:@"Test Info"},
+                                             SDLRPCParameterNameCorrelationId:@1004,
+                                             SDLRPCParameterNameOperationName:SDLRPCParameterNameResponse}} mutableCopy];
         SDLRPCResponse* testResponse = [[SDLRPCResponse alloc] initWithDictionary:dict];
         
-        expect(testResponse.getFunctionName).to(equal(SDLNameResponse));
+        expect(testResponse.getFunctionName).to(equal(SDLRPCParameterNameResponse));
         expect(testResponse.correlationID).to(equal(@1004));
         expect(testResponse.success).to(equal(@YES));
-        expect(testResponse.resultCode).to(equal(SDLNameSuccess));
+        expect(testResponse.resultCode).to(equal(SDLRPCParameterNameSuccess));
         expect(testResponse.info).to(equal(@"Test Info"));
         
     });

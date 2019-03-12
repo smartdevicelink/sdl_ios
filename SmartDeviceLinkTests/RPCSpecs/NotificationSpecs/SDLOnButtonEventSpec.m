@@ -10,7 +10,8 @@
 
 #import "SDLButtonEventMode.h"
 #import "SDLButtonName.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLOnButtonEvent.h"
 
 
@@ -30,12 +31,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameButtonName:SDLButtonNameCustomButton,
-                                                   SDLNameButtonEventMode:SDLButtonEventModeButtonDown,
-                                                   SDLNameCustomButtonId:@4252},
-                                             SDLNameOperationName:SDLNameOnButtonEvent}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameButtonName:SDLButtonNameCustomButton,
+                                                   SDLRPCParameterNameButtonEventMode:SDLButtonEventModeButtonDown,
+                                                   SDLRPCParameterNameCustomButtonId:@4252},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnButtonEvent}} mutableCopy];
         SDLOnButtonEvent* testNotification = [[SDLOnButtonEvent alloc] initWithDictionary:dict];
         
         expect(testNotification.buttonName).to(equal(SDLButtonNameCustomButton));

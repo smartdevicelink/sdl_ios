@@ -10,7 +10,8 @@
 
 #import "SDLGetInteriorVehicleDataResponse.h"
 #import "SDLModuleData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLGetInteriorVehicleDataResponseSpec)
 
@@ -34,11 +35,11 @@ describe(@"Getter/Setter Tests", ^ {
     
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameResponse:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameModuleData:someModuleData,
-                                                                   SDLNameIsSubscribed:@NO},
-                                                             SDLNameOperationName:SDLNameGetInteriorVehicleData}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameResponse:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameModuleData:someModuleData,
+                                                                   SDLRPCParameterNameIsSubscribed:@NO},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetInteriorVehicleData}} mutableCopy];
         SDLGetInteriorVehicleDataResponse* testResponse = [[SDLGetInteriorVehicleDataResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.moduleData).to(equal(someModuleData));

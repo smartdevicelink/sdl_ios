@@ -8,6 +8,7 @@
 
 #import "SDLSystemCapabilityManager.h"
 
+#import "SDLAppServicesCapabilities.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLGenericResponse.h"
 #import "SDLGetSystemCapability.h"
@@ -38,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readwrite) BOOL vrCapability;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
 @property (nullable, strong, nonatomic, readwrite) SDLAudioPassThruCapabilities *pcmStreamCapability;
+@property (nullable, strong, nonatomic, readwrite) SDLAppServicesCapabilities *appServicesCapabilities;
 @property (nullable, strong, nonatomic, readwrite) SDLNavigationCapability *navigationCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLPhoneCapability *phoneCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
@@ -131,6 +133,8 @@ NS_ASSUME_NONNULL_BEGIN
         self.remoteControlCapability = systemCapabilityResponse.remoteControlCapability;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
         self.videoStreamingCapability = systemCapabilityResponse.videoStreamingCapability;
+    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeAppServices]) {
+        self.appServicesCapabilities = systemCapabilityResponse.appServicesCapabilities;
     } else {
         SDLLogW(@"Received response for unknown System Capability Type: %@", systemCapabilityType);
     }

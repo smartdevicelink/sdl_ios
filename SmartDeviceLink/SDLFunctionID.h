@@ -1,12 +1,9 @@
 //  SDLFunctionID.h
 //
 
-
 #import <Foundation/Foundation.h>
-
-#import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
 #import "NSNumber+NumberType.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,8 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedInstance;
 
-- (nullable SDLName)functionNameForId:(UInt32)functionID;
-- (nullable NSNumber<SDLInt> *)functionIdForName:(SDLName)functionName;
+- (nullable SDLRPCFunctionName)functionNameForId:(UInt32)functionID;
+- (nullable NSNumber<SDLInt> *)functionIdForName:(SDLRPCFunctionName)functionName;
 
 @end
 

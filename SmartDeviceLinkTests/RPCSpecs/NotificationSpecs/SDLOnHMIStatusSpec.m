@@ -11,7 +11,8 @@
 #import "SDLAudioStreamingState.h"
 #import "SDLHMILevel.h"
 #import "SDLOnHMIStatus.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSystemContext.h"
 
 
@@ -33,13 +34,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameHMILevel: SDLHMILevelLimited,
-                                                   SDLNameAudioStreamingState: SDLAudioStreamingStateAttenuated,
-                                                   SDLNameSystemContext: SDLSystemContextHMIObscured,
-                                                   SDLNameVideoStreamingState: SDLVideoStreamingStateStreamable},
-                                             SDLNameOperationName:SDLNameOnHMIStatus}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameHMILevel: SDLHMILevelLimited,
+                                                   SDLRPCParameterNameAudioStreamingState: SDLAudioStreamingStateAttenuated,
+                                                   SDLRPCParameterNameSystemContext: SDLSystemContextHMIObscured,
+                                                   SDLRPCParameterNameVideoStreamingState: SDLVideoStreamingStateStreamable},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnHMIStatus}} mutableCopy];
         SDLOnHMIStatus* testNotification = [[SDLOnHMIStatus alloc] initWithDictionary:dict];
         
         expect(testNotification.hmiLevel).to(equal(SDLHMILevelLimited));

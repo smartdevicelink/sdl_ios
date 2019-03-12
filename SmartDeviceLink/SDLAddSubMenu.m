@@ -4,14 +4,15 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLAddSubMenu
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameAddSubMenu]) {
+    if (self = [super initWithName:SDLRPCFunctionNameAddSubMenu]) {
     }
     return self;
 }
@@ -43,35 +44,35 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMenuID:(NSNumber<SDLInt> *)menuID {
-    [parameters sdl_setObject:menuID forName:SDLNameMenuId];
+    [parameters sdl_setObject:menuID forName:SDLRPCParameterNameMenuId];
 }
 
 - (NSNumber<SDLInt> *)menuID {
-    return [parameters sdl_objectForName:SDLNameMenuId];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMenuId];
 }
 
 - (void)setPosition:(nullable NSNumber<SDLInt> *)position {
-    [parameters sdl_setObject:position forName:SDLNamePosition];
+    [parameters sdl_setObject:position forName:SDLRPCParameterNamePosition];
 }
 
 - (nullable NSNumber<SDLInt> *)position {
-    return [parameters sdl_objectForName:SDLNamePosition];
+    return [parameters sdl_objectForName:SDLRPCParameterNamePosition];
 }
 
 - (void)setMenuName:(NSString *)menuName {
-    [parameters sdl_setObject:menuName forName:SDLNameMenuName];
+    [parameters sdl_setObject:menuName forName:SDLRPCParameterNameMenuName];
 }
 
 - (NSString *)menuName {
-    return [parameters sdl_objectForName:SDLNameMenuName];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMenuName];
 }
 
 - (void)setMenuIcon:(nullable SDLImage *)menuIcon {
-    [parameters sdl_setObject:menuIcon forName:SDLNameMenuIcon];
+    [parameters sdl_setObject:menuIcon forName:SDLRPCParameterNameMenuIcon];
 }
 
 - (nullable SDLImage *)menuIcon {
-    return [parameters sdl_objectForName:SDLNameMenuIcon ofClass:[SDLImage class]];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMenuIcon ofClass:[SDLImage class]];
 }
 
 @end

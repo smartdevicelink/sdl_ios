@@ -7,7 +7,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLLightName.h"
 #import "SDLLightCapabilities.h"
 
@@ -37,9 +37,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameName:SDLLightNameFogLights,
-                                       SDLNameDensityAvailable:@YES,
-                                       SDLNameRGBColorSpaceAvailable:@NO
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameName:SDLLightNameFogLights,
+                                       SDLRPCParameterNameDensityAvailable:@YES,
+                                       SDLRPCParameterNameRGBColorSpaceAvailable:@NO
                                        } mutableCopy];
 
         SDLLightCapabilities* testStruct = [[SDLLightCapabilities alloc] initWithDictionary:dict];

@@ -6,7 +6,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,27 +36,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setText:(NSString *)text {
-    [store sdl_setObject:text forName:SDLNameText];
+    [store sdl_setObject:text forName:SDLRPCParameterNameText];
 }
 
 - (NSString *)text {
-    return [store sdl_objectForName:SDLNameText];
+    return [store sdl_objectForName:SDLRPCParameterNameText];
 }
 
 - (void)setImage:(nullable SDLImage *)image {
-    [store sdl_setObject:image forName:SDLNameImage];
+    [store sdl_setObject:image forName:SDLRPCParameterNameImage];
 }
 
 - (nullable SDLImage *)image {
-    return [store sdl_objectForName:SDLNameImage ofClass:SDLImage.class];
+    return [store sdl_objectForName:SDLRPCParameterNameImage ofClass:SDLImage.class];
 }
 
 - (void)setPosition:(NSNumber<SDLInt> *)position {
-    [store sdl_setObject:position forName:SDLNamePosition];
+    [store sdl_setObject:position forName:SDLRPCParameterNamePosition];
 }
 
 - (NSNumber<SDLInt> *)position {
-    return [store sdl_objectForName:SDLNamePosition];
+    return [store sdl_objectForName:SDLRPCParameterNamePosition];
 }
 
 @end

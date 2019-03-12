@@ -14,6 +14,7 @@
 #import "SDLSystemCapabilityType.h"
 #import "SDLVrCapabilities.h"
 
+@class SDLAppServicesCapabilities;
 @class SDLAudioPassThruCapabilities;
 @class SDLButtonCapabilities;
 @class SDLDisplayCapabilities;
@@ -124,6 +125,15 @@ typedef void (^SDLUpdateCapabilityHandler)(NSError * _Nullable error, SDLSystemC
 @property (nullable, strong, nonatomic, readonly) SDLAudioPassThruCapabilities *pcmStreamCapability;
 
 /**
+ * If returned, the platform supports app services
+ *
+ * @see SDLAppServicesCapabilities
+ *
+ * Optional
+ */
+@property (nullable, strong, nonatomic, readonly) SDLAppServicesCapabilities *appServicesCapabilities;
+
+/**
  * If returned, the platform supports navigation
  *
  * @see SDLNavigationCapability
@@ -181,7 +191,7 @@ typedef void (^SDLUpdateCapabilityHandler)(NSError * _Nullable error, SDLSystemC
 - (void)stop;
 
 /**
- *  Retrieves a capability type from the remote system. This function must be called in order to retrieve the values of `navigationCapability`, `phoneCapability`, `videoStreamingCapability` and `remoteControlCapability`. If you do not call this method first, those values will be nil. After calling this method, assuming there is no error in the handler, you may retrieve the capability you requested from the manager within the handler.
+ *  Retrieves a capability type from the remote system. This function must be called in order to retrieve the values for `navigationCapability`, `phoneCapability`, `videoStreamingCapability`, `remoteControlCapability`, and `appServicesCapabilities`. If you do not call this method first, those values will be nil. After calling this method, assuming there is no error in the handler, you may retrieve the capability you requested from the manager within the handler.
  *
  *  @param type The type of capability to retrieve
  *  @param handler The handler to be called when the retrieval is complete

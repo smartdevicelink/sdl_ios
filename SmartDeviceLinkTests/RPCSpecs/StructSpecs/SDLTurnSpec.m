@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLTurn.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLImage.h"
 
 QuickSpecBegin(SDLTurnSpec)
@@ -28,8 +28,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNavigationText:@"NAVTEXT",
-                                                       SDLNameTurnIcon:image} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameNavigationText:@"NAVTEXT",
+                                                       SDLRPCParameterNameTurnIcon:image} mutableCopy];
         SDLTurn* testStruct = [[SDLTurn alloc] initWithDictionary:dict];
         
         expect(testStruct.navigationText).to(equal(@"NAVTEXT"));

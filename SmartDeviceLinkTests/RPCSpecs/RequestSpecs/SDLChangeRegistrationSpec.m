@@ -10,7 +10,8 @@
 
 #import "SDLChangeRegistration.h"
 #import "SDLLanguage.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLTTSChunk.h"
 
 
@@ -112,15 +113,15 @@ describe(@"change registration", ^ {
                 someNGNMediaAppName = @"some media app name";
                 someVRSynonyms = @[@"some1", @"some2"];
                 
-                NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                                   @{SDLNameParameters:
-                                                                         @{SDLNameLanguage:someLanguage,
-                                                                           SDLNameHMIDisplayLanguage:someOtherLanguage,
-                                                                           SDLNameAppName:someAppName,
-                                                                           SDLNameTTSName:someTTSChunks,
-                                                                           SDLNameNGNMediaScreenAppName:someNGNMediaAppName,
-                                                                           SDLNameVRSynonyms:someVRSynonyms},
-                                                                     SDLNameOperationName:SDLNameChangeRegistration}} mutableCopy];
+                NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                                   @{SDLRPCParameterNameParameters:
+                                                                         @{SDLRPCParameterNameLanguage:someLanguage,
+                                                                           SDLRPCParameterNameHMIDisplayLanguage:someOtherLanguage,
+                                                                           SDLRPCParameterNameAppName:someAppName,
+                                                                           SDLRPCParameterNameTTSName:someTTSChunks,
+                                                                           SDLRPCParameterNameNGNMediaScreenAppName:someNGNMediaAppName,
+                                                                           SDLRPCParameterNameVRSynonyms:someVRSynonyms},
+                                                                     SDLRPCParameterNameOperationName:SDLRPCFunctionNameChangeRegistration}} mutableCopy];
                 
                 testRequest = [[SDLChangeRegistration alloc] initWithDictionary:dict];
             });

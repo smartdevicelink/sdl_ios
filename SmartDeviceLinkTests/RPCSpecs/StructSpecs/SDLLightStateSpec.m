@@ -11,7 +11,7 @@
 #import "SDLLightStatus.h"
 #import "SDLRGBColor.h"
 #import "SDLLightName.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLLightStateSpec)
 
@@ -63,10 +63,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameId:SDLLightNameFogLights,
-                                       SDLNameStatus:SDLLightStatusOn,
-                                       SDLNameDensity:@(0.5),
-                                       SDLNameColor:someRGBColor} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameId:SDLLightNameFogLights,
+                                       SDLRPCParameterNameStatus:SDLLightStatusOn,
+                                       SDLRPCParameterNameDensity:@(0.5),
+                                       SDLRPCParameterNameColor:someRGBColor} mutableCopy];
 
         SDLLightState* testStruct = [[SDLLightState alloc] initWithDictionary:dict];
 

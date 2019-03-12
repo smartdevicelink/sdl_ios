@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLGetDTCs.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLGetDTCsSpec)
 
@@ -25,11 +26,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameECUName:@4321,
-                                                                   SDLNameDTCMask:@22},
-                                                             SDLNameOperationName:SDLNameEndAudioPassThru}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameECUName:@4321,
+                                                                   SDLRPCParameterNameDTCMask:@22},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameEndAudioPassThru}} mutableCopy];
         SDLGetDTCs* testRequest = [[SDLGetDTCs alloc] initWithDictionary:dict];
         
         expect(testRequest.ecuName).to(equal(@4321));

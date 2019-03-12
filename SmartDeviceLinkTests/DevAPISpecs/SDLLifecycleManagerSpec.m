@@ -4,6 +4,7 @@
 
 #import "SDLLifecycleManager.h"
 
+#import "SDLAppServiceData.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLError.h"
@@ -16,8 +17,10 @@
 #import "SDLLogConfiguration.h"
 #import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
+#import "SDLOnAppServiceData.h"
 #import "SDLOnHashChange.h"
 #import "SDLOnHMIStatus.h"
+#import "SDLPerformAppServiceInteractionResponse.h"
 #import "SDLPermissionManager.h"
 #import "SDLProxy.h"
 #import "SDLProtocol.h"
@@ -129,6 +132,8 @@ describe(@"a lifecycle manager", ^{
         expect(testManager.responseDispatcher).toNot(beNil());
         expect(testManager.streamManager).toNot(beNil());
         expect(testManager.systemCapabilityManager).toNot(beNil());
+        expect(testManager.rpcOperationQueue).toNot(beNil());
+        expect(testManager.rpcOperationQueue.maxConcurrentOperationCount).to(equal(3));
         expect(@([testManager conformsToProtocol:@protocol(SDLConnectionManagerType)])).to(equal(@YES));
         expect(testManager.authToken).to(beNil());
     });
@@ -471,13 +476,44 @@ describe(@"a lifecycle manager", ^{
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:NO];
             });
 
-            it(@"can send an RPC", ^{
+            it(@"can send an RPC of type Request", ^{
                 SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil alignment:nil];
-                [testManager sendRequest:testShow];
+                [testManager sendRPC:testShow];
 
-                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLShow class]]]);
+                [NSThread sleepForTimeInterval:0.1];
+
+                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLShow.class]]);
             });
-            
+
+            it(@"can send an RPC of type Response", ^{
+                SDLPerformAppServiceInteractionResponse *testResponse = [[SDLPerformAppServiceInteractionResponse alloc] init];
+                [testManager sendRPC:testResponse];
+                testResponse.correlationID = @(2);
+                testResponse.success = @(true);
+                testResponse.resultCode = SDLResultSuccess;
+                testResponse.info = @"testResponse info";
+
+                [NSThread sleepForTimeInterval:0.1];
+
+                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLPerformAppServiceInteractionResponse.class]]);
+            });
+
+            it(@"can send an RPC of type Notification", ^{
+                SDLOnAppServiceData *testNotification = [[SDLOnAppServiceData alloc] initWithServiceData:[[SDLAppServiceData alloc] init]];
+                [testManager sendRPC:testNotification];
+
+                [NSThread sleepForTimeInterval:0.1];
+
+                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLOnAppServiceData.class]]);
+            });
+
+            it(@"should throw an exception if the RPC is not of type `Request`, `Response` or `Notification`", ^{
+                SDLRPCMessage *testMessage = [[SDLRPCMessage alloc] init];
+                expectAction(^{
+                    [testManager sendRPC:testMessage];
+                }).to(raiseException());
+            });
+
             describe(@"stopping the manager", ^{
                 beforeEach(^{
                     [testManager stop];

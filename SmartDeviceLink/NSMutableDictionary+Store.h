@@ -12,15 +12,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NSString* SDLName SDL_SWIFT_ENUM;
+typedef NSString* SDLRPCParameterName SDL_SWIFT_ENUM;
 typedef NSString* SDLEnum SDL_SWIFT_ENUM;
 
 @interface NSDictionary (Store)
 
-- (void)sdl_setObject:(NSObject *)object forName:(SDLName)name;
-- (nullable id)sdl_objectForName:(SDLName)name;
-- (nullable id)sdl_objectForName:(SDLName)name ofClass:(Class)classType;
-- (NSArray *)sdl_objectsForName:(SDLName)name ofClass:(Class)classType;
+- (void)sdl_setObject:(NSObject *)object forName:(SDLRPCParameterName)name;
+- (nullable id)sdl_objectForName:(SDLRPCParameterName)name;
+- (nullable id)sdl_objectForName:(SDLRPCParameterName)name ofClass:(Class)classType;
+- (NSArray *)sdl_objectsForName:(SDLRPCParameterName)name ofClass:(Class)classType;
 
 @end
 

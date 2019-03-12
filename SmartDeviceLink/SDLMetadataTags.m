@@ -9,7 +9,7 @@
 #import "SDLMetadataTags.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -42,35 +42,35 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setMainField1:(nullable NSArray<SDLMetadataType> *)mainField1 {
-    [store sdl_setObject:mainField1 forName:SDLNameMainField1];
+    [store sdl_setObject:mainField1 forName:SDLRPCParameterNameMainField1];
 }
 
 - (nullable NSArray<SDLMetadataType> *)mainField1 {
-    return [store sdl_objectForName:SDLNameMainField1];
+    return [store sdl_objectForName:SDLRPCParameterNameMainField1];
 }
 
 - (void)setMainField2:(nullable NSArray<SDLMetadataType> *)mainField2 {
-    [store sdl_setObject:mainField2 forName:SDLNameMainField2];
+    [store sdl_setObject:mainField2 forName:SDLRPCParameterNameMainField2];
 }
 
 - (nullable NSArray<SDLMetadataType> *)mainField2 {
-    return [store sdl_objectForName:SDLNameMainField2];
+    return [store sdl_objectForName:SDLRPCParameterNameMainField2];
 }
 
 - (void)setMainField3:(nullable NSArray<SDLMetadataType> *)mainField3 {
-    [store sdl_setObject:mainField3 forName:SDLNameMainField3];
+    [store sdl_setObject:mainField3 forName:SDLRPCParameterNameMainField3];
 }
 
 - (nullable NSArray<SDLMetadataType> *)mainField3 {
-    return [store sdl_objectForName:SDLNameMainField3];
+    return [store sdl_objectForName:SDLRPCParameterNameMainField3];
 }
 
 - (void)setMainField4:(nullable NSArray<SDLMetadataType> *)mainField4 {
-    [store sdl_setObject:mainField4 forName:SDLNameMainField4];
+    [store sdl_setObject:mainField4 forName:SDLRPCParameterNameMainField4];
 }
 
 - (nullable NSArray<SDLMetadataType> *)mainField4 {
-    return [store sdl_objectForName:SDLNameMainField4];
+    return [store sdl_objectForName:SDLRPCParameterNameMainField4];
 }
 
 @end

@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLOnEncodedSyncPData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnEncodedSyncPDataSpec)
 
@@ -27,12 +28,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameData:[@[@0] mutableCopy],
-                                                                   SDLNameURLUppercase:@"www.zombo.com",
-                                                                   SDLNameTimeoutCapitalized:@564},
-                                                             SDLNameOperationName:SDLNameOnEncodedSyncPData}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameNotification:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameData:[@[@0] mutableCopy],
+                                                                   SDLRPCParameterNameURLUppercase:@"www.zombo.com",
+                                                                   SDLRPCParameterNameTimeoutCapitalized:@564},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnEncodedSyncPData}} mutableCopy];
         SDLOnEncodedSyncPData* testNotification = [[SDLOnEncodedSyncPData alloc] initWithDictionary:dict];
         
         expect(testNotification.data).to(equal([@[@0] mutableCopy]));

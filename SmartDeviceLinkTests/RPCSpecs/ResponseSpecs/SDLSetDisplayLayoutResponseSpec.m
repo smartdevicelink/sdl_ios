@@ -10,7 +10,8 @@
 
 #import "SDLButtonCapabilities.h"
 #import "SDLDisplayCapabilities.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLPresetBankCapabilities.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLSoftButtonCapabilities.h"
@@ -39,13 +40,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameDisplayCapabilities:info,
-                                                                   SDLNameButtonCapabilities:[@[button] mutableCopy],
-                                                                   SDLNameSoftButtonCapabilities:[@[softButton] mutableCopy],
-                                                                   SDLNamePresetBankCapabilities:presetBank},
-                                                             SDLNameOperationName:SDLNameSetDisplayLayout}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameDisplayCapabilities:info,
+                                                                   SDLRPCParameterNameButtonCapabilities:[@[button] mutableCopy],
+                                                                   SDLRPCParameterNameSoftButtonCapabilities:[@[softButton] mutableCopy],
+                                                                   SDLRPCParameterNamePresetBankCapabilities:presetBank},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameSetDisplayLayout}} mutableCopy];
         SDLSetDisplayLayoutResponse* testResponse = [[SDLSetDisplayLayoutResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.displayCapabilities).to(equal(info));

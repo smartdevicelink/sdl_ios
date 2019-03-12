@@ -5,7 +5,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLImage.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -40,51 +40,51 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setType:(SDLSoftButtonType)type {
-    [store sdl_setObject:type forName:SDLNameType];
+    [store sdl_setObject:type forName:SDLRPCParameterNameType];
 }
 
 - (SDLSoftButtonType)type {
-    return [store sdl_objectForName:SDLNameType];
+    return [store sdl_objectForName:SDLRPCParameterNameType];
 }
 
 - (void)setText:(nullable NSString *)text {
-    [store sdl_setObject:text forName:SDLNameText];
+    [store sdl_setObject:text forName:SDLRPCParameterNameText];
 }
 
 - (nullable NSString *)text {
-    return [store sdl_objectForName:SDLNameText];
+    return [store sdl_objectForName:SDLRPCParameterNameText];
 }
 
 - (void)setImage:(nullable SDLImage *)image {
-    [store sdl_setObject:image forName:SDLNameImage];
+    [store sdl_setObject:image forName:SDLRPCParameterNameImage];
 }
 
 - (nullable SDLImage *)image {
-    return [store sdl_objectForName:SDLNameImage ofClass:SDLImage.class];
+    return [store sdl_objectForName:SDLRPCParameterNameImage ofClass:SDLImage.class];
 }
 
 - (void)setIsHighlighted:(nullable NSNumber<SDLBool> *)isHighlighted {
-    [store sdl_setObject:isHighlighted forName:SDLNameIsHighlighted];
+    [store sdl_setObject:isHighlighted forName:SDLRPCParameterNameIsHighlighted];
 }
 
 - (nullable NSNumber<SDLBool> *)isHighlighted {
-    return [store sdl_objectForName:SDLNameIsHighlighted];
+    return [store sdl_objectForName:SDLRPCParameterNameIsHighlighted];
 }
 
 - (void)setSoftButtonID:(NSNumber<SDLInt> *)softButtonID {
-    [store sdl_setObject:softButtonID forName:SDLNameSoftButtonId];
+    [store sdl_setObject:softButtonID forName:SDLRPCParameterNameSoftButtonId];
 }
 
 - (NSNumber<SDLInt> *)softButtonID {
-    return [store sdl_objectForName:SDLNameSoftButtonId];
+    return [store sdl_objectForName:SDLRPCParameterNameSoftButtonId];
 }
 
 - (void)setSystemAction:(nullable SDLSystemAction)systemAction {
-    [store sdl_setObject:systemAction forName:SDLNameSystemAction];
+    [store sdl_setObject:systemAction forName:SDLRPCParameterNameSystemAction];
 }
 
 - (nullable SDLSystemAction)systemAction {
-    return [store sdl_objectForName:SDLNameSystemAction];
+    return [store sdl_objectForName:SDLRPCParameterNameSystemAction];
 }
 
 -(id)copyWithZone:(nullable NSZone *)zone {

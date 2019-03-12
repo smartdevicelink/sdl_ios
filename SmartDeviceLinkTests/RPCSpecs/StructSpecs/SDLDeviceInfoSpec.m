@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLDeviceInfo.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLDeviceInfoSpec)
 
@@ -33,12 +33,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameHardware:@"GDFR34F",
-                                                       SDLNameFirmwareRevision:@"4.2a",
-                                                       SDLNameOS:@"Robot",
-                                                       SDLNameOSVersion:@"9.9",
-                                                       SDLNameCarrier:@"ThatOneWirelessCompany",
-                                                       SDLNameMaxNumberRFCOMMPorts:@20} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameHardware:@"GDFR34F",
+                                                       SDLRPCParameterNameFirmwareRevision:@"4.2a",
+                                                       SDLRPCParameterNameOS:@"Robot",
+                                                       SDLRPCParameterNameOSVersion:@"9.9",
+                                                       SDLRPCParameterNameCarrier:@"ThatOneWirelessCompany",
+                                                       SDLRPCParameterNameMaxNumberRFCOMMPorts:@20} mutableCopy];
         SDLDeviceInfo* testStruct = [[SDLDeviceInfo alloc] initWithDictionary:dict];
         
         expect(testStruct.hardware).to(equal(@"GDFR34F"));

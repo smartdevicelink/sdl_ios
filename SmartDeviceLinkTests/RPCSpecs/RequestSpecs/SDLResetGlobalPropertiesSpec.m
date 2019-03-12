@@ -10,7 +10,8 @@
 
 #import "SDLResetGlobalProperties.h"
 #import "SDLGlobalProperty.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLResetGlobalPropertiesSpec)
 
@@ -24,10 +25,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameProperties:[@[SDLGlobalPropertyMenuName, SDLGlobalPropertyVoiceRecognitionHelpTitle] copy]},
-                                             SDLNameOperationName:SDLNameResetGlobalProperties}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameRequest:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameProperties:[@[SDLGlobalPropertyMenuName, SDLGlobalPropertyVoiceRecognitionHelpTitle] copy]},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameResetGlobalProperties}} mutableCopy];
         SDLResetGlobalProperties* testRequest = [[SDLResetGlobalProperties alloc] initWithDictionary:dict];
         
         expect(testRequest.properties).to(equal([@[SDLGlobalPropertyMenuName, SDLGlobalPropertyVoiceRecognitionHelpTitle] copy]));

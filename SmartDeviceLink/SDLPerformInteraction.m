@@ -5,7 +5,8 @@
 #import "SDLPerformInteraction.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLTTSChunk.h"
 #import "SDLVrHelpItem.h"
 
@@ -14,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLPerformInteraction
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNamePerformInteraction]) {
+    if (self = [super initWithName:SDLRPCFunctionNamePerformInteraction]) {
     }
     return self;
 }
@@ -91,75 +92,75 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setInitialText:(NSString *)initialText {
-    [parameters sdl_setObject:initialText forName:SDLNameInitialText];
+    [parameters sdl_setObject:initialText forName:SDLRPCParameterNameInitialText];
 }
 
 - (NSString *)initialText {
-    return [parameters sdl_objectForName:SDLNameInitialText];
+    return [parameters sdl_objectForName:SDLRPCParameterNameInitialText];
 }
 
 - (void)setInitialPrompt:(nullable NSArray<SDLTTSChunk *> *)initialPrompt {
-    [parameters sdl_setObject:initialPrompt forName:SDLNameInitialPrompt];
+    [parameters sdl_setObject:initialPrompt forName:SDLRPCParameterNameInitialPrompt];
 }
 
 - (nullable NSArray<SDLTTSChunk *> *)initialPrompt {
-    return [parameters sdl_objectsForName:SDLNameInitialPrompt ofClass:SDLTTSChunk.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameInitialPrompt ofClass:SDLTTSChunk.class];
 }
 
 - (void)setInteractionMode:(SDLInteractionMode)interactionMode {
-    [parameters sdl_setObject:interactionMode forName:SDLNameInteractionMode];
+    [parameters sdl_setObject:interactionMode forName:SDLRPCParameterNameInteractionMode];
 }
 
 - (SDLInteractionMode)interactionMode {
-    return [parameters sdl_objectForName:SDLNameInteractionMode];
+    return [parameters sdl_objectForName:SDLRPCParameterNameInteractionMode];
 }
 
 - (void)setInteractionChoiceSetIDList:(NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
-    [parameters sdl_setObject:interactionChoiceSetIDList forName:SDLNameInteractionChoiceSetIdList];
+    [parameters sdl_setObject:interactionChoiceSetIDList forName:SDLRPCParameterNameInteractionChoiceSetIdList];
 }
 
 - (NSArray<NSNumber<SDLInt> *> *)interactionChoiceSetIDList {
-    return [parameters sdl_objectForName:SDLNameInteractionChoiceSetIdList];
+    return [parameters sdl_objectForName:SDLRPCParameterNameInteractionChoiceSetIdList];
 }
 
 - (void)setHelpPrompt:(nullable NSArray<SDLTTSChunk *> *)helpPrompt {
-    [parameters sdl_setObject:helpPrompt forName:SDLNameHelpPrompt];
+    [parameters sdl_setObject:helpPrompt forName:SDLRPCParameterNameHelpPrompt];
 }
 
 - (nullable NSArray<SDLTTSChunk *> *)helpPrompt {
-    return [parameters sdl_objectsForName:SDLNameHelpPrompt ofClass:SDLTTSChunk.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameHelpPrompt ofClass:SDLTTSChunk.class];
 }
 
 - (void)setTimeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt {
-    [parameters sdl_setObject:timeoutPrompt forName:SDLNameTimeoutPrompt];
+    [parameters sdl_setObject:timeoutPrompt forName:SDLRPCParameterNameTimeoutPrompt];
 }
 
 - (nullable NSArray<SDLTTSChunk *> *)timeoutPrompt {
-    return [parameters sdl_objectsForName:SDLNameTimeoutPrompt ofClass:SDLTTSChunk.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameTimeoutPrompt ofClass:SDLTTSChunk.class];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
-    [parameters sdl_setObject:timeout forName:SDLNameTimeout];
+    [parameters sdl_setObject:timeout forName:SDLRPCParameterNameTimeout];
 }
 
 - (nullable NSNumber<SDLInt> *)timeout {
-    return [parameters sdl_objectForName:SDLNameTimeout];
+    return [parameters sdl_objectForName:SDLRPCParameterNameTimeout];
 }
 
 - (void)setVrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp {
-    [parameters sdl_setObject:vrHelp forName:SDLNameVRHelp];
+    [parameters sdl_setObject:vrHelp forName:SDLRPCParameterNameVRHelp];
 }
 
 - (nullable NSArray<SDLVRHelpItem *> *)vrHelp {
-    return [parameters sdl_objectsForName:SDLNameVRHelp ofClass:SDLVRHelpItem.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameVRHelp ofClass:SDLVRHelpItem.class];
 }
 
 - (void)setInteractionLayout:(nullable SDLLayoutMode)interactionLayout {
-    [parameters sdl_setObject:interactionLayout forName:SDLNameInteractionLayout];
+    [parameters sdl_setObject:interactionLayout forName:SDLRPCParameterNameInteractionLayout];
 }
 
 - (nullable SDLLayoutMode)interactionLayout {
-    return [parameters sdl_objectForName:SDLNameInteractionLayout];
+    return [parameters sdl_objectForName:SDLRPCParameterNameInteractionLayout];
 }
 
 @end

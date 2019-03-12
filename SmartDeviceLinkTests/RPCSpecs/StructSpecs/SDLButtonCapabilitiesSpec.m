@@ -10,7 +10,7 @@
 
 #import "SDLButtonCapabilities.h"
 #import "SDLButtonName.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin(SDLButtonCapabilitiesSpec)
@@ -31,10 +31,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameName:SDLButtonNameCustomButton,
-                                       SDLNameShortPressAvailable:@YES,
-                                       SDLNameLongPressAvailable:@YES,
-                                       SDLNameUpDownAvailable:@NO} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameName:SDLButtonNameCustomButton,
+                                       SDLRPCParameterNameShortPressAvailable:@YES,
+                                       SDLRPCParameterNameLongPressAvailable:@YES,
+                                       SDLRPCParameterNameUpDownAvailable:@NO} mutableCopy];
         SDLButtonCapabilities* testStruct = [[SDLButtonCapabilities alloc] initWithDictionary:dict];
         
         expect(testStruct.name).to(equal(SDLButtonNameCustomButton));

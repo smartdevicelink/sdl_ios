@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SmartDeviceLink.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 
 QuickSpecBegin(SDLRegisterAppInterfaceResponseSpec)
@@ -69,29 +70,29 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSDictionary *dict = @{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameSyncMessageVersion:version,
-                                                   SDLNameLanguage:SDLLanguageEsMx,
-                                                   SDLNameHMIDisplayLanguage:SDLLanguageRuRu,
-                                                   SDLNameDisplayCapabilities:info,
-                                                   SDLNameButtonCapabilities:@[button],
-                                                   SDLNameSoftButtonCapabilities:@[softButton],
-                                                   SDLNamePresetBankCapabilities:presetBank,
-                                                   SDLNameHMIZoneCapabilities:@[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront],
-                                                   SDLNameSpeechCapabilities:@[SDLSpeechCapabilitiesSAPIPhonemes, SDLSpeechCapabilitiesSilence],
-                                                   SDLNameVRCapabilities:@[SDLVRCapabilitiesText],
-                                                   SDLNameAudioPassThruCapabilities:@[audioPassThru],
-                                                   SDLNamePCMStreamCapabilities: audioPassThru,
-                                                   SDLNameVehicleType:vehicle,
-                                                   SDLNamePrerecordedSpeech:@[SDLPrerecordedSpeechListen, SDLPrerecordedSpeechHelp],
-                                                   SDLNameSupportedDiagnosticModes:@[@67, @99, @111],
-                                                   SDLNameHMICapabilities: hmiCapabilities,
-                                                   SDLNameSDLVersion: @"sdlVersion",
-                                                   SDLNameSystemSoftwareVersion: @"systemSoftwareVersion",
-                                                   SDLNameIconResumed: @YES,
+        NSDictionary *dict = @{SDLRPCParameterNameRequest:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameSyncMessageVersion:version,
+                                                   SDLRPCParameterNameLanguage:SDLLanguageEsMx,
+                                                   SDLRPCParameterNameHMIDisplayLanguage:SDLLanguageRuRu,
+                                                   SDLRPCParameterNameDisplayCapabilities:info,
+                                                   SDLRPCParameterNameButtonCapabilities:@[button],
+                                                   SDLRPCParameterNameSoftButtonCapabilities:@[softButton],
+                                                   SDLRPCParameterNamePresetBankCapabilities:presetBank,
+                                                   SDLRPCParameterNameHMIZoneCapabilities:@[SDLHMIZoneCapabilitiesBack, SDLHMIZoneCapabilitiesFront],
+                                                   SDLRPCParameterNameSpeechCapabilities:@[SDLSpeechCapabilitiesSAPIPhonemes, SDLSpeechCapabilitiesSilence],
+                                                   SDLRPCParameterNameVRCapabilities:@[SDLVRCapabilitiesText],
+                                                   SDLRPCParameterNameAudioPassThruCapabilities:@[audioPassThru],
+                                                   SDLRPCParameterNamePCMStreamCapabilities: audioPassThru,
+                                                   SDLRPCParameterNameVehicleType:vehicle,
+                                                   SDLRPCParameterNamePrerecordedSpeech:@[SDLPrerecordedSpeechListen, SDLPrerecordedSpeechHelp],
+                                                   SDLRPCParameterNameSupportedDiagnosticModes:@[@67, @99, @111],
+                                                   SDLRPCParameterNameHMICapabilities: hmiCapabilities,
+                                                   SDLRPCParameterNameSDLVersion: @"sdlVersion",
+                                                   SDLRPCParameterNameSystemSoftwareVersion: @"systemSoftwareVersion",
+                                                   SDLRPCParameterNameIconResumed: @YES,
                                                    },
-                                             SDLNameOperationName:SDLNameRegisterAppInterface}};
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
         SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.syncMsgVersion).to(equal(version));

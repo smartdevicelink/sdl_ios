@@ -3,15 +3,23 @@
 //
 
 #import "SDLTemperature.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "NSMutableDictionary+Store.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLTemperature
 
+- (instancetype)initWithFahrenheitValue:(float)value {
+    return [self initWithUnit:SDLTemperatureUnitFahrenheit value:value];
+}
+
+- (instancetype)initWithCelsiusValue:(float)value {
+    return [self initWithUnit:SDLTemperatureUnitCelsius value:value];
+}
+
 - (instancetype)initWithUnit:(SDLTemperatureUnit)unit value:(float)value {
-    self = [self init];
+    self = [super init];
     if (!self) {
         return nil;
     }
@@ -23,19 +31,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setUnit:(SDLTemperatureUnit)unit {
-    [store sdl_setObject:unit forName:SDLNameUnit];
+    [store sdl_setObject:unit forName:SDLRPCParameterNameUnit];
 }
 
 - (SDLTemperatureUnit)unit {
-    return [store sdl_objectForName:SDLNameUnit];
+    return [store sdl_objectForName:SDLRPCParameterNameUnit];
 }
 
 - (void)setValue:(NSNumber<SDLFloat> *)value {
-    [store sdl_setObject:value forName:SDLNameValue];
+    [store sdl_setObject:value forName:SDLRPCParameterNameValue];
 }
 
 - (NSNumber<SDLFloat> *)value {
-    return [store sdl_objectForName:SDLNameValue];
+    return [store sdl_objectForName:SDLRPCParameterNameValue];
 }
 
 @end

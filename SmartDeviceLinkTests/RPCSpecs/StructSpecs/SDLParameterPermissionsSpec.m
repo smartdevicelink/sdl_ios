@@ -10,7 +10,7 @@
 
 #import "SDLParameterPermissions.h"
 #import "SDLHMILevel.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLParameterPermissionsSpec)
 
@@ -26,8 +26,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameAllowed:[@[SDLHMILevelBackground, SDLHMILevelFull] copy],
-                                       SDLNameUserDisallowed:[@[SDLHMILevelNone, SDLHMILevelLimited] copy]} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameAllowed:[@[SDLHMILevelBackground, SDLHMILevelFull] copy],
+                                       SDLRPCParameterNameUserDisallowed:[@[SDLHMILevelNone, SDLHMILevelLimited] copy]} mutableCopy];
         SDLParameterPermissions* testStruct = [[SDLParameterPermissions alloc] initWithDictionary:dict];
         
         expect(testStruct.allowed).to(equal([@[SDLHMILevelBackground, SDLHMILevelFull] copy]));
