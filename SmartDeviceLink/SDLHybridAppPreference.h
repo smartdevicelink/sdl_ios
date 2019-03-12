@@ -24,6 +24,6 @@ extern SDLHybridAppPreference const SDLHybridAppPreferenceMobile;
 extern SDLHybridAppPreference const SDLHybridAppPreferenceCloud;
 
 /*
- *  App preference of both mobile and cloud.
+ *  App preference of both. Allows both the mobile and the cloud versions of the app to attempt to connect at the same time, however the first app that is registered is the one that is allowed to stay registered.
  */
 extern SDLHybridAppPreference const SDLHybridAppPreferenceBoth;
