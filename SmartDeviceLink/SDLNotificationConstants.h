@@ -172,8 +172,6 @@ extern SDLNotificationName const SDLDidReceiveUnsubscribeButtonResponse;
 extern SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataResponse;
 extern SDLNotificationName const SDLDidReceiveUnsubscribeWaypointsResponse;
 
-extern SDLNotificationName const SDLDidReceiveSetCloudAppPropertiesRequest;
-extern SDLNotificationName const SDLDidReceiveGetCloudAppPropertiesRequest;
 /**
  *  NSNotification names associated with specific RPC requests.
  */
@@ -194,6 +192,7 @@ extern SDLNotificationName const SDLDidReceiveDialNumberRequest;
 extern SDLNotificationName const SDLDidReceiveEncodedSyncPDataRequest;
 extern SDLNotificationName const SDLDidReceiveEndAudioPassThruRequest;
 extern SDLNotificationName const SDLDidReceiveGetAppServiceDataRequest;
+extern SDLNotificationName const SDLDidReceiveGetCloudAppPropertiesRequest;
 extern SDLNotificationName const SDLDidReceiveGetDTCsRequest;
 extern SDLNotificationName const SDLDidReceiveGetFileRequest;
 extern SDLNotificationName const SDLDidReceiveGetInteriorVehicleDataRequest;
@@ -213,6 +212,7 @@ extern SDLNotificationName const SDLDidReceiveScrollableMessageRequest;
 extern SDLNotificationName const SDLDidReceiveSendHapticDataRequest;
 extern SDLNotificationName const SDLDidReceiveSendLocationRequest;
 extern SDLNotificationName const SDLDidReceiveSetAppIconRequest;
+extern SDLNotificationName const SDLDidReceiveSetCloudAppPropertiesRequest;
 extern SDLNotificationName const SDLDidReceiveSetDisplayLayoutRequest;
 extern SDLNotificationName const SDLDidReceiveSetGlobalPropertiesRequest;
 extern SDLNotificationName const SDLDidReceiveSetInteriorVehicleDataRequest;

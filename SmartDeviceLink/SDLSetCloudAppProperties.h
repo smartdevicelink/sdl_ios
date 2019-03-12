@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
+/**
  *  RPC used to enable/disable a cloud application and set authentication data
  */
 @interface SDLSetCloudAppProperties : SDLRPCRequest
