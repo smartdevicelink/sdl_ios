@@ -11,7 +11,8 @@
 
 #import "SDLGetDTCs.h"
 #import "SDLGetCloudAppProperties.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 
 QuickSpecBegin(SDLGetCloudAppPropertiesSpec)
@@ -31,14 +32,15 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should initialize correctly with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameRequest:@{
-                                       SDLNameParameters:@{
-                                               SDLNameAppId:testAppID
+        NSDictionary *dict = @{SDLRPCParameterNameRequest:@{
+                                       SDLRPCParameterNameParameters:@{
+                                               SDLRPCParameterNameAppId:testAppID
                                                },
-                                       SDLNameOperationName:SDLNameGetCloudAppProperties}};
+                                       SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetCloudAppProperties}};
         SDLGetCloudAppProperties *testRequest = [[SDLGetCloudAppProperties alloc] initWithDictionary:dict];
 
         expect(testRequest.appID).to(equal(testAppID));
+        expect(testRequest.getFunctionName).to(equal(SDLRPCFunctionNameGetCloudAppProperties));
     });
 
     it(@"Should initialize correctly with the convenience init", ^{

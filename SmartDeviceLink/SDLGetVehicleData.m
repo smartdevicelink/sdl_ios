@@ -299,11 +299,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setCloudAppVehicleID:(nullable NSNumber<SDLBool> *)cloudAppVehicleID {
-    [parameters sdl_setObject:cloudAppVehicleID forName:SDLNameCloudAppVehicleID];
+    [parameters sdl_setObject:cloudAppVehicleID forName:SDLRPCParameterNameCloudAppVehicleID];
 }
 
 - (nullable NSNumber<SDLBool> *)cloudAppVehicleID {
-    return [parameters sdl_objectForName:SDLNameCloudAppVehicleID];
+    return [parameters sdl_objectForName:SDLRPCParameterNameCloudAppVehicleID];
 }
 
 @end

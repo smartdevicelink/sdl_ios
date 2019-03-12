@@ -84,14 +84,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Optional Methods
 
-- (void)onSetCloudAppProperties:(SDLSetCloudAppProperties *)request {
-    // TODO: need to be able to send request
-}
-
-- (void)onGetCloudAppProperties:(SDLGetCloudAppProperties *)request {
-    // TODO: need to be able to send request
-}
-
 - (void)onError:(NSException *)e {
     NSError *error = [NSError sdl_lifecycle_unknownRemoteErrorWithDescription:e.name andReason:e.reason];
     [self postNotificationName:SDLDidReceiveError infoObject:error];
@@ -389,6 +381,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCRequestNotification:SDLDidReceiveGetAppServiceDataRequest request:request];
 }
 
+- (void)onGetCloudAppProperties:(SDLGetCloudAppProperties *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetCloudAppPropertiesRequest request:request];
+}
+
 - (void)onGetDTCs:(SDLGetDTCs *)request {
     [self postRPCRequestNotification:SDLDidReceiveGetDTCsRequest request:request];
 }
@@ -463,6 +459,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onSetAppIcon:(SDLSetAppIcon *)request {
     [self postRPCRequestNotification:SDLDidReceiveSetAppIconRequest request:request];
+}
+
+- (void)onSetCloudAppProperties:(SDLSetCloudAppProperties *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSetCloudAppPropertiesRequest request:request];
 }
 
 - (void)onSetDisplayLayout:(SDLSetDisplayLayout *)request {

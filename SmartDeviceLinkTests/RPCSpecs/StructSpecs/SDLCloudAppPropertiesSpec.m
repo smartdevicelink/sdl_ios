@@ -11,7 +11,8 @@
 
 #import "SDLCloudAppProperties.h"
 #import "SDLHybridAppPreference.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLCloudAppPropertiesSpec)
 
@@ -54,13 +55,13 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameNicknames:testNicknames,
-                               SDLNameAppId:testAppID,
-                               SDLNameEnabled:@(testEnabled),
-                               SDLNameAuthToken:testAuthToken,
-                               SDLNameCloudTransportType:testCloudTransportType,
-                               SDLNameHybridAppPreference:testHybridAppPreference,
-                               SDLNameEndpoint:testEndpoint
+        NSDictionary *dict = @{SDLRPCParameterNameNicknames:testNicknames,
+                               SDLRPCParameterNameAppId:testAppID,
+                               SDLRPCParameterNameEnabled:@(testEnabled),
+                               SDLRPCParameterNameAuthToken:testAuthToken,
+                               SDLRPCParameterNameCloudTransportType:testCloudTransportType,
+                               SDLRPCParameterNameHybridAppPreference:testHybridAppPreference,
+                               SDLRPCParameterNameEndpoint:testEndpoint
                                };
         SDLCloudAppProperties *testStruct = [[SDLCloudAppProperties alloc] initWithDictionary:dict];
 

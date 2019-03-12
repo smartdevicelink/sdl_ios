@@ -9,7 +9,7 @@
 #import "SDLCloudAppProperties.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -44,59 +44,59 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setNicknames:(nullable NSArray<NSString *> *)nicknames {
-    [store sdl_setObject:nicknames forName:SDLNameNicknames];
+    [store sdl_setObject:nicknames forName:SDLRPCParameterNameNicknames];
 }
 
 - (nullable NSArray<NSString *> *)nicknames {
-    return [store sdl_objectForName:SDLNameNicknames];
+    return [store sdl_objectForName:SDLRPCParameterNameNicknames];
 }
 
 - (void)setAppID:(NSString *)appID {
-    [store sdl_setObject:appID forName:SDLNameAppId];
+    [store sdl_setObject:appID forName:SDLRPCParameterNameAppId];
 }
 
 - (NSString *)appID {
-    return [store sdl_objectForName:SDLNameAppId];
+    return [store sdl_objectForName:SDLRPCParameterNameAppId];
 }
 
 - (void)setEnabled:(nullable NSNumber<SDLBool> *)enabled {
-    [store sdl_setObject:enabled forName:SDLNameEnabled];
+    [store sdl_setObject:enabled forName:SDLRPCParameterNameEnabled];
 }
 
 - (nullable NSNumber<SDLBool> *)enabled {
-    return [store sdl_objectForName:SDLNameEnabled];
+    return [store sdl_objectForName:SDLRPCParameterNameEnabled];
 }
 
 - (void)setAuthToken:(nullable NSString *)authToken {
-    [store sdl_setObject:authToken forName:SDLNameAuthToken];
+    [store sdl_setObject:authToken forName:SDLRPCParameterNameAuthToken];
 }
 
 - (nullable NSString *)authToken {
-    return [store sdl_objectForName:SDLNameAuthToken];
+    return [store sdl_objectForName:SDLRPCParameterNameAuthToken];
 }
 
 - (void)setCloudTransportType:(nullable NSString *)cloudTransportType {
-    [store sdl_setObject:cloudTransportType forName:SDLNameCloudTransportType];
+    [store sdl_setObject:cloudTransportType forName:SDLRPCParameterNameCloudTransportType];
 }
 
 - (nullable NSString *)cloudTransportType {
-    return [store sdl_objectForName:SDLNameCloudTransportType];
+    return [store sdl_objectForName:SDLRPCParameterNameCloudTransportType];
 }
 
 - (void)setHybridAppPreference:(nullable SDLHybridAppPreference)hybridAppPreference {
-    [store sdl_setObject:hybridAppPreference forName:SDLNameHybridAppPreference];
+    [store sdl_setObject:hybridAppPreference forName:SDLRPCParameterNameHybridAppPreference];
 }
 
 - (nullable SDLHybridAppPreference)hybridAppPreference {
-    return [store sdl_objectForName:SDLNameHybridAppPreference];
+    return [store sdl_objectForName:SDLRPCParameterNameHybridAppPreference];
 }
 
 - (void)setEndpoint:(nullable NSString *)endpoint {
-    [store sdl_setObject:endpoint forName:SDLNameEndpoint];
+    [store sdl_setObject:endpoint forName:SDLRPCParameterNameEndpoint];
 }
 
 - (nullable NSString *)endpoint {
-    return [store sdl_objectForName:SDLNameEndpoint];
+    return [store sdl_objectForName:SDLRPCParameterNameEndpoint];
 }
 
 @end

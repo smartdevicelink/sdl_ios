@@ -9,14 +9,15 @@
 #import "SDLGetCloudAppProperties.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLGetCloudAppProperties
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameGetCloudAppProperties]) {
+    if (self = [super initWithName:SDLRPCFunctionNameGetCloudAppProperties]) {
     }
     return self;
 }
@@ -33,11 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setAppID:(NSString *)appID {
-    [parameters sdl_setObject:appID forName:SDLNameAppId];
+    [parameters sdl_setObject:appID forName:SDLRPCParameterNameAppId];
 }
 
 - (NSString *)appID {
-    return [parameters sdl_objectForName:SDLNameAppId];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAppId];
 }
 
 @end

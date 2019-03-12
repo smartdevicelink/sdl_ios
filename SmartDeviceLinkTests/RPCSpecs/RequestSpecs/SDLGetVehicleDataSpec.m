@@ -86,7 +86,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameAirbagStatus:@YES,
                                                                    SDLRPCParameterNameBeltStatus:@YES,
                                                                    SDLRPCParameterNameBodyInformation:@YES,
-                                                                   SDLRPCParameterCloudAppVehicleID:@YES,
+                                                                   SDLRPCParameterNameCloudAppVehicleID:@YES,
                                                                    SDLRPCParameterNameClusterModeStatus:@YES,
                                                                    SDLRPCParameterNameDeviceStatus:@YES,
                                                                    SDLRPCParameterNameDriverBraking:@YES,

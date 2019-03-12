@@ -10,7 +10,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLCloudAppProperties.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSetCloudAppProperties.h"
 
 QuickSpecBegin(SDLSetCloudAppPropertiesSpec)
@@ -30,11 +31,11 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should initialize correctly with a dictionary", ^{
-        NSDictionary *dict = @{SDLNameRequest:@{
-                                       SDLNameParameters:@{
-                                               SDLNameProperties:testProperties
+        NSDictionary *dict = @{SDLRPCParameterNameRequest:@{
+                                       SDLRPCParameterNameParameters:@{
+                                               SDLRPCParameterNameProperties:testProperties
                                                },
-                                       SDLNameOperationName:SDLNameSetCloudAppProperties}};
+                                       SDLRPCParameterNameOperationName:SDLRPCFunctionNameSetCloudAppProperties}};
         SDLSetCloudAppProperties *testRequest = [[SDLSetCloudAppProperties alloc] initWithDictionary:dict];
 
         expect(testRequest.properties).to(equal(testProperties));

@@ -80,8 +80,6 @@ SDLNotificationName const SDLDidReceiveUnsubscribeButtonResponse = @"com.sdl.res
 SDLNotificationName const SDLDidReceiveUnsubscribeVehicleDataResponse = @"com.sdl.response.unsubscribeVehicleData";
 SDLNotificationName const SDLDidReceiveUnsubscribeWaypointsResponse = @"com.sdl.response.unsubscribeWaypoints";
 
-SDLNotificationName const SDLDidReceiveSetCloudAppPropertiesRequest = @"com.sdl.request.setCloudAppProperties";
-SDLNotificationName const SDLDidReceiveGetCloudAppPropertiesRequest = @"com.sdl.request.getCloudAppProperties";
 #pragma mark - RPC Requests
 SDLNotificationName const SDLDidReceiveAddCommandRequest = @"com.sdl.request.addCommand";
 SDLNotificationName const SDLDidReceiveAddSubMenuRequest = @"com.sdl.request.addSubMenu";
@@ -99,6 +97,7 @@ SDLNotificationName const SDLDidReceiveDialNumberRequest = @"com.sdl.request.dia
 SDLNotificationName const SDLDidReceiveEncodedSyncPDataRequest = @"com.sdl.request.encodedSyncPData";
 SDLNotificationName const SDLDidReceiveEndAudioPassThruRequest = @"com.sdl.request.endAudioPassThru";
 SDLNotificationName const SDLDidReceiveGetAppServiceDataRequest = @"com.sdl.request.getAppServiceData";
+SDLNotificationName const SDLDidReceiveGetCloudAppPropertiesRequest = @"com.sdl.request.getCloudAppProperties";
 SDLNotificationName const SDLDidReceiveGetDTCsRequest = @"com.sdl.request.getDTCs";
 SDLNotificationName const SDLDidReceiveGetFileRequest = @"com.sdl.request.getFile";
 SDLNotificationName const SDLDidReceiveGetInteriorVehicleDataRequest = @"com.sdl.request.getInteriorVehicleData";
@@ -118,6 +117,7 @@ SDLNotificationName const SDLDidReceiveScrollableMessageRequest = @"com.sdl.requ
 SDLNotificationName const SDLDidReceiveSendHapticDataRequest = @"com.sdl.request.sendHapticData";
 SDLNotificationName const SDLDidReceiveSendLocationRequest = @"com.sdl.request.sendLocation";
 SDLNotificationName const SDLDidReceiveSetAppIconRequest = @"com.sdl.request.setAppIcon";
+SDLNotificationName const SDLDidReceiveSetCloudAppPropertiesRequest = @"com.sdl.request.setCloudAppProperties";
 SDLNotificationName const SDLDidReceiveSetDisplayLayoutRequest = @"com.sdl.request.setDisplayLayout";
 SDLNotificationName const SDLDidReceiveSetGlobalPropertiesRequest = @"com.sdl.request.setGlobalProperties";
 SDLNotificationName const SDLDidReceiveSetInteriorVehicleDataRequest = @"com.sdl.request.setInteriorVehicleData";

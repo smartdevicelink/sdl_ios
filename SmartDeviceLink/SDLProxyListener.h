@@ -168,19 +168,6 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 
 #pragma mark - Responses
-/**
- *  Called when a `SetCloudAppProperties` request is received from Core
- *
- *  @param request A SDLSetCloudAppProperties object
- */
-- (void)onSetCloudAppProperties:(SDLSetCloudAppProperties *)request;
-
-/**
- *  Called when a `GetCloudAppProperties` request is received from Core
- *
- *  @param request A SDLGetCloudAppProperties object
- */
-- (void)onGetCloudAppProperties:(SDLGetCloudAppProperties *)request;
 
 /**
  *  Called when an Add Command Response is received from Core
@@ -575,6 +562,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onUnsubscribeWayPointsResponse:(SDLUnsubscribeWayPointsResponse *)response;
 
 #pragma mark - Requests
+
 /**
  *  Called when a `AddCommand` request is received from Core
  *
@@ -686,6 +674,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request A SDLGetAppServiceData object
  */
 - (void)onGetAppServiceData:(SDLGetAppServiceData *)request;
+
+/**
+ *  Called when a `GetCloudAppProperties` request is received from Core
+ *
+ *  @param request A SDLGetCloudAppProperties object
+ */
+- (void)onGetCloudAppProperties:(SDLGetCloudAppProperties *)request;
 
 /**
  *  Called when a `GetDTCs` request is received from Core
@@ -819,6 +814,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param request A SDLSetAppIcon object
  */
 - (void)onSetAppIcon:(SDLSetAppIcon *)request;
+
+/**
+ *  Called when a `SetCloudAppProperties` request is received from Core
+ *
+ *  @param request A SDLSetCloudAppProperties object
+ */
+- (void)onSetCloudAppProperties:(SDLSetCloudAppProperties *)request;
 
 /**
  *  Called when a `SetDisplayLayout` request is received from Core

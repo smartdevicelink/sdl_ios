@@ -146,7 +146,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                      SDLRPCParameterNameSteeringWheelAngle:@-1500,
                                                      SDLRPCParameterNameTirePressure:tires,
                                                      SDLRPCParameterNameTurnSignal:SDLTurnSignalOff,
-                                                     SDLRPCParameterNameVIN:@"6574839201",
+                                                     SDLRPCParameterNameVIN:vin,
                                                      SDLRPCParameterNameWiperStatus:SDLWiperStatusAutomaticHigh},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}} mutableCopy];
         SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] initWithDictionary:dict];
