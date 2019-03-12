@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return The lifecycle configuration
  */
-+ (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId NS_SWIFT_NAME(init(appName:appId:)) __deprecated_msg("Use defaultConfigurationWithAppName:fullAppId: instead");
++ (SDLLifecycleConfiguration *)defaultConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId NS_SWIFT_NAME(init(appName:appId:));
 
 /**
  *  A production configuration that runs using IAP. Additional functionality should be customized on the properties.
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return The lifecycle configuration
  */
-+ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port NS_SWIFT_NAME(init(appName:appId:ipAddress:port:)) __deprecated_msg("Use debugConfigurationWithAppName:fullAppId:ipAddress:port: instead");
++ (SDLLifecycleConfiguration *)debugConfigurationWithAppName:(NSString *)appName appId:(NSString *)appId ipAddress:(NSString *)ipAddress port:(UInt16)port NS_SWIFT_NAME(init(appName:appId:ipAddress:port:));
 
 /**
  *  A debug configuration that runs using TCP. Additional functionality should be customized on the properties.
