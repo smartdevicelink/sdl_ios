@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSString *authToken;
 
 /**
- *  Specifies the connection type Core should use.
+ *  Specifies the connection type Core should use. Currently the ones that work in SDL Core are `WS` or `WSS`, but an OEM can implement their own transport adapter to handle different values.
  *
  *  String, Optional, maxlength="100"
  */
