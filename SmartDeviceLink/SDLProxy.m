@@ -731,7 +731,6 @@ static float DefaultConnectionTimeout = 45.0;
                     }
 
                     SDLSystemRequest *iconURLSystemRequest = [[SDLSystemRequest alloc] initWithType:SDLRequestTypeIconURL fileName:request.url];
-                    iconURLSystemRequest.requestSubType = SDLRPCParameterNameId;
                     iconURLSystemRequest.bulkData = data;
 
                     [strongSelf sendRPC:iconURLSystemRequest];
