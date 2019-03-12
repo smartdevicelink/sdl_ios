@@ -29,9 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Convenience init for all parameters.
  *
- *  @param nicknames            An array of app names a cloud app is allowed to register with
  *  @param appID                The id of the cloud app
- *  @param enabled              If true, cloud app will be included in HMI RPC UpdateAppList
+ *  @param nicknames            An array of app names a cloud app is allowed to register with
+ *  @param enabled              If true, the cloud app will appear in the HMI's app list; if false, the cloud app will not appear in the HMI's app list
  *  @param authToken            Used to authenticate websocket connection on app activation
  *  @param cloudTransportType   Specifies the connection type Core should use
  *  @param hybridAppPreference  Specifies the user preference to use the cloud app version or mobile app version when both are available
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *appID;
 
 /**
- *  If true, cloud app will be included in HMI RPC UpdateAppList.
+ *  If true, the cloud app will appear in the HMI's app list; if false, the cloud app will not appear in the HMI's app list.
  *
  *  Boolean, Optional
  */

@@ -92,6 +92,10 @@ describe(@"a version object", ^{
             expect([testVersion isLessThanVersion:lowerVersion]).to(equal(NO));
             expect([testVersion isLessThanVersion:equalVersion]).to(equal(NO));
             expect([testVersion isLessThanVersion:higherVersion]).to(equal(YES));
+            expect([testVersion isGreaterThanOrEqualToVersion:equalVersion]).to(equal(YES));
+            expect([testVersion isGreaterThanOrEqualToVersion:lowerVersion]).to(equal(YES));
+            expect([testVersion isLessThanOrEqualToVersion:equalVersion]).to(equal(YES));
+            expect([testVersion isLessThanVersion:higherVersion]).to(equal(YES));
         });
     });
 
