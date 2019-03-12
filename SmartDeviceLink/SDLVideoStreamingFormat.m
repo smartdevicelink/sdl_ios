@@ -8,7 +8,7 @@
 
 #import "SDLVideoStreamingFormat.h"
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,19 +25,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVideoStreamingProtocol)protocol {
-    return [store sdl_objectForName:SDLNameVideoProtocol];
+    return [store sdl_objectForName:SDLRPCParameterNameVideoProtocol];
 }
 
 - (void)setProtocol:(SDLVideoStreamingProtocol)protocol {
-    [store sdl_setObject:protocol forName:SDLNameVideoProtocol];
+    [store sdl_setObject:protocol forName:SDLRPCParameterNameVideoProtocol];
 }
 
 - (SDLVideoStreamingCodec)codec {
-    return [store sdl_objectForName:SDLNameVideoCodec];
+    return [store sdl_objectForName:SDLRPCParameterNameVideoCodec];
 }
 
 - (void)setCodec:(SDLVideoStreamingCodec)codec {
-    [store sdl_setObject:codec forName:SDLNameVideoCodec];
+    [store sdl_setObject:codec forName:SDLRPCParameterNameVideoCodec];
 }
 
 @end

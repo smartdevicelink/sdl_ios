@@ -17,7 +17,7 @@
 #import "SDLProtocolMessage.h"
 #import "SDLProtocolReceivedMessageRouter.h"
 #import "SDLRPCRequest.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLV1ProtocolMessage.h"
 #import "SDLV2ProtocolMessage.h"
 #import "SDLV1ProtocolHeader.h"
@@ -27,12 +27,12 @@
 QuickSpecBegin(SDLProtocolSpec)
 
 //Test dictionaries
-NSDictionary* dictionaryV1 = @{SDLNameRequest:
-                                   @{SDLNameOperationName:@"DeleteCommand",
-                                     SDLNameCorrelationId:@0x98765,
-                                     SDLNameParameters:
-                                         @{SDLNameCommandId:@55}}};
-NSDictionary* dictionaryV2 = @{SDLNameCommandId:@55};
+NSDictionary* dictionaryV1 = @{SDLRPCParameterNameRequest:
+                                   @{SDLRPCParameterNameOperationName:@"DeleteCommand",
+                                     SDLRPCParameterNameCorrelationId:@0x98765,
+                                     SDLRPCParameterNameParameters:
+                                         @{SDLRPCParameterNameCommandId:@55}}};
+NSDictionary* dictionaryV2 = @{SDLRPCParameterNameCommandId:@55};
 
 describe(@"Send StartService Tests", ^ {
     context(@"Unsecure", ^{

@@ -8,7 +8,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLSeatControlData.h"
 #import "SDLMassageModeData.h"
 #import "SDLMassageCushionFirmness.h"
@@ -109,22 +109,22 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameId:SDLSupportedSeatDriver,
-                                       SDLNameHeatingEnabled:@NO,
-                                       SDLNameCoolingEnabled:@YES,
-                                       SDLNameHeatingLevel:@25,
-                                       SDLNameCoolingLevel:@10,
-                                       SDLNameHorizontalPosition:@23,
-                                       SDLNameVerticalPosition:@25,
-                                       SDLNameFrontVerticalPosition:@12,
-                                       SDLNameBackVerticalPosition:@34,
-                                       SDLNameBackTiltAngle:@2,
-                                       SDLNameHeadSupportHorizontalPosition:@3,
-                                       SDLNameHeadSupportVerticalPosition:@43,
-                                       SDLNameMassageEnabled:@YES,
-                                       SDLNameMassageMode:[@[massageModeData] mutableCopy],
-                                       SDLNameMassageCushionFirmness:[@[massageCushionFirmness] mutableCopy],
-                                       SDLNameMemory:seatMemoryAction
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameId:SDLSupportedSeatDriver,
+                                       SDLRPCParameterNameHeatingEnabled:@NO,
+                                       SDLRPCParameterNameCoolingEnabled:@YES,
+                                       SDLRPCParameterNameHeatingLevel:@25,
+                                       SDLRPCParameterNameCoolingLevel:@10,
+                                       SDLRPCParameterNameHorizontalPosition:@23,
+                                       SDLRPCParameterNameVerticalPosition:@25,
+                                       SDLRPCParameterNameFrontVerticalPosition:@12,
+                                       SDLRPCParameterNameBackVerticalPosition:@34,
+                                       SDLRPCParameterNameBackTiltAngle:@2,
+                                       SDLRPCParameterNameHeadSupportHorizontalPosition:@3,
+                                       SDLRPCParameterNameHeadSupportVerticalPosition:@43,
+                                       SDLRPCParameterNameMassageEnabled:@YES,
+                                       SDLRPCParameterNameMassageMode:[@[massageModeData] mutableCopy],
+                                       SDLRPCParameterNameMassageCushionFirmness:[@[massageCushionFirmness] mutableCopy],
+                                       SDLRPCParameterNameMemory:seatMemoryAction
                                        } mutableCopy];
         SDLSeatControlData *testStruct = [[SDLSeatControlData alloc] initWithDictionary:dict];
 

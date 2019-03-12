@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLListFilesResponse.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLListFilesResponseSpec)
 
@@ -25,11 +26,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameResponse:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameFilenames:[@[@"Music/music.mp3", @"Documents/document.txt", @"Downloads/format.exe"] mutableCopy],
-                                                                   SDLNameSpaceAvailable:@500000000},
-                                                             SDLNameOperationName:SDLNameListFiles}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameResponse:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameFilenames:[@[@"Music/music.mp3", @"Documents/document.txt", @"Downloads/format.exe"] mutableCopy],
+                                                                   SDLRPCParameterNameSpaceAvailable:@500000000},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameListFiles}} mutableCopy];
         SDLListFilesResponse* testResponse = [[SDLListFilesResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.filenames).to(equal([@[@"Music/music.mp3", @"Documents/document.txt", @"Downloads/format.exe"] mutableCopy]));

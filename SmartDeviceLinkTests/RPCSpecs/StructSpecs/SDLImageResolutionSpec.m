@@ -2,7 +2,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLImageResolution.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLImageResolutionSpec)
 
@@ -25,8 +25,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSDictionary *dict = @{SDLNameResolutionHeight:@69,
-                                       SDLNameResolutionWidth:@869,
+        NSDictionary *dict = @{SDLRPCParameterNameResolutionHeight:@69,
+                                       SDLRPCParameterNameResolutionWidth:@869,
                                        };
         SDLImageResolution *testStruct = [[SDLImageResolution alloc] initWithDictionary:dict];
 

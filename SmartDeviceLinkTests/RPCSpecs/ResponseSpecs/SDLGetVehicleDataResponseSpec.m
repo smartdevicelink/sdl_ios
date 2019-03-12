@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SmartDeviceLink.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 
 QuickSpecBegin(SDLGetVehicleDataResponseSpec)
@@ -93,39 +94,39 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+                                           @{SDLRPCParameterNameParameters:
                                                  @{
-                                                     SDLNameAccelerationPedalPosition:@0,
-                                                     SDLNameAirbagStatus:airbag,
-                                                     SDLNameBeltStatus:belt,
-                                                     SDLNameBodyInformation:body,
-                                                     SDLNameClusterModeStatus:clusterMode,
-                                                     SDLNameDeviceStatus:device,
-                                                     SDLNameDriverBraking:SDLVehicleDataEventStatusNoEvent,
-                                                     SDLNameECallInfo:eCall,
-                                                     SDLNameElectronicParkBrakeStatus:SDLElectronicParkBrakeStatusDriveActive,
-                                                     SDLNameEmergencyEvent:event,
-                                                     SDLNameEngineOilLife:@23.22,
-                                                     SDLNameEngineTorque:@630.4,
-                                                     SDLNameExternalTemperature:@0,
-                                                     SDLNameFuelLevel:@99.9999,
-                                                     SDLNameFuelLevelState:SDLComponentVolumeStatusFault,
-                                                     SDLNameFuelRange:@[fuelRange],
-                                                     SDLNameGPS:gps,
-                                                     SDLNameHeadLampStatus:headLamp,
-                                                     SDLNameInstantFuelConsumption:@40.7,
-                                                     SDLNameMyKey:myKey,
-                                                     SDLNameOdometer:@70000,
-                                                     SDLNamePRNDL:SDLPRNDLPark,
-                                                     SDLNameRPM:@3,
-                                                     SDLNameSpeed:@100,
-                                                     SDLNameSteeringWheelAngle:@-1500,
-                                                     SDLNameTirePressure:tires,
-                                                     SDLNameTurnSignal:SDLTurnSignalOff,
-                                                     SDLNameVIN:@"6574839201",
-                                                     SDLNameWiperStatus:SDLWiperStatusAutomaticHigh},
-                                             SDLNameOperationName:SDLNameGetVehicleData}} mutableCopy];
+                                                     SDLRPCParameterNameAccelerationPedalPosition:@0,
+                                                     SDLRPCParameterNameAirbagStatus:airbag,
+                                                     SDLRPCParameterNameBeltStatus:belt,
+                                                     SDLRPCParameterNameBodyInformation:body,
+                                                     SDLRPCParameterNameClusterModeStatus:clusterMode,
+                                                     SDLRPCParameterNameDeviceStatus:device,
+                                                     SDLRPCParameterNameDriverBraking:SDLVehicleDataEventStatusNoEvent,
+                                                     SDLRPCParameterNameECallInfo:eCall,
+                                                     SDLRPCParameterNameElectronicParkBrakeStatus:SDLElectronicParkBrakeStatusDriveActive,
+                                                     SDLRPCParameterNameEmergencyEvent:event,
+                                                     SDLRPCParameterNameEngineOilLife:@23.22,
+                                                     SDLRPCParameterNameEngineTorque:@630.4,
+                                                     SDLRPCParameterNameExternalTemperature:@0,
+                                                     SDLRPCParameterNameFuelLevel:@99.9999,
+                                                     SDLRPCParameterNameFuelLevelState:SDLComponentVolumeStatusFault,
+                                                     SDLRPCParameterNameFuelRange:@[fuelRange],
+                                                     SDLRPCParameterNameGPS:gps,
+                                                     SDLRPCParameterNameHeadLampStatus:headLamp,
+                                                     SDLRPCParameterNameInstantFuelConsumption:@40.7,
+                                                     SDLRPCParameterNameMyKey:myKey,
+                                                     SDLRPCParameterNameOdometer:@70000,
+                                                     SDLRPCParameterNamePRNDL:SDLPRNDLPark,
+                                                     SDLRPCParameterNameRPM:@3,
+                                                     SDLRPCParameterNameSpeed:@100,
+                                                     SDLRPCParameterNameSteeringWheelAngle:@-1500,
+                                                     SDLRPCParameterNameTirePressure:tires,
+                                                     SDLRPCParameterNameTurnSignal:SDLTurnSignalOff,
+                                                     SDLRPCParameterNameVIN:@"6574839201",
+                                                     SDLRPCParameterNameWiperStatus:SDLWiperStatusAutomaticHigh},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameGetVehicleData}} mutableCopy];
         SDLGetVehicleDataResponse* testResponse = [[SDLGetVehicleDataResponse alloc] initWithDictionary:dict];
 
         expect(testResponse.accPedalPosition).to(equal(@0));

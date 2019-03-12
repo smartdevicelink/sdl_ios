@@ -5,26 +5,26 @@
 #import "SDLHMIPermissions.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLHMIPermissions
 
 - (void)setAllowed:(NSArray<SDLHMILevel> *)allowed {
-    [store sdl_setObject:allowed forName:SDLNameAllowed];
+    [store sdl_setObject:allowed forName:SDLRPCParameterNameAllowed];
 }
 
 - (NSArray<SDLHMILevel> *)allowed {
-    return [store sdl_objectForName:SDLNameAllowed];
+    return [store sdl_objectForName:SDLRPCParameterNameAllowed];
 }
 
 - (void)setUserDisallowed:(NSArray<SDLHMILevel> *)userDisallowed {
-    [store sdl_setObject:userDisallowed forName:SDLNameUserDisallowed];
+    [store sdl_setObject:userDisallowed forName:SDLRPCParameterNameUserDisallowed];
 }
 
 - (NSArray<SDLHMILevel> *)userDisallowed {
-    return [store sdl_objectForName:SDLNameUserDisallowed];
+    return [store sdl_objectForName:SDLRPCParameterNameUserDisallowed];
 }
 
 @end

@@ -11,7 +11,8 @@
 #import "SDLOnLockScreenStatus.h"
 #import "SDLHMILevel.h"
 #import "SDLLockScreenStatus.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnLockScreenStatusSpec)
 
@@ -31,13 +32,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+                                           @{SDLRPCParameterNameParameters:
                                                  @{@"driverDistractionStatus":@NO,
                                                    @"userSelected":@3,
                                                    @"OnLockScreenStatus":SDLLockScreenStatusRequired,
                                                    @"hmiLevel":SDLHMILevelNone},
-                                             SDLNameOperationName:@"OnLockScreenStatus"}} mutableCopy];
+                                             SDLRPCParameterNameOperationName:@"OnLockScreenStatus"}} mutableCopy];
         SDLOnLockScreenStatus* testNotification = [[SDLOnLockScreenStatus alloc] initWithDictionary:dict];
         
         expect(testNotification.driverDistractionStatus).to(equal(@NO));

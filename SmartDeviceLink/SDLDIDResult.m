@@ -4,34 +4,34 @@
 #import "SDLDIDResult.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDIDResult
 
 - (void)setResultCode:(SDLVehicleDataResultCode)resultCode {
-    [store sdl_setObject:resultCode forName:SDLNameResultCode];
+    [store sdl_setObject:resultCode forName:SDLRPCParameterNameResultCode];
 }
 
 - (SDLVehicleDataResultCode)resultCode {
-    return [store sdl_objectForName:SDLNameResultCode];
+    return [store sdl_objectForName:SDLRPCParameterNameResultCode];
 }
 
 - (void)setDidLocation:(NSNumber<SDLInt> *)didLocation {
-    [store sdl_setObject:didLocation forName:SDLNameDIDLocation];
+    [store sdl_setObject:didLocation forName:SDLRPCParameterNameDIDLocation];
 }
 
 - (NSNumber<SDLInt> *)didLocation {
-    return [store sdl_objectForName:SDLNameDIDLocation];
+    return [store sdl_objectForName:SDLRPCParameterNameDIDLocation];
 }
 
 - (void)setData:(nullable NSString *)data {
-    [store sdl_setObject:data forName:SDLNameData];
+    [store sdl_setObject:data forName:SDLRPCParameterNameData];
 }
 
 - (nullable NSString *)data {
-    return [store sdl_objectForName:SDLNameData];
+    return [store sdl_objectForName:SDLRPCParameterNameData];
 }
 
 @end

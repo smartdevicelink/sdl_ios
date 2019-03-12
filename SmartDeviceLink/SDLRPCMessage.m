@@ -5,7 +5,7 @@
 #import "SDLRPCMessage.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,10 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
     if (self = [super init]) {
         function = [[NSMutableDictionary alloc] initWithCapacity:3];
         parameters = [[NSMutableDictionary alloc] init];
-        messageType = SDLNameRequest;
+        messageType = SDLRPCParameterNameRequest;
         [store setObject:function forKey:messageType];
-        [function setObject:parameters forKey:SDLNameParameters];
-        [function setObject:name forKey:SDLNameOperationName];
+        [function setObject:parameters forKey:SDLRPCParameterNameParameters];
+        [function setObject:name forKey:SDLRPCParameterNameOperationName];
     }
     return self;
 }
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (self = [super initWithDictionary:dict]) {
         NSEnumerator *enumerator = [store keyEnumerator];
         while (messageType = [enumerator nextObject]) {
-            if (![messageType isEqualToString:SDLNameBulkData]) {
+            if (![messageType isEqualToString:SDLRPCParameterNameBulkData]) {
                 break;
             }
         }
@@ -37,21 +37,21 @@ NS_ASSUME_NONNULL_BEGIN
             store[messageType] = [store[messageType] mutableCopy];
             function = store[messageType];
 
-            function[SDLNameParameters] = [function[SDLNameParameters] mutableCopy];
-            parameters = function[SDLNameParameters];
+            function[SDLRPCParameterNameParameters] = [function[SDLRPCParameterNameParameters] mutableCopy];
+            parameters = function[SDLRPCParameterNameParameters];
         }
-        self.bulkData = dict[SDLNameBulkData];
+        self.bulkData = dict[SDLRPCParameterNameBulkData];
     }
     
     return self;
 }
 
 - (nullable NSString *)getFunctionName {
-    return [function sdl_objectForName:SDLNameOperationName];
+    return [function sdl_objectForName:SDLRPCParameterNameOperationName];
 }
 
 - (void)setFunctionName:(nullable NSString *)functionName {
-    [function sdl_setObject:functionName forName:SDLNameOperationName];
+    [function sdl_setObject:functionName forName:SDLRPCParameterNameOperationName];
 }
 
 - (nullable NSObject *)getParameters:(NSString *)functionName {

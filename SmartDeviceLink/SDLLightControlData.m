@@ -2,7 +2,7 @@
 //
 
 #import "SDLLightControlData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "NSMutableDictionary+Store.h"
 #import "SDLLightState.h"
 
@@ -21,11 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setLightState:(NSArray<SDLLightState *> *)lightState {
-    [store sdl_setObject:lightState forName:SDLNameLightState];
+    [store sdl_setObject:lightState forName:SDLRPCParameterNameLightState];
 }
 
 - (NSArray<SDLLightState *> *)lightState {
-    return [store sdl_objectsForName:SDLNameLightState ofClass:SDLLightState.class];
+    return [store sdl_objectsForName:SDLRPCParameterNameLightState ofClass:SDLLightState.class];
 }
 
 @end

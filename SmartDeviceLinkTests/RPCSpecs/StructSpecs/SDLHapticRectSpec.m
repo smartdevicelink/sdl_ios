@@ -11,7 +11,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLHapticRect.h"
 #import "SDLRectangle.h"
 
@@ -41,12 +41,12 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dict", ^{
-        NSMutableDictionary *dict = [@{SDLNameId:@2,
-                                       SDLNameRect: @{
-                                               SDLNameX:@20,
-                                               SDLNameY:@200,
-                                               SDLNameWidth:@2000,
-                                               SDLNameHeight:@3000
+        NSMutableDictionary *dict = [@{SDLRPCParameterNameId:@2,
+                                       SDLRPCParameterNameRect: @{
+                                               SDLRPCParameterNameX:@20,
+                                               SDLRPCParameterNameY:@200,
+                                               SDLRPCParameterNameWidth:@2000,
+                                               SDLRPCParameterNameHeight:@3000
                                                }
                                        } mutableCopy];
         SDLHapticRect *testStruct = [[SDLHapticRect alloc] initWithDictionary:dict];

@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLDeleteFile.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLDeleteFileSpec)
 
@@ -23,10 +24,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameSyncFileName:@"synchro"},
-                                                             SDLNameOperationName:SDLNameDeleteFile}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameSyncFileName:@"synchro"},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameDeleteFile}} mutableCopy];
         SDLDeleteFile* testRequest = [[SDLDeleteFile alloc] initWithDictionary:dict];
         
         expect(testRequest.syncFileName).to(equal(@"synchro"));

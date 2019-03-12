@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLOnAudioPassThru.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnAudioPassThruSpec)
 

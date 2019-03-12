@@ -9,7 +9,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLSeatControlCapabilities.h"
 
 
@@ -100,22 +100,22 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameModuleName:@"moduleName",
-                                       SDLNameHeatingEnabledAvailable:(@YES),
-                                       SDLNameCoolingEnabledAvailable:@YES,
-                                       SDLNameHeatingLevelAvailable:@YES,
-                                       SDLNameCoolingLevelAvailable:@NO,
-                                       SDLNameHorizontalPositionAvailable:@NO,
-                                       SDLNameVerticalPositionAvailable:@NO,
-                                       SDLNameFrontVerticalPositionAvailable:@NO,
-                                       SDLNameBackVerticalPositionAvailable:@NO,
-                                       SDLNameBackTiltAngleAvailable:@YES,
-                                       SDLNameHeadSupportHorizontalPositionAvailable:@NO,
-                                       SDLNameHeadSupportVerticalPositionAvailable:@YES,
-                                       SDLNameMassageEnabledAvailable:@NO,
-                                       SDLNameMassageModeAvailable:@YES,
-                                       SDLNameMassageCushionFirmnessAvailable:@NO,
-                                       SDLNameMemoryAvailable:@NO
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameModuleName:@"moduleName",
+                                       SDLRPCParameterNameHeatingEnabledAvailable:(@YES),
+                                       SDLRPCParameterNameCoolingEnabledAvailable:@YES,
+                                       SDLRPCParameterNameHeatingLevelAvailable:@YES,
+                                       SDLRPCParameterNameCoolingLevelAvailable:@NO,
+                                       SDLRPCParameterNameHorizontalPositionAvailable:@NO,
+                                       SDLRPCParameterNameVerticalPositionAvailable:@NO,
+                                       SDLRPCParameterNameFrontVerticalPositionAvailable:@NO,
+                                       SDLRPCParameterNameBackVerticalPositionAvailable:@NO,
+                                       SDLRPCParameterNameBackTiltAngleAvailable:@YES,
+                                       SDLRPCParameterNameHeadSupportHorizontalPositionAvailable:@NO,
+                                       SDLRPCParameterNameHeadSupportVerticalPositionAvailable:@YES,
+                                       SDLRPCParameterNameMassageEnabledAvailable:@NO,
+                                       SDLRPCParameterNameMassageModeAvailable:@YES,
+                                       SDLRPCParameterNameMassageCushionFirmnessAvailable:@NO,
+                                       SDLRPCParameterNameMemoryAvailable:@NO
                                        } mutableCopy];
         SDLSeatControlCapabilities *testStruct = [[SDLSeatControlCapabilities alloc] initWithDictionary:dict];
 

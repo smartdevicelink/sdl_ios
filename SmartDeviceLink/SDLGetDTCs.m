@@ -5,14 +5,15 @@
 #import "SDLGetDTCs.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLGetDTCs
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameGetDTCs]) {
+    if (self = [super initWithName:SDLRPCFunctionNameGetDTCs]) {
     }
     return self;
 }
@@ -40,19 +41,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setEcuName:(NSNumber<SDLInt> *)ecuName {
-    [parameters sdl_setObject:ecuName forName:SDLNameECUName];
+    [parameters sdl_setObject:ecuName forName:SDLRPCParameterNameECUName];
 }
 
 - (NSNumber<SDLInt> *)ecuName {
-    return [parameters sdl_objectForName:SDLNameECUName];
+    return [parameters sdl_objectForName:SDLRPCParameterNameECUName];
 }
 
 - (void)setDtcMask:(nullable NSNumber<SDLInt> *)dtcMask {
-    [parameters sdl_setObject:dtcMask forName:SDLNameDTCMask];
+    [parameters sdl_setObject:dtcMask forName:SDLRPCParameterNameDTCMask];
 }
 
 - (nullable NSNumber<SDLInt> *)dtcMask {
-    return [parameters sdl_objectForName:SDLNameDTCMask];
+    return [parameters sdl_objectForName:SDLRPCParameterNameDTCMask];
 }
 
 @end

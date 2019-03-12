@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLDeleteFileResponse.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLDeleteFileResponseSpec)
 
@@ -23,10 +24,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameResponse:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameSpaceAvailable:@0},
-                                                             SDLNameOperationName:SDLNameDeleteFile}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameResponse:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameSpaceAvailable:@0},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameDeleteFile}} mutableCopy];
         SDLDeleteFileResponse* testResponse = [[SDLDeleteFileResponse alloc] initWithDictionary:dict];
         
         expect(testResponse.spaceAvailable).to(equal(@0));

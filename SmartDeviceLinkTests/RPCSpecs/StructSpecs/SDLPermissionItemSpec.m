@@ -11,7 +11,7 @@
 #import "SDLHMIPermissions.h"
 #import "SDLParameterPermissions.h"
 #import "SDLPermissionItem.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLPermissionItemSpec)
 
@@ -32,9 +32,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRPCName:@"RPCNameThing",
-                                                       SDLNameHMIPermissions:hmiPermissions,
-                                                       SDLNameParameterPermissions:parameterPermissions} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRPCName:@"RPCNameThing",
+                                                       SDLRPCParameterNameHMIPermissions:hmiPermissions,
+                                                       SDLRPCParameterNameParameterPermissions:parameterPermissions} mutableCopy];
         SDLPermissionItem* testStruct = [[SDLPermissionItem alloc] initWithDictionary:dict];
         
         expect(testStruct.rpcName).to(equal(@"RPCNameThing"));

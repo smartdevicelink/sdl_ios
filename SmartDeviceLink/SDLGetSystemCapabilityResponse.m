@@ -9,7 +9,8 @@
 #import "SDLGetSystemCapabilityResponse.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSystemCapability.h"
 
 
@@ -18,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLGetSystemCapabilityResponse
 
 - (instancetype)init {
-    self = [super initWithName:SDLNameGetSystemCapability];
+    self = [super initWithName:SDLRPCFunctionNameGetSystemCapability];
     if (!self) {
         return nil;
     }
@@ -27,11 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setSystemCapability:(SDLSystemCapability *)systemCapability {
-    [parameters sdl_setObject:systemCapability forName:SDLNameSystemCapability];
+    [parameters sdl_setObject:systemCapability forName:SDLRPCParameterNameSystemCapability];
 }
 
 - (SDLSystemCapability *)systemCapability {
-    return [parameters sdl_objectForName:SDLNameSystemCapability ofClass:SDLSystemCapability.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSystemCapability ofClass:SDLSystemCapability.class];
 }
 
 @end

@@ -5,14 +5,15 @@
 #import "SDLSetAppIconResponse.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSetAppIconResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameSetAppIcon]) {
+    if (self = [super initWithName:SDLRPCFunctionNameSetAppIcon]) {
     }
     return self;
 }

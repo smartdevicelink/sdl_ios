@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLStartTime.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLStartTimeSpec)
 
@@ -30,9 +30,9 @@ describe(@"StartTime Spec", ^ {
         });
 
         it(@"should properly initialize with initWithDictionary:", ^{
-            NSDictionary<NSString *, id> *dict = @{SDLNameHours:@(testHours),
-                                                   SDLNameMinutes:@(testMinutes),
-                                                   SDLNameSeconds:@(testSeconds)};
+            NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameHours:@(testHours),
+                                                   SDLRPCParameterNameMinutes:@(testMinutes),
+                                                   SDLRPCParameterNameSeconds:@(testSeconds)};
             SDLStartTime *testStruct = [[SDLStartTime alloc] initWithDictionary:dict];
 
             expect(testStruct.hours).to(equal(@(testHours)));

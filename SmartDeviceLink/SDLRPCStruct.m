@@ -5,7 +5,7 @@
 #import "SDLRPCStruct.h"
 
 #import "SDLEnum.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
         NSString *messageType = store.keyEnumerator.nextObject;
         NSMutableDictionary<NSString *, id> *function = store[messageType];
         if ([function isKindOfClass:NSMutableDictionary.class]) {
-            NSMutableDictionary<NSString *, id> *parameters = function[SDLNameParameters];
+            NSMutableDictionary<NSString *, id> *parameters = function[SDLRPCParameterNameParameters];
             return [self.class sdl_serializeDictionary:parameters version:version];
         } else {
             return [self.class sdl_serializeDictionary:store version:version];

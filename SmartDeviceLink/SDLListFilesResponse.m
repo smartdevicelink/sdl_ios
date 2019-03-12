@@ -5,32 +5,33 @@
 #import "SDLListFilesResponse.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLListFilesResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameListFiles]) {
+    if (self = [super initWithName:SDLRPCFunctionNameListFiles]) {
     }
     return self;
 }
 
 - (void)setFilenames:(nullable NSArray<NSString *> *)filenames {
-    [parameters sdl_setObject:filenames forName:SDLNameFilenames];
+    [parameters sdl_setObject:filenames forName:SDLRPCParameterNameFilenames];
 }
 
 - (nullable NSArray<NSString *> *)filenames {
-    return [parameters sdl_objectForName:SDLNameFilenames];
+    return [parameters sdl_objectForName:SDLRPCParameterNameFilenames];
 }
 
 - (void)setSpaceAvailable:(nullable NSNumber<SDLInt> *)spaceAvailable {
-    [parameters sdl_setObject:spaceAvailable forName:SDLNameSpaceAvailable];
+    [parameters sdl_setObject:spaceAvailable forName:SDLRPCParameterNameSpaceAvailable];
 }
 
 - (nullable NSNumber<SDLInt> *)spaceAvailable {
-    return [parameters sdl_objectForName:SDLNameSpaceAvailable];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSpaceAvailable];
 }
 
 @end

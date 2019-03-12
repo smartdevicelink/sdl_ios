@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLSetAppIcon.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLSetAppIconSpec)
 
@@ -23,10 +24,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameSyncFileName:@"A/File/Name"},
-                                                             SDLNameOperationName:SDLNameSetAppIcon}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameSyncFileName:@"A/File/Name"},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameSetAppIcon}} mutableCopy];
         SDLSetAppIcon* testRequest = [[SDLSetAppIcon alloc] initWithDictionary:dict];
         
         expect(testRequest.syncFileName).to(equal(@"A/File/Name"));

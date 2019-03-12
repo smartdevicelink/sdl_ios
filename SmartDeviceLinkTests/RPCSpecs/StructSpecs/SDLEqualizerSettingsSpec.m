@@ -8,7 +8,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLEqualizerSettings.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin(SDLEqualizerSettingsSpec)
@@ -35,9 +35,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameChannelId:@2,
-                                       SDLNameChannelName:@"channel",
-                                       SDLNameChannelSetting:@45
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameChannelId:@2,
+                                       SDLRPCParameterNameChannelName:@"channel",
+                                       SDLRPCParameterNameChannelSetting:@45
                                        } mutableCopy];
         SDLEqualizerSettings* testStruct = [[SDLEqualizerSettings alloc] initWithDictionary:dict];
 

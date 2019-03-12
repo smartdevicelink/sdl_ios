@@ -5,18 +5,18 @@
 #import "SDLPresetBankCapabilities.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLPresetBankCapabilities
 
 - (void)setOnScreenPresetsAvailable:(NSNumber<SDLBool> *)onScreenPresetsAvailable {
-    [store sdl_setObject:onScreenPresetsAvailable forName:SDLNameOnScreenPresetsAvailable];
+    [store sdl_setObject:onScreenPresetsAvailable forName:SDLRPCParameterNameOnScreenPresetsAvailable];
 }
 
 - (NSNumber<SDLBool> *)onScreenPresetsAvailable {
-    return [store sdl_objectForName:SDLNameOnScreenPresetsAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameOnScreenPresetsAvailable];
 }
 
 @end

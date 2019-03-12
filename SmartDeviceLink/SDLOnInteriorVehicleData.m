@@ -3,7 +3,8 @@
 //
 
 #import "SDLOnInteriorVehicleData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLModuleData.h"
 #import "NSMutableDictionary+Store.h"
 
@@ -12,17 +13,17 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLOnInteriorVehicleData
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnInteriorVehicleData]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnInteriorVehicleData]) {
     }
     return self;
 }
 
 - (void)setModuleData:(SDLModuleData *)moduleData {
-    [parameters sdl_setObject:moduleData forName:SDLNameModuleData];
+    [parameters sdl_setObject:moduleData forName:SDLRPCParameterNameModuleData];
 }
 
 - (SDLModuleData *)moduleData {
-    return [parameters sdl_objectForName:SDLNameModuleData ofClass:SDLModuleData.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameModuleData ofClass:SDLModuleData.class];
 }
 
 @end

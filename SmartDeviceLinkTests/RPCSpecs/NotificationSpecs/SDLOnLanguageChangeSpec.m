@@ -10,7 +10,8 @@
 
 #import "SDLLanguage.h"
 #import "SDLOnLanguageChange.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 
 QuickSpecBegin(SDLOnLanguageChangeSpec)
@@ -27,11 +28,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameLanguage:SDLLanguageEsEs,
-                                                   SDLNameHMIDisplayLanguage:SDLLanguageDeDe},
-                                             SDLNameOperationName:SDLNameOnLanguageChange}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameLanguage:SDLLanguageEsEs,
+                                                   SDLRPCParameterNameHMIDisplayLanguage:SDLLanguageDeDe},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnLanguageChange}} mutableCopy];
         SDLOnLanguageChange* testNotification = [[SDLOnLanguageChange alloc] initWithDictionary:dict];
         
         expect(testNotification.language).to(equal(SDLLanguageEsEs));

@@ -8,7 +8,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLMassageModeData.h"
 
 QuickSpecBegin(SDLMassageModeDataSpec)
@@ -32,8 +32,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameMassageMode:SDLMassageModeLow,
-                                       SDLNameMassageZone:SDLMassageZoneLumbar
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameMassageMode:SDLMassageModeLow,
+                                       SDLRPCParameterNameMassageZone:SDLMassageZoneLumbar
                                        } mutableCopy];
         SDLMassageModeData* testStruct = [[SDLMassageModeData alloc] initWithDictionary:dict];
 

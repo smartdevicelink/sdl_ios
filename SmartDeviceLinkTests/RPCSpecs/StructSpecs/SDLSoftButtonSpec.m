@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLImage.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLSoftButton.h"
 #import "SDLSoftButtonType.h"
 #import "SDLSystemAction.h"
@@ -39,12 +39,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameType:SDLSoftButtonTypeImage,
-                                       SDLNameText:@"Button",
-                                       SDLNameImage:image,
-                                       SDLNameIsHighlighted:@YES,
-                                       SDLNameSoftButtonId:@5423,
-                                       SDLNameSystemAction:SDLSystemActionKeepContext} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameType:SDLSoftButtonTypeImage,
+                                       SDLRPCParameterNameText:@"Button",
+                                       SDLRPCParameterNameImage:image,
+                                       SDLRPCParameterNameIsHighlighted:@YES,
+                                       SDLRPCParameterNameSoftButtonId:@5423,
+                                       SDLRPCParameterNameSystemAction:SDLSystemActionKeepContext} mutableCopy];
         SDLSoftButton* testStruct = [[SDLSoftButton alloc] initWithDictionary:dict];
         
         expect(testStruct.type).to(equal(SDLSoftButtonTypeImage));

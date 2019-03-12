@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLAddSubMenuResponse.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLAddSubMenuResponseSpec)
 

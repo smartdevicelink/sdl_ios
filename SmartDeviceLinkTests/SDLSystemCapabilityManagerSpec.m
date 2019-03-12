@@ -51,6 +51,7 @@ describe(@"System capability manager", ^{
         expect(testSystemCapabilityManager.navigationCapability).to(beNil());
         expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
         expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+        expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
     });
 
     context(@"When notified of a register app interface response", ^{
@@ -169,6 +170,7 @@ describe(@"System capability manager", ^{
             expect(testSystemCapabilityManager.navigationCapability).to(beNil());
             expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
             expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+            expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
         });
     });
 
@@ -250,6 +252,7 @@ describe(@"System capability manager", ^{
             expect(testSystemCapabilityManager.navigationCapability).to(beNil());
             expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
             expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+            expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
         });
     });
 
@@ -349,6 +352,7 @@ describe(@"System capability manager", ^{
             expect(testSystemCapabilityManager.navigationCapability).to(beNil());
             expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
             expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+            expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
         });
     });
 
@@ -388,6 +392,7 @@ describe(@"System capability manager", ^{
                 expect(testSystemCapabilityManager.navigationCapability).to(beNil());
                 expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
                 expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+                expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
             });
         });
     });

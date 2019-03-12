@@ -9,7 +9,8 @@
 #import "SDLGetSystemCapability.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSystemCapabilityType.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLGetSystemCapability
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameGetSystemCapability]) {
+    if (self = [super initWithName:SDLRPCFunctionNameGetSystemCapability]) {
     }
     return self;
 }
@@ -33,12 +34,31 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
+- (instancetype)initWithType:(SDLSystemCapabilityType)type subscribe:(BOOL)subscribe {
+    self = [self initWithType:type];
+    if (!self) {
+        return nil;
+    }
+
+    self.subscribe = @(subscribe);
+
+    return self;
+}
+
 - (void)setSystemCapabilityType:(SDLSystemCapabilityType)type {
-    [parameters sdl_setObject:type forName:SDLNameSystemCapabilityType];
+    [parameters sdl_setObject:type forName:SDLRPCParameterNameSystemCapabilityType];
 }
 
 - (SDLSystemCapabilityType)systemCapabilityType {
-    return [parameters sdl_objectForName:SDLNameSystemCapabilityType];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSystemCapabilityType];
+}
+
+- (void)setSubscribe:(nullable NSNumber<SDLBool> *)subscribe {
+    [parameters sdl_setObject:subscribe forName:SDLRPCParameterNameSubscribe];
+}
+
+- (nullable NSNumber<SDLBool> *)subscribe {
+    return [parameters sdl_objectForName:SDLRPCParameterNameSubscribe];
 }
 
 @end

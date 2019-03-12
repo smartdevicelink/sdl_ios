@@ -12,7 +12,7 @@
 #import "SDLV2ProtocolMessage.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLRPCPayload.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLV2ProtocolMessageSpec)
 

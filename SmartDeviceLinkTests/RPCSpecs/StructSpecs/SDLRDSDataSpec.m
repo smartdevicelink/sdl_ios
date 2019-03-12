@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLRDSData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLRDSDataSpec)
 
@@ -30,14 +30,14 @@ describe(@"Initialization tests", ^{
     
     it(@"should properly initialize initWithDictionary", ^{
         
-        NSMutableDictionary* dict = [@{SDLNameProgramService : @"ps",
-                                       SDLNameRadioText : @"rt",
-                                       SDLNameClockText : @"2017-07-25T19:20:30-5:00",
-                                       SDLNameProgramIdentification : @"pi",
-                                       SDLNameProgramType : @5,
-                                       SDLNameTrafficProgramIdentification : @NO,
-                                       SDLNameTrafficAnnouncementIdentification : @YES,
-                                       SDLNameRegion : @"reg"} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameProgramService : @"ps",
+                                       SDLRPCParameterNameRadioText : @"rt",
+                                       SDLRPCParameterNameClockText : @"2017-07-25T19:20:30-5:00",
+                                       SDLRPCParameterNameProgramIdentification : @"pi",
+                                       SDLRPCParameterNameProgramType : @5,
+                                       SDLRPCParameterNameTrafficProgramIdentification : @NO,
+                                       SDLRPCParameterNameTrafficAnnouncementIdentification : @YES,
+                                       SDLRPCParameterNameRegion : @"reg"} mutableCopy];
         SDLRDSData* testStruct = [[SDLRDSData alloc] initWithDictionary:dict];
         
         expect(testStruct.programService).to(equal(@"ps"));

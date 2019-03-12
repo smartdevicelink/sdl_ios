@@ -11,7 +11,8 @@
 #import "SDLAddCommand.h"
 #import "SDLImage.h"
 #import "SDLMenuParams.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLAddCommandSpec)
 
@@ -34,13 +35,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                          @{SDLNameParameters:
-                                                                @{SDLNameCommandId:@434577,
-                                                                  SDLNameMenuParams:menu,
-                                                                  SDLNameVRCommands:[@[@"name", @"anotherName"] mutableCopy],
-                                                                  SDLNameCommandIcon:image},
-                                                            SDLNameOperationName:SDLNameAddCommand}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                          @{SDLRPCParameterNameParameters:
+                                                                @{SDLRPCParameterNameCommandId:@434577,
+                                                                  SDLRPCParameterNameMenuParams:menu,
+                                                                  SDLRPCParameterNameVRCommands:[@[@"name", @"anotherName"] mutableCopy],
+                                                                  SDLRPCParameterNameCommandIcon:image},
+                                                            SDLRPCParameterNameOperationName:SDLRPCFunctionNameAddCommand}} mutableCopy];
 
         SDLAddCommand* testRequest = [[SDLAddCommand alloc] initWithDictionary:dict];
         

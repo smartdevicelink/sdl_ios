@@ -11,7 +11,7 @@
 #import "SDLVehicleDataResult.h"
 #import "SDLVehicleDataResultCode.h"
 #import "SDLVehicleDataType.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLVehicleDataResultSpec)
 
@@ -27,8 +27,8 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameDataType:SDLVehicleDataTypeAirbagStatus,
-                                       SDLNameResultCode:SDLVehicleDataResultCodeDisallowed} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameDataType:SDLVehicleDataTypeAirbagStatus,
+                                       SDLRPCParameterNameResultCode:SDLVehicleDataResultCodeDisallowed} mutableCopy];
         SDLVehicleDataResult* testStruct = [[SDLVehicleDataResult alloc] initWithDictionary:dict];
         
         expect(testStruct.dataType).to(equal(SDLVehicleDataTypeAirbagStatus));

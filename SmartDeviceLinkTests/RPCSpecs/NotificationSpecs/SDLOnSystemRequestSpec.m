@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLFileType.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLOnSystemRequest.h"
 #import "SDLRequestType.h"
 
@@ -38,16 +39,16 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameRequestType:SDLRequestTypeFileResume,
-                                                   SDLNameRequestSubType: @"subtype",
-                                                   SDLNameURL:[@[@"www.google.com"] mutableCopy],
-                                                   SDLNameTimeout:@52345,
-                                                   SDLNameFileType:SDLFileTypePNG,
-                                                   SDLNameOffset:@2532678684,
-                                                   SDLNameLength:@50000000000},
-                                             SDLNameOperationName:SDLNameOnSystemRequest}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameRequestType:SDLRequestTypeFileResume,
+                                                   SDLRPCParameterNameRequestSubType: @"subtype",
+                                                   SDLRPCParameterNameURL:[@[@"www.google.com"] mutableCopy],
+                                                   SDLRPCParameterNameTimeout:@52345,
+                                                   SDLRPCParameterNameFileType:SDLFileTypePNG,
+                                                   SDLRPCParameterNameOffset:@2532678684,
+                                                   SDLRPCParameterNameLength:@50000000000},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnSystemRequest}} mutableCopy];
         SDLOnSystemRequest* testNotification = [[SDLOnSystemRequest alloc] initWithDictionary:dict];
         
         expect(testNotification.requestType).to(equal(SDLRequestTypeFileResume));

@@ -11,7 +11,8 @@
 #import "SDLButtonName.h"
 #import "SDLButtonPressMode.h"
 #import "SDLOnButtonPress.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 
 QuickSpecBegin(SDLOnButtonPressSpec)
@@ -30,12 +31,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameButtonName:SDLButtonNameCustomButton,
-                                                   SDLNameButtonPressMode:SDLButtonPressModeLong,
-                                                   SDLNameCustomButtonId:@5642},
-                                             SDLNameOperationName:SDLNameOnButtonPress}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameButtonName:SDLButtonNameCustomButton,
+                                                   SDLRPCParameterNameButtonPressMode:SDLButtonPressModeLong,
+                                                   SDLRPCParameterNameCustomButtonId:@5642},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnButtonPress}} mutableCopy];
         SDLOnButtonPress* testNotification = [[SDLOnButtonPress alloc] initWithDictionary:dict];
         
         expect(testNotification.buttonName).to(equal(SDLButtonNameCustomButton));
