@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLUInt> *offset;
 
 /**
- *  Optional length in bytes for resuming partial data chunks if offset is set to 0, then length is the total length of the file to be downloaded.
+ *  Optional length in bytes for resuming partial data chunks. If offset is set to 0, then length is the total length of the file to be downloaded.
  *
  *  Integer, Optional, minvalue="0" maxvalue="2000000000"
  */
