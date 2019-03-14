@@ -2053,7 +2053,7 @@
 		5D1FF2D621304746000EB9B4 /* AudioManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioManager.swift; path = "Example Apps/Example Swift/AudioManager.swift"; sourceTree = SOURCE_ROOT; };
 		5D1FF2D721304746000EB9B4 /* PerformInteractionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PerformInteractionManager.swift; path = "Example Apps/Example Swift/PerformInteractionManager.swift"; sourceTree = SOURCE_ROOT; };
 		5D1FF2D821304746000EB9B4 /* MenuManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuManager.swift; path = "Example Apps/Example Swift/MenuManager.swift"; sourceTree = SOURCE_ROOT; };
-		5D1FF2D921304746000EB9B4 /* VehicleDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VehicleDataManager.swift; path = "Example Apps/Example Swift/VehicleDataManager.swift"; sourceTree = SOURCE_ROOT; };
+		5D1FF2D921304746000EB9B4 /* VehicleDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VehicleDataManager.swift; path = "Example Apps/Example Swift/VehicleDataManager.swift"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5D1FF2E221304761000EB9B4 /* AppUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppUserDefaults.swift; path = "Example Apps/Example Swift/AppUserDefaults.swift"; sourceTree = SOURCE_ROOT; };
 		5D1FF2E321304761000EB9B4 /* Protocol+ProxyManagerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Protocol+ProxyManagerDelegate.swift"; path = "Example Apps/Example Swift/Protocol+ProxyManagerDelegate.swift"; sourceTree = SOURCE_ROOT; };
 		5D1FF2E421304761000EB9B4 /* TextValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextValidator.swift; path = "Example Apps/Example Swift/TextValidator.swift"; sourceTree = SOURCE_ROOT; };
@@ -7834,7 +7834,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -7882,7 +7882,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -7956,7 +7956,7 @@
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -7999,7 +7999,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -8155,7 +8155,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -8202,7 +8202,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
