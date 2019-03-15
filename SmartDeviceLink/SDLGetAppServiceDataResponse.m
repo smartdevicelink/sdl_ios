@@ -34,11 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (void)setServiceData:(SDLAppServiceData *)serviceData {
+- (void)setServiceData:(nullable SDLAppServiceData *)serviceData {
     [parameters sdl_setObject:serviceData forName:SDLRPCParameterNameServiceData];
 }
 
-- (SDLAppServiceData *)serviceData {
+- (nullable SDLAppServiceData *)serviceData {
     return [parameters sdl_objectForName:SDLRPCParameterNameServiceData ofClass:SDLAppServiceData.class];
 }
 

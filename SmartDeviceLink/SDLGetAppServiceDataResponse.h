@@ -28,9 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Contains all the current data of the app service.
  *
- *  SDLAppServiceData, Required
+ *  SDLAppServiceData, Optional
  */
-@property (strong, nonatomic) SDLAppServiceData *serviceData;
+@property (nullable, strong, nonatomic) SDLAppServiceData *serviceData;
 
 @end
 
