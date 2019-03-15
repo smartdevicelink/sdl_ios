@@ -13,7 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /*
- *  This response includes the data that is requested from the specific service.
+ *  This response includes the data that was requested from the specific service.
  */
 @interface SDLGetAppServiceDataResponse : SDLRPCResponse
 

@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLNavigationJunction junctionType;
 
 /**
- *  Used to infer which side of the road this instruction takes place. For a U-Turn (Action=Turn, direction=180) this will determine which direction the turn should take place.
+ *  Used to infer which side of the road this instruction takes place. For a U-Turn (action=TURN, bearing=180) this will determine which direction the turn should take place.
  *
  *  SDLDirection, Optional
  */
