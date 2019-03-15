@@ -22,14 +22,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription displayAddressLines:(nullable NSArray<NSString *> *)displayAddressLines phoneNumber:(nullable NSString *)phoneNumber image:(nullable SDLImage *)image deliveryMode:(nullable SDLDeliveryMode)deliveryMode timeStamp:(nullable SDLDateTime *)timeStamp address:(nullable SDLOasisAddress *)address;
 
 /**
- * The longitudinal coordinate of the location. Either the latitude / longitude OR the `addressLines` must be provided.
+ * The longitudinal coordinate of the location. Either the latitude / longitude OR the `address` must be provided.
  *
  * Float, Optional, -180.0 - 180.0
  */
 @property (nullable, copy, nonatomic) NSNumber<SDLFloat> *longitudeDegrees;
 
 /**
- * The latitudinal coordinate of the location. Either the latitude / longitude OR the `addressLines` must be provided.
+ * The latitudinal coordinate of the location. Either the latitude / longitude OR the `address` must be provided.
  *
  * Float, Optional, -90.0 - 90.0
  */
@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, copy, nonatomic) NSString *locationDescription;
 
 /**
- * Location address for display purposes only. Either the latitude / longitude OR the `addressLines` must be provided.
+ * Location address for display purposes only. Either the latitude / longitude OR the `address` must be provided.
  *
  * Contains String, Optional, Max Array Length = 4, Max String Length = 500
  */
