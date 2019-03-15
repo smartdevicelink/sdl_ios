@@ -10,6 +10,7 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLDateTime.h"
+#import "SDLImage.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLTemperature.h"
 
@@ -17,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLWeatherData
 
-- (instancetype)initWithCurrentTemperature:(nullable SDLTemperature *)currentTemperature temperatureHigh:(nullable SDLTemperature *)temperatureHigh temperatureLow:(nullable SDLTemperature *)temperatureLow apparentTemperature:(nullable SDLTemperature *)apparentTemperature apparentTemperatureHigh:(nullable SDLTemperature *)apparentTemperatureHigh apparentTemperatureLow:(nullable SDLTemperature *)apparentTemperatureLow weatherSummary:(nullable NSString *)weatherSummary time:(nullable SDLDateTime *)time humidity:(nullable NSNumber<SDLFloat> *)humidity cloudCover:(nullable NSNumber<SDLFloat> *)cloudCover moonPhase:(nullable NSNumber<SDLFloat> *)moonPhase windBearing:(nullable NSNumber<SDLInt> *)windBearing windGust:(nullable NSNumber<SDLFloat> *)windGust windSpeed:(nullable NSNumber<SDLFloat> *)windSpeed nearestStormBearing:(nullable NSNumber<SDLInt> *)nearestStormBearing nearestStormDistance:(nullable NSNumber<SDLInt> *)nearestStormDistance precipAccumulation:(nullable NSNumber<SDLFloat> *)precipAccumulation precipIntensity:(nullable NSNumber<SDLFloat> *)precipIntensity precipProbability:(nullable NSNumber<SDLFloat> *)precipProbability precipType:(nullable NSString *)precipType visibility:(nullable NSNumber<SDLFloat> *)visibility weatherIconImageName:(nullable NSString *)weatherIconImageName {
+- (instancetype)initWithCurrentTemperature:(nullable SDLTemperature *)currentTemperature temperatureHigh:(nullable SDLTemperature *)temperatureHigh temperatureLow:(nullable SDLTemperature *)temperatureLow apparentTemperature:(nullable SDLTemperature *)apparentTemperature apparentTemperatureHigh:(nullable SDLTemperature *)apparentTemperatureHigh apparentTemperatureLow:(nullable SDLTemperature *)apparentTemperatureLow weatherSummary:(nullable NSString *)weatherSummary time:(nullable SDLDateTime *)time humidity:(nullable NSNumber<SDLFloat> *)humidity cloudCover:(nullable NSNumber<SDLFloat> *)cloudCover moonPhase:(nullable NSNumber<SDLFloat> *)moonPhase windBearing:(nullable NSNumber<SDLInt> *)windBearing windGust:(nullable NSNumber<SDLFloat> *)windGust windSpeed:(nullable NSNumber<SDLFloat> *)windSpeed nearestStormBearing:(nullable NSNumber<SDLInt> *)nearestStormBearing nearestStormDistance:(nullable NSNumber<SDLInt> *)nearestStormDistance precipAccumulation:(nullable NSNumber<SDLFloat> *)precipAccumulation precipIntensity:(nullable NSNumber<SDLFloat> *)precipIntensity precipProbability:(nullable NSNumber<SDLFloat> *)precipProbability precipType:(nullable NSString *)precipType visibility:(nullable NSNumber<SDLFloat> *)visibility weatherIcon:(nullable SDLImage *)weatherIcon {
     self = [self init];
     if (!self) {
         return nil;
@@ -44,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.precipProbability = precipProbability;
     self.precipType = precipType;
     self.visibility = visibility;
-    self.weatherIconImageName = weatherIconImageName;
+    self.weatherIcon = weatherIcon;
 
     return self;
 }
@@ -217,12 +218,12 @@ NS_ASSUME_NONNULL_BEGIN
     return [store sdl_objectForName:SDLRPCParameterNameVisibility];
 }
 
-- (void)setWeatherIconImageName:(nullable NSString *)weatherIconImageName {
-    [store sdl_setObject:weatherIconImageName forName:SDLRPCParameterNameWeatherIconImageName];
+- (void)setWeatherIcon:(nullable SDLImage *)weatherIcon {
+    [store sdl_setObject:weatherIcon forName:SDLRPCParameterNameWeatherIcon];
 }
 
-- (nullable NSString *)weatherIconImageName {
-    return [store sdl_objectForName:SDLRPCParameterNameWeatherIconImageName];
+- (nullable SDLImage *)weatherIcon {
+    return [store sdl_objectForName:SDLRPCParameterNameWeatherIcon ofClass:SDLImage.class];
 }
 
 @end
