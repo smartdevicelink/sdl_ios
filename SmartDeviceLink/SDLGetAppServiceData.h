@@ -35,6 +35,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType;
 
 /**
+ *  Convenience init for subscribing to a service type.
+ *
+ *  @param serviceType      The app service type
+ *  @return                 A SDLGetAppServiceData object
+ */
+- (instancetype)initAndSubscribeToAppServiceType:(SDLAppServiceType)serviceType;
+
+/**
  *  Convenience init for all parameters.
  *
  *  @param serviceType      The app service type
