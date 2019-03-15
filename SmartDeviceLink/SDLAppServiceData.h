@@ -18,7 +18,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /*
- *  Contains all the current data of the app service. The serviceType will link to which of the service data objects are included in this object. (eg if service type equals MEDIA, the mediaServiceData param should be included.
+ *  Contains all the current data of the app service. The serviceType will link to which of the service data objects are included in this object (e.g. if the service type is MEDIA, the mediaServiceData param should be included).
  */
 @interface SDLAppServiceData : SDLRPCStruct
 

@@ -10,6 +10,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLDateTime.h"
+#import "SDLImage.h"
 #import "SDLRPCParameterNames.h"
 #import "SDLTemperature.h"
 #import "SDLWeatherData.h"
@@ -38,7 +39,7 @@ describe(@"Getter/Setter Tests", ^{
     __block float testPrecipProbability = 0.45;
     __block NSString *testPrecipType = nil;
     __block float testVisibility = 0.1;
-    __block NSString *testWeatherIconImageName = nil;
+    __block SDLImage *testWeatherIcon = nil;
 
     beforeEach(^{
         testCurrentTemp = [[SDLTemperature alloc] initWithUnit:SDLTemperatureUnitFahrenheit value:2];
@@ -50,7 +51,7 @@ describe(@"Getter/Setter Tests", ^{
         testWeatherSummary = @"testWeatherSummary";
         testTime = [[SDLDateTime alloc] initWithHour:4 minute:5];
         testPrecipType = @"testPrecipType";
-        testWeatherIconImageName = @"testWeatherIconImageName";
+        testWeatherIcon = [[SDLImage alloc] initWithName:@"testWeatherIcon" isTemplate:true];
     });
 
     it(@"Should set and get correctly", ^{
@@ -76,7 +77,7 @@ describe(@"Getter/Setter Tests", ^{
         testStruct.precipProbability = @(testPrecipProbability);
         testStruct.precipType = testPrecipType;
         testStruct.visibility = @(testVisibility);
-        testStruct.weatherIconImageName = testWeatherIconImageName;
+        testStruct.weatherIcon = testWeatherIcon;
 
         expect(testStruct.currentTemperature).to(equal(testCurrentTemp));
         expect(testStruct.temperatureHigh).to(equal(testTempHigh));
@@ -99,7 +100,7 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.precipProbability).to(equal(testPrecipProbability));
         expect(testStruct.precipType).to(equal(testPrecipType));
         expect(testStruct.visibility).to(equal(testVisibility));
-        expect(testStruct.weatherIconImageName).to(equal(testWeatherIconImageName));
+        expect(testStruct.weatherIcon).to(equal(testWeatherIcon));
     });
 
     it(@"Should get correctly when initialized with a dictionary", ^{
@@ -124,7 +125,7 @@ describe(@"Getter/Setter Tests", ^{
                                SDLRPCParameterNamePrecipProbability:@(testPrecipProbability),
                                SDLRPCParameterNamePrecipType:testPrecipType,
                                SDLRPCParameterNameVisibility:@(testVisibility),
-                               SDLRPCParameterNameWeatherIconImageName:testWeatherIconImageName
+                               SDLRPCParameterNameWeatherIcon:testWeatherIcon
                                };
         SDLWeatherData *testStruct = [[SDLWeatherData alloc] initWithDictionary:dict];
 
@@ -149,11 +150,11 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.precipProbability).to(equal(testPrecipProbability));
         expect(testStruct.precipType).to(equal(testPrecipType));
         expect(testStruct.visibility).to(equal(testVisibility));
-        expect(testStruct.weatherIconImageName).to(equal(testWeatherIconImageName));
+        expect(testStruct.weatherIcon).to(equal(testWeatherIcon));
     });
 
     it(@"Should get correctly when initialized with a convenience init", ^{
-        SDLWeatherData *testStruct = [[SDLWeatherData alloc] initWithCurrentTemperature:testCurrentTemp temperatureHigh:testTempHigh temperatureLow:testTempLow apparentTemperature:testApparentTemp apparentTemperatureHigh:testApparentTempHigh apparentTemperatureLow:testApparentTempLow weatherSummary:testWeatherSummary time:testTime humidity:@(testHumidity) cloudCover:@(testCloudCover) moonPhase:@(testMoonPhase) windBearing:@(testWindBearing) windGust:@(testWindGust) windSpeed:@(testWindSpeed) nearestStormBearing:@(testNearestStormBearing) nearestStormDistance:@(testNearestStormDistance) precipAccumulation:@(testPrecipAccumulation) precipIntensity:@(testPrecipIntensity) precipProbability:@(testPrecipProbability) precipType:testPrecipType visibility:@(testVisibility) weatherIconImageName:testWeatherIconImageName];
+        SDLWeatherData *testStruct = [[SDLWeatherData alloc] initWithCurrentTemperature:testCurrentTemp temperatureHigh:testTempHigh temperatureLow:testTempLow apparentTemperature:testApparentTemp apparentTemperatureHigh:testApparentTempHigh apparentTemperatureLow:testApparentTempLow weatherSummary:testWeatherSummary time:testTime humidity:@(testHumidity) cloudCover:@(testCloudCover) moonPhase:@(testMoonPhase) windBearing:@(testWindBearing) windGust:@(testWindGust) windSpeed:@(testWindSpeed) nearestStormBearing:@(testNearestStormBearing) nearestStormDistance:@(testNearestStormDistance) precipAccumulation:@(testPrecipAccumulation) precipIntensity:@(testPrecipIntensity) precipProbability:@(testPrecipProbability) precipType:testPrecipType visibility:@(testVisibility) weatherIcon:testWeatherIcon];
 
         expect(testStruct.currentTemperature).to(equal(testCurrentTemp));
         expect(testStruct.temperatureHigh).to(equal(testTempHigh));
@@ -176,7 +177,7 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.precipProbability).to(equal(testPrecipProbability));
         expect(testStruct.precipType).to(equal(testPrecipType));
         expect(testStruct.visibility).to(equal(testVisibility));
-        expect(testStruct.weatherIconImageName).to(equal(testWeatherIconImageName));
+        expect(testStruct.weatherIcon).to(equal(testWeatherIcon));
     });
 
 
@@ -204,7 +205,7 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.precipProbability).to(beNil());
         expect(testStruct.precipType).to(beNil());
         expect(testStruct.visibility).to(beNil());
-        expect(testStruct.weatherIconImageName).to(beNil());
+        expect(testStruct.weatherIcon).to(beNil());
     });
 });
 
