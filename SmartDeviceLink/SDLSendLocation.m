@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.locationName = locationName;
     self.locationDescription = locationDescription;
     self.phoneNumber = phoneNumber;
-    self.image = image;
+    self.locationImage = image;
     self.deliveryMode = deliveryMode;
     self.timeStamp = timeStamp;
 
