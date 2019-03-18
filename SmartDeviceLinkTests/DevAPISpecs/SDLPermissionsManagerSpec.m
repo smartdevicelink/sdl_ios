@@ -240,7 +240,7 @@ describe(@"SDLPermissionsManager", ^{
     });
     
     describe(@"checking the status of RPCs", ^{
-        __block NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> *testResultPermissionStatusDict = nil;
+        __block NSDictionary<SDLPermissionRPCName, NSNumber *> *testResultPermissionStatusDict = nil;
         
         context(@"with no permissions data", ^{
             beforeEach(^{
@@ -273,14 +273,14 @@ describe(@"SDLPermissionsManager", ^{
             context(@"when no data is present", ^{
                 __block BOOL testObserverCalled = NO;
                 __block SDLPermissionGroupStatus testObserverStatus = SDLPermissionGroupStatusUnknown;
-                __block NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> *testObserverChangeDict = nil;
+                __block NSDictionary<SDLPermissionRPCName,NSNumber *> *testObserverChangeDict = nil;
                 
                 beforeEach(^{
                     testObserverCalled = NO;
                     testObserverStatus = SDLPermissionGroupStatusUnknown;
                     testObserverChangeDict = nil;
                     
-                    [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                    [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                         testObserverChangeDict = change;
                         testObserverStatus = status;
                         testObserverCalled = YES;
@@ -297,7 +297,7 @@ describe(@"SDLPermissionsManager", ^{
             
             context(@"when data is already present", ^{
                 __block NSInteger numberOfTimesObserverCalled = 0;
-                __block NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> *testObserverBlockChangedDict = nil;
+                __block NSDictionary<SDLPermissionRPCName,NSNumber *> *testObserverBlockChangedDict = nil;
                 __block SDLPermissionGroupStatus testObserverReturnStatus = SDLPermissionGroupStatusUnknown;
                 
                 context(@"to match an ANY observer", ^{
@@ -311,7 +311,7 @@ describe(@"SDLPermissionsManager", ^{
                         [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
                         
                         // This should be called twice, once for each RPC being observed. It should be called immediately since data should already be present
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             testObserverBlockChangedDict = changedDict;
                             testObserverReturnStatus = status;
@@ -338,7 +338,7 @@ describe(@"SDLPermissionsManager", ^{
                         [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
                         
                         // This should be called twice, once for each RPC being observed. It should be called immediately since data should already be present
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             testObserverBlockChangedDict = change;
                             testObserverReturnStatus = status;
@@ -365,7 +365,7 @@ describe(@"SDLPermissionsManager", ^{
                         [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
                         
                         // This should be called twice, once for each RPC being observed. It should be called immediately since data should already be present
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllDisallowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllDisallowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             testObserverReturnStatus = status;
                         }];
@@ -384,7 +384,7 @@ describe(@"SDLPermissionsManager", ^{
             
             __block SDLOnPermissionsChange *testPermissionChangeUpdate = nil;
             __block SDLPermissionItem *testPermissionUpdated = nil;
-            __block NSMutableArray<NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> *> *changeDicts = nil;
+            __block NSMutableArray<NSDictionary<SDLPermissionRPCName,NSNumber*> *> *changeDicts = nil;
             __block NSMutableArray<NSNumber<SDLUInt> *> *testStatuses = nil;
             
             context(@"to match an ANY observer", ^{
@@ -400,7 +400,7 @@ describe(@"SDLPermissionsManager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
                     
                     // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                    [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                    [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                         numberOfTimesObserverCalled++;
                         [changeDicts addObject:changedDict];
                     }];
@@ -467,7 +467,7 @@ describe(@"SDLPermissionsManager", ^{
                 context(@"so that it becomes All Allowed", ^{
                     beforeEach(^{
                         // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllDisallowed, testRPCNameFullLimitedBackgroundAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllDisallowed, testRPCNameFullLimitedBackgroundAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             [changeDicts addObject:change];
                             [testStatuses addObject:@(status)];
@@ -510,7 +510,7 @@ describe(@"SDLPermissionsManager", ^{
                 context(@"so that it goes from All Allowed to mixed", ^{
                     beforeEach(^{
                         // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             [changeDicts addObject:change];
                             [testStatuses addObject:@(status)];
@@ -573,7 +573,7 @@ describe(@"SDLPermissionsManager", ^{
                 context(@"from mixed to disallowed", ^{
                     beforeEach(^{
                         // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                        [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             [changeDicts addObject:change];
                             [testStatuses addObject:@(status)];
@@ -607,7 +607,7 @@ describe(@"SDLPermissionsManager", ^{
                 context(@"from disallowed to mixed", ^{
                     beforeEach(^{
                         // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
+                        [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull change, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             [changeDicts addObject:change];
                             [testStatuses addObject:@(status)];
@@ -642,7 +642,7 @@ describe(@"SDLPermissionsManager", ^{
         
         context(@"updating an observer with a new HMI level", ^{
             __block NSInteger numberOfTimesObserverCalled = 0;
-            __block NSMutableArray<NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> *> *changeDicts = nil;
+            __block NSMutableArray<NSDictionary<SDLPermissionRPCName,NSNumber *> *> *changeDicts = nil;
             __block NSMutableArray<NSNumber<SDLUInt> *> *testStatuses = nil;
             
             context(@"to match an ANY observer", ^{
@@ -658,7 +658,7 @@ describe(@"SDLPermissionsManager", ^{
                     [[NSNotificationCenter defaultCenter] postNotification:testPermissionsNotification];
                     
                     // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                    [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                    [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                         numberOfTimesObserverCalled++;
                         [changeDicts addObject:changedDict];
                         [testStatuses addObject:@(status)];
@@ -709,7 +709,7 @@ describe(@"SDLPermissionsManager", ^{
                 context(@"so that it becomes All Allowed", ^{
                     beforeEach(^{
                         // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                        [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             [changeDicts addObject:changedDict];
                             [testStatuses addObject:@(status)];
@@ -729,7 +729,7 @@ describe(@"SDLPermissionsManager", ^{
                 context(@"so that it goes from All Allowed to at least some disallowed", ^{
                     beforeEach(^{
                         // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedBackgroundAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                        [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedBackgroundAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             [changeDicts addObject:changedDict];
                             [testStatuses addObject:@(status)];
@@ -778,7 +778,7 @@ describe(@"SDLPermissionsManager", ^{
                 context(@"that goes from disallowed to mixed", ^{
                     beforeEach(^{
                         // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                        [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             [changeDicts addObject:changedDict];
                             [testStatuses addObject:@(status)];
@@ -797,7 +797,7 @@ describe(@"SDLPermissionsManager", ^{
                 context(@"that goes from mixed to disallowed", ^{
                     beforeEach(^{
                         // Set an observer that should be called immediately for the preexisting data, then called again when new data is sent
-                        [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameFullLimitedBackgroundAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                        [testPermissionsManager addObserverForRPCs:@[testRPCNameFullLimitedAllowed, testRPCNameFullLimitedBackgroundAllowed] groupType:SDLPermissionGroupTypeAllAllowed withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                             numberOfTimesObserverCalled++;
                             [changeDicts addObject:changedDict];
                             [testStatuses addObject:@(status)];
@@ -824,7 +824,7 @@ describe(@"SDLPermissionsManager", ^{
                 numberOfTimesObserverCalled = 0;
                 
                 // Add two observers
-                NSUUID *observerId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                NSUUID *observerId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     numberOfTimesObserverCalled++;
                 }];
                 
@@ -849,11 +849,11 @@ describe(@"SDLPermissionsManager", ^{
                 numberOfTimesObserverCalled = 0;
                 
                 // Add two observers
-                NSUUID *testRemovedObserverId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                NSUUID *testRemovedObserverId = [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     numberOfTimesObserverCalled++;
                 }];
                 
-                [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameFullLimitedAllowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     numberOfTimesObserverCalled++;
                 }];
                 
@@ -878,11 +878,11 @@ describe(@"SDLPermissionsManager", ^{
                 numberOfTimesObserverCalled = 0;
                 
                 // Add two observers
-                [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     numberOfTimesObserverCalled++;
                 }];
                 
-                [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber<SDLBool> *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
+                [testPermissionsManager addObserverForRPCs:@[testRPCNameAllAllowed, testRPCNameAllDisallowed] groupType:SDLPermissionGroupTypeAny withHandler:^(NSDictionary<SDLPermissionRPCName,NSNumber *> * _Nonnull changedDict, SDLPermissionGroupStatus status) {
                     numberOfTimesObserverCalled++;
                 }];
                 
