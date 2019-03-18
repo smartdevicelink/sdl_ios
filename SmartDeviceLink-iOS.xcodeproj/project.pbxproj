@@ -2847,7 +2847,7 @@
 		8818ADD62100FC18007D6F19 /* SDLTurnSignal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTurnSignal.h; sourceTree = "<group>"; };
 		8818ADD72100FC18007D6F19 /* SDLTurnSignal.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTurnSignal.m; sourceTree = "<group>"; };
 		8818ADDC2100FE0C007D6F19 /* SDLTurnSignalSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTurnSignalSpec.m; sourceTree = "<group>"; };
-		88295697207CF68800EF056C /* SDL Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SDL Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		88295697207CF68800EF056C /* SDL Example Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SDL Example Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		882FAC4C2209D7EF0062385D /* SDLAppServiceDataSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServiceDataSpec.m; sourceTree = "<group>"; };
 		8831FA382201E3D100B8FFB7 /* SDLAppServiceManifestSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAppServiceManifestSpec.m; sourceTree = "<group>"; };
 		8831FA3C220207DA00B8FFB7 /* SDLServiceUpdateReasonSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLServiceUpdateReasonSpec.m; sourceTree = "<group>"; };
@@ -3815,7 +3815,7 @@
 				5D4019AF1A76EC350006B0C2 /* SDL Example.app */,
 				5D61FA1C1A84237100846EE7 /* SmartDeviceLink.framework */,
 				5D61FA261A84237100846EE7 /* SmartDeviceLinkTests.xctest */,
-				88295697207CF68800EF056C /* SDL Example.app */,
+				88295697207CF68800EF056C /* SDL Example Swift.app */,
 				88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */,
 			);
 			name = Products;
@@ -6573,7 +6573,7 @@
 			);
 			name = "SmartDeviceLink-Example-Swift";
 			productName = "SmartDeviceLink-iOS";
-			productReference = 88295697207CF68800EF056C /* SDL Example.app */;
+			productReference = 88295697207CF68800EF056C /* SDL Example Swift.app */;
 			productType = "com.apple.product-type.application";
 		};
 		88802CD720853AE600E9EBC6 /* SmartDeviceLinkSwift */ = {
@@ -8086,7 +8086,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
-				PRODUCT_NAME = "SDL Example";
+				PRODUCT_NAME = "SDL Example Swift";
 				SWIFT_OBJC_BRIDGING_HEADER = "Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
@@ -8105,7 +8105,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartdevicelink.SDLTestApp;
-				PRODUCT_NAME = "SDL Example";
+				PRODUCT_NAME = "SDL Example Swift";
 				SWIFT_OBJC_BRIDGING_HEADER = "Example Apps/Example Swift/SmartDeviceLink-Example-Swift-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 			};
