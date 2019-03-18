@@ -127,12 +127,12 @@ private extension AudioManager {
     ///
     /// - Parameter data: The audio data
     /// - Returns: An AVAudioPCMBuffer object
-    func createPCMBuffer(with data: Data) -> AVAudioPCMBuffer {
+    func createPCMBuffer(with data: Data) -> AVAudioPCMBuffer? {
         audioData?.append(data)
 
-        let audioFormat = AVAudioFormat(commonFormat: .pcmFormatInt16, sampleRate: 16000, channels: 1, interleaved: false)
+        guard let audioFormat = AVAudioFormat(commonFormat: .pcmFormatInt16, sampleRate: 16000, channels: 1, interleaved: false) else { return nil }
         let numFrames = UInt32(data.count) / (audioFormat.streamDescription.pointee.mBytesPerFrame)
-        let buffer = AVAudioPCMBuffer(pcmFormat: audioFormat, frameCapacity: numFrames)
+        guard let buffer = AVAudioPCMBuffer(pcmFormat: audioFormat, frameCapacity: numFrames) else  { return nil }
         buffer.frameLength = numFrames
         let bufferChannels = buffer.int16ChannelData!
         let bufferDataCount = data.copyBytes(to: UnsafeMutableBufferPointer(start: bufferChannels[0], count: data.count))

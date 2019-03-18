@@ -33,7 +33,7 @@ extension VehicleDataManager {
     /// Subscribes to odometer data. You must subscribe to a notification with name `SDLDidReceiveVehicleData` to get the new data when the odometer data changes.
     func subscribeToVehicleOdometer() {
         let subscribeToVehicleOdometer = SDLSubscribeVehicleData()
-        subscribeToVehicleOdometer.odometer = true
+        subscribeToVehicleOdometer.odometer = true as NSNumber & SDLBool
         sdlManager.send(request: subscribeToVehicleOdometer) { [unowned self] (request, response, error) in
             guard let result = response?.resultCode else { return }
 
@@ -73,7 +73,7 @@ extension VehicleDataManager {
     /// Unsubscribes to vehicle odometer data.
     func unsubscribeToVehicleOdometer() {
         let unsubscribeToVehicleOdometer = SDLUnsubscribeVehicleData()
-        unsubscribeToVehicleOdometer.odometer = true
+        unsubscribeToVehicleOdometer.odometer = true as NSNumber & SDLBool
         sdlManager.send(request: unsubscribeToVehicleOdometer) { (request, response, error) in
             guard let response = response, response.resultCode == .success else { return }
             self.resetOdometer()
@@ -83,7 +83,7 @@ extension VehicleDataManager {
     /// Notification containing the updated vehicle data.
     ///
     /// - Parameter notification: A SDLOnVehicleData notification
-    func vehicleDataNotification(_ notification: SDLRPCNotificationNotification) {
+    @objc func vehicleDataNotification(_ notification: SDLRPCNotificationNotification) {
         guard let handler = refreshUIHandler, let onVehicleData = notification.notification as? SDLOnVehicleData, let odometer = onVehicleData.odometer else {
             return
         }
