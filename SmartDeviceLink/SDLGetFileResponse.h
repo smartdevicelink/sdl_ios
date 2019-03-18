@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Convenience init for all parameters.
  *
  *  @param offset      Optional offset in bytes for resuming partial data chunks
- *  @param length      Optional length in bytes for resuming partial data chunks if offset is set to 0, then length is the total length of the file to be downloaded
+ *  @param length      Optional length in bytes for resuming partial data chunks. If offset is set to 0, then length is the total length of the file to be downloaded
  *  @param fileType    File type that is being sent in response
  *  @param crc         Additional CRC32 checksum to protect data integrity up to 512 Mbits
  *  @return            A SDLGetFileResponse object
@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) NSNumber<SDLUInt> *offset;
 
 /**
- *  Optional length in bytes for resuming partial data chunks if offset is set to 0, then length is the total length of the file to be downloaded.
+ *  Optional length in bytes for resuming partial data chunks. If offset is set to 0, then length is the total length of the file to be downloaded.
  *
  *  Integer, Optional, minvalue="0" maxvalue="2000000000"
  */

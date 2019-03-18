@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithServiceUri:(NSString *)serviceUri serviceID:(NSString *)serviceID originApp:(NSString *)originApp requestServiceActive:(BOOL)requestServiceActive;
 
 /**
- *  Fully qualified URI based on the URI prefix and URI scheme the app service provided. SDL makes no gurantee that this URI is correct.
+ *  Fully qualified URI based on a predetermined scheme provided by the app service. SDL makes no guarantee that this URI is correct.
  *
  *  String, Required
  */

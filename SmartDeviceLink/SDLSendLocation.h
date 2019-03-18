@@ -15,21 +15,63 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSendLocation : SDLRPCRequest
 
+/**
+ Create a `SendLocation` request with an address object, without Lat/Long coordinates.
+
+ @param address The address information to be passed to the nav system for determining the route
+ @param addressLines The user-facing address
+ @param locationName The user-facing name of the location
+ @param locationDescription The user-facing description of the location
+ @param phoneNumber The phone number for the location; the user could use this to call the location
+ @param image A user-facing image for the location
+ @param deliveryMode How the location should be sent to the nav system
+ @param timeStamp The estimated arrival time for the location (this will also likely be calculated by the nav system later, and may be different than your estimate). This is used to show the user approximately how long it would take to navigate here
+ @return A `SendLocation` object
+ */
+- (instancetype)initWithAddress:(SDLOasisAddress *)address addressLines:(nullable NSArray<NSString *> *)addressLines locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription phoneNumber:(nullable NSString *)phoneNumber image:(nullable SDLImage *)image deliveryMode:(nullable SDLDeliveryMode)deliveryMode timeStamp:(nullable SDLDateTime *)timeStamp;
+
+/**
+ Create a `SendLocation` request with Lat/Long coordinate, not an address object
+
+ @param longitude The longitudinal coordinate of the location
+ @param latitude The latitudinal coordinate of the location
+ @param locationName The user-facing name of the location
+ @param locationDescription The user-facing description of the location
+ @param address The user-facing address
+ @param phoneNumber The phone number for the location; the user could use this to call the location
+ @param image A user-facing image for the location
+ @return A `SendLocation` object
+ */
 - (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription address:(nullable NSArray<NSString *> *)address phoneNumber:(nullable NSString *)phoneNumber image:(nullable SDLImage *)image;
 
+/**
+ Create a `SendLocation` request with Lat/Long coordinate and an address object and let the nav system decide how to parse it
+
+ @param longitude The longitudinal coordinate of the location
+ @param latitude The latitudinal coordinate of the location
+ @param locationName The user-facing name of the location
+ @param locationDescription The user-facing description of the location
+ @param displayAddressLines The user-facing address
+ @param phoneNumber The phone number for the location; the user could use this to call the location
+ @param image A user-facing image for the location
+ @param deliveryMode How the location should be sent to the nav system
+ @param timeStamp The estimated arrival time for the location (this will also likely be calculated by the nav system later, and may be different than your estimate). This is used to show the user approximately how long it would take to navigate here
+ @param address The address information to be passed to the nav system for determining the route
+ @return A `SendLocation` object
+ */
 - (instancetype)initWithLongitude:(double)longitude latitude:(double)latitude locationName:(nullable NSString *)locationName locationDescription:(nullable NSString *)locationDescription displayAddressLines:(nullable NSArray<NSString *> *)displayAddressLines phoneNumber:(nullable NSString *)phoneNumber image:(nullable SDLImage *)image deliveryMode:(nullable SDLDeliveryMode)deliveryMode timeStamp:(nullable SDLDateTime *)timeStamp address:(nullable SDLOasisAddress *)address;
 
 /**
- * The longitudinal coordinate of the location.
+ * The longitudinal coordinate of the location. Either the latitude / longitude OR the `address` must be provided.
  *
- * Float, Required, -180.0 - 180.0
+ * Float, Optional, -180.0 - 180.0
  */
 @property (nullable, copy, nonatomic) NSNumber<SDLFloat> *longitudeDegrees;
 
 /**
- * The latitudinal coordinate of the location.
+ * The latitudinal coordinate of the location. Either the latitude / longitude OR the `address` must be provided.
  *
- * Float, Required, -90.0 - 90.0
+ * Float, Optional, -90.0 - 90.0
  */
 @property (nullable, copy, nonatomic) NSNumber<SDLFloat> *latitudeDegrees;
 
@@ -48,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, copy, nonatomic) NSString *locationDescription;
 
 /**
- * Location address for display purposes only
+ * Location address for display purposes only.
  *
  * Contains String, Optional, Max Array Length = 4, Max String Length = 500
  */
@@ -83,7 +125,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic) SDLDateTime *timeStamp;
 
 /**
- * Address to be used for setting destination
+ * Address to be used for setting destination. Either the latitude / longitude OR the `address` must be provided.
  *
  * Optional
  */

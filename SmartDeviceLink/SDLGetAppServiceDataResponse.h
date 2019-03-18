@@ -13,7 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /*
- *  This response includes the data that is requested from the specific service.
+ *  This response includes the data that was requested from the specific service.
  */
 @interface SDLGetAppServiceDataResponse : SDLRPCResponse
 
@@ -28,9 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Contains all the current data of the app service.
  *
- *  SDLAppServiceData, Required
+ *  SDLAppServiceData, Optional
  */
-@property (strong, nonatomic) SDLAppServiceData *serviceData;
+@property (nullable, strong, nonatomic) SDLAppServiceData *serviceData;
 
 @end
 
