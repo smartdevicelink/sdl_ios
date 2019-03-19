@@ -50,6 +50,7 @@ describe(@"Getter/Setter Tests", ^ {
         testResponse.myKey = vehicleDataResult;
         testResponse.electronicParkBrakeStatus = vehicleDataResult;
         testResponse.turnSignal = vehicleDataResult;
+        testResponse.cloudAppVehicleID = vehicleDataResult;
         
         expect(testResponse.gps).to(equal(vehicleDataResult));
         expect(testResponse.speed).to(equal(vehicleDataResult));
@@ -79,6 +80,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.myKey).to(equal(vehicleDataResult));
         expect(testResponse.electronicParkBrakeStatus).to(equal(vehicleDataResult));
         expect(testResponse.turnSignal).to(equal(vehicleDataResult));
+        expect(testResponse.cloudAppVehicleID).to(equal(vehicleDataResult));
     });
     
     it(@"Should get correctly when initialized", ^ {
@@ -112,6 +114,7 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameMyKey:vehicleDataResult,
                                                                    SDLRPCParameterNameElectronicParkBrakeStatus:vehicleDataResult,
                                                                    SDLRPCParameterNameTurnSignal:vehicleDataResult,
+                                                                   SDLRPCParameterNameCloudAppVehicleID:vehicleDataResult
                                                                    },
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameUnsubscribeVehicleData}} mutableCopy];
         SDLUnsubscribeVehicleDataResponse* testResponse = [[SDLUnsubscribeVehicleDataResponse alloc] initWithDictionary:dict];
@@ -144,6 +147,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.myKey).to(equal(vehicleDataResult));
         expect(testResponse.electronicParkBrakeStatus).to(equal(vehicleDataResult));
         expect(testResponse.turnSignal).to(equal(vehicleDataResult));
+        expect(testResponse.cloudAppVehicleID).to(equal(vehicleDataResult));
     });
     
     it(@"Should return nil if not set", ^ {
@@ -177,6 +181,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.myKey).to(beNil());
         expect(testResponse.electronicParkBrakeStatus).to(beNil());
         expect(testResponse.turnSignal).to(beNil());
+        expect(testResponse.cloudAppVehicleID).to(beNil());
     });
 });
 

@@ -25,3 +25,4 @@ extern char *const SDLControlFrameAudioServiceTransportsKey;
 extern char *const SDLControlFrameVideoServiceTransportsKey;
 extern char *const SDLControlFrameTCPIPAddressKey;
 extern char *const SDLControlFrameTCPPortKey;
+extern char *const SDLControlFrameAuthTokenKey;

@@ -97,6 +97,10 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.registerResponse;
 }
 
+-(nullable NSString *)authToken {
+    return self.lifecycleManager.authToken;
+}
+
 - (nullable id<SDLManagerDelegate>)delegate {
     return self.lifecycleManager.delegate;
 }

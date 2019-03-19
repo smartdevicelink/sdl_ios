@@ -82,6 +82,8 @@ NS_ASSUME_NONNULL_BEGIN
                          @47: SDLRPCFunctionNameUnsubscribeWayPoints,
                          @48: SDLRPCFunctionNameGetSystemCapability,
                          @49: SDLRPCFunctionNameSendHapticData,
+                         @50: SDLRPCFunctionNameSetCloudAppProperties,
+                         @51: SDLRPCFunctionNameGetCloudAppProperties,
                          @52: SDLRPCFunctionNamePublishAppService,
                          @53: SDLRPCFunctionNameGetAppServiceData,
                          @54: SDLRPCFunctionNameGetFile,

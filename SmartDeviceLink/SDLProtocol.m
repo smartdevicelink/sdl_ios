@@ -49,6 +49,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSMutableDictionary<SDLServiceTypeBox *, SDLProtocolHeader *> *serviceHeaders;
 @property (assign, nonatomic) int32_t hashId;
 
+// Readonly public properties
+@property (strong, nonatomic, readwrite, nullable) NSString *authToken;
+
 @end
 
 
@@ -482,7 +485,11 @@ NS_ASSUME_NONNULL_BEGIN
                 if (startServiceACKPayload.hashId != SDLControlFrameInt32NotFound) {
                     self.hashId = startServiceACKPayload.hashId;
                 }
+
                 [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = (startServiceACKPayload.protocolVersion != nil) ? [SDLVersion versionWithString:startServiceACKPayload.protocolVersion] : [SDLVersion versionWithMajor:startServiceACK.header.version minor:0 patch:0];
+
+                self.authToken = [SDLGlobals.sharedGlobals.maxHeadUnitProtocolVersion isGreaterThanOrEqualToVersion:[[SDLVersion alloc] initWithMajor:5 minor:2 patch:0]] ? startServiceACKPayload.authToken : nil;
+
                 // TODO: Hash id?
             } break;
             default:

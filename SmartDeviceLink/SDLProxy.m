@@ -513,7 +513,9 @@ static float DefaultConnectionTimeout = 45.0;
     if ([requestType isEqualToEnum:SDLRequestTypeProprietary]) {
         [self handleSystemRequestProprietary:systemRequest];
     } else if ([requestType isEqualToEnum:SDLRequestTypeLockScreenIconURL]) {
-        [self handleSystemRequestLockScreenIconURL:systemRequest];
+        [self sdl_handleSystemRequestLockScreenIconURL:systemRequest];
+    } else if ([requestType isEqualToEnum:SDLRequestTypeIconURL]) {
+        [self sdl_handleSystemRequestIconURL:systemRequest];
     } else if ([requestType isEqualToEnum:SDLRequestTypeHTTP]) {
         [self sdl_handleSystemRequestHTTP:systemRequest];
     } else if ([requestType isEqualToEnum:SDLRequestTypeLaunchApp]) {
@@ -700,7 +702,7 @@ static float DefaultConnectionTimeout = 45.0;
                     }];
 }
 
-- (void)handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
+- (void)sdl_handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
 	__weak typeof(self) weakSelf = self;
     [self sdl_sendDataTaskWithURL:[NSURL URLWithString:request.url]
                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -712,6 +714,26 @@ static float DefaultConnectionTimeout = 45.0;
                     
                     UIImage *icon = [UIImage imageWithData:data];
                     [strongSelf invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:icon];
+                }];
+}
+
+- (void)sdl_handleSystemRequestIconURL:(SDLOnSystemRequest *)request {
+    __weak typeof(self) weakSelf = self;
+    [self sdl_sendDataTaskWithURL:[NSURL URLWithString:request.url]
+                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                    __strong typeof(weakSelf) strongSelf = weakSelf;
+                    if (error != nil) {
+                        SDLLogW(@"OnSystemRequest (icon url) HTTP download task failed: %@", error.localizedDescription);
+                        return;
+                    } else if (data.length == 0) {
+                        SDLLogW(@"OnSystemRequest (icon url) HTTP download task failed to get the cloud app icon image data");
+                        return;
+                    }
+
+                    SDLSystemRequest *iconURLSystemRequest = [[SDLSystemRequest alloc] initWithType:SDLRequestTypeIconURL fileName:request.url];
+                    iconURLSystemRequest.bulkData = data;
+
+                    [strongSelf sendRPC:iconURLSystemRequest];
                 }];
 }
 

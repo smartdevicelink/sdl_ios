@@ -62,6 +62,8 @@ describe(@"GetFunctionName Tests", ^ {
         expect([functionID functionNameForId:47]).to(equal(SDLRPCFunctionNameUnsubscribeWayPoints));
         expect([functionID functionNameForId:48]).to(equal(SDLRPCFunctionNameGetSystemCapability));
         expect([functionID functionNameForId:49]).to(equal(SDLRPCFunctionNameSendHapticData));
+        expect([functionID functionNameForId:50]).to(equal(SDLRPCFunctionNameSetCloudAppProperties));
+        expect([functionID functionNameForId:51]).to(equal(SDLRPCFunctionNameGetCloudAppProperties));
         expect([functionID functionNameForId:52]).to(equal(SDLRPCFunctionNamePublishAppService));
         expect([functionID functionNameForId:53]).to(equal(SDLRPCFunctionNameGetAppServiceData));
         expect([functionID functionNameForId:54]).to(equal(SDLRPCFunctionNameGetFile));
@@ -142,6 +144,12 @@ describe(@"GetFunctionID Tests", ^ {
         expect([functionID functionIdForName:SDLRPCFunctionNameUnsubscribeWayPoints]).to(equal(@47));
         expect([functionID functionIdForName:SDLRPCFunctionNameGetSystemCapability]).to(equal(@48));
         expect([functionID functionIdForName:SDLRPCFunctionNameSendHapticData]).to(equal(@49));
+        expect([functionID functionIdForName:SDLRPCFunctionNameSetCloudAppProperties]).to(equal(@50));
+        expect([functionID functionIdForName:SDLRPCFunctionNameGetCloudAppProperties]).to(equal(@51));
+        expect([functionID functionIdForName:SDLRPCFunctionNamePublishAppService]).to(equal(@52));
+        expect([functionID functionIdForName:SDLRPCFunctionNameGetAppServiceData]).to(equal(@53));
+        expect([functionID functionIdForName:SDLRPCFunctionNameGetFile]).to(equal(@54));
+        expect([functionID functionIdForName:SDLRPCFunctionNamePerformAppServiceInteraction]).to(equal(@55));
         expect([functionID functionIdForName:SDLRPCFunctionNameOnHMIStatus]).to(equal(@32768));
         expect([functionID functionIdForName:SDLRPCFunctionNameOnAppInterfaceUnregistered]).to(equal(@32769));
         expect([functionID functionIdForName:SDLRPCFunctionNameOnButtonEvent]).to(equal(@32770));
@@ -159,7 +167,9 @@ describe(@"GetFunctionID Tests", ^ {
         expect([functionID functionIdForName:SDLRPCFunctionNameOnHashChange]).to(equal(@32782));
         expect([functionID functionIdForName:SDLRPCFunctionNameOnWayPointChange]).to(equal(@32784));
         expect([functionID functionIdForName:SDLRPCFunctionNameOnRCStatus]).to(equal(@32785));
-        
+        expect([functionID functionIdForName:SDLRPCFunctionNameOnAppServiceData]).to(equal(@32786));
+        expect([functionID functionIdForName:SDLRPCFunctionNameOnSystemCapabilityUpdated]).to(equal(@32787));
+
         //Not listed in Spec
         expect([functionID functionIdForName:SDLRPCFunctionNameEncodedSyncPData]).to(equal(@65536));
         expect([functionID functionIdForName:SDLRPCFunctionNameSyncPData]).to(equal(@65537));

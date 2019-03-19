@@ -63,6 +63,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 @property (copy, nonatomic, readonly) SDLConfiguration *configuration;
 @property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
+@property (strong, nonatomic, readonly, nullable) NSString *authToken;
 
 @property (strong, nonatomic) SDLFileManager *fileManager;
 @property (strong, nonatomic) SDLPermissionManager *permissionManager;
