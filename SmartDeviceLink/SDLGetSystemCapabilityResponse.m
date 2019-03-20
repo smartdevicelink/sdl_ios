@@ -32,7 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSystemCapability *)systemCapability {
-    return [parameters sdl_objectForName:SDLRPCParameterNameSystemCapability ofClass:SDLSystemCapability.class];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLRPCParameterNameSystemCapability ofClass:SDLSystemCapability.class error:&error];
 }
 
 @end

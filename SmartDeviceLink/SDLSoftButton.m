@@ -44,7 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSoftButtonType)type {
-    return [store sdl_objectForName:SDLRPCParameterNameType];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNameType error:&error];
 }
 
 - (void)setText:(nullable NSString *)text {
@@ -52,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)text {
-    return [store sdl_objectForName:SDLRPCParameterNameText];
+    return [store sdl_objectForName:SDLRPCParameterNameText ofClass:NSString.class];
 }
 
 - (void)setImage:(nullable SDLImage *)image {
@@ -68,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)isHighlighted {
-    return [store sdl_objectForName:SDLRPCParameterNameIsHighlighted];
+    return [store sdl_objectForName:SDLRPCParameterNameIsHighlighted ofClass:NSNumber.class];
 }
 
 - (void)setSoftButtonID:(NSNumber<SDLInt> *)softButtonID {
@@ -76,7 +77,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)softButtonID {
-    return [store sdl_objectForName:SDLRPCParameterNameSoftButtonId];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameSoftButtonId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setSystemAction:(nullable SDLSystemAction)systemAction {
@@ -84,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLSystemAction)systemAction {
-    return [store sdl_objectForName:SDLRPCParameterNameSystemAction];
+    return [store sdl_enumForName:SDLRPCParameterNameSystemAction error:nil];
 }
 
 -(id)copyWithZone:(nullable NSZone *)zone {

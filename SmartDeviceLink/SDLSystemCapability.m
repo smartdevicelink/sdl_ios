@@ -86,7 +86,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSystemCapabilityType)systemCapabilityType {
-    return [store sdl_objectForName:SDLRPCParameterNameSystemCapabilityType];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNameSystemCapabilityType error:&error];
 }
 
 - (void)setAppServicesCapabilities:(nullable SDLAppServicesCapabilities *)appServicesCapabilities {

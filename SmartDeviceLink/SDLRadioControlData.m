@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)frequencyInteger {
-    return [store sdl_objectForName:SDLRPCParameterNameFrequencyInteger];
+    return [store sdl_objectForName:SDLRPCParameterNameFrequencyInteger ofClass:NSNumber.class];
 }
 
 - (void)setFrequencyFraction:(nullable NSNumber<SDLInt> *)frequencyFraction {
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)frequencyFraction {
-    return [store sdl_objectForName:SDLRPCParameterNameFrequencyFraction];
+    return [store sdl_objectForName:SDLRPCParameterNameFrequencyFraction ofClass:NSNumber.class];
 }
 
 - (void)setBand:(nullable SDLRadioBand)band {
@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLRadioBand)band{
-    return [store sdl_objectForName:SDLRPCParameterNameBand];
+    return [store sdl_enumForName:SDLRPCParameterNameBand error:nil];
 }
 
 - (void)setRdsData:(nullable SDLRDSData *)rdsData {
@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)availableHDs {
-    return [store sdl_objectForName:SDLRPCParameterNameAvailableHDs];
+    return [store sdl_objectForName:SDLRPCParameterNameAvailableHDs ofClass:NSNumber.class];
 }
 
 - (void)setHdChannel:(nullable NSNumber<SDLInt> *)hdChannel {
@@ -88,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)hdChannel {
-    return [store sdl_objectForName:SDLRPCParameterNameHDChannel];
+    return [store sdl_objectForName:SDLRPCParameterNameHDChannel ofClass:NSNumber.class];
 }
 
 - (void)setSignalStrength:(nullable NSNumber<SDLInt> *)signalStrength {
@@ -96,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)signalStrength {
-    return [store sdl_objectForName:SDLRPCParameterNameSignalStrength];
+    return [store sdl_objectForName:SDLRPCParameterNameSignalStrength ofClass:NSNumber.class];
 }
 
 - (void)setSignalChangeThreshold:(nullable NSNumber<SDLInt> *)signalChangeThreshold {
@@ -104,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)signalChangeThreshold {
-    return [store sdl_objectForName:SDLRPCParameterNameSignalChangeThreshold];
+    return [store sdl_objectForName:SDLRPCParameterNameSignalChangeThreshold ofClass:NSNumber.class];
 }
 
 - (void)setRadioEnable:(nullable NSNumber<SDLBool> *)radioEnable {
@@ -112,7 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)radioEnable {
-    return [store sdl_objectForName:SDLRPCParameterNameRadioEnable];
+    return [store sdl_objectForName:SDLRPCParameterNameRadioEnable ofClass:NSNumber.class];
 }
 
 - (void)setState:(nullable SDLRadioState)state {
@@ -120,7 +120,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLRadioState)state {
-    return [store sdl_objectForName:SDLRPCParameterNameState];
+    return [store sdl_enumForName:SDLRPCParameterNameState error:nil];
 }
 
 - (void)setHdRadioEnable:(nullable NSNumber<SDLBool> *)hdRadioEnable {
@@ -128,7 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)hdRadioEnable {
-    return [store sdl_objectForName:SDLRPCParameterNameHDRadioEnable];
+    return [store sdl_objectForName:SDLRPCParameterNameHDRadioEnable ofClass:NSNumber.class];
 }
 
 - (void)setSisData:(nullable SDLSISData *)sisData {

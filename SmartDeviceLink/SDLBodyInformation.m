@@ -18,7 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)parkBrakeActive {
-    return [store sdl_objectForName:SDLRPCParameterNameParkBrakeActive];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameParkBrakeActive ofClass:NSNumber.class error:&error];
 }
 
 - (void)setIgnitionStableStatus:(SDLIgnitionStableStatus)ignitionStableStatus {
@@ -26,7 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLIgnitionStableStatus)ignitionStableStatus {
-    return [store sdl_objectForName:SDLRPCParameterNameIgnitionStableStatus];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNameIgnitionStableStatus error:&error];
 }
 
 - (void)setIgnitionStatus:(SDLIgnitionStatus)ignitionStatus {
@@ -34,7 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLIgnitionStatus)ignitionStatus {
-    return [store sdl_objectForName:SDLRPCParameterNameIgnitionStatus];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNameIgnitionStatus error:&error];
 }
 
 - (void)setDriverDoorAjar:(nullable NSNumber<SDLBool> *)driverDoorAjar {
@@ -42,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)driverDoorAjar {
-    return [store sdl_objectForName:SDLRPCParameterNameDriverDoorAjar];
+    return [store sdl_objectForName:SDLRPCParameterNameDriverDoorAjar ofClass:NSNumber.class];
 }
 
 - (void)setPassengerDoorAjar:(nullable NSNumber<SDLBool> *)passengerDoorAjar {
@@ -50,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)passengerDoorAjar {
-    return [store sdl_objectForName:SDLRPCParameterNamePassengerDoorAjar];
+    return [store sdl_objectForName:SDLRPCParameterNamePassengerDoorAjar ofClass:NSNumber.class];
 }
 
 - (void)setRearLeftDoorAjar:(nullable NSNumber<SDLBool> *)rearLeftDoorAjar {
@@ -58,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)rearLeftDoorAjar {
-    return [store sdl_objectForName:SDLRPCParameterNameRearLeftDoorAjar];
+    return [store sdl_objectForName:SDLRPCParameterNameRearLeftDoorAjar ofClass:NSNumber.class];
 }
 
 - (void)setRearRightDoorAjar:(nullable NSNumber<SDLBool> *)rearRightDoorAjar {
@@ -66,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)rearRightDoorAjar {
-    return [store sdl_objectForName:SDLRPCParameterNameRearRightDoorAjar];
+    return [store sdl_objectForName:SDLRPCParameterNameRearRightDoorAjar ofClass:NSNumber.class];
 }
 
 @end

@@ -42,7 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)hours {
-    return [store sdl_objectForName:SDLRPCParameterNameHours];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameHours ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMinutes:(NSNumber<SDLInt> *)minutes {
@@ -50,7 +51,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)minutes {
-    return [store sdl_objectForName:SDLRPCParameterNameMinutes];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameMinutes ofClass:NSNumber.class error:&error];
 }
 
 - (void)setSeconds:(NSNumber<SDLInt> *)seconds {
@@ -58,7 +60,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)seconds {
-    return [store sdl_objectForName:SDLRPCParameterNameSeconds];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameSeconds ofClass:NSNumber.class error:&error];
 }
 
 @end

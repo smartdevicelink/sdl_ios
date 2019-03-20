@@ -26,7 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLMassageMode)massageMode {
-    return [store sdl_objectForName:SDLRPCParameterNameMassageMode];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNameMassageMode error:&error];
 }
 
 - (void)setMassageZone:(SDLMassageZone)massageZone {
@@ -34,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLMassageZone)massageZone {
-    return [store sdl_objectForName:SDLRPCParameterNameMassageZone];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNameMassageZone error:&error];
 }
 
 @end

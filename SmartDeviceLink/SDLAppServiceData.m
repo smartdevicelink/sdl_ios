@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)serviceType {
-    return [store sdl_objectForName:SDLRPCParameterNameServiceType];
+    return [store sdl_objectForName:SDLRPCParameterNameServiceType ofClass:NSString.class];
 }
 
 - (void)setServiceId:(NSString *)serviceId {
@@ -94,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)serviceId {
-    return [store sdl_objectForName:SDLRPCParameterNameServiceID];
+    return [store sdl_objectForName:SDLRPCParameterNameServiceID ofClass:NSString.class];
 }
 
 - (void)setWeatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData {

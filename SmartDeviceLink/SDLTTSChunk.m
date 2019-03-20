@@ -59,7 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)text {
-    return [store sdl_objectForName:SDLRPCParameterNameText];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameText ofClass:NSString.class error:&error];
 }
 
 - (void)setType:(SDLSpeechCapabilities)type {
@@ -67,7 +68,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSpeechCapabilities)type {
-    return [store sdl_objectForName:SDLRPCParameterNameType];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNameType error:&error];
 }
 
 @end

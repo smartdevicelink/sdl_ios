@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataStatus)e911Override {
-    return [store sdl_objectForName:SDLRPCParameterNameE911Override];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNameE911Override error:&error];
 }
 
 @end

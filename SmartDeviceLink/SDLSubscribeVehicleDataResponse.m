@@ -155,12 +155,12 @@ NS_ASSUME_NONNULL_BEGIN
     return [parameters sdl_objectForName:SDLRPCParameterNameHeadLampStatus ofClass:SDLVehicleDataResult.class];
 }
 
-- (void)setEngineOilLife:(nullable NSNumber<SDLBool> *)engineOilLife {
+- (void)setEngineOilLife:(nullable SDLVehicleDataResult *)engineOilLife {
     [parameters sdl_setObject:engineOilLife forName:SDLRPCParameterNameEngineOilLife];
 }
 
-- (nullable NSNumber<SDLBool> *)engineOilLife {
-    return [parameters sdl_objectForName:SDLRPCParameterNameEngineOilLife];
+- (nullable SDLVehicleDataResult *)engineOilLife {
+    return [parameters sdl_objectForName:SDLRPCParameterNameEngineOilLife ofClass:SDLVehicleDataResult.class];
 }
 
 - (void)setEngineTorque:(nullable SDLVehicleDataResult *)engineTorque {

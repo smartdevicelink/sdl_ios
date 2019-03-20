@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)serviceName {
-    return [store sdl_objectForName:SDLRPCParameterNameServiceName];
+    return [store sdl_objectForName:SDLRPCParameterNameServiceName ofClass:NSString.class];
 }
 
 - (void)setServiceType:(NSString *)serviceType {
@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)serviceType {
-    return [store sdl_objectForName:SDLRPCParameterNameServiceType];
+    return [store sdl_objectForName:SDLRPCParameterNameServiceType ofClass:NSString.class];
 }
 
 - (void)setServiceIcon:(nullable SDLImage *)serviceIcon {
@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)allowAppConsumers {
-    return [store sdl_objectForName:SDLRPCParameterNameAllowAppConsumers];
+    return [store sdl_objectForName:SDLRPCParameterNameAllowAppConsumers ofClass:NSNumber.class];
 }
 
 - (void)setRpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion {
@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs {
-    return [store sdl_objectForName:SDLRPCParameterNameHandledRPCs];
+    return [store sdl_objectsForName:SDLRPCParameterNameHandledRPCs ofClass:NSNumber.class];
 }
 
 - (void)setWeatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest {

@@ -35,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)ecuName {
-    return [parameters sdl_objectForName:SDLRPCParameterNameECUName];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLRPCParameterNameECUName ofClass:NSNumber.class error:&error];
 }
 
 - (void)setDidLocation:(NSArray<NSNumber<SDLInt> *> *)didLocation {
@@ -43,7 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<NSNumber<SDLInt> *> *)didLocation {
-    return [parameters sdl_objectForName:SDLRPCParameterNameDIDLocation];
+    NSError *error;
+    return [parameters sdl_objectsForName:SDLRPCParameterNameDIDLocation ofClass:NSNumber.class error:&error];
 }
 
 @end

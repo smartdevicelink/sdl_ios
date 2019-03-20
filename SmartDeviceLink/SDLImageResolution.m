@@ -26,7 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)resolutionWidth {
-    return [store sdl_objectForName:SDLRPCParameterNameResolutionWidth];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameResolutionWidth ofClass:NSNumber.class error:&error];
 }
 
 - (void)setResolutionHeight:(NSNumber<SDLInt> *)resolutionHeight {
@@ -34,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)resolutionHeight {
-    return [store sdl_objectForName:SDLRPCParameterNameResolutionHeight];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameResolutionHeight ofClass:NSNumber.class error:&error];
 }
 
 @end

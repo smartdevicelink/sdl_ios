@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)serviceID {
-    return [store sdl_objectForName:SDLRPCParameterNameServiceID];
+    return [store sdl_objectForName:SDLRPCParameterNameServiceID ofClass:NSString.class];
 }
 
 - (void)setServiceManifest:(SDLAppServiceManifest *)serviceManifest {
@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)servicePublished {
-    return [store sdl_objectForName:SDLRPCParameterNameServicePublished];
+    return [store sdl_objectForName:SDLRPCParameterNameServicePublished ofClass:NSNumber.class];
 }
 
 - (void)setServiceActive:(NSNumber<SDLBool> *)serviceActive {
@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)serviceActive {
-    return [store sdl_objectForName:SDLRPCParameterNameServiceActive];
+    return [store sdl_objectForName:SDLRPCParameterNameServiceActive ofClass:NSNumber.class];
 }
 
 @end

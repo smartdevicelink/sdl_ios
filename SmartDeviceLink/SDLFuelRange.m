@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLFuelType)type {
-    return [store sdl_objectForName:SDLRPCParameterNameType];
+    return [store sdl_enumForName:SDLRPCParameterNameType error:nil];
 }
 
 - (void)setRange:(nullable NSNumber<SDLFloat> *)range {
@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)range {
-    return [store sdl_objectForName:SDLRPCParameterNameRange];
+    return [store sdl_objectForName:SDLRPCParameterNameRange ofClass:NSNumber.class];
 }
 
 

@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)vrHelpTitle {
-    return [parameters sdl_objectForName:SDLRPCParameterNameVRHelpTitle];
+    return [parameters sdl_objectForName:SDLRPCParameterNameVRHelpTitle ofClass:NSString.class];
 }
 
 - (void)setVrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp {
@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)menuTitle {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMenuTitle];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMenuTitle ofClass:NSString.class];
 }
 
 - (void)setMenuIcon:(nullable SDLImage *)menuIcon {

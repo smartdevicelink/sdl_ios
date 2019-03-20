@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)audioPassThruDisplayText1 {
-    return [parameters sdl_objectForName:SDLRPCParameterNameAudioPassThruDisplayText1];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAudioPassThruDisplayText1 ofClass:NSString.class];
 }
 
 - (void)setAudioPassThruDisplayText2:(nullable NSString *)audioPassThruDisplayText2 {
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)audioPassThruDisplayText2 {
-    return [parameters sdl_objectForName:SDLRPCParameterNameAudioPassThruDisplayText2];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAudioPassThruDisplayText2 ofClass:NSString.class];
 }
 
 - (void)setSamplingRate:(SDLSamplingRate)samplingRate {
@@ -86,8 +86,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSamplingRate)samplingRate {
-    NSObject *obj = [parameters sdl_objectForName:SDLRPCParameterNameSamplingRate];
-    return (SDLSamplingRate )obj;
+    NSError *error;
+    return [parameters sdl_enumForName:SDLRPCParameterNameSamplingRate error:&error];
 }
 
 - (void)setMaxDuration:(NSNumber<SDLInt> *)maxDuration {
@@ -95,7 +95,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)maxDuration {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMaxDuration];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLRPCParameterNameMaxDuration ofClass:NSNumber.class error:&error];
 }
 
 - (void)setBitsPerSample:(SDLBitsPerSample)bitsPerSample {
@@ -103,7 +104,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLBitsPerSample)bitsPerSample {
-    return [parameters sdl_objectForName:SDLRPCParameterNameBitsPerSample];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLRPCParameterNameBitsPerSample error:&error];
 }
 
 - (void)setAudioType:(SDLAudioType)audioType {
@@ -111,7 +113,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLAudioType)audioType {
-    return [parameters sdl_objectForName:SDLRPCParameterNameAudioType];
+    NSError *error;
+    return [parameters sdl_enumForName:SDLRPCParameterNameAudioType error:&error];
 }
 
 - (void)setMuteAudio:(nullable NSNumber<SDLBool> *)muteAudio {
@@ -119,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)muteAudio {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMuteAudio];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMuteAudio ofClass:NSNumber.class];
 }
 
 @end

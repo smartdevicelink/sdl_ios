@@ -31,7 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)appDisplayName {
-    return [store sdl_objectForName:SDLRPCParameterNameAppDisplayName];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameAppDisplayName ofClass:NSString.class error:&error];
 }
 
 - (void)setAppBundleID:(NSString *)appBundleID {
@@ -39,7 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)appBundleID {
-    return [store sdl_objectForName:SDLRPCParameterNameAppBundleId];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameAppBundleId ofClass:NSString.class error:&error];
 }
 
 - (void)setAppVersion:(NSString *)appVersion {
@@ -47,7 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)appVersion {
-    return [store sdl_objectForName:SDLRPCParameterNameAppVersion];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameAppVersion ofClass:NSString.class error:&error];
 }
 
 @end

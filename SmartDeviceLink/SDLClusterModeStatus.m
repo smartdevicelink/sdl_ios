@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)powerModeActive {
-    return [store sdl_objectForName:SDLRPCParameterNamePowerModeActive];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNamePowerModeActive ofClass:NSNumber.class error:&error];
 }
 
 - (void)setPowerModeQualificationStatus:(SDLPowerModeQualificationStatus)powerModeQualificationStatus {
@@ -23,7 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLPowerModeQualificationStatus)powerModeQualificationStatus {
-    return [store sdl_objectForName:SDLRPCParameterNamePowerModeQualificationStatus];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNamePowerModeQualificationStatus error:&error];
 }
 
 - (void)setCarModeStatus:(SDLCarModeStatus)carModeStatus {
@@ -31,7 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLCarModeStatus)carModeStatus {
-    return [store sdl_objectForName:SDLRPCParameterNameCarModeStatus];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNameCarModeStatus error:&error];
 }
 
 - (void)setPowerModeStatus:(SDLPowerModeStatus)powerModeStatus {
@@ -39,7 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLPowerModeStatus)powerModeStatus {
-    return [store sdl_objectForName:SDLRPCParameterNamePowerModeStatus];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNamePowerModeStatus error:&error];
 }
 
 @end

@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)maxBitrate {
-    return [store sdl_objectForName:SDLRPCParameterNameMaxBitrate];
+    return [store sdl_objectForName:SDLRPCParameterNameMaxBitrate ofClass:NSNumber.class];
 }
 
 - (void)setSupportedFormats:(nullable NSArray<SDLVideoStreamingFormat *> *)supportedFormats {
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)hapticSpatialDataSupported {
-    return [store sdl_objectForName:SDLRPCParameterNameHapticSpatialDataSupported];
+    return [store sdl_objectForName:SDLRPCParameterNameHapticSpatialDataSupported ofClass:NSNumber.class];
 }
 
 @end

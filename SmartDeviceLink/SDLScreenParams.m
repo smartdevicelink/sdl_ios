@@ -17,7 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLImageResolution *)resolution {
-    return [store sdl_objectForName:SDLRPCParameterNameResolution ofClass:SDLImageResolution.class];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameResolution ofClass:SDLImageResolution.class error:&error];
 }
 
 - (void)setTouchEventAvailable:(nullable SDLTouchEventCapabilities *)touchEventAvailable {

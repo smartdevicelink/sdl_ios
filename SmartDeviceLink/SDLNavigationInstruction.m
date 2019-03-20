@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLNavigationAction)action {
-    return [store sdl_objectForName:SDLRPCParameterNameAction];
+    return [store sdl_enumForName:SDLRPCParameterNameAction error:nil];
 }
 
 - (void)setEta:(nullable SDLDateTime *)eta {
@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)bearing {
-    return [store sdl_objectForName:SDLRPCParameterNameBearing];
+    return [store sdl_objectForName:SDLRPCParameterNameBearing ofClass:NSNumber.class];
 }
 
 - (void)setJunctionType:(nullable SDLNavigationJunction)junctionType {
@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLNavigationJunction)junctionType {
-    return [store sdl_objectForName:SDLRPCParameterNameJunctionType];
+    return [store sdl_enumForName:SDLRPCParameterNameJunctionType error:nil];
 }
 
 - (void)setDrivingSide:(nullable SDLDirection)drivingSide {
@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLDirection)drivingSide {
-    return [store sdl_objectForName:SDLRPCParameterNameDrivingSide];
+    return [store sdl_enumForName:SDLRPCParameterNameDrivingSide error:nil];
 }
 
 - (void)setDetails:(nullable NSString *)details {
@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)details {
-    return [store sdl_objectForName:SDLRPCParameterNameDetails];
+    return [store sdl_objectForName:SDLRPCParameterNameDetails ofClass:NSString.class];
 }
 
 - (void)setImage:(nullable SDLImage *)image {

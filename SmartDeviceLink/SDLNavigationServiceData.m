@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)nextInstructionDistance {
-    return [store sdl_objectForName:SDLRPCParameterNameNextInstructionDistance];
+    return [store sdl_objectForName:SDLRPCParameterNameNextInstructionDistance ofClass:NSNumber.class];
 }
 
 - (void)setNextInstructionDistanceScale:(nullable NSNumber<SDLFloat> *)nextInstructionDistanceScale {
@@ -108,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)nextInstructionDistanceScale {
-    return [store sdl_objectForName:SDLRPCParameterNameNextInstructionDistanceScale];
+    return [store sdl_objectForName:SDLRPCParameterNameNextInstructionDistanceScale ofClass:NSNumber.class];
 }
 
 - (void)setPrompt:(nullable NSString *)prompt {
@@ -116,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)prompt {
-    return [store sdl_objectForName:SDLRPCParameterNamePrompt];
+    return [store sdl_objectForName:SDLRPCParameterNamePrompt ofClass:NSString.class];
 }
 
 @end

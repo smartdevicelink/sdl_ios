@@ -40,7 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)text {
-    return [store sdl_objectForName:SDLRPCParameterNameText];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameText ofClass:NSString.class error:&error];
 }
 
 - (void)setImage:(nullable SDLImage *)image {
@@ -56,7 +57,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)position {
-    return [store sdl_objectForName:SDLRPCParameterNamePosition];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNamePosition ofClass:NSNumber.class error:&error];
 }
 
 @end

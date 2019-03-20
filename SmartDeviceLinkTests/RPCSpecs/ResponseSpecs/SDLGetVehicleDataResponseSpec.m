@@ -82,6 +82,8 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.headLampStatus).to(equal(headLamp));
         expect(testResponse.instantFuelConsumption).to(equal(@40.7));
         expect(testResponse.myKey).to(equal(myKey));
+        id odometer = testResponse.odometer;
+
         expect(testResponse.odometer).to(equal(@70000));
         expect(testResponse.prndl).to(equal(SDLPRNDLPark));
         expect(testResponse.rpm).to(equal(@3));

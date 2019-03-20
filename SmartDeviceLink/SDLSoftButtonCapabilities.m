@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)shortPressAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameShortPressAvailable];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameShortPressAvailable ofClass:NSNumber.class error:&error];
 }
 
 - (void)setLongPressAvailable:(NSNumber<SDLBool> *)longPressAvailable {
@@ -24,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)longPressAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameLongPressAvailable];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameLongPressAvailable ofClass:NSNumber.class error:&error];
 }
 
 - (void)setUpDownAvailable:(NSNumber<SDLBool> *)upDownAvailable {
@@ -32,7 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)upDownAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameUpDownAvailable];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameUpDownAvailable ofClass:NSNumber.class error:&error];
 }
 
 - (void)setImageSupported:(NSNumber<SDLBool> *)imageSupported {
@@ -40,7 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)imageSupported {
-    return [store sdl_objectForName:SDLRPCParameterNameImageSupported];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameImageSupported ofClass:NSNumber.class error:&error];
 }
 
 @end

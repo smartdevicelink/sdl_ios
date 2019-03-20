@@ -29,7 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)majorVersion {
-    return [store sdl_objectForName:SDLRPCParameterNameMajorVersion];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameMajorVersion ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMinorVersion:(NSNumber<SDLInt> *)minorVersion {
@@ -37,7 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)minorVersion {
-    return [store sdl_objectForName:SDLRPCParameterNameMinorVersion];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameMinorVersion ofClass:NSNumber.class error:&error];
 }
 
 - (void)setPatchVersion:(nullable NSNumber<SDLInt> *)patchVersion {
@@ -45,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)patchVersion {
-    return [store sdl_objectForName:SDLRPCParameterNamePatchVersion];
+    return [store sdl_objectForName:SDLRPCParameterNamePatchVersion ofClass:NSNumber.class];
 }
 
 - (NSString *)description {

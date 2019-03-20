@@ -139,6 +139,53 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testResponse.systemSoftwareVersion).to(beNil());
         expect(testResponse.iconResumed).to(beNil());
     });
+
+    it(@"Should get correctly when initialized from NSNull", ^ {
+        NSDictionary *dict = @{SDLRPCParameterNameRequest:
+                                   @{SDLRPCParameterNameParameters:
+                                         @{SDLRPCParameterNameSyncMessageVersion:NSNull.null,
+                                           SDLRPCParameterNameLanguage:NSNull.null,
+                                           SDLRPCParameterNameHMIDisplayLanguage:NSNull.null,
+                                           SDLRPCParameterNameDisplayCapabilities:NSNull.null,
+                                           SDLRPCParameterNameButtonCapabilities:NSNull.null,
+                                           SDLRPCParameterNameSoftButtonCapabilities:NSNull.null,
+                                           SDLRPCParameterNamePresetBankCapabilities:NSNull.null,
+                                           SDLRPCParameterNameHMIZoneCapabilities:NSNull.null,
+                                           SDLRPCParameterNameSpeechCapabilities:NSNull.null,
+                                           SDLRPCParameterNameVRCapabilities:NSNull.null,
+                                           SDLRPCParameterNameAudioPassThruCapabilities:NSNull.null,
+                                           SDLRPCParameterNamePCMStreamCapabilities:NSNull.null,
+                                           SDLRPCParameterNameVehicleType:NSNull.null,
+                                           SDLRPCParameterNamePrerecordedSpeech:NSNull.null,
+                                           SDLRPCParameterNameSupportedDiagnosticModes:NSNull.null,
+                                           SDLRPCParameterNameHMICapabilities: NSNull.null,
+                                           SDLRPCParameterNameSDLVersion: NSNull.null,
+                                           SDLRPCParameterNameSystemSoftwareVersion: NSNull.null,
+                                           SDLRPCParameterNameIconResumed: NSNull.null,
+                                           },
+                                     SDLRPCParameterNameOperationName:SDLRPCFunctionNameRegisterAppInterface}};
+        SDLRegisterAppInterfaceResponse* testResponse = [[SDLRegisterAppInterfaceResponse alloc] initWithDictionary:dict];
+
+        expectAction(^{ [testResponse syncMsgVersion]; }).to(raiseException());
+        expectAction(^{ [testResponse language]; }).to(raiseException());
+        expectAction(^{ [testResponse hmiDisplayLanguage]; }).to(raiseException());
+        expectAction(^{ [testResponse displayCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse buttonCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse softButtonCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse presetBankCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse hmiZoneCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse speechCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse vrCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse audioPassThruCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse pcmStreamCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse vehicleType]; }).to(raiseException());
+        expectAction(^{ [testResponse prerecordedSpeech]; }).to(raiseException());
+        expectAction(^{ [testResponse supportedDiagModes]; }).to(raiseException());
+        expectAction(^{ [testResponse hmiCapabilities]; }).to(raiseException());
+        expectAction(^{ [testResponse sdlVersion]; }).to(raiseException());
+        expectAction(^{ [testResponse systemSoftwareVersion]; }).to(raiseException());
+        expectAction(^{ [testResponse iconResumed]; }).to(raiseException());
+    });
 });
 
 QuickSpecEnd

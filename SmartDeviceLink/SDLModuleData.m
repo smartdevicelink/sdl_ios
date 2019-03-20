@@ -93,7 +93,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLModuleType)moduleType {
-    return [store sdl_objectForName:SDLRPCParameterNameModuleType];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNameModuleType error:&error];
 }
 
 - (void)setRadioControlData:(nullable SDLRadioControlData *)radioControlData {

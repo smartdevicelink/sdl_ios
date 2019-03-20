@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLEmergencyEventType)emergencyEventType {
-    return [store sdl_objectForName:SDLRPCParameterNameEmergencyEventType];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNameEmergencyEventType error:&error];
 }
 
 - (void)setFuelCutoffStatus:(SDLFuelCutoffStatus)fuelCutoffStatus {
@@ -23,7 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLFuelCutoffStatus)fuelCutoffStatus {
-    return [store sdl_objectForName:SDLRPCParameterNameFuelCutoffStatus];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNameFuelCutoffStatus error:&error];
 }
 
 - (void)setRolloverEvent:(SDLVehicleDataEventStatus)rolloverEvent {
@@ -31,7 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataEventStatus)rolloverEvent {
-    return [store sdl_objectForName:SDLRPCParameterNameRolloverEvent];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNameRolloverEvent error:&error];
 }
 
 - (void)setMaximumChangeVelocity:(NSNumber<SDLInt> *)maximumChangeVelocity {
@@ -39,7 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)maximumChangeVelocity {
-    return [store sdl_objectForName:SDLRPCParameterNameMaximumChangeVelocity];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameMaximumChangeVelocity ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMultipleEvents:(SDLVehicleDataEventStatus)multipleEvents {
@@ -47,7 +51,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataEventStatus)multipleEvents {
-    return [store sdl_objectForName:SDLRPCParameterNameMultipleEvents];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNameMultipleEvents error:&error];
 }
 
 @end

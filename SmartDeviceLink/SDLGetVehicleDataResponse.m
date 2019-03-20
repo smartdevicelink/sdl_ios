@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)speed {
-    return [parameters sdl_objectForName:SDLRPCParameterNameSpeed];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSpeed ofClass:NSNumber.class];
 }
 
 - (void)setRpm:(nullable NSNumber<SDLInt> *)rpm {
@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)rpm {
-    return [parameters sdl_objectForName:SDLRPCParameterNameRPM];
+    return [parameters sdl_objectForName:SDLRPCParameterNameRPM ofClass:NSNumber.class];
 }
 
 - (void)setFuelLevel:(nullable NSNumber<SDLFloat> *)fuelLevel {
@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)fuelLevel {
-    return [parameters sdl_objectForName:SDLRPCParameterNameFuelLevel];
+    return [parameters sdl_objectForName:SDLRPCParameterNameFuelLevel ofClass:NSNumber.class];
 }
 
 - (void)setFuelLevel_State:(nullable SDLComponentVolumeStatus)fuelLevel_State {
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLComponentVolumeStatus)fuelLevel_State {
-    return [parameters sdl_objectForName:SDLRPCParameterNameFuelLevelState];
+    return [parameters sdl_enumForName:SDLRPCParameterNameFuelLevelState error:nil];
 }
 
 - (void)setInstantFuelConsumption:(nullable NSNumber<SDLFloat> *)instantFuelConsumption {
@@ -83,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)instantFuelConsumption {
-    return [parameters sdl_objectForName:SDLRPCParameterNameInstantFuelConsumption];
+    return [parameters sdl_objectForName:SDLRPCParameterNameInstantFuelConsumption ofClass:NSNumber.class];
 }
 
 - (void)setExternalTemperature:(nullable NSNumber<SDLFloat> *)externalTemperature {
@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)externalTemperature {
-    return [parameters sdl_objectForName:SDLRPCParameterNameExternalTemperature];
+    return [parameters sdl_objectForName:SDLRPCParameterNameExternalTemperature ofClass:NSNumber.class];
 }
 
 - (void)setVin:(nullable NSString *)vin {
@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)vin {
-    return [parameters sdl_objectForName:SDLRPCParameterNameVIN];
+    return [parameters sdl_objectForName:SDLRPCParameterNameVIN ofClass:NSString.class];
 }
 
 - (void)setPrndl:(nullable SDLPRNDL)prndl {
@@ -107,7 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLPRNDL)prndl {
-    return [parameters sdl_objectForName:SDLRPCParameterNamePRNDL];
+    return [parameters sdl_enumForName:SDLRPCParameterNamePRNDL error:nil];
 }
 
 - (void)setTirePressure:(nullable SDLTireStatus *)tirePressure {
@@ -123,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)odometer {
-    return [parameters sdl_objectForName:SDLRPCParameterNameOdometer];
+    return [parameters sdl_objectForName:SDLRPCParameterNameOdometer ofClass:NSNumber.class];
 }
 
 - (void)setBeltStatus:(nullable SDLBeltStatus *)beltStatus {
@@ -155,7 +155,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLVehicleDataEventStatus)driverBraking {
-    return [parameters sdl_objectForName:SDLRPCParameterNameDriverBraking];
+    return [parameters sdl_enumForName:SDLRPCParameterNameDriverBraking error:nil];
 }
 
 - (void)setWiperStatus:(nullable SDLWiperStatus)wiperStatus {
@@ -163,7 +163,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLWiperStatus)wiperStatus {
-    return [parameters sdl_objectForName:SDLRPCParameterNameWiperStatus];
+    return [parameters sdl_enumForName:SDLRPCParameterNameWiperStatus error:nil];
 }
 
 - (void)setHeadLampStatus:(nullable SDLHeadLampStatus *)headLampStatus {
@@ -179,7 +179,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)engineOilLife {
-    return [parameters sdl_objectForName:SDLRPCParameterNameEngineOilLife];
+    return [parameters sdl_objectForName:SDLRPCParameterNameEngineOilLife ofClass:NSNumber.class];
 }
 
 - (void)setEngineTorque:(nullable NSNumber<SDLFloat> *)engineTorque {
@@ -187,7 +187,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)engineTorque {
-    return [parameters sdl_objectForName:SDLRPCParameterNameEngineTorque];
+    return [parameters sdl_objectForName:SDLRPCParameterNameEngineTorque ofClass:NSNumber.class];
 }
 
 - (void)setAccPedalPosition:(nullable NSNumber<SDLFloat> *)accPedalPosition {
@@ -195,7 +195,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)accPedalPosition {
-    return [parameters sdl_objectForName:SDLRPCParameterNameAccelerationPedalPosition];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAccelerationPedalPosition ofClass:NSNumber.class];
 }
 
 - (void)setSteeringWheelAngle:(nullable NSNumber<SDLFloat> *)steeringWheelAngle {
@@ -203,7 +203,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)steeringWheelAngle {
-    return [parameters sdl_objectForName:SDLRPCParameterNameSteeringWheelAngle];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSteeringWheelAngle ofClass:NSNumber.class];
 }
 
 - (void)setECallInfo:(nullable SDLECallInfo *)eCallInfo {
@@ -251,7 +251,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLElectronicParkBrakeStatus)electronicParkBrakeStatus {
-    return [parameters sdl_objectForName:SDLRPCParameterNameElectronicParkBrakeStatus];
+    return [parameters sdl_enumForName:SDLRPCParameterNameElectronicParkBrakeStatus error:nil];
 }
 
 - (void)setTurnSignal:(nullable SDLTurnSignal)turnSignal {
@@ -259,7 +259,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLTurnSignal)turnSignal {
-    return [parameters sdl_objectForName:SDLRPCParameterNameTurnSignal];
+    return [parameters sdl_enumForName:SDLRPCParameterNameTurnSignal error:nil];
 }
 
 @end

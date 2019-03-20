@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLServiceUpdateReason)updateReason {
-    return [store sdl_objectForName:SDLRPCParameterNameUpdateReason];
+    return [store sdl_enumForName:SDLRPCParameterNameUpdateReason error:nil];
 }
 
 - (void)setUpdatedAppServiceRecord:(SDLAppServiceRecord *)updatedAppServiceRecord {

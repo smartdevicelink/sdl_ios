@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataType)dataType {
-    return [store sdl_objectForName:SDLRPCParameterNameDataType];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNameDataType error:&error];
 }
 
 - (void)setResultCode:(SDLVehicleDataResultCode)resultCode {
@@ -23,7 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataResultCode)resultCode {
-    return [store sdl_objectForName:SDLRPCParameterNameResultCode];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNameResultCode error:&error];
 }
 
 @end

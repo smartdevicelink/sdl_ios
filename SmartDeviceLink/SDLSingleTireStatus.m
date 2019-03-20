@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLComponentVolumeStatus)status {
-    return [store sdl_objectForName:SDLRPCParameterNameStatus];
+    NSError *error;
+    return [store sdl_enumForName:SDLRPCParameterNameStatus error:&error];
 }
 
 - (void)setMonitoringSystemStatus:(nullable SDLTPMS)monitoringSystemStatus {
@@ -24,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLTPMS)monitoringSystemStatus {
-    return [store sdl_objectForName:SDLRPCParameterNameTPMS];
+    return [store sdl_enumForName:SDLRPCParameterNameTPMS error:nil];
 }
 
 - (void)setPressure:(nullable NSNumber<SDLFloat> *)pressure {
@@ -32,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)pressure {
-    return [store sdl_objectForName:SDLRPCParameterNamePressure];
+    return [store sdl_objectForName:SDLRPCParameterNamePressure ofClass:NSNumber.class];
 }
 
 @end

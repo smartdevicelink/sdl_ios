@@ -48,7 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)menuID {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMenuId];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLRPCParameterNameMenuId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setPosition:(nullable NSNumber<SDLInt> *)position {
@@ -56,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)position {
-    return [parameters sdl_objectForName:SDLRPCParameterNamePosition];
+    return [parameters sdl_objectForName:SDLRPCParameterNamePosition ofClass:NSNumber.class];
 }
 
 - (void)setMenuName:(NSString *)menuName {
@@ -64,7 +65,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)menuName {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMenuName];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLRPCParameterNameMenuName ofClass:NSString.class error:&error];
 }
 
 - (void)setMenuIcon:(nullable SDLImage *)menuIcon {

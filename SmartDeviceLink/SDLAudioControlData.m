@@ -4,6 +4,7 @@
 #import "SDLAudioControlData.h"
 #import "SDLRPCParameterNames.h"
 #import "NSMutableDictionary+Store.h"
+#import "SDLEqualizerSettings.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLPrimaryAudioSource)source {
-    return [store sdl_objectForName:SDLRPCParameterNameSource];
+    return [store sdl_enumForName:SDLRPCParameterNameSource error:nil];
 }
 
 - (void)setKeepContext:(nullable NSNumber<SDLBool> *)keepContext {
@@ -37,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)keepContext {
-    return [store sdl_objectForName:SDLRPCParameterNameKeepContext];
+    return [store sdl_objectForName:SDLRPCParameterNameKeepContext ofClass:NSNumber.class];
 }
 
 - (void)setVolume:(nullable NSNumber<SDLInt> *)volume {
@@ -45,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)volume {
-    return [store sdl_objectForName:SDLRPCParameterNameVolume];
+    return [store sdl_objectForName:SDLRPCParameterNameVolume ofClass:NSNumber.class];
 }
 
 - (void)setEqualizerSettings:(nullable NSArray<SDLEqualizerSettings *> *)equalizerSettings {
@@ -53,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLEqualizerSettings *> *)equalizerSettings {
-    return [store sdl_objectForName:SDLRPCParameterNameEqualizerSettings];
+    return [store sdl_objectsForName:SDLRPCParameterNameEqualizerSettings ofClass:SDLEqualizerSettings.class];
 }
 
 @end

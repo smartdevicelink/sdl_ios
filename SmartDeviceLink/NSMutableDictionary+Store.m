@@ -7,6 +7,8 @@
 //
 
 #import "NSMutableDictionary+Store.h"
+#import "SDLRPCStruct.h"
+#import "SDLError.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,32 +26,88 @@ NS_ASSUME_NONNULL_BEGIN
     return self[name];
 }
 
-- (nullable id)sdl_objectForName:(SDLRPCParameterName)name ofClass:(Class)classType {
-    NSObject *obj = [self sdl_objectForName:name];
-    if (obj == nil || [obj isKindOfClass:classType]) {
-        return obj;
-    } else {
-        return [[classType alloc] initWithDictionary:(NSDictionary *)obj];
-    }
+#pragma mark - enum
+
+- (nullable SDLRPCParameterName)sdl_enumForName:(SDLRPCParameterName)name error:(NSError * _Nullable __autoreleasing * _Nullable)error {
+    return [self sdl_objectForName:name ofClass:NSString.class error:error];
 }
 
-- (NSArray *)sdl_objectsForName:(SDLRPCParameterName)name ofClass:(Class)classType {
-    NSArray *array = [self sdl_objectForName:name];
-    if ([array isEqual:[NSNull null]]) {
-        return [NSMutableArray array];
-    } else if (array.count < 1 || [array.firstObject isMemberOfClass:classType]) {
+#pragma mark - enums
+
+- (nullable NSArray<SDLRPCParameterName> *)sdl_enumsForName:(SDLRPCParameterName)name error:(NSError * _Nullable __autoreleasing * _Nullable)error {
+    return [self sdl_objectsForName:name ofClass:NSString.class error:error];
+}
+
+#pragma mark - object
+
+- (nullable id)sdl_objectForName:(SDLRPCParameterName)name ofClass:(Class)classType {
+    NSError *error;
+    id object = [self sdl_objectForName:name ofClass:classType error:&error];
+    return error == nil ? object : nil;
+}
+
+- (nullable id)sdl_objectForName:(SDLRPCParameterName)name ofClass:(Class)classType error:(NSError * _Nullable __autoreleasing * _Nullable)error {
+    id obj = [self sdl_objectForName:name];
+
+    if (obj == nil || [obj isKindOfClass:classType]) {
+        return obj;
+    }
+    // translate dictionaries to objects
+    if ([obj isKindOfClass:NSDictionary.class] && [classType instancesRespondToSelector:@selector(initWithDictionary:)]) {
+        obj = [[classType alloc] initWithDictionary:(NSDictionary *)obj];
+        // update store so that the object isn't created multiple times
+        [self sdl_setObject:obj forName:name];
+        return obj;
+    }
+    NSError *wrongObjectError = [NSError sdl_store_wrongObject:obj expectedType:classType];
+
+    NSAssert(NO, [[wrongObjectError userInfo] objectForKey:NSLocalizedFailureReasonErrorKey]);
+
+    if (error) {
+        *error = wrongObjectError;
+    }
+
+    return nil;
+}
+
+#pragma mark - objects
+
+- (nullable NSArray *)sdl_objectsForName:(SDLRPCParameterName)name ofClass:(Class)classType {
+    NSError *error;
+    id objects = [self sdl_objectsForName:name ofClass:classType error:&error];
+    return error == nil ? objects : nil;
+}
+
+- (nullable NSArray *)sdl_objectsForName:(SDLRPCParameterName)name ofClass:(Class)classType error:(NSError * _Nullable __autoreleasing * _Nullable)error {
+    NSArray *array = [self sdl_objectForName:name ofClass:NSArray.class error:error];
+    if (!array || array.count < 1 || [array.firstObject isKindOfClass:classType]) {
         // It's an array of the actual class type, just return
         return array;
-    } else {
+    }
+    if ([classType instancesRespondToSelector:@selector(initWithDictionary:)]) {
         // It's an array of dictionaries, make them into their class type
         NSMutableArray *newList = [NSMutableArray arrayWithCapacity:array.count];
         for (NSDictionary<NSString *, id> *dict in array) {
-            [newList addObject:[[classType alloc] initWithDictionary:dict]];
+            if ([dict isKindOfClass:NSDictionary.class]) {
+                [newList addObject:[[classType alloc] initWithDictionary:dict]];
+            }
         }
         return [newList copy];
     }
-}
+    NSError *wrongObjectError = nil;
 
+    if ([array isKindOfClass:NSArray.class] && ![array.firstObject isKindOfClass:classType]) {
+        wrongObjectError = [NSError sdl_store_wrongObject:array.firstObject expectedType:classType];
+    } else {
+        wrongObjectError = [NSError sdl_store_wrongObject:array expectedType:NSArray.class];
+    }
+
+    NSAssert(NO, [wrongObjectError.userInfo objectForKey:NSLocalizedFailureReasonErrorKey]);
+    if (error) {
+        *error = wrongObjectError;
+    }
+    return nil;
+}
 
 @end
 

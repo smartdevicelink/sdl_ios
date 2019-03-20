@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)fanSpeed {
-    return [store sdl_objectForName:SDLRPCParameterNameFanSpeed];
+    return [store sdl_objectForName:SDLRPCParameterNameFanSpeed ofClass:NSNumber.class];
 }
 
 - (void)setCurrentTemperature:(nullable SDLTemperature *)currentTemperature {
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)acEnable {
-    return [store sdl_objectForName:SDLRPCParameterNameACEnable];
+    return [store sdl_objectForName:SDLRPCParameterNameACEnable ofClass:NSNumber.class];
 }
 
 - (void)setCirculateAirEnable:(nullable NSNumber<SDLBool> *)circulateAirEnable {
@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)circulateAirEnable {
-    return [store sdl_objectForName:SDLRPCParameterNameCirculateAirEnable];
+    return [store sdl_objectForName:SDLRPCParameterNameCirculateAirEnable ofClass:NSNumber.class];
 }
 
 - (void)setAutoModeEnable:(nullable NSNumber<SDLBool> *)autoModeEnable {
@@ -83,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)autoModeEnable {
-    return [store sdl_objectForName:SDLRPCParameterNameAutoModeEnable];
+    return [store sdl_objectForName:SDLRPCParameterNameAutoModeEnable ofClass:NSNumber.class];
 }
 
 - (void)setDefrostZone:(nullable SDLDefrostZone)defrostZone {
@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLDefrostZone)defrostZone {
-    return [store sdl_objectForName:SDLRPCParameterNameDefrostZone];
+    return [store sdl_enumForName:SDLRPCParameterNameDefrostZone error:nil];
 }
 
 - (void)setDualModeEnable:(nullable NSNumber<SDLBool> *)dualModeEnable {
@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)dualModeEnable {
-    return [store sdl_objectForName:SDLRPCParameterNameDualModeEnable];
+    return [store sdl_objectForName:SDLRPCParameterNameDualModeEnable ofClass:NSNumber.class];
 }
 
 - (void)setAcMaxEnable:(nullable NSNumber<SDLBool> *)acMaxEnable {
@@ -107,7 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)acMaxEnable {
-    return [store sdl_objectForName:SDLRPCParameterNameACMaxEnable];
+    return [store sdl_objectForName:SDLRPCParameterNameACMaxEnable ofClass:NSNumber.class];
 }
 
 - (void)setVentilationMode:(nullable SDLVentilationMode)ventilationMode {
@@ -115,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLVentilationMode)ventilationMode {
-    return [store sdl_objectForName:SDLRPCParameterNameVentilationMode];
+    return [store sdl_enumForName:SDLRPCParameterNameVentilationMode error:nil];
 }
 
 - (void)setHeatedSteeringWheelEnable:(nullable NSNumber<SDLBool> *)heatedSteeringWheelEnable {
@@ -123,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)heatedSteeringWheelEnable {
-    return [store sdl_objectForName:SDLRPCParameterNameHeatedSteeringWheelEnable];
+    return [store sdl_objectForName:SDLRPCParameterNameHeatedSteeringWheelEnable ofClass:NSNumber.class];
 }
 
 - (void)setHeatedWindshieldEnable:(nullable NSNumber<SDLBool> *)heatedWindshieldEnable {
@@ -131,7 +131,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)heatedWindshieldEnable {
-    return [store sdl_objectForName:SDLRPCParameterNameHeatedWindshieldEnable];
+    return [store sdl_objectForName:SDLRPCParameterNameHeatedWindshieldEnable ofClass:NSNumber.class];
 }
 
 - (void)setHeatedRearWindowEnable:(nullable NSNumber<SDLBool> *)heatedRearWindowEnable {
@@ -139,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)heatedRearWindowEnable {
-    return [store sdl_objectForName:SDLRPCParameterNameHeatedRearWindowEnable];
+    return [store sdl_objectForName:SDLRPCParameterNameHeatedRearWindowEnable ofClass:NSNumber.class];
 }
 
 - (void)setHeatedMirrorsEnable:(nullable NSNumber<SDLBool> *)heatedMirrorsEnable {
@@ -147,7 +147,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)heatedMirrorsEnable {
-    return [store sdl_objectForName:SDLRPCParameterNameHeatedMirrorsEnable];
+    return [store sdl_objectForName:SDLRPCParameterNameHeatedMirrorsEnable ofClass:NSNumber.class];
 }
 
 @end

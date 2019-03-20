@@ -23,8 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLDriverDistractionState)state {
-    NSObject *obj = [parameters sdl_objectForName:SDLRPCParameterNameState];
-    return (SDLDriverDistractionState)obj;
+    NSError *error;
+    return [parameters sdl_enumForName:SDLRPCParameterNameState error:&error];
 }
 
 @end

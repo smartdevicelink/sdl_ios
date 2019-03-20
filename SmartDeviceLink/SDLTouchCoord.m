@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLFloat> *)x {
-    return [store sdl_objectForName:SDLRPCParameterNameX];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameX ofClass:NSNumber.class error:&error];
 }
 
 - (void)setY:(NSNumber<SDLFloat> *)y {
@@ -24,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLFloat> *)y {
-    return [store sdl_objectForName:SDLRPCParameterNameY];
+    NSError *error;
+    return [store sdl_objectForName:SDLRPCParameterNameY ofClass:NSNumber.class error:&error];
 }
 
 @end

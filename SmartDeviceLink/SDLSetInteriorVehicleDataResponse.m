@@ -23,7 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLModuleData *)moduleData {
-    return [parameters sdl_objectForName:SDLRPCParameterNameModuleData ofClass:SDLModuleData.class];
+    NSError *error;
+    return [parameters sdl_objectForName:SDLRPCParameterNameModuleData ofClass:SDLModuleData.class error:&error];
 }
 
 @end

@@ -103,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)weatherSummary {
-    return [store sdl_objectForName:SDLRPCParameterNameWeatherSummary];
+    return [store sdl_objectForName:SDLRPCParameterNameWeatherSummary ofClass:NSString.class];
 }
 
 - (void)setTime:(nullable SDLDateTime *)time {
@@ -119,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)humidity {
-    return [store sdl_objectForName:SDLRPCParameterNameHumidity];
+    return [store sdl_objectForName:SDLRPCParameterNameHumidity ofClass:NSNumber.class];
 }
 
 - (void)setCloudCover:(nullable NSNumber<SDLFloat> *)cloudCover {
@@ -127,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)cloudCover {
-    return [store sdl_objectForName:SDLRPCParameterNameCloudCover];
+    return [store sdl_objectForName:SDLRPCParameterNameCloudCover ofClass:NSNumber.class];
 }
 
 - (void)setMoonPhase:(nullable NSNumber<SDLFloat> *)moonPhase {
@@ -135,7 +135,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)moonPhase {
-    return [store sdl_objectForName:SDLRPCParameterNameMoonPhase];
+    return [store sdl_objectForName:SDLRPCParameterNameMoonPhase ofClass:NSNumber.class];
 }
 
 - (void)setWindBearing:(nullable NSNumber<SDLInt> *)windBearing {
@@ -143,7 +143,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)windBearing {
-    return [store sdl_objectForName:SDLRPCParameterNameWindBearing];
+    return [store sdl_objectForName:SDLRPCParameterNameWindBearing ofClass:NSNumber.class];
 }
 
 - (void)setWindGust:(nullable NSNumber<SDLFloat> *)windGust {
@@ -151,7 +151,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)windGust {
-    return [store sdl_objectForName:SDLRPCParameterNameWindGust];
+    return [store sdl_objectForName:SDLRPCParameterNameWindGust ofClass:NSNumber.class];
 }
 
 - (void)setWindSpeed:(nullable NSNumber<SDLFloat> *)windSpeed {
@@ -159,7 +159,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)windSpeed {
-    return [store sdl_objectForName:SDLRPCParameterNameWindSpeed];
+    return [store sdl_objectForName:SDLRPCParameterNameWindSpeed ofClass:NSNumber.class];
 }
 
 - (void)setNearestStormBearing:(nullable NSNumber<SDLInt> *)nearestStormBearing {
@@ -167,7 +167,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)nearestStormBearing {
-    return [store sdl_objectForName:SDLRPCParameterNameNearestStormBearing];
+    return [store sdl_objectForName:SDLRPCParameterNameNearestStormBearing ofClass:NSNumber.class];
 }
 
 - (void)setNearestStormDistance:(nullable NSNumber<SDLInt> *)nearestStormDistance {
@@ -175,7 +175,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)nearestStormDistance {
-    return [store sdl_objectForName:SDLRPCParameterNameNearestStormDistance];
+    return [store sdl_objectForName:SDLRPCParameterNameNearestStormDistance ofClass:NSNumber.class];
 }
 
 - (void)setPrecipAccumulation:(nullable NSNumber<SDLFloat> *)precipAccumulation {
@@ -183,7 +183,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)precipAccumulation {
-    return [store sdl_objectForName:SDLRPCParameterNamePrecipAccumulation];
+    return [store sdl_objectForName:SDLRPCParameterNamePrecipAccumulation ofClass:NSNumber.class];
 }
 
 - (void)setPrecipIntensity:(nullable NSNumber<SDLFloat> *)precipIntensity {
@@ -191,7 +191,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)precipIntensity {
-    return [store sdl_objectForName:SDLRPCParameterNamePrecipIntensity];
+    return [store sdl_objectForName:SDLRPCParameterNamePrecipIntensity ofClass:NSNumber.class];
 }
 
 - (void)setPrecipProbability:(nullable NSNumber<SDLFloat> *)precipProbability {
@@ -199,7 +199,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)precipProbability {
-    return [store sdl_objectForName:SDLRPCParameterNamePrecipProbability];
+    return [store sdl_objectForName:SDLRPCParameterNamePrecipProbability ofClass:NSNumber.class];
 }
 
 - (void)setPrecipType:(nullable NSString *)precipType {
@@ -207,7 +207,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)precipType {
-    return [store sdl_objectForName:SDLRPCParameterNamePrecipType];
+    return [store sdl_objectForName:SDLRPCParameterNamePrecipType ofClass:NSString.class];
 }
 
 - (void)setVisibility:(nullable NSNumber<SDLFloat> *)visibility {
@@ -215,7 +215,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)visibility {
-    return [store sdl_objectForName:SDLRPCParameterNameVisibility];
+    return [store sdl_objectForName:SDLRPCParameterNameVisibility ofClass:NSNumber.class];
 }
 
 - (void)setWeatherIcon:(nullable SDLImage *)weatherIcon {

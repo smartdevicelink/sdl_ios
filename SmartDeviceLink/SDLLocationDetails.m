@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)locationName {
-    return [store sdl_objectForName:SDLRPCParameterNameLocationName];
+    return [store sdl_objectForName:SDLRPCParameterNameLocationName ofClass:NSString.class];
 }
 
 - (void)setAddressLines:(nullable NSArray<NSString *> *)addressLines {
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)addressLines {
-    return [store sdl_objectForName:SDLRPCParameterNameAddressLines];
+    return [store sdl_objectsForName:SDLRPCParameterNameAddressLines ofClass:NSString.class];
 }
 
 - (void)setLocationDescription:(nullable NSString *)locationDescription {
@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)locationDescription {
-    return [store sdl_objectForName:SDLRPCParameterNameLocationDescription];
+    return [store sdl_objectForName:SDLRPCParameterNameLocationDescription ofClass:NSString.class];
 }
 
 - (void)setPhoneNumber:(nullable NSString *)phoneNumber {
@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)phoneNumber {
-    return [store sdl_objectForName:SDLRPCParameterNamePhoneNumber];
+    return [store sdl_objectForName:SDLRPCParameterNamePhoneNumber ofClass:NSString.class];
 }
 
 - (void)setLocationImage:(nullable SDLImage *)locationImage {
