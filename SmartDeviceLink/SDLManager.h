@@ -85,11 +85,6 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 @property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
 
 /**
- *  The auth token, if received. This should be used to log into a user account. Primarily used for cloud apps with companion app stores.
- */
-@property (strong, nonatomic, readonly, nullable) NSString *authToken;
-
-/**
  *  The manager's delegate.
  */
 @property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;

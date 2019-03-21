@@ -19,14 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLGetAppServiceData : SDLRPCRequest
 
 /**
- *  Convenience init for required parameters.
- *
- *  @param serviceType      The app service type
- *  @return                 A SDLGetAppServiceData object
- */
-- (instancetype)initWithServiceType:(NSString *)serviceType;
-
-/**
  *  Convenience init for service type.
  *
  *  @param serviceType      The app service type
@@ -43,13 +35,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initAndSubscribeToAppServiceType:(SDLAppServiceType)serviceType;
 
 /**
- *  Convenience init for all parameters.
- *
- *  @param serviceType      The app service type
- *  @param subscribe        Whether or not to subcribe to updates
- *  @return                 A SDLGetAppServiceData object
+ Convenience init for unsubscribing to a service type
+
+ @param serviceType The app service type
+ @return A SDLGetAppServiceData object
  */
-- (instancetype)initWithServiceType:(NSString *)serviceType subscribe:(BOOL)subscribe;
+- (instancetype)initAndUnsubscribeToAppServiceType:(SDLAppServiceType)serviceType;
 
 /**
  *  The type of service that is to be offered by this app. See `AppServiceType` for known enum equivalent types. Parameter is a string to allow for new service types to be used by apps on older versions of SDL Core.
