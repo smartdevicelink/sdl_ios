@@ -49,13 +49,6 @@ describe(@"Getter/Setter Tests", ^{
         expect(testRequest.subscribe).to(beTrue());
     });
 
-    it(@"Should initialize correctly with initWithServiceType:", ^{
-        SDLGetAppServiceData *testRequest = [[SDLGetAppServiceData alloc] initWithServiceType:testServiceType];
-
-        expect(testRequest.serviceType).to(equal(testServiceType));
-        expect(testRequest.subscribe).to(beNil());
-    });
-
     it(@"Should initialize correctly with initWithAppServiceType:", ^{
         SDLGetAppServiceData *testRequest = [[SDLGetAppServiceData alloc] initWithAppServiceType:testAppServiceType];
 
@@ -70,11 +63,11 @@ describe(@"Getter/Setter Tests", ^{
         expect(testRequest.subscribe).to(beTrue());
     });
 
-    it(@"Should initialize correctly with initWithServiceType:subscribe:", ^{
-        SDLGetAppServiceData *testRequest = [[SDLGetAppServiceData alloc] initWithServiceType:testServiceType subscribe:testSubscribe];
+    fit(@"Should initialize correctly with initAndUnsubscribeToAppServiceType:", ^{
+        SDLGetAppServiceData *testRequest = [[SDLGetAppServiceData alloc] initAndUnsubscribeToAppServiceType:testAppServiceType];
 
-        expect(testRequest.serviceType).to(equal(testServiceType));
-        expect(testRequest.subscribe).to(beTrue());
+        expect(testRequest.serviceType).to(equal(testAppServiceType));
+        expect(testRequest.subscribe).to(beFalse());
     });
 
     it(@"Should return nil if not set", ^{
