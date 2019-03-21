@@ -63,7 +63,7 @@ describe(@"Getter/Setter Tests", ^{
         expect(testRequest.subscribe).to(beTrue());
     });
 
-    fit(@"Should initialize correctly with initAndUnsubscribeToAppServiceType:", ^{
+    it(@"Should initialize correctly with initAndUnsubscribeToAppServiceType:", ^{
         SDLGetAppServiceData *testRequest = [[SDLGetAppServiceData alloc] initAndUnsubscribeToAppServiceType:testAppServiceType];
 
         expect(testRequest.serviceType).to(equal(testAppServiceType));
