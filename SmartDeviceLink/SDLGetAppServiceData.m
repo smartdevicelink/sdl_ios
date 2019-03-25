@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithServiceType:(NSString *)serviceType {
+- (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType {
     self = [self init];
     if (!self) {
         return nil;
@@ -33,16 +33,16 @@ NS_ASSUME_NONNULL_BEGIN
     return self;
 }
 
-- (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType {
-    return [self initWithServiceType:serviceType];
-}
-
 - (instancetype)initAndSubscribeToAppServiceType:(SDLAppServiceType)serviceType {
     return [self initWithServiceType:serviceType subscribe:YES];
 }
 
-- (instancetype)initWithServiceType:(NSString *)serviceType subscribe:(BOOL)subscribe {
-    self = [self initWithServiceType:serviceType];
+- (instancetype)initAndUnsubscribeToAppServiceType:(SDLAppServiceType)serviceType {
+    return [self initWithServiceType:serviceType subscribe:NO];
+}
+
+- (instancetype)initWithServiceType:(SDLAppServiceType)serviceType subscribe:(BOOL)subscribe {
+    self = [self initWithAppServiceType:serviceType];
     if (!self) {
         return nil;
     }

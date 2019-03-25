@@ -97,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
     return self.lifecycleManager.registerResponse;
 }
 
--(nullable NSString *)authToken {
+- (nullable NSString *)authToken {
     return self.lifecycleManager.authToken;
 }
 
