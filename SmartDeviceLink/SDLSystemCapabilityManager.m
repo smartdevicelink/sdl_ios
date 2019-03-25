@@ -80,6 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
     _phoneCapability = nil;
     _videoStreamingCapability = nil;
     _remoteControlCapability = nil;
+    _appServicesCapabilities = nil;
 }
 
 
