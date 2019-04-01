@@ -1,4 +1,4 @@
-github "Quick/Quick" ~> 1.2
-github "Quick/Nimble" ~> 7.0
+github "Quick/Quick" ~> 2.0
+github "Quick/Nimble" ~> 8.0
 github "erikdoe/ocmock" ~> 3.4
-github "facebook/ios-snapshot-test-case" ~> 2.1
+github "uber/ios-snapshot-test-case" ~> 6.0

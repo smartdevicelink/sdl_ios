@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode10
+osx_image: xcode10.2
 xcode_project: SmartDeviceLink-iOS.xcodeproj
 xcode_scheme: SmartDeviceLink
 xcode_sdk: iphonesimulator12.0
