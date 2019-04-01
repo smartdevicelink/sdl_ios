@@ -228,8 +228,11 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             self.previousPinchDistance = self.currentPinchGesture.distance;
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchDidStartInView:atCenterPoint:)]) {
                 if (self.hitTester) {
+                    NSOperationQueue *currentQueue = NSOperationQueue.currentQueue;
                     [self.hitTester viewForPoint:self.currentPinchGesture.center selectedViewHandler:^(UIView * _Nullable selectedView) {
-                        [self sdl_notifyDelegatePinchBeganAtCenterPoint:self.currentPinchGesture.center view:selectedView];
+                        dispatch_async(currentQueue.underlyingQueue, ^{
+                            [self sdl_notifyDelegatePinchBeganAtCenterPoint:self.currentPinchGesture.center view:selectedView];
+                        });
                     }];
                 } else {
                     [self sdl_notifyDelegatePinchBeganAtCenterPoint:self.currentPinchGesture.center view:nil];
@@ -282,8 +285,11 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             _performingTouchType = SDLPerformingTouchTypePanningTouch;
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:panningDidStartInView:atPoint:)]) {
                 if (self.hitTester) {
+                    NSOperationQueue *currentQueue = NSOperationQueue.currentQueue;
                     [self.hitTester viewForPoint:touch.location selectedViewHandler:^(UIView * _Nullable selectedView) {
-                        [self sdl_notifyDelegatePanningDidStartInView:selectedView point:touch.location];
+                        dispatch_async(currentQueue.underlyingQueue, ^{
+                            [self sdl_notifyDelegatePanningDidStartInView:selectedView point:touch.location];
+                        });
                     }];
                 } else {
                     [self sdl_notifyDelegatePanningDidStartInView:nil point:touch.location];
@@ -314,9 +320,12 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             if (self.currentPinchGesture.isValid) {
                 if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:pinchDidEndInView:atCenterPoint:)]) {
                     if (self.hitTester) {
+                        NSOperationQueue *currentQueue = NSOperationQueue.currentQueue;
                         [self.hitTester viewForPoint:self.currentPinchGesture.center selectedViewHandler:^(UIView * _Nullable selectedView) {
-                            [self sdl_notifyDelegatePinchDidEndInView:selectedView centerPoint:self.currentPinchGesture.center];
-                            self.currentPinchGesture = nil;
+                            dispatch_async(currentQueue.underlyingQueue, ^{
+                                [self sdl_notifyDelegatePinchDidEndInView:selectedView centerPoint:self.currentPinchGesture.center];
+                                self.currentPinchGesture = nil;
+                            });
                         }];
                     } else {
                         [self sdl_notifyDelegatePinchDidEndInView:nil centerPoint:self.currentPinchGesture.center];
@@ -330,8 +339,11 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         case SDLPerformingTouchTypePanningTouch: {
             if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:panningDidEndInView:atPoint:)]) {
                 if (self.hitTester) {
+                    NSOperationQueue *currentQueue = NSOperationQueue.currentQueue;
                     [self.hitTester viewForPoint:touch.location selectedViewHandler:^(UIView * _Nullable selectedView) {
-                        [self sdl_notifyDelegatePanningDidEndInView:selectedView point:touch.location];
+                        dispatch_async(currentQueue.underlyingQueue, ^{
+                            [self sdl_notifyDelegatePanningDidEndInView:selectedView point:touch.location];
+                        });
                     }];
                 } else {
                     [self sdl_notifyDelegatePanningDidEndInView:nil point:touch.location];
@@ -356,8 +368,11 @@ static NSUInteger const MaximumNumberOfTouches = 2;
                                                                 self.singleTapTouch.location);
                     if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceiveDoubleTapForView:atPoint:)]) {
                         if (self.hitTester) {
+                            NSOperationQueue *currentQueue = NSOperationQueue.currentQueue;
                             [self.hitTester viewForPoint:centerPoint selectedViewHandler:^(UIView * _Nullable selectedView) {
-                                [self sdl_notifyDelegateDoubleTapForView:selectedView point:centerPoint];
+                                dispatch_async(currentQueue.underlyingQueue, ^{
+                                    [self sdl_notifyDelegateDoubleTapForView:selectedView point:centerPoint];
+                                });
                             }];
                         } else {
                             [self sdl_notifyDelegateDoubleTapForView:nil point:centerPoint];
@@ -448,8 +463,11 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         [strongSelf sdl_cancelSingleTapTimer];
         if ([strongSelf.touchEventDelegate respondsToSelector:@selector(touchManager:didReceiveSingleTapForView:atPoint:)]) {
             if (strongSelf.hitTester) {
+                NSOperationQueue *currentQueue = NSOperationQueue.currentQueue;
                 [strongSelf.hitTester viewForPoint:point selectedViewHandler:^(UIView * _Nullable selectedView) {
-                    [self sdl_notifyDelegateSingleTapForView:selectedView point:point];
+                    dispatch_async(currentQueue.underlyingQueue, ^{
+                        [self sdl_notifyDelegateSingleTapForView:selectedView point:point];
+                    });
                 }];
             } else {
                 [self sdl_notifyDelegateSingleTapForView:nil point:point];
