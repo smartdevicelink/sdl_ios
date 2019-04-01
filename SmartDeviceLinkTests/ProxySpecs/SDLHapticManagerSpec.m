@@ -341,11 +341,13 @@ describe(@"the haptic manager", ^{
         });
         
         it(@"should return a view object", ^{
-            UIView *view1 = [hapticManager viewForPoint:CGPointMake(125, 120)];
-            expect(view1).toNot(beNil());
+            [hapticManager viewForPoint:CGPointMake(125, 120) selectedViewHandler:^(UIView * _Nullable selectedView) {
+                expect(selectedView).toNot(beNil());
+            }];
 
-            UIView* view2 = [hapticManager viewForPoint:CGPointMake(202, 249)];
-            expect(view2).toNot(beNil());
+            [hapticManager viewForPoint:CGPointMake(202, 249) selectedViewHandler:^(UIView * _Nullable selectedView) {
+                expect(selectedView).toNot(beNil());
+            }];
         });
     });
     
@@ -363,8 +365,9 @@ describe(@"the haptic manager", ^{
         });
         
         it(@"should return no view object", ^{
-            UIView* view = [hapticManager viewForPoint:CGPointMake(130, 130)];
-            expect(view).to(beNil());
+            [hapticManager viewForPoint:CGPointMake(130, 130) selectedViewHandler:^(UIView * _Nullable selectedView) {
+                expect(selectedView).to(beNil());
+            }];
         });
     });
     
@@ -378,10 +381,10 @@ describe(@"the haptic manager", ^{
             [hapticManager updateInterfaceLayout];
         });
         it(@"should return nil", ^{
-            UIView* view = [hapticManager viewForPoint:CGPointMake(0, 228)];
-            expect(view).to(beNil());
+            [hapticManager viewForPoint:CGPointMake(0, 228) selectedViewHandler:^(UIView * _Nullable selectedView) {
+                expect(selectedView).to(beNil());
+            }];
         });
-        
     });
 });
 

@@ -94,9 +94,6 @@ describe(@"SDLTouchManager Tests", ^{
         __block void (^performTouchEvent)(SDLTouchManager* touchManager, SDLOnTouchEvent* onTouchEvent) = ^(SDLTouchManager* touchManager, SDLOnTouchEvent* onTouchEvent) {
             SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveTouchEventNotification object:nil rpcNotification:onTouchEvent];
             [[NSNotificationCenter defaultCenter] postNotification:notification];
-
-            // Since notifications are sent to te SDLTouchManagerDelegate observers on the main thread, force the block to execute manually on the main thread. If this is not done, the test cases may fail.
-            [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
         };
 
         beforeEach(^{

@@ -121,24 +121,26 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark SDLFocusableItemHitTester functions
-- (nullable UIView *)viewForPoint:(CGPoint)point {
-    UIView *selectedView = nil;
-    
-    for (UIView *view in self.focusableViews) {
-        //Convert the absolute location to local location and check if that falls within view boundary
-        CGPoint localPoint = [view convertPoint:point fromView:self.viewController.view];
-        if ([view pointInside:localPoint withEvent:nil]) {
-            if (selectedView != nil) {
-                selectedView = nil;
-                break;
-                //the point has been indentified in two views. We cannot identify which with confidence.
-            } else {
-                selectedView = view;
+- (void)viewForPoint:(CGPoint)point selectedViewHandler:(nullable void (^)(UIView * _Nullable))selectedViewHandler {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIView *selectedView = nil;
+
+        for (UIView *view in self.focusableViews) {
+            //Convert the absolute location to local location and check if that falls within view boundary
+            CGPoint localPoint = [view convertPoint:point fromView:self.viewController.view];
+            if ([view pointInside:localPoint withEvent:nil]) {
+                if (selectedView != nil) {
+                    selectedView = nil;
+                    break;
+                    //the point has been indentified in two views. We cannot identify which with confidence.
+                } else {
+                    selectedView = view;
+                }
             }
         }
-    }
-    
-    return selectedView;
+
+        return selectedViewHandler(selectedView);
+    });
 }
 
 #pragma mark notifications
