@@ -463,10 +463,8 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         [strongSelf sdl_cancelSingleTapTimer];
         if ([strongSelf.touchEventDelegate respondsToSelector:@selector(touchManager:didReceiveSingleTapForView:atPoint:)]) {
             if (strongSelf.hitTester) {
-                dispatch_queue_t currentQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
-                                                                   0);
                 [strongSelf.hitTester viewForPoint:point selectedViewHandler:^(UIView * _Nullable selectedView) {
-                    dispatch_async(currentQueue, ^{
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                         [self sdl_notifyDelegateSingleTapForView:selectedView point:point];
                     });
                 }];

@@ -122,6 +122,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark SDLFocusableItemHitTester functions
 - (void)viewForPoint:(CGPoint)point selectedViewHandler:(nullable void (^)(UIView * _Nullable))selectedViewHandler {
+    if (NSThread.currentThread.isMainThread) {
+        return [self sdl_viewForPoint:point selectedViewHandler:selectedViewHandler];
+    }
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        return [self sdl_viewForPoint:point selectedViewHandler:selectedViewHandler];
+    });
+}
+
+- (void)sdl_viewForPoint:(CGPoint)point selectedViewHandler:(nullable void (^)(UIView * _Nullable))selectedViewHandler {
     dispatch_async(dispatch_get_main_queue(), ^{
         UIView *selectedView = nil;
 
