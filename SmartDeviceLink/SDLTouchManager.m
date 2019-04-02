@@ -432,10 +432,9 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         return hitViewSelector(nil);
     }
 
-    NSOperationQueue *currentQueue = NSOperationQueue.currentQueue;
     dispatch_async(dispatch_get_main_queue(), ^{
         UIView *hitView = [self.hitTester viewForPoint:point];
-        dispatch_async(currentQueue.underlyingQueue, ^{
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             return hitViewSelector(hitView);
         });
     });
