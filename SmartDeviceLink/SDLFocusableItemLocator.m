@@ -105,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     NSMutableArray<SDLHapticRect *> *hapticRects = [[NSMutableArray alloc] init];
-    
+
     for (UIView *view in self.focusableViews) {
         CGPoint originOnScreen = [self.viewController.view convertPoint:view.frame.origin toView:nil];
         CGRect convertedRect = {originOnScreen, view.bounds.size};
@@ -115,42 +115,30 @@ NS_ASSUME_NONNULL_BEGIN
         SDLHapticRect *hapticRect = [[SDLHapticRect alloc] initWithId:(UInt32)rectId rect:rect];
         [hapticRects addObject:hapticRect];
     }
-    
+
     SDLSendHapticData* hapticRPC = [[SDLSendHapticData alloc] initWithHapticRectData:hapticRects];
     [self.connectionManager sendConnectionManagerRequest:hapticRPC withResponseHandler:nil];
 }
 
 #pragma mark SDLFocusableItemHitTester functions
-- (void)viewForPoint:(CGPoint)point selectedViewHandler:(nullable void (^)(UIView * _Nullable))selectedViewHandler {
-    if (NSThread.currentThread.isMainThread) {
-        return [self sdl_viewForPoint:point selectedViewHandler:selectedViewHandler];
-    }
+- (nullable UIView *)viewForPoint:(CGPoint)point {
+    UIView *selectedView = nil;
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        return [self sdl_viewForPoint:point selectedViewHandler:selectedViewHandler];
-    });
-}
-
-- (void)sdl_viewForPoint:(CGPoint)point selectedViewHandler:(nullable void (^)(UIView * _Nullable))selectedViewHandler {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIView *selectedView = nil;
-
-        for (UIView *view in self.focusableViews) {
-            //Convert the absolute location to local location and check if that falls within view boundary
-            CGPoint localPoint = [view convertPoint:point fromView:self.viewController.view];
-            if ([view pointInside:localPoint withEvent:nil]) {
-                if (selectedView != nil) {
-                    selectedView = nil;
-                    break;
-                    //the point has been indentified in two views. We cannot identify which with confidence.
-                } else {
-                    selectedView = view;
-                }
+    for (UIView *view in self.focusableViews) {
+        //Convert the absolute location to local location and check if that falls within view boundary
+        CGPoint localPoint = [view convertPoint:point fromView:self.viewController.view];
+        if ([view pointInside:localPoint withEvent:nil]) {
+            if (selectedView != nil) {
+                selectedView = nil;
+                break;
+                //the point has been indentified in two views. We cannot identify which with confidence.
+            } else {
+                selectedView = view;
             }
         }
+    }
 
-        return selectedViewHandler(selectedView);
-    });
+    return selectedView;
 }
 
 #pragma mark notifications

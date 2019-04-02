@@ -11,8 +11,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^SDLFocusableItemHitTesterSelectedViewHandler)(UIView * __nullable selectedView);
-
 @protocol SDLFocusableItemHitTester <NSObject>
 
 /**
@@ -21,7 +19,7 @@ typedef void (^SDLFocusableItemHitTesterSelectedViewHandler)(UIView * __nullable
  @param point Point to check for a view
  @return point UIView object or nil
  */
-- (void)viewForPoint:(CGPoint)point selectedViewHandler:(nullable SDLFocusableItemHitTesterSelectedViewHandler)selectedViewHandler;
+- (nullable UIView *)viewForPoint:(CGPoint)point;
 
 @end
 
