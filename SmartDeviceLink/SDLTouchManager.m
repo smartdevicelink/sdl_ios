@@ -427,15 +427,23 @@ static NSUInteger const MaximumNumberOfTouches = 2;
     });
 }
 
-- (void)sdl_getSingleTapHitView:(CGPoint)point hitViewHandler:(nullable void (^)(UIView * __nullable hitView))hitViewSelector {
+/**
+ *  HAX to preserve the thread on which the delegate is notified for single taps; returning on the main thread would be a breaking change. All other touch gestures currently notify the delegate on the main thread. The single tap timer runs on a background thread so when a single tap is detected the hit test needs to be done on the main thread and then the result is returned on a background thread.
+ *
+ * Checks if a single tap is inside a view. As the single tap timer is run on a background thread, the check is done on a main thread and then the result is returned on a background thread. This is done to ma
+ *
+ *  @param point            Screen coordinates of the tap gesture
+ *  @param hitViewHandler   A handler that returns the view the point is inside of; nil if the point does not lie inside a view
+ */
+- (void)sdl_getSingleTapHitView:(CGPoint)point hitViewHandler:(nullable void (^)(UIView * __nullable hitView))hitViewHandler {
     if (!self.hitTester) {
-        return hitViewSelector(nil);
+        return hitViewHandler(nil);
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
         UIView *hitView = [self.hitTester viewForPoint:point];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            return hitViewSelector(hitView);
+            return hitViewHandler(hitView);
         });
     });
 }
