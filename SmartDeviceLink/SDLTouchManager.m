@@ -420,9 +420,24 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         strongSelf.singleTapTouch = nil;
         [strongSelf sdl_cancelSingleTapTimer];
         if ([strongSelf.touchEventDelegate respondsToSelector:@selector(touchManager:didReceiveSingleTapForView:atPoint:)]) {
-            UIView *hitView = (self.hitTester != nil) ? [self.hitTester viewForPoint:point] : nil;
-            [strongSelf.touchEventDelegate touchManager:strongSelf didReceiveSingleTapForView:hitView atPoint:point];
+            [self sdl_getSingleTapHitView:point hitViewHandler:^(UIView * _Nullable selectedView) {
+                [strongSelf.touchEventDelegate touchManager:strongSelf didReceiveSingleTapForView:selectedView atPoint:point];
+            }];
         }
+    });
+}
+
+- (void)sdl_getSingleTapHitView:(CGPoint)point hitViewHandler:(nullable void (^)(UIView * __nullable hitView))hitViewSelector {
+    if (!self.hitTester) {
+        return hitViewSelector(nil);
+    }
+
+    NSOperationQueue *currentQueue = NSOperationQueue.currentQueue;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIView *hitView = [self.hitTester viewForPoint:point];
+        dispatch_async(currentQueue.underlyingQueue, ^{
+            return hitViewSelector(hitView);
+        });
     });
 }
 
@@ -440,4 +455,3 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 @end
 
 NS_ASSUME_NONNULL_END
-
