@@ -266,7 +266,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)cloudAppVehicleID {
-    return [parameters sdl_objectForName:SDLRPCParameterNameCloudAppVehicleID];
+    return [parameters sdl_objectForName:SDLRPCParameterNameCloudAppVehicleID ofClass:NSString.class error:nil];
 }
 
 @end

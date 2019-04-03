@@ -303,7 +303,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)cloudAppVehicleID {
-    return [parameters sdl_objectForName:SDLRPCParameterNameCloudAppVehicleID];
+    return [parameters sdl_objectForName:SDLRPCParameterNameCloudAppVehicleID ofClass:NSNumber.class error:nil];
 }
 
 @end

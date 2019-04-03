@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)nicknames {
-    return [store sdl_objectForName:SDLRPCParameterNameNicknames];
+    return [store sdl_objectsForName:SDLRPCParameterNameNicknames ofClass:NSString.class error:nil];
 }
 
 - (void)setAppID:(NSString *)appID {
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)appID {
-    return [store sdl_objectForName:SDLRPCParameterNameAppId];
+    return [store sdl_objectForName:SDLRPCParameterNameAppId ofClass:NSString.class error:nil];
 }
 
 - (void)setEnabled:(nullable NSNumber<SDLBool> *)enabled {
@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)enabled {
-    return [store sdl_objectForName:SDLRPCParameterNameEnabled];
+    return [store sdl_objectForName:SDLRPCParameterNameEnabled ofClass:NSNumber.class error:nil];
 }
 
 - (void)setAuthToken:(nullable NSString *)authToken {
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)authToken {
-    return [store sdl_objectForName:SDLRPCParameterNameAuthToken];
+    return [store sdl_objectForName:SDLRPCParameterNameAuthToken ofClass:NSString.class error:nil];
 }
 
 - (void)setCloudTransportType:(nullable NSString *)cloudTransportType {
@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)cloudTransportType {
-    return [store sdl_objectForName:SDLRPCParameterNameCloudTransportType];
+    return [store sdl_objectForName:SDLRPCParameterNameCloudTransportType ofClass:NSString.class error:nil];
 }
 
 - (void)setHybridAppPreference:(nullable SDLHybridAppPreference)hybridAppPreference {
@@ -88,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLHybridAppPreference)hybridAppPreference {
-    return [store sdl_objectForName:SDLRPCParameterNameHybridAppPreference];
+    return [store sdl_enumForName:SDLRPCParameterNameHybridAppPreference error:nil];
 }
 
 - (void)setEndpoint:(nullable NSString *)endpoint {
@@ -96,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)endpoint {
-    return [store sdl_objectForName:SDLRPCParameterNameEndpoint];
+    return [store sdl_objectForName:SDLRPCParameterNameEndpoint ofClass:NSString.class error:nil];
 }
 
 @end

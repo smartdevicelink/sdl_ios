@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)appID {
-    return [parameters sdl_objectForName:SDLRPCParameterNameAppId];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAppId ofClass:NSString.class error:nil];
 }
 
 @end
