@@ -94,20 +94,6 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testStruct.navigationServiceManifest).to(equal(testNavigationServiceManifest));
     });
 
-    it(@"Should init correctly with initWithServiceType:", ^{
-        SDLAppServiceManifest *testStruct = [[SDLAppServiceManifest alloc] initWithServiceType:testServiceType];
-
-        expect(testStruct.serviceName).to(beNil());
-        expect(testStruct.serviceType).to(equal(testServiceType));
-        expect(testStruct.serviceIcon).to(beNil());
-        expect(testStruct.allowAppConsumers).to(beNil());
-        expect(testStruct.rpcSpecVersion).to(beNil());
-        expect(testStruct.handledRPCs).to(beNil());
-        expect(testStruct.weatherServiceManifest).to(beNil());
-        expect(testStruct.mediaServiceManifest).to(beNil());
-        expect(testStruct.navigationServiceManifest).to(beNil());
-    });
-
     it(@"Should init correctly with initWithAppServiceType:", ^{
         SDLAppServiceManifest *testStruct = [[SDLAppServiceManifest alloc] initWithAppServiceType:testAppServiceType];
 

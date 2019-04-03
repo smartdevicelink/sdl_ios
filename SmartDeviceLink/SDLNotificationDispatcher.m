@@ -159,6 +159,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCResponseNotification:SDLDidReceiveGenericResponse response:response];
 }
 
+- (void)onGetCloudAppPropertiesResponse:(SDLGetCloudAppPropertiesResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveGetCloudAppPropertiesResponse response:response];
+}
+
 - (void)onGetAppServiceDataResponse:(SDLGetAppServiceDataResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveGetAppServiceDataResponse response:response];
 }
@@ -237,6 +241,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onSetAppIconResponse:(SDLSetAppIconResponse *)response {
     [self postRPCResponseNotification:SDLDidReceiveSetAppIconResponse response:response];
+}
+
+- (void)onSetCloudAppPropertiesResponse:(SDLSetCloudAppPropertiesResponse *)response {
+    [self postRPCResponseNotification:SDLDidReceiveSetCloudAppPropertiesResponse response:response];
 }
 
 - (void)onSetDisplayLayoutResponse:(SDLSetDisplayLayoutResponse *)response {
@@ -373,6 +381,10 @@ NS_ASSUME_NONNULL_BEGIN
     [self postRPCRequestNotification:SDLDidReceiveGetAppServiceDataRequest request:request];
 }
 
+- (void)onGetCloudAppProperties:(SDLGetCloudAppProperties *)request {
+    [self postRPCRequestNotification:SDLDidReceiveGetCloudAppPropertiesRequest request:request];
+}
+
 - (void)onGetDTCs:(SDLGetDTCs *)request {
     [self postRPCRequestNotification:SDLDidReceiveGetDTCsRequest request:request];
 }
@@ -447,6 +459,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)onSetAppIcon:(SDLSetAppIcon *)request {
     [self postRPCRequestNotification:SDLDidReceiveSetAppIconRequest request:request];
+}
+
+- (void)onSetCloudAppProperties:(SDLSetCloudAppProperties *)request {
+    [self postRPCRequestNotification:SDLDidReceiveSetCloudAppPropertiesRequest request:request];
 }
 
 - (void)onSetDisplayLayout:(SDLSetDisplayLayout *)request {

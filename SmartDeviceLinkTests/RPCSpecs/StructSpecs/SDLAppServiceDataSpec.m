@@ -66,16 +66,6 @@ describe(@"Getter/Setter Tests", ^{
         expect(testStruct.navigationServiceData).to(equal(testNavigationServiceData));
     });
 
-    it(@"Should get correctly when initialized with initWithServiceType:serviceId:", ^{
-        SDLAppServiceData *testStruct = [[SDLAppServiceData alloc] initWithServiceType:testServiceType serviceId:testServiceId];
-
-        expect(testStruct.serviceType).to(equal(testServiceType));
-        expect(testStruct.serviceId).to(equal(testServiceId));
-        expect(testStruct.mediaServiceData).to(beNil());
-        expect(testStruct.weatherServiceData).to(beNil());
-        expect(testStruct.navigationServiceData).to(beNil());
-    });
-
     it(@"Should get correctly when initialized with initWithAppServiceType:serviceId:", ^{
         SDLAppServiceData *testStruct = [[SDLAppServiceData alloc] initWithAppServiceType:testAppServiceType serviceId:testServiceId];
 
@@ -117,7 +107,7 @@ describe(@"Getter/Setter Tests", ^{
     });
 
     it(@"Should get correctly when initialized with initWithServiceType:serviceId:mediaServiceData:weatherServiceData:navigationServiceData:", ^{
-        SDLAppServiceData *testStruct = [[SDLAppServiceData alloc] initWithServiceType:testServiceType serviceId:testServiceId mediaServiceData:testMediaServiceData weatherServiceData:testWeatherServiceData navigationServiceData:testNavigationServiceData];
+        SDLAppServiceData *testStruct = [[SDLAppServiceData alloc] initWithAppServiceType:testServiceType serviceId:testServiceId mediaServiceData:testMediaServiceData weatherServiceData:testWeatherServiceData navigationServiceData:testNavigationServiceData];
 
         expect(testStruct.serviceType).to(equal(testServiceType));
         expect(testStruct.serviceId).to(equal(testServiceId));

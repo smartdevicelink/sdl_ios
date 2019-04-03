@@ -16,8 +16,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 // VERSION DEPENDENT CODE
-NSString *const SDLMaxProxyProtocolVersion = @"5.1.0";
-NSString *const SDLMaxProxyRPCVersion =  @"5.0.0";
+NSString *const SDLMaxProxyProtocolVersion = @"5.2.0";
+NSString *const SDLMaxProxyRPCVersion =  @"5.1.0";
 
 NSUInteger const SDLDefaultMTUSize = UINT32_MAX;
 NSUInteger const SDLV1MTUSize = 1024;

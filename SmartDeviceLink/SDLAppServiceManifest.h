@@ -26,20 +26,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLAppServiceManifest : SDLRPCStruct
 
 /**
- *  Convenience init for required parameters only.
- *
- *  @param serviceType  The type of service that is to be offered by this app.
- *  @return             A SDLAppServiceManifest object
- */
-- (instancetype)initWithServiceType:(NSString *)serviceType NS_DESIGNATED_INITIALIZER;
-
-/**
  *  Convenience init for serviceType.
  *
  *  @param serviceType The type of service that is to be offered by this app
  *  @return            A SDLAppServiceManifest object
  */
-- (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType;
+- (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Convenience init for a media service manifest.
@@ -94,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param navigationServiceManifest    A navigation service manifest
  *  @return                             A SDLAppServiceManifest object
  */
-- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(NSString *)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest navigationServiceManifest:(nullable SDLNavigationServiceManifest *)navigationServiceManifest;
+- (instancetype)initWithServiceName:(nullable NSString *)serviceName serviceType:(SDLAppServiceType)serviceType serviceIcon:(nullable SDLImage *)serviceIcon allowAppConsumers:(BOOL)allowAppConsumers rpcSpecVersion:(nullable SDLSyncMsgVersion *)rpcSpecVersion handledRPCs:(nullable NSArray<NSNumber<SDLInt> *> *)handledRPCs mediaServiceManifest:(nullable SDLMediaServiceManifest *)mediaServiceManifest weatherServiceManifest:(nullable SDLWeatherServiceManifest *)weatherServiceManifest navigationServiceManifest:(nullable SDLNavigationServiceManifest *)navigationServiceManifest;
 
 /**
  *  Unique name of this service.

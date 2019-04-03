@@ -23,22 +23,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLAppServiceData : SDLRPCStruct
 
 /**
- *  Convenience init for required parameters.
- *
- *  @param serviceType              The type of service that is to be offered by this app.
- *  @param serviceId                A unique ID tied to this specific service record.
- *  @return                         A SDLAppServiceData object
- */
-- (instancetype)initWithServiceType:(NSString *)serviceType serviceId:(NSString *)serviceId NS_DESIGNATED_INITIALIZER;
-
-/**
  *  Convenience init for service type and service id.
  *
  *  @param serviceType              The type of service that is to be offered by this app.
  *  @param serviceId                A unique ID tied to this specific service record.
  *  @return                         A SDLAppServiceData object
  */
-- (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType serviceId:(NSString *)serviceId;
+- (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType serviceId:(NSString *)serviceId NS_DESIGNATED_INITIALIZER;
 
 /**
  *  Convenience init for media service data.
@@ -77,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param navigationServiceData    The navigation service data
  *  @return                         A SDLAppServiceData object
  */
-- (instancetype)initWithServiceType:(NSString *)serviceType serviceId:(NSString *)serviceId mediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData weatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData navigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData;
+- (instancetype)initWithAppServiceType:(SDLAppServiceType)serviceType serviceId:(NSString *)serviceId mediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData weatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData navigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData;
 
 /**
  *  The type of service that is to be offered by this app. See `AppServiceType` for known enum equivalent types. Parameter is a string to allow for new service types to be used by apps on older versions of SDL Core.
