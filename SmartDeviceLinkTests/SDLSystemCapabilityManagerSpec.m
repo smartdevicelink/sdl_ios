@@ -1,6 +1,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLAppServicesCapabilities.h"
 #import "SDLAudioPassThruCapabilities.h"
 #import "SDLButtonCapabilities.h"
 #import "SDLDisplayCapabilities.h"
@@ -356,19 +357,70 @@ describe(@"System capability manager", ^{
         });
     });
 
-    context(@"When the system capability manager is stopped after being started", ^{
+    fcontext(@"When the system capability manager is stopped after being started", ^{
         beforeEach(^{
-            SDLDisplayCapabilities *testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
-            testDisplayCapabilities.graphicSupported = @NO;
-
             SDLRegisterAppInterfaceResponse *testRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-            testRegisterAppInterfaceResponse.displayCapabilities = testDisplayCapabilities;
+            testRegisterAppInterfaceResponse.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
+            testRegisterAppInterfaceResponse.hmiCapabilities = [[SDLHMICapabilities alloc] init];
+            testRegisterAppInterfaceResponse.softButtonCapabilities = @[[[SDLSoftButtonCapabilities alloc] init]];
+            testRegisterAppInterfaceResponse.buttonCapabilities = @[[[SDLButtonCapabilities alloc] init]];
+            testRegisterAppInterfaceResponse.presetBankCapabilities = [[SDLPresetBankCapabilities alloc] init];
+            testRegisterAppInterfaceResponse.hmiZoneCapabilities = @[SDLHMIZoneCapabilitiesFront];
+            testRegisterAppInterfaceResponse.speechCapabilities = @[SDLSpeechCapabilitiesPrerecorded];
+            testRegisterAppInterfaceResponse.prerecordedSpeech = @[SDLPrerecordedSpeechHelp];
+            testRegisterAppInterfaceResponse.vrCapabilities = @[SDLVRCapabilitiesText];
+            testRegisterAppInterfaceResponse.audioPassThruCapabilities = @[[[SDLAudioPassThruCapabilities alloc] init]];
+            testRegisterAppInterfaceResponse.pcmStreamCapabilities = [[SDLAudioPassThruCapabilities alloc] init];
             testRegisterAppInterfaceResponse.success = @YES;
+            SDLRPCResponseNotification *registerAppInterfaceNotification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
+            [[NSNotificationCenter defaultCenter] postNotification:registerAppInterfaceNotification];
 
-            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
-            [[NSNotificationCenter defaultCenter] postNotification:notification];
+            SDLGetSystemCapabilityResponse *testAppServicesGetSystemCapabilityResponse = [[SDLGetSystemCapabilityResponse alloc] init];
+            testAppServicesGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] initWithAppServicesCapabilities:[[SDLAppServicesCapabilities alloc] init]];
+            testAppServicesGetSystemCapabilityResponse.success = @YES;
+            SDLRPCResponseNotification *appServicesGetSystemCapabilityNotification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testAppServicesGetSystemCapabilityResponse];
+            [[NSNotificationCenter defaultCenter] postNotification:appServicesGetSystemCapabilityNotification];
 
-            expect(testSystemCapabilityManager.displayCapabilities).to(equal(testDisplayCapabilities));
+            SDLGetSystemCapabilityResponse *testNavGetSystemCapabilityResponse = [[SDLGetSystemCapabilityResponse alloc] init];
+            testNavGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] initWithNavigationCapability:[[SDLNavigationCapability alloc] init]];
+            testNavGetSystemCapabilityResponse.success = @YES;
+            SDLRPCResponseNotification *navGetSystemCapabilityNotification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testNavGetSystemCapabilityResponse];
+            [[NSNotificationCenter defaultCenter] postNotification:navGetSystemCapabilityNotification];
+
+            SDLGetSystemCapabilityResponse *testPhoneGetSystemCapabilityResponse = [[SDLGetSystemCapabilityResponse alloc] init];
+            testPhoneGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] initWithPhoneCapability:[[SDLPhoneCapability alloc] initWithDialNumber:YES]];
+            testPhoneGetSystemCapabilityResponse.success = @YES;
+            SDLRPCResponseNotification *phoneGetSystemCapabilityNotification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testPhoneGetSystemCapabilityResponse];
+            [[NSNotificationCenter defaultCenter] postNotification:phoneGetSystemCapabilityNotification];
+
+            SDLGetSystemCapabilityResponse *testVideoGetSystemCapabilityResponse = [[SDLGetSystemCapabilityResponse alloc] init];
+            testVideoGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] initWithVideoStreamingCapability:[[SDLVideoStreamingCapability alloc] init]];
+            testVideoGetSystemCapabilityResponse.success = @YES;
+            SDLRPCResponseNotification *videoGetSystemCapabilityNotification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testVideoGetSystemCapabilityResponse];
+            [[NSNotificationCenter defaultCenter] postNotification:videoGetSystemCapabilityNotification];
+
+            SDLGetSystemCapabilityResponse *testRemoteControlGetSystemCapabilityResponse = [[SDLGetSystemCapabilityResponse alloc] init];
+            testRemoteControlGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] initWithRemoteControlCapability:[[SDLRemoteControlCapabilities alloc] init]];
+            testRemoteControlGetSystemCapabilityResponse.success = @YES;
+            SDLRPCResponseNotification *remoteControlGetSystemCapabilityNotification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testRemoteControlGetSystemCapabilityResponse];
+            [[NSNotificationCenter defaultCenter] postNotification:remoteControlGetSystemCapabilityNotification];
+
+            expect(testSystemCapabilityManager.displayCapabilities).toNot(beNil());
+            expect(testSystemCapabilityManager.hmiCapabilities).toNot(beNil());
+            expect(testSystemCapabilityManager.softButtonCapabilities).toNot(beNil());
+            expect(testSystemCapabilityManager.buttonCapabilities).toNot(beNil());
+            expect(testSystemCapabilityManager.presetBankCapabilities).toNot(beNil());
+            expect(testSystemCapabilityManager.hmiZoneCapabilities).toNot(beNil());
+            expect(testSystemCapabilityManager.speechCapabilities).toNot(beNil());
+            expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).toNot(beNil());
+            expect(testSystemCapabilityManager.vrCapability).toNot(beFalse());
+            expect(testSystemCapabilityManager.audioPassThruCapabilities).toNot(beNil());
+            expect(testSystemCapabilityManager.pcmStreamCapability).toNot(beNil());
+            expect(testSystemCapabilityManager.phoneCapability).toNot(beNil());
+            expect(testSystemCapabilityManager.navigationCapability).toNot(beNil());
+            expect(testSystemCapabilityManager.videoStreamingCapability).toNot(beNil());
+            expect(testSystemCapabilityManager.remoteControlCapability).toNot(beNil());
+            expect(testSystemCapabilityManager.appServicesCapabilities).toNot(beNil());
         });
 
         describe(@"When stopped", ^{
