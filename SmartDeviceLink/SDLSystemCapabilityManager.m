@@ -8,18 +8,26 @@
 
 #import "SDLSystemCapabilityManager.h"
 
+#import "SDLAppServiceCapability.h"
+#import "SDLAppServiceRecord.h"
 #import "SDLAppServicesCapabilities.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLGenericResponse.h"
 #import "SDLGetSystemCapability.h"
 #import "SDLGetSystemCapabilityResponse.h"
+#import "SDLGlobals.h"
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
+#import "SDLOnHMIStatus.h"
+#import "SDLOnSystemCapabilityUpdated.h"
 #import "SDLRegisterAppInterfaceResponse.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLRPCResponseNotification.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLSystemCapability.h"
+#import "SDLVersion.h"
 #import "SDLVideoStreamingCapability.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -45,6 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLRemoteControlCapabilities *remoteControlCapability;
 
+@property (assign, nonatomic) BOOL isFirstHMILevelFull;
+
 @end
 
 @implementation SDLSystemCapabilityManager
@@ -58,6 +68,8 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _connectionManager = manager;
+    _isFirstHMILevelFull = NO;
+
     [self sdl_registerForNotifications];    
 
     return self;
@@ -81,6 +93,8 @@ NS_ASSUME_NONNULL_BEGIN
     _videoStreamingCapability = nil;
     _remoteControlCapability = nil;
     _appServicesCapabilities = nil;
+
+    _isFirstHMILevelFull = NO;
 }
 
 
@@ -90,6 +104,8 @@ NS_ASSUME_NONNULL_BEGIN
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_registerResponse:) name:SDLDidReceiveRegisterAppInterfaceResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_displayLayoutResponse:) name:SDLDidReceiveSetDisplayLayoutResponse object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_systemCapabilityResponse:) name:SDLDidReceiveGetSystemCapabilitiesResponse object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_systemCapabilityUpdatedNotification:) name:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sdl_hmiStatusNotification:) name:SDLDidChangeHMIStatusNotification object:nil];
 }
 
 - (void)sdl_registerResponse:(SDLRPCResponseNotification *)notification {
@@ -124,30 +140,93 @@ NS_ASSUME_NONNULL_BEGIN
     if (!response.success.boolValue) { return; }
 
     SDLSystemCapability *systemCapabilityResponse = ((SDLGetSystemCapabilityResponse *)response).systemCapability;
-    SDLSystemCapabilityType systemCapabilityType = systemCapabilityResponse.systemCapabilityType;
 
-    if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypePhoneCall]) {
-        self.phoneCapability = systemCapabilityResponse.phoneCapability;
-    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeNavigation]) {
-        self.navigationCapability = systemCapabilityResponse.navigationCapability;
-    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeRemoteControl]) {
-        self.remoteControlCapability = systemCapabilityResponse.remoteControlCapability;
-    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
-        self.videoStreamingCapability = systemCapabilityResponse.videoStreamingCapability;
-    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeAppServices]) {
-        self.appServicesCapabilities = systemCapabilityResponse.appServicesCapabilities;
-    } else {
-        SDLLogW(@"Received response for unknown System Capability Type: %@", systemCapabilityType);
-    }
+    [self sdl_saveSystemCapability:systemCapabilityResponse];
 
     if (self.systemCapabilityHandler == nil) { return; }
     self.systemCapabilityHandler(nil, self);
+}
+
+- (void)sdl_systemCapabilityUpdatedNotification:(SDLRPCNotificationNotification *)notification {
+    SDLOnSystemCapabilityUpdated *systemCapabilityUpdatedNotification = (SDLOnSystemCapabilityUpdated *)notification.notification;
+    [self sdl_saveSystemCapability:systemCapabilityUpdatedNotification.systemCapability];
+
+    // TODO: double check that this isn't going to break anything
+    if (self.systemCapabilityHandler == nil) { return; }
+    self.systemCapabilityHandler(nil, self);
+}
+
+- (void)sdl_saveSystemCapability:(SDLSystemCapability *)systemCapability {
+    SDLSystemCapabilityType systemCapabilityType = systemCapability.systemCapabilityType;
+
+    if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypePhoneCall]) {
+        self.phoneCapability = systemCapability.phoneCapability;
+    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeNavigation]) {
+        self.navigationCapability = systemCapability.navigationCapability;
+    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeRemoteControl]) {
+        self.remoteControlCapability = systemCapability.remoteControlCapability;
+    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
+        self.videoStreamingCapability = systemCapability.videoStreamingCapability;
+    } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeAppServices]) {
+        if (!self.appServicesCapabilities) {
+            self.appServicesCapabilities = systemCapability.appServicesCapabilities;
+        }
+
+        NSMutableDictionary *cachedCapabilities = [NSMutableDictionary dictionary];
+        for (unsigned long i = 0; i < self.appServicesCapabilities.appServices.count; i += 1) {
+            SDLAppServiceRecord *record = self.appServicesCapabilities.appServices[i].updatedAppServiceRecord;
+            cachedCapabilities[record.serviceID] = record;
+        }
+
+        for (unsigned long i = 0; i < systemCapability.appServicesCapabilities.appServices.count; i += 1) {
+            SDLAppServiceRecord *updatedRecord = systemCapability.appServicesCapabilities.appServices[i].updatedAppServiceRecord;
+            cachedCapabilities[updatedRecord.serviceID] = updatedRecord;
+        }
+
+        self.appServicesCapabilities.appServices = [cachedCapabilities allValues];
+    } else {
+        SDLLogW(@"Received response for unknown System Capability Type: %@", systemCapabilityType);
+    }
+}
+
+- (void)sdl_hmiStatusNotification:(SDLRPCNotificationNotification *)notification {
+    SDLOnHMIStatus *hmiStatus = (SDLOnHMIStatus *)notification.notification;
+
+    // On first hmi level of `FULL` send the `GetSystemCapability` subscription
+    if (!self.isFirstHMILevelFull && hmiStatus.hmiLevel == SDLHMILevelFull) {
+        self.isFirstHMILevelFull = YES;
+
+        NSArray<SDLSystemCapabilityType> *allSystemCapabilityTypes = @[SDLSystemCapabilityTypeAppServices, SDLSystemCapabilityTypeNavigation, SDLSystemCapabilityTypePhoneCall, SDLSystemCapabilityTypeVideoStreaming, SDLSystemCapabilityTypeRemoteControl];
+
+        NSMutableArray<SDLGetSystemCapability *> *test = [NSMutableArray array];
+        for (unsigned long i = 0; i < allSystemCapabilityTypes.count; i += 1) {
+            SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:allSystemCapabilityTypes[i] subscribe:true];
+            [test addObject:getSystemCapability];
+        }
+
+        [self.connectionManager sendRequests:test progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+            SDLGetSystemCapabilityResponse *getSystemCapabilityResponse = (SDLGetSystemCapabilityResponse *)response;
+            // TODO: make sure this actually returns data
+            [self sdl_saveSystemCapability:getSystemCapabilityResponse.systemCapability];
+        } completionHandler:^(BOOL success) {
+            // TODO - not sure if we need this
+        }];
+    }
 }
 
 #pragma mark - Capability Request
 
 - (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler {
     self.systemCapabilityHandler = handler;
+
+    SDLVersion *onSystemCapabilityNotificationRPCVersion = [SDLVersion versionWithString:@"5.1.0"];
+    SDLVersion *headUnitRPCVersion = SDLGlobals.sharedGlobals.rpcVersion;
+    if ([headUnitRPCVersion isGreaterThanOrEqualToVersion:onSystemCapabilityNotificationRPCVersion]) {
+        // Just return the cached data
+        if (self.systemCapabilityHandler == nil) { return; }
+        self.systemCapabilityHandler(nil, self);
+    }
+
     SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type];
     [self.connectionManager sendConnectionRequest:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error == nil) { return; }
