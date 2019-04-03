@@ -115,7 +115,7 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 /**
  *  Stop the manager, it will disconnect if needed and no longer look for a connection. You probably don't need to call this method ever.
  *
- *   @warning If you call this method from SDLManager's `startWithReadyHandler` be sure to wrap the `stop` call inside a dispatch_async and send it to the main queue or a global queue, otherwise calling `stop` may cause a deadlock.
+ *  @warning If you call this method from SDLManager's `startWithReadyHandler` be sure to wrap the `stop` call inside a dispatch_async and send it to the main queue or a global queue, otherwise calling `stop` may cause a deadlock.
  */
 - (void)stop;
 
