@@ -47,23 +47,23 @@ NS_ASSUME_NONNULL_BEGIN
         return obj;
     }
     // translate dictionaries to objects
-    if ([obj isKindOfClass:NSDictionary.class] && [classType instancesRespondToSelector:@selector(initWithDictionary:)]) {
+    else if ([obj isKindOfClass:NSDictionary.class] && [classType instancesRespondToSelector:@selector(initWithDictionary:)]) {
         obj = [[classType alloc] initWithDictionary:(NSDictionary *)obj];
         // update store so that the object isn't created multiple times
         [self sdl_setObject:obj forName:name];
         return obj;
+    } else {
+        // The object in the store is not correct, we'll assert in debug and return an error and nil
+        NSError *wrongObjectError = [NSError sdl_store_invalidObjectErrorWithObject:obj expectedType:classType];
+
+        SDLLogE(@"Retrieving object from store error: %@", wrongObjectError.localizedFailureReason);
+        NSAssert(NO, wrongObjectError.localizedFailureReason);
+
+        if (error) {
+            *error = wrongObjectError;
+        }
+        return nil;
     }
-    // The object in the store is not correct, we'll assert in debug and return an error and nil
-    NSError *wrongObjectError = [NSError sdl_store_invalidObjectErrorWithObject:obj expectedType:classType];
-
-    SDLLogE(@"Retrieving object from store error: %@", wrongObjectError.localizedFailureReason);
-    NSAssert(NO, wrongObjectError.localizedFailureReason);
-
-    if (error) {
-        *error = wrongObjectError;
-    }
-
-    return nil;
 }
 
 #pragma mark - objects
