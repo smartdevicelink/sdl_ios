@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLImageFieldName)name {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameName error:&error];
 }
 
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLFileType> *)imageTypeSupported {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumsForName:SDLRPCParameterNameImageTypeSupported error:&error];
 }
 
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLImageResolution *)imageResolution {
-    return [store sdl_objectForName:SDLRPCParameterNameImageResolution ofClass:SDLImageResolution.class];
+    return [store sdl_objectForName:SDLRPCParameterNameImageResolution ofClass:SDLImageResolution.class error:nil];
 }
 
 @end

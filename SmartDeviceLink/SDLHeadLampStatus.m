@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)lowBeamsOn {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameLowBeamsOn ofClass:NSNumber.class error:&error];
 }
 
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)highBeamsOn {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameHighBeamsOn ofClass:NSNumber.class error:&error];
 }
 

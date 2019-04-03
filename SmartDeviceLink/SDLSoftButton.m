@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSoftButtonType)type {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameType error:&error];
 }
 
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)text {
-    return [store sdl_objectForName:SDLRPCParameterNameText ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameText ofClass:NSString.class error:nil];
 }
 
 - (void)setImage:(nullable SDLImage *)image {
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLImage *)image {
-    return [store sdl_objectForName:SDLRPCParameterNameImage ofClass:SDLImage.class];
+    return [store sdl_objectForName:SDLRPCParameterNameImage ofClass:SDLImage.class error:nil];
 }
 
 - (void)setIsHighlighted:(nullable NSNumber<SDLBool> *)isHighlighted {
@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)isHighlighted {
-    return [store sdl_objectForName:SDLRPCParameterNameIsHighlighted ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameIsHighlighted ofClass:NSNumber.class error:nil];
 }
 
 - (void)setSoftButtonID:(NSNumber<SDLInt> *)softButtonID {
@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)softButtonID {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameSoftButtonId ofClass:NSNumber.class error:&error];
 }
 

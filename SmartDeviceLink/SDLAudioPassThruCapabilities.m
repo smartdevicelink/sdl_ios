@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSamplingRate)samplingRate {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameSamplingRate error:&error];
 }
 
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLBitsPerSample)bitsPerSample {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameBitsPerSample error:&error];
 }
 
@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLAudioType)audioType {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameAudioType error:&error];
 }
 

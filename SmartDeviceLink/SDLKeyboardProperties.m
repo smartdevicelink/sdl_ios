@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)limitedCharacterList {
-    return [store sdl_objectsForName:SDLRPCParameterNameLimitedCharacterList ofClass:NSString.class];
+    return [store sdl_objectsForName:SDLRPCParameterNameLimitedCharacterList ofClass:NSString.class error:nil];
 }
 
 - (void)setAutoCompleteText:(nullable NSString *)autoCompleteText {
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)autoCompleteText {
-    return [store sdl_objectForName:SDLRPCParameterNameAutoCompleteText ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameAutoCompleteText ofClass:NSString.class error:nil];
 }
 
 @end

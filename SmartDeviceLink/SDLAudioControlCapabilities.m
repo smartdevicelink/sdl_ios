@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)moduleName {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameModuleName ofClass:NSString.class error:&error];
 }
 
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)sourceAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameSourceAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameSourceAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setKeepContextAvailable:(nullable NSNumber<SDLBool> *)keepContextAvailable {
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)keepContextAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameKeepContextAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameKeepContextAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setVolumeAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable {
@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)volumeAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameVolumeAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameVolumeAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setEqualizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable {
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)equalizerAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameEqualizerAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameEqualizerAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setEqualizerMaxChannelId:(nullable NSNumber<SDLInt> *)equalizerMaxChannelId {
@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)equalizerMaxChannelId {
-    return [store sdl_objectForName:SDLRPCParameterNameEqualizerMaxChannelId ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameEqualizerMaxChannelId ofClass:NSNumber.class error:nil];
 }
 
 @end

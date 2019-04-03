@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)mediaTitle {
-    return [store sdl_objectForName:SDLRPCParameterNameMediaTitle ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameMediaTitle ofClass:NSString.class error:nil];
 }
 
 - (void)setMediaArtist:(nullable NSString *)mediaArtist {
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)mediaArtist {
-    return [store sdl_objectForName:SDLRPCParameterNameMediaArtist ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameMediaArtist ofClass:NSString.class error:nil];
 }
 
 - (void)setMediaAlbum:(nullable NSString *)mediaAlbum {
@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)mediaAlbum {
-    return [store sdl_objectForName:SDLRPCParameterNameMediaAlbum ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameMediaAlbum ofClass:NSString.class error:nil];
 }
 
 - (void)setPlaylistName:(nullable NSString *)playlistName {
@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)playlistName {
-    return [store sdl_objectForName:SDLRPCParameterNamePlaylistName ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNamePlaylistName ofClass:NSString.class error:nil];
 }
 
 - (void)setIsExplicit:(nullable NSNumber<SDLBool> *)isExplicit {
@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)isExplicit {
-    return [store sdl_objectForName:SDLRPCParameterNameIsExplicit ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameIsExplicit ofClass:NSNumber.class error:nil];
 }
 
 - (void)setTrackPlaybackProgress:(nullable NSNumber<SDLInt> *)trackPlaybackProgress {
@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)trackPlaybackProgress {
-    return [store sdl_objectForName:SDLRPCParameterNameTrackPlaybackProgress ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameTrackPlaybackProgress ofClass:NSNumber.class error:nil];
 }
 
 - (void)setTrackPlaybackDuration:(nullable NSNumber<SDLInt> *)trackPlaybackDuration {
@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)trackPlaybackDuration {
-    return [store sdl_objectForName:SDLRPCParameterNameTrackPlaybackDuration ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameTrackPlaybackDuration ofClass:NSNumber.class error:nil];
 }
 
 - (void)setQueuePlaybackProgress:(nullable NSNumber<SDLInt> *)queuePlaybackProgress {
@@ -106,7 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)queuePlaybackProgress {
-    return [store sdl_objectForName:SDLRPCParameterNameQueuePlaybackProgress ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameQueuePlaybackProgress ofClass:NSNumber.class error:nil];
 }
 
 - (void)setQueuePlaybackDuration:(nullable NSNumber<SDLInt> *)queuePlaybackDuration {
@@ -114,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)queuePlaybackDuration {
-    return [store sdl_objectForName:SDLRPCParameterNameQueuePlaybackDuration ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameQueuePlaybackDuration ofClass:NSNumber.class error:nil];
 }
 
 - (void)setQueueCurrentTrackNumber:(nullable NSNumber<SDLInt> *)queueCurrentTrackNumber {
@@ -122,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)queueCurrentTrackNumber {
-    return [store sdl_objectForName:SDLRPCParameterNameQueueCurrentTrackNumber ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameQueueCurrentTrackNumber ofClass:NSNumber.class error:nil];
 }
 
 - (void)setQueueTotalTrackCount:(nullable NSNumber<SDLInt> *)queueTotalTrackCount {
@@ -130,7 +130,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)queueTotalTrackCount {
-    return [store sdl_objectForName:SDLRPCParameterNameQueueTotalTrackCount ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameQueueTotalTrackCount ofClass:NSNumber.class error:nil];
 }
 
 @end

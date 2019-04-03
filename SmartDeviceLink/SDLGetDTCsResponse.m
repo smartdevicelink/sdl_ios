@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)ecuHeader {
-    NSError *error;
+    NSError *error = nil;
     return [parameters sdl_objectForName:SDLRPCParameterNameECUHeader ofClass:NSNumber.class error:&error];
 }
 
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<NSString *> *)dtc {
-    NSError *error;
+    NSError *error = nil;
     return [parameters sdl_objectsForName:SDLRPCParameterNameDTC ofClass:NSString.class error:&error];
 }
 

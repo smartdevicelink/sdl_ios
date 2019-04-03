@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)parentID {
-    return [store sdl_objectForName:SDLRPCParameterNameParentId ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameParentId ofClass:NSNumber.class error:nil];
 }
 
 - (void)setPosition:(nullable NSNumber<SDLInt> *)position {
@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)position {
-    return [store sdl_objectForName:SDLRPCParameterNamePosition ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNamePosition ofClass:NSNumber.class error:nil];
 }
 
 - (void)setMenuName:(NSString *)menuName {
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)menuName {
-    return [store sdl_objectForName:SDLRPCParameterNameMenuName ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameMenuName ofClass:NSString.class error:nil];
 }
 
 @end

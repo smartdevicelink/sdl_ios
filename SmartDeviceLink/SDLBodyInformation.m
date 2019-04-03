@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)parkBrakeActive {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameParkBrakeActive ofClass:NSNumber.class error:&error];
 }
 
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLIgnitionStableStatus)ignitionStableStatus {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameIgnitionStableStatus error:&error];
 }
 
@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLIgnitionStatus)ignitionStatus {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameIgnitionStatus error:&error];
 }
 
@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)driverDoorAjar {
-    return [store sdl_objectForName:SDLRPCParameterNameDriverDoorAjar ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameDriverDoorAjar ofClass:NSNumber.class error:nil];
 }
 
 - (void)setPassengerDoorAjar:(nullable NSNumber<SDLBool> *)passengerDoorAjar {
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)passengerDoorAjar {
-    return [store sdl_objectForName:SDLRPCParameterNamePassengerDoorAjar ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNamePassengerDoorAjar ofClass:NSNumber.class error:nil];
 }
 
 - (void)setRearLeftDoorAjar:(nullable NSNumber<SDLBool> *)rearLeftDoorAjar {
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)rearLeftDoorAjar {
-    return [store sdl_objectForName:SDLRPCParameterNameRearLeftDoorAjar ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameRearLeftDoorAjar ofClass:NSNumber.class error:nil];
 }
 
 - (void)setRearRightDoorAjar:(nullable NSNumber<SDLBool> *)rearRightDoorAjar {
@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)rearRightDoorAjar {
-    return [store sdl_objectForName:SDLRPCParameterNameRearRightDoorAjar ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameRearRightDoorAjar ofClass:NSNumber.class error:nil];
 }
 
 @end

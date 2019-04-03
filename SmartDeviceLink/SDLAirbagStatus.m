@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataEventStatus)driverAirbagDeployed {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameDriverAirbagDeployed error:&error];
 }
 
@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataEventStatus)driverSideAirbagDeployed {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameDriverSideAirbagDeployed error:&error];
 }
 
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataEventStatus)driverCurtainAirbagDeployed {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameDriverCurtainAirbagDeployed error:&error];
 }
 
@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
     [store sdl_setObject:passengerAirbagDeployed forName:SDLRPCParameterNamePassengerAirbagDeployed];}
 
 - (SDLVehicleDataEventStatus)passengerAirbagDeployed {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNamePassengerAirbagDeployed error:&error];
 }
 
@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataEventStatus)passengerCurtainAirbagDeployed {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNamePassengerCurtainAirbagDeployed error:&error];
 }
 
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataEventStatus)driverKneeAirbagDeployed {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameDriverKneeAirbagDeployed error:&error];
 }
 
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataEventStatus)passengerSideAirbagDeployed {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNamePassengerSideAirbagDeployed error:&error];
 }
 
@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataEventStatus)passengerKneeAirbagDeployed {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNamePassengerKneeAirbagDeployed error:&error];
 }
 

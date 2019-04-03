@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataNotificationStatus)eCallNotificationStatus {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameECallNotificationStatus error:&error];
 }
 
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataNotificationStatus)auxECallNotificationStatus {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameAuxECallNotificationStatus error:&error];
 }
 
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLECallConfirmationStatus)eCallConfirmationStatus {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameECallConfirmationStatus error:&error];
 }
 

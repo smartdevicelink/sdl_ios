@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)ecuName {
-    NSError *error;
+    NSError *error = nil;
     return [parameters sdl_objectForName:SDLRPCParameterNameECUName ofClass:NSNumber.class error:&error];
 }
 
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)dtcMask {
-    return [parameters sdl_objectForName:SDLRPCParameterNameDTCMask ofClass:NSNumber.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameDTCMask ofClass:NSNumber.class error:nil];
 }
 
 @end

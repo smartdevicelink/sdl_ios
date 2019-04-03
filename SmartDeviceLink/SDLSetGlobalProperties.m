@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLTTSChunk *> *)helpPrompt {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameHelpPrompt ofClass:SDLTTSChunk.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameHelpPrompt ofClass:SDLTTSChunk.class error:nil];
 }
 
 - (void)setTimeoutPrompt:(nullable NSArray<SDLTTSChunk *> *)timeoutPrompt {
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLTTSChunk *> *)timeoutPrompt {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameTimeoutPrompt ofClass:SDLTTSChunk.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameTimeoutPrompt ofClass:SDLTTSChunk.class error:nil];
 }
 
 - (void)setVrHelpTitle:(nullable NSString *)vrHelpTitle {
@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)vrHelpTitle {
-    return [parameters sdl_objectForName:SDLRPCParameterNameVRHelpTitle ofClass:NSString.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameVRHelpTitle ofClass:NSString.class error:nil];
 }
 
 - (void)setVrHelp:(nullable NSArray<SDLVRHelpItem *> *)vrHelp {
@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLVRHelpItem *> *)vrHelp {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameVRHelp ofClass:SDLVRHelpItem.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameVRHelp ofClass:SDLVRHelpItem.class error:nil];
 }
 
 - (void)setMenuTitle:(nullable NSString *)menuTitle {
@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)menuTitle {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMenuTitle ofClass:NSString.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMenuTitle ofClass:NSString.class error:nil];
 }
 
 - (void)setMenuIcon:(nullable SDLImage *)menuIcon {
@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLImage *)menuIcon {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMenuIcon ofClass:SDLImage.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMenuIcon ofClass:SDLImage.class error:nil];
 }
 
 - (void)setKeyboardProperties:(nullable SDLKeyboardProperties *)keyboardProperties {
@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLKeyboardProperties *)keyboardProperties {
-    return [parameters sdl_objectForName:SDLRPCParameterNameKeyboardProperties ofClass:SDLKeyboardProperties.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameKeyboardProperties ofClass:SDLKeyboardProperties.class error:nil];
 }
 
 @end

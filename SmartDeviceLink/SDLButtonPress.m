@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLModuleType)moduleType {
-    NSError *error;
+    NSError *error = nil;
     return [parameters sdl_enumForName:SDLRPCParameterNameModuleType error:&error];
 }
 
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLButtonName)buttonName {
-    NSError *error;
+    NSError *error = nil;
     return [parameters sdl_enumForName:SDLRPCParameterNameButtonName error:&error];
 }
 
@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLButtonPressMode)buttonPressMode {
-    NSError *error;
+    NSError *error = nil;
     return [parameters sdl_enumForName:SDLRPCParameterNameButtonPressMode error:&error];
 }
 

@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)navigation {
-    return [store sdl_objectForName:SDLRPCParameterNameNavigation ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameNavigation ofClass:NSNumber.class error:nil];
 }
 
 - (void)setPhoneCall:(nullable NSNumber<SDLBool> *)phoneCall {
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)phoneCall {
-    return [store sdl_objectForName:SDLRPCParameterNamePhoneCall ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNamePhoneCall ofClass:NSNumber.class error:nil];
 }
 
 - (void)setVideoStreaming:(nullable NSNumber<SDLBool> *)videoStreaming {
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)videoStreaming {
-    return [store sdl_objectForName:SDLRPCParameterNameVideoStreaming ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameVideoStreaming ofClass:NSNumber.class error:nil];
 }
 
 @end

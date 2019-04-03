@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLTemperature *)currentTemperature {
-    return [store sdl_objectForName:SDLRPCParameterNameCurrentTemperature ofClass:SDLTemperature.class];
+    return [store sdl_objectForName:SDLRPCParameterNameCurrentTemperature ofClass:SDLTemperature.class error:nil];
 }
 
 - (void)setTemperatureHigh:(nullable SDLTemperature *)temperatureHigh {
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLTemperature *)temperatureHigh {
-    return [store sdl_objectForName:SDLRPCParameterNameTemperatureHigh ofClass:SDLTemperature.class];
+    return [store sdl_objectForName:SDLRPCParameterNameTemperatureHigh ofClass:SDLTemperature.class error:nil];
 }
 
 - (void)setTemperatureLow:(nullable SDLTemperature *)temperatureLow {
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLTemperature *)temperatureLow {
-    return [store sdl_objectForName:SDLRPCParameterNameTemperatureLow ofClass:SDLTemperature.class];
+    return [store sdl_objectForName:SDLRPCParameterNameTemperatureLow ofClass:SDLTemperature.class error:nil];
 }
 
 - (void)setApparentTemperature:(nullable SDLTemperature *)apparentTemperature {
@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLTemperature *)apparentTemperature {
-    return [store sdl_objectForName:SDLRPCParameterNameApparentTemperature ofClass:SDLTemperature.class];
+    return [store sdl_objectForName:SDLRPCParameterNameApparentTemperature ofClass:SDLTemperature.class error:nil];
 }
 
 - (void)setApparentTemperatureHigh:(nullable SDLTemperature *)apparentTemperatureHigh {
@@ -87,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLTemperature *)apparentTemperatureHigh {
-    return [store sdl_objectForName:SDLRPCParameterNameApparentTemperatureHigh ofClass:SDLTemperature.class];
+    return [store sdl_objectForName:SDLRPCParameterNameApparentTemperatureHigh ofClass:SDLTemperature.class error:nil];
 }
 
 - (void)setApparentTemperatureLow:(nullable SDLTemperature *)apparentTemperatureLow {
@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLTemperature *)apparentTemperatureLow {
-    return [store sdl_objectForName:SDLRPCParameterNameApparentTemperatureLow ofClass:SDLTemperature.class];
+    return [store sdl_objectForName:SDLRPCParameterNameApparentTemperatureLow ofClass:SDLTemperature.class error:nil];
 }
 
 - (void)setWeatherSummary:(nullable NSString *)weatherSummary {
@@ -103,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)weatherSummary {
-    return [store sdl_objectForName:SDLRPCParameterNameWeatherSummary ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameWeatherSummary ofClass:NSString.class error:nil];
 }
 
 - (void)setTime:(nullable SDLDateTime *)time {
@@ -111,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLDateTime *)time {
-    return [store sdl_objectForName:SDLRPCParameterNameTime ofClass:SDLDateTime.class];
+    return [store sdl_objectForName:SDLRPCParameterNameTime ofClass:SDLDateTime.class error:nil];
 }
 
 - (void)setHumidity:(nullable NSNumber<SDLFloat> *)humidity {
@@ -119,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)humidity {
-    return [store sdl_objectForName:SDLRPCParameterNameHumidity ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameHumidity ofClass:NSNumber.class error:nil];
 }
 
 - (void)setCloudCover:(nullable NSNumber<SDLFloat> *)cloudCover {
@@ -127,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)cloudCover {
-    return [store sdl_objectForName:SDLRPCParameterNameCloudCover ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameCloudCover ofClass:NSNumber.class error:nil];
 }
 
 - (void)setMoonPhase:(nullable NSNumber<SDLFloat> *)moonPhase {
@@ -135,7 +135,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)moonPhase {
-    return [store sdl_objectForName:SDLRPCParameterNameMoonPhase ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameMoonPhase ofClass:NSNumber.class error:nil];
 }
 
 - (void)setWindBearing:(nullable NSNumber<SDLInt> *)windBearing {
@@ -143,7 +143,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)windBearing {
-    return [store sdl_objectForName:SDLRPCParameterNameWindBearing ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameWindBearing ofClass:NSNumber.class error:nil];
 }
 
 - (void)setWindGust:(nullable NSNumber<SDLFloat> *)windGust {
@@ -151,7 +151,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)windGust {
-    return [store sdl_objectForName:SDLRPCParameterNameWindGust ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameWindGust ofClass:NSNumber.class error:nil];
 }
 
 - (void)setWindSpeed:(nullable NSNumber<SDLFloat> *)windSpeed {
@@ -159,7 +159,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)windSpeed {
-    return [store sdl_objectForName:SDLRPCParameterNameWindSpeed ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameWindSpeed ofClass:NSNumber.class error:nil];
 }
 
 - (void)setNearestStormBearing:(nullable NSNumber<SDLInt> *)nearestStormBearing {
@@ -167,7 +167,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)nearestStormBearing {
-    return [store sdl_objectForName:SDLRPCParameterNameNearestStormBearing ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameNearestStormBearing ofClass:NSNumber.class error:nil];
 }
 
 - (void)setNearestStormDistance:(nullable NSNumber<SDLInt> *)nearestStormDistance {
@@ -175,7 +175,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)nearestStormDistance {
-    return [store sdl_objectForName:SDLRPCParameterNameNearestStormDistance ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameNearestStormDistance ofClass:NSNumber.class error:nil];
 }
 
 - (void)setPrecipAccumulation:(nullable NSNumber<SDLFloat> *)precipAccumulation {
@@ -183,7 +183,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)precipAccumulation {
-    return [store sdl_objectForName:SDLRPCParameterNamePrecipAccumulation ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNamePrecipAccumulation ofClass:NSNumber.class error:nil];
 }
 
 - (void)setPrecipIntensity:(nullable NSNumber<SDLFloat> *)precipIntensity {
@@ -191,7 +191,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)precipIntensity {
-    return [store sdl_objectForName:SDLRPCParameterNamePrecipIntensity ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNamePrecipIntensity ofClass:NSNumber.class error:nil];
 }
 
 - (void)setPrecipProbability:(nullable NSNumber<SDLFloat> *)precipProbability {
@@ -199,7 +199,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)precipProbability {
-    return [store sdl_objectForName:SDLRPCParameterNamePrecipProbability ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNamePrecipProbability ofClass:NSNumber.class error:nil];
 }
 
 - (void)setPrecipType:(nullable NSString *)precipType {
@@ -207,7 +207,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)precipType {
-    return [store sdl_objectForName:SDLRPCParameterNamePrecipType ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNamePrecipType ofClass:NSString.class error:nil];
 }
 
 - (void)setVisibility:(nullable NSNumber<SDLFloat> *)visibility {
@@ -215,7 +215,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)visibility {
-    return [store sdl_objectForName:SDLRPCParameterNameVisibility ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameVisibility ofClass:NSNumber.class error:nil];
 }
 
 - (void)setWeatherIcon:(nullable SDLImage *)weatherIcon {
@@ -223,7 +223,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLImage *)weatherIcon {
-    return [store sdl_objectForName:SDLRPCParameterNameWeatherIcon ofClass:SDLImage.class];
+    return [store sdl_objectForName:SDLRPCParameterNameWeatherIcon ofClass:SDLImage.class error:nil];
 }
 
 @end

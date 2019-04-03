@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSystemCapabilityType)systemCapabilityType {
-    NSError *error;
+    NSError *error = nil;
     return [parameters sdl_enumForName:SDLRPCParameterNameSystemCapabilityType error:&error];
 }
 
@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)subscribe {
-    return [parameters sdl_objectForName:SDLRPCParameterNameSubscribe ofClass:NSNumber.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSubscribe ofClass:NSNumber.class error:nil];
 }
 
 @end

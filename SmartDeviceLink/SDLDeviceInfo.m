@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)hardware {
-    return [store sdl_objectForName:SDLRPCParameterNameHardware ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameHardware ofClass:NSString.class error:nil];
 }
 
 - (void)setFirmwareRev:(nullable NSString *)firmwareRev {
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)firmwareRev {
-    return [store sdl_objectForName:SDLRPCParameterNameFirmwareRevision ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameFirmwareRevision ofClass:NSString.class error:nil];
 }
 
 - (void)setOs:(nullable NSString *)os {
@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)os {
-    return [store sdl_objectForName:SDLRPCParameterNameOS ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameOS ofClass:NSString.class error:nil];
 }
 
 - (void)setOsVersion:(nullable NSString *)osVersion {
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)osVersion {
-    return [store sdl_objectForName:SDLRPCParameterNameOSVersion ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameOSVersion ofClass:NSString.class error:nil];
 }
 
 - (void)setCarrier:(nullable NSString *)carrier {
@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)carrier {
-    return [store sdl_objectForName:SDLRPCParameterNameCarrier ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameCarrier ofClass:NSString.class error:nil];
 }
 
 - (void)setMaxNumberRFCOMMPorts:(nullable NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)maxNumberRFCOMMPorts {
-    return [store sdl_objectForName:SDLRPCParameterNameMaxNumberRFCOMMPorts ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameMaxNumberRFCOMMPorts ofClass:NSNumber.class error:nil];
 }
 
 @end

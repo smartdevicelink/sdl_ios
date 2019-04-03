@@ -33,7 +33,7 @@
 }
 
 - (NSNumber<SDLFloat> *)x {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameX ofClass:NSNumber.class error:&error];
 }
 
@@ -42,7 +42,7 @@
 }
 
 - (NSNumber<SDLFloat> *)y {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameY ofClass:NSNumber.class error:&error];
 }
 
@@ -51,7 +51,7 @@
 }
 
 - (NSNumber<SDLFloat> *)width {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameWidth ofClass:NSNumber.class error:&error];
 }
 
@@ -60,7 +60,7 @@
 }
 
 - (NSNumber<SDLFloat> *)height {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameHeight ofClass:NSNumber.class error:&error];
 }
 

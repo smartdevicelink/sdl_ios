@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)choiceID {
-    return [parameters sdl_objectForName:SDLRPCParameterNameChoiceId ofClass:NSNumber.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameChoiceId ofClass:NSNumber.class error:nil];
 }
 
 - (void)setManualTextEntry:(nullable NSString *)manualTextEntry {
@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)manualTextEntry {
-    return [parameters sdl_objectForName:SDLRPCParameterNameManualTextEntry ofClass:NSString.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameManualTextEntry ofClass:NSString.class error:nil];
 }
 
 - (void)setTriggerSource:(nullable SDLTriggerSource)triggerSource {

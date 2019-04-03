@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)id {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameId ofClass:NSNumber.class error:&error];
 }
 
@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)label {
-    return [store sdl_objectForName:SDLRPCParameterNameLabel ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameLabel ofClass:NSString.class error:nil];
 }
 
 - (void)setAction:(SDLSeatMemoryActionType)action {
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSeatMemoryActionType)action {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameAction error:&error];
 }
 @end

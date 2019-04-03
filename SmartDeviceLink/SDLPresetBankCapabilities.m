@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)onScreenPresetsAvailable {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameOnScreenPresetsAvailable ofClass:NSNumber.class error:&error];
 }
 

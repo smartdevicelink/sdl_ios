@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)moduleName {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameModuleName ofClass:NSString.class error:&error];
 }
 
@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)radioEnableAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameRadioEnableAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameRadioEnableAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setRadioBandAvailable:(nullable NSNumber<SDLBool> *)radioBandAvailable {
@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)radioBandAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameRadioBandAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameRadioBandAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setRadioFrequencyAvailable:(nullable NSNumber<SDLBool> *)radioFrequencyAvailable {
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)radioFrequencyAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameRadioFrequencyAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameRadioFrequencyAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setHdChannelAvailable:(nullable NSNumber<SDLBool> *)hdChannelAvailable {
@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)hdChannelAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameHDChannelAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameHDChannelAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setRdsDataAvailable:(nullable NSNumber<SDLBool> *)rdsDataAvailable {
@@ -83,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)rdsDataAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameRDSDataAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameRDSDataAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setAvailableHDsAvailable:(nullable NSNumber<SDLBool> *)availableHDsAvailable {
@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)availableHDsAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameAvailableHDsAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameAvailableHDsAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setStateAvailable:(nullable NSNumber<SDLBool> *)stateAvailable {
@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)stateAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameStateAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameStateAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setSignalStrengthAvailable:(nullable NSNumber<SDLBool> *)signalStrengthAvailable {
@@ -107,7 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)signalStrengthAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameSignalStrengthAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameSignalStrengthAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setSignalChangeThresholdAvailable:(nullable NSNumber<SDLBool> *)signalChangeThresholdAvailable {
@@ -115,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)signalChangeThresholdAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameSignalChangeThresholdAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameSignalChangeThresholdAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setHdRadioEnableAvailable:(nullable NSNumber<SDLBool> *)hdRadioEnableAvailable {
@@ -123,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)hdRadioEnableAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameHDRadioEnableAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameHDRadioEnableAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setSiriusXMRadioAvailable:(nullable NSNumber<SDLBool> *)siriusXMRadioAvailable {
@@ -131,7 +131,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)siriusXMRadioAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameSiriusXMRadioAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameSiriusXMRadioAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setSisDataAvailable:(nullable NSNumber<SDLBool> *)sisDataAvailable {
@@ -139,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)sisDataAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameSISDataAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameSISDataAvailable ofClass:NSNumber.class error:nil];
 }
 
 @end

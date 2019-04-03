@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)currentForecastSupported {
-    return [store sdl_objectForName:SDLRPCParameterNameCurrentForecastSupported ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameCurrentForecastSupported ofClass:NSNumber.class error:nil];
 }
 
 - (void)setMaxMultidayForecastAmount:(nullable NSNumber<SDLInt> *)maxMultidayForecastAmount {
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)maxMultidayForecastAmount {
-    return [store sdl_objectForName:SDLRPCParameterNameMaxMultidayForecastAmount ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameMaxMultidayForecastAmount ofClass:NSNumber.class error:nil];
 }
 
 - (void)setMaxHourlyForecastAmount:(nullable NSNumber<SDLInt> *)maxHourlyForecastAmount {
@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)maxHourlyForecastAmount {
-    return [store sdl_objectForName:SDLRPCParameterNameMaxHourlyForecastAmount ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameMaxHourlyForecastAmount ofClass:NSNumber.class error:nil];
 }
 
 - (void)setMaxMinutelyForecastAmount:(nullable NSNumber<SDLInt> *)maxMinutelyForecastAmount {
@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)maxMinutelyForecastAmount {
-    return [store sdl_objectForName:SDLRPCParameterNameMaxMinutelyForecastAmount ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameMaxMinutelyForecastAmount ofClass:NSNumber.class error:nil];
 }
 
 - (void)setWeatherForLocationSupported:(nullable NSNumber<SDLBool> *)weatherForLocationSupported {
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)weatherForLocationSupported {
-    return [store sdl_objectForName:SDLRPCParameterNameWeatherForLocationSupported ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameWeatherForLocationSupported ofClass:NSNumber.class error:nil];
 }
 
 @end

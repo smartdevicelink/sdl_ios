@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)moduleName {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameModuleName ofClass:NSString.class error:&error];
 }
 
@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLLightCapabilities *> *)supportedLights {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectsForName:SDLRPCParameterNameSupportedLights ofClass:SDLLightCapabilities.class error:&error];
 }
 

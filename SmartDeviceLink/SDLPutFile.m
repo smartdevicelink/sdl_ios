@@ -88,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)syncFileName {
-    NSError *error;
+    NSError *error = nil;
     return [parameters sdl_objectForName:SDLRPCParameterNameSyncFileName ofClass:NSString.class error:&error];
 }
 
@@ -97,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLFileType)fileType {
-    NSError *error;
+    NSError *error = nil;
     return [parameters sdl_enumForName:SDLRPCParameterNameFileType error:&error];
 }
 
@@ -106,7 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)persistentFile {
-    return [parameters sdl_objectForName:SDLRPCParameterNamePersistentFile ofClass:NSNumber.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNamePersistentFile ofClass:NSNumber.class error:nil];
 }
 
 - (void)setSystemFile:(nullable NSNumber<SDLBool> *)systemFile {
@@ -114,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)systemFile {
-    return [parameters sdl_objectForName:SDLRPCParameterNameSystemFile ofClass:NSNumber.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSystemFile ofClass:NSNumber.class error:nil];
 }
 
 - (void)setOffset:(nullable NSNumber<SDLUInt> *)offset {
@@ -122,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLUInt> *)offset {
-    return [parameters sdl_objectForName:SDLRPCParameterNameOffset ofClass:NSNumber.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameOffset ofClass:NSNumber.class error:nil];
 }
 
 - (void)setLength:(nullable NSNumber<SDLUInt> *)length {
@@ -130,7 +130,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLUInt> *)length {
-    return [parameters sdl_objectForName:SDLRPCParameterNameLength ofClass:NSNumber.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameLength ofClass:NSNumber.class error:nil];
 }
 
 - (void)setCrc:(nullable NSNumber<SDLUInt> *)crc {
@@ -138,7 +138,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLUInt> *)crc {
-    return [parameters sdl_objectForName:SDLRPCParameterNameCRC ofClass:NSNumber.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameCRC ofClass:NSNumber.class error:nil];
 }
 
 #pragma mark - Helpers

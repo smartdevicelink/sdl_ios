@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)channelId {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameChannelId ofClass:NSNumber.class error:&error];
 }
 
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)channelName {
-    return [store sdl_objectForName:SDLRPCParameterNameChannelName ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameChannelName ofClass:NSString.class error:nil];
 }
 
 - (void)setChannelSetting:(NSNumber<SDLInt> *)channelSetting {
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)channelSetting {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameChannelSetting ofClass:NSNumber.class error:&error];
 }
 

@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)keepContext {
-    return [store sdl_objectForName:SDLRPCParameterNameKeepContext ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameKeepContext ofClass:NSNumber.class error:nil];
 }
 
 - (void)setVolume:(nullable NSNumber<SDLInt> *)volume {
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)volume {
-    return [store sdl_objectForName:SDLRPCParameterNameVolume ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameVolume ofClass:NSNumber.class error:nil];
 }
 
 - (void)setEqualizerSettings:(nullable NSArray<SDLEqualizerSettings *> *)equalizerSettings {
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLEqualizerSettings *> *)equalizerSettings {
-    return [store sdl_objectsForName:SDLRPCParameterNameEqualizerSettings ofClass:SDLEqualizerSettings.class];
+    return [store sdl_objectsForName:SDLRPCParameterNameEqualizerSettings ofClass:SDLEqualizerSettings.class error:nil];
 }
 
 @end

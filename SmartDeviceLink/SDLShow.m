@@ -102,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)mainField1 {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMainField1 ofClass:NSString.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMainField1 ofClass:NSString.class error:nil];
 }
 
 - (void)setMainField2:(nullable NSString *)mainField2 {
@@ -110,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)mainField2 {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMainField2 ofClass:NSString.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMainField2 ofClass:NSString.class error:nil];
 }
 
 - (void)setMainField3:(nullable NSString *)mainField3 {
@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)mainField3 {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMainField3 ofClass:NSString.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMainField3 ofClass:NSString.class error:nil];
 }
 
 - (void)setMainField4:(nullable NSString *)mainField4 {
@@ -126,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)mainField4 {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMainField4 ofClass:NSString.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMainField4 ofClass:NSString.class error:nil];
 }
 
 - (void)setAlignment:(nullable SDLTextAlignment)alignment {
@@ -142,7 +142,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)statusBar {
-    return [parameters sdl_objectForName:SDLRPCParameterNameStatusBar ofClass:NSString.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameStatusBar ofClass:NSString.class error:nil];
 }
 
 - (void)setMediaClock:(nullable NSString *)mediaClock {
@@ -150,7 +150,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)mediaClock {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMediaClock ofClass:NSString.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMediaClock ofClass:NSString.class error:nil];
 }
 
 - (void)setMediaTrack:(nullable NSString *)mediaTrack {
@@ -158,7 +158,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)mediaTrack {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMediaTrack ofClass:NSString.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMediaTrack ofClass:NSString.class error:nil];
 }
 
 - (void)setGraphic:(nullable SDLImage *)graphic {
@@ -166,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLImage *)graphic {
-    return [parameters sdl_objectForName:SDLRPCParameterNameGraphic ofClass:SDLImage.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameGraphic ofClass:SDLImage.class error:nil];
 }
 
 - (void)setSecondaryGraphic:(nullable SDLImage *)secondaryGraphic {
@@ -174,7 +174,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLImage *)secondaryGraphic {
-    return [parameters sdl_objectForName:SDLRPCParameterNameSecondaryGraphic ofClass:SDLImage.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSecondaryGraphic ofClass:SDLImage.class error:nil];
 }
 
 - (void)setSoftButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
@@ -182,7 +182,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLSoftButton *> *)softButtons {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameSoftButtons ofClass:SDLSoftButton.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameSoftButtons ofClass:SDLSoftButton.class error:nil];
 }
 
 - (void)setCustomPresets:(nullable NSArray<NSString *> *)customPresets {
@@ -190,7 +190,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)customPresets {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameCustomPresets ofClass:NSString.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameCustomPresets ofClass:NSString.class error:nil];
 }
 
 - (void)setMetadataTags:(nullable SDLMetadataTags *)metadataTags {
@@ -198,7 +198,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLMetadataTags *)metadataTags {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMetadataTags ofClass:SDLMetadataTags.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMetadataTags ofClass:SDLMetadataTags.class error:nil];
 }
 
 @end

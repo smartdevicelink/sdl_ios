@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLDateTime *)timestamp {
-    return [store sdl_objectForName:SDLRPCParameterNameTimeStamp ofClass:SDLDateTime.class];
+    return [store sdl_objectForName:SDLRPCParameterNameTimeStamp ofClass:SDLDateTime.class error:nil];
 }
 
 - (void)setOrigin:(nullable SDLLocationDetails *)origin {
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLLocationDetails *)origin {
-    return [store sdl_objectForName:SDLRPCParameterNameOrigin ofClass:SDLLocationDetails.class];
+    return [store sdl_objectForName:SDLRPCParameterNameOrigin ofClass:SDLLocationDetails.class error:nil];
 }
 
 - (void)setDestination:(nullable SDLLocationDetails *)destination {
@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLLocationDetails *)destination {
-    return [store sdl_objectForName:SDLRPCParameterNameDestination ofClass:SDLLocationDetails.class];
+    return [store sdl_objectForName:SDLRPCParameterNameDestination ofClass:SDLLocationDetails.class error:nil];
 }
 
 - (void)setDestinationETA:(nullable SDLDateTime *)destinationETA {
@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLDateTime *)destinationETA {
-    return [store sdl_objectForName:SDLRPCParameterNameDestinationETA ofClass:SDLDateTime.class];
+    return [store sdl_objectForName:SDLRPCParameterNameDestinationETA ofClass:SDLDateTime.class error:nil];
 }
 
 - (void)setInstructions:(nullable NSArray<SDLNavigationInstruction *> *)instructions {
@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLNavigationInstruction *> *)instructions {
-    return [store sdl_objectsForName:SDLRPCParameterNameInstructions ofClass:SDLNavigationInstruction.class];
+    return [store sdl_objectsForName:SDLRPCParameterNameInstructions ofClass:SDLNavigationInstruction.class error:nil];
 }
 
 - (void)setNextInstructionETA:(nullable SDLDateTime *)nextInstructionETA {
@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLDateTime *)nextInstructionETA {
-    return [store sdl_objectForName:SDLRPCParameterNameNextInstructionETA ofClass:SDLDateTime.class];
+    return [store sdl_objectForName:SDLRPCParameterNameNextInstructionETA ofClass:SDLDateTime.class error:nil];
 }
 
 - (void)setNextInstructionDistance:(nullable NSNumber<SDLFloat> *)nextInstructionDistance {
@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)nextInstructionDistance {
-    return [store sdl_objectForName:SDLRPCParameterNameNextInstructionDistance ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameNextInstructionDistance ofClass:NSNumber.class error:nil];
 }
 
 - (void)setNextInstructionDistanceScale:(nullable NSNumber<SDLFloat> *)nextInstructionDistanceScale {
@@ -108,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)nextInstructionDistanceScale {
-    return [store sdl_objectForName:SDLRPCParameterNameNextInstructionDistanceScale ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameNextInstructionDistanceScale ofClass:NSNumber.class error:nil];
 }
 
 - (void)setPrompt:(nullable NSString *)prompt {
@@ -116,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)prompt {
-    return [store sdl_objectForName:SDLRPCParameterNamePrompt ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNamePrompt ofClass:NSString.class error:nil];
 }
 
 @end

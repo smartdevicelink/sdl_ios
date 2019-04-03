@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)title {
-    return [store sdl_objectForName:SDLRPCParameterNameTitle ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameTitle ofClass:NSString.class error:nil];
 }
 
 - (void)setSummary:(nullable NSString *)summary {
@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)summary {
-    return [store sdl_objectForName:SDLRPCParameterNameSummary ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameSummary ofClass:NSString.class error:nil];
 }
 
 - (void)setExpires:(nullable SDLDateTime *)expires {
@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLDateTime *)expires {
-    return [store sdl_objectForName:SDLRPCParameterNameExpires ofClass:SDLDateTime.class];
+    return [store sdl_objectForName:SDLRPCParameterNameExpires ofClass:SDLDateTime.class error:nil];
 }
 
 - (void)setRegions:(nullable NSArray<NSString *> *)regions {
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)regions {
-    return [store sdl_objectsForName:SDLRPCParameterNameRegions ofClass:NSString.class];
+    return [store sdl_objectsForName:SDLRPCParameterNameRegions ofClass:NSString.class error:nil];
 }
 
 - (void)setSeverity:(nullable NSString *)severity {
@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)severity {
-    return [store sdl_objectForName:SDLRPCParameterNameSeverity ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameSeverity ofClass:NSString.class error:nil];
 }
 
 - (void)setTimeIssued:(nullable SDLDateTime *)timeIssued {
@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLDateTime *)timeIssued {
-    return [store sdl_objectForName:SDLRPCParameterNameTimeIssued ofClass:SDLDateTime.class];
+    return [store sdl_objectForName:SDLRPCParameterNameTimeIssued ofClass:SDLDateTime.class error:nil];
 }
 
 @end

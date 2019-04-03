@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLComponentVolumeStatus)status {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameStatus error:&error];
 }
 
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)pressure {
-    return [store sdl_objectForName:SDLRPCParameterNamePressure ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNamePressure ofClass:NSNumber.class error:nil];
 }
 
 @end

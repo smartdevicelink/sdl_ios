@@ -93,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLModuleType)moduleType {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameModuleType error:&error];
 }
 
@@ -102,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLRadioControlData *)radioControlData {
-    return [store sdl_objectForName:SDLRPCParameterNameRadioControlData ofClass:SDLRadioControlData.class];
+    return [store sdl_objectForName:SDLRPCParameterNameRadioControlData ofClass:SDLRadioControlData.class error:nil];
 }
 
 - (void)setClimateControlData:(nullable SDLClimateControlData *)climateControlData {
@@ -110,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLClimateControlData *)climateControlData {
-    return [store sdl_objectForName:SDLRPCParameterNameClimateControlData ofClass:SDLClimateControlData.class];
+    return [store sdl_objectForName:SDLRPCParameterNameClimateControlData ofClass:SDLClimateControlData.class error:nil];
 }
 
 - (void)setSeatControlData:(nullable SDLSeatControlData *)seatControlData {
@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLSeatControlData *)seatControlData {
-    return [store sdl_objectForName:SDLRPCParameterNameSeatControlData ofClass:SDLSeatControlData.class];
+    return [store sdl_objectForName:SDLRPCParameterNameSeatControlData ofClass:SDLSeatControlData.class error:nil];
 }
 
 - (void)setAudioControlData:(nullable SDLAudioControlData *)audioControlData {
@@ -126,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLAudioControlData *)audioControlData {
-    return [store sdl_objectForName:SDLRPCParameterNameAudioControlData ofClass:SDLAudioControlData.class];
+    return [store sdl_objectForName:SDLRPCParameterNameAudioControlData ofClass:SDLAudioControlData.class error:nil];
 }
 
 - (void)setLightControlData:(nullable SDLLightControlData *)lightControlData {
@@ -134,7 +134,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLLightControlData *)lightControlData {
-    return [store sdl_objectForName:SDLRPCParameterNameLightControlData ofClass:SDLLightControlData.class];
+    return [store sdl_objectForName:SDLRPCParameterNameLightControlData ofClass:SDLLightControlData.class error:nil];
 }
 
 - (void)setHmiSettingsControlData:(nullable SDLHMISettingsControlData *)hmiSettingsControlData {
@@ -142,7 +142,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLHMISettingsControlData *)hmiSettingsControlData {
-    return [store sdl_objectForName:SDLRPCParameterNameHmiSettingsControlData ofClass:SDLHMISettingsControlData.class];
+    return [store sdl_objectForName:SDLRPCParameterNameHmiSettingsControlData ofClass:SDLHMISettingsControlData.class error:nil];
 }
 
 @end

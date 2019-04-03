@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)voiceRecOn {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameVoiceRecognitionOn ofClass:NSNumber.class error:&error];
 }
 
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)btIconOn {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameBluetoothIconOn ofClass:NSNumber.class error:&error];
 }
 
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)callActive {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameCallActive ofClass:NSNumber.class error:&error];
 }
 
@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)phoneRoaming {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNamePhoneRoaming ofClass:NSNumber.class error:&error];
 }
 
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)textMsgAvailable {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameTextMessageAvailable ofClass:NSNumber.class error:&error];
 }
 
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLDeviceLevelStatus)battLevelStatus {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameBatteryLevelStatus error:&error];
 }
 
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)stereoAudioOutputMuted {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameStereoAudioOutputMuted ofClass:NSNumber.class error:&error];
 }
 
@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)monoAudioOutputMuted {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameMonoAudioOutputMuted ofClass:NSNumber.class error:&error];
 }
 
@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLDeviceLevelStatus)signalLevelStatus {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameSignalLevelStatus error:&error];
 }
 
@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLPrimaryAudioSource)primaryAudioSource {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNamePrimaryAudioSource error:&error];
 }
 
@@ -107,7 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)eCallEventActive {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameECallEventActive ofClass:NSNumber.class error:&error];
 }
 

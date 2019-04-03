@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)serviceSpecificResult {
-    return [parameters sdl_objectForName:SDLRPCParameterNameServiceSpecificResult ofClass:NSString.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameServiceSpecificResult ofClass:NSString.class error:nil];
 }
 
 @end

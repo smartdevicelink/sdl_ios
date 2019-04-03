@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)make {
-    return [store sdl_objectForName:SDLRPCParameterNameMake ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameMake ofClass:NSString.class error:nil];
 }
 
 - (void)setModel:(nullable NSString *)model {
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)model {
-    return [store sdl_objectForName:SDLRPCParameterNameModel ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameModel ofClass:NSString.class error:nil];
 }
 
 - (void)setModelYear:(nullable NSString *)modelYear {
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)modelYear {
-    return [store sdl_objectForName:SDLRPCParameterNameModelYear ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameModelYear ofClass:NSString.class error:nil];
 }
 
 - (void)setTrim:(nullable NSString *)trim {
@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)trim {
-    return [store sdl_objectForName:SDLRPCParameterNameTrim ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameTrim ofClass:NSString.class error:nil];
 }
 
 @end

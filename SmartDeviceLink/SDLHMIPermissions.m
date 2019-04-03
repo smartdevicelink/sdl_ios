@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLHMILevel> *)allowed {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumsForName:SDLRPCParameterNameAllowed error:&error];
 }
 
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLHMILevel> *)userDisallowed {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumsForName:SDLRPCParameterNameUserDisallowed error:&error];
 }
 

@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLAppServiceRecord *)appServiceRecord {
-    return [parameters sdl_objectForName:SDLRPCParameterNameAppServiceRecord ofClass:SDLAppServiceRecord.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAppServiceRecord ofClass:SDLAppServiceRecord.class error:nil];
 }
 
 @end

@@ -153,9 +153,9 @@ typedef NS_ENUM(NSInteger, SDLTransportError) {
 /**
  *  Errors associated with store.
  */
-typedef NS_ENUM(NSInteger, SDLStoreError) {
+typedef NS_ENUM(NSInteger, SDLRPCStoreError) {
     /**
      *  In dictionary stored value with unexpected type
      */
-    SDLStoreErrorWrongObject = -1,
+    SDLRPCStoreErrorGetInvalidObject = -1,
 };

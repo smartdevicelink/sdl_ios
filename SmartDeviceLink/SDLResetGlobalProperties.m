@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLGlobalProperty> *)properties {
-    NSError *error;
+    NSError *error = nil;
     return [parameters sdl_enumsForName:SDLRPCParameterNameProperties error:&error];
 }
 

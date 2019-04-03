@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLDIDResult *> *)didResult {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameDIDResult ofClass:SDLDIDResult.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameDIDResult ofClass:SDLDIDResult.class error:nil];
 }
 
 @end

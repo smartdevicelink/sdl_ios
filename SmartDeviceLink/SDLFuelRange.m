@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)range {
-    return [store sdl_objectForName:SDLRPCParameterNameRange ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameRange ofClass:NSNumber.class error:nil];
 }
 
 

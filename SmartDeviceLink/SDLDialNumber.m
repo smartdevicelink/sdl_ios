@@ -32,7 +32,7 @@
 }
 
 - (NSString *)number {
-    NSError *error;
+    NSError *error = nil;
     return [parameters sdl_objectForName:SDLRPCParameterNameNumber ofClass:NSString.class error:&error];
 }
 

@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLDisplayType)displayType {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameDisplayType error:&error];
 }
 
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)displayName {
-    return [store sdl_objectForName:SDLRPCParameterNameDisplayName ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameDisplayName ofClass:NSString.class error:nil];
 }
 
 - (void)setTextFields:(NSArray<SDLTextField *> *)textFields {
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLTextField *> *)textFields {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectsForName:SDLRPCParameterNameTextFields ofClass:SDLTextField.class error:&error];
 }
 
@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLImageField *> *)imageFields {
-    return [store sdl_objectsForName:SDLRPCParameterNameImageFields ofClass:SDLImageField.class];
+    return [store sdl_objectsForName:SDLRPCParameterNameImageFields ofClass:SDLImageField.class error:nil];
 }
 
 - (void)setMediaClockFormats:(NSArray<SDLMediaClockFormat> *)mediaClockFormats {
@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLMediaClockFormat> *)mediaClockFormats {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumsForName:SDLRPCParameterNameMediaClockFormats error:&error];
 }
 
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)graphicSupported {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameGraphicSupported ofClass:NSNumber.class error:&error];
 }
 
@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)templatesAvailable {
-    return [store sdl_objectsForName:SDLRPCParameterNameTemplatesAvailable ofClass:NSString.class];
+    return [store sdl_objectsForName:SDLRPCParameterNameTemplatesAvailable ofClass:NSString.class error:nil];
 }
 
 - (void)setScreenParams:(nullable SDLScreenParams *)screenParams {
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLScreenParams *)screenParams {
-    return [store sdl_objectForName:SDLRPCParameterNameScreenParams ofClass:SDLScreenParams.class];
+    return [store sdl_objectForName:SDLRPCParameterNameScreenParams ofClass:SDLScreenParams.class error:nil];
 }
 
 - (void)setNumCustomPresetsAvailable:(nullable NSNumber<SDLInt> *)numCustomPresetsAvailable {
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)numCustomPresetsAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameNumberCustomPresetsAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameNumberCustomPresetsAvailable ofClass:NSNumber.class error:nil];
 }
 
 @end

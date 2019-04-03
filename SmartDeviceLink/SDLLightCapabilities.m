@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLLightName)name {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameName error:&error];
 }
 
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)densityAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameDensityAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameDensityAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setColorAvailable:(nullable NSNumber<SDLBool> *)colorAvailable {
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)colorAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameRGBColorSpaceAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameRGBColorSpaceAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setStatusAvailable:(nullable NSNumber<SDLBool> *)statusAvailable {
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)statusAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameStatusAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameStatusAvailable ofClass:NSNumber.class error:nil];
 }
 
 @end

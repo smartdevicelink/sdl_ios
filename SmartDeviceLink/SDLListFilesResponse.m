@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)filenames {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameFilenames ofClass:NSString.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameFilenames ofClass:NSString.class error:nil];
 }
 
 - (void)setSpaceAvailable:(nullable NSNumber<SDLInt> *)spaceAvailable {
@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)spaceAvailable {
-    return [parameters sdl_objectForName:SDLRPCParameterNameSpaceAvailable ofClass:NSNumber.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSpaceAvailable ofClass:NSNumber.class error:nil];
 }
 
 @end

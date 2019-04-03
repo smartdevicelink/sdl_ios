@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLRequestType)requestType {
-    NSError *error;
+    NSError *error = nil;
     return [parameters sdl_enumForName:SDLRPCParameterNameRequestType error:&error];
 }
 
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)requestSubType {
-    return [parameters sdl_objectForName:SDLRPCParameterNameRequestSubType ofClass:NSString.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameRequestSubType ofClass:NSString.class error:nil];
 }
 
 - (void)setFileName:(nullable NSString *)fileName {
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)fileName {
-    return [parameters sdl_objectForName:SDLRPCParameterNameFilename ofClass:NSString.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameFilename ofClass:NSString.class error:nil];
 }
 
 @end

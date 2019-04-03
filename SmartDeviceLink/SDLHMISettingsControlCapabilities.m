@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)moduleName {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_objectForName:SDLRPCParameterNameModuleName ofClass:NSString.class error:&error];
 }
 
@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)distanceUnitAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameDistanceUnitAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameDistanceUnitAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setTemperatureUnitAvailable:(nullable NSNumber<SDLBool> *)temperatureUnitAvailable {
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)temperatureUnitAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameTemperatureUnitAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameTemperatureUnitAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setDisplayModeUnitAvailable:(nullable NSNumber<SDLBool> *)displayModeUnitAvailable {
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)displayModeUnitAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameDisplayModeUnitAvailable ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameDisplayModeUnitAvailable ofClass:NSNumber.class error:nil];
 }
 
 @end

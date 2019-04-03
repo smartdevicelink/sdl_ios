@@ -77,7 +77,7 @@ extern SDLErrorDomain *const SDLErrorDomainStore;
 
 #pragma mark Store
 
-+ (NSError *)sdl_store_wrongObject:(id)wrongObject expectedType:(Class)type;
++ (NSError *)sdl_store_invalidObjectErrorWithObject:(id)wrongObject expectedType:(Class)type;
 
 @end
 

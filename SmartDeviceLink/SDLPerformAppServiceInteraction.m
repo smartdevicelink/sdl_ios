@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)serviceUri {
-    return [parameters sdl_objectForName:SDLRPCParameterNameServiceUri ofClass:NSString.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameServiceUri ofClass:NSString.class error:nil];
 }
 
 - (void)setServiceID:(NSString *)serviceID {
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)serviceID {
-    return [parameters sdl_objectForName:SDLRPCParameterNameServiceID ofClass:NSString.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameServiceID ofClass:NSString.class error:nil];
 }
 
 - (void)setOriginApp:(NSString *)originApp {
@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)originApp {
-    return [parameters sdl_objectForName:SDLRPCParameterNameOriginApp ofClass:NSString.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameOriginApp ofClass:NSString.class error:nil];
 }
 
 - (void)setRequestServiceActive:(nullable NSNumber<SDLBool> *)requestServiceActive {
@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)requestServiceActive {
-    return [parameters sdl_objectForName:SDLRPCParameterNameRequestServiceActive ofClass:NSNumber.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameRequestServiceActive ofClass:NSNumber.class error:nil];
 }
 @end
 

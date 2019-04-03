@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)countryName {
-    return [store sdl_objectForName:SDLRPCParameterNameCountryName ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameCountryName ofClass:NSString.class error:nil];
 }
 
 - (void)setCountryCode:(nullable NSString *)countryCode {
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)countryCode {
-    return [store sdl_objectForName:SDLRPCParameterNameCountryCode ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameCountryCode ofClass:NSString.class error:nil];
 }
 
 - (void)setPostalCode:(nullable NSString *)postalCode {
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)postalCode {
-    return [store sdl_objectForName:SDLRPCParameterNamePostalCode ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNamePostalCode ofClass:NSString.class error:nil];
 }
 
 - (void)setAdministrativeArea:(nullable NSString *)administrativeArea {
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)administrativeArea {
-    return [store sdl_objectForName:SDLRPCParameterNameAdministrativeArea ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameAdministrativeArea ofClass:NSString.class error:nil];
 }
 
 - (void)setSubAdministrativeArea:(nullable NSString *)subAdministrativeArea {
@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)subAdministrativeArea {
-    return [store sdl_objectForName:SDLRPCParameterNameSubAdministrativeArea ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameSubAdministrativeArea ofClass:NSString.class error:nil];
 }
 
 - (void)setLocality:(nullable NSString *)locality {
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)locality {
-    return [store sdl_objectForName:SDLRPCParameterNameLocality ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameLocality ofClass:NSString.class error:nil];
 }
 
 - (void)setSubLocality:(nullable NSString *)subLocality {
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)subLocality {
-    return [store sdl_objectForName:SDLRPCParameterNameSubLocality ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameSubLocality ofClass:NSString.class error:nil];
 }
 
 - (void)setThoroughfare:(nullable NSString *)thoroughfare {
@@ -94,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)thoroughfare {
-    return [store sdl_objectForName:SDLRPCParameterNameThoroughfare ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameThoroughfare ofClass:NSString.class error:nil];
 }
 
 - (void)setSubThoroughfare:(nullable NSString *)subThoroughfare {
@@ -102,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)subThoroughfare {
-    return [store sdl_objectForName:SDLRPCParameterNameSubThoroughfare ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameSubThoroughfare ofClass:NSString.class error:nil];
 }
 
 @end

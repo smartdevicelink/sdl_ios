@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLLocationDetails *)locationDetails {
-    return [store sdl_objectForName:SDLRPCParameterNameLocationDetails ofClass:SDLLocationDetails.class];
+    return [store sdl_objectForName:SDLRPCParameterNameLocationDetails ofClass:SDLLocationDetails.class error:nil];
 }
 
 - (void)setAction:(SDLNavigationAction)action {
@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLDateTime *)eta {
-    return [store sdl_objectForName:SDLRPCParameterNameETA ofClass:SDLDateTime.class];
+    return [store sdl_objectForName:SDLRPCParameterNameETA ofClass:SDLDateTime.class error:nil];
 }
 
 - (void)setBearing:(nullable NSNumber<SDLInt> *)bearing {
@@ -76,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)bearing {
-    return [store sdl_objectForName:SDLRPCParameterNameBearing ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameBearing ofClass:NSNumber.class error:nil];
 }
 
 - (void)setJunctionType:(nullable SDLNavigationJunction)junctionType {
@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)details {
-    return [store sdl_objectForName:SDLRPCParameterNameDetails ofClass:NSString.class];
+    return [store sdl_objectForName:SDLRPCParameterNameDetails ofClass:NSString.class error:nil];
 }
 
 - (void)setImage:(nullable SDLImage *)image {
@@ -108,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLImage *)image {
-    return [store sdl_objectForName:SDLRPCParameterNameImage ofClass:SDLImage.class];
+    return [store sdl_objectForName:SDLRPCParameterNameImage ofClass:SDLImage.class error:nil];
 }
 
 @end

@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLLightName)id {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameId error:&error];
 }
 
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLLightStatus)status {
-    NSError *error;
+    NSError *error = nil;
     return [store sdl_enumForName:SDLRPCParameterNameStatus error:&error];
 }
 
@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)density {
-    return [store sdl_objectForName:SDLRPCParameterNameDensity ofClass:NSNumber.class];
+    return [store sdl_objectForName:SDLRPCParameterNameDensity ofClass:NSNumber.class error:nil];
 }
 
 - (void)setColor:(nullable SDLRGBColor *)color {
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLRGBColor *)color {
-    return [store sdl_objectForName:SDLRPCParameterNameColor ofClass:[SDLRGBColor class]];
+    return [store sdl_objectForName:SDLRPCParameterNameColor ofClass:SDLRGBColor.class error:nil];
 }
 
 @end
