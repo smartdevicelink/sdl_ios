@@ -105,16 +105,14 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 /**
  *  Start the manager, which will tell it to start looking for a connection. Once one does, it will automatically run the setup process and call the readyBlock when done.
- *
+*   @warning If you call this method from SDLManager's `startWithReadyHandler` be sure to wrap the `stop` call inside a dispatch_async and send it to the main queue or a global queuee, otherwise calling `stop` may cause a deadlock.
  *  @param readyHandler The block called when the manager is ready to be used or an error occurs while attempting to become ready.
- 
- *  @warning If you call this method from SDLManager's startWithReadyHandler be sure to wrap the stop call inside a dispatch_async and call it from the main queue or a global queue and call stop from there, otherwise calling stop may crete a deadlock.
  */
 - (void)startWithReadyHandler:(SDLManagerReadyBlock)readyHandler;
 
 /**
  *  Stop the manager, it will disconnect if needed and no longer look for a connection. You probably don't need to call this method ever.
- *  @warning If you call this method from SDLManager's startWithReadyHandler be sure to wrap the stop call inside a dispatch_async and call it from the main queue or a global queue and call stop from there, otherwise calling stop may crete a deadlock.
+ *   @warning If you call this method from SDLManager's `startWithReadyHandler` be sure to wrap the `stop` call inside a dispatch_async and send it to the main queue or a global queuee, otherwise calling `stop` may cause a deadlock.
  */
 - (void)stop;
 
