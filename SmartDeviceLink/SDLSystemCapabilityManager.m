@@ -106,6 +106,8 @@ typedef NSString * SDLServiceID;
 #pragma mark - Getters
 
 - (nullable SDLAppServicesCapabilities *)appServicesCapabilities {
+    if (self.appServicesCapabilitiesDictionary.count == 0) { return nil; }
+    
     return [[SDLAppServicesCapabilities alloc] initWithAppServices:self.appServicesCapabilitiesDictionary.allValues];
 }
 
