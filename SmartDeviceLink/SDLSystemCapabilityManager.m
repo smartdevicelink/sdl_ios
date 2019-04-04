@@ -107,7 +107,7 @@ typedef NSString * SDLServiceID;
 
 - (nullable SDLAppServicesCapabilities *)appServicesCapabilities {
     if (self.appServicesCapabilitiesDictionary.count == 0) { return nil; }
-    
+
     return [[SDLAppServicesCapabilities alloc] initWithAppServices:self.appServicesCapabilitiesDictionary.allValues];
 }
 
@@ -234,7 +234,7 @@ typedef NSString * SDLServiceID;
         }
 
         SDLGetSystemCapabilityResponse *getSystemCapabilityResponse = (SDLGetSystemCapabilityResponse *)response;
-        if (!getSystemCapabilityResponse.resultCode.boolValue) { return; }
+        if (!getSystemCapabilityResponse.success.boolValue) { return; }
         [self sdl_saveSystemCapability:getSystemCapabilityResponse.systemCapability completionHandler:handler];
     }];
 }
