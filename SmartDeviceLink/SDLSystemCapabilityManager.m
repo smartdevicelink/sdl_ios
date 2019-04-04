@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSystemCapabilityManager ()
 
+typedef NSString * SDLServiceID;
+
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
 
 @property (nullable, strong, nonatomic, readwrite) SDLDisplayCapabilities *displayCapabilities;
@@ -46,11 +48,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readwrite) BOOL vrCapability;
 @property (nullable, copy, nonatomic, readwrite) NSArray<SDLAudioPassThruCapabilities *> *audioPassThruCapabilities;
 @property (nullable, strong, nonatomic, readwrite) SDLAudioPassThruCapabilities *pcmStreamCapability;
-@property (nullable, strong, nonatomic, readwrite) SDLAppServicesCapabilities *appServicesCapabilities;
 @property (nullable, strong, nonatomic, readwrite) SDLNavigationCapability *navigationCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLPhoneCapability *phoneCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLVideoStreamingCapability *videoStreamingCapability;
 @property (nullable, strong, nonatomic, readwrite) SDLRemoteControlCapabilities *remoteControlCapability;
+
+@property (nullable, strong, nonatomic) NSMutableDictionary<SDLServiceID, SDLAppServiceCapability *> *appServicesCapabilitiesDictionary;
 
 @property (assign, nonatomic) BOOL isFirstHMILevelFull;
 
@@ -68,6 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _connectionManager = manager;
     _isFirstHMILevelFull = NO;
+    _appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
 
     [self sdl_registerForNotifications];    
 
@@ -94,9 +98,15 @@ NS_ASSUME_NONNULL_BEGIN
     _phoneCapability = nil;
     _videoStreamingCapability = nil;
     _remoteControlCapability = nil;
-    _appServicesCapabilities = nil;
+    _appServicesCapabilitiesDictionary = [NSMutableDictionary dictionary];
 
     _isFirstHMILevelFull = NO;
+}
+
+#pragma mark - Getters
+
+- (nullable SDLAppServicesCapabilities *)appServicesCapabilities {
+    return [[SDLAppServicesCapabilities alloc] initWithAppServices:self.appServicesCapabilitiesDictionary.allValues];
 }
 
 #pragma mark - Notifications
@@ -255,21 +265,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_saveAppServicesCapabilitiesUpdate:(SDLAppServicesCapabilities *)newCapabilities {
-    if (!self.appServicesCapabilities) {
-        self.appServicesCapabilities = newCapabilities;
-    } else {
-        NSMutableDictionary *cachedAppServicesCapabilities = [NSMutableDictionary dictionary];
-        for (NSUInteger i = 0; i < self.appServicesCapabilities.appServices.count; i += 1) {
-            SDLAppServiceRecord *record = self.appServicesCapabilities.appServices[i].updatedAppServiceRecord;
-            cachedAppServicesCapabilities[record.serviceID] = record;
+    for (SDLAppServiceCapability *capability in newCapabilities.appServices) {
+        if (capability.updateReason == nil) {
+            // First update, new capability
+            self.appServicesCapabilitiesDictionary[capability.updatedAppServiceRecord.serviceID] = capability;
+        } else if ([capability.updateReason isEqualToEnum:SDLServiceUpdateRemoved]) {
+            self.appServicesCapabilitiesDictionary[capability.updatedAppServiceRecord.serviceID] = nil;
+        } else {
+            // Everything else involves adding or updating the existing service record
+            self.appServicesCapabilitiesDictionary[capability.updatedAppServiceRecord.serviceID] = capability;
         }
-
-        for (NSUInteger i = 0; i < newCapabilities.appServices.count; i += 1) {
-            SDLAppServiceRecord *updatedRecord = newCapabilities.appServices[i].updatedAppServiceRecord;
-            cachedAppServicesCapabilities[updatedRecord.serviceID] = updatedRecord;
-        }
-
-        self.appServicesCapabilities.appServices = [cachedAppServicesCapabilities allValues];
     }
 }
 
