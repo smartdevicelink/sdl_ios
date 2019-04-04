@@ -1303,6 +1303,8 @@
 		88802FF420853BED00E9EBC6 /* SmartDeviceLinkSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D4346631E6F38E600B639C6 /* SmartDeviceLinkSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88802FF520853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */; };
 		88802FF620853CD500E9EBC6 /* SmartDeviceLinkSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8880D24722205B1B00964F6A /* SDLNavigationInstruction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8880D24522205B1B00964F6A /* SDLNavigationInstruction.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8880D24822205B1B00964F6A /* SDLNavigationInstruction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8880D24622205B1B00964F6A /* SDLNavigationInstruction.m */; };
 		8881AFAC2225D61900EA870B /* SDLSetCloudAppProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 8881AFAA2225D61900EA870B /* SDLSetCloudAppProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8881AFAD2225D61900EA870B /* SDLSetCloudAppProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFAB2225D61900EA870B /* SDLSetCloudAppProperties.m */; };
 		8881AFAF2225D8EB00EA870B /* SDLSetCloudAppPropertiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFAE2225D8EB00EA870B /* SDLSetCloudAppPropertiesSpec.m */; };
@@ -1315,8 +1317,6 @@
 		8881AFBE2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 8881AFBC2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8881AFBF2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFBD2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.m */; };
 		8881AFC12225EB9300EA870B /* SDLGetCloudAppPropertiesResponseSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8881AFC02225EB9300EA870B /* SDLGetCloudAppPropertiesResponseSpec.m */; };
-		8880D24722205B1B00964F6A /* SDLNavigationInstruction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8880D24522205B1B00964F6A /* SDLNavigationInstruction.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8880D24822205B1B00964F6A /* SDLNavigationInstruction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8880D24622205B1B00964F6A /* SDLNavigationInstruction.m */; };
 		8886EB982111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */; };
 		888F86FE221DEE200052FE4C /* SDLAsynchronousRPCOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 888F86FD221DEE1F0052FE4C /* SDLAsynchronousRPCOperation.m */; };
 		888F8700221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 888F86FF221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m */; };
@@ -2922,6 +2922,8 @@
 		8877F5F01F34AA2D00DC128A /* SDLSendHapticDataResponseSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticDataResponseSpec.m; sourceTree = "<group>"; };
 		887BE4D322272B2200B397C2 /* SDLControlFramePayloadConstantsSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLControlFramePayloadConstantsSpec.m; sourceTree = "<group>"; };
 		88802FEF20853AE600E9EBC6 /* SmartDeviceLinkSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartDeviceLinkSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8880D24522205B1B00964F6A /* SDLNavigationInstruction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLNavigationInstruction.h; sourceTree = "<group>"; };
+		8880D24622205B1B00964F6A /* SDLNavigationInstruction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationInstruction.m; sourceTree = "<group>"; };
 		8881AFAA2225D61900EA870B /* SDLSetCloudAppProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSetCloudAppProperties.h; sourceTree = "<group>"; };
 		8881AFAB2225D61900EA870B /* SDLSetCloudAppProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSetCloudAppProperties.m; sourceTree = "<group>"; };
 		8881AFAE2225D8EB00EA870B /* SDLSetCloudAppPropertiesSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSetCloudAppPropertiesSpec.m; sourceTree = "<group>"; };
@@ -2934,8 +2936,6 @@
 		8881AFBC2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLGetCloudAppPropertiesResponse.h; sourceTree = "<group>"; };
 		8881AFBD2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetCloudAppPropertiesResponse.m; sourceTree = "<group>"; };
 		8881AFC02225EB9300EA870B /* SDLGetCloudAppPropertiesResponseSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLGetCloudAppPropertiesResponseSpec.m; sourceTree = "<group>"; };
-		8880D24522205B1B00964F6A /* SDLNavigationInstruction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLNavigationInstruction.h; sourceTree = "<group>"; };
-		8880D24622205B1B00964F6A /* SDLNavigationInstruction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationInstruction.m; sourceTree = "<group>"; };
 		8886EB972111F4FA008294A5 /* SDLFileManagerConfigurationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLFileManagerConfigurationSpec.m; sourceTree = "<group>"; };
 		888F86FD221DEE1F0052FE4C /* SDLAsynchronousRPCOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLAsynchronousRPCOperation.m; sourceTree = "<group>"; };
 		888F86FF221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLAsynchronousRPCOperationSpec.m; sourceTree = "<group>"; };
@@ -6699,8 +6699,14 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
+				fr,
+				de,
+				ja,
+				"zh-Hans",
+				es,
 			);
 			mainGroup = 5D4019A61A76EC350006B0C2;
 			productRefGroup = 5D4019B01A76EC350006B0C2 /* Products */;
