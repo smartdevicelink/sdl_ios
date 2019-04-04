@@ -34,7 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLSystemCapabilityManager ()
 
 @property (weak, nonatomic) id<SDLConnectionManagerType> connectionManager;
-@property (copy, nonatomic, nullable) SDLUpdateCapabilityHandler systemCapabilityHandler;
 
 @property (nullable, strong, nonatomic, readwrite) SDLDisplayCapabilities *displayCapabilities;
 @property (nullable, strong, nonatomic, readwrite) SDLHMICapabilities *hmiCapabilities;
@@ -156,7 +155,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sdl_systemCapabilityUpdatedNotification:(SDLRPCNotificationNotification *)notification {
     SDLOnSystemCapabilityUpdated *systemCapabilityUpdatedNotification = (SDLOnSystemCapabilityUpdated *)notification.notification;
-    [self sdl_saveSystemCapability:systemCapabilityUpdatedNotification.systemCapability];
+    [self sdl_saveSystemCapability:systemCapabilityUpdatedNotification.systemCapability completionHandler:nil];
 }
 
 /**
@@ -177,18 +176,16 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - System Capabilities
 
 - (void)updateCapabilityType:(SDLSystemCapabilityType)type completionHandler:(SDLUpdateCapabilityHandler)handler {
-    self.systemCapabilityHandler = handler;
-
     SDLVersion *onSystemCapabilityNotificationRPCVersion = [SDLVersion versionWithString:@"5.1.0"];
     SDLVersion *headUnitRPCVersion = SDLGlobals.sharedGlobals.rpcVersion;
     if ([headUnitRPCVersion isGreaterThanOrEqualToVersion:onSystemCapabilityNotificationRPCVersion]) {
-        // Just return the cached data
-        if (self.systemCapabilityHandler == nil) { return; }
-        self.systemCapabilityHandler(nil, self);
+        // Just return the cached data because we get `onSystemCapability` callbacks
+        handler(nil, self);
+    } else {
+        // Go and get the actual data
+        SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type];
+        [self sdl_sendGetSystemCapability:getSystemCapability completionHandler:handler];
     }
-
-    SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type];
-    [self sdl_sendGetSystemCapability:getSystemCapability];
 }
 
 /**
@@ -204,9 +201,9 @@ NS_ASSUME_NONNULL_BEGIN
  * Sends a subscribe request for all possible system capabilites. If connecting to Core versions 4.5+, the requested capability will be returned in the response. If connecting to Core versions 5.1+, the manager will received `OnSystemCapabilityUpdated` notifications when the capability updates if the subscription was successful.
  */
 - (void)sdl_subscribeToSystemCapabilityUpdates {
-    for (NSUInteger i = 0; i < [self.class sdl_systemCapabilityTypes].count; i += 1) {
-        SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:[self.class sdl_systemCapabilityTypes][i] subscribe:true];
-        [self sdl_sendGetSystemCapability:getSystemCapability];
+    for (SDLSystemCapabilityType type in [self.class sdl_systemCapabilityTypes]) {
+        SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type subscribe:true];
+        [self sdl_sendGetSystemCapability:getSystemCapability completionHandler:nil];
     }
 }
 
@@ -215,17 +212,18 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param getSystemCapability The `GetSystemCapability` request to send
  */
-- (void)sdl_sendGetSystemCapability:(SDLGetSystemCapability *)getSystemCapability {
+- (void)sdl_sendGetSystemCapability:(SDLGetSystemCapability *)getSystemCapability completionHandler:(nullable SDLUpdateCapabilityHandler)handler {
     [self.connectionManager sendConnectionRequest:getSystemCapability withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             // An error is returned if the request was unsuccessful or if a Generic Response was returned
-            if (self.systemCapabilityHandler == nil) { return; }
-            return self.systemCapabilityHandler(error, self);
+            if (handler == nil) { return; }
+            handler(error, self);
+            return;
         }
 
         SDLGetSystemCapabilityResponse *getSystemCapabilityResponse = (SDLGetSystemCapabilityResponse *)response;
         if (!getSystemCapabilityResponse.resultCode.boolValue) { return; }
-        [self sdl_saveSystemCapability:getSystemCapabilityResponse.systemCapability];
+        [self sdl_saveSystemCapability:getSystemCapabilityResponse.systemCapability completionHandler:handler];
     }];
 }
 
@@ -234,7 +232,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param systemCapability The system capability
  */
-- (void)sdl_saveSystemCapability:(SDLSystemCapability *)systemCapability {
+- (void)sdl_saveSystemCapability:(SDLSystemCapability *)systemCapability completionHandler:(nullable SDLUpdateCapabilityHandler)handler {
     SDLSystemCapabilityType systemCapabilityType = systemCapability.systemCapabilityType;
 
     if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypePhoneCall]) {
@@ -246,29 +244,33 @@ NS_ASSUME_NONNULL_BEGIN
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeVideoStreaming]) {
         self.videoStreamingCapability = systemCapability.videoStreamingCapability;
     } else if ([systemCapabilityType isEqualToEnum:SDLSystemCapabilityTypeAppServices]) {
-        if (!self.appServicesCapabilities) {
-            self.appServicesCapabilities = systemCapability.appServicesCapabilities;
-        } else {
-            NSMutableDictionary *cachedAppServicesCapabilities = [NSMutableDictionary dictionary];
-            for (NSUInteger i = 0; i < self.appServicesCapabilities.appServices.count; i += 1) {
-                SDLAppServiceRecord *record = self.appServicesCapabilities.appServices[i].updatedAppServiceRecord;
-                cachedAppServicesCapabilities[record.serviceID] = record;
-            }
-
-            for (NSUInteger i = 0; i < systemCapability.appServicesCapabilities.appServices.count; i += 1) {
-                SDLAppServiceRecord *updatedRecord = systemCapability.appServicesCapabilities.appServices[i].updatedAppServiceRecord;
-                cachedAppServicesCapabilities[updatedRecord.serviceID] = updatedRecord;
-            }
-
-            self.appServicesCapabilities.appServices = [cachedAppServicesCapabilities allValues];
-        }
+        [self sdl_saveAppServicesCapabilitiesUpdate:systemCapability.appServicesCapabilities];
     } else {
         SDLLogW(@"Received response for unknown System Capability Type: %@", systemCapabilityType);
         return;
     }
 
-    if (self.systemCapabilityHandler == nil) { return; }
-    self.systemCapabilityHandler(nil, self);
+    if (handler == nil) { return; }
+    handler(nil, self);
+}
+
+- (void)sdl_saveAppServicesCapabilitiesUpdate:(SDLAppServicesCapabilities *)newCapabilities {
+    if (!self.appServicesCapabilities) {
+        self.appServicesCapabilities = newCapabilities;
+    } else {
+        NSMutableDictionary *cachedAppServicesCapabilities = [NSMutableDictionary dictionary];
+        for (NSUInteger i = 0; i < self.appServicesCapabilities.appServices.count; i += 1) {
+            SDLAppServiceRecord *record = self.appServicesCapabilities.appServices[i].updatedAppServiceRecord;
+            cachedAppServicesCapabilities[record.serviceID] = record;
+        }
+
+        for (NSUInteger i = 0; i < newCapabilities.appServices.count; i += 1) {
+            SDLAppServiceRecord *updatedRecord = newCapabilities.appServices[i].updatedAppServiceRecord;
+            cachedAppServicesCapabilities[updatedRecord.serviceID] = updatedRecord;
+        }
+
+        self.appServicesCapabilities.appServices = [cachedAppServicesCapabilities allValues];
+    }
 }
 
 @end
