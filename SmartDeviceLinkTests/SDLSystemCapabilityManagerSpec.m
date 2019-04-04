@@ -257,12 +257,12 @@ describe(@"System capability manager", ^{
         });
     });
 
-    context(@"When notified of a Get System Capability Response", ^{
+    context(@"When sending a Get System Capability request", ^{
         __block SDLGetSystemCapabilityResponse *testGetSystemCapabilityResponse;
         __block SDLPhoneCapability *testPhoneCapability = nil;
 
         beforeEach(^{
-             testPhoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
+            testPhoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
 
             testGetSystemCapabilityResponse = [[SDLGetSystemCapabilityResponse alloc] init];
             testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
@@ -270,69 +270,45 @@ describe(@"System capability manager", ^{
             testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypePhoneCall;
         });
 
-        describe(@"If a Get System Capability Response notification is received", ^{
-            context(@"If the request failed", ^{
-                beforeEach(^{
-                    testGetSystemCapabilityResponse.success = @NO;
-                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testGetSystemCapabilityResponse];
-                    [[NSNotificationCenter defaultCenter] postNotification:notification];
-                });
+        context(@"If the request failed with an error", ^{
+            __block NSError *testError = nil;
 
-                it(@"should should not save the capabilities", ^{
-                    expect(testSystemCapabilityManager.phoneCapability).to(beNil());
-                });
+            beforeEach(^{
+                testGetSystemCapabilityResponse.success = @NO;
+                testError = [NSError errorWithDomain:NSCocoaErrorDomain code:-234 userInfo:nil];
             });
 
-            context(@"If the request succeeded", ^{
-                beforeEach(^{
-                    testGetSystemCapabilityResponse.success = @YES;
-                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testGetSystemCapabilityResponse];
-                    [[NSNotificationCenter defaultCenter] postNotification:notification];
-                });
+            it(@"should should not save the capabilities", ^{
+                waitUntilTimeout(1, ^(void (^done)(void)) {
+                    [testSystemCapabilityManager updateCapabilityType:testGetSystemCapabilityResponse.systemCapability.systemCapabilityType completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
+                        expect(error).to(equal(testConnectionManager.defaultError));
+                        expect(systemCapabilityManager.phoneCapability).to(beNil());
+                        done();
+                    }];
 
-                it(@"should should save the capabilities", ^{
-                    expect(testSystemCapabilityManager.phoneCapability).to(equal(testPhoneCapability));
+                    [NSThread sleepForTimeInterval:0.1];
+
+                    [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
                 });
             });
         });
 
-        describe(@"If a response is received for a sent Get System Capability request", ^{
-            context(@"If the request failed with an error", ^{
-                __block NSError *testError = nil;
-
-                beforeEach(^{
-                    testGetSystemCapabilityResponse.success = @NO;
-                    testError = [NSError errorWithDomain:NSCocoaErrorDomain code:-234 userInfo:nil];
-
-                    waitUntilTimeout(1.0, ^(void (^done)(void)) {
-                        [testSystemCapabilityManager updateCapabilityType:testGetSystemCapabilityResponse.systemCapability.systemCapabilityType completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
-                            expect(error).to(equal(testConnectionManager.defaultError));
-                            expect(systemCapabilityManager.phoneCapability).to(beNil());
-                            done();
-                        }];
-
-                        [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
-                    });
-                });
-
-                it(@"should should not save the capabilities", ^{
-                    expect(testSystemCapabilityManager.phoneCapability).to(beNil());
-                });
+        context(@"If the request succeeded", ^{
+            beforeEach(^{
+                testGetSystemCapabilityResponse.success = @YES;
             });
 
-            context(@"If the request succeeded", ^{
-                beforeEach(^{
-                    testGetSystemCapabilityResponse.success = @YES;
-
+            it(@"should save the capabilitity", ^{
+                waitUntilTimeout(1, ^(void (^done)(void)){
                     [testSystemCapabilityManager updateCapabilityType:testGetSystemCapabilityResponse.systemCapability.systemCapabilityType completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
-                        // The handler will not be notifified
+                        expect(testSystemCapabilityManager.phoneCapability).to(equal(testPhoneCapability));
+                        expect(error).to(beNil());
+                        done();
                     }];
 
-                    [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
-                });
+                    [NSThread sleepForTimeInterval:0.1];
 
-                it(@"should not save the capabilities because a successful Get System Capability Response notification will be intercepted by the manager and be handled there", ^{
-                    expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+                    [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
                 });
             });
         });
@@ -357,7 +333,7 @@ describe(@"System capability manager", ^{
         });
     });
 
-    fcontext(@"When the system capability manager is stopped after being started", ^{
+    context(@"When the system capability manager is stopped after being started", ^{
         beforeEach(^{
             SDLRegisterAppInterfaceResponse *testRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
             testRegisterAppInterfaceResponse.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
