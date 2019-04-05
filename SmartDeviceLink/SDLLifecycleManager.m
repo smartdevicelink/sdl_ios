@@ -789,7 +789,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
         [self sdl_transitionToState:SDLLifecycleStateStopped];
     } else if ([self.lifecycleStateMachine isCurrentState:SDLLifecycleStateStopped]) {
         return;
-    } else if ([appUnregisteredNotification.reason isKindOfClass:[NSString class]] && ([appUnregisteredNotification.reason isEqualToEnum:SDLAppInterfaceUnregisteredReasonAppUnauthorized] || [appUnregisteredNotification.reason isEqualToString:SDLAppInterfaceUnregisteredReasonProtocolViolation])) {
+    } else if (appUnregisteredNotification.reason != nil && ([appUnregisteredNotification.reason isEqualToEnum:SDLAppInterfaceUnregisteredReasonAppUnauthorized] || [appUnregisteredNotification.reason isEqualToString:SDLAppInterfaceUnregisteredReasonProtocolViolation])) {
         // HAX: The string check is due to a core "feature" that could cause -1 to be sent as the enum value, which will crash here.
         [self sdl_transitionToState:SDLLifecycleStateStopped];
     } else {

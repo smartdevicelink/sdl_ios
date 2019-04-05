@@ -525,7 +525,7 @@ describe(@"a lifecycle manager", ^{
                     SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveAppUnregisteredNotification object:testManager.notificationDispatcher rpcNotification:unreg];
                     
                     [[NSNotificationCenter defaultCenter] postNotification:notification];
-                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateStopped));
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateStopped));
                 });
        
                 it(@"should attempt to stop the manager when an APP_UNAUTHORIZED notification is recieved", ^{
@@ -536,7 +536,7 @@ describe(@"a lifecycle manager", ^{
                     SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveAppUnregisteredNotification object:testManager.notificationDispatcher rpcNotification:unreg];
                     
                     [[NSNotificationCenter defaultCenter] postNotification:notification];
-                    expect(testManager.lifecycleState).toEventually(match(SDLLifecycleStateStopped));
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateStopped));
                 });
             });
             
