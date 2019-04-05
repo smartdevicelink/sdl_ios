@@ -335,93 +335,26 @@ describe(@"System capability manager", ^{
 
     context(@"When the system capability manager is stopped after being started", ^{
         beforeEach(^{
-            SDLRegisterAppInterfaceResponse *testRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-            testRegisterAppInterfaceResponse.displayCapabilities = [[SDLDisplayCapabilities alloc] init];
-            testRegisterAppInterfaceResponse.hmiCapabilities = [[SDLHMICapabilities alloc] init];
-            testRegisterAppInterfaceResponse.softButtonCapabilities = @[[[SDLSoftButtonCapabilities alloc] init]];
-            testRegisterAppInterfaceResponse.buttonCapabilities = @[[[SDLButtonCapabilities alloc] init]];
-            testRegisterAppInterfaceResponse.presetBankCapabilities = [[SDLPresetBankCapabilities alloc] init];
-            testRegisterAppInterfaceResponse.hmiZoneCapabilities = @[SDLHMIZoneCapabilitiesFront];
-            testRegisterAppInterfaceResponse.speechCapabilities = @[SDLSpeechCapabilitiesPrerecorded];
-            testRegisterAppInterfaceResponse.prerecordedSpeech = @[SDLPrerecordedSpeechHelp];
-            testRegisterAppInterfaceResponse.vrCapabilities = @[SDLVRCapabilitiesText];
-            testRegisterAppInterfaceResponse.audioPassThruCapabilities = @[[[SDLAudioPassThruCapabilities alloc] init]];
-            testRegisterAppInterfaceResponse.pcmStreamCapabilities = [[SDLAudioPassThruCapabilities alloc] init];
-            testRegisterAppInterfaceResponse.success = @YES;
-            SDLRPCResponseNotification *registerAppInterfaceNotification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
-            [[NSNotificationCenter defaultCenter] postNotification:registerAppInterfaceNotification];
-
-            SDLGetSystemCapabilityResponse *testAppServicesGetSystemCapabilityResponse = [[SDLGetSystemCapabilityResponse alloc] init];
-            testAppServicesGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] initWithAppServicesCapabilities:[[SDLAppServicesCapabilities alloc] init]];
-            testAppServicesGetSystemCapabilityResponse.success = @YES;
-            SDLRPCResponseNotification *appServicesGetSystemCapabilityNotification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testAppServicesGetSystemCapabilityResponse];
-            [[NSNotificationCenter defaultCenter] postNotification:appServicesGetSystemCapabilityNotification];
-
-            SDLGetSystemCapabilityResponse *testNavGetSystemCapabilityResponse = [[SDLGetSystemCapabilityResponse alloc] init];
-            testNavGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] initWithNavigationCapability:[[SDLNavigationCapability alloc] init]];
-            testNavGetSystemCapabilityResponse.success = @YES;
-            SDLRPCResponseNotification *navGetSystemCapabilityNotification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testNavGetSystemCapabilityResponse];
-            [[NSNotificationCenter defaultCenter] postNotification:navGetSystemCapabilityNotification];
-
-            SDLGetSystemCapabilityResponse *testPhoneGetSystemCapabilityResponse = [[SDLGetSystemCapabilityResponse alloc] init];
-            testPhoneGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] initWithPhoneCapability:[[SDLPhoneCapability alloc] initWithDialNumber:YES]];
-            testPhoneGetSystemCapabilityResponse.success = @YES;
-            SDLRPCResponseNotification *phoneGetSystemCapabilityNotification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testPhoneGetSystemCapabilityResponse];
-            [[NSNotificationCenter defaultCenter] postNotification:phoneGetSystemCapabilityNotification];
-
-            SDLGetSystemCapabilityResponse *testVideoGetSystemCapabilityResponse = [[SDLGetSystemCapabilityResponse alloc] init];
-            testVideoGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] initWithVideoStreamingCapability:[[SDLVideoStreamingCapability alloc] init]];
-            testVideoGetSystemCapabilityResponse.success = @YES;
-            SDLRPCResponseNotification *videoGetSystemCapabilityNotification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testVideoGetSystemCapabilityResponse];
-            [[NSNotificationCenter defaultCenter] postNotification:videoGetSystemCapabilityNotification];
-
-            SDLGetSystemCapabilityResponse *testRemoteControlGetSystemCapabilityResponse = [[SDLGetSystemCapabilityResponse alloc] init];
-            testRemoteControlGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] initWithRemoteControlCapability:[[SDLRemoteControlCapabilities alloc] init]];
-            testRemoteControlGetSystemCapabilityResponse.success = @YES;
-            SDLRPCResponseNotification *remoteControlGetSystemCapabilityNotification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testRemoteControlGetSystemCapabilityResponse];
-            [[NSNotificationCenter defaultCenter] postNotification:remoteControlGetSystemCapabilityNotification];
-
-            expect(testSystemCapabilityManager.displayCapabilities).toNot(beNil());
-            expect(testSystemCapabilityManager.hmiCapabilities).toNot(beNil());
-            expect(testSystemCapabilityManager.softButtonCapabilities).toNot(beNil());
-            expect(testSystemCapabilityManager.buttonCapabilities).toNot(beNil());
-            expect(testSystemCapabilityManager.presetBankCapabilities).toNot(beNil());
-            expect(testSystemCapabilityManager.hmiZoneCapabilities).toNot(beNil());
-            expect(testSystemCapabilityManager.speechCapabilities).toNot(beNil());
-            expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).toNot(beNil());
-            expect(testSystemCapabilityManager.vrCapability).toNot(beFalse());
-            expect(testSystemCapabilityManager.audioPassThruCapabilities).toNot(beNil());
-            expect(testSystemCapabilityManager.pcmStreamCapability).toNot(beNil());
-            expect(testSystemCapabilityManager.phoneCapability).toNot(beNil());
-            expect(testSystemCapabilityManager.navigationCapability).toNot(beNil());
-            expect(testSystemCapabilityManager.videoStreamingCapability).toNot(beNil());
-            expect(testSystemCapabilityManager.remoteControlCapability).toNot(beNil());
-            expect(testSystemCapabilityManager.appServicesCapabilities).toNot(beNil());
+            [testSystemCapabilityManager stop];
         });
 
-        describe(@"When stopped", ^{
-            beforeEach(^{
-                [testSystemCapabilityManager stop];
-            });
-
-            it(@"It should reset the system capability manager properties correctly", ^{
-                expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.vrCapability).to(beFalse());
-                expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
-                expect(testSystemCapabilityManager.phoneCapability).to(beNil());
-                expect(testSystemCapabilityManager.navigationCapability).to(beNil());
-                expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
-                expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
-                expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
-            });
+        it(@"It should reset the system capability manager properties correctly", ^{
+            expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.vrCapability).to(beFalse());
+            expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
+            expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+            expect(testSystemCapabilityManager.navigationCapability).to(beNil());
+            expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
+            expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+            expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
         });
     });
 });

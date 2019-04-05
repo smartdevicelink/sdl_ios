@@ -160,13 +160,6 @@ typedef NSString * SDLServiceID;
     self.presetBankCapabilities = response.presetBankCapabilities;
 }
 
-- (void)sdl_getSystemCapabilityResponse:(SDLRPCResponseNotification *)notification {
-    SDLGetSystemCapabilityResponse *response = (SDLGetSystemCapabilityResponse *)notification.response;
-    if (!response.success.boolValue) { return; }
-
-    [self sdl_saveSystemCapability:response.systemCapability completionHandler:nil];
-}
-
 /**
  *  Called when an `OnSystemCapabilityUpdated` notification is received from Core. The updated system capabilty is saved.
  *
@@ -221,7 +214,7 @@ typedef NSString * SDLServiceID;
  */
 - (void)sdl_subscribeToSystemCapabilityUpdates {
     for (SDLSystemCapabilityType type in [self.class sdl_systemCapabilityTypes]) {
-        SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type subscribe:true];
+        SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type subscribe:YES];
         [self sdl_sendGetSystemCapability:getSystemCapability completionHandler:nil];
     }
 }
@@ -240,7 +233,6 @@ typedef NSString * SDLServiceID;
             return;
         }
 
-        // TODO: Still do this even though we do it in `sdl_getSystemCapabilityResponse`? Will the handler be called before the changes are applied if we don't?
         SDLGetSystemCapabilityResponse *getSystemCapabilityResponse = (SDLGetSystemCapabilityResponse *)response;
         if (!getSystemCapabilityResponse.success.boolValue) { return; }
         [self sdl_saveSystemCapability:getSystemCapabilityResponse.systemCapability completionHandler:handler];
@@ -269,6 +261,8 @@ typedef NSString * SDLServiceID;
         SDLLogW(@"Received response for unknown System Capability Type: %@", systemCapabilityType);
         return;
     }
+
+    SDLLogD(@"Updated system capability manager with new data: %@", systemCapability);
 
     if (handler == nil) { return; }
     handler(nil, self);
