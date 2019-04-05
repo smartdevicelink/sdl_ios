@@ -17,6 +17,7 @@
 #import "SDLLogConfiguration.h"
 #import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
+#import "SDLOnAppInterfaceUnregistered.h"
 #import "SDLOnAppServiceData.h"
 #import "SDLOnHashChange.h"
 #import "SDLOnHMIStatus.h"
@@ -27,6 +28,7 @@
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResult.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLShow.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
@@ -513,7 +515,32 @@ describe(@"a lifecycle manager", ^{
                     [testManager sendRPC:testMessage];
                 }).to(raiseException());
             });
+            
+            describe(@"stopping the manager on certain SDLAppInterfaceUnregisteredReason", ^{
+                it(@"should attempt to stop the manager when a PROTOCOL_VIOLATION notification is recieved", ^{
 
+                    SDLOnAppInterfaceUnregistered *unreg = [[SDLOnAppInterfaceUnregistered alloc] init];
+                    unreg.reason = SDLAppInterfaceUnregisteredReasonProtocolViolation;
+                    
+                    SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveAppUnregisteredNotification object:testManager.notificationDispatcher rpcNotification:unreg];
+                    
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateStopped));
+                });
+       
+                it(@"should attempt to stop the manager when an APP_UNAUTHORIZED notification is recieved", ^{
+                    
+                    SDLOnAppInterfaceUnregistered *unreg = [[SDLOnAppInterfaceUnregistered alloc] init];
+                    unreg.reason = SDLAppInterfaceUnregisteredReasonAppUnauthorized;
+                    
+                    SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveAppUnregisteredNotification object:testManager.notificationDispatcher rpcNotification:unreg];
+                    
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateStopped));
+                });
+            });
+            
+            
             describe(@"stopping the manager", ^{
                 beforeEach(^{
                     [testManager stop];
