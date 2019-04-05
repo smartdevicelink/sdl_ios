@@ -214,7 +214,13 @@ typedef NSString * SDLServiceID;
  */
 - (void)sdl_subscribeToSystemCapabilityUpdates {
     for (SDLSystemCapabilityType type in [self.class sdl_systemCapabilityTypes]) {
-        SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type subscribe:YES];
+        SDLGetSystemCapability *getSystemCapability = [[SDLGetSystemCapability alloc] initWithType:type];
+        SDLVersion *onSystemCapabilityNotificationRPCVersion = [SDLVersion versionWithString:@"5.1.0"];
+        SDLVersion *headUnitRPCVersion = SDLGlobals.sharedGlobals.rpcVersion;
+        if ([headUnitRPCVersion isGreaterThanOrEqualToVersion:onSystemCapabilityNotificationRPCVersion]) {
+            getSystemCapability.subscribe = @YES;
+        }
+
         [self sdl_sendGetSystemCapability:getSystemCapability completionHandler:nil];
     }
 }

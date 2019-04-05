@@ -1,6 +1,9 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLAppServiceCapability.h"
+#import "SDLAppServiceManifest.h"
+#import "SDLAppServiceRecord.h"
 #import "SDLAppServicesCapabilities.h"
 #import "SDLAudioPassThruCapabilities.h"
 #import "SDLButtonCapabilities.h"
@@ -8,8 +11,11 @@
 #import "SDLGetSystemCapability.h"
 #import "SDLGetSystemCapabilityResponse.h"
 #import "SDLHMICapabilities.h"
+#import "SDLMediaServiceManifest.h"
 #import "SDLNavigationCapability.h"
 #import "SDLNotificationConstants.h"
+#import "SDLOnHMIStatus.h"
+#import "SDLOnSystemCapabilityUpdated.h"
 #import "SDLPhoneCapability.h"
 #import "SDLPresetBankCapabilities.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -333,7 +339,98 @@ describe(@"System capability manager", ^{
         });
     });
 
-    context(@"When the system capability manager is stopped after being started", ^{
+    describe(@"updating the SCM through OnSystemCapability", ^{
+        __block SDLPhoneCapability *phoneCapability = nil;
+
+        beforeEach(^{
+            phoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
+            SDLSystemCapability *newCapability = [[SDLSystemCapability alloc] initWithPhoneCapability:phoneCapability];
+            SDLOnSystemCapabilityUpdated *update = [[SDLOnSystemCapabilityUpdated alloc] initWithSystemCapability:newCapability];
+            SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil rpcNotification:update];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        });
+
+        it(@"should properly update phone capability", ^{
+            expect(testSystemCapabilityManager.phoneCapability).toEventually(equal(phoneCapability));
+        });
+    });
+
+    describe(@"merging app services capability changes", ^{
+        __block SDLAppServicesCapabilities *baseAppServices = nil;
+        __block SDLAppServiceCapability *deleteCapability = nil;
+        __block SDLAppServiceCapability *updateCapability = nil;
+        __block SDLAppServiceCapability *newCapability = nil;
+
+        beforeEach(^{
+            SDLAppServiceManifest *deleteCapabilityManifest = [[SDLAppServiceManifest alloc] initWithMediaServiceName:@"Delete me" serviceIcon:nil allowAppConsumers:YES rpcSpecVersion:nil handledRPCs:nil mediaServiceManifest:[[SDLMediaServiceManifest alloc] init]];
+            SDLAppServiceRecord *deleteCapabilityRecord = [[SDLAppServiceRecord alloc] initWithServiceID:@"1234" serviceManifest:deleteCapabilityManifest servicePublished:YES serviceActive:YES];
+            deleteCapability = [[SDLAppServiceCapability alloc] initWithUpdatedAppServiceRecord:deleteCapabilityRecord];
+
+            SDLAppServiceManifest *updateCapabilityManifest = [[SDLAppServiceManifest alloc] initWithMediaServiceName:@"Update me" serviceIcon:nil allowAppConsumers:YES rpcSpecVersion:nil handledRPCs:nil mediaServiceManifest:[[SDLMediaServiceManifest alloc] init]];
+            SDLAppServiceRecord *updateCapabilityRecord = [[SDLAppServiceRecord alloc] initWithServiceID:@"2345" serviceManifest:updateCapabilityManifest servicePublished:YES serviceActive:NO];
+            updateCapability = [[SDLAppServiceCapability alloc] initWithUpdatedAppServiceRecord:updateCapabilityRecord];
+
+            baseAppServices = [[SDLAppServicesCapabilities alloc] initWithAppServices:@[deleteCapability, updateCapability]];
+            SDLSystemCapability *appServiceCapability = [[SDLSystemCapability alloc] initWithAppServicesCapabilities:baseAppServices];
+            SDLOnSystemCapabilityUpdated *update = [[SDLOnSystemCapabilityUpdated alloc] initWithSystemCapability:appServiceCapability];
+            SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil rpcNotification:update];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        });
+
+        it(@"should have the correct base services", ^{
+            expect(testSystemCapabilityManager.appServicesCapabilities).to(equal(baseAppServices));
+        });
+
+        describe(@"when sending the merge update", ^{
+            it(@"should correctly merge", ^{
+                deleteCapability.updateReason = SDLServiceUpdateRemoved;
+                deleteCapability.updatedAppServiceRecord.servicePublished = @NO;
+                deleteCapability.updatedAppServiceRecord.serviceActive = @NO;
+
+                updateCapability.updateReason = SDLServiceUpdateActivated;
+                updateCapability.updatedAppServiceRecord.serviceActive = @YES;
+
+                SDLAppServiceManifest *newCapabilityManifest = [[SDLAppServiceManifest alloc] initWithMediaServiceName:@"New me" serviceIcon:nil allowAppConsumers:YES rpcSpecVersion:nil handledRPCs:nil mediaServiceManifest:[[SDLMediaServiceManifest alloc] init]];
+                SDLAppServiceRecord *newCapabilityRecord = [[SDLAppServiceRecord alloc] initWithServiceID:@"3456" serviceManifest:newCapabilityManifest servicePublished:YES serviceActive:NO];
+                newCapability = [[SDLAppServiceCapability alloc] initWithUpdateReason:SDLServiceUpdatePublished updatedAppServiceRecord:newCapabilityRecord];
+
+                SDLAppServicesCapabilities *appServicesUpdate = [[SDLAppServicesCapabilities alloc] initWithAppServices:@[deleteCapability, updateCapability, newCapability]];
+                SDLSystemCapability *appServiceCapability = [[SDLSystemCapability alloc] initWithAppServicesCapabilities:appServicesUpdate];
+                SDLOnSystemCapabilityUpdated *update = [[SDLOnSystemCapabilityUpdated alloc] initWithSystemCapability:appServiceCapability];
+                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil rpcNotification:update];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+                expect(testSystemCapabilityManager.appServicesCapabilities.appServices).toNot(contain(deleteCapability));
+                expect(testSystemCapabilityManager.appServicesCapabilities.appServices).to(haveCount(2));
+
+                SDLAppServiceCapability *firstCapability = testSystemCapabilityManager.appServicesCapabilities.appServices.firstObject;
+                SDLAppServiceCapability *secondCapability = testSystemCapabilityManager.appServicesCapabilities.appServices.lastObject;
+
+                expect(firstCapability.updateReason).to(equal(SDLServiceUpdatePublished));
+                expect(firstCapability.updatedAppServiceRecord.serviceID).to(equal(@"3456"));
+
+                expect(secondCapability.updateReason).to(equal(SDLServiceUpdateActivated));
+                expect(secondCapability.updatedAppServiceRecord.serviceID).to(equal(@"2345"));
+                expect(secondCapability.updatedAppServiceRecord.serviceActive).to(beTrue());
+            });
+        });
+    });
+
+    describe(@"when entering HMI FULL", ^{
+        beforeEach(^{
+            SDLOnHMIStatus *fullStatus = [[SDLOnHMIStatus alloc] init];
+            fullStatus.hmiLevel = SDLHMILevelFull;
+            SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:fullStatus];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        });
+
+        it(@"should send GetSystemCapability subscriptions for all known capabilities", ^{
+            expect(testConnectionManager.receivedRequests).to(haveCount(5));
+            expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLGetSystemCapability class]));
+        });
+    });
+
+    describe(@"when the system capability manager is stopped after being started", ^{
         beforeEach(^{
             [testSystemCapabilityManager stop];
         });
