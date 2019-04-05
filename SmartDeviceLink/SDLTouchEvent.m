@@ -17,7 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)touchEventId {
-    return [store sdl_objectForName:SDLRPCParameterNameId];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setTimeStamp:(NSArray<NSNumber<SDLInt> *> *)timeStamp {
@@ -25,7 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<NSNumber<SDLInt> *> *)timeStamp {
-    return [store sdl_objectForName:SDLRPCParameterNameTS];
+    NSError *error = nil;
+    return [store sdl_objectsForName:SDLRPCParameterNameTS ofClass:NSNumber.class error:&error];
 }
 
 - (void)setCoord:(NSArray<SDLTouchCoord *> *)coord {
@@ -33,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLTouchCoord *> *)coord {
-    return [store sdl_objectsForName:SDLRPCParameterNameCoordinate ofClass:SDLTouchCoord.class];
+    NSError *error = nil;
+    return [store sdl_objectsForName:SDLRPCParameterNameCoordinate ofClass:SDLTouchCoord.class error:&error];
 }
 
 @end

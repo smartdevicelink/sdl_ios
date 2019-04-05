@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLButtonName)name {
-    return [store sdl_objectForName:SDLRPCParameterNameName];
+    NSError *error = nil;
+    return [store sdl_enumForName:SDLRPCParameterNameName error:&error];
 }
 
 - (void)setShortPressAvailable:(NSNumber<SDLBool> *)shortPressAvailable {
@@ -23,7 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)shortPressAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameShortPressAvailable];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameShortPressAvailable ofClass:NSNumber.class error:&error];
 }
 
 - (void)setLongPressAvailable:(NSNumber<SDLBool> *)longPressAvailable {
@@ -31,7 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)longPressAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameLongPressAvailable];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameLongPressAvailable ofClass:NSNumber.class error:&error];
 }
 
 - (void)setUpDownAvailable:(NSNumber<SDLBool> *)upDownAvailable {
@@ -39,7 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)upDownAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameUpDownAvailable];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameUpDownAvailable ofClass:NSNumber.class error:&error];
 }
 
 @end

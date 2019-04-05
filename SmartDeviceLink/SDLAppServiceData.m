@@ -82,7 +82,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)serviceType {
-    return [store sdl_objectForName:SDLRPCParameterNameServiceType];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameServiceType ofClass:NSString.class error:&error];
 }
 
 - (void)setServiceId:(NSString *)serviceId {
@@ -90,7 +91,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)serviceId {
-    return [store sdl_objectForName:SDLRPCParameterNameServiceID];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameServiceID ofClass:NSString.class error:&error];
 }
 
 - (void)setWeatherServiceData:(nullable SDLWeatherServiceData *)weatherServiceData {
@@ -98,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLWeatherServiceData *)weatherServiceData {
-    return [store sdl_objectForName:SDLRPCParameterNameWeatherServiceData ofClass:SDLWeatherServiceData.class];
+    return [store sdl_objectForName:SDLRPCParameterNameWeatherServiceData ofClass:SDLWeatherServiceData.class error:nil];
 }
 
 - (void)setMediaServiceData:(nullable SDLMediaServiceData *)mediaServiceData {
@@ -106,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLMediaServiceData *)mediaServiceData {
-    return [store sdl_objectForName:SDLRPCParameterNameMediaServiceData ofClass:SDLMediaServiceData.class];
+    return [store sdl_objectForName:SDLRPCParameterNameMediaServiceData ofClass:SDLMediaServiceData.class error:nil];
 }
 
 - (void)setNavigationServiceData:(nullable SDLNavigationServiceData *)navigationServiceData {
@@ -114,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLNavigationServiceData *)navigationServiceData {
-    return [store sdl_objectForName:SDLRPCParameterNameNavigationServiceData ofClass:SDLNavigationServiceData.class];
+    return [store sdl_objectForName:SDLRPCParameterNameNavigationServiceData ofClass:SDLNavigationServiceData.class error:nil];
 }
 
 @end

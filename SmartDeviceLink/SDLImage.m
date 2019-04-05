@@ -61,7 +61,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)value {
-    return [store sdl_objectForName:SDLRPCParameterNameValue];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameValue ofClass:NSString.class error:&error];
 }
 
 - (void)setImageType:(SDLImageType)imageType {
@@ -69,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLImageType)imageType {
-    return [store sdl_objectForName:SDLRPCParameterNameImageType];
+    return [store sdl_enumForName:SDLRPCParameterNameImageType error:nil];
 }
 
 - (void)setIsTemplate:(NSNumber<SDLBool> *)isTemplate {
@@ -77,7 +78,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)isTemplate {
-    return [store sdl_objectForName:SDLRPCParameterNameImageTemplate];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameImageTemplate ofClass:NSNumber.class error:&error];
 }
 
 @end

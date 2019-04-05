@@ -79,8 +79,9 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLRPCParameterNameSoftButtons:[NSNull null]},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameAlert}} mutableCopy];
         SDLAlert* testRequest = [[SDLAlert alloc] initWithDictionary:dict];
-
-        expect(testRequest.softButtons).to(beEmpty());
+        expectAction(^{
+            expect(testRequest.softButtons).to(beNil());
+        }).to(raiseException());
     });
     
     it(@"Should return nil if not set", ^ {

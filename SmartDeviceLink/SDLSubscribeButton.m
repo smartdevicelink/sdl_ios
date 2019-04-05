@@ -46,7 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLButtonName)buttonName {
-    return [parameters sdl_objectForName:SDLRPCParameterNameButtonName];
+    NSError *error = nil;
+    return [parameters sdl_enumForName:SDLRPCParameterNameButtonName error:&error];
 }
 
 -(id)copyWithZone:(nullable NSZone *)zone {

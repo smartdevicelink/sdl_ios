@@ -40,7 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLCloudAppProperties *)properties {
-    return [parameters sdl_objectForName:SDLRPCParameterNameProperties ofClass:SDLCloudAppProperties.class];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameProperties ofClass:SDLCloudAppProperties.class error:&error];
 }
 
 @end

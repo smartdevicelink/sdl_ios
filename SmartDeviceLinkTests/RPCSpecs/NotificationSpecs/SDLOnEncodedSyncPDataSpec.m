@@ -18,11 +18,11 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should set and get correctly", ^ {
         SDLOnEncodedSyncPData* testNotification = [[SDLOnEncodedSyncPData alloc] init];
         
-        testNotification.data = [@[@0] mutableCopy];
+        testNotification.data = [@[@"0"] mutableCopy];
         testNotification.URL = @"www.zombo.com";
         testNotification.Timeout = @564;
         
-        expect(testNotification.data).to(equal([@[@0] mutableCopy]));
+        expect(testNotification.data).to(equal([@[@"0"] mutableCopy]));
         expect(testNotification.URL).to(equal(@"www.zombo.com"));
         expect(testNotification.Timeout).to(equal(@564));
     });
@@ -30,13 +30,13 @@ describe(@"Getter/Setter Tests", ^ {
     it(@"Should get correctly when initialized", ^ {
         NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameNotification:
                                                            @{SDLRPCParameterNameParameters:
-                                                                 @{SDLRPCParameterNameData:[@[@0] mutableCopy],
+                                                                 @{SDLRPCParameterNameData:[@[@"0"] mutableCopy],
                                                                    SDLRPCParameterNameURLUppercase:@"www.zombo.com",
                                                                    SDLRPCParameterNameTimeoutCapitalized:@564},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnEncodedSyncPData}} mutableCopy];
         SDLOnEncodedSyncPData* testNotification = [[SDLOnEncodedSyncPData alloc] initWithDictionary:dict];
         
-        expect(testNotification.data).to(equal([@[@0] mutableCopy]));
+        expect(testNotification.data).to(equal([@[@"0"] mutableCopy]));
         expect(testNotification.URL).to(equal(@"www.zombo.com"));
         expect(testNotification.Timeout).to(equal(@564));
     });

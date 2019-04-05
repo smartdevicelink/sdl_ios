@@ -57,7 +57,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)numTicks {
-    return [parameters sdl_objectForName:SDLRPCParameterNameNumberTicks];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameNumberTicks ofClass:NSNumber.class error:&error];
 }
 
 - (void)setPosition:(NSNumber<SDLInt> *)position {
@@ -65,7 +66,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)position {
-    return [parameters sdl_objectForName:SDLRPCParameterNamePosition];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNamePosition ofClass:NSNumber.class error:&error];
 }
 
 - (void)setSliderHeader:(NSString *)sliderHeader {
@@ -73,7 +75,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)sliderHeader {
-    return [parameters sdl_objectForName:SDLRPCParameterNameSliderHeader];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameSliderHeader ofClass:NSString.class error:&error];
 }
 
 - (void)setSliderFooter:(nullable NSArray<NSString *> *)sliderFooter {
@@ -81,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)sliderFooter {
-    return [parameters sdl_objectForName:SDLRPCParameterNameSliderFooter];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameSliderFooter ofClass:NSString.class error:nil];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
@@ -89,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)timeout {
-    return [parameters sdl_objectForName:SDLRPCParameterNameTimeout];
+    return [parameters sdl_objectForName:SDLRPCParameterNameTimeout ofClass:NSNumber.class error:nil];
 }
 
 @end

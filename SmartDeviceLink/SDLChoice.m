@@ -43,7 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)choiceID {
-    return [store sdl_objectForName:SDLRPCParameterNameChoiceId];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameChoiceId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMenuName:(NSString *)menuName {
@@ -51,7 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)menuName {
-    return [store sdl_objectForName:SDLRPCParameterNameMenuName];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameMenuName ofClass:NSString.class error:&error];
 }
 
 - (void)setVrCommands:(nullable NSArray<NSString *> *)vrCommands {
@@ -59,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)vrCommands {
-    return [store sdl_objectForName:SDLRPCParameterNameVRCommands];
+    return [store sdl_objectsForName:SDLRPCParameterNameVRCommands ofClass:NSString.class error:nil];
 }
 
 - (void)setImage:(nullable SDLImage *)image {
@@ -67,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLImage *)image {
-    return [store sdl_objectForName:SDLRPCParameterNameImage ofClass:SDLImage.class];
+    return [store sdl_objectForName:SDLRPCParameterNameImage ofClass:SDLImage.class error:nil];
 }
 
 - (void)setSecondaryText:(nullable NSString *)secondaryText {
@@ -75,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)secondaryText {
-    return [store sdl_objectForName:SDLRPCParameterNameSecondaryText];
+    return [store sdl_objectForName:SDLRPCParameterNameSecondaryText ofClass:NSString.class error:nil];
 }
 
 - (void)setTertiaryText:(nullable NSString *)tertiaryText {
@@ -83,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)tertiaryText {
-    return [store sdl_objectForName:SDLRPCParameterNameTertiaryText];
+    return [store sdl_objectForName:SDLRPCParameterNameTertiaryText ofClass:NSString.class error:nil];
 }
 
 - (void)setSecondaryImage:(nullable SDLImage *)secondaryImage {
@@ -91,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLImage *)secondaryImage {
-    return [store sdl_objectForName:SDLRPCParameterNameSecondaryImage ofClass:SDLImage.class];
+    return [store sdl_objectForName:SDLRPCParameterNameSecondaryImage ofClass:SDLImage.class error:nil];
 }
 
 @end

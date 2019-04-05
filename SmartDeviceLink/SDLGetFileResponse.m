@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLUInt> *)offset {
-    return [parameters sdl_objectForName:SDLRPCParameterNameOffset];
+    return [parameters sdl_objectForName:SDLRPCParameterNameOffset ofClass:NSNumber.class error:nil];
 }
 
 - (void)setLength:(nullable NSNumber<SDLUInt> *)length {
@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLUInt> *)length {
-    return [parameters sdl_objectForName:SDLRPCParameterNameLength];
+    return [parameters sdl_objectForName:SDLRPCParameterNameLength ofClass:NSNumber.class error:nil];
 }
 
 - (void)setFileType:(nullable SDLFileType)fileType {
@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLFileType)fileType {
-    return [parameters sdl_objectForName:SDLRPCParameterNameFileType];
+    return [parameters sdl_enumForName:SDLRPCParameterNameFileType error:nil];
 }
 
 - (void)setCrc:(nullable NSNumber<SDLUInt> *)crc {
@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLUInt> *)crc {
-    return [parameters sdl_objectForName:SDLRPCParameterNameCRC];
+    return [parameters sdl_objectForName:SDLRPCParameterNameCRC ofClass:NSNumber.class error:nil];
 }
 
 @end

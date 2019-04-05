@@ -48,7 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)moduleName {
-    return [store sdl_objectForName:SDLRPCParameterNameModuleName];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameModuleName ofClass:NSString.class error:&error];
 }
 
 - (void)setHeatingEnabledAvailable:(nullable NSNumber<SDLBool> *)heatingEnabledAvailable {
@@ -56,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)heatingEnabledAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameHeatingEnabledAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameHeatingEnabledAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setCoolingEnabledAvailable:(nullable NSNumber<SDLBool> *)coolingEnabledAvailable {
@@ -65,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)coolingEnabledAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameCoolingEnabledAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameCoolingEnabledAvailable ofClass:NSNumber.class error:nil];
 
 }
 
@@ -75,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)heatingLevelAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameHeatingLevelAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameHeatingLevelAvailable ofClass:NSNumber.class error:nil];
 
 }
 
@@ -85,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)coolingLevelAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameCoolingLevelAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameCoolingLevelAvailable ofClass:NSNumber.class error:nil];
 
 }
 
@@ -95,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)horizontalPositionAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameHorizontalPositionAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameHorizontalPositionAvailable ofClass:NSNumber.class error:nil];
 
 }
 
@@ -105,7 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)verticalPositionAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameVerticalPositionAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameVerticalPositionAvailable ofClass:NSNumber.class error:nil];
 
 }
 
@@ -115,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)frontVerticalPositionAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameFrontVerticalPositionAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameFrontVerticalPositionAvailable ofClass:NSNumber.class error:nil];
 
 }
 
@@ -125,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)backVerticalPositionAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameBackVerticalPositionAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameBackVerticalPositionAvailable ofClass:NSNumber.class error:nil];
 
 }
 
@@ -135,7 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)backTiltAngleAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameBackTiltAngleAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameBackTiltAngleAvailable ofClass:NSNumber.class error:nil];
 
 }
 
@@ -145,7 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)headSupportHorizontalPositionAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameHeadSupportHorizontalPositionAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameHeadSupportHorizontalPositionAvailable ofClass:NSNumber.class error:nil];
 
 }
 
@@ -155,7 +156,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)headSupportVerticalPositionAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameHeadSupportVerticalPositionAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameHeadSupportVerticalPositionAvailable ofClass:NSNumber.class error:nil];
 
 }
 
@@ -165,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)massageEnabledAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameMassageEnabledAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameMassageEnabledAvailable ofClass:NSNumber.class error:nil];
 
 }
 
@@ -175,7 +176,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)massageModeAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameMassageModeAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameMassageModeAvailable ofClass:NSNumber.class error:nil];
 
 }
 
@@ -185,7 +186,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)massageCushionFirmnessAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameMassageCushionFirmnessAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameMassageCushionFirmnessAvailable ofClass:NSNumber.class error:nil];
 
 }
 
@@ -195,7 +196,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)memoryAvailable {
-    return [store sdl_objectForName:SDLRPCParameterNameMemoryAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameMemoryAvailable ofClass:NSNumber.class error:nil];
 }
 
 @end

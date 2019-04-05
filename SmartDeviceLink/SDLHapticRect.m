@@ -32,7 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)id {
-    return [store sdl_objectForName:SDLRPCParameterNameId];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setRect:(SDLRectangle *)rect {
@@ -40,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLRectangle *)rect {
-    return [store sdl_objectForName:SDLRPCParameterNameRect ofClass:SDLRectangle.class];
+    return [store sdl_objectForName:SDLRPCParameterNameRect ofClass:SDLRectangle.class error:nil];
 }
 
 @end

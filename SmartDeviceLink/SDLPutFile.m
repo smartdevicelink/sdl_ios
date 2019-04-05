@@ -88,7 +88,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)syncFileName {
-    return [parameters sdl_objectForName:SDLRPCParameterNameSyncFileName];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameSyncFileName ofClass:NSString.class error:&error];
 }
 
 - (void)setFileType:(SDLFileType)fileType {
@@ -96,7 +97,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLFileType)fileType {
-    return [parameters sdl_objectForName:SDLRPCParameterNameFileType];
+    NSError *error = nil;
+    return [parameters sdl_enumForName:SDLRPCParameterNameFileType error:&error];
 }
 
 - (void)setPersistentFile:(nullable NSNumber<SDLBool> *)persistentFile {
@@ -104,7 +106,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)persistentFile {
-    return [parameters sdl_objectForName:SDLRPCParameterNamePersistentFile];
+    return [parameters sdl_objectForName:SDLRPCParameterNamePersistentFile ofClass:NSNumber.class error:nil];
 }
 
 - (void)setSystemFile:(nullable NSNumber<SDLBool> *)systemFile {
@@ -112,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)systemFile {
-    return [parameters sdl_objectForName:SDLRPCParameterNameSystemFile];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSystemFile ofClass:NSNumber.class error:nil];
 }
 
 - (void)setOffset:(nullable NSNumber<SDLUInt> *)offset {
@@ -120,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLUInt> *)offset {
-    return [parameters sdl_objectForName:SDLRPCParameterNameOffset];
+    return [parameters sdl_objectForName:SDLRPCParameterNameOffset ofClass:NSNumber.class error:nil];
 }
 
 - (void)setLength:(nullable NSNumber<SDLUInt> *)length {
@@ -128,7 +130,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLUInt> *)length {
-    return [parameters sdl_objectForName:SDLRPCParameterNameLength];
+    return [parameters sdl_objectForName:SDLRPCParameterNameLength ofClass:NSNumber.class error:nil];
 }
 
 - (void)setCrc:(nullable NSNumber<SDLUInt> *)crc {
@@ -136,7 +138,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLUInt> *)crc {
-    return [parameters sdl_objectForName:SDLRPCParameterNameCRC];
+    return [parameters sdl_objectForName:SDLRPCParameterNameCRC ofClass:NSNumber.class error:nil];
 }
 
 #pragma mark - Helpers

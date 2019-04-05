@@ -17,7 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLTextFieldName)name {
-    return [store sdl_objectForName:SDLRPCParameterNameName];
+    NSError *error = nil;
+    return [store sdl_enumForName:SDLRPCParameterNameName error:&error];
 }
 
 - (void)setCharacterSet:(SDLCharacterSet)characterSet {
@@ -25,7 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLCharacterSet)characterSet {
-    return [store sdl_objectForName:SDLRPCParameterNameCharacterSet];
+    NSError *error = nil;
+    return [store sdl_enumForName:SDLRPCParameterNameCharacterSet error:&error];
 }
 
 - (void)setWidth:(NSNumber<SDLInt> *)width {
@@ -33,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)width {
-    return [store sdl_objectForName:SDLRPCParameterNameWidth];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameWidth ofClass:NSNumber.class error:&error];
 }
 
 - (void)setRows:(NSNumber<SDLInt> *)rows {
@@ -41,7 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)rows {
-    return [store sdl_objectForName:SDLRPCParameterNameRows];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameRows ofClass:NSNumber.class error:&error];
 }
 
 @end

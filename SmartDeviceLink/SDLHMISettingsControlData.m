@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLDisplayMode)displayMode {
-    return [store sdl_objectForName:SDLRPCParameterNameDisplayMode];
+    return [store sdl_enumForName:SDLRPCParameterNameDisplayMode error:nil];
 }
 
 - (void)setDistanceUnit:(nullable SDLDistanceUnit)distanceUnit {
@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLDistanceUnit)distanceUnit {
-    return [store sdl_objectForName:SDLRPCParameterNameDistanceUnit];
+    return [store sdl_enumForName:SDLRPCParameterNameDistanceUnit error:nil];
 }
 
 - (void)setTemperatureUnit:(nullable SDLTemperatureUnit)temperatureUnit {
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLTemperatureUnit)temperatureUnit {
-    return [store sdl_objectForName:SDLRPCParameterNameTemperatureUnit];
+    return [store sdl_enumForName:SDLRPCParameterNameTemperatureUnit error:nil];
 }
 
 @end

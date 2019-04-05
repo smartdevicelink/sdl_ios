@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLMetadataType> *)mainField1 {
-    return [store sdl_objectForName:SDLRPCParameterNameMainField1];
+    return [store sdl_enumsForName:SDLRPCParameterNameMainField1 error:nil];
 }
 
 - (void)setMainField2:(nullable NSArray<SDLMetadataType> *)mainField2 {
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLMetadataType> *)mainField2 {
-    return [store sdl_objectForName:SDLRPCParameterNameMainField2];
+    return [store sdl_enumsForName:SDLRPCParameterNameMainField2 error:nil];
 }
 
 - (void)setMainField3:(nullable NSArray<SDLMetadataType> *)mainField3 {
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLMetadataType> *)mainField3 {
-    return [store sdl_objectForName:SDLRPCParameterNameMainField3];
+    return [store sdl_enumsForName:SDLRPCParameterNameMainField3 error:nil];
 }
 
 - (void)setMainField4:(nullable NSArray<SDLMetadataType> *)mainField4 {
@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLMetadataType> *)mainField4 {
-    return [store sdl_objectForName:SDLRPCParameterNameMainField4];
+    return [store sdl_enumsForName:SDLRPCParameterNameMainField4 error:nil];
 }
 
 @end

@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLWayPointType)waypointType {
-    return [parameters sdl_objectForName:SDLRPCParameterNameWayPointType];
+    return [parameters sdl_enumForName:SDLRPCParameterNameWayPointType error:nil];
 }
 
 @end

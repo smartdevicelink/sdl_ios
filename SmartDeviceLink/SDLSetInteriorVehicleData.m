@@ -33,8 +33,9 @@ NS_ASSUME_NONNULL_BEGIN
     [parameters sdl_setObject:moduleData forName:SDLRPCParameterNameModuleData];
 }
 
-- (SDLModuleData *)moduleData {    
-    return [parameters sdl_objectForName:SDLRPCParameterNameModuleData ofClass:SDLModuleData.class];
+- (SDLModuleData *)moduleData {
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameModuleData ofClass:SDLModuleData.class error:&error];
 }
 
 @end

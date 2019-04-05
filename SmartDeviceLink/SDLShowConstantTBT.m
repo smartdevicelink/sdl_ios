@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)navigationText1 {
-    return [parameters sdl_objectForName:SDLRPCParameterNameNavigationText1];
+    return [parameters sdl_objectForName:SDLRPCParameterNameNavigationText1 ofClass:NSString.class error:nil];
 }
 
 - (void)setNavigationText2:(nullable NSString *)navigationText2 {
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)navigationText2 {
-    return [parameters sdl_objectForName:SDLRPCParameterNameNavigationText2];
+    return [parameters sdl_objectForName:SDLRPCParameterNameNavigationText2 ofClass:NSString.class error:nil];
 }
 
 - (void)setEta:(nullable NSString *)eta {
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)eta {
-    return [parameters sdl_objectForName:SDLRPCParameterNameETA];
+    return [parameters sdl_objectForName:SDLRPCParameterNameETA ofClass:NSString.class error:nil];
 }
 
 - (void)setTimeToDestination:(nullable NSString *)timeToDestination {
@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)timeToDestination {
-    return [parameters sdl_objectForName:SDLRPCParameterNameTimeToDestination];
+    return [parameters sdl_objectForName:SDLRPCParameterNameTimeToDestination ofClass:NSString.class error:nil];
 }
 
 - (void)setTotalDistance:(nullable NSString *)totalDistance {
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)totalDistance {
-    return [parameters sdl_objectForName:SDLRPCParameterNameTotalDistance];
+    return [parameters sdl_objectForName:SDLRPCParameterNameTotalDistance ofClass:NSString.class error:nil];
 }
 
 - (void)setTurnIcon:(nullable SDLImage *)turnIcon {
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLImage *)turnIcon {
-    return [parameters sdl_objectForName:SDLRPCParameterNameTurnIcon ofClass:SDLImage.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameTurnIcon ofClass:SDLImage.class error:nil];
 }
 
 - (void)setNextTurnIcon:(nullable SDLImage *)nextTurnIcon {
@@ -94,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLImage *)nextTurnIcon {
-    return [parameters sdl_objectForName:SDLRPCParameterNameNextTurnIcon ofClass:SDLImage.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameNextTurnIcon ofClass:SDLImage.class error:nil];
 }
 
 - (void)setDistanceToManeuver:(nullable NSNumber<SDLFloat> *)distanceToManeuver {
@@ -102,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)distanceToManeuver {
-    return [parameters sdl_objectForName:SDLRPCParameterNameDistanceToManeuver];
+    return [parameters sdl_objectForName:SDLRPCParameterNameDistanceToManeuver ofClass:NSNumber.class error:nil];
 }
 
 - (void)setDistanceToManeuverScale:(nullable NSNumber<SDLFloat> *)distanceToManeuverScale {
@@ -110,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLFloat> *)distanceToManeuverScale {
-    return [parameters sdl_objectForName:SDLRPCParameterNameDistanceToManeuverScale];
+    return [parameters sdl_objectForName:SDLRPCParameterNameDistanceToManeuverScale ofClass:NSNumber.class error:nil];
 }
 
 - (void)setManeuverComplete:(nullable NSNumber<SDLBool> *)maneuverComplete {
@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)maneuverComplete {
-    return [parameters sdl_objectForName:SDLRPCParameterNameManeuverComplete];
+    return [parameters sdl_objectForName:SDLRPCParameterNameManeuverComplete ofClass:NSNumber.class error:nil];
 }
 
 - (void)setSoftButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
@@ -126,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLSoftButton *> *)softButtons {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameSoftButtons ofClass:SDLSoftButton.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameSoftButtons ofClass:SDLSoftButton.class error:nil];
 }
 
 @end

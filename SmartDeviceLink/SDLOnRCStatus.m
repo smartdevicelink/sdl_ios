@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)allowed {
-    return [parameters sdl_objectForName:SDLRPCParameterNameAllowed];
+    return [parameters sdl_objectForName:SDLRPCParameterNameAllowed ofClass:NSNumber.class error:nil];
 }
 
 - (void)setAllowed:(nullable NSNumber<SDLBool> *)allowed {
@@ -32,7 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLModuleData *> *)allocatedModules {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameAllocatedModules ofClass:SDLModuleData.class];
+    NSError *error = nil;
+    return [parameters sdl_objectsForName:SDLRPCParameterNameAllocatedModules ofClass:SDLModuleData.class error:&error];
 }
 
 - (void)setFreeModules:(NSArray<SDLModuleData *> *)freeModules {
@@ -40,7 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLModuleData *> *)freeModules {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameFreeModules ofClass:SDLModuleData.class];
+    NSError *error = nil;
+    return [parameters sdl_objectsForName:SDLRPCParameterNameFreeModules ofClass:SDLModuleData.class error:&error];
 }
 
 @end

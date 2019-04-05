@@ -49,7 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLLanguage)language {
-    return [parameters sdl_objectForName:SDLRPCParameterNameLanguage];
+    NSError *error = nil;
+    return [parameters sdl_enumForName:SDLRPCParameterNameLanguage error:&error];
 }
 
 - (void)setHmiDisplayLanguage:(SDLLanguage )hmiDisplayLanguage {
@@ -57,7 +58,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLLanguage)hmiDisplayLanguage {
-    return [parameters sdl_objectForName:SDLRPCParameterNameHMIDisplayLanguage];
+    NSError *error = nil;
+    return [parameters sdl_enumForName:SDLRPCParameterNameHMIDisplayLanguage error:&error];
 }
 
 - (void)setAppName:(nullable NSString *)appName {
@@ -65,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)appName {
-    return [[parameters sdl_objectForName:SDLRPCParameterNameAppName] copy];
+    return [[parameters sdl_objectForName:SDLRPCParameterNameAppName ofClass:NSString.class error:nil] copy];
 }
 
 - (void)setTtsName:(nullable NSArray<SDLTTSChunk *> *)ttsName {
@@ -73,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLTTSChunk *> *)ttsName {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameTTSName ofClass:SDLTTSChunk.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameTTSName ofClass:SDLTTSChunk.class error:nil];
 }
 
 - (void)setNgnMediaScreenAppName:(nullable NSString *)ngnMediaScreenAppName {
@@ -81,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)ngnMediaScreenAppName {
-    return [parameters sdl_objectForName:SDLRPCParameterNameNGNMediaScreenAppName];
+    return [parameters sdl_objectForName:SDLRPCParameterNameNGNMediaScreenAppName ofClass:NSString.class error:nil];
 }
 
 - (void)setVrSynonyms:(nullable NSArray<NSString *> *)vrSynonyms {
@@ -89,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)vrSynonyms {
-    return [parameters sdl_objectForName:SDLRPCParameterNameVRSynonyms];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameVRSynonyms ofClass:NSString.class error:nil];
 }
 
 @end

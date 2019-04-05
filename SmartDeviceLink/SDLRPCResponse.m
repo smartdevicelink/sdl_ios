@@ -37,7 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)correlationID {
-    return [function sdl_objectForName:SDLRPCParameterNameCorrelationId];
+    NSError *error = nil;
+    return [function sdl_objectForName:SDLRPCParameterNameCorrelationId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {
@@ -49,7 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLBool> *)success {
-    return [parameters sdl_objectForName:SDLRPCParameterNameSuccess];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameSuccess ofClass:NSNumber.class error:&error];
 }
 
 - (void)setResultCode:(SDLResult)resultCode {
@@ -57,7 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLResult)resultCode {
-    return [parameters sdl_objectForName:SDLRPCParameterNameResultCode];
+    NSError *error = nil;
+    return [parameters sdl_enumForName:SDLRPCParameterNameResultCode error:&error];
 }
 
 - (void)setInfo:(nullable NSString *)info {
@@ -65,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)info {
-    return [parameters sdl_objectForName:SDLRPCParameterNameInfo];
+    return [parameters sdl_objectForName:SDLRPCParameterNameInfo ofClass:NSString.class error:nil];
 }
 
 @end

@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLRGBColor *)primaryColor {
-    return [store sdl_objectForName:SDLRPCParameterNamePrimaryColor ofClass:[SDLRGBColor class]];
+    return [store sdl_objectForName:SDLRPCParameterNamePrimaryColor ofClass:SDLRGBColor.class error:nil];
 }
 
 - (void)setSecondaryColor:(nullable SDLRGBColor *)secondaryColor {
@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLRGBColor *)secondaryColor {
-    return [store sdl_objectForName:SDLRPCParameterNameSecondaryColor ofClass:[SDLRGBColor class]];
+    return [store sdl_objectForName:SDLRPCParameterNameSecondaryColor ofClass:SDLRGBColor.class error:nil];
 }
 
 - (void)setBackgroundColor:(nullable SDLRGBColor *)backgroundColor {
@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLRGBColor *)backgroundColor {
-    return [store sdl_objectForName:SDLRPCParameterNameBackgroundColor ofClass:[SDLRGBColor class]];
+    return [store sdl_objectForName:SDLRPCParameterNameBackgroundColor ofClass:SDLRGBColor.class error:nil];
 }
 
 @end

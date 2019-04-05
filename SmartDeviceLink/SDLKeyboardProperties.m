@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLLanguage)language {
-    return [store sdl_objectForName:SDLRPCParameterNameLanguage];
+    return [store sdl_enumForName:SDLRPCParameterNameLanguage error:nil];
 }
 
 - (void)setKeyboardLayout:(nullable SDLKeyboardLayout)keyboardLayout {
@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLKeyboardLayout)keyboardLayout {
-    return [store sdl_objectForName:SDLRPCParameterNameKeyboardLayout];
+    return [store sdl_enumForName:SDLRPCParameterNameKeyboardLayout error:nil];
 }
 
 - (void)setKeypressMode:(nullable SDLKeypressMode)keypressMode {
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLKeypressMode)keypressMode {
-    return [store sdl_objectForName:SDLRPCParameterNameKeypressMode];
+    return [store sdl_enumForName:SDLRPCParameterNameKeypressMode error:nil];
 }
 
 - (void)setLimitedCharacterList:(nullable NSArray<NSString *> *)limitedCharacterList {
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)limitedCharacterList {
-    return [store sdl_objectForName:SDLRPCParameterNameLimitedCharacterList];
+    return [store sdl_objectsForName:SDLRPCParameterNameLimitedCharacterList ofClass:NSString.class error:nil];
 }
 
 - (void)setAutoCompleteText:(nullable NSString *)autoCompleteText {
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)autoCompleteText {
-    return [store sdl_objectForName:SDLRPCParameterNameAutoCompleteText];
+    return [store sdl_objectForName:SDLRPCParameterNameAutoCompleteText ofClass:NSString.class error:nil];
 }
 
 @end

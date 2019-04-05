@@ -22,8 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLKeyboardEvent)event {
-    NSObject *obj = [parameters sdl_objectForName:SDLRPCParameterNameEvent];
-    return (SDLKeyboardEvent)obj;
+    NSError *error = nil;
+    return [parameters sdl_enumForName:SDLRPCParameterNameEvent error:&error];
 }
 
 - (void)setData:(nullable NSString *)data {
@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)data {
-    return [parameters sdl_objectForName:SDLRPCParameterNameData];
+    return [parameters sdl_objectForName:SDLRPCParameterNameData ofClass:NSString.class error:nil];
 }
 
 @end

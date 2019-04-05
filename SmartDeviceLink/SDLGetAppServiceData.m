@@ -57,7 +57,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)serviceType {
-    return [parameters sdl_objectForName:SDLRPCParameterNameServiceType];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameServiceType ofClass:NSString.class error:&error];
 }
 
 - (void)setSubscribe:(nullable NSNumber<SDLBool> *)subscribe {
@@ -65,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLBool> *)subscribe {
-    return [parameters sdl_objectForName:SDLRPCParameterNameSubscribe];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSubscribe ofClass:NSNumber.class error:nil];
 }
 
 @end

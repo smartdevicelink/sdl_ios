@@ -114,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLStartTime *)startTime {
-    return [parameters sdl_objectForName:SDLRPCParameterNameStartTime ofClass:SDLStartTime.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameStartTime ofClass:SDLStartTime.class error:nil];
 }
 
 - (void)setEndTime:(nullable SDLStartTime *)endTime {
@@ -122,7 +122,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLStartTime *)endTime {
-    return [parameters sdl_objectForName:SDLRPCParameterNameEndTime ofClass:SDLStartTime.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameEndTime ofClass:SDLStartTime.class error:nil];
 }
 
 - (void)setUpdateMode:(SDLUpdateMode)updateMode {
@@ -130,7 +130,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLUpdateMode)updateMode {
-    return [parameters sdl_objectForName:SDLRPCParameterNameUpdateMode];
+    NSError *error = nil;
+    return [parameters sdl_enumForName:SDLRPCParameterNameUpdateMode error:&error];
 }
 
 - (void)setAudioStreamingIndicator:(nullable SDLAudioStreamingIndicator)audioStreamingIndicator {
@@ -138,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLAudioStreamingIndicator)audioStreamingIndicator {
-    return [parameters sdl_objectForName:SDLRPCParameterNameAudioStreamingIndicator];
+    return [parameters sdl_enumForName:SDLRPCParameterNameAudioStreamingIndicator error:nil];
 }
 
 @end

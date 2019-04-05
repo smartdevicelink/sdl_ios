@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)navigationText {
-    return [store sdl_objectForName:SDLRPCParameterNameNavigationText];
+    return [store sdl_objectForName:SDLRPCParameterNameNavigationText ofClass:NSString.class error:nil];
 }
 
 - (void)setTurnIcon:(nullable SDLImage *)turnIcon {
@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLImage *)turnIcon {
-    return [store sdl_objectForName:SDLRPCParameterNameTurnIcon ofClass:SDLImage.class];
+    return [store sdl_objectForName:SDLRPCParameterNameTurnIcon ofClass:SDLImage.class error:nil];
 }
 
 @end

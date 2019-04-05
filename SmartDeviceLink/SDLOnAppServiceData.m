@@ -39,7 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLAppServiceData *)serviceData {
-    return [parameters sdl_objectForName:SDLRPCParameterNameServiceData ofClass:SDLAppServiceData.class];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameServiceData ofClass:SDLAppServiceData.class error:&error];
 }
 
 @end

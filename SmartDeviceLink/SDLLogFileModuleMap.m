@@ -44,7 +44,7 @@
 }
 
 + (SDLLogFileModule *)sdl_rpcModule {
-    return [SDLLogFileModule moduleWithName:@"RPC" files:[NSSet setWithArray:@[@"SDLRPCPayload"]]];
+    return [SDLLogFileModule moduleWithName:@"RPC" files:[NSSet setWithArray:@[@"SDLRPCPayload", @"NSMutableDictionary+Store"]]];
 }
 
 + (SDLLogFileModule *)sdl_dispatcherModule {

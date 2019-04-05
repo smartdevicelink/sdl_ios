@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLVehicleDataResultCode)resultCode {
-    return [store sdl_objectForName:SDLRPCParameterNameResultCode];
+    NSError *error = nil;
+    return [store sdl_enumForName:SDLRPCParameterNameResultCode error:&error];
 }
 
 - (void)setDidLocation:(NSNumber<SDLInt> *)didLocation {
@@ -23,7 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)didLocation {
-    return [store sdl_objectForName:SDLRPCParameterNameDIDLocation];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameDIDLocation ofClass:NSNumber.class error:&error];
 }
 
 - (void)setData:(nullable NSString *)data {
@@ -31,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)data {
-    return [store sdl_objectForName:SDLRPCParameterNameData];
+    return [store sdl_objectForName:SDLRPCParameterNameData ofClass:NSString.class error:nil];
 }
 
 @end

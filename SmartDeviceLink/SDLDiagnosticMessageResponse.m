@@ -22,7 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<NSNumber<SDLInt> *> *)messageDataResult {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMessageDataResult];
+    NSError *error = nil;
+    return [parameters sdl_objectsForName:SDLRPCParameterNameMessageDataResult ofClass:NSNumber.class error:&error];
 }
 
 @end

@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSNumber<SDLInt> *)sliderPosition {
-    return [parameters sdl_objectForName:SDLRPCParameterNameSliderPosition];
+    return [parameters sdl_objectForName:SDLRPCParameterNameSliderPosition ofClass:NSNumber.class error:nil];
 }
 
 @end

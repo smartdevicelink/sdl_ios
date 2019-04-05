@@ -107,7 +107,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)cmdID {
-    return [parameters sdl_objectForName:SDLRPCParameterNameCommandId];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameCommandId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setMenuParams:(nullable SDLMenuParams *)menuParams {
@@ -115,7 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLMenuParams *)menuParams {
-    return [parameters sdl_objectForName:SDLRPCParameterNameMenuParams ofClass:SDLMenuParams.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameMenuParams ofClass:SDLMenuParams.class error:nil];
 }
 
 - (void)setVrCommands:(nullable NSArray<NSString *> *)vrCommands {
@@ -123,7 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)vrCommands {
-    return [parameters sdl_objectForName:SDLRPCParameterNameVRCommands];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameVRCommands ofClass:NSString.class error:nil];
 }
 
 - (void)setCmdIcon:(nullable SDLImage *)cmdIcon {
@@ -131,7 +132,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLImage *)cmdIcon {
-    return [parameters sdl_objectForName:SDLRPCParameterNameCommandIcon ofClass:SDLImage.class];
+    return [parameters sdl_objectForName:SDLRPCParameterNameCommandIcon ofClass:SDLImage.class error:nil];
 }
 
 -(id)copyWithZone:(nullable NSZone *)zone {

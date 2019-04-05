@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLLocationCoordinate *)coordinate {
-    return [store sdl_objectForName:SDLRPCParameterNameLocationCoordinate ofClass:SDLLocationCoordinate.class];
+    return [store sdl_objectForName:SDLRPCParameterNameLocationCoordinate ofClass:SDLLocationCoordinate.class error:nil];
 }
 
 - (void)setLocationName:(nullable NSString *)locationName {
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)locationName {
-    return [store sdl_objectForName:SDLRPCParameterNameLocationName];
+    return [store sdl_objectForName:SDLRPCParameterNameLocationName ofClass:NSString.class error:nil];
 }
 
 - (void)setAddressLines:(nullable NSArray<NSString *> *)addressLines {
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<NSString *> *)addressLines {
-    return [store sdl_objectForName:SDLRPCParameterNameAddressLines];
+    return [store sdl_objectsForName:SDLRPCParameterNameAddressLines ofClass:NSString.class error:nil];
 }
 
 - (void)setLocationDescription:(nullable NSString *)locationDescription {
@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)locationDescription {
-    return [store sdl_objectForName:SDLRPCParameterNameLocationDescription];
+    return [store sdl_objectForName:SDLRPCParameterNameLocationDescription ofClass:NSString.class error:nil];
 }
 
 - (void)setPhoneNumber:(nullable NSString *)phoneNumber {
@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSString *)phoneNumber {
-    return [store sdl_objectForName:SDLRPCParameterNamePhoneNumber];
+    return [store sdl_objectForName:SDLRPCParameterNamePhoneNumber ofClass:NSString.class error:nil];
 }
 
 - (void)setLocationImage:(nullable SDLImage *)locationImage {
@@ -85,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLImage *)locationImage {
-    return [store sdl_objectForName:SDLRPCParameterNameLocationImage ofClass:SDLImage.class];
+    return [store sdl_objectForName:SDLRPCParameterNameLocationImage ofClass:SDLImage.class error:nil];
 }
 
 - (void)setSearchAddress:(nullable SDLOasisAddress *)searchAddress {
@@ -93,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLOasisAddress *)searchAddress {
-    return [store sdl_objectForName:SDLRPCParameterNameSearchAddress ofClass:SDLOasisAddress.class];
+    return [store sdl_objectForName:SDLRPCParameterNameSearchAddress ofClass:SDLOasisAddress.class error:nil];
 }
 
 @end

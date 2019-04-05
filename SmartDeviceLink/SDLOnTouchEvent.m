@@ -23,8 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLTouchType)type {
-    NSObject *obj = [parameters sdl_objectForName:SDLRPCParameterNameType];
-    return (SDLTouchType)obj;
+    NSError *error = nil;
+    return [parameters sdl_enumForName:SDLRPCParameterNameType error:&error];
 }
 
 - (void)setEvent:(NSArray<SDLTouchEvent *> *)event {
@@ -32,7 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSArray<SDLTouchEvent *> *)event {
-    return [parameters sdl_objectsForName:SDLRPCParameterNameEvent ofClass:SDLTouchEvent.class];
+    NSError *error = nil;
+    return [parameters sdl_objectsForName:SDLRPCParameterNameEvent ofClass:SDLTouchEvent.class error:&error];
 }
 
 @end

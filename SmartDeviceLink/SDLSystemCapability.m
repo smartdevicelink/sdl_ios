@@ -86,7 +86,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLSystemCapabilityType)systemCapabilityType {
-    return [store sdl_objectForName:SDLRPCParameterNameSystemCapabilityType];
+    NSError *error = nil;
+    return [store sdl_enumForName:SDLRPCParameterNameSystemCapabilityType error:&error];
 }
 
 - (void)setAppServicesCapabilities:(nullable SDLAppServicesCapabilities *)appServicesCapabilities {
@@ -94,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLAppServicesCapabilities *)appServicesCapabilities {
-    return [store sdl_objectForName:SDLRPCParameterNameAppServicesCapabilities ofClass:SDLAppServicesCapabilities.class];
+    return [store sdl_objectForName:SDLRPCParameterNameAppServicesCapabilities ofClass:SDLAppServicesCapabilities.class error:nil];
 }
 
 - (void)setNavigationCapability:(nullable SDLNavigationCapability *)navigationCapability {
@@ -102,7 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLNavigationCapability *)navigationCapability {
-    return [store sdl_objectForName:SDLRPCParameterNameNavigationCapability ofClass:SDLNavigationCapability.class];
+    return [store sdl_objectForName:SDLRPCParameterNameNavigationCapability ofClass:SDLNavigationCapability.class error:nil];
 }
 
 - (void)setPhoneCapability:(nullable SDLPhoneCapability *)phoneCapability {
@@ -110,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLPhoneCapability *)phoneCapability {
-    return [store sdl_objectForName:SDLRPCParameterNamePhoneCapability ofClass:SDLPhoneCapability.class];
+    return [store sdl_objectForName:SDLRPCParameterNamePhoneCapability ofClass:SDLPhoneCapability.class error:nil];
 }
 
 - (void)setVideoStreamingCapability:(nullable SDLVideoStreamingCapability *)videoStreamingCapability {
@@ -118,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLVideoStreamingCapability *)videoStreamingCapability {
-    return [store sdl_objectForName:SDLRPCParameterNameVideoStreamingCapability ofClass:SDLVideoStreamingCapability.class];
+    return [store sdl_objectForName:SDLRPCParameterNameVideoStreamingCapability ofClass:SDLVideoStreamingCapability.class error:nil];
 }
 
 - (void)setRemoteControlCapability:(nullable SDLRemoteControlCapabilities *)remoteControlCapability {
@@ -126,7 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable SDLRemoteControlCapabilities *)remoteControlCapability {
-    return [store sdl_objectForName:SDLRPCParameterNameRemoteControlCapability ofClass:SDLRemoteControlCapabilities.class];
+    return [store sdl_objectForName:SDLRPCParameterNameRemoteControlCapability ofClass:SDLRemoteControlCapabilities.class error:nil];
 }
 
 @end

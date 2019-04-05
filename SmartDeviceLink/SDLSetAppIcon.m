@@ -32,7 +32,8 @@
 }
 
 - (NSString *)syncFileName {
-    return [parameters sdl_objectForName:SDLRPCParameterNameSyncFileName];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameSyncFileName ofClass:NSString.class error:&error];
 }
 
 @end

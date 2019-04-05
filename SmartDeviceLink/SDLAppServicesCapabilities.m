@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (nullable NSArray<SDLAppServiceCapability *> *)appServices {
-    return [store sdl_objectsForName:SDLRPCParameterNameAppServices ofClass:SDLAppServiceCapability.class];
+    return [store sdl_objectsForName:SDLRPCParameterNameAppServices ofClass:SDLAppServiceCapability.class error:nil];
 }
 
 @end

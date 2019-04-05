@@ -45,7 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)red {
-    return [store sdl_objectForName:SDLRPCParameterNameRed];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameRed ofClass:NSNumber.class error:&error];
 }
 
 - (void)setGreen:(NSNumber<SDLInt> *)green {
@@ -53,7 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)green {
-    return [store sdl_objectForName:SDLRPCParameterNameGreen];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameGreen ofClass:NSNumber.class error:&error];
 }
 
 - (void)setBlue:(NSNumber<SDLInt> *)blue {
@@ -61,7 +63,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSNumber<SDLInt> *)blue {
-    return [store sdl_objectForName:SDLRPCParameterNameBlue];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameBlue ofClass:NSNumber.class error:&error];
 }
 
 @end
