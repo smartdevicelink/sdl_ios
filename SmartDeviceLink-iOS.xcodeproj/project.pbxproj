@@ -452,7 +452,6 @@
 		5D1FF2C7213045F2000EB9B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C5213045F1000EB9B4 /* Images.xcassets */; };
 		5D1FF2CA2130463F000EB9B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2C92130463F000EB9B4 /* AppDelegate.m */; };
 		5D1FF2CC2130464E000EB9B4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2CB2130464D000EB9B4 /* main.m */; };
-		5D1FF2CE21304654000EB9B4 /* SmartDeviceLink-Example-ObjC-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2CD21304654000EB9B4 /* SmartDeviceLink-Example-ObjC-Info.plist */; };
 		5D1FF2D12130466D000EB9B4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2CF2130466D000EB9B4 /* LaunchScreen.xib */; };
 		5D1FF2DA21304746000EB9B4 /* ButtonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2D221304745000EB9B4 /* ButtonManager.swift */; };
 		5D1FF2DB21304746000EB9B4 /* ProxyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2D321304745000EB9B4 /* ProxyManager.swift */; };
@@ -473,7 +472,6 @@
 		5D1FF2F3213047AB000EB9B4 /* ConnectionTCPTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2F0213047AB000EB9B4 /* ConnectionTCPTableViewController.storyboard */; };
 		5D1FF2F5213047B3000EB9B4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2F4213047B2000EB9B4 /* LaunchScreen.xib */; };
 		5D1FF2F8213047C1000EB9B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2F7213047C1000EB9B4 /* AppDelegate.swift */; };
-		5D1FF2FA2130480C000EB9B4 /* SmartDeviceLink-Example-Swift-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5D1FF2F92130480C000EB9B4 /* SmartDeviceLink-Example-Swift-Info.plist */; };
 		5D293AFE1FE078A9000CBD7E /* SDLCarWindowViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D293AFC1FE078A9000CBD7E /* SDLCarWindowViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D293AFF1FE078A9000CBD7E /* SDLCarWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D293AFD1FE078A9000CBD7E /* SDLCarWindowViewController.m */; };
 		5D2F58081D0717D5001085CE /* SDLManagerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D2F58071D0717D5001085CE /* SDLManagerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -6689,7 +6687,7 @@
 					};
 					5D61FA251A84237100846EE7 = {
 						CreatedOnToolsVersion = 6.1.1;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = 1020;
 					};
 					8829567D207CF68800EF056C = {
 						LastSwiftMigration = 0930;
@@ -6698,7 +6696,7 @@
 			};
 			buildConfigurationList = 5D4019AA1A76EC350006B0C2 /* Build configuration list for PBXProject "SmartDeviceLink-iOS" */;
 			compatibilityVersion = "Xcode 8.0";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				English,
@@ -6734,7 +6732,6 @@
 				5D1FF2C6213045F2000EB9B4 /* Images.xcassets in Resources */,
 				5D1FF2B021304568000EB9B4 /* Main.storyboard in Resources */,
 				5D1FF2D12130466D000EB9B4 /* LaunchScreen.xib in Resources */,
-				5D1FF2CE21304654000EB9B4 /* SmartDeviceLink-Example-ObjC-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6770,7 +6767,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D1FF2F1213047AB000EB9B4 /* Main.storyboard in Resources */,
-				5D1FF2FA2130480C000EB9B4 /* SmartDeviceLink-Example-Swift-Info.plist in Resources */,
 				5D1FF2F3213047AB000EB9B4 /* ConnectionTCPTableViewController.storyboard in Resources */,
 				5D1FF2C7213045F2000EB9B4 /* Images.xcassets in Resources */,
 				5D1FF2F5213047B3000EB9B4 /* LaunchScreen.xib in Resources */,
@@ -8123,7 +8119,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.smartdevicelink.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -8154,8 +8150,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.smartdevicelink.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

@@ -24,7 +24,7 @@ describe(@"RPCDictionary Tests", ^ {
                                          @"Floor": @"Wax",
                                          @"Wax": @"Museum"};
         SDLV1ProtocolMessage* testMessage = [[SDLV1ProtocolMessage alloc] initWithHeader:testHeader andPayload:[NSJSONSerialization dataWithJSONObject:testDictionary options:0 error:0]];
-        
+
         expect([testMessage rpcDictionary]).to(equal(testDictionary));
     });
 });
