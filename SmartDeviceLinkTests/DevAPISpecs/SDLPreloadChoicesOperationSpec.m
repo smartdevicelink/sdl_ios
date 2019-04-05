@@ -198,7 +198,7 @@ describe(@"a preload choices operation", ^{
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
 
                     expect(receivedRequests).to(haveCount(3));
-                    expect(receivedRequests.lastObject.choiceSet.firstObject.menuName).to(beNil());
+                    expect(receivedRequests.lastObject.choiceSet.firstObject.menuName).toNot(beNil());
                     expect(receivedRequests.lastObject.choiceSet.firstObject.secondaryText).to(beNil());
                     expect(receivedRequests.lastObject.choiceSet.firstObject.tertiaryText).to(beNil());
                     expect(receivedRequests.lastObject.choiceSet.firstObject.vrCommands).toNot(beNil());
@@ -269,7 +269,7 @@ describe(@"a preload choices operation", ^{
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
 
                     expect(receivedRequests).to(haveCount(3));
-                    expect(receivedRequests.lastObject.choiceSet.firstObject.menuName).to(beNil());
+                    expect(receivedRequests.lastObject.choiceSet.firstObject.menuName).toNot(beNil());
                     expect(receivedRequests.lastObject.choiceSet.firstObject.secondaryText).to(beNil());
                     expect(receivedRequests.lastObject.choiceSet.firstObject.tertiaryText).to(beNil());
                     expect(receivedRequests.lastObject.choiceSet.firstObject.vrCommands).to(beNil());
