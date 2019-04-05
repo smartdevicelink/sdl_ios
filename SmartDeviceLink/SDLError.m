@@ -228,6 +228,14 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
     return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorUploadFailed userInfo:userInfo];
 }
 
++ (NSError *)sdl_choiceSetManager_failedToCreateMenuItems {
+    NSDictionary<NSString *, NSString *> *userInfo = @{
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Choice Set Manager error", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Choice set manager failed to create menu items do to menuName being empty.", nil),
+                                                       };
+    return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorFailedToCreateMenuItems userInfo:userInfo];
+}
+
 #pragma mark Transport
 
 + (NSError *)sdl_transport_unknownError {

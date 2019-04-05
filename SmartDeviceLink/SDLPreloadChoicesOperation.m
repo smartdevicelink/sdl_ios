@@ -118,9 +118,18 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSMutableArray<SDLCreateInteractionChoiceSet *> *choiceRPCs = [NSMutableArray arrayWithCapacity:self.cellsToUpload.count];
     for (SDLChoiceCell *cell in self.cellsToUpload) {
-        [choiceRPCs addObject:[self sdl_choiceFromCell:cell]];
+        SDLCreateInteractionChoiceSet *csCell =  [self sdl_choiceFromCell:cell];
+        if(csCell != nil) {
+            [choiceRPCs addObject:csCell];
+        }
     }
-
+    
+    if (choiceRPCs.count == 0) {
+         SDLLogE(@"Error choiceRPCs is an empty array");
+        self.internalError = [NSError sdl_choiceSetManager_failedToCreateMenuItems];
+         [self finishOperation];
+    }
+    
     __weak typeof(self) weakSelf = self;
     __block NSMutableDictionary<SDLRPCRequest *, NSError *> *errors = [NSMutableDictionary dictionary];
     [self.connectionManager sendRequests:[choiceRPCs copy] progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
@@ -141,7 +150,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Assembling Choice Data
 
-- (SDLCreateInteractionChoiceSet *)sdl_choiceFromCell:(SDLChoiceCell *)cell {
+- (SDLCreateInteractionChoiceSet * _Nullable )sdl_choiceFromCell:(SDLChoiceCell *)cell {
     NSArray<NSString *> *vrCommands = nil;
     if (cell.voiceCommands == nil) {
         vrCommands = self.isVROptional ? nil : @[[NSString stringWithFormat:@"%hu", cell.choiceId]];
@@ -149,7 +158,12 @@ NS_ASSUME_NONNULL_BEGIN
         vrCommands = cell.voiceCommands;
     }
 
-    NSString *menuName = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameMenuName] ? cell.text : nil;
+   NSString *menuName = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameMenuName] ? cell.text : nil;
+    
+    if(!menuName) {
+        return nil;
+    }
+
     NSString *secondaryText = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameSecondaryText] ? cell.secondaryText : nil;
     NSString *tertiaryText = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameTertiaryText] ? cell.tertiaryText : nil;
 
