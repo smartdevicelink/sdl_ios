@@ -46,7 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLLocationDetails *)location {
-    return [store sdl_objectForName:SDLRPCParameterNameLocation ofClass:SDLLocationDetails.class error:nil];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameLocation ofClass:SDLLocationDetails.class error:&error];
 }
 
 - (void)setCurrentForecast:(nullable SDLWeatherData *)currentForecast {

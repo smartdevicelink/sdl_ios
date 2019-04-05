@@ -56,7 +56,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)appID {
-    return [store sdl_objectForName:SDLRPCParameterNameAppId ofClass:NSString.class error:nil];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameAppId ofClass:NSString.class error:&error];
 }
 
 - (void)setEnabled:(nullable NSNumber<SDLBool> *)enabled {

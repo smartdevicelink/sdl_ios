@@ -40,7 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLAppServiceManifest *)appServiceManifest {
-    return [parameters sdl_objectForName:SDLRPCParameterNameAppServiceManifest ofClass:SDLAppServiceManifest.class error:nil];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameAppServiceManifest ofClass:SDLAppServiceManifest.class error:&error];
 }
 
 @end

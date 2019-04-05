@@ -75,7 +75,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)serviceType {
-    return [store sdl_objectForName:SDLRPCParameterNameServiceType ofClass:NSString.class error:nil];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameServiceType ofClass:NSString.class error:&error];
 }
 
 - (void)setServiceIcon:(nullable SDLImage *)serviceIcon {

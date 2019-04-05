@@ -63,7 +63,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)fileName {
-    return [parameters sdl_objectForName:SDLRPCParameterNameFilename ofClass:NSString.class error:nil];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameFilename ofClass:NSString.class error:&error];
 }
 
 - (void)setAppServiceId:(nullable NSString *)appServiceId {

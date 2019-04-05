@@ -52,7 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (SDLAppServiceRecord *)updatedAppServiceRecord {
-    return [store sdl_objectForName:SDLRPCParameterNameUpdatedAppServiceRecord ofClass:SDLAppServiceRecord.class error:nil];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameUpdatedAppServiceRecord ofClass:SDLAppServiceRecord.class error:&error];
 }
 
 @end
