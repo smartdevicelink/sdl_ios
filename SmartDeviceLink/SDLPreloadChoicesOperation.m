@@ -124,9 +124,10 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
     if (choiceRPCs.count == 0) {
-         SDLLogE(@"Error choiceRPCs is an empty array");
+         SDLLogE(@"All choice cells to send are nil, so the choice set will not be shown");
         self.internalError = [NSError sdl_choiceSetManager_failedToCreateMenuItems];
          [self finishOperation];
+         return;
     }
     
     __weak typeof(self) weakSelf = self;
@@ -149,14 +150,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Assembling Choice Data
 
-- (SDLCreateInteractionChoiceSet * _Nullable )sdl_choiceFromCell:(SDLChoiceCell *)cell {
+- (nullable SDLCreateInteractionChoiceSet *)sdl_choiceFromCell:(SDLChoiceCell *)cell {
     NSArray<NSString *> *vrCommands = nil;
     if (cell.voiceCommands == nil) {
         vrCommands = self.isVROptional ? nil : @[[NSString stringWithFormat:@"%hu", cell.choiceId]];
     } else {
         vrCommands = cell.voiceCommands;
     }
-
    NSString *menuName = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameMenuName] ? cell.text : nil;
     
     if(!menuName) {
