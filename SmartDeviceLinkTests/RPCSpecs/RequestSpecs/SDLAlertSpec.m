@@ -66,7 +66,7 @@ describe(@"Getter/Setter Tests", ^ {
         expect(testRequest.softButtons).to(equal([@[button] mutableCopy]));
     });
 
-    fit(@"Should handle NSNull", ^{
+    it(@"Should handle NSNull", ^{
         NSMutableDictionary* dict = [@{SDLRPCParameterNameRequest:
                                            @{SDLRPCParameterNameParameters:
                                                  @{SDLRPCParameterNameAlertText1:@"alert#1",
