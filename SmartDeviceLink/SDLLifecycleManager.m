@@ -87,6 +87,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
+@property (assign, nonatomic) int32_t lastCorrelationId;
 
 @end
 
@@ -333,7 +334,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     BOOL delegateCanUpdateLifecycle = [self.delegate respondsToSelector:@selector(managerShouldUpdateLifecycleToLanguage:)];
     
     // language mismatch? but actual language is a supported language? and delegate has implemented method?
-    if ([actualLanguage isKindOfClass:[NSString class]] && ![actualLanguage isEqualToEnum:desiredLanguage] && [supportedLanguages containsObject:actualLanguage] && delegateCanUpdateLifecycle) {
+    if (![actualLanguage isEqualToEnum:desiredLanguage] && [supportedLanguages containsObject:actualLanguage] && delegateCanUpdateLifecycle) {
         [self sdl_transitionToState:SDLLifecycleStateUpdatingConfiguration];
     } else {
         [self sdl_transitionToState:SDLLifecycleStateSettingUpManagers];
@@ -344,7 +345,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     // we can expect that the delegate has implemented the update method and the actual language is a supported language
     SDLLanguage actualLanguage = self.registerResponse.language;
 
-    if ([actualLanguage isKindOfClass:[NSString class]]) {
         SDLLifecycleConfigurationUpdate *configUpdate = [self.delegate managerShouldUpdateLifecycleToLanguage:actualLanguage];
 
         if (configUpdate) {
@@ -369,7 +369,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
             changeRegistration.vrSynonyms = configUpdate.voiceRecognitionCommandNames;
 
             [self sendConnectionManagerRequest:changeRegistration withResponseHandler:nil];
-        }
     }
     
     [self sdl_transitionToState:SDLLifecycleStateSettingUpManagers];
@@ -651,7 +650,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 #pragma mark Helper Methods
 - (NSNumber<SDLInt> *)sdl_getNextCorrelationId {
-    if (self.lastCorrelationId == UINT16_MAX) {
+    if (self.lastCorrelationId == INT32_MAX) {
         self.lastCorrelationId = 0;
     }
 
