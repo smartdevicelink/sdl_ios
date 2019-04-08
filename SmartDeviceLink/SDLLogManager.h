@@ -63,6 +63,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly, getter=areErrorsAsynchronous) BOOL errorsAsynchronous;
 
 /**
+ Whether or not assert logs will fire assertions in DEBUG mode. Assertions are always disabled in RELEASE builds. If assertions are disabled, only an error log will fire instead. Defaults to NO.
+ */
+@property (assign, nonatomic, readonly, getter=areAssertionsDisabled) BOOL disableAssertions;
+
+/**
  Active date formatter
  */
 @property (class, strong, nonatomic, readonly) NSDateFormatter *dateFormatter;
@@ -209,6 +214,40 @@ NS_ASSUME_NONNULL_BEGIN
     functionName:(NSString *)functionName
             line:(NSInteger)line
            queue:(NSString *)queueLabel;
+
+/**
+ Log an error to the sharedManager's active log targets and assert. This is used internally to log.
+
+ @param timestamp The time the log was sent
+ @param file The file the log originated from
+ @param functionName The function the log originated from
+ @param line The line the log originated from
+ @param queueLabel The queue the log was sent from
+ @param message The message of the log
+ */
++ (void)logAssertWithTimestamp:(NSDate *)timestamp
+                          file:(NSString *)file
+                  functionName:(NSString *)functionName
+                          line:(NSInteger)line
+                         queue:(NSString *)queueLabel
+                 formatMessage:(NSString *)message, ... NS_FORMAT_FUNCTION(6, 7);
+
+/**
+ Log an error to this manager's active log targets and assert. This is used internally to log.
+
+ @param timestamp The time the log was sent
+ @param file The file the log originated from
+ @param functionName The function the log originated from
+ @param line The line the log originated from
+ @param queueLabel The queue the log was sent from
+ @param message The message of the log
+ */
+- (void)logAssertWithTimestamp:(NSDate *)timestamp
+                          file:(NSString *)file
+                  functionName:(NSString *)functionName
+                          line:(NSInteger)line
+                         queue:(NSString *)queueLabel
+                 formatMessage:(NSString *)message, ... NS_FORMAT_FUNCTION(6, 7);
 
 @end
 

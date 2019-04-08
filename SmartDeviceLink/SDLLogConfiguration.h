@@ -50,6 +50,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, getter=areErrorsAsynchronous) BOOL errorsAsynchronous;
 
 /**
+ Whether or not assert logs will fire assertions in DEBUG mode. Assertions are always disabled in RELEASE builds. If assertions are disabled, only an error log will fire instead. Defaults to NO.
+ */
+@property (assign, nonatomic, getter=areAssertionsDisabled) BOOL disableAssertions;
+
+/**
  Any modules that do not have an explicitly specified level will by default use the global log level. Defaults to Error.
  Do not specify Default for this parameter.
  */
