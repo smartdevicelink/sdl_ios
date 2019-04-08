@@ -69,7 +69,6 @@ extern SDLErrorDomain *const SDLErrorDomainRPCStore;
 + (NSError *)sdl_choiceSetManager_choiceUploadFailed:(NSDictionary *)userInfo;
 + (NSError *)sdl_choiceSetManager_failedToCreateMenuItems;
 
-
 #pragma mark Transport
 
 + (NSError *)sdl_transport_unknownError;

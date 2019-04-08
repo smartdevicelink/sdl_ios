@@ -123,7 +123,6 @@ NS_ASSUME_NONNULL_BEGIN
             [choiceRPCs addObject:csCell];
         }
     }
-    
     if (choiceRPCs.count == 0) {
          SDLLogE(@"Error choiceRPCs is an empty array");
         self.internalError = [NSError sdl_choiceSetManager_failedToCreateMenuItems];

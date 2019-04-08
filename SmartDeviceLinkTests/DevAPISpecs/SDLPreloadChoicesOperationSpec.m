@@ -73,8 +73,8 @@ describe(@"a preload choices operation", ^{
                 cellsWithStaticIcon = [NSSet setWithArray:@[cellWithStaticIcon]];
             });
             
-            context(@"menueName is not set", ^{
-                it(@"should return a nil object", ^{
+            context(@"if the menuName is not set", ^{
+                it(@"should not send any requests", ^{
                     SDLTextField *primaryTextField = [[SDLTextField alloc] init];
                     primaryTextField.name = SDLTextFieldNameMenuName;
                     displayCapabilities.textFields = @[];
@@ -182,7 +182,6 @@ describe(@"a preload choices operation", ^{
                 SDLChoiceCell *cellBasic = [[SDLChoiceCell alloc] initWithText:@"Cell1" artwork:nil voiceCommands:nil];
                 SDLChoiceCell *cellWithVR = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:nil tertiaryText:nil voiceCommands:@[@"Cell2"] artwork:nil secondaryArtwork:nil];
                 SDLChoiceCell *cellWithAllText = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:@"Cell2" tertiaryText:@"Cell2" voiceCommands:nil artwork:nil secondaryArtwork:nil];
-      
                 cellsWithoutArtwork = [NSSet setWithArray:@[cellBasic, cellWithVR, cellWithAllText]];
             });
 
@@ -192,7 +191,6 @@ describe(@"a preload choices operation", ^{
 
             describe(@"assembling choices", ^{
                 it(@"should be correct with no text and VR required", ^{
-
                     testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithoutArtwork];
                     [testOp start];
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;

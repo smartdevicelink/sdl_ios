@@ -231,7 +231,8 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 + (NSError *)sdl_choiceSetManager_failedToCreateMenuItems {
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Choice Set Manager error", nil),
-                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Choice set manager failed to create menu items do to menuName being empty.", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Choice set manager failed to create menu items due to menuName being empty.", nil),
+                                                        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"If you are setting the menuName, it is possible that the head unit is sending incorrect displayCapabilities.", nil)
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorFailedToCreateMenuItems userInfo:userInfo];
 }
