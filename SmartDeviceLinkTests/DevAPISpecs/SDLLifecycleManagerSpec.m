@@ -48,6 +48,7 @@
 @interface SDLLifecycleManager ()
 // this private property is used for testing
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
+@property (assign, nonatomic) int32_t lastCorrelationId;
 @end
 
 QuickConfigurationBegin(SendingRPCsConfiguration)

@@ -80,7 +80,7 @@ describe(@"Getter/Setter Tests", ^ {
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameAlert}} mutableCopy];
         SDLAlert* testRequest = [[SDLAlert alloc] initWithDictionary:dict];
         expectAction(^{
-            expect(testRequest.softButtons).to(beNil());
+            NSArray<SDLSoftButton *> *softButtons = testRequest.softButtons;
         }).to(raiseException());
     });
     

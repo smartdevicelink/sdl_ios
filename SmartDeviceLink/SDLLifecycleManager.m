@@ -87,6 +87,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 @property (strong, nonatomic, nullable) SDLSecondaryTransportManager *secondaryTransportManager;
 @property (copy, nonatomic) SDLManagerReadyBlock readyHandler;
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
+@property (assign, nonatomic) int32_t lastCorrelationId;
 
 @end
 
@@ -649,7 +650,7 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 
 #pragma mark Helper Methods
 - (NSNumber<SDLInt> *)sdl_getNextCorrelationId {
-    if (self.lastCorrelationId == UINT16_MAX) {
+    if (self.lastCorrelationId == INT32_MAX) {
         self.lastCorrelationId = 0;
     }
 

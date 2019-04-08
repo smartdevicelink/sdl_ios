@@ -82,7 +82,6 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 @property (strong, nonatomic, nullable) SDLProxy *proxy;
 #pragma clang diagnostic pop
 
-@property (assign, nonatomic) UInt16 lastCorrelationId;
 @property (copy, nonatomic, readonly) SDLLifecycleState *lifecycleState;
 @property (copy, nonatomic, nullable) SDLHMILevel hmiLevel;
 @property (copy, nonatomic, nullable) SDLAudioStreamingState audioStreamingState;
