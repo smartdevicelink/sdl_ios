@@ -140,10 +140,7 @@ static dispatch_queue_t _logQueue = NULL;
 
     [self logWithLevel:SDLLogLevelError timestamp:timestamp file:file functionName:functionName line:line queue:queueLabel message:format];
 
-    if (!self.areAssertionsDisabled) {
-        NSString *assertString = [NSString stringWithFormat:@"SDL ASSERTION: %@. To disable these assertions, alter your `SDLLogConfiguration` and set `disableAssertions` to `YES`", format];
-        NSAssert(NO, assertString);
-    }
+    NSAssert(self.areAssertionsDisabled, @"SDL ASSERTION: %@. To disable these assertions, alter your `SDLLogConfiguration` and set `disableAssertions` to `YES`", format);
 }
 
 - (void)logWithLevel:(SDLLogLevel)level timestamp:(NSDate *)timestamp file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel formatMessage:(NSString *)message, ... {
