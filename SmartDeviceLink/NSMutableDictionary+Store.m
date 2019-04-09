@@ -55,8 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
         // The object in the store is not correct, we'll assert in debug and return an error and nil
         NSError *wrongObjectError = [NSError sdl_rpcStore_invalidObjectErrorWithObject:obj expectedType:classType];
 
-        SDLLogE(@"Retrieving object from store error: %@", wrongObjectError.localizedFailureReason);
-        NSAssert(NO, wrongObjectError.localizedFailureReason);
+        SDLLogAssert(@"Retrieving object from store error: %@", wrongObjectError.localizedFailureReason);
 
         if (error) {
             *error = wrongObjectError;
@@ -93,8 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
             wrongObjectError = [NSError sdl_rpcStore_invalidObjectErrorWithObject:array expectedType:NSArray.class];
         }
 
-        SDLLogE(@"Retrieving array from store error: %@", wrongObjectError.localizedFailureReason);
-        NSAssert(NO, wrongObjectError.localizedFailureReason);
+        SDLLogAssert(@"Retrieving array from store error: %@", wrongObjectError.localizedFailureReason);
         if (error) {
             *error = wrongObjectError;
         }
