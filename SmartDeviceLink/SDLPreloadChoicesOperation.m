@@ -160,6 +160,7 @@ NS_ASSUME_NONNULL_BEGIN
    NSString *menuName = [self.displayCapabilities hasTextFieldOfName:SDLTextFieldNameMenuName] ? cell.text : nil;
     
     if(!menuName) {
+        SDLLogE(@"Could not convert SDLChoiceCell to SDLCreateInteractionChoiceSet. It will not be shown. Cell: %@", cell);
         return nil;
     }
 
