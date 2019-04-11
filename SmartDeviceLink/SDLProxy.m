@@ -445,6 +445,7 @@ static float DefaultConnectionTimeout = 45.0;
 
     [self sdl_invokeDelegateMethodsWithFunction:functionName message:newMessage];
     
+    //Intercepting SDLRPCFunctionNameOnAppInterfaceUnregistered must happen after it is broadcasted as a notification above. This will prevent reccoction attempts in the lifecycle manager when the AppInterfaceUnregisteredReason should prevent reconnections.
     if ([functionName isEqualToString:SDLRPCFunctionNameOnAppInterfaceUnregistered] || [functionName isEqualToString:SDLRPCFunctionNameUnregisterAppInterface]) {
         [self handleRPCUnregistered:dict];
     }
