@@ -124,10 +124,10 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }
     if (choiceRPCs.count == 0) {
-         SDLLogE(@"All choice cells to send are nil, so the choice set will not be shown");
+        SDLLogE(@"All choice cells to send are nil, so the choice set will not be shown");
         self.internalError = [NSError sdl_choiceSetManager_failedToCreateMenuItems];
-         [self finishOperation];
-         return;
+        [self finishOperation];
+        return;
     }
     
     __weak typeof(self) weakSelf = self;
