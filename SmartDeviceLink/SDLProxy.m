@@ -403,9 +403,6 @@ static float DefaultConnectionTimeout = 45.0;
     SDLLogV(@"Message received: %@", newMessage);
 
     // Intercept and handle several messages ourselves
-    if ([functionName isEqualToString:SDLRPCFunctionNameOnAppInterfaceUnregistered] || [functionName isEqualToString:SDLRPCFunctionNameUnregisterAppInterface]) {
-        [self handleRPCUnregistered:dict];
-    }
 
     if ([functionName isEqualToString:@"RegisterAppInterfaceResponse"]) {
         [self handleRegisterAppInterfaceResponse:(SDLRPCResponse *)newMessage];
@@ -447,6 +444,11 @@ static float DefaultConnectionTimeout = 45.0;
     }
 
     [self sdl_invokeDelegateMethodsWithFunction:functionName message:newMessage];
+    
+    //Intercepting SDLRPCFunctionNameOnAppInterfaceUnregistered must happen after it is broadcasted as a notification above. This will prevent reconnection attempts in the lifecycle manager when the AppInterfaceUnregisteredReason should prevent reconnections.
+    if ([functionName isEqualToString:SDLRPCFunctionNameOnAppInterfaceUnregistered] || [functionName isEqualToString:SDLRPCFunctionNameUnregisterAppInterface]) {
+        [self handleRPCUnregistered:dict];
+    }
 
     // When an OnHMIStatus notification comes in, after passing it on (above), generate an "OnLockScreenNotification"
     if ([functionName isEqualToString:@"OnHMIStatus"]) {
