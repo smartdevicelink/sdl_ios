@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic, readwrite, getter=isAsynchronous) BOOL asynchronous;
 @property (assign, nonatomic, readwrite, getter=areErrorsAsynchronous) BOOL errorsAsynchronous;
+@property (assign, nonatomic, readwrite, getter=areAssertionsDisabled) BOOL disableAssertions;
 
 @end
 
@@ -57,6 +58,7 @@ static dispatch_queue_t _logQueue = NULL;
 
     _asynchronous = YES;
     _errorsAsynchronous = NO;
+    _disableAssertions = NO;
     _globalLogLevel = SDLLogLevelError;
     _formatType = SDLLogFormatTypeDefault;
 
@@ -76,6 +78,7 @@ static dispatch_queue_t _logQueue = NULL;
     self.formatType = configuration.formatType;
     self.asynchronous = configuration.isAsynchronous;
     self.errorsAsynchronous = configuration.areErrorsAsynchronous;
+    self.disableAssertions = configuration.areAssertionsDisabled;
     self.globalLogLevel = configuration.globalLogLevel;
 
     // Start the loggers
@@ -99,6 +102,15 @@ static dispatch_queue_t _logQueue = NULL;
     [[self sharedManager] logBytes:data direction:direction timestamp:timestamp file:file functionName:functionName line:line queue:queueLabel];
 }
 
++ (void)logAssertWithTimestamp:(NSDate *)timestamp file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel formatMessage:(NSString *)message, ... {
+    va_list args;
+    va_start(args, message);
+    NSString *format = [[NSString alloc] initWithFormat:message arguments:args];
+    va_end(args);
+
+    [[self sharedManager] logAssertWithTimestamp:timestamp file:file functionName:functionName line:line queue:queueLabel formatMessage:@"%@", format];
+}
+
 + (void)logWithLevel:(SDLLogLevel)level timestamp:(NSDate *)timestamp file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel message:(NSString *)message {
     [[self sharedManager] logWithLevel:level timestamp:timestamp file:file functionName:functionName line:line queue:queueLabel message:message];
 }
@@ -118,6 +130,17 @@ static dispatch_queue_t _logQueue = NULL;
 
     NSString *message = [NSString stringWithFormat:@"%@(%lu bytes): %@", [self sdl_logStringForDirection:direction], (unsigned long)data.length, [SDLHexUtility getHexString:data]];
     [self logWithLevel:SDLLogLevelVerbose timestamp:timestamp file:file functionName:functionName line:line queue:queueLabel message:message];
+}
+
+- (void)logAssertWithTimestamp:(NSDate *)timestamp file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel formatMessage:(NSString *)message, ... {
+    va_list args;
+    va_start(args, message);
+    NSString *format = [[NSString alloc] initWithFormat:message arguments:args];
+    va_end(args);
+
+    [self logWithLevel:SDLLogLevelError timestamp:timestamp file:file functionName:functionName line:line queue:queueLabel message:format];
+
+    NSAssert(self.areAssertionsDisabled, @"SDL ASSERTION: %@. To disable these assertions, alter your `SDLLogConfiguration` and set `disableAssertions` to `YES`", format);
 }
 
 - (void)logWithLevel:(SDLLogLevel)level timestamp:(NSDate *)timestamp file:(NSString *)file functionName:(NSString *)functionName line:(NSInteger)line queue:(NSString *)queueLabel formatMessage:(NSString *)message, ... {
