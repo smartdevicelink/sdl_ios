@@ -422,6 +422,7 @@ end
 s.subspec 'Swift' do |sswift|
 sswift.dependency 'SmartDeviceLink/Default'
 sswift.source_files = 'SmartDeviceLinkSwift/*.swift'
+sswift.swift_version = '4.2'
 end
 
 end
