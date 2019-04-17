@@ -14,7 +14,6 @@
 #import "SDLLogMacros.h"
 #import "SDLStreamDelegate.h"
 #import "SDLTimer.h"
-#import <CommonCrypto/CommonDigest.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -28,8 +27,8 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 @property (nullable, strong, nonatomic, readwrite) SDLIAPSession *session;
 @property (nullable, strong, nonatomic) SDLTimer *protocolIndexTimer;
-@property (nullable, strong, nonatomic) SDLIAPControlSessionRetryCompletionHandler retryCompletionHandler;
-@property (nullable, strong, nonatomic) SDLIAPControlSessionCreateDataSessionCompletionHandler createDataSessionCompletionHandler;
+@property (nullable, strong, nonatomic) SDLIAPControlSessionRetryCompletionHandler retrySessionHandler;
+@property (nullable, strong, nonatomic) SDLIAPControlSessionCreateDataSessionCompletionHandler createDataSessionHandler;
 
 @end
 
@@ -48,20 +47,19 @@ int const ProtocolIndexTimeoutSeconds = 10;
     return self;
 }
 
-+ (nullable SDLIAPSession *)createSessionWithAccessory:(EAAccessory *)accessory {
-    return [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:ControlProtocolString];
-}
+- (instancetype)initWithSession:(nullable SDLIAPSession *)session retrySessionCompletionHandler:(SDLIAPControlSessionRetryCompletionHandler)retrySessionHandler createDataSessionCompletionHandler:(SDLIAPControlSessionCreateDataSessionCompletionHandler)createDataSessionHandler {
 
-- (void)setSession:(nullable SDLIAPSession *)session delegate:(id<SDLIAPSessionDelegate>)delegate retryCompletionHandler:(SDLIAPControlSessionRetryCompletionHandler)retryCompletionHandler createDataSessionCompletionHandler:(SDLIAPControlSessionCreateDataSessionCompletionHandler)createDataSessionCompletionHandler {
-    SDLLogD(@"Starting control session with accessory (%@)", self.session.accessory.name);
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
 
     self.session = session;
-    self.retryCompletionHandler = retryCompletionHandler;
-    self.createDataSessionCompletionHandler = createDataSessionCompletionHandler;
+    self.retrySessionHandler = retrySessionHandler;
+    self.createDataSessionHandler = createDataSessionHandler;
 
     if (self.session) {
-        self.session.delegate = delegate;
-
+        SDLLogD(@"Starting control session with accessory (%@)", self.session.accessory.name);
         EAAccessory *accessory = session.accessory;
         SDLStreamDelegate *controlStreamDelegate = [[SDLStreamDelegate alloc] init];
         controlStreamDelegate.streamHasBytesHandler = [self sdl_controlStreamHasBytesHandlerForAccessory:accessory];
@@ -70,41 +68,26 @@ int const ProtocolIndexTimeoutSeconds = 10;
         self.session.streamDelegate = controlStreamDelegate;
 
         if (![self.session start]) {
-            SDLLogW(@"Control session failed to setup (%@), trying to creating a new control session", accessory);
+            SDLLogW(@"Control session failed to setup with accessory: %@. Retrying...", accessory);
             self.session.streamDelegate = nil;
             self.session = nil;
             [self sdl_shouldRetryEstablishSession:YES];
         } else {
             SDLLogW(@"Control session started");
             if (self.protocolIndexTimer != nil) {
-                SDLLogV(@"Cancelling currently running protocol index timer");
+                SDLLogV(@"Cancelling control session timer");
                 [self.protocolIndexTimer cancel];
             }
 
-            SDLLogD(@"Setting timer for %d seconds to get the protocol string from Core", ProtocolIndexTimeoutSeconds);
-            self.protocolIndexTimer = [self sdl_startTimerToGetProtocolString];
+            SDLLogD(@"Waiting for the protocol string from Core, setting timer for %d seconds", ProtocolIndexTimeoutSeconds);
+            self.protocolIndexTimer = [self sdl_createProtocolIndexTimer];
         }
     } else {
         SDLLogW(@"Failed to setup control session");
         [self sdl_shouldRetryEstablishSession:YES];
     }
-}
 
-- (SDLTimer *)sdl_startTimerToGetProtocolString {
-    SDLTimer *protocolIndexTimer = [[SDLTimer alloc] initWithDuration:ProtocolIndexTimeoutSeconds repeat:NO];
-
-    __weak typeof(self) weakSelf = self;
-    void (^elapsedBlock)(void) = ^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        SDLLogW(@"Control session failed to get the protocol string from Core after %d seconds, retrying.", ProtocolIndexTimeoutSeconds);
-        [strongSelf.session stop];
-        strongSelf.session.streamDelegate = nil;
-        strongSelf.session = nil;
-        [strongSelf sdl_shouldRetryEstablishSession:YES];
-    };
-    protocolIndexTimer.elapsedBlock = elapsedBlock;
-
-    return protocolIndexTimer;
+    return self;
 }
 
 - (void)destroySession {
@@ -113,8 +96,6 @@ int const ProtocolIndexTimeoutSeconds = 10;
         [self.session stop];
         self.session.streamDelegate = nil;
         self.session = nil;
-    } else {
-        SDLLogW(@"Attempted to destroy the control session but control session does not exists");
     }
 }
 
@@ -153,11 +134,11 @@ int const ProtocolIndexTimeoutSeconds = 10;
             return;
         }
 
-        // If we have data from the control stream, use the data to create the protocol string needed to establish the data session. Destroy the control session as it is no longer needed and then create the data session,.
+        // If we have data from the control stream, use the data to create the protocol string needed to establish the data session.
         NSString *indexedProtocolString = [NSString stringWithFormat:@"%@%@", IndexedProtocolStringPrefix, @(buf[0])];
         SDLLogD(@"Control Stream will switch to protocol %@", indexedProtocolString);
 
-        // Destroy the control session
+        // Destroy the control session as it is no longer needed, and then create the data session.
         dispatch_sync(dispatch_get_main_queue(), ^{
             [strongSelf.session stop];
             strongSelf.session.streamDelegate = nil;
@@ -190,26 +171,52 @@ int const ProtocolIndexTimeoutSeconds = 10;
     };
 }
 
-#pragma mark - Helper
+#pragma mark - Helpers
+
+- (SDLTimer *)sdl_createProtocolIndexTimer {
+    SDLTimer *protocolIndexTimer = [[SDLTimer alloc] initWithDuration:ProtocolIndexTimeoutSeconds repeat:NO];
+
+    __weak typeof(self) weakSelf = self;
+    void (^elapsedBlock)(void) = ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        SDLLogW(@"Control session failed to get the protocol string from Core after %d seconds, retrying.", ProtocolIndexTimeoutSeconds);
+        [strongSelf.session stop];
+        strongSelf.session.streamDelegate = nil;
+        strongSelf.session = nil;
+        [strongSelf sdl_shouldRetryEstablishSession:YES];
+    };
+    protocolIndexTimer.elapsedBlock = elapsedBlock;
+
+    return protocolIndexTimer;
+}
 
 - (void)sdl_shouldRetryEstablishSession:(BOOL)retryEstablishSession {
-    if (self.retryCompletionHandler == nil) {
+    if (self.retrySessionHandler == nil) {
         return;
     }
 
-    self.retryCompletionHandler(retryEstablishSession);
+    self.retrySessionHandler(retryEstablishSession);
 }
 
 - (void)sdl_createDataSessionWithIndexProtocolString:(NSString *)indexProtocolString connectedAccessory:(EAAccessory *)accessory {
-    if (self.createDataSessionCompletionHandler == nil) {
+    if (self.createDataSessionHandler == nil) {
         return;
     }
 
-    self.createDataSessionCompletionHandler(accessory, indexProtocolString);
+    self.createDataSessionHandler(accessory, indexProtocolString);
 }
 
 - (NSUInteger)accessoryID {
     return self.session.accessory.connectionID;
+}
+
+#pragma mark - Lifecycle Destruction
+
+- (void)dealloc {
+    SDLLogV(@"SDLIAPControlSession Dealloc");
+    _session = nil;
+    [_protocolIndexTimer cancel];
+    _protocolIndexTimer = nil;
 }
 
 @end

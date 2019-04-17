@@ -19,7 +19,7 @@
 
 @interface SDLIAPTransport ()
 @property (nullable, strong, nonatomic) SDLIAPControlSession *controlSession;
-@property (nullable, strong, nonatomic) SDLIAPSession *session;
+@property (nullable, strong, nonatomic) SDLIAPSession *dataSession;
 
 @property (assign, nonatomic) int retryCounter;
 @property (assign, nonatomic) BOOL sessionSetupInProgress;
@@ -47,9 +47,9 @@ describe(@"SDLIAPTransport", ^{
         it(@"Should init correctly", ^{
             expect(transport.delegate).toNot(beNil());
             expect(transport.controlSession.session).to(beNil());
-            expect(transport.session).to(beNil());
+            expect(transport.dataSession).to(beNil());
             expect(transport.sessionSetupInProgress).to(beFalse());
-            expect(transport.session).to(beNil());
+            expect(transport.dataSession).to(beNil());
             expect(transport.controlSession.session).to(beNil());
             expect(transport.retryCounter).to(equal(0));
             expect(transport.protocolIndexTimer).to(beNil());
@@ -60,22 +60,22 @@ describe(@"SDLIAPTransport", ^{
     describe(@"When an accessory connects while a session is not open", ^{
         beforeEach(^{
             expect(transport.controlSession.session).to(beNil());
-            expect(transport.session).to(beNil());
+            expect(transport.dataSession).to(beNil());
         });
 
         it(@"should return that a session is not active", ^{
-            BOOL sessionInProgress = [transport sdl_isSessionActive:transport.session newAccessory:mockAccessory];
+            BOOL sessionInProgress = [transport sdl_isSessionActive:transport.dataSession newAccessory:mockAccessory];
             expect(sessionInProgress).to(beFalse());
         });
     });
 
     describe(@"When an accessory connects when a session is already open", ^{
         beforeEach(^{
-            transport.session = OCMClassMock([SDLIAPSession class]);
+            transport.dataSession = OCMClassMock([SDLIAPSession class]);
         });
 
         it(@"should return that a session is active", ^{
-            BOOL sessionInProgress = [transport sdl_isSessionActive:transport.session newAccessory:mockAccessory];
+            BOOL sessionInProgress = [transport sdl_isSessionActive:transport.dataSession newAccessory:mockAccessory];
             expect(sessionInProgress).to(beTrue());
         });
     });
@@ -83,14 +83,14 @@ describe(@"SDLIAPTransport", ^{
     describe(@"When an accessory disconnects while a data session is open", ^{
         beforeEach(^{
             transport.controlSession = nil;
-            transport.session = [[SDLIAPSession alloc] initWithAccessory:mockAccessory forProtocol:@"com.smartdevicelink.multisession"];
+            transport.dataSession = [[SDLIAPSession alloc] initWithAccessory:mockAccessory forProtocol:@"com.smartdevicelink.multisession"];
             transport.accessoryConnectDuringActiveSession = YES;
             NSNotification *accessoryDisconnectedNotification = [[NSNotification alloc] initWithName:EAAccessoryDidDisconnectNotification object:nil userInfo:@{EAAccessoryKey: mockAccessory}];
             [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
         });
 
         it(@"It should close the open data session", ^{
-            expect(transport.session).to(beNil());
+            expect(transport.dataSession).to(beNil());
             expect(transport.controlSession.session).to(beNil());
             expect(transport.retryCounter).to(equal(0));
             expect(transport.accessoryConnectDuringActiveSession).to(beFalse());
@@ -98,9 +98,9 @@ describe(@"SDLIAPTransport", ^{
         });
     });
 
-//    describe(@"When an accessory disconnects while a control session is open", ^{
+    describe(@"When an accessory disconnects while a control session is open", ^{
 //        beforeEach(^{
-////            transport.controlSession = [SDLIAPControlSession new];
+//            transport.controlSession = [SDLIAPControlSession new];
 //            transport.controlSession.session = [[SDLIAPSession alloc] initWithAccessory:mockAccessory forProtocol:@"com.smartdevicelink.prot0"];;
 //            transport.session = nil;
 //            transport.accessoryConnectDuringActiveSession = NO;
@@ -117,7 +117,7 @@ describe(@"SDLIAPTransport", ^{
 //            expect(transport.accessoryConnectDuringActiveSession).to(beFalse());
 //            expect(transport.sessionSetupInProgress).to(beFalse());
 //        });
-//    });
+    });
 });
 
 QuickSpecEnd
