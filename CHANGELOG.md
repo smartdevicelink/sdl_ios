@@ -1,6 +1,6 @@
 # 6.2.0
 ### Versions
-* Supports [SDL RPC Spec 5.1.0]() and [SDL Protocol Spec 5.2.0]().
+* Supports [SDL RPC Spec 5.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/5.1.0) and [SDL Protocol Spec 5.2.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.2.0).
 
 ### Enhancements
 * Added a screen informing the user what they must do if a video streaming app is not in the foreground on their mobile device (https://github.com/smartdevicelink/sdl_ios/issues/1058).
