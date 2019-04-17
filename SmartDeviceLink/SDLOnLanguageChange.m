@@ -5,34 +5,35 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLLanguage.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnLanguageChange
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnLanguageChange]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnLanguageChange]) {
     }
     return self;
 }
 
 - (void)setLanguage:(SDLLanguage)language {
-    [parameters sdl_setObject:language forName:SDLNameLanguage];
+    [parameters sdl_setObject:language forName:SDLRPCParameterNameLanguage];
 }
 
 - (SDLLanguage)language {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameLanguage];
-    return (SDLLanguage)obj;
+    NSError *error = nil;
+    return [parameters sdl_enumForName:SDLRPCParameterNameLanguage error:&error];
 }
 
 - (void)setHmiDisplayLanguage:(SDLLanguage)hmiDisplayLanguage {
-    [parameters sdl_setObject:hmiDisplayLanguage forName:SDLNameHMIDisplayLanguage];
+    [parameters sdl_setObject:hmiDisplayLanguage forName:SDLRPCParameterNameHMIDisplayLanguage];
 }
 
 - (SDLLanguage)hmiDisplayLanguage {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameHMIDisplayLanguage];
-    return (SDLLanguage)obj;
+    NSError *error = nil;
+    return [parameters sdl_enumForName:SDLRPCParameterNameHMIDisplayLanguage error:&error];
 }
 
 

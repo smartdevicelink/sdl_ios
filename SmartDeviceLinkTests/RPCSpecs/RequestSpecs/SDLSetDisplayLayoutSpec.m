@@ -5,7 +5,8 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSetDisplayLayout.h"
 #import "SDLTemplateColorScheme.h"
 
@@ -43,10 +44,10 @@ describe(@"SetDisplayLayout Tests", ^ {
         });
 
         it(@"Should get correctly when initialized", ^ {
-            NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                               @{SDLNameParameters:
-                                                                     @{SDLNameDisplayLayout:@"wat"},
-                                                                 SDLNameOperationName:SDLNameSetDisplayLayout}} mutableCopy];
+            NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                               @{SDLRPCParameterNameParameters:
+                                                                     @{SDLRPCParameterNameDisplayLayout:@"wat"},
+                                                                 SDLRPCParameterNameOperationName:SDLRPCFunctionNameSetDisplayLayout}} mutableCopy];
             SDLSetDisplayLayout* testRequest = [[SDLSetDisplayLayout alloc] initWithDictionary:dict];
 
             expect(testRequest.displayLayout).to(equal(@"wat"));

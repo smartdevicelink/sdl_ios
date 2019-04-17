@@ -4,7 +4,7 @@
 #import "SDLOasisAddress.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,75 +34,75 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setCountryName:(nullable NSString *)countryName {
-    [store sdl_setObject:countryName forName:SDLNameCountryName];
+    [store sdl_setObject:countryName forName:SDLRPCParameterNameCountryName];
 }
 
 - (nullable NSString *)countryName {
-    return [store sdl_objectForName:SDLNameCountryName];
+    return [store sdl_objectForName:SDLRPCParameterNameCountryName ofClass:NSString.class error:nil];
 }
 
 - (void)setCountryCode:(nullable NSString *)countryCode {
-    [store sdl_setObject:countryCode forName:SDLNameCountryCode];
+    [store sdl_setObject:countryCode forName:SDLRPCParameterNameCountryCode];
 }
 
 - (nullable NSString *)countryCode {
-    return [store sdl_objectForName:SDLNameCountryCode];
+    return [store sdl_objectForName:SDLRPCParameterNameCountryCode ofClass:NSString.class error:nil];
 }
 
 - (void)setPostalCode:(nullable NSString *)postalCode {
-    [store sdl_setObject:postalCode forName:SDLNamePostalCode];
+    [store sdl_setObject:postalCode forName:SDLRPCParameterNamePostalCode];
 }
 
 - (nullable NSString *)postalCode {
-    return [store sdl_objectForName:SDLNamePostalCode];
+    return [store sdl_objectForName:SDLRPCParameterNamePostalCode ofClass:NSString.class error:nil];
 }
 
 - (void)setAdministrativeArea:(nullable NSString *)administrativeArea {
-    [store sdl_setObject:administrativeArea forName:SDLNameAdministrativeArea];
+    [store sdl_setObject:administrativeArea forName:SDLRPCParameterNameAdministrativeArea];
 }
 
 - (nullable NSString *)administrativeArea {
-    return [store sdl_objectForName:SDLNameAdministrativeArea];
+    return [store sdl_objectForName:SDLRPCParameterNameAdministrativeArea ofClass:NSString.class error:nil];
 }
 
 - (void)setSubAdministrativeArea:(nullable NSString *)subAdministrativeArea {
-    [store sdl_setObject:subAdministrativeArea forName:SDLNameSubAdministrativeArea];
+    [store sdl_setObject:subAdministrativeArea forName:SDLRPCParameterNameSubAdministrativeArea];
 }
 
 - (nullable NSString *)subAdministrativeArea {
-    return [store sdl_objectForName:SDLNameSubAdministrativeArea];
+    return [store sdl_objectForName:SDLRPCParameterNameSubAdministrativeArea ofClass:NSString.class error:nil];
 }
 
 - (void)setLocality:(nullable NSString *)locality {
-    [store sdl_setObject:locality forName:SDLNameLocality];
+    [store sdl_setObject:locality forName:SDLRPCParameterNameLocality];
 }
 
 - (nullable NSString *)locality {
-    return [store sdl_objectForName:SDLNameLocality];
+    return [store sdl_objectForName:SDLRPCParameterNameLocality ofClass:NSString.class error:nil];
 }
 
 - (void)setSubLocality:(nullable NSString *)subLocality {
-    [store sdl_setObject:subLocality forName:SDLNameSubLocality];
+    [store sdl_setObject:subLocality forName:SDLRPCParameterNameSubLocality];
 }
 
 - (nullable NSString *)subLocality {
-    return [store sdl_objectForName:SDLNameSubLocality];
+    return [store sdl_objectForName:SDLRPCParameterNameSubLocality ofClass:NSString.class error:nil];
 }
 
 - (void)setThoroughfare:(nullable NSString *)thoroughfare {
-    [store sdl_setObject:thoroughfare forName:SDLNameThoroughfare];
+    [store sdl_setObject:thoroughfare forName:SDLRPCParameterNameThoroughfare];
 }
 
 - (nullable NSString *)thoroughfare {
-    return [store sdl_objectForName:SDLNameThoroughfare];
+    return [store sdl_objectForName:SDLRPCParameterNameThoroughfare ofClass:NSString.class error:nil];
 }
 
 - (void)setSubThoroughfare:(nullable NSString *)subThoroughfare {
-    [store sdl_setObject:subThoroughfare forName:SDLNameSubThoroughfare];
+    [store sdl_setObject:subThoroughfare forName:SDLRPCParameterNameSubThoroughfare];
 }
 
 - (nullable NSString *)subThoroughfare {
-    return [store sdl_objectForName:SDLNameSubThoroughfare];
+    return [store sdl_objectForName:SDLRPCParameterNameSubThoroughfare ofClass:NSString.class error:nil];
 }
 
 @end

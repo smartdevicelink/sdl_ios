@@ -1,3 +1,36 @@
+# 6.2.0
+### Versions
+* Supports [SDL RPC Spec 5.1.0]() and [SDL Protocol Spec 5.2.0]().
+
+### Enhancements
+* Added a screen informing the user what they must do if a video streaming app is not in the foreground on their mobile device (https://github.com/smartdevicelink/sdl_ios/issues/1058).
+* `SDLArtwork` added an initializer for static icons, allowing the screen manager to handle displaying static icons in its supported fields (https://github.com/smartdevicelink/sdl_ios/issues/1062).
+* Added better `SetMediaClockTimer` initializers (https://github.com/smartdevicelink/sdl_ios/issues/1071).
+* All received messages are logged in verbose logging (https://github.com/smartdevicelink/sdl_ios/issues/1133).
+* Added `SDLLifecycleConfiguration` properties for enforcing minimum `protocolVersion` and `rpcVersion` connections to head units, effectively blocking older head units as desired (https://github.com/smartdevicelink/sdl_ios/issues/1142).
+* Added RPC support for app services, including all three current app service types: `media`, `weather`, and `navigation` (https://github.com/smartdevicelink/sdl_ios/issues/1147, https://github.com/smartdevicelink/sdl_ios/issues/1148 https://github.com/smartdevicelink/sdl_ios/issues/1162).
+* Added support for the cloud app transport, enabling OEM apps to expose endpoints for cloud apps to the system policy table (https://github.com/smartdevicelink/sdl_ios/issues/1166).
+* Updated Swift example app to Swift 4.2 (https://github.com/smartdevicelink/sdl_ios/issues/1185).
+* Updated testing dependencies and Travis CI (https://github.com/smartdevicelink/sdl_ios/issues/1208).
+* Added automatic updates and caching to the System Capability Manager for v5.1+ head units (https://github.com/smartdevicelink/sdl_ios/issues/1212).
+
+### Bug Fixes
+* Fixed IAP-Bluetooth to IAP-USB transport switching (https://github.com/smartdevicelink/sdl_ios/issues/1079).
+* Fixed an issue where the manager would attempt to reconnect even if the head unit unregistered the app for a reason where the app should not reconnect (https://github.com/smartdevicelink/sdl_ios/issues/1084, https://github.com/smartdevicelink/sdl_ios/issues/1097).
+* Fixed duplicate HMI status logs (https://github.com/smartdevicelink/sdl_ios/issues/1124).
+* Fixed `SDLChoiceManager` not deleting test choice (https://github.com/smartdevicelink/sdl_ios/issues/1129).
+* Fixed video streaming reference cycle (https://github.com/smartdevicelink/sdl_ios/issues/1130).
+* Improved RTC video streaming resumption (https://github.com/smartdevicelink/sdl_ios/issues/1137).
+* Updated `SendLocation` API documentation (https://github.com/smartdevicelink/sdl_ios/issues/1170).
+* Added more informative exception on creation of an invalid `SDLSoftButtonState` (https://github.com/smartdevicelink/sdl_ios/issues/1126).
+* Fixed numerous crashes in RELEASE builds when connected to head units that are providing invalid data (DEBUG builds will continue to crash unless the log configuration is altered to disable those assertions in DEBUG as well). (https://github.com/smartdevicelink/sdl_ios/issues/1153, https://github.com/smartdevicelink/sdl_ios/issues/1159, https://github.com/smartdevicelink/sdl_ios/issues/1161, https://github.com/smartdevicelink/sdl_ios/issues/1198, https://github.com/smartdevicelink/sdl_ios/issues/1218, https://github.com/smartdevicelink/sdl_ios/issues/1230)
+* Fixed Swift 4.2 support in `SDLPermissionManager` by removing some `SDLBool` specifier protocols from `NSNumber` callbacks in `NSDictionary` (https://github.com/smartdevicelink/sdl_ios/issues/1190).
+* Fix calling single tap callback checks for the hit view in the `SDLTouchManager` from a background thread. The callback itself will continue to occur on a background thread until the next major version change. (https://github.com/smartdevicelink/sdl_ios/issues/1207)
+* Fixed max automatic correlation id to match protocol spec max of `INT32_MAX` instead of `UINT16_MAX`. (https://github.com/smartdevicelink/sdl_ios/issues/1214)
+* Fixed some `SDLAppInterfaceUnregisteredReason` enums not being available in the sdl_ios library. (https://github.com/smartdevicelink/sdl_ios/issues/1216)
+* Fixed head units that don't support choice set `menuName` required parameter causing issues. Proper errors will now be thrown. (https://github.com/smartdevicelink/sdl_ios/issues/1220)
+* Fixed app attempting a reconnect after being unregistered for a `PROTOCOL_VIOLATION`. (https://github.com/smartdevicelink/sdl_ios/issues/1223)
+
 # 6.1.2
 ### Bug Fixes
 * Fix external accessories never reconnecting if connected over both Bluetooth and USB when one transport is disconnected (https://github.com/smartdevicelink/sdl_ios/issues/1113).

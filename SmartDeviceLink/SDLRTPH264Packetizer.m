@@ -55,11 +55,21 @@ static inline void sdl_writeLongInNetworkByteOrder(UInt8 *buffer, UInt32 value) 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLRTPH264Packetizer ()
+
 @property (assign, nonatomic) UInt32 initialTimestamp;
 @property (assign, nonatomic) UInt16 sequenceNum;
+@property (assign, nonatomic) UInt32 ssrc;
+
 @end
 
 @implementation SDLRTPH264Packetizer
+
+- (instancetype)initWithSSRC:(UInt32)ssrc {
+    self = [self init];
+    _ssrc = ssrc;
+
+    return self;
+}
 
 - (instancetype)init {
     self = [super init];
@@ -71,7 +81,6 @@ NS_ASSUME_NONNULL_BEGIN
     // initial value of the sequence number and timestamp should be random ([5.1] in RFC3550)
     _initialTimestamp = arc4random_uniform(UINT32_MAX);
     _sequenceNum = (UInt16)arc4random_uniform(UINT16_MAX);
-    _ssrc = arc4random_uniform(UINT32_MAX);
 
     return self;
 }

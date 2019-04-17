@@ -2,7 +2,7 @@
 //
 
 #import "SDLLightState.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "NSMutableDictionary+Store.h"
 #import "SDLRGBColor.h"
 
@@ -48,35 +48,37 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setId:(SDLLightName)id {
-    [store sdl_setObject:id forName:SDLNameId];
+    [store sdl_setObject:id forName:SDLRPCParameterNameId];
 }
 
 - (SDLLightName)id {
-    return [store sdl_objectForName:SDLNameId];
+    NSError *error = nil;
+    return [store sdl_enumForName:SDLRPCParameterNameId error:&error];
 }
 
 - (void)setStatus:(SDLLightStatus)status {
-    [store sdl_setObject:status forName:SDLNameStatus];
+    [store sdl_setObject:status forName:SDLRPCParameterNameStatus];
 }
 
 - (SDLLightStatus)status {
-    return [store sdl_objectForName:SDLNameStatus];
+    NSError *error = nil;
+    return [store sdl_enumForName:SDLRPCParameterNameStatus error:&error];
 }
 
 - (void)setDensity:(nullable NSNumber<SDLFloat> *)density {
-    [store sdl_setObject:density forName:SDLNameDensity];
+    [store sdl_setObject:density forName:SDLRPCParameterNameDensity];
 }
 
 - (nullable NSNumber<SDLFloat> *)density {
-    return [store sdl_objectForName:SDLNameDensity];
+    return [store sdl_objectForName:SDLRPCParameterNameDensity ofClass:NSNumber.class error:nil];
 }
 
 - (void)setColor:(nullable SDLRGBColor *)color {
-    [store sdl_setObject:color forName:SDLNameColor];
+    [store sdl_setObject:color forName:SDLRPCParameterNameColor];
 }
 
 - (nullable SDLRGBColor *)color {
-    return [store sdl_objectForName:SDLNameColor ofClass:[SDLRGBColor class]];
+    return [store sdl_objectForName:SDLRPCParameterNameColor ofClass:SDLRGBColor.class error:nil];
 }
 
 @end

@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLListFiles.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLListFilesSpec)
 

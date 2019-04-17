@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLDIDResult.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLVehicleDataResultCode.h"
 
 
@@ -29,9 +29,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameResultCode:SDLVehicleDataResultCodeDataNotSubscribed,
-                                       SDLNameDIDLocation:@300,
-                                       SDLNameData:@"gertwydhty4235tdhedt4tue"} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameResultCode:SDLVehicleDataResultCodeDataNotSubscribed,
+                                       SDLRPCParameterNameDIDLocation:@300,
+                                       SDLRPCParameterNameData:@"gertwydhty4235tdhedt4tue"} mutableCopy];
         SDLDIDResult* testStruct = [[SDLDIDResult alloc] initWithDictionary:dict];
         
         expect(testStruct.resultCode).to(equal(SDLVehicleDataResultCodeDataNotSubscribed));

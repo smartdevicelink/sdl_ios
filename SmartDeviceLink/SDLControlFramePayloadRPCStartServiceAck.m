@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic, readwrite) int32_t hashId;
 @property (assign, nonatomic, readwrite) int64_t mtu;
+@property (copy, nonatomic, readwrite, nullable) NSString *authToken;
 @property (copy, nonatomic, readwrite, nullable) NSString *protocolVersion;
 @property (copy, nonatomic, readwrite, nullable) NSArray<NSString *> *secondaryTransports;
 @property (copy, nonatomic, readwrite, nullable) NSArray<NSNumber *> *audioServiceTransports;
@@ -30,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithHashId:(int32_t)hashId
                            mtu:(int64_t)mtu
+                     authToken:(nullable NSString *)authToken
                protocolVersion:(nullable NSString *)protocolVersion
            secondaryTransports:(nullable NSArray<NSString *> *)secondaryTransports
         audioServiceTransports:(nullable NSArray<NSNumber *> *)audioServiceTransports
@@ -39,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     _hashId = hashId;
     _mtu = mtu;
+    _authToken = authToken;
     _protocolVersion = protocolVersion;
     _secondaryTransports = secondaryTransports;
     _audioServiceTransports = audioServiceTransports;
@@ -79,6 +82,10 @@ NS_ASSUME_NONNULL_BEGIN
         bson_object_put_int64(&payloadObject, SDLControlFrameMTUKey, self.mtu);
     }
 
+    if (self.authToken != nil) {
+        bson_object_put_string(&payloadObject, SDLControlFrameAuthTokenKey, (char *)self.authToken.UTF8String);
+    }
+
     if (self.protocolVersion != nil) {
         bson_object_put_string(&payloadObject, SDLControlFrameProtocolVersionKey, (char *)self.protocolVersion.UTF8String);
     }
@@ -96,7 +103,6 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     [self sdl_addServiceTransports:&payloadObject fromArray:self.audioServiceTransports forKey:SDLControlFrameAudioServiceTransportsKey];
-
     [self sdl_addServiceTransports:&payloadObject fromArray:self.videoServiceTransports forKey:SDLControlFrameVideoServiceTransportsKey];
 
     BytePtr bsonData = bson_object_to_bytes(&payloadObject);
@@ -113,9 +119,14 @@ NS_ASSUME_NONNULL_BEGIN
     self.hashId = bson_object_get_int32(&payloadObject, SDLControlFrameHashIdKey);
     self.mtu = bson_object_get_int64(&payloadObject, SDLControlFrameMTUKey);
 
-    char *utf8String = bson_object_get_string(&payloadObject, SDLControlFrameProtocolVersionKey);
-    if (utf8String != NULL) {
-        self.protocolVersion = [NSString stringWithUTF8String:utf8String];
+    char *protocolVersionUTF8String = bson_object_get_string(&payloadObject, SDLControlFrameProtocolVersionKey);
+    if (protocolVersionUTF8String != NULL) {
+        self.protocolVersion = [NSString stringWithUTF8String:protocolVersionUTF8String];
+    }
+
+    char *authTokenUTF8String = bson_object_get_string(&payloadObject, SDLControlFrameAuthTokenKey);
+    if (authTokenUTF8String != NULL) {
+        self.authToken = [NSString stringWithUTF8String:authTokenUTF8String];
     }
 
     BsonArray *arrayObject = bson_object_get_array(&payloadObject, SDLControlFrameSecondaryTransportsKey);
@@ -123,15 +134,14 @@ NS_ASSUME_NONNULL_BEGIN
         NSMutableArray<NSString *> *secondaryTransports = [NSMutableArray array];
         size_t index = 0;
 
-        while ((utf8String = bson_array_get_string(arrayObject, index)) != NULL) {
-            [secondaryTransports addObject:[NSString stringWithUTF8String:utf8String]];
+        while ((protocolVersionUTF8String = bson_array_get_string(arrayObject, index)) != NULL) {
+            [secondaryTransports addObject:[NSString stringWithUTF8String:protocolVersionUTF8String]];
             index++;
         }
         self.secondaryTransports = [secondaryTransports copy];
     }
 
     self.audioServiceTransports = [self sdl_getServiceTransports:&payloadObject forKey:SDLControlFrameAudioServiceTransportsKey];
-
     self.videoServiceTransports = [self sdl_getServiceTransports:&payloadObject forKey:SDLControlFrameVideoServiceTransportsKey];
 
     bson_object_deinitialize(&payloadObject);
@@ -179,7 +189,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@>: Protocol Version: %@, hash id: %d, MTU: %lld, secondary transports: %@, transports for audio service: %@, transports for video service: %@", NSStringFromClass(self.class), self.protocolVersion, self.hashId, self.mtu, self.secondaryTransports, self.audioServiceTransports, self.videoServiceTransports];
+    return [NSString stringWithFormat:@"<%@>: Protocol Version: %@, hash id: %d, MTU: %lld, auth token: %@, secondary transports: %@, transports for audio service: %@, transports for video service: %@", NSStringFromClass(self.class), self.protocolVersion, self.hashId, self.mtu, self.authToken, self.secondaryTransports, self.audioServiceTransports, self.videoServiceTransports];
 }
 
 @end

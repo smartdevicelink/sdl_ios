@@ -7,33 +7,38 @@
 //
 
 #import "CVPixelBufferRef+SDLUtil.h"
+#import "SDLLogMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+// Video stream string message padding is 5% of the screen size. Padding is added to the message so the text is not flush with the edge of the screen.
+CGFloat const SDLVideoStringMessagePadding = .05;
+
 UIFont * _Nullable sdl_findFontSizeToFitText(CGSize size, NSString *text) {
-    CGFloat fontSize = 100;
-    
+    CGFloat fontSize = 300;
+
     do {
-        CGSize textSize = [text boundingRectWithSize:CGSizeMake(size.width, CGFLOAT_MAX)
+        CGFloat padding = SDLVideoStringMessagePadding * size.width * 2;
+        CGSize textSize = [text boundingRectWithSize:CGSizeMake((size.width - padding), CGFLOAT_MAX)
                                              options:NSStringDrawingUsesLineFragmentOrigin
-                                          attributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:fontSize]}
+                                          attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:fontSize]}
                                              context:nil].size;
-        
-        if (textSize.height <= size.height) {
+
+        if (textSize.height <= (size.height - padding)) {
             break;
         }
         
-        fontSize -= 10.0;
+        fontSize -= 1.0;
     } while (fontSize > 0.0);
 
-    return (fontSize > 0) ? [UIFont boldSystemFontOfSize:fontSize] : nil;
+    return (fontSize > 0) ? [UIFont systemFontOfSize:fontSize] : nil;
 }
 
 UIImage * _Nullable sdl_createTextImage(NSString *text, CGSize size) {
     UIFont *font = sdl_findFontSizeToFitText(size, text);
     
     if (!font) {
-        NSLog(@"Text cannot fit inside frame");
+        SDLLogW(@"Text cannot fit inside frame");
         return nil;
     }
 
@@ -46,7 +51,7 @@ UIImage * _Nullable sdl_createTextImage(NSString *text, CGSize size) {
     CGContextSaveGState(context);
     
     NSMutableParagraphStyle* textStyle = NSMutableParagraphStyle.defaultParagraphStyle.mutableCopy;
-    textStyle.alignment = NSTextAlignmentCenter;
+    textStyle.alignment = NSTextAlignmentLeft;
     
     NSDictionary* textAttributes = @{
                                      NSFontAttributeName: font,
@@ -57,11 +62,12 @@ UIImage * _Nullable sdl_createTextImage(NSString *text, CGSize size) {
                                           options:NSStringDrawingUsesLineFragmentOrigin
                                        attributes:textAttributes
                                           context:nil];
-    
-    CGRect textInset = CGRectMake(0,
+
+    CGFloat padding = SDLVideoStringMessagePadding * size.width;
+    CGRect textInset = CGRectMake(0 + padding,
                                   (frame.size.height - CGRectGetHeight(textFrame)) / 2.0,
-                                  frame.size.width,
-                                  frame.size.height);
+                                  frame.size.width - (padding * 2),
+                                  frame.size.height - (padding * 2));
     
     [text drawInRect:textInset
       withAttributes:textAttributes];
@@ -78,7 +84,7 @@ Boolean CVPixelBufferAddText(CVPixelBufferRef CV_NONNULL pixelBuffer, NSString *
     
     UIImage *image = sdl_createTextImage(text, CGSizeMake(width, height));
     if (!image) {
-        NSLog(@"Could not create text image.");
+        SDLLogE(@"Could not create text image.");
         return false;
     }
     

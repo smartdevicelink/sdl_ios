@@ -69,16 +69,16 @@ class ConnectionContainerViewController: UIViewController {
     }
     // Mark: - View functions
     func removeFromView() {
-        let vc = self.childViewControllers.last
+        let vc = self.children.last
         vc?.view.removeFromSuperview()
-        vc?.removeFromParentViewController()
+        vc?.removeFromParent()
     }
 
     func loadChildViewController(index: Int?) {
         AppUserDefaults.shared.lastUsedSegment = index
         let initialViewController: UIViewController = viewControllers[index!]
-        self.addChildViewController(initialViewController)
+        self.addChild(initialViewController)
         view.addSubview(initialViewController.view)
-        initialViewController.didMove(toParentViewController: self)
+        initialViewController.didMove(toParent: self)
     }
 }

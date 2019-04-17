@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLImage.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLVrHelpItem.h"
 
 
@@ -31,9 +31,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameText:@"DON'T PANIC",
-                                                       SDLNameImage:image,
-                                                       SDLNamePosition:@42} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameText:@"DON'T PANIC",
+                                                       SDLRPCParameterNameImage:image,
+                                                       SDLRPCParameterNamePosition:@42} mutableCopy];
         SDLVRHelpItem* testStruct = [[SDLVRHelpItem alloc] initWithDictionary:dict];
         
         expect(testStruct.text).to(equal(@"DON'T PANIC"));

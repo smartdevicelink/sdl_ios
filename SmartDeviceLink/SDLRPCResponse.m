@@ -5,7 +5,7 @@
 #import "SDLRPCResponse.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLResult.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    messageType = SDLNameResponse;
+    messageType = SDLRPCParameterNameResponse;
     [store sdl_setObject:function forName:messageType];
 
     return self;
@@ -30,42 +30,45 @@ NS_ASSUME_NONNULL_BEGIN
         return nil;
     }
 
-    messageType = SDLNameResponse;
+    messageType = SDLRPCParameterNameResponse;
     [store sdl_setObject:function forName:messageType];
     
     return self;
 }
 
 - (NSNumber<SDLInt> *)correlationID {
-    return [function sdl_objectForName:SDLNameCorrelationId];
+    NSError *error = nil;
+    return [function sdl_objectForName:SDLRPCParameterNameCorrelationId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setCorrelationID:(NSNumber<SDLInt> *)corrID {
-    [function sdl_setObject:corrID forName:SDLNameCorrelationId];
+    [function sdl_setObject:corrID forName:SDLRPCParameterNameCorrelationId];
 }
 
 - (void)setSuccess:(NSNumber<SDLBool> *)success {
-    [parameters sdl_setObject:success forName:SDLNameSuccess];
+    [parameters sdl_setObject:success forName:SDLRPCParameterNameSuccess];
 }
 
 - (NSNumber<SDLBool> *)success {
-    return [parameters sdl_objectForName:SDLNameSuccess];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameSuccess ofClass:NSNumber.class error:&error];
 }
 
 - (void)setResultCode:(SDLResult)resultCode {
-    [parameters sdl_setObject:resultCode forName:SDLNameResultCode];
+    [parameters sdl_setObject:resultCode forName:SDLRPCParameterNameResultCode];
 }
 
 - (SDLResult)resultCode {
-    return [parameters sdl_objectForName:SDLNameResultCode];
+    NSError *error = nil;
+    return [parameters sdl_enumForName:SDLRPCParameterNameResultCode error:&error];
 }
 
 - (void)setInfo:(nullable NSString *)info {
-    [parameters sdl_setObject:info forName:SDLNameInfo];
+    [parameters sdl_setObject:info forName:SDLRPCParameterNameInfo];
 }
 
 - (nullable NSString *)info {
-    return [parameters sdl_objectForName:SDLNameInfo];
+    return [parameters sdl_objectForName:SDLRPCParameterNameInfo ofClass:NSString.class error:nil];
 }
 
 @end

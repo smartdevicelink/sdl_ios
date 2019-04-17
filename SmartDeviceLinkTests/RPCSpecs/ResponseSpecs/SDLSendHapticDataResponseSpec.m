@@ -11,7 +11,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLSendHapticDataResponse.h"
 
 QuickSpecBegin(SDLSendHapticDataResponseSpec)

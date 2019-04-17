@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLSlider.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLSliderSpec)
 
@@ -49,14 +50,14 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized with a dictionary", ^ {
-        NSDictionary<NSString *, id> *dict = @{SDLNameRequest:
-                                                    @{SDLNameParameters:
-                                                          @{SDLNameNumberTicks:@(testNumTicks),
-                                                            SDLNamePosition:@(testPosition),
-                                                            SDLNameSliderHeader:testHeader,
-                                                            SDLNameSliderFooter:testFooters,
-                                                            SDLNameTimeout:@(testTimeout)},
-                                                      SDLNameOperationName:SDLNameSlider}};
+        NSDictionary<NSString *, id> *dict = @{SDLRPCParameterNameRequest:
+                                                    @{SDLRPCParameterNameParameters:
+                                                          @{SDLRPCParameterNameNumberTicks:@(testNumTicks),
+                                                            SDLRPCParameterNamePosition:@(testPosition),
+                                                            SDLRPCParameterNameSliderHeader:testHeader,
+                                                            SDLRPCParameterNameSliderFooter:testFooters,
+                                                            SDLRPCParameterNameTimeout:@(testTimeout)},
+                                                      SDLRPCParameterNameOperationName:SDLRPCFunctionNameSlider}};
         testRequest = [[SDLSlider alloc] initWithDictionary:dict];
         
         expect(testRequest.numTicks).to(equal(testNumTicks));

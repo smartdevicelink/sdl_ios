@@ -5,34 +5,36 @@
 
 #import "NSMutableDictionary+Store.h"
 #import "SDLAmbientLightStatus.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLHeadLampStatus
 
 - (void)setLowBeamsOn:(NSNumber<SDLBool> *)lowBeamsOn {
-    [store sdl_setObject:lowBeamsOn forName:SDLNameLowBeamsOn];
+    [store sdl_setObject:lowBeamsOn forName:SDLRPCParameterNameLowBeamsOn];
 }
 
 - (NSNumber<SDLBool> *)lowBeamsOn {
-    return [store sdl_objectForName:SDLNameLowBeamsOn];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameLowBeamsOn ofClass:NSNumber.class error:&error];
 }
 
 - (void)setHighBeamsOn:(NSNumber<SDLBool> *)highBeamsOn {
-    [store sdl_setObject:highBeamsOn forName:SDLNameHighBeamsOn];
+    [store sdl_setObject:highBeamsOn forName:SDLRPCParameterNameHighBeamsOn];
 }
 
 - (NSNumber<SDLBool> *)highBeamsOn {
-    return [store sdl_objectForName:SDLNameHighBeamsOn];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameHighBeamsOn ofClass:NSNumber.class error:&error];
 }
 
 - (void)setAmbientLightSensorStatus:(nullable SDLAmbientLightStatus)ambientLightSensorStatus {
-    [store sdl_setObject:ambientLightSensorStatus forName:SDLNameAmbientLightSensorStatus];
+    [store sdl_setObject:ambientLightSensorStatus forName:SDLRPCParameterNameAmbientLightSensorStatus];
 }
 
 - (nullable SDLAmbientLightStatus)ambientLightSensorStatus {
-    return [store sdl_objectForName:SDLNameAmbientLightSensorStatus];
+    return [store sdl_enumForName:SDLRPCParameterNameAmbientLightSensorStatus error:nil];
 }
 
 @end

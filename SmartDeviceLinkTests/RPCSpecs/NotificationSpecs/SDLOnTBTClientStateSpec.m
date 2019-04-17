@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLOnTBTClientState.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLTBTState.h"
 
 
@@ -25,10 +26,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameState:SDLTBTStateETARequest},
-                                             SDLNameOperationName:SDLNameOnTBTClientState}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameState:SDLTBTStateETARequest},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnTBTClientState}} mutableCopy];
         SDLOnTBTClientState* testNotification = [[SDLOnTBTClientState alloc] initWithDictionary:dict];
         
         expect(testNotification.state).to(equal(SDLTBTStateETARequest));

@@ -15,6 +15,7 @@
 @class SDLProxy;
 @class SDLPutFile;
 @class SDLRegisterAppInterfaceResponse;
+@class SDLRPCMessage;
 @class SDLRPCNotification;
 @class SDLRPCRequest;
 @class SDLRPCResponse;
@@ -84,6 +85,11 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 @property (strong, nonatomic, readonly, nullable) SDLRegisterAppInterfaceResponse *registerResponse;
 
 /**
+ *  The auth token, if received. This should be used to log into a user account. Primarily used for cloud apps with companion app stores.
+ */
+@property (strong, nonatomic, readonly, nullable) NSString *authToken;
+
+/**
  *  The manager's delegate.
  */
 @property (weak, nonatomic, nullable) id<SDLManagerDelegate> delegate;
@@ -131,6 +137,13 @@ typedef void (^SDLManagerReadyBlock)(BOOL success, NSError *_Nullable error);
 
 
 #pragma mark Manually Send RPC Requests
+
+/**
+ *  Send an RPC of type `Response`, `Notification` or `Request`. Responses and notifications sent to Core do not a response back from Core. Each request sent to Core does get a response, so if you need the response and/or error, call `sendRequest:withResponseHandler:` instead.
+ *
+ *  @param rpc An RPC of type `SDLRPCResponse`, `SDLRPCNotification` or `SDLRPCRequest`
+ */
+- (void)sendRPC:(__kindof SDLRPCMessage *)rpc;
 
 /**
  *  Send an RPC request and don't bother with the response or error. If you need the response or error, call sendRequest:withCompletionHandler: instead.

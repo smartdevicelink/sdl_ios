@@ -2,7 +2,7 @@
 //
 
 #import "SDLAudioControlCapabilities.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "NSMutableDictionary+Store.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -35,51 +35,52 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setModuleName:(NSString *)moduleName {
-    [store sdl_setObject:moduleName forName:SDLNameModuleName];
+    [store sdl_setObject:moduleName forName:SDLRPCParameterNameModuleName];
 }
 
 - (NSString *)moduleName {
-    return [store sdl_objectForName:SDLNameModuleName];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameModuleName ofClass:NSString.class error:&error];
 }
 
 - (void)setSourceAvailable:(nullable NSNumber<SDLBool> *)sourceAvailable {
-    [store sdl_setObject:sourceAvailable forName:SDLNameSourceAvailable];
+    [store sdl_setObject:sourceAvailable forName:SDLRPCParameterNameSourceAvailable];
 }
 
 - (nullable NSNumber<SDLBool> *)sourceAvailable {
-    return [store sdl_objectForName:SDLNameSourceAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameSourceAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setKeepContextAvailable:(nullable NSNumber<SDLBool> *)keepContextAvailable {
-    [store sdl_setObject:keepContextAvailable forName:SDLNameKeepContextAvailable];
+    [store sdl_setObject:keepContextAvailable forName:SDLRPCParameterNameKeepContextAvailable];
 }
 
 - (nullable NSNumber<SDLBool> *)keepContextAvailable {
-    return [store sdl_objectForName:SDLNameKeepContextAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameKeepContextAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setVolumeAvailable:(nullable NSNumber<SDLBool> *)volumeAvailable {
-    [store sdl_setObject:volumeAvailable forName:SDLNameVolumeAvailable];
+    [store sdl_setObject:volumeAvailable forName:SDLRPCParameterNameVolumeAvailable];
 }
 
 - (nullable NSNumber<SDLBool> *)volumeAvailable {
-    return [store sdl_objectForName:SDLNameVolumeAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameVolumeAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setEqualizerAvailable:(nullable NSNumber<SDLBool> *)equalizerAvailable {
-    [store sdl_setObject:equalizerAvailable forName:SDLNameEqualizerAvailable];
+    [store sdl_setObject:equalizerAvailable forName:SDLRPCParameterNameEqualizerAvailable];
 }
 
 - (nullable NSNumber<SDLBool> *)equalizerAvailable {
-    return [store sdl_objectForName:SDLNameEqualizerAvailable];
+    return [store sdl_objectForName:SDLRPCParameterNameEqualizerAvailable ofClass:NSNumber.class error:nil];
 }
 
 - (void)setEqualizerMaxChannelId:(nullable NSNumber<SDLInt> *)equalizerMaxChannelId {
-    [store sdl_setObject:equalizerMaxChannelId forName:SDLNameEqualizerMaxChannelId];
+    [store sdl_setObject:equalizerMaxChannelId forName:SDLRPCParameterNameEqualizerMaxChannelId];
 }
 
 - (nullable NSNumber<SDLInt> *)equalizerMaxChannelId {
-    return [store sdl_objectForName:SDLNameEqualizerMaxChannelId];
+    return [store sdl_objectForName:SDLRPCParameterNameEqualizerMaxChannelId ofClass:NSNumber.class error:nil];
 }
 
 @end

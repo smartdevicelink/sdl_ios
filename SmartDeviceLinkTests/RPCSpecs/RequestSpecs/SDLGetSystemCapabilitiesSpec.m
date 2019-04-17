@@ -6,7 +6,7 @@
 #import "SDLGetSystemCapability.h"
 
 #import "SDLSystemCapabilityType.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLGetSystemCapabilitiesSpec)
 
@@ -22,9 +22,9 @@ describe(@"Getter/Setter Tests", ^ {
 
 describe(@"Initialization tests", ^{
     it(@"Should get correctly when initialized with a dictionary", ^ {
-        NSDictionary *dict = @{SDLNameRequest: @{
-                                       SDLNameParameters: @{
-                                               SDLNameSystemCapabilityType: @"PHONE_CALL"
+        NSDictionary *dict = @{SDLRPCParameterNameRequest: @{
+                                       SDLRPCParameterNameParameters: @{
+                                               SDLRPCParameterNameSystemCapabilityType: @"PHONE_CALL"
                                                }
                                        }
                                };

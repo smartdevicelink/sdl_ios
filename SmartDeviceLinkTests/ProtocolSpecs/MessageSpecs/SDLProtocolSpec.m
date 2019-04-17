@@ -11,35 +11,36 @@
 
 #import "SDLTransportType.h"
 #import "SDLControlFramePayloadRegisterSecondaryTransportNak.h"
+#import "SDLControlFramePayloadRPCStartServiceAck.h"
 #import "SDLGlobals.h"
 #import "SDLProtocolHeader.h"
 #import "SDLProtocol.h"
 #import "SDLProtocolMessage.h"
 #import "SDLProtocolReceivedMessageRouter.h"
 #import "SDLRPCRequest.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLV1ProtocolMessage.h"
 #import "SDLV2ProtocolMessage.h"
 #import "SDLV1ProtocolHeader.h"
 #import "SDLV2ProtocolHeader.h"
-
+#import "SDLVersion.h"
 
 QuickSpecBegin(SDLProtocolSpec)
 
 //Test dictionaries
-NSDictionary* dictionaryV1 = @{SDLNameRequest:
-                                   @{SDLNameOperationName:@"DeleteCommand",
-                                     SDLNameCorrelationId:@0x98765,
-                                     SDLNameParameters:
-                                         @{SDLNameCommandId:@55}}};
-NSDictionary* dictionaryV2 = @{SDLNameCommandId:@55};
+NSDictionary* dictionaryV1 = @{SDLRPCParameterNameRequest:
+                                   @{SDLRPCParameterNameOperationName:@"DeleteCommand",
+                                     SDLRPCParameterNameCorrelationId:@0x98765,
+                                     SDLRPCParameterNameParameters:
+                                         @{SDLRPCParameterNameCommandId:@55}}};
+NSDictionary* dictionaryV2 = @{SDLRPCParameterNameCommandId:@55};
 
 describe(@"Send StartService Tests", ^ {
     context(@"Unsecure", ^{
         it(@"Should send the correct data", ^ {
             // Reset max protocol version before test. (This test case expects V1 header. If other test ran
             // prior to this one, SDLGlobals would keep the max protocol version and this test case would fail.)
-            [[SDLGlobals sharedGlobals] setMaxHeadUnitVersion:@"1.0.0"];
+            [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithString:@"1.0.0"];
 
             SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
             
@@ -65,7 +66,7 @@ describe(@"Send StartService Tests", ^ {
 
         it(@"Should reuse stored header of RPC service when starting other service", ^{
             // reset max protocol version before test
-            [[SDLGlobals sharedGlobals] setMaxHeadUnitVersion:@"2.0.0"];
+            [SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion = [SDLVersion versionWithString:@"2.0.0"];
 
             SDLServiceType serviceTypeToStart = SDLServiceTypeVideo;
 
@@ -404,23 +405,158 @@ describe(@"HandleBytesFromTransport Tests", ^ {
     });
 });
 
-xdescribe(@"HandleProtocolSessionStarted Tests", ^ {
-    it(@"Should pass information along to delegate", ^ {
-        SDLProtocol* testProtocol = [[SDLProtocol alloc] init];
-        
-        id delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
-        
-        SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] init];
-        testHeader.frameType = SDLFrameTypeControl;
-        testHeader.serviceType = SDLServiceTypeRPC;
-        testHeader.frameData = SDLFrameInfoStartServiceACK;
-        testHeader.sessionID = 0x93;
-        testHeader.bytesInPayload = 0;
-        
-        [testProtocol.protocolDelegateTable addObject:delegateMock];
-        [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]];
-        
-        OCMExpect([delegateMock handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]]);
+describe(@"HandleProtocolSessionStarted tests", ^ {
+    __block SDLProtocol *testProtocol = nil;
+    __block id delegateMock = nil;
+
+    beforeEach(^{
+        testProtocol = [[SDLProtocol alloc] init];
+        delegateMock = OCMProtocolMock(@protocol(SDLProtocolListener));
+        [[SDLGlobals sharedGlobals] init]; // Make sure to reset between tests
+    });
+
+    context(@"For protocol versions 5.0.0 and greater", ^{
+        __block NSString *testAuthToken = nil;
+
+        beforeEach(^{
+            testAuthToken = @"testAuthToken";
+        });
+
+        context(@"If the service type is RPC", ^{
+            it(@"Should store the auth token and the protocol version and pass the start service along to the delegate", ^{
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:1545784 mtu:989786483 authToken:testAuthToken protocolVersion:@"5.2.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                NSData *testData = testPayload.data;
+
+                SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                testHeader.frameType = SDLFrameTypeControl;
+                testHeader.serviceType = SDLServiceTypeRPC;
+                testHeader.frameData = SDLFrameInfoStartServiceACK;
+                testHeader.sessionID = 0x93;
+                testHeader.bytesInPayload = (UInt32)testData.length;
+
+                [testProtocol.protocolDelegateTable addObject:delegateMock];
+                [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:testData]];
+
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]]);
+
+                expect(testProtocol.authToken).to(equal(testAuthToken));
+                expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"5.2.0"));
+                expect([SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion.stringVersion).to(equal(@"5.2.0"));
+            });
+
+            it(@"Should store the protocol version, but not get the auth token, and pass the start service along to the delegate if the protocol version is greater than 5.0.0 but less than 5.2.0", ^{
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:1545784 mtu:989786483 authToken:testAuthToken protocolVersion:@"5.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                NSData *testData = testPayload.data;
+
+                SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                testHeader.frameType = SDLFrameTypeControl;
+                testHeader.serviceType = SDLServiceTypeRPC;
+                testHeader.frameData = SDLFrameInfoStartServiceACK;
+                testHeader.sessionID = 0x93;
+                testHeader.bytesInPayload = (UInt32)testData.length;
+
+                [testProtocol.protocolDelegateTable addObject:delegateMock];
+                [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:testData]];
+
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]]);
+
+                expect(testProtocol.authToken).to(beNil());
+                expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"5.1.0"));
+                expect([SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion.stringVersion).to(equal(@"5.1.0"));
+            });
+
+            it(@"Should set the max head unit version using the header version if the protocol version is missing from the payload", ^{
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:1545784 mtu:989786483 authToken:nil protocolVersion:nil secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                NSData *testData = testPayload.data;
+
+                SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                testHeader.frameType = SDLFrameTypeControl;
+                testHeader.serviceType = SDLServiceTypeRPC;
+                testHeader.frameData = SDLFrameInfoStartServiceACK;
+                testHeader.sessionID = 0x93;
+                testHeader.bytesInPayload = (UInt32)testData.length;
+
+                [testProtocol.protocolDelegateTable addObject:delegateMock];
+                [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:testData]];
+
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]]);
+
+                expect(testProtocol.authToken).to(beNil());
+                expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"5.0.0"));
+                expect([SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion.stringVersion).to(equal(@"5.0.0"));
+            });
+        });
+
+        context(@"If the service type is not RPC", ^{
+            it(@"Should just pass the start service along to the delegate", ^{
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:1545784 mtu:989786483 authToken:testAuthToken protocolVersion:@"5.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                NSData *testData = testPayload.data;
+
+                SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                testHeader.frameType = SDLFrameTypeControl;
+                testHeader.serviceType = SDLServiceTypeControl;
+                testHeader.frameData = SDLFrameInfoStartServiceACK;
+                testHeader.sessionID = 0x93;
+                testHeader.bytesInPayload = (UInt32)testData.length;
+
+                [testProtocol.protocolDelegateTable addObject:delegateMock];
+                [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:testData]];
+
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]]);
+
+                // Should keep their default values
+                expect(testProtocol.authToken).to(beNil());
+                expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"1.0.0"));
+                expect([SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion.stringVersion).to(equal(@"0.0.0"));
+            });
+        });
+    });
+
+    context(@"For protocol versions below 5.0.0", ^{
+        context(@"If the service type is RPC", ^{
+            it(@"Should store the protocol version and pass the start service along to the delegate", ^{
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:1545784 mtu:989786483 authToken:nil protocolVersion:@"3.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                NSData *testData = testPayload.data;
+
+                SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:5];
+                testHeader.frameType = SDLFrameTypeControl;
+                testHeader.serviceType = SDLServiceTypeRPC;
+                testHeader.frameData = SDLFrameInfoStartServiceACK;
+                testHeader.sessionID = 0x93;
+                testHeader.bytesInPayload = (UInt32)testData.length;
+
+                [testProtocol.protocolDelegateTable addObject:delegateMock];
+                [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:testData]];
+
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]]);
+
+                expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"3.1.0"));
+                expect([SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion.stringVersion).to(equal(@"3.1.0"));
+            });
+        });
+
+        context(@"If the service type is not RPC", ^{
+            it(@"Should just pass the start service along to the delegate", ^{
+                SDLControlFramePayloadRPCStartServiceAck *testPayload = [[SDLControlFramePayloadRPCStartServiceAck alloc] initWithHashId:1545784 mtu:989786483 authToken:nil protocolVersion:@"4.1.0" secondaryTransports:nil audioServiceTransports:nil videoServiceTransports:nil];
+                NSData *testData = testPayload.data;
+
+                SDLV2ProtocolHeader* testHeader = [[SDLV2ProtocolHeader alloc] initWithVersion:4];
+                testHeader.frameType = SDLFrameTypeControl;
+                testHeader.serviceType = SDLServiceTypeControl;
+                testHeader.frameData = SDLFrameInfoStartServiceACK;
+                testHeader.sessionID = 0x93;
+                testHeader.bytesInPayload = (UInt32)testData.length;
+
+                [testProtocol.protocolDelegateTable addObject:delegateMock];
+                [testProtocol handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:testData]];
+
+                OCMExpect([delegateMock handleProtocolStartServiceACKMessage:[SDLProtocolMessage messageWithHeader:testHeader andPayload:nil]]);
+
+                // Should keep their default values
+                expect([SDLGlobals sharedGlobals].protocolVersion.stringVersion).to(equal(@"1.0.0"));
+                expect([SDLGlobals sharedGlobals].maxHeadUnitProtocolVersion.stringVersion).to(equal(@"0.0.0"));
+            });
+        });
     });
 });
 

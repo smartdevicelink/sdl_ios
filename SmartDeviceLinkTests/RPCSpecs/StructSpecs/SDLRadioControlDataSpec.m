@@ -13,7 +13,7 @@
 #import "SDLRadioState.h"
 #import "SDLRDSData.h"
 #import "SDLSISData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLRadioControlDataSpec)
 __block SDLRDSData* someRdsData = [[SDLRDSData alloc] init];
@@ -37,17 +37,17 @@ describe(@"Initialization tests", ^{
     });
     
     it(@"should properly initialize initWithDictionary", ^{
-        NSMutableDictionary* dict = [@{SDLNameFrequencyInteger : @101,
-                                       SDLNameFrequencyFraction : @7,
-                                       SDLNameBand : SDLRadioBandAM,
-                                       SDLNameRDSData : someRdsData,
-                                       SDLNameAvailableHDs : @2,
-                                       SDLNameHDChannel : @2,
-                                       SDLNameSignalStrength : @54,
-                                       SDLNameSignalChangeThreshold : @76,
-                                       SDLNameRadioEnable : @YES,
-                                       SDLNameState : SDLRadioStateNotFound,
-                                       SDLNameHDRadioEnable : @NO
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameFrequencyInteger : @101,
+                                       SDLRPCParameterNameFrequencyFraction : @7,
+                                       SDLRPCParameterNameBand : SDLRadioBandAM,
+                                       SDLRPCParameterNameRDSData : someRdsData,
+                                       SDLRPCParameterNameAvailableHDs : @2,
+                                       SDLRPCParameterNameHDChannel : @2,
+                                       SDLRPCParameterNameSignalStrength : @54,
+                                       SDLRPCParameterNameSignalChangeThreshold : @76,
+                                       SDLRPCParameterNameRadioEnable : @YES,
+                                       SDLRPCParameterNameState : SDLRadioStateNotFound,
+                                       SDLRPCParameterNameHDRadioEnable : @NO
                                        } mutableCopy];
         SDLRadioControlData* testStruct = [[SDLRadioControlData alloc] initWithDictionary:dict];
         

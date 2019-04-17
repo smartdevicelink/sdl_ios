@@ -99,3 +99,11 @@
  @param ... The format arguments to log
  */
 #define SDLLogE(msg, ...) [SDLLogManager logWithLevel:SDLLogLevelError timestamp:[NSDate date] file:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ queue:SDLLOG_QUEUE formatMessage:msg, ##__VA_ARGS__]
+
+/**
+ Log an assertion log. This will log an error, and assert by default in DEBUG (but this can be disabled in the SDLLogConfiguration).
+
+ @param msg The format string to log
+ @param ... The format arguments to log
+ */
+#define SDLLogAssert(msg, ...) [SDLLogManager logAssertWithTimestamp:[NSDate date] file:SDLLOG_FILE functionName:SDLLOG_FUNC line:__LINE__ queue:SDLLOG_QUEUE formatMessage:msg, ##__VA_ARGS__]

@@ -14,6 +14,11 @@
 typedef SDLEnum SDLSystemCapabilityType SDL_SWIFT_ENUM;
 
 /**
+ The app services capability
+ */
+extern SDLSystemCapabilityType const SDLSystemCapabilityTypeAppServices;
+
+/**
  The navigation capability
  */
 extern SDLSystemCapabilityType const SDLSystemCapabilityTypeNavigation;

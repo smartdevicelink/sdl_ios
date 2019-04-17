@@ -4,33 +4,35 @@
 #import "SDLOnCommand.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnCommand
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnCommand]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnCommand]) {
     }
     return self;
 }
 
 - (void)setCmdID:(NSNumber<SDLInt> *)cmdID {
-    [parameters sdl_setObject:cmdID forName:SDLNameCommandId];
+    [parameters sdl_setObject:cmdID forName:SDLRPCParameterNameCommandId];
 }
 
 - (NSNumber<SDLInt> *)cmdID {
-    return [parameters sdl_objectForName:SDLNameCommandId];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameCommandId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setTriggerSource:(SDLTriggerSource)triggerSource {
-    [parameters sdl_setObject:triggerSource forName:SDLNameTriggerSource];
+    [parameters sdl_setObject:triggerSource forName:SDLRPCParameterNameTriggerSource];
 }
 
 - (SDLTriggerSource)triggerSource {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameTriggerSource];
-    return (SDLTriggerSource)obj;
+    NSError *error = nil;
+    return [parameters sdl_enumForName:SDLRPCParameterNameTriggerSource error:&error];
 }
 
 @end

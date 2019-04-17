@@ -1,0 +1,63 @@
+<h1>SDLGetCloudAppProperties Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithAppID:">-initWithAppID:</a></li>
+  <li><a href="#section-appID">appID</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>RPC used to get the current properties of a cloud application.</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithAppID:">
+      -initWithAppID:
+  </h3>
+  
+  <p>Convenience init.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppID</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">appID</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>appID</dt>
+      <dd><p>The id of the cloud app</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLGetCloudAppProperties object</p>
+  </div>
+  
+  <h3 id="section-appID">
+      appID
+  </h3>
+  
+  <p>The id of the cloud app.</p>
+
+<p>String, Required, maxlength=<q>100</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">appID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">appID</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLLightControlData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLLightState.h"
 
 QuickSpecBegin(SDLLightControlDataSpec)
@@ -31,7 +31,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameLightState:[@[someLightState] copy]} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameLightState:[@[someLightState] copy]} mutableCopy];
 
         SDLLightControlData* testStruct = [[SDLLightControlData alloc] initWithDictionary:dict];
 

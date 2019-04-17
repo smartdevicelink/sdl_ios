@@ -2,7 +2,7 @@
 //
 
 #import "SDLHMISettingsControlData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "NSMutableDictionary+Store.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -22,27 +22,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setDisplayMode:(nullable SDLDisplayMode)displayMode {
-    [store sdl_setObject:displayMode forName:SDLNameDisplayMode];
+    [store sdl_setObject:displayMode forName:SDLRPCParameterNameDisplayMode];
 }
 
 - (nullable SDLDisplayMode)displayMode {
-    return [store sdl_objectForName:SDLNameDisplayMode];
+    return [store sdl_enumForName:SDLRPCParameterNameDisplayMode error:nil];
 }
 
 - (void)setDistanceUnit:(nullable SDLDistanceUnit)distanceUnit {
-    [store sdl_setObject:distanceUnit forName:SDLNameDistanceUnit];
+    [store sdl_setObject:distanceUnit forName:SDLRPCParameterNameDistanceUnit];
 }
 
 - (nullable SDLDistanceUnit)distanceUnit {
-    return [store sdl_objectForName:SDLNameDistanceUnit];
+    return [store sdl_enumForName:SDLRPCParameterNameDistanceUnit error:nil];
 }
 
 - (void)setTemperatureUnit:(nullable SDLTemperatureUnit)temperatureUnit {
-    [store sdl_setObject:temperatureUnit forName:SDLNameTemperatureUnit];
+    [store sdl_setObject:temperatureUnit forName:SDLRPCParameterNameTemperatureUnit];
 }
 
 - (nullable SDLTemperatureUnit)temperatureUnit {
-    return [store sdl_objectForName:SDLNameTemperatureUnit];
+    return [store sdl_enumForName:SDLRPCParameterNameTemperatureUnit error:nil];
 }
 
 @end

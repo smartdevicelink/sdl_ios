@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLAudioControlCapabilities.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin( SDLAudioControlCapabilitiesSpec)
@@ -56,12 +56,12 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameModuleName:@"module",
-                                       SDLNameSourceAvailable:@(NO),
-                                       SDLNameKeepContextAvailable: @YES,
-                                       SDLNameVolumeAvailable:@(YES),
-                                       SDLNameEqualizerAvailable:@(NO),
-                                       SDLNameEqualizerMaxChannelId:@12
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameModuleName:@"module",
+                                       SDLRPCParameterNameSourceAvailable:@(NO),
+                                       SDLRPCParameterNameKeepContextAvailable: @YES,
+                                       SDLRPCParameterNameVolumeAvailable:@(YES),
+                                       SDLRPCParameterNameEqualizerAvailable:@(NO),
+                                       SDLRPCParameterNameEqualizerMaxChannelId:@12
                                        } mutableCopy];
         SDLAudioControlCapabilities* testStruct = [[SDLAudioControlCapabilities alloc] initWithDictionary:dict];
 

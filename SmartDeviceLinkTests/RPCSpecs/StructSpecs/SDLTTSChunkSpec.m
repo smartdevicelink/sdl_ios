@@ -8,7 +8,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLSpeechCapabilities.h"
 #import "SDLTTSChunk.h"
 
@@ -30,8 +30,8 @@ describe(@"TTS Chunk Tests", ^{
         });
 
         it(@"should correctly initialize with initWithDictionary", ^{
-            NSDictionary* dict = @{SDLNameText: testText,
-                                   SDLNameType: testCapabilities};
+            NSDictionary* dict = @{SDLRPCParameterNameText: testText,
+                                   SDLRPCParameterNameType: testCapabilities};
             testStruct = [[SDLTTSChunk alloc] initWithDictionary:dict];
 
             expect(testStruct.text).to(equal(testText));

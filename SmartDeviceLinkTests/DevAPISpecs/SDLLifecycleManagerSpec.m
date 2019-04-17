@@ -4,6 +4,7 @@
 
 #import "SDLLifecycleManager.h"
 
+#import "SDLAppServiceData.h"
 #import "SDLConfiguration.h"
 #import "SDLConnectionManagerType.h"
 #import "SDLError.h"
@@ -16,14 +17,18 @@
 #import "SDLLogConfiguration.h"
 #import "SDLManagerDelegate.h"
 #import "SDLNotificationDispatcher.h"
+#import "SDLOnAppInterfaceUnregistered.h"
+#import "SDLOnAppServiceData.h"
 #import "SDLOnHashChange.h"
 #import "SDLOnHMIStatus.h"
+#import "SDLPerformAppServiceInteractionResponse.h"
 #import "SDLPermissionManager.h"
 #import "SDLProxy.h"
 #import "SDLProtocol.h"
 #import "SDLRegisterAppInterface.h"
 #import "SDLRegisterAppInterfaceResponse.h"
 #import "SDLResult.h"
+#import "SDLRPCNotificationNotification.h"
 #import "SDLShow.h"
 #import "SDLStateMachine.h"
 #import "SDLStreamingMediaConfiguration.h"
@@ -33,6 +38,7 @@
 #import "SDLTTSChunk.h"
 #import "SDLUnregisterAppInterface.h"
 #import "SDLUnregisterAppInterfaceResponse.h"
+#import "SDLVersion.h"
 
 
 // Ignore the deprecated proxy methods
@@ -42,6 +48,7 @@
 @interface SDLLifecycleManager ()
 // this private property is used for testing
 @property (copy, nonatomic) dispatch_queue_t lifecycleQueue;
+@property (assign, nonatomic) int32_t lastCorrelationId;
 @end
 
 QuickConfigurationBegin(SendingRPCsConfiguration)
@@ -128,7 +135,10 @@ describe(@"a lifecycle manager", ^{
         expect(testManager.responseDispatcher).toNot(beNil());
         expect(testManager.streamManager).toNot(beNil());
         expect(testManager.systemCapabilityManager).toNot(beNil());
+        expect(testManager.rpcOperationQueue).toNot(beNil());
+        expect(testManager.rpcOperationQueue.maxConcurrentOperationCount).to(equal(3));
         expect(@([testManager conformsToProtocol:@protocol(SDLConnectionManagerType)])).to(equal(@YES));
+        expect(testManager.authToken).to(beNil());
     });
     
     itBehavesLike(@"unable to send an RPC", ^{ return @{ @"manager": testManager }; });
@@ -254,6 +264,20 @@ describe(@"a lifecycle manager", ^{
                 });
             });
         });
+
+        describe(@"in the connected state when the minimum protocol version is in effect", ^{
+            beforeEach(^{
+                SDLVersion *oldVersion = [SDLVersion versionWithMajor:0 minor:0 patch:0];
+                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                OCMStub([globalMock protocolVersion]).andReturn(oldVersion);
+                OCMExpect([protocolMock endServiceWithType:SDLServiceTypeRPC]);
+                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateConnected fromOldState:nil callEnterTransition:YES];
+            });
+
+            it(@"should disconnect", ^{
+                OCMVerifyAll(protocolMock);
+            });
+        });
         
         describe(@"in the connected state", ^{
             beforeEach(^{
@@ -309,6 +333,20 @@ describe(@"a lifecycle manager", ^{
                 it(@"should enter the stopped state", ^{
                     expect(testManager.lifecycleState).to(match(SDLLifecycleStateStopped));
                 });
+            });
+        });
+
+        describe(@"transitioning to the registered state when the minimum RPC version is in effect", ^{
+            beforeEach(^{
+                SDLVersion *oldVersion = [SDLVersion versionWithMajor:0 minor:0 patch:0];
+                id globalMock = OCMPartialMock([SDLGlobals sharedGlobals]);
+                OCMStub([globalMock rpcVersion]).andReturn(oldVersion);
+
+                [testManager.lifecycleStateMachine setToState:SDLLifecycleStateRegistered fromOldState:nil callEnterTransition:YES];
+            });
+
+            it(@"should disconnect", ^{
+                expect(testManager.lifecycleState).to(equal(SDLLifecycleStateUnregistering));
             });
         });
         
@@ -441,12 +479,68 @@ describe(@"a lifecycle manager", ^{
                 [testManager.lifecycleStateMachine setToState:SDLLifecycleStateReady fromOldState:nil callEnterTransition:NO];
             });
 
-            it(@"can send an RPC", ^{
+            it(@"can send an RPC of type Request", ^{
                 SDLShow *testShow = [[SDLShow alloc] initWithMainField1:@"test" mainField2:nil alignment:nil];
-                [testManager sendRequest:testShow];
+                [testManager sendRPC:testShow];
 
-                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:[SDLShow class]]]);
+                [NSThread sleepForTimeInterval:0.1];
+
+                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLShow.class]]);
             });
+
+            it(@"can send an RPC of type Response", ^{
+                SDLPerformAppServiceInteractionResponse *testResponse = [[SDLPerformAppServiceInteractionResponse alloc] init];
+                [testManager sendRPC:testResponse];
+                testResponse.correlationID = @(2);
+                testResponse.success = @(true);
+                testResponse.resultCode = SDLResultSuccess;
+                testResponse.info = @"testResponse info";
+
+                [NSThread sleepForTimeInterval:0.1];
+
+                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLPerformAppServiceInteractionResponse.class]]);
+            });
+
+            it(@"can send an RPC of type Notification", ^{
+                SDLOnAppServiceData *testNotification = [[SDLOnAppServiceData alloc] initWithServiceData:[[SDLAppServiceData alloc] init]];
+                [testManager sendRPC:testNotification];
+
+                [NSThread sleepForTimeInterval:0.1];
+
+                OCMVerify([proxyMock sendRPC:[OCMArg isKindOfClass:SDLOnAppServiceData.class]]);
+            });
+
+            it(@"should throw an exception if the RPC is not of type `Request`, `Response` or `Notification`", ^{
+                SDLRPCMessage *testMessage = [[SDLRPCMessage alloc] init];
+                expectAction(^{
+                    [testManager sendRPC:testMessage];
+                }).to(raiseException());
+            });
+            
+            describe(@"stopping the manager on certain SDLAppInterfaceUnregisteredReason", ^{
+                it(@"should attempt to stop the manager when a PROTOCOL_VIOLATION notification is recieved", ^{
+
+                    SDLOnAppInterfaceUnregistered *unreg = [[SDLOnAppInterfaceUnregistered alloc] init];
+                    unreg.reason = SDLAppInterfaceUnregisteredReasonProtocolViolation;
+                    
+                    SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveAppUnregisteredNotification object:testManager.notificationDispatcher rpcNotification:unreg];
+                    
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateStopped));
+                });
+       
+                it(@"should attempt to stop the manager when an APP_UNAUTHORIZED notification is recieved", ^{
+                    
+                    SDLOnAppInterfaceUnregistered *unreg = [[SDLOnAppInterfaceUnregistered alloc] init];
+                    unreg.reason = SDLAppInterfaceUnregisteredReasonAppUnauthorized;
+                    
+                    SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveAppUnregisteredNotification object:testManager.notificationDispatcher rpcNotification:unreg];
+                    
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    expect(testManager.lifecycleState).toEventually(equal(SDLLifecycleStateStopped));
+                });
+            });
+            
             
             describe(@"stopping the manager", ^{
                 beforeEach(^{

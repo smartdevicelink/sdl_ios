@@ -11,7 +11,7 @@
 #import "SDLAudioControlData.h"
 #import "SDLPrimaryAudioSource.h"
 #import "SDLEqualizerSettings.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin( SDLAudioControlDataSpec)
@@ -43,10 +43,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
 
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameSource:SDLPrimaryAudioSourceCD,
-                                       SDLNameKeepContext:@(NO),
-                                       SDLNameVolume:@(NO),
-                                       SDLNameEqualizerSettings:[@[someEqualizerSettings] copy]
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameSource:SDLPrimaryAudioSourceCD,
+                                       SDLRPCParameterNameKeepContext:@(NO),
+                                       SDLRPCParameterNameVolume:@(NO),
+                                       SDLRPCParameterNameEqualizerSettings:[@[someEqualizerSettings] copy]
                                        } mutableCopy];
         SDLAudioControlData* testStruct = [[SDLAudioControlData alloc] initWithDictionary:dict];
 

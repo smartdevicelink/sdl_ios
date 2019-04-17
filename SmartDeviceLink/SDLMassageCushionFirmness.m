@@ -1,7 +1,7 @@
 //  SDLMassageCushionFirmness.m
 //
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLMassageCushionFirmness.h"
 #import "NSMutableDictionary+Store.h"
 
@@ -22,19 +22,21 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setCushion:(SDLMassageCushion)cushion {
-    [store sdl_setObject:cushion forName:SDLNameCushion];
+    [store sdl_setObject:cushion forName:SDLRPCParameterNameCushion];
 }
 
 - (SDLMassageCushion)cushion {
-    return [store sdl_objectForName:SDLNameCushion];
+    NSError *error = nil;
+    return [store sdl_enumForName:SDLRPCParameterNameCushion error:&error];
 }
 
 - (void)setFirmness:(NSNumber<SDLInt> *)firmness {
-    [store sdl_setObject:firmness forName:SDLNameFirmness];
+    [store sdl_setObject:firmness forName:SDLRPCParameterNameFirmness];
 }
 
 - (NSNumber<SDLInt> *)firmness {
-    return [store sdl_objectForName:SDLNameFirmness];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameFirmness ofClass:NSNumber.class error:&error];
 }
 
 @end

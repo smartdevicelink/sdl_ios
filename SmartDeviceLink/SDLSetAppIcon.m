@@ -5,12 +5,13 @@
 #import "SDLSetAppIcon.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 @implementation SDLSetAppIcon
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameSetAppIcon]) {
+    if (self = [super initWithName:SDLRPCFunctionNameSetAppIcon]) {
     }
     return self;
 }
@@ -27,11 +28,12 @@
 }
 
 - (void)setSyncFileName:(NSString *)syncFileName {
-    [parameters sdl_setObject:syncFileName forName:SDLNameSyncFileName];
+    [parameters sdl_setObject:syncFileName forName:SDLRPCParameterNameSyncFileName];
 }
 
 - (NSString *)syncFileName {
-    return [parameters sdl_objectForName:SDLNameSyncFileName];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameSyncFileName ofClass:NSString.class error:&error];
 }
 
 @end

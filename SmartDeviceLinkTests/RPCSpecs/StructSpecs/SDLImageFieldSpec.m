@@ -12,7 +12,7 @@
 #import "SDLImageField.h"
 #import "SDLImageFieldName.h"
 #import "SDLImageResolution.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin(SDLImageFieldSpec)
@@ -33,9 +33,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameName:SDLImageFieldNameTurnIcon,
-                                       SDLNameImageTypeSupported:[@[SDLFileTypePNG, SDLFileTypeJPEG] copy],
-                                       SDLNameImageResolution:resolution} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameName:SDLImageFieldNameTurnIcon,
+                                       SDLRPCParameterNameImageTypeSupported:[@[SDLFileTypePNG, SDLFileTypeJPEG] copy],
+                                       SDLRPCParameterNameImageResolution:resolution} mutableCopy];
         SDLImageField* testStruct = [[SDLImageField alloc] initWithDictionary:dict];
         
         expect(testStruct.name).to(equal(SDLImageFieldNameTurnIcon));

@@ -3,7 +3,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLRectangle.h"
 
 QuickSpecBegin(SDLRectangleSpec)
@@ -33,10 +33,10 @@ describe(@"Rectangle Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dict", ^{
-        NSDictionary *dict = @{SDLNameX:@20,
-                                SDLNameY:@200,
-                                SDLNameWidth:@2000,
-                                SDLNameHeight:@3000};
+        NSDictionary *dict = @{SDLRPCParameterNameX:@20,
+                                SDLRPCParameterNameY:@200,
+                                SDLRPCParameterNameWidth:@2000,
+                                SDLRPCParameterNameHeight:@3000};
         SDLRectangle *testStruct = [[SDLRectangle alloc] initWithDictionary:dict];
 
         expect(testStruct.x).to(equal(@20));

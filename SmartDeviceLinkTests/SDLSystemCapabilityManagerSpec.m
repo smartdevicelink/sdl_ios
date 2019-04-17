@@ -1,14 +1,21 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
+#import "SDLAppServiceCapability.h"
+#import "SDLAppServiceManifest.h"
+#import "SDLAppServiceRecord.h"
+#import "SDLAppServicesCapabilities.h"
 #import "SDLAudioPassThruCapabilities.h"
 #import "SDLButtonCapabilities.h"
 #import "SDLDisplayCapabilities.h"
 #import "SDLGetSystemCapability.h"
 #import "SDLGetSystemCapabilityResponse.h"
 #import "SDLHMICapabilities.h"
+#import "SDLMediaServiceManifest.h"
 #import "SDLNavigationCapability.h"
 #import "SDLNotificationConstants.h"
+#import "SDLOnHMIStatus.h"
+#import "SDLOnSystemCapabilityUpdated.h"
 #import "SDLPhoneCapability.h"
 #import "SDLPresetBankCapabilities.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -51,6 +58,7 @@ describe(@"System capability manager", ^{
         expect(testSystemCapabilityManager.navigationCapability).to(beNil());
         expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
         expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+        expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
     });
 
     context(@"When notified of a register app interface response", ^{
@@ -169,6 +177,7 @@ describe(@"System capability manager", ^{
             expect(testSystemCapabilityManager.navigationCapability).to(beNil());
             expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
             expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+            expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
         });
     });
 
@@ -250,15 +259,16 @@ describe(@"System capability manager", ^{
             expect(testSystemCapabilityManager.navigationCapability).to(beNil());
             expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
             expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+            expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
         });
     });
 
-    context(@"When notified of a Get System Capability Response", ^{
+    context(@"When sending a Get System Capability request", ^{
         __block SDLGetSystemCapabilityResponse *testGetSystemCapabilityResponse;
         __block SDLPhoneCapability *testPhoneCapability = nil;
 
         beforeEach(^{
-             testPhoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
+            testPhoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
 
             testGetSystemCapabilityResponse = [[SDLGetSystemCapabilityResponse alloc] init];
             testGetSystemCapabilityResponse.systemCapability = [[SDLSystemCapability alloc] init];
@@ -266,69 +276,45 @@ describe(@"System capability manager", ^{
             testGetSystemCapabilityResponse.systemCapability.systemCapabilityType = SDLSystemCapabilityTypePhoneCall;
         });
 
-        describe(@"If a Get System Capability Response notification is received", ^{
-            context(@"If the request failed", ^{
-                beforeEach(^{
-                    testGetSystemCapabilityResponse.success = @NO;
-                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testGetSystemCapabilityResponse];
-                    [[NSNotificationCenter defaultCenter] postNotification:notification];
-                });
+        context(@"If the request failed with an error", ^{
+            __block NSError *testError = nil;
 
-                it(@"should should not save the capabilities", ^{
-                    expect(testSystemCapabilityManager.phoneCapability).to(beNil());
-                });
+            beforeEach(^{
+                testGetSystemCapabilityResponse.success = @NO;
+                testError = [NSError errorWithDomain:NSCocoaErrorDomain code:-234 userInfo:nil];
             });
 
-            context(@"If the request succeeded", ^{
-                beforeEach(^{
-                    testGetSystemCapabilityResponse.success = @YES;
-                    SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveGetSystemCapabilitiesResponse object:self rpcResponse:testGetSystemCapabilityResponse];
-                    [[NSNotificationCenter defaultCenter] postNotification:notification];
-                });
+            it(@"should should not save the capabilities", ^{
+                waitUntilTimeout(1, ^(void (^done)(void)) {
+                    [testSystemCapabilityManager updateCapabilityType:testGetSystemCapabilityResponse.systemCapability.systemCapabilityType completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
+                        expect(error).to(equal(testConnectionManager.defaultError));
+                        expect(systemCapabilityManager.phoneCapability).to(beNil());
+                        done();
+                    }];
 
-                it(@"should should save the capabilities", ^{
-                    expect(testSystemCapabilityManager.phoneCapability).to(equal(testPhoneCapability));
+                    [NSThread sleepForTimeInterval:0.1];
+
+                    [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
                 });
             });
         });
 
-        describe(@"If a response is received for a sent Get System Capability request", ^{
-            context(@"If the request failed with an error", ^{
-                __block NSError *testError = nil;
-
-                beforeEach(^{
-                    testGetSystemCapabilityResponse.success = @NO;
-                    testError = [NSError errorWithDomain:NSCocoaErrorDomain code:-234 userInfo:nil];
-
-                    waitUntilTimeout(1.0, ^(void (^done)(void)) {
-                        [testSystemCapabilityManager updateCapabilityType:testGetSystemCapabilityResponse.systemCapability.systemCapabilityType completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
-                            expect(error).to(equal(testConnectionManager.defaultError));
-                            expect(systemCapabilityManager.phoneCapability).to(beNil());
-                            done();
-                        }];
-
-                        [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
-                    });
-                });
-
-                it(@"should should not save the capabilities", ^{
-                    expect(testSystemCapabilityManager.phoneCapability).to(beNil());
-                });
+        context(@"If the request succeeded", ^{
+            beforeEach(^{
+                testGetSystemCapabilityResponse.success = @YES;
             });
 
-            context(@"If the request succeeded", ^{
-                beforeEach(^{
-                    testGetSystemCapabilityResponse.success = @YES;
-
+            it(@"should save the capabilitity", ^{
+                waitUntilTimeout(1, ^(void (^done)(void)){
                     [testSystemCapabilityManager updateCapabilityType:testGetSystemCapabilityResponse.systemCapability.systemCapabilityType completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
-                        // The handler will not be notifified
+                        expect(testSystemCapabilityManager.phoneCapability).to(equal(testPhoneCapability));
+                        expect(error).to(beNil());
+                        done();
                     }];
 
-                    [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
-                });
+                    [NSThread sleepForTimeInterval:0.1];
 
-                it(@"should not save the capabilities because a successful Get System Capability Response notification will be intercepted by the manager and be handled there", ^{
-                    expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+                    [testConnectionManager respondToLastRequestWithResponse:testGetSystemCapabilityResponse];
                 });
             });
         });
@@ -349,46 +335,123 @@ describe(@"System capability manager", ^{
             expect(testSystemCapabilityManager.navigationCapability).to(beNil());
             expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
             expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+            expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
         });
     });
 
-    context(@"When the system capability manager is stopped after being started", ^{
+    describe(@"updating the SCM through OnSystemCapability", ^{
+        __block SDLPhoneCapability *phoneCapability = nil;
+
         beforeEach(^{
-            SDLDisplayCapabilities *testDisplayCapabilities = [[SDLDisplayCapabilities alloc] init];
-            testDisplayCapabilities.graphicSupported = @NO;
-
-            SDLRegisterAppInterfaceResponse *testRegisterAppInterfaceResponse = [[SDLRegisterAppInterfaceResponse alloc] init];
-            testRegisterAppInterfaceResponse.displayCapabilities = testDisplayCapabilities;
-            testRegisterAppInterfaceResponse.success = @YES;
-
-            SDLRPCResponseNotification *notification = [[SDLRPCResponseNotification alloc] initWithName:SDLDidReceiveRegisterAppInterfaceResponse object:self rpcResponse:testRegisterAppInterfaceResponse];
+            phoneCapability = [[SDLPhoneCapability alloc] initWithDialNumber:YES];
+            SDLSystemCapability *newCapability = [[SDLSystemCapability alloc] initWithPhoneCapability:phoneCapability];
+            SDLOnSystemCapabilityUpdated *update = [[SDLOnSystemCapabilityUpdated alloc] initWithSystemCapability:newCapability];
+            SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil rpcNotification:update];
             [[NSNotificationCenter defaultCenter] postNotification:notification];
-
-            expect(testSystemCapabilityManager.displayCapabilities).to(equal(testDisplayCapabilities));
         });
 
-        describe(@"When stopped", ^{
-            beforeEach(^{
-                [testSystemCapabilityManager stop];
-            });
+        it(@"should properly update phone capability", ^{
+            expect(testSystemCapabilityManager.phoneCapability).toEventually(equal(phoneCapability));
+        });
+    });
 
-            it(@"It should reset the system capability manager properties correctly", ^{
-                expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.vrCapability).to(beFalse());
-                expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
-                expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
-                expect(testSystemCapabilityManager.phoneCapability).to(beNil());
-                expect(testSystemCapabilityManager.navigationCapability).to(beNil());
-                expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
-                expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+    describe(@"merging app services capability changes", ^{
+        __block SDLAppServicesCapabilities *baseAppServices = nil;
+        __block SDLAppServiceCapability *deleteCapability = nil;
+        __block SDLAppServiceCapability *updateCapability = nil;
+        __block SDLAppServiceCapability *newCapability = nil;
+
+        beforeEach(^{
+            SDLAppServiceManifest *deleteCapabilityManifest = [[SDLAppServiceManifest alloc] initWithMediaServiceName:@"Delete me" serviceIcon:nil allowAppConsumers:YES rpcSpecVersion:nil handledRPCs:nil mediaServiceManifest:[[SDLMediaServiceManifest alloc] init]];
+            SDLAppServiceRecord *deleteCapabilityRecord = [[SDLAppServiceRecord alloc] initWithServiceID:@"1234" serviceManifest:deleteCapabilityManifest servicePublished:YES serviceActive:YES];
+            deleteCapability = [[SDLAppServiceCapability alloc] initWithUpdatedAppServiceRecord:deleteCapabilityRecord];
+
+            SDLAppServiceManifest *updateCapabilityManifest = [[SDLAppServiceManifest alloc] initWithMediaServiceName:@"Update me" serviceIcon:nil allowAppConsumers:YES rpcSpecVersion:nil handledRPCs:nil mediaServiceManifest:[[SDLMediaServiceManifest alloc] init]];
+            SDLAppServiceRecord *updateCapabilityRecord = [[SDLAppServiceRecord alloc] initWithServiceID:@"2345" serviceManifest:updateCapabilityManifest servicePublished:YES serviceActive:NO];
+            updateCapability = [[SDLAppServiceCapability alloc] initWithUpdatedAppServiceRecord:updateCapabilityRecord];
+
+            baseAppServices = [[SDLAppServicesCapabilities alloc] initWithAppServices:@[deleteCapability, updateCapability]];
+            SDLSystemCapability *appServiceCapability = [[SDLSystemCapability alloc] initWithAppServicesCapabilities:baseAppServices];
+            SDLOnSystemCapabilityUpdated *update = [[SDLOnSystemCapabilityUpdated alloc] initWithSystemCapability:appServiceCapability];
+            SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil rpcNotification:update];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        });
+
+        it(@"should have the correct base services", ^{
+            expect(testSystemCapabilityManager.appServicesCapabilities).to(equal(baseAppServices));
+        });
+
+        describe(@"when sending the merge update", ^{
+            it(@"should correctly merge", ^{
+                deleteCapability.updateReason = SDLServiceUpdateRemoved;
+                deleteCapability.updatedAppServiceRecord.servicePublished = @NO;
+                deleteCapability.updatedAppServiceRecord.serviceActive = @NO;
+
+                updateCapability.updateReason = SDLServiceUpdateActivated;
+                updateCapability.updatedAppServiceRecord.serviceActive = @YES;
+
+                SDLAppServiceManifest *newCapabilityManifest = [[SDLAppServiceManifest alloc] initWithMediaServiceName:@"New me" serviceIcon:nil allowAppConsumers:YES rpcSpecVersion:nil handledRPCs:nil mediaServiceManifest:[[SDLMediaServiceManifest alloc] init]];
+                SDLAppServiceRecord *newCapabilityRecord = [[SDLAppServiceRecord alloc] initWithServiceID:@"3456" serviceManifest:newCapabilityManifest servicePublished:YES serviceActive:NO];
+                newCapability = [[SDLAppServiceCapability alloc] initWithUpdateReason:SDLServiceUpdatePublished updatedAppServiceRecord:newCapabilityRecord];
+
+                SDLAppServicesCapabilities *appServicesUpdate = [[SDLAppServicesCapabilities alloc] initWithAppServices:@[deleteCapability, updateCapability, newCapability]];
+                SDLSystemCapability *appServiceCapability = [[SDLSystemCapability alloc] initWithAppServicesCapabilities:appServicesUpdate];
+                SDLOnSystemCapabilityUpdated *update = [[SDLOnSystemCapabilityUpdated alloc] initWithSystemCapability:appServiceCapability];
+                SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil rpcNotification:update];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+                expect(testSystemCapabilityManager.appServicesCapabilities.appServices).toNot(contain(deleteCapability));
+                expect(testSystemCapabilityManager.appServicesCapabilities.appServices).to(haveCount(2));
+
+                SDLAppServiceCapability *firstCapability = testSystemCapabilityManager.appServicesCapabilities.appServices.firstObject;
+                SDLAppServiceCapability *secondCapability = testSystemCapabilityManager.appServicesCapabilities.appServices.lastObject;
+
+                expect(firstCapability.updateReason).to(equal(SDLServiceUpdatePublished));
+                expect(firstCapability.updatedAppServiceRecord.serviceID).to(equal(@"3456"));
+
+                expect(secondCapability.updateReason).to(equal(SDLServiceUpdateActivated));
+                expect(secondCapability.updatedAppServiceRecord.serviceID).to(equal(@"2345"));
+                expect(secondCapability.updatedAppServiceRecord.serviceActive).to(beTrue());
             });
+        });
+    });
+
+    describe(@"when entering HMI FULL", ^{
+        beforeEach(^{
+            SDLOnHMIStatus *fullStatus = [[SDLOnHMIStatus alloc] init];
+            fullStatus.hmiLevel = SDLHMILevelFull;
+            SDLRPCNotificationNotification *notification = [[SDLRPCNotificationNotification alloc] initWithName:SDLDidChangeHMIStatusNotification object:nil rpcNotification:fullStatus];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        });
+
+        it(@"should send GetSystemCapability subscriptions for all known capabilities", ^{
+            expect(testConnectionManager.receivedRequests).to(haveCount(5));
+            expect(testConnectionManager.receivedRequests.lastObject).to(beAnInstanceOf([SDLGetSystemCapability class]));
+        });
+    });
+
+    describe(@"when the system capability manager is stopped after being started", ^{
+        beforeEach(^{
+            [testSystemCapabilityManager stop];
+        });
+
+        it(@"It should reset the system capability manager properties correctly", ^{
+            expect(testSystemCapabilityManager.displayCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.hmiCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.softButtonCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.buttonCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.presetBankCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.hmiZoneCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.speechCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.prerecordedSpeechCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.vrCapability).to(beFalse());
+            expect(testSystemCapabilityManager.audioPassThruCapabilities).to(beNil());
+            expect(testSystemCapabilityManager.pcmStreamCapability).to(beNil());
+            expect(testSystemCapabilityManager.phoneCapability).to(beNil());
+            expect(testSystemCapabilityManager.navigationCapability).to(beNil());
+            expect(testSystemCapabilityManager.videoStreamingCapability).to(beNil());
+            expect(testSystemCapabilityManager.remoteControlCapability).to(beNil());
+            expect(testSystemCapabilityManager.appServicesCapabilities).to(beNil());
         });
     });
 });

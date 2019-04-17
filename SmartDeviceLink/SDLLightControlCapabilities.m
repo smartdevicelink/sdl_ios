@@ -2,7 +2,7 @@
 //
 
 #import "SDLLightControlCapabilities.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "NSMutableDictionary+Store.h"
 #import "SDLLightCapabilities.h"
 
@@ -23,20 +23,22 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setModuleName:(NSString *)moduleName {
-    [store sdl_setObject:moduleName forName:SDLNameModuleName];
+    [store sdl_setObject:moduleName forName:SDLRPCParameterNameModuleName];
 }
 
 - (NSString *)moduleName {
-    return [store sdl_objectForName:SDLNameModuleName];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameModuleName ofClass:NSString.class error:&error];
 }
 
 - (void)setSupportedLights:(NSArray<SDLLightCapabilities *> *)supportedLights {
-    [store sdl_setObject:supportedLights forName:SDLNameSupportedLights];
+    [store sdl_setObject:supportedLights forName:SDLRPCParameterNameSupportedLights];
 
 }
 
 - (NSArray<SDLLightCapabilities *> *)supportedLights {
-    return [store sdl_objectsForName:SDLNameSupportedLights ofClass:SDLLightCapabilities.class];
+    NSError *error = nil;
+    return [store sdl_objectsForName:SDLRPCParameterNameSupportedLights ofClass:SDLLightCapabilities.class error:&error];
 }
 
 

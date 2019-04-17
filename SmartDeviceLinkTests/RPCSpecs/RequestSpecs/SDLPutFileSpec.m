@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLFileType.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLPutFile.h"
 
 #import <zlib.h>
@@ -43,16 +44,16 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get and set correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                @{ SDLNameSyncFileName:@"fileName",
-                                                    SDLNameFileType:SDLFileTypeJPEG,
-                                                    SDLNamePersistentFile:@YES,
-                                                    SDLNameSystemFile:@NO,
-                                                    SDLNameOffset:@987654321,
-                                                    SDLNameLength:@123456789,
-                                                   SDLNameCRC:@0xffffffff},
-                                                    SDLNameOperationName:SDLNamePutFile}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameRequest:
+                                           @{SDLRPCParameterNameParameters:
+                                                @{ SDLRPCParameterNameSyncFileName:@"fileName",
+                                                    SDLRPCParameterNameFileType:SDLFileTypeJPEG,
+                                                    SDLRPCParameterNamePersistentFile:@YES,
+                                                    SDLRPCParameterNameSystemFile:@NO,
+                                                    SDLRPCParameterNameOffset:@987654321,
+                                                    SDLRPCParameterNameLength:@123456789,
+                                                   SDLRPCParameterNameCRC:@0xffffffff},
+                                                    SDLRPCParameterNameOperationName:SDLRPCFunctionNamePutFile}} mutableCopy];
         SDLPutFile* testRequest = [[SDLPutFile alloc] initWithDictionary:dict];
         
         expect(testRequest.syncFileName).to(equal(@"fileName"));

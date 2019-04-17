@@ -11,7 +11,7 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLVideoStreamingCodec.h"
 #import "SDLVideoStreamingFormat.h"
 #import "SDLVideoStreamingProtocol.h"
@@ -20,8 +20,8 @@ QuickSpecBegin(SDLVideoStreamingFormatSpec)
 
 describe(@"Initialization tests", ^{
     it(@"Should get correctly when initialized with a dictionary", ^ {
-        NSMutableDictionary* dict = [@{SDLNameVideoProtocol: SDLVideoStreamingProtocolRAW,
-                                       SDLNameVideoCodec: SDLVideoStreamingCodecH264} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameVideoProtocol: SDLVideoStreamingProtocolRAW,
+                                       SDLRPCParameterNameVideoCodec: SDLVideoStreamingCodecH264} mutableCopy];
         SDLVideoStreamingFormat* testStruct = [[SDLVideoStreamingFormat alloc] initWithDictionary:dict];
 
         expect(testStruct.protocol).to(equal(SDLVideoStreamingProtocolRAW));

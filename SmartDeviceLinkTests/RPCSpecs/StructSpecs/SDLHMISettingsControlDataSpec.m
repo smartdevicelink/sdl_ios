@@ -7,7 +7,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLHMISettingsControlData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin(SDLHMISettingsControlDataSpec)
@@ -34,9 +34,9 @@ describe(@"Getter/Setter Tests", ^ {
         });
 
         it(@"Should get correctly when initialized", ^ {
-            NSMutableDictionary* dict = [@{SDLNameDisplayMode:SDLDisplayModeAuto,
-                                           SDLNameTemperatureUnit:SDLTemperatureUnitCelsius,
-                                           SDLNameDistanceUnit:SDLDistanceUnitKilometers} mutableCopy];
+            NSMutableDictionary* dict = [@{SDLRPCParameterNameDisplayMode:SDLDisplayModeAuto,
+                                           SDLRPCParameterNameTemperatureUnit:SDLTemperatureUnitCelsius,
+                                           SDLRPCParameterNameDistanceUnit:SDLDistanceUnitKilometers} mutableCopy];
             SDLHMISettingsControlData* testStruct = [[SDLHMISettingsControlData alloc] initWithDictionary:dict];
 
             expect(testStruct.displayMode).to(equal(SDLDisplayModeAuto));

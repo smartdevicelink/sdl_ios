@@ -11,7 +11,7 @@
 #import "SDLVehicleDataNotificationStatus.h"
 #import "SDLECallConfirmationStatus.h"
 #import "SDLECallInfo.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin(SDLECallInfoSpec)
@@ -30,9 +30,9 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameECallNotificationStatus:SDLVehicleDataNotificationStatusNormal,
-                                       SDLNameAuxECallNotificationStatus:SDLVehicleDataNotificationStatusActive,
-                                       SDLNameECallConfirmationStatus:SDLECallConfirmationStatusInProgress} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameECallNotificationStatus:SDLVehicleDataNotificationStatusNormal,
+                                       SDLRPCParameterNameAuxECallNotificationStatus:SDLVehicleDataNotificationStatusActive,
+                                       SDLRPCParameterNameECallConfirmationStatus:SDLECallConfirmationStatusInProgress} mutableCopy];
         SDLECallInfo* testStruct = [[SDLECallInfo alloc] initWithDictionary:dict];
         
         expect(testStruct.eCallNotificationStatus).to(equal(SDLVehicleDataNotificationStatusNormal));

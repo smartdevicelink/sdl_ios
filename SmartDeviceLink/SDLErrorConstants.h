@@ -86,6 +86,10 @@ typedef NS_ENUM(NSInteger, SDLFileManagerError) {
      *  The file data is nil or empty.
      */
     SDLFileManagerErrorFileDataMissing = -9,
+    /*
+     *  The file is a static icon, which cannot be uploaded
+     */
+    SDLFileManagerErrorStaticIcon = -10,
 };
 
 /**
@@ -119,6 +123,7 @@ typedef NS_ENUM(NSInteger, SDLChoiceSetManagerError) {
     SDLChoiceSetManagerErrorPendingPresentationDeleted = -1,
     SDLChoiceSetManagerErrorDeletionFailed = -2,
     SDLChoiceSetManagerErrorUploadFailed = -3,
+    SDLChoiceSetManagerErrorFailedToCreateMenuItems = -4
 };
 
 /**
@@ -144,4 +149,14 @@ typedef NS_ENUM(NSInteger, SDLTransportError) {
      *  Probably the phone is not connected to the correct network.
      */
     SDLTransportErrorNetworkDown = -4,
+};
+
+/**
+ *  Errors associated with store.
+ */
+typedef NS_ENUM(NSInteger, SDLRPCStoreError) {
+    /**
+     *  In dictionary stored value with unexpected type
+     */
+    SDLRPCStoreErrorGetInvalidObject = -1,
 };

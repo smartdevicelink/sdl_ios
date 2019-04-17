@@ -11,7 +11,8 @@
 #import "SDLImage.h"
 #import "SDLMetadataTags.h"
 #import "SDLMetadataType.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
 #import "SDLTextAlignment.h"
@@ -312,22 +313,22 @@ describe(@"Getter/Setter Tests", ^ {
         });
 
         it(@"Should get correctly when initialized with a dictionary", ^ {
-            NSMutableDictionary* dict = [@{SDLNameRequest:
-                                               @{SDLNameParameters:
-                                                     @{SDLNameMainField1:@"field1",
-                                                       SDLNameMainField2:@"field2",
-                                                       SDLNameMainField3:@"field3",
-                                                       SDLNameMainField4:@"field4",
-                                                       SDLNameAlignment:SDLTextAlignmentLeft,
-                                                       SDLNameStatusBar:@"status",
-                                                       SDLNameMediaClock:@"TheTime",
-                                                       SDLNameMediaTrack:@"In The Clear",
-                                                       SDLNameGraphic:image1,
-                                                       SDLNameSecondaryGraphic:image2,
-                                                       SDLNameSoftButtons:[@[button] mutableCopy],
-                                                       SDLNameCustomPresets:[@[@"preset1", @"preset2"] mutableCopy],
-                                                       SDLNameMetadataTags:testMetadata},
-                                                 SDLNameOperationName:SDLNameShow}} mutableCopy];
+            NSMutableDictionary* dict = [@{SDLRPCParameterNameRequest:
+                                               @{SDLRPCParameterNameParameters:
+                                                     @{SDLRPCParameterNameMainField1:@"field1",
+                                                       SDLRPCParameterNameMainField2:@"field2",
+                                                       SDLRPCParameterNameMainField3:@"field3",
+                                                       SDLRPCParameterNameMainField4:@"field4",
+                                                       SDLRPCParameterNameAlignment:SDLTextAlignmentLeft,
+                                                       SDLRPCParameterNameStatusBar:@"status",
+                                                       SDLRPCParameterNameMediaClock:@"TheTime",
+                                                       SDLRPCParameterNameMediaTrack:@"In The Clear",
+                                                       SDLRPCParameterNameGraphic:image1,
+                                                       SDLRPCParameterNameSecondaryGraphic:image2,
+                                                       SDLRPCParameterNameSoftButtons:[@[button] mutableCopy],
+                                                       SDLRPCParameterNameCustomPresets:[@[@"preset1", @"preset2"] mutableCopy],
+                                                       SDLRPCParameterNameMetadataTags:testMetadata},
+                                                 SDLRPCParameterNameOperationName:SDLRPCFunctionNameShow}} mutableCopy];
             SDLShow* testRequest = [[SDLShow alloc] initWithDictionary:dict];
 
             expect(testRequest.mainField1).to(equal(@"field1"));

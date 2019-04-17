@@ -212,6 +212,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong, nonatomic, nullable) SDLVehicleDataResult *turnSignal;
 
+/**
+ The result of requesting to subscribe to the cloud app vehicle ID
+
+ Optional
+ */
+@property (strong, nonatomic, nullable) SDLVehicleDataResult *cloudAppVehicleID;
+
 @end
 
 NS_ASSUME_NONNULL_END

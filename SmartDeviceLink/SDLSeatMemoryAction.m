@@ -2,7 +2,7 @@
 //
 
 #import "SDLSeatMemoryAction.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "NSMutableDictionary+Store.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -32,27 +32,29 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setId:(NSNumber<SDLInt> *)id {
-    [store sdl_setObject:id forName:SDLNameId];
+    [store sdl_setObject:id forName:SDLRPCParameterNameId];
 }
 
 - (NSNumber<SDLInt> *)id {
-    return [store sdl_objectForName:SDLNameId];
+    NSError *error = nil;
+    return [store sdl_objectForName:SDLRPCParameterNameId ofClass:NSNumber.class error:&error];
 }
 
 - (void)setLabel:(nullable NSString *)label {
-    [store sdl_setObject:label forName:SDLNameLabel];
+    [store sdl_setObject:label forName:SDLRPCParameterNameLabel];
 }
 
 - (nullable NSString *)label {
-    return [store sdl_objectForName:SDLNameLabel];
+    return [store sdl_objectForName:SDLRPCParameterNameLabel ofClass:NSString.class error:nil];
 }
 
 - (void)setAction:(SDLSeatMemoryActionType)action {
-    [store sdl_setObject:action forName:SDLNameAction];
+    [store sdl_setObject:action forName:SDLRPCParameterNameAction];
 }
 
 - (SDLSeatMemoryActionType)action {
-    return [store sdl_objectForName:SDLNameAction];
+    NSError *error = nil;
+    return [store sdl_enumForName:SDLRPCParameterNameAction error:&error];
 }
 @end
 

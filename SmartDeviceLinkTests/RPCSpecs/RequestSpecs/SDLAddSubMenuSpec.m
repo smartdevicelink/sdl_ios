@@ -10,7 +10,8 @@
 
 #import "SDLAddSubMenu.h"
 #import "SDLImage.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLAddSubMenuSpec)
 
@@ -69,16 +70,16 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameRequest:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameMenuId:@4345645,
-                                                                   SDLNamePosition:@27,
-                                                                   SDLNameMenuName:@"Welcome to the menu",
-                                                                   SDLNameMenuIcon: @{
-                                                                           SDLNameValue: @"Test"
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameRequest:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameMenuId:@4345645,
+                                                                   SDLRPCParameterNamePosition:@27,
+                                                                   SDLRPCParameterNameMenuName:@"Welcome to the menu",
+                                                                   SDLRPCParameterNameMenuIcon: @{
+                                                                           SDLRPCParameterNameValue: @"Test"
                                                                            }
                                                                    },
-                                                             SDLNameOperationName:SDLNameAddSubMenu}} mutableCopy];
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameAddSubMenu}} mutableCopy];
         SDLAddSubMenu* testRequest = [[SDLAddSubMenu alloc] initWithDictionary:dict];
 
         expect(testRequest.menuID).to(equal(@(menuId)));

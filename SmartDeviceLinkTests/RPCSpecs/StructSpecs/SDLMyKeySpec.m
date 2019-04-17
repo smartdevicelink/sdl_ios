@@ -9,7 +9,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLMyKey.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "SDLVehicleDataStatus.h"
 
 
@@ -25,7 +25,7 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameE911Override:SDLVehicleDataStatusOn} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameE911Override:SDLVehicleDataStatusOn} mutableCopy];
         SDLMyKey* testStruct = [[SDLMyKey alloc] initWithDictionary:dict];
         
         expect(testStruct.e911Override).to(equal(SDLVehicleDataStatusOn));

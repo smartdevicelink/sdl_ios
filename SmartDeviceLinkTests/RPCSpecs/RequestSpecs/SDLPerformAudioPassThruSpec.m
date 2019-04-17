@@ -10,7 +10,8 @@
 
 #import "SDLAudioType.h"
 #import "SDLBitsPerSample.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLPerformAudioPassThru.h"
 #import "SDLSamplingRate.h"
 
@@ -39,16 +40,16 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameAudioPassThruDisplayText1:@"passthru#1",
-                                                   SDLNameAudioPassThruDisplayText2:@"passthru#2",
-                                                   SDLNameSamplingRate:SDLSamplingRate22KHZ,
-                                                   SDLNameMaxDuration:@34563,
-                                                   SDLNameBitsPerSample:SDLBitsPerSample16Bit,
-                                                   SDLNameAudioType:SDLAudioTypePCM,
-                                                   SDLNameMuteAudio:@NO},
-                                             SDLNameOperationName:SDLNamePerformAudioPassThru}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameRequest:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameAudioPassThruDisplayText1:@"passthru#1",
+                                                   SDLRPCParameterNameAudioPassThruDisplayText2:@"passthru#2",
+                                                   SDLRPCParameterNameSamplingRate:SDLSamplingRate22KHZ,
+                                                   SDLRPCParameterNameMaxDuration:@34563,
+                                                   SDLRPCParameterNameBitsPerSample:SDLBitsPerSample16Bit,
+                                                   SDLRPCParameterNameAudioType:SDLAudioTypePCM,
+                                                   SDLRPCParameterNameMuteAudio:@NO},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNamePerformAudioPassThru}} mutableCopy];
         SDLPerformAudioPassThru* testRequest = [[SDLPerformAudioPassThru alloc] initWithDictionary:dict];
         
         expect(testRequest.audioPassThruDisplayText1).to(equal(@"passthru#1"));

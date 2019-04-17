@@ -1,0 +1,217 @@
+<h1>SDLWeatherServiceData Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithLocation:">-initWithLocation:</a></li>
+  <li><a href="#section--initWithLocation:currentForecast:minuteForecast:hourlyForecast:multidayForecast:alerts:">-initWithLocation:currentForecast:minuteForecast:hourlyForecast:multidayForecast:alerts:</a></li>
+  <li><a href="#section-location">location</a></li>
+  <li><a href="#section-currentForecast">currentForecast</a></li>
+  <li><a href="#section-minuteForecast">minuteForecast</a></li>
+  <li><a href="#section-hourlyForecast">hourlyForecast</a></li>
+  <li><a href="#section-multidayForecast">multidayForecast</a></li>
+  <li><a href="#section-alerts">alerts</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>This data is related to what a weather service would provide.</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithLocation:">
+      -initWithLocation:
+  </h3>
+  
+  <p>Convenience init for required parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithLocation</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">location</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">location</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>location</dt>
+      <dd><p>The location</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLWeatherServiceData object</p>
+  </div>
+  
+  <h3 id="section--initWithLocation:currentForecast:minuteForecast:hourlyForecast:multidayForecast:alerts:">
+      -initWithLocation:currentForecast:minuteForecast:hourlyForecast:multidayForecast:alerts:
+  </h3>
+  
+  <p>Convenience init for all parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithLocation</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">location</span>
+     <span class="nf">currentForecast</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLWeatherData.html">SDLWeatherData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">currentForecast</span>
+      <span class="nf">minuteForecast</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLWeatherData.html">SDLWeatherData</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">minuteForecast</span>
+      <span class="nf">hourlyForecast</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLWeatherData.html">SDLWeatherData</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">hourlyForecast</span>
+    <span class="nf">multidayForecast</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLWeatherData.html">SDLWeatherData</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">multidayForecast</span>
+              <span class="nf">alerts</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLWeatherAlert.html">SDLWeatherAlert</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">alerts</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">location</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span><span class="p">,</span> <span class="nv">currentForecast</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLWeatherData.html">SDLWeatherData</a></span><span class="p">?,</span> <span class="nv">minuteForecast</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLWeatherData.html">SDLWeatherData</a></span><span class="p">]?,</span> <span class="nv">hourlyForecast</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLWeatherData.html">SDLWeatherData</a></span><span class="p">]?,</span> <span class="nv">multidayForecast</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLWeatherData.html">SDLWeatherData</a></span><span class="p">]?,</span> <span class="nv">alerts</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLWeatherAlert.html">SDLWeatherAlert</a></span><span class="p">]?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>location</dt>
+      <dd><p>The location</p></dd>
+      <dt>currentForecast</dt>
+      <dd><p>The current forecast</p></dd>
+      <dt>minuteForecast</dt>
+      <dd><p>A minute-by-minute array of forecasts</p></dd>
+      <dt>hourlyForecast</dt>
+      <dd><p>An hour-by-hour array of forecasts</p></dd>
+      <dt>multidayForecast</dt>
+      <dd><p>A day-by-day array of forecasts</p></dd>
+      <dt>alerts</dt>
+      <dd><p>An array of weather alerts</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLWeatherServiceData object</p>
+  </div>
+  
+  <h3 id="section-location">
+      location
+  </h3>
+  
+  <p>The location.</p>
+
+<p>SDLLocationDetails, Required</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">location</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">location</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-currentForecast">
+      currentForecast
+  </h3>
+  
+  <p>The current forecast.</p>
+
+<p>SDLWeatherData, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLWeatherData.html">SDLWeatherData</a></span> <span class="o">*</span><span class="n">currentForecast</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">currentForecast</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLWeatherData.html">SDLWeatherData</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-minuteForecast">
+      minuteForecast
+  </h3>
+  
+  <p>A minute-by-minute array of forecasts.</p>
+
+<p>Array of SDLWeatherData, Optional, minsize=<q>15</q> maxsize=<q>60</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLWeatherData.html">SDLWeatherData</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">minuteForecast</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">minuteForecast</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLWeatherData.html">SDLWeatherData</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-hourlyForecast">
+      hourlyForecast
+  </h3>
+  
+  <p>An hour-by-hour array of forecasts.</p>
+
+<p>Array of SDLWeatherData, Optional, minsize=<q>1</q> maxsize=<q>96</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLWeatherData.html">SDLWeatherData</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">hourlyForecast</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">hourlyForecast</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLWeatherData.html">SDLWeatherData</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-multidayForecast">
+      multidayForecast
+  </h3>
+  
+  <p>A day-by-day array of forecasts.</p>
+
+<p>Array of SDLWeatherData, Optional, minsize=<q>1</q> maxsize=<q>30</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLWeatherData.html">SDLWeatherData</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">multidayForecast</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">multidayForecast</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLWeatherData.html">SDLWeatherData</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-alerts">
+      alerts
+  </h3>
+  
+  <p>An array of weather alerts. This array should be ordered with the first object being the current day.</p>
+
+<p>Array of SDLWeatherData, Optional, minsize=<q>1</q> maxsize=<q>10</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLWeatherAlert.html">SDLWeatherAlert</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">alerts</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">alerts</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLWeatherAlert.html">SDLWeatherAlert</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

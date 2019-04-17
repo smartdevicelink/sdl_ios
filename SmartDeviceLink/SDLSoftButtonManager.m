@@ -249,7 +249,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)sdl_allCurrentStateImagesAreUploaded {
     for (SDLSoftButtonObject *button in self.softButtonObjects) {
         SDLArtwork *artwork = button.currentState.artwork;
-        if (artwork != nil && ![self.fileManager hasUploadedFile:artwork]) {
+        if (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon) {
             return NO;
         }
     }
@@ -268,7 +268,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableArray<SDLArtwork *> *initialStatesToBeUploaded = [NSMutableArray array];
     // Upload all soft button images, the initial state images first, then the other states. We need to send updates when the initial state is ready.
     for (SDLSoftButtonObject *object in self.softButtonObjects) {
-        if (object.currentState.artwork != nil && ![self.fileManager hasUploadedFile:object.currentState.artwork]) {
+        if ([self sdl_artworkNeedsUpload:object.currentState.artwork]) {
             [initialStatesToBeUploaded addObject:object.currentState.artwork];
         }
     }
@@ -293,7 +293,7 @@ NS_ASSUME_NONNULL_BEGIN
     for (SDLSoftButtonObject *object in self.softButtonObjects) {
         for (SDLSoftButtonState *state in object.states) {
             if ([state.name isEqualToString:object.currentState.name]) { continue; }
-            if (state.artwork != nil && ![self.fileManager hasUploadedFile:state.artwork]) {
+            if ([self sdl_artworkNeedsUpload:state.artwork]) {
                 [otherStatesToBeUploaded addObject:state.artwork];
             }
         }
@@ -311,6 +311,10 @@ NS_ASSUME_NONNULL_BEGIN
             [self sdl_updateWithCompletionHandler:nil];
         }];
     }
+}
+
+- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
+    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon);
 }
 
 #pragma mark - Creating Soft Buttons

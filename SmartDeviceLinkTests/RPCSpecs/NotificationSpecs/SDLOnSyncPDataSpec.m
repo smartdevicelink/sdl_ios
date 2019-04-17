@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLOnSyncPData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnSyncPDataSpec)
 
@@ -25,11 +26,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNameURLUppercase:@"https://www.youtube.com/watch?v=ygr5AHufBN4",
-                                                                   SDLNameTimeoutCapitalized:@8357},
-                                                             SDLNameOperationName:SDLNameOnSyncPData}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameNotification:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNameURLUppercase:@"https://www.youtube.com/watch?v=ygr5AHufBN4",
+                                                                   SDLRPCParameterNameTimeoutCapitalized:@8357},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnSyncPData}} mutableCopy];
         SDLOnSyncPData* testNotification = [[SDLOnSyncPData alloc] initWithDictionary:dict];
         
         expect(testNotification.URL).to(equal(@"https://www.youtube.com/watch?v=ygr5AHufBN4"));

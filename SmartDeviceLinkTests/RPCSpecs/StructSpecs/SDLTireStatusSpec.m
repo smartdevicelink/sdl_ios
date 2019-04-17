@@ -11,7 +11,7 @@
 #import "SDLTireStatus.h"
 #import "SDLSingleTireStatus.h"
 #import "SDLWarningLightStatus.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLTireStatusSpec)
 
@@ -44,13 +44,13 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNamePressureTelltale:SDLWarningLightStatusOff,
-                                       SDLNameLeftFront:tire1,
-                                       SDLNameRightFront:tire2,
-                                       SDLNameLeftRear:tire3,
-                                       SDLNameRightRear:tire4,
-                                       SDLNameInnerLeftRear:tire5,
-                                       SDLNameInnerRightRear:tire6} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNamePressureTelltale:SDLWarningLightStatusOff,
+                                       SDLRPCParameterNameLeftFront:tire1,
+                                       SDLRPCParameterNameRightFront:tire2,
+                                       SDLRPCParameterNameLeftRear:tire3,
+                                       SDLRPCParameterNameRightRear:tire4,
+                                       SDLRPCParameterNameInnerLeftRear:tire5,
+                                       SDLRPCParameterNameInnerRightRear:tire6} mutableCopy];
         SDLTireStatus* testStruct = [[SDLTireStatus alloc] initWithDictionary:dict];
         
         expect(testStruct.pressureTelltale).to(equal(SDLWarningLightStatusOff));

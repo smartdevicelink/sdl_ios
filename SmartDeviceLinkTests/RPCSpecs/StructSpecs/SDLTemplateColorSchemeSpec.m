@@ -4,7 +4,7 @@
 #import "SDLRGBColor.h"
 #import "SDLTemplateColorScheme.h"
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 QuickSpecBegin(SDLTemplateColorSchemeSpec)
 
@@ -51,9 +51,9 @@ describe(@"TemplateColor Tests", ^{
     });
 
     it(@"Should get correctly when initialized with a dict", ^{
-        NSDictionary *dict = @{SDLNameRed: @0,
-                               SDLNameGreen: @100,
-                               SDLNameBlue: @255};
+        NSDictionary *dict = @{SDLRPCParameterNameRed: @0,
+                               SDLRPCParameterNameGreen: @100,
+                               SDLRPCParameterNameBlue: @255};
         SDLRGBColor *testStruct = [[SDLRGBColor alloc] initWithDictionary:dict];
 
         expect(testStruct.red).to(equal(@0));

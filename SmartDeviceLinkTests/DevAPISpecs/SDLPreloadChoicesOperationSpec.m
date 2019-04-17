@@ -46,12 +46,16 @@ describe(@"a preload choices operation", ^{
         beforeEach(^{
             displayCapabilities = [[SDLDisplayCapabilities alloc] init];
             displayCapabilities.graphicSupported = @YES;
+            SDLTextField *primaryTextField = [[SDLTextField alloc] init];
+            primaryTextField.name = SDLTextFieldNameMenuName;
+            displayCapabilities.textFields = @[primaryTextField];
 
             OCMStub([testFileManager uploadArtworks:[OCMArg any] completionHandler:[OCMArg invokeBlock]]);
         });
 
         context(@"with artworks", ^{
             __block NSSet<SDLChoiceCell *> *cellsWithArtwork = nil;
+            __block NSSet<SDLChoiceCell *> *cellsWithStaticIcon = nil;
             __block NSString *art1Name = @"Art1Name";
             __block NSString *art2Name = @"Art2Name";
 
@@ -62,7 +66,26 @@ describe(@"a preload choices operation", ^{
                 SDLArtwork *cell2Art = [[SDLArtwork alloc] initWithData:cellArtData name:art2Name fileExtension:@"png" persistent:NO];
                 SDLChoiceCell *cell2WithArtAndSecondary = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:nil tertiaryText:nil voiceCommands:nil artwork:cell2Art secondaryArtwork:cell2Art];
 
+                SDLArtwork *staticIconArt = [SDLArtwork artworkWithStaticIcon:SDLStaticIconNameDate];
+                SDLChoiceCell *cellWithStaticIcon = [[SDLChoiceCell alloc] initWithText:@"Static Icon" secondaryText:nil tertiaryText:nil voiceCommands:nil artwork:staticIconArt secondaryArtwork:nil];
+
                 cellsWithArtwork = [NSSet setWithArray:@[cell1WithArt, cell2WithArtAndSecondary]];
+                cellsWithStaticIcon = [NSSet setWithArray:@[cellWithStaticIcon]];
+            });
+            
+            context(@"if the menuName is not set", ^{
+                it(@"should not send any requests", ^{
+                    SDLTextField *primaryTextField = [[SDLTextField alloc] init];
+                    primaryTextField.name = SDLTextFieldNameMenuName;
+                    displayCapabilities.textFields = @[];
+
+                    testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithArtwork];
+                    [testOp start];
+                
+                    NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
+                    
+                    expect(receivedRequests).to(haveCount(0));
+                });
             });
 
             context(@"disallowed display capabilities", ^{
@@ -123,6 +146,17 @@ describe(@"a preload choices operation", ^{
                     });
                 });
 
+                context(@"when artworks are static icons", ^{
+                    beforeEach(^{
+                        testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithStaticIcon];
+                        [testOp start];
+                    });
+
+                    it(@"should skip uploading artwork", ^{
+                        OCMReject([testFileManager uploadArtwork:[OCMArg any] completionHandler:[OCMArg any]]);
+                    });
+                });
+
                 context(@"when artwork are not already on the system", ^{
                     beforeEach(^{
                         OCMStub([testFileManager hasUploadedFile:[OCMArg isNotNil]]).andReturn(NO);
@@ -147,8 +181,7 @@ describe(@"a preload choices operation", ^{
             beforeEach(^{
                 SDLChoiceCell *cellBasic = [[SDLChoiceCell alloc] initWithText:@"Cell1" artwork:nil voiceCommands:nil];
                 SDLChoiceCell *cellWithVR = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:nil tertiaryText:nil voiceCommands:@[@"Cell2"] artwork:nil secondaryArtwork:nil];
-                 SDLChoiceCell *cellWithAllText = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:@"Cell2" tertiaryText:@"Cell2" voiceCommands:nil artwork:nil secondaryArtwork:nil];
-
+                SDLChoiceCell *cellWithAllText = [[SDLChoiceCell alloc] initWithText:@"Cell2" secondaryText:@"Cell2" tertiaryText:@"Cell2" voiceCommands:nil artwork:nil secondaryArtwork:nil];
                 cellsWithoutArtwork = [NSSet setWithArray:@[cellBasic, cellWithVR, cellWithAllText]];
             });
 
@@ -160,11 +193,10 @@ describe(@"a preload choices operation", ^{
                 it(@"should be correct with no text and VR required", ^{
                     testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:NO cellsToPreload:cellsWithoutArtwork];
                     [testOp start];
-
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
 
                     expect(receivedRequests).to(haveCount(3));
-                    expect(receivedRequests.lastObject.choiceSet.firstObject.menuName).to(beNil());
+                    expect(receivedRequests.lastObject.choiceSet.firstObject.menuName).toNot(beNil());
                     expect(receivedRequests.lastObject.choiceSet.firstObject.secondaryText).to(beNil());
                     expect(receivedRequests.lastObject.choiceSet.firstObject.tertiaryText).to(beNil());
                     expect(receivedRequests.lastObject.choiceSet.firstObject.vrCommands).toNot(beNil());
@@ -228,13 +260,14 @@ describe(@"a preload choices operation", ^{
                 });
 
                 it(@"should be correct with VR optional", ^{
+
                     testOp = [[SDLPreloadChoicesOperation alloc] initWithConnectionManager:testConnectionManager fileManager:testFileManager displayCapabilities:displayCapabilities isVROptional:YES cellsToPreload:cellsWithoutArtwork];
                     [testOp start];
 
                     NSArray<SDLCreateInteractionChoiceSet *> *receivedRequests = (NSArray<SDLCreateInteractionChoiceSet *> *)testConnectionManager.receivedRequests;
 
                     expect(receivedRequests).to(haveCount(3));
-                    expect(receivedRequests.lastObject.choiceSet.firstObject.menuName).to(beNil());
+                    expect(receivedRequests.lastObject.choiceSet.firstObject.menuName).toNot(beNil());
                     expect(receivedRequests.lastObject.choiceSet.firstObject.secondaryText).to(beNil());
                     expect(receivedRequests.lastObject.choiceSet.firstObject.tertiaryText).to(beNil());
                     expect(receivedRequests.lastObject.choiceSet.firstObject.vrCommands).to(beNil());

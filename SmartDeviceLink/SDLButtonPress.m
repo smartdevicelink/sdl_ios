@@ -3,7 +3,8 @@
 //
 
 #import "SDLButtonPress.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "NSMutableDictionary+Store.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -11,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLButtonPress
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameButtonPress]) {
+    if (self = [super initWithName:SDLRPCFunctionNameButtonPress]) {
     }
     return self;
 }
@@ -29,27 +30,30 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setModuleType:(SDLModuleType)moduleType {
-    [parameters sdl_setObject:moduleType forName:SDLNameModuleType];
+    [parameters sdl_setObject:moduleType forName:SDLRPCParameterNameModuleType];
 }
 
 - (SDLModuleType)moduleType {
-    return [parameters sdl_objectForName:SDLNameModuleType];
+    NSError *error = nil;
+    return [parameters sdl_enumForName:SDLRPCParameterNameModuleType error:&error];
 }
 
 - (void)setButtonName:(SDLButtonName)buttonName {
-    [parameters sdl_setObject:buttonName forName:SDLNameButtonName];
+    [parameters sdl_setObject:buttonName forName:SDLRPCParameterNameButtonName];
 }
 
 - (SDLButtonName)buttonName {
-    return [parameters sdl_objectForName:SDLNameButtonName];
+    NSError *error = nil;
+    return [parameters sdl_enumForName:SDLRPCParameterNameButtonName error:&error];
 }
 
 - (void)setButtonPressMode:(SDLButtonPressMode)buttonPressMode {
-    [parameters sdl_setObject:buttonPressMode forName:SDLNameButtonPressMode];
+    [parameters sdl_setObject:buttonPressMode forName:SDLRPCParameterNameButtonPressMode];
 }
 
 - (SDLButtonPressMode)buttonPressMode {
-    return [parameters sdl_objectForName:SDLNameButtonPressMode];
+    NSError *error = nil;
+    return [parameters sdl_enumForName:SDLRPCParameterNameButtonPressMode error:&error];
 }
 
 @end

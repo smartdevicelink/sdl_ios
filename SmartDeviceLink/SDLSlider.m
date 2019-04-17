@@ -5,14 +5,15 @@
 #import "SDLSlider.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSlider
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameSlider]) {
+    if (self = [super initWithName:SDLRPCFunctionNameSlider]) {
     }
     return self;
 }
@@ -52,43 +53,46 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setNumTicks:(NSNumber<SDLInt> *)numTicks {
-    [parameters sdl_setObject:numTicks forName:SDLNameNumberTicks];
+    [parameters sdl_setObject:numTicks forName:SDLRPCParameterNameNumberTicks];
 }
 
 - (NSNumber<SDLInt> *)numTicks {
-    return [parameters sdl_objectForName:SDLNameNumberTicks];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameNumberTicks ofClass:NSNumber.class error:&error];
 }
 
 - (void)setPosition:(NSNumber<SDLInt> *)position {
-    [parameters sdl_setObject:position forName:SDLNamePosition];
+    [parameters sdl_setObject:position forName:SDLRPCParameterNamePosition];
 }
 
 - (NSNumber<SDLInt> *)position {
-    return [parameters sdl_objectForName:SDLNamePosition];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNamePosition ofClass:NSNumber.class error:&error];
 }
 
 - (void)setSliderHeader:(NSString *)sliderHeader {
-    [parameters sdl_setObject:sliderHeader forName:SDLNameSliderHeader];
+    [parameters sdl_setObject:sliderHeader forName:SDLRPCParameterNameSliderHeader];
 }
 
 - (NSString *)sliderHeader {
-    return [parameters sdl_objectForName:SDLNameSliderHeader];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameSliderHeader ofClass:NSString.class error:&error];
 }
 
 - (void)setSliderFooter:(nullable NSArray<NSString *> *)sliderFooter {
-    [parameters sdl_setObject:sliderFooter forName:SDLNameSliderFooter];
+    [parameters sdl_setObject:sliderFooter forName:SDLRPCParameterNameSliderFooter];
 }
 
 - (nullable NSArray<NSString *> *)sliderFooter {
-    return [parameters sdl_objectForName:SDLNameSliderFooter];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameSliderFooter ofClass:NSString.class error:nil];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
-    [parameters sdl_setObject:timeout forName:SDLNameTimeout];
+    [parameters sdl_setObject:timeout forName:SDLRPCParameterNameTimeout];
 }
 
 - (nullable NSNumber<SDLInt> *)timeout {
-    return [parameters sdl_objectForName:SDLNameTimeout];
+    return [parameters sdl_objectForName:SDLRPCParameterNameTimeout ofClass:NSNumber.class error:nil];
 }
 
 @end

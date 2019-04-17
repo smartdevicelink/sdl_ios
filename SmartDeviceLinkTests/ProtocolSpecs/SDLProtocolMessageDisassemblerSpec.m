@@ -13,7 +13,8 @@
 #import "SDLProtocolMessageDisassembler.h"
 #import "SDLV2ProtocolHeader.h"
 #import "SDLV2ProtocolMessage.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLVersion.h"
 
 QuickSpecBegin(SDLProtocolMessageDisassemblerSpec)
 
@@ -24,7 +25,7 @@ describe(@"Disassemble Tests", ^ {
         char dummyBytes[dataLength];
         
         SDLGlobals *globals = [[SDLGlobals alloc] init];
-        globals.maxHeadUnitVersion = @"2.0.0";
+        globals.maxHeadUnitProtocolVersion = [SDLVersion versionWithString:@"2.0.0"];
         
         const char testPayloadHeader[12] = {0x20, 0x55, 0x64, 0x73, 0x12, 0x34, 0x43, 0x21, (dataLength >> 24) & 0xFF, (dataLength >> 16) & 0xFF, (dataLength >> 8) & 0xFF, dataLength & 0xFF};
         

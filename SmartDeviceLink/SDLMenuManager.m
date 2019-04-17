@@ -283,7 +283,7 @@ UInt32 const MenuCellIdMin = 1;
 
     NSMutableSet<SDLArtwork *> *mutableArtworks = [NSMutableSet set];
     for (SDLMenuCell *cell in cells) {
-        if (cell.icon != nil && ![self.fileManager hasUploadedFile:cell.icon]) {
+        if ([self sdl_artworkNeedsUpload:cell.icon]) {
             [mutableArtworks addObject:cell.icon];
         }
 
@@ -293,6 +293,10 @@ UInt32 const MenuCellIdMin = 1;
     }
 
     return [mutableArtworks allObjects];
+}
+
+- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
+    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon);
 }
 
 #pragma mark IDs
@@ -374,14 +378,14 @@ UInt32 const MenuCellIdMin = 1;
 
     command.menuParams = params;
     command.vrCommands = cell.voiceCommands;
-    command.cmdIcon = (cell.icon && shouldHaveArtwork) ? [[SDLImage alloc] initWithName:cell.icon.name isTemplate:cell.icon.isTemplate] : nil;
+    command.cmdIcon = (cell.icon && shouldHaveArtwork) ? cell.icon.imageRPC : nil;
     command.cmdID = @(cell.cellId);
 
     return command;
 }
 
 - (SDLAddSubMenu *)sdl_subMenuCommandForMenuCell:(SDLMenuCell *)cell withArtwork:(BOOL)shouldHaveArtwork position:(UInt16)position {
-    SDLImage *icon = (shouldHaveArtwork && (cell.icon.name != nil)) ? [[SDLImage alloc] initWithName:cell.icon.name isTemplate:cell.icon.isTemplate] : nil;
+    SDLImage *icon = (shouldHaveArtwork && (cell.icon.name != nil)) ? cell.icon.imageRPC : nil;
     return [[SDLAddSubMenu alloc] initWithId:cell.cellId menuName:cell.title menuIcon:icon position:(UInt8)position];
 }
 

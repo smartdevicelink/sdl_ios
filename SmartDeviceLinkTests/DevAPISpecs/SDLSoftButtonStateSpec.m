@@ -60,6 +60,17 @@ describe(@"soft button state", ^{
             expect(testSoftButton.image.value).to(equal(testArtworkName));
         });
     });
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-value"
+    context(@"when created invalid", ^{
+        it(@"should assert", ^{
+            expectAction(^{
+                [[SDLSoftButtonState alloc] initWithStateName:testStateName text:nil image:nil];
+            }).to(raiseException());
+        });
+    });
+#pragma clang diagnostic pop
 });
 
 QuickSpecEnd

@@ -7,7 +7,7 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLHMICapabilities.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 
 
 QuickSpecBegin(SDLHMICapabilitiesSpec)
@@ -42,9 +42,9 @@ describe(@"SDLHMICapabilities struct", ^{
     context(@"When initialized with a dictionary", ^{
         beforeEach(^{
             NSDictionary<NSString *, NSNumber *> *structInitDict = @{
-                                             SDLNameNavigation: someNavigationState,
-                                             SDLNamePhoneCall: somePhoneCallState,
-                                             SDLNameVideoStreaming: someVideoStreamState
+                                             SDLRPCParameterNameNavigation: someNavigationState,
+                                             SDLRPCParameterNamePhoneCall: somePhoneCallState,
+                                             SDLRPCParameterNameVideoStreaming: someVideoStreamState
                                              };
             testStruct = [[SDLHMICapabilities alloc] initWithDictionary:[structInitDict mutableCopy]];
         });

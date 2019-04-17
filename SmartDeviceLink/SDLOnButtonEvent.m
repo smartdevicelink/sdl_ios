@@ -4,42 +4,43 @@
 #import "SDLOnButtonEvent.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnButtonEvent
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameOnButtonEvent]) {
+    if (self = [super initWithName:SDLRPCFunctionNameOnButtonEvent]) {
     }
     return self;
 }
 
 - (void)setButtonName:(SDLButtonName)buttonName {
-    [parameters sdl_setObject:buttonName forName:SDLNameButtonName];
+    [parameters sdl_setObject:buttonName forName:SDLRPCParameterNameButtonName];
 }
 
 - (SDLButtonName)buttonName {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameButtonName];
-    return (SDLButtonName)obj;
+    NSError *error = nil;
+    return [parameters sdl_enumForName:SDLRPCParameterNameButtonName error:&error];
 }
 
 - (void)setButtonEventMode:(SDLButtonEventMode)buttonEventMode {
-    [parameters sdl_setObject:buttonEventMode forName:SDLNameButtonEventMode];
+    [parameters sdl_setObject:buttonEventMode forName:SDLRPCParameterNameButtonEventMode];
 }
 
 - (SDLButtonEventMode)buttonEventMode {
-    NSObject *obj = [parameters sdl_objectForName:SDLNameButtonEventMode];
-    return (SDLButtonEventMode)obj;
+    NSError *error = nil;
+    return [parameters sdl_enumForName:SDLRPCParameterNameButtonEventMode error:&error];
 }
 
 - (void)setCustomButtonID:(nullable NSNumber<SDLInt> *)customButtonID {
-    [parameters sdl_setObject:customButtonID forName:SDLNameCustomButtonId];
+    [parameters sdl_setObject:customButtonID forName:SDLRPCParameterNameCustomButtonId];
 }
 
 - (nullable NSNumber<SDLInt> *)customButtonID {
-    return [parameters sdl_objectForName:SDLNameCustomButtonId];
+    return [parameters sdl_objectForName:SDLRPCParameterNameCustomButtonId ofClass:NSNumber.class error:nil];
 }
 
 @end

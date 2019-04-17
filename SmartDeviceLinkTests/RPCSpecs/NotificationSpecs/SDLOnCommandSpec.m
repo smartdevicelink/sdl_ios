@@ -8,7 +8,8 @@
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLOnCommand.h"
 #import "SDLTriggerSource.h"
 
@@ -26,11 +27,11 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameNotification:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameCommandId:@5676544,
-                                                   SDLNameTriggerSource:SDLTriggerSourceKeyboard},
-                                             SDLNameOperationName:SDLNameOnCommand}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameNotification:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameCommandId:@5676544,
+                                                   SDLRPCParameterNameTriggerSource:SDLTriggerSourceKeyboard},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnCommand}} mutableCopy];
         SDLOnCommand* testNotification = [[SDLOnCommand alloc] initWithDictionary:dict];
         
         expect(testNotification.cmdID).to(equal(@5676544));

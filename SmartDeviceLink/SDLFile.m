@@ -24,6 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, readwrite) NSString *name;
 
 @property (nonatomic, readwrite) NSInputStream *inputStream;
+
+@property (assign, nonatomic, readwrite) BOOL isStaticIcon;
+
 @end
 
 

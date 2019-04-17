@@ -10,7 +10,8 @@
 
 #import "SDLOnPermissionsChange.h"
 #import "SDLPermissionItem.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 QuickSpecBegin(SDLOnPermissionsChangeSpec)
 
@@ -26,10 +27,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary<NSString *, id> *dict = [@{SDLNameNotification:
-                                                           @{SDLNameParameters:
-                                                                 @{SDLNamePermissionItem:[@[item] mutableCopy]},
-                                                             SDLNameOperationName:SDLNameOnPermissionsChange}} mutableCopy];
+        NSMutableDictionary<NSString *, id> *dict = [@{SDLRPCParameterNameNotification:
+                                                           @{SDLRPCParameterNameParameters:
+                                                                 @{SDLRPCParameterNamePermissionItem:[@[item] mutableCopy]},
+                                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameOnPermissionsChange}} mutableCopy];
         SDLOnPermissionsChange* testNotification = [[SDLOnPermissionsChange alloc] initWithDictionary:dict];
         
         expect(testNotification.permissionItem).to(equal([@[item] mutableCopy]));

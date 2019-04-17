@@ -39,6 +39,10 @@
 #import "SDLTransportType.h"
 #import "SDLUnsubscribeButton.h"
 #import "SDLVehicleType.h"
+#import "SDLVersion.h"
+
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -47,7 +51,7 @@ typedef NSString SDLVehicleMake;
 typedef void (^URLSessionTaskCompletionHandler)(NSData *data, NSURLResponse *response, NSError *error);
 typedef void (^URLSessionDownloadTaskCompletionHandler)(NSURL *location, NSURLResponse *response, NSError *error);
 
-NSString *const SDLProxyVersion = @"6.1.2";
+NSString *const SDLProxyVersion = @"6.2.0";
 const float StartSessionTime = 10.0;
 const float NotifyProxyClosedDelay = (float)0.1;
 const int PoliciesCorrelationId = 65535;
@@ -296,7 +300,7 @@ static float DefaultConnectionTimeout = 45.0;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (BOOL)sdl_adaptButtonSubscribeMessage:(SDLSubscribeButton *)message {
-    if ([SDLGlobals sharedGlobals].rpcVersion.majorVersion.intValue >= 5) {
+    if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
         if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
             SDLSubscribeButton *playPauseMessage = [message copy];
             playPauseMessage.buttonName = SDLButtonNamePlayPause;
@@ -333,7 +337,7 @@ static float DefaultConnectionTimeout = 45.0;
 }
 
 - (BOOL)sdl_adaptButtonUnsubscribeMessage:(SDLUnsubscribeButton *)message {
-    if ([SDLGlobals sharedGlobals].rpcVersion.majorVersion.intValue >= 5) {
+    if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
         if ([message.buttonName isEqualToEnum:SDLButtonNameOk]) {
             SDLUnsubscribeButton *playPauseMessage = [message copy];
             playPauseMessage.buttonName = SDLButtonNamePlayPause;
@@ -384,7 +388,7 @@ static float DefaultConnectionTimeout = 45.0;
     NSString *messageType = [message messageType];
 
     // If it's a response, append response
-    if ([messageType isEqualToString:SDLNameResponse]) {
+    if ([messageType isEqualToString:SDLRPCParameterNameResponse]) {
         BOOL notGenericResponseMessage = ![functionName isEqualToString:@"GenericResponse"];
         if (notGenericResponseMessage) {
             functionName = [NSString stringWithFormat:@"%@Response", functionName];
@@ -395,10 +399,10 @@ static float DefaultConnectionTimeout = 45.0;
     NSString *functionClassName = [NSString stringWithFormat:@"SDL%@", functionName];
     SDLRPCMessage *newMessage = [[NSClassFromString(functionClassName) alloc] initWithDictionary:[dict mutableCopy]];
 
+    // Log the RPC message
+    SDLLogV(@"Message received: %@", newMessage);
+
     // Intercept and handle several messages ourselves
-    if ([functionName isEqualToString:SDLNameOnAppInterfaceUnregistered] || [functionName isEqualToString:SDLNameUnregisterAppInterface]) {
-        [self handleRPCUnregistered:dict];
-    }
 
     if ([functionName isEqualToString:@"RegisterAppInterfaceResponse"]) {
         [self handleRegisterAppInterfaceResponse:(SDLRPCResponse *)newMessage];
@@ -419,7 +423,7 @@ static float DefaultConnectionTimeout = 45.0;
 
     if ([functionName isEqualToString:@"OnButtonPress"]) {
         SDLOnButtonPress *message = (SDLOnButtonPress *)newMessage;
-        if ([SDLGlobals sharedGlobals].rpcVersion.majorVersion.intValue >= 5) {
+        if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
             BOOL handledRPC = [self sdl_handleOnButtonPressPostV5:message];
             if (handledRPC) { return; }
         } else { // RPC version of 4 or less (connected to an old head unit)
@@ -430,7 +434,7 @@ static float DefaultConnectionTimeout = 45.0;
 
     if ([functionName isEqualToString:@"OnButtonEvent"]) {
         SDLOnButtonEvent *message = (SDLOnButtonEvent *)newMessage;
-        if ([SDLGlobals sharedGlobals].rpcVersion.majorVersion.intValue >= 5) {
+        if ([SDLGlobals sharedGlobals].rpcVersion.major >= 5) {
             BOOL handledRPC = [self sdl_handleOnButtonEventPostV5:message];
             if (handledRPC) { return; }
         } else {
@@ -440,6 +444,11 @@ static float DefaultConnectionTimeout = 45.0;
     }
 
     [self sdl_invokeDelegateMethodsWithFunction:functionName message:newMessage];
+    
+    //Intercepting SDLRPCFunctionNameOnAppInterfaceUnregistered must happen after it is broadcasted as a notification above. This will prevent reconnection attempts in the lifecycle manager when the AppInterfaceUnregisteredReason should prevent reconnections.
+    if ([functionName isEqualToString:SDLRPCFunctionNameOnAppInterfaceUnregistered] || [functionName isEqualToString:SDLRPCFunctionNameUnregisterAppInterface]) {
+        [self handleRPCUnregistered:dict];
+    }
 
     // When an OnHMIStatus notification comes in, after passing it on (above), generate an "OnLockScreenNotification"
     if ([functionName isEqualToString:@"OnHMIStatus"]) {
@@ -475,7 +484,7 @@ static float DefaultConnectionTimeout = 45.0;
         self.protocol.securityManager.appId = self.appId;
     }
 
-    if ([SDLGlobals sharedGlobals].majorProtocolVersion >= 4) {
+    if ([SDLGlobals sharedGlobals].protocolVersion.major >= 4) {
         [self sendMobileHMIState];
         // Send SDL updates to application state
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendMobileHMIState) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -506,7 +515,9 @@ static float DefaultConnectionTimeout = 45.0;
     if ([requestType isEqualToEnum:SDLRequestTypeProprietary]) {
         [self handleSystemRequestProprietary:systemRequest];
     } else if ([requestType isEqualToEnum:SDLRequestTypeLockScreenIconURL]) {
-        [self handleSystemRequestLockScreenIconURL:systemRequest];
+        [self sdl_handleSystemRequestLockScreenIconURL:systemRequest];
+    } else if ([requestType isEqualToEnum:SDLRequestTypeIconURL]) {
+        [self sdl_handleSystemRequestIconURL:systemRequest];
     } else if ([requestType isEqualToEnum:SDLRequestTypeHTTP]) {
         [self sdl_handleSystemRequestHTTP:systemRequest];
     } else if ([requestType isEqualToEnum:SDLRequestTypeLaunchApp]) {
@@ -604,7 +615,7 @@ static float DefaultConnectionTimeout = 45.0;
 
 #pragma mark Handle Post-Invoke of Delegate Methods
 - (void)handleAfterHMIStatus:(SDLRPCMessage *)message {
-    SDLHMILevel hmiLevel = (SDLHMILevel)[message getParameters:SDLNameHMILevel];
+    SDLHMILevel hmiLevel = (SDLHMILevel)[message getParameters:SDLRPCParameterNameHMILevel];
     _lsm.hmiLevel = hmiLevel;
 
     SEL callbackSelector = NSSelectorFromString(@"onOnLockScreenNotification:");
@@ -612,7 +623,7 @@ static float DefaultConnectionTimeout = 45.0;
 }
 
 - (void)handleAfterDriverDistraction:(SDLRPCMessage *)message {
-    NSString *stateString = (NSString *)[message getParameters:SDLNameState];
+    NSString *stateString = (NSString *)[message getParameters:SDLRPCParameterNameState];
     BOOL state = [stateString isEqualToString:@"DD_ON"] ? YES : NO;
     _lsm.driverDistracted = state;
 
@@ -693,7 +704,7 @@ static float DefaultConnectionTimeout = 45.0;
                     }];
 }
 
-- (void)handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
+- (void)sdl_handleSystemRequestLockScreenIconURL:(SDLOnSystemRequest *)request {
 	__weak typeof(self) weakSelf = self;
     [self sdl_sendDataTaskWithURL:[NSURL URLWithString:request.url]
                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -705,6 +716,26 @@ static float DefaultConnectionTimeout = 45.0;
                     
                     UIImage *icon = [UIImage imageWithData:data];
                     [strongSelf invokeMethodOnDelegates:@selector(onReceivedLockScreenIcon:) withObject:icon];
+                }];
+}
+
+- (void)sdl_handleSystemRequestIconURL:(SDLOnSystemRequest *)request {
+    __weak typeof(self) weakSelf = self;
+    [self sdl_sendDataTaskWithURL:[NSURL URLWithString:request.url]
+                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                    __strong typeof(weakSelf) strongSelf = weakSelf;
+                    if (error != nil) {
+                        SDLLogW(@"OnSystemRequest (icon url) HTTP download task failed: %@", error.localizedDescription);
+                        return;
+                    } else if (data.length == 0) {
+                        SDLLogW(@"OnSystemRequest (icon url) HTTP download task failed to get the cloud app icon image data");
+                        return;
+                    }
+
+                    SDLSystemRequest *iconURLSystemRequest = [[SDLSystemRequest alloc] initWithType:SDLRequestTypeIconURL fileName:request.url];
+                    iconURLSystemRequest.bulkData = data;
+
+                    [strongSelf sendRPC:iconURLSystemRequest];
                 }];
 }
 

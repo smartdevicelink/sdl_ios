@@ -5,7 +5,8 @@
 #import "SDLScrollableMessage.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSoftButton.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -13,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SDLScrollableMessage
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameScrollableMessage]) {
+    if (self = [super initWithName:SDLRPCFunctionNameScrollableMessage]) {
     }
     return self;
 }
@@ -42,27 +43,28 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setScrollableMessageBody:(NSString *)scrollableMessageBody {
-    [parameters sdl_setObject:scrollableMessageBody forName:SDLNameScrollableMessageBody];
+    [parameters sdl_setObject:scrollableMessageBody forName:SDLRPCParameterNameScrollableMessageBody];
 }
 
 - (NSString *)scrollableMessageBody {
-    return [parameters sdl_objectForName:SDLNameScrollableMessageBody];
+    NSError *error = nil;
+    return [parameters sdl_objectForName:SDLRPCParameterNameScrollableMessageBody ofClass:NSString.class error:&error];
 }
 
 - (void)setTimeout:(nullable NSNumber<SDLInt> *)timeout {
-    [parameters sdl_setObject:timeout forName:SDLNameTimeout];
+    [parameters sdl_setObject:timeout forName:SDLRPCParameterNameTimeout];
 }
 
 - (nullable NSNumber<SDLInt> *)timeout {
-    return [parameters sdl_objectForName:SDLNameTimeout];
+    return [parameters sdl_objectForName:SDLRPCParameterNameTimeout ofClass:NSNumber.class error:nil];
 }
 
 - (void)setSoftButtons:(nullable NSArray<SDLSoftButton *> *)softButtons {
-    [parameters sdl_setObject:softButtons forName:SDLNameSoftButtons];
+    [parameters sdl_setObject:softButtons forName:SDLRPCParameterNameSoftButtons];
 }
 
 - (nullable NSArray<SDLSoftButton *> *)softButtons {
-    return [parameters sdl_objectsForName:SDLNameSoftButtons ofClass:SDLSoftButton.class];
+    return [parameters sdl_objectsForName:SDLRPCParameterNameSoftButtons ofClass:SDLSoftButton.class error:nil];
 }
 
 @end

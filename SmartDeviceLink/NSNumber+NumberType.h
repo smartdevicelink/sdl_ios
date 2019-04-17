@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  A decleration that this NSNumber contains an NSInteger.
+ *  A declaration that this NSNumber contains an NSInteger.
  */
 @protocol SDLInt
 @end

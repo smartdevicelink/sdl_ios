@@ -162,7 +162,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogV(@"No images to send, sending text");
         // If there are no images to update, just send the text
         self.inProgressUpdate = [self sdl_extractTextFromShow:fullShow];
-    } else if ([self sdl_isArtworkUploadedOrNonExistent:self.primaryGraphic] && [self sdl_isArtworkUploadedOrNonExistent:self.secondaryGraphic]) {
+    } else if (![self sdl_artworkNeedsUpload:self.primaryGraphic] && ![self sdl_artworkNeedsUpload:self.secondaryGraphic]) {
         SDLLogV(@"Images already uploaded, sending full update");
         // The files to be updated are already uploaded, send the full show immediately
         self.inProgressUpdate = fullShow;
@@ -175,7 +175,7 @@ NS_ASSUME_NONNULL_BEGIN
 
         // Start uploading the images
         __block SDLShow *thisUpdate = fullShow;
-        [self sdl_uploadImagesWithCompletionHandler:^(NSError * _Nonnull error) {
+        [self sdl_uploadImagesWithCompletionHandler:^(NSError *_Nullable error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
 
             if (error != nil) {
@@ -229,13 +229,19 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)sdl_uploadImagesWithCompletionHandler:(void (^)(NSError *error))handler {
+- (void)sdl_uploadImagesWithCompletionHandler:(void (^)(NSError *_Nullable error))handler {
     NSMutableArray<SDLArtwork *> *artworksToUpload = [NSMutableArray array];
-    if ([self sdl_shouldUpdatePrimaryImage]) {
+    if ([self sdl_shouldUpdatePrimaryImage] && !self.primaryGraphic.isStaticIcon) {
         [artworksToUpload addObject:self.primaryGraphic];
     }
-    if ([self sdl_shouldUpdateSecondaryImage]) {
+    if ([self sdl_shouldUpdateSecondaryImage] && !self.secondaryGraphic.isStaticIcon) {
         [artworksToUpload addObject:self.secondaryGraphic];
+    }
+
+    if (artworksToUpload.count == 0
+        && (self.primaryGraphic.isStaticIcon || self.secondaryGraphic.isStaticIcon)) {
+        SDLLogD(@"Upload attempted on static icons, sending them without upload instead");
+        handler(nil);
     }
 
     [self.fileManager uploadArtworks:artworksToUpload completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
@@ -257,10 +263,10 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     if ([self sdl_shouldUpdatePrimaryImage]) {
-        show.graphic = [[SDLImage alloc] initWithName:self.primaryGraphic.name ofType:SDLImageTypeDynamic isTemplate:self.primaryGraphic.isTemplate];
+        show.graphic = self.primaryGraphic.imageRPC;
     }
     if ([self sdl_shouldUpdateSecondaryImage]) {
-        show.secondaryGraphic = [[SDLImage alloc] initWithName:self.secondaryGraphic.name ofType:SDLImageTypeDynamic isTemplate:self.secondaryGraphic.isTemplate];
+        show.secondaryGraphic = self.secondaryGraphic.imageRPC;
     }
 
     return show;
@@ -457,8 +463,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable SDLShow *)sdl_createImageOnlyShowWithPrimaryArtwork:(nullable SDLArtwork *)primaryArtwork secondaryArtwork:(nullable SDLArtwork *)secondaryArtwork  {
     SDLShow *newShow = [[SDLShow alloc] init];
-    newShow.graphic = [self sdl_isArtworkUploadedOrNonExistent:primaryArtwork] ? [[SDLImage alloc] initWithName:primaryArtwork.name ofType:SDLImageTypeDynamic isTemplate:primaryArtwork.isTemplate] : nil;
-    newShow.secondaryGraphic = [self sdl_isArtworkUploadedOrNonExistent:secondaryArtwork] ? [[SDLImage alloc] initWithName:secondaryArtwork.name ofType:SDLImageTypeDynamic isTemplate:secondaryArtwork.isTemplate] : nil;
+    newShow.graphic = ![self sdl_artworkNeedsUpload:primaryArtwork] ? primaryArtwork.imageRPC : nil;
+    newShow.secondaryGraphic = ![self sdl_artworkNeedsUpload:secondaryArtwork] ? secondaryArtwork.imageRPC : nil;
 
     if (newShow.graphic == nil && newShow.secondaryGraphic == nil) {
         SDLLogV(@"No graphics to upload");
@@ -483,29 +489,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Helpers
 
-/**
- *  Checks if an artwork needs to be uploaded to Core.
- *
- *  @param artwork     The artwork to be uploaded to Core
- *  @return            True if the artwork does not need to be uploaded to Core; false if artwork stills needs to be sent to Core.
- */
-- (BOOL)sdl_isArtworkUploadedOrNonExistent:(SDLArtwork *)artwork {
-    return (!artwork || [self.fileManager hasUploadedFile:artwork]);
+- (BOOL)sdl_artworkNeedsUpload:(SDLArtwork *)artwork {
+    return (artwork != nil && ![self.fileManager hasUploadedFile:artwork] && !artwork.isStaticIcon);
 }
 
 - (BOOL)sdl_shouldUpdatePrimaryImage {
-    BOOL hasGraphic = self.displayCapabilities ? [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] : YES;
+    BOOL templateSupportsPrimaryArtwork = self.displayCapabilities ? [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] : YES;
 
-    return (hasGraphic
+    return (templateSupportsPrimaryArtwork
             && ![self.currentScreenData.graphic.value isEqualToString:self.primaryGraphic.name]
             && self.primaryGraphic != nil);
 }
 
 - (BOOL)sdl_shouldUpdateSecondaryImage {
-    BOOL hasGraphic = self.displayCapabilities ? [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] : YES;
+    BOOL templateSupportsSecondaryArtwork = self.displayCapabilities ? ([self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameGraphic] || [self.displayCapabilities hasImageFieldOfName:SDLImageFieldNameSecondaryGraphic]) : YES;
 
     // Cannot detect if there is a secondary image, so we'll just try to detect if there's a primary image and allow it if there is.
-    return (hasGraphic
+    return (templateSupportsSecondaryArtwork
             && ![self.currentScreenData.secondaryGraphic.value isEqualToString:self.secondaryGraphic.name]
             && self.secondaryGraphic != nil);
 }

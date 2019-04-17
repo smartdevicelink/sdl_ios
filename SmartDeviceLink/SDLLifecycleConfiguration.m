@@ -9,6 +9,7 @@
 #import "SDLLifecycleConfiguration.h"
 
 #import "SDLFile.h"
+#import "SDLVersion.h"
 
 static NSString *const DefaultTCPIPAddress = @"192.168.0.1";
 static UInt16 const DefaultTCPIPPort = 12345;
@@ -66,6 +67,8 @@ static NSUInteger const AppIdCharacterCount = 10;
     _shortAppName = nil;
     _ttsName = nil;
     _voiceRecognitionCommandNames = nil;
+    _minimumProtocolVersion = [SDLVersion versionWithString:@"1.0.0"];
+    _minimumRPCVersion = [SDLVersion versionWithString:@"1.0.0"];
 
     _fullAppId = fullAppId;
     _appId = fullAppId != nil ? [self.class sdlex_shortAppIdFromFullAppId:fullAppId] : appId;

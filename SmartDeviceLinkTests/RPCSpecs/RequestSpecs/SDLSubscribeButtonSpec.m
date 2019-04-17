@@ -9,7 +9,8 @@
 #import <Nimble/Nimble.h>
 
 #import "SDLButtonName.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 #import "SDLSubscribeButton.h"
 
 
@@ -25,10 +26,10 @@ describe(@"Getter/Setter Tests", ^ {
     });
     
     it(@"Should get correctly when initialized", ^ {
-        NSMutableDictionary* dict = [@{SDLNameRequest:
-                                           @{SDLNameParameters:
-                                                 @{SDLNameButtonName:SDLButtonNamePreset5},
-                                             SDLNameOperationName:SDLNameSubscribeButton}} mutableCopy];
+        NSMutableDictionary* dict = [@{SDLRPCParameterNameRequest:
+                                           @{SDLRPCParameterNameParameters:
+                                                 @{SDLRPCParameterNameButtonName:SDLButtonNamePreset5},
+                                             SDLRPCParameterNameOperationName:SDLRPCFunctionNameSubscribeButton}} mutableCopy];
         SDLSubscribeButton* testRequest = [[SDLSubscribeButton alloc] initWithDictionary:dict];
         
         expect(testRequest.buttonName).to(equal(SDLButtonNamePreset5));

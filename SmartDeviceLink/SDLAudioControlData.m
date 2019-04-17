@@ -2,8 +2,9 @@
 //
 
 #import "SDLAudioControlData.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
 #import "NSMutableDictionary+Store.h"
+#import "SDLEqualizerSettings.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,36 +25,36 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setSource:(nullable SDLPrimaryAudioSource)source {
-    [store sdl_setObject:source forName:SDLNameSource];
+    [store sdl_setObject:source forName:SDLRPCParameterNameSource];
 
 }
 
 - (nullable SDLPrimaryAudioSource)source {
-    return [store sdl_objectForName:SDLNameSource];
+    return [store sdl_enumForName:SDLRPCParameterNameSource error:nil];
 }
 
 - (void)setKeepContext:(nullable NSNumber<SDLBool> *)keepContext {
-    [store sdl_setObject:keepContext forName:SDLNameKeepContext];
+    [store sdl_setObject:keepContext forName:SDLRPCParameterNameKeepContext];
 }
 
 - (nullable NSNumber<SDLBool> *)keepContext {
-    return [store sdl_objectForName:SDLNameKeepContext];
+    return [store sdl_objectForName:SDLRPCParameterNameKeepContext ofClass:NSNumber.class error:nil];
 }
 
 - (void)setVolume:(nullable NSNumber<SDLInt> *)volume {
-    [store sdl_setObject:volume forName:SDLNameVolume];
+    [store sdl_setObject:volume forName:SDLRPCParameterNameVolume];
 }
 
 - (nullable NSNumber<SDLInt> *)volume {
-    return [store sdl_objectForName:SDLNameVolume];
+    return [store sdl_objectForName:SDLRPCParameterNameVolume ofClass:NSNumber.class error:nil];
 }
 
 - (void)setEqualizerSettings:(nullable NSArray<SDLEqualizerSettings *> *)equalizerSettings {
-    [store sdl_setObject:equalizerSettings forName:SDLNameEqualizerSettings];
+    [store sdl_setObject:equalizerSettings forName:SDLRPCParameterNameEqualizerSettings];
 }
 
 - (nullable NSArray<SDLEqualizerSettings *> *)equalizerSettings {
-    return [store sdl_objectForName:SDLNameEqualizerSettings];
+    return [store sdl_objectsForName:SDLRPCParameterNameEqualizerSettings ofClass:SDLEqualizerSettings.class error:nil];
 }
 
 @end

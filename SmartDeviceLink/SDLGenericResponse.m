@@ -5,14 +5,15 @@
 #import "SDLGenericResponse.h"
 
 #import "NSMutableDictionary+Store.h"
-#import "SDLNames.h"
+#import "SDLRPCParameterNames.h"
+#import "SDLRPCFunctionNames.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLGenericResponse
 
 - (instancetype)init {
-    if (self = [super initWithName:SDLNameGenericResponse]) {
+    if (self = [super initWithName:SDLRPCFunctionNameGenericResponse]) {
     }
     return self;
 }
