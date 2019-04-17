@@ -1,0 +1,582 @@
+<h1>SDLWeatherData Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithCurrentTemperature:temperatureHigh:temperatureLow:apparentTemperature:apparentTemperatureHigh:apparentTemperatureLow:weatherSummary:time:humidity:cloudCover:moonPhase:windBearing:windGust:windSpeed:nearestStormBearing:nearestStormDistance:precipAccumulation:precipIntensity:precipProbability:precipType:visibility:weatherIcon:">-initWithCurrentTemperature:temperatureHigh:temperatureLow:apparentTemperature:apparentTemperatureHigh:apparentTemperatureLow:weatherSummary:time:humidity:cloudCover:moonPhase:windBearing:windGust:windSpeed:nearestStormBearing:nearestStormDistance:precipAccumulation:precipIntensity:precipProbability:precipType:visibility:weatherIcon:</a></li>
+  <li><a href="#section-currentTemperature">currentTemperature</a></li>
+  <li><a href="#section-temperatureHigh">temperatureHigh</a></li>
+  <li><a href="#section-temperatureLow">temperatureLow</a></li>
+  <li><a href="#section-apparentTemperature">apparentTemperature</a></li>
+  <li><a href="#section-apparentTemperatureHigh">apparentTemperatureHigh</a></li>
+  <li><a href="#section-apparentTemperatureLow">apparentTemperatureLow</a></li>
+  <li><a href="#section-weatherSummary">weatherSummary</a></li>
+  <li><a href="#section-time">time</a></li>
+  <li><a href="#section-humidity">humidity</a></li>
+  <li><a href="#section-cloudCover">cloudCover</a></li>
+  <li><a href="#section-moonPhase">moonPhase</a></li>
+  <li><a href="#section-windBearing">windBearing</a></li>
+  <li><a href="#section-windGust">windGust</a></li>
+  <li><a href="#section-windSpeed">windSpeed</a></li>
+  <li><a href="#section-nearestStormBearing">nearestStormBearing</a></li>
+  <li><a href="#section-nearestStormDistance">nearestStormDistance</a></li>
+  <li><a href="#section-precipAccumulation">precipAccumulation</a></li>
+  <li><a href="#section-precipIntensity">precipIntensity</a></li>
+  <li><a href="#section-precipProbability">precipProbability</a></li>
+  <li><a href="#section-precipType">precipType</a></li>
+  <li><a href="#section-visibility">visibility</a></li>
+  <li><a href="#section-weatherIcon">weatherIcon</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithCurrentTemperature:temperatureHigh:temperatureLow:apparentTemperature:apparentTemperatureHigh:apparentTemperatureLow:weatherSummary:time:humidity:cloudCover:moonPhase:windBearing:windGust:windSpeed:nearestStormBearing:nearestStormDistance:precipAccumulation:precipIntensity:precipProbability:precipType:visibility:weatherIcon:">
+      -initWithCurrentTemperature:temperatureHigh:temperatureLow:apparentTemperature:apparentTemperatureHigh:apparentTemperatureLow:weatherSummary:time:humidity:cloudCover:moonPhase:windBearing:windGust:windSpeed:nearestStormBearing:nearestStormDistance:precipAccumulation:precipIntensity:precipProbability:precipType:visibility:weatherIcon:
+  </h3>
+  
+  <p>Convenience init for all parameters</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithCurrentTemperature</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">currentTemperature</span>
+               <span class="nf">temperatureHigh</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">temperatureHigh</span>
+                <span class="nf">temperatureLow</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">temperatureLow</span>
+           <span class="nf">apparentTemperature</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">apparentTemperature</span>
+       <span class="nf">apparentTemperatureHigh</span><span class="p">:</span>
+           <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">apparentTemperatureHigh</span>
+        <span class="nf">apparentTemperatureLow</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">apparentTemperatureLow</span>
+                <span class="nf">weatherSummary</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">weatherSummary</span>
+                          <span class="nf">time</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">time</span>
+                      <span class="nf">humidity</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">humidity</span>
+                    <span class="nf">cloudCover</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">cloudCover</span>
+                     <span class="nf">moonPhase</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">moonPhase</span>
+                   <span class="nf">windBearing</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">windBearing</span>
+                      <span class="nf">windGust</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">windGust</span>
+                     <span class="nf">windSpeed</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">windSpeed</span>
+           <span class="nf">nearestStormBearing</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">nearestStormBearing</span>
+          <span class="nf">nearestStormDistance</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">nearestStormDistance</span>
+            <span class="nf">precipAccumulation</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">precipAccumulation</span>
+               <span class="nf">precipIntensity</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">precipIntensity</span>
+             <span class="nf">precipProbability</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">precipProbability</span>
+                    <span class="nf">precipType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">precipType</span>
+                    <span class="nf">visibility</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">visibility</span>
+                   <span class="nf">weatherIcon</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">weatherIcon</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">currentTemperature</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?,</span> <span class="nv">temperatureHigh</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?,</span> <span class="nv">temperatureLow</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?,</span> <span class="nv">apparentTemperature</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?,</span> <span class="nv">apparentTemperatureHigh</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?,</span> <span class="nv">apparentTemperatureLow</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?,</span> <span class="nv">weatherSummary</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">time</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span><span class="p">?,</span> <span class="nv">humidity</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?,</span> <span class="nv">cloudCover</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?,</span> <span class="nv">moonPhase</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?,</span> <span class="nv">windBearing</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?,</span> <span class="nv">windGust</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?,</span> <span class="nv">windSpeed</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?,</span> <span class="nv">nearestStormBearing</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?,</span> <span class="nv">nearestStormDistance</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?,</span> <span class="nv">precipAccumulation</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?,</span> <span class="nv">precipIntensity</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?,</span> <span class="nv">precipProbability</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?,</span> <span class="nv">precipType</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">visibility</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?,</span> <span class="nv">weatherIcon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>currentTemperature</dt>
+      <dd><p>The current temperature</p></dd>
+      <dt>temperatureHigh</dt>
+      <dd><p>The predicted high temperature for the day</p></dd>
+      <dt>temperatureLow</dt>
+      <dd><p>The predicted low temperature for the day</p></dd>
+      <dt>apparentTemperature</dt>
+      <dd><p>The apparent temperature</p></dd>
+      <dt>apparentTemperatureHigh</dt>
+      <dd><p>The predicted high apparent temperature for the day</p></dd>
+      <dt>apparentTemperatureLow</dt>
+      <dd><p>The predicted low apparent temperature for the day</p></dd>
+      <dt>weatherSummary</dt>
+      <dd><p>A summary of the weather</p></dd>
+      <dt>time</dt>
+      <dd><p>The time this data refers to</p></dd>
+      <dt>humidity</dt>
+      <dd><p>From 0 to 1, percentage humidity</p></dd>
+      <dt>cloudCover</dt>
+      <dd><p>From 0 to 1, percentage cloud cover</p></dd>
+      <dt>moonPhase</dt>
+      <dd><p>From 0 to 1, percentage of the moon seen, e.g. 0 = no moon, 0.25 = quarter moon</p></dd>
+      <dt>windBearing</dt>
+      <dd><p>In degrees, true north at 0 degrees</p></dd>
+      <dt>windGust</dt>
+      <dd><p>In km/hr</p></dd>
+      <dt>windSpeed</dt>
+      <dd><p>In km/hr</p></dd>
+      <dt>nearestStormBearing</dt>
+      <dd><p>In degrees, true north at 0 degrees</p></dd>
+      <dt>nearestStormDistance</dt>
+      <dd><p>In km</p></dd>
+      <dt>precipAccumulation</dt>
+      <dd><p>In cm</p></dd>
+      <dt>precipIntensity</dt>
+      <dd><p>In cm of water per hour</p></dd>
+      <dt>precipProbability</dt>
+      <dd><p>From 0 to 1, percentage chance</p></dd>
+      <dt>precipType</dt>
+      <dd><p>A description of the precipitation type (e.g. <q>rain</q>, <q>snow</q>, <q>sleet</q>, <q>hail</q>)</p></dd>
+      <dt>visibility</dt>
+      <dd><p>In km</p></dd>
+      <dt>weatherIcon</dt>
+      <dd><p>The weather icon image</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLWeatherData object</p>
+  </div>
+  
+  <h3 id="section-currentTemperature">
+      currentTemperature
+  </h3>
+  
+  <p>The current temperature.</p>
+
+<p>SDLTemperature, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="n">currentTemperature</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">currentTemperature</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-temperatureHigh">
+      temperatureHigh
+  </h3>
+  
+  <p>The predicted high temperature for the day.</p>
+
+<p>SDLTemperature, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="n">temperatureHigh</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">temperatureHigh</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-temperatureLow">
+      temperatureLow
+  </h3>
+  
+  <p>The predicted low temperature for the day.</p>
+
+<p>SDLTemperature, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="n">temperatureLow</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">temperatureLow</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-apparentTemperature">
+      apparentTemperature
+  </h3>
+  
+  <p>The apparent temperature.</p>
+
+<p>SDLTemperature, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="n">apparentTemperature</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">apparentTemperature</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-apparentTemperatureHigh">
+      apparentTemperatureHigh
+  </h3>
+  
+  <p>The predicted high apparent temperature for the day.</p>
+
+<p>SDLTemperature, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="n">apparentTemperatureHigh</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">apparentTemperatureHigh</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-apparentTemperatureLow">
+      apparentTemperatureLow
+  </h3>
+  
+  <p>The predicted low apparent temperature for the day.</p>
+
+<p>SDLTemperature, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span> <span class="o">*</span><span class="n">apparentTemperatureLow</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">apparentTemperatureLow</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLTemperature.html">SDLTemperature</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-weatherSummary">
+      weatherSummary
+  </h3>
+  
+  <p>A summary of the weather.</p>
+
+<p>String, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">weatherSummary</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">weatherSummary</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-time">
+      time
+  </h3>
+  
+  <p>The time this data refers to.</p>
+
+<p>SDLDateTime, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="n">time</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">time</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-humidity">
+      humidity
+  </h3>
+  
+  <p>From 0 to 1, percentage humidity.</p>
+
+<p>Float, Optional, minvalue=<q>0</q> maxvalue=<q>1</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">humidity</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">humidity</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-cloudCover">
+      cloudCover
+  </h3>
+  
+  <p>From 0 to 1, percentage cloud cover.</p>
+
+<p>Float, Optional, minvalue=<q>0</q> maxvalue=<q>1</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">cloudCover</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">cloudCover</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-moonPhase">
+      moonPhase
+  </h3>
+  
+  <p>From 0 to 1, percentage of the moon seen, e.g. 0 = no moon, 0.25 = quarter moon</p>
+
+<p>Float, Optional, minvalue=<q>0</q> maxvalue=<q>1</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">moonPhase</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">moonPhase</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-windBearing">
+      windBearing
+  </h3>
+  
+  <p>In degrees, true north at 0 degrees.</p>
+
+<p>Integer, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">windBearing</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">windBearing</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-windGust">
+      windGust
+  </h3>
+  
+  <p>In km/hr</p>
+
+<p>Float, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">windGust</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">windGust</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-windSpeed">
+      windSpeed
+  </h3>
+  
+  <p>In km/hr</p>
+
+<p>Float, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">windSpeed</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">windSpeed</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-nearestStormBearing">
+      nearestStormBearing
+  </h3>
+  
+  <p>In degrees, true north at 0 degrees.</p>
+
+<p>Integer, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">nearestStormBearing</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">nearestStormBearing</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-nearestStormDistance">
+      nearestStormDistance
+  </h3>
+  
+  <p>In km</p>
+
+<p>Integer, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">nearestStormDistance</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">nearestStormDistance</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLInt">SDLInt</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-precipAccumulation">
+      precipAccumulation
+  </h3>
+  
+  <p>In cm</p>
+
+<p>Float, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">precipAccumulation</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">precipAccumulation</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-precipIntensity">
+      precipIntensity
+  </h3>
+  
+  <p>In cm of water per hour.</p>
+
+<p>Float, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">precipIntensity</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">precipIntensity</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-precipProbability">
+      precipProbability
+  </h3>
+  
+  <p>From 0 to 1, percentage chance.</p>
+
+<p>Float, Optional, minvalue=<q>0</q> maxvalue=<q>1</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">precipProbability</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">precipProbability</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-precipType">
+      precipType
+  </h3>
+  
+  <p>A description of the precipitation type (e.g. <q>rain</q>, <q>snow</q>, <q>sleet</q>, <q>hail</q>)</p>
+
+<p>String, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">precipType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">precipType</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-visibility">
+      visibility
+  </h3>
+  
+  <p>In km</p>
+
+<p>Float, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">visibility</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">visibility</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-weatherIcon">
+      weatherIcon
+  </h3>
+  
+  <p>The weather icon image.</p>
+
+<p>SDLImage, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLImage.html">SDLImage</a></span> <span class="o">*</span><span class="n">weatherIcon</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">weatherIcon</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLImage.html">SDLImage</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

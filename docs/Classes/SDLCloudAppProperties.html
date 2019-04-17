@@ -1,0 +1,238 @@
+<h1>SDLCloudAppProperties Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithAppID:">-initWithAppID:</a></li>
+  <li><a href="#section--initWithAppID:nicknames:enabled:authToken:cloudTransportType:hybridAppPreference:endpoint:">-initWithAppID:nicknames:enabled:authToken:cloudTransportType:hybridAppPreference:endpoint:</a></li>
+  <li><a href="#section-nicknames">nicknames</a></li>
+  <li><a href="#section-appID">appID</a></li>
+  <li><a href="#section-enabled">enabled</a></li>
+  <li><a href="#section-authToken">authToken</a></li>
+  <li><a href="#section-cloudTransportType">cloudTransportType</a></li>
+  <li><a href="#section-hybridAppPreference">hybridAppPreference</a></li>
+  <li><a href="#section-endpoint">endpoint</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithAppID:">
+      -initWithAppID:
+  </h3>
+  
+  <p>Convenience init for required parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppID</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">appID</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>appID</dt>
+      <dd><p>The id of the cloud app</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLCloudAppProperties object</p>
+  </div>
+  
+  <h3 id="section--initWithAppID:nicknames:enabled:authToken:cloudTransportType:hybridAppPreference:endpoint:">
+      -initWithAppID:nicknames:enabled:authToken:cloudTransportType:hybridAppPreference:endpoint:
+  </h3>
+  
+  <p>Convenience init for all parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppID</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appID</span>
+                            <span class="nf">nicknames</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">nicknames</span>
+                              <span class="nf">enabled</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">enabled</span>
+                            <span class="nf">authToken</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">authToken</span>
+                   <span class="nf">cloudTransportType</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">cloudTransportType</span>
+                  <span class="nf">hybridAppPreference</span><span class="p">:</span>
+                      <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Type Definitions.html#/c:SDLHybridAppPreference.h@T@SDLHybridAppPreference">SDLHybridAppPreference</a></span><span class="p">)</span><span class="nv">hybridAppPreference</span>
+                             <span class="nf">endpoint</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">endpoint</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">appID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">nicknames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">enabled</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">authToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">cloudTransportType</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">hybridAppPreference</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLHybridAppPreference.h@T@SDLHybridAppPreference">SDLHybridAppPreference</a></span><span class="p">?,</span> <span class="nv">endpoint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>appID</dt>
+      <dd><p>The id of the cloud app</p></dd>
+      <dt>nicknames</dt>
+      <dd><p>An array of app names a cloud app is allowed to register with</p></dd>
+      <dt>enabled</dt>
+      <dd><p>If true, the cloud app will appear in the HMI&rsquo;s app list; if false, the cloud app will not appear in the HMI&rsquo;s app list</p></dd>
+      <dt>authToken</dt>
+      <dd><p>Used to authenticate websocket connection on app activation</p></dd>
+      <dt>cloudTransportType</dt>
+      <dd><p>Specifies the connection type Core should use</p></dd>
+      <dt>hybridAppPreference</dt>
+      <dd><p>Specifies the user preference to use the cloud app version or mobile app version when both are available</p></dd>
+      <dt>endpoint</dt>
+      <dd><p>The websocket endpoint</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLCloudAppProperties object</p>
+  </div>
+  
+  <h3 id="section-nicknames">
+      nicknames
+  </h3>
+  
+  <p>An array of app names a cloud app is allowed to register with. If included in a <code>SetCloudAppProperties</code> request, this value will overwrite the existing <q>nicknames</q> field in the app policies section of the policy table.</p>
+
+<p>Array of Strings, Optional, String length: minlength=<q>0</q> maxlength=<q>100</q>, Array size: minsize=<q>0</q> maxsize=<q>100</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">nicknames</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">nicknames</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-appID">
+      appID
+  </h3>
+  
+  <p>The id of the cloud app.</p>
+
+<p>String, Required, maxlength=<q>100</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">appID</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">appID</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-enabled">
+      enabled
+  </h3>
+  
+  <p>If true, the cloud app will appear in the HMI&rsquo;s app list; if false, the cloud app will not appear in the HMI&rsquo;s app list.</p>
+
+<p>Boolean, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">enabled</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">enabled</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-authToken">
+      authToken
+  </h3>
+  
+  <p>Used to authenticate websocket connection on app activation.</p>
+
+<p>String, Optional, maxlength=<q>65535</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">authToken</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">authToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-cloudTransportType">
+      cloudTransportType
+  </h3>
+  
+  <p>Specifies the connection type Core should use. Currently the ones that work in SDL Core are <code>WS</code> or <code>WSS</code>, but an OEM can implement their own transport adapter to handle different values.</p>
+
+<p>String, Optional, maxlength=<q>100</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">cloudTransportType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">cloudTransportType</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-hybridAppPreference">
+      hybridAppPreference
+  </h3>
+  
+  <p>Specifies the user preference to use the cloud app version or mobile app version when both are available.</p>
+
+<p>SDLHybridAppPreference, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Type Definitions.html#/c:SDLHybridAppPreference.h@T@SDLHybridAppPreference">SDLHybridAppPreference</a></span> <span class="n">hybridAppPreference</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">hybridAppPreference</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLHybridAppPreference.h@T@SDLHybridAppPreference">SDLHybridAppPreference</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-endpoint">
+      endpoint
+  </h3>
+  
+  <p>The websocket endpoint.</p>
+
+<p>String, Optional, maxlength=<q>65535</q></p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">endpoint</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">endpoint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

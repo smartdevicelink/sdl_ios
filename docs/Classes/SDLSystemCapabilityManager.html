@@ -14,6 +14,7 @@
   <li><a href="#section-vrCapability">vrCapability</a></li>
   <li><a href="#section-audioPassThruCapabilities">audioPassThruCapabilities</a></li>
   <li><a href="#section-pcmStreamCapability">pcmStreamCapability</a></li>
+  <li><a href="#section-appServicesCapabilities">appServicesCapabilities</a></li>
   <li><a href="#section-navigationCapability">navigationCapability</a></li>
   <li><a href="#section-phoneCapability">phoneCapability</a></li>
   <li><a href="#section-videoStreamingCapability">videoStreamingCapability</a></li>
@@ -306,6 +307,32 @@
   
   
   
+  <h3 id="section-appServicesCapabilities">
+      appServicesCapabilities
+  </h3>
+  
+  <p>If returned, the platform supports app services</p>
+<div class="aside aside-see">
+    <p class="aside-title">See</p>
+    SDLAppServicesCapabilities
+
+</div>
+
+<p>Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLAppServicesCapabilities.html">SDLAppServicesCapabilities</a></span> <span class="o">*</span><span class="n">appServicesCapabilities</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">appServicesCapabilities</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLAppServicesCapabilities.html">SDLAppServicesCapabilities</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
   <h3 id="section-navigationCapability">
       navigationCapability
   </h3>
@@ -476,7 +503,7 @@
       -updateCapabilityType:completionHandler:
   </h3>
   
-  <p>Retrieves a capability type from the remote system. This function must be called in order to retrieve the values of <code><a href="../Classes/SDLSystemCapabilityManager.html#/c:objc(cs)SDLSystemCapabilityManager(py)navigationCapability">navigationCapability</a></code>, <code><a href="../Classes/SDLSystemCapabilityManager.html#/c:objc(cs)SDLSystemCapabilityManager(py)phoneCapability">phoneCapability</a></code>, <code><a href="../Classes/SDLSystemCapabilityManager.html#/c:objc(cs)SDLSystemCapabilityManager(py)videoStreamingCapability">videoStreamingCapability</a></code> and <code><a href="../Classes/SDLSystemCapabilityManager.html#/c:objc(cs)SDLSystemCapabilityManager(py)remoteControlCapability">remoteControlCapability</a></code>. If you do not call this method first, those values will be nil. After calling this method, assuming there is no error in the handler, you may retrieve the capability you requested from the manager within the handler.</p>
+  <p>Retrieves a capability type from the remote system. This function must be called in order to retrieve the values for <code><a href="../Classes/SDLSystemCapabilityManager.html#/c:objc(cs)SDLSystemCapabilityManager(py)navigationCapability">navigationCapability</a></code>, <code><a href="../Classes/SDLSystemCapabilityManager.html#/c:objc(cs)SDLSystemCapabilityManager(py)phoneCapability">phoneCapability</a></code>, <code><a href="../Classes/SDLSystemCapabilityManager.html#/c:objc(cs)SDLSystemCapabilityManager(py)videoStreamingCapability">videoStreamingCapability</a></code>, <code><a href="../Classes/SDLSystemCapabilityManager.html#/c:objc(cs)SDLSystemCapabilityManager(py)remoteControlCapability">remoteControlCapability</a></code>, and <code><a href="../Classes/SDLSystemCapabilityManager.html#/c:objc(cs)SDLSystemCapabilityManager(py)appServicesCapabilities">appServicesCapabilities</a></code>. If you do not call this method first, those values will be nil. After calling this method, assuming there is no error in the handler, you may retrieve the capability you requested from the manager within the handler.</p>
 
   
   

@@ -33,6 +33,11 @@
   <li><a href="#section-SDLAppInterfaceUnregisteredReasonMasterReset">SDLAppInterfaceUnregisteredReasonMasterReset</a></li>
   <li><a href="#section-SDLAppInterfaceUnregisteredReasonFactoryDefaults">SDLAppInterfaceUnregisteredReasonFactoryDefaults</a></li>
   <li><a href="#section-SDLAppInterfaceUnregisteredReasonAppUnauthorized">SDLAppInterfaceUnregisteredReasonAppUnauthorized</a></li>
+  <li><a href="#section-SDLAppInterfaceUnregisteredReasonProtocolViolation">SDLAppInterfaceUnregisteredReasonProtocolViolation</a></li>
+  <li><a href="#section-SDLAppInterfaceUnregisteredReasonUnsupportedHMIResource">SDLAppInterfaceUnregisteredReasonUnsupportedHMIResource</a></li>
+  <li><a href="#section-SDLAppServiceTypeMedia">SDLAppServiceTypeMedia</a></li>
+  <li><a href="#section-SDLAppServiceTypeWeather">SDLAppServiceTypeWeather</a></li>
+  <li><a href="#section-SDLAppServiceTypeNavigation">SDLAppServiceTypeNavigation</a></li>
   <li><a href="#section-SDLErrorDomainAudioStreamManager">SDLErrorDomainAudioStreamManager</a></li>
   <li><a href="#section-SDLAudioStreamingIndicatorPlayPause">SDLAudioStreamingIndicatorPlayPause</a></li>
   <li><a href="#section-SDLAudioStreamingIndicatorPlay">SDLAudioStreamingIndicatorPlay</a></li>
@@ -122,6 +127,8 @@
   <li><a href="#section-SDLDimensionNoFix">SDLDimensionNoFix</a></li>
   <li><a href="#section-SDLDimension2D">SDLDimension2D</a></li>
   <li><a href="#section-SDLDimension3D">SDLDimension3D</a></li>
+  <li><a href="#section-SDLDirectionLeft">SDLDirectionLeft</a></li>
+  <li><a href="#section-SDLDirectionRight">SDLDirectionRight</a></li>
   <li><a href="#section-SDLDisplayModeDay">SDLDisplayModeDay</a></li>
   <li><a href="#section-SDLDisplayModeNight">SDLDisplayModeNight</a></li>
   <li><a href="#section-SDLDisplayModeAuto">SDLDisplayModeAuto</a></li>
@@ -189,6 +196,9 @@
   <li><a href="#section-SDLHMILevelNone">SDLHMILevelNone</a></li>
   <li><a href="#section-SDLHMIZoneCapabilitiesFront">SDLHMIZoneCapabilitiesFront</a></li>
   <li><a href="#section-SDLHMIZoneCapabilitiesBack">SDLHMIZoneCapabilitiesBack</a></li>
+  <li><a href="#section-SDLHybridAppPreferenceMobile">SDLHybridAppPreferenceMobile</a></li>
+  <li><a href="#section-SDLHybridAppPreferenceCloud">SDLHybridAppPreferenceCloud</a></li>
+  <li><a href="#section-SDLHybridAppPreferenceBoth">SDLHybridAppPreferenceBoth</a></li>
   <li><a href="#section-SDLIgnitionStableStatusNotStable">SDLIgnitionStableStatusNotStable</a></li>
   <li><a href="#section-SDLIgnitionStableStatusStable">SDLIgnitionStableStatusStable</a></li>
   <li><a href="#section-SDLIgnitionStableStatusMissingFromTransmitter">SDLIgnitionStableStatusMissingFromTransmitter</a></li>
@@ -349,6 +359,10 @@
   <li><a href="#section-SDLMediaClockFormatClockText2">SDLMediaClockFormatClockText2</a></li>
   <li><a href="#section-SDLMediaClockFormatClockText3">SDLMediaClockFormatClockText3</a></li>
   <li><a href="#section-SDLMediaClockFormatClockText4">SDLMediaClockFormatClockText4</a></li>
+  <li><a href="#section-SDLMediaTypeMusic">SDLMediaTypeMusic</a></li>
+  <li><a href="#section-SDLMediaTypePodcast">SDLMediaTypePodcast</a></li>
+  <li><a href="#section-SDLMediaTypeAudiobook">SDLMediaTypeAudiobook</a></li>
+  <li><a href="#section-SDLMediaTypeOther">SDLMediaTypeOther</a></li>
   <li><a href="#section-SDLMetadataTypeMediaTitle">SDLMetadataTypeMediaTitle</a></li>
   <li><a href="#section-SDLMetadataTypeMediaArtist">SDLMetadataTypeMediaArtist</a></li>
   <li><a href="#section-SDLMetadataTypeMediaAlbum">SDLMetadataTypeMediaAlbum</a></li>
@@ -367,6 +381,21 @@
   <li><a href="#section-SDLModuleTypeAudio">SDLModuleTypeAudio</a></li>
   <li><a href="#section-SDLModuleTypeLight">SDLModuleTypeLight</a></li>
   <li><a href="#section-SDLModuleTypeHMISettings">SDLModuleTypeHMISettings</a></li>
+  <li><a href="#section-SDLNavigationActionTurn">SDLNavigationActionTurn</a></li>
+  <li><a href="#section-SDLNavigationActionExit">SDLNavigationActionExit</a></li>
+  <li><a href="#section-SDLNavigationActionStay">SDLNavigationActionStay</a></li>
+  <li><a href="#section-SDLNavigationActionMerge">SDLNavigationActionMerge</a></li>
+  <li><a href="#section-SDLNavigationActionFerry">SDLNavigationActionFerry</a></li>
+  <li><a href="#section-SDLNavigationActionCarShuttleTrain">SDLNavigationActionCarShuttleTrain</a></li>
+  <li><a href="#section-SDLNavigationActionWaypoint">SDLNavigationActionWaypoint</a></li>
+  <li><a href="#section-SDLNavigationJunctionRegular">SDLNavigationJunctionRegular</a></li>
+  <li><a href="#section-SDLNavigationJunctionBifurcation">SDLNavigationJunctionBifurcation</a></li>
+  <li><a href="#section-SDLNavigationJunctionMultiCarriageway">SDLNavigationJunctionMultiCarriageway</a></li>
+  <li><a href="#section-SDLNavigationJunctionRoundabout">SDLNavigationJunctionRoundabout</a></li>
+  <li><a href="#section-SDLNavigationJunctionTraversableRoundabout">SDLNavigationJunctionTraversableRoundabout</a></li>
+  <li><a href="#section-SDLNavigationJunctionJughandle">SDLNavigationJunctionJughandle</a></li>
+  <li><a href="#section-SDLNavigationJunctionAllWayYield">SDLNavigationJunctionAllWayYield</a></li>
+  <li><a href="#section-SDLNavigationJunctionTurnAround">SDLNavigationJunctionTurnAround</a></li>
   <li><a href="#section-SDLNotificationUserInfoObject">SDLNotificationUserInfoObject</a></li>
   <li><a href="#section-SDLTransportDidDisconnect">SDLTransportDidDisconnect</a></li>
   <li><a href="#section-SDLTransportDidConnect">SDLTransportDidConnect</a></li>
@@ -391,14 +420,19 @@
   <li><a href="#section-SDLDidReceiveEncodedSyncPDataResponse">SDLDidReceiveEncodedSyncPDataResponse</a></li>
   <li><a href="#section-SDLDidReceiveEndAudioPassThruResponse">SDLDidReceiveEndAudioPassThruResponse</a></li>
   <li><a href="#section-SDLDidReceiveGenericResponse">SDLDidReceiveGenericResponse</a></li>
+  <li><a href="#section-SDLDidReceiveGetCloudAppPropertiesResponse">SDLDidReceiveGetCloudAppPropertiesResponse</a></li>
+  <li><a href="#section-SDLDidReceiveGetAppServiceDataResponse">SDLDidReceiveGetAppServiceDataResponse</a></li>
   <li><a href="#section-SDLDidReceiveGetDTCsResponse">SDLDidReceiveGetDTCsResponse</a></li>
+  <li><a href="#section-SDLDidReceiveGetFileResponse">SDLDidReceiveGetFileResponse</a></li>
   <li><a href="#section-SDLDidReceiveGetInteriorVehicleDataResponse">SDLDidReceiveGetInteriorVehicleDataResponse</a></li>
   <li><a href="#section-SDLDidReceiveGetSystemCapabilitiesResponse">SDLDidReceiveGetSystemCapabilitiesResponse</a></li>
   <li><a href="#section-SDLDidReceiveGetVehicleDataResponse">SDLDidReceiveGetVehicleDataResponse</a></li>
   <li><a href="#section-SDLDidReceiveGetWaypointsResponse">SDLDidReceiveGetWaypointsResponse</a></li>
   <li><a href="#section-SDLDidReceiveListFilesResponse">SDLDidReceiveListFilesResponse</a></li>
+  <li><a href="#section-SDLDidReceivePerformAppServiceInteractionResponse">SDLDidReceivePerformAppServiceInteractionResponse</a></li>
   <li><a href="#section-SDLDidReceivePerformAudioPassThruResponse">SDLDidReceivePerformAudioPassThruResponse</a></li>
   <li><a href="#section-SDLDidReceivePerformInteractionResponse">SDLDidReceivePerformInteractionResponse</a></li>
+  <li><a href="#section-SDLDidReceivePublishAppServiceResponse">SDLDidReceivePublishAppServiceResponse</a></li>
   <li><a href="#section-SDLDidReceivePutFileResponse">SDLDidReceivePutFileResponse</a></li>
   <li><a href="#section-SDLDidReceiveReadDIDResponse">SDLDidReceiveReadDIDResponse</a></li>
   <li><a href="#section-SDLDidReceiveRegisterAppInterfaceResponse">SDLDidReceiveRegisterAppInterfaceResponse</a></li>
@@ -407,6 +441,7 @@
   <li><a href="#section-SDLDidReceiveSendHapticDataResponse">SDLDidReceiveSendHapticDataResponse</a></li>
   <li><a href="#section-SDLDidReceiveSendLocationResponse">SDLDidReceiveSendLocationResponse</a></li>
   <li><a href="#section-SDLDidReceiveSetAppIconResponse">SDLDidReceiveSetAppIconResponse</a></li>
+  <li><a href="#section-SDLDidReceiveSetCloudAppPropertiesResponse">SDLDidReceiveSetCloudAppPropertiesResponse</a></li>
   <li><a href="#section-SDLDidReceiveSetDisplayLayoutResponse">SDLDidReceiveSetDisplayLayoutResponse</a></li>
   <li><a href="#section-SDLDidReceiveSetGlobalPropertiesResponse">SDLDidReceiveSetGlobalPropertiesResponse</a></li>
   <li><a href="#section-SDLDidReceiveSetInteriorVehicleDataResponse">SDLDidReceiveSetInteriorVehicleDataResponse</a></li>
@@ -424,10 +459,66 @@
   <li><a href="#section-SDLDidReceiveUnsubscribeButtonResponse">SDLDidReceiveUnsubscribeButtonResponse</a></li>
   <li><a href="#section-SDLDidReceiveUnsubscribeVehicleDataResponse">SDLDidReceiveUnsubscribeVehicleDataResponse</a></li>
   <li><a href="#section-SDLDidReceiveUnsubscribeWaypointsResponse">SDLDidReceiveUnsubscribeWaypointsResponse</a></li>
+  <li><a href="#section-SDLDidReceiveAddCommandRequest">SDLDidReceiveAddCommandRequest</a></li>
+  <li><a href="#section-SDLDidReceiveAddSubMenuRequest">SDLDidReceiveAddSubMenuRequest</a></li>
+  <li><a href="#section-SDLDidReceiveAlertRequest">SDLDidReceiveAlertRequest</a></li>
+  <li><a href="#section-SDLDidReceiveAlertManeuverRequest">SDLDidReceiveAlertManeuverRequest</a></li>
+  <li><a href="#section-SDLDidReceiveButtonPressRequest">SDLDidReceiveButtonPressRequest</a></li>
+  <li><a href="#section-SDLDidReceiveChangeRegistrationRequest">SDLDidReceiveChangeRegistrationRequest</a></li>
+  <li><a href="#section-SDLDidReceiveCreateInteractionChoiceSetRequest">SDLDidReceiveCreateInteractionChoiceSetRequest</a></li>
+  <li><a href="#section-SDLDidReceiveDeleteCommandRequest">SDLDidReceiveDeleteCommandRequest</a></li>
+  <li><a href="#section-SDLDidReceiveDeleteFileRequest">SDLDidReceiveDeleteFileRequest</a></li>
+  <li><a href="#section-SDLDidReceiveDeleteInteractionChoiceSetRequest">SDLDidReceiveDeleteInteractionChoiceSetRequest</a></li>
+  <li><a href="#section-SDLDidReceiveDeleteSubMenuRequest">SDLDidReceiveDeleteSubMenuRequest</a></li>
+  <li><a href="#section-SDLDidReceiveDiagnosticMessageRequest">SDLDidReceiveDiagnosticMessageRequest</a></li>
+  <li><a href="#section-SDLDidReceiveDialNumberRequest">SDLDidReceiveDialNumberRequest</a></li>
+  <li><a href="#section-SDLDidReceiveEncodedSyncPDataRequest">SDLDidReceiveEncodedSyncPDataRequest</a></li>
+  <li><a href="#section-SDLDidReceiveEndAudioPassThruRequest">SDLDidReceiveEndAudioPassThruRequest</a></li>
+  <li><a href="#section-SDLDidReceiveGetAppServiceDataRequest">SDLDidReceiveGetAppServiceDataRequest</a></li>
+  <li><a href="#section-SDLDidReceiveGetCloudAppPropertiesRequest">SDLDidReceiveGetCloudAppPropertiesRequest</a></li>
+  <li><a href="#section-SDLDidReceiveGetDTCsRequest">SDLDidReceiveGetDTCsRequest</a></li>
+  <li><a href="#section-SDLDidReceiveGetFileRequest">SDLDidReceiveGetFileRequest</a></li>
+  <li><a href="#section-SDLDidReceiveGetInteriorVehicleDataRequest">SDLDidReceiveGetInteriorVehicleDataRequest</a></li>
+  <li><a href="#section-SDLDidReceiveGetSystemCapabilityRequest">SDLDidReceiveGetSystemCapabilityRequest</a></li>
+  <li><a href="#section-SDLDidReceiveGetVehicleDataRequest">SDLDidReceiveGetVehicleDataRequest</a></li>
+  <li><a href="#section-SDLDidReceiveGetWayPointsRequest">SDLDidReceiveGetWayPointsRequest</a></li>
+  <li><a href="#section-SDLDidReceiveListFilesRequest">SDLDidReceiveListFilesRequest</a></li>
+  <li><a href="#section-SDLDidReceivePerformAppServiceInteractionRequest">SDLDidReceivePerformAppServiceInteractionRequest</a></li>
+  <li><a href="#section-SDLDidReceivePerformAudioPassThruRequest">SDLDidReceivePerformAudioPassThruRequest</a></li>
+  <li><a href="#section-SDLDidReceivePerformInteractionRequest">SDLDidReceivePerformInteractionRequest</a></li>
+  <li><a href="#section-SDLDidReceivePublishAppServiceRequest">SDLDidReceivePublishAppServiceRequest</a></li>
+  <li><a href="#section-SDLDidReceivePutFileRequest">SDLDidReceivePutFileRequest</a></li>
+  <li><a href="#section-SDLDidReceiveReadDIDRequest">SDLDidReceiveReadDIDRequest</a></li>
+  <li><a href="#section-SDLDidReceiveRegisterAppInterfaceRequest">SDLDidReceiveRegisterAppInterfaceRequest</a></li>
+  <li><a href="#section-SDLDidReceiveResetGlobalPropertiesRequest">SDLDidReceiveResetGlobalPropertiesRequest</a></li>
+  <li><a href="#section-SDLDidReceiveScrollableMessageRequest">SDLDidReceiveScrollableMessageRequest</a></li>
+  <li><a href="#section-SDLDidReceiveSendHapticDataRequest">SDLDidReceiveSendHapticDataRequest</a></li>
+  <li><a href="#section-SDLDidReceiveSendLocationRequest">SDLDidReceiveSendLocationRequest</a></li>
+  <li><a href="#section-SDLDidReceiveSetAppIconRequest">SDLDidReceiveSetAppIconRequest</a></li>
+  <li><a href="#section-SDLDidReceiveSetCloudAppPropertiesRequest">SDLDidReceiveSetCloudAppPropertiesRequest</a></li>
+  <li><a href="#section-SDLDidReceiveSetDisplayLayoutRequest">SDLDidReceiveSetDisplayLayoutRequest</a></li>
+  <li><a href="#section-SDLDidReceiveSetGlobalPropertiesRequest">SDLDidReceiveSetGlobalPropertiesRequest</a></li>
+  <li><a href="#section-SDLDidReceiveSetInteriorVehicleDataRequest">SDLDidReceiveSetInteriorVehicleDataRequest</a></li>
+  <li><a href="#section-SDLDidReceiveSetMediaClockTimerRequest">SDLDidReceiveSetMediaClockTimerRequest</a></li>
+  <li><a href="#section-SDLDidReceiveShowRequest">SDLDidReceiveShowRequest</a></li>
+  <li><a href="#section-SDLDidReceiveShowConstantTBTRequest">SDLDidReceiveShowConstantTBTRequest</a></li>
+  <li><a href="#section-SDLDidReceiveSliderRequest">SDLDidReceiveSliderRequest</a></li>
+  <li><a href="#section-SDLDidReceiveSpeakRequest">SDLDidReceiveSpeakRequest</a></li>
+  <li><a href="#section-SDLDidReceiveSubscribeButtonRequest">SDLDidReceiveSubscribeButtonRequest</a></li>
+  <li><a href="#section-SDLDidReceiveSubscribeVehicleDataRequest">SDLDidReceiveSubscribeVehicleDataRequest</a></li>
+  <li><a href="#section-SDLDidReceiveSubscribeWayPointsRequest">SDLDidReceiveSubscribeWayPointsRequest</a></li>
+  <li><a href="#section-SDLDidReceiveSyncPDataRequest">SDLDidReceiveSyncPDataRequest</a></li>
+  <li><a href="#section-SDLDidReceiveSystemRequestRequest">SDLDidReceiveSystemRequestRequest</a></li>
+  <li><a href="#section-SDLDidReceiveUnregisterAppInterfaceRequest">SDLDidReceiveUnregisterAppInterfaceRequest</a></li>
+  <li><a href="#section-SDLDidReceiveUnsubscribeButtonRequest">SDLDidReceiveUnsubscribeButtonRequest</a></li>
+  <li><a href="#section-SDLDidReceiveUnsubscribeVehicleDataRequest">SDLDidReceiveUnsubscribeVehicleDataRequest</a></li>
+  <li><a href="#section-SDLDidReceiveUnsubscribeWayPointsRequest">SDLDidReceiveUnsubscribeWayPointsRequest</a></li>
+  <li><a href="#section-SDLDidReceiveUpdateTurnListRequest">SDLDidReceiveUpdateTurnListRequest</a></li>
   <li><a href="#section-SDLDidChangeDriverDistractionStateNotification">SDLDidChangeDriverDistractionStateNotification</a></li>
   <li><a href="#section-SDLDidChangeHMIStatusNotification">SDLDidChangeHMIStatusNotification</a></li>
-  <li><a href="#section-SDLDidReceiveAudioPassThruNotification">SDLDidReceiveAudioPassThruNotification</a></li>
+  <li><a href="#section-SDLDidReceiveAppServiceDataNotification">SDLDidReceiveAppServiceDataNotification</a></li>
   <li><a href="#section-SDLDidReceiveAppUnregisteredNotification">SDLDidReceiveAppUnregisteredNotification</a></li>
+  <li><a href="#section-SDLDidReceiveAudioPassThruNotification">SDLDidReceiveAudioPassThruNotification</a></li>
   <li><a href="#section-SDLDidReceiveButtonEventNotification">SDLDidReceiveButtonEventNotification</a></li>
   <li><a href="#section-SDLDidReceiveButtonPressNotification">SDLDidReceiveButtonPressNotification</a></li>
   <li><a href="#section-SDLDidReceiveCommandNotification">SDLDidReceiveCommandNotification</a></li>
@@ -440,6 +531,7 @@
   <li><a href="#section-SDLDidReceiveVehicleIconNotification">SDLDidReceiveVehicleIconNotification</a></li>
   <li><a href="#section-SDLDidChangePermissionsNotification">SDLDidChangePermissionsNotification</a></li>
   <li><a href="#section-SDLDidReceiveRemoteControlStatusNotification">SDLDidReceiveRemoteControlStatusNotification</a></li>
+  <li><a href="#section-SDLDidReceiveSystemCapabilityUpdatedNotification">SDLDidReceiveSystemCapabilityUpdatedNotification</a></li>
   <li><a href="#section-SDLDidReceiveSystemRequestNotification">SDLDidReceiveSystemRequestNotification</a></li>
   <li><a href="#section-SDLDidChangeTurnByTurnStateNotification">SDLDidChangeTurnByTurnStateNotification</a></li>
   <li><a href="#section-SDLDidReceiveTouchEventNotification">SDLDidReceiveTouchEventNotification</a></li>
@@ -515,6 +607,86 @@
   <li><a href="#section-SDLPrimaryAudioSourceFM">SDLPrimaryAudioSourceFM</a></li>
   <li><a href="#section-SDLPrimaryAudioSourceXM">SDLPrimaryAudioSourceXM</a></li>
   <li><a href="#section-SDLPrimaryAudioSourceDAB">SDLPrimaryAudioSourceDAB</a></li>
+  <li><a href="#section-SDLRPCFunctionNameAddCommand">SDLRPCFunctionNameAddCommand</a></li>
+  <li><a href="#section-SDLRPCFunctionNameAddSubMenu">SDLRPCFunctionNameAddSubMenu</a></li>
+  <li><a href="#section-SDLRPCFunctionNameAlert">SDLRPCFunctionNameAlert</a></li>
+  <li><a href="#section-SDLRPCFunctionNameAlertManeuver">SDLRPCFunctionNameAlertManeuver</a></li>
+  <li><a href="#section-SDLRPCFunctionNameButtonPress">SDLRPCFunctionNameButtonPress</a></li>
+  <li><a href="#section-SDLRPCFunctionNameChangeRegistration">SDLRPCFunctionNameChangeRegistration</a></li>
+  <li><a href="#section-SDLRPCFunctionNameCreateInteractionChoiceSet">SDLRPCFunctionNameCreateInteractionChoiceSet</a></li>
+  <li><a href="#section-SDLRPCFunctionNameDeleteCommand">SDLRPCFunctionNameDeleteCommand</a></li>
+  <li><a href="#section-SDLRPCFunctionNameDeleteFile">SDLRPCFunctionNameDeleteFile</a></li>
+  <li><a href="#section-SDLRPCFunctionNameDeleteInteractionChoiceSet">SDLRPCFunctionNameDeleteInteractionChoiceSet</a></li>
+  <li><a href="#section-SDLRPCFunctionNameDeleteSubMenu">SDLRPCFunctionNameDeleteSubMenu</a></li>
+  <li><a href="#section-SDLRPCFunctionNameDiagnosticMessage">SDLRPCFunctionNameDiagnosticMessage</a></li>
+  <li><a href="#section-SDLRPCFunctionNameDialNumber">SDLRPCFunctionNameDialNumber</a></li>
+  <li><a href="#section-SDLRPCFunctionNameEncodedSyncPData">SDLRPCFunctionNameEncodedSyncPData</a></li>
+  <li><a href="#section-SDLRPCFunctionNameEndAudioPassThru">SDLRPCFunctionNameEndAudioPassThru</a></li>
+  <li><a href="#section-SDLRPCFunctionNameGenericResponse">SDLRPCFunctionNameGenericResponse</a></li>
+  <li><a href="#section-SDLRPCFunctionNameGetAppServiceData">SDLRPCFunctionNameGetAppServiceData</a></li>
+  <li><a href="#section-SDLRPCFunctionNameGetDTCs">SDLRPCFunctionNameGetDTCs</a></li>
+  <li><a href="#section-SDLRPCFunctionNameGetFile">SDLRPCFunctionNameGetFile</a></li>
+  <li><a href="#section-SDLRPCFunctionNameGetCloudAppProperties">SDLRPCFunctionNameGetCloudAppProperties</a></li>
+  <li><a href="#section-SDLRPCFunctionNameGetInteriorVehicleData">SDLRPCFunctionNameGetInteriorVehicleData</a></li>
+  <li><a href="#section-SDLRPCFunctionNameGetSystemCapability">SDLRPCFunctionNameGetSystemCapability</a></li>
+  <li><a href="#section-SDLRPCFunctionNameGetVehicleData">SDLRPCFunctionNameGetVehicleData</a></li>
+  <li><a href="#section-SDLRPCFunctionNameGetWayPoints">SDLRPCFunctionNameGetWayPoints</a></li>
+  <li><a href="#section-SDLRPCFunctionNameListFiles">SDLRPCFunctionNameListFiles</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnAppInterfaceUnregistered">SDLRPCFunctionNameOnAppInterfaceUnregistered</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnAppServiceData">SDLRPCFunctionNameOnAppServiceData</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnAudioPassThru">SDLRPCFunctionNameOnAudioPassThru</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnButtonEvent">SDLRPCFunctionNameOnButtonEvent</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnButtonPress">SDLRPCFunctionNameOnButtonPress</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnCommand">SDLRPCFunctionNameOnCommand</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnDriverDistraction">SDLRPCFunctionNameOnDriverDistraction</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnEncodedSyncPData">SDLRPCFunctionNameOnEncodedSyncPData</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnHashChange">SDLRPCFunctionNameOnHashChange</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnHMIStatus">SDLRPCFunctionNameOnHMIStatus</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnInteriorVehicleData">SDLRPCFunctionNameOnInteriorVehicleData</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnKeyboardInput">SDLRPCFunctionNameOnKeyboardInput</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnLanguageChange">SDLRPCFunctionNameOnLanguageChange</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnLockScreenStatus">SDLRPCFunctionNameOnLockScreenStatus</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnPermissionsChange">SDLRPCFunctionNameOnPermissionsChange</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnRCStatus">SDLRPCFunctionNameOnRCStatus</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnSyncPData">SDLRPCFunctionNameOnSyncPData</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnSystemCapabilityUpdated">SDLRPCFunctionNameOnSystemCapabilityUpdated</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnSystemRequest">SDLRPCFunctionNameOnSystemRequest</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnTBTClientState">SDLRPCFunctionNameOnTBTClientState</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnTouchEvent">SDLRPCFunctionNameOnTouchEvent</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnVehicleData">SDLRPCFunctionNameOnVehicleData</a></li>
+  <li><a href="#section-SDLRPCFunctionNameOnWayPointChange">SDLRPCFunctionNameOnWayPointChange</a></li>
+  <li><a href="#section-SDLRPCFunctionNamePerformAppServiceInteraction">SDLRPCFunctionNamePerformAppServiceInteraction</a></li>
+  <li><a href="#section-SDLRPCFunctionNamePerformAudioPassThru">SDLRPCFunctionNamePerformAudioPassThru</a></li>
+  <li><a href="#section-SDLRPCFunctionNamePerformInteraction">SDLRPCFunctionNamePerformInteraction</a></li>
+  <li><a href="#section-SDLRPCFunctionNamePublishAppService">SDLRPCFunctionNamePublishAppService</a></li>
+  <li><a href="#section-SDLRPCFunctionNamePutFile">SDLRPCFunctionNamePutFile</a></li>
+  <li><a href="#section-SDLRPCFunctionNameReadDID">SDLRPCFunctionNameReadDID</a></li>
+  <li><a href="#section-SDLRPCFunctionNameRegisterAppInterface">SDLRPCFunctionNameRegisterAppInterface</a></li>
+  <li><a href="#section-SDLRPCFunctionNameReserved">SDLRPCFunctionNameReserved</a></li>
+  <li><a href="#section-SDLRPCFunctionNameResetGlobalProperties">SDLRPCFunctionNameResetGlobalProperties</a></li>
+  <li><a href="#section-SDLRPCFunctionNameScrollableMessage">SDLRPCFunctionNameScrollableMessage</a></li>
+  <li><a href="#section-SDLRPCFunctionNameSendHapticData">SDLRPCFunctionNameSendHapticData</a></li>
+  <li><a href="#section-SDLRPCFunctionNameSendLocation">SDLRPCFunctionNameSendLocation</a></li>
+  <li><a href="#section-SDLRPCFunctionNameSetAppIcon">SDLRPCFunctionNameSetAppIcon</a></li>
+  <li><a href="#section-SDLRPCFunctionNameSetCloudAppProperties">SDLRPCFunctionNameSetCloudAppProperties</a></li>
+  <li><a href="#section-SDLRPCFunctionNameSetDisplayLayout">SDLRPCFunctionNameSetDisplayLayout</a></li>
+  <li><a href="#section-SDLRPCFunctionNameSetGlobalProperties">SDLRPCFunctionNameSetGlobalProperties</a></li>
+  <li><a href="#section-SDLRPCFunctionNameSetInteriorVehicleData">SDLRPCFunctionNameSetInteriorVehicleData</a></li>
+  <li><a href="#section-SDLRPCFunctionNameSetMediaClockTimer">SDLRPCFunctionNameSetMediaClockTimer</a></li>
+  <li><a href="#section-SDLRPCFunctionNameShow">SDLRPCFunctionNameShow</a></li>
+  <li><a href="#section-SDLRPCFunctionNameShowConstantTBT">SDLRPCFunctionNameShowConstantTBT</a></li>
+  <li><a href="#section-SDLRPCFunctionNameSlider">SDLRPCFunctionNameSlider</a></li>
+  <li><a href="#section-SDLRPCFunctionNameSpeak">SDLRPCFunctionNameSpeak</a></li>
+  <li><a href="#section-SDLRPCFunctionNameSubscribeButton">SDLRPCFunctionNameSubscribeButton</a></li>
+  <li><a href="#section-SDLRPCFunctionNameSubscribeVehicleData">SDLRPCFunctionNameSubscribeVehicleData</a></li>
+  <li><a href="#section-SDLRPCFunctionNameSubscribeWayPoints">SDLRPCFunctionNameSubscribeWayPoints</a></li>
+  <li><a href="#section-SDLRPCFunctionNameSyncPData">SDLRPCFunctionNameSyncPData</a></li>
+  <li><a href="#section-SDLRPCFunctionNameSystemRequest">SDLRPCFunctionNameSystemRequest</a></li>
+  <li><a href="#section-SDLRPCFunctionNameUnregisterAppInterface">SDLRPCFunctionNameUnregisterAppInterface</a></li>
+  <li><a href="#section-SDLRPCFunctionNameUnsubscribeButton">SDLRPCFunctionNameUnsubscribeButton</a></li>
+  <li><a href="#section-SDLRPCFunctionNameUnsubscribeVehicleData">SDLRPCFunctionNameUnsubscribeVehicleData</a></li>
+  <li><a href="#section-SDLRPCFunctionNameUnsubscribeWayPoints">SDLRPCFunctionNameUnsubscribeWayPoints</a></li>
+  <li><a href="#section-SDLRPCFunctionNameUpdateTurnList">SDLRPCFunctionNameUpdateTurnList</a></li>
   <li><a href="#section-SDLRadioBandAM">SDLRadioBandAM</a></li>
   <li><a href="#section-SDLRadioBandFM">SDLRadioBandFM</a></li>
   <li><a href="#section-SDLRadioBandXM">SDLRadioBandXM</a></li>
@@ -543,6 +715,7 @@
   <li><a href="#section-SDLRequestTypeMedia">SDLRequestTypeMedia</a></li>
   <li><a href="#section-SDLRequestTypeFOTA">SDLRequestTypeFOTA</a></li>
   <li><a href="#section-SDLRequestTypeOEMSpecific">SDLRequestTypeOEMSpecific</a></li>
+  <li><a href="#section-SDLRequestTypeIconURL">SDLRequestTypeIconURL</a></li>
   <li><a href="#section-SDLResultSuccess">SDLResultSuccess</a></li>
   <li><a href="#section-SDLResultInvalidData">SDLResultInvalidData</a></li>
   <li><a href="#section-SDLResultCharacterLimitExceeded">SDLResultCharacterLimitExceeded</a></li>
@@ -586,6 +759,11 @@
   <li><a href="#section-SDLSeatMemoryActionTypeSave">SDLSeatMemoryActionTypeSave</a></li>
   <li><a href="#section-SDLSeatMemoryActionTypeRestore">SDLSeatMemoryActionTypeRestore</a></li>
   <li><a href="#section-SDLSeatMemoryActionTypeNone">SDLSeatMemoryActionTypeNone</a></li>
+  <li><a href="#section-SDLServiceUpdatePublished">SDLServiceUpdatePublished</a></li>
+  <li><a href="#section-SDLServiceUpdateRemoved">SDLServiceUpdateRemoved</a></li>
+  <li><a href="#section-SDLServiceUpdateActivated">SDLServiceUpdateActivated</a></li>
+  <li><a href="#section-SDLServiceUpdateDeactivated">SDLServiceUpdateDeactivated</a></li>
+  <li><a href="#section-SDLServiceUpdateManifestUpdate">SDLServiceUpdateManifestUpdate</a></li>
   <li><a href="#section-SDLSoftButtonTypeText">SDLSoftButtonTypeText</a></li>
   <li><a href="#section-SDLSoftButtonTypeImage">SDLSoftButtonTypeImage</a></li>
   <li><a href="#section-SDLSoftButtonTypeBoth">SDLSoftButtonTypeBoth</a></li>
@@ -798,6 +976,7 @@
   <li><a href="#section-SDLSystemActionDefaultAction">SDLSystemActionDefaultAction</a></li>
   <li><a href="#section-SDLSystemActionStealFocus">SDLSystemActionStealFocus</a></li>
   <li><a href="#section-SDLSystemActionKeepContext">SDLSystemActionKeepContext</a></li>
+  <li><a href="#section-SDLSystemCapabilityTypeAppServices">SDLSystemCapabilityTypeAppServices</a></li>
   <li><a href="#section-SDLSystemCapabilityTypeNavigation">SDLSystemCapabilityTypeNavigation</a></li>
   <li><a href="#section-SDLSystemCapabilityTypePhoneCall">SDLSystemCapabilityTypePhoneCall</a></li>
   <li><a href="#section-SDLSystemCapabilityTypeVideoStreaming">SDLSystemCapabilityTypeVideoStreaming</a></li>
@@ -933,6 +1112,7 @@
   <li><a href="#section-SDLVehicleDataTypeSteeringWheel">SDLVehicleDataTypeSteeringWheel</a></li>
   <li><a href="#section-SDLVehicleDataTypeElectronicParkBrakeStatus">SDLVehicleDataTypeElectronicParkBrakeStatus</a></li>
   <li><a href="#section-SDLVehicleDataTypeTurnSignal">SDLVehicleDataTypeTurnSignal</a></li>
+  <li><a href="#section-SDLVehicleDataTypeCloudAppVehicleID">SDLVehicleDataTypeCloudAppVehicleID</a></li>
   <li><a href="#section-SDLVentilationModeUpper">SDLVentilationModeUpper</a></li>
   <li><a href="#section-SDLVentilationModeLower">SDLVentilationModeLower</a></li>
   <li><a href="#section-SDLVentilationModeBoth">SDLVentilationModeBoth</a></li>
@@ -1529,6 +1709,96 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">appUnauthorized</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLAppInterfaceUnregisteredReason.h@T@SDLAppInterfaceUnregisteredReason">SDLAppInterfaceUnregisteredReason</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAppInterfaceUnregisteredReasonProtocolViolation">
+      SDLAppInterfaceUnregisteredReasonProtocolViolation
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLAppInterfaceUnregisteredReason.h@T@SDLAppInterfaceUnregisteredReason">SDLAppInterfaceUnregisteredReason</a></span> <span class="k">const</span> <span class="n">SDLAppInterfaceUnregisteredReasonProtocolViolation</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">protocolViolation</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLAppInterfaceUnregisteredReason.h@T@SDLAppInterfaceUnregisteredReason">SDLAppInterfaceUnregisteredReason</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAppInterfaceUnregisteredReasonUnsupportedHMIResource">
+      SDLAppInterfaceUnregisteredReasonUnsupportedHMIResource
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLAppInterfaceUnregisteredReason.h@T@SDLAppInterfaceUnregisteredReason">SDLAppInterfaceUnregisteredReason</a></span> <span class="k">const</span> <span class="n">SDLAppInterfaceUnregisteredReasonUnsupportedHMIResource</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">unsupportedHMIResource</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLAppInterfaceUnregisteredReason.h@T@SDLAppInterfaceUnregisteredReason">SDLAppInterfaceUnregisteredReason</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAppServiceTypeMedia">
+      SDLAppServiceTypeMedia
+  </h3>
+  
+  <p>The app will have a service type of media.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></span> <span class="n">SDLAppServiceTypeMedia</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">media</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAppServiceTypeWeather">
+      SDLAppServiceTypeWeather
+  </h3>
+  
+  <p>The app will have a service type of weather.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></span> <span class="n">SDLAppServiceTypeWeather</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">weather</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAppServiceTypeNavigation">
+      SDLAppServiceTypeNavigation
+  </h3>
+  
+  <p>The app will have a service type of navigation.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></span> <span class="n">SDLAppServiceTypeNavigation</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">navigation</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></span></code></pre>
 
   
   
@@ -3146,6 +3416,42 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
   
   
   
+  <h3 id="section-SDLDirectionLeft">
+      SDLDirectionLeft
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLDirection.h@T@SDLDirection">SDLDirection</a></span> <span class="k">const</span> <span class="n">SDLDirectionLeft</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">left</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLDirection.h@T@SDLDirection">SDLDirection</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDirectionRight">
+      SDLDirectionRight
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLDirection.h@T@SDLDirection">SDLDirection</a></span> <span class="k">const</span> <span class="n">SDLDirectionRight</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">right</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLDirection.h@T@SDLDirection">SDLDirection</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLDisplayModeDay">
       SDLDisplayModeDay
   </h3>
@@ -4362,6 +4668,60 @@ By default the playback indicator should be PLAY_PAUSE when:</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">back</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLHMIZoneCapabilities.h@T@SDLHMIZoneCapabilities">SDLHMIZoneCapabilities</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLHybridAppPreferenceMobile">
+      SDLHybridAppPreferenceMobile
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLHybridAppPreference.h@T@SDLHybridAppPreference">SDLHybridAppPreference</a></span> <span class="k">const</span> <span class="n">SDLHybridAppPreferenceMobile</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">mobile</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLHybridAppPreference.h@T@SDLHybridAppPreference">SDLHybridAppPreference</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLHybridAppPreferenceCloud">
+      SDLHybridAppPreferenceCloud
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLHybridAppPreference.h@T@SDLHybridAppPreference">SDLHybridAppPreference</a></span> <span class="k">const</span> <span class="n">SDLHybridAppPreferenceCloud</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">cloud</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLHybridAppPreference.h@T@SDLHybridAppPreference">SDLHybridAppPreference</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLHybridAppPreferenceBoth">
+      SDLHybridAppPreferenceBoth
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLHybridAppPreference.h@T@SDLHybridAppPreference">SDLHybridAppPreference</a></span> <span class="k">const</span> <span class="n">SDLHybridAppPreferenceBoth</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">both</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLHybridAppPreference.h@T@SDLHybridAppPreference">SDLHybridAppPreference</a></span></code></pre>
 
   
   
@@ -7334,6 +7694,78 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLMediaTypeMusic">
+      SDLMediaTypeMusic
+  </h3>
+  
+  <p>The app will have a media type of music.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLMediaType.h@T@SDLMediaType">SDLMediaType</a></span> <span class="n">SDLMediaTypeMusic</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">music</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLMediaType.h@T@SDLMediaType">SDLMediaType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLMediaTypePodcast">
+      SDLMediaTypePodcast
+  </h3>
+  
+  <p>The app will have a media type of podcast.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLMediaType.h@T@SDLMediaType">SDLMediaType</a></span> <span class="n">SDLMediaTypePodcast</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">podcast</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLMediaType.h@T@SDLMediaType">SDLMediaType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLMediaTypeAudiobook">
+      SDLMediaTypeAudiobook
+  </h3>
+  
+  <p>The app will have a media type of audiobook.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLMediaType.h@T@SDLMediaType">SDLMediaType</a></span> <span class="n">SDLMediaTypeAudiobook</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">audiobook</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLMediaType.h@T@SDLMediaType">SDLMediaType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLMediaTypeOther">
+      SDLMediaTypeOther
+  </h3>
+  
+  <p>The app will have a media type of other.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLMediaType.h@T@SDLMediaType">SDLMediaType</a></span> <span class="n">SDLMediaTypeOther</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">other</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLMediaType.h@T@SDLMediaType">SDLMediaType</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLMetadataTypeMediaTitle">
       SDLMetadataTypeMediaTitle
   </h3>
@@ -7654,6 +8086,276 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">hmiSettings</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLModuleType.h@T@SDLModuleType">SDLModuleType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationActionTurn">
+      SDLNavigationActionTurn
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span> <span class="k">const</span> <span class="n">SDLNavigationActionTurn</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">turn</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationActionExit">
+      SDLNavigationActionExit
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span> <span class="k">const</span> <span class="n">SDLNavigationActionExit</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">exit</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationActionStay">
+      SDLNavigationActionStay
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span> <span class="k">const</span> <span class="n">SDLNavigationActionStay</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">stay</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationActionMerge">
+      SDLNavigationActionMerge
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span> <span class="k">const</span> <span class="n">SDLNavigationActionMerge</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">merge</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationActionFerry">
+      SDLNavigationActionFerry
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span> <span class="k">const</span> <span class="n">SDLNavigationActionFerry</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">ferry</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationActionCarShuttleTrain">
+      SDLNavigationActionCarShuttleTrain
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span> <span class="k">const</span> <span class="n">SDLNavigationActionCarShuttleTrain</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">carShuttleTrain</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationActionWaypoint">
+      SDLNavigationActionWaypoint
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span> <span class="k">const</span> <span class="n">SDLNavigationActionWaypoint</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">waypoint</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLNavigationAction.h@T@SDLNavigationAction">SDLNavigationAction</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationJunctionRegular">
+      SDLNavigationJunctionRegular
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span> <span class="k">const</span> <span class="n">SDLNavigationJunctionRegular</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">regular</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationJunctionBifurcation">
+      SDLNavigationJunctionBifurcation
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span> <span class="k">const</span> <span class="n">SDLNavigationJunctionBifurcation</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">bifurcation</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationJunctionMultiCarriageway">
+      SDLNavigationJunctionMultiCarriageway
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span> <span class="k">const</span> <span class="n">SDLNavigationJunctionMultiCarriageway</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">multiCarriageway</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationJunctionRoundabout">
+      SDLNavigationJunctionRoundabout
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span> <span class="k">const</span> <span class="n">SDLNavigationJunctionRoundabout</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">roundabout</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationJunctionTraversableRoundabout">
+      SDLNavigationJunctionTraversableRoundabout
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span> <span class="k">const</span> <span class="n">SDLNavigationJunctionTraversableRoundabout</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">traversableRoundabout</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationJunctionJughandle">
+      SDLNavigationJunctionJughandle
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span> <span class="k">const</span> <span class="n">SDLNavigationJunctionJughandle</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">jughandle</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationJunctionAllWayYield">
+      SDLNavigationJunctionAllWayYield
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span> <span class="k">const</span> <span class="n">SDLNavigationJunctionAllWayYield</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">allWayYield</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationJunctionTurnAround">
+      SDLNavigationJunctionTurnAround
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span> <span class="k">const</span> <span class="n">SDLNavigationJunctionTurnAround</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">turnAround</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLNavigationJunction.h@T@SDLNavigationJunction">SDLNavigationJunction</a></span></code></pre>
 
   
   
@@ -8090,6 +8792,42 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLDidReceiveGetCloudAppPropertiesResponse">
+      SDLDidReceiveGetCloudAppPropertiesResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveGetCloudAppPropertiesResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveGetCloudAppPropertiesResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveGetAppServiceDataResponse">
+      SDLDidReceiveGetAppServiceDataResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveGetAppServiceDataResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveGetAppServiceDataResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLDidReceiveGetDTCsResponse">
       SDLDidReceiveGetDTCsResponse
   </h3>
@@ -8104,6 +8842,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveGetDTCsResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveGetFileResponse">
+      SDLDidReceiveGetFileResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveGetFileResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveGetFileResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -8198,6 +8954,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLDidReceivePerformAppServiceInteractionResponse">
+      SDLDidReceivePerformAppServiceInteractionResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceivePerformAppServiceInteractionResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceivePerformAppServiceInteractionResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLDidReceivePerformAudioPassThruResponse">
       SDLDidReceivePerformAudioPassThruResponse
   </h3>
@@ -8230,6 +9004,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceivePerformInteractionResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceivePublishAppServiceResponse">
+      SDLDidReceivePublishAppServiceResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceivePublishAppServiceResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceivePublishAppServiceResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -8374,6 +9166,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSetAppIconResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSetCloudAppPropertiesResponse">
+      SDLDidReceiveSetCloudAppPropertiesResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveSetCloudAppPropertiesResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSetCloudAppPropertiesResponse</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -8684,6 +9494,996 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLDidReceiveAddCommandRequest">
+      SDLDidReceiveAddCommandRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveAddCommandRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveAddCommandRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveAddSubMenuRequest">
+      SDLDidReceiveAddSubMenuRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveAddSubMenuRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveAddSubMenuRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveAlertRequest">
+      SDLDidReceiveAlertRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveAlertRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveAlertRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveAlertManeuverRequest">
+      SDLDidReceiveAlertManeuverRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveAlertManeuverRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveAlertManeuverRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveButtonPressRequest">
+      SDLDidReceiveButtonPressRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveButtonPressRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveButtonPressRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveChangeRegistrationRequest">
+      SDLDidReceiveChangeRegistrationRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveChangeRegistrationRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveChangeRegistrationRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveCreateInteractionChoiceSetRequest">
+      SDLDidReceiveCreateInteractionChoiceSetRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveCreateInteractionChoiceSetRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveCreateInteractionChoiceSetRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveDeleteCommandRequest">
+      SDLDidReceiveDeleteCommandRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveDeleteCommandRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveDeleteCommandRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveDeleteFileRequest">
+      SDLDidReceiveDeleteFileRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveDeleteFileRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveDeleteFileRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveDeleteInteractionChoiceSetRequest">
+      SDLDidReceiveDeleteInteractionChoiceSetRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveDeleteInteractionChoiceSetRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveDeleteInteractionChoiceSetRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveDeleteSubMenuRequest">
+      SDLDidReceiveDeleteSubMenuRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveDeleteSubMenuRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveDeleteSubMenuRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveDiagnosticMessageRequest">
+      SDLDidReceiveDiagnosticMessageRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveDiagnosticMessageRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveDiagnosticMessageRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveDialNumberRequest">
+      SDLDidReceiveDialNumberRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveDialNumberRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveDialNumberRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveEncodedSyncPDataRequest">
+      SDLDidReceiveEncodedSyncPDataRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveEncodedSyncPDataRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveEncodedSyncPDataRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveEndAudioPassThruRequest">
+      SDLDidReceiveEndAudioPassThruRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveEndAudioPassThruRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveEndAudioPassThruRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveGetAppServiceDataRequest">
+      SDLDidReceiveGetAppServiceDataRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveGetAppServiceDataRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveGetAppServiceDataRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveGetCloudAppPropertiesRequest">
+      SDLDidReceiveGetCloudAppPropertiesRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveGetCloudAppPropertiesRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveGetCloudAppPropertiesRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveGetDTCsRequest">
+      SDLDidReceiveGetDTCsRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveGetDTCsRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveGetDTCsRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveGetFileRequest">
+      SDLDidReceiveGetFileRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveGetFileRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveGetFileRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveGetInteriorVehicleDataRequest">
+      SDLDidReceiveGetInteriorVehicleDataRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveGetInteriorVehicleDataRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveGetInteriorVehicleDataRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveGetSystemCapabilityRequest">
+      SDLDidReceiveGetSystemCapabilityRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveGetSystemCapabilityRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveGetSystemCapabilityRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveGetVehicleDataRequest">
+      SDLDidReceiveGetVehicleDataRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveGetVehicleDataRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveGetVehicleDataRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveGetWayPointsRequest">
+      SDLDidReceiveGetWayPointsRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveGetWayPointsRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveGetWayPointsRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveListFilesRequest">
+      SDLDidReceiveListFilesRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveListFilesRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveListFilesRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceivePerformAppServiceInteractionRequest">
+      SDLDidReceivePerformAppServiceInteractionRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceivePerformAppServiceInteractionRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceivePerformAppServiceInteractionRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceivePerformAudioPassThruRequest">
+      SDLDidReceivePerformAudioPassThruRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceivePerformAudioPassThruRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceivePerformAudioPassThruRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceivePerformInteractionRequest">
+      SDLDidReceivePerformInteractionRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceivePerformInteractionRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceivePerformInteractionRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceivePublishAppServiceRequest">
+      SDLDidReceivePublishAppServiceRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceivePublishAppServiceRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceivePublishAppServiceRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceivePutFileRequest">
+      SDLDidReceivePutFileRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceivePutFileRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceivePutFileRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveReadDIDRequest">
+      SDLDidReceiveReadDIDRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveReadDIDRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveReadDIDRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveRegisterAppInterfaceRequest">
+      SDLDidReceiveRegisterAppInterfaceRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveRegisterAppInterfaceRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveRegisterAppInterfaceRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveResetGlobalPropertiesRequest">
+      SDLDidReceiveResetGlobalPropertiesRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveResetGlobalPropertiesRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveResetGlobalPropertiesRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveScrollableMessageRequest">
+      SDLDidReceiveScrollableMessageRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveScrollableMessageRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveScrollableMessageRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSendHapticDataRequest">
+      SDLDidReceiveSendHapticDataRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveSendHapticDataRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSendHapticDataRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSendLocationRequest">
+      SDLDidReceiveSendLocationRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveSendLocationRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSendLocationRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSetAppIconRequest">
+      SDLDidReceiveSetAppIconRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveSetAppIconRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSetAppIconRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSetCloudAppPropertiesRequest">
+      SDLDidReceiveSetCloudAppPropertiesRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveSetCloudAppPropertiesRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSetCloudAppPropertiesRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSetDisplayLayoutRequest">
+      SDLDidReceiveSetDisplayLayoutRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveSetDisplayLayoutRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSetDisplayLayoutRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSetGlobalPropertiesRequest">
+      SDLDidReceiveSetGlobalPropertiesRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveSetGlobalPropertiesRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSetGlobalPropertiesRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSetInteriorVehicleDataRequest">
+      SDLDidReceiveSetInteriorVehicleDataRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveSetInteriorVehicleDataRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSetInteriorVehicleDataRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSetMediaClockTimerRequest">
+      SDLDidReceiveSetMediaClockTimerRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveSetMediaClockTimerRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSetMediaClockTimerRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveShowRequest">
+      SDLDidReceiveShowRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveShowRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveShowRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveShowConstantTBTRequest">
+      SDLDidReceiveShowConstantTBTRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveShowConstantTBTRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveShowConstantTBTRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSliderRequest">
+      SDLDidReceiveSliderRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveSliderRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSliderRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSpeakRequest">
+      SDLDidReceiveSpeakRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveSpeakRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSpeakRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSubscribeButtonRequest">
+      SDLDidReceiveSubscribeButtonRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveSubscribeButtonRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSubscribeButtonRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSubscribeVehicleDataRequest">
+      SDLDidReceiveSubscribeVehicleDataRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveSubscribeVehicleDataRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSubscribeVehicleDataRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSubscribeWayPointsRequest">
+      SDLDidReceiveSubscribeWayPointsRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveSubscribeWayPointsRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSubscribeWayPointsRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSyncPDataRequest">
+      SDLDidReceiveSyncPDataRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveSyncPDataRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSyncPDataRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSystemRequestRequest">
+      SDLDidReceiveSystemRequestRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveSystemRequestRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveSystemRequestRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveUnregisterAppInterfaceRequest">
+      SDLDidReceiveUnregisterAppInterfaceRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveUnregisterAppInterfaceRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveUnregisterAppInterfaceRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveUnsubscribeButtonRequest">
+      SDLDidReceiveUnsubscribeButtonRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveUnsubscribeButtonRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveUnsubscribeButtonRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveUnsubscribeVehicleDataRequest">
+      SDLDidReceiveUnsubscribeVehicleDataRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveUnsubscribeVehicleDataRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveUnsubscribeVehicleDataRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveUnsubscribeWayPointsRequest">
+      SDLDidReceiveUnsubscribeWayPointsRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveUnsubscribeWayPointsRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveUnsubscribeWayPointsRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveUpdateTurnListRequest">
+      SDLDidReceiveUpdateTurnListRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveUpdateTurnListRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">SDLDidReceiveUpdateTurnListRequest</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLDidChangeDriverDistractionStateNotification">
       SDLDidChangeDriverDistractionStateNotification
   </h3>
@@ -8720,8 +10520,8 @@ For example, right puddle lights and spot lights.</p>
   
   
   
-  <h3 id="section-SDLDidReceiveAudioPassThruNotification">
-      SDLDidReceiveAudioPassThruNotification
+  <h3 id="section-SDLDidReceiveAppServiceDataNotification">
+      SDLDidReceiveAppServiceDataNotification
   </h3>
   
   <p>Undocumented</p>
@@ -8729,11 +10529,11 @@ For example, right puddle lights and spot lights.</p>
   
   
   <h4>Objective-C</h4>
-  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveAudioPassThruNotification</span></code></pre>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveAppServiceDataNotification</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">SDLDidReceiveAudioPassThru</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">SDLDidReceiveAppServiceData</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -8752,6 +10552,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">SDLDidReceiveAppUnregistered</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveAudioPassThruNotification">
+      SDLDidReceiveAudioPassThruNotification
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveAudioPassThruNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">SDLDidReceiveAudioPassThru</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -8968,6 +10786,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">SDLDidReceiveRemoteControlStatus</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDidReceiveSystemCapabilityUpdatedNotification">
+      SDLDidReceiveSystemCapabilityUpdatedNotification
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLNotificationConstants.h@T@SDLNotificationName">SDLNotificationName</a></span> <span class="k">const</span> <span class="n">SDLDidReceiveSystemCapabilityUpdatedNotification</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">SDLDidReceiveSystemCapabilityUpdated</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="o">.</span><span class="kt">Name</span></code></pre>
 
   
   
@@ -10327,6 +12163,1446 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLRPCFunctionNameAddCommand">
+      SDLRPCFunctionNameAddCommand
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameAddCommand</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">addCommand</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameAddSubMenu">
+      SDLRPCFunctionNameAddSubMenu
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameAddSubMenu</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">addSubMenu</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameAlert">
+      SDLRPCFunctionNameAlert
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameAlert</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">alert</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameAlertManeuver">
+      SDLRPCFunctionNameAlertManeuver
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameAlertManeuver</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">alertManeuver</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameButtonPress">
+      SDLRPCFunctionNameButtonPress
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameButtonPress</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">buttonPress</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameChangeRegistration">
+      SDLRPCFunctionNameChangeRegistration
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameChangeRegistration</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">changeRegistration</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameCreateInteractionChoiceSet">
+      SDLRPCFunctionNameCreateInteractionChoiceSet
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameCreateInteractionChoiceSet</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">createInteractionChoiceSet</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameDeleteCommand">
+      SDLRPCFunctionNameDeleteCommand
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameDeleteCommand</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">deleteCommand</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameDeleteFile">
+      SDLRPCFunctionNameDeleteFile
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameDeleteFile</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">deleteFile</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameDeleteInteractionChoiceSet">
+      SDLRPCFunctionNameDeleteInteractionChoiceSet
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameDeleteInteractionChoiceSet</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">deleteInteractionChoiceSet</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameDeleteSubMenu">
+      SDLRPCFunctionNameDeleteSubMenu
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameDeleteSubMenu</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">deleteSubMenu</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameDiagnosticMessage">
+      SDLRPCFunctionNameDiagnosticMessage
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameDiagnosticMessage</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">diagnosticMessage</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameDialNumber">
+      SDLRPCFunctionNameDialNumber
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameDialNumber</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">dialNumber</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameEncodedSyncPData">
+      SDLRPCFunctionNameEncodedSyncPData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameEncodedSyncPData</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">encodedSyncPData</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameEndAudioPassThru">
+      SDLRPCFunctionNameEndAudioPassThru
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameEndAudioPassThru</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">endAudioPassThru</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameGenericResponse">
+      SDLRPCFunctionNameGenericResponse
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameGenericResponse</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">genericResponse</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameGetAppServiceData">
+      SDLRPCFunctionNameGetAppServiceData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameGetAppServiceData</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">getAppServiceData</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameGetDTCs">
+      SDLRPCFunctionNameGetDTCs
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameGetDTCs</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">getDTCs</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameGetFile">
+      SDLRPCFunctionNameGetFile
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameGetFile</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">getFile</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameGetCloudAppProperties">
+      SDLRPCFunctionNameGetCloudAppProperties
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameGetCloudAppProperties</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">getCloudAppProperties</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameGetInteriorVehicleData">
+      SDLRPCFunctionNameGetInteriorVehicleData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameGetInteriorVehicleData</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">getInteriorVehicleData</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameGetSystemCapability">
+      SDLRPCFunctionNameGetSystemCapability
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameGetSystemCapability</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">getSystemCapability</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameGetVehicleData">
+      SDLRPCFunctionNameGetVehicleData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameGetVehicleData</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">getVehicleData</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameGetWayPoints">
+      SDLRPCFunctionNameGetWayPoints
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameGetWayPoints</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">getWayPoints</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameListFiles">
+      SDLRPCFunctionNameListFiles
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameListFiles</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">listFiles</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnAppInterfaceUnregistered">
+      SDLRPCFunctionNameOnAppInterfaceUnregistered
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnAppInterfaceUnregistered</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onAppInterfaceUnregistered</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnAppServiceData">
+      SDLRPCFunctionNameOnAppServiceData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnAppServiceData</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onAppServiceData</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnAudioPassThru">
+      SDLRPCFunctionNameOnAudioPassThru
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnAudioPassThru</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onAudioPassThru</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnButtonEvent">
+      SDLRPCFunctionNameOnButtonEvent
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnButtonEvent</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onButtonEvent</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnButtonPress">
+      SDLRPCFunctionNameOnButtonPress
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnButtonPress</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onButtonPress</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnCommand">
+      SDLRPCFunctionNameOnCommand
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnCommand</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onCommand</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnDriverDistraction">
+      SDLRPCFunctionNameOnDriverDistraction
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnDriverDistraction</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onDriverDistraction</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnEncodedSyncPData">
+      SDLRPCFunctionNameOnEncodedSyncPData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnEncodedSyncPData</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onEncodedSyncPData</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnHashChange">
+      SDLRPCFunctionNameOnHashChange
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnHashChange</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onHashChange</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnHMIStatus">
+      SDLRPCFunctionNameOnHMIStatus
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnHMIStatus</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onHMIStatus</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnInteriorVehicleData">
+      SDLRPCFunctionNameOnInteriorVehicleData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnInteriorVehicleData</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onInteriorVehicleData</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnKeyboardInput">
+      SDLRPCFunctionNameOnKeyboardInput
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnKeyboardInput</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onKeyboardInput</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnLanguageChange">
+      SDLRPCFunctionNameOnLanguageChange
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnLanguageChange</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onLanguageChange</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnLockScreenStatus">
+      SDLRPCFunctionNameOnLockScreenStatus
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnLockScreenStatus</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onLockScreenStatus</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnPermissionsChange">
+      SDLRPCFunctionNameOnPermissionsChange
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnPermissionsChange</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onPermissionsChange</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnRCStatus">
+      SDLRPCFunctionNameOnRCStatus
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnRCStatus</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onRCStatus</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnSyncPData">
+      SDLRPCFunctionNameOnSyncPData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnSyncPData</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onSyncPData</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnSystemCapabilityUpdated">
+      SDLRPCFunctionNameOnSystemCapabilityUpdated
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnSystemCapabilityUpdated</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onSystemCapabilityUpdated</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnSystemRequest">
+      SDLRPCFunctionNameOnSystemRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnSystemRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onSystemRequest</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnTBTClientState">
+      SDLRPCFunctionNameOnTBTClientState
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnTBTClientState</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onTBTClientState</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnTouchEvent">
+      SDLRPCFunctionNameOnTouchEvent
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnTouchEvent</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onTouchEvent</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnVehicleData">
+      SDLRPCFunctionNameOnVehicleData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnVehicleData</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onVehicleData</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameOnWayPointChange">
+      SDLRPCFunctionNameOnWayPointChange
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameOnWayPointChange</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">onWayPointChange</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNamePerformAppServiceInteraction">
+      SDLRPCFunctionNamePerformAppServiceInteraction
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNamePerformAppServiceInteraction</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">performAppServiceInteraction</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNamePerformAudioPassThru">
+      SDLRPCFunctionNamePerformAudioPassThru
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNamePerformAudioPassThru</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">performAudioPassThru</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNamePerformInteraction">
+      SDLRPCFunctionNamePerformInteraction
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNamePerformInteraction</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">performInteraction</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNamePublishAppService">
+      SDLRPCFunctionNamePublishAppService
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNamePublishAppService</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">publishAppService</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNamePutFile">
+      SDLRPCFunctionNamePutFile
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNamePutFile</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">putFile</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameReadDID">
+      SDLRPCFunctionNameReadDID
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameReadDID</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">readDID</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameRegisterAppInterface">
+      SDLRPCFunctionNameRegisterAppInterface
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameRegisterAppInterface</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">registerAppInterface</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameReserved">
+      SDLRPCFunctionNameReserved
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameReserved</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">reserved</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameResetGlobalProperties">
+      SDLRPCFunctionNameResetGlobalProperties
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameResetGlobalProperties</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">resetGlobalProperties</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameScrollableMessage">
+      SDLRPCFunctionNameScrollableMessage
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameScrollableMessage</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">scrollableMessage</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameSendHapticData">
+      SDLRPCFunctionNameSendHapticData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameSendHapticData</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">sendHapticData</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameSendLocation">
+      SDLRPCFunctionNameSendLocation
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameSendLocation</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">sendLocation</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameSetAppIcon">
+      SDLRPCFunctionNameSetAppIcon
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameSetAppIcon</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">setAppIcon</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameSetCloudAppProperties">
+      SDLRPCFunctionNameSetCloudAppProperties
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameSetCloudAppProperties</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">setCloudAppProperties</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameSetDisplayLayout">
+      SDLRPCFunctionNameSetDisplayLayout
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameSetDisplayLayout</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">setDisplayLayout</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameSetGlobalProperties">
+      SDLRPCFunctionNameSetGlobalProperties
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameSetGlobalProperties</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">setGlobalProperties</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameSetInteriorVehicleData">
+      SDLRPCFunctionNameSetInteriorVehicleData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameSetInteriorVehicleData</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">setInteriorVehicleData</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameSetMediaClockTimer">
+      SDLRPCFunctionNameSetMediaClockTimer
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameSetMediaClockTimer</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">setMediaClockTimer</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameShow">
+      SDLRPCFunctionNameShow
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameShow</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">show</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameShowConstantTBT">
+      SDLRPCFunctionNameShowConstantTBT
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameShowConstantTBT</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">showConstantTBT</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameSlider">
+      SDLRPCFunctionNameSlider
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameSlider</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">slider</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameSpeak">
+      SDLRPCFunctionNameSpeak
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameSpeak</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">speak</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameSubscribeButton">
+      SDLRPCFunctionNameSubscribeButton
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameSubscribeButton</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">subscribeButton</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameSubscribeVehicleData">
+      SDLRPCFunctionNameSubscribeVehicleData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameSubscribeVehicleData</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">subscribeVehicleData</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameSubscribeWayPoints">
+      SDLRPCFunctionNameSubscribeWayPoints
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameSubscribeWayPoints</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">subscribeWayPoints</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameSyncPData">
+      SDLRPCFunctionNameSyncPData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameSyncPData</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">syncPData</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameSystemRequest">
+      SDLRPCFunctionNameSystemRequest
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameSystemRequest</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">systemRequest</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameUnregisterAppInterface">
+      SDLRPCFunctionNameUnregisterAppInterface
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameUnregisterAppInterface</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">unregisterAppInterface</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameUnsubscribeButton">
+      SDLRPCFunctionNameUnsubscribeButton
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameUnsubscribeButton</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">unsubscribeButton</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameUnsubscribeVehicleData">
+      SDLRPCFunctionNameUnsubscribeVehicleData
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameUnsubscribeVehicleData</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">unsubscribeVehicleData</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameUnsubscribeWayPoints">
+      SDLRPCFunctionNameUnsubscribeWayPoints
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameUnsubscribeWayPoints</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">unsubscribeWayPoints</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionNameUpdateTurnList">
+      SDLRPCFunctionNameUpdateTurnList
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="n"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span> <span class="k">const</span> <span class="n">SDLRPCFunctionNameUpdateTurnList</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">updateTurnList</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRPCFunctionNames.h@T@SDLRPCFunctionName">SDLRPCFunctionName</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLRadioBandAM">
       SDLRadioBandAM
   </h3>
@@ -10827,6 +14103,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">oemSpecific</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRequestType.h@T@SDLRequestType">SDLRequestType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRequestTypeIconURL">
+      SDLRequestTypeIconURL
+  </h3>
+  
+  <p>A request for an icon url</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLRequestType.h@T@SDLRequestType">SDLRequestType</a></span> <span class="n">SDLRequestTypeIconURL</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">iconURL</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLRequestType.h@T@SDLRequestType">SDLRequestType</a></span></code></pre>
 
   
   
@@ -11619,6 +14913,96 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">none</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLSeatMemoryActionType.h@T@SDLSeatMemoryActionType">SDLSeatMemoryActionType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLServiceUpdatePublished">
+      SDLServiceUpdatePublished
+  </h3>
+  
+  <p>The service has just been published with the module and once activated to the primary service of its type, it will be ready for possible consumption.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span> <span class="n">SDLServiceUpdatePublished</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">published</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLServiceUpdateRemoved">
+      SDLServiceUpdateRemoved
+  </h3>
+  
+  <p>The service has just been unpublished with the module and is no longer accessible.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span> <span class="n">SDLServiceUpdateRemoved</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">removed</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLServiceUpdateActivated">
+      SDLServiceUpdateActivated
+  </h3>
+  
+  <p>The service is activated as the primary service of this type. All requests dealing with this service type will be handled by this service.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span> <span class="n">SDLServiceUpdateActivated</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">activated</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLServiceUpdateDeactivated">
+      SDLServiceUpdateDeactivated
+  </h3>
+  
+  <p>The service has been deactivated as the primary service of its type.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span> <span class="n">SDLServiceUpdateDeactivated</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">deactivated</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLServiceUpdateManifestUpdate">
+      SDLServiceUpdateManifestUpdate
+  </h3>
+  
+  <p>The service has updated its manifest. This could imply updated capabilities.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span> <span class="n">SDLServiceUpdateManifestUpdate</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">manifestUpdate</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLServiceUpdateReason.h@T@SDLServiceUpdateReason">SDLServiceUpdateReason</a></span></code></pre>
 
   
   
@@ -15439,6 +18823,24 @@ For example, right puddle lights and spot lights.</p>
   
   
   
+  <h3 id="section-SDLSystemCapabilityTypeAppServices">
+      SDLSystemCapabilityTypeAppServices
+  </h3>
+  
+  <p>The app services capability</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span> <span class="n">SDLSystemCapabilityTypeAppServices</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">appServices</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLSystemCapabilityType.h@T@SDLSystemCapabilityType">SDLSystemCapabilityType</a></span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLSystemCapabilityTypeNavigation">
       SDLSystemCapabilityTypeNavigation
   </h3>
@@ -17924,6 +21326,24 @@ For example, right puddle lights and spot lights.</p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">turnSignal</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLVehicleDataTypeCloudAppVehicleID">
+      SDLVehicleDataTypeCloudAppVehicleID
+  </h3>
+  
+  <p>The cloud application vehicle id. Used by cloud apps to identify a head unit</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">extern</span> <span class="k">const</span> <span class="n"><a href="Type Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span> <span class="n">SDLVehicleDataTypeCloudAppVehicleID</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">let</span> <span class="nv">cloudAppVehicleID</span><span class="p">:</span> <span class="kt"><a href="Type Definitions.html#/c:SDLVehicleDataType.h@T@SDLVehicleDataType">SDLVehicleDataType</a></span></code></pre>
 
   
   

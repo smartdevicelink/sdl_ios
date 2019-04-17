@@ -1,0 +1,65 @@
+<h1>SDLAppServicesCapabilities Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithAppServices:">-initWithAppServices:</a></li>
+  <li><a href="#section-appServices">appServices</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithAppServices:">
+      -initWithAppServices:
+  </h3>
+  
+  <p>Convenience init.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppServices</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLAppServiceCapability.html">SDLAppServiceCapability</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">appServices</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">appServices</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLAppServiceCapability.html">SDLAppServiceCapability</a></span><span class="p">]?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>appServices</dt>
+      <dd><p>An array of currently available services.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLAppServicesCapabilities object</p>
+  </div>
+  
+  <h3 id="section-appServices">
+      appServices
+  </h3>
+  
+  <p>An array of currently available services. If this is an update to the capability the affected services will include an update reason in that item.</p>
+
+<p>Array of SDLAppServiceCapability, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLAppServiceCapability.html">SDLAppServiceCapability</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">appServices</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">appServices</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLAppServiceCapability.html">SDLAppServiceCapability</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

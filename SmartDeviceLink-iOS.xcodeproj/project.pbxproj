@@ -7304,7 +7304,6 @@
 				5DA026901AD44EE700019F86 /* SDLDialNumberResponseSpec.m in Sources */,
 				162E83901A9BDE8B00906325 /* SDLTireStatusSpec.m in Sources */,
 				162E82E01A9BDE8B00906325 /* SDLHMILevelSpec.m in Sources */,
-				BB3C600E221AEF37007DD4CA /* NSMutableDictionary+StoreSpec.m in Sources */,
 				88F65133220C6DC300CAF321 /* SDLWeatherAlertSpec.m in Sources */,
 				5DC09EDA1F2F7FEC00F4AB1D /* SDLControlFramePayloadNakSpec.m in Sources */,
 				1EB59CCE202DC97900343A61 /* SDLMassageCushionSpec.m in Sources */,

@@ -10,6 +10,7 @@
   <li><a href="#section-formatType">formatType</a></li>
   <li><a href="#section-asynchronous">asynchronous</a></li>
   <li><a href="#section-errorsAsynchronous">errorsAsynchronous</a></li>
+  <li><a href="#section-disableAssertions">disableAssertions</a></li>
   <li><a href="#section-dateFormatter">dateFormatter</a></li>
   <li><a href="#section-logQueue">logQueue</a></li>
   <li><a href="#section-+sharedManager">+sharedManager</a></li>
@@ -21,6 +22,8 @@
   <li><a href="#section--logWithLevel:timestamp:file:functionName:line:queue:message:">-logWithLevel:timestamp:file:functionName:line:queue:message:</a></li>
   <li><a href="#section-+logBytes:direction:timestamp:file:functionName:line:queue:">+logBytes:direction:timestamp:file:functionName:line:queue:</a></li>
   <li><a href="#section--logBytes:direction:timestamp:file:functionName:line:queue:">-logBytes:direction:timestamp:file:functionName:line:queue:</a></li>
+  <li><a href="#section-+logAssertWithTimestamp:file:functionName:line:queue:formatMessage:">+logAssertWithTimestamp:file:functionName:line:queue:formatMessage:</a></li>
+  <li><a href="#section--logAssertWithTimestamp:file:functionName:line:queue:formatMessage:">-logAssertWithTimestamp:file:functionName:line:queue:formatMessage:</a></li>
 </ul>
 
 <h3>Overview</h3>
@@ -157,6 +160,25 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">areErrorsAsynchronous</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-disableAssertions">
+      disableAssertions
+  </h3>
+  
+  <p>Whether or not assert logs will fire assertions in DEBUG mode. Assertions are always disabled in RELEASE builds. If assertions are disabled, only an error log will fire instead. Defaults to NO.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">getter</span><span class="o">=</span><span class="n">areAssertionsDisabled</span><span class="p">,</span> <span class="n">assign</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span>
+    <span class="n">BOOL</span> <span class="n">disableAssertions</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">areAssertionsDisabled</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
   
   
@@ -505,6 +527,76 @@
       <dd><p>The line the log originated from</p></dd>
       <dt>queueLabel</dt>
       <dd><p>The queue the log was sent from</p></dd>
+  </dl>
+  
+  <h3 id="section-+logAssertWithTimestamp:file:functionName:line:queue:formatMessage:">
+      +logAssertWithTimestamp:file:functionName:line:queue:formatMessage:
+  </h3>
+  
+  <p>Log an error to the sharedManager&rsquo;s active log targets and assert. This is used internally to log.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">logAssertWithTimestamp</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSDate</span> <span class="o">*</span><span class="p">)</span><span class="nv">timestamp</span>
+                          <span class="nf">file</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">file</span>
+                  <span class="nf">functionName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">functionName</span>
+                          <span class="nf">line</span><span class="p">:(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">line</span>
+                         <span class="nf">queue</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">queueLabel</span>
+                 <span class="nf">formatMessage</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span><span class="p">,</span> <span class="p">...;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>timestamp</dt>
+      <dd><p>The time the log was sent</p></dd>
+      <dt>file</dt>
+      <dd><p>The file the log originated from</p></dd>
+      <dt>functionName</dt>
+      <dd><p>The function the log originated from</p></dd>
+      <dt>line</dt>
+      <dd><p>The line the log originated from</p></dd>
+      <dt>queueLabel</dt>
+      <dd><p>The queue the log was sent from</p></dd>
+      <dt>message</dt>
+      <dd><p>The message of the log</p></dd>
+  </dl>
+  
+  <h3 id="section--logAssertWithTimestamp:file:functionName:line:queue:formatMessage:">
+      -logAssertWithTimestamp:file:functionName:line:queue:formatMessage:
+  </h3>
+  
+  <p>Log an error to this manager&rsquo;s active log targets and assert. This is used internally to log.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">logAssertWithTimestamp</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSDate</span> <span class="o">*</span><span class="p">)</span><span class="nv">timestamp</span>
+                          <span class="nf">file</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">file</span>
+                  <span class="nf">functionName</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">functionName</span>
+                          <span class="nf">line</span><span class="p">:(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">line</span>
+                         <span class="nf">queue</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">queueLabel</span>
+                 <span class="nf">formatMessage</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span><span class="p">,</span> <span class="p">...;</span></code></pre>
+
+  
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>timestamp</dt>
+      <dd><p>The time the log was sent</p></dd>
+      <dt>file</dt>
+      <dd><p>The file the log originated from</p></dd>
+      <dt>functionName</dt>
+      <dd><p>The function the log originated from</p></dd>
+      <dt>line</dt>
+      <dd><p>The line the log originated from</p></dd>
+      <dt>queueLabel</dt>
+      <dd><p>The queue the log was sent from</p></dd>
+      <dt>message</dt>
+      <dd><p>The message of the log</p></dd>
   </dl>
   
 </section>

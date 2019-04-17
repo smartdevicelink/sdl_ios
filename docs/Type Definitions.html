@@ -6,6 +6,7 @@
   <li><a href="#section-SDLAmbientLightStatus">SDLAmbientLightStatus</a></li>
   <li><a href="#section-SDLAppHMIType">SDLAppHMIType</a></li>
   <li><a href="#section-SDLAppInterfaceUnregisteredReason">SDLAppInterfaceUnregisteredReason</a></li>
+  <li><a href="#section-SDLAppServiceType">SDLAppServiceType</a></li>
   <li><a href="#section-SDLAudioStreamingIndicator">SDLAudioStreamingIndicator</a></li>
   <li><a href="#section-SDLAudioStreamingState">SDLAudioStreamingState</a></li>
   <li><a href="#section-SDLAudioType">SDLAudioType</a></li>
@@ -21,6 +22,7 @@
   <li><a href="#section-SDLDeliveryMode">SDLDeliveryMode</a></li>
   <li><a href="#section-SDLDeviceLevelStatus">SDLDeviceLevelStatus</a></li>
   <li><a href="#section-SDLDimension">SDLDimension</a></li>
+  <li><a href="#section-SDLDirection">SDLDirection</a></li>
   <li><a href="#section-SDLDisplayMode">SDLDisplayMode</a></li>
   <li><a href="#section-SDLDisplayType">SDLDisplayType</a></li>
   <li><a href="#section-SDLDistanceUnit">SDLDistanceUnit</a></li>
@@ -46,6 +48,7 @@
   <li><a href="#section-SDLGlobalProperty">SDLGlobalProperty</a></li>
   <li><a href="#section-SDLHMILevel">SDLHMILevel</a></li>
   <li><a href="#section-SDLHMIZoneCapabilities">SDLHMIZoneCapabilities</a></li>
+  <li><a href="#section-SDLHybridAppPreference">SDLHybridAppPreference</a></li>
   <li><a href="#section-SDLIgnitionStableStatus">SDLIgnitionStableStatus</a></li>
   <li><a href="#section-SDLIgnitionStatus">SDLIgnitionStatus</a></li>
   <li><a href="#section-SDLImageFieldName">SDLImageFieldName</a></li>
@@ -68,9 +71,12 @@
   <li><a href="#section-SDLMassageMode">SDLMassageMode</a></li>
   <li><a href="#section-SDLMassageZone">SDLMassageZone</a></li>
   <li><a href="#section-SDLMediaClockFormat">SDLMediaClockFormat</a></li>
+  <li><a href="#section-SDLMediaType">SDLMediaType</a></li>
   <li><a href="#section-SDLMenuCellSelectionHandler">SDLMenuCellSelectionHandler</a></li>
   <li><a href="#section-SDLMetadataType">SDLMetadataType</a></li>
   <li><a href="#section-SDLModuleType">SDLModuleType</a></li>
+  <li><a href="#section-SDLNavigationAction">SDLNavigationAction</a></li>
+  <li><a href="#section-SDLNavigationJunction">SDLNavigationJunction</a></li>
   <li><a href="#section-SDLNotificationName">SDLNotificationName</a></li>
   <li><a href="#section-SDLNotificationUserInfoKey">SDLNotificationUserInfoKey</a></li>
   <li><a href="#section-SDLAudioPassThruHandler">SDLAudioPassThruHandler</a></li>
@@ -90,6 +96,7 @@
   <li><a href="#section-SDLPredefinedLayout">SDLPredefinedLayout</a></li>
   <li><a href="#section-SDLPrerecordedSpeech">SDLPrerecordedSpeech</a></li>
   <li><a href="#section-SDLPrimaryAudioSource">SDLPrimaryAudioSource</a></li>
+  <li><a href="#section-SDLRPCFunctionName">SDLRPCFunctionName</a></li>
   <li><a href="#section-SDLRadioBand">SDLRadioBand</a></li>
   <li><a href="#section-SDLRadioState">SDLRadioState</a></li>
   <li><a href="#section-SDLRequestType">SDLRequestType</a></li>
@@ -98,6 +105,7 @@
   <li><a href="#section-SDLScreenManagerUpdateCompletionHandler">SDLScreenManagerUpdateCompletionHandler</a></li>
   <li><a href="#section-SDLPreloadChoiceCompletionHandler">SDLPreloadChoiceCompletionHandler</a></li>
   <li><a href="#section-SDLSeatMemoryActionType">SDLSeatMemoryActionType</a></li>
+  <li><a href="#section-SDLServiceUpdateReason">SDLServiceUpdateReason</a></li>
   <li><a href="#section-SDLSoftButtonType">SDLSoftButtonType</a></li>
   <li><a href="#section-SDLSpeechCapabilities">SDLSpeechCapabilities</a></li>
   <li><a href="#section-SDLStaticIconName">SDLStaticIconName</a></li>
@@ -200,6 +208,24 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLAppInterfaceUnregisteredReason</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLAppServiceType">
+      SDLAppServiceType
+  </h3>
+  
+  <p>Enumeration listing possible app service types.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLAppServiceType</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLAppServiceType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -503,6 +529,24 @@
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLDimension</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLDirection">
+      SDLDirection
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLDirection</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLDirection</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1072,6 +1116,24 @@
   
   
   
+  <h3 id="section-SDLHybridAppPreference">
+      SDLHybridAppPreference
+  </h3>
+  
+  <p>Enumeration for the user&rsquo;s preference of which app type to use when both are available.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLHybridAppPreference</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLHybridAppPreference</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLIgnitionStableStatus">
       SDLIgnitionStableStatus
   </h3>
@@ -1523,6 +1585,24 @@ c = character <br></p>
   
   
   
+  <h3 id="section-SDLMediaType">
+      SDLMediaType
+  </h3>
+  
+  <p>Enumeration listing possible media types.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLMediaType</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLMediaType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
+
+  
+  
+  
   <h3 id="section-SDLMenuCellSelectionHandler">
       SDLMenuCellSelectionHandler
   </h3>
@@ -1573,6 +1653,42 @@ c = character <br></p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLModuleType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationAction">
+      SDLNavigationAction
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLNavigationAction</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLNavigationAction</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLNavigationJunction">
+      SDLNavigationJunction
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLNavigationJunction</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLNavigationJunction</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -1884,12 +2000,12 @@ c = character <br></p>
   
   <h4>Objective-C</h4>
   <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">SDLPermissionsChangedHandler</span><span class="p">)(</span>
-    <span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="p">,</span> <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="o">&gt;</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">,</span>
+    <span class="n">NSDictionary</span><span class="o">&lt;</span><span class="n"><a href="Type Definitions.html#/c:SDLPermissionConstants.h@T@SDLPermissionRPCName">SDLPermissionRPCName</a></span><span class="p">,</span> <span class="n">NSNumber</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">,</span>
     <span class="n"><a href="Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span><span class="p">)</span></code></pre>
 
   
   <h4>Swift</h4>
-  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLPermissionsChangedHandler</span> <span class="o">=</span> <span class="p">([</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="Protocols.html#/c:objc(pl)SDLBool">SDLBool</a></span><span class="p">],</span> <span class="kt"><a href="Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+  <pre class="highlight swift"><code><span class="kd">typealias</span> <span class="kt">SDLPermissionsChangedHandler</span> <span class="o">=</span> <span class="p">([</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">NSNumber</span><span class="p">],</span> <span class="kt"><a href="Enums/SDLPermissionGroupStatus.html">SDLPermissionGroupStatus</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
 
   
   
@@ -2009,6 +2125,24 @@ c = character <br></p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLPrimaryAudioSource</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLRPCFunctionName">
+      SDLRPCFunctionName
+  </h3>
+  
+  <p>Undocumented</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLRPCFunctionName</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLRPCFunctionName</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   
@@ -2169,6 +2303,24 @@ c = character <br></p>
   
   <h4>Swift</h4>
   <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLSeatMemoryActionType</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-SDLServiceUpdateReason">
+      SDLServiceUpdateReason
+  </h3>
+  
+  <p>Enumeration listing possible service update reasons.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">typedef</span> <span class="n"><a href="Type Definitions.html#/c:SDLEnum.h@T@SDLEnum">SDLEnum</a></span> <span class="n">SDLServiceUpdateReason</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">SDLServiceUpdateReason</span> <span class="p">:</span> <span class="n">_ObjectiveCBridgeable</span><span class="p">,</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="n">_SwiftNewtypeWrapper</span><span class="p">,</span> <span class="kt">RawRepresentable</span></code></pre>
 
   
   

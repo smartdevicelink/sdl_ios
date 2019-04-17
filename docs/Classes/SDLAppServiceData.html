@@ -1,0 +1,294 @@
+<h1>SDLAppServiceData Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithAppServiceType:serviceId:">-initWithAppServiceType:serviceId:</a></li>
+  <li><a href="#section--initWithMediaServiceData:serviceId:">-initWithMediaServiceData:serviceId:</a></li>
+  <li><a href="#section--initWithWeatherServiceData:serviceId:">-initWithWeatherServiceData:serviceId:</a></li>
+  <li><a href="#section--initWithNavigationServiceData:serviceId:">-initWithNavigationServiceData:serviceId:</a></li>
+  <li><a href="#section--initWithAppServiceType:serviceId:mediaServiceData:weatherServiceData:navigationServiceData:">-initWithAppServiceType:serviceId:mediaServiceData:weatherServiceData:navigationServiceData:</a></li>
+  <li><a href="#section-serviceType">serviceType</a></li>
+  <li><a href="#section-serviceId">serviceId</a></li>
+  <li><a href="#section-mediaServiceData">mediaServiceData</a></li>
+  <li><a href="#section-weatherServiceData">weatherServiceData</a></li>
+  <li><a href="#section-navigationServiceData">navigationServiceData</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithAppServiceType:serviceId:">
+      -initWithAppServiceType:serviceId:
+  </h3>
+  
+  <p>Convenience init for service type and service id.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithAppServiceType</span><span class="p">:</span>
+                            <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span>
+                                     <span class="nf">serviceId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceId</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="n">appServiceType</span> <span class="nv">serviceType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></span><span class="p">,</span> <span class="nv">serviceId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>serviceType</dt>
+      <dd><p>The type of service that is to be offered by this app.</p></dd>
+      <dt>serviceId</dt>
+      <dd><p>A unique ID tied to this specific service record.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLAppServiceData object</p>
+  </div>
+  
+  <h3 id="section--initWithMediaServiceData:serviceId:">
+      -initWithMediaServiceData:serviceId:
+  </h3>
+  
+  <p>Convenience init for media service data.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMediaServiceData</span><span class="p">:</span>
+                            <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLMediaServiceData.html">SDLMediaServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaServiceData</span>
+                                       <span class="nf">serviceId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceId</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">mediaServiceData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLMediaServiceData.html">SDLMediaServiceData</a></span><span class="p">,</span> <span class="nv">serviceId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>mediaServiceData</dt>
+      <dd><p>The media service data</p></dd>
+      <dt>serviceId</dt>
+      <dd><p>A unique ID tied to this specific service record.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLAppServiceData object</p>
+  </div>
+  
+  <h3 id="section--initWithWeatherServiceData:serviceId:">
+      -initWithWeatherServiceData:serviceId:
+  </h3>
+  
+  <p>Convenience init for weather service data.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithWeatherServiceData</span><span class="p">:</span>
+                            <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLWeatherServiceData.html">SDLWeatherServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">weatherServiceData</span>
+                                         <span class="nf">serviceId</span><span class="p">:</span>
+                                             <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceId</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">weatherServiceData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLWeatherServiceData.html">SDLWeatherServiceData</a></span><span class="p">,</span> <span class="nv">serviceId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>weatherServiceData</dt>
+      <dd><p>The weather service data</p></dd>
+      <dt>serviceId</dt>
+      <dd><p>A unique ID tied to this specific service record.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLAppServiceData object</p>
+  </div>
+  
+  <h3 id="section--initWithNavigationServiceData:serviceId:">
+      -initWithNavigationServiceData:serviceId:
+  </h3>
+  
+  <p>Convenience init for navigation service data.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithNavigationServiceData</span><span class="p">:</span>
+        <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLNavigationServiceData.html">SDLNavigationServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">navigationServiceData</span>
+                        <span class="nf">serviceId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceId</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">navigationServiceData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLNavigationServiceData.html">SDLNavigationServiceData</a></span><span class="p">,</span> <span class="nv">serviceId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>navigationServiceData</dt>
+      <dd><p>The navigation service data</p></dd>
+      <dt>serviceId</dt>
+      <dd><p>A unique ID tied to this specific service record.</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLAppServiceData object</p>
+  </div>
+  
+  <h3 id="section--initWithAppServiceType:serviceId:mediaServiceData:weatherServiceData:navigationServiceData:">
+      -initWithAppServiceType:serviceId:mediaServiceData:weatherServiceData:navigationServiceData:
+  </h3>
+  
+  <p>Convenience init for all parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+    <span class="nf">initWithAppServiceType</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Type Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></span><span class="p">)</span><span class="nv">serviceType</span>
+                 <span class="nf">serviceId</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">serviceId</span>
+          <span class="nf">mediaServiceData</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLMediaServiceData.html">SDLMediaServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">mediaServiceData</span>
+        <span class="nf">weatherServiceData</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLWeatherServiceData.html">SDLWeatherServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">weatherServiceData</span>
+     <span class="nf">navigationServiceData</span><span class="p">:</span>
+         <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLNavigationServiceData.html">SDLNavigationServiceData</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">navigationServiceData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="n">appServiceType</span> <span class="nv">serviceType</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></span><span class="p">,</span> <span class="nv">serviceId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">mediaServiceData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLMediaServiceData.html">SDLMediaServiceData</a></span><span class="p">?,</span> <span class="nv">weatherServiceData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLWeatherServiceData.html">SDLWeatherServiceData</a></span><span class="p">?,</span> <span class="nv">navigationServiceData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLNavigationServiceData.html">SDLNavigationServiceData</a></span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>serviceType</dt>
+      <dd><p>The type of service that is to be offered by this app.</p></dd>
+      <dt>serviceId</dt>
+      <dd><p>A unique ID tied to this specific service record.</p></dd>
+      <dt>mediaServiceData</dt>
+      <dd><p>The media service data</p></dd>
+      <dt>weatherServiceData</dt>
+      <dd><p>The weather service data</p></dd>
+      <dt>navigationServiceData</dt>
+      <dd><p>The navigation service data</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLAppServiceData object</p>
+  </div>
+  
+  <h3 id="section-serviceType">
+      serviceType
+  </h3>
+  
+  <p>The type of service that is to be offered by this app. See <code>AppServiceType</code> for known enum equivalent types. Parameter is a string to allow for new service types to be used by apps on older versions of SDL Core.</p>
+
+<p>String, See <code><a href="../Type Definitions.html#/c:SDLAppServiceType.h@T@SDLAppServiceType">SDLAppServiceType</a></code>, Required</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">serviceType</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">serviceType</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-serviceId">
+      serviceId
+  </h3>
+  
+  <p>A unique ID tied to this specific service record. The ID is supplied by the module that services publish themselves.</p>
+
+<p>String, Required</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">serviceId</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">serviceId</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-mediaServiceData">
+      mediaServiceData
+  </h3>
+  
+  <p>The media service data.</p>
+
+<p>SDLMediaServiceData, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLMediaServiceData.html">SDLMediaServiceData</a></span> <span class="o">*</span><span class="n">mediaServiceData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">mediaServiceData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLMediaServiceData.html">SDLMediaServiceData</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-weatherServiceData">
+      weatherServiceData
+  </h3>
+  
+  <p>The weather service data.</p>
+
+<p>SDLWeatherServiceData, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLWeatherServiceData.html">SDLWeatherServiceData</a></span> <span class="o">*</span><span class="n">weatherServiceData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">weatherServiceData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLWeatherServiceData.html">SDLWeatherServiceData</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-navigationServiceData">
+      navigationServiceData
+  </h3>
+  
+  <p>The navigation service data.</p>
+
+<p>SDLNavigationServiceData, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLNavigationServiceData.html">SDLNavigationServiceData</a></span> <span class="o">*</span><span class="n">navigationServiceData</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">navigationServiceData</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLNavigationServiceData.html">SDLNavigationServiceData</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>

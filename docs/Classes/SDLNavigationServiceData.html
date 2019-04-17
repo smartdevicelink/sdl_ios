@@ -1,0 +1,291 @@
+<h1>SDLNavigationServiceData Class Reference</h1>
+
+<h3>Section Contents</h3>
+
+<ul>
+  <li><a href="#section--initWithTimestamp:">-initWithTimestamp:</a></li>
+  <li><a href="#section--initWithTimestamp:origin:destination:destinationETA:instructions:nextInstructionETA:nextInstructionDistance:nextInstructionDistanceScale:prompt:">-initWithTimestamp:origin:destination:destinationETA:instructions:nextInstructionETA:nextInstructionDistance:nextInstructionDistanceScale:prompt:</a></li>
+  <li><a href="#section-timestamp">timestamp</a></li>
+  <li><a href="#section-origin">origin</a></li>
+  <li><a href="#section-destination">destination</a></li>
+  <li><a href="#section-destinationETA">destinationETA</a></li>
+  <li><a href="#section-instructions">instructions</a></li>
+  <li><a href="#section-nextInstructionETA">nextInstructionETA</a></li>
+  <li><a href="#section-nextInstructionDistance">nextInstructionDistance</a></li>
+  <li><a href="#section-nextInstructionDistanceScale">nextInstructionDistanceScale</a></li>
+  <li><a href="#section-prompt">prompt</a></li>
+</ul>
+
+<h3>Overview</h3>
+
+<p>Undocumented</p>
+
+
+<section class="section task-group-section">
+  <h3 id="section--initWithTimestamp:">
+      -initWithTimestamp:
+  </h3>
+  
+  <p>Convenience init for required parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithTimestamp</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">timestamp</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="nf">init</span><span class="p">(</span><span class="nv">timestamp</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span><span class="p">)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>timestamp</dt>
+      <dd><p>Timestamp of when the data was generated</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLNavigationServiceData object</p>
+  </div>
+  
+  <h3 id="section--initWithTimestamp:origin:destination:destinationETA:instructions:nextInstructionETA:nextInstructionDistance:nextInstructionDistanceScale:prompt:">
+      -initWithTimestamp:origin:destination:destinationETA:instructions:nextInstructionETA:nextInstructionDistance:nextInstructionDistanceScale:prompt:
+  </h3>
+  
+  <p>Convenience init for all parameters.</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span>
+               <span class="nf">initWithTimestamp</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">timestamp</span>
+                          <span class="nf">origin</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">origin</span>
+                     <span class="nf">destination</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">destination</span>
+                  <span class="nf">destinationETA</span><span class="p">:(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">destinationETA</span>
+                    <span class="nf">instructions</span><span class="p">:</span>
+                        <span class="p">(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLNavigationInstruction.html">SDLNavigationInstruction</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span>
+                            <span class="n"><a href="../Classes/SDLNavigationServiceData.html#/c:objc(cs)SDLNavigationServiceData(py)instructions">instructions</a></span>
+              <span class="n"><a href="../Classes/SDLNavigationServiceData.html#/c:objc(cs)SDLNavigationServiceData(py)nextInstructionETA">nextInstructionETA</a></span><span class="o">:</span><span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="p">)</span><span class="n"><a href="../Classes/SDLNavigationServiceData.html#/c:objc(cs)SDLNavigationServiceData(py)nextInstructionETA">nextInstructionETA</a></span>
+         <span class="n"><a href="../Classes/SDLNavigationServiceData.html#/c:objc(cs)SDLNavigationServiceData(py)nextInstructionDistance">nextInstructionDistance</a></span><span class="o">:</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n"><a href="../Classes/SDLNavigationServiceData.html#/c:objc(cs)SDLNavigationServiceData(py)nextInstructionDistance">nextInstructionDistance</a></span>
+    <span class="n"><a href="../Classes/SDLNavigationServiceData.html#/c:objc(cs)SDLNavigationServiceData(py)nextInstructionDistanceScale">nextInstructionDistanceScale</a></span><span class="o">:</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="n"><a href="../Classes/SDLNavigationServiceData.html#/c:objc(cs)SDLNavigationServiceData(py)nextInstructionDistanceScale">nextInstructionDistanceScale</a></span>
+                          <span class="n"><a href="../Classes/SDLNavigationServiceData.html#/c:objc(cs)SDLNavigationServiceData(py)prompt">prompt</a></span><span class="o">:</span><span class="p">(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n"><a href="../Classes/SDLNavigationServiceData.html#/c:objc(cs)SDLNavigationServiceData(py)prompt">prompt</a></span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">timestamp</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span><span class="p">,</span> <span class="nv">origin</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span><span class="p">?,</span> <span class="nv">destination</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span><span class="p">?,</span> <span class="nv">destinationETA</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span><span class="p">?,</span> <span class="nv">instructions</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLNavigationInstruction.html">SDLNavigationInstruction</a></span><span class="p">]?,</span> <span class="nv">nextInstructionETA</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span><span class="p">?,</span> <span class="nv">nextInstructionDistance</span><span class="p">:</span> <span class="kt">Float</span><span class="p">,</span> <span class="nv">nextInstructionDistanceScale</span><span class="p">:</span> <span class="kt">Float</span><span class="p">,</span> <span class="nv">prompt</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
+  
+  
+  <h4>Parameters</h4>
+  <dl>
+      <dt>timestamp</dt>
+      <dd><p>Timestamp of when the data was generated</p></dd>
+      <dt>origin</dt>
+      <dd><p>The start location</p></dd>
+      <dt>destination</dt>
+      <dd><p>The final destination location</p></dd>
+      <dt>destinationETA</dt>
+      <dd><p>The estimated time of arrival at the final destination location</p></dd>
+      <dt>instructions</dt>
+      <dd><p>Array ordered with all remaining instructions</p></dd>
+      <dt>nextInstructionETA</dt>
+      <dd><p>The estimated time of arrival at the next destination</p></dd>
+      <dt>nextInstructionDistance</dt>
+      <dd><p>The distance to this instruction from current location</p></dd>
+      <dt>nextInstructionDistanceScale</dt>
+      <dd><p>Distance till next maneuver (starting from) from previous maneuver</p></dd>
+      <dt>prompt</dt>
+      <dd><p>This is a prompt message that should be conveyed to the user through either display or voice (TTS)</p></dd>
+  </dl>
+  <div>
+    <h4>Return Value</h4>
+    <p>A SDLNavigationServiceData object</p>
+  </div>
+  
+  <h3 id="section-timestamp">
+      timestamp
+  </h3>
+  
+  <p>This is the timestamp of when the data was generated. This is to ensure any time or distance given in the data can accurately be adjusted if necessary.</p>
+
+<p>SDLDateTime, Required</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">timestamp</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">timestamp</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-origin">
+      origin
+  </h3>
+  
+  <p>The start location.</p>
+
+<p>SDLLocationDetails, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="n">origin</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">origin</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-destination">
+      destination
+  </h3>
+  
+  <p>The final destination location.</p>
+
+<p>SDLLocationDetails, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span> <span class="o">*</span><span class="n">destination</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">destination</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLLocationDetails.html">SDLLocationDetails</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-destinationETA">
+      destinationETA
+  </h3>
+  
+  <p>The estimated time of arrival at the final destination location.</p>
+
+<p>SDLDateTime, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="n">destinationETA</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">destinationETA</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-instructions">
+      instructions
+  </h3>
+  
+  <p>This array should be ordered with all remaining instructions. The start of this array should always contain the next instruction.</p>
+
+<p>Array of SDLNavigationInstruction, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/SDLNavigationInstruction.html">SDLNavigationInstruction</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">instructions</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">instructions</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/SDLNavigationInstruction.html">SDLNavigationInstruction</a></span><span class="p">]?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-nextInstructionETA">
+      nextInstructionETA
+  </h3>
+  
+  <p>The estimated time of arrival at the next destination.</p>
+
+<p>SDLDateTime, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span> <span class="o">*</span><span class="n">nextInstructionETA</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">nextInstructionETA</span><span class="p">:</span> <span class="kt"><a href="../Classes/SDLDateTime.html">SDLDateTime</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-nextInstructionDistance">
+      nextInstructionDistance
+  </h3>
+  
+  <p>The distance to this instruction from current location. This should only be updated ever .1 unit of distance. For more accuracy the consumer can use the GPS location of itself and the next instruction.</p>
+
+<p>Float, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">nextInstructionDistance</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">nextInstructionDistance</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-nextInstructionDistanceScale">
+      nextInstructionDistanceScale
+  </h3>
+  
+  <p>Distance till next maneuver (starting from) from previous maneuver.</p>
+
+<p>Float, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span>
+    <span class="n">NSNumber</span><span class="o">&lt;</span><span class="n"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">nextInstructionDistanceScale</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">nextInstructionDistanceScale</span><span class="p">:</span> <span class="p">(</span><span class="kt">NSNumber</span> <span class="o">&amp;</span> <span class="kt"><a href="../Protocols.html#/c:objc(pl)SDLFloat">SDLFloat</a></span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+  <h3 id="section-prompt">
+      prompt
+  </h3>
+  
+  <p>This is a prompt message that should be conveyed to the user through either display or voice (TTS). This param will change often as it should represent the following: approaching instruction, post instruction, alerts that affect the current navigation session, etc.</p>
+
+<p>String, Optional</p>
+
+  
+  
+  <h4>Objective-C</h4>
+  <pre class="highlight objective_c"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">strong</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">,</span> <span class="n">nullable</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">prompt</span><span class="p">;</span></code></pre>
+
+  
+  <h4>Swift</h4>
+  <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">prompt</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+  
+  
+  
+</section>
