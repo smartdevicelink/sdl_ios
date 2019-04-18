@@ -275,7 +275,7 @@ int const CreateSessionRetries = 3;
 }
 
 /**
- *  Cleans up after a disconnected accessory by closing any open input streams.
+ *  Cleans up after a disconnected accessory by closing any open I/O streams.
  */
 - (void)disconnect {
     // Stop event listening here so that even if the transport is disconnected by the proxy we unregister for accessory local notifications
@@ -289,13 +289,6 @@ int const CreateSessionRetries = 3;
 
 
 #pragma mark - Creating Session Streams
-
-+ (nullable SDLIAPSession *)sdl_createSessionWithAccessory:(EAAccessory *)accessory sessionDelegate:(id<SDLIAPSessionDelegate>)sessionDelegate {
-    SDLIAPSession *session = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:ControlProtocolString];
-    session.delegate = sessionDelegate;
-    return session;
-}
-
 
 + (nullable SDLIAPSession *)sdl_createSessionWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol sessionDelegate:(id<SDLIAPSessionDelegate>)sessionDelegate {
     SDLIAPSession *session = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:protocol];
@@ -321,7 +314,7 @@ int const CreateSessionRetries = 3;
         self.dataSession = [[SDLIAPDataSession alloc] initWithSession:session retrySessionCompletionHandler:self.retryDataSessionHandler dataReceivedCompletionHandler:self.dataReceivedHandler];
         connecting = YES;
     } else if ([accessory supportsProtocol:ControlProtocolString]) {
-        SDLIAPSession *session = [self.class sdl_createSessionWithAccessory:accessory sessionDelegate:self];
+        SDLIAPSession *session = [self.class sdl_createSessionWithAccessory:accessory forProtocol:ControlProtocolString sessionDelegate:self];
         self.controlSession = [[SDLIAPControlSession alloc] initWithSession:session retrySessionCompletionHandler:self.retryDataSessionHandler createDataSessionCompletionHandler:self.createDataSessionCompletionHandler];
         connecting = YES;
     } else if ([accessory supportsProtocol:LegacyProtocolString]) {
@@ -387,9 +380,24 @@ int const CreateSessionRetries = 3;
 #pragma mark - Helpers
 
 /**
- Check all required protocol strings in the info.plist dictionary.
+ *  Checks if the app's info.plist contains all the required protocol strings.
+ *
+ *  @return True if the app's info.plist has all required protocol strings; false if not.
+ */
++ (BOOL)sdl_plistContainsAllSupportedProtocolStrings {
+    if ([self.class sdl_supportsRequiredProtocolStrings] != nil) {
+        NSString *failedString = [self.class sdl_supportsRequiredProtocolStrings];
+        SDLLogE(@"A required External Accessory protocol string is missing from the info.plist: %@", failedString);
+        NSAssert(NO, @"Some SDL protocol strings are not supported, check the README for all strings that must be included in your info.plist file. Missing string: %@", failedString);
+        return NO;
+    }
+    return YES;
+}
 
- @return A missing protocol string or nil if all strings are supported.
+/**
+ *  Compares all required protocol strings against the protocol strings in the info.plist dictionary.
+ *
+ *  @return A missing protocol string or nil if all strings are supported.
  */
 + (nullable NSString *)sdl_supportsRequiredProtocolStrings {
     NSArray<NSString *> *protocolStrings = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UISupportedExternalAccessoryProtocols"];
@@ -412,18 +420,8 @@ int const CreateSessionRetries = 3;
     return nil;
 }
 
-+ (BOOL)sdl_plistContainsAllSupportedProtocolStrings {
-    if ([self.class sdl_supportsRequiredProtocolStrings] != nil) {
-        NSString *failedString = [self.class sdl_supportsRequiredProtocolStrings];
-        SDLLogE(@"A required External Accessory protocol string is missing from the info.plist: %@", failedString);
-        NSAssert(NO, @"Some SDL protocol strings are not supported, check the README for all strings that must be included in your info.plist file. Missing string: %@", failedString);
-        return NO;
-    }
-    return YES;
-}
-
 /**
- *  Attempt to establish a session with an accessory, or if nil is passed, to scan for one.
+ *  Attempts to establish a session with the passed accessory. If nil is passed the accessory manager is checked for connected SDL enabled accessories.
  *
  *  @param accessory The accessory to try to establish a session with, or nil to scan all connected accessories.
  */
@@ -446,10 +444,10 @@ int const CreateSessionRetries = 3;
 
         // Determine if we can start a multi-app session or a legacy (single-app) session
         if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:MultiSessionProtocolString]) && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
-            SDLIAPSession *session = [self.class sdl_createSessionWithAccessory:multi forProtocol:MultiSessionProtocolString sessionDelegate:self];
+            SDLIAPSession *session = [self.class sdl_createSessionWithAccessory:sdlAccessory forProtocol:MultiSessionProtocolString sessionDelegate:self];
             self.dataSession = [[SDLIAPDataSession alloc] initWithSession:session retrySessionCompletionHandler:self.retryDataSessionHandler dataReceivedCompletionHandler:self.dataReceivedHandler];
         } else if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:ControlProtocolString])) {
-            SDLIAPSession *session = [self.class sdl_createSessionWithAccessory:sdlAccessory sessionDelegate:self];
+            SDLIAPSession *session = [self.class sdl_createSessionWithAccessory:sdlAccessory forProtocol:ControlProtocolString sessionDelegate:self];
             self.controlSession = [[SDLIAPControlSession alloc] initWithSession:session retrySessionCompletionHandler:self.retryDataSessionHandler createDataSessionCompletionHandler:self.createDataSessionCompletionHandler];
         } else if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:LegacyProtocolString])) {
             SDLIAPSession *session = [self.class sdl_createSessionWithAccessory:sdlAccessory forProtocol:LegacyProtocolString sessionDelegate:self];
