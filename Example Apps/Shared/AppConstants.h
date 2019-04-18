@@ -15,7 +15,6 @@ extern NSString * const ExampleAppName;
 extern NSString * const ExampleAppNameShort;
 extern NSString * const ExampleAppNameTTS;
 extern NSString * const ExampleFullAppId;
-extern BOOL const ExampleAppShouldRestartSDLManagerOnDisconnect;
 
 #pragma mark - SDL Textfields
 extern NSString * const SmartDeviceLinkText;

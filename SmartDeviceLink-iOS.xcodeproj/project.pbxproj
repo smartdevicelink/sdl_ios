@@ -1229,6 +1229,8 @@
 		880E35B42088F75A00181259 /* SDLSystemCapabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 880E35B22088F75A00181259 /* SDLSystemCapabilityManager.m */; };
 		880E35B52088F75A00181259 /* SDLSystemCapabilityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 880E35B32088F75A00181259 /* SDLSystemCapabilityManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		880E35B82088F78E00181259 /* SDLSystemCapabilityManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 880E35B72088F78E00181259 /* SDLSystemCapabilityManagerSpec.m */; };
+		880FE6272267AE5300723732 /* SDLIAPConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 880FE6252267AE5300723732 /* SDLIAPConstants.h */; };
+		880FE6282267AE5300723732 /* SDLIAPConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 880FE6262267AE5300723732 /* SDLIAPConstants.m */; };
 		8815D0EF22330753000F24E6 /* SDLRPCRequestNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 88D6F17E22319FE000D4BFB3 /* SDLRPCRequestNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8815D0F022330765000F24E6 /* SDLRPCRequestNotificationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88C23E8522297BD500EA171F /* SDLRPCRequestNotificationSpec.m */; };
 		8815D0F122330781000F24E6 /* SDLRPCRequestNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D6F17D22319FE000D4BFB3 /* SDLRPCRequestNotification.m */; };
@@ -2863,6 +2865,8 @@
 		880E35B22088F75A00181259 /* SDLSystemCapabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSystemCapabilityManager.m; sourceTree = "<group>"; };
 		880E35B32088F75A00181259 /* SDLSystemCapabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSystemCapabilityManager.h; sourceTree = "<group>"; };
 		880E35B72088F78E00181259 /* SDLSystemCapabilityManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSystemCapabilityManagerSpec.m; sourceTree = "<group>"; };
+		880FE6252267AE5300723732 /* SDLIAPConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLIAPConstants.h; sourceTree = "<group>"; };
+		880FE6262267AE5300723732 /* SDLIAPConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLIAPConstants.m; sourceTree = "<group>"; };
 		8816772822208B82001FACFF /* SDLNavigationInstructionSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationInstructionSpec.m; sourceTree = "<group>"; };
 		8816772A222097C3001FACFF /* SDLNavigationServiceData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLNavigationServiceData.h; sourceTree = "<group>"; };
 		8816772B222097C3001FACFF /* SDLNavigationServiceData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationServiceData.m; sourceTree = "<group>"; };
@@ -5363,6 +5367,8 @@
 				88BCEA912266250B00BB7E70 /* SDLIAPControlSession.m */,
 				88D3EBC72267949D00493C38 /* SDLIAPDataSession.h */,
 				88D3EBC82267949D00493C38 /* SDLIAPDataSession.m */,
+				880FE6252267AE5300723732 /* SDLIAPConstants.h */,
+				880FE6262267AE5300723732 /* SDLIAPConstants.m */,
 			);
 			name = IAP;
 			sourceTree = "<group>";
@@ -6151,6 +6157,7 @@
 				E9C32B911AB20BA200F283AF /* SDLIAPSession.h in Headers */,
 				5D61FCD71A84238C00846EE7 /* SDLInteractionMode.h in Headers */,
 				8881AFBE2225E9BB00EA870B /* SDLGetCloudAppPropertiesResponse.h in Headers */,
+				880FE6272267AE5300723732 /* SDLIAPConstants.h in Headers */,
 				5D61FC391A84238C00846EE7 /* SDLAlertManeuver.h in Headers */,
 				5D61FC861A84238C00846EE7 /* SDLDeviceStatus.h in Headers */,
 				DA0C46AF1DCD41E30001F2A8 /* SDLMacros.h in Headers */,
@@ -7009,6 +7016,7 @@
 				5D61FD3C1A84238C00846EE7 /* SDLPresetBankCapabilities.m in Sources */,
 				5D4631151F2136B60092EFDC /* SDLControlFramePayloadNak.m in Sources */,
 				5D61FDB81A84238C00846EE7 /* SDLSyncPData.m in Sources */,
+				880FE6282267AE5300723732 /* SDLIAPConstants.m in Sources */,
 				5D61FD221A84238C00846EE7 /* SDLOnVehicleData.m in Sources */,
 				5D61FCD41A84238C00846EE7 /* SDLImageResolution.m in Sources */,
 				5D61FDF41A84238C00846EE7 /* SDLUpdateTurnListResponse.m in Sources */,

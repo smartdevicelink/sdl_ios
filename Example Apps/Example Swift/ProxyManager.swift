@@ -119,7 +119,6 @@ private extension ProxyManager {
         sdlManager.start(readyHandler: { [unowned self] (success, error) in
             guard success else {
                 SDLLog.e("There was an error while starting up: \(String(describing: error))")
-                self.resetConnection()
                 return
             }
 
@@ -143,11 +142,6 @@ extension ProxyManager: SDLManagerDelegate {
     func managerDidDisconnect() {
         delegate?.didChangeProxyState(ProxyState.stopped)
         firstHMILevelState = .none
-
-        // If desired, automatically start searching for a new connection to Core
-        if ExampleAppShouldRestartSDLManagerOnDisconnect.boolValue {
-            startManager()
-        }
     }
 
     /// Called when the state of the SDL app has changed. The state limits the type of RPC that can be sent. Refer to the class documentation for each RPC to determine what state(s) the RPC can be sent.

@@ -15,8 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^SDLIAPDataSessionRetryCompletionHandler)(BOOL retryEstablishSession);
 typedef void (^SDLIAPDataSessionCreateDataReceivedHandler)(NSData *dataIn);
 
-extern NSString *const LegacyProtocolString;
-
 @interface SDLIAPDataSession : NSObject
 
 /**
@@ -29,13 +27,18 @@ extern NSString *const LegacyProtocolString;
  */
 @property (assign, nonatomic, readonly) NSUInteger accessoryID;
 
+/**
+ *  Returns whether the session has open I/O streams.
+ */
+@property (assign, nonatomic, readonly, getter=isSessionInProgress) BOOL sessionInProgress;
+
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithSession:(nullable SDLIAPSession *)session retrySessionCompletionHandler:(SDLIAPDataSessionRetryCompletionHandler)retrySessionHandler dataReceivedCompletionHandler:(SDLIAPDataSessionCreateDataReceivedHandler)dataReceivedHandler;
 
 /**
- *  Destroys a current session.
+ *  Stops a current session.
  */
-- (void)destroySession;
+- (void)stopSession;
 
 @end
 

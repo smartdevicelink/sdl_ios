@@ -30,7 +30,7 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
 #pragma mark - Lifecycle
 
 - (instancetype)initWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol {
-    SDLLogD(@"SDLIAPSession initWithAccessory:%@ forProtocol:%@", accessory, protocol);
+    SDLLogD(@"SDLIAPSession init with accessory:%@ for protocol:%@", accessory.name, protocol);
 
     self = [super init];
     if (self) {

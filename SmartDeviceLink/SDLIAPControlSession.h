@@ -17,9 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^SDLIAPControlSessionRetryCompletionHandler)(BOOL retryEstablishSession);
 typedef void (^SDLIAPControlSessionCreateDataSessionCompletionHandler)(EAAccessory *connectedaccessory, NSString *indexedProtocolString);
 
-extern NSString *const ControlProtocolString;
-extern NSString *const IndexedProtocolStringPrefix;
-
 /**
  *  A control session is used by to get the unique protocol string needed to create a session with Core. The control session is only used on legacy head units that do not support the multisession protocol which allows multiple apps to connect over the same protocol string. When the protocol string is received from Core, the control session is closed as a new session with Core must be established with the received protocol string. Core has ~10 seconds to send the protocol string, otherwise the control session is closed and new attempt is made to establish a control session with Core.
  */
@@ -35,6 +32,11 @@ extern NSString *const IndexedProtocolStringPrefix;
  */
 @property (assign, nonatomic, readonly) NSUInteger accessoryID;
 
+/**
+ *  Returns whether the session has open I/O streams.
+ */
+@property (assign, nonatomic, readonly, getter=isSessionInProgress) BOOL sessionInProgress;
+
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
@@ -47,9 +49,14 @@ extern NSString *const IndexedProtocolStringPrefix;
 - (instancetype)initWithSession:(nullable SDLIAPSession *)session retrySessionCompletionHandler:(SDLIAPControlSessionRetryCompletionHandler)retrySessionHandler createDataSessionCompletionHandler:(SDLIAPControlSessionCreateDataSessionCompletionHandler)createDataSessionHandler;
 
 /**
- *  Destroys a current session.
+ *  Stops a current session.
  */
-- (void)destroySession;
+- (void)stopSession;
+
+/**
+ *  Starts a timer for the session. Core has ~10 seconds to send the protocol string, otherwise the control session is closed.
+ */
+- (void)startSessionTimer;
 
 @end
 

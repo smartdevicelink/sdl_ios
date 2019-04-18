@@ -10,6 +10,7 @@
 
 #import "EAAccessory+SDLProtocols.h"
 #import "EAAccessoryManager+SDLProtocols.h"
+#import "SDLIAPConstants.h"
 #import "SDLIAPSession.h"
 #import "SDLLogMacros.h"
 #import "SDLStreamDelegate.h"
@@ -17,9 +18,6 @@
 
 
 NS_ASSUME_NONNULL_BEGIN
-
-NSString *const ControlProtocolString = @"com.smartdevicelink.prot0";
-NSString *const IndexedProtocolStringPrefix = @"com.smartdevicelink.prot";
 
 int const ProtocolIndexTimeoutSeconds = 10;
 
@@ -69,8 +67,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
         if (![self.session start]) {
             SDLLogW(@"Control session failed to setup with accessory: %@. Retrying...", accessory);
-            self.session.streamDelegate = nil;
-            self.session = nil;
+            [self stopSession];
             [self sdl_shouldRetryEstablishSession:YES];
         } else {
             SDLLogW(@"Control session started");
@@ -90,13 +87,20 @@ int const ProtocolIndexTimeoutSeconds = 10;
     return self;
 }
 
-- (void)destroySession {
+- (void)stopSession {
     if (self.session != nil) {
-        SDLLogD(@"Destroying control session");
+        SDLLogD(@"Stopping the control session");
         [self.session stop];
         self.session.streamDelegate = nil;
-        self.session = nil;
+
+        // Important - Do not destroy the session as it can a few seconds to close the input and output streams. If set to `nil`, the session will not close properly and a new session with the accessory can not be created.
     }
+}
+
+- (void)startSessionTimer {
+    if (!self.protocolIndexTimer) { return; }
+
+    [self.protocolIndexTimer start];
 }
 
 #pragma mark - Control Stream Handlers
@@ -111,9 +115,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
         // End events come in pairs, only perform this once per set.
         if (strongSelf.session != nil) {
             [strongSelf.protocolIndexTimer cancel];
-            [strongSelf.session stop];
-            strongSelf.session.streamDelegate = nil;
-            strongSelf.session = nil;
+            [strongSelf stopSession];
             [strongSelf sdl_shouldRetryEstablishSession:YES];
         }
     };
@@ -140,9 +142,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
         // Destroy the control session as it is no longer needed, and then create the data session.
         dispatch_sync(dispatch_get_main_queue(), ^{
-            [strongSelf.session stop];
-            strongSelf.session.streamDelegate = nil;
-            strongSelf.session = nil;
+            [strongSelf stopSession];
         });
 
         if (accessory.isConnected) {
@@ -164,9 +164,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
         SDLLogE(@"Control stream error");
 
         [strongSelf.protocolIndexTimer cancel];
-        [strongSelf.session stop];
-        strongSelf.session.streamDelegate = nil;
-        strongSelf.session = nil;
+        [strongSelf stopSession];
         [strongSelf sdl_shouldRetryEstablishSession:YES];
     };
 }
@@ -180,9 +178,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     void (^elapsedBlock)(void) = ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogW(@"Control session failed to get the protocol string from Core after %d seconds, retrying.", ProtocolIndexTimeoutSeconds);
-        [strongSelf.session stop];
-        strongSelf.session.streamDelegate = nil;
-        strongSelf.session = nil;
+        [strongSelf stopSession];
         [strongSelf sdl_shouldRetryEstablishSession:YES];
     };
     protocolIndexTimer.elapsedBlock = elapsedBlock;
@@ -210,12 +206,15 @@ int const ProtocolIndexTimeoutSeconds = 10;
     return self.session.accessory.connectionID;
 }
 
+- (BOOL)isSessionInProgress {
+    return (self.session != nil && !self.session.isStopped);
+}
+
 #pragma mark - Lifecycle Destruction
 
 - (void)dealloc {
     SDLLogV(@"SDLIAPControlSession Dealloc");
     _session = nil;
-    [_protocolIndexTimer cancel];
     _protocolIndexTimer = nil;
 }
 

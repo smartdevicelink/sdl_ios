@@ -227,11 +227,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)managerDidDisconnect {
     [self sdlex_updateProxyState:ProxyStateStopped];
     self.firstHMILevel = SDLHMILevelNone;
-
-    // If desired, automatically start searching for a new connection to Core
-    if (ExampleAppShouldRestartSDLManagerOnDisconnect) {
-        [self startManager];
-    }
 }
 
 - (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel {

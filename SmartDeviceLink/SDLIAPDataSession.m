@@ -8,14 +8,14 @@
 
 #import "SDLIAPDataSession.h"
 
+#import "SDLGlobals.h"
+#import "SDLIAPConstants.h"
 #import "SDLIAPSession.h"
 #import "SDLLogMacros.h"
 #import "SDLStreamDelegate.h"
-#import "SDLGlobals.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
-
-NSString *const LegacyProtocolString = @"com.ford.sync.prot0";
 
 @interface SDLIAPDataSession ()
 
@@ -60,8 +60,7 @@ NSString *const LegacyProtocolString = @"com.ford.sync.prot0";
 
         if (![self.session start]) {
             SDLLogW(@"Data session failed to setup with accessory: %@. Retrying...", session.accessory);
-            self.session.streamDelegate = nil;
-            self.session = nil;
+            [self stopSession];
             [self sdl_shouldRetryEstablishSession:YES];
         }
     } else {
@@ -72,16 +71,17 @@ NSString *const LegacyProtocolString = @"com.ford.sync.prot0";
     return self;
 }
 
-- (void)destroySession {
+- (void)stopSession {
     if (self.session != nil) {
-        SDLLogD(@"Destroying data session");
+        SDLLogD(@"Stopping the data session");
         [self.session stop];
         self.session.streamDelegate = nil;
-        self.session = nil;
+
+        // Important - Do not destroy the session as it can a few seconds to close the input and output streams. If set to `nil`, the session will not close properly and a new session with the accessory can not be created.
     }
 }
 
-#pragma mark Data Stream Handlers
+#pragma mark - Data Stream Handlers
 
 - (SDLStreamEndHandler)sdl_dataStreamEndedHandler {
     __weak typeof(self) weakSelf = self;
@@ -96,10 +96,7 @@ NSString *const LegacyProtocolString = @"com.ford.sync.prot0";
         }
         // The handler will be called on the IO thread, but the session stop method must be called on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            [strongSelf.session stop];
-            strongSelf.session.streamDelegate = nil;
-            strongSelf.session = nil;
-
+            [strongSelf stopSession];
             [strongSelf sdl_shouldRetryEstablishSession:YES];
         });
 
@@ -141,9 +138,7 @@ NSString *const LegacyProtocolString = @"com.ford.sync.prot0";
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogE(@"Data stream error");
         dispatch_async(dispatch_get_main_queue(), ^{
-            [strongSelf.session stop];
-            strongSelf.session.streamDelegate = nil;
-            strongSelf.session = nil;
+            [strongSelf stopSession];
             if (![LegacyProtocolString isEqualToString:strongSelf.session.protocol]) {
                 [strongSelf sdl_shouldRetryEstablishSession:YES];
             }
@@ -154,6 +149,7 @@ NSString *const LegacyProtocolString = @"com.ford.sync.prot0";
 }
 
 #pragma mark - Helpers
+
 - (void)sdl_shouldRetryEstablishSession:(BOOL)retryEstablishSession {
     if (self.retrySessionHandler == nil) {
         return;
@@ -172,6 +168,10 @@ NSString *const LegacyProtocolString = @"com.ford.sync.prot0";
 
 - (NSUInteger)accessoryID {
     return self.session.accessory.connectionID;
+}
+
+- (BOOL)isSessionInProgress {
+    return (self.session != nil && !self.session.isStopped);
 }
 
 #pragma mark - Lifecycle Destruction
