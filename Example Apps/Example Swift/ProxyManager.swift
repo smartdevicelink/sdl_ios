@@ -141,13 +141,8 @@ private extension ProxyManager {
 extension ProxyManager: SDLManagerDelegate {
     /// Called when the connection beween this app and SDL Core has closed.
     func managerDidDisconnect() {
-        delegate?.didChangeProxyState(ProxyState.stopped)
+        delegate?.didChangeProxyState(ProxyState.searching)
         firstHMILevelState = .none
-
-        // If desired, automatically start searching for a new connection to Core
-        if ExampleAppShouldRestartSDLManagerOnDisconnect.boolValue {
-            startManager()
-        }
     }
 
     /// Called when the state of the SDL app has changed. The state limits the type of RPC that can be sent. Refer to the class documentation for each RPC to determine what state(s) the RPC can be sent.
