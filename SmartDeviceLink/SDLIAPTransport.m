@@ -171,7 +171,7 @@ int const CreateSessionRetries = 3;
         return NO;
     }
 
-    if ((!dataSession.isSessionInProgress) && (dataSession.accessoryID != newAccessory.connectionID)) {
+    if (dataSession.isSessionInProgress && (dataSession.accessoryID != newAccessory.connectionID)) {
         SDLLogD(@"Switching transports from Bluetooth to USB. Waiting for disconnect notification.");
         return YES;
     }
