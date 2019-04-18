@@ -42,9 +42,10 @@ typedef void (^SDLIAPControlSessionCreateDataSessionCompletionHandler)(EAAccesso
 /**
  *  Sets a new control session.
  *
- *  @param session                              The new control session
- *  @param retrySessionCompletionHandler        A handler called when the control session failed to be established and a new session should be attempted.
- *  @param createDataSessionCompletionHandler   A handler called when control session is successful and a new session must be established with the recevied protocol string.
+ *  @param session                     The new control session
+ *  @param retrySessionHandler         A handler called when the control session failed to be established and a new session should be attempted.
+ *  @param createDataSessionHandler    A handler called when control session is successful and a new session must be established with the recevied protocol string.
+ *  @return                            A SDLIAPControlSession object
  */
 - (instancetype)initWithSession:(nullable SDLIAPSession *)session retrySessionCompletionHandler:(SDLIAPControlSessionRetryCompletionHandler)retrySessionHandler createDataSessionCompletionHandler:(SDLIAPControlSessionCreateDataSessionCompletionHandler)createDataSessionHandler;
 

@@ -11,20 +11,14 @@
 #import <OCMock/OCMock.h>
 
 #import "EAAccessory+OCMock.m"
+#import "SDLIAPConstants.h"
 #import "SDLIAPControlSession.h"
 #import "SDLIAPSession.h"
 #import "SDLTimer.h"
 
-//#import "SDLIAPControlSession.h"
-
-//@interface SDLIAPControlSession ()
-//@property (nullable, strong, nonatomic) SDLTimer *protocolIndexTimer;
-//@end
 
 @interface SDLIAPControlSession()
 @property (nullable, strong, nonatomic) SDLTimer *protocolIndexTimer;
-@property (nullable, strong, nonatomic) SDLIAPControlSessionRetryCompletionHandler retrySessionHandler;
-@property (nullable, strong, nonatomic) SDLIAPControlSessionCreateDataSessionCompletionHandler createDataSessionHandler;
 @end
 
 QuickSpecBegin(SDLIAPControlSessionSpec)
@@ -32,66 +26,64 @@ QuickSpecBegin(SDLIAPControlSessionSpec)
 describe(@"SDLIAPControlSession", ^{
     __block SDLIAPControlSession *controlSession = nil;
     __block EAAccessory *mockAccessory = nil;
-    __block id mockSessionDelegate = nil;
+    __block SDLIAPSession *mockSession = nil;
+    __block BOOL retryHandlerCalled = nil;
+    __block BOOL createDataSessionHandlerCalled = nil;
 
     beforeEach(^{
-        controlSession = [SDLIAPControlSession new];
+        retryHandlerCalled = NO;
+        createDataSessionHandlerCalled = NO;
+
         mockAccessory = [EAAccessory.class sdlCoreMock];
-        mockSessionDelegate = OCMProtocolMock(@protocol(SDLIAPSessionDelegate));
+        mockSession = OCMClassMock([SDLIAPSession class]);
+        OCMStub([mockSession accessory]).andReturn(mockAccessory);
     });
 
-    describe(@"Initialization", ^{
-        it(@"Should init correctly", ^{
-            expect(controlSession.session).to(beNil());
-            expect(controlSession.protocolIndexTimer).to(beNil());
-        });
-    });
-
-    describe(@"Setting a session", ^{
-        __block SDLIAPSession *session = nil;
-        __block BOOL retryHandlerCalled = nil;
-        __block BOOL createDataSessionHandlerCalled = nil;
-
-        beforeEach(^{
-            session = nil;
-            retryHandlerCalled = NO;
-            createDataSessionHandlerCalled = NO;
-        });
-
+    describe(@"Session init", ^{
         describe(@"When a session starts successfully", ^{
             beforeEach(^{
-                session = OCMClassMock([SDLIAPSession class]);
-                OCMStub([session start]).andReturn(YES);
-                [controlSession setSession:session retryCompletionHandler:^(BOOL retryEstablishSession) {
+                OCMStub([mockSession start]).andReturn(YES);
+                controlSession = [[SDLIAPControlSession alloc] initWithSession:mockSession retrySessionCompletionHandler:^(BOOL retryEstablishSession) {
                     retryHandlerCalled = YES;
                 } createDataSessionCompletionHandler:^(EAAccessory * _Nonnull connectedaccessory, NSString * _Nonnull indexedProtocolString) {
                     createDataSessionHandlerCalled = YES;
                 }];
             });
 
-            it(@"Should create a session", ^{
+            it(@"Should create a timer", ^{
                 expect(controlSession.session).toNot(beNil());
-                expect(controlSession.accessoryID).toNot(beNil());
+                expect(controlSession.accessoryID).to(equal(5));
                 expect(controlSession.protocolIndexTimer).toNot(beNil());
                 expect(retryHandlerCalled).to(beFalse());
                 expect(createDataSessionHandlerCalled).to(beFalse());
+            });
+
+            describe(@"When checking if the session is in progress", ^{
+                it(@"Should not be in progress if the session is stopped", ^{
+                    OCMStub([mockSession isStopped]).andReturn(NO);
+                    expect(controlSession.isSessionInProgress).to(beTrue());
+                });
+
+                it(@"Should be in progress if the session is running", ^{
+                    OCMStub([mockSession isStopped]).andReturn(YES);
+                    expect(controlSession.isSessionInProgress).to(beFalse());
+                });
             });
         });
 
         describe(@"When a session does not start successfully", ^{
             beforeEach(^{
-                session = OCMClassMock([SDLIAPSession class]);
-                OCMStub([session start]).andReturn(NO);
-                [controlSession setSession:session retryCompletionHandler:^(BOOL retryEstablishSession) {
+                OCMStub([mockSession start]).andReturn(NO);
+                controlSession = [[SDLIAPControlSession alloc] initWithSession:mockSession retrySessionCompletionHandler:^(BOOL retryEstablishSession) {
                     retryHandlerCalled = YES;
                 } createDataSessionCompletionHandler:^(EAAccessory * _Nonnull connectedaccessory, NSString * _Nonnull indexedProtocolString) {
                     createDataSessionHandlerCalled = YES;
                 }];
             });
 
-            it(@"Should not create a session", ^{
-                expect(controlSession.session).to(beNil());
-                expect(controlSession.accessoryID).to(equal(0));
+            it(@"Should not create a timer", ^{
+                expect(controlSession.session).toNot(beNil());
+                expect(controlSession.accessoryID).to(equal(5));
                 expect(controlSession.protocolIndexTimer).to(beNil());
                 expect(retryHandlerCalled).to(beTrue());
                 expect(createDataSessionHandlerCalled).to(beFalse());
@@ -100,20 +92,27 @@ describe(@"SDLIAPControlSession", ^{
 
         describe(@"When a session is nil", ^{
             beforeEach(^{
-                session = nil;
-                [controlSession setSession:session retryCompletionHandler:^(BOOL retryEstablishSession) {
+                mockSession = nil;
+                controlSession = [[SDLIAPControlSession alloc] initWithSession:mockSession retrySessionCompletionHandler:^(BOOL retryEstablishSession) {
                     retryHandlerCalled = YES;
                 } createDataSessionCompletionHandler:^(EAAccessory * _Nonnull connectedaccessory, NSString * _Nonnull indexedProtocolString) {
                     createDataSessionHandlerCalled = YES;
                 }];
             });
 
-            it(@"Should not create a session", ^{
+            it(@"Should not create a timer", ^{
                 expect(controlSession.session).to(beNil());
+                expect(controlSession.isSessionInProgress).to(beFalse());
                 expect(controlSession.accessoryID).to(equal(0));
                 expect(controlSession.protocolIndexTimer).to(beNil());
                 expect(retryHandlerCalled).to(beTrue());
                 expect(createDataSessionHandlerCalled).to(beFalse());
+            });
+
+            describe(@"When checking if the session is in progress", ^{
+                it(@"Should not be in progress if the session is nil", ^{
+                    expect(controlSession.isSessionInProgress).to(beFalse());
+                });
             });
         });
     });
