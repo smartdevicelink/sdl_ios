@@ -19,7 +19,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-int const ProtocolIndexTimeoutSeconds = 5;
+int const ProtocolIndexTimeoutSeconds = 10;
 
 @interface SDLIAPControlSession ()
 
