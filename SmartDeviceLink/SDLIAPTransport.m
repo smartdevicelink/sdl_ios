@@ -205,6 +205,9 @@ int const CreateSessionRetries = 3;
     }
 }
 
+/**
+ *  Tells the lifecycle manager that the data session has been closed.
+ */
 - (void)sdl_destroySession {
     self.retryCounter = 0;
     self.sessionSetupInProgress = NO;
@@ -282,7 +285,6 @@ int const CreateSessionRetries = 3;
 }
 
 
-
 #pragma mark Helpers
 
 /**
@@ -303,6 +305,14 @@ int const CreateSessionRetries = 3;
     }
 }
 
+/**
+ *  Helper method for creating a session.
+ *
+ *  @param accessory The SDL enabled accessory
+ *  @param protocol The protocol string needed to open the session
+ *  @param sessionDelegate The stream delegate
+ *  @return A SDLIAPSession object
+ */
 + (nullable SDLIAPSession *)sdl_createSessionWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol sessionDelegate:(id<SDLIAPSessionDelegate>)sessionDelegate {
     SDLIAPSession *session = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:protocol];
     session.delegate = sessionDelegate;
@@ -310,10 +320,10 @@ int const CreateSessionRetries = 3;
 }
 
 /**
- *  Attempt to connect an accessory using the control or legacy protocols, then return whether or not we've generated an IAP session.
+ *  Attempts to connect an accessory using the control or legacy protocols, then returns whether or not a session was created.
  *
- *  @param accessory The accessory to attempt a connection with
- *  @return Whether or not we succesfully created a session.
+ *  @param accessory    The accessory to attempt a connection with
+ *  @return             Whether or not we succesfully created a session.
  */
 - (BOOL)sdl_connectAccessory:(EAAccessory *)accessory {
     BOOL connecting = NO;
@@ -400,6 +410,11 @@ int const CreateSessionRetries = 3;
 
 #pragma mark Control Session Handlers
 
+/**
+ *  Called when the control session should be retried.
+ *
+ *  @return A SDLIAPControlSessionRetryCompletionHandler handler
+ */
 - (nullable SDLIAPControlSessionRetryCompletionHandler)retryControlSessionHandler {
     __weak typeof(self) weakSelf = self;
     return ^(BOOL retryEstablishSession) {
@@ -407,6 +422,11 @@ int const CreateSessionRetries = 3;
     };
 }
 
+/**
+ *  Called when the control session got the protocol string successfully and the data session can be opened with the protocol string.
+ *
+ *  @return A SDLIAPControlSessionCreateDataSessionCompletionHandler handler
+ */
 - (nullable SDLIAPControlSessionCreateDataSessionCompletionHandler)createDataSessionCompletionHandler {
     __weak typeof(self) weakSelf = self;
     return ^(EAAccessory * _Nonnull connectedaccessory, NSString * _Nonnull indexedProtocolString) {
@@ -418,6 +438,11 @@ int const CreateSessionRetries = 3;
 
 #pragma mark Data Session Handlers
 
+/**
+ *  Called when the data session should be retried.
+ *
+ *  @return A SDLIAPDataSessionRetryCompletionHandler handler
+ */
 - (nullable SDLIAPDataSessionRetryCompletionHandler)retryDataSessionHandler {
     __weak typeof(self) weakSelf = self;
     return ^(BOOL retryEstablishSession) {
@@ -425,6 +450,11 @@ int const CreateSessionRetries = 3;
     };
 }
 
+/**
+ *  Called when data is received during the data session. The data is passed to the listeners.
+ *
+ *  @return A SDLIAPDataSessionCreateDataReceivedHandler handler
+ */
 - (nullable SDLIAPDataSessionCreateDataReceivedHandler)dataReceivedHandler {
     __weak typeof(self) weakSelf = self;
     return ^(NSData * _Nonnull dataIn) {
