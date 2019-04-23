@@ -166,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
     self.dataReceivedHandler(data);
 }
 
-- (NSUInteger)accessoryID {
+- (NSUInteger)connectionID {
     return self.session.accessory.connectionID;
 }
 

@@ -214,7 +214,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 #pragma mark - Getters
 
-- (NSUInteger)accessoryID {
+- (NSUInteger)connectionID {
     return self.session.accessory.connectionID;
 }
 

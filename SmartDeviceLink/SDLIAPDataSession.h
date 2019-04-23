@@ -25,7 +25,7 @@ typedef void (^SDLIAPDataSessionCreateDataReceivedHandler)(NSData *dataIn);
 /**
  *  The unique ID assigned to the session between the app and accessory. If no session exists the value will be 0.
  */
-@property (assign, nonatomic, readonly) NSUInteger accessoryID;
+@property (assign, nonatomic, readonly) NSUInteger connectionID;
 
 /**
  *  Returns whether the session has open I/O streams.
