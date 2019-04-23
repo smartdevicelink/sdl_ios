@@ -57,8 +57,8 @@ int const ProtocolIndexTimeoutSeconds = 10;
         EAAccessory *accessory = session.accessory;
         SDLStreamDelegate *controlStreamDelegate = [[SDLStreamDelegate alloc] init];
         controlStreamDelegate.streamHasBytesHandler = [self sdl_controlStreamHasBytesHandlerForAccessory:accessory createDataSessionCompletionHandler:createDataSessionHandler];
-        controlStreamDelegate.streamEndHandler = [self sdl_controlStreamEndedHandlerWithShouldRetrySessionHandler:retrySessionHandler];
-        controlStreamDelegate.streamErrorHandler = [self sdl_controlStreamEndedHandlerWithShouldRetrySessionHandler:retrySessionHandler];
+        controlStreamDelegate.streamEndHandler = [self sdl_controlStreamEndedHandlerWithRetrySessionHandler:retrySessionHandler];
+        controlStreamDelegate.streamErrorHandler = [self sdl_controlStreamEndedHandlerWithRetrySessionHandler:retrySessionHandler];
         self.session.streamDelegate = controlStreamDelegate;
 
         if (![self.session start]) {
@@ -75,7 +75,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
             }
 
             SDLLogD(@"Waiting for the protocol string from Core, setting timer for %d seconds", ProtocolIndexTimeoutSeconds);
-            self.protocolIndexTimer = [self sdl_createProtocolIndexTimerWithShouldRetrySessionHandler:retrySessionHandler];
+            self.protocolIndexTimer = [self sdl_createProtocolIndexTimerWithRetrySessionHandler:retrySessionHandler];
         }
     } else {
         SDLLogW(@"Failed to setup control session");
@@ -109,7 +109,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
  *
  *  @return A SDLStreamEndHandler handler
  */
-- (SDLStreamEndHandler)sdl_controlStreamEndedHandlerWithShouldRetrySessionHandler:(SDLIAPControlSessionRetryCompletionHandler)retrySessionHandler {
+- (SDLStreamEndHandler)sdl_controlStreamEndedHandlerWithRetrySessionHandler:(SDLIAPControlSessionRetryCompletionHandler)retrySessionHandler {
     __weak typeof(self) weakSelf = self;
 
     return ^(NSStream *stream) {
@@ -173,7 +173,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
  *
  *  @return A SDLStreamErrorHandler handler
  */
-- (SDLStreamErrorHandler)sdl_controlStreamErroredHandlerWithShouldRetrySessionHandler:(SDLIAPControlSessionRetryCompletionHandler)retrySessionHandler {
+- (SDLStreamErrorHandler)sdl_controlStreamErroredHandlerWithRetrySessionHandler:(SDLIAPControlSessionRetryCompletionHandler)retrySessionHandler {
     __weak typeof(self) weakSelf = self;
 
     return ^(NSStream *stream) {
@@ -195,7 +195,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
  *
  *  @return A timer
  */
-- (SDLTimer *)sdl_createProtocolIndexTimerWithShouldRetrySessionHandler:(SDLIAPControlSessionRetryCompletionHandler)retrySessionHandler {
+- (SDLTimer *)sdl_createProtocolIndexTimerWithRetrySessionHandler:(SDLIAPControlSessionRetryCompletionHandler)retrySessionHandler {
     SDLTimer *protocolIndexTimer = [[SDLTimer alloc] initWithDuration:ProtocolIndexTimeoutSeconds repeat:NO];
 
     __weak typeof(self) weakSelf = self;
