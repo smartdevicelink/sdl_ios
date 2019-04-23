@@ -52,7 +52,7 @@ describe(@"SDLIAPControlSession", ^{
 
             it(@"Should create a timer", ^{
                 expect(controlSession.session).toNot(beNil());
-                expect(controlSession.accessoryID).to(equal(5));
+                expect(controlSession.connectionID).to(equal(5));
                 expect(controlSession.protocolIndexTimer).toNot(beNil());
                 expect(retryHandlerCalled).to(beFalse());
                 expect(createDataSessionHandlerCalled).to(beFalse());
@@ -83,7 +83,7 @@ describe(@"SDLIAPControlSession", ^{
 
             it(@"Should not create a timer", ^{
                 expect(controlSession.session).toNot(beNil());
-                expect(controlSession.accessoryID).to(equal(5));
+                expect(controlSession.connectionID).to(equal(5));
                 expect(controlSession.protocolIndexTimer).to(beNil());
                 expect(retryHandlerCalled).to(beTrue());
                 expect(createDataSessionHandlerCalled).to(beFalse());
@@ -103,7 +103,7 @@ describe(@"SDLIAPControlSession", ^{
             it(@"Should not create a timer", ^{
                 expect(controlSession.session).to(beNil());
                 expect(controlSession.isSessionInProgress).to(beFalse());
-                expect(controlSession.accessoryID).to(equal(0));
+                expect(controlSession.connectionID).to(equal(0));
                 expect(controlSession.protocolIndexTimer).to(beNil());
                 expect(retryHandlerCalled).to(beTrue());
                 expect(createDataSessionHandlerCalled).to(beFalse());
