@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
-- (void)reset {
+- (void)stopConnection {
     [self.sdlManager stop];
     [self sdlex_updateProxyState:ProxyStateStopped];
 }
@@ -218,7 +218,10 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - SDLManagerDelegate
 
 - (void)managerDidDisconnect {
-    [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
+    if (self.state != ProxyStateStopped) {
+        [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
+    }
+
     self.firstHMILevel = SDLHMILevelNone;
 }
 

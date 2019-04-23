@@ -49,9 +49,14 @@ extension ProxyManager {
     }
 
     /// Attempts to close the connection between the this app and the car's head unit. The `SDLManagerDelegate`'s `managerDidDisconnect()` is called when connection is actually closed.
-    func resetConnection() {
+    func stopConnection() {
+        guard sdlManager != nil else {
+            delegate?.didChangeProxyState(.stopped)
+            return
+        }
+
         sdlManager.stop()
-        delegate?.didChangeProxyState(ProxyState.stopped)
+        delegate?.didChangeProxyState(.stopped)
     }
 }
 
@@ -115,7 +120,7 @@ private extension ProxyManager {
         sdlManager.start(readyHandler: { [unowned self] (success, error) in
             guard success else {
                 SDLLog.e("There was an error while starting up: \(String(describing: error))")
-                self.resetConnection()
+                self.stopConnection()
                 return
             }
 
@@ -137,7 +142,10 @@ private extension ProxyManager {
 extension ProxyManager: SDLManagerDelegate {
     /// Called when the connection beween this app and SDL Core has closed.
     func managerDidDisconnect() {
-        delegate?.didChangeProxyState(ProxyState.searching)
+        if delegate?.proxyState != .some(.stopped) {
+            delegate?.didChangeProxyState(ProxyState.searching)
+        }
+        
         firstHMILevelState = .none
     }
 

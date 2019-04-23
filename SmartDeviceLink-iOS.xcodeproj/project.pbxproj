@@ -462,7 +462,7 @@
 		5D1FF2E021304746000EB9B4 /* MenuManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2D821304746000EB9B4 /* MenuManager.swift */; };
 		5D1FF2E121304746000EB9B4 /* VehicleDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2D921304746000EB9B4 /* VehicleDataManager.swift */; };
 		5D1FF2E521304761000EB9B4 /* AppUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2E221304761000EB9B4 /* AppUserDefaults.swift */; };
-		5D1FF2E621304761000EB9B4 /* Protocol+ProxyManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2E321304761000EB9B4 /* Protocol+ProxyManagerDelegate.swift */; };
+		5D1FF2E621304761000EB9B4 /* ProxyManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2E321304761000EB9B4 /* ProxyManagerDelegate.swift */; };
 		5D1FF2E721304761000EB9B4 /* TextValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2E421304761000EB9B4 /* TextValidator.swift */; };
 		5D1FF2EB2130479C000EB9B4 /* ConnectionContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2E82130479C000EB9B4 /* ConnectionContainerViewController.swift */; };
 		5D1FF2EC2130479C000EB9B4 /* ConnectionTCPTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1FF2E92130479C000EB9B4 /* ConnectionTCPTableViewController.swift */; };
@@ -2072,7 +2072,7 @@
 		5D1FF2D821304746000EB9B4 /* MenuManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuManager.swift; path = "Example Apps/Example Swift/MenuManager.swift"; sourceTree = SOURCE_ROOT; };
 		5D1FF2D921304746000EB9B4 /* VehicleDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VehicleDataManager.swift; path = "Example Apps/Example Swift/VehicleDataManager.swift"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5D1FF2E221304761000EB9B4 /* AppUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppUserDefaults.swift; path = "Example Apps/Example Swift/AppUserDefaults.swift"; sourceTree = SOURCE_ROOT; };
-		5D1FF2E321304761000EB9B4 /* Protocol+ProxyManagerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Protocol+ProxyManagerDelegate.swift"; path = "Example Apps/Example Swift/Protocol+ProxyManagerDelegate.swift"; sourceTree = SOURCE_ROOT; };
+		5D1FF2E321304761000EB9B4 /* ProxyManagerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProxyManagerDelegate.swift; path = "Example Apps/Example Swift/ProxyManagerDelegate.swift"; sourceTree = SOURCE_ROOT; };
 		5D1FF2E421304761000EB9B4 /* TextValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextValidator.swift; path = "Example Apps/Example Swift/TextValidator.swift"; sourceTree = SOURCE_ROOT; };
 		5D1FF2E82130479C000EB9B4 /* ConnectionContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionContainerViewController.swift; path = "Example Apps/Example Swift/ConnectionContainerViewController.swift"; sourceTree = SOURCE_ROOT; };
 		5D1FF2E92130479C000EB9B4 /* ConnectionTCPTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionTCPTableViewController.swift; path = "Example Apps/Example Swift/ConnectionTCPTableViewController.swift"; sourceTree = SOURCE_ROOT; };
@@ -5817,7 +5817,7 @@
 			isa = PBXGroup;
 			children = (
 				5D1FF2E221304761000EB9B4 /* AppUserDefaults.swift */,
-				5D1FF2E321304761000EB9B4 /* Protocol+ProxyManagerDelegate.swift */,
+				5D1FF2E321304761000EB9B4 /* ProxyManagerDelegate.swift */,
 				5D1FF2E421304761000EB9B4 /* TextValidator.swift */,
 			);
 			name = Utilities;
@@ -7751,7 +7751,7 @@
 			files = (
 				5D1FF2E121304746000EB9B4 /* VehicleDataManager.swift in Sources */,
 				5D1FF2DB21304746000EB9B4 /* ProxyManager.swift in Sources */,
-				5D1FF2E621304761000EB9B4 /* Protocol+ProxyManagerDelegate.swift in Sources */,
+				5D1FF2E621304761000EB9B4 /* ProxyManagerDelegate.swift in Sources */,
 				5D1FF2E521304761000EB9B4 /* AppUserDefaults.swift in Sources */,
 				5D1FF2EC2130479C000EB9B4 /* ConnectionTCPTableViewController.swift in Sources */,
 				5D1FF2C4213045EB000EB9B4 /* AppConstants.m in Sources */,

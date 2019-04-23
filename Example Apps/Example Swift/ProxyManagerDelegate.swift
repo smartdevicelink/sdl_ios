@@ -9,5 +9,7 @@
 import Foundation
 
 protocol ProxyManagerDelegate: class {
+    var proxyState: ProxyState { get }
+
     func didChangeProxyState(_ newState: ProxyState)
 }
