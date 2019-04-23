@@ -76,12 +76,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)reset {
-    if (self.sdlManager == nil) {
-        [self sdlex_updateProxyState:ProxyStateStopped];
-        return;
-    }
-
     [self.sdlManager stop];
+    [self sdlex_updateProxyState:ProxyStateStopped];
 }
 
 - (void)sdlex_updateProxyState:(ProxyState)newState {
@@ -96,9 +92,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)startWithProxyTransportType:(ProxyTransportType)proxyTransportType {
     [self sdlex_updateProxyState:ProxyStateSearchingForConnection];
-
-    // Check for previous instance of sdlManager
-    if (self.sdlManager) { return; }
 
     SDLLifecycleConfiguration *lifecycleConfig = proxyTransportType == ProxyTransportTypeIAP ? [self.class sdlex_iapLifecycleConfiguration] : [self.class sdlex_tcpLifecycleConfiguration];
     [self sdlex_setupConfigurationWithLifecycleConfiguration:lifecycleConfig];
