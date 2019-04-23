@@ -65,7 +65,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
             SDLLogW(@"Control session failed to setup with accessory: %@. Retrying...", accessory);
             [self stopSession];
             if (retrySessionHandler != nil) {
-                retrySessionHandler(YES);
+                retrySessionHandler();
             }
         } else {
             SDLLogW(@"Control session started");
@@ -80,7 +80,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     } else {
         SDLLogW(@"Failed to setup control session");
         if (retrySessionHandler != nil) {
-            retrySessionHandler(YES);
+            retrySessionHandler();
         }
     }
 
@@ -122,7 +122,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
             [strongSelf stopSession];
 
             if (retrySessionHandler == nil) { return; }
-            retrySessionHandler(YES);
+            retrySessionHandler();
         }
     };
 }
@@ -184,7 +184,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
         [strongSelf stopSession];
 
         if (retrySessionHandler == nil) { return; }
-        retrySessionHandler(YES);
+        retrySessionHandler();
     };
 }
 
@@ -205,7 +205,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
         [strongSelf stopSession];
 
         if (retrySessionHandler == nil) { return; }
-        retrySessionHandler(YES);
+        retrySessionHandler();
     };
     protocolIndexTimer.elapsedBlock = elapsedBlock;
 

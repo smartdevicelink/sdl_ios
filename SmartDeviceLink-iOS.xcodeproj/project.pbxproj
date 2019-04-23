@@ -1388,6 +1388,7 @@
 		88EED83B1F33BECB00E6C42E /* SDLHapticRectSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EED83A1F33BECB00E6C42E /* SDLHapticRectSpec.m */; };
 		88EED83E1F33C5A400E6C42E /* SDLSendHapticData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88EED83C1F33C5A400E6C42E /* SDLSendHapticData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88EED83F1F33C5A400E6C42E /* SDLSendHapticData.m in Sources */ = {isa = PBXBuildFile; fileRef = 88EED83D1F33C5A400E6C42E /* SDLSendHapticData.m */; };
+		88F37A4D226F84BE00DF119B /* SDLIAPDataSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F37A4C226F84BE00DF119B /* SDLIAPDataSessionSpec.m */; };
 		88F50D5F220B720E00F34648 /* SDLPerformAppServiceInteractionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F50D5E220B720E00F34648 /* SDLPerformAppServiceInteractionSpec.m */; };
 		88F65133220C6DC300CAF321 /* SDLWeatherAlertSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F65132220C6DC300CAF321 /* SDLWeatherAlertSpec.m */; };
 		88F65136220C74FD00CAF321 /* SDLWeatherData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88F65134220C74FD00CAF321 /* SDLWeatherData.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -3019,6 +3020,7 @@
 		88EED83A1F33BECB00E6C42E /* SDLHapticRectSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLHapticRectSpec.m; sourceTree = "<group>"; };
 		88EED83C1F33C5A400E6C42E /* SDLSendHapticData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLSendHapticData.h; sourceTree = "<group>"; };
 		88EED83D1F33C5A400E6C42E /* SDLSendHapticData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLSendHapticData.m; sourceTree = "<group>"; };
+		88F37A4C226F84BE00DF119B /* SDLIAPDataSessionSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLIAPDataSessionSpec.m; sourceTree = "<group>"; };
 		88F50D5E220B720E00F34648 /* SDLPerformAppServiceInteractionSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLPerformAppServiceInteractionSpec.m; sourceTree = "<group>"; };
 		88F65132220C6DC300CAF321 /* SDLWeatherAlertSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWeatherAlertSpec.m; sourceTree = "<group>"; };
 		88F65134220C74FD00CAF321 /* SDLWeatherData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLWeatherData.h; sourceTree = "<group>"; };
@@ -5919,6 +5921,7 @@
 				88DF998E22035D1700477AC1 /* SDLIAPSessionSpec.m */,
 				88DF999022035D5A00477AC1 /* SDLIAPTransportSpec.m */,
 				88BCEA942266592D00BB7E70 /* SDLIAPControlSessionSpec.m */,
+				88F37A4C226F84BE00DF119B /* SDLIAPDataSessionSpec.m */,
 			);
 			path = iAP;
 			sourceTree = "<group>";
@@ -7347,6 +7350,7 @@
 				88DF999122035D5A00477AC1 /* SDLIAPTransportSpec.m in Sources */,
 				162E838A1A9BDE8B00906325 /* SDLSingleTireStatusSpec.m in Sources */,
 				5D6EB4CC1BF28DC600693731 /* NSMapTable+SubscriptingSpec.m in Sources */,
+				88F37A4D226F84BE00DF119B /* SDLIAPDataSessionSpec.m in Sources */,
 				162E83051A9BDE8B00906325 /* SDLVehicleDataActiveStatusSpec.m in Sources */,
 				162E82E61A9BDE8B00906325 /* SDLInteractionModeSpec.m in Sources */,
 				888F8700221DF4880052FE4C /* SDLAsynchronousRPCOperationSpec.m in Sources */,

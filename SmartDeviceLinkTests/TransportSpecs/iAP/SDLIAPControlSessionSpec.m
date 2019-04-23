@@ -10,9 +10,10 @@
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
 
+#import "SDLIAPControlSession.h"
+
 #import "EAAccessory+OCMock.m"
 #import "SDLIAPConstants.h"
-#import "SDLIAPControlSession.h"
 #import "SDLIAPSession.h"
 #import "SDLTimer.h"
 
@@ -43,7 +44,7 @@ describe(@"SDLIAPControlSession", ^{
         describe(@"When a session starts successfully", ^{
             beforeEach(^{
                 OCMStub([mockSession start]).andReturn(YES);
-                controlSession = [[SDLIAPControlSession alloc] initWithSession:mockSession retrySessionCompletionHandler:^(BOOL retryEstablishSession) {
+                controlSession = [[SDLIAPControlSession alloc] initWithSession:mockSession retrySessionCompletionHandler:^{
                     retryHandlerCalled = YES;
                 } createDataSessionCompletionHandler:^(EAAccessory * _Nonnull connectedaccessory, NSString * _Nonnull indexedProtocolString) {
                     createDataSessionHandlerCalled = YES;
@@ -74,7 +75,7 @@ describe(@"SDLIAPControlSession", ^{
         describe(@"When a session does not start successfully", ^{
             beforeEach(^{
                 OCMStub([mockSession start]).andReturn(NO);
-                controlSession = [[SDLIAPControlSession alloc] initWithSession:mockSession retrySessionCompletionHandler:^(BOOL retryEstablishSession) {
+                controlSession = [[SDLIAPControlSession alloc] initWithSession:mockSession retrySessionCompletionHandler:^{
                     retryHandlerCalled = YES;
                 } createDataSessionCompletionHandler:^(EAAccessory * _Nonnull connectedaccessory, NSString * _Nonnull indexedProtocolString) {
                     createDataSessionHandlerCalled = YES;
@@ -93,7 +94,7 @@ describe(@"SDLIAPControlSession", ^{
         describe(@"When a session is nil", ^{
             beforeEach(^{
                 mockSession = nil;
-                controlSession = [[SDLIAPControlSession alloc] initWithSession:mockSession retrySessionCompletionHandler:^(BOOL retryEstablishSession) {
+                controlSession = [[SDLIAPControlSession alloc] initWithSession:mockSession retrySessionCompletionHandler:^{
                     retryHandlerCalled = YES;
                 } createDataSessionCompletionHandler:^(EAAccessory * _Nonnull connectedaccessory, NSString * _Nonnull indexedProtocolString) {
                     createDataSessionHandlerCalled = YES;

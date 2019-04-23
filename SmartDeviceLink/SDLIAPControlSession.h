@@ -14,7 +14,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^SDLIAPControlSessionRetryCompletionHandler)(BOOL retryEstablishSession);
+typedef void (^SDLIAPControlSessionRetryCompletionHandler)(void);
 typedef void (^SDLIAPControlSessionCreateDataSessionCompletionHandler)(EAAccessory *connectedaccessory, NSString *indexedProtocolString);
 
 /**
@@ -43,7 +43,7 @@ typedef void (^SDLIAPControlSessionCreateDataSessionCompletionHandler)(EAAccesso
  *  Sets a new control session.
  *
  *  @param session                     The new control session
- *  @param retrySessionHandler         A handler called when the control session failed to be established and a new session should be attempted.
+ *  @param retrySessionHandler         A handler called when the control session fails to be established and a new session should be attempted.
  *  @param createDataSessionHandler    A handler called when control session is successful and a new session must be established with the recevied protocol string.
  *  @return                            A SDLIAPControlSession object
  */

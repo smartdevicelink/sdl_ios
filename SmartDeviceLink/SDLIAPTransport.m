@@ -417,7 +417,7 @@ int const CreateSessionRetries = 3;
  */
 - (nullable SDLIAPControlSessionRetryCompletionHandler)retryControlSessionHandler {
     __weak typeof(self) weakSelf = self;
-    return ^(BOOL retryEstablishSession) {
+    return ^{
         [weakSelf sdl_retryEstablishSession];
     };
 }
@@ -445,7 +445,7 @@ int const CreateSessionRetries = 3;
  */
 - (nullable SDLIAPDataSessionRetryCompletionHandler)retryDataSessionHandler {
     __weak typeof(self) weakSelf = self;
-    return ^(BOOL retryEstablishSession) {
+    return ^{
         [weakSelf sdl_retryEstablishSession];
     };
 }
@@ -455,7 +455,7 @@ int const CreateSessionRetries = 3;
  *
  *  @return A SDLIAPDataSessionCreateDataReceivedHandler handler
  */
-- (nullable SDLIAPDataSessionCreateDataReceivedHandler)dataReceivedHandler {
+- (nullable SDLIAPDataSessionDataReceivedHandler)dataReceivedHandler {
     __weak typeof(self) weakSelf = self;
     return ^(NSData * _Nonnull dataIn) {
         [weakSelf.delegate onDataReceived:dataIn];

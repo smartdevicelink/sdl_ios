@@ -6,7 +6,6 @@
 //  Copyright © 2019 smartdevicelink. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <Quick/Quick.h>
 #import <Nimble/Nimble.h>
 #import <OCMock/OCMock.h>
@@ -87,7 +86,7 @@ describe(@"SDLIAPTransport", ^{
     describe(@"When an accessory connects when a data session has not been created", ^{
         beforeEach(^{
             transport.dataSession = nil;
-            
+
             expect(transport.controlSession.session).to(beNil());
         });
 
@@ -105,7 +104,7 @@ describe(@"SDLIAPTransport", ^{
             transport.controlSession = nil;
             mockSession = OCMClassMock([SDLIAPSession class]);
             OCMStub([mockSession accessory]).andReturn(mockAccessory);
-            transport.dataSession = [[SDLIAPDataSession alloc] initWithSession:mockSession retrySessionCompletionHandler:^(BOOL retryEstablishSession) {
+            transport.dataSession = [[SDLIAPDataSession alloc] initWithSession:mockSession retrySessionCompletionHandler:^{
             } dataReceivedCompletionHandler:^(NSData * _Nonnull dataIn) {
             }];
 
@@ -160,7 +159,7 @@ describe(@"SDLIAPTransport", ^{
             beforeEach(^{
                 mockControlSession = OCMClassMock([SDLIAPSession class]);
                 OCMStub([mockControlSession accessory]).andReturn(mockAccessory);
-                transport.controlSession = [[SDLIAPControlSession alloc] initWithSession:mockControlSession retrySessionCompletionHandler:^(BOOL retryEstablishSession) {
+                transport.controlSession = [[SDLIAPControlSession alloc] initWithSession:mockControlSession retrySessionCompletionHandler:^{
                 } createDataSessionCompletionHandler:^(EAAccessory * _Nonnull connectedaccessory, NSString * _Nonnull indexedProtocolString) {
                 }];
 
