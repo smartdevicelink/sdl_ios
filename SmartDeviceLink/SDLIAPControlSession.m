@@ -86,6 +86,16 @@ int const ProtocolIndexTimeoutSeconds = 10;
     }
 }
 
+- (void)destroySession {
+    if (self.session == nil || self.isSessionInProgress) {
+        SDLLogW(@"Control session in progress. Can not destroy");
+        return;
+    }
+
+    SDLLogV(@"Destroying control session");
+    self.session = nil;
+}
+
 - (void)startSessionTimer {
     if (!self.protocolIndexTimer) { return; }
     [self.protocolIndexTimer start];
@@ -146,6 +156,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
         // Destroy the control session as it is no longer needed, and then create the data session.
         dispatch_sync(dispatch_get_main_queue(), ^{
             [strongSelf stopSession];
+            [strongSelf destroySession];
         });
 
         if (accessory.isConnected) {
@@ -194,7 +205,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     void (^elapsedBlock)(void) = ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
         SDLLogW(@"Control session failed to get the protocol string from Core after %d seconds, retrying.", ProtocolIndexTimeoutSeconds);
-        [strongSelf stopSession];
+        [strongSelf.session stop];
 
         if (retrySessionHandler == nil) { return; }
         retrySessionHandler();

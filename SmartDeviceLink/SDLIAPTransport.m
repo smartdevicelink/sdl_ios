@@ -188,20 +188,24 @@ int const CreateSessionRetries = 3;
         // No connection has yet been established so we will not destroy the current session as it needs to watch for accessory connections.
         self.retryCounter = 0;
         self.sessionSetupInProgress = NO;
-        SDLLogV(@"Accessory (%@), disconnected, but no session is in progress.", accessory.serialNumber);
+        SDLLogV(@"Accessory (%@, %@), disconnected, but no session is in progress.", accessory.name, accessory.serialNumber);
+    } else if (accessory.connectionID == self.dataSession.connectionID) {
+        // The data session has been established, which means we are in a connected state. The lifecycle manager will destroy and create a new transport object.
+        SDLLogV(@"Accessory (%@, %@) disconnected during a data session", accessory.name, accessory.serialNumber);
+        [self sdl_destroySession];
     } else if (accessory.connectionID == self.controlSession.connectionID) {
         // The data session has yet to be established so we will only destroy the control session.
-        SDLLogV(@"Accessory (%@) disconnected during a control session", accessory.serialNumber);
+        SDLLogV(@"Accessory (%@, %@) disconnected during a control session", accessory.name, accessory.serialNumber);
         self.retryCounter = 0;
         self.sessionSetupInProgress = NO;
         [self.controlSession stopSession];
         [self.dataSession stopSession];
     } else if (accessory.connectionID == self.dataSession.connectionID) {
         // The data session has been established, which means we are in a connected state. The lifecycle manager will destroy and create a new transport object.
-        SDLLogV(@"Accessory (%@) disconnected during a data session", accessory.serialNumber);
+        SDLLogV(@"Accessory (%@, %@) disconnected during a data session", accessory.name, accessory.serialNumber);
         [self sdl_destroySession];
     } else {
-        SDLLogV(@"Accessory (%@) disconnecting during an unknown session", accessory.serialNumber);
+        SDLLogV(@"Accessory (%@, %@) disconnecting during an unknown session", accessory.name, accessory.serialNumber);
     }
 }
 
