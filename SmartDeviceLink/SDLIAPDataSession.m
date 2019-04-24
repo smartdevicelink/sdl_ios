@@ -25,19 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLIAPDataSession
 
-- (instancetype)init {
-    SDLLogV(@"SDLIAPDataSession Init");
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
-
-    _session = nil;
-
-    return self;
-}
-
 - (instancetype)initWithSession:(nullable SDLIAPSession *)session retrySessionCompletionHandler:(SDLIAPDataSessionRetryCompletionHandler)retrySessionHandler dataReceivedCompletionHandler:(SDLIAPDataSessionDataReceivedHandler)dataReceivedHandler {
+    SDLLogV(@"SDLIAPDataSession init");
 
     self = [super init];
     if (!self) {
@@ -163,7 +152,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Lifecycle Destruction
 
 - (void)dealloc {
-    SDLLogV(@"SDLIAPDataSession Dealloc");
+    SDLLogV(@"SDLIAPDataSession dealloc");
     _session = nil;
 }
 

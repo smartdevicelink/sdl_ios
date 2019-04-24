@@ -30,27 +30,16 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 @implementation SDLIAPControlSession
 
-- (instancetype)init {
-    SDLLogV(@"SDLIAPControlSession Init");
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
-
-    _session = nil;
-    _protocolIndexTimer = nil;
-
-    return self;
-}
-
 - (instancetype)initWithSession:(nullable SDLIAPSession *)session retrySessionCompletionHandler:(SDLIAPControlSessionRetryCompletionHandler)retrySessionHandler createDataSessionCompletionHandler:(SDLIAPControlSessionCreateDataSessionCompletionHandler)createDataSessionHandler {
+    SDLLogV(@"SDLIAPControlSession init");
 
     self = [super init];
     if (!self) {
         return nil;
     }
 
-    self.session = session;
+    _session = session;
+    _protocolIndexTimer = nil;
 
     if (self.session) {
         SDLLogD(@"Starting control session with accessory (%@)", self.session.accessory.name);
@@ -225,7 +214,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 #pragma mark - Lifecycle Destruction
 
 - (void)dealloc {
-    SDLLogV(@"SDLIAPControlSession Dealloc");
+    SDLLogV(@"SDLIAPControlSession dealloc");
     _session = nil;
     _protocolIndexTimer = nil;
 }

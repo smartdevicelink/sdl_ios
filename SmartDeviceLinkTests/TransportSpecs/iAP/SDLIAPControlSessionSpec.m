@@ -40,7 +40,7 @@ describe(@"SDLIAPControlSession", ^{
         OCMStub([mockSession accessory]).andReturn(mockAccessory);
     });
 
-    describe(@"Session init", ^{
+    describe(@"init", ^{
         describe(@"When a session starts successfully", ^{
             beforeEach(^{
                 OCMStub([mockSession start]).andReturn(YES);
@@ -51,10 +51,16 @@ describe(@"SDLIAPControlSession", ^{
                 }];
             });
 
-            it(@"Should set the session and create a timer", ^{
+            it(@"Should set the session", ^{
                 expect(controlSession.session).toNot(beNil());
                 expect(controlSession.connectionID).to(equal(5));
+            });
+
+            it(@"Should create a timer", ^{
                 expect(controlSession.protocolIndexTimer).toNot(beNil());
+            });
+
+            it(@"Should not try to establish a new session", ^{
                 expect(retryHandlerCalled).to(beFalse());
                 expect(createDataSessionHandlerCalled).to(beFalse());
             });
@@ -83,11 +89,19 @@ describe(@"SDLIAPControlSession", ^{
             });
 
             it(@"Should not create a timer", ^{
-                expect(controlSession.session).toNot(beNil());
-                expect(controlSession.connectionID).to(equal(5));
                 expect(controlSession.protocolIndexTimer).to(beNil());
+            });
+
+            it(@"Should try to establish a new session", ^{
                 expect(retryHandlerCalled).to(beTrue());
                 expect(createDataSessionHandlerCalled).to(beFalse());
+            });
+
+            it(@"Should should stop but not destroy the session", ^{
+                expect(controlSession.session).toNot(beNil());
+                expect(controlSession.connectionID).to(equal(5));
+
+                OCMVerify([mockSession stop]);
             });
         });
 
@@ -101,11 +115,19 @@ describe(@"SDLIAPControlSession", ^{
                 }];
             });
 
-            it(@"Should not create a timer", ^{
+            it(@"Should not set the session", ^{
                 expect(controlSession.session).to(beNil());
-                expect(controlSession.isSessionInProgress).to(beFalse());
-                expect(controlSession.connectionID).to(equal(0));
+            });
+
+            it(@"Should not create a timer", ^{
                 expect(controlSession.protocolIndexTimer).to(beNil());
+            });
+
+            it(@"Should return a connectionID of zero", ^{
+                expect(controlSession.connectionID).to(equal(0));
+            });
+
+            it(@"Should try to establish a new session", ^{
                 expect(retryHandlerCalled).to(beTrue());
                 expect(createDataSessionHandlerCalled).to(beFalse());
             });

@@ -47,6 +47,9 @@ describe(@"SDLIAPDataSession", ^{
         it(@"Should set the sesion", ^{
             expect(dataSession.session).toNot(beNil());
             expect(dataSession.connectionID).to(equal(5));
+        });
+
+        it(@"Should not try to establish a new session", ^{
             expect(retryHandlerCalled).to(beFalse());
             expect(createDataSessionHandlerCalled).to(beFalse());
         });
@@ -74,11 +77,47 @@ describe(@"SDLIAPDataSession", ^{
             }];
         });
 
-        it(@"Should attempt to create a new session", ^{
-            expect(dataSession.session).toNot(beNil());
-            expect(dataSession.connectionID).to(equal(5));
+        it(@"Should try to establish a new session", ^{
             expect(retryHandlerCalled).to(beTrue());
             expect(createDataSessionHandlerCalled).to(beFalse());
+        });
+
+        it(@"Should should stop but not destroy the session", ^{
+            expect(dataSession.session).toNot(beNil());
+            expect(dataSession.connectionID).to(equal(5));
+
+            OCMVerify([mockSession stop]);
+        });
+    });
+
+    describe(@"When a session is nil", ^{
+        beforeEach(^{
+            mockSession = nil;
+            dataSession = [[SDLIAPDataSession alloc] initWithSession:mockSession retrySessionCompletionHandler:^{
+                retryHandlerCalled = YES;
+            } dataReceivedCompletionHandler:^(NSData * _Nonnull dataIn) {
+                createDataSessionHandlerCalled = YES;
+            }];
+        });
+
+        it(@"Should not set the session", ^{
+            expect(dataSession).toNot(beNil());
+            expect(dataSession.session).to(beNil());
+        });
+
+        it(@"Should return a connectionID of zero", ^{
+            expect(dataSession.connectionID).to(equal(0));
+        });
+
+        it(@"Should try to establish a new session", ^{
+            expect(retryHandlerCalled).to(beTrue());
+            expect(createDataSessionHandlerCalled).to(beFalse());
+        });
+
+        describe(@"When checking if the session is in progress", ^{
+            it(@"Should not be in progress if the session is nil", ^{
+                expect(dataSession.isSessionInProgress).to(beFalse());
+            });
         });
     });
 });
