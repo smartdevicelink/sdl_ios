@@ -306,17 +306,30 @@ int const CreateSessionRetries = 3;
 }
 
 /**
- *  Helper method for creating a session.
+ *  Helper method for creating a Control session
  *
- *  @param accessory The SDL enabled accessory
- *  @param protocol The protocol string needed to open the session
- *  @param sessionDelegate The stream delegate
- *  @return A SDLIAPSession object
+ *  @param accessory        The SDL enabled accessory
+ *  @param sessionDelegate  The stream delegate
+ *  @return                 A SDLIAPControlSession object
  */
-+ (nullable SDLIAPSession *)sdl_createSessionWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol sessionDelegate:(id<SDLIAPSessionDelegate>)sessionDelegate {
+- (SDLIAPControlSession *)sdl_createControlSessionWithAccessory:(EAAccessory *)accessory sessionDelegate:(id<SDLIAPSessionDelegate>)sessionDelegate {
+    SDLIAPSession *session = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:ControlProtocolString];
+    session.delegate = sessionDelegate;
+    return [[SDLIAPControlSession alloc] initWithSession:session retrySessionCompletionHandler:self.retryControlSessionHandler createDataSessionCompletionHandler:self.createDataSessionCompletionHandler];
+}
+
+/**
+ *  Helper method for creating a Data session
+ *
+ *  @param accessory        The SDL enabled accessory
+ *  @param protocol         The protocol string needed to open the session
+ *  @param sessionDelegate  The stream delegate
+ *  @return                 A SDLIAPDataSession object
+ */
+- (SDLIAPDataSession *)sdl_createDataSessionWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol sessionDelegate:(id<SDLIAPSessionDelegate>)sessionDelegate {
     SDLIAPSession *session = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:protocol];
     session.delegate = sessionDelegate;
-    return session;
+    return [[SDLIAPDataSession alloc] initWithSession:session retrySessionCompletionHandler:self.retryDataSessionHandler dataReceivedCompletionHandler:self.dataReceivedHandler];
 }
 
 /**
@@ -333,18 +346,16 @@ int const CreateSessionRetries = 3;
     }
 
     if ([accessory supportsProtocol:MultiSessionProtocolString] && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
-        SDLIAPSession *session = [self.class sdl_createSessionWithAccessory:accessory forProtocol:MultiSessionProtocolString sessionDelegate:self];
-        self.dataSession = [[SDLIAPDataSession alloc] initWithSession:session retrySessionCompletionHandler:self.retryDataSessionHandler dataReceivedCompletionHandler:self.dataReceivedHandler];
+        self.dataSession = [self sdl_createDataSessionWithAccessory:accessory forProtocol:MultiSessionProtocolString sessionDelegate:self];
         connecting = YES;
     } else if ([accessory supportsProtocol:ControlProtocolString]) {
-        SDLIAPSession *session = [self.class sdl_createSessionWithAccessory:accessory forProtocol:ControlProtocolString sessionDelegate:self];
-        self.controlSession = [[SDLIAPControlSession alloc] initWithSession:session retrySessionCompletionHandler:self.retryDataSessionHandler createDataSessionCompletionHandler:self.createDataSessionCompletionHandler];
+        self.controlSession = [self sdl_createControlSessionWithAccessory:accessory sessionDelegate:self];
         connecting = YES;
     } else if ([accessory supportsProtocol:LegacyProtocolString]) {
-        SDLIAPSession *session = [self.class sdl_createSessionWithAccessory:accessory forProtocol:LegacyProtocolString sessionDelegate:self];
-        self.dataSession = [[SDLIAPDataSession alloc] initWithSession:session retrySessionCompletionHandler:self.retryDataSessionHandler dataReceivedCompletionHandler:self.dataReceivedHandler];
+        self.dataSession = [self sdl_createDataSessionWithAccessory:accessory forProtocol:LegacyProtocolString sessionDelegate:self];
         connecting = YES;
     }
+
     return connecting;
 }
 
@@ -372,14 +383,11 @@ int const CreateSessionRetries = 3;
 
         // Determine if we can start a multi-app session or a legacy (single-app) session
         if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:MultiSessionProtocolString]) && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
-            SDLIAPSession *session = [self.class sdl_createSessionWithAccessory:sdlAccessory forProtocol:MultiSessionProtocolString sessionDelegate:self];
-            self.dataSession = [[SDLIAPDataSession alloc] initWithSession:session retrySessionCompletionHandler:self.retryDataSessionHandler dataReceivedCompletionHandler:self.dataReceivedHandler];
+            self.dataSession = [self sdl_createDataSessionWithAccessory:sdlAccessory forProtocol:MultiSessionProtocolString sessionDelegate:self];
         } else if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:ControlProtocolString])) {
-            SDLIAPSession *session = [self.class sdl_createSessionWithAccessory:sdlAccessory forProtocol:ControlProtocolString sessionDelegate:self];
-            self.controlSession = [[SDLIAPControlSession alloc] initWithSession:session retrySessionCompletionHandler:self.retryDataSessionHandler createDataSessionCompletionHandler:self.createDataSessionCompletionHandler];
+            self.controlSession = [self sdl_createControlSessionWithAccessory:sdlAccessory sessionDelegate:self];
         } else if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:LegacyProtocolString])) {
-            SDLIAPSession *session = [self.class sdl_createSessionWithAccessory:sdlAccessory forProtocol:LegacyProtocolString sessionDelegate:self];
-            self.dataSession = [[SDLIAPDataSession alloc] initWithSession:session retrySessionCompletionHandler:self.retryDataSessionHandler dataReceivedCompletionHandler:self.dataReceivedHandler];
+            self.dataSession = [self sdl_createDataSessionWithAccessory:sdlAccessory forProtocol:LegacyProtocolString sessionDelegate:self];
         } else {
             // No compatible accessory
             SDLLogV(@"No accessory supporting SDL was found, dismissing setup");
@@ -430,8 +438,7 @@ int const CreateSessionRetries = 3;
 - (nullable SDLIAPControlSessionCreateDataSessionCompletionHandler)createDataSessionCompletionHandler {
     __weak typeof(self) weakSelf = self;
     return ^(EAAccessory * _Nonnull connectedaccessory, NSString * _Nonnull indexedProtocolString) {
-        SDLIAPSession *session = [weakSelf.class sdl_createSessionWithAccessory:connectedaccessory forProtocol:indexedProtocolString sessionDelegate:weakSelf];
-        weakSelf.dataSession = [[SDLIAPDataSession alloc] initWithSession:session retrySessionCompletionHandler:weakSelf.retryDataSessionHandler dataReceivedCompletionHandler:weakSelf.dataReceivedHandler];
+        weakSelf.dataSession = [weakSelf sdl_createDataSessionWithAccessory:connectedaccessory forProtocol:indexedProtocolString sessionDelegate:weakSelf];
     };
 }
 
