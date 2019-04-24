@@ -72,6 +72,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Data Stream Handlers
 
+/**
+ *  Handler called when the session gets a `NSStreamEventEndEncountered` event code. The current session is closed and a new session is attempted.
+ *
+ *  @param retrySessionHandler  A handler called when a new session should be attempted
+ *  @return                     A SDLStreamEndHandler handler
+ */
 - (SDLStreamEndHandler)sdl_dataStreamEndedHandlerWithRetrySessionHandler:(SDLIAPDataSessionRetryCompletionHandler)retrySessionHandler {
     __weak typeof(self) weakSelf = self;
     return ^(NSStream *stream) {
@@ -95,6 +101,12 @@ NS_ASSUME_NONNULL_BEGIN
     };
 }
 
+/**
+ *  Handler called when the session gets a `NSStreamEventHasBytesAvailable` event code. The data is passed to the listener.
+ *
+ *  @param dataReceivedHandler  A handler called when data is received from Core
+ *  @return                     A SDLStreamHasBytesHandler handler
+ */
 - (SDLStreamHasBytesHandler)sdl_dataStreamHasBytesHandlerWithDataReceivedHandler:(SDLIAPDataSessionDataReceivedHandler)dataReceivedHandler {
     return ^(NSInputStream *istream) {
         NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
@@ -121,6 +133,12 @@ NS_ASSUME_NONNULL_BEGIN
     };
 }
 
+/**
+ *  Handler called when the session gets a `NSStreamEventErrorOccurred` event code. The current session is closed and a new session is attempted.
+ *
+ *  @param retrySessionHandler A handler called when a new session should be attempted
+ *  @return                    A SDLStreamErrorHandler handler
+ */
 - (SDLStreamErrorHandler)sdl_dataStreamErroredHandlerWithRetrySessionHandler:(SDLIAPDataSessionRetryCompletionHandler)retrySessionHandler {
     __weak typeof(self) weakSelf = self;
     return ^(NSStream *stream) {
@@ -139,7 +157,7 @@ NS_ASSUME_NONNULL_BEGIN
     };
 }
 
-#pragma mark - Helpers
+#pragma mark - Getters
 
 - (NSUInteger)connectionID {
     return self.session.accessory.connectionID;

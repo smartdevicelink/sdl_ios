@@ -96,6 +96,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 /**
  *  Handler called when the session gets a `NSStreamEventEndEncountered` event code. The current session is closed and a new session is attempted.
  *
+ *  @param retrySessionHandler  A handler called when a new session should be attempted
  *  @return A SDLStreamEndHandler handler
  */
 - (SDLStreamEndHandler)sdl_controlStreamEndedHandlerWithRetrySessionHandler:(SDLIAPControlSessionRetryCompletionHandler)retrySessionHandler {
@@ -119,8 +120,9 @@ int const ProtocolIndexTimeoutSeconds = 10;
 /**
  *  Handler called when the session gets a `NSStreamEventHasBytesAvailable` event code. A protocol string is created from the received data. Since a new session needs to be established with the protocol string, the current session is closed and a new session is created.
  *
- *  @param accessory    The connected accessory
- *  @return             A SDLStreamHasBytesHandler handler
+ *  @param accessory                The connected accessory
+ *  @param createDataSessionHandler A handler called when the data session is established successfully with Core
+ *  @return                         A SDLStreamHasBytesHandler handler
  */
 - (SDLStreamHasBytesHandler)sdl_controlStreamHasBytesHandlerForAccessory:(EAAccessory *)accessory createDataSessionCompletionHandler:(SDLIAPControlSessionCreateDataSessionCompletionHandler)createDataSessionHandler {
     __weak typeof(self) weakSelf = self;
@@ -160,6 +162,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 /**
  *  Handler called when the session gets a `NSStreamEventErrorOccurred` event code. The current session is closed and a new session is attempted.
  *
+ *  @param retrySessionHandler  A handler called when a new session should be attempted
  *  @return A SDLStreamErrorHandler handler
  */
 - (SDLStreamErrorHandler)sdl_controlStreamErroredHandlerWithRetrySessionHandler:(SDLIAPControlSessionRetryCompletionHandler)retrySessionHandler {
