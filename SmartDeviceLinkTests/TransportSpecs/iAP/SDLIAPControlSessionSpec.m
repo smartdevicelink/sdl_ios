@@ -51,7 +51,7 @@ describe(@"SDLIAPControlSession", ^{
                 }];
             });
 
-            it(@"Should create a timer", ^{
+            it(@"Should set the session and create a timer", ^{
                 expect(controlSession.session).toNot(beNil());
                 expect(controlSession.connectionID).to(equal(5));
                 expect(controlSession.protocolIndexTimer).toNot(beNil());
