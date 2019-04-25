@@ -54,13 +54,6 @@ typedef void(^SDLSoftButtonUpdateCompletionHandler)(NSError *__nullable error);
 - (void)stop;
 
 /**
- Cause all transitions in between `beginUpdates` and this method call to occur in one RPC update.
-
- @param handler The handler called once the update is completed.
- */
-- (void)updateWithCompletionHandler:(nullable SDLSoftButtonUpdateCompletionHandler)handler;
-
-/**
  Returns a soft button object associated with the manager that is named the specified name or nil if nothing corresponds.
 
  @param name The name to find a soft button for
