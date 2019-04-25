@@ -470,6 +470,7 @@ int const CreateSessionRetries = 3;
     __weak typeof(self) weakSelf = self;
     return ^(NSData * _Nonnull dataIn) {
         [weakSelf.delegate onDataReceived:dataIn];
+        [weakSelf sdl_backgroundTaskStart];
     };
 }
 
