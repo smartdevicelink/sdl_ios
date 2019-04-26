@@ -9,6 +9,7 @@
 #import "SDLSoftButtonTransitionOperation.h"
 
 #import "SDLConnectionManagerType.h"
+#import "SDLLogMacros.h"
 #import "SDLSoftButtonCapabilities.h"
 #import "SDLShow.h"
 #import "SDLSoftButton.h"
@@ -52,6 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     [self.connectionManager sendConnectionRequest:newShow withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
+            SDLLogW(@"Failed to transition soft button to new state. Error: %@, Response: %@", error, response);
             self.internalError = error;
         }
 

@@ -39,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) { return nil; }
 
     _connectionManager = connectionManager;
+    _fileManager = fileManager;
     _softButtonCapabilities = capabilities;
     _softButtonObjects = softButtonObjects;
     _mainField1 = mainField1;
@@ -89,8 +90,8 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Uploading Images
 
 - (void)sdl_uploadInitialStateImagesWithCompletionHandler:(void (^)(void))handler {
-    NSMutableArray<SDLArtwork *> *initialStatesToBeUploaded = [NSMutableArray array];
     // Upload all soft button images, the initial state images first, then the other states. We need to send updates when the initial state is ready.
+    NSMutableArray<SDLArtwork *> *initialStatesToBeUploaded = [NSMutableArray array];
     for (SDLSoftButtonObject *object in self.softButtonObjects) {
         if ([self sdl_artworkNeedsUpload:object.currentState.artwork]) {
             [initialStatesToBeUploaded addObject:object.currentState.artwork];

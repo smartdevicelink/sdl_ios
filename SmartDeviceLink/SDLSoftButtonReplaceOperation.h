@@ -14,6 +14,8 @@
 @class SDLFileManager;
 @class SDLSoftButtonObject;
 
+@protocol SDLConnectionManagerType;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLSoftButtonReplaceOperation : SDLAsynchronousOperation

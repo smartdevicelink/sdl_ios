@@ -87,7 +87,7 @@
 }
 
 + (SDLLogFileModule *)sdl_screenManagerSoftButtonModule {
-    return [SDLLogFileModule moduleWithName:@"Screen/SoftButton" files:[NSSet setWithArray:@[@"SDLSoftButtonManager", @"SDLSoftButtonObject", @"SDLSoftButtonState"]]];
+    return [SDLLogFileModule moduleWithName:@"Screen/SoftButton" files:[NSSet setWithArray:@[@"SDLSoftButtonManager", @"SDLSoftButtonObject", @"SDLSoftButtonState", @"SDLSoftButtonTransitionOperation", @"SDLSoftButtonReplaceOperation"]]];
 }
 
 + (SDLLogFileModule *)sdl_screenManagerMenuModule {
