@@ -8,8 +8,6 @@
 
 #import "SDLScreenshotViewController.h"
 
-#import "UIWindow+SDLExtensions.h"
-
 @interface SDLScreenshotViewController ()
 
 @property (nonatomic, strong) UIImageView *imageView;
@@ -34,7 +32,7 @@
 
 // HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    UIViewController *viewController = [UIApplication sharedApplication].windows[0].sdl_topMostController;
+    UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows[0]];
 
     if (viewController != nil) {
         return viewController.supportedInterfaceOrientations;
@@ -45,13 +43,23 @@
 
 // HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
 - (BOOL)shouldAutorotate {
-    UIViewController *viewController = [UIApplication sharedApplication].windows[0].sdl_topMostController;
+    UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows[0]];
 
     if (viewController != nil) {
         return viewController.shouldAutorotate;
     }
 
     return super.shouldAutorotate;
+}
+
+- (UIViewController *)sdl_topMostControllerForWindow:(UIWindow *)window {
+    UIViewController *topController = window.rootViewController;
+
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
+    }
+
+    return topController;
 }
 
 - (void)layoutSubviews {
