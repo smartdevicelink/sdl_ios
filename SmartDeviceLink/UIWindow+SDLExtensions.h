@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIWindow (SDLExtensions)
 
-@property (strong, nonatomic) UIViewController *sdl_topMostController;
+@property (strong, nonatomic, readonly) UIViewController *sdl_topMostController;
 
 @end
 
