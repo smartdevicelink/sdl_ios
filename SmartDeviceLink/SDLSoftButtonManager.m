@@ -123,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)sdl_transitionSoftButton:(SDLSoftButtonObject *)softButton {
-    SDLSoftButtonTransitionOperation *op = [[SDLSoftButtonTransitionOperation alloc] initWithConnectionManager:self.connectionManager capabilities:self.softButtonCapabilities softButtons:[self sdl_softButtonsForCurrentState] mainField1:self.currentMainField1];
+    SDLSoftButtonTransitionOperation *op = [[SDLSoftButtonTransitionOperation alloc] initWithConnectionManager:self.connectionManager capabilities:self.softButtonCapabilities softButtons:self.softButtonObjects mainField1:self.currentMainField1];
     [self.transactionQueue addOperation:op];
 }
 
@@ -140,14 +140,6 @@ NS_ASSUME_NONNULL_BEGIN
     return nil;
 }
 
-- (NSArray<SDLSoftButton *> *)sdl_softButtonsForCurrentState {
-    NSMutableArray<SDLSoftButton *> *softButtons = [NSMutableArray arrayWithCapacity:self.softButtonObjects.count];
-    for (SDLSoftButtonObject *button in self.softButtonObjects) {
-        [softButtons addObject:button.currentStateSoftButton];
-    }
-
-    return [softButtons copy];
-}
 
 #pragma mark - Getters / Setters
 

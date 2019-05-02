@@ -1092,6 +1092,8 @@
 		5DA150C82271FDC20032928D /* SDLSoftButtonTransitionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA150C62271FDC20032928D /* SDLSoftButtonTransitionOperation.m */; };
 		5DA150CD2271FE180032928D /* SDLSoftButtonReplaceOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DA150CB2271FE180032928D /* SDLSoftButtonReplaceOperation.h */; };
 		5DA150CE2271FE180032928D /* SDLSoftButtonReplaceOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA150CC2271FE180032928D /* SDLSoftButtonReplaceOperation.m */; };
+		5DA150D1227367580032928D /* SDLSoftButtonTransitionOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA150D0227367580032928D /* SDLSoftButtonTransitionOperationSpec.m */; };
+		5DA150D32273676A0032928D /* SDLSoftButtonReplaceOperationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA150D22273676A0032928D /* SDLSoftButtonReplaceOperationSpec.m */; };
 		5DA22CB71D075CF200245F5F /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA22CB31D075CF200245F5F /* Nimble.framework */; };
 		5DA22CB81D075CF200245F5F /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA22CB41D075CF200245F5F /* OCMock.framework */; };
 		5DA22CBA1D075CF200245F5F /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA22CB61D075CF200245F5F /* Quick.framework */; };
@@ -2725,6 +2727,8 @@
 		5DA150C62271FDC20032928D /* SDLSoftButtonTransitionOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSoftButtonTransitionOperation.m; sourceTree = "<group>"; };
 		5DA150CB2271FE180032928D /* SDLSoftButtonReplaceOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLSoftButtonReplaceOperation.h; sourceTree = "<group>"; };
 		5DA150CC2271FE180032928D /* SDLSoftButtonReplaceOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSoftButtonReplaceOperation.m; sourceTree = "<group>"; };
+		5DA150D0227367580032928D /* SDLSoftButtonTransitionOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SDLSoftButtonTransitionOperationSpec.m; path = DevAPISpecs/SDLSoftButtonTransitionOperationSpec.m; sourceTree = "<group>"; };
+		5DA150D22273676A0032928D /* SDLSoftButtonReplaceOperationSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLSoftButtonReplaceOperationSpec.m; sourceTree = "<group>"; };
 		5DA22CB31D075CF200245F5F /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = sdl_ios/Carthage/Build/iOS/Nimble.framework; sourceTree = "<group>"; };
 		5DA22CB41D075CF200245F5F /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = sdl_ios/Carthage/Build/iOS/OCMock.framework; sourceTree = "<group>"; };
 		5DA22CB61D075CF200245F5F /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = sdl_ios/Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
@@ -5242,6 +5246,15 @@
 			name = Buttons;
 			sourceTree = "<group>";
 		};
+		5DA150CF227366900032928D /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				5DA150D0227367580032928D /* SDLSoftButtonTransitionOperationSpec.m */,
+				5DA150D22273676A0032928D /* SDLSoftButtonReplaceOperationSpec.m */,
+			);
+			name = Operations;
+			sourceTree = "<group>";
+		};
 		5DA23FF11F2FA32A009C0313 /* Audio Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -5405,6 +5418,7 @@
 		5DAD5F8220507DED0025624C /* Soft Button */ = {
 			isa = PBXGroup;
 			children = (
+				5DA150CF227366900032928D /* Operations */,
 				5DAD5F8820508F090025624C /* SDLSoftButtonStateSpec.m */,
 				5DAD5F8A20508F140025624C /* SDLSoftButtonObjectSpec.m */,
 				5DAD5F8C20508F220025624C /* SDLSoftButtonManagerSpec.m */,
@@ -7488,6 +7502,7 @@
 				162E83171A9BDE8B00906325 /* SDLOnHMIStatusSpec.m in Sources */,
 				8831FA392201E3D100B8FFB7 /* SDLAppServiceManifestSpec.m in Sources */,
 				5DE372A41ACB336600849FAA /* SDLHMICapabilitiesSpec.m in Sources */,
+				5DA150D32273676A0032928D /* SDLSoftButtonReplaceOperationSpec.m in Sources */,
 				162E82F71A9BDE8B00906325 /* SDLResultSpec.m in Sources */,
 				1680B1141A9CD7AD00DBD79E /* SDLV1ProtocolHeaderSpec.m in Sources */,
 				880D2680220E038800B3F496 /* SDLWeatherServiceManifestSpec.m in Sources */,
@@ -7708,6 +7723,7 @@
 				5D0A9F931F15560B00CC80DD /* SDLNavigationCapabilitySpec.m in Sources */,
 				5D64FE7120DA9E6700792F9F /* SDLStreamingAudioLifecycleManagerSpec.m in Sources */,
 				162E83891A9BDE8B00906325 /* SDLScreenParamsSpec.m in Sources */,
+				5DA150D1227367580032928D /* SDLSoftButtonTransitionOperationSpec.m in Sources */,
 				162E83441A9BDE8B00906325 /* SDLSystemRequestSpec.m in Sources */,
 				162E83001A9BDE8B00906325 /* SDLTextFieldNameSpec.m in Sources */,
 				DA4353EA1D2721680099B8C4 /* SDLTouchManagerSpec.m in Sources */,

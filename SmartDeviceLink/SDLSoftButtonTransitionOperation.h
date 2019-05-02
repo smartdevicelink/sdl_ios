@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSString *mainField1;
 
-- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager capabilities:(SDLSoftButtonCapabilities *)capabilities softButtons:(NSArray<SDLSoftButton *> *)softButtons mainField1:(NSString *)mainField1;
+- (instancetype)initWithConnectionManager:(id<SDLConnectionManagerType>)connectionManager capabilities:(SDLSoftButtonCapabilities *)capabilities softButtons:(NSArray<SDLSoftButtonObject *> *)softButtons mainField1:(NSString *)mainField1;
 
 @end
 
