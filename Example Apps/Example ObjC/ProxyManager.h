@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedManager;
 - (void)startWithProxyTransportType:(ProxyTransportType)proxyTransportType;
-- (void)reset;
+- (void)stopConnection;
 
 @end
 

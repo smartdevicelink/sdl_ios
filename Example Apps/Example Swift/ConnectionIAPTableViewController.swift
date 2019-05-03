@@ -7,12 +7,11 @@
 import UIKit
 
 class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDelegate {
-
     @IBOutlet weak var connectTableViewCell: UITableViewCell!
     @IBOutlet weak var table: UITableView!
     @IBOutlet weak var connectButton: UIButton!
 
-    var state: ProxyState = .stopped
+    var proxyState = ProxyState.stopped
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,19 +32,18 @@ class ConnectionIAPTableViewController: UITableViewController, ProxyManagerDeleg
     }
     // MARK: - IBActions
     @IBAction func connectButtonWasPressed(_ sender: UIButton) {
-
-        switch state {
+        switch proxyState {
         case .stopped:
             ProxyManager.sharedManager.start(with: .iap)
         case .searching:
-            ProxyManager.sharedManager.resetConnection()
+            ProxyManager.sharedManager.stopConnection()
         case .connected:
-            ProxyManager.sharedManager.resetConnection()
+            ProxyManager.sharedManager.stopConnection()
         }
     }
     // MARK: - Delegate Functions
     func didChangeProxyState(_ newState: ProxyState) {
-        state = newState
+        proxyState = newState
         var newColor: UIColor? = nil
         var newTitle: String? = nil
 

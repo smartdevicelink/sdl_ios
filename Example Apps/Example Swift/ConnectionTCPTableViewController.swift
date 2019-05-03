@@ -7,14 +7,13 @@
 import UIKit
 
 class ConnectionTCPTableViewController: UITableViewController, UINavigationControllerDelegate, ProxyManagerDelegate {
-
     @IBOutlet weak var ipAddressTextField: UITextField!
     @IBOutlet weak var portTextField: UITextField!
     @IBOutlet weak var connectTableViewCell: UITableViewCell!
     @IBOutlet weak var connectButton: UIButton!
     @IBOutlet weak var table: UITableView!
 
-    var state: ProxyState = .stopped
+    var proxyState = ProxyState.stopped
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +36,6 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
     }
     // MARK: - IBActions
     @IBAction func connectButtonWasPressed(_ sender: UIButton) {
-
         let ipAddress = ipAddressTextField.text
         let port = portTextField.text
 
@@ -45,13 +43,13 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
             AppUserDefaults.shared.ipAddress = ipAddress
             AppUserDefaults.shared.port = port
 
-            switch state {
+            switch proxyState {
             case .stopped:
                 ProxyManager.sharedManager.start(with: .tcp)
             case .searching:
-                ProxyManager.sharedManager.resetConnection()
+                ProxyManager.sharedManager.stopConnection()
             case .connected:
-                ProxyManager.sharedManager.resetConnection()
+                ProxyManager.sharedManager.stopConnection()
             }
         } else {
             let alertMessage = UIAlertController(title: "Missing Info!", message: "Make sure to set your IP Address and Port", preferredStyle: .alert)
@@ -61,7 +59,7 @@ class ConnectionTCPTableViewController: UITableViewController, UINavigationContr
     }
     // MARK: - Delegate Functions
     func didChangeProxyState(_ newState: ProxyState) {
-        state = newState
+        proxyState = newState
         var newColor: UIColor? = nil
         var newTitle: String? = nil
 
