@@ -11,7 +11,7 @@
 #import "SDLAsynchronousOperation.h"
 
 @class SDLSoftButtonCapabilities;
-@class SDLSoftButton;
+@class SDLSoftButtonObject;
 
 @protocol SDLConnectionManagerType;
 

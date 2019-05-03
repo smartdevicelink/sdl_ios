@@ -57,9 +57,7 @@ fdescribe(@"a soft button manager", ^{
     __block SDLSoftButtonObject *testObject2 = nil;
     __block NSString *object2Name = @"O2 Name";
     __block NSString *object2State1Name = @"O2S1 Name";
-    __block NSString *object2State2Name = @"O2S2 Name";
     __block NSString *object2State1Text = @"O2S1 Text";
-    __block NSString *object2State2Text = @"O2S2 Text";
     __block NSString *object2State1ArtworkName = @"O2S1 Artwork";
     __block SDLArtwork *object2State1Art = [[SDLArtwork alloc] initWithData:[@"TestData" dataUsingEncoding:NSUTF8StringEncoding] name:object2State1ArtworkName fileExtension:@"png" persistent:YES];
     __block SDLSoftButtonState *object2State1 = [[SDLSoftButtonState alloc] initWithStateName:object2State1Name text:object2State1Text artwork:object2State1Art];
@@ -147,6 +145,15 @@ fdescribe(@"a soft button manager", ^{
             expect(testObject2.manager).to(equal(testManager));
 
             expect(testManager.transactionQueue.operationCount).to(equal(1));
+        });
+
+        it(@"should replace earlier operations when a replace operation is entered", ^{
+            [testObject1 transitionToNextState];
+            testManager.softButtonObjects = @[testObject1];
+            expect(testManager.transactionQueue.operationCount).to(equal(3));
+            expect(testManager.transactionQueue.operations[0].isCancelled).to(beTrue());
+            expect(testManager.transactionQueue.operations[1].isCancelled).to(beTrue());
+            expect(testManager.transactionQueue.operations[2].isCancelled).to(beFalse());
         });
 
         it(@"should retrieve soft buttons correctly", ^{
