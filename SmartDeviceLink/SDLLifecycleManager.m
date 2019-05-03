@@ -239,6 +239,8 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 - (void)sdl_stopManager:(BOOL)shouldRestart {
     SDLLogV(@"Stopping manager, %@", (shouldRestart ? @"will restart" : @"will not restart"));
 
+    self.proxy = nil;
+
     [self.fileManager stop];
     [self.permissionManager stop];
     [self.lockScreenManager stop];
@@ -259,7 +261,6 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
     self.hmiLevel = nil;
     self.audioStreamingState = nil;
     self.systemContext = nil;
-    self.proxy = nil;
 
     // Due to a race condition internally with EAStream, we cannot immediately attempt to restart the proxy, as we will randomly crash.
     // Apple Bug ID #30059457
@@ -277,6 +278,9 @@ SDLLifecycleState *const SDLLifecycleStateReady = @"Ready";
 }
 
 - (void)didEnterStateConnected {
+    // Ignore the connection while we are reconnecting. The proxy needs to be disposed and restarted in order to ensure correct state. https://github.com/smartdevicelink/sdl_ios/issues/1172
+    if ([self.lifecycleState isEqualToString:SDLLifecycleStateReconnecting]) { return; }
+
     // If we have security managers, add them to the proxy
     if (self.configuration.streamingMediaConfig.securityManagers != nil) {
         SDLLogD(@"Adding security managers");
