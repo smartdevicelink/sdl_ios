@@ -4,18 +4,19 @@ import PackageDescription
 let package = Package(
     name: "SmartDeviceLink-iOS",
     products: [
-        .library(name: "SmartDeviceLink", targets: ["SmartDeviceLink"]),
-        .library(name: "SmartDeviceLinkSwift", targets: ["SmartDeviceLinkSwift"])
+        .library(name: "SmartDeviceLinkSwift", targets: ["SmartDeviceLinkSwift"]),
+        .library(name: "SmartDeviceLink", targets: ["SmartDeviceLink"])
+
     ],
     targets: [
-        .target(
-            name: "SmartDeviceLink",
-            path: "SmartDeviceLink"
-        ),
         .target(
             name: "SmartDeviceLinkSwift",
             path: "SmartDeviceLinkSwift"
         ),
+        .target(
+            name: "SmartDeviceLink",
+            path: "SmartDeviceLink"
+        )
     ]
 )
 
