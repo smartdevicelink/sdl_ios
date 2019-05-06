@@ -13,8 +13,8 @@ let package = Package(
             path: "SmartDeviceLink"
         ),
         .target(
-            name: "SmartDeviceLinkSwift",
-            path: "SmartDeviceLinkSwift"
+            name: "SmartDeviceLixnkSwift",
+            path: "SmartDeviceLxinkSwift"
         ),
     ]
 )
