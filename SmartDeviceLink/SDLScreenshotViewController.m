@@ -30,6 +30,38 @@
     return self;
 }
 
+// HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows[0]];
+
+    if (viewController != nil) {
+        return viewController.supportedInterfaceOrientations;
+    }
+
+    return super.supportedInterfaceOrientations;
+}
+
+// HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
+- (BOOL)shouldAutorotate {
+    UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows[0]];
+
+    if (viewController != nil) {
+        return viewController.shouldAutorotate;
+    }
+
+    return super.shouldAutorotate;
+}
+
+- (UIViewController *)sdl_topMostControllerForWindow:(UIWindow *)window {
+    UIViewController *topController = window.rootViewController;
+
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
+    }
+
+    return topController;
+}
+
 - (void)layoutSubviews {
     self.imageView.frame = self.view.bounds;
 }
