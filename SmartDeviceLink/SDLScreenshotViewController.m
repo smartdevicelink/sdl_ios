@@ -8,6 +8,8 @@
 
 #import "SDLScreenshotViewController.h"
 
+#import "SDLError.h"
+
 @interface SDLScreenshotViewController ()
 
 @property (nonatomic, strong) UIImageView *imageView;
@@ -30,18 +32,20 @@
     return self;
 }
 
-// HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
+    // HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows[0]];
 
-    if (viewController != nil) {
+    if (viewController == self) {
+        @throw [NSException sdl_invalidLockscreenSetupException];
+    } else if (viewController != nil) {
         return viewController.supportedInterfaceOrientations;
     }
 
-    return super.supportedInterfaceOrientations;
+    return UIInterfaceOrientationMaskAll;
 }
 
-// HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
+    // HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
 - (BOOL)shouldAutorotate {
     UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows[0]];
 
@@ -69,12 +73,11 @@
 - (void)loadScreenshotOfWindow:(UIWindow *)window {
     UIGraphicsBeginImageContextWithOptions(window.bounds.size, YES, 0.0f);
     [window drawViewHierarchyInRect:window.bounds afterScreenUpdates:NO];
-    
+
     UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
     self.imageView.image = image;
 }
-
 
 @end
