@@ -27,10 +27,10 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 
 + (NSError *)sdl_lifecycle_rpcErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
-        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                       };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorRPCRequestFailed
                            userInfo:userInfo];
@@ -38,10 +38,10 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 
 + (NSError *)sdl_lifecycle_notConnectedError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find a connection", nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library could not find a current connection to an SDL hardware device", nil),
-        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Could not find a connection", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library could not find a current connection to an SDL hardware device", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                       };
 
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorNotConnected
@@ -50,10 +50,10 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 
 + (NSError *)sdl_lifecycle_notReadyError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(@"Lifecycle manager not ready", nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library is not finished setting up the connection, please wait until the lifecycleState is SDLLifecycleStateReady", nil),
-        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Lifecycle manager not ready", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The SDL library is not finished setting up the connection, please wait until the lifecycleState is SDLLifecycleStateReady", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                       };
 
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorNotConnected
@@ -62,10 +62,10 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 
 + (NSError *)sdl_lifecycle_unknownRemoteErrorWithDescription:(NSString *)description andReason:(NSString *)reason {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
-        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(description, nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(reason, nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Have you tried turning it off and on again?", nil)
+                                                       };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorUnknownRemoteError
                            userInfo:userInfo];
@@ -79,9 +79,9 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 
 + (NSError *)sdl_lifecycle_startedWithBadResult:(SDLResult)result info:(NSString *)info {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(result, nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(result, nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil)
+                                                       };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorRegistrationFailed
                            userInfo:userInfo];
@@ -99,9 +99,9 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 
 + (NSError *)sdl_lifecycle_failedWithBadResult:(SDLResult)result info:(NSString *)info {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(result, nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(result, nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(info, nil)
+                                                       };
     return [NSError errorWithDomain:SDLErrorDomainLifecycleManager
                                code:SDLManagerErrorRegistrationFailed
                            userInfo:userInfo];
@@ -118,37 +118,37 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
 
 + (NSError *)sdl_fileManager_cannotOverwriteError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(@"Cannot overwrite remote file", nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The remote file system already has a file of this name, and the file manager is set to not automatically overwrite files", nil),
-        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Set SDLFileManager autoOverwrite to YES, or call forceUploadFile:completion:", nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"Cannot overwrite remote file", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The remote file system already has a file of this name, and the file manager is set to not automatically overwrite files", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Set SDLFileManager autoOverwrite to YES, or call forceUploadFile:completion:", nil)
+                                                       };
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorCannotOverwrite userInfo:userInfo];
 }
 
 + (NSError *)sdl_fileManager_noKnownFileError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(@"No such remote file is currently known", nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The remote file is not currently known by the file manager. It could be that this file does not exist on the remote system or that the file manager has not completed its initialization and received a list of files from the remote system.", nil),
-        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure a file with this name is present on the remote system and that the file manager has finished its initialization.", nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"No such remote file is currently known", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The remote file is not currently known by the file manager. It could be that this file does not exist on the remote system or that the file manager has not completed its initialization and received a list of files from the remote system.", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure a file with this name is present on the remote system and that the file manager has finished its initialization.", nil)
+                                                       };
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorNoKnownFile userInfo:userInfo];
 }
 
 + (NSError *)sdl_fileManager_unableToStartError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(@"The file manager was unable to start", nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"This may be because files are not supported on this unit and / or LISTFILES returned an error", nil),
-        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that the system is sending back a proper LIST FILES response", nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"The file manager was unable to start", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"This may be because files are not supported on this unit and / or LISTFILES returned an error", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that the system is sending back a proper LIST FILES response", nil)
+                                                       };
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorUnableToStart userInfo:userInfo];
 }
 
 + (NSError *)sdl_fileManager_unableToUploadError {
     NSDictionary<NSString *, NSString *> *userInfo = @{
-        NSLocalizedDescriptionKey: NSLocalizedString(@"The file manager was unable to send this file", nil),
-        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"This could be because the file manager has not started, or the head unit does not support files", nil),
-        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that the system is sending back a proper LIST FILES response and check the file manager's state", nil)
-    };
+                                                       NSLocalizedDescriptionKey: NSLocalizedString(@"The file manager was unable to send this file", nil),
+                                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"This could be because the file manager has not started, or the head unit does not support files", nil),
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Make sure that the system is sending back a proper LIST FILES response and check the file manager's state", nil)
+                                                       };
     return [NSError errorWithDomain:SDLErrorDomainFileManager code:SDLFileManagerErrorUnableToUpload userInfo:userInfo];
 }
 
@@ -232,7 +232,7 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
     NSDictionary<NSString *, NSString *> *userInfo = @{
                                                        NSLocalizedDescriptionKey: NSLocalizedString(@"Choice Set Manager error", nil),
                                                        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Choice set manager failed to create menu items due to menuName being empty.", nil),
-                                                        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"If you are setting the menuName, it is possible that the head unit is sending incorrect displayCapabilities.", nil)
+                                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"If you are setting the menuName, it is possible that the head unit is sending incorrect displayCapabilities.", nil)
                                                        };
     return [NSError errorWithDomain:SDLErrorDomainChoiceSetManager code:SDLChoiceSetManagerErrorFailedToCreateMenuItems userInfo:userInfo];
 }
@@ -286,23 +286,23 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
     return [NSError errorWithDomain:SDLErrorDomainRPCStore code:SDLRPCStoreErrorGetInvalidObject userInfo:userInfo];
 }
 
-@end
+    @end
 
 
 @implementation NSException (SDLExceptions)
 
 + (NSException *)sdl_missingHandlerException {
     return [NSException
-        exceptionWithName:@"MissingHandlerException"
-                   reason:@"This request requires a handler to be specified using the <RPC>WithHandler class"
-                 userInfo:nil];
+            exceptionWithName:@"MissingHandlerException"
+            reason:@"This request requires a handler to be specified using the <RPC>WithHandler class"
+            userInfo:nil];
 }
 
 + (NSException *)sdl_missingIdException {
     return [NSException
-        exceptionWithName:@"MissingIdException"
-                   reason:@"This request requires an ID (command, softbutton, etc) to be specified"
-                 userInfo:nil];
+            exceptionWithName:@"MissingIdException"
+            reason:@"This request requires an ID (command, softbutton, etc) to be specified"
+            userInfo:nil];
 }
 
 + (NSException *)sdl_missingFilesException {
@@ -322,6 +322,12 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
                                  userInfo:nil];
 }
 
-@end
++ (NSException *)sdl_invalidLockscreenSetupException {
+    return [NSException exceptionWithName:@"com.sdl.lockscreen.setupException"
+                                   reason:@"SDL must be setup _after_ your app's window already exists"
+                                 userInfo:nil];
+}
+
+    @end
 
 NS_ASSUME_NONNULL_END
