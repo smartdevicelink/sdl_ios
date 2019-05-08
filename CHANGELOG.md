@@ -1,3 +1,10 @@
+# 6.2.2
+### Versions
+* Supports [SDL RPC Spec 5.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/5.1.0) and [SDL Protocol Spec 5.2.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.2.0).
+
+### Bug Fixes
+* Add an explicit exception if SDL is setup before the app's window. The app's window **must** be setup before SDL is started (https://www.github.com/smartdevicelink/sdl_ios/issues/1255).
+
 # 6.2.1
 ### Versions
 * Supports [SDL RPC Spec 5.1.0](https://github.com/smartdevicelink/rpc_spec/releases/tag/5.1.0) and [SDL Protocol Spec 5.2.0](https://github.com/smartdevicelink/protocol_spec/releases/tag/5.2.0).
