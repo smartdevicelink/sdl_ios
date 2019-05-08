@@ -30,70 +30,70 @@
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 44,
+      "line": 43,
       "symbol": "SDLAlert.-initWithAlertText1:alertText2:duration:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 46,
+      "line": 45,
       "symbol": "SDLAlert.-initWithAlertText1:alertText2:alertText3:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 48,
+      "line": 47,
       "symbol": "SDLAlert.-initWithAlertText1:alertText2:alertText3:duration:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 50,
+      "line": 49,
       "symbol": "SDLAlert.-initWithAlertText1:alertText2:alertText3:duration:softButtons:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 52,
+      "line": 51,
       "symbol": "SDLAlert.-initWithTTS:playTone:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 54,
+      "line": 53,
       "symbol": "SDLAlert.-initWithTTS:alertText1:alertText2:playTone:duration:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 56,
+      "line": 55,
       "symbol": "SDLAlert.-initWithTTS:alertText1:alertText2:alertText3:playTone:duration:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 58,
+      "line": 57,
       "symbol": "SDLAlert.-initWithTTSChunks:playTone:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 60,
+      "line": 59,
       "symbol": "SDLAlert.-initWithTTSChunks:alertText1:alertText2:alertText3:playTone:softButtons:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/joel/Projects/SDL/sdl_ios/SmartDeviceLink/SDLAlert.h",
-      "line": 62,
+      "line": 61,
       "symbol": "SDLAlert.-initWithTTSChunks:alertText1:alertText2:alertText3:playTone:duration:softButtons:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
