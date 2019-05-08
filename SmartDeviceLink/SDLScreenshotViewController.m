@@ -12,9 +12,9 @@
 
 @interface SDLScreenshotViewController ()
 
-    @property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) UIImageView *imageView;
 
-    @end
+@end
 
 @implementation SDLScreenshotViewController
 
@@ -80,5 +80,4 @@
     self.imageView.image = image;
 }
 
-
-    @end
+@end

@@ -286,7 +286,7 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
     return [NSError errorWithDomain:SDLErrorDomainRPCStore code:SDLRPCStoreErrorGetInvalidObject userInfo:userInfo];
 }
 
-    @end
+@end
 
 
 @implementation NSException (SDLExceptions)
@@ -328,6 +328,6 @@ SDLErrorDomain *const SDLErrorDomainRPCStore = @"com.sdl.rpcStore.error";
                                  userInfo:nil];
 }
 
-    @end
+@end
 
 NS_ASSUME_NONNULL_END
