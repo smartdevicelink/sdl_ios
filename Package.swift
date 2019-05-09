@@ -14,10 +14,10 @@ let package = Package(
         ),
         .target(
             name: "SmartDeviceLinkSwift",
-            path: "SmartDeviceLinkSwift",
             dependencies: [
                 "SmartDeviceLink"
-            ]
+            ],
+            path: "SmartDeviceLinkSwift"
         ),
     ]
 )
