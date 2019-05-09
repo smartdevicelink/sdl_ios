@@ -14,7 +14,7 @@ let package = Package(
         ),
         .target(
             name: "SmartDeviceLinkSwift",
-            path: "SmartDeviceLinkSwift"
+            path: "SmartDeviceLinkSwift",
             dependencies: [
                 "SmartDeviceLink"
             ]
