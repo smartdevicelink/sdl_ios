@@ -10,15 +10,17 @@
 #import "SDLIAPSessionDelegate.h"
 
 @class EAAccessory;
+@class SDLIAPControlSessionDelegate;
 @class SDLIAPSession;
+
+@protocol SDLIAPControlSessionDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^SDLIAPControlSessionRetryCompletionHandler)(void);
-typedef void (^SDLIAPControlSessionCreateDataSessionCompletionHandler)(EAAccessory *connectedaccessory, NSString *indexedProtocolString);
-
 /**
- *  A control session is used by to get the unique protocol string needed to create a session with Core. The control session is only used on legacy head units that do not support the multisession protocol which allows multiple apps to connect over the same protocol string. When the protocol string is received from Core, the control session is closed as a new session with Core must be established with the received protocol string. Core has ~10 seconds to send the protocol string, otherwise the control session is closed and new attempt is made to establish a control session with Core.
+ *  A control session is used to get the unique protocol string needed to create a session with Core. The control session is only used with legacy head units that do not support the multisession protocol. The multisession protocol allows multiple apps to connect over the same protocol string. A control session is needed because each app on the device needs to connect to the accessory using a unique protocol string.
+ *
+ *  When the protocol string is received from Core, the control session is closed as a new session with Core must be established with the received protocol string. Core has ~10 seconds to send the protocol string, otherwise the control session is closed and new attempt is made to establish a control session with Core.
  */
 @interface SDLIAPControlSession : NSObject
 
@@ -28,7 +30,7 @@ typedef void (^SDLIAPControlSessionCreateDataSessionCompletionHandler)(EAAccesso
 @property (nullable, strong, nonatomic, readonly) SDLIAPSession *session;
 
 /**
- *  The unique ID assigned to the session between the app and accessory. If no session exists the value will be 0.
+ *  The unique ID assigned to the session between the app and accessory. If no session exists the `connectionID` will be 0.
  */
 @property (assign, nonatomic, readonly) NSUInteger connectionID;
 
@@ -40,22 +42,26 @@ typedef void (^SDLIAPControlSessionCreateDataSessionCompletionHandler)(EAAccesso
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Sets a new control session.
+ *  Creates a new control session.
  *
- *  @param session                     The new control session
- *  @param retrySessionHandler         A handler called when the control session fails to be established and a new session should be attempted.
- *  @param createDataSessionHandler    A handler called when control session is successful and a new session must be established with the recevied protocol string.
- *  @return                            A SDLIAPControlSession object
+ *  @param session      The new control session. If a `nil` session is passed, the delegate will be notified that it should attempt to establish a new control session.
+ *  @param delegate     The control session delegate
+ *  @return             A SDLIAPControlSession object
  */
-- (instancetype)initWithSession:(nullable SDLIAPSession *)session retrySessionCompletionHandler:(SDLIAPControlSessionRetryCompletionHandler)retrySessionHandler createDataSessionCompletionHandler:(SDLIAPControlSessionCreateDataSessionCompletionHandler)createDataSessionHandler;
+- (instancetype)initWithSession:(nullable SDLIAPSession *)session delegate:(id<SDLIAPControlSessionDelegate>)delegate;
 
 /**
- *  Stops a current session.
+ *  Starts a control session.
+ */
+- (void)startSession;
+
+/**
+ *  Stops the current control session if it is open.
  */
 - (void)stopSession;
 
 /**
- *  Starts a timer for the session. Core has ~10 seconds to send the protocol string, otherwise the control session is closed.
+ *  Starts a timer for the session. Core has ~10 seconds to send the protocol string, otherwise the control session is closed and the delegate will be notified that it should attempt to establish a new control session.
  */
 - (void)startSessionTimer;
 

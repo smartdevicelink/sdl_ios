@@ -11,11 +11,11 @@
 #import "EAAccessory+SDLProtocols.h"
 #import "EAAccessoryManager+SDLProtocols.h"
 #import "SDLIAPConstants.h"
+#import "SDLIAPControlSessionDelegate.h"
 #import "SDLIAPSession.h"
 #import "SDLLogMacros.h"
 #import "SDLStreamDelegate.h"
 #import "SDLTimer.h"
-
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,12 +25,13 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
 @property (nullable, strong, nonatomic, readwrite) SDLIAPSession *session;
 @property (nullable, strong, nonatomic) SDLTimer *protocolIndexTimer;
+@property (weak, nonatomic) id<SDLIAPControlSessionDelegate> delegate;
 
 @end
 
 @implementation SDLIAPControlSession
 
-- (instancetype)initWithSession:(nullable SDLIAPSession *)session retrySessionCompletionHandler:(SDLIAPControlSessionRetryCompletionHandler)retrySessionHandler createDataSessionCompletionHandler:(SDLIAPControlSessionCreateDataSessionCompletionHandler)createDataSessionHandler {
+- (instancetype)initWithSession:(nullable SDLIAPSession *)session delegate:(id<SDLIAPControlSessionDelegate>)delegate {
     SDLLogV(@"SDLIAPControlSession init");
 
     self = [super init];
@@ -40,53 +41,51 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
     _session = session;
     _protocolIndexTimer = nil;
-
-    if (self.session) {
-        SDLLogD(@"Starting control session with accessory (%@)", self.session.accessory.name);
-        EAAccessory *accessory = session.accessory;
-        SDLStreamDelegate *controlStreamDelegate = [[SDLStreamDelegate alloc] init];
-        controlStreamDelegate.streamHasBytesHandler = [self sdl_controlStreamHasBytesHandlerForAccessory:accessory createDataSessionCompletionHandler:createDataSessionHandler];
-        controlStreamDelegate.streamEndHandler = [self sdl_controlStreamEndedHandlerWithRetrySessionHandler:retrySessionHandler];
-        controlStreamDelegate.streamErrorHandler = [self sdl_controlStreamEndedHandlerWithRetrySessionHandler:retrySessionHandler];
-        self.session.streamDelegate = controlStreamDelegate;
-
-        if (![self.session start]) {
-            SDLLogW(@"Control session failed to setup with accessory: %@. Retrying...", accessory);
-            [self stopSession];
-            if (retrySessionHandler != nil) {
-                retrySessionHandler();
-            }
-        } else {
-            SDLLogW(@"Control session started");
-            if (self.protocolIndexTimer != nil) {
-                SDLLogV(@"Cancelling control session timer");
-                [self.protocolIndexTimer cancel];
-            }
-
-            SDLLogD(@"Waiting for the protocol string from Core, setting timer for %d seconds", ProtocolIndexTimeoutSeconds);
-            self.protocolIndexTimer = [self sdl_createProtocolIndexTimerWithRetrySessionHandler:retrySessionHandler];
-        }
-    } else {
-        SDLLogW(@"Failed to setup control session");
-        if (retrySessionHandler != nil) {
-            retrySessionHandler();
-        }
-    }
+    _delegate = delegate;
 
     return self;
 }
 
-- (void)stopSession {
-    if (self.session != nil) {
-        SDLLogD(@"Stopping the control session");
-        [self.session stop];
-        self.session.streamDelegate = nil;
+- (void)startSession {
+    if (_session == nil) {
+        SDLLogW(@"There is no control session in progress, attempting to create a new control session.");
+        if (self.delegate == nil) { return; }
+        [self.delegate retryControlSession:self.session];
+    } else {
+        SDLLogD(@"Starting a control session with accessory (%@)", self.session.accessory.name);
+        EAAccessory *accessory = self.session.accessory;
+        SDLStreamDelegate *controlStreamDelegate = [[SDLStreamDelegate alloc] init];
+        controlStreamDelegate.streamHasBytesHandler = [self sdl_controlStreamHasBytesHandlerForAccessory:accessory];
+        controlStreamDelegate.streamEndHandler = [self sdl_controlStreamEnded];
+        controlStreamDelegate.streamErrorHandler = [self sdl_controlStreamErrored];
+        self.session.streamDelegate = controlStreamDelegate;
 
-        // Important - Do not destroy the session as it can a few seconds to close the input and output streams. If set to `nil`, the session will not close properly and a new session with the accessory can not be created.
+        if (![self.session start]) {
+            SDLLogW(@"Control session failed to setup with accessory: %@. Attempting to create a new control session", accessory);
+            [self stopSession];
+            if (self.delegate == nil) { return; }
+            [self.delegate retryControlSession:self.session];
+        } else {
+            SDLLogD(@"Waiting for the protocol string from Core, setting timer for %d seconds", ProtocolIndexTimeoutSeconds);
+            self.protocolIndexTimer = [self sdl_createProtocolIndexTimer];
+        }
     }
 }
 
-- (void)destroySession {
+- (void)stopSession {
+    if (_session == nil) {
+        SDLLogV(@"Attempting to stop the control session but the session is nil");
+        return;
+    }
+
+    SDLLogD(@"Stopping the control session");
+    [self.session stop];
+    self.session.streamDelegate = nil;
+
+    // Important - Do not destroy the session as it can a few seconds to close the input and output streams. If set to `nil`, the session will not close properly and a new session with the accessory can not be created.
+}
+
+- (void)sdl_destroySession {
     if (self.session == nil || self.isSessionInProgress) {
         SDLLogW(@"Control session in progress. Can not destroy");
         return;
@@ -106,10 +105,9 @@ int const ProtocolIndexTimeoutSeconds = 10;
 /**
  *  Handler called when the session gets a `NSStreamEventEndEncountered` event code. The current session is closed and a new session is attempted.
  *
- *  @param retrySessionHandler  A handler called when a new session should be attempted
- *  @return A SDLStreamEndHandler handler
+ *  @return                         A SDLStreamEndHandler handler
  */
-- (SDLStreamEndHandler)sdl_controlStreamEndedHandlerWithRetrySessionHandler:(SDLIAPControlSessionRetryCompletionHandler)retrySessionHandler {
+- (SDLStreamEndHandler)sdl_controlStreamEnded {
     __weak typeof(self) weakSelf = self;
 
     return ^(NSStream *stream) {
@@ -121,8 +119,8 @@ int const ProtocolIndexTimeoutSeconds = 10;
             [strongSelf.protocolIndexTimer cancel];
             [strongSelf stopSession];
 
-            if (retrySessionHandler == nil) { return; }
-            retrySessionHandler();
+            if (strongSelf.delegate == nil) { return; }
+            [strongSelf.delegate retryControlSession:strongSelf.session];
         }
     };
 }
@@ -130,11 +128,10 @@ int const ProtocolIndexTimeoutSeconds = 10;
 /**
  *  Handler called when the session gets a `NSStreamEventHasBytesAvailable` event code. A protocol string is created from the received data. Since a new session needs to be established with the protocol string, the current session is closed and a new session is created.
  *
- *  @param accessory                The connected accessory
- *  @param createDataSessionHandler A handler called when the data session is established successfully with Core
- *  @return                         A SDLStreamHasBytesHandler handler
+ *  @param accessory                    The connected accessory
+ *  @return                             A SDLStreamHasBytesHandler handler
  */
-- (SDLStreamHasBytesHandler)sdl_controlStreamHasBytesHandlerForAccessory:(EAAccessory *)accessory createDataSessionCompletionHandler:(SDLIAPControlSessionCreateDataSessionCompletionHandler)createDataSessionHandler {
+- (SDLStreamHasBytesHandler)sdl_controlStreamHasBytesHandlerForAccessory:(EAAccessory *)accessory {
     __weak typeof(self) weakSelf = self;
 
     return ^(NSInputStream *istream) {
@@ -156,13 +153,13 @@ int const ProtocolIndexTimeoutSeconds = 10;
         // Destroy the control session as it is no longer needed, and then create the data session.
         dispatch_sync(dispatch_get_main_queue(), ^{
             [strongSelf stopSession];
-            [strongSelf destroySession];
+            [strongSelf sdl_destroySession];
         });
 
         if (accessory.isConnected) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                if (createDataSessionHandler != nil) {
-                    createDataSessionHandler(accessory, indexedProtocolString);
+                if (strongSelf.delegate != nil) {
+                    [strongSelf.delegate controlSession:strongSelf.session didGetProtocolString:indexedProtocolString forConnectedAccessory:accessory];
                 }
                 [strongSelf.protocolIndexTimer cancel];
             });
@@ -173,10 +170,9 @@ int const ProtocolIndexTimeoutSeconds = 10;
 /**
  *  Handler called when the session gets a `NSStreamEventErrorOccurred` event code. The current session is closed and a new session is attempted.
  *
- *  @param retrySessionHandler  A handler called when a new session should be attempted
- *  @return A SDLStreamErrorHandler handler
+ *  @return                     A SDLStreamErrorHandler handler
  */
-- (SDLStreamErrorHandler)sdl_controlStreamErroredHandlerWithRetrySessionHandler:(SDLIAPControlSessionRetryCompletionHandler)retrySessionHandler {
+- (SDLStreamErrorHandler)sdl_controlStreamErrored {
     __weak typeof(self) weakSelf = self;
 
     return ^(NSStream *stream) {
@@ -186,8 +182,8 @@ int const ProtocolIndexTimeoutSeconds = 10;
         [strongSelf.protocolIndexTimer cancel];
         [strongSelf stopSession];
 
-        if (retrySessionHandler == nil) { return; }
-        retrySessionHandler();
+        if (self.delegate == nil) { return; }
+        [self.delegate retryControlSession:self.session];
     };
 }
 
@@ -198,7 +194,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
  *
  *  @return A timer
  */
-- (SDLTimer *)sdl_createProtocolIndexTimerWithRetrySessionHandler:(SDLIAPControlSessionRetryCompletionHandler)retrySessionHandler {
+- (SDLTimer *)sdl_createProtocolIndexTimer {
     SDLTimer *protocolIndexTimer = [[SDLTimer alloc] initWithDuration:ProtocolIndexTimeoutSeconds repeat:NO];
 
     __weak typeof(self) weakSelf = self;
@@ -207,11 +203,11 @@ int const ProtocolIndexTimeoutSeconds = 10;
         SDLLogW(@"Control session failed to get the protocol string from Core after %d seconds, retrying.", ProtocolIndexTimeoutSeconds);
         [strongSelf.session stop];
 
-        if (retrySessionHandler == nil) { return; }
-        retrySessionHandler();
+        if (strongSelf.delegate == nil) { return; }
+        [strongSelf.delegate retryControlSession:strongSelf.session];
     };
-    protocolIndexTimer.elapsedBlock = elapsedBlock;
 
+    protocolIndexTimer.elapsedBlock = elapsedBlock;
     return protocolIndexTimer;
 }
 

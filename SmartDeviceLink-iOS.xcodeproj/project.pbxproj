@@ -1237,6 +1237,7 @@
 		8816772922208B82001FACFF /* SDLNavigationInstructionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8816772822208B82001FACFF /* SDLNavigationInstructionSpec.m */; };
 		8816772C222097C3001FACFF /* SDLNavigationServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 8816772A222097C3001FACFF /* SDLNavigationServiceData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8816772D222097C3001FACFF /* SDLNavigationServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 8816772B222097C3001FACFF /* SDLNavigationServiceData.m */; };
+		8817C2802289F4B900DB2DEC /* SDLIAPDataSessionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8817C27F2289F41D00DB2DEC /* SDLIAPDataSessionDelegate.h */; };
 		8818ADD82100FC18007D6F19 /* SDLTurnSignal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8818ADD62100FC18007D6F19 /* SDLTurnSignal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8818ADD92100FC18007D6F19 /* SDLTurnSignal.m in Sources */ = {isa = PBXBuildFile; fileRef = 8818ADD72100FC18007D6F19 /* SDLTurnSignal.m */; };
 		8818ADDD2100FE0C007D6F19 /* SDLTurnSignalSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 8818ADDC2100FE0C007D6F19 /* SDLTurnSignalSpec.m */; };
@@ -1370,6 +1371,7 @@
 		88D3EBCA2267949D00493C38 /* SDLIAPDataSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D3EBC82267949D00493C38 /* SDLIAPDataSession.m */; };
 		88D5EB37220CD95000EC3782 /* SDLWeatherServiceData.h in Headers */ = {isa = PBXBuildFile; fileRef = 88D5EB35220CD95000EC3782 /* SDLWeatherServiceData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88D5EB38220CD95000EC3782 /* SDLWeatherServiceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 88D5EB36220CD95000EC3782 /* SDLWeatherServiceData.m */; };
+		88D99DB52289C82F0039E047 /* SDLIAPControlSessionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 88D99DB42289BFBE0039E047 /* SDLIAPControlSessionDelegate.h */; };
 		88DF998D22035CC600477AC1 /* EAAccessory+OCMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DF998C22035CC600477AC1 /* EAAccessory+OCMock.m */; };
 		88DF998F22035D1700477AC1 /* SDLIAPSessionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DF998E22035D1700477AC1 /* SDLIAPSessionSpec.m */; };
 		88DF999122035D5A00477AC1 /* SDLIAPTransportSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DF999022035D5A00477AC1 /* SDLIAPTransportSpec.m */; };
@@ -2871,6 +2873,7 @@
 		8816772822208B82001FACFF /* SDLNavigationInstructionSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationInstructionSpec.m; sourceTree = "<group>"; };
 		8816772A222097C3001FACFF /* SDLNavigationServiceData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLNavigationServiceData.h; sourceTree = "<group>"; };
 		8816772B222097C3001FACFF /* SDLNavigationServiceData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLNavigationServiceData.m; sourceTree = "<group>"; };
+		8817C27F2289F41D00DB2DEC /* SDLIAPDataSessionDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLIAPDataSessionDelegate.h; sourceTree = "<group>"; };
 		8818ADD62100FC18007D6F19 /* SDLTurnSignal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLTurnSignal.h; sourceTree = "<group>"; };
 		8818ADD72100FC18007D6F19 /* SDLTurnSignal.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTurnSignal.m; sourceTree = "<group>"; };
 		8818ADDC2100FE0C007D6F19 /* SDLTurnSignalSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLTurnSignalSpec.m; sourceTree = "<group>"; };
@@ -3002,6 +3005,7 @@
 		88D5EB36220CD95000EC3782 /* SDLWeatherServiceData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLWeatherServiceData.m; sourceTree = "<group>"; };
 		88D6F17D22319FE000D4BFB3 /* SDLRPCRequestNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLRPCRequestNotification.m; sourceTree = "<group>"; };
 		88D6F17E22319FE000D4BFB3 /* SDLRPCRequestNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLRPCRequestNotification.h; sourceTree = "<group>"; };
+		88D99DB42289BFBE0039E047 /* SDLIAPControlSessionDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLIAPControlSessionDelegate.h; sourceTree = "<group>"; };
 		88DF998C22035CC600477AC1 /* EAAccessory+OCMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "EAAccessory+OCMock.m"; sourceTree = "<group>"; };
 		88DF998E22035D1700477AC1 /* SDLIAPSessionSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLIAPSessionSpec.m; sourceTree = "<group>"; };
 		88DF999022035D5A00477AC1 /* SDLIAPTransportSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLIAPTransportSpec.m; sourceTree = "<group>"; };
@@ -5371,6 +5375,8 @@
 				88D3EBC82267949D00493C38 /* SDLIAPDataSession.m */,
 				880FE6252267AE5300723732 /* SDLIAPConstants.h */,
 				880FE6262267AE5300723732 /* SDLIAPConstants.m */,
+				88D99DB42289BFBE0039E047 /* SDLIAPControlSessionDelegate.h */,
+				8817C27F2289F41D00DB2DEC /* SDLIAPDataSessionDelegate.h */,
 			);
 			name = IAP;
 			sourceTree = "<group>";
@@ -6118,6 +6124,7 @@
 				5D61FC901A84238C00846EE7 /* SDLDisplayCapabilities.h in Headers */,
 				5D3E420A20EAAD6500D8C622 /* SDLTPMS.h in Headers */,
 				5D61FCE81A84238C00846EE7 /* SDLLanguage.h in Headers */,
+				8817C2802289F4B900DB2DEC /* SDLIAPDataSessionDelegate.h in Headers */,
 				5D61FC841A84238C00846EE7 /* SDLDeviceLevelStatus.h in Headers */,
 				5DB92D321AC9C8BA00C15BB0 /* SDLRPCStruct.h in Headers */,
 				5D61FD151A84238C00846EE7 /* SDLOnLockScreenStatus.h in Headers */,
@@ -6147,6 +6154,7 @@
 				DA9F7E6B1DCBFB0700ACAE48 /* SDLDeliveryMode.h in Headers */,
 				E9C32B941AB20BA200F283AF /* SDLStreamDelegate.h in Headers */,
 				DA9F7E871DCC049900ACAE48 /* SDLSubscribeWayPoints.h in Headers */,
+				88D99DB52289C82F0039E047 /* SDLIAPControlSessionDelegate.h in Headers */,
 				5D61FDBB1A84238C00846EE7 /* SDLSystemAction.h in Headers */,
 				5D8A09811F54B4E5002502A2 /* SDLStreamingMediaManagerDataSource.h in Headers */,
 				5D61FC9C1A84238C00846EE7 /* SDLEmergencyEventType.h in Headers */,
@@ -6710,7 +6718,7 @@
 					};
 					5D61FA1B1A84237100846EE7 = {
 						CreatedOnToolsVersion = 6.1.1;
-						LastSwiftMigration = 0940;
+						LastSwiftMigration = 1020;
 					};
 					5D61FA251A84237100846EE7 = {
 						CreatedOnToolsVersion = 6.1.1;

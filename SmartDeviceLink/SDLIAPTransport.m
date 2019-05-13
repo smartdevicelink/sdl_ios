@@ -11,6 +11,7 @@
 #import "SDLGlobals.h"
 #import "SDLIAPConstants.h"
 #import "SDLIAPControlSession.h"
+#import "SDLIAPControlSessionDelegate.h"
 #import "SDLIAPDataSession.h"
 #import "SDLIAPSession.h"
 #import "SDLLogMacros.h"
@@ -18,13 +19,12 @@
 #import "SDLTimer.h"
 #import <CommonCrypto/CommonDigest.h>
 
-
 NS_ASSUME_NONNULL_BEGIN
 
 NSString *const BackgroundTaskName = @"com.sdl.transport.iap.backgroundTask";
 int const CreateSessionRetries = 3;
 
-@interface SDLIAPTransport ()
+@interface SDLIAPTransport () <SDLIAPControlSessionDelegate>
 
 @property (nullable, strong, nonatomic) SDLIAPControlSession *controlSession;
 @property (nullable, strong, nonatomic) SDLIAPDataSession *dataSession;
@@ -319,7 +319,7 @@ int const CreateSessionRetries = 3;
 - (SDLIAPControlSession *)sdl_createControlSessionWithAccessory:(EAAccessory *)accessory sessionDelegate:(id<SDLIAPSessionDelegate>)sessionDelegate {
     SDLIAPSession *session = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:ControlProtocolString];
     session.delegate = sessionDelegate;
-    return [[SDLIAPControlSession alloc] initWithSession:session retrySessionCompletionHandler:self.retryControlSessionHandler createDataSessionCompletionHandler:self.createDataSessionCompletionHandler];
+    return [[SDLIAPControlSession alloc] initWithSession:session delegate:self];
 }
 
 /**
@@ -419,33 +419,6 @@ int const CreateSessionRetries = 3;
 
 
 #pragma mark - Session Handlers
-
-#pragma mark Control Session Handlers
-
-/**
- *  Called when the control session should be retried.
- *
- *  @return A SDLIAPControlSessionRetryCompletionHandler handler
- */
-- (nullable SDLIAPControlSessionRetryCompletionHandler)retryControlSessionHandler {
-    __weak typeof(self) weakSelf = self;
-    return ^{
-        [weakSelf sdl_retryEstablishSession];
-    };
-}
-
-/**
- *  Called when the control session got the protocol string successfully and the data session can be opened with the protocol string.
- *
- *  @return A SDLIAPControlSessionCreateDataSessionCompletionHandler handler
- */
-- (nullable SDLIAPControlSessionCreateDataSessionCompletionHandler)createDataSessionCompletionHandler {
-    __weak typeof(self) weakSelf = self;
-    return ^(EAAccessory * _Nonnull connectedaccessory, NSString * _Nonnull indexedProtocolString) {
-        weakSelf.dataSession = [weakSelf sdl_createDataSessionWithAccessory:connectedaccessory forProtocol:indexedProtocolString sessionDelegate:weakSelf];
-    };
-}
-
 
 #pragma mark Data Session Handlers
 
@@ -608,6 +581,28 @@ int const CreateSessionRetries = 3;
     self.delegate = nil;
     self.sessionSetupInProgress = NO;
     self.accessoryConnectDuringActiveSession = NO;
+}
+
+#pragma mark - SDLIAPControlSessionDelegate
+
+/**
+ *  Called when the control session got the protocol string successfully and the data session can be opened with the protocol string.
+ *
+ *  @param controlSession   The control session
+ *  @param protocolString   The protocol string to be used to open the data session
+ *  @param accessory        The accessory with which to create a data session
+ */
+- (void)controlSession:(nonnull SDLIAPSession *)controlSession didGetProtocolString:(nonnull NSString *)protocolString forConnectedAccessory:(nonnull EAAccessory *)accessory {
+    self.dataSession = [self sdl_createDataSessionWithAccessory:accessory forProtocol:protocolString sessionDelegate:self];
+}
+
+/**
+ *  Called when the control session should be retried.
+ *
+ *  @param controlSession The control session
+ */
+- (void)retryControlSession:(nullable SDLIAPSession *)controlSession {
+    [self sdl_retryEstablishSession];
 }
 
 @end

@@ -15,6 +15,7 @@
 #import "SDLIAPSession.h"
 #import "SDLTimer.h"
 #import "SDLIAPControlSession.h"
+#import "SDLIAPControlSessionDelegate.h"
 #import "SDLIAPDataSession.h"
 
 @interface SDLIAPTransport ()
@@ -155,13 +156,13 @@ describe(@"SDLIAPTransport", ^{
         describe(@"When a control session is open", ^{
             __block SDLIAPSession *mockControlSession = nil;
             __block NSNotification *accessoryDisconnectedNotification = nil;
+            __block id<SDLIAPControlSessionDelegate> mockDelegate = nil;
 
             beforeEach(^{
+                mockDelegate = OCMProtocolMock(@protocol(SDLIAPControlSessionDelegate));
                 mockControlSession = OCMClassMock([SDLIAPSession class]);
                 OCMStub([mockControlSession accessory]).andReturn(mockAccessory);
-                transport.controlSession = [[SDLIAPControlSession alloc] initWithSession:mockControlSession retrySessionCompletionHandler:^{
-                } createDataSessionCompletionHandler:^(EAAccessory * _Nonnull connectedaccessory, NSString * _Nonnull indexedProtocolString) {
-                }];
+                transport.controlSession = [[SDLIAPControlSession alloc] initWithSession:mockControlSession delegate:mockDelegate];
 
                 transport.dataSession = nil;
                 transport.sessionSetupInProgress = YES;
