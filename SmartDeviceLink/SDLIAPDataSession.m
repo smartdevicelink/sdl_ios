@@ -13,6 +13,7 @@
 #import "SDLIAPSession.h"
 #import "SDLLogMacros.h"
 #import "SDLStreamDelegate.h"
+#import "SDLIAPDataSessionDelegate.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -20,12 +21,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SDLIAPDataSession ()
 
 @property (nullable, strong, nonatomic, readwrite) SDLIAPSession *session;
+@property (weak, nonatomic) id<SDLIAPDataSessionDelegate> delegate;
 
 @end
 
 @implementation SDLIAPDataSession
 
-- (instancetype)initWithSession:(nullable SDLIAPSession *)session retrySessionCompletionHandler:(SDLIAPDataSessionRetryCompletionHandler)retrySessionHandler dataReceivedCompletionHandler:(SDLIAPDataSessionDataReceivedHandler)dataReceivedHandler {
+- (instancetype)initWithSession:(nullable SDLIAPSession *)session delegate:(id<SDLIAPDataSessionDelegate>)delegate {
     SDLLogV(@"SDLIAPDataSession init");
 
     self = [super init];
@@ -34,40 +36,44 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     _session = session;
-
-    if (self.session) {
-        SDLLogD(@"Starting data session with accessory: %@, using protocol: %@", self.session.accessory.name, session.protocol);
-        SDLStreamDelegate *ioStreamDelegate = [[SDLStreamDelegate alloc] init];
-        self.session.streamDelegate = ioStreamDelegate;
-        ioStreamDelegate.streamHasBytesHandler = [self sdl_dataStreamHasBytesHandlerWithDataReceivedHandler:dataReceivedHandler];
-        ioStreamDelegate.streamEndHandler = [self sdl_dataStreamEndedHandlerWithRetrySessionHandler:retrySessionHandler];
-        ioStreamDelegate.streamErrorHandler = [self sdl_dataStreamErroredHandlerWithRetrySessionHandler:retrySessionHandler];
-
-        if (![self.session start]) {
-            SDLLogW(@"Data session failed to setup with accessory: %@. Retrying...", session.accessory);
-            [self stopSession];
-            if (retrySessionHandler != nil) {
-                retrySessionHandler();
-            }
-        }
-    } else {
-        SDLLogW(@"Failed to setup data session");
-        if (retrySessionHandler != nil) {
-            retrySessionHandler();
-        }
-    }
+    _delegate = delegate;
 
     return self;
 }
 
-- (void)stopSession {
-    if (self.session != nil) {
-        SDLLogD(@"Stopping the data session");
-        [self.session stop];
-        self.session.streamDelegate = nil;
+- (void)startSession {
+    if (_session == nil) {
+        SDLLogW(@"Failed to setup data session");
+        if (self.delegate == nil) { return; }
+        [self.delegate retryDataSession:self.session];
+    } else {
+        SDLLogD(@"Starting data session with accessory: %@, using protocol: %@", self.session.accessory.name, self.session.protocol);
+        SDLStreamDelegate *ioStreamDelegate = [[SDLStreamDelegate alloc] init];
+        self.session.streamDelegate = ioStreamDelegate;
+        ioStreamDelegate.streamHasBytesHandler = [self sdl_dataStreamHasBytesHandler];
+        ioStreamDelegate.streamEndHandler = [self sdl_dataStreamEndedHandler];
+        ioStreamDelegate.streamErrorHandler = [self sdl_dataStreamErroredHandler];
 
-        // Important - Do not destroy the session as it can a few seconds to close the input and output streams. If set to `nil`, the session will not close properly and a new session with the accessory can not be created.
+        if (![self.session start]) {
+            SDLLogW(@"Data session failed to setup with accessory: %@. Retrying...", self.session.accessory);
+            [self stopSession];
+            if (self.delegate == nil) { return; }
+            [self.delegate retryDataSession:self.session];
+        }
     }
+}
+
+- (void)stopSession {
+    if (_session == nil) {
+        SDLLogV(@"Attempting to stop the data session but the session is nil");
+        return;
+    }
+
+    SDLLogD(@"Stopping the data session");
+    [self.session stop];
+    self.session.streamDelegate = nil;
+
+    // Important - Do not destroy the session as it can a few seconds to close the input and output streams. If set to `nil`, the session will not close properly and a new session with the accessory can not be created.
 }
 
 #pragma mark - Data Stream Handlers
@@ -75,10 +81,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Handler called when the session gets a `NSStreamEventEndEncountered` event code. The current session is closed and a new session is attempted.
  *
- *  @param retrySessionHandler  A handler called when a new session should be attempted
- *  @return                     A SDLStreamEndHandler handler
+ *  @return A SDLStreamEndHandler handler
  */
-- (SDLStreamEndHandler)sdl_dataStreamEndedHandlerWithRetrySessionHandler:(SDLIAPDataSessionRetryCompletionHandler)retrySessionHandler {
+- (SDLStreamEndHandler)sdl_dataStreamEndedHandler {
     __weak typeof(self) weakSelf = self;
     return ^(NSStream *stream) {
         NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
@@ -93,8 +98,8 @@ NS_ASSUME_NONNULL_BEGIN
         dispatch_async(dispatch_get_main_queue(), ^{
             [strongSelf stopSession];
 
-            if (retrySessionHandler == nil) { return; }
-            retrySessionHandler();
+            if (self.delegate == nil) { return; }
+            [self.delegate retryDataSession:self.session];
         });
 
         // To prevent deadlocks the handler must return to the runloop and not block the thread
@@ -104,11 +109,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Handler called when the session gets a `NSStreamEventHasBytesAvailable` event code. The data is passed to the listener.
  *
- *  @param dataReceivedHandler  A handler called when data is received from Core
- *  @return                     A SDLStreamHasBytesHandler handler
+ *  @return A SDLStreamHasBytesHandler handler
  */
-- (SDLStreamHasBytesHandler)sdl_dataStreamHasBytesHandlerWithDataReceivedHandler:(SDLIAPDataSessionDataReceivedHandler)dataReceivedHandler {
+- (SDLStreamHasBytesHandler)sdl_dataStreamHasBytesHandler {
+    __weak typeof(self) weakSelf = self;
     return ^(NSInputStream *istream) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+
         NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
         uint8_t buf[[[SDLGlobals sharedGlobals] mtuSizeForServiceType:SDLServiceTypeRPC]];
         while (istream.streamStatus == NSStreamStatusOpen && istream.hasBytesAvailable) {
@@ -124,8 +131,8 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogBytes(dataIn, SDLLogBytesDirectionReceive);
 
             if (bytesRead > 0) {
-                if (dataReceivedHandler == nil) { return; }
-                dataReceivedHandler(dataIn);
+                if (strongSelf.delegate == nil) { return; }
+                [strongSelf.delegate dataReceived:dataIn];
             } else {
                 break;
             }
@@ -136,20 +143,20 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Handler called when the session gets a `NSStreamEventErrorOccurred` event code. The current session is closed and a new session is attempted.
  *
- *  @param retrySessionHandler A handler called when a new session should be attempted
- *  @return                    A SDLStreamErrorHandler handler
+ *  @return A SDLStreamErrorHandler handler
  */
-- (SDLStreamErrorHandler)sdl_dataStreamErroredHandlerWithRetrySessionHandler:(SDLIAPDataSessionRetryCompletionHandler)retrySessionHandler {
+- (SDLStreamErrorHandler)sdl_dataStreamErroredHandler {
     __weak typeof(self) weakSelf = self;
     return ^(NSStream *stream) {
         NSAssert(!NSThread.isMainThread, @"%@ should only be called on the IO thread", NSStringFromSelector(_cmd));
         __strong typeof(weakSelf) strongSelf = weakSelf;
+
         SDLLogE(@"Data stream error");
         dispatch_async(dispatch_get_main_queue(), ^{
             [strongSelf stopSession];
             if (![LegacyProtocolString isEqualToString:strongSelf.session.protocol]) {
-                if (retrySessionHandler == nil) { return; }
-                retrySessionHandler();
+                if (self.delegate == nil) { return; }
+                [self.delegate retryDataSession:strongSelf.session];
             }
         });
 

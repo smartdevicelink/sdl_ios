@@ -15,6 +15,11 @@
 #import "EAAccessory+OCMock.m"
 #import "SDLIAPConstants.h"
 #import "SDLIAPSession.h"
+#import "SDLIAPDataSessionDelegate.h"
+
+@interface SDLIAPDataSession()
+@property (weak, nonatomic) id<SDLIAPDataSessionDelegate> delegate;
+@end
 
 QuickSpecBegin(SDLIAPDataSessionSpec)
 
@@ -22,101 +27,144 @@ describe(@"SDLIAPDataSession", ^{
     __block SDLIAPDataSession *dataSession = nil;
     __block EAAccessory *mockAccessory = nil;
     __block SDLIAPSession *mockSession = nil;
-    __block BOOL retryHandlerCalled = nil;
-    __block BOOL createDataSessionHandlerCalled = nil;
-    
-    beforeEach(^{
-        retryHandlerCalled = NO;
-        createDataSessionHandlerCalled = NO;
+    __block id<SDLIAPDataSessionDelegate> mockDelegate = nil;
 
+    beforeEach(^{
+        mockDelegate = OCMProtocolMock(@protocol(SDLIAPDataSessionDelegate));
         mockAccessory = [EAAccessory.class sdlCoreMock];
         mockSession = OCMClassMock([SDLIAPSession class]);
         OCMStub([mockSession accessory]).andReturn(mockAccessory);
     });
 
-    describe(@"When a session starts successfully", ^{
-        beforeEach(^{
-            OCMStub([mockSession start]).andReturn(YES);
-            dataSession = [[SDLIAPDataSession alloc] initWithSession:mockSession retrySessionCompletionHandler:^{
-                retryHandlerCalled = YES;
-            } dataReceivedCompletionHandler:^(NSData * _Nonnull dataIn) {
-                createDataSessionHandlerCalled = YES;
-            }];
-        });
-
-        it(@"Should set the sesion", ^{
-            expect(dataSession.session).toNot(beNil());
-            expect(dataSession.connectionID).to(equal(5));
-        });
-
-        it(@"Should not try to establish a new session", ^{
-            expect(retryHandlerCalled).to(beFalse());
-            expect(createDataSessionHandlerCalled).to(beFalse());
-        });
-
-        describe(@"When checking if the session is in progress", ^{
-            it(@"Should not be in progress if the session is stopped", ^{
-                OCMStub([mockSession isStopped]).andReturn(NO);
-                expect(dataSession.isSessionInProgress).to(beTrue());
+    describe(@"init", ^{
+        context(@"with a valid session", ^{
+            beforeEach(^{
+                dataSession = [[SDLIAPDataSession alloc] initWithSession:mockSession delegate:mockDelegate];
             });
 
-            it(@"Should be in progress if the session is running", ^{
-                OCMStub([mockSession isStopped]).andReturn(YES);
-                expect(dataSession.isSessionInProgress).to(beFalse());
+            it(@"Should get/set correctly", ^{
+                expect(dataSession.session).toNot(beNil());
+                expect(dataSession.connectionID).to(equal(5));
+                expect(dataSession.delegate).to(equal(mockDelegate));
+            });
+
+            describe(@"When checking if the session is in progress", ^{
+                it(@"Should not be in progress if the session is stopped", ^{
+                    OCMStub([mockSession isStopped]).andReturn(NO);
+                    expect(dataSession.isSessionInProgress).to(beTrue());
+                });
+
+                it(@"Should be in progress if the session is running", ^{
+                    OCMStub([mockSession isStopped]).andReturn(YES);
+                    expect(dataSession.isSessionInProgress).to(beFalse());
+                });
+            });
+        });
+
+        context(@"with a nil session", ^{
+            beforeEach(^{
+                dataSession = [[SDLIAPDataSession alloc] initWithSession:nil delegate:mockDelegate];
+            });
+
+            it(@"Should get/set correctly", ^{
+                expect(dataSession.session).to(beNil());
+                expect(dataSession.connectionID).to(equal(0));
+                expect(dataSession.delegate).to(equal(mockDelegate));
+            });
+
+            describe(@"When checking if the session is in progress", ^{
+                it(@"Should not be in progress if the session is stopped because the session is `nil`", ^{
+                    OCMStub([mockSession isStopped]).andReturn(NO);
+                    expect(dataSession.isSessionInProgress).to(beFalse());
+                });
+
+                it(@"Should be in progress if the session is running becasue the session is `nil`", ^{
+                    OCMStub([mockSession isStopped]).andReturn(YES);
+                    expect(dataSession.isSessionInProgress).to(beFalse());
+                });
             });
         });
     });
 
-    describe(@"When a session does not start successfully", ^{
-        beforeEach(^{
-            OCMStub([mockSession start]).andReturn(NO);
-            dataSession = [[SDLIAPDataSession alloc] initWithSession:mockSession retrySessionCompletionHandler:^{
-                retryHandlerCalled = YES;
-            } dataReceivedCompletionHandler:^(NSData * _Nonnull dataIn) {
-                createDataSessionHandlerCalled = YES;
-            }];
+
+    describe(@"Starting a session", ^{
+        xdescribe(@"When a session starts successfully", ^{
+            beforeEach(^{
+                OCMStub([mockSession start]).andReturn(YES);
+                dataSession = [[SDLIAPDataSession alloc] initWithSession:mockSession delegate:mockDelegate];
+                [dataSession startSession];
+            });
+
+            it(@"Should not try to establish a new session", ^{
+                OCMReject([mockDelegate retryDataSession:[OCMArg any]]);
+                OCMReject([mockDelegate dataReceived:[OCMArg any]]);
+            });
         });
 
-        it(@"Should try to establish a new session", ^{
-            expect(retryHandlerCalled).to(beTrue());
-            expect(createDataSessionHandlerCalled).to(beFalse());
+        describe(@"When a session does not start successfully", ^{
+            beforeEach(^{
+                OCMStub([mockSession start]).andReturn(NO);
+                dataSession = [[SDLIAPDataSession alloc] initWithSession:mockSession delegate:mockDelegate];
+                [dataSession startSession];
+            });
+
+            it(@"Should try to establish a new session", ^{
+                OCMVerify([mockDelegate retryDataSession:[OCMArg any]]);
+                OCMReject([mockDelegate dataReceived:[OCMArg any]]);
+            });
+
+            it(@"Should should stop but not destroy the session", ^{
+                expect(dataSession.session).toNot(beNil());
+                expect(dataSession.connectionID).to(equal(5));
+            });
+
+            it(@"Should should stop but not destroy the session", ^{
+                OCMVerify([mockSession stop]);
+            });
         });
 
-        it(@"Should should stop but not destroy the session", ^{
-            expect(dataSession.session).toNot(beNil());
-            expect(dataSession.connectionID).to(equal(5));
+        describe(@"When a session can not be started because the session is nil", ^{
+            beforeEach(^{
+                dataSession = [[SDLIAPDataSession alloc] initWithSession:nil delegate:mockDelegate];
+                [dataSession startSession];
+            });
 
-            OCMVerify([mockSession stop]);
+            it(@"Should return a connectionID of zero", ^{
+                expect(dataSession.connectionID).to(equal(0));
+            });
+
+            it(@"Should try to establish a new session", ^{
+                OCMVerify([mockDelegate retryDataSession:[OCMArg any]]);
+                OCMReject([mockDelegate dataReceived:[OCMArg any]]);
+            });
         });
     });
 
-    describe(@"When a session is nil", ^{
-        beforeEach(^{
-            mockSession = nil;
-            dataSession = [[SDLIAPDataSession alloc] initWithSession:mockSession retrySessionCompletionHandler:^{
-                retryHandlerCalled = YES;
-            } dataReceivedCompletionHandler:^(NSData * _Nonnull dataIn) {
-                createDataSessionHandlerCalled = YES;
-            }];
+    describe(@"Stopping a session", ^{
+        context(@"that is nil", ^{
+            beforeEach(^{
+                dataSession = [[SDLIAPDataSession alloc] initWithSession:nil delegate:mockDelegate];
+                [dataSession stopSession];
+            });
+
+            it(@"Should not try to stop the session", ^{
+                expect(dataSession.session).to(beNil());
+            });
         });
 
-        it(@"Should not set the session", ^{
-            expect(dataSession).toNot(beNil());
-            expect(dataSession.session).to(beNil());
-        });
+        context(@"that is started", ^{
+            beforeEach(^{
+                dataSession = [[SDLIAPDataSession alloc] initWithSession:mockSession delegate:mockDelegate];
+                [dataSession stopSession];
+            });
 
-        it(@"Should return a connectionID of zero", ^{
-            expect(dataSession.connectionID).to(equal(0));
-        });
+            it(@"Should try to stop the session", ^{
+                expect(dataSession.session).toNot(beNil());
+                expect(dataSession.session.streamDelegate).to(beNil());
+            });
 
-        it(@"Should try to establish a new session", ^{
-            expect(retryHandlerCalled).to(beTrue());
-            expect(createDataSessionHandlerCalled).to(beFalse());
-        });
-
-        describe(@"When checking if the session is in progress", ^{
-            it(@"Should not be in progress if the session is nil", ^{
-                expect(dataSession.isSessionInProgress).to(beFalse());
+            it(@"Should should stop but not destroy the session", ^{
+                OCMVerify([mockSession stop]);
             });
         });
     });

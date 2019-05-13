@@ -10,10 +10,9 @@
 
 @class SDLIAPSession;
 
-NS_ASSUME_NONNULL_BEGIN
+@protocol SDLIAPDataSessionDelegate;
 
-typedef void (^SDLIAPDataSessionRetryCompletionHandler)(void);
-typedef void (^SDLIAPDataSessionDataReceivedHandler)(NSData *dataIn);
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SDLIAPDataSession : NSObject
 
@@ -35,14 +34,18 @@ typedef void (^SDLIAPDataSessionDataReceivedHandler)(NSData *dataIn);
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Sets a new data session.
+ *  Creates a new data session.
  *
- *  @param session The new data session.
- *  @param retrySessionHandler A handler called when the data session fails to be established and a new session should be attempted.
- *  @param dataReceivedHandler A handler called when data is received from Core
- *  @return A SDLIAPSession object
+ *  @param session      The new data session. If a `nil` session is passed, the delegate will be notified that it should attempt to establish a new data session.
+ *  @param delegate     The data session delegate
+ *  @return             A SDLIAPSession object
  */
-- (instancetype)initWithSession:(nullable SDLIAPSession *)session retrySessionCompletionHandler:(SDLIAPDataSessionRetryCompletionHandler)retrySessionHandler dataReceivedCompletionHandler:(SDLIAPDataSessionDataReceivedHandler)dataReceivedHandler;
+- (instancetype)initWithSession:(nullable SDLIAPSession *)session delegate:(id<SDLIAPDataSessionDelegate>)delegate;
+
+/**
+ *  Starts a data session.
+ */
+- (void)startSession;
 
 /**
  *  Stops a current session.

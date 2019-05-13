@@ -100,13 +100,14 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
             }
             self.ioStreamThread = nil;
             self.isDataSession = NO;
+            self.easession = nil;
         }];
     } else {
         // Stop control session
         [self stopStream:self.easession.outputStream];
         [self stopStream:self.easession.inputStream];
+        self.easession = nil;
     }
-    self.easession = nil;
 }
 
 - (void)sdl_isIOThreadCanceled:(dispatch_semaphore_t)canceledSemaphore completionHandler:(void (^)(BOOL success))completionHandler {

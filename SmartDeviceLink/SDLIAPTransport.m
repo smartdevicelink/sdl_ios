@@ -13,6 +13,7 @@
 #import "SDLIAPControlSession.h"
 #import "SDLIAPControlSessionDelegate.h"
 #import "SDLIAPDataSession.h"
+#import "SDLIAPDataSessionDelegate.h"
 #import "SDLIAPSession.h"
 #import "SDLLogMacros.h"
 #import "SDLStreamDelegate.h"
@@ -24,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 NSString *const BackgroundTaskName = @"com.sdl.transport.iap.backgroundTask";
 int const CreateSessionRetries = 3;
 
-@interface SDLIAPTransport () <SDLIAPControlSessionDelegate>
+@interface SDLIAPTransport () <SDLIAPControlSessionDelegate, SDLIAPDataSessionDelegate>
 
 @property (nullable, strong, nonatomic) SDLIAPControlSession *controlSession;
 @property (nullable, strong, nonatomic) SDLIAPDataSession *dataSession;
@@ -333,7 +334,7 @@ int const CreateSessionRetries = 3;
 - (SDLIAPDataSession *)sdl_createDataSessionWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol sessionDelegate:(id<SDLIAPSessionDelegate>)sessionDelegate {
     SDLIAPSession *session = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:protocol];
     session.delegate = sessionDelegate;
-    return [[SDLIAPDataSession alloc] initWithSession:session retrySessionCompletionHandler:self.retryDataSessionHandler dataReceivedCompletionHandler:self.dataReceivedHandler];
+    return [[SDLIAPDataSession alloc] initWithSession:session delegate:self];
 }
 
 /**
@@ -415,36 +416,6 @@ int const CreateSessionRetries = 3;
 
     // Search connected accessories
     [self sdl_connect:nil];
-}
-
-
-#pragma mark - Session Handlers
-
-#pragma mark Data Session Handlers
-
-/**
- *  Called when the data session should be retried.
- *
- *  @return A SDLIAPDataSessionRetryCompletionHandler handler
- */
-- (nullable SDLIAPDataSessionRetryCompletionHandler)retryDataSessionHandler {
-    __weak typeof(self) weakSelf = self;
-    return ^{
-        [weakSelf sdl_retryEstablishSession];
-    };
-}
-
-/**
- *  Called when data is received during the data session. The data is passed to the listeners.
- *
- *  @return A SDLIAPDataSessionCreateDataReceivedHandler handler
- */
-- (nullable SDLIAPDataSessionDataReceivedHandler)dataReceivedHandler {
-    __weak typeof(self) weakSelf = self;
-    return ^(NSData * _Nonnull dataIn) {
-        [weakSelf.delegate onDataReceived:dataIn];
-        [weakSelf sdl_backgroundTaskStart];
-    };
 }
 
 #pragma mark - SDLIAPSessionDelegate
@@ -583,7 +554,9 @@ int const CreateSessionRetries = 3;
     self.accessoryConnectDuringActiveSession = NO;
 }
 
-#pragma mark - SDLIAPControlSessionDelegate
+#pragma mark - iAP Session Delegates
+
+#pragma mark Control Session
 
 /**
  *  Called when the control session got the protocol string successfully and the data session can be opened with the protocol string.
@@ -602,6 +575,17 @@ int const CreateSessionRetries = 3;
  *  @param controlSession The control session
  */
 - (void)retryControlSession:(nullable SDLIAPSession *)controlSession {
+    [self sdl_retryEstablishSession];
+}
+
+#pragma mark Data Session
+
+- (void)dataReceived:(nonnull NSData *)dataIn {
+    [self.delegate onDataReceived:dataIn];
+    [self sdl_backgroundTaskStart];
+}
+
+- (void)retryDataSession:(nullable SDLIAPSession *)dataSession {
     [self sdl_retryEstablishSession];
 }
 

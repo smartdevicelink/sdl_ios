@@ -5362,6 +5362,8 @@
 		5DAB5F582098E8BC00A020C8 /* IAP */ = {
 			isa = PBXGroup;
 			children = (
+				884DFBCB2289F6FF00EA8846 /* Data Session */,
+				884DFBCA2289F6EA00EA8846 /* Control Session */,
 				E9C32B891AB20BA200F283AF /* SDLIAPSession.h */,
 				E9C32B8A1AB20BA200F283AF /* SDLIAPSession.m */,
 				E9C32B8B1AB20BA200F283AF /* SDLIAPSessionDelegate.h */,
@@ -5369,14 +5371,8 @@
 				5D61FADB1A84238A00846EE7 /* SDLIAPTransport.m */,
 				E9C32B8C1AB20BA200F283AF /* SDLStreamDelegate.h */,
 				E9C32B8D1AB20BA200F283AF /* SDLStreamDelegate.m */,
-				88BCEA902266250B00BB7E70 /* SDLIAPControlSession.h */,
-				88BCEA912266250B00BB7E70 /* SDLIAPControlSession.m */,
-				88D3EBC72267949D00493C38 /* SDLIAPDataSession.h */,
-				88D3EBC82267949D00493C38 /* SDLIAPDataSession.m */,
 				880FE6252267AE5300723732 /* SDLIAPConstants.h */,
 				880FE6262267AE5300723732 /* SDLIAPConstants.m */,
-				88D99DB42289BFBE0039E047 /* SDLIAPControlSessionDelegate.h */,
-				8817C27F2289F41D00DB2DEC /* SDLIAPDataSessionDelegate.h */,
 			);
 			name = IAP;
 			sourceTree = "<group>";
@@ -5859,6 +5855,26 @@
 				5D1FF2C2213045EB000EB9B4 /* AppConstants.m */,
 			);
 			name = "Shared Assets";
+			sourceTree = "<group>";
+		};
+		884DFBCA2289F6EA00EA8846 /* Control Session */ = {
+			isa = PBXGroup;
+			children = (
+				88D99DB42289BFBE0039E047 /* SDLIAPControlSessionDelegate.h */,
+				88BCEA902266250B00BB7E70 /* SDLIAPControlSession.h */,
+				88BCEA912266250B00BB7E70 /* SDLIAPControlSession.m */,
+			);
+			name = "Control Session";
+			sourceTree = "<group>";
+		};
+		884DFBCB2289F6FF00EA8846 /* Data Session */ = {
+			isa = PBXGroup;
+			children = (
+				88D3EBC72267949D00493C38 /* SDLIAPDataSession.h */,
+				88D3EBC82267949D00493C38 /* SDLIAPDataSession.m */,
+				8817C27F2289F41D00DB2DEC /* SDLIAPDataSessionDelegate.h */,
+			);
+			name = "Data Session";
 			sourceTree = "<group>";
 		};
 		88A0AA5F207CFEA60075132C /* Connection */ = {

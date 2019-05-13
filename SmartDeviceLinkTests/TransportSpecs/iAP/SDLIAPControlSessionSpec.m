@@ -33,11 +33,10 @@ describe(@"SDLIAPControlSession", ^{
     __block id<SDLIAPControlSessionDelegate> mockDelegate = nil;
 
     beforeEach(^{
+        mockDelegate = OCMProtocolMock(@protocol(SDLIAPControlSessionDelegate));
         mockAccessory = [EAAccessory.class sdlCoreMock];
         mockSession = OCMClassMock([SDLIAPSession class]);
         OCMStub([mockSession accessory]).andReturn(mockAccessory);
-
-        mockDelegate = OCMProtocolMock(@protocol(SDLIAPControlSessionDelegate));
     });
 
     describe(@"init", ^{

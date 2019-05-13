@@ -17,6 +17,7 @@
 #import "SDLIAPControlSession.h"
 #import "SDLIAPControlSessionDelegate.h"
 #import "SDLIAPDataSession.h"
+#import "SDLIAPDataSessionDelegate.h"
 
 @interface SDLIAPTransport ()
 
@@ -100,14 +101,13 @@ describe(@"SDLIAPTransport", ^{
     describe(@"When an accessory disconnects", ^{
         __block SDLIAPSession *mockSession = nil;
         __block NSNotification *accessoryDisconnectedNotification = nil;
+        __block id<SDLIAPDataSessionDelegate> mockDelegate = nil;
 
         beforeEach(^{
             transport.controlSession = nil;
             mockSession = OCMClassMock([SDLIAPSession class]);
             OCMStub([mockSession accessory]).andReturn(mockAccessory);
-            transport.dataSession = [[SDLIAPDataSession alloc] initWithSession:mockSession retrySessionCompletionHandler:^{
-            } dataReceivedCompletionHandler:^(NSData * _Nonnull dataIn) {
-            }];
+            transport.dataSession = [[SDLIAPDataSession alloc] initWithSession:mockSession delegate:mockDelegate];
 
             accessoryDisconnectedNotification = [[NSNotification alloc] initWithName:EAAccessoryDidDisconnectNotification object:nil userInfo:@{EAAccessoryKey: mockAccessory}];
         });
