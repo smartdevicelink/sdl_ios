@@ -32,12 +32,12 @@
     return self;
 }
 
-    // HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
+// HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows[0]];
 
     if (viewController == self) {
-        @throw [NSException sdl_invalidLockscreenSetupException];
+        return UIInterfaceOrientationMaskAll;
     } else if (viewController != nil) {
         return viewController.supportedInterfaceOrientations;
     }
@@ -45,21 +45,23 @@
     return UIInterfaceOrientationMaskAll;
 }
 
-    // HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
+// HAX: https://github.com/smartdevicelink/sdl_ios/issues/1250
 - (BOOL)shouldAutorotate {
     UIViewController *viewController = [self sdl_topMostControllerForWindow:[UIApplication sharedApplication].windows[0]];
 
-    if (viewController != nil) {
+    if (viewController == self) {
+        return YES;
+    } else if (viewController != nil) {
         return viewController.shouldAutorotate;
     }
 
-    return super.shouldAutorotate;
+    return YES;
 }
 
 - (UIViewController *)sdl_topMostControllerForWindow:(UIWindow *)window {
     UIViewController *topController = window.rootViewController;
 
-    while (topController.presentedViewController) {
+    while (topController.presentedViewController != nil) {
         topController = topController.presentedViewController;
     }
 
