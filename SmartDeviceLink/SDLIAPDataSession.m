@@ -72,8 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
     SDLLogD(@"Stopping the data session");
     [self.session stop];
     self.session.streamDelegate = nil;
-
-    // Important - Do not destroy the session as it can a few seconds to close the input and output streams. If set to `nil`, the session will not close properly and a new session with the accessory can not be created.
+    self.session = nil;
 }
 
 #pragma mark - Data Stream Handlers
