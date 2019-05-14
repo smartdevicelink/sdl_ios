@@ -174,6 +174,10 @@ NS_ASSUME_NONNULL_BEGIN
     return (self.session != nil && !self.session.isStopped);
 }
 
+- (BOOL)isSessionConnected {
+    return (self.session != nil && self.session.accessory.isConnected);
+}
+
 #pragma mark - Lifecycle Destruction
 
 - (void)dealloc {

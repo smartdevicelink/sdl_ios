@@ -32,6 +32,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic, readonly, getter=isSessionInProgress) BOOL sessionInProgress;
 
+/**
+ *  Returns whether a connection has been established with the accessory.
+ */
+@property (assign, nonatomic, readonly, getter=isSessionConnected) BOOL sessionConnected;
+
+
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
