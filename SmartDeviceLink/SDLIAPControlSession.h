@@ -7,11 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SDLIAPSessionDelegate.h"
 
-@class EAAccessory;
-@class SDLIAPControlSessionDelegate;
 @class SDLIAPSession;
+@class EAAccessory;
 
 @protocol SDLIAPControlSessionDelegate;
 

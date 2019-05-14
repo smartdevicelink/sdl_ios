@@ -41,19 +41,22 @@ int const CreateSessionRetries = 3;
 
 - (instancetype)init {
     SDLLogV(@"SDLIAPTransport init");
-    if (self = [super init]) {
-        _sessionSetupInProgress = NO;
-        _dataSession = nil;
-        _controlSession = nil;
-        _retryCounter = 0;
-        _accessoryConnectDuringActiveSession = NO;
-        
-        // Get notifications if an accessory connects in future
-        [self sdl_startEventListening];
-        
-        // Wait for setup to complete before scanning for accessories
+    self = [super init];
+    if (!self) {
+        return nil;
     }
-    
+
+    _sessionSetupInProgress = NO;
+    _dataSession = nil;
+    _controlSession = nil;
+    _retryCounter = 0;
+    _accessoryConnectDuringActiveSession = NO;
+
+    // Get notifications if an accessory connects in future
+    [self sdl_startEventListening];
+
+    // Wait for setup to complete before scanning for accessories
+
     return self;
 }
 
@@ -578,8 +581,6 @@ int const CreateSessionRetries = 3;
 
 /**
  *  Called when the control session should be retried.
- *
- *  @param controlSession The control session
  */
 - (void)retryControlSession {
     [self sdl_retryEstablishSession];

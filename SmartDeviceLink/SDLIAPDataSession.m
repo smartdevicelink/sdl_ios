@@ -93,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
             SDLLogD(@"Data session is nil");
             return;
         }
-        
+
         // The handler will be called on the IO thread, but the session stop method must be called on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
             [strongSelf stopSession];
@@ -154,7 +154,7 @@ NS_ASSUME_NONNULL_BEGIN
         SDLLogE(@"Data stream error");
         dispatch_async(dispatch_get_main_queue(), ^{
             [strongSelf stopSession];
-            if (![LegacyProtocolString isEqualToString:strongSelf.session.protocol]) {
+            if (![strongSelf.session.protocol isEqualToString:LegacyProtocolString]) {
                 if (self.delegate == nil) { return; }
                 [self.delegate retryDataSession];
             }
