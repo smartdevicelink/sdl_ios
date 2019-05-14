@@ -49,7 +49,10 @@ describe(@"Initialization tests", ^{
                                        SDLRPCParameterNameState : SDLRadioStateNotFound,
                                        SDLRPCParameterNameHDRadioEnable : @NO
                                        } mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLRadioControlData* testStruct = [[SDLRadioControlData alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testStruct.frequencyInteger).to(equal(@101));
         expect(testStruct.frequencyFraction).to(equal(@7));

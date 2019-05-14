@@ -40,8 +40,10 @@ describe(@"Getter/Setter Tests", ^ {
         NSMutableDictionary* dict = [@{SDLRPCParameterNameModuleName:@"moduleName",
                                        SDLRPCParameterNameSupportedLights:[@[somelightCapabilities] copy]
                                        } mutableCopy];
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLLightControlCapabilities* testStruct = [[SDLLightControlCapabilities alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
 
         expect(testStruct.moduleName).to(equal(@"moduleName"));
         expect(testStruct.supportedLights).to(equal([@[somelightCapabilities] copy]));

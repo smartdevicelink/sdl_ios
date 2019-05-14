@@ -54,7 +54,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                                    SDLRPCParameterNameProgressIndicator:@NO,
                                                                    SDLRPCParameterNameSoftButtons:[@[button] mutableCopy]},
                                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameAlert}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAlert* testRequest = [[SDLAlert alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         
         expect(testRequest.alertText1).to(equal(@"alert#1"));
         expect(testRequest.alertText2).to(equal(@"alert#2"));
@@ -78,7 +81,10 @@ describe(@"Getter/Setter Tests", ^ {
                                                    SDLRPCParameterNameProgressIndicator:@NO,
                                                    SDLRPCParameterNameSoftButtons:[NSNull null]},
                                              SDLRPCParameterNameOperationName:SDLRPCFunctionNameAlert}} mutableCopy];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         SDLAlert* testRequest = [[SDLAlert alloc] initWithDictionary:dict];
+#pragma clang diagnostic pop
         expectAction(^{
             NSArray<SDLSoftButton *> *softButtons = testRequest.softButtons;
         }).to(raiseException());
