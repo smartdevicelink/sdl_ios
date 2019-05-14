@@ -10,15 +10,16 @@
 
 #import "SDLGlobals.h"
 #import "SDLIAPConstants.h"
+#import "SDLIAPDataSessionDelegate.h"
 #import "SDLIAPSession.h"
+#import "SDLIAPSessionDelegate.h"
 #import "SDLLogMacros.h"
 #import "SDLStreamDelegate.h"
-#import "SDLIAPDataSessionDelegate.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLIAPDataSession ()
+@interface SDLIAPDataSession () <SDLIAPSessionDelegate>
 
 @property (nullable, strong, nonatomic, readwrite) SDLIAPSession *session;
 @property (weak, nonatomic) id<SDLIAPDataSessionDelegate> delegate;
@@ -48,6 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
         [self.delegate retryDataSession];
     } else {
         SDLLogD(@"Starting data session with accessory: %@, using protocol: %@", self.session.accessory.name, self.session.protocol);
+        self.session.delegate = self;
         SDLStreamDelegate *ioStreamDelegate = [[SDLStreamDelegate alloc] init];
         self.session.streamDelegate = ioStreamDelegate;
         ioStreamDelegate.streamHasBytesHandler = [self sdl_dataStreamHasBytesHandler];
@@ -164,6 +166,33 @@ NS_ASSUME_NONNULL_BEGIN
     };
 }
 
+#pragma mark - SDLIAPSessionDelegate
+
+/**
+ *  Called after both the input and output streams of the session have opened.
+ *
+ *  @param session The current session
+ */
+- (void)onSessionInitializationCompleteForSession:(SDLIAPSession *)session {
+    if ([session.protocol isEqualToString:ControlProtocolString]) {
+        // Control session
+        return;
+    }
+
+    SDLLogV(@"Data session I/O streams opened for protocol: %@", session.protocol);
+    if (self.delegate == nil) { return; }
+    [self.delegate transportConnected];
+}
+
+/**
+ *  Called when either the input and output streams of the session have errored. If the data session errored, do nothing.
+ *
+ *  @param session The current session
+ */
+- (void)onSessionStreamsEnded:(SDLIAPSession *)session {
+    SDLLogV(@"Data session I/O streams errored for protocol: %@", session.protocol);
+}
+
 #pragma mark - Getters
 
 - (NSUInteger)connectionID {
@@ -175,7 +204,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (BOOL)isSessionConnected {
-    return (self.session != nil && self.session.accessory.isConnected);
+    return (self.session != nil && self.sessionInProgress);
 }
 
 #pragma mark - Lifecycle Destruction

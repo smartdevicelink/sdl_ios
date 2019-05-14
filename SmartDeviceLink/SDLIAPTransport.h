@@ -4,11 +4,11 @@
 #import <ExternalAccessory/ExternalAccessory.h>
 
 #import "SDLTransportType.h"
-#import "SDLIAPSessionDelegate.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SDLIAPTransport : NSObject <SDLTransportType, SDLIAPSessionDelegate>
+@interface SDLIAPTransport : NSObject <SDLTransportType>
 
 /**
  *  The subscribed listener.

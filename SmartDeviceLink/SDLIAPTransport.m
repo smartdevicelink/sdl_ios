@@ -198,16 +198,12 @@ int const CreateSessionRetries = 3;
         SDLLogV(@"Accessory (%@, %@) disconnected during a data session", accessory.name, accessory.serialNumber);
         [self sdl_destroyTransport];
     } else if (accessory.connectionID == self.controlSession.connectionID) {
-        // The data session has yet to be established so we will only destroy the control session.
+        // The data session has yet to be established so do NOT destroy the transport and DO NOT unregister for notifications from the accessory.
         SDLLogV(@"Accessory (%@, %@) disconnected during a control session", accessory.name, accessory.serialNumber);
         self.retryCounter = 0;
         self.sessionSetupInProgress = NO;
         [self.controlSession stopSession];
         [self.dataSession stopSession];
-    } else if (accessory.connectionID == self.dataSession.connectionID) {
-        // The data session has been established, which means we are in a connected state. The lifecycle manager will destroy and create a new transport object.
-        SDLLogV(@"Accessory (%@, %@) disconnected during a data session", accessory.name, accessory.serialNumber);
-        [self sdl_destroyTransport];
     } else {
         SDLLogV(@"Accessory (%@, %@) disconnecting during an unknown session", accessory.name, accessory.serialNumber);
     }
@@ -311,12 +307,10 @@ int const CreateSessionRetries = 3;
  *  Helper method for creating a Control session
  *
  *  @param accessory        The SDL enabled accessory
- *  @param sessionDelegate  The stream delegate
  *  @return                 A SDLIAPControlSession object
  */
-- (SDLIAPControlSession *)sdl_createControlSessionWithAccessory:(EAAccessory *)accessory sessionDelegate:(id<SDLIAPSessionDelegate>)sessionDelegate {
+- (SDLIAPControlSession *)sdl_createControlSessionWithAccessory:(EAAccessory *)accessory {
     SDLIAPSession *session = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:ControlProtocolString];
-    session.delegate = sessionDelegate;
     return [[SDLIAPControlSession alloc] initWithSession:session delegate:self];
 }
 
@@ -325,12 +319,10 @@ int const CreateSessionRetries = 3;
  *
  *  @param accessory        The SDL enabled accessory
  *  @param protocol         The protocol string needed to open the session
- *  @param sessionDelegate  The stream delegate
  *  @return                 A SDLIAPDataSession object
  */
-- (SDLIAPDataSession *)sdl_createDataSessionWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol sessionDelegate:(id<SDLIAPSessionDelegate>)sessionDelegate {
+- (SDLIAPDataSession *)sdl_createDataSessionWithAccessory:(EAAccessory *)accessory forProtocol:(NSString *)protocol {
     SDLIAPSession *session = [[SDLIAPSession alloc] initWithAccessory:accessory forProtocol:protocol];
-    session.delegate = sessionDelegate;
     return [[SDLIAPDataSession alloc] initWithSession:session delegate:self];
 }
 
@@ -348,15 +340,15 @@ int const CreateSessionRetries = 3;
     }
 
     if ([accessory supportsProtocol:MultiSessionProtocolString] && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
-        self.dataSession = [self sdl_createDataSessionWithAccessory:accessory forProtocol:MultiSessionProtocolString sessionDelegate:self];
+        self.dataSession = [self sdl_createDataSessionWithAccessory:accessory forProtocol:MultiSessionProtocolString];
         [self.dataSession startSession];
         connecting = YES;
     } else if ([accessory supportsProtocol:ControlProtocolString]) {
-        self.controlSession = [self sdl_createControlSessionWithAccessory:accessory sessionDelegate:self];
+        self.controlSession = [self sdl_createControlSessionWithAccessory:accessory];
         [self.controlSession startSession];
         connecting = YES;
     } else if ([accessory supportsProtocol:LegacyProtocolString]) {
-        self.dataSession = [self sdl_createDataSessionWithAccessory:accessory forProtocol:LegacyProtocolString sessionDelegate:self];
+        self.dataSession = [self sdl_createDataSessionWithAccessory:accessory forProtocol:LegacyProtocolString];
         [self.dataSession startSession];
         connecting = YES;
     }
@@ -388,13 +380,13 @@ int const CreateSessionRetries = 3;
 
         // Determine if we can start a multi-app session or a legacy (single-app) session
         if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:MultiSessionProtocolString]) && SDL_SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
-            self.dataSession = [self sdl_createDataSessionWithAccessory:sdlAccessory forProtocol:MultiSessionProtocolString sessionDelegate:self];
+            self.dataSession = [self sdl_createDataSessionWithAccessory:sdlAccessory forProtocol:MultiSessionProtocolString];
             [self.dataSession startSession];
         } else if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:ControlProtocolString])) {
-            self.controlSession = [self sdl_createControlSessionWithAccessory:sdlAccessory sessionDelegate:self];
+            self.controlSession = [self sdl_createControlSessionWithAccessory:sdlAccessory];
             [self.controlSession startSession];
         } else if ((sdlAccessory = [EAAccessoryManager findAccessoryForProtocol:LegacyProtocolString])) {
-            self.dataSession = [self sdl_createDataSessionWithAccessory:sdlAccessory forProtocol:LegacyProtocolString sessionDelegate:self];
+            self.dataSession = [self sdl_createDataSessionWithAccessory:sdlAccessory forProtocol:LegacyProtocolString];
             [self.dataSession startSession];
         } else {
             // No compatible accessory
@@ -419,39 +411,6 @@ int const CreateSessionRetries = 3;
 
     // Search connected accessories
     [self sdl_connect:nil];
-}
-
-#pragma mark - SDLIAPSessionDelegate
-
-/**
- *  Called after both the input and output streams of the session have opened.
- *
- *  @param session The current session
- */
-- (void)onSessionInitializationCompleteForSession:(SDLIAPSession *)session {
-    if ([session.protocol isEqualToString:ControlProtocolString]) {
-        SDLLogV(@"Control session I/O streams opened for protocol: %@", session.protocol);
-        [self.controlSession startSessionTimer];
-    } else {
-        SDLLogV(@"Data session I/O streams opened for protocol: %@", session.protocol);
-        self.sessionSetupInProgress = NO;
-        [self.delegate onTransportConnected];
-    }
-}
-
-/**
- *  Called when either the input and output streams of the session have errored. If the control session errored, a new control session is attempted.
- *
- *  @param session The current session
- */
-- (void)onSessionStreamsEnded:(SDLIAPSession *)session {
-    if ([session.protocol isEqualToString:ControlProtocolString]) {
-        SDLLogV(@"Control session I/O streams errored for protocol: %@. Retrying", session.protocol);
-        [session stop];
-        [self sdl_retryEstablishSession];
-    } else {
-        SDLLogV(@"Data session I/O streams errored for protocol: %@", session.protocol);
-    }
 }
 
 #pragma mark - Helpers
@@ -565,7 +524,7 @@ int const CreateSessionRetries = 3;
  *  @param accessory        The accessory with which to create a data session
  */
 - (void)controlSession:(nonnull SDLIAPSession *)controlSession didGetProtocolString:(nonnull NSString *)protocolString forConnectedAccessory:(nonnull EAAccessory *)accessory {
-    self.dataSession = [self sdl_createDataSessionWithAccessory:accessory forProtocol:protocolString sessionDelegate:self];
+    self.dataSession = [self sdl_createDataSessionWithAccessory:accessory forProtocol:protocolString];
     [self.dataSession startSession];
 }
 
@@ -585,6 +544,11 @@ int const CreateSessionRetries = 3;
 
 - (void)retryDataSession {
     [self sdl_retryEstablishSession];
+}
+
+- (void)transportConnected {
+    self.sessionSetupInProgress = NO;
+    [self.delegate onTransportConnected];
 }
 
 @end

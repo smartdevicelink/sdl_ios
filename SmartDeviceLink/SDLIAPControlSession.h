@@ -58,11 +58,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)stopSession;
 
-/**
- *  Starts a timer for the session. Core has ~10 seconds to send the protocol string, otherwise the control session is closed and the delegate will be notified that it should attempt to establish a new control session.
- */
-- (void)startSessionTimer;
-
 @end
 
 NS_ASSUME_NONNULL_END

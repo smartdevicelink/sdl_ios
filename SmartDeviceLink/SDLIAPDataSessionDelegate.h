@@ -8,14 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@class SDLIAPControlSession;
-
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLIAPDataSessionDelegate <NSObject>
 
 - (void)retryDataSession;
 - (void)dataReceived:(NSData *)dataIn;
+- (void)transportConnected;
 
 @end
 

@@ -13,15 +13,17 @@
 #import "SDLIAPConstants.h"
 #import "SDLIAPControlSessionDelegate.h"
 #import "SDLIAPSession.h"
+#import "SDLIAPSessionDelegate.h"
 #import "SDLLogMacros.h"
 #import "SDLStreamDelegate.h"
 #import "SDLTimer.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
 int const ProtocolIndexTimeoutSeconds = 10;
 
-@interface SDLIAPControlSession ()
+@interface SDLIAPControlSession () <SDLIAPSessionDelegate>
 
 @property (nullable, strong, nonatomic, readwrite) SDLIAPSession *session;
 @property (nullable, strong, nonatomic) SDLTimer *protocolIndexTimer;
@@ -53,6 +55,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
         [self.delegate retryControlSession];
     } else {
         SDLLogD(@"Starting a control session with accessory (%@)", self.session.accessory.name);
+        self.session.delegate = self;
         EAAccessory *accessory = self.session.accessory;
         SDLStreamDelegate *controlStreamDelegate = [[SDLStreamDelegate alloc] init];
         controlStreamDelegate.streamHasBytesHandler = [self sdl_controlStreamHasBytesHandlerForAccessory:accessory];
@@ -84,7 +87,10 @@ int const ProtocolIndexTimeoutSeconds = 10;
     self.session = nil;
 }
 
-- (void)startSessionTimer {
+/**
+ *  Starts a timer for the session. Core has ~10 seconds to send the protocol string, otherwise the control session is closed and the delegate will be notified that it should attempt to establish a new control session.
+ */
+- (void)sdl_startSessionTimer {
     if (self.protocolIndexTimer == nil) { return; }
     [self.protocolIndexTimer start];
 }
@@ -197,6 +203,40 @@ int const ProtocolIndexTimeoutSeconds = 10;
 
     protocolIndexTimer.elapsedBlock = elapsedBlock;
     return protocolIndexTimer;
+}
+
+#pragma mark - SDLIAPSessionDelegate
+
+/**
+ *  Called after both the input and output streams of the session have opened.
+ *
+ *  @param session The current session
+ */
+- (void)onSessionInitializationCompleteForSession:(SDLIAPSession *)session {
+    if (![session.protocol isEqualToString:ControlProtocolString]) {
+        return;
+    }
+
+    SDLLogV(@"Control session I/O streams opened for protocol: %@", session.protocol);
+    [self sdl_startSessionTimer];
+}
+
+/**
+ *  Called when either the input and output streams of the session have errored. When the control session errors, a new control session is attempted.
+ *
+ *  @param session The current session
+ */
+- (void)onSessionStreamsEnded:(SDLIAPSession *)session {
+    if (![session.protocol isEqualToString:ControlProtocolString]) {
+        // Non control session
+        return;
+    }
+
+    SDLLogV(@"Control session I/O streams errored for protocol: %@. Retrying", session.protocol);
+    [session stop];
+
+    if (self.delegate == nil) { return; }
+    [self.delegate retryControlSession];
 }
 
 #pragma mark - Getters
