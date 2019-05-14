@@ -295,9 +295,9 @@ int const CreateSessionRetries = 3;
  *  @param accessory The accessory to attempt connection with or nil to scan for accessories.
  */
 - (void)sdl_connect:(nullable EAAccessory *)accessory {
-    if ((self.dataSession == nil || !self.dataSession.isSessionInProgress) && !self.sessionSetupInProgress) {
-        // We don't have a session are not attempting to set one up, attempt to connect
-        SDLLogV(@"Data session I/O streams not opened. Starting setup.");
+    if (!self.dataSession.isSessionInProgress && !self.sessionSetupInProgress) {
+        // No data session has been established are not attempting to set one up, attempt to connect
+        SDLLogV(@"No data session in progress. Starting setup.");
         self.sessionSetupInProgress = YES;
         [self sdl_establishSessionWithAccessory:accessory];
     } else if (self.dataSession.isSessionInProgress) {
