@@ -40,7 +40,7 @@ int const CreateSessionRetries = 3;
 @implementation SDLIAPTransport
 
 - (instancetype)init {
-    SDLLogV(@"SDLIAPTransport init %@", [self.class description]);
+    SDLLogV(@"SDLIAPTransport init");
     if (self = [super init]) {
         _sessionSetupInProgress = NO;
         _dataSession = nil;
@@ -298,7 +298,6 @@ int const CreateSessionRetries = 3;
  *  @param accessory The accessory to attempt connection with or nil to scan for accessories.
  */
 - (void)sdl_connect:(nullable EAAccessory *)accessory {
-    SDLLogW(@"data session nil: %d. \nData session is in progress: %d. \nSession setup is is progress: %d", self.dataSession == nil, self.dataSession.isSessionInProgress, self.sessionSetupInProgress);
     if ((self.dataSession == nil || !self.dataSession.isSessionInProgress) && !self.sessionSetupInProgress) {
         // We don't have a session are not attempting to set one up, attempt to connect
         SDLLogV(@"Data session I/O streams not opened. Starting setup.");
@@ -551,7 +550,7 @@ int const CreateSessionRetries = 3;
 #pragma mark - Lifecycle Destruction
 
 - (void)dealloc {
-    SDLLogV(@"SDLIAPTransport dealloc %@", [self.class description]);
+    SDLLogV(@"SDLIAPTransport");
     [self disconnect];
     [self sdl_backgroundTaskEnd];
     self.controlSession = nil;
@@ -582,7 +581,7 @@ int const CreateSessionRetries = 3;
  *
  *  @param controlSession The control session
  */
-- (void)retryControlSession:(nullable SDLIAPSession *)controlSession {
+- (void)retryControlSession {
     [self sdl_retryEstablishSession];
 }
 
@@ -593,7 +592,7 @@ int const CreateSessionRetries = 3;
     [self sdl_backgroundTaskStart];
 }
 
-- (void)retryDataSession:(nullable SDLIAPSession *)dataSession {
+- (void)retryDataSession {
     [self sdl_retryEstablishSession];
 }
 

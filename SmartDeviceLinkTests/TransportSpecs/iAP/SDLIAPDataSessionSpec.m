@@ -96,7 +96,7 @@ describe(@"SDLIAPDataSession", ^{
             });
 
             it(@"Should not try to establish a new session", ^{
-                OCMReject([mockDelegate retryDataSession:[OCMArg any]]);
+                OCMReject([mockDelegate retryDataSession]);
                 OCMReject([mockDelegate dataReceived:[OCMArg any]]);
             });
         });
@@ -109,16 +109,13 @@ describe(@"SDLIAPDataSession", ^{
             });
 
             it(@"Should try to establish a new session", ^{
-                OCMVerify([mockDelegate retryDataSession:[OCMArg any]]);
+                OCMVerify([mockDelegate retryDataSession]);
                 OCMReject([mockDelegate dataReceived:[OCMArg any]]);
             });
 
-            it(@"Should should stop but not destroy the session", ^{
-                expect(dataSession.session).toNot(beNil());
-                expect(dataSession.connectionID).to(equal(5));
-            });
-
-            it(@"Should should stop but not destroy the session", ^{
+            it(@"Should should stop and destroy the session", ^{
+                expect(dataSession.session).to(beNil());
+                expect(dataSession.connectionID).to(equal(0));
                 OCMVerify([mockSession stop]);
             });
         });
@@ -134,14 +131,14 @@ describe(@"SDLIAPDataSession", ^{
             });
 
             it(@"Should try to establish a new session", ^{
-                OCMVerify([mockDelegate retryDataSession:[OCMArg any]]);
+                OCMVerify([mockDelegate retryDataSession]);
                 OCMReject([mockDelegate dataReceived:[OCMArg any]]);
             });
         });
     });
 
     describe(@"Stopping a session", ^{
-        context(@"that is nil", ^{
+        context(@"That is nil", ^{
             beforeEach(^{
                 dataSession = [[SDLIAPDataSession alloc] initWithSession:nil delegate:mockDelegate];
                 [dataSession stopSession];
@@ -152,18 +149,15 @@ describe(@"SDLIAPDataSession", ^{
             });
         });
 
-        context(@"that is started", ^{
+        context(@"That is started", ^{
             beforeEach(^{
                 dataSession = [[SDLIAPDataSession alloc] initWithSession:mockSession delegate:mockDelegate];
                 [dataSession stopSession];
             });
 
-            it(@"Should try to stop the session", ^{
-                expect(dataSession.session).toNot(beNil());
+            it(@"Should try to stop and detroy the session", ^{
+                expect(dataSession.session).to(beNil());
                 expect(dataSession.session.streamDelegate).to(beNil());
-            });
-
-            it(@"Should should stop but not destroy the session", ^{
                 OCMVerify([mockSession stop]);
             });
         });

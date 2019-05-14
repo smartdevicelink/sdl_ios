@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SDLIAPDataSessionDelegate <NSObject>
 
-- (void)retryDataSession:(nullable SDLIAPSession *)dataSession;
+- (void)retryDataSession;
 - (void)dataReceived:(NSData *)dataIn;
 
 @end

@@ -60,18 +60,19 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
         SDLLogE(@"Error creating the session object");
         return NO;
     } else {
-        SDLLogD(@"Created the session object successfully");
         __strong typeof(self) strongSelf = weakSelf;
         strongSelf.streamDelegate.streamErrorHandler = [self streamErroredHandler];
         strongSelf.streamDelegate.streamOpenHandler = [self streamOpenedHandler];
         if (self.isDataSession) {
+            SDLLogD(@"Created the data session successfully");
             self.streamDelegate.streamHasSpaceHandler = [self sdl_streamHasSpaceHandler];
             // Start I/O event loop processing events in iAP channel
             self.ioStreamThread = [[NSThread alloc] initWithTarget:self selector:@selector(sdl_accessoryEventLoop) object:nil];
             [self.ioStreamThread setName:IOStreamThreadName];
             [self.ioStreamThread start];
         } else {
-            // Set up control session -- no need for its own thread
+            // No need for its own thread as only a small amount of data will be transmitted before control session is destroyed
+            SDLLogD(@"Created the control session successfully");
             [self startStream:self.easession.outputStream];
             [self startStream:self.easession.inputStream];
         }
@@ -91,9 +92,12 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
 
 - (void)sdl_stop {
     NSAssert(NSThread.isMainThread, @"%@ must only be called on the main thread", NSStringFromSelector(_cmd));
+
     if (self.isDataSession) {
+        SDLLogV(@"Stopping the data session");
         [self.ioStreamThread cancel];
 
+        // Waiting on the I/O threads of the data session to close
         [self sdl_isIOThreadCanceled:self.canceledSemaphore completionHandler:^(BOOL success) {
             if (success == NO) {
                 SDLLogE(@"About to destroy a thread that has not yet closed.");
@@ -103,13 +107,19 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
             self.easession = nil;
         }];
     } else {
-        // Stop control session
+        SDLLogV(@"Stopping the control session");
         [self stopStream:self.easession.outputStream];
         [self stopStream:self.easession.inputStream];
         self.easession = nil;
     }
 }
 
+/**
+ *  Wait for the data session to detroy its input and output streams. The data EASession can not be destroyed until both streams have closed.
+ *
+ *  @param canceledSemaphore When the canceled semaphore is released, the data session's input and output streams have been destroyed.
+ *  @param completionHandler Returns whether or not the data session's I/O streams were closed successfully.
+ */
 - (void)sdl_isIOThreadCanceled:(dispatch_semaphore_t)canceledSemaphore completionHandler:(void (^)(BOOL success))completionHandler {
     long lWait = dispatch_semaphore_wait(canceledSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(StreamThreadWaitSecs * NSEC_PER_SEC)));
     if (lWait == 0) {
@@ -135,8 +145,14 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
 }
 
 - (void)sdl_dequeueAndWriteToOutputStream {
+    if ([self.ioStreamThread isCancelled]) {
+        SDLLogV(@"Attempted to send data on I/O thread but the thread is cancelled.");
+        return;
+    }
+
     NSOutputStream *ostream = self.easession.outputStream;
     if (!ostream.hasSpaceAvailable) {
+        SDLLogV(@"Attempted to send data with output stream but there is no space available.");
         return;
     }
     
@@ -177,7 +193,7 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
 // Data session I/O thread
 - (void)sdl_accessoryEventLoop {
     @autoreleasepool {
-        NSAssert(self.easession, @"_session must be assigned before calling");
+        NSAssert(self.easession, @"Session must be assigned before calling");
 
         if (!self.easession) {
             return;
@@ -186,15 +202,16 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
         [self startStream:self.easession.inputStream];
         [self startStream:self.easession.outputStream];
 
-        SDLLogD(@"Starting the accessory event loop");
+        SDLLogD(@"Starting the accessory event loop on thread: %@", NSThread.currentThread.name);
+
         while (!NSThread.currentThread.cancelled) {
             // Enqueued data will be written to and read from the streams in the runloop
             [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.25f]];
         }
 
-        SDLLogD(@"Closing the accessory session for id: %tu, name: %@", self.easession.accessory.connectionID, self.easession.accessory.name);
+        SDLLogD(@"Closing the accessory event loop on thread: %@", NSThread.currentThread.name);
 
-        // Close I/O streams of the iAP session
+        // Close I/O streams of the data session. When the streams are closed. Notify the thread that it can close
         [self sdl_closeSession];
         dispatch_semaphore_signal(self.canceledSemaphore);
     }
@@ -206,7 +223,7 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
         return;
     }
 
-    SDLLogD(@"Close EASession for accessory id: %tu, name: %@", self.easession.accessory.connectionID, self.easession.accessory.name);
+    SDLLogD(@"Closing EASession for accessory connection id: %tu, name: %@", self.easession.accessory.connectionID, self.easession.accessory.name);
 
     [self stopStream:[self.easession inputStream]];
     [self stopStream:[self.easession outputStream]];
@@ -243,10 +260,10 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
     NSUInteger status2 = stream.streamStatus;
     if (status2 == NSStreamStatusClosed) {
         if (stream == [self.easession inputStream]) {
-            SDLLogD(@"Input Stream Closed");
+            SDLLogD(@"Input stream closed");
 			self.isInputStreamOpen = NO;
         } else if (stream == [self.easession outputStream]) {
-            SDLLogD(@"Output Stream Closed");
+            SDLLogD(@"Output stream closed");
 			self.isOutputStreamOpen = NO;
         }
     }

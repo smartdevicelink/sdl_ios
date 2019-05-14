@@ -139,9 +139,9 @@ describe(@"SDLIAPTransport", ^{
                 [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
             });
 
-            it(@"It should close, but not destroy, the open data session", ^{
+            it(@"It should close and destroy the open data session", ^{
                 expect(transport.dataSession).toNot(beNil());
-                expect(transport.dataSession.session).toNot(beNil());
+                expect(transport.dataSession.session).to(beNil());
                 expect(transport.dataSession.session.delegate).to(beNil());
 
                 expect(transport.sessionSetupInProgress).to(beFalse());
@@ -182,13 +182,13 @@ describe(@"SDLIAPTransport", ^{
                 expect(transport.sessionSetupInProgress).to(beFalse());
             });
 
-            it(@"It should close the open control session", ^{
+            it(@"It should close and destroy the open control session", ^{
                 [[NSNotificationCenter defaultCenter] postNotification:accessoryDisconnectedNotification];
 
                 OCMVerify([mockControlSession stop]);
 
                 expect(transport.controlSession).toNot(beNil());
-                expect(transport.controlSession.session).toNot(beNil());
+                expect(transport.controlSession.session).to(beNil());
                 expect(transport.dataSession).to(beNil());
             });
         });

@@ -50,7 +50,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
     if (_session == nil) {
         SDLLogW(@"There is no control session in progress, attempting to create a new control session.");
         if (self.delegate == nil) { return; }
-        [self.delegate retryControlSession:self.session];
+        [self.delegate retryControlSession];
     } else {
         SDLLogD(@"Starting a control session with accessory (%@)", self.session.accessory.name);
         EAAccessory *accessory = self.session.accessory;
@@ -64,7 +64,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
             SDLLogW(@"Control session failed to setup with accessory: %@. Attempting to create a new control session", accessory);
             [self stopSession];
             if (self.delegate == nil) { return; }
-            [self.delegate retryControlSession:self.session];
+            [self.delegate retryControlSession];
         } else {
             SDLLogD(@"Waiting for the protocol string from Core, setting timer for %d seconds", ProtocolIndexTimeoutSeconds);
             self.protocolIndexTimer = [self sdl_createProtocolIndexTimer];
@@ -119,7 +119,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
             [strongSelf stopSession];
 
             if (strongSelf.delegate == nil) { return; }
-            [strongSelf.delegate retryControlSession:strongSelf.session];
+            [strongSelf.delegate retryControlSession];
         }
     };
 }
@@ -182,7 +182,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
         [strongSelf stopSession];
 
         if (self.delegate == nil) { return; }
-        [self.delegate retryControlSession:self.session];
+        [self.delegate retryControlSession];
     };
 }
 
@@ -203,7 +203,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
         [strongSelf.session stop];
 
         if (strongSelf.delegate == nil) { return; }
-        [strongSelf.delegate retryControlSession:strongSelf.session];
+        [strongSelf.delegate retryControlSession];
     };
 
     protocolIndexTimer.elapsedBlock = elapsedBlock;

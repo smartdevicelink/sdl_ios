@@ -102,7 +102,7 @@ describe(@"SDLIAPControlSession", ^{
             });
 
             it(@"Should not try to establish a new session", ^{
-                OCMReject([mockDelegate retryControlSession:[OCMArg any]]);
+                OCMReject([mockDelegate retryControlSession]);
                 OCMReject([mockDelegate controlSession:[OCMArg any] didGetProtocolString:[OCMArg any] forConnectedAccessory:[OCMArg any]]);
             });
         });
@@ -119,13 +119,13 @@ describe(@"SDLIAPControlSession", ^{
             });
 
             it(@"Should try to establish a new session", ^{
-                OCMVerify([mockDelegate retryControlSession:[OCMArg any]]);
+                OCMVerify([mockDelegate retryControlSession]);
                 OCMReject([mockDelegate controlSession:[OCMArg any] didGetProtocolString:[OCMArg any] forConnectedAccessory:[OCMArg any]]);
             });
 
-            it(@"Should should stop but not destroy the session", ^{
-                expect(controlSession.session).toNot(beNil());
-                expect(controlSession.connectionID).to(equal(5));
+            it(@"Should should stop and destroy the session", ^{
+                expect(controlSession.session).to(beNil());
+                expect(controlSession.connectionID).to(equal(0));
             });
 
             it(@"Should should stop but not destroy the session", ^{
@@ -148,14 +148,14 @@ describe(@"SDLIAPControlSession", ^{
             });
 
             it(@"Should try to establish a new session", ^{
-                OCMVerify([mockDelegate retryControlSession:[OCMArg any]]);
+                OCMVerify([mockDelegate retryControlSession]);
                 OCMReject([mockDelegate controlSession:[OCMArg any] didGetProtocolString:[OCMArg any] forConnectedAccessory:[OCMArg any]]);
             });
         });
     });
 
     describe(@"Stopping a session", ^{
-        context(@"that is nil", ^{
+        context(@"That is nil", ^{
             beforeEach(^{
                 mockSession = nil;
                 controlSession = [[SDLIAPControlSession alloc] initWithSession:mockSession delegate:mockDelegate];
@@ -164,18 +164,20 @@ describe(@"SDLIAPControlSession", ^{
 
             it(@"Should not try to stop the session", ^{
                 expect(controlSession.session).to(beNil());
+                OCMReject([mockSession stop]);
             });
         });
 
-        context(@"that is started", ^{
+        context(@"That is started", ^{
             beforeEach(^{
                 controlSession = [[SDLIAPControlSession alloc] initWithSession:mockSession delegate:mockDelegate];
                 [controlSession stopSession];
             });
 
             it(@"Should try to stop the session", ^{
-                expect(controlSession.session).toNot(beNil());
+                expect(controlSession.session).to(beNil());
                 expect(controlSession.session.streamDelegate).to(beNil());
+                OCMVerify([mockSession stop]);
             });
         });
     });
