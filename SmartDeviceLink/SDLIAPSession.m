@@ -94,7 +94,6 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
     NSAssert(NSThread.isMainThread, @"%@ must only be called on the main thread", NSStringFromSelector(_cmd));
 
     if (self.isDataSession) {
-        SDLLogV(@"Stopping the data session");
         [self.ioStreamThread cancel];
 
         // Waiting on the I/O threads of the data session to close
@@ -107,7 +106,6 @@ NSTimeInterval const StreamThreadWaitSecs = 10.0;
             self.easession = nil;
         }];
     } else {
-        SDLLogV(@"Stopping the control session");
         [self stopStream:self.easession.outputStream];
         [self stopStream:self.easession.inputStream];
         self.easession = nil;
