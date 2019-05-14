@@ -34,12 +34,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, MenuCellState) {
-    MenuCellStateDelete,
-    MenuCellStateAdd,
-    MenuCellStateKeep
-};
-
 @interface SDLMenuCell()
 
 @property (assign, nonatomic) UInt32 parentCellId;
@@ -152,7 +146,6 @@ UInt32 const MenuCellIdMin = 1;
 
     _oldMenuCells = _menuCells;
     _menuCells = menuCells;
-
     //Compare menus and buiild a RunScore object that contains delete commands and add commands.
     SDLMenuRunScore *runScore = [SDLMenuUpdateAlgorithm compareOldMenuCells:self.oldMenuCells updatedMenuCells:self.menuCells];
     // Upload the artworks

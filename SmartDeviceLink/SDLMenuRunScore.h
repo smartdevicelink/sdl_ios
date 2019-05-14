@@ -21,9 +21,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-
-//int i = 0;
-//
-//NSNumber *testNum = @(i);
-//
-//int testNumInt = testNum.intValue;
