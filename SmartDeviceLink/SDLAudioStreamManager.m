@@ -10,6 +10,7 @@
 
 #import "SDLAudioFile.h"
 #import "SDLFile.h"
+#import "SDLGlobals.h"
 #import "SDLLogMacros.h"
 #import "SDLManager.h"
 #import "SDLPCMAudioConverter.h"
@@ -38,7 +39,7 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
     if (!self) { return nil; }
 
     _mutableQueue = [NSMutableArray array];
-    _audioQueue = dispatch_queue_create("com.sdl.audiomanager.transcode", DISPATCH_QUEUE_SERIAL);
+    _audioQueue = dispatch_queue_create_with_target("com.sdl.audiomanager.transcode", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
     _shouldPlayWhenReady = NO;
 
     _streamManager = streamManager;
@@ -111,7 +112,7 @@ NSString *const SDLErrorDomainAudioStreamManager = @"com.sdl.extension.pcmAudioS
 
     float audioLengthSecs = (float)audioData.length / (float)32000.0;
     __weak typeof(self) weakself = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(audioLengthSecs * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(audioLengthSecs * NSEC_PER_SEC)), [SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
         weakself.playing = NO;
         NSError *error = nil;
         if (weakself.delegate != nil) {

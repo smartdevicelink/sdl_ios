@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Wait for all packets be sent before returning whether or not the upload was a success
     __weak typeof(self) weakself = self;
-    dispatch_group_notify(putFileGroup, dispatch_get_main_queue(), ^{
+    dispatch_group_notify(putFileGroup, [SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
         typeof(weakself) strongself = weakself;
         [weakself sdl_closeInputStream];
 

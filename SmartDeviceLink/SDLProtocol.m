@@ -65,8 +65,8 @@ NS_ASSUME_NONNULL_BEGIN
     if (self = [super init]) {
         _messageID = 0;
         _hashId = SDLControlFrameInt32NotFound;
-        _receiveQueue = dispatch_queue_create("com.sdl.protocol.receive", DISPATCH_QUEUE_SERIAL);
-        _sendQueue = dispatch_queue_create("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL);
+        _receiveQueue = dispatch_queue_create_with_target("com.sdl.protocol.receive", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlTransportQueue);
+        _sendQueue = dispatch_queue_create_with_target("com.sdl.protocol.transmit", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlTransportQueue);
         _prioritizedCollection = [[SDLPrioritizedObjectCollection alloc] init];
         _protocolDelegateTable = [NSHashTable weakObjectsHashTable];
         _serviceHeaders = [[NSMutableDictionary alloc] init];

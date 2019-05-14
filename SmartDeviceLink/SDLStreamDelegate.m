@@ -3,6 +3,8 @@
 //
 
 #import "SDLStreamDelegate.h"
+
+#import "SDLGlobals.h"
 #import "SDLLogMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -25,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
         _streamErrorHandler = defaultStreamErrorHandler;
         _streamEndHandler = defaultStreamErrorHandler;
 
-        _input_stream_queue = dispatch_queue_create("com.sdl.streamdelegate.input", DISPATCH_QUEUE_SERIAL);
+        _input_stream_queue = dispatch_queue_create_with_target("com.sdl.streamdelegate.input", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlTransportQueue);
     }
     return self;
 }

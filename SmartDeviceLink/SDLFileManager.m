@@ -262,7 +262,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     dispatch_group_leave(deleteFilesTask);
 
     // Wait for all files to be deleted
-    dispatch_group_notify(deleteFilesTask, dispatch_get_main_queue(), ^{
+    dispatch_group_notify(deleteFilesTask, [SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
         if (completionHandler == nil) { return; }
         if (failedDeletes.count > 0) {
             return completionHandler([NSError sdl_fileManager_unableToDelete_ErrorWithUserInfo:failedDeletes]);
@@ -334,7 +334,7 @@ SDLFileManagerState *const SDLFileManagerStateStartupError = @"StartupError";
     dispatch_group_leave(uploadFilesTask);
 
     // Wait for all files to be uploaded
-    dispatch_group_notify(uploadFilesTask, dispatch_get_main_queue(), ^{
+    dispatch_group_notify(uploadFilesTask, [SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
         if (completionHandler == nil) { return; }
         if (failedUploads.count > 0) {
             return completionHandler([NSError sdl_fileManager_unableToUpload_ErrorWithUserInfo:failedUploads]);

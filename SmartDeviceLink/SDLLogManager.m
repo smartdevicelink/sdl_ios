@@ -8,6 +8,7 @@
 
 #import "SDLLogManager.h"
 
+#import "SDLGlobals.h"
 #import "SDLHexUtility.h"
 #import "SDLLogConfiguration.h"
 #import "SDLLogFileModule.h"
@@ -341,7 +342,7 @@ static dispatch_queue_t _logQueue = NULL;
 + (dispatch_queue_t)logQueue {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _logQueue = dispatch_queue_create("com.sdl.log", DISPATCH_QUEUE_SERIAL);
+        _logQueue = dispatch_queue_create_with_target("com.sdl.log", DISPATCH_QUEUE_SERIAL, [SDLGlobals sharedGlobals].sdlProcessingQueue);
     });
 
     return _logQueue;

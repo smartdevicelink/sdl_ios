@@ -66,7 +66,6 @@ static float DefaultConnectionTimeout = 45.0;
 @property (nullable, nonatomic, strong) SDLDisplayCapabilities *displayCapabilities;
 @property (nonatomic, strong) NSMutableDictionary<SDLVehicleMake *, Class> *securityManagers;
 @property (nonatomic, strong) NSURLSession* urlSession;
-@property (strong, nonatomic) dispatch_queue_t rpcProcessingQueue;
 
 @end
 
@@ -78,7 +77,6 @@ static float DefaultConnectionTimeout = 45.0;
     if (self = [super init]) {
         SDLLogD(@"Framework Version: %@", self.proxyVersion);
         _lsm = [[SDLLockScreenStatusManager alloc] init];
-        _rpcProcessingQueue = dispatch_queue_create("com.sdl.rpcProcessingQueue", DISPATCH_QUEUE_SERIAL);
         _mutableProxyListeners = [NSMutableSet setWithObject:delegate];
         _securityManagers = [NSMutableDictionary dictionary];
 
@@ -153,13 +151,11 @@ static float DefaultConnectionTimeout = 45.0;
 #pragma mark - Application Lifecycle
 
 - (void)sendMobileHMIState {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self sdl_sendMobileHMIState];
+    __block UIApplicationState appState = UIApplicationStateInactive;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        appState = [UIApplication sharedApplication].applicationState;
     });
-}
 
-- (void)sdl_sendMobileHMIState {
-    UIApplicationState appState = [UIApplication sharedApplication].applicationState;
     SDLOnHMIStatus *HMIStatusRPC = [[SDLOnHMIStatus alloc] init];
 
     HMIStatusRPC.audioStreamingState = SDLAudioStreamingStateNotAudible;
@@ -896,7 +892,7 @@ static float DefaultConnectionTimeout = 45.0;
 
 - (void)invokeMethodOnDelegates:(SEL)aSelector withObject:(nullable id)object {
     // Occurs on the protocol receive serial queue
-    dispatch_async(_rpcProcessingQueue, ^{
+    dispatch_async([SDLGlobals sharedGlobals].sdlProcessingQueue, ^{
         for (id<SDLProxyListener> listener in self.proxyListeners) {
             if ([listener respondsToSelector:aSelector]) {
                 // HAX: http://stackoverflow.com/questions/7017281/performselector-may-cause-a-leak-because-its-selector-is-unknown

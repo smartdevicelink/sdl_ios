@@ -9,8 +9,8 @@
 #import "SDLTouchManager.h"
 
 #import "CGPoint_Util.h"
-#import "dispatch_timer.h"
 
+#import "SDLGlobals.h"
 #import "SDLFocusableItemHitTester.h"
 #import "SDLLogMacros.h"
 #import "SDLNotificationConstants.h"
@@ -75,7 +75,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
  *  @abstract
  *      Timer used for distinguishing between single & double taps.
  */
-@property (nonatomic, strong, nullable) dispatch_source_t singleTapTimer;
+@property (nonatomic, strong, nullable) NSTimer *singleTapTimer;
 
 /*!
  *  @abstract
@@ -131,7 +131,9 @@ static NSUInteger const MaximumNumberOfTouches = 2;
         return;
     }
 
-    dispatch_async(dispatch_get_main_queue(), ^{
+    // TODO: Maybe broken?
+//    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
         if (self.performingTouchType == SDLPerformingTouchTypePanningTouch) {
             CGPoint storedTouchLocation = self.lastStoredTouchLocation;
             CGPoint notifiedTouchLocation = self.lastNotifiedTouchLocation;
@@ -194,7 +196,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
             return;
         }
 
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
             if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeBegin]) {
                 [self sdl_handleTouchBegan:touch];
             } else if ([onTouchEvent.type isEqualToEnum:SDLTouchTypeMove]) {
@@ -413,18 +415,24 @@ static NSUInteger const MaximumNumberOfTouches = 2;
  *  @param point  Screen coordinates of the tap gesture
  */
 - (void)sdl_initializeSingleTapTimerAtPoint:(CGPoint)point {
-    __weak typeof(self) weakSelf = self;
-    self.singleTapTimer = dispatch_create_timer(self.tapTimeThreshold, NO, ^{
-        // If timer was not canceled by a second tap then only one tap detected
-        typeof(weakSelf) strongSelf = weakSelf;
-        strongSelf.singleTapTouch = nil;
-        [strongSelf sdl_cancelSingleTapTimer];
-        if ([strongSelf.touchEventDelegate respondsToSelector:@selector(touchManager:didReceiveSingleTapForView:atPoint:)]) {
-            [self sdl_getSingleTapHitView:point hitViewHandler:^(UIView * _Nullable selectedView) {
-                [strongSelf.touchEventDelegate touchManager:strongSelf didReceiveSingleTapForView:selectedView atPoint:point];
-            }];
-        }
-    });
+    self.singleTapTimer = [NSTimer timerWithTimeInterval:self.tapTimeThreshold target:self selector:@selector(sdl_singleTapTimerCallback:) userInfo:@{@"point": [NSValue valueWithCGPoint:point]} repeats:NO];
+    [[NSRunLoop mainRunLoop] addTimer:self.singleTapTimer forMode:NSRunLoopCommonModes];
+}
+
+/**
+ The method that will be called when the timer fires that was started in `sdl_initializeSingleTapTimerAtPoint:`
+
+ @param timer The timer that was fired
+ */
+- (void)sdl_singleTapTimerCallback:(NSTimer *)timer {
+    CGPoint point = ((NSValue *)timer.userInfo[@"point"]).CGPointValue;
+    self.singleTapTouch = nil;
+    [self sdl_cancelSingleTapTimer];
+    if ([self.touchEventDelegate respondsToSelector:@selector(touchManager:didReceiveSingleTapForView:atPoint:)]) {
+        [self sdl_getSingleTapHitView:point hitViewHandler:^(UIView * _Nullable selectedView) {
+            [self.touchEventDelegate touchManager:self didReceiveSingleTapForView:selectedView atPoint:point];
+        }];
+    }
 }
 
 /**
@@ -443,7 +451,7 @@ static NSUInteger const MaximumNumberOfTouches = 2;
 
     dispatch_async(dispatch_get_main_queue(), ^{
         UIView *hitView = [self.hitTester viewForPoint:point];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_async([SDLGlobals sharedGlobals].sdlCallbackQueue, ^{
             if (!hitViewHandler) { return; }
             return hitViewHandler(hitView);
         });
@@ -454,11 +462,12 @@ static NSUInteger const MaximumNumberOfTouches = 2;
  *  Cancels a tap gesture timer
  */
 - (void)sdl_cancelSingleTapTimer {
-    if (self.singleTapTimer == NULL) {
+    if (self.singleTapTimer == nil) {
         return;
     }
-    dispatch_stop_timer(self.singleTapTimer);
-    self.singleTapTimer = NULL;
+
+    [self.singleTapTimer invalidate];
+    self.singleTapTimer = nil;
 }
 
 @end
