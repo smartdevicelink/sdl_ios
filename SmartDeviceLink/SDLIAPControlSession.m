@@ -95,7 +95,7 @@ int const ProtocolIndexTimeoutSeconds = 10;
 }
 
 - (void)startSessionTimer {
-    if (!self.protocolIndexTimer) { return; }
+    if (self.protocolIndexTimer == nil) { return; }
     [self.protocolIndexTimer start];
 }
 
