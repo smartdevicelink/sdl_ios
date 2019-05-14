@@ -12,11 +12,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLDeleteFile
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameDeleteFile]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithFileName:(NSString *)fileName {
     self = [self init];
@@ -30,12 +33,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setSyncFileName:(NSString *)syncFileName {
-    [parameters sdl_setObject:syncFileName forName:SDLRPCParameterNameSyncFileName];
+    [self.parameters sdl_setObject:syncFileName forName:SDLRPCParameterNameSyncFileName];
 }
 
 - (NSString *)syncFileName {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameSyncFileName ofClass:NSString.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameSyncFileName ofClass:NSString.class error:&error];
 }
 
 @end

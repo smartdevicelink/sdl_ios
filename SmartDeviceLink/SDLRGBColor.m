@@ -41,30 +41,30 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Setters
 
 - (void)setRed:(NSNumber<SDLInt> *)red {
-    [store sdl_setObject:red forName:SDLRPCParameterNameRed];
+    [self.store sdl_setObject:red forName:SDLRPCParameterNameRed];
 }
 
 - (NSNumber<SDLInt> *)red {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameRed ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameRed ofClass:NSNumber.class error:&error];
 }
 
 - (void)setGreen:(NSNumber<SDLInt> *)green {
-    [store sdl_setObject:green forName:SDLRPCParameterNameGreen];
+    [self.store sdl_setObject:green forName:SDLRPCParameterNameGreen];
 }
 
 - (NSNumber<SDLInt> *)green {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameGreen ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameGreen ofClass:NSNumber.class error:&error];
 }
 
 - (void)setBlue:(NSNumber<SDLInt> *)blue {
-    [store sdl_setObject:blue forName:SDLRPCParameterNameBlue];
+    [self.store sdl_setObject:blue forName:SDLRPCParameterNameBlue];
 }
 
 - (NSNumber<SDLInt> *)blue {
     NSError *error = nil;
-    return [store sdl_objectForName:SDLRPCParameterNameBlue ofClass:NSNumber.class error:&error];
+    return [self.store sdl_objectForName:SDLRPCParameterNameBlue ofClass:NSNumber.class error:&error];
 }
 
 @end

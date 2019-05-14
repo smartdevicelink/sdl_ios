@@ -15,11 +15,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSendHapticDataResponse
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameSendHapticData]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 @end
 

@@ -24,19 +24,19 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setNavigationText:(nullable NSString *)navigationText {
-    [store sdl_setObject:navigationText forName:SDLRPCParameterNameNavigationText];
+    [self.store sdl_setObject:navigationText forName:SDLRPCParameterNameNavigationText];
 }
 
 - (nullable NSString *)navigationText {
-    return [store sdl_objectForName:SDLRPCParameterNameNavigationText ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameNavigationText ofClass:NSString.class error:nil];
 }
 
 - (void)setTurnIcon:(nullable SDLImage *)turnIcon {
-    [store sdl_setObject:turnIcon forName:SDLRPCParameterNameTurnIcon];
+    [self.store sdl_setObject:turnIcon forName:SDLRPCParameterNameTurnIcon];
 }
 
 - (nullable SDLImage *)turnIcon {
-    return [store sdl_objectForName:SDLRPCParameterNameTurnIcon ofClass:SDLImage.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameTurnIcon ofClass:SDLImage.class error:nil];
 }
 
 @end

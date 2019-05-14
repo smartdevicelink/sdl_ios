@@ -48,75 +48,75 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setTimestamp:(SDLDateTime *)timestamp {
-    [store sdl_setObject:timestamp forName:SDLRPCParameterNameTimeStamp];
+    [self.store sdl_setObject:timestamp forName:SDLRPCParameterNameTimeStamp];
 }
 
 - (SDLDateTime *)timestamp {
-    return [store sdl_objectForName:SDLRPCParameterNameTimeStamp ofClass:SDLDateTime.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameTimeStamp ofClass:SDLDateTime.class error:nil];
 }
 
 - (void)setOrigin:(nullable SDLLocationDetails *)origin {
-    [store sdl_setObject:origin forName:SDLRPCParameterNameOrigin];
+    [self.store sdl_setObject:origin forName:SDLRPCParameterNameOrigin];
 }
 
 - (nullable SDLLocationDetails *)origin {
-    return [store sdl_objectForName:SDLRPCParameterNameOrigin ofClass:SDLLocationDetails.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameOrigin ofClass:SDLLocationDetails.class error:nil];
 }
 
 - (void)setDestination:(nullable SDLLocationDetails *)destination {
-    [store sdl_setObject:destination forName:SDLRPCParameterNameDestination];
+    [self.store sdl_setObject:destination forName:SDLRPCParameterNameDestination];
 }
 
 - (nullable SDLLocationDetails *)destination {
-    return [store sdl_objectForName:SDLRPCParameterNameDestination ofClass:SDLLocationDetails.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameDestination ofClass:SDLLocationDetails.class error:nil];
 }
 
 - (void)setDestinationETA:(nullable SDLDateTime *)destinationETA {
-    [store sdl_setObject:destinationETA forName:SDLRPCParameterNameDestinationETA];
+    [self.store sdl_setObject:destinationETA forName:SDLRPCParameterNameDestinationETA];
 }
 
 - (nullable SDLDateTime *)destinationETA {
-    return [store sdl_objectForName:SDLRPCParameterNameDestinationETA ofClass:SDLDateTime.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameDestinationETA ofClass:SDLDateTime.class error:nil];
 }
 
 - (void)setInstructions:(nullable NSArray<SDLNavigationInstruction *> *)instructions {
-    [store sdl_setObject:instructions forName:SDLRPCParameterNameInstructions];
+    [self.store sdl_setObject:instructions forName:SDLRPCParameterNameInstructions];
 }
 
 - (nullable NSArray<SDLNavigationInstruction *> *)instructions {
-    return [store sdl_objectsForName:SDLRPCParameterNameInstructions ofClass:SDLNavigationInstruction.class error:nil];
+    return [self.store sdl_objectsForName:SDLRPCParameterNameInstructions ofClass:SDLNavigationInstruction.class error:nil];
 }
 
 - (void)setNextInstructionETA:(nullable SDLDateTime *)nextInstructionETA {
-    [store sdl_setObject:nextInstructionETA forName:SDLRPCParameterNameNextInstructionETA];
+    [self.store sdl_setObject:nextInstructionETA forName:SDLRPCParameterNameNextInstructionETA];
 }
 
 - (nullable SDLDateTime *)nextInstructionETA {
-    return [store sdl_objectForName:SDLRPCParameterNameNextInstructionETA ofClass:SDLDateTime.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameNextInstructionETA ofClass:SDLDateTime.class error:nil];
 }
 
 - (void)setNextInstructionDistance:(nullable NSNumber<SDLFloat> *)nextInstructionDistance {
-    [store sdl_setObject:nextInstructionDistance forName:SDLRPCParameterNameNextInstructionDistance];
+    [self.store sdl_setObject:nextInstructionDistance forName:SDLRPCParameterNameNextInstructionDistance];
 }
 
 - (nullable NSNumber<SDLFloat> *)nextInstructionDistance {
-    return [store sdl_objectForName:SDLRPCParameterNameNextInstructionDistance ofClass:NSNumber.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameNextInstructionDistance ofClass:NSNumber.class error:nil];
 }
 
 - (void)setNextInstructionDistanceScale:(nullable NSNumber<SDLFloat> *)nextInstructionDistanceScale {
-    [store sdl_setObject:nextInstructionDistanceScale forName:SDLRPCParameterNameNextInstructionDistanceScale];
+    [self.store sdl_setObject:nextInstructionDistanceScale forName:SDLRPCParameterNameNextInstructionDistanceScale];
 }
 
 - (nullable NSNumber<SDLFloat> *)nextInstructionDistanceScale {
-    return [store sdl_objectForName:SDLRPCParameterNameNextInstructionDistanceScale ofClass:NSNumber.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNameNextInstructionDistanceScale ofClass:NSNumber.class error:nil];
 }
 
 - (void)setPrompt:(nullable NSString *)prompt {
-    [store sdl_setObject:prompt forName:SDLRPCParameterNamePrompt];
+    [self.store sdl_setObject:prompt forName:SDLRPCParameterNamePrompt];
 }
 
 - (nullable NSString *)prompt {
-    return [store sdl_objectForName:SDLRPCParameterNamePrompt ofClass:NSString.class error:nil];
+    return [self.store sdl_objectForName:SDLRPCParameterNamePrompt ofClass:NSString.class error:nil];
 }
 
 @end

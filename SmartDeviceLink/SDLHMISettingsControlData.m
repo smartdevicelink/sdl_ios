@@ -22,27 +22,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setDisplayMode:(nullable SDLDisplayMode)displayMode {
-    [store sdl_setObject:displayMode forName:SDLRPCParameterNameDisplayMode];
+    [self.store sdl_setObject:displayMode forName:SDLRPCParameterNameDisplayMode];
 }
 
 - (nullable SDLDisplayMode)displayMode {
-    return [store sdl_enumForName:SDLRPCParameterNameDisplayMode error:nil];
+    return [self.store sdl_enumForName:SDLRPCParameterNameDisplayMode error:nil];
 }
 
 - (void)setDistanceUnit:(nullable SDLDistanceUnit)distanceUnit {
-    [store sdl_setObject:distanceUnit forName:SDLRPCParameterNameDistanceUnit];
+    [self.store sdl_setObject:distanceUnit forName:SDLRPCParameterNameDistanceUnit];
 }
 
 - (nullable SDLDistanceUnit)distanceUnit {
-    return [store sdl_enumForName:SDLRPCParameterNameDistanceUnit error:nil];
+    return [self.store sdl_enumForName:SDLRPCParameterNameDistanceUnit error:nil];
 }
 
 - (void)setTemperatureUnit:(nullable SDLTemperatureUnit)temperatureUnit {
-    [store sdl_setObject:temperatureUnit forName:SDLRPCParameterNameTemperatureUnit];
+    [self.store sdl_setObject:temperatureUnit forName:SDLRPCParameterNameTemperatureUnit];
 }
 
 - (nullable SDLTemperatureUnit)temperatureUnit {
-    return [store sdl_enumForName:SDLRPCParameterNameTemperatureUnit error:nil];
+    return [self.store sdl_enumForName:SDLRPCParameterNameTemperatureUnit error:nil];
 }
 
 @end

@@ -15,46 +15,49 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLOnLockScreenStatus
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameOnLockScreenStatus]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (void)setLockScreenStatus:(SDLLockScreenStatus)lockScreenStatus {
-    [parameters sdl_setObject:lockScreenStatus forName:SDLRPCParameterNameOnLockScreenStatus];
+    [self.parameters sdl_setObject:lockScreenStatus forName:SDLRPCParameterNameOnLockScreenStatus];
 }
 
 - (SDLLockScreenStatus)lockScreenStatus {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameOnLockScreenStatus error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameOnLockScreenStatus error:&error];
 }
 
 - (void)setHmiLevel:(SDLHMILevel)hmiLevel {
-    [parameters sdl_setObject:hmiLevel forName:SDLRPCParameterNameHMILevel];
+    [self.parameters sdl_setObject:hmiLevel forName:SDLRPCParameterNameHMILevel];
 }
 
 - (SDLHMILevel)hmiLevel {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameHMILevel error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameHMILevel error:&error];
 }
 
 - (void)setUserSelected:(NSNumber<SDLBool> *)userSelected {
-    [parameters sdl_setObject:userSelected forName:SDLRPCParameterNameUserSelected];
+    [self.parameters sdl_setObject:userSelected forName:SDLRPCParameterNameUserSelected];
 }
 
 - (NSNumber<SDLBool> *)userSelected {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameUserSelected ofClass:NSNumber.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameUserSelected ofClass:NSNumber.class error:&error];
 }
 
 - (void)setDriverDistractionStatus:(NSNumber<SDLBool> *)driverDistractionStatus {
-    [parameters sdl_setObject:driverDistractionStatus forName:SDLRPCParameterNameDriverDistractionStatus];
+    [self.parameters sdl_setObject:driverDistractionStatus forName:SDLRPCParameterNameDriverDistractionStatus];
 }
 
 - (NSNumber<SDLBool> *)driverDistractionStatus {
     NSError *error = nil;
-    return [parameters sdl_objectForName:SDLRPCParameterNameDriverDistractionStatus ofClass:NSNumber.class error:&error];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameDriverDistractionStatus ofClass:NSNumber.class error:&error];
 }
 
 @end

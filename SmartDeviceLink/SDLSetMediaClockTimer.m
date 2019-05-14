@@ -13,11 +13,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SDLSetMediaClockTimer
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)init {
     if (self = [super initWithName:SDLRPCFunctionNameSetMediaClockTimer]) {
     }
     return self;
 }
+#pragma clang diagnostic pop
 
 - (instancetype)initWithUpdateMode:(SDLUpdateMode)updateMode startTime:(nullable SDLStartTime *)startTime endTime:(nullable SDLStartTime *)endTime playPauseIndicator:(nullable SDLAudioStreamingIndicator)playPauseIndicator {
     self = [self init];
@@ -110,36 +113,36 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)setStartTime:(nullable SDLStartTime *)startTime {
-    [parameters sdl_setObject:startTime forName:SDLRPCParameterNameStartTime];
+    [self.parameters sdl_setObject:startTime forName:SDLRPCParameterNameStartTime];
 }
 
 - (nullable SDLStartTime *)startTime {
-    return [parameters sdl_objectForName:SDLRPCParameterNameStartTime ofClass:SDLStartTime.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameStartTime ofClass:SDLStartTime.class error:nil];
 }
 
 - (void)setEndTime:(nullable SDLStartTime *)endTime {
-    [parameters sdl_setObject:endTime forName:SDLRPCParameterNameEndTime];
+    [self.parameters sdl_setObject:endTime forName:SDLRPCParameterNameEndTime];
 }
 
 - (nullable SDLStartTime *)endTime {
-    return [parameters sdl_objectForName:SDLRPCParameterNameEndTime ofClass:SDLStartTime.class error:nil];
+    return [self.parameters sdl_objectForName:SDLRPCParameterNameEndTime ofClass:SDLStartTime.class error:nil];
 }
 
 - (void)setUpdateMode:(SDLUpdateMode)updateMode {
-    [parameters sdl_setObject:updateMode forName:SDLRPCParameterNameUpdateMode];
+    [self.parameters sdl_setObject:updateMode forName:SDLRPCParameterNameUpdateMode];
 }
 
 - (SDLUpdateMode)updateMode {
     NSError *error = nil;
-    return [parameters sdl_enumForName:SDLRPCParameterNameUpdateMode error:&error];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameUpdateMode error:&error];
 }
 
 - (void)setAudioStreamingIndicator:(nullable SDLAudioStreamingIndicator)audioStreamingIndicator {
-    [parameters sdl_setObject:audioStreamingIndicator forName:SDLRPCParameterNameAudioStreamingIndicator];
+    [self.parameters sdl_setObject:audioStreamingIndicator forName:SDLRPCParameterNameAudioStreamingIndicator];
 }
 
 - (nullable SDLAudioStreamingIndicator)audioStreamingIndicator {
-    return [parameters sdl_enumForName:SDLRPCParameterNameAudioStreamingIndicator error:nil];
+    return [self.parameters sdl_enumForName:SDLRPCParameterNameAudioStreamingIndicator error:nil];
 }
 
 @end
