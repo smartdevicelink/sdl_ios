@@ -22,6 +22,8 @@
 #import "SDLLogMacros.h"
 #import "SDLMenuCell.h"
 #import "SDLMenuParams.h"
+#import "SDLMenuRunScore.h"
+#import "SDLMenuUpdateAlgorithm.h"
 #import "SDLOnCommand.h"
 #import "SDLOnHMIStatus.h"
 #import "SDLRegisterAppInterfaceResponse.h"
@@ -29,8 +31,6 @@
 #import "SDLRPCResponseNotification.h"
 #import "SDLSetDisplayLayoutResponse.h"
 #import "SDLVoiceCommand.h"
-#import "SDLMenuRunScore.h"
-
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -154,7 +154,7 @@ UInt32 const MenuCellIdMin = 1;
     _menuCells = menuCells;
 
     //Compare menus and buiild a RunScore object that contains delete commands and add commands.
-    SDLMenuRunScore *runScore = [self compareOldMenuCells:self.oldMenuCells updatedMenuCells:self.menuCells];
+    SDLMenuRunScore *runScore = [SDLMenuUpdateAlgorithm compareOldMenuCells:self.oldMenuCells updatedMenuCells:self.menuCells];
     // Upload the artworks
     NSArray<SDLArtwork *> *artworksToBeUploaded = [self sdl_findAllArtworksToBeUploadedFromCells:self.menuCells];
     if (artworksToBeUploaded.count > 0) {
@@ -169,43 +169,6 @@ UInt32 const MenuCellIdMin = 1;
     }
 
     [self sdl_updateWithCompletionHandler:nil];
-}
-
-#pragma mark - Update Menu Cells
-- (SDLMenuRunScore *)compareOldMenuCells:(NSArray<SDLMenuCell *> *)oldMenuCells updatedMenuCells:(NSArray<SDLMenuCell *> *)updatedMenuCells{
-    //Compare old and new menus
-    if((!oldMenuCells.count) && updatedMenuCells.count) {
-        return [[SDLMenuRunScore alloc] initWithOldStatus:@[] updatedStatus:[self buildAddStatus:updatedMenuCells] score:0];
-    }
-
-    for (int run = 0; run < (int)oldMenuCells.count; run++) { //For each run
-        // Set the menu status as a 1-1 array, start off will oldMenus = all Deletes, newMenu = all Adds
-        NSMutableArray<NSNumber *> *oldMenuStatus = [self buildDeleteStatus:oldMenuCells];
-        NSMutableArray<NSNumber *> *newMenuStatus = [self buildAddStatus:updatedMenuCells];
-
-        int global = 0;
-        for(int oldCellItems = run; oldCellItems < oldMenuCells.count; oldCellItems++) {
-            
-        }
-    }
-
-    return [SDLMenuRunScore new]; //toUpdate
-}
-
-- (NSMutableArray<NSNumber *> *)buildDeleteStatus:(NSArray<SDLMenuCell *> *)oldMenu {
-    NSMutableArray<NSNumber *> *oldMenuStatus = [[NSMutableArray alloc] init];
-    for(SDLMenuCell *cells in oldMenu) {
-        [oldMenuStatus addObject:@(MenuCellStateDelete)];
-    }
-    return [oldMenuStatus copy];
-}
-
-- (NSMutableArray<NSNumber *> *)buildAddStatus:(NSArray<SDLMenuCell *> *)newMenu {
-    NSMutableArray<NSNumber *> *newMenuStatus = [[NSMutableArray alloc] init];
-    for(SDLMenuCell *cells in newMenu) {
-        [newMenuStatus addObject:@(MenuCellStateAdd)];
-    }
-    return [newMenuStatus copy];
 }
 
 #pragma mark - Updating System

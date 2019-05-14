@@ -69,8 +69,7 @@ NSUInteger NSUIntRotateCell(NSUInteger val, NSUInteger howMuch) {
 - (NSUInteger)hash {
     return NSUIntRotateCell(self.title.hash, NSUIntBitCell / 2)
     ^ NSUIntRotateCell(self.icon.name.hash, NSUIntBitCell / 3)
-    ^ NSUIntRotateCell(self.voiceCommands.hash, NSUIntBitCell / 4)
-    ^ NSUIntRotateCell(self.subCells.hash, NSUIntBitCell / 5);
+    ^ NSUIntRotateCell(self.voiceCommands.hash, NSUIntBitCell / 4);
 }
 
 - (BOOL)isEqual:(id)object {
@@ -83,6 +82,7 @@ NSUInteger NSUIntRotateCell(NSUInteger val, NSUInteger howMuch) {
 - (BOOL)isEqualToChoice:(SDLMenuCell *)choice {
     if (choice == nil) { return NO; }
 
+    // toDo Check for subCell stuff
     return (self.hash == choice.hash);
 }
 
