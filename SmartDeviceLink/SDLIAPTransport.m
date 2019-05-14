@@ -196,7 +196,7 @@ int const CreateSessionRetries = 3;
     } else if (accessory.connectionID == self.dataSession.connectionID) {
         // The data session has been established, which means we are in a connected state. The lifecycle manager will destroy and create a new transport object.
         SDLLogV(@"Accessory (%@, %@) disconnected during a data session", accessory.name, accessory.serialNumber);
-        [self sdl_destroySession];
+        [self sdl_destroyTransport];
     } else if (accessory.connectionID == self.controlSession.connectionID) {
         // The data session has yet to be established so we will only destroy the control session.
         SDLLogV(@"Accessory (%@, %@) disconnected during a control session", accessory.name, accessory.serialNumber);
@@ -207,7 +207,7 @@ int const CreateSessionRetries = 3;
     } else if (accessory.connectionID == self.dataSession.connectionID) {
         // The data session has been established, which means we are in a connected state. The lifecycle manager will destroy and create a new transport object.
         SDLLogV(@"Accessory (%@, %@) disconnected during a data session", accessory.name, accessory.serialNumber);
-        [self sdl_destroySession];
+        [self sdl_destroyTransport];
     } else {
         SDLLogV(@"Accessory (%@, %@) disconnecting during an unknown session", accessory.name, accessory.serialNumber);
     }
@@ -216,7 +216,7 @@ int const CreateSessionRetries = 3;
 /**
  *  Tells the lifecycle manager that the data session has been closed.
  */
-- (void)sdl_destroySession {
+- (void)sdl_destroyTransport {
     self.retryCounter = 0;
     self.sessionSetupInProgress = NO;
     [self disconnect];
@@ -284,12 +284,9 @@ int const CreateSessionRetries = 3;
 - (void)disconnect {
     // Stop event listening here so that even if the transport is disconnected by the proxy we unregister for accessory local notifications
     [self sdl_stopEventListening];
-    if (self.controlSession != nil) {
-        [self.controlSession stopSession];
-    }
-    if (self.dataSession != nil) {
-        [self.dataSession stopSession];
-    }
+
+    [self.controlSession stopSession];
+    [self.dataSession stopSession];
 }
 
 
