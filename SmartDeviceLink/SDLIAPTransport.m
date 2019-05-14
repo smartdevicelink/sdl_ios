@@ -258,10 +258,7 @@ int const CreateSessionRetries = 3;
  *  @param data The data to be sent to Core
  */
 - (void)sendData:(NSData *)data {
-    if (self.dataSession.session == nil || !self.dataSession.session.accessory.connected) {
-        return;
-    }
-
+    if (!self.dataSession.sessionInProgress) { return; }
     [self.dataSession.session sendData:data];
 }
 
@@ -432,15 +429,11 @@ int const CreateSessionRetries = 3;
  *  @param session The current session
  */
 - (void)onSessionInitializationCompleteForSession:(SDLIAPSession *)session {
-    SDLLogV(@"%@ I/O streams opened for protocol: %@", ([ControlProtocolString isEqualToString:session.protocol] ? @"Control" : @"Data"), session.protocol);
-
-    if ([ControlProtocolString isEqualToString:session.protocol]) {
-        if (!self.dataSession.session) {
-            [self.controlSession startSessionTimer];
-        }
-    }
-
-    if (![ControlProtocolString isEqualToString:session.protocol]) {
+    if ([session.protocol isEqualToString:ControlProtocolString]) {
+        SDLLogV(@"Control session I/O streams opened for protocol: %@", session.protocol);
+        [self.controlSession startSessionTimer];
+    } else {
+        SDLLogV(@"Data session I/O streams opened for protocol: %@", session.protocol);
         self.sessionSetupInProgress = NO;
         [self.delegate onTransportConnected];
     }
@@ -452,12 +445,12 @@ int const CreateSessionRetries = 3;
  *  @param session The current session
  */
 - (void)onSessionStreamsEnded:(SDLIAPSession *)session {
-    SDLLogV(@"%@ session I/O streams errored for protocol: %@", ([ControlProtocolString isEqualToString:session.protocol] ? @"Control" : @"Data"), session.protocol);
-
-    if (!self.dataSession.session && [ControlProtocolString isEqualToString:session.protocol]) {
-        SDLLogV(@"Retrying control session for protocol: %@", session.protocol);
+    if ([session.protocol isEqualToString:ControlProtocolString]) {
+        SDLLogV(@"Control session I/O streams errored for protocol: %@. Retrying", session.protocol);
         [session stop];
         [self sdl_retryEstablishSession];
+    } else {
+        SDLLogV(@"Data session I/O streams errored for protocol: %@", session.protocol);
     }
 }
 
