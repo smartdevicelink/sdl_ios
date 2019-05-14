@@ -54,13 +54,15 @@ typedef NS_ENUM(NSUInteger, MenuCellState) {
         }
         NSUInteger numberOfAdds = 0;
         for(NSUInteger status = 0; status < newMenuStatus.count; status++){
-            // 0 = Delete, 1 = Add, 2 = Keep
+            // 0 = Delete,
+            //1 = Add,
+            //2 = Keep
             if(newMenuStatus[status].integerValue == 1) {
                 numberOfAdds++;
             }
         }
 
-        NSLog(@"RunScore: %lu", (unsigned long)numberOfAdds);
+        NSLog(@"Run: %lu, RunScore: %lu", (unsigned long)run, (unsigned long)numberOfAdds);
         if(bestScoreMenu == nil || numberOfAdds < bestScoreMenu.score) {
             if(bestScoreMenu != nil){
                 NSLog(@"Previosu Score: %lu", (unsigned long)bestScoreMenu.score);
@@ -68,6 +70,11 @@ typedef NS_ENUM(NSUInteger, MenuCellState) {
             bestScoreMenu = [[SDLMenuRunScore alloc]  initWithOldStatus:oldMenuStatus updatedStatus:newMenuStatus score:numberOfAdds];
         }
     }
+
+    NSLog(@"BestScore: %lu", (unsigned long)bestScoreMenu.score);
+    NSLog(@"OldMenuStatus: %@",bestScoreMenu.oldStatus);
+    NSLog(@"NewMenuStatus: %@",bestScoreMenu.updatedStatus);
+    
     return bestScoreMenu;
 }
 
@@ -76,7 +83,7 @@ typedef NS_ENUM(NSUInteger, MenuCellState) {
     for(SDLMenuCell *cells in oldMenu) {
         [oldMenuStatus addObject:@(MenuCellStateDelete)];
     }
-    return [oldMenuStatus copy];
+    return [oldMenuStatus mutableCopy];
 }
 
 + (NSMutableArray<NSNumber *> *)buildAddStatus:(NSArray<SDLMenuCell *> *)newMenu {
@@ -84,7 +91,7 @@ typedef NS_ENUM(NSUInteger, MenuCellState) {
     for(SDLMenuCell *cells in newMenu) {
         [newMenuStatus addObject:@(MenuCellStateAdd)];
     }
-    return [newMenuStatus copy];
+    return [newMenuStatus mutableCopy];
 }
 
 @end
